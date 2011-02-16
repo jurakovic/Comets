@@ -42,7 +42,7 @@ int main () {
 		goto unos;
 	}
 
-	if (f1!=NULL)
+	else
 		printf("\nDatoteka %s uspjesno otvorena\n", izvorisna);
 
 	printf("\nUnesite ime odredisne datoteke: ");
@@ -68,19 +68,19 @@ int main () {
 					book=%15[^\n]%*c\
 					mageq=%f %f\n\
 					\n",
-				comet[i].name, \
-				comet[i].code, \
-				&comet[i].epoch_y, \
-				&comet[i].epoch_m, \
-				&comet[i].epoch_d, \
-				&comet[i].epoch_h, \
-				&comet[i].peri, \
-				&comet[i].ecc, \
-				&comet[i].peri_node, \
-				&comet[i].asc_node, \
-				&comet[i].incl, \
-				comet[i].book, \
-				&comet[i].mag1, \
+				comet[i].name,
+				comet[i].code,
+				&comet[i].epoch_y,
+				&comet[i].epoch_m,
+				&comet[i].epoch_d,
+				&comet[i].epoch_h,
+				&comet[i].peri,
+				&comet[i].ecc,
+				&comet[i].peri_node,
+				&comet[i].asc_node,
+				&comet[i].incl,
+				comet[i].book,
+				&comet[i].mag1,
 				&comet[i].mag2);
 
 		comet[i].period = izracunaj_period (comet[i].peri, comet[i].ecc);
@@ -108,14 +108,14 @@ EllipticalOrbit \n \
 \tMeanAnomaly \t\t 0  \n \
 \tEpoch \t\t\t %d.%d\t# %d %d %d.%d \n \
 \t} \n \
-} \n\n\n", 	comet[i].name, \
-		comet[i].period, \
-		comet[i].peri, \
-		comet[i].ecc, \
-		comet[i].incl, \
-		comet[i].asc_node, \
-		comet[i].peri_node, \
-		comet[i].epoch_JD, comet[i].epoch_h, \
+} \n\n\n", 	comet[i].name,
+		comet[i].period,
+		comet[i].peri,
+		comet[i].ecc,
+		comet[i].incl,
+		comet[i].asc_node,
+		comet[i].peri_node,
+		comet[i].epoch_JD, comet[i].epoch_h,
 		comet[i].epoch_y, comet[i].epoch_m, comet[i].epoch_d, comet[i].epoch_h);
 	}
 
@@ -147,8 +147,8 @@ int izracunaj_epoch (int y, int m, int d) {
 
 	int JD;
 
-	JD = 367*y - (7*(y + (m + 9)/12))/4 - \
-		((3*(y + (m - 9)/7))/100 + 1)/4 + \
+	JD = 367*y - (7*(y + (m + 9)/12))/4 -
+		((3*(y + (m - 9)/7))/100 + 1)/4 +
 		(275*m)/9 + d + 1721029;
 
 	return JD;

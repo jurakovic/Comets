@@ -7,12 +7,14 @@
 float izracunaj_period (float q, float e);
 int izracunaj_epoch (int y, int m, int d);
 char* uredi_ime (char *name);
+void ispis (char *fout, char *name, float P, float q, float e, float i, \
+			float node, float peri, int eJD, int ey, int em, int ed, int eh);
 
 int main () {
 
 	int i, N;
 	char izvorisna [80+1], odredisna [80+1];
-	FILE *f1, *f2;
+	FILE *f1;
 
 	struct data {
 		char name [39+1];		// 39 znakova + \0
@@ -46,8 +48,6 @@ int main () {
 	printf("\nUnesite ime odredisne datoteke: ");
 	scanf("%s", odredisna);
 
-	f2=fopen(odredisna, "a");
-
 	printf("\nKoliko kometa zelite obraditi: ");
 	scanf("%d", &N);
 
@@ -66,38 +66,14 @@ int main () {
 
 		if (comet[i].ecc >= 1.000000)
 			comet[i].ecc = 0.999999;
-
-		fprintf(f2,"\"%s\" \"Sol\"\n \
-{\n \
-Class \"comet\" \n \
-Mesh \"asteroid.cms\" \n \
-Texture \"asteroid.jpg\" \n \
-Radius 5 \n \
-Albedo 0.1 \n \
-EllipticalOrbit \n \
-\t{ \n \
-\tPeriod \t\t\t %f \n \
-\tPericenterDistance \t %f \n \
-\tEccentricity \t\t %f \n \
-\tInclination \t\t %.4f \n \
-\tAscendingNode \t\t %.4f \n \
-\tArgOfPericenter \t %.4f \n \
-\tMeanAnomaly \t\t 0  \n \
-\tEpoch \t\t\t %d.%d\t# %d %d %d.%d \n \
-\t} \n \
-} \n\n\n", 	comet[i].name, \
-		comet[i].period, \
-		comet[i].peri, \
-		comet[i].ecc, \
-		comet[i].incl, \
-		comet[i].asc_node, \
-		comet[i].peri_node, \
-		comet[i].epoch_JD, comet[i].epoch_h, \
-		comet[i].epoch_y, comet[i].epoch_m, comet[i].epoch_d, comet[i].epoch_h);
 	}
 
+	for (i=1; i<=N; i++)
+		ispis (odredisna, comet[i].name, comet[i].period, comet[i].peri, comet[i].ecc, \
+			   comet[i].incl, comet[i].asc_node, comet[i].peri_node, comet[i].epoch_JD, \
+			   comet[i].epoch_y, comet[i].epoch_m, comet[i].epoch_d, comet[i].epoch_h);
+
 	fclose(f1);
-	fclose(f2);
 
 	printf("\nDatoteka %s je uspjesno kreirana\n", odredisna);
 	getch ();
@@ -144,4 +120,34 @@ char* uredi_ime (char *name) {
 		if (name[i]=='/')
 			name[i]=' ';
 	}
+}
+
+void ispis (char *fout, char *name, float P, float q, float e, float i, \
+			float node, float peri, int eJD, int ey, int em, int ed, int eh){
+
+	FILE *f2;
+
+	f2=fopen(fout, "a");
+
+	fprintf(f2,"\"%s\" \"Sol\"\n \
+{\n \
+Class \"comet\" \n \
+Mesh \"asteroid.cms\" \n \
+Texture \"asteroid.jpg\" \n \
+Radius 5 \n \
+Albedo 0.1 \n \
+EllipticalOrbit \n \
+\t{ \n \
+\tPeriod \t\t\t %f \n \
+\tPericenterDistance \t %f \n \
+\tEccentricity \t\t %f \n \
+\tInclination \t\t %.4f \n \
+\tAscendingNode \t\t %.4f \n \
+\tArgOfPericenter \t %.4f \n \
+\tMeanAnomaly \t\t 0  \n \
+\tEpoch \t\t\t %d.%d\t# %d %d %d.%d \n \
+\t} \n \
+} \n\n\n", name, P, q, e, i, node, peri, eJD, eh, ey, em, ed, eh);
+
+	fclose(f2);
 }
