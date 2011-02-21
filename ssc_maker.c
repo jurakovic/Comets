@@ -7,6 +7,7 @@
 void  input_cfw ();
 void  input_ciel ();
 void  input_nasa ();
+void  input_mpc ();
 float compute_period (float q, float e);
 int   compute_epoch (int y, int m, int d);
 char *edit_name (char *name);
@@ -16,22 +17,37 @@ void  output (char *fout_, char *name, float P, float q, float e, float i,
 int main () {
 	int a;
 
-	do {
+	pocetak: do {
 		system("CLS");
 		printf("\n          SSC MAKER\n");
 		printf(" ===========================\n\n");
-		printf("  - 1 -   Comet for Windows\n");
-		printf("  - 2 -   Cartes du Ciel\n");
-		printf("  - 3 -   NASA\n");
-		printf("  - 4 -   Kraj programa\n\n");
+		printf("    1.  Comet for Windows\n");
+		printf("    2.  Cartes du Ciel\n");
+		printf("    3.  NASA\n");
+		printf("    4.  MPC format\n");
+		printf("    5.  Kraj programa\n\n");
 		printf(" Izbor: ");
 		scanf("%d", &a);
-	} while (a<1 || a>4);
+	} while (a<1 || a>5);
 
-	if (a==1) input_cfw ();
-	else if (a==2) input_ciel ();
-	else if (a==3) input_nasa ();
-	else if (a==4) printf("\n Kraj programa...");
+	if (a==1){
+		input_cfw ();
+		goto pocetak;
+	}
+	else if (a==2){
+		input_ciel ();
+		goto pocetak;
+	}
+	else if (a==3){
+		input_nasa ();
+		goto pocetak;
+	}
+	else if (a==4){
+		input_mpc ();
+		goto pocetak;
+	}
+	else if (a==5)
+		printf("\n Kraj programa...");
 
 	getch();
 	return 0;
@@ -44,8 +60,8 @@ void input_cfw () {
 	FILE *fin;
 
 	struct data {
-		char name [39+1];		// 39 znakova + \0
-		char code [14+1];
+		char name [40+1];		// 39 znakova + \0
+		char code [15+1];
 		int epoch_y;
 		int epoch_m;
 		int epoch_d;
@@ -56,7 +72,7 @@ void input_cfw () {
 		float peri_node;
 		float asc_node;
 		float incl;
-		char book [14+1];
+		char book [15+1];
 		float period;
 		float mag1;
 		float mag2;
@@ -130,7 +146,8 @@ void input_cfw () {
 	fclose(fin);
 
 	printf("\n Uspjesno je spremljeno %d kometa u datoteci %s\n", N, fout_name);
-	printf("\n Kraj programa...");
+	printf("\n Vracam se na glavni izbornik...");
+	getch();
 }
 
 void input_ciel () {
@@ -176,9 +193,7 @@ void input_ciel () {
 
 	for (i=0; i<MAX; i++) {
 
-		fscanf(fin, "%40c %*c %d %*c %4d %2d \
-				%2d %*c %d %*c %f %*c %f %*c \
-				%f %*c %f %*c %f %40[^\n]%*c",
+		fscanf(fin, "%40c %*c %d %*c %4d %2d %2d %*c %d %*c %f %*c %f %*c %f %*c %f %*c %f %40[^\n]%*c",
 				comet[i].name, &comet[i].equinox, &comet[i].epoch_y, &comet[i].epoch_m,
 				&comet[i].epoch_d, &comet[i].epoch_h, &comet[i].peri, &comet[i].ecc,
 				&comet[i].peri_node, &comet[i].asc_node, &comet[i].incl, &comet[i].nepotrebno);
@@ -204,7 +219,8 @@ void input_ciel () {
 			   comet[i].epoch_y, comet[i].epoch_m, comet[i].epoch_d, comet[i].epoch_h);
 
 	printf("\n Uspjesno je spremljeno %d kometa u datoteci %s\n", N, fout_name);
-	printf("\n Kraj programa...");
+	printf("\n Vracam se na glavni izbornik...");
+	getch();
 }
 
 void  input_nasa (){
@@ -275,8 +291,83 @@ void  input_nasa (){
 			   comet[i].incl, comet[i].asc_node, comet[i].peri_node, comet[i].epoch_JD,
 			   comet[i].epoch_y, comet[i].epoch_m, comet[i].epoch_d, comet[i].epoch_h);
 
+	printf("\n Vracam se na glavni izbornik...");
+	getch();
+}
+
+void  input_mpc (){
+
+	int i, N=0;
+	char fin_name [80+1], fout_name [80+1];
+	FILE *fin;
+
+	struct data {
+		char name [70+1];
+		int equinox;
+		int epoch_JD;
+		int epoch_y;
+		int epoch_m;
+		int epoch_d;
+		int epoch_h;
+		float peri;
+		float ecc;
+		float peri_node;
+		float asc_node;
+		float incl;
+		float G;
+		float H;
+		float period;
+		char nepotrebno [14+1];
+	} comet[MAX];
+
+	system("CLS");
+	printf("\n     Pretvaram \"MPC format\"\n");
+	printf(" ==============================\n\n");
+
+	unos2: printf(" Unesite ime izvorisne datoteke: ");
+	scanf("%s", fin_name);
+
+	fin=fopen(fin_name, "r");
+	if (fin==NULL) {
+		printf("\n Greska pri otvaranju datoteke %s\n\n", fin_name);
+		goto unos2;
+	}
+
+	else printf("\n Datoteka %s je uspjesno otvorena\n", fin_name);
+
+	printf("\n Unesite ime odredisne datoteke: ");
+	scanf("%s", fout_name);
+
+	for (i=0; i<MAX; i++) {
+
+		fscanf(fin, "%14c %d %d %d.%d %f %f %f %f %f %d %f %f %70[^\n]%*c",
+			comet[i].nepotrebno, &comet[i].epoch_y, &comet[i].epoch_m, &comet[i].epoch_d, &comet[i].epoch_h,
+			&comet[i].peri, &comet[i].ecc, &comet[i].peri_node, &comet[i].asc_node,
+			&comet[i].incl, &comet[i].equinox, &comet[i].G, &comet[i].H, comet[i].name);
+
+		comet[i].period = compute_period (comet[i].peri, comet[i].ecc);
+		comet[i].epoch_JD = compute_epoch (comet[i].epoch_y, comet[i].epoch_m, comet[i].epoch_d);
+		edit_name (comet[i].name);
+
+		if (comet[i].ecc >= 1.000000)
+			comet[i].ecc = 0.999999;
+
+		if (comet[i].epoch_m == 0 && comet[i].epoch_d == 0 && comet[i].epoch_h == 0)
+			break;
+
+		N++;
+	}
+
+	fclose(fin);
+
+	for (i=0; i<N; i++)
+		output (fout_name, comet[i].name, comet[i].period, comet[i].peri, comet[i].ecc,
+			   comet[i].incl, comet[i].asc_node, comet[i].peri_node, comet[i].epoch_JD,
+			   comet[i].epoch_y, comet[i].epoch_m, comet[i].epoch_d, comet[i].epoch_h);
+
 	printf("\n Uspjesno je spremljeno %d kometa u datoteci %s\n", N, fout_name);
-	printf("\n Kraj programa...");
+	printf("\n Vracam se na glavni izbornik...");
+	getch();
 }
 
 float compute_period (float q, float e) {
@@ -336,6 +427,20 @@ void output (char *fout_, char *name, float P, float q, float e, float i,
 
 	FILE *fout;
 
+	char *mon;
+	if (em==1) mon="Jan";
+	if (em==2) mon="Feb";
+	if (em==3) mon="Mar";
+	if (em==4) mon="Apr";
+	if (em==5) mon="May";
+	if (em==6) mon="Jun";
+	if (em==7) mon="Jul";
+	if (em==8) mon="Aug";
+	if (em==9) mon="Sep";
+	if (em==10) mon="Oct";
+	if (em==11) mon="Nov";
+	if (em==12) mon="Dec";
+
 	fout=fopen(fout_, "a");
 
 	fprintf(fout,"\"%s\" \"Sol\"\n \
@@ -354,9 +459,9 @@ EllipticalOrbit \n \
 \tAscendingNode \t\t %.4f \n \
 \tArgOfPericenter \t %.4f \n \
 \tMeanAnomaly \t\t 0  \n \
-\tEpoch \t\t\t %d.%d\t# %d %d %d.%d \n \
+\tEpoch \t\t\t %d.%.4d\t# %d %s %.2d.%.4d \n \
 \t} \n \
-} \n\n\n", name, P, q, e, i, node, peri, eJD, eh, ey, em, ed, eh);
+} \n\n\n", name, P, q, e, i, node, peri, eJD, eh, ey, mon, ed, eh);
 
 	fclose(fout);
 }
