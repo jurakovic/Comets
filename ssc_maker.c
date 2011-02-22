@@ -56,7 +56,7 @@ int main (){
 		goto pocetak;
 	}
 	else if (a==6)
-		printf("\n Kraj programa...");
+		printf("\n  Kraj programa...");
 
 	getch();
 	return 0;
@@ -64,8 +64,8 @@ int main (){
 
 void input_mpc (){
 
-	int i, N=0;
-	char fin_name [80+1], fout_name [80+1];
+	int i=0, N=0;
+	char c, fin_name [80+1], fout_name [80+1];
 	FILE *fin;
 
 	struct data {
@@ -105,7 +105,13 @@ void input_mpc (){
 	printf("\n Unesite ime odredisne datoteke: ");
 	scanf("%s", fout_name);
 
-	for (i=0; i<MAX; i++) {
+	while ((c=fgetc(fin)) != EOF ){
+		if (c=='\n') N++;
+	}
+
+	rewind(fin);
+
+	for (i=0; i<N; i++) {
 
 		fscanf(fin, "%14c %d %d %d.%d %f %f %f %f %f %d %f %f %70[^\n]%*c",
 			comet[i].nepotrebno, &comet[i].epoch_y, &comet[i].epoch_m, &comet[i].epoch_d, &comet[i].epoch_h,
@@ -118,11 +124,6 @@ void input_mpc (){
 
 		if (comet[i].ecc >= 1.000000)
 			comet[i].ecc = 0.999999;
-
-		if (comet[i].epoch_m == 0 && comet[i].epoch_d == 0 && comet[i].epoch_h == 0)
-			break;
-
-		N++;
 	}
 
 	fclose(fin);
@@ -134,13 +135,14 @@ void input_mpc (){
 
 	printf("\n Uspjesno je spremljeno %d kometa u datoteci %s\n", N, fout_name);
 	printf("\n Vracam se na glavni izbornik...");
+	fflush(fin);
 	getch();
 }
 
 void input_skymap (){
 
 	int i, N=0;
-	char fin_name [80+1], fout_name [80+1];
+	char c, fin_name [80+1], fout_name [80+1];
 	FILE *fin;
 
 	struct data {
@@ -177,7 +179,13 @@ void input_skymap (){
 	printf("\n Unesite ime odredisne datoteke: ");
 	scanf("%s", fout_name);
 
-	for (i=0; i<MAX; i++) {
+	while ((c=fgetc(fin)) != EOF ){
+		if (c=='\n') N++;
+	}
+
+	rewind(fin);
+
+	for (i=0; i<N; i++) {
 
 		fscanf(fin, "%47c %4d %2d %2d.%4d %f %f %f %f %f %15[^\n]%*c",
 			comet[i].name, &comet[i].epoch_y, &comet[i].epoch_m, &comet[i].epoch_d,
@@ -190,11 +198,6 @@ void input_skymap (){
 
 		if (comet[i].ecc >= 1.000000)
 			comet[i].ecc = 0.999999;
-
-		if (comet[i].epoch_m == 0 && comet[i].epoch_d == 0 && comet[i].epoch_h == 0)
-			break;
-
-		N++;
 	}
 
 	fclose(fin);
@@ -206,13 +209,14 @@ void input_skymap (){
 
 	printf("\n Uspjesno je spremljeno %d kometa u datoteci %s\n", N, fout_name);
 	printf("\n Vracam se na glavni izbornik...");
+	fflush(fin);
 	getch();
 }
 
 void input_cfw (){
 
 	int i, N=0;
-	char fin_name [80+1], fout_name [80+1];
+	char c, fin_name [80+1], fout_name [80+1];
 	FILE *fin;
 
 	struct data {
@@ -252,7 +256,15 @@ void input_cfw (){
 	printf("\n Unesite ime odredisne datoteke: ");
 	scanf("%s", fout_name);
 
-	for (i=0; i<MAX; i++) {
+	while ((c=fgetc(fin)) != EOF ){
+		if (c=='\n') N++;
+	}
+
+	N=N/13;
+
+	rewind(fin);
+
+	for (i=0; i<N; i++) {
 		fscanf(fin, "name=%40[^\n]%*c\
 					code=%15[^\n]%*c\
 					type=orbit\n\
@@ -287,11 +299,6 @@ void input_cfw (){
 
 		if (comet[i].ecc >= 1.000000)
 			comet[i].ecc = 0.999999;
-
-		if (comet[i].epoch_m == 0 && comet[i].epoch_d == 0 && comet[i].epoch_h == 0)
-			break;
-
-		N++;
 	}
 
 	for (i=0; i<N; i++)
@@ -303,13 +310,14 @@ void input_cfw (){
 
 	printf("\n Uspjesno je spremljeno %d kometa u datoteci %s\n", N, fout_name);
 	printf("\n Vracam se na glavni izbornik...");
+	fflush(fin);
 	getch();
 }
 
 void input_nasa (){
 
 	int i, N=0;
-	char fin_name [80+1], fout_name [80+1];
+	char c, fin_name [80+1], fout_name [80+1];
 	FILE *fin;
 
 	struct data {
@@ -347,7 +355,13 @@ void input_nasa (){
 	printf("\n Unesite ime odredisne datoteke: ");
 	scanf("%s", fout_name);
 
-	for (i=0; i<MAX; i++) {
+	while ((c=fgetc(fin)) != EOF ){
+		if (c=='\n') N++;
+	}
+
+	rewind(fin);
+
+	for (i=0; i<N; i++) {
 
 		fscanf(fin, "%48c %f %f %f %f %f %4d%2d%2d.%4d %15[^\n]%*c",
 			comet[i].name, &comet[i].peri, &comet[i].ecc,
@@ -360,11 +374,6 @@ void input_nasa (){
 
 		if (comet[i].ecc >= 1.000000)
 			comet[i].ecc = 0.999999;
-
-		if (comet[i].epoch_m == 0 && comet[i].epoch_d == 0 && comet[i].epoch_h == 0)
-			break;
-
-		N++;
 	}
 
 	fclose(fin);
@@ -376,13 +385,14 @@ void input_nasa (){
 
 	printf("\n Uspjesno je spremljeno %d kometa u datoteci %s\n", N, fout_name);
 	printf("\n Vracam se na glavni izbornik...");
+	fflush(fin);
 	getch();
 }
 
 void input_ciel (){
 
 	int i, N=0;
-	char fin_name [80+1], fout_name [80+1];
+	char c, fin_name [80+1], fout_name [80+1];
 	FILE *fin;
 
 	struct data {
@@ -420,7 +430,13 @@ void input_ciel (){
 	printf("\n Unesite ime odredisne datoteke: ");
 	scanf("%s", fout_name);
 
-	for (i=0; i<MAX; i++) {
+	while ((c=fgetc(fin)) != EOF ){
+		if (c=='\n') N++;
+	}
+
+	rewind(fin);
+
+	for (i=0; i<N; i++) {
 
 		fscanf(fin, "%40c %*c %d %*c %4d %2d %2d %*c %d %*c %f %*c %f %*c %f %*c %f %*c %f %40[^\n]%*c",
 				comet[i].name, &comet[i].equinox, &comet[i].epoch_y, &comet[i].epoch_m,
@@ -433,11 +449,6 @@ void input_ciel (){
 
 		if (comet[i].ecc >= 1.000000)
 			comet[i].ecc = 0.999999;
-
-		if (comet[i].epoch_m == 0 && comet[i].epoch_d == 0 && comet[i].epoch_h == 0)
-			break;
-
-		N++;
 	}
 
 	fclose(fin);
@@ -449,6 +460,7 @@ void input_ciel (){
 
 	printf("\n Uspjesno je spremljeno %d kometa u datoteci %s\n", N, fout_name);
 	printf("\n Vracam se na glavni izbornik...");
+	fflush(fin);
 	getch();
 }
 
