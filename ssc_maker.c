@@ -22,8 +22,8 @@ int main (){
 		fflush(stdin);
 		fflush(stdout);
 		system("CLS");
-		printf("\n          SSC MAKER\n");
-		printf(" ===========================\n\n");
+		printf("\n             SSC MAKER\n\n");
+		printf(" ==================================\n\n");
 		printf("  Odaberite ulazni format:\n\n");
 		printf("    1.  MPC\n");
 		printf("    2.	SkyMap\n");
@@ -93,22 +93,31 @@ int input_mpc (){
 	} comet[MAX];
 
 	system("CLS");
-	printf("\n     Pretvaram \"MPC format\"\n");
-	printf(" ==============================\n\n");
+	printf("\n     Pretvaram \"MPC format\"\n\n");
+	printf(" ==================================\n\n");
+	printf("    1.   Glavni izbornik\n");
+	printf("    2.   Izlaz\n\n");
+	printf(" ==================================\n\n");
 
-	unos2: printf(" Unesite ime izvorisne datoteke: ");
+	unos2: printf("  Unesite ime izvorisne datoteke: ");
 	scanf("%s", fin_name);
+
+	b=atoi(fin_name);
+	if (b==1 || b==2) goto end;
 
 	fin=fopen(fin_name, "r");
 	if (fin==NULL) {
-		printf("\n Greska pri otvaranju datoteke %s\n\n", fin_name);
+		printf("\n  Greska pri otvaranju datoteke %s\n\n", fin_name);
 		goto unos2;
 	}
 
-	else printf("\n Datoteka %s je uspjesno otvorena\n", fin_name);
+	else printf("\n  Datoteka %s je uspjesno otvorena\n", fin_name);
 
-	printf("\n Unesite ime odredisne datoteke: ");
+	printf("\n  Unesite ime odredisne datoteke: ");
 	scanf("%s", fout_name);
+
+	b=atoi(fout_name);
+	if (b==1 || b==2) goto end;
 
 	while ((c=fgetc(fin)) != EOF ){
 		if (c=='\n') N++;
@@ -140,15 +149,16 @@ int input_mpc (){
 
 	do {
 		system("CLS");
-		printf("\n Uspjesno je spremljeno %d kometa u datoteku %s\n\n", N, fout_name);
-		printf(" =========================\n\n");
+		printf("\n  Uspjesno je spremljeno %d kometa u datoteku %s\n\n", N, fout_name);
+		printf(" ==================================\n\n");
 		printf("    1.  Glavni izbornik\n");
 		printf("    2.	Izlaz\n\n");
-		printf(" Izbor: ");
+		printf("  Izbor: ");
 		scanf("%d", &b);
 	} while (b!=1 && b!=2);
+
 	fflush(fin);
-	return b;
+	end: return b;
 }
 
 int input_skymap (){
@@ -174,22 +184,32 @@ int input_skymap (){
 	} comet[MAX];
 
 	system("CLS");
-	printf("\n     Pretvaram \"SkyMap format\"\n");
-	printf(" ==============================\n\n");
+	printf("\n     Pretvaram \"SkyMap format\"\n\n");
+	printf(" ==================================\n\n");
+	printf("    1.   Glavni izbornik\n");
+	printf("    2.   Izlaz\n\n");
+	printf(" ==================================\n\n");
 
-	unos2: printf(" Unesite ime izvorisne datoteke: ");
+	unos2: printf("  Unesite ime izvorisne datoteke: ");
 	scanf("%s", fin_name);
+
+	b=atoi(fin_name);
+	if (b==1 || b==2) goto end;
 
 	fin=fopen(fin_name, "r");
 	if (fin==NULL) {
-		printf("\n Greska pri otvaranju datoteke %s\n\n", fin_name);
+		printf("\n  Greska pri otvaranju datoteke %s\n\n", fin_name);
 		goto unos2;
 	}
 
-	else printf("\n Datoteka %s je uspjesno otvorena\n", fin_name);
+	else printf("\n  Datoteka %s je uspjesno otvorena\n", fin_name);
 
-	printf("\n Unesite ime odredisne datoteke: ");
+	printf("\n  Unesite ime odredisne datoteke: ");
 	scanf("%s", fout_name);
+
+	b=atoi(fout_name);
+	if (b==1 || b==2) goto end;
+
 
 	while ((c=fgetc(fin)) != EOF ){
 		if (c=='\n') N++;
@@ -222,14 +242,15 @@ int input_skymap (){
 	do {
 		system("CLS");
 		printf("\n Uspjesno je spremljeno %d kometa u datoteku %s\n\n", N, fout_name);
-		printf(" =========================\n\n");
+		printf(" ==================================\n\n");
 		printf("    1.  Glavni izbornik\n");
 		printf("    2.	Izlaz\n\n");
-		printf(" Izbor: ");
+		printf("  Izbor: ");
 		scanf("%d", &b);
 	} while (b!=1 && b!=2);
+
 	fflush(fin);
-	return b;
+	end: return b;
 }
 
 int input_cfw (){
@@ -258,22 +279,31 @@ int input_cfw (){
 	} comet[MAX];
 
 	system("CLS");
-	printf("\n     Pretvaram \"cfw format\"\n");
-	printf(" ==============================\n\n");
+	printf("\n     Pretvaram \"cfw format\"\n\n");
+	printf(" ==================================\n\n");
+	printf("    1.   Glavni izbornik\n");
+	printf("    2.   Izlaz\n\n");
+	printf(" ==================================\n\n");
 
-	unos1: printf(" Unesite ime izvorisne datoteke: ");
+	unos1: printf("  Unesite ime izvorisne datoteke: ");
 	scanf("%s", fin_name);
+
+	b=atoi(fin_name);
+	if (b==1 || b==2) goto end;
 
 	fin=fopen(fin_name, "r");
 	if (fin==NULL) {
-		printf("\n Greska pri otvaranju datoteke %s\n\n", fin_name);
+		printf("\n  Greska pri otvaranju datoteke %s\n\n", fin_name);
 		goto unos1;
 	}
 
-	else printf("\n Datoteka %s je uspjesno otvorena\n", fin_name);
+	else printf("\n  Datoteka %s je uspjesno otvorena\n", fin_name);
 
-	printf("\n Unesite ime odredisne datoteke: ");
+	printf("\n  Unesite ime odredisne datoteke: ");
 	scanf("%s", fout_name);
+
+	b=atoi(fout_name);
+	if (b==1 || b==2) goto end;
 
 	while ((c=fgetc(fin)) != EOF ){
 		if (c=='\n') N++;
@@ -330,14 +360,15 @@ int input_cfw (){
 	do {
 		system("CLS");
 		printf("\n Uspjesno je spremljeno %d kometa u datoteku %s\n\n", N, fout_name);
-		printf(" =========================\n\n");
+		printf(" ==================================\n\n");
 		printf("    1.  Glavni izbornik\n");
 		printf("    2.	Izlaz\n\n");
-		printf(" Izbor: ");
+		printf("  Izbor: ");
 		scanf("%d", &b);
 	} while (b!=1 && b!=2);
+
 	fflush(fin);
-	return b;
+	end: return b;
 }
 
 int input_nasa (){
@@ -364,22 +395,31 @@ int input_nasa (){
 	} comet[MAX];
 
 	system("CLS");
-	printf("\n     Pretvaram \"NASA format\"\n");
-	printf(" ==============================\n\n");
+	printf("\n     Pretvaram \"NASA format\"\n\n");
+	printf(" ==================================\n\n");
+	printf("    1.   Glavni izbornik\n");
+	printf("    2.   Izlaz\n\n");
+	printf(" ==================================\n\n");
 
-	unos2: printf(" Unesite ime izvorisne datoteke: ");
+	unos2: printf("  Unesite ime izvorisne datoteke: ");
 	scanf("%s", fin_name);
+
+	b=atoi(fin_name);
+	if (b==1 || b==2) goto end;
 
 	fin=fopen(fin_name, "r");
 	if (fin==NULL) {
-		printf("\n Greska pri otvaranju datoteke %s\n\n", fin_name);
+		printf("\n  Greska pri otvaranju datoteke %s\n\n", fin_name);
 		goto unos2;
 	}
 
-	else printf("\n Datoteka %s je uspjesno otvorena\n", fin_name);
+	else printf("\n  Datoteka %s je uspjesno otvorena\n", fin_name);
 
-	printf("\n Unesite ime odredisne datoteke: ");
+	printf("\n  Unesite ime odredisne datoteke: ");
 	scanf("%s", fout_name);
+
+	b=atoi(fout_name);
+	if (b==1 || b==2) goto end;
 
 	while ((c=fgetc(fin)) != EOF ){
 		if (c=='\n') N++;
@@ -412,14 +452,15 @@ int input_nasa (){
 	do {
 		system("CLS");
 		printf("\n Uspjesno je spremljeno %d kometa u datoteku %s\n\n", N, fout_name);
-		printf(" =========================\n\n");
+		printf(" ==================================\n\n");
 		printf("    1.  Glavni izbornik\n");
 		printf("    2.	Izlaz\n\n");
-		printf(" Izbor: ");
+		printf("  Izbor: ");
 		scanf("%d", &b);
 	} while (b!=1 && b!=2);
+
 	fflush(fin);
-	return b;
+	end: return b;
 }
 
 int input_ciel (){
@@ -446,22 +487,31 @@ int input_ciel (){
 	} comet[MAX];
 
 	system("CLS");
-	printf("\n     Pretvaram \"ciel format\"\n");
-	printf(" ==============================\n\n");
+	printf("\n     Pretvaram \"ciel format\"\n\n");
+	printf(" ==================================\n\n");
+	printf("    1.   Glavni izbornik\n");
+	printf("    2.   Izlaz\n\n");
+	printf(" ==================================\n\n");
 
-	unos2: printf(" Unesite ime izvorisne datoteke: ");
+	unos2: printf("  Unesite ime izvorisne datoteke: ");
 	scanf("%s", fin_name);
+
+	b=atoi(fin_name);
+	if (b==1 || b==2) goto end;
 
 	fin=fopen(fin_name, "r");
 	if (fin==NULL) {
-		printf("\n Greska pri otvaranju datoteke %s\n\n", fin_name);
+		printf("\n  Greska pri otvaranju datoteke %s\n\n", fin_name);
 		goto unos2;
 	}
 
-	else printf("\n Datoteka %s je uspjesno otvorena\n", fin_name);
+	else printf("\n  Datoteka %s je uspjesno otvorena\n", fin_name);
 
-	printf("\n Unesite ime odredisne datoteke: ");
+	printf("\n  Unesite ime odredisne datoteke: ");
 	scanf("%s", fout_name);
+
+	b=atoi(fout_name);
+	if (b==1 || b==2) goto end;
 
 	while ((c=fgetc(fin)) != EOF ){
 		if (c=='\n') N++;
@@ -494,14 +544,15 @@ int input_ciel (){
 	do {
 		system("CLS");
 		printf("\n Uspjesno je spremljeno %d kometa u datoteku %s\n\n", N, fout_name);
-		printf(" =========================\n\n");
+		printf(" ==================================\n\n");
 		printf("    1.  Glavni izbornik\n");
 		printf("    2.	Izlaz\n\n");
-		printf(" Izbor: ");
+		printf("  Izbor: ");
 		scanf("%d", &b);
 	} while (b!=1 && b!=2);
+
 	fflush(fin);
-	return b;
+	end: return b;
 }
 
 float compute_period (float q, float e) {
