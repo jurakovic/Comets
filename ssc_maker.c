@@ -278,7 +278,6 @@ int input_cfw (){
 
 	struct data {
 		char name [40+1];
-		char code [15+1];
 		int epoch_y;
 		int epoch_m;
 		int epoch_d;
@@ -289,10 +288,8 @@ int input_cfw (){
 		float peri_node;
 		float asc_node;
 		float incl;
-		char book [15+1];
+		char nepotrebno [20+1];
 		float period;
-		float mag1;
-		float mag2;
 	} comet[MAX];
 
 	fflush(stdin);
@@ -334,7 +331,7 @@ int input_cfw (){
 
 	for (i=0; i<N; i++) {
 		fscanf(fin, "name=%40[^\n]%*c\
-					code=%15[^\n]%*c\
+					%20[^\n]%*c\
 					type=orbit\n\
 					T=%d %d %d.%d\n\
 					q=%f\n\
@@ -343,11 +340,11 @@ int input_cfw (){
 					node=%f\n\
 					i=%f\n\
 					prec=2000.0\n\
-					book=%15[^\n]%*c\
-					mageq=%f %f\n\
+					%20[^\n]%*c\
+					%20[^\n]%*c\
 					\n",
 				comet[i].name,
-				comet[i].code,
+				comet[i].nepotrebno,
 				&comet[i].epoch_y,
 				&comet[i].epoch_m,
 				&comet[i].epoch_d,
@@ -357,9 +354,8 @@ int input_cfw (){
 				&comet[i].peri_node,
 				&comet[i].asc_node,
 				&comet[i].incl,
-				comet[i].book,
-				&comet[i].mag1,
-				&comet[i].mag2);
+				comet[i].nepotrebno,
+				comet[i].nepotrebno);
 
 		comet[i].period = compute_period (comet[i].peri, comet[i].ecc);
 		comet[i].epoch_JD = compute_epoch (comet[i].epoch_y, comet[i].epoch_m, comet[i].epoch_d);
@@ -395,13 +391,12 @@ int input_cfw (){
 
 int input_nasa_elem (){
 
-	int b, i, N=0;
+	int b, i, j, N=0;
 	char c, fin_name [80+1], fout_name [80+1];
 	FILE *fin;
 
 	struct data {
 		char name [48+1];
-		int equinox;
 		int epoch_JD;
 		int epoch_y;
 		int epoch_m;
@@ -464,6 +459,19 @@ int input_nasa_elem (){
 
 		if (comet[i].ecc >= 1.000000)
 			comet[i].ecc = 0.999999;
+
+/*		// za uklanjanje kometa odredjenih karakteristika
+
+		for (j=0; j<strlen(comet[i].name); j++){
+			if ((comet[i].name[j]  =='S' && comet[i].name[j+1]=='O' &&
+				 comet[i].name[j+2]=='H' && comet[i].name[j+3]=='O')
+				|| (comet[i].period > 300)
+				){
+				--i;
+				--N;
+			}
+		}
+*/
 	}
 
 	fclose(fin);
@@ -498,7 +506,6 @@ int input_nasa_sbdb (){
 
 	struct data {
 		char name [48+1];
-		int equinox;
 		int epoch_JD;
 		int epoch_y;
 		int epoch_m;
@@ -580,11 +587,8 @@ int input_nasa_sbdb (){
 
 		z=fgetc(fin);
 
-		fscanf(fin, "%4d%2d%2d", &comet[i].epoch_y, &comet[i].epoch_m, &comet[i].epoch_d);
-
-		z=fgetc(fin);
-
-		fscanf(fin, "%4d", &comet[i].epoch_h);
+		fscanf(fin, "%4d%2d%2d.%4d", &comet[i].epoch_y, &comet[i].epoch_m,
+									 &comet[i].epoch_d, &comet[i].epoch_h);
 
 		fscanf(fin, "%10[^\n]%*c", comet[i].nepotrebno);
 
