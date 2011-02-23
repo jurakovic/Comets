@@ -169,6 +169,7 @@ int input_mpc (){
 	} while (b!=1 && b!=2);
 
 	fflush(fin);
+	fflush(stdin);
 	end: return b;
 }
 
@@ -265,6 +266,7 @@ int input_skymap (){
 	} while (b!=1 && b!=2);
 
 	fflush(fin);
+	fflush(stdin);
 	end: return b;
 }
 
@@ -387,6 +389,7 @@ int input_cfw (){
 	} while (b!=1 && b!=2);
 
 	fflush(fin);
+	fflush(stdin);
 	end: return b;
 }
 
@@ -483,9 +486,154 @@ int input_nasa_elem (){
 	} while (b!=1 && b!=2);
 
 	fflush(fin);
+	fflush(stdin);
 	end: return b;
 }
 
+int input_nasa_sbdb (){
+
+	int b, i, j, t, N=0;
+	char c, z, fin_name [80+1], fout_name [80+1];
+	FILE *fin;
+
+	struct data {
+		char name [48+1];
+		int equinox;
+		int epoch_JD;
+		int epoch_y;
+		int epoch_m;
+		int epoch_d;
+		int epoch_h;
+		float peri;
+		float ecc;
+		float peri_node;
+		float asc_node;
+		float incl;
+		float period;
+		char nepotrebno [10+1];
+	} comet[MAX];
+
+	fflush(stdin);
+	fflush(stdout);
+	system("CLS");
+	printf("\n     Converting \"NASA format\"\n\n");
+	printf(" =============================================================================\n\n");
+	printf("    1.   Main Menu\n");
+	printf("    2.   Exit\n\n");
+	printf(" =============================================================================\n\n");
+
+	unos2: printf("  Enter input file name: ");
+	scanf("%s", fin_name);
+
+	b=atoi(fin_name);
+	if (b==1 || b==2) goto end;
+
+	fin=fopen(fin_name, "r");
+	if (fin==NULL) {
+		printf("\n  Error opening file %s\n\n", fin_name);
+		goto unos2;
+	}
+
+	else printf("\n  File %s is successfully opened\n", fin_name);
+
+	printf("\n  Enter output file name: ");
+	scanf("%s", fout_name);
+
+	b=atoi(fout_name);
+	if (b==1 || b==2) goto end;
+
+	while ((c=fgetc(fin)) != EOF ){
+		if (c=='\n') N++;
+	}
+
+	rewind(fin);
+
+	for (i=0; i<N; i++){
+
+		j=0;
+		while ((c=fgetc(fin)) != ',' ){
+			comet[i].name[j]=c;
+			if (c=='"' && j>2) t=j;			// j>2 zato što se " pojavljuje i na prvom mjestu u stringu
+			j++;
+		}
+
+		comet[i].name[0]=' ';
+		comet[i].name[t+1]='\0';
+
+		fscanf(fin, "%f", &comet[i].peri);
+
+		z=fgetc(fin);
+
+		fscanf(fin, "%f", &comet[i].ecc);
+
+		z=fgetc(fin);
+
+		fscanf(fin, "%f", &comet[i].peri_node);
+
+		z=fgetc(fin);
+
+		fscanf(fin, "%f", &comet[i].asc_node);
+
+		z=fgetc(fin);
+
+		fscanf(fin, "%f", &comet[i].incl);
+
+		z=fgetc(fin);
+
+		fscanf(fin, "%4d%2d%2d", &comet[i].epoch_y, &comet[i].epoch_m, &comet[i].epoch_d);
+
+		z=fgetc(fin);
+
+		fscanf(fin, "%4d", &comet[i].epoch_h);
+
+		fscanf(fin, "%10[^\n]%*c", comet[i].nepotrebno);
+
+		comet[i].period = compute_period (comet[i].peri, comet[i].ecc);
+		comet[i].epoch_JD = compute_epoch (comet[i].epoch_y, comet[i].epoch_m, comet[i].epoch_d);
+		edit_name (comet[i].name);
+
+		if (comet[i].ecc >= 1.000000)
+			comet[i].ecc = 0.999999;
+
+/*		// za uklanjanje kometa odredjenih karakteristika
+
+		for (j=0; j<strlen(comet[i].name); j++){
+			if ((comet[i].name[j]  =='S' && comet[i].name[j+1]=='O' &&
+				 comet[i].name[j+2]=='H' && comet[i].name[j+3]=='O')
+				|| (comet[i].period > 300)
+				){
+				--i;
+				--N;
+			}
+		}
+*/
+	}
+
+	fclose(fin);
+
+	for (i=0; i<N; i++)
+		output (fout_name, comet[i].name, comet[i].period, comet[i].peri, comet[i].ecc,
+			   comet[i].incl, comet[i].asc_node, comet[i].peri_node, comet[i].epoch_JD,
+			   comet[i].epoch_y, comet[i].epoch_m, comet[i].epoch_d, comet[i].epoch_h);
+
+	do {
+		system("CLS");
+		printf("\n     Converting \"NASA format\"\n\n");
+		printf(" =============================================================================\n\n");
+		printf("    1.   Main Menu\n");
+		printf("    2.	 Exit\n\n");
+		printf(" =============================================================================\n\n");
+		printf("  %d comets successfully saved in file %s\n\n", N, fout_name);
+		printf("  Choice: ");
+		scanf("%d", &b);
+	} while (b!=1 && b!=2);
+
+	fflush(fin);
+	fflush(stdin);
+	end: return b;
+}
+
+/* 	STARI NACIN
 int input_nasa_sbdb (){
 
 	int b, i, j, k, N=0;
@@ -667,30 +815,30 @@ int input_nasa_sbdb (){
 			free(comet[i].buff_eh);
 		}
 
-	/*	// za uklanjanje SOHO kometa
+// 		za uklanjanje SOHO kometa
+//
+//		for (j=0; j<strlen(comet[i].name); j++){
+//			if ((comet[i].name[j]  =='S' && comet[i].name[j+1]=='O' &&
+//				 comet[i].name[j+2]=='H' && comet[i].name[j+3]=='O')
+//				|| (comet[i].peri>=1.5) || (comet[i].ecc >= 1.0)
+//				){
+//				--i;
+//				--N;
+//			}
+//		}
 
-		for (j=0; j<strlen(comet[i].name); j++){
-			if ((comet[i].name[j]  =='S' && comet[i].name[j+1]=='O' &&
-				 comet[i].name[j+2]=='H' && comet[i].name[j+3]=='O')
-				|| (comet[i].peri>=1.5) || (comet[i].ecc >= 1.0)
-				){
-				--i;
-				--N;
-			}
-		}
-	*/
 
 		comet[i].period = compute_period (comet[i].peri, comet[i].ecc);
 		comet[i].epoch_JD = compute_epoch (comet[i].epoch_y, comet[i].epoch_m, comet[i].epoch_d);
 		edit_name (comet[i].name);
 
-	/*	// za uklanjanje kometa ciji je q veci od 1.5 AU
+// 		za uklanjanje kometa ciji je q veci od 1.5 AU
+//
+//		if (comet[i].peri>=1.5){
+//			--i;
+//			--N;
+//		}
 
-		if (comet[i].peri>=1.5){
-			--i;
-			--N;
-		}
-	*/
 
 		if (comet[i].ecc >= 1.000000)
 			comet[i].ecc = 0.999999;
@@ -716,8 +864,10 @@ int input_nasa_sbdb (){
 	} while (b!=1 && b!=2);
 
 	fflush(fin);
+	fflush(stdin);
 	end: return b;
 }
+*/
 
 int input_ciel (){
 
@@ -812,6 +962,7 @@ int input_ciel (){
 	} while (b!=1 && b!=2);
 
 	fflush(fin);
+	fflush(stdin);
 	end: return b;
 }
 
@@ -846,7 +997,7 @@ char *edit_name (char *name) {
 
 	int i, j, k;
 
-	if (name[0]==' '){          		// ovaj "if" je samo za "nasa mali format" jer ima razmaka ispred imena kometa
+	if (name[0]==' '){          		// ovaj "if" je samo za "nasa_sbdb format" jer ima razmaka ispred imena kometa
 		for (i=0; i<4; i++) {
 			if (name[i]==' '){
 				for (j=0; name[j+1]!='\0'; j++){
@@ -857,7 +1008,7 @@ char *edit_name (char *name) {
 		}
 
 		for (i=0; name[i+1]!='\0'; i++) {
-			if ((name[i]==' ' && name[i+1]==' ') || (name[i]==name[i+1] && name[i]==name[i+2])) {
+			if ((name[i]==' ' && name[i+1]==' ') || (name[i]=='"' && name[i+1]=='"')) {
 				name[i]='\0';
 				break;
 			}
