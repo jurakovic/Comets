@@ -9,19 +9,25 @@
 void initscreen1();
 void initscreen2();
 void mainscreen();
-void printscreen (char *format);
+void screen_imp (char *format);
+void screen_exp (char *format);
 
-int import_mpc(char *format);
-int import_skymap(char *format);
-int import_guide (char *format);
-int import_home_planet (char *format);
-int import_mystars (char *format);
-int import_thesky (char *format);
+int import_mpc(char *format);			//soft00
+int import_skymap(char *format);		//soft01
+int import_guide (char *format);		//soft02
+int import_home_planet (char *format);	//soft04
+int import_mystars (char *format);		//soft05
+int import_thesky (char *format);		//soft06
+int import_nasa1(char *format);			//ELEMENTS.COMET
+int import_nasa2(char *format);			//sbdb query
+int import_cfw(char *format);			//comet for windows
 
 float compute_period (float q, float e);
 int compute_JD (int y, int m, int d);
 char *edit_name (char *name);
 void output_ssc (char *fout_, int N);
+void output_stell (char *fout_, int N);
+
 
 struct data {
 	char name [80+1];
@@ -54,66 +60,92 @@ int main (){
 	start: do {
 		mainscreen();
 
-		printf("  Import format: \n\n");
-		printf("	0. MPC			10. Earth Centered Universe\n");
-		printf("	1. SkyMap		11. Dance of the Planets\n");
-		printf("	2. Guide		12. MegaStar V4.x\n");
-		printf("	3. xephem -		13. SkyChart III\n");
-		printf("	4. Home Planet		14. Voyager II\n");
-		printf("	5. MyStars!		15. SkyTools\n");
-		printf("	6. TheSky		16. Autostar\n");
-		printf("	7. Starry Night		17. Comet for Windows\n");
-		printf("	8. Deep Space		18. NASA (ELEMENTS.COMET)\n");
-		printf("	9. PC-TCS		19. NASA (CSV format)\n\n");
-		printf("  Choice: ");
+		printf("  Supported input formats: \n\n");
+		printf("        0. MPC                  12. Earth Centered Universe\n");
+		printf("        1. SkyMap               13. Dance of the Planets\n");
+		printf("        2. Guide                14. MegaStar V4.x\n");
+		printf("        3. Voyager II           15. SkyChart III\n");
+		printf("        4. Home Planet\n");
+		printf("        5. MyStars!             16. Celestia (SSC)\n");
+		printf("        6. TheSky               17. Comet for Windows\n");
+		printf("        7. Starry Night         18. NASA (ELEMENTS.COMET)\n");
+		printf("        8. Deep Space           19. NASA (CSV format)\n");
+		printf("        9. PC-TCS\n");
+		printf("       10. Autostar             20. Help\n");
+		printf("       11. SkyTools             21. Exit\n\n");
+		printf("  Select option: ");
 
 		scanf("%d", &a);
-	} while (a<0 || a>20);
+	} while (a<0 || a>21);
 
 	switch (a) {
 
 		case 0: {
-			format = "MPC";
+			format = "MPC (Soft00Cmt)";
 			b=import_mpc(format);
 			if (b==1) goto start;
 			if (b==2) goto end;
 		}
 
 		case 1: {
-			format = "SkyMap";
+			format = "SkyMap (Soft01Cmt)";
 			b=import_skymap(format);
 			if (b==1) goto start;
 			if (b==2) goto end;
 		}
 
 		case 2: {
-			format = "Guide";
+			format = "Guide (Soft02Cmt)";
 			b=import_guide(format);
 			if (b==1) goto start;
 			if (b==2) goto end;
 		}
 
 		case 4: {
-			format = "Home Planet";
+			format = "Home Planet (Soft04Cmt)";
 			b=import_home_planet(format);
 			if (b==1) goto start;
 			if (b==2) goto end;
 		}
 
 		case 5: {
-			format = "MyStars!";
+			format = "MyStars! (Soft05Cmt)";
 			b=import_mystars(format);
 			if (b==1) goto start;
 			if (b==2) goto end;
 		}
 
 		case 6: {
-			format = "TheSky!";
+			format = "TheSky! (Soft06Cmt)";
 			b=import_thesky(format);
 			if (b==1) goto start;
 			if (b==2) goto end;
 		}
 
+		case 17: {
+			format = "Comet for Windows";
+			b=import_cfw(format);
+			if (b==1) goto start;
+			if (b==2) goto end;
+		}
+
+		case 18: {
+			format = "NASA (ELEMENTS.COMET)";
+			b=import_nasa1(format);
+			if (b==1) goto start;
+			if (b==2) goto end;
+		}
+
+		case 19: {
+			format = "NASA (CSV format)";
+			b=import_nasa2(format);
+			if (b==1) goto start;
+			if (b==2) goto end;
+		}
+
+		case 21: {
+			goto end;
+		}
 	}
 
 	end:
@@ -172,11 +204,11 @@ void mainscreen(){
 	fflush(stdout);
 	system("CLS");
 	printf("\n");
-	printf("                     CELESTIA AND STELLARIUM FORMAT MAKER\n\n");
-	printf(" =============================================================================\n\n");
+	printf("                      CELESTIA AND STELLARIUM FORMAT MAKER\n\n");
+	printf(" ==============================================================================\n\n");
 }
 
-void printscreen (char *format){
+void screen_imp (char *format){
 
 	fflush(stdin);
 	fflush(stdout);
@@ -188,13 +220,26 @@ void printscreen (char *format){
 	printf(" =============================================================================\n\n");
 }
 
+void screen_exp (char *format){
+
+	fflush(stdin);
+	fflush(stdout);
+	system("CLS");
+	printf("\n");
+	printf("  Exporting \"%s\" format...\n\n", format);
+	printf(" =============================================================================\n");
+	printf("     1.   Main Menu   |   2.   Exit   \n");
+	printf(" =============================================================================\n\n");
+}
+
 int import_mpc (char *format){
 
 	int b, N=0, i=0;
-	char c, fin_name[80+1], fout_name[80+1];
+	char a, c, fin_name[80+1], fout_name[80+1];
+	char *form;
 	FILE *fin;
 
-	printscreen(format);
+	screen_imp(format);
 
 	unos:
 	printf("  Enter input filename: ");
@@ -209,9 +254,25 @@ int import_mpc (char *format){
 		goto unos;
 	}
 
-	else printf("\n  File %s is successfully opened\n", fin_name);
+	else printf("\n  File %s is successfully opened", fin_name);
+	getch();
 
-	printf("\n  Enter output file name: ");
+	do {
+		screen_imp(format);
+		printf("  Export as: ");
+		printf("\n\n	    a. Celestia (SSC)");
+		printf("\n	    b. Stellarium");
+		printf("\n\n  Select option:   ");
+		scanf("%c", &a);
+	} while (a!='a' && a!='b' && a!='1' && a!='2');
+
+	if (a==49) return 1;
+	if (a==50) return 2;
+
+	if (a=='a') form="Celestia (SSC)";
+	if (a=='b') form="Stellarium";
+	screen_exp(form);
+	printf("  Enter output filename: ");
 	scanf("%s", fout_name);
 
 	b=atoi(fout_name);
@@ -234,18 +295,20 @@ int import_mpc (char *format){
 		comet[i].JD = compute_JD (comet[i].y, comet[i].m, comet[i].d);
 		edit_name (comet[i].name);
 
-		if (comet[i].e >= 1.000000)
-			comet[i].e = 0.999999;
+		if(a=='a')
+			if (comet[i].e >= 1.000000)
+				comet[i].e = 0.999999;
 	}
 
 	fclose(fin);
 
-	output_ssc (fout_name, N);
+	if (a=='a') output_ssc (fout_name, N);
+	if (a=='b') output_stell (fout_name, N);
 
 	do {
-		printscreen(format);
+		screen_exp(form);
 		printf("  %d comets successfully saved in file %s\n\n", N, fout_name);
-		printf("  Choice: ");
+		printf("  Select option: ");
 		scanf("%d", &b);
 	} while (b!=1 && b!=2);
 
@@ -254,11 +317,12 @@ int import_mpc (char *format){
 
 int import_skymap (char *format){
 
-	int b, N=0, i;
-	char c, fin_name[80+1], fout_name[80+1];
+	int b, N=0, i=0;
+	char a, c, fin_name[80+1], fout_name[80+1];
+	char *form;
 	FILE *fin;
 
-	printscreen(format);
+	screen_imp(format);
 
 	unos:
 	printf("  Enter input filename: ");
@@ -273,9 +337,25 @@ int import_skymap (char *format){
 		goto unos;
 	}
 
-	else printf("\n  File %s is successfully opened\n", fin_name);
+	else printf("\n  File %s is successfully opened", fin_name);
+	getch();
 
-	printf("\n  Enter output file name: ");
+	do {
+		screen_imp(format);
+		printf("  Export as: ");
+		printf("\n\n	    a. Celestia (SSC)");
+		printf("\n	    b. Stellarium");
+		printf("\n\n  Select option:   ");
+		scanf("%c", &a);
+	} while (a!='a' && a!='b' && a!='1' && a!='2');
+
+	if (a==49) return 1;
+	if (a==50) return 2;
+
+	if (a=='a') form="Celestia (SSC)";
+	if (a=='b') form="Stellarium";
+	screen_exp(form);
+	printf("  Enter output filename: ");
 	scanf("%s", fout_name);
 
 	b=atoi(fout_name);
@@ -298,18 +378,20 @@ int import_skymap (char *format){
 		comet[i].JD = compute_JD (comet[i].y, comet[i].m, comet[i].d);
 		edit_name (comet[i].name);
 
-		if (comet[i].e >= 1.000000)
-			comet[i].e = 0.999999;
+		if(a=='a')
+			if (comet[i].e >= 1.000000)
+				comet[i].e = 0.999999;
 	}
 
 	fclose(fin);
 
-	output_ssc (fout_name, N);
+	if (a=='a') output_ssc (fout_name, N);
+	if (a=='b') output_stell (fout_name, N);
 
 	do {
-		printscreen(format);
+		screen_exp(form);
 		printf("  %d comets successfully saved in file %s\n\n", N, fout_name);
-		printf("  Choice: ");
+		printf("  Select option: ");
 		scanf("%d", &b);
 	} while (b!=1 && b!=2);
 
@@ -318,11 +400,12 @@ int import_skymap (char *format){
 
 int import_guide (char *format){
 
-	int b, N=0, i;
-	char c, fin_name[80+1], fout_name[80+1];
+	int b, N=0, i=0;
+	char a, c, fin_name[80+1], fout_name[80+1];
+	char *form;
 	FILE *fin;
 
-	printscreen(format);
+	screen_imp(format);
 
 	unos:
 	printf("  Enter input filename: ");
@@ -337,9 +420,25 @@ int import_guide (char *format){
 		goto unos;
 	}
 
-	else printf("\n  File %s is successfully opened\n", fin_name);
+	else printf("\n  File %s is successfully opened", fin_name);
+	getch();
 
-	printf("\n  Enter output file name: ");
+	do {
+		screen_imp(format);
+		printf("  Export as: ");
+		printf("\n\n	    a. Celestia (SSC)");
+		printf("\n	    b. Stellarium");
+		printf("\n\n  Select option:   ");
+		scanf("%c", &a);
+	} while (a!='a' && a!='b' && a!='1' && a!='2');
+
+	if (a==49) return 1;
+	if (a==50) return 2;
+
+	if (a=='a') form="Celestia (SSC)";
+	if (a=='b') form="Stellarium";
+	screen_exp(form);
+	printf("  Enter output filename: ");
 	scanf("%s", fout_name);
 
 	b=atoi(fout_name);
@@ -362,18 +461,20 @@ int import_guide (char *format){
 		comet[i].JD = compute_JD (comet[i].y, comet[i].m, comet[i].d);
 		edit_name (comet[i].name);
 
-		if (comet[i].e >= 1.000000)
-			comet[i].e = 0.999999;
+		if(a=='a')
+			if (comet[i].e >= 1.000000)
+				comet[i].e = 0.999999;
 	}
 
 	fclose(fin);
 
-	output_ssc (fout_name, N);
+	if (a=='a') output_ssc (fout_name, N);
+	if (a=='b') output_stell (fout_name, N);
 
 	do {
-		printscreen(format);
+		screen_exp(form);
 		printf("  %d comets successfully saved in file %s\n\n", N, fout_name);
-		printf("  Choice: ");
+		printf("  Select option: ");
 		scanf("%d", &b);
 	} while (b!=1 && b!=2);
 
@@ -382,11 +483,12 @@ int import_guide (char *format){
 
 int import_home_planet (char *format){
 
-	int b, N=0, i, j;
-	char c, fin_name[80+1], fout_name[80+1], line[115+1];
+	int b, N=0, i=0, j;
+	char a, c, fin_name[80+1], fout_name[80+1], line[115+1];
+	char *form;
 	FILE *fin;
 
-	printscreen(format);
+	screen_imp(format);
 
 	unos:
 	printf("  Enter input filename: ");
@@ -401,9 +503,25 @@ int import_home_planet (char *format){
 		goto unos;
 	}
 
-	else printf("\n  File %s is successfully opened\n", fin_name);
+	else printf("\n  File %s is successfully opened", fin_name);
+	getch();
 
-	printf("\n  Enter output file name: ");
+	do {
+		screen_imp(format);
+		printf("  Export as: ");
+		printf("\n\n	    a. Celestia (SSC)");
+		printf("\n	    b. Stellarium");
+		printf("\n\n  Select option:   ");
+		scanf("%c", &a);
+	} while (a!='a' && a!='b' && a!='1' && a!='2');
+
+	if (a==49) return 1;
+	if (a==50) return 2;
+
+	if (a=='a') form="Celestia (SSC)";
+	if (a=='b') form="Stellarium";
+	screen_exp(form);
+	printf("  Enter output filename: ");
 	scanf("%s", fout_name);
 
 	b=atoi(fout_name);
@@ -435,18 +553,20 @@ int import_home_planet (char *format){
 		comet[i].JD = compute_JD (comet[i].y, comet[i].m, comet[i].d);
 		edit_name (comet[i].name);
 
-		if (comet[i].e >= 1.000000)
-			comet[i].e = 0.999999;
+		if(a=='a')
+			if (comet[i].e >= 1.000000)
+				comet[i].e = 0.999999;
 	}
 
 	fclose(fin);
 
-	output_ssc (fout_name, N);
+	if (a=='a') output_ssc (fout_name, N);
+	if (a=='b') output_stell (fout_name, N);
 
 	do {
-		printscreen(format);
+		screen_exp(form);
 		printf("  %d comets successfully saved in file %s\n\n", N, fout_name);
-		printf("  Choice: ");
+		printf("  Select option: ");
 		scanf("%d", &b);
 	} while (b!=1 && b!=2);
 
@@ -455,14 +575,15 @@ int import_home_planet (char *format){
 
 int import_mystars (char *format){
 
-	int b, N=0, i, j;
-	char c, fin_name[80+1], fout_name[80+1], line[20+1];
+	int b, N=0, i=0, j;
+	char a, c, fin_name[80+1], fout_name[80+1], line[115+1];
+	char *form;
 	FILE *fin;
 
 	// varijable za izracun gregorijanskog datuma iz julijanskog dana
 	int v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13;
 
-	printscreen(format);
+	screen_imp(format);
 
 	unos:
 	printf("  Enter input filename: ");
@@ -477,9 +598,25 @@ int import_mystars (char *format){
 		goto unos;
 	}
 
-	else printf("\n  File %s is successfully opened\n", fin_name);
+	else printf("\n  File %s is successfully opened", fin_name);
+	getch();
 
-	printf("\n  Enter output file name: ");
+	do {
+		screen_imp(format);
+		printf("  Export as: ");
+		printf("\n\n	    a. Celestia (SSC)");
+		printf("\n	    b. Stellarium");
+		printf("\n\n  Select option:   ");
+		scanf("%c", &a);
+	} while (a!='a' && a!='b' && a!='1' && a!='2');
+
+	if (a==49) return 1;
+	if (a==50) return 2;
+
+	if (a=='a') form="Celestia (SSC)";
+	if (a=='b') form="Stellarium";
+	screen_exp(form);
+	printf("  Enter output filename: ");
 	scanf("%s", fout_name);
 
 	b=atoi(fout_name);
@@ -528,18 +665,20 @@ int import_mystars (char *format){
 		comet[i].m = (v11 + 2) % 12 + 1;
 		comet[i].d = v13 + 2;
 
-		if (comet[i].e >= 1.000000)
-			comet[i].e = 0.999999;
+		if(a=='a')
+			if (comet[i].e >= 1.000000)
+				comet[i].e = 0.999999;
 	}
 
 	fclose(fin);
 
-	output_ssc (fout_name, N);
+	if (a=='a') output_ssc (fout_name, N);
+	if (a=='b') output_stell (fout_name, N);
 
 	do {
-		printscreen(format);
+		screen_exp(form);
 		printf("  %d comets successfully saved in file %s\n\n", N, fout_name);
-		printf("  Choice: ");
+		printf("  Select option: ");
 		scanf("%d", &b);
 	} while (b!=1 && b!=2);
 
@@ -549,10 +688,11 @@ int import_mystars (char *format){
 int import_thesky (char *format){
 
 	int b, N=0, i=0;
-	char c, fin_name[80+1], fout_name[80+1];
+	char a, c, fin_name[80+1], fout_name[80+1];
+	char *form;
 	FILE *fin;
 
-	printscreen(format);
+	screen_imp(format);
 
 	unos:
 	printf("  Enter input filename: ");
@@ -567,9 +707,25 @@ int import_thesky (char *format){
 		goto unos;
 	}
 
-	else printf("\n  File %s is successfully opened\n", fin_name);
+	else printf("\n  File %s is successfully opened", fin_name);
+	getch();
 
-	printf("\n  Enter output file name: ");
+	do {
+		screen_imp(format);
+		printf("  Export as: ");
+		printf("\n\n	    a. Celestia (SSC)");
+		printf("\n	    b. Stellarium");
+		printf("\n\n  Select option:   ");
+		scanf("%c", &a);
+	} while (a!='a' && a!='b' && a!='1' && a!='2');
+
+	if (a==49) return 1;
+	if (a==50) return 2;
+
+	if (a=='a') form="Celestia (SSC)";
+	if (a=='b') form="Stellarium";
+	screen_exp(form);
+	printf("  Enter output filename: ");
 	scanf("%s", fout_name);
 
 	b=atoi(fout_name);
@@ -592,18 +748,327 @@ int import_thesky (char *format){
 		comet[i].JD = compute_JD (comet[i].y, comet[i].m, comet[i].d);
 		edit_name (comet[i].name);
 
-		if (comet[i].e >= 1.000000)
-			comet[i].e = 0.999999;
+		if(a=='a')
+			if (comet[i].e >= 1.000000)
+				comet[i].e = 0.999999;
 	}
 
 	fclose(fin);
 
-	output_ssc (fout_name, N);
+	if (a=='a') output_ssc (fout_name, N);
+	if (a=='b') output_stell (fout_name, N);
 
 	do {
-		printscreen(format);
+		screen_exp(form);
 		printf("  %d comets successfully saved in file %s\n\n", N, fout_name);
-		printf("  Choice: ");
+		printf("  Select option: ");
+		scanf("%d", &b);
+	} while (b!=1 && b!=2);
+
+	return b;
+}
+
+int import_cfw(char *format){
+
+	int b, N=0, i=0, j, t;
+	char a, c, fin_name[80+1], fout_name[80+1];
+	char *form;
+	FILE *fin;
+
+	screen_imp(format);
+
+	unos:
+	printf("  Enter input filename: ");
+	scanf("%s", fin_name);
+
+	b=atoi(fin_name);
+	if (b==1 || b==2) return b;
+
+	fin=fopen(fin_name, "r");
+	if (fin==NULL) {
+		printf("\n  Error opening file %s\n\n", fin_name);
+		goto unos;
+	}
+
+	else printf("\n  File %s is successfully opened", fin_name);
+	getch();
+
+	do {
+		screen_imp(format);
+		printf("  Export as: ");
+		printf("\n\n	    a. Celestia (SSC)");
+		printf("\n	    b. Stellarium");
+		printf("\n\n  Select option:   ");
+		scanf("%c", &a);
+	} while (a!='a' && a!='b' && a!='1' && a!='2');
+
+	if (a==49) return 1;
+	if (a==50) return 2;
+
+	if (a=='a') form="Celestia (SSC)";
+	if (a=='b') form="Stellarium";
+	screen_exp(form);
+	printf("  Enter output filename: ");
+	scanf("%s", fout_name);
+
+	b=atoi(fout_name);
+	if (b==1 || b==2) return b;
+
+	while ((c=fgetc(fin)) != EOF ){
+		if (c=='\n') N++;
+	}
+
+	N = N/13;    	// jer su podaci za 1 komet zapisani u 13 redaka
+
+	rewind(fin);
+
+	for (i=0; i<N; i++){
+
+		fscanf(fin, "name=%40[^\n]%*c\
+					%20[^\n]%*c\
+					type=orbit\n\
+					T=%d %d %d.%d\n\
+					q=%f\n\
+					e=%f\n\
+					peri=%f\n\
+					node=%f\n\
+					i=%f\n\
+					prec=2000.0\n\
+					%20[^\n]%*c\
+					mageq=%f %10[^\n]%*c\
+					\n",
+				comet[i].name,
+				comet[i].x,
+				&comet[i].y, &comet[i].m, &comet[i].d, &comet[i].h,
+				&comet[i].q,
+				&comet[i].e,
+				&comet[i].pn,
+				&comet[i].an,
+				&comet[i].i,
+				comet[i].x,
+				&comet[i].H,
+				comet[i].x);
+
+		comet[i].P = compute_period (comet[i].q, comet[i].e);
+		comet[i].JD = compute_JD (comet[i].y, comet[i].m, comet[i].d);
+		edit_name (comet[i].name);
+
+		if(a=='a')
+			if (comet[i].e >= 1.000000)
+				comet[i].e = 0.999999;
+	}
+
+	fclose(fin);
+
+	if (a=='a') output_ssc (fout_name, N);
+	if (a=='b') output_stell (fout_name, N);
+
+	do {
+		screen_exp(form);
+		printf("  %d comets successfully saved in file %s\n\n", N, fout_name);
+		printf("  Select option: ");
+		scanf("%d", &b);
+	} while (b!=1 && b!=2);
+
+	return b;
+}
+
+int import_nasa1(char *format){
+
+	int b, N=0, i=0, j, t;
+	char a, c, fin_name[80+1], fout_name[80+1];
+	char *form;
+	FILE *fin;
+
+	screen_imp(format);
+
+	unos:
+	printf("  Enter input filename: ");
+	scanf("%s", fin_name);
+
+	b=atoi(fin_name);
+	if (b==1 || b==2) return b;
+
+	fin=fopen(fin_name, "r");
+	if (fin==NULL) {
+		printf("\n  Error opening file %s\n\n", fin_name);
+		goto unos;
+	}
+
+	else printf("\n  File %s is successfully opened", fin_name);
+	getch();
+
+	do {
+		screen_imp(format);
+		printf("  Export as: ");
+		printf("\n\n	    a. Celestia (SSC)");
+		printf("\n	    b. Stellarium");
+		printf("\n\n  Select option:   ");
+		scanf("%c", &a);
+	} while (a!='a' && a!='b' && a!='1' && a!='2');
+
+	if (a==49) return 1;
+	if (a==50) return 2;
+
+	if (a=='a') form="Celestia (SSC)";
+	if (a=='b') form="Stellarium";
+	screen_exp(form);
+	printf("  Enter output filename: ");
+	scanf("%s", fout_name);
+
+	b=atoi(fout_name);
+	if (b==1 || b==2) return b;
+
+	while ((c=fgetc(fin)) != EOF ){
+		if (c=='\n') N++;
+	}
+
+	rewind(fin);
+
+	for (i=0; i<N; i++){
+
+		fscanf(fin, "%48c %f %f %f %f %f %4d%2d%2d.%4d %15[^\n]%*c",
+			comet[i].name, &comet[i].q, &comet[i].e,
+			&comet[i].i, &comet[i].pn, &comet[i].an, &comet[i].y,
+			&comet[i].m, &comet[i].d, &comet[i].h, comet[i].x);
+
+		comet[i].P = compute_period (comet[i].q, comet[i].e);
+		comet[i].JD = compute_JD (comet[i].y, comet[i].m, comet[i].d);
+		edit_name (comet[i].name);
+
+		if(a=='a')
+			if (comet[i].e >= 1.000000)
+				comet[i].e = 0.999999;
+
+		// za uklanjanje kometa odredjenih karakteristika
+
+		for (j=0; j<strlen(comet[i].name); j++){
+			if ((comet[i].name[j]  =='S' && comet[i].name[j+1]=='O' &&
+				 comet[i].name[j+2]=='H' && comet[i].name[j+3]=='O')
+		//		|| (comet[i].P > 300)
+				){
+				--i;
+				--N;
+			}
+		}
+
+	}
+
+	fclose(fin);
+
+	if (a=='a') output_ssc (fout_name, N);
+	if (a=='b') output_stell (fout_name, N);
+
+	do {
+		screen_exp(form);
+		printf("  %d comets successfully saved in file %s\n\n", N, fout_name);
+		printf("  Select option: ");
+		scanf("%d", &b);
+	} while (b!=1 && b!=2);
+
+	return b;
+}
+
+int import_nasa2(char *format){
+
+	int b, N=0, i=0, j, t;
+	char a, c, fin_name[80+1], fout_name[80+1];
+	char *form;
+	FILE *fin;
+
+	screen_imp(format);
+
+	unos:
+	printf("  Enter input filename: ");
+	scanf("%s", fin_name);
+
+	b=atoi(fin_name);
+	if (b==1 || b==2) return b;
+
+	fin=fopen(fin_name, "r");
+	if (fin==NULL) {
+		printf("\n  Error opening file %s\n\n", fin_name);
+		goto unos;
+	}
+
+	else printf("\n  File %s is successfully opened", fin_name);
+	getch();
+
+	do {
+		screen_imp(format);
+		printf("  Export as: ");
+		printf("\n\n	    a. Celestia (SSC)");
+		printf("\n	    b. Stellarium");
+		printf("\n\n  Select option:   ");
+		scanf("%c", &a);
+	} while (a!='a' && a!='b' && a!='1' && a!='2');
+
+	if (a==49) return 1;
+	if (a==50) return 2;
+
+	if (a=='a') form="Celestia (SSC)";
+	if (a=='b') form="Stellarium";
+	screen_exp(form);
+	printf("  Enter output filename: ");
+	scanf("%s", fout_name);
+
+	b=atoi(fout_name);
+	if (b==1 || b==2) return b;
+
+	while ((c=fgetc(fin)) != EOF ){
+		if (c=='\n') N++;
+	}
+
+	rewind(fin);
+
+	for (i=0; i<N; i++){
+
+		j=0;
+		while ((c=fgetc(fin)) != ',' ){
+			comet[i].name[j]=c;
+			if (c=='"' && j>2) t=j;			// j>2 zato što se " pojavljuje i na prvom mjestu u stringu
+			j++;
+		}
+
+		comet[i].name[0]=' ';
+		comet[i].name[t+1]='\0';
+
+		fscanf(fin, "%f,%f,%f,%f,%f,%4d%2d%2d.%4d%10[^\n]%*c",
+				&comet[i].q, &comet[i].e, &comet[i].pn, &comet[i].an,
+				&comet[i].i, &comet[i].y, &comet[i].m,
+				&comet[i].d, &comet[i].h, comet[i].x);
+
+		comet[i].P = compute_period (comet[i].q, comet[i].e);
+		comet[i].JD = compute_JD (comet[i].y, comet[i].m, comet[i].d);
+		edit_name (comet[i].name);
+
+		if(a=='a')
+			if (comet[i].e >= 1.000000)
+				comet[i].e = 0.999999;
+
+		// za uklanjanje kometa odredjenih karakteristika
+
+		for (j=0; j<strlen(comet[i].name); j++){
+			if ((comet[i].name[j]  =='S' && comet[i].name[j+1]=='O' &&
+				 comet[i].name[j+2]=='H' && comet[i].name[j+3]=='O')
+		//		|| (comet[i].P > 300)
+				){
+				--i;
+				--N;
+			}
+		}
+
+	}
+
+	fclose(fin);
+
+	if (a=='a') output_ssc (fout_name, N);
+	if (a=='b') output_stell (fout_name, N);
+
+	do {
+		screen_exp(form);
+		printf("  %d comets successfully saved in file %s\n\n", N, fout_name);
+		printf("  Select option: ");
 		scanf("%d", &b);
 	} while (b!=1 && b!=2);
 
@@ -716,6 +1181,53 @@ void output_ssc (char *fout_, int N){
 		fprintf(fout,"\tEpoch \t\t\t %d.%.4d\t# %d %s %.2d.%.4d \n", comet[i].JD, comet[i].h, comet[i].y, mon, comet[i].d, comet[i].h);
 		fprintf(fout,"\t} \n");
 		fprintf(fout,"}\n\n\n");
+
+		fclose(fout);
+	}
+}
+
+void output_stell (char *fout_, int N){
+
+	int i;
+	FILE *fout;
+
+	char *mon;
+
+	for (i=0; i<N; i++) {
+
+		if (comet[i].m==1) mon="Jan";
+		if (comet[i].m==2) mon="Feb";
+		if (comet[i].m==3) mon="Mar";
+		if (comet[i].m==4) mon="Apr";
+		if (comet[i].m==5) mon="May";
+		if (comet[i].m==6) mon="Jun";
+		if (comet[i].m==7) mon="Jul";
+		if (comet[i].m==8) mon="Aug";
+		if (comet[i].m==9) mon="Sep";
+		if (comet[i].m==10) mon="Oct";
+		if (comet[i].m==11) mon="Nov";
+		if (comet[i].m==12) mon="Dec";
+
+		fout=fopen(fout_, "a");
+
+		fprintf(fout,"[%s]\n", comet[i].name);
+		fprintf(fout,"parent=Sun\n");
+		fprintf(fout,"orbit_Inclination=%f\n", comet[i].i);
+		fprintf(fout,"coord_func=comet_orbit\n");
+		fprintf(fout,"orbit_Eccentricity=%f\n", comet[i].e);
+		fprintf(fout,"orbit_ArgOfPericenter=%f\n", comet[i].pn);
+		fprintf(fout,"absolute_magnitude=%.1f\n", comet[i].H);
+		fprintf(fout,"name=%s\n", comet[i].name);
+		fprintf(fout,"slope_parameter=4\n");
+		fprintf(fout,"lighting=false\n");
+		fprintf(fout,"tex_map=nomap.png\n");
+		fprintf(fout,"color=1.0, 1.0, 1.0\n");
+		fprintf(fout,"orbit_AscendingNode=%f\n", comet[i].an);
+		fprintf(fout,"albedo=1\n");
+		fprintf(fout,"radius=5\n");
+		fprintf(fout,"orbit_PericenterDistance=%f\n", comet[i].q);
+		fprintf(fout,"type=comet\n");
+		fprintf(fout,"orbit_TimeAtPericenter=%d.%.d\n\n", comet[i].JD, comet[i].h);
 
 		fclose(fout);
 	}
