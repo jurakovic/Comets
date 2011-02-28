@@ -729,7 +729,7 @@ void import_thesky(){
 	fin=fopen(fin_name, "r");
 
 	for (i=0; i<Ncmt; i++) {
-//		fscanf(fin, "%40c %*c %d %*c %4d %2d %2d %*c %d %*c %f %*c %f %*c %f %*c %f %*c %f %*c %f %25[^\n]%*c",     start nacin
+//		fscanf(fin, "%40c %*c %d %*c %4d %2d %2d %*c %d %*c %f %*c %f %*c %f %*c %f %*c %f %*c %f %25[^\n]%*c",     stari nacin
 		fscanf(fin, "%45c %4d%2d%2d.%d | %f | %f | %f | %f | %f | %f %25[^\n]%*c",
 				comet[i].name, &comet[i].y, &comet[i].m,
 				&comet[i].d, &comet[i].h, &comet[i].q, &comet[i].e,
@@ -1020,7 +1020,7 @@ void import_nasa1(){
 
 void import_nasa2(){
 
-	int i, j, t;
+	int i, j;
 	char c;
 	FILE *fin;
 
@@ -1029,20 +1029,16 @@ void import_nasa2(){
 	for (i=0; i<Ncmt; i++) {
 
 		j=0;
-		while ((c=fgetc(fin)) != ',' ){
-			if (j==0 && isalnum(c)) {
-				comet[i].name[j]=c;
-				j++;
-			}
-			else if (j>0){
-				comet[i].name[j]=c;
-				j++;
-			}
+		c=fgetc(fin);		// da uzme prve navodnike
+		while ((c=fgetc(fin)) != '"' ){
+			comet[i].name[j]=c;
+			if (c==' ' && j<1) --j;
+			j++;
 		}
 
-		comet[i].name[j-1]='\0';
+		comet[i].name[j]='\0';
 
-		fscanf(fin, "%f,%f,%f,%f,%f,%4d%2d%2d.%4d%10[^\n]%*c",
+		fscanf(fin, ",%f,%f,%f,%f,%f,%4d%2d%2d.%4d%10[^\n]%*c",
 				&comet[i].q, &comet[i].e, &comet[i].pn, &comet[i].an,
 				&comet[i].i, &comet[i].y, &comet[i].m,
 				&comet[i].d, &comet[i].h, comet[i].x);
@@ -1052,7 +1048,6 @@ void import_nasa2(){
 		edit_name(comet[i].name);
 	}
 }
-
 
 float compute_period (float q, float e){
 
@@ -1085,37 +1080,14 @@ char *edit_name (char *name){
 
 	int i, j, k;
 
-/*	if (name[0]==' '){          		// ovaj "if" je samo za "nasa_sbdb format" i "starry night" .ID i.name
-		for (i=0; i<4; i++) {
-			if (name[i]==' '){
-				for (j=0; name[j+1]!='\0'; j++){
-					name[j]=name[j+1];
-				}
-				--i;
-			}
+	for (j=0; name[j+1]!='\0'; j++) {
+		if (name[j]==' ' && name[j+1]==' ') {
+			name[j]='\0';
+			break;
 		}
-
-		for (i=0; name[i+1]!='\0'; i++) {
-			if ((name[i]==' ' && name[i+1]==' ')) {
-				name[i]='\0';
-				break;
-			}
-			if (name[i]=='/')
-				name[i]=' ';
-		}
+		if (name[j]=='/')
+			name[j]=' ';
 	}
-
-	else {*/
-
-		for (j=0; name[j+1]!='\0'; j++) {
-			if (name[j]==' ' && name[j+1]==' ') {
-				name[j]='\0';
-				break;
-			}
-			if (name[j]=='/')
-				name[j]=' ';
-		}
-//	}
 }
 
 
