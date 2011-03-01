@@ -1,5 +1,4 @@
 // Celestia and Stellarium Format Maker
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -15,7 +14,6 @@ void screen_imp();
 void screen_exp1();
 void screen_exp2();
 void screen_exp3();
-
 
 //	funkcije za citanje iz datoteka
 int  import_menu();				//glavna fja
@@ -39,19 +37,15 @@ void import_nasa1();			//ELEMENTS.COMET
 void import_nasa2();			//sbdb query
 void import_cfw();				//comet for windows
 
-
 //	funkcije za racunanje...
 float compute_period (float q, float e);
 int   compute_JD (int y, int m, int d);
 char *edit_name (char *name);
 
-
 //	funkcije za pisanje u datoteke
 void output_ssc ();
 void output_stell ();
 
-
-//	globalne varijable
 int   type;
 char *soft;
 char *input_format;
@@ -1111,6 +1105,9 @@ void output_ssc (){
 		if (comet[i].m==10) mon="Oct";
 		if (comet[i].m==11) mon="Nov";
 		if (comet[i].m==12) mon="Dec";
+
+//		if (comet[i].e>=1) comet[i].e = 0.999999;
+		if (comet[i].e==1) comet[i].e = 1.000001;
 
 		fout=fopen(fout_name, "a");
 
