@@ -1,50 +1,9 @@
 // Celestia and Stellarium Format Maker
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <math.h>
-#include <ctype.h>
+
+#include "ssc.h"
+
 #define MAX 5000
 
-
-//	funkcije za ispisivanje na ekran
-void initscreen1();
-void initscreen2();
-void screen_imp();
-void screen_exp1();
-void screen_exp2();
-void screen_exp3();
-
-//	funkcije za citanje iz datoteka
-int  import_menu();				//glavna fja
-void import_mpc();
-void import_skymap();
-void import_guide();
-void import_xephem();
-void import_voyager();
-void import_home_planet();
-void import_mystars();			//comet[i].pn zapravo nije .pn !!!
-void import_thesky();
-void import_starry_night();
-void import_deep_space();
-void import_pc_tcs();
-void import_skytools();
-void import_skychart();
-void import_ecu();
-void import_dance();
-void import_megastar();
-void import_nasa1();			//ELEMENTS.COMET
-void import_nasa2();			//sbdb query
-void import_cfw();				//comet for windows
-
-//	funkcije za racunanje...
-float compute_period (float q, float e);
-int   compute_JD (int y, int m, int d);
-char *edit_name (char *name);
-
-//	funkcije za pisanje u datoteke
-void output_ssc ();
-void output_stell ();
 
 int   type;
 char *soft;
@@ -81,9 +40,9 @@ int main (){
 
 	system("COLOR 9");
 
-	initscreen2();
+/*	exit_screen();
 	getch();
-	system("CLS");
+	system("CLS"); */
 
 	start:
 	fflush(stdin);
@@ -121,7 +80,7 @@ int main (){
 
 		case 1: {
 			input_format = "SkyMap";
-			soft == "Soft01Cmt";
+			soft = "Soft01Cmt";
 			a=import_menu();
 			if (a==1) goto start;
 			if (a==2) goto end;
@@ -277,55 +236,12 @@ int main (){
 	}
 
 	end:
-	initscreen2();
+	exit_screen();
 	printf("Press any key to exit...                             Copyright (c) 2011, jurluk");
 	getch();
 	return 0;
 }
 
-
-void initscreen1(){
-
-	fflush(stdin);
-	fflush(stdout);
-	system("CLS");
-	printf("\n\n\n\n");
-	printf("                _   _   _   _   _   _   _   _       _   _   _  \n");
-	printf("               / \\ / \\ / \\ / \\ / \\ / \\ / \\ / \\     / \\ / \\ / \\ \n");
-	printf("              ( C ) e ) l ) e ) s ) t ) i ) a )   ( a ) n ) d )\n");
-	printf("               \\_/ \\_/ \\_/ \\_/ \\_/ \\_/ \\_/ \\_/     \\_/ \\_/ \\_/ \n");
-	printf("                    _   _   _   _   _   _   _   _   _   _  \n");
-	printf("                   / \\ / \\ / \\ / \\ / \\ / \\ / \\ / \\ / \\ / \\ \n");
-	printf("                  ( S ) t ) e ) l ) l ) a ) r ) i ) u ) m )\n");
-	printf("                   \\_/ \\_/ \\_/ \\_/ \\_/ \\_/ \\_/ \\_/ \\_/ \\_/ \n");
-	printf("                _   _   _   _   _   _       _   _   _   _   _  \n");
-	printf("               / \\ / \\ / \\ / \\ / \\ / \\     / \\ / \\ / \\ / \\ / \\ \n");
-	printf("              ( F ) o ) r ) m ) a ) t )   ( M ) a ) k ) e ) r )\n");
-	printf("               \\_/ \\_/ \\_/ \\_/ \\_/ \\_/     \\_/ \\_/ \\_/ \\_/ \\_/ \n\n\n\n\n\n\n\n\n");
-}
-
-void initscreen2(){
-
-	fflush(stdin);
-	fflush(stdout);
-	system("CLS");
-	printf("\n\n");
-	printf("             ____     _          _   _                          _ \n");
-	printf("            / ___|___| | ___ ___| |_(_) __ _     __ _ _ __   __| |\n");
-	printf("           | |   / _ \\ |/ _ \\ __| __| |/ _` |   / _` | '_ \\ / _` |\n");
-	printf("           | |___  __/ |  __\\__ \\ |_| | (_| |  | (_| | | | | (_| |\n");
-	printf("            \\____\\___|_|\\___|___/\\__|_|\\__,_|   \\__,_|_| |_|\\__,_|\n\n");
-	printf("                ____  _       _ _            _                 \n");
-	printf("               / ___|| |_ ___| | | __ _ _ __(_)_   _ _ __ ___  \n");
-	printf("               \\___ \\| __/ _ \\ | |/ _` | '__| | | | | '_ ` _ \\ \n");
-	printf("                ___) | |_  __/ | | (_| | |  | | |_| | | | | | |\n");
-	printf("               |____/ \\__\\___|_|_|\\__,_|_|  |_|\\__,_|_| |_| |_|\n\n");
-	printf("       _____                          _      __  __       _             \n");
-	printf("      |  ___|__  _ __ _ __ ___   __ _| |_   |  \\/  | __ _| | _____ _ __ \n");
-	printf("      | |_ / _ \\| '__| '_ ` _ \\ / _` | __|  | |\\/| |/ _` | |/ / _ \\ '__|\n");
-	printf("      |  _| (_) | |  | | | | | | (_| | |_   | |  | | (_| |   <  __/ |   \n");
-	printf("      |_|  \\___/|_|  |_| |_| |_|\\__,_|\\__|  |_|  |_|\\__,_|_|\\_\\___|_|\n\n\n\n\n\n");
-}
 
 void screen_imp (){
 
@@ -375,6 +291,29 @@ void screen_exp3 (){
 	printf(" =============================================================================\n\n");
 }
 
+void exit_screen(){
+
+	fflush(stdin);
+	fflush(stdout);
+	system("CLS");
+	printf("\n\n");
+	printf("             ____     _          _   _                          _ \n");
+	printf("            / ___|___| | ___ ___| |_(_) __ _     __ _ _ __   __| |\n");
+	printf("           | |   / _ \\ |/ _ \\ __| __| |/ _` |   / _` | '_ \\ / _` |\n");
+	printf("           | |___  __/ |  __\\__ \\ |_| | (_| |  | (_| | | | | (_| |\n");
+	printf("            \\____\\___|_|\\___|___/\\__|_|\\__,_|   \\__,_|_| |_|\\__,_|\n\n");
+	printf("                ____  _       _ _            _                 \n");
+	printf("               / ___|| |_ ___| | | __ _ _ __(_)_   _ _ __ ___  \n");
+	printf("               \\___ \\| __/ _ \\ | |/ _` | '__| | | | | '_ ` _ \\ \n");
+	printf("                ___) | |_  __/ | | (_| | |  | | |_| | | | | | |\n");
+	printf("               |____/ \\__\\___|_|_|\\__,_|_|  |_|\\__,_|_| |_| |_|\n\n");
+	printf("       _____                          _      __  __       _             \n");
+	printf("      |  ___|__  _ __ _ __ ___   __ _| |_   |  \\/  | __ _| | _____ _ __ \n");
+	printf("      | |_ / _ \\| '__| '_ ` _ \\ / _` | __|  | |\\/| |/ _` | |/ / _ \\ '__|\n");
+	printf("      |  _| (_) | |  | | | | | | (_| | |_   | |  | | (_| |   <  __/ |   \n");
+	printf("      |_|  \\___/|_|  |_| |_| |_|\\__,_|\\__|  |_|  |_|\\__,_|_|\\_\\___|_|\n\n\n\n\n\n");
+}
+
 
 int import_menu (){
 
@@ -390,9 +329,8 @@ int import_menu (){
 	printf("  Enter input filename: ");
 	scanf("%s", fin_name);
 
-	b=atoi(fin_name);
-	if ((b==1 && (fin_name[1]=='\0')) ||
-		(b==2 && (fin_name[1]=='\0'))) return b;
+	if (fin_name[0]=='1' && fin_name[1]=='\0') return 1;
+	if (fin_name[0]=='2' && fin_name[1]=='\0') return 2;
 
 	fin=fopen(fin_name, "r");
 	if (fin==NULL) {
@@ -413,30 +351,37 @@ int import_menu (){
 	printf("\n  Press any key to continue... ");
 	getch();
 
-//ovaj do stavit pod if, i onda samo celestia ili i cel i stell, pa else
-	do {
+	if (type==4 || type==11 || type==14){
 		screen_exp1();
-		printf("  Export as:\n\n");
-		printf("	    a. Celestia (SSC)\n");
-		printf("	    b. Stellarium\n\n");
-		printf("  Select option:   ");
-		scanf("%c", &a);
-	} while (a!='a' && a!='b' && a!='1' && a!='2');
+		output_format="Celestia (SSC)";
+		printf("  %s format can be exported only as %s format\n  ", input_format, output_format);
+		printf("\n  Press any key to continue... ");
+		getch();
+	}
 
+	else {
+		do {
+			screen_exp1();
+			printf("  Export as:\n\n");
+			printf("	    a. Celestia (SSC)\n");
+			printf("	    b. Stellarium\n\n");
+			printf("  Select option:   ");
+			scanf("%c", &a);
+		} while (a!='a' && a!='b' && a!='1' && a!='2');
 
-	if (a=='1') return 1;
-	if (a=='2') return 2;
+		if (a=='1') return 1;
+		if (a=='2') return 2;
 
-	if (a=='a') output_format="Celestia (SSC)";
-	if (a=='b') output_format="Stellarium";
+		if (a=='a') output_format="Celestia (SSC)";
+		if (a=='b') output_format="Stellarium";
+	}
 
 	screen_exp2();
 	printf("  Enter output filename: ");
 	scanf("%s", fout_name);
 
-	b=atoi(fout_name);
-	if ((b==1 && (fout_name[1]=='\0')) ||
-		(b==2 && (fout_name[1]=='\0'))) return b;
+	if (fout_name[0]=='1' && fout_name[1]=='\0') return 1;
+	if (fout_name[0]=='2' && fout_name[1]=='\0') return 2;
 
 	if(type==0) import_mpc();
 	if(type==1) import_skymap();
@@ -460,8 +405,12 @@ int import_menu (){
 
 	fclose(fin);
 
-	if (a=='a') output_ssc ();
-	if (a=='b') output_stell ();
+	if (type==4 || type==11 || type==14) output_ssc ();
+
+	else {
+		if (a=='a') output_ssc ();
+		if (a=='b') output_stell ();
+	}
 
 	do {
 		screen_exp3();
@@ -483,15 +432,15 @@ void import_mpc(){
 
 	for (i=0; i<Ncmt; i++) {
 
-		fscanf(fin, "%14c %d %d %d.%d %f %f %f %f %f %d %f %f %70[^\n]%*c",
+		fscanf(fin, "%14c %d %d %d.%d %f %f %f %f %f%12c%f %f %70[^\n]%*c",		// %f%12c%f mora bit tako zajedno
 			comet[i].x, &comet[i].y, &comet[i].m, &comet[i].d, &comet[i].h,
 			&comet[i].q, &comet[i].e, &comet[i].pn, &comet[i].an,
-			&comet[i].i, &comet[i].eq, &comet[i].H, &comet[i].G, comet[i].name);
+			&comet[i].i, comet[i].x, &comet[i].H, &comet[i].G, comet[i].name);
 
 		comet[i].P = compute_period (comet[i].q, comet[i].e);
 		comet[i].JD = compute_JD (comet[i].y, comet[i].m, comet[i].d);
-		edit_name (comet[i].name);
-	}
+		edit_name(comet[i].name);
+		}
 }
 
 void import_skymap(){
@@ -996,7 +945,7 @@ void import_nasa1(){
 		while (k<39){
 			c=fgetc(fin);
 			comet[i].name[j]=c;
-			if (k<5 && comet[i].name[j]==' ') --j;
+			if (c==' ' && j==0) --j;
 			j++;
 			k++;
 		}
@@ -1026,7 +975,7 @@ void import_nasa2(){
 		c=fgetc(fin);		// da uzme prve navodnike
 		while ((c=fgetc(fin)) != '"' ){
 			comet[i].name[j]=c;
-			if (c==' ' && j<1) --j;
+			if (c==' ' && j==0) --j;
 			j++;
 		}
 
@@ -1042,6 +991,7 @@ void import_nasa2(){
 		edit_name(comet[i].name);
 	}
 }
+
 
 float compute_period (float q, float e){
 
@@ -1077,21 +1027,36 @@ char *edit_name (char *name){
 	for (j=0; name[j+1]!='\0'; j++) {
 		if (name[j]==' ' && name[j+1]==' ') {
 			name[j]='\0';
-			break;
+//			break;
 		}
-		if (name[j]=='/')
-			name[j]=' ';
 	}
 }
 
 
 void output_ssc (){
 
-	int i;
+	int i, j;
 	char *mon;
 	FILE *fout;
 
 	for (i=0; i<Ncmt; i++) {
+
+		if (type==2 || type==7 || type==8 || type==9 || type==11 || type==12){
+			for (j=0; comet[i].ID[j+1]!='\0'; j++) {
+				if (comet[i].ID[j]=='/')
+					comet[i].ID[j]=' ';
+			}
+
+			for (j=0; comet[i].name[j+1]!='\0'; j++) {
+				if (comet[i].name[j]=='/')
+					comet[i].name[j]=' ';
+			}
+		}
+
+		else for (j=0; comet[i].name[j+1]!='\0'; j++) {
+			if (comet[i].name[j]=='/')
+				comet[i].name[j]=' ';
+			}
 
 		if (comet[i].m==1) mon="Jan";
 		if (comet[i].m==2) mon="Feb";
@@ -1107,7 +1072,7 @@ void output_ssc (){
 		if (comet[i].m==12) mon="Dec";
 
 //		if (comet[i].e>=1) comet[i].e = 0.999999;
-		if (comet[i].e==1) comet[i].e = 1.000001;
+//		if (comet[i].e==1) comet[i].e = 1.000001;
 
 		fout=fopen(fout_name, "a");
 
