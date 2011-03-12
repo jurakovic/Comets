@@ -2,9 +2,6 @@
 
 #include "ssc.h"
 
-#define MAX 5000
-
-
 int   type;
 char *soft;
 char *input_format;
@@ -13,10 +10,14 @@ int   Ncmt;
 char  fin_name[80+1];
 char  fout_name[80+1];
 
+int i, j;				// sve te varijable sam deklarirao u globalom podrucju
+char c;					// da ne moram u svakoj funkciji posebno
+FILE *fin;
+
 struct cmt{
 	char name [80+1];
 	char ID [16+1];
-	int JD;
+	long int JD;
 	int y;
 	int m;
 	int d;
@@ -29,22 +30,61 @@ struct cmt{
 	float i;
 	float H;
 	float G;
-	float P;
+	double P;
 	char x [80+1];
-} comet[MAX];
+} comet[5000];
 
 
 int main (){
 
 	int a;
 
+	struct Izbornik {
+		char format[25];
+		char soft[20];
+	} izbornik[20] = {
+		{ format: "MPC", soft: "Soft00Cmt" },
+		{ format: "SkyMap", soft: "Soft01Cmt" },
+		{ format: "Guide", soft: "Soft02Cmt" },
+		{ format: "xephem", soft: "Soft03Cmt" },
+		{ format: "Home Planet", soft: "Soft04Cmt" },
+		{ format: "MyStars!", soft: "Soft05Cmt" },
+		{ format: "TheSky", soft: "Soft06Cmt" },
+		{ format: "Starry Night", soft: "Soft07Cmt" },
+		{ format: "Deep Space", soft: "Soft08Cmt" },
+		{ format: "PC-TCS", soft: "Soft09Cmt" },
+		{ format: "Earth Centered Universe", soft: "Soft10Cmt" },
+		{ format: "Dance of the Planets", soft: "Soft11Cmt" },
+		{ format: "MegaStar V4.x", soft: "Soft12Cmt" },
+		{ format: "SkyChart III", soft: "Soft13Cmt" },
+		{ format: "Voyager II", soft: "Soft14Cmt" },
+		{ format: "SkyTools", soft: "Soft15Cmt" },
+		{ format: "Autostar", soft: "Soft16Cmt" },
+		{ format: "Comet for Windows", soft: "Comet.dat" },
+		{ format: "NASA", soft: "ELEMENTS.COMET" },
+		{ format: "NASA", soft: "CSV format" }
+	};
+
 	system("COLOR 9");
 
-/*	exit_screen();
-	getch();
-	system("CLS"); */
+	do {
+		start_func();
+        if ((type >= 0) && (type < 20)) {
+        	input_format = izbornik[type].format;
+        	soft = izbornik[type].soft;
+        	a = import_menu();
+		}
+	} while ((type != 21) && (a != 2));   // vrti se sve dok na prvom izborniku nije upisan broj 21 ili na drugom broj 2
 
-	start:
+	exit_screen();
+	printf("Press any key to exit...                             Copyright (c) 2011, jurluk");
+	getch();
+	return 0;
+}
+
+
+void start_func(){
+
 	fflush(stdin);
 	fflush(stdout);
 	system("CLS");
@@ -67,180 +107,8 @@ int main (){
 	printf("  Select option [0-21]: ");
 
 	scanf("%d", &type);
-
-	switch (type){
-
-		case 0: {
-			input_format = "MPC";
-			soft = "Soft00Cmt";
-			a=import_menu();
-			if (a==1) goto start;
-			if (a==2) goto end;
-		}
-
-		case 1: {
-			input_format = "SkyMap";
-			soft = "Soft01Cmt";
-			a=import_menu();
-			if (a==1) goto start;
-			if (a==2) goto end;
-		}
-
-		case 2: {
-			input_format = "Guide";
-			soft = "Soft02Cmt";
-			a=import_menu();
-			if (a==1) goto start;
-			if (a==2) goto end;
-		}
-
-		case 3: {
-			input_format = "xephem";
-			soft = "Soft03Cmt";
-			a=import_menu();
-			if (a==1) goto start;
-			if (a==2) goto end;
-		}
-
-		case 4: {
-			input_format = "Home Planet";
-			soft = "Soft04Cmt";
-			a=import_menu();
-			if (a==1) goto start;
-			if (a==2) goto end;
-		}
-
-		case 5: {
-			input_format = "MyStars!";
-			soft = "Soft05Cmt";
-			a=import_menu();
-			if (a==1) goto start;
-			if (a==2) goto end;
-		}
-
-		case 6: {
-			input_format = "TheSky";
-			soft = "Soft06Cmt";
-			a=import_menu();
-			if (a==1) goto start;
-			if (a==2) goto end;
-		}
-
-		case 7: {
-			input_format = "Starry Night";
-			soft = "Soft07Cmt";
-			a=import_menu();
-			if (a==1) goto start;
-			if (a==2) goto end;
-		}
-
-		case 8: {
-			input_format = "Deep Space";
-			soft = "Soft08Cmt";
-			a=import_menu();
-			if (a==1) goto start;
-			if (a==2) goto end;
-		}
-
-		case 9: {
-			input_format = "PC-TCS";
-			soft = "Soft09Cmt";
-			a=import_menu();
-			if (a==1) goto start;
-			if (a==2) goto end;
-		}
-
-		case 10: {
-			input_format = "Earth Centered Universe";
-			soft = "Soft10Cmt";
-			a=import_menu();
-			if (a==1) goto start;
-			if (a==2) goto end;
-		}
-
-		case 11: {
-			input_format = "Dance of the Planets";
-			soft = "Soft11Cmt";
-			a=import_menu();
-			if (a==1) goto start;
-			if (a==2) goto end;
-		}
-
-		case 12: {
-			input_format = "MegaStar V4.x";
-			soft = "Soft12Cmt";
-			a=import_menu();
-			if (a==1) goto start;
-			if (a==2) goto end;
-		}
-
-		case 13: {
-			input_format = "SkyChart III";
-			soft = "Soft13Cmt";
-			a=import_menu();
-			if (a==1) goto start;
-			if (a==2) goto end;
-		}
-
-		case 14: {
-			input_format = "Voyager II";
-			soft = "Soft14Cmt";
-			a=import_menu();
-			if (a==1) goto start;
-			if (a==2) goto end;
-		}
-
-		case 15: {
-			input_format = "SkyTools";
-			soft = "Soft15Cmt";
-			a=import_menu();
-			if (a==1) goto start;
-			if (a==2) goto end;
-		}
-
-		case 16: {
-			input_format = "Autostar";
-			soft = "Soft16Cmt";
-			a=import_menu();
-			if (a==1) goto start;
-			if (a==2) goto end;
-		}
-
-		case 17: {
-			input_format = "Comet for Windows";
-			soft = "Comet.dat";
-			a=import_menu();
-			if (a==1) goto start;
-			if (a==2) goto end;
-		}
-
-		case 18: {
-			input_format = "NASA";
-			soft = "ELEMENTS.COMET";
-			a=import_menu();
-			if (a==1) goto start;
-			if (a==2) goto end;
-		}
-
-		case 19: {
-			input_format = "NASA";
-			soft = "CSV format";
-			a=import_menu();
-			if (a==1) goto start;
-			if (a==2) goto end;
-		}
-
-		case 21: goto end;
-
-		default: goto start;
-	}
-
-	end:
-	exit_screen();
-	printf("Press any key to exit...                             Copyright (c) 2011, jurluk");
-	getch();
-	return 0;
 }
+
 
 
 void screen_imp (){
@@ -319,26 +187,23 @@ int import_menu (){
 
 	int b;
 	char a, c;
-	FILE *fin;
 
 	Ncmt=0;
 
 	screen_imp();
 
-	unos:
-	printf("  Enter input filename: ");
-	scanf("%s", fin_name);
+    do {
+        printf("  Enter input filename: ");
+        scanf("%s", fin_name);
 
-	if (fin_name[0]=='1' && fin_name[1]=='\0') return 1;
-	if (fin_name[0]=='2' && fin_name[1]=='\0') return 2;
+        if (fin_name[0]=='1' && fin_name[1]=='\0') return 1;
+        if (fin_name[0]=='2' && fin_name[1]=='\0') return 2;
 
-	fin=fopen(fin_name, "r");
-	if (fin==NULL) {
-		printf("\n  Error opening file %s\n\n", fin_name);
-		goto unos;
-	}
+        fin=fopen(fin_name, "r");
+        if (fin==NULL) printf("\n  Error opening file %s\n\n", fin_name);
+    } while (fin==NULL);
 
-	else printf("\n  File %s is successfully opened\n", fin_name);
+    printf("\n  File %s is successfully opened\n", fin_name);
 
 	while ((c=fgetc(fin)) != EOF){
 		if (c=='\n') Ncmt++;
@@ -351,7 +216,7 @@ int import_menu (){
 	printf("\n  Press any key to continue... ");
 	getch();
 
-	if (type==4 || type==11 || type==14){
+	if (type==4 || type==11 || type==14 || type==18 || type==19){
 		screen_exp1();
 		output_format="Celestia (SSC)";
 		printf("  %s format can be exported only as %s format\n  ", input_format, output_format);
@@ -405,7 +270,7 @@ int import_menu (){
 
 	fclose(fin);
 
-	if (type==4 || type==11 || type==14) output_ssc ();
+	if (type==4 || type==11 || type==14 || type==18 || type==19) output_ssc ();
 
 	else {
 		if (a=='a') output_ssc ();
@@ -425,10 +290,7 @@ int import_menu (){
 
 void import_mpc(){
 
-	int i;
-	FILE *fin;
-
-	fin=fopen(fin_name, "r");
+	fin = fopen(fin_name, "r");
 
 	for (i=0; i<Ncmt; i++) {
 
@@ -440,22 +302,19 @@ void import_mpc(){
 		comet[i].P = compute_period (comet[i].q, comet[i].e);
 		comet[i].JD = compute_JD (comet[i].y, comet[i].m, comet[i].d);
 		edit_name(comet[i].name);
-		}
+	}
 }
 
 void import_skymap(){
 
-	int i;
-	FILE *fin;
-
-	fin=fopen(fin_name, "r");
+	fin = fopen(fin_name, "r");
 
 	for (i=0; i<Ncmt; i++) {
 
 		fscanf(fin, "%47c %4d %2d %2d.%4d %f %f %f %f %f %f %10[^\n]%*c",
-				comet[i].name, &comet[i].y, &comet[i].m, &comet[i].d,
-				&comet[i].h, &comet[i].q, &comet[i].e, &comet[i].pn,
-				&comet[i].an, &comet[i].i, &comet[i].H, &comet[i].x);
+			comet[i].name, &comet[i].y, &comet[i].m, &comet[i].d,
+			&comet[i].h, &comet[i].q, &comet[i].e, &comet[i].pn,
+			&comet[i].an, &comet[i].i, &comet[i].H, &comet[i].x);
 
 		comet[i].P = compute_period (comet[i].q, comet[i].e);
 		comet[i].JD = compute_JD (comet[i].y, comet[i].m, comet[i].d);
@@ -465,10 +324,6 @@ void import_skymap(){
 
 void import_guide(){
 
-	int i, j, k, l, t;
-	char c;
-	FILE *fin;
-
 	fin=fopen(fin_name, "r");
 
 	for (i=0; i<Ncmt; i++) {
@@ -476,24 +331,22 @@ void import_guide(){
 		while ((c=fgetc(fin)) != '(' ){
 			comet[i].name[j++]=c;
 		}
-		t=j;
-		comet[i].name[t-1]='\0';
+		comet[i].name[j-1]='\0';
 
 		if (comet[i].name[0]=='P' && comet[i].name[1]=='/')
-			for (k=0; k<strlen(comet[i].name); k++)
-				comet[i].name[k]=comet[i].name[k+2];		//k+2 jer je na mjestu 0='P', 1='/'
+			for (j=0; j<strlen(comet[i].name); j++)
+				comet[i].name[j]=comet[i].name[j+2];		//k+2 jer je na mjestu 0='P', 1='/'
 
-		l=0;
+		j=0;
 		while ((c=fgetc(fin)) != ')' ){
-			comet[i].ID[l++]=c;
+			comet[i].ID[j++]=c;
 		}
-		t=l;
-		comet[i].ID[t]='\0';
+		comet[i].ID[j]='\0';
 
 		fscanf(fin, "%d.%d %d %d %10c %f %f %f %f %f %8c %f %f %15[^\n]%*c",
-				&comet[i].d, &comet[i].h, &comet[i].m, &comet[i].y, comet[i].x,
-				&comet[i].q, &comet[i].e, &comet[i].i, &comet[i].pn, &comet[i].an,
-				comet[i].x, &comet[i].H, &comet[i].G, comet[i].x);
+			&comet[i].d, &comet[i].h, &comet[i].m, &comet[i].y, comet[i].x,
+			&comet[i].q, &comet[i].e, &comet[i].i, &comet[i].pn, &comet[i].an,
+			comet[i].x, &comet[i].H, &comet[i].G, comet[i].x);
 
 		comet[i].P = compute_period (comet[i].q, comet[i].e);
 		comet[i].JD = compute_JD (comet[i].y, comet[i].m, comet[i].d);
@@ -503,10 +356,8 @@ void import_guide(){
 
 void import_xephem(){
 
-	int JD, i, j, x;
+	int JD, x;
 	float a, n;
-	char c;
-	FILE *fin;
 
 	fin=fopen(fin_name, "r");
 
@@ -557,18 +408,16 @@ void import_xephem(){
 
 void import_voyager(){
 
-	int i;
 	char mj[3+1];
-	FILE *fin;
 
 	fin=fopen(fin_name, "r");
 
 	for (i=0; i<Ncmt; i++) {
 
 		fscanf(fin, "%28c %f %f %f %f %f %f %4d %3c %d.%d %15[^\n]%*c",
-				comet[i].name, &comet[i].q, &comet[i].e, &comet[i].i,
-				&comet[i].an, &comet[i].pn, &comet[i].G, &comet[i].y,
-				mj, &comet[i].d, &comet[i].h, comet[i].x);
+			comet[i].name, &comet[i].q, &comet[i].e, &comet[i].i,
+			&comet[i].an, &comet[i].pn, &comet[i].G, &comet[i].y,
+			mj, &comet[i].d, &comet[i].h, comet[i].x);
 
 		if (mj[0]=='J' && mj[1]=='a' && mj[2]=='n') comet[i].m=1;
 		if (mj[0]=='F' && mj[1]=='e' && mj[2]=='b') comet[i].m=2;
@@ -590,10 +439,6 @@ void import_voyager(){
 }
 
 void import_home_planet(){
-
-	int i, j;
-	char c;
-	FILE *fin;
 
 	fin=fopen(fin_name, "r");
 
@@ -617,10 +462,6 @@ void import_home_planet(){
 
 void import_mystars(){
 
-	int i, j;
-	char c;
-	FILE *fin;
-
 // 	varijable za izracun gregorijanskog datuma iz julijanskog dana
 	int v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13;
 
@@ -634,9 +475,9 @@ void import_mystars(){
 		}
 
 		fscanf(fin, "%d.%d %f %f %f %f %f %f %f %30[^\n]%*c",
-				&comet[i].JD, &comet[i].h, &comet[i].pn, &comet[i].e,
-				&comet[i].q, &comet[i].i, &comet[i].an, &comet[i].H,
-				&comet[i].G, comet[i].x);
+			&comet[i].JD, &comet[i].h, &comet[i].pn, &comet[i].e,
+			&comet[i].q, &comet[i].i, &comet[i].an, &comet[i].H,
+			&comet[i].G, comet[i].x);
 
 		comet[i].P = compute_period (comet[i].q, comet[i].e);
 		comet[i].JD = comet[i].JD + 2400000;
@@ -666,17 +507,14 @@ void import_mystars(){
 
 void import_thesky(){
 
-	int i;
-	FILE *fin;
-
 	fin=fopen(fin_name, "r");
 
 	for (i=0; i<Ncmt; i++) {
 //		fscanf(fin, "%40c %*c %d %*c %4d %2d %2d %*c %d %*c %f %*c %f %*c %f %*c %f %*c %f %*c %f %25[^\n]%*c",     stari nacin
 		fscanf(fin, "%45c %4d%2d%2d.%d | %f | %f | %f | %f | %f | %f %25[^\n]%*c",
-				comet[i].name, &comet[i].y, &comet[i].m,
-				&comet[i].d, &comet[i].h, &comet[i].q, &comet[i].e,
-				&comet[i].pn, &comet[i].an, &comet[i].i, &comet[i].H, comet[i].x);
+			comet[i].name, &comet[i].y, &comet[i].m,
+			&comet[i].d, &comet[i].h, &comet[i].q, &comet[i].e,
+			&comet[i].pn, &comet[i].an, &comet[i].i, &comet[i].H, comet[i].x);
 
 		comet[i].P = compute_period (comet[i].q, comet[i].e);
 		comet[i].JD = compute_JD (comet[i].y, comet[i].m, comet[i].d);
@@ -686,9 +524,6 @@ void import_thesky(){
 
 void import_starry_night(){
 
-	int i;
-	FILE *fin;
-
 // 	varijable za izracun gregorijanskog datuma iz julijanskog dana
 	int v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13;
 
@@ -697,9 +532,9 @@ void import_starry_night(){
 	for (i=0; i<Ncmt; i++) {
 
 		fscanf(fin, "%5c %30c %f %f %f %f %f %f %f %d.%d %14c %f %16c %15[^\n]%*c",
-				comet[i].x, comet[i].name, &comet[i].H, &comet[i].G, &comet[i].e, &comet[i].q,
-				&comet[i].an, &comet[i].pn, &comet[i].i, &comet[i].JD, &comet[i].h,
-				comet[i].x, &comet[i].G, comet[i].ID, comet[i].x);
+			comet[i].x, comet[i].name, &comet[i].H, &comet[i].G, &comet[i].e, &comet[i].q,
+			&comet[i].an, &comet[i].pn, &comet[i].i, &comet[i].JD, &comet[i].h,
+			comet[i].x, &comet[i].G, comet[i].ID, comet[i].x);
 
 		comet[i].P = compute_period (comet[i].q, comet[i].e);
 		edit_name (comet[i].name);
@@ -729,10 +564,6 @@ void import_starry_night(){
 
 void import_deep_space(){
 
-	int i, j, t;
-	char c;
-	FILE *fin;
-
 	fin=fopen(fin_name, "r");
 
 	for (i=0; i<Ncmt; i++) {
@@ -741,15 +572,13 @@ void import_deep_space(){
 		while ((c=fgetc(fin)) != '(' ){
 			comet[i].name[j++]=c;
 		}
-		t=j;
-		comet[i].name[t-1]='\0';
+		comet[i].name[j-1]='\0';
 
 		j=0;
 		while ((c=fgetc(fin)) != ')' ){
 			comet[i].ID[j++]=c;
 		}
-		t=j;
-		comet[i].ID[t]='\0';
+		comet[i].ID[j]='\0';
 
 		fscanf(fin, "\n%8c %d %d %d.%d %f %f %f %f %f %f %f\n",
 			comet[i].x, &comet[i].y, &comet[i].m, &comet[i].d, &comet[i].h,
@@ -764,17 +593,14 @@ void import_deep_space(){
 
 void import_pc_tcs(){
 
-	int i;
-	FILE *fin;
-
 	fin=fopen(fin_name, "r");
 
 	for (i=0; i<Ncmt; i++) {
 
 		fscanf(fin, "%s %f %f %f %f %f %d %d %d.%d %f %f %60[^\n]%*c",
-				comet[i].ID, &comet[i].q, &comet[i].e, &comet[i].i,
-				&comet[i].pn, &comet[i].an, &comet[i].y, &comet[i].m,
-				&comet[i].d, &comet[i].h, &comet[i].H, &comet[i].G, comet[i].name);
+			comet[i].ID, &comet[i].q, &comet[i].e, &comet[i].i,
+			&comet[i].pn, &comet[i].an, &comet[i].y, &comet[i].m,
+			&comet[i].d, &comet[i].h, &comet[i].H, &comet[i].G, comet[i].name);
 
 		comet[i].P = compute_period (comet[i].q, comet[i].e);
 		comet[i].JD = compute_JD (comet[i].y, comet[i].m, comet[i].d);
@@ -785,17 +611,14 @@ void import_pc_tcs(){
 
 void import_skytools(){
 
-	int i;
-	FILE *fin;
-
 	fin=fopen(fin_name, "r");
 
 	for (i=0; i<Ncmt; i++) {
 
 		fscanf(fin, "%2c %52c %d %d %d.%d %f %f %f %f %f %f %30[^\n]%*c",
-				comet[i].x, comet[i].name, &comet[i].y, &comet[i].m, &comet[i].d,
-				&comet[i].h, &comet[i].q, &comet[i].e, &comet[i].pn,
-				&comet[i].an, &comet[i].i, &comet[i].H, comet[i].x);
+			comet[i].x, comet[i].name, &comet[i].y, &comet[i].m, &comet[i].d,
+			&comet[i].h, &comet[i].q, &comet[i].e, &comet[i].pn,
+			&comet[i].an, &comet[i].i, &comet[i].H, comet[i].x);
 
 		comet[i].P = compute_period (comet[i].q, comet[i].e);
 		comet[i].JD = compute_JD (comet[i].y, comet[i].m, comet[i].d);
@@ -805,19 +628,15 @@ void import_skytools(){
 
 void import_skychart(){
 
-	int i, j;
-	char c;
-	FILE *fin;
-
 	fin=fopen(fin_name, "r");
 
 	for (i=0; i<Ncmt; i++) {
 
 		fscanf(fin, "%12c %f %f %f %f %f %d %d/%d/%d.%d %f %f %d %d %75[^\n]%*c",
-				comet[i].x, &comet[i].q, &comet[i].e, &comet[i].i, &comet[i].pn,
-				&comet[i].an, &comet[i].eq, &comet[i].y, &comet[i].m, &comet[i].d,
-				&comet[i].h, &comet[i].H, &comet[i].G, &comet[i].eq, &comet[i].eq,
-				comet[i].name);
+			comet[i].x, &comet[i].q, &comet[i].e, &comet[i].i, &comet[i].pn,
+			&comet[i].an, &comet[i].eq, &comet[i].y, &comet[i].m, &comet[i].d,
+			&comet[i].h, &comet[i].H, &comet[i].G, &comet[i].eq, &comet[i].eq,
+			comet[i].name);
 
 		for(j=0; j<strlen(comet[i].name); j++)
 			if(comet[i].name[j]==';') comet[i].name[j]='\0';
@@ -829,10 +648,6 @@ void import_skychart(){
 }
 
 void import_ecu(){
-
-	int i;
-	char c;
-	FILE *fin;
 
 	fin=fopen(fin_name, "r");
 
@@ -851,17 +666,14 @@ void import_ecu(){
 
 void import_dance(){
 
-	int i;
-	FILE *fin;
-
 	fin=fopen(fin_name, "r");
 
 	for (i=0; i<Ncmt; i++) {
 
 		fscanf(fin, "%11c %f %f %f %f %f %d.%2d%2d%4d %30[^\n]%*c",
-				comet[i].ID, &comet[i].q, &comet[i].e, &comet[i].i,
-				&comet[i].an, &comet[i].pn, &comet[i].y, &comet[i].m,
-				&comet[i].d, &comet[i].h, comet[i].name);
+			comet[i].ID, &comet[i].q, &comet[i].e, &comet[i].i,
+			&comet[i].an, &comet[i].pn, &comet[i].y, &comet[i].m,
+			&comet[i].d, &comet[i].h, comet[i].name);
 
 		comet[i].P = compute_period (comet[i].q, comet[i].e);
 		comet[i].JD = compute_JD (comet[i].y, comet[i].m, comet[i].d);
@@ -872,17 +684,14 @@ void import_dance(){
 
 void import_megastar(){
 
-	int i;
-	FILE *fin;
-
 	fin=fopen(fin_name, "r");
 
 	for (i=0; i<Ncmt; i++) {
 
 		fscanf(fin, "%30c %12c %d %d %d.%d %f %f %f %f %f %f %f %25[^\n]%*c",
-				comet[i].name, comet[i].ID, &comet[i].y, &comet[i].m, &comet[i].d,
-				&comet[i].h, &comet[i].q, &comet[i].e, &comet[i].pn,
-				&comet[i].an, &comet[i].i, &comet[i].H, &comet[i].G, comet[i].x);
+			comet[i].name, comet[i].ID, &comet[i].y, &comet[i].m, &comet[i].d,
+			&comet[i].h, &comet[i].q, &comet[i].e, &comet[i].pn,
+			&comet[i].an, &comet[i].i, &comet[i].H, &comet[i].G, comet[i].x);
 
 		comet[i].P = compute_period (comet[i].q, comet[i].e);
 		comet[i].JD = compute_JD (comet[i].y, comet[i].m, comet[i].d);
@@ -892,9 +701,6 @@ void import_megastar(){
 }
 
 void import_cfw(){
-
-	int i;
-	FILE *fin;
 
 	fin=fopen(fin_name, "r");
 
@@ -932,9 +738,7 @@ void import_cfw(){
 
 void import_nasa1(){
 
-	int i, j, k;
-	char c;
-	FILE *fin;
+	int k;
 
 	fin=fopen(fin_name, "r");
 
@@ -942,7 +746,7 @@ void import_nasa1(){
 
 		k=0;
 		j=0;
-		while (k<39){
+		while (k<44){
 			c=fgetc(fin);
 			comet[i].name[j]=c;
 			if (c==' ' && j==0) --j;
@@ -950,22 +754,28 @@ void import_nasa1(){
 			k++;
 		}
 
-		fscanf(fin, "%d %f %f %f %f %f %4d%2d%2d.%4d %15[^\n]%*c",
-				&comet[i].eq, &comet[i].q, &comet[i].e,
-				&comet[i].i, &comet[i].pn, &comet[i].an, &comet[i].y,
-				&comet[i].m, &comet[i].d, &comet[i].h, comet[i].x);
+		fscanf(fin, "%d %f %f %f %f %f %4d%2d%2d.%4d %20[^\n]%*c",
+			&comet[i].eq, &comet[i].q, &comet[i].e,
+			&comet[i].i, &comet[i].pn, &comet[i].an, &comet[i].y,
+			&comet[i].m, &comet[i].d, &comet[i].h, comet[i].x);
 
 		comet[i].P = compute_period (comet[i].q, comet[i].e);
 		comet[i].JD = compute_JD (comet[i].y, comet[i].m, comet[i].d);
 		edit_name(comet[i].name);
+
+		for (j=0; j<strlen(comet[i].name); j++){
+			if ((comet[i].name[j]  =='S' && comet[i].name[j+1]=='O' &&
+				 comet[i].name[j+2]=='H' && comet[i].name[j+3]=='O')
+	//			|| (comet[i].P > 300)
+				){
+				--i;
+				--Ncmt;
+			}
+		}
 	}
 }
 
 void import_nasa2(){
-
-	int i, j;
-	char c;
-	FILE *fin;
 
 	fin=fopen(fin_name, "r");
 
@@ -982,9 +792,9 @@ void import_nasa2(){
 		comet[i].name[j]='\0';
 
 		fscanf(fin, ",%f,%f,%f,%f,%f,%4d%2d%2d.%4d%10[^\n]%*c",
-				&comet[i].q, &comet[i].e, &comet[i].pn, &comet[i].an,
-				&comet[i].i, &comet[i].y, &comet[i].m,
-				&comet[i].d, &comet[i].h, comet[i].x);
+			&comet[i].q, &comet[i].e, &comet[i].pn, &comet[i].an,
+			&comet[i].i, &comet[i].y, &comet[i].m,
+			&comet[i].d, &comet[i].h, comet[i].x);
 
 		comet[i].P = compute_period (comet[i].q, comet[i].e);
 		comet[i].JD = compute_JD (comet[i].y, comet[i].m, comet[i].d);
@@ -993,25 +803,25 @@ void import_nasa2(){
 }
 
 
-float compute_period (float q, float e){
+double compute_period (float q, float e){
 
-	float P;
+	double P;
 
-	if (e >= 0 && e < 1)
+	if (e < 1)
 		P = pow((q/(1-e)),1.5);
 
-	if (e > 1)
+	else if (e > 1)
 		P = pow((q/(e-1)),1.5);
 
-	if (e == 1)
+	else if (e == 1)
 		P = pow((q/(1-0.999999)),1.5);
 
 	return P;
 }
 
-int compute_JD (int y, int m, int d){
+long int compute_JD (int y, int m, int d){
 
-	int JD;
+	long int JD;
 
 	JD = 367*y - (7*(y + (m + 9)/12))/4 -
 		((3*(y + (m - 9)/7))/100 + 1)/4 +
@@ -1035,11 +845,12 @@ char *edit_name (char *name){
 
 void output_ssc (){
 
-	int i, j;
 	char *mon;
 	FILE *fout;
 
 	for (i=0; i<Ncmt; i++) {
+
+		if(comet[i].e == 1) comet[i].e = 1.000001;
 
 		if (type==2 || type==7 || type==8 || type==9 || type==11 || type==12){
 			for (j=0; comet[i].ID[j+1]!='\0'; j++) {
@@ -1108,7 +919,6 @@ void output_ssc (){
 
 void output_stell (){
 
-	int i;
 	FILE *fout;
 
 	for (i=0; i<Ncmt; i++) {
