@@ -63,7 +63,7 @@ int main (){
 	do {
 		start_screen();
 		scanf("%d", &type);
-        if ((type >= 0) && (type < 20)) {
+        if (type >= 0 && type < 20) {
         	input_format = menu[type].format;
         	soft = menu[type].soft;
         	a = import_menu(type);
@@ -282,10 +282,7 @@ void import_mpc (int N){
 
 	int i;
 	char c, x[14+1];
-
-	FILE *fin;
-
-	fin = fopen(fin_name, "r");
+	FILE *fin = fopen(fin_name, "r");
 
 	for (i=0; i<N; i++) {
 
@@ -303,9 +300,7 @@ void import_mpc (int N){
 void import_skymap (int N){
 
 	int i;
-	FILE *fin;
-
-	fin = fopen(fin_name, "r");
+	FILE *fin = fopen(fin_name, "r");
 
 	for (i=0; i<N; i++) {
 
@@ -324,9 +319,7 @@ void import_guide (int N){
 
 	int i, j;
 	char c, x[20];
-	FILE *fin;
-
-	fin=fopen(fin_name, "r");
+	FILE *fin = fopen(fin_name, "r");
 
 	for (i=0; i<N; i++) {
 		j=0;
@@ -361,9 +354,7 @@ void import_xephem (int N){
 	int i, j, JD, z;
 	float a, n;
 	char c, x[15+1];
-	FILE *fin;
-
-	fin=fopen(fin_name, "r");
+	FILE *fin = fopen(fin_name, "r");
 
 	for (i=0; i<N; i++) {
 
@@ -414,9 +405,7 @@ void import_home_planet (int N){
 
 	int i, j;
 	char c, x[50+1];
-	FILE *fin;
-
-	fin=fopen(fin_name, "r");
+	FILE *fin = fopen(fin_name, "r");
 
 	for (i=0; i<N; i++) {
 
@@ -440,12 +429,10 @@ void import_mystars (int N){
 
 	int i, j;
 	char c, x[30+1];
-	FILE *fin;
+	FILE *fin = fopen(fin_name, "r");
 
 // 	varijable za izracun gregorijanskog datuma iz julijanskog dana
 	int v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13;
-
-	fin=fopen(fin_name, "r");
 
 	for (i=0; i<N; i++) {
 
@@ -489,9 +476,7 @@ void import_thesky (int N){
 
 	int i;
 	char x[15+1];
-	FILE *fin;
-
-	fin=fopen(fin_name, "r");
+	FILE *fin = fopen(fin_name, "r");
 
 	for (i=0; i<N; i++) {
 //		fscanf(fin, "%40c %*c %d %*c %4d %2d %2d %*c %d %*c %f %*c %f %*c %f %*c %f %*c %f %*c %f %25[^\n]%*c",     stari nacin
@@ -511,13 +496,11 @@ void import_starry_night (int N){
 
 	int i, j, k;
 	long int y;
-	char c, x[80+1];
-	FILE *fin;
+	char c, x[15+1];
+	FILE *fin = fopen(fin_name, "r");
 
 // 	varijable za izracun gregorijanskog datuma iz julijanskog dana
 	int v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13;
-
-	fin=fopen(fin_name, "r");
 
 	for (i=0; i<N; i++) {
 
@@ -565,9 +548,7 @@ void import_deep_space (int N){
 
 	int i, j;
 	char c, x[8+1];
-	FILE *fin;
-
-	fin=fopen(fin_name, "r");
+	FILE *fin = fopen(fin_name, "r");
 
 	for (i=0; i<N; i++) {
 
@@ -597,9 +578,7 @@ void import_deep_space (int N){
 void import_pc_tcs (int N){
 
 	int i;
-	FILE *fin;
-
-	fin=fopen(fin_name, "r");
+	FILE *fin = fopen(fin_name, "r");
 
 	for (i=0; i<N; i++) {
 
@@ -619,9 +598,7 @@ void import_ecu (int N){
 
 	int i;
 	char x[8+1];
-	FILE *fin;
-
-	fin=fopen(fin_name, "r");
+	FILE *fin = fopen(fin_name, "r");
 
 	for (i=0; i<N; i++) {
 
@@ -639,9 +616,7 @@ void import_ecu (int N){
 void import_dance (int N){
 
 	int i;
-	FILE *fin;
-
-	fin=fopen(fin_name, "r");
+	FILE *fin = fopen(fin_name, "r");
 
 	for (i=0; i<N; i++) {
 
@@ -661,9 +636,7 @@ void import_megastar (int N){
 
 	int i;
 	char x[25+1];
-	FILE *fin;
-
-	fin=fopen(fin_name, "r");
+	FILE *fin = fopen(fin_name, "r");
 
 	for (i=0; i<N; i++) {
 
@@ -682,9 +655,7 @@ void import_megastar (int N){
 void import_skychart (int N){
 
 	int i, j;
-	FILE *fin;
-
-	fin=fopen(fin_name, "r");
+	FILE *fin = fopen(fin_name, "r");
 
 	for (i=0; i<N; i++) {
 
@@ -706,9 +677,7 @@ void import_voyager (int N){
 
 	int i;
 	char mj[3+1];
-	FILE *fin;
-
-	fin=fopen(fin_name, "r");
+	FILE *fin = fopen(fin_name, "r");
 
 	for (i=0; i<N; i++) {
 
@@ -740,9 +709,7 @@ void import_skytools (int N){
 
 	int i;
 	char x[15+1];
-	FILE *fin;
-
-	fin=fopen(fin_name, "r");
+	FILE *fin = fopen(fin_name, "r");
 
 	for (i=0; i<N; i++) {
 
@@ -761,9 +728,7 @@ void import_cfw (int N){
 
 	int i;
 	char x[20+1];
-	FILE *fin;
-
-	fin=fopen(fin_name, "r");
+	FILE *fin = fopen(fin_name, "r");
 
 	for (i=0; i<N; i++) {
 		fscanf(fin, "name=%40[^\n]%*c\
@@ -801,9 +766,7 @@ void import_nasa1 (int N){
 
 	int i, j, k;
 	char c, x[20+1];
-	FILE *fin;
-
-	fin=fopen(fin_name, "r");
+	FILE *fin = fopen(fin_name, "r");
 
 	for (i=0; i<N; i++) {
 
@@ -841,9 +804,7 @@ void import_nasa2 (int N){
 
 	int i, j;
 	char c, x[10+1];
-	FILE *fin;
-
-	fin=fopen(fin_name, "r");
+	FILE *fin = fopen(fin_name, "r");
 
 	for (i=0; i<N; i++) {
 
@@ -876,10 +837,10 @@ double compute_period (float q, float e){
 	if (e < 1)
 		P = pow((q/(1-e)),1.5);
 
-	else if (e > 1)
+	if (e > 1)
 		P = pow((q/(e-1)),1.5);
 
-	else if (e == 1)
+	if (e == 1)
 		P = pow((q/(1-0.999999)),1.5);
 
 	return P;
@@ -898,14 +859,10 @@ long int compute_JD (int y, int m, int d){
 
 char *edit_name (char *name){
 
-	int i, j, k;
+	int i;
 
-	for (j=0; name[j+1]!='\0'; j++) {
-		if (name[j]==' ' && name[j+1]==' ') {
-			name[j]='\0';
-//			break;
-		}
-	}
+	for (i=0; i<strlen(name)-1; i++)
+		if (name[i]==' ' && name[i+1]==' ') name[i]='\0';
 }
 
 
@@ -917,24 +874,14 @@ void output_ssc (int N, int Ty){
 
 	for (i=0; i<N; i++) {
 
-		if(comet[i].e == 1) comet[i].e = 1.000001;
+		if (comet[i].e == 1) comet[i].e = 1.000001;
 
-		if (Ty==2 || Ty==7 || Ty==8 || Ty==9 || Ty==11 || Ty==12){
-			for (j=0; comet[i].ID[j+1]!='\0'; j++) {
-				if (comet[i].ID[j]=='/')
-					comet[i].ID[j]=' ';
-			}
+		for (j=0; j<strlen(comet[i].name); j++)
+			if (comet[i].name[j]=='/') comet[i].name[j]=' ';
 
-			for (j=0; comet[i].name[j+1]!='\0'; j++) {
-				if (comet[i].name[j]=='/')
-					comet[i].name[j]=' ';
-			}
-		}
-
-		else for (j=0; comet[i].name[j+1]!='\0'; j++) {
-			if (comet[i].name[j]=='/')
-				comet[i].name[j]=' ';
-			}
+		if (Ty==2 || Ty==7 || Ty==8 || Ty==9 || Ty==11 || Ty==12)
+			for (j=0; j<strlen(comet[i].ID); j++)
+				if (comet[i].ID[j]=='/') comet[i].ID[j]=' ';
 
 		if (comet[i].m==1) mon="Jan";
 		if (comet[i].m==2) mon="Feb";
