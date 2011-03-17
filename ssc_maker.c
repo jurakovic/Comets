@@ -286,7 +286,7 @@ void import_mpc (int N){
 
 	for (i=0; i<N; i++) {
 
-		fscanf(fin, "%14c %d %d %d.%d %f %f %f %f %f%12c%f %f %70[^\n]%*c",		// %f%12c%f mora bit tako zajedno
+		fscanf(fin, "%14c %d %d %d.%d %f %f %f %f %f%12c%f %f %75[^\n]%*c",		// %f%12c%f mora bit tako zajedno
 			x, &comet[i].y, &comet[i].m, &comet[i].d, &comet[i].h,
 			&comet[i].q, &comet[i].e, &comet[i].pn, &comet[i].an,
 			&comet[i].i, x, &comet[i].H, &comet[i].G, comet[i].name);
@@ -353,12 +353,12 @@ void import_xephem (int N){
 
 	int i, j, JD, z;
 	float a, n;
-	char c, x[15+1];
+	char c, x[25+1];
 	FILE *fin = fopen(fin_name, "r");
 
 	for (i=0; i<N; i++) {
 
-		fscanf(fin, "# From %15[^\n]%*c", x);
+		fscanf(fin, "%25[^\n]%*c", x);
 
 		j=0;
 		while ((c=fgetc(fin)) != ',' ){
@@ -475,12 +475,12 @@ void import_mystars (int N){
 void import_thesky (int N){
 
 	int i;
-	char x[15+1];
+	char x[20+1];
 	FILE *fin = fopen(fin_name, "r");
 
 	for (i=0; i<N; i++) {
 //		fscanf(fin, "%40c %*c %d %*c %4d %2d %2d %*c %d %*c %f %*c %f %*c %f %*c %f %*c %f %*c %f %25[^\n]%*c",     stari nacin
-		fscanf(fin, "%45c %4d%2d%2d.%d | %f | %f | %f | %f | %f | %f | %f %15[^\n]%*c",
+		fscanf(fin, "%45c %4d%2d%2d.%d | %f | %f | %f | %f | %f | %f | %f %20[^\n]%*c",
 			comet[i].name, &comet[i].y, &comet[i].m,
 			&comet[i].d, &comet[i].h, &comet[i].q, &comet[i].e,
 			&comet[i].pn, &comet[i].an, &comet[i].i, &comet[i].H,
@@ -496,7 +496,7 @@ void import_starry_night (int N){
 
 	int i, j, k;
 	long int y;
-	char c, x[15+1];
+	char c, x[20+1];
 	FILE *fin = fopen(fin_name, "r");
 
 // 	varijable za izracun gregorijanskog datuma iz julijanskog dana
@@ -513,7 +513,7 @@ void import_starry_night (int N){
 			k++;
 		}
 
-		fscanf(fin, "%f 0.0 %f %f %f %f %f %d.%d %d.5 %f %16c %15[^\n]%*c",
+		fscanf(fin, "%f 0.0 %f %f %f %f %f %d.%d %d.5 %f %16c %20[^\n]%*c",
 			&comet[i].H, &comet[i].e, &comet[i].q, &comet[i].an,
 			&comet[i].pn, &comet[i].i, &comet[i].JD, &comet[i].h,
 			&y, &comet[i].G, comet[i].ID, x);
