@@ -202,9 +202,27 @@ int import_menu (int Ty){
 	if (Ty==17) Ncmt=Ncmt/13;						// jer je 17. format cfw, a jedan komet je definiran kroz 13 redova
 	if (Ty==3 || Ty==8 || Ty==10) Ncmt=Ncmt/2;		// kao gore, samo što je 1 komet kroz 2 reda
 
-	printf("\n  Total detected comets: %d\n  ", Ncmt);
-	printf("\n  Press any key to continue... ");
-	getch();
+	if (Ty==0) Ncmt=import_mpc (Ncmt);
+	if (Ty==1) Ncmt=import_skymap (Ncmt);
+	if (Ty==2) Ncmt=import_guide (Ncmt);
+	if (Ty==3) Ncmt=import_xephem (Ncmt);
+	if (Ty==4) Ncmt=import_home_planet (Ncmt);
+	if (Ty==5) Ncmt=import_mystars (Ncmt);
+	if (Ty==6 || Ty==16) Ncmt=import_thesky (Ncmt); 	//jer imaju isti format
+	if (Ty==7) Ncmt=import_starry_night (Ncmt);
+	if (Ty==8) Ncmt=import_deep_space (Ncmt);
+	if (Ty==9) Ncmt=import_pc_tcs (Ncmt);
+	if (Ty==10) Ncmt=import_ecu (Ncmt);
+	if (Ty==11) Ncmt=import_dance (Ncmt);
+	if (Ty==12) Ncmt=import_megastar (Ncmt);
+	if (Ty==13) Ncmt=import_skychart (Ncmt);
+	if (Ty==14) Ncmt=import_voyager (Ncmt);
+	if (Ty==15) Ncmt=import_skytools (Ncmt);
+	if (Ty==17) Ncmt=import_cfw (Ncmt);
+	if (Ty==18) Ncmt=import_nasa1 (Ncmt);
+	if (Ty==19) Ncmt=import_nasa2 (Ncmt);
+
+	fclose(fin);
 
 	if (Ty==4 || Ty==11 || Ty==14 || Ty==18 || Ty==19){
 		screen_exp1();
@@ -238,28 +256,6 @@ int import_menu (int Ty){
 	if (fout_name[0]=='1' && fout_name[1]=='\0') return 1;
 	if (fout_name[0]=='2' && fout_name[1]=='\0') return 2;
 
-	if (Ty==0) import_mpc (Ncmt);
-	if (Ty==1) import_skymap (Ncmt);
-	if (Ty==2) import_guide (Ncmt);
-	if (Ty==3) import_xephem (Ncmt);
-	if (Ty==4) import_home_planet (Ncmt);
-	if (Ty==5) import_mystars (Ncmt);
-	if (Ty==6 || Ty==16) import_thesky (Ncmt);		//jer imaju isti format
-	if (Ty==7) import_starry_night (Ncmt);
-	if (Ty==8) import_deep_space (Ncmt);
-	if (Ty==9) import_pc_tcs (Ncmt);
-	if (Ty==10) import_ecu (Ncmt);
-	if (Ty==11) import_dance (Ncmt);
-	if (Ty==12) import_megastar (Ncmt);
-	if (Ty==13) import_skychart (Ncmt);
-	if (Ty==14) import_voyager (Ncmt);
-	if (Ty==15) import_skytools (Ncmt);
-	if (Ty==17) import_cfw (Ncmt);
-	if (Ty==18) import_nasa1 (Ncmt);
-	if (Ty==19) import_nasa2 (Ncmt);
-
-	fclose(fin);
-
 	if (Ty==4 || Ty==11 || Ty==14 || Ty==18 || Ty==19) output_ssc (Ncmt, Ty);
 
 	else {
@@ -278,48 +274,82 @@ int import_menu (int Ty){
 }
 
 
-void import_mpc (int N){
+int import_mpc (int N){
 
-	int i;
+	int i, m, n=1;
 	char c, x[14+1];
 	FILE *fin = fopen(fin_name, "r");
 
+	printf("\n  Total detected comets: %d\n  ", N);
+
 	for (i=0; i<N; i++) {
 
-		fscanf(fin, "%14c %d %d %d.%d %f %f %f %f %f%12c%f %f %75[^\n]%*c",		// %f%12c%f mora bit tako zajedno
+		m = fscanf(fin, "%14c %d %d %d.%d %f %f %f %f %f%12c%f %f %75[^\n]%*c",		// %f%12c%f mora bit tako zajedno
 			x, &comet[i].y, &comet[i].m, &comet[i].d, &comet[i].h,
 			&comet[i].q, &comet[i].e, &comet[i].pn, &comet[i].an,
 			&comet[i].i, x, &comet[i].H, &comet[i].G, comet[i].name);
 
+		if (m < 14){
+			printf("\n\n  Unable to parse comet starting in line %d", n);
+			fscanf(fin, "%*[^\n]\n" );
+			N--; i--;
+			continue;
+		}
+
 		comet[i].P = compute_period (comet[i].q, comet[i].e);
 		comet[i].JD = compute_JD (comet[i].y, comet[i].m, comet[i].d);
 		edit_name(comet[i].name);
+		n++;
 	}
+
+	printf("\n\n  Successfully parsed comets: %d\n  ", N);
+	printf("\n  Press any key to continue... ");
+	getch();
+
+	return N;
 }
 
-void import_skymap (int N){
+int import_skymap (int N){
 
-	int i;
+	int i, m, n=1;
 	FILE *fin = fopen(fin_name, "r");
+
+	printf("\n  Total detected comets: %d\n  ", N);
 
 	for (i=0; i<N; i++) {
 
-		fscanf(fin, "%47c %4d %2d %2d.%4d %f %f %f %f %f %f %f\n",
+		m = fscanf(fin, "%47c %4d %2d %2d.%4d %f %f %f %f %f %f %f\n",
 			comet[i].name, &comet[i].y, &comet[i].m, &comet[i].d,
 			&comet[i].h, &comet[i].q, &comet[i].e, &comet[i].pn,
 			&comet[i].an, &comet[i].i, &comet[i].H, &comet[i].G);
 
+		if (m < 12){
+			printf("\n\n  Unable to parse comet starting in line %d", n);
+			fscanf(fin, "%*[^\n]\n" );
+			N--; i--;
+			continue;
+		}
+
 		comet[i].P = compute_period (comet[i].q, comet[i].e);
 		comet[i].JD = compute_JD (comet[i].y, comet[i].m, comet[i].d);
 		edit_name (comet[i].name);
+		n++;
 	}
+
+	printf("\n\n  Successfully parsed comets: %d\n  ", N);
+	printf("\n  Press any key to continue... ");
+	getch();
+
+	return N;
 }
 
-void import_guide (int N){
+int import_guide (int N){
 
-	int i, j;
+	int i, j, m, n=1;
 	char c, x[20];
 	FILE *fin = fopen(fin_name, "r");
+
+	printf("\n  Total detected comets: %d\n  ", N);
 
 	for (i=0; i<N; i++) {
 		j=0;
@@ -338,21 +368,37 @@ void import_guide (int N){
 		}
 		comet[i].ID[j]='\0';
 
-		fscanf(fin, "%d.%d %d %d 0.0 %f %f %f %f %f %d.0 %f %f %15[^\n]%*c",
+		m = fscanf(fin, "%d.%d %d %d 0.0 %f %f %f %f %f %d.0 %f %f %15[^\n]%*c",
 			&comet[i].d, &comet[i].h, &comet[i].m, &comet[i].y,
 			&comet[i].q, &comet[i].e, &comet[i].i, &comet[i].pn, &comet[i].an,
 			&comet[i].eq, &comet[i].H, &comet[i].G, x);
 
+		if (m < 13){
+			printf("\n\n  Unable to parse comet starting in line %d", n);
+			fscanf(fin, "%*[^\n]\n" );
+			N--; i--;
+			continue;
+		}
+
 		comet[i].P = compute_period (comet[i].q, comet[i].e);
 		comet[i].JD = compute_JD (comet[i].y, comet[i].m, comet[i].d);
 		edit_name (comet[i].ID);
+		n++;
 	}
+
+	printf("\n\n  Successfully parsed comets: %d\n  ", N);
+	printf("\n  Press any key to continue... ");
+	getch();
+
+	return N;
 }
 
-void import_xephem (int N){
+int import_xephem (int N){
 
-	int i, j, JD, z;
-	float a, n;
+	printf("\n  Total detected comets: %d\n  ", N);
+
+	int i, j, JD, z, m, n=1;
+	float a, g;
 	char c, x[25+1];
 	FILE *fin = fopen(fin_name, "r");
 
@@ -368,44 +414,76 @@ void import_xephem (int N){
 		c=fgetc(fin);
 
 		if(c == 'e'){
-			fscanf(fin, ",%f,%f,%f,%f,%f,%f,%d.%d,%d/%d.%d/%d,%d,g %f,%f\n",
+			m = fscanf(fin, ",%f,%f,%f,%f,%f,%f,%d.%d,%d/%d.%d/%d,%d,g %f,%f\n",
 				&comet[i].i, &comet[i].an, &comet[i].pn, &a,
-				&n, &comet[i].e, &JD, &comet[i].h, &comet[i].m, &comet[i].d,
+				&g, &comet[i].e, &JD, &comet[i].h, &comet[i].m, &comet[i].d,
 				&z, &comet[i].y, &comet[i].eq, &comet[i].H, &comet[i].G);
+
+			if (m < 15){
+				printf("\n\n  Unable to parse comet starting in line %d", n);
+				fscanf(fin, "%*[^\n]\n" );
+				N--; i--;
+				continue;
+			}
 
 			comet[i].q = a*(1-comet[i].e);
 			comet[i].JD = JD + compute_JD (comet[i].y, comet[i].m, comet[i].d);
+			n+=2;
 		}
 
 		if(c == 'p'){
-			fscanf(fin, ",%d/%d.%d/%d,%f,%f,%f,%f,%d,%f,%f\n",
+			m = fscanf(fin, ",%d/%d.%d/%d,%f,%f,%f,%f,%d,%f,%f\n",
 				&comet[i].m, &comet[i].d, &comet[i].h, &comet[i].y,
 				&comet[i].i, &comet[i].pn, &comet[i].q, &comet[i].an,
 				&comet[i].eq, &comet[i].H, &comet[i].G);
 
+			if (m < 11){
+				printf("\n\n  Unable to parse comet starting in line %d", n);
+				fscanf(fin, "%*[^\n]\n" );
+				N--; i--;
+				continue;
+			}
+
 			comet[i].e = 1.000000;
 			comet[i].JD = compute_JD (comet[i].y, comet[i].m, comet[i].d);
+			n+=2;
 		}
 
 		if(c == 'h'){
-			fscanf(fin, ",%d/%d.%d/%d,%f,%f,%f,%f,%f,%d,%f,%f\n",
+			m = fscanf(fin, ",%d/%d.%d/%d,%f,%f,%f,%f,%f,%d,%f,%f\n",
 				&comet[i].m, &comet[i].d, &comet[i].h, &comet[i].y,
 				&comet[i].i, &comet[i].an, &comet[i].pn, &comet[i].e,
 				&comet[i].q, &comet[i].eq, &comet[i].H, &comet[i].G);
 
+			if (m < 12){
+				printf("\n\n  Unable to parse comet starting in line %d", n);
+				fscanf(fin, "%*[^\n]\n" );
+				N--; i--;
+				continue;
+			}
+
 			comet[i].JD = compute_JD (comet[i].y, comet[i].m, comet[i].d);
+			n+=2;
 		}
 
 		comet[i].P = compute_period (comet[i].q, comet[i].e);
 		edit_name (comet[i].name);
 	}
+
+	printf("\n\n  Successfully parsed comets: %d\n  ", N);
+	printf("\n  Press any key to continue... ");
+	getch();
+
+	return N;
 }
 
-void import_home_planet (int N){
+int import_home_planet (int N){
 
-	int i, j;
+	int i, j, m, n=1;
 	char c, x[50+1];
 	FILE *fin = fopen(fin_name, "r");
+
+	printf("\n  Total detected comets: %d\n  ", N);
 
 	for (i=0; i<N; i++) {
 
@@ -414,25 +492,41 @@ void import_home_planet (int N){
 			comet[i].name[j++]=c;
 		}
 
-		fscanf(fin, "%d-%d-%d.%d,%f,%f,%f,%f,%f,%50[^\n]%*c",
+		m = fscanf(fin, "%d-%d-%d.%d,%f,%f,%f,%f,%f,%50[^\n]%*c",
 			&comet[i].y, &comet[i].m, &comet[i].d, &comet[i].h,
 			&comet[i].q, &comet[i].e, &comet[i].pn, &comet[i].an,
 			&comet[i].i, x);
 
+		if (m < 10){
+			printf("\n\n  Unable to parse comet starting in line %d", n);
+			fscanf(fin, "%*[^\n]\n" );
+			N--; i--;
+			continue;
+		}
+
 		comet[i].P = compute_period (comet[i].q, comet[i].e);
 		comet[i].JD = compute_JD (comet[i].y, comet[i].m, comet[i].d);
 		edit_name (comet[i].name);
+		n++;
 	}
+
+	printf("\n\n  Successfully parsed comets: %d\n  ", N);
+	printf("\n  Press any key to continue... ");
+	getch();
+
+	return N;
 }
 
-void import_mystars (int N){
+int import_mystars (int N){
 
-	int i, j;
+	int i, j, m, n=1;
 	char c, x[30+1];
 	FILE *fin = fopen(fin_name, "r");
 
 // 	varijable za izracun gregorijanskog datuma iz julijanskog dana
 	int v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13;
+
+	printf("\n  Total detected comets: %d\n  ", N);
 
 	for (i=0; i<N; i++) {
 
@@ -441,14 +535,22 @@ void import_mystars (int N){
 			comet[i].name[j++]=c;
 		}
 
-		fscanf(fin, "%d.%d %f %f %f %f %f %f %f %30[^\n]%*c",
+		m = fscanf(fin, "%d.%d %f %f %f %f %f %f %f %30[^\n]%*c",
 			&comet[i].JD, &comet[i].h, &comet[i].pn, &comet[i].e,
 			&comet[i].q, &comet[i].i, &comet[i].an, &comet[i].H,
 			&comet[i].G, x);
 
+		if (m < 14){
+			printf("\n\n  Unable to parse comet starting in line %d", n);
+			fscanf(fin, "%*[^\n]\n" );
+			N--; i--;
+			continue;
+		}
+
 		comet[i].P = compute_period (comet[i].q, comet[i].e);
 		comet[i].JD += 2400000;
 		edit_name (comet[i].name);
+		n++;
 
 //		izracuvanje gregorijanskog datuma iz julijanskog dana
 //		izvor: http://en.wikipedia.org/wiki/Julian_day#Gregorian_calendar_from_Julian_day_number
@@ -470,37 +572,61 @@ void import_mystars (int N){
 		comet[i].m = (v11 + 2) % 12 + 1;
 		comet[i].d = v13 + 2;
 	}
+
+	printf("\n\n  Successfully parsed comets: %d\n  ", N);
+	printf("\n  Press any key to continue... ");
+	getch();
+
+	return N;
 }
 
-void import_thesky (int N){
+int import_thesky (int N){
 
-	int i;
+	int i, m, n=1;
 	char x[20+1];
 	FILE *fin = fopen(fin_name, "r");
 
+	printf("\n  Total detected comets: %d\n  ", N);
+
 	for (i=0; i<N; i++) {
 //		fscanf(fin, "%40c %*c %d %*c %4d %2d %2d %*c %d %*c %f %*c %f %*c %f %*c %f %*c %f %*c %f %25[^\n]%*c",     stari nacin
-		fscanf(fin, "%45c %4d%2d%2d.%d | %f | %f | %f | %f | %f | %f | %f %20[^\n]%*c",
+		m = fscanf(fin, "%45c %4d%2d%2d.%d | %f | %f | %f | %f | %f | %f | %f %20[^\n]%*c",
 			comet[i].name, &comet[i].y, &comet[i].m,
 			&comet[i].d, &comet[i].h, &comet[i].q, &comet[i].e,
 			&comet[i].pn, &comet[i].an, &comet[i].i, &comet[i].H,
 			&comet[i].G, x);
 
+		if (m < 13){
+			printf("\n\n  Unable to parse comet starting in line %d", n);
+			fscanf(fin, "%*[^\n]\n" );
+			N--; i--;
+			continue;
+		}
+
 		comet[i].P = compute_period (comet[i].q, comet[i].e);
 		comet[i].JD = compute_JD (comet[i].y, comet[i].m, comet[i].d);
 		edit_name (comet[i].name);
+		n++;
 	}
+
+	printf("\n\n  Successfully parsed comets: %d\n  ", N);
+	printf("\n  Press any key to continue... ");
+	getch();
+
+	return N;
 }
 
-void import_starry_night (int N){
+int import_starry_night (int N){
 
-	int i, j, k;
+	int i, j, k, m, n=1;
 	long int y;
 	char c, x[20+1];
 	FILE *fin = fopen(fin_name, "r");
 
 // 	varijable za izracun gregorijanskog datuma iz julijanskog dana
 	int v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13;
+
+	printf("\n  Total detected comets: %d\n  ", N);
 
 	for (i=0; i<N; i++) {
 
@@ -513,14 +639,22 @@ void import_starry_night (int N){
 			k++;
 		}
 
-		fscanf(fin, "%f 0.0 %f %f %f %f %f %d.%d %d.5 %f %16c %20[^\n]%*c",
+		m = fscanf(fin, "%f 0.0 %f %f %f %f %f %d.%d %d.5 %f %16c %20[^\n]%*c",
 			&comet[i].H, &comet[i].e, &comet[i].q, &comet[i].an,
 			&comet[i].pn, &comet[i].i, &comet[i].JD, &comet[i].h,
 			&y, &comet[i].G, comet[i].ID, x);
 
+		if (m < 12){
+			printf("\n\n  Unable to parse comet starting in line %d", n);
+			fscanf(fin, "%*[^\n]\n" );
+			N--; i--;
+			continue;
+		}
+
 		comet[i].P = compute_period (comet[i].q, comet[i].e);
 		edit_name (comet[i].name);
 		edit_name (comet[i].ID);
+		n++;
 
 //		izracuvanje gregorijanskog datuma iz julijanskog dana
 //		izvor: http://en.wikipedia.org/wiki/Julian_day#Gregorian_calendar_from_Julian_day_number
@@ -542,13 +676,21 @@ void import_starry_night (int N){
 		comet[i].m = (v11 + 2) % 12 + 1;
 		comet[i].d = v13 + 2;
 	}
+
+	printf("\n\n  Successfully parsed comets: %d\n  ", N);
+	printf("\n  Press any key to continue... ");
+	getch();
+
+	return N;
 }
 
-void import_deep_space (int N){
+int import_deep_space (int N){
 
-	int i, j;
+	int i, j, m, n=1;
 	char c, x[8+1];
 	FILE *fin = fopen(fin_name, "r");
+
+	printf("\n  Total detected comets: %d\n  ", N);
 
 	for (i=0; i<N; i++) {
 
@@ -564,21 +706,37 @@ void import_deep_space (int N){
 		}
 		comet[i].ID[j]='\0';
 
-		fscanf(fin, "\n%8c %d %d %d.%d %f %f %f %f %f %f %f\n",
+		m = fscanf(fin, "\n%8c %d %d %d.%d %f %f %f %f %f %f %f\n",
 			x, &comet[i].y, &comet[i].m, &comet[i].d, &comet[i].h,
 			&comet[i].q, &comet[i].e, &comet[i].pn, &comet[i].an,
 			&comet[i].i, &comet[i].H, &comet[i].G);
 
+		if (m < 12){
+			printf("\n\n  Unable to parse comet starting in line %d", n);
+			fscanf(fin, "%*[^\n]\n" );
+			N--; i--;
+			continue;
+		}
+
 		comet[i].P = compute_period (comet[i].q, comet[i].e);
 		comet[i].JD = compute_JD (comet[i].y, comet[i].m, comet[i].d);
 		edit_name (comet[i].ID);
+		n+=2;
 	}
+
+	printf("\n\n  Successfully parsed comets: %d\n  ", N);
+	printf("\n  Press any key to continue... ");
+	getch();
+
+	return N;
 }
 
-void import_pc_tcs (int N){
+int import_pc_tcs (int N){
 
-	int i;
+	int i, m, n=1;
 	FILE *fin = fopen(fin_name, "r");
+
+	printf("\n  Total detected comets: %d\n  ", N);
 
 	for (i=0; i<N; i++) {
 
@@ -587,82 +745,153 @@ void import_pc_tcs (int N){
 			&comet[i].pn, &comet[i].an, &comet[i].y, &comet[i].m,
 			&comet[i].d, &comet[i].h, &comet[i].H, &comet[i].G, comet[i].name);
 
+		if (m < 13){
+			printf("\n\n  Unable to parse comet starting in line %d", n);
+			fscanf(fin, "%*[^\n]\n" );
+			N--; i--;
+			continue;
+		}
+
 		comet[i].P = compute_period (comet[i].q, comet[i].e);
 		comet[i].JD = compute_JD (comet[i].y, comet[i].m, comet[i].d);
 		edit_name (comet[i].ID);
 		edit_name (comet[i].name);
+		n++;
 	}
+
+	printf("\n\n  Successfully parsed comets: %d\n  ", N);
+	printf("\n  Press any key to continue... ");
+	getch();
+
+	return N;
 }
 
-void import_ecu (int N){
+int import_ecu (int N){
 
-	int i;
+	int i, m, n=1;
 	char x[8+1];
 	FILE *fin = fopen(fin_name, "r");
 
+	printf("\n  Total detected comets: %d\n  ", N);
+
 	for (i=0; i<N; i++) {
 
-		fscanf(fin, "%45[^\n]%*c %8c %d %d %d.%d %f %f %f %f %f %f %f\n",
+		m = fscanf(fin, "%45[^\n]%*c %8c %d %d %d.%d %f %f %f %f %f %f %f\n",
 			comet[i].name, x, &comet[i].y, &comet[i].m, &comet[i].d,
 			&comet[i].h, &comet[i].q, &comet[i].e, &comet[i].pn, &comet[i].an,
 			&comet[i].i, &comet[i].H, &comet[i].G);
 
+		if (m < 13){
+			printf("\n\n  Unable to parse comet starting in line %d", n);
+			fscanf(fin, "%*[^\n]\n" );
+			N--; i--;
+			continue;
+		}
+
 		comet[i].P = compute_period (comet[i].q, comet[i].e);
 		comet[i].JD = compute_JD (comet[i].y, comet[i].m, comet[i].d);
 		edit_name (comet[i].name);
+		n+=2;
 	}
+
+	printf("\n\n  Successfully parsed comets: %d\n  ", N);
+	printf("\n  Press any key to continue... ");
+	getch();
+
+	return N;
 }
 
-void import_dance (int N){
+int import_dance (int N){
 
-	int i;
+	int i, m, n=1;
 	FILE *fin = fopen(fin_name, "r");
+
+	printf("\n  Total detected comets: %d\n  ", N);
 
 	for (i=0; i<N; i++) {
 
-		fscanf(fin, "%11c %f %f %f %f %f %d.%2d%2d%4d %30[^\n]%*c",
+		m = fscanf(fin, "%11c %f %f %f %f %f %d.%2d%2d%4d %30[^\n]%*c",
 			comet[i].ID, &comet[i].q, &comet[i].e, &comet[i].i,
 			&comet[i].an, &comet[i].pn, &comet[i].y, &comet[i].m,
 			&comet[i].d, &comet[i].h, comet[i].name);
 
+		if (m < 11){
+			printf("\n\n  Unable to parse comet starting in line %d", n);
+			fscanf(fin, "%*[^\n]\n" );
+			N--; i--;
+			continue;
+		}
+
 		comet[i].P = compute_period (comet[i].q, comet[i].e);
 		comet[i].JD = compute_JD (comet[i].y, comet[i].m, comet[i].d);
 		edit_name (comet[i].ID);
 		edit_name (comet[i].name);
+		n++;
 	}
+
+	printf("\n\n  Successfully parsed comets: %d\n  ", N);
+	printf("\n  Press any key to continue... ");
+	getch();
+
+	return N;
 }
 
-void import_megastar (int N){
+int import_megastar (int N){
 
-	int i;
+	int i, m, n=1;
 	char x[25+1];
 	FILE *fin = fopen(fin_name, "r");
 
+	printf("\n  Total detected comets: %d\n  ", N);
+
 	for (i=0; i<N; i++) {
 
-		fscanf(fin, "%30c %12c %d %d %d.%d %f %f %f %f %f %f %f %25[^\n]%*c",
+		m = fscanf(fin, "%30c %12c %d %d %d.%d %f %f %f %f %f %f %f %25[^\n]%*c",
 			comet[i].name, comet[i].ID, &comet[i].y, &comet[i].m, &comet[i].d,
 			&comet[i].h, &comet[i].q, &comet[i].e, &comet[i].pn,
 			&comet[i].an, &comet[i].i, &comet[i].H, &comet[i].G, x);
 
+		if (m < 14){
+			printf("\n\n  Unable to parse comet starting in line %d", n);
+			fscanf(fin, "%*[^\n]\n" );
+			N--; i--;
+			continue;
+		}
+
 		comet[i].P = compute_period (comet[i].q, comet[i].e);
 		comet[i].JD = compute_JD (comet[i].y, comet[i].m, comet[i].d);
 		edit_name (comet[i].ID);
 		edit_name (comet[i].name);
+		n++;
 	}
+
+	printf("\n\n  Successfully parsed comets: %d\n  ", N);
+	printf("\n  Press any key to continue... ");
+	getch();
+
+	return N;
 }
 
-void import_skychart (int N){
+int import_skychart (int N){
 
-	int i, j;
+	int i, j, m, n=1;
 	FILE *fin = fopen(fin_name, "r");
+
+	printf("\n  Total detected comets: %d\n  ", N);
 
 	for (i=0; i<N; i++) {
 
-		fscanf(fin, "P11 2000.0 -%f %f %f %f %f %d %d/%d/%d.%d %f %f 0 0 %75[^\n]%*c",
+		m = fscanf(fin, "P11 2000.0 -%f %f %f %f %f %d %d/%d/%d.%d %f %f 0 0 %75[^\n]%*c",
 			&comet[i].q, &comet[i].e, &comet[i].i, &comet[i].pn,
 			&comet[i].an, &comet[i].eq, &comet[i].y, &comet[i].m, &comet[i].d,
 			&comet[i].h, &comet[i].H, &comet[i].G, comet[i].name);
+
+		if (m < 13){
+			printf("\n\n  Unable to parse comet starting in line %d", n);
+			fscanf(fin, "%*[^\n]\n" );
+			N--; i--;
+			continue;
+		}
 
 		for(j=0; j<strlen(comet[i].name); j++)
 			if(comet[i].name[j]==';') comet[i].name[j]='\0';
@@ -670,21 +899,37 @@ void import_skychart (int N){
 		comet[i].P = compute_period (comet[i].q, comet[i].e);
 		comet[i].JD = compute_JD (comet[i].y, comet[i].m, comet[i].d);
 		edit_name (comet[i].name);
+		n++;
 	}
+
+	printf("\n\n  Successfully parsed comets: %d\n  ", N);
+	printf("\n  Press any key to continue... ");
+	getch();
+
+	return N;
 }
 
-void import_voyager (int N){
+int import_voyager (int N){
 
-	int i;
+	int i, m, n=1;
 	char mj[3+1];
 	FILE *fin = fopen(fin_name, "r");
 
+	printf("\n  Total detected comets: %d\n  ", N);
+
 	for (i=0; i<N; i++) {
 
-		fscanf(fin, "%28c %f %f %f %f %f %f %4d %3c %d.%d %d.0\n",
+		m = fscanf(fin, "%28c %f %f %f %f %f %f %4d %3c %d.%d %d.0\n",
 			comet[i].name, &comet[i].q, &comet[i].e, &comet[i].i,
 			&comet[i].an, &comet[i].pn, &comet[i].G, &comet[i].y,
 			mj, &comet[i].d, &comet[i].h, &comet[i].eq);
+
+		if (m < 12){
+			printf("\n\n  Unable to parse comet starting in line %d", n);
+			fscanf(fin, "%*[^\n]\n" );
+			N--; i--;
+			continue;
+		}
 
 		if (mj[0]=='J' && mj[1]=='a' && mj[2]=='n') comet[i].m=1;
 		if (mj[0]=='F' && mj[1]=='e' && mj[2]=='b') comet[i].m=2;
@@ -702,36 +947,61 @@ void import_voyager (int N){
 		comet[i].P = compute_period (comet[i].q, comet[i].e);
 		comet[i].JD = compute_JD (comet[i].y, comet[i].m, comet[i].d);
 		edit_name (comet[i].name);
+		n++;
 	}
+
+	printf("\n\n  Successfully parsed comets: %d\n  ", N);
+	printf("\n  Press any key to continue... ");
+	getch();
+
+	return N;
 }
 
-void import_skytools (int N){
+int import_skytools (int N){
 
-	int i;
+	int i, m, n=1;
 	char x[15+1];
 	FILE *fin = fopen(fin_name, "r");
 
+	printf("\n  Total detected comets: %d\n  ", N);
+
 	for (i=0; i<N; i++) {
 
-		fscanf(fin, "C %52c %d %d %d.%d %f %f %f %f %f %f %f 0.00%d %15[^\n]%*c",
+		m = fscanf(fin, "C %52c %d %d %d.%d %f %f %f %f %f %f %f 0.00%d %15[^\n]%*c",
 			comet[i].name, &comet[i].y, &comet[i].m, &comet[i].d, &comet[i].h,
 			&comet[i].q, &comet[i].e, &comet[i].pn, &comet[i].an, &comet[i].i,
 			&comet[i].H, &comet[i].G, &comet[i].eq, x);
 
+		if (m < 14){
+			printf("\n\n  Unable to parse comet starting in line %d", n);
+			fscanf(fin, "%*[^\n]\n" );
+			N--; i--;
+			continue;
+		}
+
 		comet[i].P = compute_period (comet[i].q, comet[i].e);
 		comet[i].JD = compute_JD (comet[i].y, comet[i].m, comet[i].d);
 		edit_name (comet[i].name);
+		n++;
 	}
+
+	printf("\n\n  Successfully parsed comets: %d\n  ", N);
+	printf("\n  Press any key to continue... ");
+	getch();
+
+	return N;
 }
 
-void import_cfw (int N){
+int import_cfw (int N){
 
-	int i;
+	int i, m;
 	char x[20+1];
 	FILE *fin = fopen(fin_name, "r");
 
+	printf("\n  Total detected comets: %d\n  ", N);
+
 	for (i=0; i<N; i++) {
-		fscanf(fin, "name=%40[^\n]%*c\
+		m = fscanf(fin, "name=%40[^\n]%*c\
 					%20[^\n]%*c\
 					type=orbit\n\
 					T=%d %d %d.%d\n\
@@ -760,13 +1030,21 @@ void import_cfw (int N){
 		comet[i].JD = compute_JD (comet[i].y, comet[i].m, comet[i].d);
 		edit_name (comet[i].name);
 	}
+
+	printf("\n\n  Successfully parsed comets: %d\n  ", N);
+	printf("\n  Press any key to continue... ");
+	getch();
+
+	return N;
 }
 
-void import_nasa1 (int N){
+int import_nasa1 (int N){
 
-	int i, j, k;
+	int i, j, k, m, n=1;
 	char c, x[20+1];
 	FILE *fin = fopen(fin_name, "r");
+
+	printf("\n  Total detected comets: %d\n  ", N);
 
 	for (i=0; i<N; i++) {
 
@@ -779,14 +1057,22 @@ void import_nasa1 (int N){
 			k++;
 		}
 
-		fscanf(fin, "%d %f %f %f %f %f %4d%2d%2d.%4d %20[^\n]%*c",
+		m = fscanf(fin, "%d %f %f %f %f %f %4d%2d%2d.%4d %20[^\n]%*c",
 			&comet[i].eq, &comet[i].q, &comet[i].e, &comet[i].i,
 			&comet[i].pn, &comet[i].an, &comet[i].y, &comet[i].m,
 			&comet[i].d, &comet[i].h, x);
 
+		if (m < 11){
+			printf("\n\n  Unable to parse comet starting in line %d", n);
+			fscanf(fin, "%*[^\n]\n" );
+			N--; i--;
+			continue;
+		}
+
 		comet[i].P = compute_period (comet[i].q, comet[i].e);
 		comet[i].JD = compute_JD (comet[i].y, comet[i].m, comet[i].d);
 		edit_name(comet[i].name);
+		n++;
 
 		for (j=0; j<strlen(comet[i].name); j++){
 			if ((comet[i].name[j]  =='S' && comet[i].name[j+1]=='O' &&
@@ -798,13 +1084,21 @@ void import_nasa1 (int N){
 			}
 		}
 	}
+
+	printf("\n\n  Successfully parsed comets: %d\n  ", N);
+	printf("\n  Press any key to continue... ");
+	getch();
+
+	return N;
 }
 
-void import_nasa2 (int N){
+int import_nasa2 (int N){
 
-	int i, j;
+	int i, j, m, n=1;
 	char c, x[10+1];
 	FILE *fin = fopen(fin_name, "r");
+
+	printf("\n  Total detected comets: %d\n  ", N);
 
 	for (i=0; i<N; i++) {
 
@@ -818,15 +1112,29 @@ void import_nasa2 (int N){
 
 		comet[i].name[j]='\0';
 
-		fscanf(fin, ",%f,%f,%f,%f,%f,%4d%2d%2d.%4d%10[^\n]%*c",
+		m = fscanf(fin, ",%f,%f,%f,%f,%f,%4d%2d%2d.%4d%10[^\n]%*c",
 			&comet[i].q, &comet[i].e, &comet[i].pn, &comet[i].an,
 			&comet[i].i, &comet[i].y, &comet[i].m, &comet[i].d,
 			&comet[i].h, x);
 
+		if (m < 10){
+			printf("\n\n  Unable to parse comet starting in line %d", n);
+			fscanf(fin, "%*[^\n]\n" );
+			N--; i--;
+			continue;
+		}
+
 		comet[i].P = compute_period (comet[i].q, comet[i].e);
 		comet[i].JD = compute_JD (comet[i].y, comet[i].m, comet[i].d);
 		edit_name(comet[i].name);
+		n++;
 	}
+
+	printf("\n\n  Successfully parsed comets: %d\n  ", N);
+	printf("\n  Press any key to continue... ");
+	getch();
+
+	return N;
 }
 
 
