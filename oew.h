@@ -12,9 +12,10 @@ void screen_exp1 ();
 void screen_exp2 ();
 void screen_exp3 ();
 void exit_screen ();
+void help_screen ();
 
 //	funkcije za citanje iz datoteka
-int  import_menu (int Ty);				//glavna fja
+int import_main (int Ty);				//glavna fja
 
 int import_mpc (int N);
 int import_skymap (int N);
@@ -42,5 +43,8 @@ long int compute_JD (int y, int m, int d);
 char *edit_name (char *name);
 
 //	funkcije za pisanje u datoteke
-void output_ssc (int N, int Ty);
-void output_stell (int N, int Ty);
+void export_ssc (int N, int Ty);
+void export_stell (int N, int Ty);
+void export_mpc (int N, int Ty);
+void export_skymap (int N, int Ty);
+void export_home_planet (int N, int Ty);

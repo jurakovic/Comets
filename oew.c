@@ -1,10 +1,10 @@
-// Celestia and Stellarium Format Maker
+// Orbital Elements Workshop
 
-#include "ssc.h"
+#include "oew.h"
 
 char *soft;
-char *input_format;
-char *output_format;
+char *import_format;
+char *export_format;
 char  fin_name[80+1];
 char  fout_name[80+1];
 
@@ -25,14 +25,10 @@ struct Comet{
 	float i;
 	float H;
 	float G;
+	char book [20+1];
 } comet[5000];
 
-
-int main (){
-
-	int type, a;
-
-	struct Menu {
+struct Menu {
 		char format[25];
 		char soft[15];
 	} menu[20] = {
@@ -58,123 +54,30 @@ int main (){
 		{ format: "NASA", soft: "CSV format" }
 	};
 
+
+int main (){
+
+	int type, a;
+
 	system("COLOR 9");
 
 	do {
 		start_screen();
 		scanf("%d", &type);
         if (type >= 0 && type < 20) {
-        	input_format = menu[type].format;
+        	import_format = menu[type].format;
         	soft = menu[type].soft;
-        	a = import_menu(type);
+        	a = import_main(type);
 		}
-	} while (type!=21 && a!=2);   // vrti se sve dok na prvom izborniku nije upisan broj 21 ili na drugom broj 2
+		else if (type == 20) help_screen();
+	} while (type!=21 && a!=2);   			// vrti se sve dok na prvom izborniku nije upisan broj 21 ili na drugom broj 2
 
 	exit_screen();
 	getch();
 	return 0;
 }
 
-
-void start_screen (){
-
-	fflush(stdin);
-	fflush(stdout);
-	system("CLS");
-	printf("\n");
-	printf("                      CELESTIA AND STELLARIUM FORMAT MAKER\n\n");
-	printf(" ==============================================================================\n\n");
-	printf("  Supported input formats: \n\n");
-	printf("        0. MPC                         12. MegaStar V4.x\n");
-	printf("        1. SkyMap                      13. SkyChart III\n");
-	printf("        2. Guide                       14. Voyager II\n");
-	printf("        3. xephem                      15. SkyTools\n");
-	printf("        4. Home Planet                 16. Autostar\n");
-	printf("        5. MyStars!\n");
-	printf("        6. TheSky                      17. Comet for Windows\n");
-	printf("        7. Starry Night                18. NASA (ELEMENTS.COMET)\n");
-	printf("        8. Deep Space                  19. NASA (CSV format)\n");
-	printf("        9. PC-TCS\n");
-	printf("       10. Earth Centered Universe     20. Help\n");
-	printf("       11. Dance of the Planets        21. Exit\n\n");
-	printf("  Select option [0-21]: ");
-}
-
-void screen_imp (){
-
-	fflush(stdin);
-	fflush(stdout);
-	system("CLS");
-	printf("\n");
-	printf("  Importing %s (%s) format...\n\n", input_format, soft);
-	printf(" =============================================================================\n");
-	printf("     1.   Main Menu   |   2.   Exit   \n");
-	printf(" =============================================================================\n\n");
-}
-
-void screen_exp1 (){
-
-	fflush(stdin);
-	fflush(stdout);
-	system("CLS");
-	printf("\n");
-	printf("  Exporting %s format...\n\n", input_format);
-	printf(" =============================================================================\n");
-	printf("     1.   Main Menu   |   2.   Exit   \n");
-	printf(" =============================================================================\n\n");
-}
-
-void screen_exp2 (){
-
-	fflush(stdin);
-	fflush(stdout);
-	system("CLS");
-	printf("\n");
-	printf("  Exporting %s as %s format...\n\n", input_format, output_format);
-	printf(" =============================================================================\n");
-	printf("     1.   Main Menu   |   2.   Exit   \n");
-	printf(" =============================================================================\n\n");
-}
-
-void screen_exp3 (){
-
-	fflush(stdin);
-	fflush(stdout);
-	system("CLS");
-	printf("\n");
-	printf("  %s exported as %s format...\n\n", input_format, output_format);
-	printf(" =============================================================================\n");
-	printf("     1.   Main Menu   |   2.   Exit   \n");
-	printf(" =============================================================================\n\n");
-}
-
-void exit_screen(){
-
-	fflush(stdin);
-	fflush(stdout);
-	system("CLS");
-	printf("\n\n");
-	printf("             ____     _          _   _                          _ \n");
-	printf("            / ___|___| | ___ ___| |_(_) __ _     __ _ _ __   __| |\n");
-	printf("           | |   / _ \\ |/ _ \\ __| __| |/ _` |   / _` | '_ \\ / _` |\n");
-	printf("           | |___  __/ |  __\\__ \\ |_| | (_| |  | (_| | | | | (_| |\n");
-	printf("            \\____\\___|_|\\___|___/\\__|_|\\__,_|   \\__,_|_| |_|\\__,_|\n\n");
-	printf("                ____  _       _ _            _                 \n");
-	printf("               / ___|| |_ ___| | | __ _ _ __(_)_   _ _ __ ___  \n");
-	printf("               \\___ \\| __/ _ \\ | |/ _` | '__| | | | | '_ ` _ \\ \n");
-	printf("                ___) | |_  __/ | | (_| | |  | | |_| | | | | | |\n");
-	printf("               |____/ \\__\\___|_|_|\\__,_|_|  |_|\\__,_|_| |_| |_|\n\n");
-	printf("       _____                          _      __  __       _             \n");
-	printf("      |  ___|__  _ __ _ __ ___   __ _| |_   |  \\/  | __ _| | _____ _ __ \n");
-	printf("      | |_ / _ \\| '__| '_ ` _ \\ / _` | __|  | |\\/| |/ _` | |/ / _ \\ '__|\n");
-	printf("      |  _| (_) | |  | | | | | | (_| | |_   | |  | | (_| |   <  __/ |   \n");
-	printf("      |_|  \\___/|_|  |_| |_| |_|\\__,_|\\__|  |_|  |_|\\__,_|_|\\_\\___|_|");
-	printf("\n\n\n\n\n\n");
-	printf("Press any key to exit...                             Copyright (c) 2011, jurluk");
-}
-
-
-int import_menu (int Ty){
+int import_main (int Ty){
 
 	int Ncmt=0, b;
 	char a, c;
@@ -222,32 +125,27 @@ int import_menu (int Ty){
 	if (Ty==18) Ncmt=import_nasa1 (Ncmt);
 	if (Ty==19) Ncmt=import_nasa2 (Ncmt);
 
-	fclose(fin);
 
-	if (Ty==4 || Ty==11 || Ty==14 || Ty==18 || Ty==19){
+	do {
 		screen_exp1();
-		output_format="Celestia (SSC)";
-		printf("  %s format can be exported only as %s format\n  ", input_format, output_format);
-		printf("\n  Press any key to continue... ");
-		getch();
-	}
+		printf("  Export as:\n\n");
+		printf("           a. Celestia (SSC)\n");
+		printf("           b. Stellarium\n");
+		printf("           c. MPC\n");
+		printf("           d. SkyMap\n");
+		printf("           e. Home Planet\n\n");
+		printf("  Select option:   ");
+		scanf("%c", &a);
+	} while ((a<97 || a>101) && a!='1' && a!='2');
 
-	else {
-		do {
-			screen_exp1();
-			printf("  Export as:\n\n");
-			printf("	    a. Celestia (SSC)\n");
-			printf("	    b. Stellarium\n\n");
-			printf("  Select option:   ");
-			scanf("%c", &a);
-		} while (a!='a' && a!='b' && a!='1' && a!='2');
+	if (a=='1') return 1;
+	if (a=='2') return 2;
 
-		if (a=='1') return 1;
-		if (a=='2') return 2;
-
-		if (a=='a') output_format="Celestia (SSC)";
-		if (a=='b') output_format="Stellarium";
-	}
+	if (a=='a') export_format="Celestia (SSC)";
+	if (a=='b') export_format="Stellarium";
+	if (a=='c') export_format="MPC";
+	if (a=='d') export_format="SkyMap";
+	if (a=='e') export_format="Home Planet";
 
 	screen_exp2();
 	printf("  Enter output filename: ");
@@ -256,11 +154,14 @@ int import_menu (int Ty){
 	if (fout_name[0]=='1' && fout_name[1]=='\0') return 1;
 	if (fout_name[0]=='2' && fout_name[1]=='\0') return 2;
 
-	if (Ty==4 || Ty==11 || Ty==14 || Ty==18 || Ty==19) output_ssc (Ncmt, Ty);
+	if (Ty==4 || Ty==11 || Ty==14 || Ty==18 || Ty==19) export_ssc (Ncmt, Ty);
 
 	else {
-		if (a=='a') output_ssc  (Ncmt, Ty);
-		if (a=='b') output_stell  (Ncmt, Ty);
+		if (a=='a') export_ssc  (Ncmt, Ty);
+		if (a=='b') export_stell  (Ncmt, Ty);
+		if (a=='c') export_mpc (Ncmt, Ty);
+		if (a=='d') export_skymap (Ncmt, Ty);
+		if (a=='e') export_home_planet (Ncmt, Ty);
 	}
 
 	do {
@@ -270,6 +171,7 @@ int import_menu (int Ty){
 		scanf("%d", &b);
 	} while (b!=1 && b!=2);
 
+	fclose(fin);
 	return b;
 }
 
@@ -290,8 +192,8 @@ int import_mpc (int N){
 			&comet[i].i, x, &comet[i].H, &comet[i].G, comet[i].name);
 
 		if (m < 14){
-			printf("\n\n  Unable to parse comet starting in line %d", n);
-			fscanf(fin, "%*[^\n]\n" );
+			printf("\n\n  Unable to parse line %d", n);
+			fscanf(fin, "%*[^\n]\n");
 			N--; i--;
 			continue;
 		}
@@ -324,8 +226,8 @@ int import_skymap (int N){
 			&comet[i].an, &comet[i].i, &comet[i].H, &comet[i].G);
 
 		if (m < 12){
-			printf("\n\n  Unable to parse comet starting in line %d", n);
-			fscanf(fin, "%*[^\n]\n" );
+			printf("\n\n  Unable to parse line %d", n);
+			fscanf(fin, "%*[^\n]\n");
 			N--; i--;
 			continue;
 		}
@@ -374,8 +276,8 @@ int import_guide (int N){
 			&comet[i].eq, &comet[i].H, &comet[i].G, x);
 
 		if (m < 13){
-			printf("\n\n  Unable to parse comet starting in line %d", n);
-			fscanf(fin, "%*[^\n]\n" );
+			printf("\n\n  Unable to parse line %d", n);
+			fscanf(fin, "%*[^\n]\n");
 			N--; i--;
 			continue;
 		}
@@ -397,7 +299,7 @@ int import_xephem (int N){
 
 	printf("\n  Total detected comets: %d\n  ", N);
 
-	int i, j, JD, z, m, n=1;
+	int i, j, JD, z, m, n=2;
 	float a, g;
 	char c, x[25+1];
 	FILE *fin = fopen(fin_name, "r");
@@ -420,8 +322,8 @@ int import_xephem (int N){
 				&z, &comet[i].y, &comet[i].eq, &comet[i].H, &comet[i].G);
 
 			if (m < 15){
-				printf("\n\n  Unable to parse comet starting in line %d", n);
-				fscanf(fin, "%*[^\n]\n" );
+				printf("\n\n  Unable to parse line %d", n);
+				fscanf(fin, "%*[^\n]\n");
 				N--; i--;
 				continue;
 			}
@@ -438,8 +340,8 @@ int import_xephem (int N){
 				&comet[i].eq, &comet[i].H, &comet[i].G);
 
 			if (m < 11){
-				printf("\n\n  Unable to parse comet starting in line %d", n);
-				fscanf(fin, "%*[^\n]\n" );
+				printf("\n\n  Unable to parse line %d", n);
+				fscanf(fin, "%*[^\n]\n");
 				N--; i--;
 				continue;
 			}
@@ -456,8 +358,8 @@ int import_xephem (int N){
 				&comet[i].q, &comet[i].eq, &comet[i].H, &comet[i].G);
 
 			if (m < 12){
-				printf("\n\n  Unable to parse comet starting in line %d", n);
-				fscanf(fin, "%*[^\n]\n" );
+				printf("\n\n  Unable to parse line %d", n);
+				fscanf(fin, "%*[^\n]\n");
 				N--; i--;
 				continue;
 			}
@@ -498,8 +400,8 @@ int import_home_planet (int N){
 			&comet[i].i, x);
 
 		if (m < 10){
-			printf("\n\n  Unable to parse comet starting in line %d", n);
-			fscanf(fin, "%*[^\n]\n" );
+			printf("\n\n  Unable to parse line %d", n);
+			fscanf(fin, "%*[^\n]\n");
 			N--; i--;
 			continue;
 		}
@@ -540,9 +442,9 @@ int import_mystars (int N){
 			&comet[i].q, &comet[i].i, &comet[i].an, &comet[i].H,
 			&comet[i].G, x);
 
-		if (m < 14){
-			printf("\n\n  Unable to parse comet starting in line %d", n);
-			fscanf(fin, "%*[^\n]\n" );
+		if (m < 10){
+			printf("\n\n  Unable to parse line %d", n);
+			fscanf(fin, "%*[^\n]\n");
 			N--; i--;
 			continue;
 		}
@@ -597,8 +499,8 @@ int import_thesky (int N){
 			&comet[i].G, x);
 
 		if (m < 13){
-			printf("\n\n  Unable to parse comet starting in line %d", n);
-			fscanf(fin, "%*[^\n]\n" );
+			printf("\n\n  Unable to parse line %d", n);
+			fscanf(fin, "%*[^\n]\n");
 			N--; i--;
 			continue;
 		}
@@ -645,8 +547,8 @@ int import_starry_night (int N){
 			&y, &comet[i].G, comet[i].ID, x);
 
 		if (m < 12){
-			printf("\n\n  Unable to parse comet starting in line %d", n);
-			fscanf(fin, "%*[^\n]\n" );
+			printf("\n\n  Unable to parse line %d", n);
+			fscanf(fin, "%*[^\n]\n");
 			N--; i--;
 			continue;
 		}
@@ -686,7 +588,7 @@ int import_starry_night (int N){
 
 int import_deep_space (int N){
 
-	int i, j, m, n=1;
+	int i, j, m, n=2;
 	char c, x[8+1];
 	FILE *fin = fopen(fin_name, "r");
 
@@ -712,8 +614,8 @@ int import_deep_space (int N){
 			&comet[i].i, &comet[i].H, &comet[i].G);
 
 		if (m < 12){
-			printf("\n\n  Unable to parse comet starting in line %d", n);
-			fscanf(fin, "%*[^\n]\n" );
+			printf("\n\n  Unable to parse line %d", n);
+			fscanf(fin, "%*[^\n]\n");
 			N--; i--;
 			continue;
 		}
@@ -746,8 +648,8 @@ int import_pc_tcs (int N){
 			&comet[i].d, &comet[i].h, &comet[i].H, &comet[i].G, comet[i].name);
 
 		if (m < 13){
-			printf("\n\n  Unable to parse comet starting in line %d", n);
-			fscanf(fin, "%*[^\n]\n" );
+			printf("\n\n  Unable to parse line %d", n);
+			fscanf(fin, "%*[^\n]\n");
 			N--; i--;
 			continue;
 		}
@@ -768,7 +670,7 @@ int import_pc_tcs (int N){
 
 int import_ecu (int N){
 
-	int i, m, n=1;
+	int i, m, n=2;
 	char x[8+1];
 	FILE *fin = fopen(fin_name, "r");
 
@@ -782,8 +684,8 @@ int import_ecu (int N){
 			&comet[i].i, &comet[i].H, &comet[i].G);
 
 		if (m < 13){
-			printf("\n\n  Unable to parse comet starting in line %d", n);
-			fscanf(fin, "%*[^\n]\n" );
+			printf("\n\n  Unable to parse line %d", n);
+			fscanf(fin, "%*[^\n]\n");
 			N--; i--;
 			continue;
 		}
@@ -816,8 +718,8 @@ int import_dance (int N){
 			&comet[i].d, &comet[i].h, comet[i].name);
 
 		if (m < 11){
-			printf("\n\n  Unable to parse comet starting in line %d", n);
-			fscanf(fin, "%*[^\n]\n" );
+			printf("\n\n  Unable to parse line %d", n);
+			fscanf(fin, "%*[^\n]\n");
 			N--; i--;
 			continue;
 		}
@@ -852,8 +754,8 @@ int import_megastar (int N){
 			&comet[i].an, &comet[i].i, &comet[i].H, &comet[i].G, x);
 
 		if (m < 14){
-			printf("\n\n  Unable to parse comet starting in line %d", n);
-			fscanf(fin, "%*[^\n]\n" );
+			printf("\n\n  Unable to parse line %d", n);
+			fscanf(fin, "%*[^\n]\n");
 			N--; i--;
 			continue;
 		}
@@ -887,8 +789,8 @@ int import_skychart (int N){
 			&comet[i].h, &comet[i].H, &comet[i].G, comet[i].name);
 
 		if (m < 13){
-			printf("\n\n  Unable to parse comet starting in line %d", n);
-			fscanf(fin, "%*[^\n]\n" );
+			printf("\n\n  Unable to parse line %d", n);
+			fscanf(fin, "%*[^\n]\n");
 			N--; i--;
 			continue;
 		}
@@ -925,8 +827,8 @@ int import_voyager (int N){
 			mj, &comet[i].d, &comet[i].h, &comet[i].eq);
 
 		if (m < 12){
-			printf("\n\n  Unable to parse comet starting in line %d", n);
-			fscanf(fin, "%*[^\n]\n" );
+			printf("\n\n  Unable to parse line %d", n);
+			fscanf(fin, "%*[^\n]\n");
 			N--; i--;
 			continue;
 		}
@@ -973,8 +875,8 @@ int import_skytools (int N){
 			&comet[i].H, &comet[i].G, &comet[i].eq, x);
 
 		if (m < 14){
-			printf("\n\n  Unable to parse comet starting in line %d", n);
-			fscanf(fin, "%*[^\n]\n" );
+			printf("\n\n  Unable to parse line %d", n);
+			fscanf(fin, "%*[^\n]\n");
 			N--; i--;
 			continue;
 		}
@@ -1063,8 +965,8 @@ int import_nasa1 (int N){
 			&comet[i].d, &comet[i].h, x);
 
 		if (m < 11){
-			printf("\n\n  Unable to parse comet starting in line %d", n);
-			fscanf(fin, "%*[^\n]\n" );
+			printf("\n\n  Unable to parse line %d", n);
+			fscanf(fin, "%*[^\n]\n");
 			N--; i--;
 			continue;
 		}
@@ -1079,8 +981,7 @@ int import_nasa1 (int N){
 				 comet[i].name[j+2]=='H' && comet[i].name[j+3]=='O')
 	//			|| (comet[i].P > 300)
 				){
-				--i;
-				--N;
+					N--; i--;
 			}
 		}
 	}
@@ -1118,8 +1019,8 @@ int import_nasa2 (int N){
 			&comet[i].h, x);
 
 		if (m < 10){
-			printf("\n\n  Unable to parse comet starting in line %d", n);
-			fscanf(fin, "%*[^\n]\n" );
+			printf("\n\n  Unable to parse line %d", n);
+			fscanf(fin, "%*[^\n]\n");
 			N--; i--;
 			continue;
 		}
@@ -1128,13 +1029,163 @@ int import_nasa2 (int N){
 		comet[i].JD = compute_JD (comet[i].y, comet[i].m, comet[i].d);
 		edit_name(comet[i].name);
 		n++;
+
+		for (j=0; j<strlen(comet[i].name); j++){
+			if ((comet[i].name[j]  =='S' && comet[i].name[j+1]=='O' &&
+				 comet[i].name[j+2]=='H' && comet[i].name[j+3]=='O')
+	//			|| (comet[i].P > 300)
+				){
+					N--; i--;
+			}
+		}
 	}
 
 	printf("\n\n  Successfully parsed comets: %d\n  ", N);
+	printf("\n  [SOHO comets are excluded by default]\n");
 	printf("\n  Press any key to continue... ");
 	getch();
 
 	return N;
+}
+
+
+void export_mpc (int N, int Ty){
+
+	int i;
+	FILE *fout=fopen(fout_name, "a");
+
+	for (i=0; i<N; i++) {
+
+//		fprintf(fout,"              %4d %02d %02d.%04d %9f  %.6f  %8.4f  %8.4f  %8.4f  20110208  %4.1f %4.1f  %-56s OLW      \n",
+		fprintf(fout,"              %4d %02d %02d.%04d %9f  %.6f  %8.4f  %8.4f  %8.4f  20110208  %4.1f %4.1f  %s\n",
+				comet[i].y, comet[i].m, comet[i].d, comet[i].h, comet[i].q, comet[i].e,
+				comet[i].pn, comet[i].an, comet[i].i, comet[i].H, comet[i].G, comet[i].name);
+	}
+	fclose(fout);
+}
+
+void export_skymap (int N, int Ty){
+
+	int i;
+	FILE *fout=fopen(fout_name, "a");
+
+	for (i=0; i<N; i++) {
+
+		fprintf(fout,"%-46s %4d %02d %02d.%04d %9f       %.6f %8.4f %8.4f %8.4f  %4.1f  %4.1f\n",
+				comet[i].name, comet[i].y, comet[i].m, comet[i].d, comet[i].h, comet[i].q,
+				comet[i].e, comet[i].pn, comet[i].an, comet[i].i, comet[i].H, comet[i].G);
+	}
+	fclose(fout);
+}
+
+void export_home_planet (int N, int Ty){
+
+	int i;
+	FILE *fout=fopen(fout_name, "a");
+
+	for (i=0; i<N; i++) {
+
+		fprintf(fout,"%s,%d-%d-%d.%d,%.6f,%.6f,%.4f,%.4f,%.4f,%.5f,%.5f years, MPC      \n",
+				comet[i].name, comet[i].y, comet[i].m, comet[i].d, comet[i].h, comet[i].q,
+				comet[i].e, comet[i].pn, comet[i].an, comet[i].i, comet[i].q/(1-comet[i].e), comet[i].P);
+	}
+	fclose(fout);
+}
+
+void export_ssc (int N, int Ty){
+
+	int i, j;
+	char *mon;
+	FILE *fout=fopen(fout_name, "a");
+
+	for (i=0; i<N; i++) {
+
+		if (comet[i].e == 1) comet[i].e = 1.000001;
+
+		for (j=0; j<strlen(comet[i].name); j++)
+			if (comet[i].name[j]=='/') comet[i].name[j]=' ';
+
+		if (Ty==2 || Ty==7 || Ty==8 || Ty==9 || Ty==11 || Ty==12)
+			for (j=0; j<strlen(comet[i].ID); j++)
+				if (comet[i].ID[j]=='/') comet[i].ID[j]=' ';
+
+		if (comet[i].m==1) mon="Jan";
+		if (comet[i].m==2) mon="Feb";
+		if (comet[i].m==3) mon="Mar";
+		if (comet[i].m==4) mon="Apr";
+		if (comet[i].m==5) mon="May";
+		if (comet[i].m==6) mon="Jun";
+		if (comet[i].m==7) mon="Jul";
+		if (comet[i].m==8) mon="Aug";
+		if (comet[i].m==9) mon="Sep";
+		if (comet[i].m==10) mon="Oct";
+		if (comet[i].m==11) mon="Nov";
+		if (comet[i].m==12) mon="Dec";
+
+	if (Ty==2 || Ty==7 || Ty==8 || Ty==9 || Ty==11 || Ty==12)
+		fprintf(fout,"\"%s %s\" \"Sol\"\n", comet[i].ID, comet[i].name);
+	else
+		fprintf(fout,"\"%s\" \"Sol\"\n", comet[i].name);
+		fprintf(fout,"{\n");
+		fprintf(fout,"Class \"comet\" \n");
+		fprintf(fout,"Mesh \"asteroid.cms\" \n");
+		fprintf(fout,"Texture \"asteroid.jpg\" \n");
+		fprintf(fout,"Radius 5 \n");
+		fprintf(fout,"Albedo 0.1 \n");
+		fprintf(fout,"EllipticalOrbit \n");
+		fprintf(fout,"\t{ \n");
+		fprintf(fout,"\tPeriod \t\t\t %f \n", comet[i].P);
+		fprintf(fout,"\tPericenterDistance \t %f \n", comet[i].q);
+		fprintf(fout,"\tEccentricity \t\t %f \n", comet[i].e);
+		fprintf(fout,"\tInclination \t\t %.4f \n", comet[i].i);
+		fprintf(fout,"\tAscendingNode \t\t %.4f \n", comet[i].an);
+		fprintf(fout,"\tArgOfPericenter \t %.4f \n", comet[i].pn);
+		fprintf(fout,"\tMeanAnomaly \t\t 0  \n");
+	if (Ty==15)
+		fprintf(fout,"\tEpoch \t\t\t %d.%.3d\t# %d %s %.2d.%.d \n",						// ovdje je %.3d za comet[].h
+				comet[i].JD, comet[i].h, comet[i].y, mon, comet[i].d, comet[i].h);
+	else
+		fprintf(fout,"\tEpoch \t\t\t %d.%.4d\t# %d %s %.2d.%.4d \n",
+				comet[i].JD, comet[i].h, comet[i].y, mon, comet[i].d, comet[i].h);		// a ovdje je %.4d, jer kod ty 15 .h ima 3 oznake,
+		fprintf(fout,"\t} \n");															// pa bi npr 304 ispisao kao 0304 sto nije dobro
+		fprintf(fout,"}\n\n\n");
+	}
+	fclose(fout);
+}
+
+void export_stell (int N, int Ty){
+
+	int i;
+	FILE *fout=fopen(fout_name, "a");
+
+	for (i=0; i<N; i++) {
+
+	if (Ty==2 || Ty==7 || Ty==8 || Ty==9 || Ty==11 || Ty==12)
+		fprintf(fout,"[%s %s]\n", comet[i].ID, comet[i].name);
+	else
+		fprintf(fout,"[%s]\n", comet[i].name);
+		fprintf(fout,"parent=Sun\n");
+		fprintf(fout,"orbit_Inclination=%f\n", comet[i].i);
+		fprintf(fout,"coord_func=comet_orbit\n");
+		fprintf(fout,"orbit_Eccentricity=%f\n", comet[i].e);
+		fprintf(fout,"orbit_ArgOfPericenter=%f\n", comet[i].pn);
+		fprintf(fout,"absolute_magnitude=%.1f\n", comet[i].H);
+		fprintf(fout,"name=%s\n", comet[i].name);
+		fprintf(fout,"slope_parameter=4\n");
+		fprintf(fout,"lighting=false\n");
+		fprintf(fout,"tex_map=nomap.png\n");
+		fprintf(fout,"color=1.0, 1.0, 1.0\n");
+		fprintf(fout,"orbit_AscendingNode=%f\n", comet[i].an);
+		fprintf(fout,"albedo=1\n");
+		fprintf(fout,"radius=5\n");
+		fprintf(fout,"orbit_PericenterDistance=%f\n", comet[i].q);
+		fprintf(fout,"Ty=comet\n");
+	if (Ty==15)
+		fprintf(fout,"orbit_TimeAtPericenter=%d.%.3d\n\n", comet[i].JD, comet[i].h);
+	else
+		fprintf(fout,"orbit_TimeAtPericenter=%d.%.4d\n\n", comet[i].JD, comet[i].h);
+	}
+	fclose(fout);
 }
 
 
@@ -1174,104 +1225,114 @@ char *edit_name (char *name){
 }
 
 
-void output_ssc (int N, int Ty){
+void start_screen (){
 
-	int i, j;
-	char *mon;
-	FILE *fout;
-
-	for (i=0; i<N; i++) {
-
-		if (comet[i].e == 1) comet[i].e = 1.000001;
-
-		for (j=0; j<strlen(comet[i].name); j++)
-			if (comet[i].name[j]=='/') comet[i].name[j]=' ';
-
-		if (Ty==2 || Ty==7 || Ty==8 || Ty==9 || Ty==11 || Ty==12)
-			for (j=0; j<strlen(comet[i].ID); j++)
-				if (comet[i].ID[j]=='/') comet[i].ID[j]=' ';
-
-		if (comet[i].m==1) mon="Jan";
-		if (comet[i].m==2) mon="Feb";
-		if (comet[i].m==3) mon="Mar";
-		if (comet[i].m==4) mon="Apr";
-		if (comet[i].m==5) mon="May";
-		if (comet[i].m==6) mon="Jun";
-		if (comet[i].m==7) mon="Jul";
-		if (comet[i].m==8) mon="Aug";
-		if (comet[i].m==9) mon="Sep";
-		if (comet[i].m==10) mon="Oct";
-		if (comet[i].m==11) mon="Nov";
-		if (comet[i].m==12) mon="Dec";
-
-		fout=fopen(fout_name, "a");
-
-	if (Ty==2 || Ty==7 || Ty==8 || Ty==9 || Ty==11 || Ty==12)
-		fprintf(fout,"\"%s %s\" \"Sol\"\n", comet[i].ID, comet[i].name);
-	else
-		fprintf(fout,"\"%s\" \"Sol\"\n", comet[i].name);
-		fprintf(fout,"{\n");
-		fprintf(fout,"Class \"comet\" \n");
-		fprintf(fout,"Mesh \"asteroid.cms\" \n");
-		fprintf(fout,"Texture \"asteroid.jpg\" \n");
-		fprintf(fout,"Radius 5 \n");
-		fprintf(fout,"Albedo 0.1 \n");
-		fprintf(fout,"EllipticalOrbit \n");
-		fprintf(fout,"\t{ \n");
-		fprintf(fout,"\tPeriod \t\t\t %f \n", comet[i].P);
-		fprintf(fout,"\tPericenterDistance \t %f \n", comet[i].q);
-		fprintf(fout,"\tEccentricity \t\t %f \n", comet[i].e);
-		fprintf(fout,"\tInclination \t\t %.4f \n", comet[i].i);
-		fprintf(fout,"\tAscendingNode \t\t %.4f \n", comet[i].an);
-		fprintf(fout,"\tArgOfPericenter \t %.4f \n", comet[i].pn);
-		fprintf(fout,"\tMeanAnomaly \t\t 0  \n");
-	if (Ty==15)
-		fprintf(fout,"\tEpoch \t\t\t %d.%.3d\t# %d %s %.2d.%.d \n",						// ovdje je %.3d za comet[].h
-				comet[i].JD, comet[i].h, comet[i].y, mon, comet[i].d, comet[i].h);
-	else
-		fprintf(fout,"\tEpoch \t\t\t %d.%.4d\t# %d %s %.2d.%.4d \n",
-				comet[i].JD, comet[i].h, comet[i].y, mon, comet[i].d, comet[i].h);		// a ovdje je %.4d, jer kod ty 15 .h ima 3 oznake,
-		fprintf(fout,"\t} \n");															// pa bi npr 304 ispisao kao 0304 sto nije dobro
-		fprintf(fout,"}\n\n\n");
-
-		fclose(fout);
-	}
+	fflush(stdin);
+	fflush(stdout);
+	system("CLS");
+	printf("\n");
+	printf("                            ORBITAL ELEMENTS WORKSHOP\n\n");
+	printf(" ==============================================================================\n\n");
+	printf("  Supported input formats: \n\n");
+	printf("        0. MPC                         12. MegaStar V4.x\n");
+	printf("        1. SkyMap                      13. SkyChart III\n");
+	printf("        2. Guide                       14. Voyager II\n");
+	printf("        3. xephem                      15. SkyTools\n");
+	printf("        4. Home Planet                 16. Autostar\n");
+	printf("        5. MyStars!\n");
+	printf("        6. TheSky                      17. Comet for Windows\n");
+	printf("        7. Starry Night                18. NASA (ELEMENTS.COMET)\n");
+	printf("        8. Deep Space                  19. NASA (CSV format)\n");
+	printf("        9. PC-TCS\n");
+	printf("       10. Earth Centered Universe     20. Help\n");
+	printf("       11. Dance of the Planets        21. Exit\n\n");
+	printf("  Select option [0-21]: ");
 }
 
-void output_stell (int N, int Ty){
+void screen_imp (){
 
-	int i;
-	FILE *fout;
+	fflush(stdin);
+	fflush(stdout);
+	system("CLS");
+	printf("\n");
+	printf("  Importing %s (%s) format...\n\n", import_format, soft);
+	printf(" =============================================================================\n");
+	printf("     1.   Main Menu   |   2.   Exit   \n");
+	printf(" =============================================================================\n\n");
+}
 
-	for (i=0; i<N; i++) {
+void screen_exp1 (){
 
-		fout=fopen(fout_name, "a");
+	fflush(stdin);
+	fflush(stdout);
+	system("CLS");
+	printf("\n");
+	printf("  Exporting %s format...\n\n", import_format);
+	printf(" =============================================================================\n");
+	printf("     1.   Main Menu   |   2.   Exit   \n");
+	printf(" =============================================================================\n\n");
+}
 
-	if (Ty==2 || Ty==7 || Ty==8 || Ty==9 || Ty==11 || Ty==12)
-		fprintf(fout,"[%s %s]\n", comet[i].ID, comet[i].name);
-	else
-		fprintf(fout,"[%s]\n", comet[i].name);
-		fprintf(fout,"parent=Sun\n");
-		fprintf(fout,"orbit_Inclination=%f\n", comet[i].i);
-		fprintf(fout,"coord_func=comet_orbit\n");
-		fprintf(fout,"orbit_Eccentricity=%f\n", comet[i].e);
-		fprintf(fout,"orbit_ArgOfPericenter=%f\n", comet[i].pn);
-		fprintf(fout,"absolute_magnitude=%.1f\n", comet[i].H);
-		fprintf(fout,"name=%s\n", comet[i].name);
-		fprintf(fout,"slope_parameter=4\n");
-		fprintf(fout,"lighting=false\n");
-		fprintf(fout,"tex_map=nomap.png\n");
-		fprintf(fout,"color=1.0, 1.0, 1.0\n");
-		fprintf(fout,"orbit_AscendingNode=%f\n", comet[i].an);
-		fprintf(fout,"albedo=1\n");
-		fprintf(fout,"radius=5\n");
-		fprintf(fout,"orbit_PericenterDistance=%f\n", comet[i].q);
-		fprintf(fout,"Ty=comet\n");
-	if (Ty==15)
-		fprintf(fout,"orbit_TimeAtPericenter=%d.%.3d\n\n", comet[i].JD, comet[i].h);
-	else
-		fprintf(fout,"orbit_TimeAtPericenter=%d.%.4d\n\n", comet[i].JD, comet[i].h);
+void screen_exp2 (){
 
-		fclose(fout);
-	}
+	fflush(stdin);
+	fflush(stdout);
+	system("CLS");
+	printf("\n");
+	printf("  Exporting %s as %s format...\n\n", import_format, export_format);
+	printf(" =============================================================================\n");
+	printf("     1.   Main Menu   |   2.   Exit   \n");
+	printf(" =============================================================================\n\n");
+}
+
+void screen_exp3 (){
+
+	fflush(stdin);
+	fflush(stdout);
+	system("CLS");
+	printf("\n");
+	printf("  %s exported as %s format...\n\n", import_format, export_format);
+	printf(" =============================================================================\n");
+	printf("     1.   Main Menu   |   2.   Exit   \n");
+	printf(" =============================================================================\n\n");
+}
+
+void exit_screen (){
+
+	// http://patorjk.com/software/taag/
+	// Font: Big
+
+	fflush(stdin);
+	fflush(stdout);
+	system("CLS");
+	printf("\n                    ____           _       _   _             _ \n");
+	printf("                   / __ \\         | |     (_) | |           | |\n");
+	printf("                  | |  | |  _ __  | |__    _  | |_    __ _  | |\n");
+	printf("                  | |  | | | '__| | '_ \\  | | | __|  / _` | | |\n");
+	printf("                  | |__| | | |    | |_) | | | | |_  | (_| | | |\n");
+	printf("                   \\____/  |_|    |_.__/  |_|  \\__|  \\__,_| |_|\n\n");
+	printf("             ______   _                                     _         \n");
+	printf("            |  ____| | |                                   | |        \n");
+	printf("            | |__    | |   ___   _ __ ___     ___   _ __   | |_   ___ \n");
+	printf("            |  __|   | |  / _ \\ | '_ ` _ \\   / _ \\ | '_ \\  | __| / __|\n");
+	printf("            | |____  | | |  __/ | | | | | | |  __/ | | | | | |_  \\__ \\\n");
+	printf("            |______| |_|  \\___| |_| |_| |_|  \\___| |_| |_|  \\__| |___/\n\n");
+	printf("        __          __                 _            _                     \n");
+	printf("        \\ \\        / /                | |          | |                    \n");
+	printf("         \\ \\  /\\  / /    ___    _ __  | | __  ___  | |__     ___    _ __  \n");
+	printf("          \\ \\/  \\/ /    / _ \\  | '__| | |/ / / __| | '_ \\   / _ \\  | '_ \\ \n");
+	printf("           \\  /\\  /    | (_) | | |    |   <  \\__ \\ | | | | | (_) | | |_) |\n");
+	printf("            \\/  \\/      \\___/  |_|    |_|\\_\\ |___/ |_| |_|  \\___/  | .__/\n");
+	printf("                                                                   | |\n");
+    printf("                                                                   |_|\n\n");
+	printf("Press any key to exit...                             Copyright (c) 2011, jurluk");
+}
+
+void help_screen (){
+
+	fflush(stdin);
+	fflush(stdout);
+	system("CLS");
+	printf("\n\n   Under construction... :) ");
+	getch();
 }
