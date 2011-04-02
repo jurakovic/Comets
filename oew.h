@@ -4,7 +4,6 @@
 #include <math.h>
 #include <ctype.h>
 
-
 //	funkcije za ispisivanje na ekran
 void start_screen ();
 void screen_imp ();
@@ -15,7 +14,7 @@ void exit_screen ();
 void help_screen ();
 
 //	funkcije za citanje iz datoteka
-int import_main (int Ty);				//glavna fja
+int import_main (int Ty);			//glavna fja
 
 int import_mpc (int N);
 int import_skymap (int N);
@@ -33,14 +32,9 @@ int import_skychart (int N);
 int import_ecu (int N);
 int import_dance (int N);
 int import_megastar (int N);
+int import_cfw (int N);				//comet for windows
 int import_nasa1 (int N);			//ELEMENTS.COMET
 int import_nasa2 (int N);			//sbdb query
-int import_cfw (int N);				//comet for windows
-
-//	funkcije za racunanje...
-double compute_period (float q, float e);
-long int compute_JD (int y, int m, int d);
-char *edit_name (char *name);
 
 //	funkcije za pisanje u datoteke
 void export_ssc (int N, int Ty);
@@ -48,3 +42,13 @@ void export_stell (int N, int Ty);
 void export_mpc (int N, int Ty);
 void export_skymap (int N, int Ty);
 void export_home_planet (int N, int Ty);
+void export_mystars (int N, int Ty);
+void export_thesky (int N, int Ty);
+void export_ecu (int N, int Ty);
+void export_skychart (int N, int Ty);
+void export_skytools (int N, int Ty);
+
+//	funkcije za racunanje...
+double compute_period (float q, float e);
+long int compute_JD (int y, int m, int d);
+char *edit_name (char *name);
