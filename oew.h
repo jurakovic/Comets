@@ -41,14 +41,22 @@ void export_ssc (int N, int Ty);
 void export_stell (int N, int Ty);
 void export_mpc (int N, int Ty);
 void export_skymap (int N, int Ty);
+void export_guide (int N, int Ty);
+void export_xephem (int N, int Ty);
 void export_home_planet (int N, int Ty);
 void export_mystars (int N, int Ty);
 void export_thesky (int N, int Ty);
+void export_starry_night (int N, int Ty);
+void export_deep_space (int N, int Ty);
+void export_pc_tcs (int N, int Ty);
 void export_ecu (int N, int Ty);
+void export_dance (int N, int Ty);
+void export_megastar (int N, int Ty);
 void export_skychart (int N, int Ty);
+void export_voyager (int N, int Ty);
 void export_skytools (int N, int Ty);
 
 //	funkcije za racunanje...
 double compute_period (float q, float e);
-long int compute_JD (int y, int m, int d);
+long int compute_T (int y, int m, int d);
 char *edit_name (char *name);
