@@ -60,3 +60,5 @@ void export_skytools (int N, int Ty);
 double compute_period (float q, float e);
 long int compute_T (int y, int m, int d);
 char *edit_name (char *name);
+
+int sort_data(int N);

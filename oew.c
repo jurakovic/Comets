@@ -21,13 +21,13 @@ struct Data{
 	double P;
 	float q;
 	float e;
-	float pn;
-	float an;
 	float i;
+	float an;
+	float pn;
 	float H;
 	float G;
 	char book [20+1];
-} comet[5000];
+} comet[5000], temp;
 
 struct Formats {
 		char format[25];
@@ -148,13 +148,17 @@ int import_main (int Ty){
 		printf("        9. PC-TCS\n");
 		printf("       10. Earth Centered Universe\n");
 		printf("       11. Dance of the Planets\n\n");
-		printf("  Select option [0-21]: ");
+		printf("  Select option [0-18]: ");
 		scanf("%d", &a);
 	} while (a<0 || a>21);
 
 	if (a==17) export_format = menu[a+3].format;
 	else if (a==18) export_format = menu[a+3].format;
 	else export_format = menu[a].format;				//koristi se u screen_exp2 i screen_exp3
+
+	b = sort_data(Ncmt);
+	if (b==1) return 1;
+	if (b==2) return 2;
 
 	screen_exp2();
 	printf("  Enter output filename: ");
@@ -360,7 +364,8 @@ int import_guide (int N){
 		comet[i].ID[j]='\0';
 
 
-		if (comet[i].name[0]=='P' && comet[i].name[1]=='/'){
+		if ((comet[i].name[0]=='P' && comet[i].name[1]=='/') ||
+			(comet[i].name[0]=='D' && comet[i].name[1]=='/')){
 			for (j=0; j<strlen(comet[i].name); j++)
 				comet[i].name[j]=comet[i].name[j+2];		//j+2 jer je na mjestu 0='P', 1='/'
 
@@ -1519,23 +1524,74 @@ int import_nasa1 (int N){
 
 int import_nasa2 (int N){
 
-	int i, j, m, n=1;
-	char c, x[10+1];
+	int i, j, k, l;
+	int m, n=1;
+	char c, q, x[10+1];
 	FILE *fin = fopen(fin_name, "r");
 
 	printf("\n  Total detected comets: %d\n  ", N);
+	printf("\n  Press any key to continue... ");
+	getch();
+
+	do{
+		fflush(stdin);
+		fflush(stdout);
+		system("CLS");
+		printf("\n");
+		printf("  Exclude SOHO...\n\n");
+		printf(" =============================================================================\n\n");
+		printf("  Do you want exclude SOHO comets? (y/n)\n\n");
+		printf("  Select option: ");
+		scanf("%c", &q);
+		if(isupper(q)) q = tolower(q);
+	} while (q!='y' && q!='n');
 
 	for (i=0; i<N; i++) {
 
 		j=0;
 		fgetc(fin);		// da uzme prve navodnike
 		while ((c=fgetc(fin)) != '"' ){
-			comet[i].name[j]=c;
+			comet[i].full[j]=c;
 			if (c==' ' && j==0) --j;
 			j++;
 		}
 
 		comet[i].name[j]='\0';
+
+		for (j=0; comet[i].full[j]!='\0'; j++){
+			if ((isdigit(comet[i].full[j]) && comet[i].full[j+1]=='P' && comet[i].full[j+2]=='/') ||
+				(isdigit(comet[i].full[j]) && comet[i].full[j+1]=='D' && comet[i].full[j+2]=='/')){
+
+				for(k=0; comet[i].full[k]!='/'; k++)
+					comet[i].ID[k]=comet[i].full[k];
+
+				comet[i].ID[k]='\0';
+				++k;
+				for(k, l=0; comet[i].full[k]!='\0'; l++, k++)
+					comet[i].name[l]=comet[i].full[k];
+
+				comet[i].name[l]='\0';
+			}
+
+			if (comet[i].full[j]=='('){
+				for(k=0; comet[i].full[k]!='('; k++)
+					comet[i].ID[k]=comet[i].full[k];
+
+				comet[i].ID[k-1]='\0';
+
+				++k;
+				for(l=0; comet[i].full[k]!=')'; k++, l++)
+					comet[i].name[l]=comet[i].full[k];
+
+				comet[i].name[l]='\0';
+			}
+		}
+
+		if (strlen(comet[i].ID)==0){
+			for(k=0; comet[i].full[k]!='\0'; k++)
+				comet[i].ID[k]=comet[i].full[k];
+			comet[i].ID[k]='\0';
+		}
 
 		m = fscanf(fin, ",%f,%f,%f,%f,%f,%4d%2d%2d.%4d%10[^\n]%*c",
 			&comet[i].q, &comet[i].e, &comet[i].pn, &comet[i].an,
@@ -1551,10 +1607,9 @@ int import_nasa2 (int N){
 
 		comet[i].P = compute_period (comet[i].q, comet[i].e);
 		comet[i].T = compute_T (comet[i].y, comet[i].m, comet[i].d);
-		edit_name(comet[i].name);
 		n++;
 
-		for (j=0; j<strlen(comet[i].name); j++){
+		if (q=='y') for (j=0; j<strlen(comet[i].name); j++){
 			if ((comet[i].name[j]  =='S' && comet[i].name[j+1]=='O' &&
 				 comet[i].name[j+2]=='H' && comet[i].name[j+3]=='O')
 	//			|| (comet[i].P > 300)
@@ -1565,7 +1620,7 @@ int import_nasa2 (int N){
 	}
 
 	printf("\n\n  Successfully parsed comets: %d\n  ", N);
-	printf("\n  [SOHO comets are excluded by default]\n");
+//	printf("\n  [SOHO comets are excluded by default]\n");
 	printf("\n  Press any key to continue... ");
 	getch();
 
@@ -1589,13 +1644,27 @@ void export_mpc (int N, int Ty){
 
 void export_skymap (int N, int Ty){
 
-	int i;
+	int i, j, k;
 	FILE *fout=fopen(fout_name, "a");
 
 	for (i=0; i<N; i++) {
 
-		fprintf(fout,"%-46s %4d %02d %02d.%04d %9f       %.6f %8.4f %8.4f %8.4f  %4.1f  %4.1f\n",
-				comet[i].name, comet[i].y, comet[i].m, comet[i].d, comet[i].h, comet[i].q,
+		k=0;
+		for(j=0; j<strlen(comet[i].ID); j++){
+			fputc(comet[i].ID[j], fout);
+			k++;
+		}
+		fputc(' ', fout); k++;
+		for(j=0; j<strlen(comet[i].name); j++){
+			fputc(comet[i].name[j], fout);
+			k++;
+		}
+		while(k!=47){
+			fputc(' ', fout); k++;
+		}
+
+		fprintf(fout,"%4d %02d %02d.%04d %9f       %.6f %8.4f %8.4f %8.4f  %4.1f  %4.1f\n",
+				comet[i].y, comet[i].m, comet[i].d, comet[i].h, comet[i].q,
 				comet[i].e, comet[i].pn, comet[i].an, comet[i].i, comet[i].H, comet[i].G);
 	}
 	fclose(fout);
@@ -1611,9 +1680,14 @@ void export_guide (int N, int Ty){
 		k=0;
 
 		if (comet[i].ID[strlen(comet[i].ID)-1]=='P'
-		//	&& !isalpha(comet[i].ID[strlen(comet[i].ID)-2])			// za svaki slucaj
+		//	&& isdigit(comet[i].ID[strlen(comet[i].ID)-2])			// za svaki slucaj
 			){
 			fputc('P', fout); k++;
+			fputc('/', fout); k++;
+		}
+
+		if (comet[i].ID[strlen(comet[i].ID)-1]=='D'){
+			fputc('D', fout); k++;
 			fputc('/', fout); k++;
 		}
 
@@ -1693,7 +1767,7 @@ void export_home_planet (int N, int Ty){
 	for (i=0; i<N; i++) {
 
 		fprintf(fout,"%s,%d-%d-%d.%04d,%.6f,%.6f,%.4f,%.4f,%.4f,%.5f,%.5f years, MPC      \n",
-				comet[i].name, comet[i].y, comet[i].m, comet[i].d, comet[i].h, comet[i].q,
+				comet[i].full, comet[i].y, comet[i].m, comet[i].d, comet[i].h, comet[i].q,
 				comet[i].e, comet[i].pn, comet[i].an, comet[i].i, comet[i].q/(1-comet[i].e), comet[i].P);
 	}
 	fclose(fout);
@@ -1707,7 +1781,7 @@ void export_mystars (int N, int Ty){
 	for (i=0; i<N; i++) {
 
 		fprintf(fout,"%s;\t%d.%04d\t%.4f\t%.6f\t%.6f\t%.4f %8.4f\t%.1f\t%.1f\tMPC00000\t55600.0\n",
-				comet[i].name, comet[i].T-2400000, comet[i].h, comet[i].pn, comet[i].e, comet[i].q,
+				comet[i].full, comet[i].T-2400000, comet[i].h, comet[i].pn, comet[i].e, comet[i].q,
 				comet[i].i, comet[i].an, comet[i].H, comet[i].G);
 	}
 	fclose(fout);
@@ -1786,7 +1860,7 @@ void export_ecu (int N, int Ty){
 	for (i=0; i<N; i++) {
 
 		fprintf(fout,"%s\nE C 2000 %4d %02d %02d.%04d %.6f %.6f %.4f %.4f %.4f %.1f %.1f\n",
-				comet[i].name, comet[i].y, comet[i].m, comet[i].d, comet[i].h, comet[i].q,
+				comet[i].full, comet[i].y, comet[i].m, comet[i].d, comet[i].h, comet[i].q,
 				comet[i].e, comet[i].pn, comet[i].an, comet[i].i, comet[i].H, comet[i].G);
 	}
 	fclose(fout);
@@ -1829,7 +1903,7 @@ void export_skychart (int N, int Ty){
 
 		fprintf(fout,"P11	2000.0	-%.6f\t%.6f\t%.3f\t%.4f\t%.4f\t0\t%4d/%02d/%02d.%04d\t%.1f %.1f\t0\t0\t%s; MPC 00000\t\n",
 				comet[i].q, comet[i].e, comet[i].i, comet[i].pn, comet[i].an, comet[i].y,
-				comet[i].m, comet[i].d, comet[i].h, comet[i].H, comet[i].G, comet[i].name);
+				comet[i].m, comet[i].d, comet[i].h, comet[i].H, comet[i].G, comet[i].full);
 	}
 	fclose(fout);
 }
@@ -1856,28 +1930,50 @@ void export_voyager (int N, int Ty){
 		if (comet[i].m==12) mon="Dec";
 
 		fprintf(fout,"%-26s %9.6f   %.6f  %8.4f   %8.4f   %8.4f   0.0  %4d%s",
-				comet[i].name, comet[i].q, comet[i].e, comet[i].i, comet[i].an, comet[i].pn,
-				comet[i].y, mon, comet[i].d, comet[i].h);
+				comet[i].name, comet[i].q, comet[i].e, comet[i].i, comet[i].an,
+				comet[i].pn, comet[i].y, mon);
 
 		if (comet[i].d<10) fprintf(fout, "%d.%04d  2000.0\n", comet[i].d, comet[i].h);
-
 		else fprintf(fout, "%d.%04d 2000.0\n", comet[i].d, comet[i].h);
-
 	}
 	fclose(fout);
 }
 
 void export_skytools (int N, int Ty){
 
-	int i;
+	int i, j, k;
 	FILE *fout=fopen(fout_name, "a");
 
 	for (i=0; i<N; i++) {
 
 		if(comet[i].h>999) comet[i].h/=10;
 
-		fprintf(fout,"C %-40s 2011 02 08 %4d %02d %02d.%-.03d  %9.6f   %.6f %7.3f %7.3f %7.3f  %4.1f  %4.1f 0.002000 MPC 00000\n",
-				comet[i].name, comet[i].y, comet[i].m, comet[i].d, comet[i].h, comet[i].q,
+		k=0;
+		fputc('C', fout); k++;
+		fputc(' ', fout); k++;
+		for(j=0; j<strlen(comet[i].ID); j++){
+			fputc(comet[i].ID[j], fout);
+			k++;
+		}
+
+		if (comet[i].ID[strlen(comet[i].ID)-1]=='P'
+			&& isdigit(comet[i].ID[strlen(comet[i].ID)-2])){
+			fputc('/', fout); k++;
+		}
+		else {
+			fputc(' ', fout);
+			k++;
+		}
+		for(j=0; j<strlen(comet[i].name); j++){
+			fputc(comet[i].name[j], fout);
+			k++;
+		}
+		while(k<43){
+			fputc(' ', fout); k++;
+		}
+
+		fprintf(fout,"2011 02 08 %4d %02d %02d.%-.03d  %9.6f   %.6f %7.3f %7.3f %7.3f  %4.1f  %4.1f 0.002000 MPC 00000\n",
+				comet[i].y, comet[i].m, comet[i].d, comet[i].h, comet[i].q,
 				comet[i].e, comet[i].pn, comet[i].an, comet[i].i, comet[i].H, comet[i].G);
 	}
 	fclose(fout);
@@ -2087,26 +2183,26 @@ void exit_screen (){
 	fflush(stdout);
 	system("CLS");
 	printf("\n");
-	printf("                    ____           _       _   _             _ \n");
-	printf("                   / __ \\         | |     (_) | |           | |\n");
-	printf("                  | |  | |  _ __  | |__    _  | |_    __ _  | |\n");
-	printf("                  | |  | | | '__| | '_ \\  | | | __|  / _` | | |\n");
-	printf("                  | |__| | | |    | |_) | | | | |_  | (_| | | |\n");
-	printf("                   \\____/  |_|    |_.__/  |_|  \\__|  \\__,_| |_|\n\n");
-	printf("             ______   _                                     _         \n");
-	printf("            |  ____| | |                                   | |        \n");
-	printf("            | |__    | |   ___   _ __ ___     ___   _ __   | |_   ___ \n");
-	printf("            |  __|   | |  / _ \\ | '_ ` _ \\   / _ \\ | '_ \\  | __| / __|\n");
-	printf("            | |____  | | |  __/ | | | | | | |  __/ | | | | | |_  \\__ \\\n");
-	printf("            |______| |_|  \\___| |_| |_| |_|  \\___| |_| |_|  \\__| |___/\n\n");
-	printf("        __          __                _            _                     \n");
-	printf("        \\ \\        / /               | |          | |                    \n");
-	printf("         \\ \\  /\\  / /   ___    _ __  | | __  ___  | |__     ___    _ __  \n");
-	printf("          \\ \\/  \\/ /   / _ \\  | '__| | |/ / / __| | '_ \\   / _ \\  | '_ \\ \n");
-	printf("           \\  /\\  /   | (_) | | |    |   <  \\__ \\ | | | | | (_) | | |_) |\n");
-	printf("            \\/  \\/     \\___/  |_|    |_|\\_\\ |___/ |_| |_|  \\___/  | .__/\n");
-	printf("                                                                  | |\n");
-    printf("                                                                  |_|\n\n");
+	printf("                   ____           _       _   _             _ \n");
+	printf("                  / __ \\         | |     (_) | |           | |\n");
+	printf("                 | |  | |  _ __  | |__    _  | |_    __ _  | |\n");
+	printf("                 | |  | | | '__| | '_ \\  | | | __|  / _` | | |\n");
+	printf("                 | |__| | | |    | |_) | | | | |_  | (_| | | |\n");
+	printf("                  \\____/  |_|    |_.__/  |_|  \\__|  \\__,_| |_|\n\n");
+	printf("            ______   _                                     _         \n");
+	printf("           |  ____| | |                                   | |        \n");
+	printf("           | |__    | |   ___   _ __ ___     ___   _ __   | |_   ___ \n");
+	printf("           |  __|   | |  / _ \\ | '_ ` _ \\   / _ \\ | '_ \\  | __| / __|\n");
+	printf("           | |____  | | |  __/ | | | | | | |  __/ | | | | | |_  \\__ \\\n");
+	printf("           |______| |_|  \\___| |_| |_| |_|  \\___| |_| |_|  \\__| |___/\n\n");
+	printf("       __          __                _            _                     \n");
+	printf("       \\ \\        / /               | |          | |                    \n");
+	printf("        \\ \\  /\\  / /   ___    _ __  | | __  ___  | |__     ___    _ __  \n");
+	printf("         \\ \\/  \\/ /   / _ \\  | '__| | |/ / / __| | '_ \\   / _ \\  | '_ \\ \n");
+	printf("          \\  /\\  /   | (_) | | |    |   <  \\__ \\ | | | | | (_) | | |_) |\n");
+	printf("           \\/  \\/     \\___/  |_|    |_|\\_\\ |___/ |_| |_|  \\___/  | .__/\n");
+	printf("                                                                 | |\n");
+    printf("                                                                 |_|\n\n");
 	printf("Press any key to exit...                             Copyright (c) 2011, jurluk");
 }
 
@@ -2117,4 +2213,1661 @@ void help_screen (){
 	system("CLS");
 	printf("\n\n   Under construction... :) ");
 	getch();
+}
+
+int sort_data (int N){
+
+	int i, j, k;
+	char dir, sortKey;
+
+	do {
+		fflush(stdin);
+		fflush(stdout);
+		system("CLS");
+		printf("\n");
+		printf("  Sorting data...\n\n");
+		printf(" =============================================================================\n");
+		printf("     1.   Main Menu   |   2.   Exit   \n");
+		printf(" =============================================================================\n\n");
+		printf("  Sort by: \n\n");
+		printf("        a. Default\n");
+		printf("        b. Perihelion Date\n");
+		printf("        c. Pericenter Distance\n");
+		printf("        d. Eccentricity\n");
+		printf("        e. Longitude of the Ascending Node\n");
+		printf("        f. Longitude of Pericenter\n");
+		printf("        g. Inclination\n");
+		printf("        h. Period\n\n");
+		printf("  Select option [a-h]: ");
+		scanf("%c", &sortKey);
+
+		if(isupper(sortKey)) sortKey = tolower(sortKey);
+
+	} while ((sortKey < 'a' || sortKey > 'h') && sortKey!='1' && sortKey!='2');
+
+	if (sortKey=='1') return 1;
+	if (sortKey=='2') return 2;
+
+	if(sortKey > 'a'){
+		do {
+			fflush(stdin);
+			fflush(stdout);
+			system("CLS");
+			printf("\n");
+			printf("  Sorting data...\n\n");
+			printf(" =============================================================================\n");
+			printf("     1.   Main Menu   |   2.   Exit   \n");
+			printf(" =============================================================================\n\n");
+			printf("        a. Ascending\n");
+			printf("        b. Descending\n\n");
+			printf("  Select option: ");
+			scanf("%c", &dir);
+			if(isupper(dir)) dir = tolower(dir);
+		} while (dir!='a' && dir!='b' && dir!='1' && dir!='2');
+	}
+
+	if (dir=='1') return 1;
+	if (dir=='2') return 2;
+
+	for (i=0; i<N-1; i++){
+
+		for (j=i+1; j<N; j++){
+
+			if (sortKey=='b' && dir=='a'){
+
+				if (comet[i].T > comet[j].T){
+
+					for(k=0;k<81;k++) {
+						temp.full[k]='\0';
+						temp.full[k]=comet[i].full[k];
+					}
+					for(k=0;k<81;k++) {
+						comet[i].full[k]='\0';
+						comet[i].full[k]=comet[j].full[k];
+					}
+					for(k=0;k<81;k++) {
+						comet[j].full[k]='\0';
+						comet[j].full[k]=temp.full[k];
+					}
+
+					for(k=0;k<56;k++) {
+						temp.name[k]='\0';
+						temp.name[k]=comet[i].name[k];
+					}
+					for(k=0;k<56;k++) {
+						comet[i].name[k]='\0';
+						comet[i].name[k]=comet[j].name[k];
+					}
+					for(k=0;k<56;k++) {
+						comet[j].name[k]='\0';
+						comet[j].name[k]=temp.name[k];
+					}
+
+					for(k=0;k<26;k++) {
+						temp.ID[k]='\0';
+						temp.ID[k]=comet[i].ID[k];
+					}
+					for(k=0;k<26;k++) {
+						comet[i].ID[k]='\0';
+						comet[i].ID[k]=comet[j].ID[k];
+					}
+					for(k=0;k<26;k++) {
+						comet[j].ID[k]='\0';
+						comet[j].ID[k]=temp.ID[k];
+					}
+
+					temp.T = comet[i].T;
+					comet[i].T = comet[j].T;
+					comet[j].T = temp.T;
+
+					temp.y = comet[i].y;
+					comet[i].y = comet[j].y;
+					comet[j].y = temp.y;
+
+					temp.m = comet[i].m;
+					comet[i].m = comet[j].m;
+					comet[j].m = temp.m;
+
+					temp.d = comet[i].d;
+					comet[i].d = comet[j].d;
+					comet[j].d = temp.d;
+
+					temp.h = comet[i].h;
+					comet[i].h = comet[j].h;
+					comet[j].h = temp.h;
+
+					temp.eq = comet[i].eq;
+					comet[i].eq = comet[j].eq;
+					comet[j].eq = temp.eq;
+
+					temp.P = comet[i].P;
+					comet[i].P = comet[j].P;
+					comet[j].P = temp.P;
+
+					temp.q = comet[i].q;
+					comet[i].q = comet[j].q;
+					comet[j].q = temp.q;
+
+					temp.e = comet[i].e;
+					comet[i].e = comet[j].e;
+					comet[j].e = temp.e;
+
+					temp.i = comet[i].i;
+					comet[i].i = comet[j].i;
+					comet[j].i = temp.i;
+
+					temp.an = comet[i].an;
+					comet[i].an = comet[j].an;
+					comet[j].an = temp.an;
+
+					temp.pn = comet[i].pn;
+					comet[i].pn = comet[j].pn;
+					comet[j].pn = temp.pn;
+
+					temp.H = comet[i].H;
+					comet[i].H = comet[j].H;
+					comet[j].H = temp.H;
+
+					temp.G = comet[i].G;
+					comet[i].G = comet[j].G;
+					comet[j].G = temp.G;
+
+					for(k=0;k<21;k++) {
+						temp.book[k]='\0';
+						temp.book[k]=comet[i].book[k];
+					}
+					for(k=0;k<21;k++) {
+						comet[i].book[k]='\0';
+						comet[i].book[k]=comet[j].book[k];
+					}
+					for(k=0;k<21;k++) {
+						comet[j].book[k]='\0';
+						comet[j].book[k]=temp.book[k];
+					}
+				}
+			}
+
+			if (sortKey=='b' && dir=='b'){
+
+				if (comet[i].T < comet[j].T){
+
+					for(k=0;k<81;k++) {
+						temp.full[k]='\0';
+						temp.full[k]=comet[i].full[k];
+					}
+					for(k=0;k<81;k++) {
+						comet[i].full[k]='\0';
+						comet[i].full[k]=comet[j].full[k];
+					}
+					for(k=0;k<81;k++) {
+						comet[j].full[k]='\0';
+						comet[j].full[k]=temp.full[k];
+					}
+
+					for(k=0;k<56;k++) {
+						temp.name[k]='\0';
+						temp.name[k]=comet[i].name[k];
+					}
+					for(k=0;k<56;k++) {
+						comet[i].name[k]='\0';
+						comet[i].name[k]=comet[j].name[k];
+					}
+					for(k=0;k<56;k++) {
+						comet[j].name[k]='\0';
+						comet[j].name[k]=temp.name[k];
+					}
+
+					for(k=0;k<26;k++) {
+						temp.ID[k]='\0';
+						temp.ID[k]=comet[i].ID[k];
+					}
+					for(k=0;k<26;k++) {
+						comet[i].ID[k]='\0';
+						comet[i].ID[k]=comet[j].ID[k];
+					}
+					for(k=0;k<26;k++) {
+						comet[j].ID[k]='\0';
+						comet[j].ID[k]=temp.ID[k];
+					}
+
+					temp.T = comet[i].T;
+					comet[i].T = comet[j].T;
+					comet[j].T = temp.T;
+
+					temp.y = comet[i].y;
+					comet[i].y = comet[j].y;
+					comet[j].y = temp.y;
+
+					temp.m = comet[i].m;
+					comet[i].m = comet[j].m;
+					comet[j].m = temp.m;
+
+					temp.d = comet[i].d;
+					comet[i].d = comet[j].d;
+					comet[j].d = temp.d;
+
+					temp.h = comet[i].h;
+					comet[i].h = comet[j].h;
+					comet[j].h = temp.h;
+
+					temp.eq = comet[i].eq;
+					comet[i].eq = comet[j].eq;
+					comet[j].eq = temp.eq;
+
+					temp.P = comet[i].P;
+					comet[i].P = comet[j].P;
+					comet[j].P = temp.P;
+
+					temp.q = comet[i].q;
+					comet[i].q = comet[j].q;
+					comet[j].q = temp.q;
+
+					temp.e = comet[i].e;
+					comet[i].e = comet[j].e;
+					comet[j].e = temp.e;
+
+					temp.i = comet[i].i;
+					comet[i].i = comet[j].i;
+					comet[j].i = temp.i;
+
+					temp.an = comet[i].an;
+					comet[i].an = comet[j].an;
+					comet[j].an = temp.an;
+
+					temp.pn = comet[i].pn;
+					comet[i].pn = comet[j].pn;
+					comet[j].pn = temp.pn;
+
+					temp.H = comet[i].H;
+					comet[i].H = comet[j].H;
+					comet[j].H = temp.H;
+
+					temp.G = comet[i].G;
+					comet[i].G = comet[j].G;
+					comet[j].G = temp.G;
+
+					for(k=0;k<21;k++) {
+						temp.book[k]='\0';
+						temp.book[k]=comet[i].book[k];
+					}
+					for(k=0;k<21;k++) {
+						comet[i].book[k]='\0';
+						comet[i].book[k]=comet[j].book[k];
+					}
+					for(k=0;k<21;k++) {
+						comet[j].book[k]='\0';
+						comet[j].book[k]=temp.book[k];
+					}
+				}
+			}
+
+			if (sortKey=='c' && dir=='a'){
+
+				if (comet[i].q > comet[j].q){
+
+					for(k=0;k<81;k++) {
+						temp.full[k]='\0';
+						temp.full[k]=comet[i].full[k];
+					}
+					for(k=0;k<81;k++) {
+						comet[i].full[k]='\0';
+						comet[i].full[k]=comet[j].full[k];
+					}
+					for(k=0;k<81;k++) {
+						comet[j].full[k]='\0';
+						comet[j].full[k]=temp.full[k];
+					}
+
+					for(k=0;k<56;k++) {
+						temp.name[k]='\0';
+						temp.name[k]=comet[i].name[k];
+					}
+					for(k=0;k<56;k++) {
+						comet[i].name[k]='\0';
+						comet[i].name[k]=comet[j].name[k];
+					}
+					for(k=0;k<56;k++) {
+						comet[j].name[k]='\0';
+						comet[j].name[k]=temp.name[k];
+					}
+
+					for(k=0;k<26;k++) {
+						temp.ID[k]='\0';
+						temp.ID[k]=comet[i].ID[k];
+					}
+					for(k=0;k<26;k++) {
+						comet[i].ID[k]='\0';
+						comet[i].ID[k]=comet[j].ID[k];
+					}
+					for(k=0;k<26;k++) {
+						comet[j].ID[k]='\0';
+						comet[j].ID[k]=temp.ID[k];
+					}
+
+					temp.T = comet[i].T;
+					comet[i].T = comet[j].T;
+					comet[j].T = temp.T;
+
+					temp.y = comet[i].y;
+					comet[i].y = comet[j].y;
+					comet[j].y = temp.y;
+
+					temp.m = comet[i].m;
+					comet[i].m = comet[j].m;
+					comet[j].m = temp.m;
+
+					temp.d = comet[i].d;
+					comet[i].d = comet[j].d;
+					comet[j].d = temp.d;
+
+					temp.h = comet[i].h;
+					comet[i].h = comet[j].h;
+					comet[j].h = temp.h;
+
+					temp.eq = comet[i].eq;
+					comet[i].eq = comet[j].eq;
+					comet[j].eq = temp.eq;
+
+					temp.P = comet[i].P;
+					comet[i].P = comet[j].P;
+					comet[j].P = temp.P;
+
+					temp.q = comet[i].q;
+					comet[i].q = comet[j].q;
+					comet[j].q = temp.q;
+
+					temp.e = comet[i].e;
+					comet[i].e = comet[j].e;
+					comet[j].e = temp.e;
+
+					temp.i = comet[i].i;
+					comet[i].i = comet[j].i;
+					comet[j].i = temp.i;
+
+					temp.an = comet[i].an;
+					comet[i].an = comet[j].an;
+					comet[j].an = temp.an;
+
+					temp.pn = comet[i].pn;
+					comet[i].pn = comet[j].pn;
+					comet[j].pn = temp.pn;
+
+					temp.H = comet[i].H;
+					comet[i].H = comet[j].H;
+					comet[j].H = temp.H;
+
+					temp.G = comet[i].G;
+					comet[i].G = comet[j].G;
+					comet[j].G = temp.G;
+
+					for(k=0;k<21;k++) {
+						temp.book[k]='\0';
+						temp.book[k]=comet[i].book[k];
+					}
+					for(k=0;k<21;k++) {
+						comet[i].book[k]='\0';
+						comet[i].book[k]=comet[j].book[k];
+					}
+					for(k=0;k<21;k++) {
+						comet[j].book[k]='\0';
+						comet[j].book[k]=temp.book[k];
+					}
+				}
+			}
+
+			if (sortKey=='c' && dir=='b'){
+
+				if (comet[i].q < comet[j].q){
+
+					for(k=0;k<81;k++) {
+						temp.full[k]='\0';
+						temp.full[k]=comet[i].full[k];
+					}
+					for(k=0;k<81;k++) {
+						comet[i].full[k]='\0';
+						comet[i].full[k]=comet[j].full[k];
+					}
+					for(k=0;k<81;k++) {
+						comet[j].full[k]='\0';
+						comet[j].full[k]=temp.full[k];
+					}
+
+					for(k=0;k<56;k++) {
+						temp.name[k]='\0';
+						temp.name[k]=comet[i].name[k];
+					}
+					for(k=0;k<56;k++) {
+						comet[i].name[k]='\0';
+						comet[i].name[k]=comet[j].name[k];
+					}
+					for(k=0;k<56;k++) {
+						comet[j].name[k]='\0';
+						comet[j].name[k]=temp.name[k];
+					}
+
+					for(k=0;k<26;k++) {
+						temp.ID[k]='\0';
+						temp.ID[k]=comet[i].ID[k];
+					}
+					for(k=0;k<26;k++) {
+						comet[i].ID[k]='\0';
+						comet[i].ID[k]=comet[j].ID[k];
+					}
+					for(k=0;k<26;k++) {
+						comet[j].ID[k]='\0';
+						comet[j].ID[k]=temp.ID[k];
+					}
+
+					temp.T = comet[i].T;
+					comet[i].T = comet[j].T;
+					comet[j].T = temp.T;
+
+					temp.y = comet[i].y;
+					comet[i].y = comet[j].y;
+					comet[j].y = temp.y;
+
+					temp.m = comet[i].m;
+					comet[i].m = comet[j].m;
+					comet[j].m = temp.m;
+
+					temp.d = comet[i].d;
+					comet[i].d = comet[j].d;
+					comet[j].d = temp.d;
+
+					temp.h = comet[i].h;
+					comet[i].h = comet[j].h;
+					comet[j].h = temp.h;
+
+					temp.eq = comet[i].eq;
+					comet[i].eq = comet[j].eq;
+					comet[j].eq = temp.eq;
+
+					temp.P = comet[i].P;
+					comet[i].P = comet[j].P;
+					comet[j].P = temp.P;
+
+					temp.q = comet[i].q;
+					comet[i].q = comet[j].q;
+					comet[j].q = temp.q;
+
+					temp.e = comet[i].e;
+					comet[i].e = comet[j].e;
+					comet[j].e = temp.e;
+
+					temp.i = comet[i].i;
+					comet[i].i = comet[j].i;
+					comet[j].i = temp.i;
+
+					temp.an = comet[i].an;
+					comet[i].an = comet[j].an;
+					comet[j].an = temp.an;
+
+					temp.pn = comet[i].pn;
+					comet[i].pn = comet[j].pn;
+					comet[j].pn = temp.pn;
+
+					temp.H = comet[i].H;
+					comet[i].H = comet[j].H;
+					comet[j].H = temp.H;
+
+					temp.G = comet[i].G;
+					comet[i].G = comet[j].G;
+					comet[j].G = temp.G;
+
+					for(k=0;k<21;k++) {
+						temp.book[k]='\0';
+						temp.book[k]=comet[i].book[k];
+					}
+					for(k=0;k<21;k++) {
+						comet[i].book[k]='\0';
+						comet[i].book[k]=comet[j].book[k];
+					}
+					for(k=0;k<21;k++) {
+						comet[j].book[k]='\0';
+						comet[j].book[k]=temp.book[k];
+					}
+				}
+			}
+
+			if (sortKey=='d' && dir=='a'){
+
+				if (comet[i].e > comet[j].e){
+
+					for(k=0;k<81;k++) {
+						temp.full[k]='\0';
+						temp.full[k]=comet[i].full[k];
+					}
+					for(k=0;k<81;k++) {
+						comet[i].full[k]='\0';
+						comet[i].full[k]=comet[j].full[k];
+					}
+					for(k=0;k<81;k++) {
+						comet[j].full[k]='\0';
+						comet[j].full[k]=temp.full[k];
+					}
+
+					for(k=0;k<56;k++) {
+						temp.name[k]='\0';
+						temp.name[k]=comet[i].name[k];
+					}
+					for(k=0;k<56;k++) {
+						comet[i].name[k]='\0';
+						comet[i].name[k]=comet[j].name[k];
+					}
+					for(k=0;k<56;k++) {
+						comet[j].name[k]='\0';
+						comet[j].name[k]=temp.name[k];
+					}
+
+					for(k=0;k<26;k++) {
+						temp.ID[k]='\0';
+						temp.ID[k]=comet[i].ID[k];
+					}
+					for(k=0;k<26;k++) {
+						comet[i].ID[k]='\0';
+						comet[i].ID[k]=comet[j].ID[k];
+					}
+					for(k=0;k<26;k++) {
+						comet[j].ID[k]='\0';
+						comet[j].ID[k]=temp.ID[k];
+					}
+
+					temp.T = comet[i].T;
+					comet[i].T = comet[j].T;
+					comet[j].T = temp.T;
+
+					temp.y = comet[i].y;
+					comet[i].y = comet[j].y;
+					comet[j].y = temp.y;
+
+					temp.m = comet[i].m;
+					comet[i].m = comet[j].m;
+					comet[j].m = temp.m;
+
+					temp.d = comet[i].d;
+					comet[i].d = comet[j].d;
+					comet[j].d = temp.d;
+
+					temp.h = comet[i].h;
+					comet[i].h = comet[j].h;
+					comet[j].h = temp.h;
+
+					temp.eq = comet[i].eq;
+					comet[i].eq = comet[j].eq;
+					comet[j].eq = temp.eq;
+
+					temp.P = comet[i].P;
+					comet[i].P = comet[j].P;
+					comet[j].P = temp.P;
+
+					temp.q = comet[i].q;
+					comet[i].q = comet[j].q;
+					comet[j].q = temp.q;
+
+					temp.e = comet[i].e;
+					comet[i].e = comet[j].e;
+					comet[j].e = temp.e;
+
+					temp.i = comet[i].i;
+					comet[i].i = comet[j].i;
+					comet[j].i = temp.i;
+
+					temp.an = comet[i].an;
+					comet[i].an = comet[j].an;
+					comet[j].an = temp.an;
+
+					temp.pn = comet[i].pn;
+					comet[i].pn = comet[j].pn;
+					comet[j].pn = temp.pn;
+
+					temp.H = comet[i].H;
+					comet[i].H = comet[j].H;
+					comet[j].H = temp.H;
+
+					temp.G = comet[i].G;
+					comet[i].G = comet[j].G;
+					comet[j].G = temp.G;
+
+					for(k=0;k<21;k++) {
+						temp.book[k]='\0';
+						temp.book[k]=comet[i].book[k];
+					}
+					for(k=0;k<21;k++) {
+						comet[i].book[k]='\0';
+						comet[i].book[k]=comet[j].book[k];
+					}
+					for(k=0;k<21;k++) {
+						comet[j].book[k]='\0';
+						comet[j].book[k]=temp.book[k];
+					}
+				}
+			}
+
+			if (sortKey=='d' && dir=='b'){
+
+				if (comet[i].e < comet[j].e){
+
+					for(k=0;k<81;k++) {
+						temp.full[k]='\0';
+						temp.full[k]=comet[i].full[k];
+					}
+					for(k=0;k<81;k++) {
+						comet[i].full[k]='\0';
+						comet[i].full[k]=comet[j].full[k];
+					}
+					for(k=0;k<81;k++) {
+						comet[j].full[k]='\0';
+						comet[j].full[k]=temp.full[k];
+					}
+
+					for(k=0;k<56;k++) {
+						temp.name[k]='\0';
+						temp.name[k]=comet[i].name[k];
+					}
+					for(k=0;k<56;k++) {
+						comet[i].name[k]='\0';
+						comet[i].name[k]=comet[j].name[k];
+					}
+					for(k=0;k<56;k++) {
+						comet[j].name[k]='\0';
+						comet[j].name[k]=temp.name[k];
+					}
+
+					for(k=0;k<26;k++) {
+						temp.ID[k]='\0';
+						temp.ID[k]=comet[i].ID[k];
+					}
+					for(k=0;k<26;k++) {
+						comet[i].ID[k]='\0';
+						comet[i].ID[k]=comet[j].ID[k];
+					}
+					for(k=0;k<26;k++) {
+						comet[j].ID[k]='\0';
+						comet[j].ID[k]=temp.ID[k];
+					}
+
+					temp.T = comet[i].T;
+					comet[i].T = comet[j].T;
+					comet[j].T = temp.T;
+
+					temp.y = comet[i].y;
+					comet[i].y = comet[j].y;
+					comet[j].y = temp.y;
+
+					temp.m = comet[i].m;
+					comet[i].m = comet[j].m;
+					comet[j].m = temp.m;
+
+					temp.d = comet[i].d;
+					comet[i].d = comet[j].d;
+					comet[j].d = temp.d;
+
+					temp.h = comet[i].h;
+					comet[i].h = comet[j].h;
+					comet[j].h = temp.h;
+
+					temp.eq = comet[i].eq;
+					comet[i].eq = comet[j].eq;
+					comet[j].eq = temp.eq;
+
+					temp.P = comet[i].P;
+					comet[i].P = comet[j].P;
+					comet[j].P = temp.P;
+
+					temp.q = comet[i].q;
+					comet[i].q = comet[j].q;
+					comet[j].q = temp.q;
+
+					temp.e = comet[i].e;
+					comet[i].e = comet[j].e;
+					comet[j].e = temp.e;
+
+					temp.i = comet[i].i;
+					comet[i].i = comet[j].i;
+					comet[j].i = temp.i;
+
+					temp.an = comet[i].an;
+					comet[i].an = comet[j].an;
+					comet[j].an = temp.an;
+
+					temp.pn = comet[i].pn;
+					comet[i].pn = comet[j].pn;
+					comet[j].pn = temp.pn;
+
+					temp.H = comet[i].H;
+					comet[i].H = comet[j].H;
+					comet[j].H = temp.H;
+
+					temp.G = comet[i].G;
+					comet[i].G = comet[j].G;
+					comet[j].G = temp.G;
+
+					for(k=0;k<21;k++) {
+						temp.book[k]='\0';
+						temp.book[k]=comet[i].book[k];
+					}
+					for(k=0;k<21;k++) {
+						comet[i].book[k]='\0';
+						comet[i].book[k]=comet[j].book[k];
+					}
+					for(k=0;k<21;k++) {
+						comet[j].book[k]='\0';
+						comet[j].book[k]=temp.book[k];
+					}
+				}
+			}
+
+			if (sortKey=='e' && dir=='a'){
+
+				if (comet[i].an > comet[j].an){
+
+					for(k=0;k<81;k++) {
+						temp.full[k]='\0';
+						temp.full[k]=comet[i].full[k];
+					}
+					for(k=0;k<81;k++) {
+						comet[i].full[k]='\0';
+						comet[i].full[k]=comet[j].full[k];
+					}
+					for(k=0;k<81;k++) {
+						comet[j].full[k]='\0';
+						comet[j].full[k]=temp.full[k];
+					}
+
+					for(k=0;k<56;k++) {
+						temp.name[k]='\0';
+						temp.name[k]=comet[i].name[k];
+					}
+					for(k=0;k<56;k++) {
+						comet[i].name[k]='\0';
+						comet[i].name[k]=comet[j].name[k];
+					}
+					for(k=0;k<56;k++) {
+						comet[j].name[k]='\0';
+						comet[j].name[k]=temp.name[k];
+					}
+
+					for(k=0;k<26;k++) {
+						temp.ID[k]='\0';
+						temp.ID[k]=comet[i].ID[k];
+					}
+					for(k=0;k<26;k++) {
+						comet[i].ID[k]='\0';
+						comet[i].ID[k]=comet[j].ID[k];
+					}
+					for(k=0;k<26;k++) {
+						comet[j].ID[k]='\0';
+						comet[j].ID[k]=temp.ID[k];
+					}
+
+					temp.T = comet[i].T;
+					comet[i].T = comet[j].T;
+					comet[j].T = temp.T;
+
+					temp.y = comet[i].y;
+					comet[i].y = comet[j].y;
+					comet[j].y = temp.y;
+
+					temp.m = comet[i].m;
+					comet[i].m = comet[j].m;
+					comet[j].m = temp.m;
+
+					temp.d = comet[i].d;
+					comet[i].d = comet[j].d;
+					comet[j].d = temp.d;
+
+					temp.h = comet[i].h;
+					comet[i].h = comet[j].h;
+					comet[j].h = temp.h;
+
+					temp.eq = comet[i].eq;
+					comet[i].eq = comet[j].eq;
+					comet[j].eq = temp.eq;
+
+					temp.P = comet[i].P;
+					comet[i].P = comet[j].P;
+					comet[j].P = temp.P;
+
+					temp.q = comet[i].q;
+					comet[i].q = comet[j].q;
+					comet[j].q = temp.q;
+
+					temp.e = comet[i].e;
+					comet[i].e = comet[j].e;
+					comet[j].e = temp.e;
+
+					temp.i = comet[i].i;
+					comet[i].i = comet[j].i;
+					comet[j].i = temp.i;
+
+					temp.an = comet[i].an;
+					comet[i].an = comet[j].an;
+					comet[j].an = temp.an;
+
+					temp.pn = comet[i].pn;
+					comet[i].pn = comet[j].pn;
+					comet[j].pn = temp.pn;
+
+					temp.H = comet[i].H;
+					comet[i].H = comet[j].H;
+					comet[j].H = temp.H;
+
+					temp.G = comet[i].G;
+					comet[i].G = comet[j].G;
+					comet[j].G = temp.G;
+
+					for(k=0;k<21;k++) {
+						temp.book[k]='\0';
+						temp.book[k]=comet[i].book[k];
+					}
+					for(k=0;k<21;k++) {
+						comet[i].book[k]='\0';
+						comet[i].book[k]=comet[j].book[k];
+					}
+					for(k=0;k<21;k++) {
+						comet[j].book[k]='\0';
+						comet[j].book[k]=temp.book[k];
+					}
+				}
+			}
+
+			if (sortKey=='e' && dir=='b'){
+
+				if (comet[i].an < comet[j].an){
+
+					for(k=0;k<81;k++) {
+						temp.full[k]='\0';
+						temp.full[k]=comet[i].full[k];
+					}
+					for(k=0;k<81;k++) {
+						comet[i].full[k]='\0';
+						comet[i].full[k]=comet[j].full[k];
+					}
+					for(k=0;k<81;k++) {
+						comet[j].full[k]='\0';
+						comet[j].full[k]=temp.full[k];
+					}
+
+					for(k=0;k<56;k++) {
+						temp.name[k]='\0';
+						temp.name[k]=comet[i].name[k];
+					}
+					for(k=0;k<56;k++) {
+						comet[i].name[k]='\0';
+						comet[i].name[k]=comet[j].name[k];
+					}
+					for(k=0;k<56;k++) {
+						comet[j].name[k]='\0';
+						comet[j].name[k]=temp.name[k];
+					}
+
+					for(k=0;k<26;k++) {
+						temp.ID[k]='\0';
+						temp.ID[k]=comet[i].ID[k];
+					}
+					for(k=0;k<26;k++) {
+						comet[i].ID[k]='\0';
+						comet[i].ID[k]=comet[j].ID[k];
+					}
+					for(k=0;k<26;k++) {
+						comet[j].ID[k]='\0';
+						comet[j].ID[k]=temp.ID[k];
+					}
+
+					temp.T = comet[i].T;
+					comet[i].T = comet[j].T;
+					comet[j].T = temp.T;
+
+					temp.y = comet[i].y;
+					comet[i].y = comet[j].y;
+					comet[j].y = temp.y;
+
+					temp.m = comet[i].m;
+					comet[i].m = comet[j].m;
+					comet[j].m = temp.m;
+
+					temp.d = comet[i].d;
+					comet[i].d = comet[j].d;
+					comet[j].d = temp.d;
+
+					temp.h = comet[i].h;
+					comet[i].h = comet[j].h;
+					comet[j].h = temp.h;
+
+					temp.eq = comet[i].eq;
+					comet[i].eq = comet[j].eq;
+					comet[j].eq = temp.eq;
+
+					temp.P = comet[i].P;
+					comet[i].P = comet[j].P;
+					comet[j].P = temp.P;
+
+					temp.q = comet[i].q;
+					comet[i].q = comet[j].q;
+					comet[j].q = temp.q;
+
+					temp.e = comet[i].e;
+					comet[i].e = comet[j].e;
+					comet[j].e = temp.e;
+
+					temp.i = comet[i].i;
+					comet[i].i = comet[j].i;
+					comet[j].i = temp.i;
+
+					temp.an = comet[i].an;
+					comet[i].an = comet[j].an;
+					comet[j].an = temp.an;
+
+					temp.pn = comet[i].pn;
+					comet[i].pn = comet[j].pn;
+					comet[j].pn = temp.pn;
+
+					temp.H = comet[i].H;
+					comet[i].H = comet[j].H;
+					comet[j].H = temp.H;
+
+					temp.G = comet[i].G;
+					comet[i].G = comet[j].G;
+					comet[j].G = temp.G;
+
+					for(k=0;k<21;k++) {
+						temp.book[k]='\0';
+						temp.book[k]=comet[i].book[k];
+					}
+					for(k=0;k<21;k++) {
+						comet[i].book[k]='\0';
+						comet[i].book[k]=comet[j].book[k];
+					}
+					for(k=0;k<21;k++) {
+						comet[j].book[k]='\0';
+						comet[j].book[k]=temp.book[k];
+					}
+				}
+			}
+
+			if (sortKey=='f' && dir=='a'){
+
+				if (comet[i].pn > comet[j].pn){
+
+					for(k=0;k<81;k++) {
+						temp.full[k]='\0';
+						temp.full[k]=comet[i].full[k];
+					}
+					for(k=0;k<81;k++) {
+						comet[i].full[k]='\0';
+						comet[i].full[k]=comet[j].full[k];
+					}
+					for(k=0;k<81;k++) {
+						comet[j].full[k]='\0';
+						comet[j].full[k]=temp.full[k];
+					}
+
+					for(k=0;k<56;k++) {
+						temp.name[k]='\0';
+						temp.name[k]=comet[i].name[k];
+					}
+					for(k=0;k<56;k++) {
+						comet[i].name[k]='\0';
+						comet[i].name[k]=comet[j].name[k];
+					}
+					for(k=0;k<56;k++) {
+						comet[j].name[k]='\0';
+						comet[j].name[k]=temp.name[k];
+					}
+
+					for(k=0;k<26;k++) {
+						temp.ID[k]='\0';
+						temp.ID[k]=comet[i].ID[k];
+					}
+					for(k=0;k<26;k++) {
+						comet[i].ID[k]='\0';
+						comet[i].ID[k]=comet[j].ID[k];
+					}
+					for(k=0;k<26;k++) {
+						comet[j].ID[k]='\0';
+						comet[j].ID[k]=temp.ID[k];
+					}
+
+					temp.T = comet[i].T;
+					comet[i].T = comet[j].T;
+					comet[j].T = temp.T;
+
+					temp.y = comet[i].y;
+					comet[i].y = comet[j].y;
+					comet[j].y = temp.y;
+
+					temp.m = comet[i].m;
+					comet[i].m = comet[j].m;
+					comet[j].m = temp.m;
+
+					temp.d = comet[i].d;
+					comet[i].d = comet[j].d;
+					comet[j].d = temp.d;
+
+					temp.h = comet[i].h;
+					comet[i].h = comet[j].h;
+					comet[j].h = temp.h;
+
+					temp.eq = comet[i].eq;
+					comet[i].eq = comet[j].eq;
+					comet[j].eq = temp.eq;
+
+					temp.P = comet[i].P;
+					comet[i].P = comet[j].P;
+					comet[j].P = temp.P;
+
+					temp.q = comet[i].q;
+					comet[i].q = comet[j].q;
+					comet[j].q = temp.q;
+
+					temp.e = comet[i].e;
+					comet[i].e = comet[j].e;
+					comet[j].e = temp.e;
+
+					temp.i = comet[i].i;
+					comet[i].i = comet[j].i;
+					comet[j].i = temp.i;
+
+					temp.an = comet[i].an;
+					comet[i].an = comet[j].an;
+					comet[j].an = temp.an;
+
+					temp.pn = comet[i].pn;
+					comet[i].pn = comet[j].pn;
+					comet[j].pn = temp.pn;
+
+					temp.H = comet[i].H;
+					comet[i].H = comet[j].H;
+					comet[j].H = temp.H;
+
+					temp.G = comet[i].G;
+					comet[i].G = comet[j].G;
+					comet[j].G = temp.G;
+
+					for(k=0;k<21;k++) {
+						temp.book[k]='\0';
+						temp.book[k]=comet[i].book[k];
+					}
+					for(k=0;k<21;k++) {
+						comet[i].book[k]='\0';
+						comet[i].book[k]=comet[j].book[k];
+					}
+					for(k=0;k<21;k++) {
+						comet[j].book[k]='\0';
+						comet[j].book[k]=temp.book[k];
+					}
+				}
+			}
+
+			if (sortKey=='f' && dir=='b'){
+
+				if (comet[i].pn < comet[j].pn){
+
+					for(k=0;k<81;k++) {
+						temp.full[k]='\0';
+						temp.full[k]=comet[i].full[k];
+					}
+					for(k=0;k<81;k++) {
+						comet[i].full[k]='\0';
+						comet[i].full[k]=comet[j].full[k];
+					}
+					for(k=0;k<81;k++) {
+						comet[j].full[k]='\0';
+						comet[j].full[k]=temp.full[k];
+					}
+
+					for(k=0;k<56;k++) {
+						temp.name[k]='\0';
+						temp.name[k]=comet[i].name[k];
+					}
+					for(k=0;k<56;k++) {
+						comet[i].name[k]='\0';
+						comet[i].name[k]=comet[j].name[k];
+					}
+					for(k=0;k<56;k++) {
+						comet[j].name[k]='\0';
+						comet[j].name[k]=temp.name[k];
+					}
+
+					for(k=0;k<26;k++) {
+						temp.ID[k]='\0';
+						temp.ID[k]=comet[i].ID[k];
+					}
+					for(k=0;k<26;k++) {
+						comet[i].ID[k]='\0';
+						comet[i].ID[k]=comet[j].ID[k];
+					}
+					for(k=0;k<26;k++) {
+						comet[j].ID[k]='\0';
+						comet[j].ID[k]=temp.ID[k];
+					}
+
+					temp.T = comet[i].T;
+					comet[i].T = comet[j].T;
+					comet[j].T = temp.T;
+
+					temp.y = comet[i].y;
+					comet[i].y = comet[j].y;
+					comet[j].y = temp.y;
+
+					temp.m = comet[i].m;
+					comet[i].m = comet[j].m;
+					comet[j].m = temp.m;
+
+					temp.d = comet[i].d;
+					comet[i].d = comet[j].d;
+					comet[j].d = temp.d;
+
+					temp.h = comet[i].h;
+					comet[i].h = comet[j].h;
+					comet[j].h = temp.h;
+
+					temp.eq = comet[i].eq;
+					comet[i].eq = comet[j].eq;
+					comet[j].eq = temp.eq;
+
+					temp.P = comet[i].P;
+					comet[i].P = comet[j].P;
+					comet[j].P = temp.P;
+
+					temp.q = comet[i].q;
+					comet[i].q = comet[j].q;
+					comet[j].q = temp.q;
+
+					temp.e = comet[i].e;
+					comet[i].e = comet[j].e;
+					comet[j].e = temp.e;
+
+					temp.i = comet[i].i;
+					comet[i].i = comet[j].i;
+					comet[j].i = temp.i;
+
+					temp.an = comet[i].an;
+					comet[i].an = comet[j].an;
+					comet[j].an = temp.an;
+
+					temp.pn = comet[i].pn;
+					comet[i].pn = comet[j].pn;
+					comet[j].pn = temp.pn;
+
+					temp.H = comet[i].H;
+					comet[i].H = comet[j].H;
+					comet[j].H = temp.H;
+
+					temp.G = comet[i].G;
+					comet[i].G = comet[j].G;
+					comet[j].G = temp.G;
+
+					for(k=0;k<21;k++) {
+						temp.book[k]='\0';
+						temp.book[k]=comet[i].book[k];
+					}
+					for(k=0;k<21;k++) {
+						comet[i].book[k]='\0';
+						comet[i].book[k]=comet[j].book[k];
+					}
+					for(k=0;k<21;k++) {
+						comet[j].book[k]='\0';
+						comet[j].book[k]=temp.book[k];
+					}
+				}
+			}
+
+			if (sortKey=='g' && dir=='a'){
+
+				if (comet[i].i > comet[j].i){
+
+					for(k=0;k<81;k++) {
+						temp.full[k]='\0';
+						temp.full[k]=comet[i].full[k];
+					}
+					for(k=0;k<81;k++) {
+						comet[i].full[k]='\0';
+						comet[i].full[k]=comet[j].full[k];
+					}
+					for(k=0;k<81;k++) {
+						comet[j].full[k]='\0';
+						comet[j].full[k]=temp.full[k];
+					}
+
+					for(k=0;k<56;k++) {
+						temp.name[k]='\0';
+						temp.name[k]=comet[i].name[k];
+					}
+					for(k=0;k<56;k++) {
+						comet[i].name[k]='\0';
+						comet[i].name[k]=comet[j].name[k];
+					}
+					for(k=0;k<56;k++) {
+						comet[j].name[k]='\0';
+						comet[j].name[k]=temp.name[k];
+					}
+
+					for(k=0;k<26;k++) {
+						temp.ID[k]='\0';
+						temp.ID[k]=comet[i].ID[k];
+					}
+					for(k=0;k<26;k++) {
+						comet[i].ID[k]='\0';
+						comet[i].ID[k]=comet[j].ID[k];
+					}
+					for(k=0;k<26;k++) {
+						comet[j].ID[k]='\0';
+						comet[j].ID[k]=temp.ID[k];
+					}
+
+					temp.T = comet[i].T;
+					comet[i].T = comet[j].T;
+					comet[j].T = temp.T;
+
+					temp.y = comet[i].y;
+					comet[i].y = comet[j].y;
+					comet[j].y = temp.y;
+
+					temp.m = comet[i].m;
+					comet[i].m = comet[j].m;
+					comet[j].m = temp.m;
+
+					temp.d = comet[i].d;
+					comet[i].d = comet[j].d;
+					comet[j].d = temp.d;
+
+					temp.h = comet[i].h;
+					comet[i].h = comet[j].h;
+					comet[j].h = temp.h;
+
+					temp.eq = comet[i].eq;
+					comet[i].eq = comet[j].eq;
+					comet[j].eq = temp.eq;
+
+					temp.P = comet[i].P;
+					comet[i].P = comet[j].P;
+					comet[j].P = temp.P;
+
+					temp.q = comet[i].q;
+					comet[i].q = comet[j].q;
+					comet[j].q = temp.q;
+
+					temp.e = comet[i].e;
+					comet[i].e = comet[j].e;
+					comet[j].e = temp.e;
+
+					temp.i = comet[i].i;
+					comet[i].i = comet[j].i;
+					comet[j].i = temp.i;
+
+					temp.an = comet[i].an;
+					comet[i].an = comet[j].an;
+					comet[j].an = temp.an;
+
+					temp.pn = comet[i].pn;
+					comet[i].pn = comet[j].pn;
+					comet[j].pn = temp.pn;
+
+					temp.H = comet[i].H;
+					comet[i].H = comet[j].H;
+					comet[j].H = temp.H;
+
+					temp.G = comet[i].G;
+					comet[i].G = comet[j].G;
+					comet[j].G = temp.G;
+
+					for(k=0;k<21;k++) {
+						temp.book[k]='\0';
+						temp.book[k]=comet[i].book[k];
+					}
+					for(k=0;k<21;k++) {
+						comet[i].book[k]='\0';
+						comet[i].book[k]=comet[j].book[k];
+					}
+					for(k=0;k<21;k++) {
+						comet[j].book[k]='\0';
+						comet[j].book[k]=temp.book[k];
+					}
+				}
+			}
+
+			if (sortKey=='g' && dir=='b'){
+
+				if (comet[i].i < comet[j].i){
+
+					for(k=0;k<81;k++) {
+						temp.full[k]='\0';
+						temp.full[k]=comet[i].full[k];
+					}
+					for(k=0;k<81;k++) {
+						comet[i].full[k]='\0';
+						comet[i].full[k]=comet[j].full[k];
+					}
+					for(k=0;k<81;k++) {
+						comet[j].full[k]='\0';
+						comet[j].full[k]=temp.full[k];
+					}
+
+					for(k=0;k<56;k++) {
+						temp.name[k]='\0';
+						temp.name[k]=comet[i].name[k];
+					}
+					for(k=0;k<56;k++) {
+						comet[i].name[k]='\0';
+						comet[i].name[k]=comet[j].name[k];
+					}
+					for(k=0;k<56;k++) {
+						comet[j].name[k]='\0';
+						comet[j].name[k]=temp.name[k];
+					}
+
+					for(k=0;k<26;k++) {
+						temp.ID[k]='\0';
+						temp.ID[k]=comet[i].ID[k];
+					}
+					for(k=0;k<26;k++) {
+						comet[i].ID[k]='\0';
+						comet[i].ID[k]=comet[j].ID[k];
+					}
+					for(k=0;k<26;k++) {
+						comet[j].ID[k]='\0';
+						comet[j].ID[k]=temp.ID[k];
+					}
+
+					temp.T = comet[i].T;
+					comet[i].T = comet[j].T;
+					comet[j].T = temp.T;
+
+					temp.y = comet[i].y;
+					comet[i].y = comet[j].y;
+					comet[j].y = temp.y;
+
+					temp.m = comet[i].m;
+					comet[i].m = comet[j].m;
+					comet[j].m = temp.m;
+
+					temp.d = comet[i].d;
+					comet[i].d = comet[j].d;
+					comet[j].d = temp.d;
+
+					temp.h = comet[i].h;
+					comet[i].h = comet[j].h;
+					comet[j].h = temp.h;
+
+					temp.eq = comet[i].eq;
+					comet[i].eq = comet[j].eq;
+					comet[j].eq = temp.eq;
+
+					temp.P = comet[i].P;
+					comet[i].P = comet[j].P;
+					comet[j].P = temp.P;
+
+					temp.q = comet[i].q;
+					comet[i].q = comet[j].q;
+					comet[j].q = temp.q;
+
+					temp.e = comet[i].e;
+					comet[i].e = comet[j].e;
+					comet[j].e = temp.e;
+
+					temp.i = comet[i].i;
+					comet[i].i = comet[j].i;
+					comet[j].i = temp.i;
+
+					temp.an = comet[i].an;
+					comet[i].an = comet[j].an;
+					comet[j].an = temp.an;
+
+					temp.pn = comet[i].pn;
+					comet[i].pn = comet[j].pn;
+					comet[j].pn = temp.pn;
+
+					temp.H = comet[i].H;
+					comet[i].H = comet[j].H;
+					comet[j].H = temp.H;
+
+					temp.G = comet[i].G;
+					comet[i].G = comet[j].G;
+					comet[j].G = temp.G;
+
+					for(k=0;k<21;k++) {
+						temp.book[k]='\0';
+						temp.book[k]=comet[i].book[k];
+					}
+					for(k=0;k<21;k++) {
+						comet[i].book[k]='\0';
+						comet[i].book[k]=comet[j].book[k];
+					}
+					for(k=0;k<21;k++) {
+						comet[j].book[k]='\0';
+						comet[j].book[k]=temp.book[k];
+					}
+				}
+			}
+
+			if (sortKey=='h' && dir=='a'){
+
+				if (comet[i].P > comet[j].P){
+
+					for(k=0;k<81;k++) {
+						temp.full[k]='\0';
+						temp.full[k]=comet[i].full[k];
+					}
+					for(k=0;k<81;k++) {
+						comet[i].full[k]='\0';
+						comet[i].full[k]=comet[j].full[k];
+					}
+					for(k=0;k<81;k++) {
+						comet[j].full[k]='\0';
+						comet[j].full[k]=temp.full[k];
+					}
+
+					for(k=0;k<56;k++) {
+						temp.name[k]='\0';
+						temp.name[k]=comet[i].name[k];
+					}
+					for(k=0;k<56;k++) {
+						comet[i].name[k]='\0';
+						comet[i].name[k]=comet[j].name[k];
+					}
+					for(k=0;k<56;k++) {
+						comet[j].name[k]='\0';
+						comet[j].name[k]=temp.name[k];
+					}
+
+					for(k=0;k<26;k++) {
+						temp.ID[k]='\0';
+						temp.ID[k]=comet[i].ID[k];
+					}
+					for(k=0;k<26;k++) {
+						comet[i].ID[k]='\0';
+						comet[i].ID[k]=comet[j].ID[k];
+					}
+					for(k=0;k<26;k++) {
+						comet[j].ID[k]='\0';
+						comet[j].ID[k]=temp.ID[k];
+					}
+
+					temp.T = comet[i].T;
+					comet[i].T = comet[j].T;
+					comet[j].T = temp.T;
+
+					temp.y = comet[i].y;
+					comet[i].y = comet[j].y;
+					comet[j].y = temp.y;
+
+					temp.m = comet[i].m;
+					comet[i].m = comet[j].m;
+					comet[j].m = temp.m;
+
+					temp.d = comet[i].d;
+					comet[i].d = comet[j].d;
+					comet[j].d = temp.d;
+
+					temp.h = comet[i].h;
+					comet[i].h = comet[j].h;
+					comet[j].h = temp.h;
+
+					temp.eq = comet[i].eq;
+					comet[i].eq = comet[j].eq;
+					comet[j].eq = temp.eq;
+
+					temp.P = comet[i].P;
+					comet[i].P = comet[j].P;
+					comet[j].P = temp.P;
+
+					temp.q = comet[i].q;
+					comet[i].q = comet[j].q;
+					comet[j].q = temp.q;
+
+					temp.e = comet[i].e;
+					comet[i].e = comet[j].e;
+					comet[j].e = temp.e;
+
+					temp.i = comet[i].i;
+					comet[i].i = comet[j].i;
+					comet[j].i = temp.i;
+
+					temp.an = comet[i].an;
+					comet[i].an = comet[j].an;
+					comet[j].an = temp.an;
+
+					temp.pn = comet[i].pn;
+					comet[i].pn = comet[j].pn;
+					comet[j].pn = temp.pn;
+
+					temp.H = comet[i].H;
+					comet[i].H = comet[j].H;
+					comet[j].H = temp.H;
+
+					temp.G = comet[i].G;
+					comet[i].G = comet[j].G;
+					comet[j].G = temp.G;
+
+					for(k=0;k<21;k++) {
+						temp.book[k]='\0';
+						temp.book[k]=comet[i].book[k];
+					}
+					for(k=0;k<21;k++) {
+						comet[i].book[k]='\0';
+						comet[i].book[k]=comet[j].book[k];
+					}
+					for(k=0;k<21;k++) {
+						comet[j].book[k]='\0';
+						comet[j].book[k]=temp.book[k];
+					}
+				}
+			}
+
+			if (sortKey=='h' && dir=='b'){
+
+				if (comet[i].P < comet[j].P){
+
+					for(k=0;k<81;k++) {
+						temp.full[k]='\0';
+						temp.full[k]=comet[i].full[k];
+					}
+					for(k=0;k<81;k++) {
+						comet[i].full[k]='\0';
+						comet[i].full[k]=comet[j].full[k];
+					}
+					for(k=0;k<81;k++) {
+						comet[j].full[k]='\0';
+						comet[j].full[k]=temp.full[k];
+					}
+
+					for(k=0;k<56;k++) {
+						temp.name[k]='\0';
+						temp.name[k]=comet[i].name[k];
+					}
+					for(k=0;k<56;k++) {
+						comet[i].name[k]='\0';
+						comet[i].name[k]=comet[j].name[k];
+					}
+					for(k=0;k<56;k++) {
+						comet[j].name[k]='\0';
+						comet[j].name[k]=temp.name[k];
+					}
+
+					for(k=0;k<26;k++) {
+						temp.ID[k]='\0';
+						temp.ID[k]=comet[i].ID[k];
+					}
+					for(k=0;k<26;k++) {
+						comet[i].ID[k]='\0';
+						comet[i].ID[k]=comet[j].ID[k];
+					}
+					for(k=0;k<26;k++) {
+						comet[j].ID[k]='\0';
+						comet[j].ID[k]=temp.ID[k];
+					}
+
+					temp.T = comet[i].T;
+					comet[i].T = comet[j].T;
+					comet[j].T = temp.T;
+
+					temp.y = comet[i].y;
+					comet[i].y = comet[j].y;
+					comet[j].y = temp.y;
+
+					temp.m = comet[i].m;
+					comet[i].m = comet[j].m;
+					comet[j].m = temp.m;
+
+					temp.d = comet[i].d;
+					comet[i].d = comet[j].d;
+					comet[j].d = temp.d;
+
+					temp.h = comet[i].h;
+					comet[i].h = comet[j].h;
+					comet[j].h = temp.h;
+
+					temp.eq = comet[i].eq;
+					comet[i].eq = comet[j].eq;
+					comet[j].eq = temp.eq;
+
+					temp.P = comet[i].P;
+					comet[i].P = comet[j].P;
+					comet[j].P = temp.P;
+
+					temp.q = comet[i].q;
+					comet[i].q = comet[j].q;
+					comet[j].q = temp.q;
+
+					temp.e = comet[i].e;
+					comet[i].e = comet[j].e;
+					comet[j].e = temp.e;
+
+					temp.i = comet[i].i;
+					comet[i].i = comet[j].i;
+					comet[j].i = temp.i;
+
+					temp.an = comet[i].an;
+					comet[i].an = comet[j].an;
+					comet[j].an = temp.an;
+
+					temp.pn = comet[i].pn;
+					comet[i].pn = comet[j].pn;
+					comet[j].pn = temp.pn;
+
+					temp.H = comet[i].H;
+					comet[i].H = comet[j].H;
+					comet[j].H = temp.H;
+
+					temp.G = comet[i].G;
+					comet[i].G = comet[j].G;
+					comet[j].G = temp.G;
+
+					for(k=0;k<21;k++) {
+						temp.book[k]='\0';
+						temp.book[k]=comet[i].book[k];
+					}
+					for(k=0;k<21;k++) {
+						comet[i].book[k]='\0';
+						comet[i].book[k]=comet[j].book[k];
+					}
+					for(k=0;k<21;k++) {
+						comet[j].book[k]='\0';
+						comet[j].book[k]=temp.book[k];
+					}
+				}
+			}
+		}
+	}
 }
