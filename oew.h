@@ -3,6 +3,13 @@
 #include <string.h>
 #include <math.h>
 #include <ctype.h>
+#include <conio.h>
+
+#define equinox 2000
+#define ep_y 2011
+#define ep_m 2
+#define ep_d 8
+#define eq_JD 2455600
 
 //	funkcije za ispisivanje na ekran
 void start_screen ();
@@ -37,24 +44,24 @@ int import_nasa1 (int N);			//ELEMENTS.COMET
 int import_nasa2 (int N);			//sbdb query
 
 //	funkcije za pisanje u datoteke
+void export_mpc (int N);
+void export_skymap (int N);
+void export_guide (int N);
+void export_xephem (int N);
+void export_home_planet (int N);
+void export_mystars (int N);
+void export_thesky (int N);
+void export_starry_night (int N);
+void export_deep_space (int N);
+void export_pc_tcs (int N);
+void export_ecu (int N);
+void export_dance (int N);
+void export_megastar (int N);
+void export_skychart (int N);
+void export_voyager (int N);
+void export_skytools (int N);
 void export_ssc (int N, int Ty);
 void export_stell (int N, int Ty);
-void export_mpc (int N, int Ty);
-void export_skymap (int N, int Ty);
-void export_guide (int N, int Ty);
-void export_xephem (int N, int Ty);
-void export_home_planet (int N, int Ty);
-void export_mystars (int N, int Ty);
-void export_thesky (int N, int Ty);
-void export_starry_night (int N, int Ty);
-void export_deep_space (int N, int Ty);
-void export_pc_tcs (int N, int Ty);
-void export_ecu (int N, int Ty);
-void export_dance (int N, int Ty);
-void export_megastar (int N, int Ty);
-void export_skychart (int N, int Ty);
-void export_voyager (int N, int Ty);
-void export_skytools (int N, int Ty);
 
 //	funkcije za racunanje...
 double compute_period (float q, float e);
@@ -62,3 +69,6 @@ long int compute_T (int y, int m, int d);
 char *edit_name (char *name);
 
 int sort_data(int N);
+
+int define_exclude();
+int do_exclude(int i);
