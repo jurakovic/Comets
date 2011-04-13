@@ -19,6 +19,7 @@ void screen_exp2 ();
 void screen_exp3 ();
 void exit_screen ();
 void help_screen ();
+void excl_screen ();
 
 //	funkcije za citanje iz datoteka
 int import_main (int Ty);			//glavna fja

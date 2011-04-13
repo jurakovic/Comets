@@ -57,7 +57,7 @@ struct Formats {
 	};
 
 struct Excludings{
-	int key[14];		// jer mjesto 0 ne koristim na na mjestu 15 je '\0'
+	int key[14];
 	long int T;
 	float q;
 	float e;
@@ -93,7 +93,7 @@ int main (){
 
 int import_main (int Ty){
 
-	int Ncmt=0, exp_ty, end;
+	int Ncmt=0, total_cmt, exp_ty, end;
 	char c;
 	FILE *fin;
 
@@ -116,6 +116,8 @@ int import_main (int Ty){
 
 	if (Ty==17) Ncmt/=13;						// jer je 17. format cfw, a jedan komet je definiran kroz 13 redova
 	if (Ty==3 || Ty==8 || Ty==10) Ncmt/=2;		// kao gore, samo što je 1 komet kroz 2 reda
+
+	total_cmt = Ncmt;
 
     printf("\n  File %s is successfully opened\n", fin_name);
 	printf("\n  Total detected comets: %d\n  ", Ncmt);
@@ -145,6 +147,14 @@ int import_main (int Ty){
 	if (Ty==17) Ncmt = import_cfw (Ncmt);
 	if (Ty==18) Ncmt = import_nasa1 (Ncmt);
 	if (Ty==19) Ncmt = import_nasa2 (Ncmt);
+
+
+	if (Ty==18 || Ty==19)
+		printf("\n =============================================================================");
+//	if (Ncmt != total_cmt && (Ty != 18 || Ty !=19)) printf("\n\n =============================================================================");
+	printf("\n\n  Total imported comets: %d/%d\n  ", Ncmt, total_cmt);
+	printf("\n  Press any key to continue... ");
+	getch();
 
 	do {
 		fflush(stdin);
@@ -207,13 +217,14 @@ int import_main (int Ty){
 	do {
 		screen_exp3();
 		printf("  Done\n\n  %d comets successfully saved in file %s\n\n", Ncmt, fout_name);
-		printf("  Select option (1-2): ");
+		printf("  Select option (1/2): ");
 		scanf("%d", &end);
 	} while (end!=1 && end!=2);
 
 	fclose(fin);
 	return end;
 }
+
 
 int define_exclude(){
 
@@ -253,175 +264,119 @@ int define_exclude(){
 		if (exclKey=='2') return 2;
 
 		if (exclKey=='a'){
-			fflush(stdin);
-			fflush(stdout);
-			system("CLS");
-			printf("\n");
-			printf("  Excluding comets...\n\n");
-			printf(" =============================================================================\n\n");
+			excl_screen ();
 			printf("  Exclude comet if Perihelion Date is greather than (DD MM YYYY):  ");
 			scanf("%d %d %d", &d, &m, &y);
 
 			excl.T = compute_T(y, m, d);
 			excl.key[0]=1;
+			if(excl.key[1]==1) excl.key[1]=0;
 		}
 
 		if (exclKey=='b'){
-			fflush(stdin);
-			fflush(stdout);
-			system("CLS");
-			printf("\n");
-			printf("  Excluding comets...\n\n");
-			printf(" =============================================================================\n\n");
+			excl_screen ();
 			printf("  Exclude comet if Perihelion Date is less than (DD MM YYYY):  ");
 			scanf("%d %d %d", &d, &m, &y);
 
 			excl.T = compute_T(y, m, d);
 			excl.key[1]=1;
+			if(excl.key[0]==1) excl.key[0]=0;
 		}
 
 		if (exclKey=='c'){
-			fflush(stdin);
-			fflush(stdout);
-			system("CLS");
-			printf("\n");
-			printf("  Excluding comets...\n\n");
-			printf(" =============================================================================\n\n");
+			excl_screen ();
 			printf("  Exclude comet if Perihelion distance is greather than:       AU\b\b\b\b\b\b\b\b");
 			scanf("%f", &excl.q);
 			excl.key[2]=1;
+			if(excl.key[3]==1) excl.key[3]=0;
 		}
 
 		if (exclKey=='d'){
-			fflush(stdin);
-			fflush(stdout);
-			system("CLS");
-			printf("\n");
-			printf("  Excluding comets...\n\n");
-			printf(" =============================================================================\n\n");
+			excl_screen ();
 			printf("  Exclude comet if Perihelion distance is less than:       AU\b\b\b\b\b\b\b\b");
 			scanf("%f", &excl.q);
 			excl.key[3]=1;
+			if(excl.key[2]==1) excl.key[2]=0;
 		}
 
 		if (exclKey=='e'){
-			fflush(stdin);
-			fflush(stdout);
-			system("CLS");
-			printf("\n");
-			printf("  Excluding comets...\n\n");
-			printf(" =============================================================================\n\n");
+			excl_screen ();
 			printf("  Exclude comet if Eccentricity is greather than: ");
 			scanf("%f", &excl.e);
 			excl.key[4]=1;
+			if(excl.key[5]==1) excl.key[5]=0;
 		}
 
 		if (exclKey=='f'){
-			fflush(stdin);
-			fflush(stdout);
-			system("CLS");
-			printf("\n");
-			printf("  Excluding comets...\n\n");
-			printf(" =============================================================================\n\n");
+			excl_screen ();
 			printf("  Exclude comet if Eccentricity is less than: ");
 			scanf("%f", &excl.e);
 			excl.key[5]=1;
+			if(excl.key[4]==1) excl.key[4]=0;
 		}
 
 		if (exclKey=='g'){
-			fflush(stdin);
-			fflush(stdout);
-			system("CLS");
-			printf("\n");
-			printf("  Excluding comets...\n\n");
-			printf(" =============================================================================\n\n");
+			excl_screen ();
 			printf("  Exclude comet if Long. of the Ascending Node is greather than:      degrees\b\b\b\b\b\b\b\b\b\b\b\b");
 			scanf("%f", &excl.an);
 			excl.key[6]=1;
+			if(excl.key[7]==1) excl.key[7]=0;
 		}
 
 		if (exclKey=='h'){
-			fflush(stdin);
-			fflush(stdout);
-			system("CLS");
-			printf("\n");
-			printf("  Excluding comets...\n\n");
-			printf(" =============================================================================\n\n");
+			excl_screen ();
 			printf("  Exclude comet if Long. of the Ascending Node is less than:      degrees\b\b\b\b\b\b\b\b\b\b\b\b");
 			scanf("%f", &excl.an);
 			excl.key[7]=1;
+			if(excl.key[6]==1) excl.key[6]=0;
 		}
 
 		if (exclKey=='i'){
-			fflush(stdin);
-			fflush(stdout);
-			system("CLS");
-			printf("\n");
-			printf("  Excluding comets...\n\n");
-			printf(" =============================================================================\n\n");
+			excl_screen ();
 			printf("  Exclude comet if Long. of Pericenter is greather than:      degrees\b\b\b\b\b\b\b\b\b\b\b\b");
 			scanf("%f", &excl.pn);
 			excl.key[8]=1;
+			if(excl.key[9]==1) excl.key[9]=0;
 		}
 
 		if (exclKey=='j'){
-			fflush(stdin);
-			fflush(stdout);
-			system("CLS");
-			printf("\n");
-			printf("  Excluding comets...\n\n");
-			printf(" =============================================================================\n\n");
+			excl_screen ();
 			printf("  Exclude comet if Long. of Pericenter is less than:      degrees\b\b\b\b\b\b\b\b\b\b\b\b");
 			scanf("%f", &excl.pn);
 			excl.key[9]=1;
+			if(excl.key[8]==1) excl.key[8]=0;
 		}
 
 		if (exclKey=='k'){
-			fflush(stdin);
-			fflush(stdout);
-			system("CLS");
-			printf("\n");
-			printf("  Excluding comets...\n\n");
-			printf(" =============================================================================\n\n");
+			excl_screen ();
 			printf("  Exclude comet if Inclination is greather than:      degrees\b\b\b\b\b\b\b\b\b\b\b\b");
 			scanf("%f", &excl.i);
 			excl.key[10]=1;
+			if(excl.key[11]==1) excl.key[11]=0;
 		}
 
 		if (exclKey=='l'){
-			fflush(stdin);
-			fflush(stdout);
-			system("CLS");
-			printf("\n");
-			printf("  Excluding comets...\n\n");
-			printf(" =============================================================================\n\n");
+			excl_screen ();
 			printf("  Exclude comet if Inclination is less than:      degrees\b\b\b\b\b\b\b\b\b\b\b\b");
 			scanf("%f", &excl.i);
 			excl.key[11]=1;
+			if(excl.key[10]==1) excl.key[10]=0;
 		}
 
 		if (exclKey=='m'){
-			fflush(stdin);
-			fflush(stdout);
-			system("CLS");
-			printf("\n");
-			printf("  Excluding comets...\n\n");
-			printf(" =============================================================================\n\n");
+			excl_screen ();
 			printf("  Exclude comet if Period is greather than:      years\b\b\b\b\b\b\b\b\b\b");
 			scanf("%f", &excl.P);
 			excl.key[12]=1;
+			if(excl.key[13]==1) excl.key[13]=0;
 		}
 
 		if (exclKey=='n'){
-			fflush(stdin);
-			fflush(stdout);
-			system("CLS");
-			printf("\n");
-			printf("  Excluding comets...\n\n");
-			printf(" =============================================================================\n\n");
+			excl_screen ();
 			printf("  Exclude comet if Period is less than:      years\b\b\b\b\b\b\b\b\b\b");
 			scanf("%f", &excl.P);
 			excl.key[13]=1;
+			if(excl.key[12]==1) excl.key[12]=0;
 		}
 
 	} while (exclKey!='x');
@@ -529,7 +484,8 @@ int import_mpc (int N){
 		if (m < 15){
 			printf("\n\n  Unable to read data in line %d", line);
 			fscanf(fin, "%*[^\n]\n");
-			N--; i--;
+			N--; i--; line++;
+			continue;
 		}
 
 		edit_name(comet[i].full);
@@ -571,10 +527,6 @@ int import_mpc (int N){
 		if (ex == 1) { N--; i--; }
 	}
 
-	printf("\n\n  Total imported comets: %d\n  ", N);
-	printf("\n  Press any key to continue... ");
-	getch();
-
 	return N;
 }
 
@@ -594,7 +546,8 @@ int import_skymap (int N){
 		if (m < 12){
 			printf("\n\n  Unable to read data in line %d", line);
 			fscanf(fin, "%*[^\n]\n");
-			N--; i--;
+			N--; i--; line++;
+			continue;
 		}
 
 		edit_name(comet[i].full);
@@ -647,10 +600,6 @@ int import_skymap (int N){
 		if (ex == 1) { N--; i--; }
 	}
 
-	printf("\n\n  Total imported comets: %d\n  ", N);
-	printf("\n  Press any key to continue... ");
-	getch();
-
 	return N;
 }
 
@@ -702,7 +651,8 @@ int import_guide (int N){
 		if (m < 12){
 			printf("\n\n  Unable to read data in line %d", line);
 			fscanf(fin, "%*[^\n]\n");
-			N--; i--;
+			N--; i--; line++;
+			continue;
 		}
 
 		comet[i].P = compute_period (comet[i].q, comet[i].e);
@@ -712,10 +662,6 @@ int import_guide (int N){
 		ex = do_exclude(i);
 		if (ex == 1) { N--; i--; }
 	}
-
-	printf("\n\n  Total imported comets: %d\n  ", N);
-	printf("\n  Press any key to continue... ");
-	getch();
 
 	return N;
 }
@@ -784,7 +730,8 @@ int import_xephem (int N){
 			if (m < 13){
 				printf("\n\n  Unable to read data in line %d", line);
 				fscanf(fin, "%*[^\n]\n");
-				N--; i--;
+				N--; i--; line++;
+				continue;
 			}
 
 			comet[i].q = smAxis*(1-comet[i].e);
@@ -823,7 +770,8 @@ int import_xephem (int N){
 			if (m < 10){
 				printf("\n\n  Unable to read data in line %d", line);
 				fscanf(fin, "%*[^\n]\n");
-				N--; i--;
+				N--; i--; line++;
+				continue;
 			}
 
 			comet[i].e = 1.000000;
@@ -843,7 +791,8 @@ int import_xephem (int N){
 			if (m < 11){
 				printf("\n\n  Unable to read data in line %d", line);
 				fscanf(fin, "%*[^\n]\n");
-				N--; i--;
+				N--; i--; line++;
+				continue;
 			}
 
 			comet[i].T = compute_T (comet[i].y, comet[i].m, comet[i].d);
@@ -855,10 +804,6 @@ int import_xephem (int N){
 
 		comet[i].P = compute_period (comet[i].q, comet[i].e);
 	}
-
-	printf("\n\n  Total imported comets: %d\n  ", N);
-	printf("\n  Press any key to continue... ");
-	getch();
 
 	return N;
 }
@@ -885,7 +830,8 @@ int import_home_planet (int N){
 		if (m < 10){
 			printf("\n\n  Unable to read data in line %d", line);
 			fscanf(fin, "%*[^\n]\n");
-			N--; i--;
+			N--; i--; line++;
+			continue;
 		}
 
 		for (j=0; comet[i].full[j]!='\0'; j++){
@@ -920,16 +866,12 @@ int import_home_planet (int N){
 
 		comet[i].P = compute_period (comet[i].q, comet[i].e);
 		comet[i].T = compute_T (comet[i].y, comet[i].m, comet[i].d);
-		edit_name (comet[i].name);
+//		edit_name (comet[i].name);
 		line++;
 
 		ex = do_exclude(i);
 		if (ex == 1) { N--; i--; }
 	}
-
-	printf("\n\n  Total imported comets: %d\n  ", N);
-	printf("\n  Press any key to continue... ");
-	getch();
 
 	return N;
 }
@@ -959,7 +901,8 @@ int import_mystars (int N){
 		if (m < 10){
 			printf("\n\n  Unable to read data in line %d", line);
 			fscanf(fin, "%*[^\n]\n");
-			N--; i--;
+			N--; i--; line++;
+			continue;
 		}
 
 		for (j=0; comet[i].full[j]!='\0'; j++){
@@ -1020,10 +963,6 @@ int import_mystars (int N){
 		if (ex == 1) { N--; i--; }
 	}
 
-	printf("\n\n  Total imported comets: %d\n  ", N);
-	printf("\n  Press any key to continue... ");
-	getch();
-
 	return N;
 }
 
@@ -1045,7 +984,8 @@ int import_thesky (int N){
 		if (m < 13){
 			printf("\n\n  Unable to read data in line %d", line);
 			fscanf(fin, "%*[^\n]\n");
-			N--; i--;
+			N--; i--; line++;
+			continue;
 		}
 
 		edit_name(comet[i].full);
@@ -1089,10 +1029,6 @@ int import_thesky (int N){
 		if (ex == 1) { N--; i--; }
 	}
 
-	printf("\n\n  Total imported comets: %d\n  ", N);
-	printf("\n  Press any key to continue... ");
-	getch();
-
 	return N;
 }
 
@@ -1127,7 +1063,8 @@ int import_starry_night (int N){
 		if (m < 10){
 			printf("\n\n  Unable to read data in line %d", line);
 			fscanf(fin, "%*[^\n]\n");
-			N--; i--;
+			N--; i--; line++;
+			continue;
 		}
 
 		j=0; k=0;
@@ -1185,10 +1122,6 @@ int import_starry_night (int N){
 		if (ex == 1) { N--; i--; }
 	}
 
-	printf("\n\n  Total imported comets: %d\n  ", N);
-	printf("\n  Press any key to continue... ");
-	getch();
-
 	return N;
 }
 
@@ -1220,7 +1153,8 @@ int import_deep_space (int N){
 		if (m < 12){
 			printf("\n\n  Unable to read data in line %d", line);
 			fscanf(fin, "%*[^\n]\n");
-			N--; i--;
+			N--; i--; line++;
+			continue;
 		}
 
 		if ((comet[i].ID[0]=='C' && comet[i].ID[1]=='/') ||
@@ -1246,10 +1180,6 @@ int import_deep_space (int N){
 		if (ex == 1) { N--; i--; }
 	}
 
-	printf("\n\n  Total imported comets: %d\n  ", N);
-	printf("\n  Press any key to continue... ");
-	getch();
-
 	return N;
 }
 
@@ -1270,7 +1200,8 @@ int import_pc_tcs (int N){
 		if (m < 13){
 			printf("\n\n  Unable to read data in line %d", line);
 			fscanf(fin, "%*[^\n]\n");
-			N--; i--;
+			N--; i--; line++;
+			continue;
 		}
 
 		for (j=0; j<20; j++) tempID[j]='\0';
@@ -1315,10 +1246,6 @@ int import_pc_tcs (int N){
 		if (ex == 1) { N--; i--; }
 	}
 
-	printf("\n\n  Total imported comets: %d\n  ", N);
-	printf("\n  Press any key to continue... ");
-	getch();
-
 	return N;
 }
 
@@ -1338,7 +1265,8 @@ int import_ecu (int N){
 		if (m < 12){
 			printf("\n\n  Unable to read data in line %d", line);
 			fscanf(fin, "%*[^\n]\n");
-			N--; i--;
+			N--; i--; line++;
+			continue;
 		}
 
 		edit_name(comet[i].full);
@@ -1381,10 +1309,6 @@ int import_ecu (int N){
 		if (ex == 1) { N--; i--; }
 	}
 
-	printf("\n\n  Total imported comets: %d\n  ", N);
-	printf("\n  Press any key to continue... ");
-	getch();
-
 	return N;
 }
 
@@ -1405,7 +1329,8 @@ int import_dance (int N){
 		if (m < 11){
 			printf("\n\n  Unable to read data in line %d", line);
 			fscanf(fin, "%*[^\n]\n");
-			N--; i--;
+			N--; i--; line++;
+			continue;
 		}
 
 		edit_name (comet[i].ID);
@@ -1451,10 +1376,6 @@ int import_dance (int N){
 		if (ex == 1) { N--; i--; }
 	}
 
-	printf("\n\n  Total imported comets: %d\n  ", N);
-	printf("\n  Press any key to continue... ");
-	getch();
-
 	return N;
 }
 
@@ -1474,7 +1395,8 @@ int import_megastar (int N){
 		if (m < 14){
 			printf("\n\n  Unable to read data in line %d", line);
 			fscanf(fin, "%*[^\n]\n");
-			N--; i--;
+			N--; i--; line++;
+			continue;
 		}
 
 		edit_name (comet[i].ID);
@@ -1503,10 +1425,6 @@ int import_megastar (int N){
 		if (ex == 1) { N--; i--; }
 	}
 
-	printf("\n\n  Total imported comets: %d\n  ", N);
-	printf("\n  Press any key to continue... ");
-	getch();
-
 	return N;
 }
 
@@ -1527,7 +1445,8 @@ int import_skychart (int N){
 		if (m < 12){
 			printf("\n\n  Unable to read data in line %d", line);
 			fscanf(fin, "%*[^\n]\n");
-			N--; i--;
+			N--; i--; line++;
+			continue;
 		}
 
 		j=0;
@@ -1576,10 +1495,6 @@ int import_skychart (int N){
 		if (ex == 1) { N--; i--; }
 	}
 
-	printf("\n\n  Total imported comets: %d\n  ", N);
-	printf("\n  Press any key to continue... ");
-	getch();
-
 	return N;
 }
 
@@ -1599,7 +1514,8 @@ int import_voyager (int N){
 		if (m < 11){
 			printf("\n\n  Unable to read data in line %d", line);
 			fscanf(fin, "%*[^\n]\n");
-			N--; i--;
+			N--; i--; line++;
+			continue;
 		}
 
 		strcpy(comet[i].full, comet[i].name); 		//posto nema pravog full-a, name ce bit kao full
@@ -1626,10 +1542,6 @@ int import_voyager (int N){
 		if (ex == 1) { N--; i--; }
 	}
 
-	printf("\n\n  Total imported comets: %d\n  ", N);
-	printf("\n  Press any key to continue... ");
-	getch();
-
 	return N;
 }
 
@@ -1651,7 +1563,8 @@ int import_skytools (int N){
 		if (m < 16){
 			printf("\n\n  Unable to read data in line %d", line);
 			fscanf(fin, "%*[^\n]\n");
-			N--; i--;
+			N--; i--; line++;
+			continue;
 		}
 
 		edit_name(comet[i].full);
@@ -1703,10 +1616,6 @@ int import_skytools (int N){
 		ex = do_exclude(i);
 		if (ex == 1) { N--; i--; }
 	}
-
-	printf("\n\n  Total imported comets: %d\n  ", N);
-	printf("\n  Press any key to continue... ");
-	getch();
 
 	return N;
 }
@@ -1778,10 +1687,6 @@ int import_cfw (int N){
 		if (ex == 1) { N--; i--; }
 	}
 
-	printf("\n\n  Total imported comets: %d\n  ", N);
-	printf("\n  Press any key to continue... ");
-	getch();
-
 	return N;
 }
 
@@ -1795,7 +1700,6 @@ int import_nasa1 (int N){
 	printf("\n\n  Press any key to continue.... ");
 	getch();
 
-	printf("  Do you want exclude SOHO comets? (y/n)\n\n");
 	do{
 		fflush(stdin);
 		fflush(stdout);
@@ -1859,7 +1763,8 @@ int import_nasa1 (int N){
 		if (m < 11){
 			printf("\n\n  Unable to read data in line %d", line);
 			fscanf(fin, "%*[^\n]\n");
-			N--; i--;
+			N--; i--; line++;
+			continue;
 		}
 
 		comet[i].P = compute_period (comet[i].q, comet[i].e);
@@ -1876,11 +1781,6 @@ int import_nasa1 (int N){
 		ex = do_exclude(i);
 		if (ex == 1) { N--; i--; }
 	}
-
-	printf("\n =============================================================================\n\n");
-	printf("  Total imported comets: %d\n  ", N);
-	printf("\n  Press any key to continue... ");
-	getch();
 
 	return N;
 }
@@ -1967,7 +1867,8 @@ int import_nasa2 (int N){
 		if (m < 10){
 			printf("\n\n  Unable to read data in line %d", line);
 			fscanf(fin, "%*[^\n]\n");
-			N--; i--;
+			N--; i--; line++;
+			continue;
 		}
 
 		if (q=='y') for (j=0; j<strlen(comet[i].name); j++){
@@ -1984,11 +1885,6 @@ int import_nasa2 (int N){
 		ex = do_exclude(i);
 		if (ex == 1) { N--; i--; }
 	}
-
-	printf("\n =============================================================================\n\n");
-	printf("  Total imported comets: %d\n  ", N);
-	printf("\n  Press any key to continue... ");
-	getch();
 
 	return N;
 }
@@ -2420,10 +2316,14 @@ void export_ssc (int N, int Ty){
 
 void export_stell (int N, int Ty){
 
-	int i;
+	int i, j;
 	FILE *fout=fopen(fout_name, "a");
 
 	for (i=0; i<N; i++) {
+
+		for (j=0; j<strlen(comet[i].name); j++){
+			if (isupper(comet[i].name[j])) comet[i].name[j] = tolower(comet[i].name[j]);
+		}
 
 		fprintf(fout,"[%s]\n", comet[i].name);
 		fprintf(fout,"parent = Sun\n");
@@ -2598,6 +2498,16 @@ void help_screen (){
 	system("CLS");
 	printf("\n\n   Under construction... :) ");
 	getch();
+}
+
+void excl_screen (){
+
+	fflush(stdin);
+	fflush(stdout);
+	system("CLS");
+	printf("\n");
+	printf("  Excluding comets...\n\n");
+	printf(" =============================================================================\n\n");
 }
 
 
