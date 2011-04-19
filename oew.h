@@ -13,10 +13,10 @@
 
 //	funkcije za ispisivanje na ekran
 void start_screen ();
-void screen_imp ();
-void screen_exp1 ();
-void screen_exp2 ();
-void screen_exp3 ();
+void screen_imp (char *import_format, char *soft);
+void screen_exp1 (char *import_format);
+void screen_exp2 (char *import_format, char *export_format);
+void screen_exp3 (char *import_format, char *export_format);
 void exit_screen ();
 void help_screen ();
 void excl_screen ();
@@ -24,45 +24,45 @@ void excl_screen ();
 //	funkcije za citanje iz datoteka
 int import_main (int Ty);			//glavna fja
 
-int import_mpc (int N);
-int import_skymap (int N);
-int import_guide (int N);
-int import_xephem (int N);
-int import_voyager (int N);
-int import_home_planet (int N);
-int import_mystars (int N);			//comet[i].pn zapravo nije .pn !!!
-int import_thesky (int N);
-int import_starry_night (int N);
-int import_deep_space (int N);
-int import_pc_tcs (int N);
-int import_skytools (int N);
-int import_skychart (int N);
-int import_ecu (int N);
-int import_dance (int N);
-int import_megastar (int N);
-int import_cfw (int N);				//comet for windows
-int import_nasa1 (int N);			//ELEMENTS.COMET
-int import_nasa2 (int N);			//sbdb query
+int import_mpc (int N, char *fin_name);
+int import_skymap (int N, char *fin_name);
+int import_guide (int N, char *fin_name);
+int import_xephem (int N, char *fin_name);
+int import_voyager (int N, char *fin_name);
+int import_home_planet (int N, char *fin_name);
+int import_mystars (int N, char *fin_name);			//comet[i].pn zapravo nije .pn !!!
+int import_thesky (int N, char *fin_name);
+int import_starry_night (int N, char *fin_name);
+int import_deep_space (int N, char *fin_name);
+int import_pc_tcs (int N, char *fin_name);
+int import_skytools (int N, char *fin_name);
+int import_skychart (int N, char *fin_name);
+int import_ecu (int N, char *fin_name);
+int import_dance (int N, char *fin_name);
+int import_megastar (int N, char *fin_name);
+int import_cfw (int N, char *fin_name);		//comet for windows
+int import_nasa1 (int N, char *fin_name);			//ELEMENTS.COMET
+int import_nasa2 (int N, char *fin_name);			//sbdb query
 
 //	funkcije za pisanje u datoteke
-void export_mpc (int N);
-void export_skymap (int N);
-void export_guide (int N);
-void export_xephem (int N);
-void export_home_planet (int N);
-void export_mystars (int N);
-void export_thesky (int N);
-void export_starry_night (int N);
-void export_deep_space (int N);
-void export_pc_tcs (int N);
-void export_ecu (int N);
-void export_dance (int N);
-void export_megastar (int N);
-void export_skychart (int N);
-void export_voyager (int N);
-void export_skytools (int N);
-void export_ssc (int N, int Ty);
-void export_stell (int N, int Ty);
+void export_mpc (int N, char *fout_name);
+void export_skymap (int N, char *fout_name);
+void export_guide (int N, char *fout_name);
+void export_xephem (int N, char *fout_name);
+void export_home_planet (int N, char *fout_name);
+void export_mystars (int N, char *fout_name);
+void export_thesky (int N, char *fout_name);
+void export_starry_night (int N, char *fout_name);
+void export_deep_space (int N, char *fout_name);
+void export_pc_tcs (int N, char *fout_name);
+void export_ecu (int N, char *fout_name);
+void export_dance (int N, char *fout_name);
+void export_megastar (int N, char *fout_name);
+void export_skychart (int N, char *fout_name);
+void export_voyager (int N, char *fout_name);
+void export_skytools (int N, char *fout_name);
+void export_ssc (int N, int Ty, char *fout_name);
+void export_stell (int N, int Ty, char *fout_name);
 
 //	funkcije za racunanje...
 double compute_period (float q, float e);

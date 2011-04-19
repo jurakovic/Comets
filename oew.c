@@ -2,12 +2,6 @@
 
 #include "oew.h"
 
-char *soft;
-char *import_format;
-char *export_format;
-char  fin_name[80+1];
-char  fout_name[80+1];
-
 struct Data{
 	char full [80+1];
 	char name [55+1];
@@ -78,12 +72,8 @@ int main (){
 		type=-1;
 		start_screen();
 		scanf("%d", &type);
-        if (type >= 0 && type < 20) {
-        	import_format = menu[type].format;
-        	soft = menu[type].soft;
-        	end = import_main(type);
-		}
-		else if (type == 20) help_screen();
+        if (type >= 0 && type < 20) end = import_main(type);
+		if (type == 20) help_screen();
 	} while (type!=21 && end!=2);   			// vrti se sve dok na prvom izborniku nije upisan broj 21 ili na drugom broj 2
 
 	exit_screen();
@@ -97,7 +87,16 @@ int import_main (int Ty){
 	char c;
 	FILE *fin;
 
-	screen_imp();
+	char *soft;
+	char *import_format;
+	char *export_format;
+	char fin_name[81];
+	char fout_name[81];
+
+	import_format = menu[Ty].format;
+	soft = menu[Ty].soft;
+
+	screen_imp(import_format, soft);
 
     do {
         printf("  Enter input filename: ");
@@ -128,25 +127,25 @@ int import_main (int Ty){
 	if (end==1) return 1;
 	if (end==2) return 2;
 
-	if (Ty== 0) Ncmt = import_mpc (Ncmt);
-	if (Ty== 1) Ncmt = import_skymap (Ncmt);
-	if (Ty== 2) Ncmt = import_guide (Ncmt);
-	if (Ty== 3) Ncmt = import_xephem (Ncmt);
-	if (Ty== 4) Ncmt = import_home_planet (Ncmt);
-	if (Ty== 5) Ncmt = import_mystars (Ncmt);
-	if (Ty== 6 || Ty==16) Ncmt = import_thesky (Ncmt); 	//jer imaju isti format
-	if (Ty== 7) Ncmt = import_starry_night (Ncmt);
-	if (Ty== 8) Ncmt = import_deep_space (Ncmt);
-	if (Ty== 9) Ncmt = import_pc_tcs (Ncmt);
-	if (Ty==10) Ncmt = import_ecu (Ncmt);
-	if (Ty==11) Ncmt = import_dance (Ncmt);
-	if (Ty==12) Ncmt = import_megastar (Ncmt);
-	if (Ty==13) Ncmt = import_skychart (Ncmt);
-	if (Ty==14) Ncmt = import_voyager (Ncmt);
-	if (Ty==15) Ncmt = import_skytools (Ncmt);
-	if (Ty==17) Ncmt = import_cfw (Ncmt);
-	if (Ty==18) Ncmt = import_nasa1 (Ncmt);
-	if (Ty==19) Ncmt = import_nasa2 (Ncmt);
+	if (Ty== 0) Ncmt = import_mpc (Ncmt, fin_name);
+	if (Ty== 1) Ncmt = import_skymap (Ncmt, fin_name);
+	if (Ty== 2) Ncmt = import_guide (Ncmt, fin_name);
+	if (Ty== 3) Ncmt = import_xephem (Ncmt, fin_name);
+	if (Ty== 4) Ncmt = import_home_planet (Ncmt, fin_name);
+	if (Ty== 5) Ncmt = import_mystars (Ncmt, fin_name);
+	if (Ty== 6 || Ty==16) Ncmt = import_thesky (Ncmt, fin_name); 	//jer imaju isti format
+	if (Ty== 7) Ncmt = import_starry_night (Ncmt, fin_name);
+	if (Ty== 8) Ncmt = import_deep_space (Ncmt, fin_name);
+	if (Ty== 9) Ncmt = import_pc_tcs (Ncmt, fin_name);
+	if (Ty==10) Ncmt = import_ecu (Ncmt, fin_name);
+	if (Ty==11) Ncmt = import_dance (Ncmt, fin_name);
+	if (Ty==12) Ncmt = import_megastar (Ncmt, fin_name);
+	if (Ty==13) Ncmt = import_skychart (Ncmt, fin_name);
+	if (Ty==14) Ncmt = import_voyager (Ncmt, fin_name);
+	if (Ty==15) Ncmt = import_skytools (Ncmt, fin_name);
+	if (Ty==17) Ncmt = import_cfw (Ncmt, fin_name);
+	if (Ty==18) Ncmt = import_nasa1 (Ncmt, fin_name);
+	if (Ty==19) Ncmt = import_nasa2 (Ncmt, fin_name);
 
 
 	if (Ty==18 || Ty==19)
@@ -188,34 +187,34 @@ int import_main (int Ty){
 	if (end==1) return 1;
 	if (end==2) return 2;
 
-	screen_exp2();
+	screen_exp2(import_format, export_format);
 	printf("  Enter output filename: ");
 	scanf("%s", fout_name);
 
 	if (fout_name[0]=='1' && fout_name[1]=='\0') return 1;
 	if (fout_name[0]=='2' && fout_name[1]=='\0') return 2;
 
-	if (exp_ty== 0) export_mpc (Ncmt);
-	if (exp_ty== 1) export_skymap (Ncmt);
-	if (exp_ty== 2) export_guide (Ncmt);
-	if (exp_ty== 3) export_xephem (Ncmt);
-	if (exp_ty== 4) export_home_planet (Ncmt);
-	if (exp_ty== 5) export_mystars (Ncmt);
-	if (exp_ty== 6 || exp_ty==16) export_thesky (Ncmt);
-	if (exp_ty== 7) export_starry_night (Ncmt);
-	if (exp_ty== 8) export_deep_space (Ncmt);
-	if (exp_ty== 9) export_pc_tcs (Ncmt);
-	if (exp_ty==10) export_ecu (Ncmt);
-	if (exp_ty==11) export_dance (Ncmt);
-	if (exp_ty==12) export_megastar (Ncmt);
-	if (exp_ty==13) export_skychart (Ncmt);
-	if (exp_ty==14) export_voyager (Ncmt);
-	if (exp_ty==15) export_skytools (Ncmt);
-	if (exp_ty==17) export_ssc  (Ncmt, Ty);
-	if (exp_ty==18) export_stell  (Ncmt, Ty);
+	if (exp_ty== 0) export_mpc (Ncmt, fout_name);
+	if (exp_ty== 1) export_skymap (Ncmt, fout_name);
+	if (exp_ty== 2) export_guide (Ncmt, fout_name);
+	if (exp_ty== 3) export_xephem (Ncmt, fout_name);
+	if (exp_ty== 4) export_home_planet (Ncmt, fout_name);
+	if (exp_ty== 5) export_mystars (Ncmt, fout_name);
+	if (exp_ty== 6 || exp_ty==16) export_thesky (Ncmt, fout_name);
+	if (exp_ty== 7) export_starry_night (Ncmt, fout_name);
+	if (exp_ty== 8) export_deep_space (Ncmt, fout_name);
+	if (exp_ty== 9) export_pc_tcs (Ncmt, fout_name);
+	if (exp_ty==10) export_ecu (Ncmt, fout_name);
+	if (exp_ty==11) export_dance (Ncmt, fout_name);
+	if (exp_ty==12) export_megastar (Ncmt, fout_name);
+	if (exp_ty==13) export_skychart (Ncmt, fout_name);
+	if (exp_ty==14) export_voyager (Ncmt, fout_name);
+	if (exp_ty==15) export_skytools (Ncmt, fout_name);
+	if (exp_ty==17) export_ssc  (Ncmt, Ty, fout_name);
+	if (exp_ty==18) export_stell  (Ncmt, Ty, fout_name);
 
 	do {
-		screen_exp3();
+		screen_exp3(import_format, export_format);
 		printf("  Done\n\n  %d comets successfully saved in file %s\n\n", Ncmt, fout_name);
 		printf("  Select option (1/2): ");
 		scanf("%d", &end);
@@ -467,7 +466,7 @@ int do_exclude(int i){
 }
 
 
-int import_mpc (int N){
+int import_mpc (int N, char *fin_name){
 
 	int i, j, k, l;
 	int ex, m, line=1;
@@ -530,7 +529,7 @@ int import_mpc (int N){
 	return N;
 }
 
-int import_skymap (int N){
+int import_skymap (int N, char *fin_name){
 
 	int i, j, k, l, u, t, space;
 	int ex, m, line=1;
@@ -603,7 +602,7 @@ int import_skymap (int N){
 	return N;
 }
 
-int import_guide (int N){
+int import_guide (int N, char *fin_name){
 
 	int i, j, ex, m, line=1;
 	char c, x[20];
@@ -666,7 +665,7 @@ int import_guide (int N){
 	return N;
 }
 
-int import_xephem (int N){
+int import_xephem (int N, char *fin_name){
 
 	//info: http://www.clearskyinstitute.com/xephem/help/xephem.html#mozTocId215848
 
@@ -808,7 +807,7 @@ int import_xephem (int N){
 	return N;
 }
 
-int import_home_planet (int N){
+int import_home_planet (int N, char *fin_name){
 
 	int i, j, k, l;
 	int ex, m, line=1;
@@ -876,7 +875,7 @@ int import_home_planet (int N){
 	return N;
 }
 
-int import_mystars (int N){
+int import_mystars (int N, char *fin_name){
 
 	int i, j, k, l;
 	int ex, m, line=1;
@@ -966,7 +965,7 @@ int import_mystars (int N){
 	return N;
 }
 
-int import_thesky (int N){
+int import_thesky (int N, char *fin_name){
 
 	int i, j, k, l;
 	int ex, m, line=1;
@@ -1032,7 +1031,7 @@ int import_thesky (int N){
 	return N;
 }
 
-int import_starry_night (int N){
+int import_starry_night (int N, char *fin_name){
 
 	int i, j, k;
 	int ex, m, line=1;
@@ -1125,7 +1124,7 @@ int import_starry_night (int N){
 	return N;
 }
 
-int import_deep_space (int N){
+int import_deep_space (int N, char *fin_name){
 
 	int i, j, ex, m, line=2;
 	char c, x[8+1];
@@ -1183,7 +1182,7 @@ int import_deep_space (int N){
 	return N;
 }
 
-int import_pc_tcs (int N){
+int import_pc_tcs (int N, char *fin_name){
 
 	int i, j, k;
 	int ex, m, line=1;
@@ -1249,7 +1248,7 @@ int import_pc_tcs (int N){
 	return N;
 }
 
-int import_ecu (int N){
+int import_ecu (int N, char *fin_name){
 
 	int i, j, k, l;
 	int ex, m, line=2;
@@ -1312,7 +1311,7 @@ int import_ecu (int N){
 	return N;
 }
 
-int import_dance (int N){
+int import_dance (int N, char *fin_name){
 
 	int i, j, k;
 	int ex, m, line=1;
@@ -1379,7 +1378,7 @@ int import_dance (int N){
 	return N;
 }
 
-int import_megastar (int N){
+int import_megastar (int N, char *fin_name){
 
 	int i, ex, m, line=1;
 	char x[25+1];
@@ -1428,7 +1427,7 @@ int import_megastar (int N){
 	return N;
 }
 
-int import_skychart (int N){
+int import_skychart (int N, char *fin_name){
 
 	int i, j, k, l;
 	int ex, m, line=1;
@@ -1498,7 +1497,7 @@ int import_skychart (int N){
 	return N;
 }
 
-int import_voyager (int N){
+int import_voyager (int N, char *fin_name){
 
 	int i, ex, m, line=1;
 	char mj[3+1];
@@ -1545,7 +1544,7 @@ int import_voyager (int N){
 	return N;
 }
 
-int import_skytools (int N){
+int import_skytools (int N, char *fin_name){
 
 	int i, j, k, l, u, t, space;
 	int yy, mm, dd;
@@ -1620,7 +1619,7 @@ int import_skytools (int N){
 	return N;
 }
 
-int import_cfw (int N){
+int import_cfw (int N, char *fin_name){
 
 	int i, j, k, l, ex;
 	FILE *fin = fopen(fin_name, "r");
@@ -1690,7 +1689,7 @@ int import_cfw (int N){
 	return N;
 }
 
-int import_nasa1 (int N){
+int import_nasa1 (int N, char *fin_name){
 
 	int i, j, k, l;
 	int ex, m, line=1, trash;
@@ -1785,7 +1784,7 @@ int import_nasa1 (int N){
 	return N;
 }
 
-int import_nasa2 (int N){
+int import_nasa2 (int N, char *fin_name){
 
 	int i, j, k, l;
 	int ex, m, line=1;
@@ -1890,7 +1889,7 @@ int import_nasa2 (int N){
 }
 
 
-void export_mpc (int N){
+void export_mpc (int N, char *fout_name){
 
 	int i;
 	FILE *fout=fopen(fout_name, "a");
@@ -1904,7 +1903,7 @@ void export_mpc (int N){
 	fclose(fout);
 }
 
-void export_skymap (int N){
+void export_skymap (int N, char *fout_name){
 
 	int i, j, k;
 	FILE *fout=fopen(fout_name, "a");
@@ -1932,7 +1931,7 @@ void export_skymap (int N){
 	fclose(fout);
 }
 
-void export_guide (int N){
+void export_guide (int N, char *fout_name){
 
 	int i, j, k;
 	FILE *fout=fopen(fout_name, "a");
@@ -1976,7 +1975,7 @@ void export_guide (int N){
 	fclose(fout);
 }
 
-void export_xephem (int N){
+void export_xephem (int N, char *fout_name){
 
 	//info: http://www.clearskyinstitute.com/xephem/help/xephem.html#mozTocId215848
 
@@ -2039,7 +2038,7 @@ void export_xephem (int N){
 	fclose(fout);
 }
 
-void export_home_planet (int N){
+void export_home_planet (int N, char *fout_name){
 
 	int i;
 	FILE *fout=fopen(fout_name, "a");
@@ -2053,7 +2052,7 @@ void export_home_planet (int N){
 	fclose(fout);
 }
 
-void export_mystars (int N){
+void export_mystars (int N, char *fout_name){
 
 	int i;
 	FILE *fout=fopen(fout_name, "a");
@@ -2068,7 +2067,7 @@ void export_mystars (int N){
 	fclose(fout);
 }
 
-void export_thesky (int N){
+void export_thesky (int N, char *fout_name){
 
 	int i;
 	FILE *fout=fopen(fout_name, "a");
@@ -2082,7 +2081,7 @@ void export_thesky (int N){
 	fclose(fout);
 }
 
-void export_starry_night (int N){
+void export_starry_night (int N, char *fout_name){
 
 	int i;
 	FILE *fout=fopen(fout_name, "a");
@@ -2096,7 +2095,7 @@ void export_starry_night (int N){
 	fclose(fout);
 }
 
-void export_deep_space (int N){
+void export_deep_space (int N, char *fout_name){
 
 	int i;
 	FILE *fout=fopen(fout_name, "a");
@@ -2110,7 +2109,7 @@ void export_deep_space (int N){
 	fclose(fout);
 }
 
-void export_pc_tcs (int N){
+void export_pc_tcs (int N, char *fout_name){
 
 	int i, j, k;
 	FILE *fout=fopen(fout_name, "a");
@@ -2133,7 +2132,7 @@ void export_pc_tcs (int N){
 	fclose(fout);
 }
 
-void export_ecu (int N){
+void export_ecu (int N, char *fout_name){
 
 	int i;
 	FILE *fout=fopen(fout_name, "a");
@@ -2147,7 +2146,7 @@ void export_ecu (int N){
 	fclose(fout);
 }
 
-void export_dance (int N){
+void export_dance (int N, char *fout_name){
 
 	int i;
 	FILE *fout=fopen(fout_name, "a");
@@ -2161,7 +2160,7 @@ void export_dance (int N){
 	fclose(fout);
 }
 
-void export_megastar (int N){
+void export_megastar (int N, char *fout_name){
 
 	int i;
 	FILE *fout=fopen(fout_name, "a");
@@ -2175,7 +2174,7 @@ void export_megastar (int N){
 	fclose(fout);
 }
 
-void export_skychart (int N){
+void export_skychart (int N, char *fout_name){
 
 	int i;
 	FILE *fout=fopen(fout_name, "a");
@@ -2189,7 +2188,7 @@ void export_skychart (int N){
 	fclose(fout);
 }
 
-void export_voyager (int N){
+void export_voyager (int N, char *fout_name){
 
 	int i;
 	char *mon;
@@ -2220,7 +2219,7 @@ void export_voyager (int N){
 	fclose(fout);
 }
 
-void export_skytools (int N){
+void export_skytools (int N, char *fout_name){
 
 	int i, j, k;
 	FILE *fout=fopen(fout_name, "a");
@@ -2260,7 +2259,7 @@ void export_skytools (int N){
 	fclose(fout);
 }
 
-void export_ssc (int N, int Ty){
+void export_ssc (int N, int Ty, char *fout_name){
 
 	int i, j;
 	char *mon;
@@ -2314,7 +2313,7 @@ void export_ssc (int N, int Ty){
 	fclose(fout);
 }
 
-void export_stell (int N, int Ty){
+void export_stell (int N, int Ty, char *fout_name){
 
 	int i, j;
 	FILE *fout=fopen(fout_name, "a");
@@ -2389,8 +2388,6 @@ char *edit_name (char *name){
 
 void start_screen (){
 
-	fflush(stdin);
-	fflush(stdout);
 	system("CLS");
 	printf("\n");
 	printf("                            ORBITAL ELEMENTS WORKSHOP\n\n");
@@ -2411,10 +2408,8 @@ void start_screen (){
 	printf("  Select option [0-21]: ");
 }
 
-void screen_imp (){
+void screen_imp (char *import_format, char *soft){
 
-	fflush(stdin);
-	fflush(stdout);
 	system("CLS");
 	printf("\n");
 	printf("  Importing %s (%s) format...\n\n", import_format, soft);
@@ -2423,7 +2418,7 @@ void screen_imp (){
 	printf(" =============================================================================\n\n");
 }
 
-void screen_exp1 (){
+void screen_exp1 (char *import_format){
 
 	fflush(stdin);
 	fflush(stdout);
@@ -2435,7 +2430,7 @@ void screen_exp1 (){
 	printf(" =============================================================================\n\n");
 }
 
-void screen_exp2 (){
+void screen_exp2 (char *import_format, char *export_format){
 
 	fflush(stdin);
 	fflush(stdout);
@@ -2447,7 +2442,7 @@ void screen_exp2 (){
 	printf(" =============================================================================\n\n");
 }
 
-void screen_exp3 (){
+void screen_exp3 (char *import_format, char *export_format){
 
 	fflush(stdin);
 	fflush(stdout);
@@ -2464,8 +2459,6 @@ void exit_screen (){
 	// http://patorjk.com/software/taag/
 	// Font: Big
 
-	fflush(stdin);
-	fflush(stdout);
 	system("CLS");
 	printf("\n");
 	printf("                   ____           _       _   _             _ \n");
@@ -2493,8 +2486,6 @@ void exit_screen (){
 
 void help_screen (){
 
-	fflush(stdin);
-	fflush(stdout);
 	system("CLS");
 	printf("\n\n   Under construction... :) ");
 	getch();
@@ -2502,8 +2493,6 @@ void help_screen (){
 
 void excl_screen (){
 
-	fflush(stdin);
-	fflush(stdout);
 	system("CLS");
 	printf("\n");
 	printf("  Excluding comets...\n\n");
