@@ -1,15 +1,19 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include <iostream>
+#include <fstream>
+#include <cstdio>
+#include <cstdlib>
+#include <string>
 #include <string.h>
-#include <math.h>
-#include <ctype.h>
+#include <cmath>
+#include <cctype>
 #include <conio.h>
 
+#define MAX_CMT 4000
 #define equinox 2000
 #define ep_y 2011
 #define ep_m 2
 #define ep_d 8
-#define eq_JD 2455600
+#define eq_JD compute_T(ep_y, ep_m, ep_d)-1
 
 //	funkcije za ispisivanje na ekran
 void start_screen ();

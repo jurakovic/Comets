@@ -1,6 +1,7 @@
 // Orbital Elements Workshop
 
-#include "oew.h"
+#include "oew.hpp"
+using namespace std;
 
 struct Data{
 	char full [80+1];
@@ -20,7 +21,7 @@ struct Data{
 	float H;
 	float G;
 	char book [20+1];
-} comet[5000], temp;
+} comet[MAX_CMT], temp;
 
 struct Formats {
 		char format[25];
@@ -71,8 +72,8 @@ int main (){
 	do {
 		type=-1;
 		start_screen();
-		scanf("%d", &type);
-        if (type >= 0 && type < 20) end = import_main(type);
+		cin >> type;
+		if (type >= 0 && type < 20) end = import_main(type);
 		if (type == 20) help_screen();
 	} while (type!=21 && end!=2);   			// vrti se sve dok na prvom izborniku nije upisan broj 21 ili na drugom broj 2
 
@@ -84,14 +85,10 @@ int main (){
 int import_main (int Ty){
 
 	int Ncmt=0, total_cmt, exp_ty, end;
-	char c;
-	FILE *fin;
+	ifstream fin;
 
-	char *soft;
-	char *import_format;
-	char *export_format;
-	char fin_name[81];
-	char fout_name[81];
+	char *soft, *import_format, *export_format;
+	char fin_name[80+1], fout_name[80+1];
 
 	import_format = menu[Ty].format;
 	soft = menu[Ty].soft;
@@ -99,18 +96,18 @@ int import_main (int Ty){
 	screen_imp(import_format, soft);
 
     do {
-        printf("  Enter input filename: ");
-        scanf("%s", fin_name);
+        cout << "  Enter input filename: ";
+        cin.getline(fin_name, 80);
 
         if (fin_name[0]=='1' && fin_name[1]=='\0') return 1;
         if (fin_name[0]=='2' && fin_name[1]=='\0') return 2;
 
-        fin=fopen(fin_name, "r");
-        if (fin==NULL) printf("\n  Unable to open file %s\n\n", fin_name);
+        fin.open(fin_name, ios::in);
+        if (fin==NULL) cout << "\n  Unable to open file " << fin_name << endl << endl;
     } while (fin==NULL);
 
-	while ((c=fgetc(fin)) != EOF){
-		if (c=='\n') Ncmt++;
+	while ( !fin.eof() ){
+		if(fin.get()=='\n') Ncmt++;
 	}
 
 	if (Ty==17) Ncmt/=13;						// jer je 17. format cfw, a jedan komet je definiran kroz 13 redova
@@ -118,9 +115,9 @@ int import_main (int Ty){
 
 	total_cmt = Ncmt;
 
-    printf("\n  File %s is successfully opened\n", fin_name);
-	printf("\n  Total detected comets: %d\n  ", Ncmt);
-	printf("\n  Press any key to continue... ");
+    cout << "\n  File " << fin_name << " is successfully opened" << endl;
+	cout << "\n  Total detected comets: " << Ncmt << endl;
+	cout << "\n  Press any key to continue... ";
 	getch();
 
 	end = define_exclude();
@@ -148,35 +145,14 @@ int import_main (int Ty){
 	if (Ty==19) Ncmt = import_nasa2 (Ncmt, fin_name);
 
 
-	if (Ty==18 || Ty==19)
-		printf("\n =============================================================================");
-//	if (Ncmt != total_cmt && (Ty != 18 || Ty !=19)) printf("\n\n =============================================================================");
-	printf("\n\n  Total imported comets: %d/%d\n  ", Ncmt, total_cmt);
-	printf("\n  Press any key to continue... ");
+	if (Ty==18 || Ty==19) cout << "\n =============================================================================";
+	cout << endl << endl << "  Total imported comets: " << Ncmt << "/" << total_cmt << endl;
+	cout << endl << "  Press any key to continue... ";
 	getch();
 
 	do {
-		fflush(stdin);
-		fflush(stdout);
-		system("CLS");
-		printf("\n");
-		printf("  Exporting %s format...\n\n", import_format);
-		printf(" =============================================================================\n\n");
-		printf("  Supported output formats: \n\n");
-		printf("        0. MPC                         12. MegaStar V4.x\n");
-		printf("        1. SkyMap                      13. SkyChart III\n");
-		printf("        2. Guide                       14. Voyager II\n");
-		printf("        3. xephem                      15. SkyTools\n");
-		printf("        4. Home Planet                 16. Autostar\n");
-		printf("        5. MyStars!\n");
-		printf("        6. TheSky\n");
-		printf("        7. Starry Night                17. Celestia(SSC)\n");
-		printf("        8. Deep Space                  18. Stellarium\n");
-		printf("        9. PC-TCS\n");
-		printf("       10. Earth Centered Universe\n");
-		printf("       11. Dance of the Planets\n\n");
-		printf("  Select option [0-18]: ");
-		scanf("%d", &exp_ty);
+		screen_exp1 (import_format);
+		cin >> exp_ty;
 	} while (exp_ty<0 || exp_ty>18);
 
 	if (exp_ty==17) export_format = menu[exp_ty+3].format;
@@ -188,8 +164,8 @@ int import_main (int Ty){
 	if (end==2) return 2;
 
 	screen_exp2(import_format, export_format);
-	printf("  Enter output filename: ");
-	scanf("%s", fout_name);
+	cout << "  Enter output filename: ";
+	cin.getline(fout_name, 80);
 
 	if (fout_name[0]=='1' && fout_name[1]=='\0') return 1;
 	if (fout_name[0]=='2' && fout_name[1]=='\0') return 2;
@@ -215,12 +191,12 @@ int import_main (int Ty){
 
 	do {
 		screen_exp3(import_format, export_format);
-		printf("  Done\n\n  %d comets successfully saved in file %s\n\n", Ncmt, fout_name);
-		printf("  Select option (1/2): ");
-		scanf("%d", &end);
+		cout << "\n  Done" << endl << endl << "  " <<  Ncmt  << " comets successfully saved in file " << fout_name << endl << endl;
+		cout << "  Select option (1/2): ";
+		cin >> end;
 	} while (end!=1 && end!=2);
 
-	fclose(fin);
+	fin.close();
 	return end;
 }
 
@@ -235,25 +211,22 @@ int define_exclude(){
 	do {
 
 		do {
-			fflush(stdin);
-			fflush(stdout);
 			system("CLS");
-			printf("\n");
-			printf("  Excluding data...\n\n");
-			printf(" =============================================================================\n");
-			printf("     1.   Main Menu   |   2.   Exit   \n");
-			printf(" =============================================================================\n\n");
-			printf("  Exclude by: \n\n");
-			printf("        Perihelion Date                  a. Greather than    b. Less than\n");
-			printf("        Pericenter Distance              c. Greather than    d. Less than\n");
-			printf("        Eccentricity                     e. Greather than    f. Less than\n");
-			printf("        Long. of the Ascending Node      g. Greather than    h. Less than\n");
-			printf("        Long. of Pericenter              i. Greather than    j. Less than\n");
-			printf("        Inclination                      k. Greather than    l. Less than\n");
-			printf("        Period                           m. Greather than    n. Less than\n\n");
-			printf("        Type \"x\" to continue\n\n");
-			printf("  Select option [a-n]: ");
-			scanf("%c", &exclKey);
+			cout << endl << "  Excluding data..." << endl << endl;
+			cout << " =============================================================================" << endl;
+			cout << "     1.   Main Menu   |   2.   Exit   " << endl;
+			cout << " =============================================================================" << endl << endl;
+			cout << "  Exclude by: " << endl << endl;
+			cout << "        Perihelion Date                  a. Greather than    b. Less than" << endl;
+			cout << "        Pericenter Distance              c. Greather than    d. Less than" << endl;
+			cout << "        Eccentricity                     e. Greather than    f. Less than" << endl;
+			cout << "        Long. of the Ascending Node      g. Greather than    h. Less than" << endl;
+			cout << "        Long. of Pericenter              i. Greather than    j. Less than" << endl;
+			cout << "        Inclination                      k. Greather than    l. Less than" << endl;
+			cout << "        Period                           m. Greather than    n. Less than" << endl << endl;
+			cout << "        Type \"x\" to continue" << endl << endl;
+			cout << "  Select option [a-n]: ";
+			cin >> exclKey;
 
 			if(isupper(exclKey)) exclKey = tolower(exclKey);
 
@@ -265,7 +238,7 @@ int define_exclude(){
 		if (exclKey=='a'){
 			excl_screen ();
 			printf("  Exclude comet if Perihelion Date is greather than (DD MM YYYY):  ");
-			scanf("%d %d %d", &d, &m, &y);
+			cin >> d >> m >> y;
 
 			excl.T = compute_T(y, m, d);
 			excl.key[0]=1;
@@ -275,7 +248,7 @@ int define_exclude(){
 		if (exclKey=='b'){
 			excl_screen ();
 			printf("  Exclude comet if Perihelion Date is less than (DD MM YYYY):  ");
-			scanf("%d %d %d", &d, &m, &y);
+			cin >> d >> m >> y;
 
 			excl.T = compute_T(y, m, d);
 			excl.key[1]=1;
@@ -285,7 +258,7 @@ int define_exclude(){
 		if (exclKey=='c'){
 			excl_screen ();
 			printf("  Exclude comet if Perihelion distance is greather than:       AU\b\b\b\b\b\b\b\b");
-			scanf("%f", &excl.q);
+			cin >> excl.q;
 			excl.key[2]=1;
 			if(excl.key[3]==1) excl.key[3]=0;
 		}
@@ -293,7 +266,7 @@ int define_exclude(){
 		if (exclKey=='d'){
 			excl_screen ();
 			printf("  Exclude comet if Perihelion distance is less than:       AU\b\b\b\b\b\b\b\b");
-			scanf("%f", &excl.q);
+			cin >> excl.q;
 			excl.key[3]=1;
 			if(excl.key[2]==1) excl.key[2]=0;
 		}
@@ -301,7 +274,7 @@ int define_exclude(){
 		if (exclKey=='e'){
 			excl_screen ();
 			printf("  Exclude comet if Eccentricity is greather than: ");
-			scanf("%f", &excl.e);
+			cin >> excl.e;
 			excl.key[4]=1;
 			if(excl.key[5]==1) excl.key[5]=0;
 		}
@@ -309,7 +282,7 @@ int define_exclude(){
 		if (exclKey=='f'){
 			excl_screen ();
 			printf("  Exclude comet if Eccentricity is less than: ");
-			scanf("%f", &excl.e);
+			cin >> excl.e;
 			excl.key[5]=1;
 			if(excl.key[4]==1) excl.key[4]=0;
 		}
@@ -317,7 +290,7 @@ int define_exclude(){
 		if (exclKey=='g'){
 			excl_screen ();
 			printf("  Exclude comet if Long. of the Ascending Node is greather than:      degrees\b\b\b\b\b\b\b\b\b\b\b\b");
-			scanf("%f", &excl.an);
+			cin >> excl.an;
 			excl.key[6]=1;
 			if(excl.key[7]==1) excl.key[7]=0;
 		}
@@ -325,7 +298,7 @@ int define_exclude(){
 		if (exclKey=='h'){
 			excl_screen ();
 			printf("  Exclude comet if Long. of the Ascending Node is less than:      degrees\b\b\b\b\b\b\b\b\b\b\b\b");
-			scanf("%f", &excl.an);
+			cin >> excl.an;
 			excl.key[7]=1;
 			if(excl.key[6]==1) excl.key[6]=0;
 		}
@@ -333,7 +306,7 @@ int define_exclude(){
 		if (exclKey=='i'){
 			excl_screen ();
 			printf("  Exclude comet if Long. of Pericenter is greather than:      degrees\b\b\b\b\b\b\b\b\b\b\b\b");
-			scanf("%f", &excl.pn);
+			cin >> excl.pn;
 			excl.key[8]=1;
 			if(excl.key[9]==1) excl.key[9]=0;
 		}
@@ -341,7 +314,7 @@ int define_exclude(){
 		if (exclKey=='j'){
 			excl_screen ();
 			printf("  Exclude comet if Long. of Pericenter is less than:      degrees\b\b\b\b\b\b\b\b\b\b\b\b");
-			scanf("%f", &excl.pn);
+			cin >> excl.pn;
 			excl.key[9]=1;
 			if(excl.key[8]==1) excl.key[8]=0;
 		}
@@ -349,7 +322,7 @@ int define_exclude(){
 		if (exclKey=='k'){
 			excl_screen ();
 			printf("  Exclude comet if Inclination is greather than:      degrees\b\b\b\b\b\b\b\b\b\b\b\b");
-			scanf("%f", &excl.i);
+			cin >> excl.i;
 			excl.key[10]=1;
 			if(excl.key[11]==1) excl.key[11]=0;
 		}
@@ -357,7 +330,7 @@ int define_exclude(){
 		if (exclKey=='l'){
 			excl_screen ();
 			printf("  Exclude comet if Inclination is less than:      degrees\b\b\b\b\b\b\b\b\b\b\b\b");
-			scanf("%f", &excl.i);
+			cin >> excl.i;
 			excl.key[11]=1;
 			if(excl.key[10]==1) excl.key[10]=0;
 		}
@@ -365,7 +338,7 @@ int define_exclude(){
 		if (exclKey=='m'){
 			excl_screen ();
 			printf("  Exclude comet if Period is greather than:      years\b\b\b\b\b\b\b\b\b\b");
-			scanf("%f", &excl.P);
+			cin >> excl.P;
 			excl.key[12]=1;
 			if(excl.key[13]==1) excl.key[13]=0;
 		}
@@ -373,7 +346,7 @@ int define_exclude(){
 		if (exclKey=='n'){
 			excl_screen ();
 			printf("  Exclude comet if Period is less than:      years\b\b\b\b\b\b\b\b\b\b");
-			scanf("%f", &excl.P);
+			cin >> excl.P;
 			excl.key[13]=1;
 			if(excl.key[12]==1) excl.key[12]=0;
 		}
@@ -381,8 +354,8 @@ int define_exclude(){
 	} while (exclKey!='x');
 
 	system("CLS");
-	printf("\n  Excludings...\n\n");
-	printf(" =============================================================================\n\n");
+	cout << endl << "  Excludings..." << endl << endl;
+	cout << " =============================================================================" << endl << endl;
 
 	if (excl.key[ 0]==0 && excl.key[ 1]==0 && excl.key[ 2]==0 &&
 		excl.key[ 3]==0 && excl.key[ 4]==0 && excl.key[ 5]==0 &&
@@ -1708,7 +1681,7 @@ int import_nasa1 (int N, char *fin_name){
 		printf(" =============================================================================\n\n");
 		printf("  Do you want exclude SOHO comets? (y/n)\n\n");
 		printf("  Select option: ");
-		scanf("%c", &q);
+		cin >> q;
 		if(isupper(q)) q = tolower(q);
 	} while (q!='y' && q!='n');
 
@@ -1803,7 +1776,7 @@ int import_nasa2 (int N, char *fin_name){
 		printf(" =============================================================================\n\n");
 		printf("  Do you want exclude SOHO comets? (y/n)\n\n");
 		printf("  Select option: ");
-		scanf("%c", &q);
+		cin >> q;
 		if(isupper(q)) q = tolower(q);
 	} while (q!='y' && q!='n');
 
@@ -2388,34 +2361,37 @@ char *edit_name (char *name){
 
 void start_screen (){
 
+	fflush(stdin);
+	fflush(stdout);
 	system("CLS");
-	printf("\n");
-	printf("                            ORBITAL ELEMENTS WORKSHOP\n\n");
-	printf(" =============================================================================\n\n");
-	printf("  Supported input formats: \n\n");
-	printf("        0. MPC                         12. MegaStar V4.x\n");
-	printf("        1. SkyMap                      13. SkyChart III\n");
-	printf("        2. Guide                       14. Voyager II\n");
-	printf("        3. xephem                      15. SkyTools\n");
-	printf("        4. Home Planet                 16. Autostar\n");
-	printf("        5. MyStars!\n");
-	printf("        6. TheSky                      17. Comet for Windows\n");
-	printf("        7. Starry Night                18. NASA (ELEMENTS.COMET)\n");
-	printf("        8. Deep Space                  19. NASA (CSV format)\n");
-	printf("        9. PC-TCS\n");
-	printf("       10. Earth Centered Universe     20. Help\n");
-	printf("       11. Dance of the Planets        21. Exit\n\n");
-	printf("  Select option [0-21]: ");
+	cout << endl;
+	cout << "                            ORBITAL ELEMENTS WORKSHOP" << endl << endl;
+	cout << " =============================================================================" << endl << endl;
+	cout << "  Supported input formats: " << endl << endl;
+	cout << "        0. MPC                         12. MegaStar V4.x" << endl;
+	cout << "        1. SkyMap                      13. SkyChart III" << endl;
+	cout << "        2. Guide                       14. Voyager II" << endl;
+	cout << "        3. xephem                      15. SkyTools" << endl;
+	cout << "        4. Home Planet                 16. Autostar" << endl;
+	cout << "        5. MyStars!" << endl;
+	cout << "        6. TheSky                      17. Comet for Windows" << endl;
+	cout << "        7. Starry Night                18. NASA (ELEMENTS.COMET)" << endl;
+	cout << "        8. Deep Space                  19. NASA (CSV format)" << endl;
+	cout << "        9. PC-TCS" << endl;
+	cout << "       10. Earth Centered Universe     20. Help" << endl;
+	cout << "       11. Dance of the Planets        21. Exit" << endl << endl;
+	cout << "  Select option [0-21]: ";
 }
 
 void screen_imp (char *import_format, char *soft){
 
+	fflush(stdin);
+	fflush(stdout);
 	system("CLS");
-	printf("\n");
-	printf("  Importing %s (%s) format...\n\n", import_format, soft);
-	printf(" =============================================================================\n");
-	printf("     1.   Main Menu   |   2.   Exit   \n");
-	printf(" =============================================================================\n\n");
+	cout << endl << "  Importing " << import_format << " (" << soft << ") format..." << endl << endl;
+	cout << " =============================================================================" << endl;
+	cout << "     1.   Main Menu   |   2.   Exit" << endl;
+	cout << " =============================================================================" << endl << endl;
 }
 
 void screen_exp1 (char *import_format){
@@ -2423,11 +2399,23 @@ void screen_exp1 (char *import_format){
 	fflush(stdin);
 	fflush(stdout);
 	system("CLS");
-	printf("\n");
-	printf("  Exporting %s format...\n\n", import_format);
-	printf(" =============================================================================\n");
-	printf("     1.   Main Menu   |   2.   Exit   \n");
-	printf(" =============================================================================\n\n");
+	cout << endl;
+	cout << "  Exporting " << import_format << " format..." << endl << endl;
+	cout << " =============================================================================" << endl << endl;
+	cout << "  Supported output formats: " << endl << endl;
+	cout << "        0. MPC                         12. MegaStar V4.x" << endl;
+	cout << "        1. SkyMap                      13. SkyChart III" << endl;
+	cout << "        2. Guide                       14. Voyager II" << endl;
+	cout << "        3. xephem                      15. SkyTools" << endl;
+	cout << "        4. Home Planet                 16. Autostar" << endl;
+	cout << "        5. MyStars!\n";
+	cout << "        6. TheSky" << endl;
+	cout << "        7. Starry Night                17. Celestia(SSC)" << endl;
+	cout << "        8. Deep Space                  18. Stellarium" << endl;
+	cout << "        9. PC-TCS" << endl;
+	cout << "       10. Earth Centered Universe" << endl;
+	cout << "       11. Dance of the Planets" << endl << endl;
+	cout << "  Select option [0-18]: ";
 }
 
 void screen_exp2 (char *import_format, char *export_format){
@@ -2435,11 +2423,10 @@ void screen_exp2 (char *import_format, char *export_format){
 	fflush(stdin);
 	fflush(stdout);
 	system("CLS");
-	printf("\n");
-	printf("  Exporting %s as %s format...\n\n", import_format, export_format);
-	printf(" =============================================================================\n");
-	printf("     1.   Main Menu   |   2.   Exit   \n");
-	printf(" =============================================================================\n\n");
+	cout << endl << "  Exporting " << import_format << " as " << export_format << " format..." << endl << endl;
+	cout << " =============================================================================" << endl;
+	cout << "     1.   Main Menu   |   2.   Exit" << endl;
+	cout << " =============================================================================" << endl << endl;
 }
 
 void screen_exp3 (char *import_format, char *export_format){
@@ -2447,11 +2434,10 @@ void screen_exp3 (char *import_format, char *export_format){
 	fflush(stdin);
 	fflush(stdout);
 	system("CLS");
-	printf("\n");
-	printf("  %s exported as %s format...\n\n", import_format, export_format);
-	printf(" =============================================================================\n");
-	printf("     1.   Main Menu   |   2.   Exit   \n");
-	printf(" =============================================================================\n\n");
+	cout << endl << "  " << import_format << " exported as " << export_format << " format..." << endl << endl;
+	cout << " =============================================================================" << endl;
+	cout << "     1.   Main Menu   |   2.   Exit" << endl;
+	cout << " ============================================================================="  << endl;
 }
 
 void exit_screen (){
@@ -2459,44 +2445,50 @@ void exit_screen (){
 	// http://patorjk.com/software/taag/
 	// Font: Big
 
+	fflush(stdin);
+	fflush(stdout);
 	system("CLS");
-	printf("\n");
-	printf("                   ____           _       _   _             _ \n");
-	printf("                  / __ \\         | |     (_) | |           | |\n");
-	printf("                 | |  | |  _ __  | |__    _  | |_    __ _  | |\n");
-	printf("                 | |  | | | '__| | '_ \\  | | | __|  / _` | | |\n");
-	printf("                 | |__| | | |    | |_) | | | | |_  | (_| | | |\n");
-	printf("                  \\____/  |_|    |_.__/  |_|  \\__|  \\__,_| |_|\n\n");
-	printf("            ______   _                                     _         \n");
-	printf("           |  ____| | |                                   | |        \n");
-	printf("           | |__    | |   ___   _ __ ___     ___   _ __   | |_   ___ \n");
-	printf("           |  __|   | |  / _ \\ | '_ ` _ \\   / _ \\ | '_ \\  | __| / __|\n");
-	printf("           | |____  | | |  __/ | | | | | | |  __/ | | | | | |_  \\__ \\\n");
-	printf("           |______| |_|  \\___| |_| |_| |_|  \\___| |_| |_|  \\__| |___/\n\n");
-	printf("       __          __                _            _                     \n");
-	printf("       \\ \\        / /               | |          | |                    \n");
-	printf("        \\ \\  /\\  / /   ___    _ __  | | __  ___  | |__     ___    _ __  \n");
-	printf("         \\ \\/  \\/ /   / _ \\  | '__| | |/ / / __| | '_ \\   / _ \\  | '_ \\ \n");
-	printf("          \\  /\\  /   | (_) | | |    |   <  \\__ \\ | | | | | (_) | | |_) |\n");
-	printf("           \\/  \\/     \\___/  |_|    |_|\\_\\ |___/ |_| |_|  \\___/  | .__/\n");
-	printf("                                                                 | |\n");
-    printf("                                                                 |_|\n\n");
-	printf("Press any key to exit...                             Copyright (c) 2011, jurluk");
+	cout << endl;
+	cout << "                   ____           _       _   _             _ " << endl;
+	cout << "                  / __ \\         | |     (_) | |           | |" << endl;
+	cout << "                 | |  | |  _ __  | |__    _  | |_    __ _  | |" << endl;
+	cout << "                 | |  | | | '__| | '_ \\  | | | __|  / _` | | |" << endl;
+	cout << "                 | |__| | | |    | |_) | | | | |_  | (_| | | |" << endl;
+	cout << "                  \\____/  |_|    |_.__/  |_|  \\__|  \\__,_| |_|\n" << endl;
+	cout << "            ______   _                                     _         " << endl;
+	cout << "           |  ____| | |                                   | |        " << endl;
+	cout << "           | |__    | |   ___   _ __ ___     ___   _ __   | |_   ___ " << endl;
+	cout << "           |  __|   | |  / _ \\ | '_ ` _ \\   / _ \\ | '_ \\  | __| / __|" << endl;
+	cout << "           | |____  | | |  __/ | | | | | | |  __/ | | | | | |_  \\__ \\" << endl;
+	cout << "           |______| |_|  \\___| |_| |_| |_|  \\___| |_| |_|  \\__| |___/\n" << endl;
+	cout << "       __          __                _            _                     " << endl;
+	cout << "       \\ \\        / /               | |          | |                    " << endl;
+	cout << "        \\ \\  /\\  / /   ___    _ __  | | __  ___  | |__     ___    _ __  " << endl;
+	cout << "         \\ \\/  \\/ /   / _ \\  | '__| | |/ / / __| | '_ \\   / _ \\  | '_ \\ " << endl;
+	cout << "          \\  /\\  /   | (_) | | |    |   <  \\__ \\ | | | | | (_) | | |_) |" << endl;
+	cout << "           \\/  \\/     \\___/  |_|    |_|\\_\\ |___/ |_| |_|  \\___/  | .__/" << endl;
+	cout << "                                                                 | |" << endl;
+    cout << "                                                                 |_|" << endl << endl;
+	cout << "Press any key to exit...                             Copyright (c) 2011, jurluk";
 }
 
 void help_screen (){
 
+	fflush(stdin);
+	fflush(stdout);
 	system("CLS");
-	printf("\n\n   Under construction... :) ");
+	cout << "\n\n   Under construction... :) ";
 	getch();
 }
 
 void excl_screen (){
 
+	fflush(stdin);
+	fflush(stdout);
 	system("CLS");
-	printf("\n");
-	printf("  Excluding comets...\n\n");
-	printf(" =============================================================================\n\n");
+	cout << "\n";
+	cout << "  Excluding comets...\n\n";
+	cout << " =============================================================================\n\n";
 }
 
 
@@ -2524,7 +2516,7 @@ int sort_data (int N){
 		printf("        g. Inclination\n");
 		printf("        h. Period\n\n");
 		printf("  Select option [a-h]: ");
-		scanf("%c", &sortKey);
+		cin >> sortKey;
 
 		if(isupper(sortKey)) sortKey = tolower(sortKey);
 
@@ -2546,7 +2538,7 @@ int sort_data (int N){
 			printf("        a. Ascending\n");
 			printf("        b. Descending\n\n");
 			printf("  Select option: ");
-			scanf("%c", &dir);
+			cin >> dir;
 			if(isupper(dir)) dir = tolower(dir);
 		} while (dir!='a' && dir!='b' && dir!='1' && dir!='2');
 	}
