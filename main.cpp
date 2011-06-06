@@ -3,6 +3,7 @@
 // TO DO:
 // - promjenit import za elements.comet, rastav na ID i name
 // - u get_sort_key namjestit da funkcionira i sa godinama ispod 1000
+// - u tools_c namjestit da vraca na prethodni prolaz
 
 #include "oew.hpp"
 using namespace std;
@@ -12,25 +13,16 @@ Excludings excl;
 
 int main (){
 
-	int type, end;
+	int type, end=0;
 
 	system("COLOR 9");
 
-/*	//stari nacin gdje je sve svima dostupno
-	do {
-		type=-1;
-		start_screen();
-		scanf("%d", &type);
-		if (type >= 0 && type < 20) end = import_main(type, 0);
-		if (type == 20) end = tools();
-	} while (type!=21 && end!=EXIT_PROG);
-*/
-	//novi nacin gdje ona 3 tipa nisu dostupni ostalima
 	do {
 		type=-1;
 		start_screen();
 		scanf("%d", &type);
 		if ((type >= 0 && type < 17) || type==123 || type==456 || type==789) end = import_main(type, 0);
+		// ta 3 su zapravo skriveni formati koji nisu dostupni "obicnom" korisniku
 		if (type == 17) end = tools();
 	} while (type!=18 && end!=EXIT_PROG);
 
@@ -43,11 +35,11 @@ int main (){
 int import_main (int Ty, int parent){
 
 	int Ncmt, total_cmt, exp_ty, end;
-	char c, *soft, *import_format, *export_format;
+	char c;
 	char fin_name[80+1], fout_name[80+1];
+	string soft, import_format, export_format;
 	FILE *fin, *fout;
 
-	// ta 3 su zapravo skriveni formati koji "nisu dostupni" obicnom korisniku
 	if(Ty==123){
 		import_format = "Comet for Windows";
 		soft = "Comet.dat";
@@ -105,7 +97,7 @@ int import_main (int Ty, int parent){
 	if (Ty== 3) Ncmt = import_xephem (Ncmt, fin);
 	if (Ty== 4) Ncmt = import_home_planet (Ncmt, fin);
 	if (Ty== 5) Ncmt = import_mystars (Ncmt, fin);
-	if (Ty== 6 || Ty==16) Ncmt = import_thesky (Ncmt, fin); 	//jer imaju isti format
+	if (Ty== 6) Ncmt = import_thesky (Ncmt, fin);
 	if (Ty== 7) Ncmt = import_starry_night (Ncmt, fin);
 	if (Ty== 8) Ncmt = import_deep_space (Ncmt, fin);
 	if (Ty== 9) Ncmt = import_pc_tcs (Ncmt, fin);
@@ -115,6 +107,7 @@ int import_main (int Ty, int parent){
 	if (Ty==13) Ncmt = import_skychart (Ncmt, fin);
 	if (Ty==14) Ncmt = import_voyager (Ncmt, fin);
 	if (Ty==15) Ncmt = import_skytools (Ncmt, fin);
+	if (Ty==16) Ncmt = import_thesky (Ncmt, fin);
 	if (Ty==123) Ncmt = import_cfw (Ncmt, fin);
 	if (Ty==456) Ncmt = import_nasa1 (Ncmt, fin);
 	if (Ty==789) Ncmt = import_nasa2 (Ncmt, fin);
@@ -122,7 +115,7 @@ int import_main (int Ty, int parent){
 	fclose(fin);
 
 	cout << "\n\n  Total:    " << setw(4)  << total_cmt;
-	cout << "\n  Excl/Err: " << setw(4) << total_cmt-Ncmt;
+	cout << "\n  Excluded: " << setw(4) << total_cmt-Ncmt;
 	cout << "\n  Imported: " << setw(4) << Ncmt;
 	cout << "\n\n  Press any key to continue... ";
 	getch();
@@ -168,7 +161,7 @@ int import_main (int Ty, int parent){
 	if (exp_ty== 3) export_xephem (Ncmt, fout);
 	if (exp_ty== 4) export_home_planet (Ncmt, fout);
 	if (exp_ty== 5) export_mystars (Ncmt, fout);
-	if (exp_ty== 6 || exp_ty==16) export_thesky (Ncmt, fout);
+	if (exp_ty== 6) export_thesky (Ncmt, fout);
 	if (exp_ty== 7) export_starry_night (Ncmt, fout);
 	if (exp_ty== 8) export_deep_space (Ncmt, fout);
 	if (exp_ty== 9) export_pc_tcs (Ncmt, fout);
@@ -178,8 +171,9 @@ int import_main (int Ty, int parent){
 	if (exp_ty==13) export_skychart (Ncmt, fout);
 	if (exp_ty==14) export_voyager (Ncmt, fout);
 	if (exp_ty==15) export_skytools (Ncmt, fout);
-	if (exp_ty==17) export_ssc  (Ncmt, fout);
-	if (exp_ty==18) export_stell  (Ncmt, fout);
+	if (exp_ty==16) export_thesky (Ncmt, fout);
+	if (exp_ty==17) export_ssc (Ncmt, fout);
+	if (exp_ty==18) export_stell (Ncmt, fout);
 
 	fclose(fout);
 
@@ -193,302 +187,6 @@ int import_main (int Ty, int parent){
 //	clear_data();
 
 	return end;
-}
-
-
-int define_exclude(){
-
-	int y, m, d;
-	char exclKey;
-
-	for (int i=0; i<14; i++) excl.key[i]=0;
-
-	do {
-
-		do {
-			system("CLS");
-			excl_screen ();
-			cout << "     1.   Main Menu   |   2.   Exit\n";
-			cout << " =============================================================================\n\n";
-			cout << "  Exclude by: \n\n";
-			cout << "        Perihelion Date                  a. Greather than    b. Less than\n";
-			cout << "        Pericenter Distance              c. Greather than    d. Less than\n";
-			cout << "        Eccentricity                     e. Greather than    f. Less than\n";
-			cout << "        Long. of the Ascending Node      g. Greather than    h. Less than\n";
-			cout << "        Long. of Pericenter              i. Greather than    j. Less than\n";
-			cout << "        Inclination                      k. Greather than    l. Less than\n";
-			cout << "        Period                           m. Greather than    n. Less than\n\n";
-			cout << "        Type \"x\" to continue\n\n";
-			cout << "  Select option [a-n]: ";
-			cin >> exclKey;
-
-			if(isupper(exclKey)) exclKey = tolower(exclKey);
-
-		} while ((exclKey < 'a' || exclKey > 'n') && exclKey!='x' && exclKey!='1' && exclKey!='2');
-
-		if (exclKey=='1') return MAIN_MENU;
-		if (exclKey=='2') return EXIT_PROG;
-
-		if (exclKey=='a'){
-			do{
-				excl_screen ();
-				cout << "\n  Exclude comet if Perihelion Date is greather than (DD MM YYYY):  ";
-				scanf("%d %d %d", &d, &m, &y);
-				if ((d<1 || d>31) || (m<1 || m>12)){
-					cout << "\n  Invalid date! Try again... ";
-					getch();
-				}
-			} while ((d<1 || d>31) || (m<1 || m>12));
-
-			excl.T = greg_to_jul(y, m, d);
-			excl.key[0]=1;
-			if(excl.key[1]==1) excl.key[1]=0;
-		}
-
-		if (exclKey=='b'){
-			do{
-				excl_screen ();
-				cout << "\n  Exclude comet if Perihelion Date is less than (DD MM YYYY):  ";
-				scanf("%d %d %d", &d, &m, &y);
-				if ((d<1 || d>31) || (m<1 || m>12)){
-					cout << "\n  Invalid date! Try again... ";
-					getch();
-				}
-			} while ((d<1 || d>31) || (m<1 || m>12));
-
-			excl.T = greg_to_jul(y, m, d);
-			excl.key[1]=1;
-			if(excl.key[0]==1) excl.key[0]=0;
-		}
-
-		if (exclKey=='c'){
-			do{
-				excl_screen ();
-				cout << "\n  Exclude comet if Perihelion distance is greather than:       AU\b\b\b\b\b\b\b\b";
-				cin >> excl.q;
-				if (excl.q<=0){
-					cout << "\n  Value must be greather than zero! Try again... ";
-					getch();
-				}
-			} while (excl.q<=0);
-
-			excl.key[2]=1;
-			if(excl.key[3]==1) excl.key[3]=0;
-		}
-
-		if (exclKey=='d'){
-			do{
-				excl_screen ();
-				cout << "\n  Exclude comet if Perihelion distance is less than:       AU\b\b\b\b\b\b\b\b";
-				cin >> excl.q;
-				if (excl.q<=0){
-					cout << "\n  Value must be greather than zero! Try again... ";
-					getch();
-				}
-			} while (excl.q<=0);
-
-			excl.key[3]=1;
-			if(excl.key[2]==1) excl.key[2]=0;
-		}
-
-		if (exclKey=='e'){
-			do{
-				excl_screen ();
-				cout << "\n  Exclude comet if Eccentricity is greather than: ";
-				cin >> excl.e;
-				if (excl.e<0 || excl.e>1){
-					cout << "\n  Value must be between 0 and 1! Try again... ";
-					getch();
-				}
-			} while (excl.e<0 || excl.e>1);
-
-			excl.key[4]=1;
-			if(excl.key[5]==1) excl.key[5]=0;
-		}
-
-		if (exclKey=='f'){
-			do{
-				excl_screen ();
-				cout << "\n  Exclude comet if Eccentricity is less than: ";
-				cin >> excl.e;
-				if (excl.e<0 || excl.e>1){
-					cout << "\n  Value must be between 0 and 1! Try again... ";
-					getch();
-				}
-			} while (excl.e<0 || excl.e>1);
-
-			excl.key[5]=1;
-			if(excl.key[4]==1) excl.key[4]=0;
-		}
-
-		if (exclKey=='g'){
-			do{
-				excl_screen ();
-				cout << "\n  Exclude comet if Long. of the Ascending Node is greather than:      degrees\b\b\b\b\b\b\b\b\b\b\b\b";
-				cin >> excl.an;
-				if (excl.an<0 || excl.an>=360){
-					cout << "\n  Value must be between 0 and 360! Try again... ";
-					getch();
-				}
-			} while (excl.an<0 || excl.an>=360);
-
-			excl.key[6]=1;
-			if(excl.key[7]==1) excl.key[7]=0;
-		}
-
-		if (exclKey=='h'){
-			do{
-				excl_screen ();
-				cout << "\n  Exclude comet if Long. of the Ascending Node is less than:      degrees\b\b\b\b\b\b\b\b\b\b\b\b";
-				cin >> excl.an;
-				if (excl.an<0 || excl.an>=360){
-					cout << "\n  Value must be between 0 and 360! Try again... ";
-					getch();
-				}
-			} while (excl.an<0 || excl.an>=360);
-
-			excl.key[7]=1;
-			if(excl.key[6]==1) excl.key[6]=0;
-		}
-
-		if (exclKey=='i'){
-			do{
-				excl_screen ();
-				cout << "\n  Exclude comet if Long. of Pericenter is greather than:      degrees\b\b\b\b\b\b\b\b\b\b\b\b";
-				cin >> excl.pn;
-				if (excl.pn<0 || excl.pn>=360){
-					cout << "\n  Value must be between 0 and 360! Try again... ";
-					getch();
-				}
-			} while (excl.pn<0 || excl.pn>=360);
-
-			excl.key[8]=1;
-			if(excl.key[9]==1) excl.key[9]=0;
-		}
-
-		if (exclKey=='j'){
-			do{
-				excl_screen ();
-				cout << "\n  Exclude comet if Long. of Pericenter is less than:      degrees\b\b\b\b\b\b\b\b\b\b\b\b";
-				cin >> excl.pn;
-				if (excl.pn<0 || excl.pn>=360){
-					cout << "\n  Value must be between 0 and 360! Try again... ";
-					getch();
-				}
-			} while (excl.pn<0 || excl.pn>=360);
-
-			excl.key[9]=1;
-			if(excl.key[8]==1) excl.key[8]=0;
-		}
-
-		if (exclKey=='k'){
-			do{
-				excl_screen ();
-				cout << "\n  Exclude comet if Inclination is greather than:      degrees\b\b\b\b\b\b\b\b\b\b\b\b";
-				cin >> excl.i;
-				if (excl.i<0 || excl.i>=180){
-					cout << "\n  Value must be between 0 and 180! Try again... ";
-					getch();
-				}
-			} while (excl.i<0 || excl.i>=180);
-
-			excl.key[10]=1;
-			if(excl.key[11]==1) excl.key[11]=0;
-		}
-
-		if (exclKey=='l'){
-			do{
-				excl_screen ();
-				cout << "\n  Exclude comet if Inclination is less than:      degrees\b\b\b\b\b\b\b\b\b\b\b\b";
-				cin >> excl.i;
-				if (excl.i<0 || excl.i>=180){
-					cout << "\n  Value must be between 0 and 180! Try again... ";
-					getch();
-				}
-			} while (excl.i<0 || excl.i>=180);
-
-			excl.key[11]=1;
-			if(excl.key[10]==1) excl.key[10]=0;
-		}
-
-		if (exclKey=='m'){
-			do{
-				excl_screen ();
-				cout << "\n  Exclude comet if Period is greather than:      years\b\b\b\b\b\b\b\b\b\b";
-				cin >> excl.P;
-				if (excl.P<=0){
-					cout << "\n  Value must be greather than zero! Try again... ";
-					getch();
-				}
-			} while (excl.P<=0);
-
-			excl.key[12]=1;
-			if(excl.key[13]==1) excl.key[13]=0;
-		}
-
-		if (exclKey=='n'){
-			do{
-				excl_screen ();
-				cout << "\n  Exclude comet if Period is less than:      years\b\b\b\b\b\b\b\b\b\b";
-				cin >> excl.P;
-				if (excl.P<=0){
-					cout << "\n  Value must be greather than zero! Try again... ";
-					getch();
-				}
-			} while (excl.P<=0);
-
-			excl.key[13]=1;
-			if(excl.key[12]==1) excl.key[12]=0;
-		}
-
-	} while (exclKey!='x');
-
-	system("CLS");
-	cout << "\n  Excludings...\n\n";
-	cout << " =============================================================================\n\n";
-
-	if (excl.key[ 0]==0 && excl.key[ 1]==0 && excl.key[ 2]==0 &&
-		excl.key[ 3]==0 && excl.key[ 4]==0 && excl.key[ 5]==0 &&
-		excl.key[ 6]==0 && excl.key[ 7]==0 && excl.key[ 8]==0 &&
-		excl.key[ 9]==0 && excl.key[10]==0 && excl.key[11]==0 &&
-		excl.key[12]==0 && excl.key[13]==0) printf("  None\n");
-	if (excl.key[ 0]==1) printf("  Exclude if Perihelion Date is greather than %02d. %02d. %d.\n", d, m, y);
-	if (excl.key[ 1]==1) printf("  Exclude if Perihelion Date is less than %02d. %02d. %d.\n", d, m, y);
-	if (excl.key[ 2]==1) printf("  Exclude if Pericenter Distance is greather than %.2f AU\n", excl.q);
-	if (excl.key[ 3]==1) printf("  Exclude if Pericenter Distance is less than %.2f AU\n", excl.q);
-	if (excl.key[ 4]==1) printf("  Exclude if Eccentricity is greather than %.2f\n", excl.e);
-	if (excl.key[ 5]==1) printf("  Exclude if Eccentricity is less than %.2f\n", excl.e);
-	if (excl.key[ 6]==1) printf("  Exclude if Long. of the Ascending Node is greather than %.1f degrees\n", excl.an);
-	if (excl.key[ 7]==1) printf("  Exclude if Long. of the Ascending Node is less than %.1f degrees\n", excl.an);
-	if (excl.key[ 8]==1) printf("  Exclude if Long. of Pericenter is greather than %.1f degrees\n", excl.pn);
-	if (excl.key[ 9]==1) printf("  Exclude if Long. of Pericenter is less than %.1f degrees\n", excl.pn);
-	if (excl.key[10]==1) printf("  Exclude if Inclination is greather than %.1f degrees\n", excl.i);
-	if (excl.key[11]==1) printf("  Exclude if Inclination is less than %.1f degrees\n", excl.i);
-	if (excl.key[12]==1) printf("  Exclude if Period is greather than %.1f years\n", excl.P);
-	if (excl.key[13]==1) printf("  Exclude if Period is less than %.1f years\n", excl.P);
-	printf("\n =============================================================================");
-
-	return SUCCESS;
-}
-
-int do_exclude(int i){
-
-	if (excl.key[ 0]==1 && cmt[i].T > excl.T) return 1;
-	if (excl.key[ 1]==1 && cmt[i].T < excl.T) return 1;
-	if (excl.key[ 2]==1 && cmt[i].q > excl.q) return 1;
-	if (excl.key[ 3]==1 && cmt[i].q < excl.q) return 1;
-	if (excl.key[ 4]==1 && cmt[i].e > excl.e) return 1;
-	if (excl.key[ 5]==1 && cmt[i].e < excl.e) return 1;
-	if (excl.key[ 6]==1 && cmt[i].an > excl.an) return 1;
-	if (excl.key[ 7]==1 && cmt[i].an < excl.an) return 1;
-	if (excl.key[ 8]==1 && cmt[i].pn > excl.pn) return 1;
-	if (excl.key[ 9]==1 && cmt[i].pn < excl.pn) return 1;
-	if (excl.key[10]==1 && cmt[i].i > excl.i) return 1;
-	if (excl.key[11]==1 && cmt[i].i < excl.i) return 1;
-	if (excl.key[12]==1 && cmt[i].P > excl.P) return 1;
-	if (excl.key[13]==1 && cmt[i].P < excl.P) return 1;
-
-	return SUCCESS;
 }
 
 
@@ -548,7 +246,7 @@ int import_mpc (int N, FILE *fin){
 		cmt[i].sort = get_sort_key(cmt[i].ID);
 		line++;
 
-		if(do_exclude(i)==1){N--; i--;}
+		if(do_exclude(i)){N--; i--;}
 	}
 
 	return N;
@@ -556,7 +254,7 @@ int import_mpc (int N, FILE *fin){
 
 int import_skymap (int N, FILE *fin){
 
-	int j, k, l, u, t, space;
+	int j, k, l, u, t=0, space;
 	int m, line=1, len;
 
 	for (int i=0; i<N; i++) {
@@ -621,7 +319,7 @@ int import_skymap (int N, FILE *fin){
 		cmt[i].sort = get_sort_key(cmt[i].ID);
 		line++;
 
-		if(do_exclude(i)==1){N--; i--;}
+		if(do_exclude(i)){N--; i--;}
 	}
 
 	return N;
@@ -682,7 +380,7 @@ int import_guide (int N, FILE *fin){
 		cmt[i].sort = get_sort_key(cmt[i].ID);
 		line++;
 
-		if(do_exclude(i)==1){N--; i--;}
+		if(do_exclude(i)){N--; i--;}
 	}
 
 	return N;
@@ -761,7 +459,7 @@ int import_xephem (int N, FILE *fin){
 
 			line+=2;
 
-			if(do_exclude(i)==1){N--; i--;}
+			if(do_exclude(i)){N--; i--;}
 		}
 
 		if(c == 'p'){
@@ -781,7 +479,7 @@ int import_xephem (int N, FILE *fin){
 			cmt[i].T = greg_to_jul (cmt[i].y, cmt[i].m, cmt[i].d);
 			line+=2;
 
-			if(do_exclude(i)==1){N--; i--;}
+			if(do_exclude(i)){N--; i--;}
 		}
 
 		if(c == 'h'){
@@ -800,7 +498,7 @@ int import_xephem (int N, FILE *fin){
 			cmt[i].T = greg_to_jul (cmt[i].y, cmt[i].m, cmt[i].d);
 			line+=2;
 
-			if(do_exclude(i)==1){N--; i--;}
+			if(do_exclude(i)){N--; i--;}
 		}
 
 		cmt[i].P = compute_period (cmt[i].q, cmt[i].e);
@@ -870,7 +568,7 @@ int import_home_planet (int N, FILE *fin){
 		cmt[i].sort = get_sort_key(cmt[i].ID);
 		line++;
 
-		if(do_exclude(i)==1){N--; i--;}
+		if(do_exclude(i)){N--; i--;}
 	}
 
 	return N;
@@ -938,7 +636,7 @@ int import_mystars (int N, FILE *fin){
 
 		jul_to_greg(cmt[i].T, cmt[i].y, cmt[i].m, cmt[i].d);
 
-		if(do_exclude(i)==1){N--; i--;}
+		if(do_exclude(i)){N--; i--;}
 	}
 
 	return N;
@@ -1003,7 +701,7 @@ int import_thesky (int N, FILE *fin){
 		cmt[i].sort = get_sort_key(cmt[i].ID);
 		line++;
 
-		if(do_exclude(i)==1){N--; i--;}
+		if(do_exclude(i)){N--; i--;}
 	}
 
 	return N;
@@ -1074,7 +772,7 @@ int import_starry_night (int N, FILE *fin){
 
 		jul_to_greg(cmt[i].T, cmt[i].y, cmt[i].m, cmt[i].d);
 
-		if(do_exclude(i)==1){N--; i--;}
+		if(do_exclude(i)){N--; i--;}
 	}
 
 	return N;
@@ -1131,7 +829,7 @@ int import_deep_space (int N, FILE *fin){
 		cmt[i].sort = get_sort_key(cmt[i].ID);
 		line+=2;
 
-		if(do_exclude(i)==1){N--; i--;}
+		if(do_exclude(i)){N--; i--;}
 	}
 
 	return N;
@@ -1197,7 +895,7 @@ int import_pc_tcs (int N, FILE *fin){
 		cmt[i].sort = get_sort_key(cmt[i].ID);
 		line++;
 
-		if(do_exclude(i)==1){N--; i--;}
+		if(do_exclude(i)){N--; i--;}
 	}
 
 	return N;
@@ -1259,7 +957,7 @@ int import_ecu (int N, FILE *fin){
 		cmt[i].sort = get_sort_key(cmt[i].ID);
 		line+=2;
 
-		if(do_exclude(i)==1){N--; i--;}
+		if(do_exclude(i)){N--; i--;}
 	}
 
 	return N;
@@ -1325,7 +1023,7 @@ int import_dance (int N, FILE *fin){
 		cmt[i].sort = get_sort_key(cmt[i].ID);
 		line++;
 
-		if(do_exclude(i)==1){N--; i--;}
+		if(do_exclude(i)){N--; i--;}
 	}
 
 	return N;
@@ -1373,7 +1071,7 @@ int import_megastar (int N, FILE *fin){
 		cmt[i].sort = get_sort_key(cmt[i].ID);
 		line++;
 
-		if(do_exclude(i)==1){N--; i--;}
+		if(do_exclude(i)){N--; i--;}
 	}
 
 	return N;
@@ -1442,7 +1140,7 @@ int import_skychart (int N, FILE *fin){
 		cmt[i].sort = get_sort_key(cmt[i].ID);
 		line++;
 
-		if(do_exclude(i)==1){N--; i--;}
+		if(do_exclude(i)){N--; i--;}
 	}
 
 	return N;
@@ -1488,7 +1186,7 @@ int import_voyager (int N, FILE *fin){
 //		cmt[i].sort = get_sort_key(cmt[i].ID);
 		line++;
 
-		if(do_exclude(i)==1){N--; i--;}
+		if(do_exclude(i)){N--; i--;}
 	}
 
 	return N;
@@ -1496,7 +1194,7 @@ int import_voyager (int N, FILE *fin){
 
 int import_skytools (int N, FILE *fin){
 
-	int j, k, l, u, t, space;
+	int j, k, l, u, t=0, space;
 	int yy, mm, dd;
 	int m, line=1, len;
 	char x[15+1];
@@ -1563,7 +1261,7 @@ int import_skytools (int N, FILE *fin){
 		cmt[i].sort = get_sort_key(cmt[i].ID);
 		line++;
 
-		if(do_exclude(i)==1){N--; i--;}
+		if(do_exclude(i)){N--; i--;}
 	}
 
 	return N;
@@ -1632,7 +1330,7 @@ int import_cfw (int N, FILE *fin){
 		cmt[i].T = greg_to_jul (cmt[i].y, cmt[i].m, cmt[i].d);
 		cmt[i].sort = get_sort_key(cmt[i].ID);
 
-		if(do_exclude(i)==1){N--; i--;}
+		if(do_exclude(i)){N--; i--;}
 	}
 
 	return N;
@@ -1727,7 +1425,7 @@ int import_nasa1 (int N, FILE *fin){
 			}
 		}
 
-		if(do_exclude(i)==1){N--; i--;}
+		if(do_exclude(i)){N--; i--;}
 	}
 
 	cout << "\n =============================================================================";
@@ -1832,7 +1530,7 @@ int import_nasa2 (int N, FILE *fin){
 		cmt[i].sort = get_sort_key(cmt[i].ID);
 		line++;
 
-		if(do_exclude(i)==1){N--; i--;}
+		if(do_exclude(i)){N--; i--;}
 	}
 
 	cout << "\n =============================================================================";
@@ -2224,9 +1922,304 @@ void export_stell (int N, FILE *fout){
 }
 
 
+int define_exclude(){
+
+	int y, m, d;
+	char exclKey;
+
+	for (int i=0; i<14; i++) excl.key[i]=0;
+
+	do {
+		do {
+			system("CLS");
+			excl_screen ();
+			cout << "     1.   Main Menu   |   2.   Exit\n";
+			cout << " =============================================================================\n\n";
+			cout << "  Exclude by: \n\n";
+			cout << "        Perihelion Date                  a. Greather than    b. Less than\n";
+			cout << "        Pericenter Distance              c. Greather than    d. Less than\n";
+			cout << "        Eccentricity                     e. Greather than    f. Less than\n";
+			cout << "        Long. of the Ascending Node      g. Greather than    h. Less than\n";
+			cout << "        Long. of Pericenter              i. Greather than    j. Less than\n";
+			cout << "        Inclination                      k. Greather than    l. Less than\n";
+			cout << "        Period                           m. Greather than    n. Less than\n\n";
+			cout << "        Type \"x\" to continue\n\n";
+			cout << "  Select option [a-n]: ";
+			cin >> exclKey;
+
+			if(isupper(exclKey)) exclKey = tolower(exclKey);
+
+		} while ((exclKey < 'a' || exclKey > 'n') && exclKey!='x' && exclKey!='1' && exclKey!='2');
+
+		if (exclKey=='1') return MAIN_MENU;
+		if (exclKey=='2') return EXIT_PROG;
+
+		if (exclKey=='a'){
+			do{
+				excl_screen ();
+				cout << "\n  Exclude comet if Perihelion Date is greather than (DD MM YYYY):  ";
+				scanf("%d %d %d", &d, &m, &y);
+				if (d<1 || d>31 || m<1 || m>12){
+					cout << "\n  Invalid date! Try again... ";
+					getch();
+				}
+			} while (d<1 || d>31 || m<1 || m>12);
+
+			excl.T = greg_to_jul(y, m, d);
+			excl.key[0]=1;
+			if(excl.key[1]) excl.key[1]=0;
+		}
+
+		if (exclKey=='b'){
+			do{
+				excl_screen ();
+				cout << "\n  Exclude comet if Perihelion Date is less than (DD MM YYYY):  ";
+				scanf("%d %d %d", &d, &m, &y);
+				if (d<1 || d>31 || m<1 || m>12){
+					cout << "\n  Invalid date! Try again... ";
+					getch();
+				}
+			} while (d<1 || d>31 || m<1 || m>12);
+
+			excl.T = greg_to_jul(y, m, d);
+			excl.key[1]=1;
+			if(excl.key[0]) excl.key[0]=0;
+		}
+
+		if (exclKey=='c'){
+			do{
+				excl_screen ();
+				cout << "\n  Exclude comet if Perihelion distance is greather than:       AU\b\b\b\b\b\b\b\b";
+				cin >> excl.q;
+				if (excl.q<=0){
+					cout << "\n  Value must be greather than zero! Try again... ";
+					getch();
+				}
+			} while (excl.q<=0);
+
+			excl.key[2]=1;
+			if(excl.key[3]) excl.key[3]=0;
+		}
+
+		if (exclKey=='d'){
+			do{
+				excl_screen ();
+				cout << "\n  Exclude comet if Perihelion distance is less than:       AU\b\b\b\b\b\b\b\b";
+				cin >> excl.q;
+				if (excl.q<=0){
+					cout << "\n  Value must be greather than zero! Try again... ";
+					getch();
+				}
+			} while (excl.q<=0);
+
+			excl.key[3]=1;
+			if(excl.key[2]) excl.key[2]=0;
+		}
+
+		if (exclKey=='e'){
+			do{
+				excl_screen ();
+				cout << "\n  Exclude comet if Eccentricity is greather than: ";
+				cin >> excl.e;
+				if (excl.e<0 || excl.e>1){
+					cout << "\n  Value must be between 0 and 1! Try again... ";
+					getch();
+				}
+			} while (excl.e<0 || excl.e>1);
+
+			excl.key[4]=1;
+			if(excl.key[5]) excl.key[5]=0;
+		}
+
+		if (exclKey=='f'){
+			do{
+				excl_screen ();
+				cout << "\n  Exclude comet if Eccentricity is less than: ";
+				cin >> excl.e;
+				if (excl.e<0 || excl.e>1){
+					cout << "\n  Value must be between 0 and 1! Try again... ";
+					getch();
+				}
+			} while (excl.e<0 || excl.e>1);
+
+			excl.key[5]=1;
+			if(excl.key[4]) excl.key[4]=0;
+		}
+
+		if (exclKey=='g'){
+			do{
+				excl_screen ();
+				cout << "\n  Exclude comet if Long. of the Ascending Node is greather than:      degrees\b\b\b\b\b\b\b\b\b\b\b\b";
+				cin >> excl.an;
+				if (excl.an<0 || excl.an>=360){
+					cout << "\n  Value must be between 0 and 360! Try again... ";
+					getch();
+				}
+			} while (excl.an<0 || excl.an>=360);
+
+			excl.key[6]=1;
+			if(excl.key[7]) excl.key[7]=0;
+		}
+
+		if (exclKey=='h'){
+			do{
+				excl_screen ();
+				cout << "\n  Exclude comet if Long. of the Ascending Node is less than:      degrees\b\b\b\b\b\b\b\b\b\b\b\b";
+				cin >> excl.an;
+				if (excl.an<0 || excl.an>=360){
+					cout << "\n  Value must be between 0 and 360! Try again... ";
+					getch();
+				}
+			} while (excl.an<0 || excl.an>=360);
+
+			excl.key[7]=1;
+			if(excl.key[6]) excl.key[6]=0;
+		}
+
+		if (exclKey=='i'){
+			do{
+				excl_screen ();
+				cout << "\n  Exclude comet if Long. of Pericenter is greather than:      degrees\b\b\b\b\b\b\b\b\b\b\b\b";
+				cin >> excl.pn;
+				if (excl.pn<0 || excl.pn>=360){
+					cout << "\n  Value must be between 0 and 360! Try again... ";
+					getch();
+				}
+			} while (excl.pn<0 || excl.pn>=360);
+
+			excl.key[8]=1;
+			if(excl.key[9]) excl.key[9]=0;
+		}
+
+		if (exclKey=='j'){
+			do{
+				excl_screen ();
+				cout << "\n  Exclude comet if Long. of Pericenter is less than:      degrees\b\b\b\b\b\b\b\b\b\b\b\b";
+				cin >> excl.pn;
+				if (excl.pn<0 || excl.pn>=360){
+					cout << "\n  Value must be between 0 and 360! Try again... ";
+					getch();
+				}
+			} while (excl.pn<0 || excl.pn>=360);
+
+			excl.key[9]=1;
+			if(excl.key[8]) excl.key[8]=0;
+		}
+
+		if (exclKey=='k'){
+			do{
+				excl_screen ();
+				cout << "\n  Exclude comet if Inclination is greather than:      degrees\b\b\b\b\b\b\b\b\b\b\b\b";
+				cin >> excl.i;
+				if (excl.i<0 || excl.i>=180){
+					cout << "\n  Value must be between 0 and 180! Try again... ";
+					getch();
+				}
+			} while (excl.i<0 || excl.i>=180);
+
+			excl.key[10]=1;
+			if(excl.key[11]) excl.key[11]=0;
+		}
+
+		if (exclKey=='l'){
+			do{
+				excl_screen ();
+				cout << "\n  Exclude comet if Inclination is less than:      degrees\b\b\b\b\b\b\b\b\b\b\b\b";
+				cin >> excl.i;
+				if (excl.i<0 || excl.i>=180){
+					cout << "\n  Value must be between 0 and 180! Try again... ";
+					getch();
+				}
+			} while (excl.i<0 || excl.i>=180);
+
+			excl.key[11]=1;
+			if(excl.key[10]) excl.key[10]=0;
+		}
+
+		if (exclKey=='m'){
+			do{
+				excl_screen ();
+				cout << "\n  Exclude comet if Period is greather than:      years\b\b\b\b\b\b\b\b\b\b";
+				cin >> excl.P;
+				if (excl.P<=0){
+					cout << "\n  Value must be greather than zero! Try again... ";
+					getch();
+				}
+			} while (excl.P<=0);
+
+			excl.key[12]=1;
+			if(excl.key[13]) excl.key[13]=0;
+		}
+
+		if (exclKey=='n'){
+			do{
+				excl_screen ();
+				cout << "\n  Exclude comet if Period is less than:      years\b\b\b\b\b\b\b\b\b\b";
+				cin >> excl.P;
+				if (excl.P<=0){
+					cout << "\n  Value must be greather than zero! Try again... ";
+					getch();
+				}
+			} while (excl.P<=0);
+
+			excl.key[13]=1;
+			if(excl.key[12]) excl.key[12]=0;
+		}
+
+	} while (exclKey!='x');
+
+	system("CLS");
+	cout << "\n  Excludings...\n\n";
+	cout << " =============================================================================\n\n";
+
+	if (excl.key[ 0]==0 && excl.key[ 1]==0 && excl.key[ 2]==0 &&
+		excl.key[ 3]==0 && excl.key[ 4]==0 && excl.key[ 5]==0 &&
+		excl.key[ 6]==0 && excl.key[ 7]==0 && excl.key[ 8]==0 &&
+		excl.key[ 9]==0 && excl.key[10]==0 && excl.key[11]==0 &&
+		excl.key[12]==0 && excl.key[13]==0) printf("  None\n");
+	if (excl.key[ 0]) printf("  Exclude if Perihelion Date is greather than %02d. %02d. %d.\n", d, m, y);
+	if (excl.key[ 1]) printf("  Exclude if Perihelion Date is less than %02d. %02d. %d.\n", d, m, y);
+	if (excl.key[ 2]) printf("  Exclude if Pericenter Distance is greather than %.2f AU\n", excl.q);
+	if (excl.key[ 3]) printf("  Exclude if Pericenter Distance is less than %.2f AU\n", excl.q);
+	if (excl.key[ 4]) printf("  Exclude if Eccentricity is greather than %.2f\n", excl.e);
+	if (excl.key[ 5]) printf("  Exclude if Eccentricity is less than %.2f\n", excl.e);
+	if (excl.key[ 6]) printf("  Exclude if Long. of the Ascending Node is greather than %.1f degrees\n", excl.an);
+	if (excl.key[ 7]) printf("  Exclude if Long. of the Ascending Node is less than %.1f degrees\n", excl.an);
+	if (excl.key[ 8]) printf("  Exclude if Long. of Pericenter is greather than %.1f degrees\n", excl.pn);
+	if (excl.key[ 9]) printf("  Exclude if Long. of Pericenter is less than %.1f degrees\n", excl.pn);
+	if (excl.key[10]) printf("  Exclude if Inclination is greather than %.1f degrees\n", excl.i);
+	if (excl.key[11]) printf("  Exclude if Inclination is less than %.1f degrees\n", excl.i);
+	if (excl.key[12]) printf("  Exclude if Period is greather than %.1f years\n", excl.P);
+	if (excl.key[13]) printf("  Exclude if Period is less than %.1f years\n", excl.P);
+	printf("\n =============================================================================");
+
+	return SUCCESS;
+}
+
+bool do_exclude(int i){
+
+	if (excl.key[ 0] && cmt[i].T > excl.T) return true;
+	if (excl.key[ 1] && cmt[i].T < excl.T) return true;
+	if (excl.key[ 2] && cmt[i].q > excl.q) return true;
+	if (excl.key[ 3] && cmt[i].q < excl.q) return true;
+	if (excl.key[ 4] && cmt[i].e > excl.e) return true;
+	if (excl.key[ 5] && cmt[i].e < excl.e) return true;
+	if (excl.key[ 6] && cmt[i].an > excl.an) return true;
+	if (excl.key[ 7] && cmt[i].an < excl.an) return true;
+	if (excl.key[ 8] && cmt[i].pn > excl.pn) return true;
+	if (excl.key[ 9] && cmt[i].pn < excl.pn) return true;
+	if (excl.key[10] && cmt[i].i > excl.i) return true;
+	if (excl.key[11] && cmt[i].i < excl.i) return true;
+	if (excl.key[12] && cmt[i].P > excl.P) return true;
+	if (excl.key[13] && cmt[i].P < excl.P) return true;
+
+	return false;
+}
+
+
 double compute_period (float q, float e){
 
-	double P;
+	double P=0;
 
 	if (e <  1) P = pow((q/(1-e)),1.5);
 	if (e >  1) P = pow((q/(e-1)),1.5);
@@ -2301,7 +2294,7 @@ double get_sort_key(char *ID){
 			temppp[0]='\0';
 			temppp[1]='\0';
 			temppp[2]='\0';
-			temppp[3]='\0';
+//			temppp[3]='\0';
 
 			temppp[0]=ID[k+2];
 			temppp[1]=ID[k+3];
@@ -2388,7 +2381,7 @@ void clear_data(){
 
 int tools (){
 
-	int end;
+	int end=0;
 	char sel;
 
 	while (1){
@@ -2428,7 +2421,7 @@ int tools (){
 
 int tools_a(){
 
-	int d, m, y, i, j, razmaka;
+	int d=0, m=0, y=0, i, j, razmaka;
 	long int jd;
 	char date_str[50+1];	//stavio sam dosta mjesta za svaki sluèaj
 	char dd[10+1], mm[10+1], yy[30+1];
@@ -2444,13 +2437,14 @@ int tools_a(){
 			clear_all();
 			cout << "\n  Gregorian date to Julian day converter\n\n";
 			cout << " =============================================================================\n";
-			cout << "     1.   Main Menu   |   2.   Exit\n";
+			cout << "     1.   Main Menu   |   2.   Back   |   3.   Exit\n";
 			cout << " =============================================================================\n\n";
 			cout << "  Enter Gregorian date in format DD MM YYYY:  ";
 			cin.getline(date_str, 51);
 
 			if (date_str[0]=='1' && date_str[1]=='\0') return MAIN_MENU;
-			if (date_str[0]=='2' && date_str[1]=='\0') return EXIT_PROG;
+			if (date_str[0]=='2' && date_str[1]=='\0') return SUCCESS;
+			if (date_str[0]=='3' && date_str[1]=='\0') return EXIT_PROG;
 
 			razmaka=0;
 			for(i=0; date_str[i]!='\0'; i++){
@@ -2520,13 +2514,14 @@ int tools_b(){
 		clear_all();
 		cout << "\n  Julian day to Gregorian date converter\n\n";
 		cout << " =============================================================================\n";
-		cout << "     1.   Main Menu   |   2.   Exit\n";
+		cout << "     1.   Main Menu   |   2.   Back   |   3.   Exit\n";
 		cout << " =============================================================================\n\n";
 		cout << "  Enter Julian day:  ";
 		cin.getline(date_str, 51);
 
 		if (date_str[0]=='1' && date_str[1]=='\0') return MAIN_MENU;
-		if (date_str[0]=='2' && date_str[1]=='\0') return EXIT_PROG;
+		if (date_str[0]=='2' && date_str[1]=='\0') return SUCCESS;
+		if (date_str[0]=='3' && date_str[1]=='\0') return EXIT_PROG;
 
 		jd=atoi(date_str);
 
@@ -2577,14 +2572,14 @@ int tools_c(){
 	do {
 		fflush (stdin);
 		cout << "\n  Enter output filename: ";
-		cin.getline(fout_name, 80);
+		cin.getline(fout_name, 81);
 
 		if (fout_name[0]=='1' && fout_name[1]=='\0') return MAIN_MENU;
 		if (fout_name[0]=='2' && fout_name[1]=='\0') return EXIT_PROG;
 
 		fout=fopen(fout_name, "a");
-		if (fout==NULL) cout << "\n  Unable to create file " << fout_name;
-	} while (fout==NULL);
+		if (!fout) cout << "\n  Unable to create file " << fout_name;
+	} while (!fout);
 
 	time (&rawtime);
 	timeinfo = localtime(&rawtime);
@@ -2595,10 +2590,7 @@ int tools_c(){
 
 	for (int i=0; i<N; i++){
 
-		while(cmt[i].T<//(
-			today_jd// - ((int) (cmt[i].P * 365.256363)))
-			){
-			//tako ga vracamo na "priblizno" zadnji prolaz
+		while(cmt[i].T < today_jd){
 
 			v1 = ((int) cmt[i].P) * 365.256363;
 			v2 = (cmt[i].P - (int) cmt[i].P) * 365.256363;
@@ -2647,7 +2639,7 @@ int tools_c(){
 				h2-=10000;
 				// 11756 - 10000 = 1756
 
-				cmt[i].T += 1;
+				++cmt[i].T;
 				// i T povecamo za 1
 			}
 
@@ -2682,7 +2674,7 @@ int tools_d(){
 		clear_all();
 		cout << "\n  Kepler orbit elements to Cartesian coordinates converter\n\n";
 		cout << " =============================================================================\n";
-		cout << "     1.   Main Menu   |   2.   Exit\n";
+		cout << "     1.   Main Menu   |   2.   Back   |   3.   Exit\n";
 		cout << " =============================================================================\n\n";
 		cout << "        a. Manually (One by one)\n";
 		cout << "        b. Bulk (Read from file)\n\n";
@@ -2692,7 +2684,8 @@ int tools_d(){
 	} while (dir!='a' && dir!='b' && dir!='1' && dir!='2');
 
 	if (dir=='1') return MAIN_MENU;
-	if (dir=='2') return EXIT_PROG;
+	if (dir=='2') return SUCCESS;
+	if (dir=='3') return EXIT_PROG;
 
 	if (dir=='a'){
 
@@ -2784,7 +2777,7 @@ int tools_e(){
 		clear_all();
 		cout << "\n  Cartesian coordinates to Kepler orbit elements converter\n\n";
 		cout << " =============================================================================\n";
-		cout << "     1.   Main Menu   |   2.   Exit\n";
+		cout << "     1.   Main Menu   |   2.   Back   |   3.   Exit\n";
 		cout << " =============================================================================\n\n";
 		cout << "        a. Manually (One by one)\n";
 		cout << "        b. Bulk (Read from file)\n\n";
@@ -2794,7 +2787,8 @@ int tools_e(){
 	} while (dir!='a' && dir!='b' && dir!='1' && dir!='2');
 
 	if (dir=='1') return MAIN_MENU;
-	if (dir=='2') return EXIT_PROG;
+	if (dir=='2') return SUCCESS;
+	if (dir=='3') return EXIT_PROG;
 
 	if (dir=='a'){
 
@@ -2811,27 +2805,7 @@ int tools_e(){
 void start_screen (){
 
 	clear_all();
-
-/*	// sve svima dostupno
-	cout << "\n                            ORBITAL ELEMENTS WORKSHOP\n\n";
-	cout << " =============================================================================\n\n";
-	cout << "  Input formats:\n\n";
-	cout << "        0. MPC                         12. MegaStar V4.x\n";
-	cout << "        1. SkyMap                      13. SkyChart III\n";
-	cout << "        2. Guide                       14. Voyager II\n";
-	cout << "        3. xephem                      15. SkyTools\n";
-	cout << "        4. Home Planet                 16. Autostar\n";
-	cout << "        5. MyStars!\n";
-	cout << "        6. TheSky                      17. Comet for Windows\n";
-	cout << "        7. Starry Night                18. NASA (ELEMENTS.COMET)\n";
-	cout << "        8. Deep Space                  19. NASA (CSV format)\n";
-	cout << "        9. PC-TCS\n";
-	cout << "       10. Earth Centered Universe     20. Tools\n";
-	cout << "       11. Dance of the Planets        21. Exit\n\n";
-	cout << "  Select option [0-21]: ";
-*/
-	// bez ona 3 tipa
-	cout << "\n                            ORBITAL ELEMENTS WORKSHOP\n\n";
+	cout << "\n                          ORBITAL ELEMENTS WORKSHOP 0.1\n\n";
 	cout << " =============================================================================\n\n";
 	cout << "  Input formats:\n\n\n";
 	cout << "        0. MPC                         10. Earth Centered Universe\n";
@@ -2844,10 +2818,10 @@ void start_screen (){
 	cout << "        7. Starry Night\n";
 	cout << "        8. Deep Space                  17. Tools\n";
 	cout << "        9. PC-TCS                      18. Exit\n\n\n";
-	cout << "  Select option [0-21]: ";
+	cout << "  Select option [0-18]: ";
 }
 
-void screen_imp (char *import_format, char *soft){
+void screen_imp (string import_format, string soft){
 
 	clear_all();
 	cout << "\n  Importing " << import_format << " (" << soft << ") format...\n\n";
@@ -2856,28 +2830,26 @@ void screen_imp (char *import_format, char *soft){
 	cout << " =============================================================================\n\n";
 }
 
-void screen_exp1 (char *import_format){
+void screen_exp1 (string import_format){
 
 	clear_all();
 	cout << "\n  Exporting " << import_format << " format...\n\n";
 	cout << " =============================================================================\n\n";
-	cout << "  Output formats:\n\n";
-	cout << "        0. MPC                         12. MegaStar V4.x\n";
-	cout << "        1. SkyMap                      13. SkyChart III\n";
-	cout << "        2. Guide                       14. Voyager II\n";
-	cout << "        3. xephem                      15. SkyTools\n";
-	cout << "        4. Home Planet                 16. Autostar\n";
-	cout << "        5. MyStars!\n";
-	cout << "        6. TheSky\n";
-	cout << "        7. Starry Night                17. Celestia(SSC)\n";
-	cout << "        8. Deep Space                  18. Stellarium\n";
-	cout << "        9. PC-TCS\n";
-	cout << "       10. Earth Centered Universe\n";
-	cout << "       11. Dance of the Planets\n\n";
+	cout << "  Output formats:\n\n\n";
+	cout << "        0. MPC                         10. Earth Centered Universe\n";
+	cout << "        1. SkyMap                      11. Dance of the Planets\n";
+	cout << "        2. Guide                       12. MegaStar V4.x\n";
+	cout << "        3. xephem                      13. SkyChart III\n";
+	cout << "        4. Home Planet                 14. Voyager II\n";
+	cout << "        5. MyStars!                    15. SkyTools\n";
+	cout << "        6. TheSky                      16. Autostar\n";
+	cout << "        7. Starry Night\n";
+	cout << "        8. Deep Space                  17. Celestia(SSC)\n";
+	cout << "        9. PC-TCS                      18. Stellarium\n\n\n";
 	cout << "  Select option [0-18]: ";
 }
 
-void screen_exp2 (char *import_format, char *export_format){
+void screen_exp2 (string import_format, string export_format){
 
 	clear_all();
 	cout << "\n  Exporting " << import_format << " as " << export_format << " format...\n\n";
@@ -2886,7 +2858,7 @@ void screen_exp2 (char *import_format, char *export_format){
 	cout << " =============================================================================\n\n";
 }
 
-void screen_exp3 (char *import_format, char *export_format){
+void screen_exp3 (string import_format, string export_format){
 
 	clear_all();
 	cout << "\n  " << import_format << " exported as " << export_format << " format...\n\n";
@@ -2901,7 +2873,7 @@ void exit_screen (){
 	// Font: Big
 
 	clear_all();
-	cout << "\n";
+	cout << "                                                                           v0.1\n";
 	cout << "                   ____           _       _   _             _ \n";
 	cout << "                  / __ \\         | |     (_) | |           | |\n";
 	cout << "                 | |  | |  _ __  | |__    _  | |_    __ _  | |\n";
@@ -2923,6 +2895,7 @@ void exit_screen (){
 	cout << "                                                                 | |\n";
     cout << "                                                                 |_|\n\n";
 	cout << "Press any key to exit...                             Copyright (c) 2011, jurluk";
+	//for(int i=0; i<79; i++) cout << "\b";
 }
 
 void excl_screen (){
@@ -3036,31 +3009,19 @@ void do_swap(int i, int j){
 
 	for(k=0;k<81;k++) {
 		temp.full[k]=cmt[i].full[k];
-	}
-	for(k=0;k<81;k++) {
 		cmt[i].full[k]=cmt[j].full[k];
-	}
-	for(k=0;k<81;k++) {
 		cmt[j].full[k]=temp.full[k];
 	}
 
 	for(k=0;k<56;k++) {
 		temp.name[k]=cmt[i].name[k];
-	}
-	for(k=0;k<56;k++) {
 		cmt[i].name[k]=cmt[j].name[k];
-	}
-	for(k=0;k<56;k++) {
 		cmt[j].name[k]=temp.name[k];
 	}
 
 	for(k=0;k<26;k++) {
 		temp.ID[k]=cmt[i].ID[k];
-	}
-	for(k=0;k<26;k++) {
 		cmt[i].ID[k]=cmt[j].ID[k];
-	}
-	for(k=0;k<26;k++) {
 		cmt[j].ID[k]=temp.ID[k];
 	}
 
@@ -3122,11 +3083,7 @@ void do_swap(int i, int j){
 
 	for(k=0;k<21;k++) {
 		temp.book[k]=cmt[i].book[k];
-	}
-	for(k=0;k<21;k++) {
 		cmt[i].book[k]=cmt[j].book[k];
-	}
-	for(k=0;k<21;k++) {
 		cmt[j].book[k]=temp.book[k];
 	}
 }

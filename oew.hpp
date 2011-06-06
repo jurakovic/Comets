@@ -9,12 +9,14 @@
 #include <cctype>
 #include <conio.h>
 
-#define MAX_CMT 4000
+#define MAX_CMT 5000
 #define equinox 2000
 #define ep_y 2011
 #define ep_m 2
 #define ep_d 8
 #define eq_JD greg_to_jul(ep_y, ep_m, ep_d)-1
+
+using namespace std;
 
 struct Comet{
 	char full [80+1];
@@ -38,8 +40,8 @@ struct Comet{
 };
 
 struct Formats{
-	char format[25];
-	char soft[15];
+	string format;
+	string soft;
 }menu[19] = {
 	{ format: "MPC", soft: "Soft00Cmt" },
 	{ format: "SkyMap", soft: "Soft01Cmt" },
@@ -82,10 +84,10 @@ enum RETURN_CODE {SUCCESS, MAIN_MENU, EXIT_PROG};/*
 
 //	funkcije za ispisivanje na ekran
 void start_screen ();
-void screen_imp (char *, char *);
-void screen_exp1 (char *);
-void screen_exp2 (char *, char *);
-void screen_exp3 (char *, char *);
+void screen_imp (string, string);
+void screen_exp1 (string);
+void screen_exp2 (string, string);
+void screen_exp3 (string, string);
 void exit_screen ();
 void excl_screen ();
 void tools_soft_screen();
@@ -154,5 +156,4 @@ int sort_data(int);
 void do_swap(int i, int j);
 
 int define_exclude();
-int do_exclude(int);
-
+bool do_exclude(int);
