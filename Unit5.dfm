@@ -1,12 +1,11 @@
-object Form2: TForm2
-  Left = 342
+object Form5: TForm5
+  Left = 244
   Top = 110
-  BorderIcons = [biSystemMenu, biMinimize]
-  BorderStyle = bsSingle
+  BorderIcons = [biSystemMenu]
   Caption = 'Orbital Elements Workshop v1.0 Beta'
-  ClientHeight = 450
-  ClientWidth = 522
-  Color = clInactiveCaption
+  ClientHeight = 368
+  ClientWidth = 408
+  Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
@@ -802,595 +801,326 @@ object Form2: TForm2
     0000000000000000000000000000000000000000000000000000000000000000
     0000000000000000000000000000000000000000000000000000FFFF0000}
   OldCreateOrder = False
-  Position = poDesktopCenter
-  Visible = True
+  Position = poOwnerFormCenter
+  OnClose = FormClose
   PixelsPerInch = 96
   TextHeight = 13
-  object lab5: TLabel
-    Left = 461
-    Top = 282
-    Width = 46
-    Height = 16
-    Caption = 'degrees'
-    Enabled = False
+  object Label1: TLabel
+    Left = 8
+    Top = 8
+    Width = 4
+    Height = 14
     Font.Charset = DEFAULT_CHARSET
-    Font.Color = clDefault
-    Font.Height = -13
+    Font.Color = clWindowText
+    Font.Height = -12
     Font.Name = 'Tahoma'
     Font.Style = []
     ParentFont = False
   end
-  object lab6: TLabel
-    Left = 461
-    Top = 309
-    Width = 46
-    Height = 16
-    Caption = 'degrees'
-    Enabled = False
+  object Label2: TLabel
+    Left = 432
+    Top = 32
+    Width = 52
+    Height = 14
+    Caption = 'Full Name'
     Font.Charset = DEFAULT_CHARSET
-    Font.Color = clDefault
-    Font.Height = -13
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-  end
-  object lab4: TLabel
-    Left = 461
-    Top = 255
-    Width = 46
-    Height = 16
-    Caption = 'degrees'
-    Enabled = False
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clDefault
-    Font.Height = -13
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-  end
-  object lab7: TLabel
-    Left = 461
-    Top = 336
-    Width = 31
-    Height = 16
-    Caption = 'years'
-    Enabled = False
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clDefault
-    Font.Height = -13
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-  end
-  object lab2: TLabel
-    Left = 461
-    Top = 201
-    Width = 16
-    Height = 16
-    Caption = 'AU'
-    Enabled = False
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clDefault
-    Font.Height = -13
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-  end
-  object Label11: TLabel
-    Left = 16
-    Top = 392
-    Width = 46
-    Height = 16
-    Caption = 'Sort by:'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clBlack
-    Font.Height = -13
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-  end
-  object Label12: TLabel
-    Left = 16
-    Top = 419
-    Width = 55
-    Height = 16
-    Caption = 'Direction:'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clBlack
-    Font.Height = -13
+    Font.Color = clWindowText
+    Font.Height = -12
     Font.Name = 'Tahoma'
     Font.Style = []
     ParentFont = False
   end
   object Label3: TLabel
-    Left = 22
-    Top = 41
-    Width = 3
-    Height = 13
-    Enabled = False
-  end
-  object Label1: TLabel
-    Left = 23
-    Top = 33
-    Width = 85
-    Height = 16
-    Caption = 'Select Format:'
+    Left = 432
+    Top = 86
+    Width = 31
+    Height = 14
+    Caption = 'Name'
     Font.Charset = DEFAULT_CHARSET
-    Font.Color = clBlack
-    Font.Height = -13
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label4: TLabel
+    Left = 432
+    Top = 59
+    Width = 63
+    Height = 14
+    Caption = 'Designation'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label5: TLabel
+    Left = 432
+    Top = 113
+    Width = 82
+    Height = 14
+    Caption = 'Perihelion Date'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label6: TLabel
+    Left = 432
+    Top = 140
+    Width = 102
+    Height = 14
+    Caption = 'Perihelion Distance'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label7: TLabel
+    Left = 432
+    Top = 167
+    Width = 63
+    Height = 14
+    Caption = 'Eccentricity'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label8: TLabel
+    Left = 432
+    Top = 194
+    Width = 55
+    Height = 14
+    Caption = 'Inclination'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label9: TLabel
+    Left = 432
+    Top = 221
+    Width = 89
+    Height = 14
+    Caption = 'Ascending Node'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label10: TLabel
+    Left = 432
+    Top = 248
+    Width = 102
+    Height = 14
+    Caption = 'Arg. of Pericenter '
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label11: TLabel
+    Left = 432
+    Top = 275
+    Width = 34
+    Height = 14
+    Caption = 'Period'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
     Font.Name = 'Tahoma'
     Font.Style = []
     ParentFont = False
   end
   object GroupBox2: TGroupBox
-    Left = 8
-    Top = 151
-    Width = 506
-    Height = 218
-    Caption = 'Exception rules'
+    Left = 416
+    Top = 8
+    Width = 393
+    Height = 353
+    Caption = 'Details'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -12
     Font.Name = 'Tahoma'
     Font.Style = []
     ParentFont = False
-    TabOrder = 33
+    TabOrder = 19
   end
   object GroupBox1: TGroupBox
     Left = 8
     Top = 8
-    Width = 506
-    Height = 129
-    Caption = 'Import Format'
+    Width = 393
+    Height = 353
+    Caption = 'Imported Comets'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -12
     Font.Name = 'Tahoma'
     Font.Style = []
     ParentFont = False
-    TabOrder = 32
-  end
-  object ch1: TCheckBox
-    Left = 23
-    Top = 174
-    Width = 232
-    Height = 17
-    Caption = 'Perihelion Date'
-    Color = clWhite
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clMaroon
-    Font.Height = -13
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentColor = False
-    ParentFont = False
-    TabOrder = 1
-    OnClick = ch1Click
-  end
-  object ch2: TCheckBox
-    Left = 23
-    Top = 201
-    Width = 232
-    Height = 17
-    Caption = 'Pericenter Distante ( q )'
-    Color = clWhite
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clMaroon
-    Font.Height = -13
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentColor = False
-    ParentFont = False
-    TabOrder = 4
-    OnClick = ch2Click
-  end
-  object ch3: TCheckBox
-    Left = 23
-    Top = 228
-    Width = 232
-    Height = 17
-    Caption = 'Eccentricity ( e )'
-    Color = clWhite
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clMaroon
-    Font.Height = -13
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentColor = False
-    ParentFont = False
-    TabOrder = 7
-    OnClick = ch3Click
-  end
-  object ch4: TCheckBox
-    Left = 23
-    Top = 255
-    Width = 232
-    Height = 17
-    Caption = 'Long. of the Ascending Node ( W )'
-    Color = clWhite
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clMaroon
-    Font.Height = -13
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentColor = False
-    ParentFont = False
-    TabOrder = 10
-    OnClick = ch4Click
-  end
-  object ch5: TCheckBox
-    Left = 23
-    Top = 282
-    Width = 232
-    Height = 17
-    Caption = 'Long. of Pericenter ( w )'
-    Color = clWhite
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clMaroon
-    Font.Height = -13
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentColor = False
-    ParentFont = False
-    TabOrder = 13
-    OnClick = ch5Click
-  end
-  object ch6: TCheckBox
-    Left = 23
-    Top = 309
-    Width = 232
-    Height = 17
-    Caption = 'Inclination ( i )'
-    Color = clWhite
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clMaroon
-    Font.Height = -13
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentColor = False
-    ParentFont = False
-    TabOrder = 16
-    OnClick = ch6Click
-  end
-  object ch7: TCheckBox
-    Left = 23
-    Top = 336
-    Width = 232
-    Height = 17
-    Caption = 'Period'
-    Color = clWhite
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clMaroon
-    Font.Height = -13
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentColor = False
-    ParentFont = False
-    TabOrder = 19
-    OnClick = ch7Click
-  end
-  object combo1: TComboBox
-    Left = 261
-    Top = 172
-    Width = 122
-    Height = 21
-    Style = csDropDownList
-    Enabled = False
-    TabOrder = 2
-    Items.Strings = (
-      'Greather than (>)'
-      'Less than (<)')
-  end
-  object combo2: TComboBox
-    Left = 261
-    Top = 199
-    Width = 122
-    Height = 21
-    Style = csDropDownList
-    Enabled = False
-    TabOrder = 5
-    Items.Strings = (
-      'Greather than (>)'
-      'Less than (<)')
-  end
-  object combo3: TComboBox
-    Left = 261
-    Top = 226
-    Width = 122
-    Height = 21
-    Style = csDropDownList
-    Enabled = False
-    TabOrder = 8
-    Items.Strings = (
-      'Greather than (>)'
-      'Less than (<)')
-  end
-  object combo4: TComboBox
-    Left = 261
-    Top = 253
-    Width = 122
-    Height = 21
-    Style = csDropDownList
-    Enabled = False
-    TabOrder = 11
-    Items.Strings = (
-      'Greather than (>)'
-      'Less than (<)')
-  end
-  object combo5: TComboBox
-    Left = 261
-    Top = 280
-    Width = 122
-    Height = 21
-    Style = csDropDownList
-    Enabled = False
-    TabOrder = 14
-    Items.Strings = (
-      'Greather than (>)'
-      'Less than (<)')
-  end
-  object combo6: TComboBox
-    Left = 261
-    Top = 307
-    Width = 122
-    Height = 21
-    Style = csDropDownList
-    Enabled = False
-    TabOrder = 17
-    Items.Strings = (
-      'Greather than (>)'
-      'Less than (<)')
-  end
-  object combo7: TComboBox
-    Left = 261
-    Top = 334
-    Width = 122
-    Height = 21
-    Style = csDropDownList
-    Enabled = False
-    TabOrder = 20
-    Items.Strings = (
-      'Greather than (>)'
-      'Less than (<)')
-  end
-  object t1: TMaskEdit
-    Left = 389
-    Top = 172
-    Width = 66
-    Height = 21
-    Enabled = False
-    EditMask = '00/00/0000;1;_'
-    MaxLength = 10
-    TabOrder = 3
-    Text = '  .  .    '
-  end
-  object t2: TEdit
-    Left = 389
-    Top = 199
-    Width = 66
-    Height = 21
-    Alignment = taRightJustify
-    Enabled = False
-    TabOrder = 6
-    OnKeyPress = t2KeyPress
-  end
-  object t3: TEdit
-    Left = 389
-    Top = 226
-    Width = 66
-    Height = 21
-    Alignment = taRightJustify
-    Enabled = False
-    TabOrder = 9
-  end
-  object t4: TEdit
-    Left = 389
-    Top = 253
-    Width = 66
-    Height = 21
-    Alignment = taRightJustify
-    Enabled = False
-    TabOrder = 12
-  end
-  object t5: TEdit
-    Left = 389
-    Top = 280
-    Width = 66
-    Height = 21
-    Alignment = taRightJustify
-    Enabled = False
-    TabOrder = 15
-  end
-  object t6: TEdit
-    Left = 389
-    Top = 307
-    Width = 66
-    Height = 21
-    Alignment = taRightJustify
-    Enabled = False
     TabOrder = 18
   end
-  object t7: TEdit
-    Left = 389
-    Top = 334
-    Width = 66
-    Height = 21
-    Alignment = taRightJustify
-    Enabled = False
-    TabOrder = 21
-  end
-  object sort_combo1: TComboBox
-    Left = 87
-    Top = 391
-    Width = 161
-    Height = 21
-    Style = csDropDownList
-    DropDownCount = 9
-    ItemIndex = 0
-    TabOrder = 22
-    Text = 'Default'
-    OnChange = sort_combo1Change
-    Items.Strings = (
-      'Default'
-      'Name'
-      'Perihelion Date'
-      'Pericenter Distance'
-      'Eccentricity'
-      'Long. of the Asc. Node'
-      'Long. of Pericenter'
-      'Inclination'
-      'Period')
-  end
-  object sort_combo2: TComboBox
-    Left = 87
-    Top = 418
-    Width = 161
-    Height = 21
-    Style = csDropDownList
-    Enabled = False
-    TabOrder = 23
-    Items.Strings = (
-      'Ascending'
-      'Descending')
-  end
-  object start_button: TButton
-    Left = 254
-    Top = 390
-    Width = 122
-    Height = 49
-    Caption = 'Start'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -16
-    Font.Name = 'Tahoma'
-    Font.Style = [fsBold]
-    ParentFont = False
-    TabOrder = 24
-    OnClick = start_buttonClick
-  end
-  object help_button: TButton
-    Left = 382
-    Top = 415
-    Width = 59
-    Height = 24
-    Caption = 'Help'
-    TabOrder = 26
-    OnClick = help_buttonClick
-  end
-  object about_button: TButton
-    Left = 448
-    Top = 415
-    Width = 59
-    Height = 24
-    Caption = 'About'
-    TabOrder = 27
-    OnClick = about_buttonClick
-  end
-  object reset_button: TButton
-    Left = 382
-    Top = 390
-    Width = 125
-    Height = 24
-    Caption = 'Reset fields'
-    TabOrder = 25
-    OnClick = reset_buttonClick
-  end
-  object brtxt: TEdit
-    Left = 104
-    Top = 104
-    Width = 351
-    Height = 21
-    Enabled = False
-    TabOrder = 31
-    OnDblClick = brtxtDblClick
-  end
-  object rad1: TRadioButton
-    Left = 23
-    Top = 57
-    Width = 370
-    Height = 17
-    Caption = 
-      'Download the latest orbital elements (requires Internet Connecti' +
-      'on)'
-    Checked = True
-    TabOrder = 28
-    TabStop = True
-    OnClick = rad1Click
-  end
-  object rad2: TRadioButton
-    Left = 23
-    Top = 80
-    Width = 137
-    Height = 17
-    Caption = 'Open file on Local disc'
-    TabOrder = 29
-    OnClick = rad2Click
-  end
-  object brbt: TButton
-    Left = 23
-    Top = 103
-    Width = 75
-    Height = 23
-    Caption = 'Browse'
-    Enabled = False
-    TabOrder = 30
-    OnClick = brbtClick
-  end
-  object import_combo: TComboBox
-    Left = 120
-    Top = 30
-    Width = 206
-    Height = 21
-    Hint = 'brb'
-    Style = csDropDownList
-    DropDownCount = 18
-    ParentShowHint = False
-    ShowHint = True
+  object ListBox1: TListBox
+    Left = 18
+    Top = 28
+    Width = 289
+    Height = 325
+    ItemHeight = 13
     TabOrder = 0
-    Items.Strings = (
-      'MPC (Soft00Cmt)'
-      'SkyMap (Soft01Cmt)'
-      'Guide (Soft02Cmt)'
-      'xephem (Soft03Cmt)'
-      'Home Planet (Soft04Cmt)'
-      'MyStars! (Soft05Cmt)'
-      'TheSky (Soft06Cmt)'
-      'Starry Night (Soft07Cmt)'
-      'Deep Space (Soft08Cmt)'
-      'PC-TCS (Soft09Cmt)'
-      'Earth Centered Universe (Soft10Cmt)'
-      'Dance of the Planets (Soft11Cmt)'
-      'MegaStar V4.x (Soft12Cmt)'
-      'SkyChart III (Soft13Cmt)'
-      'Voyager II (Soft14Cmt)'
-      'SkyTools (Soft15Cmt)'
-      'Autostar (Soft16Cmt)')
+    OnClick = ListBox1Click
   end
-  object openfile: TOpenDialog
-    Filter = 
-      'Text Documents|*.txt|INI Files|*.ini|DAT Files|*.dat|SSC Files|*' +
-      '.ssc|All Files|*.*'
-    Title = 'Open File'
-    Left = 383
-    Top = 24
+  object Button1: TButton
+    Left = 313
+    Top = 28
+    Width = 75
+    Height = 25
+    Caption = 'Details -->'
+    TabOrder = 1
+    OnClick = Button1Click
   end
-  object savefile: TSaveDialog
-    Filter = 
-      'Text Document|*.txt|INI File|*.ini|DAT File|*.dat|SSC File|*.ssc' +
-      '|All Files|*.*'
-    Left = 415
-    Top = 24
+  object Button3: TButton
+    Left = 313
+    Top = 328
+    Width = 75
+    Height = 25
+    Caption = 'Next'
+    TabOrder = 2
   end
-  object H1: TIdHTTP
-    AllowCookies = True
-    ProxyParams.BasicAuthentication = False
-    ProxyParams.ProxyPort = 0
-    Request.ContentLength = -1
-    Request.Accept = 'text/html, */*'
-    Request.BasicAuthentication = False
-    Request.UserAgent = 'Mozilla/3.0 (compatible; Indy Library)'
-    HTTPOptions = [hoForceEncodeParams]
-    Left = 447
-    Top = 24
+  object Edit1: TEdit
+    Left = 544
+    Top = 30
+    Width = 256
+    Height = 21
+    ReadOnly = True
+    TabOrder = 3
+  end
+  object Edit2: TEdit
+    Left = 544
+    Top = 57
+    Width = 193
+    Height = 21
+    ReadOnly = True
+    TabOrder = 4
+  end
+  object Edit3: TEdit
+    Left = 544
+    Top = 84
+    Width = 113
+    Height = 21
+    ReadOnly = True
+    TabOrder = 5
+  end
+  object Edit4: TEdit
+    Left = 544
+    Top = 111
+    Width = 65
+    Height = 21
+    ReadOnly = True
+    TabOrder = 6
+  end
+  object Edit5: TEdit
+    Left = 615
+    Top = 111
+    Width = 42
+    Height = 21
+    ReadOnly = True
+    TabOrder = 7
+  end
+  object Edit6: TEdit
+    Left = 663
+    Top = 111
+    Width = 74
+    Height = 21
+    ReadOnly = True
+    TabOrder = 8
+  end
+  object Edit7: TEdit
+    Left = 544
+    Top = 138
+    Width = 113
+    Height = 21
+    ReadOnly = True
+    TabOrder = 9
+  end
+  object Edit8: TEdit
+    Left = 544
+    Top = 165
+    Width = 113
+    Height = 21
+    ReadOnly = True
+    TabOrder = 10
+  end
+  object Edit9: TEdit
+    Left = 544
+    Top = 192
+    Width = 113
+    Height = 21
+    ReadOnly = True
+    TabOrder = 11
+  end
+  object Edit10: TEdit
+    Left = 544
+    Top = 219
+    Width = 113
+    Height = 21
+    ReadOnly = True
+    TabOrder = 12
+  end
+  object Edit11: TEdit
+    Left = 544
+    Top = 246
+    Width = 113
+    Height = 21
+    ReadOnly = True
+    TabOrder = 13
+  end
+  object Edit12: TEdit
+    Left = 544
+    Top = 273
+    Width = 113
+    Height = 21
+    ReadOnly = True
+    TabOrder = 14
+  end
+  object Button4: TButton
+    Left = 725
+    Top = 328
+    Width = 75
+    Height = 25
+    Caption = 'Edit'
+    TabOrder = 15
+  end
+  object Button5: TButton
+    Left = 644
+    Top = 328
+    Width = 75
+    Height = 25
+    Caption = 'OK'
+    TabOrder = 16
+    Visible = False
+  end
+  object Button2: TButton
+    Left = 313
+    Top = 59
+    Width = 75
+    Height = 25
+    Caption = 'Delete'
+    TabOrder = 17
+    Visible = False
   end
 end

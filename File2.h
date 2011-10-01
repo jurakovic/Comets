@@ -1,3 +1,6 @@
+#ifndef __COMET_DATA
+#define __COMET_DATA
+
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -48,7 +51,8 @@ struct Excludings{
 
 
 //	funkcije za citanje iz datoteka
-void import_main (int, int, const char*, const char*);			//glavna fja
+void import_main (int, const char*);			//glavna fja
+void export_main (int, int, const char*);
 
 int import_mpc (int, FILE *);
 int import_skymap (int, FILE *);
@@ -102,3 +106,5 @@ void do_swap(int i, int j);
 
 bool define_exclude();
 bool do_exclude(int);
+
+#endif

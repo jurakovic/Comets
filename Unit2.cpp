@@ -6,10 +6,16 @@
 #include "Unit2.h"
 #include "Unit3.h"
 #include "Unit4.h"
+#include "Unit5.h"
 #include <string>
 
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
+#pragma link "IdBaseComponent"
+#pragma link "IdComponent"
+#pragma link "IdHTTP"
+#pragma link "IdTCPClient"
+#pragma link "IdTCPConnection"
 #pragma link "IdBaseComponent"
 #pragma link "IdComponent"
 #pragma link "IdHTTP"
@@ -168,8 +174,10 @@ void __fastcall TForm2::sort_combo1Change(TObject *Sender)
 void __fastcall TForm2::reset_buttonClick(TObject *Sender)
 {
 	import_combo->ItemIndex = -1;
+	//export_combo->ItemIndex = -1;
 	rad1->Checked = true;
 	brtxt->Text = "";
+	//savtxt->Text = "";
 	ch1->Checked = false;
 	ch2->Checked = false;
 	ch3->Checked = false;
@@ -200,6 +208,8 @@ void __fastcall TForm2::reset_buttonClick(TObject *Sender)
 void __fastcall TForm2::start_buttonClick(TObject *Sender)
 {
 
+	int Ncmt;
+	
 	remove("c:\\cmt_temp.dat");
 
 	if(import_combo->ItemIndex == -1)
@@ -217,6 +227,22 @@ void __fastcall TForm2::start_buttonClick(TObject *Sender)
 			MB_OK | MB_ICONERROR);
 		return;
 	}
+
+	/*if(export_combo->ItemIndex == -1)
+	{
+		Application->MessageBox(L"Please select Export Format",
+			L"Error",
+			MB_OK | MB_ICONERROR);
+		return;
+	}
+
+	if(savtxt->GetTextLen() == 0)
+	{
+		Application->MessageBox(L"Please select export file",
+			L"Error",
+			MB_OK | MB_ICONERROR);
+		return;
+	}  */
 
 	if((ch1->Checked && combo1->ItemIndex == -1) ||
 	   (ch2->Checked && combo2->ItemIndex == -1) ||
@@ -247,6 +273,7 @@ void __fastcall TForm2::start_buttonClick(TObject *Sender)
 	}
 
 	int inType = import_combo->ItemIndex;
+	//int outType = export_combo->ItemIndex;
 
 	if(rad1->Checked)
 	{
@@ -286,11 +313,10 @@ void __fastcall TForm2::start_buttonClick(TObject *Sender)
 			return;
 		}
 
-		savefile->Execute();
-		AnsiString str =  savefile->FileName;
-		const char *name = str.c_str();
+		//AnsiString str =  savtxt->Text;
+		//const char *name = str.c_str();
 
-		import_main(inType, "c:\\cmt_temp.dat", name);
+		Ncmt = import_main(inType, 1, "c:\\cmt_temp.dat", "brb.txt");
 		remove("c:\\cmt_temp.dat");
 	}
 
@@ -299,12 +325,19 @@ void __fastcall TForm2::start_buttonClick(TObject *Sender)
 		AnsiString str =  brtxt->Text;
 		const char *in_name = str.c_str();
 
-		savefile->Execute();
-		AnsiString str2 =  savefile->FileName;
-		const char *out_name = str2.c_str();
+		//AnsiString str2 =  savtxt->Text;
+		//const char *out_name = str2.c_str();
 
-		import_main(inType, in_name, out_name);
+		Ncmt = import_main(inType, 1, in_name, "brb.txt");
 	}
+
+	Form5->Show();
+
+	for(int i=0; i<Ncmt; i++){
+
+		Form5->ListBox1->Items->Add(cmt[i].full);
+	}
+
 }
 //---------------------------------------------------------------------------
 
@@ -383,5 +416,49 @@ void __fastcall TForm2::brtxtDblClick(TObject *Sender)
 	brtxt->Text  =  openfile->FileName;
 }
 //---------------------------------------------------------------------------
+
+void __fastcall TForm2::savbtClick(TObject *Sender)
+{
+	if(savefile->Execute()){
+		//savtxt->Text = savefile->FileName;
+
+		AnsiString str = savefile->FileName;
+		char *name = str.c_str();
+
+		int len = strlen(name);
+
+	   /*	if (!((name[len-1]=='t' && name[len-2]=='x' && name[len-3]=='t' && name[len-4]=='.') ||
+		   (name[len-1]=='i' && name[len-2]=='n' && name[len-3]=='i' && name[len-4]=='.') ||
+		   (name[len-1]=='t' && name[len-2]=='a' && name[len-3]=='d' && name[len-4]=='.') ||
+		   (name[len-1]=='c' && name[len-2]=='s' && name[len-3]=='s' && name[len-4]=='.')))
+		{
+			if(savefile->FilterIndex==1) savtxt->Text = savtxt->Text + ".txt";
+			if(savefile->FilterIndex==2) savtxt->Text = savtxt->Text + ".ini";
+			if(savefile->FilterIndex==3) savtxt->Text = savtxt->Text + ".dat";
+			if(savefile->FilterIndex==4) savtxt->Text = savtxt->Text + ".ssc";
+		} */
+	}
+	else
+	{
+		//savtxt->Text = savtxt->Text;
+    }
+
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm2::savtxtDblClick(TObject *Sender)
+{
+	savefile->Execute();
+	//savtxt->Text  =  savefile->FileName;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm2::savefileClose(TObject *Sender)
+{
+	//savtxt->Text = "";
+}
+//---------------------------------------------------------------------------
+
+
 
 

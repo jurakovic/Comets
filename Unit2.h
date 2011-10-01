@@ -10,6 +10,14 @@
 #include <Mask.hpp>
 
 #include "File2.h"
+#include "IdBaseComponent.hpp"
+#include "IdComponent.hpp"
+#include "IdHTTP.hpp"
+#include "IdTCPClient.hpp"
+#include "IdTCPConnection.hpp"
+#include <Dialogs.hpp>
+
+#include "Unit6.h"
 #include <ExtCtrls.hpp>
 #include <jpeg.hpp>
 #include <ComCtrls.hpp>
@@ -22,16 +30,15 @@
 #include "IdTCPConnection.hpp"
 #include <DBCtrls.hpp>
 
-struct Comet cmt[MAX_CMT];
-struct Excludings excl;
+#include "File2.h"
+
+
 
 //---------------------------------------------------------------------------
 class TForm2 : public TForm
 {
 __published:	// IDE-managed Components
-	TLabel *Label1;
 	TComboBox *import_combo;
-	TLabel *Label5;
 	TCheckBox *ch1;
 	TCheckBox *ch2;
 	TCheckBox *ch3;
@@ -74,6 +81,9 @@ __published:	// IDE-managed Components
 	TLabel *Label3;
 	TButton *brbt;
 	TEdit *brtxt;
+	TGroupBox *GroupBox1;
+	TLabel *Label1;
+	TGroupBox *GroupBox2;
 	void __fastcall ch1Click(TObject *Sender);
 	void __fastcall ch2Click(TObject *Sender);
 	void __fastcall ch3Click(TObject *Sender);
@@ -91,23 +101,25 @@ __published:	// IDE-managed Components
 	void __fastcall rad2Click(TObject *Sender);
 	void __fastcall brbtClick(TObject *Sender);
 	void __fastcall brtxtDblClick(TObject *Sender);
+	void __fastcall savbtClick(TObject *Sender);
+	void __fastcall savtxtDblClick(TObject *Sender);
+	void __fastcall savefileClose(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
 	__fastcall TForm2(TComponent* Owner);
 
+	struct Comet cmt[MAX_CMT];
+	struct Excludings excl;
 
-
-
-
-void import_main (int Ty, const char *fin_name, const char *fout_name)
+int import_main (int Ty, int exp_ty, const char *fin_name, const char *fout_name)
 {
 
 	using namespace std;
 
 	char c;
-	FILE *fin, *fout;
+	FILE *fin;
 
-	if(!define_exclude()) return;
+	if(!define_exclude()) return  0;
 
 	fin=fopen(fin_name, "r");
 
@@ -116,7 +128,7 @@ void import_main (int Ty, const char *fin_name, const char *fout_name)
 		Application->MessageBox(L"Unable to open input file",
 			L"Error",
 			MB_OK | MB_ICONERROR);
-		return;
+		return 0;
 	}
 
 	int Ncmt=0;
@@ -152,6 +164,8 @@ void import_main (int Ty, const char *fin_name, const char *fout_name)
 	//if (Ty==456) Ncmt = import_nasa1 (Ncmt, fin);
 	//if (Ty==789) Ncmt = import_nasa2 (Ncmt, fin);
 
+
+
 	fclose(fin);
 
 	if(Ncmt == 0)
@@ -162,14 +176,40 @@ void import_main (int Ty, const char *fin_name, const char *fout_name)
 			L" - Excluding rules are too high",
 			L"Error",
 			MB_OK | MB_ICONERROR);
-		return;
+		return 0;
 	}
 
-	if(!sort_data(Ncmt)) return;
+	if(!sort_data(Ncmt)) return 0;
+
+	return Ncmt;
+}
+
+
+void export_main (int Ncmt, int exp_ty, const char *fout_name)
+{
+	FILE *fout;
 
 	fout=fopen(fout_name, "w");
 
-	export_ssc (Ncmt, fout);
+	if (exp_ty== 0) export_mpc (Ncmt, fout);
+	if (exp_ty== 1) export_skymap (Ncmt, fout);
+	if (exp_ty== 2) export_guide (Ncmt, fout);
+	if (exp_ty== 3) export_xephem (Ncmt, fout);
+	if (exp_ty== 4) export_home_planet (Ncmt, fout);
+	if (exp_ty== 5) export_mystars (Ncmt, fout);
+	if (exp_ty== 6) export_thesky (Ncmt, fout);
+	if (exp_ty== 7) export_starry_night (Ncmt, fout);
+	if (exp_ty== 8) export_deep_space (Ncmt, fout);
+	if (exp_ty== 9) export_pc_tcs (Ncmt, fout);
+	if (exp_ty==10) export_ecu (Ncmt, fout);
+	if (exp_ty==11) export_dance (Ncmt, fout);
+	if (exp_ty==12) export_megastar (Ncmt, fout);
+	if (exp_ty==13) export_skychart (Ncmt, fout);
+	if (exp_ty==14) export_voyager (Ncmt, fout);
+	if (exp_ty==15) export_skytools (Ncmt, fout);
+	if (exp_ty==16) export_thesky (Ncmt, fout);
+	if (exp_ty==17) export_ssc (Ncmt, fout);
+	if (exp_ty==18) export_stell (Ncmt, fout);
 
 	fclose(fout);
 	Application->MessageBox(L"File is successfully saved",
@@ -1249,6 +1289,313 @@ int import_skytools (int N, FILE *fin)
 	return N;
 }
 
+void export_mpc (int N, FILE *fout)
+{
+
+	for (int i=0; i<N; i++) {
+
+		fprintf(fout,"              %4d %02d %02d.%04d %9f  %.6f  %8.4f  %8.4f  %8.4f  %4d%02d%02d  %4.1f %4.1f  %-56s MPC 00000\n",
+				cmt[i].y, cmt[i].m, cmt[i].d, cmt[i].h, cmt[i].q, cmt[i].e,
+				cmt[i].pn, cmt[i].an, cmt[i].i, ep_y, ep_m, ep_d, cmt[i].H, cmt[i].G, cmt[i].full);
+	}
+}
+void export_skymap (int N, FILE *fout)
+{
+
+	int j, k, len;
+
+	for (int i=0; i<N; i++) {
+
+		k=0;
+		len = strlen(cmt[i].ID);
+		for(j=0; j<len; j++){
+			fputc(cmt[i].ID[j], fout);
+			k++;
+		}
+		fputc(' ', fout); k++;
+		len = strlen(cmt[i].name);
+		for(j=0; j<len; j++){
+			fputc(cmt[i].name[j], fout);
+			k++;
+		}
+		while(k!=47){
+			fputc(' ', fout); k++;
+		}
+
+		fprintf(fout,"%4d %02d %02d.%04d %9f       %.6f %8.4f %8.4f %8.4f  %4.1f  %4.1f\n",
+				cmt[i].y, cmt[i].m, cmt[i].d, cmt[i].h, cmt[i].q,
+				cmt[i].e, cmt[i].pn, cmt[i].an, cmt[i].i, cmt[i].H, cmt[i].G);
+	}
+}
+void export_guide (int N, FILE *fout)
+{
+
+	int j, k, len;
+
+	for (int i=0; i<N; i++) {
+
+		k=0;
+		len = strlen(cmt[i].ID);
+		if (cmt[i].ID[len-1]=='P' && isdigit(cmt[i].ID[len-2])){
+			fputc('P', fout); k++;
+			fputc('/', fout); k++;
+		}
+
+		if (cmt[i].ID[len-1]=='D' && isdigit(cmt[i].ID[len-2])){
+			fputc('D', fout); k++;
+			fputc('/', fout); k++;
+		}
+
+		len = strlen(cmt[i].name);
+		for(j=0; j<len; j++){
+			fputc(cmt[i].name[j], fout);
+			k++;
+		}
+		fputc(' ', fout); k++;
+		fputc('(', fout); k++;
+
+		len = strlen(cmt[i].ID);
+		for(j=0; j<len; j++){
+			fputc(cmt[i].ID[j], fout);
+			k++;
+		}
+		fputc(')', fout); k++;
+		k++;
+
+		while(k!=44){
+			fputc(' ', fout); k++;
+		}
+
+		fprintf(fout,"%2d.%04d  %2d  %4d  0.0        %9.6f    %.6f  %8.4f    %8.4f    %8.4f    %d.0   %4.1f %4.1f    MPC 00000\n",
+				cmt[i].d, cmt[i].h, cmt[i].m, cmt[i].y, cmt[i].q, cmt[i].e,
+				cmt[i].i, cmt[i].pn, cmt[i].an, equinox, cmt[i].H, cmt[i].G);
+	}
+}
+void export_xephem (int N, FILE *fout)
+{
+
+	//info: http://www.clearskyinstitute.com/xephem/help/xephem.html#mozTocId215848
+
+	for (int i=0; i<N; i++) {
+
+		fprintf(fout,"# From MPC 00000\n%s,", cmt[i].full);
+
+		if(cmt[i].e < 1){
+
+
+			double smAxis = cmt[i].q/(1-cmt[i].e);
+			double mdMotion = 0.9856076686/cmt[i].P;
+			double mAnomaly = -(mdMotion * (cmt[i].T - greg_to_jul(ep_y, ep_m, ep_d)));
+
+			if (mAnomaly <   0) mAnomaly+=360;
+			if (mAnomaly > 360) mAnomaly-=360;
+
+			fprintf(fout, "e,%.4f,%.4f,%.4f,%.6f,%.7f,%.8f,%.4f,%02d/%02d.0/%d,%d,g %4.1f,%.1f\n",
+				cmt[i].i, cmt[i].an, cmt[i].pn, smAxis, mdMotion, cmt[i].e,
+				mAnomaly, ep_m, ep_d, ep_y, equinox, cmt[i].H, cmt[i].G);
+		}
+
+		if(cmt[i].e == 1.0){
+
+			fprintf(fout, "p,%02d/%02d.%03d/%4d,%.3f,%.3f,%.5f,%.3f,2000,%.1f,%.1f\n",
+				cmt[i].m, cmt[i].d, cmt[i].h, cmt[i].y,
+				cmt[i].i, cmt[i].pn, cmt[i].q, cmt[i].an,
+				cmt[i].H, cmt[i].G);
+		}
+
+		if(cmt[i].e > 1.0){
+
+			fprintf(fout, "h,%02d/%02d.%04d/%4d,%.4f,%.4f,%.4f,%.6f,%.6f,2000,%.1f,%.1f\n",
+				cmt[i].m, cmt[i].d, cmt[i].h, cmt[i].y,
+				cmt[i].i, cmt[i].an, cmt[i].pn, cmt[i].e,
+				cmt[i].q, cmt[i].H, cmt[i].G);
+		}
+	}
+}
+void export_home_planet (int N, FILE *fout)
+{
+
+	for (int i=0; i<N; i++) {
+
+		double smAxis = cmt[i].q/(1-cmt[i].e);
+
+		fprintf(fout,"%s,%d-%d-%d.%04d,%.6f,%.6f,%.4f,%.4f,%.4f,%.5f,%.5f years, MPC      \n",
+				cmt[i].full, cmt[i].y, cmt[i].m, cmt[i].d, cmt[i].h, cmt[i].q,
+				cmt[i].e, cmt[i].pn, cmt[i].an, cmt[i].i, smAxis, cmt[i].P);
+	}
+}
+void export_mystars (int N, FILE *fout)
+{
+
+	for (int i=0; i<N; i++) {
+
+
+		fprintf(fout,"%s;\t%ld.%04d\t%.4f\t%.6f\t%.6f\t%.4f\t%.4f\t%.1f\t%.1f\tMPC00000\t%ld.0\n",
+				cmt[i].full, cmt[i].T-2400000, cmt[i].h, cmt[i].pn, cmt[i].e, cmt[i].q,
+				cmt[i].i, cmt[i].an, cmt[i].H, cmt[i].G, eq_JD-2400000);
+	}
+}
+void export_thesky (int N, FILE *fout)
+{
+
+	for (int i=0; i<N; i++) {
+
+		fprintf(fout,"%-39s|%d|%4d%02d%02d.%04d |%9f |%.6f |%8.4f |%8.4f |%8.4f |%4.1f |%4.1f | MPC 00000\n",
+				cmt[i].full, equinox, cmt[i].y, cmt[i].m, cmt[i].d, cmt[i].h, cmt[i].q,
+				cmt[i].e, cmt[i].pn, cmt[i].an, cmt[i].i, cmt[i].H, cmt[i].G);
+	}
+}
+void export_starry_night (int N, FILE *fout)
+{
+
+	for (int i=0; i<N; i++) {
+
+		fprintf(fout,"     %-29s %4.1f    0.0   %.6f   %9.6f    %8.4f  %8.4f  %8.4f  %ld.%04d    %ld.5  %4.1f  %-13s MPC 00000\n",
+				cmt[i].name, cmt[i].H, cmt[i].e, cmt[i].q, cmt[i].an, cmt[i].pn,
+				cmt[i].i, cmt[i].T, cmt[i].h, eq_JD, cmt[i].G, cmt[i].ID);
+	}
+}
+void export_deep_space (int N, FILE *fout)
+{
+
+	for (int i=0; i<N; i++) {
+
+		fprintf(fout,"%s (%s)\nC J%d %4d %02d %02d.%04d %.6f %.6f %.4f %.4f %.4f %.1f %.1f\n",
+				cmt[i].name, cmt[i].ID, equinox, cmt[i].y, cmt[i].m, cmt[i].d, cmt[i].h,
+				cmt[i].q, cmt[i].e, cmt[i].pn, cmt[i].an, cmt[i].i, cmt[i].H, cmt[i].G);
+	}
+}
+void export_pc_tcs (int N, FILE *fout)
+{
+
+	int j, k, len;
+
+	for (int i=0; i<N; i++) {
+
+		len = strlen(cmt[i].ID);
+		for (j=0; j<len; j++){
+			if (cmt[i].ID[j]==' '){
+				k=j;
+				for( ; cmt[i].ID[k]!='\0'; k++)
+					cmt[i].ID[k]=cmt[i].ID[k+1];
+			}
+		}
+
+		fprintf(fout,"%s %.6f %.6f %.4f %.4f %.4f %4d %02d %02d.%04d %.1f %.1f %s\n",
+				cmt[i].ID, cmt[i].q, cmt[i].e, cmt[i].i, cmt[i].pn, cmt[i].an,
+				cmt[i].y, cmt[i].m, cmt[i].d, cmt[i].h, cmt[i].H, cmt[i].G, cmt[i].name);
+	}
+}
+void export_ecu (int N, FILE *fout)
+{
+
+	for (int i=0; i<N; i++) {
+
+		fprintf(fout,"%s\nE C %d %4d %02d %02d.%04d %.6f %.6f %.4f %.4f %.4f %.1f %.1f\n",
+				cmt[i].full, equinox, cmt[i].y, cmt[i].m, cmt[i].d, cmt[i].h, cmt[i].q,
+				cmt[i].e, cmt[i].pn, cmt[i].an, cmt[i].i, cmt[i].H, cmt[i].G);
+	}
+}
+void export_dance (int N, FILE *fout)
+{
+
+	for (int i=0; i<N; i++) {
+
+		fprintf(fout,"%s\nE C %d %4d %02d %02d.%04d %.6f %.6f %.4f %.4f %.4f %.1f %.1f\n",
+				cmt[i].full, equinox, cmt[i].y, cmt[i].m, cmt[i].d, cmt[i].h,
+				cmt[i].q, cmt[i].e, cmt[i].pn, cmt[i].an, cmt[i].i, cmt[i].H, cmt[i].G);
+	}
+}
+void export_megastar (int N, FILE *fout)
+{
+
+	for (int i=0; i<N; i++) {
+
+		fprintf(fout,"%-30s%-12s%4d %02d  %02d.%04d   %9.6f   %.6f    %8.4f    %8.4f    %8.4f   %4.1f   %4.1f    %d MPC 00000\n",
+				cmt[i].name, cmt[i].ID, cmt[i].y, cmt[i].m, cmt[i].d,
+				cmt[i].h, cmt[i].q, cmt[i].e, cmt[i].pn, cmt[i].an,
+				cmt[i].i, cmt[i].H, cmt[i].G, equinox);
+	}
+}
+void export_skychart (int N, FILE *fout)
+{
+
+	for (int i=0; i<N; i++) {
+
+		fprintf(fout,"P11	%d.0	-%.6f\t%.6f\t%.3f\t%.4f\t%.4f\t0\t%4d/%02d/%02d.%04d\t%.1f %.1f\t0\t0\t%s; MPC 00000\t\n",
+				equinox, cmt[i].q, cmt[i].e, cmt[i].i, cmt[i].pn, cmt[i].an, cmt[i].y,
+				cmt[i].m, cmt[i].d, cmt[i].h, cmt[i].H, cmt[i].G, cmt[i].full);
+	}
+}
+void export_voyager (int N, FILE *fout)
+{
+
+	char *mon;
+
+	for (int i=0; i<N; i++) {
+
+		if (cmt[i].m== 1) mon = "Jan";
+		if (cmt[i].m== 2) mon = "Feb";
+		if (cmt[i].m== 3) mon = "Mar";
+		if (cmt[i].m== 4) mon = "Apr";
+		if (cmt[i].m== 5) mon = "May";
+		if (cmt[i].m== 6) mon = "Jun";
+		if (cmt[i].m== 7) mon = "Jul";
+		if (cmt[i].m== 8) mon = "Aug";
+		if (cmt[i].m== 9) mon = "Sep";
+		if (cmt[i].m==10) mon = "Oct";
+		if (cmt[i].m==11) mon = "Nov";
+		if (cmt[i].m==12) mon = "Dec";
+
+		fprintf(fout,"%-26s %9.6f   %.6f  %8.4f   %8.4f   %8.4f   0.0  %4d%s",
+				cmt[i].name, cmt[i].q, cmt[i].e, cmt[i].i, cmt[i].an,
+				cmt[i].pn, cmt[i].y, mon);
+
+		if (cmt[i].d<10) fprintf(fout, "%d.%04d  %d.0\n", cmt[i].d, cmt[i].h, equinox);
+		else fprintf(fout, "%d.%04d %d.0\n", cmt[i].d, cmt[i].h, equinox);
+	}
+}
+void export_skytools (int N, FILE *fout)
+{
+
+	int j, k, len;
+
+	for (int i=0; i<N; i++) {
+
+		if(cmt[i].h>999) cmt[i].h/=10;
+
+		k=0;
+		fputc('C', fout); k++;
+		fputc(' ', fout); k++;
+		len = strlen(cmt[i].ID);
+		for(j=0; j<len; j++){
+			fputc(cmt[i].ID[j], fout);
+			k++;
+		}
+
+		len = strlen(cmt[i].ID);
+		if ((cmt[i].ID[len-1]=='P' && isdigit(cmt[i].ID[len-2])) ||
+			(cmt[i].ID[len-1]=='D' && isdigit(cmt[i].ID[len-2]))){
+			fputc('/', fout); k++;
+		}
+		else {
+			fputc(' ', fout);
+			k++;
+		}
+		len = strlen(cmt[i].name);
+		for(j=0; j<len; j++){
+			fputc(cmt[i].name[j], fout);
+			k++;
+		}
+		while(k<43){
+			fputc(' ', fout); k++;
+		}
+
+		fprintf(fout,"2011 02 08 %4d %02d %02d.%-.03d  %9.6f   %.6f %7.3f %7.3f %7.3f  %4.1f  %4.1f 0.00%d MPC 00000\n",
+				cmt[i].y, cmt[i].m, cmt[i].d, cmt[i].h, cmt[i].q, cmt[i].e,
+				cmt[i].pn, cmt[i].an, cmt[i].i, cmt[i].H, cmt[i].G, equinox);
+	}
+}
 void export_ssc (int N, FILE *fout)
 {
 
@@ -1294,6 +1641,34 @@ void export_ssc (int N, FILE *fout)
 				cmt[i].T, cmt[i].h, cmt[i].y, mon, cmt[i].d, cmt[i].h);
 		fprintf(fout,"\t} \n");
 		fprintf(fout,"}\n\n\n");
+	}
+}
+void export_stell (int N, FILE *fout)
+{
+
+	for (int i=0; i<N; i++) {
+
+		int len = strlen(cmt[i].name);
+		for (int j=0; j<len; j++) if (isupper(cmt[i].name[j])) cmt[i].name[j] = tolower(cmt[i].name[j]);
+
+		fprintf(fout,"[%s]\n", cmt[i].name);
+		fprintf(fout,"parent = Sun\n");
+		fprintf(fout,"orbit_Inclination = %f\n", cmt[i].i);
+		fprintf(fout,"coord_func = comet_orbit\n");
+		fprintf(fout,"orbit_Eccentricity = %f\n", cmt[i].e);
+		fprintf(fout,"orbit_ArgOfPericenter = %f\n", cmt[i].pn);
+		fprintf(fout,"absolute_magnitude=%.1f\n", cmt[i].H);
+		fprintf(fout,"name = %s\n", cmt[i].full);
+		fprintf(fout,"slope_parameter = %.1f\n", cmt[i].G);
+		fprintf(fout,"lighting = false\n");
+		fprintf(fout,"tex_map = nomap.png\n");
+		fprintf(fout,"color = 1.0, 1.0, 1.0\n");
+		fprintf(fout,"orbit_AscendingNode = %f\n", cmt[i].an);
+		fprintf(fout,"albedo = 1\n");
+		fprintf(fout,"radius = 5\n");
+		fprintf(fout,"orbit_PericenterDistance = %f\n", cmt[i].q);
+		fprintf(fout,"type = comet\n");
+		fprintf(fout,"orbit_TimeAtPericenter = %ld.%.4d\n\n", cmt[i].T, cmt[i].h);
 	}
 }
 
@@ -1429,6 +1804,14 @@ void remove_spaces (char *name)
 
 bool sort_data (int N)
 {
+	if(sort_combo1->ItemIndex>0){
+		Form6->Show();
+		Form6->P1->Position = 0;
+		Form6->P1->Max = N-1;
+	}
+
+
+
 	for (int i=0; i<N-1; i++){
 		for (int j=i+1; j<N; j++){
 			if (sort_combo1->ItemIndex == 1 && sort_combo2->ItemIndex == 0 && cmt[i].sort > cmt[j].sort) do_swap(i, j);
@@ -1447,10 +1830,14 @@ bool sort_data (int N)
 			if (sort_combo1->ItemIndex == 7 && sort_combo2->ItemIndex == 1 && cmt[i].i < cmt[j].i) do_swap(i, j);
 			if (sort_combo1->ItemIndex == 8 && sort_combo2->ItemIndex == 0 && cmt[i].P > cmt[j].P) do_swap(i, j);
 			if (sort_combo1->ItemIndex == 8 && sort_combo2->ItemIndex == 1 && cmt[i].P < cmt[j].P) do_swap(i, j);
+
+			Form6->P1->Position = i;
 		}
 	}
+	Form6->Close();
 	return true;
 }
+
 void do_swap(int i, int j)
 {
 

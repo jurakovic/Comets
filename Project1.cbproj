@@ -2,7 +2,7 @@
 		<PropertyGroup>
 			<ProjectGuid>{65E5DE5D-06FD-429E-AE7C-06F5C14366BD}</ProjectGuid>
 			<ProjectVersion>13.4</ProjectVersion>
-			<MainSource>ssc_gen.cpp</MainSource>
+			<MainSource>Project1.cpp</MainSource>
 			<Config Condition="'$(Config)'==''">Release</Config>
 			<FrameworkType>VCL</FrameworkType>
 			<Base>True</Base>
@@ -23,12 +23,6 @@
 			<CfgParent>Base</CfgParent>
 			<Base>true</Base>
 		</PropertyGroup>
-		<PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_1)'=='true') or '$(Cfg_1_Win32)'!=''">
-			<Cfg_1_Win32>true</Cfg_1_Win32>
-			<CfgParent>Cfg_1</CfgParent>
-			<Cfg_1>true</Cfg_1>
-			<Base>true</Base>
-		</PropertyGroup>
 		<PropertyGroup Condition="'$(Config)'=='Release' or '$(Cfg_2)'!=''">
 			<Cfg_2>true</Cfg_2>
 			<CfgParent>Base</CfgParent>
@@ -39,7 +33,7 @@
 			<VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
 			<VerInfo_Locale>1050</VerInfo_Locale>
 			<OutputExt>exe</OutputExt>
-			<LinkPackageImports>rtl.bpi;vcl.bpi;vclimg.bpi;IndyCore.bpi;IndySystem.bpi;IndyProtocols.bpi</LinkPackageImports>
+			<LinkPackageImports>rtl.bpi;vcl.bpi;vclimg.bpi;IndyCore.bpi;IndySystem.bpi;IndyProtocols.bpi;vcldb.bpi;dbrtl.bpi</LinkPackageImports>
 			<Multithreaded>true</Multithreaded>
 			<ProjectType>CppVCLApplication</ProjectType>
 			<PackageImports>vclx.bpi;vcl.bpi;vclimg.bpi;dbrtl.bpi;Rave77VCL.bpi;bdertl.bpi;rtl.bpi;bcbie.bpi;vclactnband.bpi;xmlrtl.bpi;bcbsmp.bpi;vcldb.bpi;vcldbx.bpi;vcltouch.bpi;dsnap.bpi;dsnapcon.bpi;TeeUI.bpi;TeeDB.bpi;Tee.bpi;vclib.bpi;ibxpress.bpi;adortl.bpi;IndyCore.bpi;IndySystem.bpi;IndyProtocols.bpi;inet.bpi;intrawebdb_100_140.bpi;Intraweb_100_140.bpi;vclie.bpi;websnap.bpi;webdsnap.bpi;inetdb.bpi;inetdbbde.bpi;inetdbxpress.bpi;soaprtl.bpi;vclribbon.bpi;dbexpress.bpi;DbxCommonDriver.bpi;DataSnapIndy10ServerTransport.bpi;DataSnapProviderClient.bpi;DbxClientDriver.bpi;DataSnapServer.bpi;DBXInterBaseDriver.bpi;DBXMySQLDriver.bpi;dbxcds.bpi;DBXFirebirdDriver.bpi;DBXSybaseASEDriver.bpi;DBXSybaseASADriver.bpi;DBXOracleDriver.bpi;DBXMSSQLDriver.bpi;DBXInformixDriver.bpi;DBXDb2Driver.bpi;VclSmp.bpi;$(PackageImports)</PackageImports>
@@ -55,7 +49,7 @@
 			<ILINK_TranslatedLibraryPath>$(BDS)\lib\$(LANGDIR)</ILINK_TranslatedLibraryPath>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Base_Win32)'!=''">
-			<Icon_MainIcon>ssc_gen_Icon1.ico</Icon_MainIcon>
+			<Icon_MainIcon>Project1_Icon3.ico</Icon_MainIcon>
 			<DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
 			<IncludePath>$(BDSINCLUDE)\windows\vcl;$(IncludePath)</IncludePath>
 			<VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
@@ -82,9 +76,6 @@
 			<BCC_SourceDebuggingOn>true</BCC_SourceDebuggingOn>
 			<ILINK_TranslatedLibraryPath>$(BDS)\lib\$(LANGDIR)\debug;$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
 		</PropertyGroup>
-		<PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
-			<LinkPackageImports>rtl.bpi;vcl.bpi;vclimg.bpi;IndyCore.bpi;IndySystem.bpi;IndyProtocols.bpi;vcldb.bpi;dbrtl.bpi</LinkPackageImports>
-		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_2)'!=''">
 			<Defines>NDEBUG;$(Defines)</Defines>
 			<IntermediateOutputDir>Release</IntermediateOutputDir>
@@ -96,11 +87,10 @@
 			<None Include="File2.h">
 				<BuildOrder>5</BuildOrder>
 			</None>
-			<CppCompile Include="ssc_gen.cpp">
+			<CppCompile Include="Project1.cpp">
 				<BuildOrder>0</BuildOrder>
 			</CppCompile>
-			<None Include="ssc_gen.otares"/>
-			<ResFiles Include="ssc_gen.res">
+			<ResFiles Include="Project1.res">
 				<BuildOrder>1</BuildOrder>
 			</ResFiles>
 			<CppCompile Include="Unit2.cpp">
@@ -118,8 +108,20 @@
 				<DependentOn>Unit4.h</DependentOn>
 				<BuildOrder>5</BuildOrder>
 			</CppCompile>
-			<FormResources Include="Unit2.dfm"/>
+			<CppCompile Include="Unit5.cpp">
+				<Form>Form5</Form>
+				<DependentOn>Unit5.h</DependentOn>
+				<BuildOrder>6</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="Unit6.cpp">
+				<Form>Form6</Form>
+				<DependentOn>Unit6.h</DependentOn>
+				<BuildOrder>7</BuildOrder>
+			</CppCompile>
+			<FormResources Include="Unit6.dfm"/>
+			<FormResources Include="Unit5.dfm"/>
 			<FormResources Include="Unit3.dfm"/>
+			<FormResources Include="Unit2.dfm"/>
 			<FormResources Include="Unit4.dfm"/>
 			<BuildConfiguration Include="Release">
 				<Key>Cfg_2</Key>
@@ -192,8 +194,14 @@
 						<ProjectProperties Name="VerifyPackages">True</ProjectProperties>
 					</ProjectProperties>
 					<Source>
-						<Source Name="MainSource">ssc_gen.cpp</Source>
+						<Source Name="MainSource">Project1.cpp</Source>
 					</Source>
+					<Excluded_Packages>
+						<Excluded_Packages Name="$(BDSBIN)\bcboffice2k140.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
+						<Excluded_Packages Name="$(BDSBIN)\bcbofficexp140.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
+						<Excluded_Packages Name="$(BDSBIN)\dcloffice2k140.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+						<Excluded_Packages Name="$(BDSBIN)\dclofficexp140.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+					</Excluded_Packages>
 				</CPlusPlusBuilder.Personality>
 				<ModelSupport>False</ModelSupport>
 				<Platforms>
