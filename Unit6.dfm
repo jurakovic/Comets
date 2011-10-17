@@ -6,7 +6,7 @@ object Form6: TForm6
   Caption = 'Sorting Data...'
   ClientHeight = 38
   ClientWidth = 371
-  Color = clBtnFace
+  Color = clMenu
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11

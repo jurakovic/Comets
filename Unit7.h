@@ -8,39 +8,20 @@
 #include <StdCtrls.hpp>
 #include <Forms.hpp>
 //---------------------------------------------------------------------------
-class TForm7 : public TForm
+class TForm8 : public TForm
 {
 __published:	// IDE-managed Components
+	TGroupBox *GroupBox1;
 	TLabel *Label1;
-	TEdit *Edit1;
-	TLabel *Label2;
-	TEdit *Edit2;
-	TLabel *Label3;
-	TEdit *Edit3;
-	TLabel *Label4;
-	TEdit *Edit4;
-	TEdit *Edit5;
-	TEdit *Edit6;
-	TLabel *Label5;
-	TEdit *Edit7;
-	TLabel *Label6;
-	TEdit *Edit8;
-	TLabel *Label7;
-	TEdit *Edit9;
-	TLabel *Label8;
-	TEdit *Edit10;
-	TLabel *Label9;
-	TEdit *Edit11;
-	TLabel *Label10;
-	TEdit *Edit12;
+	TComboBox *import_combo;
 	TButton *Button1;
-	TButton *Button2;
-	TButton *Button3;
+	TLabel *Label2;
+	TButton *brbt;
 private:	// User declarations
 public:		// User declarations
-	__fastcall TForm7(TComponent* Owner);
+	__fastcall TForm8(TComponent* Owner);
 };
 //---------------------------------------------------------------------------
-extern PACKAGE TForm7 *Form7;
+extern PACKAGE TForm8 *Form8;
 //---------------------------------------------------------------------------
 #endif

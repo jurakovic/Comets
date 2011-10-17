@@ -331,11 +331,14 @@ void __fastcall TForm2::start_buttonClick(TObject *Sender)
 		Ncmt = import_main(inType, 1, in_name, "brb.txt");
 	}
 
-	Form5->Show();
+	if(Ncmt) {
 
-	for(int i=0; i<Ncmt; i++){
+		Form5->Show();
 
-		Form5->ListBox1->Items->Add(cmt[i].full);
+		for(int i=0; i<Ncmt; i++){
+
+			Form5->ListBox1->Items->Add(cmt[i].full);
+		}
 	}
 
 }

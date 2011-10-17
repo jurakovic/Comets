@@ -118,11 +118,17 @@
 				<DependentOn>Unit6.h</DependentOn>
 				<BuildOrder>7</BuildOrder>
 			</CppCompile>
-			<FormResources Include="Unit6.dfm"/>
-			<FormResources Include="Unit5.dfm"/>
-			<FormResources Include="Unit3.dfm"/>
+			<CppCompile Include="Unit7.cpp">
+				<Form>Form8</Form>
+				<DependentOn>Unit7.h</DependentOn>
+				<BuildOrder>8</BuildOrder>
+			</CppCompile>
 			<FormResources Include="Unit2.dfm"/>
+			<FormResources Include="Unit3.dfm"/>
+			<FormResources Include="Unit7.dfm"/>
 			<FormResources Include="Unit4.dfm"/>
+			<FormResources Include="Unit5.dfm"/>
+			<FormResources Include="Unit6.dfm"/>
 			<BuildConfiguration Include="Release">
 				<Key>Cfg_2</Key>
 				<CfgParent>Base</CfgParent>

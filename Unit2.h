@@ -84,6 +84,7 @@ __published:	// IDE-managed Components
 	TGroupBox *GroupBox1;
 	TLabel *Label1;
 	TGroupBox *GroupBox2;
+	TGroupBox *GroupBox3;
 	void __fastcall ch1Click(TObject *Sender);
 	void __fastcall ch2Click(TObject *Sender);
 	void __fastcall ch3Click(TObject *Sender);
@@ -679,6 +680,7 @@ int import_thesky (int N, FILE *fin)
 
 	int j, k, l;
 	int m, line=1;
+	float G;
 	char x[20+1];
 
 	for (int i=0; i<N; i++) {
@@ -687,7 +689,9 @@ int import_thesky (int N, FILE *fin)
 			cmt[i].full, &cmt[i].y, &cmt[i].m,
 			&cmt[i].d, &cmt[i].h, &cmt[i].q, &cmt[i].e,
 			&cmt[i].pn, &cmt[i].an, &cmt[i].i, &cmt[i].H,
-			&cmt[i].G, x);
+			&G, x);
+
+		cmt[i].G = G/2.5;
 
 		if (m < 13){
 			//cout << "\n\n  Unable to read data in line " << line;
@@ -745,6 +749,7 @@ int import_starry_night (int N, FILE *fin)
 	int j, k;
 	int m, line=1, nula;
 	char nulanula[11], praznina[6];
+	float G;
 	long int y;
 	char c, x[20+1];
 
@@ -755,7 +760,9 @@ int import_starry_night (int N, FILE *fin)
 		m = fscanf(fin, "%5c%29c %f %8c %f %f %f %f %f %ld.%d %ld.5 %f  %13c %20[^\n]%*c",
 			praznina, cmt[i].name, &cmt[i].H, nulanula, &cmt[i].e, &cmt[i].q, &cmt[i].an,
 			&cmt[i].pn, &cmt[i].i, &cmt[i].T, &cmt[i].h,
-			&y, &cmt[i].G, cmt[i].ID, x);
+			&y, &G, cmt[i].ID, x);
+
+		cmt[i].G = G/2.5;
 
 		if (m < 15){
 			//cout << "\n\n  Unable to read data in line " << line;
@@ -798,6 +805,7 @@ int import_deep_space (int N, FILE *fin)
 {
 
 	int j, m, line=2;
+	float G;
 	char c, x[8+1];
 
 	//fscanf(fin, "Type C: Equinox Year Month Day q e Peri Node i Mag k\n");
@@ -822,7 +830,9 @@ int import_deep_space (int N, FILE *fin)
 		m = fscanf(fin, "\n%8c %d %d %d.%d %f %f %f %f %f %f %f\n",
 			x, &cmt[i].y, &cmt[i].m, &cmt[i].d, &cmt[i].h,
 			&cmt[i].q, &cmt[i].e, &cmt[i].pn, &cmt[i].an,
-			&cmt[i].i, &cmt[i].H, &cmt[i].G);
+			&cmt[i].i, &cmt[i].H, &G);
+
+		cmt[i].G = G/2.5;
 
 		if (m < 12){
 			//cout << "\n\n  Unable to read data in line " << line;
@@ -861,6 +871,7 @@ int import_pc_tcs (int N, FILE *fin)
 
 	int j, k;
 	int m, line=1, len;
+	float G;
 	char tempID[20];
 
 	for (int i=0; i<N; i++) {
@@ -868,7 +879,9 @@ int import_pc_tcs (int N, FILE *fin)
 		m = fscanf(fin, "%s %f %f %f %f %f %d %d %d.%d %f %f %60[^\n]%*c",
 			cmt[i].ID, &cmt[i].q, &cmt[i].e, &cmt[i].i,
 			&cmt[i].pn, &cmt[i].an, &cmt[i].y, &cmt[i].m,
-			&cmt[i].d, &cmt[i].h, &cmt[i].H, &cmt[i].G, cmt[i].name);
+			&cmt[i].d, &cmt[i].h, &cmt[i].H, &G, cmt[i].name);
+
+		cmt[i].G = G/2.5;
 
 		if (m < 13){
 			//cout << "\n\n  Unable to read data in line " << line;
@@ -926,6 +939,7 @@ int import_ecu (int N, FILE *fin)
 {
 
 	int j, k, l;
+	float G;
 	int m, line=2;
 
 	for (int i=0; i<N; i++) {
@@ -933,7 +947,9 @@ int import_ecu (int N, FILE *fin)
 		m = fscanf(fin, "%45[^\n]%*cE C 2000 %d %d %d.%d %f %f %f %f %f %f %f\n",
 			cmt[i].full, &cmt[i].y, &cmt[i].m, &cmt[i].d,
 			&cmt[i].h, &cmt[i].q, &cmt[i].e, &cmt[i].pn, &cmt[i].an,
-			&cmt[i].i, &cmt[i].H, &cmt[i].G);
+			&cmt[i].i, &cmt[i].H, &G);
+
+		cmt[i].G = G/2.5;
 
 		if (m < 12){
 			//cout << "\n\n  Unable to read data in line " << line;
@@ -1054,6 +1070,7 @@ int import_megastar (int N, FILE *fin)
 {
 
 	int m, line=1;
+	float G;
 	char x[25+1];
 
 	for (int i=0; i<N; i++) {
@@ -1061,7 +1078,9 @@ int import_megastar (int N, FILE *fin)
 		m = fscanf(fin, "%30c %12c %d %d %d.%d %f %f %f %f %f %f %f %25[^\n]%*c",
 			cmt[i].name, cmt[i].ID, &cmt[i].y, &cmt[i].m, &cmt[i].d,
 			&cmt[i].h, &cmt[i].q, &cmt[i].e, &cmt[i].pn,
-			&cmt[i].an, &cmt[i].i, &cmt[i].H, &cmt[i].G, x);
+			&cmt[i].an, &cmt[i].i, &cmt[i].H, &G, x);
+
+		cmt[i].G = G/2.5;
 
 		if (m < 14){
 			//cout << "\n\n  Unable to read data in line " << line;
@@ -1442,7 +1461,7 @@ void export_thesky (int N, FILE *fout)
 
 		fprintf(fout,"%-39s|%d|%4d%02d%02d.%04d |%9f |%.6f |%8.4f |%8.4f |%8.4f |%4.1f |%4.1f | MPC 00000\n",
 				cmt[i].full, equinox, cmt[i].y, cmt[i].m, cmt[i].d, cmt[i].h, cmt[i].q,
-				cmt[i].e, cmt[i].pn, cmt[i].an, cmt[i].i, cmt[i].H, cmt[i].G);
+				cmt[i].e, cmt[i].pn, cmt[i].an, cmt[i].i, cmt[i].H, cmt[i].G*2.5);
 	}
 }
 void export_starry_night (int N, FILE *fout)
@@ -1452,7 +1471,7 @@ void export_starry_night (int N, FILE *fout)
 
 		fprintf(fout,"     %-29s %4.1f    0.0   %.6f   %9.6f    %8.4f  %8.4f  %8.4f  %ld.%04d    %ld.5  %4.1f  %-13s MPC 00000\n",
 				cmt[i].name, cmt[i].H, cmt[i].e, cmt[i].q, cmt[i].an, cmt[i].pn,
-				cmt[i].i, cmt[i].T, cmt[i].h, eq_JD, cmt[i].G, cmt[i].ID);
+				cmt[i].i, cmt[i].T, cmt[i].h, eq_JD, cmt[i].G*2.5, cmt[i].ID);
 	}
 }
 void export_deep_space (int N, FILE *fout)
@@ -1462,7 +1481,7 @@ void export_deep_space (int N, FILE *fout)
 
 		fprintf(fout,"%s (%s)\nC J%d %4d %02d %02d.%04d %.6f %.6f %.4f %.4f %.4f %.1f %.1f\n",
 				cmt[i].name, cmt[i].ID, equinox, cmt[i].y, cmt[i].m, cmt[i].d, cmt[i].h,
-				cmt[i].q, cmt[i].e, cmt[i].pn, cmt[i].an, cmt[i].i, cmt[i].H, cmt[i].G);
+				cmt[i].q, cmt[i].e, cmt[i].pn, cmt[i].an, cmt[i].i, cmt[i].H, cmt[i].G*2.5);
 	}
 }
 void export_pc_tcs (int N, FILE *fout)
@@ -1483,7 +1502,7 @@ void export_pc_tcs (int N, FILE *fout)
 
 		fprintf(fout,"%s %.6f %.6f %.4f %.4f %.4f %4d %02d %02d.%04d %.1f %.1f %s\n",
 				cmt[i].ID, cmt[i].q, cmt[i].e, cmt[i].i, cmt[i].pn, cmt[i].an,
-				cmt[i].y, cmt[i].m, cmt[i].d, cmt[i].h, cmt[i].H, cmt[i].G, cmt[i].name);
+				cmt[i].y, cmt[i].m, cmt[i].d, cmt[i].h, cmt[i].H, cmt[i].G*2.5, cmt[i].name);
 	}
 }
 void export_ecu (int N, FILE *fout)
@@ -1493,7 +1512,7 @@ void export_ecu (int N, FILE *fout)
 
 		fprintf(fout,"%s\nE C %d %4d %02d %02d.%04d %.6f %.6f %.4f %.4f %.4f %.1f %.1f\n",
 				cmt[i].full, equinox, cmt[i].y, cmt[i].m, cmt[i].d, cmt[i].h, cmt[i].q,
-				cmt[i].e, cmt[i].pn, cmt[i].an, cmt[i].i, cmt[i].H, cmt[i].G);
+				cmt[i].e, cmt[i].pn, cmt[i].an, cmt[i].i, cmt[i].H, cmt[i].G*2.5);
 	}
 }
 void export_dance (int N, FILE *fout)
@@ -1514,7 +1533,7 @@ void export_megastar (int N, FILE *fout)
 		fprintf(fout,"%-30s%-12s%4d %02d  %02d.%04d   %9.6f   %.6f    %8.4f    %8.4f    %8.4f   %4.1f   %4.1f    %d MPC 00000\n",
 				cmt[i].name, cmt[i].ID, cmt[i].y, cmt[i].m, cmt[i].d,
 				cmt[i].h, cmt[i].q, cmt[i].e, cmt[i].pn, cmt[i].an,
-				cmt[i].i, cmt[i].H, cmt[i].G, equinox);
+				cmt[i].i, cmt[i].H, cmt[i].G*2.5, equinox);
 	}
 }
 void export_skychart (int N, FILE *fout)
@@ -1810,8 +1829,6 @@ bool sort_data (int N)
 		Form6->P1->Max = N-1;
 	}
 
-
-
 	for (int i=0; i<N-1; i++){
 		for (int j=i+1; j<N; j++){
 			if (sort_combo1->ItemIndex == 1 && sort_combo2->ItemIndex == 0 && cmt[i].sort > cmt[j].sort) do_swap(i, j);
@@ -1834,6 +1851,7 @@ bool sort_data (int N)
 			Form6->P1->Position = i;
 		}
 	}
+
 	Form6->Close();
 	return true;
 }

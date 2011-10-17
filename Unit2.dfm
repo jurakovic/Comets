@@ -4,9 +4,9 @@ object Form2: TForm2
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = 'Orbital Elements Workshop v1.0 Beta'
-  ClientHeight = 450
-  ClientWidth = 522
-  Color = clInactiveCaption
+  ClientHeight = 474
+  ClientWidth = 506
+  Color = clMenu
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
@@ -809,10 +809,9 @@ object Form2: TForm2
   object lab5: TLabel
     Left = 461
     Top = 282
-    Width = 46
+    Width = 6
     Height = 16
-    Caption = 'degrees'
-    Enabled = False
+    Caption = #176
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clDefault
     Font.Height = -13
@@ -823,10 +822,9 @@ object Form2: TForm2
   object lab6: TLabel
     Left = 461
     Top = 309
-    Width = 46
+    Width = 6
     Height = 16
-    Caption = 'degrees'
-    Enabled = False
+    Caption = #176
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clDefault
     Font.Height = -13
@@ -837,10 +835,9 @@ object Form2: TForm2
   object lab4: TLabel
     Left = 461
     Top = 255
-    Width = 46
+    Width = 6
     Height = 16
-    Caption = 'degrees'
-    Enabled = False
+    Caption = #176
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clDefault
     Font.Height = -13
@@ -851,10 +848,9 @@ object Form2: TForm2
   object lab7: TLabel
     Left = 461
     Top = 336
-    Width = 31
+    Width = 6
     Height = 16
-    Caption = 'years'
-    Enabled = False
+    Caption = 'y'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clDefault
     Font.Height = -13
@@ -868,7 +864,6 @@ object Form2: TForm2
     Width = 16
     Height = 16
     Caption = 'AU'
-    Enabled = False
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clDefault
     Font.Height = -13
@@ -877,8 +872,8 @@ object Form2: TForm2
     ParentFont = False
   end
   object Label11: TLabel
-    Left = 16
-    Top = 392
+    Left = 23
+    Top = 408
     Width = 46
     Height = 16
     Caption = 'Sort by:'
@@ -890,8 +885,8 @@ object Form2: TForm2
     ParentFont = False
   end
   object Label12: TLabel
-    Left = 16
-    Top = 419
+    Left = 23
+    Top = 435
     Width = 55
     Height = 16
     Caption = 'Direction:'
@@ -922,10 +917,24 @@ object Form2: TForm2
     Font.Style = []
     ParentFont = False
   end
+  object GroupBox3: TGroupBox
+    Left = 8
+    Top = 381
+    Width = 247
+    Height = 85
+    Caption = 'Sort'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 34
+  end
   object GroupBox2: TGroupBox
     Left = 8
     Top = 151
-    Width = 506
+    Width = 489
     Height = 218
     Caption = 'Exception rules'
     Font.Charset = DEFAULT_CHARSET
@@ -939,7 +948,7 @@ object Form2: TForm2
   object GroupBox1: TGroupBox
     Left = 8
     Top = 8
-    Width = 506
+    Width = 489
     Height = 129
     Caption = 'Import Format'
     Font.Charset = DEFAULT_CHARSET
@@ -958,7 +967,7 @@ object Form2: TForm2
     Caption = 'Perihelion Date'
     Color = clWhite
     Font.Charset = DEFAULT_CHARSET
-    Font.Color = clMaroon
+    Font.Color = clBlack
     Font.Height = -13
     Font.Name = 'Tahoma'
     Font.Style = []
@@ -1220,9 +1229,9 @@ object Form2: TForm2
     TabOrder = 21
   end
   object sort_combo1: TComboBox
-    Left = 87
-    Top = 391
-    Width = 161
+    Left = 94
+    Top = 407
+    Width = 147
     Height = 21
     Style = csDropDownList
     DropDownCount = 9
@@ -1242,9 +1251,9 @@ object Form2: TForm2
       'Period')
   end
   object sort_combo2: TComboBox
-    Left = 87
-    Top = 418
-    Width = 161
+    Left = 94
+    Top = 434
+    Width = 147
     Height = 21
     Style = csDropDownList
     Enabled = False
@@ -1254,10 +1263,10 @@ object Form2: TForm2
       'Descending')
   end
   object start_button: TButton
-    Left = 254
-    Top = 390
-    Width = 122
-    Height = 49
+    Left = 296
+    Top = 386
+    Width = 171
+    Height = 50
     Caption = 'Start'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -1269,9 +1278,9 @@ object Form2: TForm2
     OnClick = start_buttonClick
   end
   object help_button: TButton
-    Left = 382
-    Top = 415
-    Width = 59
+    Left = 261
+    Top = 442
+    Width = 50
     Height = 24
     Caption = 'Help'
     TabOrder = 26
@@ -1279,16 +1288,16 @@ object Form2: TForm2
   end
   object about_button: TButton
     Left = 448
-    Top = 415
-    Width = 59
+    Top = 442
+    Width = 50
     Height = 24
     Caption = 'About'
     TabOrder = 27
     OnClick = about_buttonClick
   end
   object reset_button: TButton
-    Left = 382
-    Top = 390
+    Left = 317
+    Top = 442
     Width = 125
     Height = 24
     Caption = 'Reset fields'
@@ -1364,7 +1373,8 @@ object Form2: TForm2
       'SkyChart III (Soft13Cmt)'
       'Voyager II (Soft14Cmt)'
       'SkyTools (Soft15Cmt)'
-      'Autostar (Soft16Cmt)')
+      'Autostar (Soft16Cmt)'
+      'Comet for Windows (Comet.dat)')
   end
   object openfile: TOpenDialog
     Filter = 

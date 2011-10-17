@@ -1,11 +1,12 @@
 object Form5: TForm5
-  Left = 244
-  Top = 110
+  Left = 146
+  Top = 165
   BorderIcons = [biSystemMenu]
+  BorderStyle = bsSingle
   Caption = 'Orbital Elements Workshop v1.0 Beta'
-  ClientHeight = 368
-  ClientWidth = 408
-  Color = clBtnFace
+  ClientHeight = 369
+  ClientWidth = 410
+  Color = clMenu
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
