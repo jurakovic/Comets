@@ -949,9 +949,9 @@ object Form5: TForm5
     ParentFont = False
   end
   object GroupBox2: TGroupBox
-    Left = 416
+    Left = 421
     Top = 8
-    Width = 393
+    Width = 327
     Height = 353
     Caption = 'Details'
     Font.Charset = DEFAULT_CHARSET
@@ -1005,7 +1005,7 @@ object Form5: TForm5
   object Edit1: TEdit
     Left = 544
     Top = 30
-    Width = 256
+    Width = 193
     Height = 21
     ReadOnly = True
     TabOrder = 3
@@ -1013,7 +1013,7 @@ object Form5: TForm5
   object Edit2: TEdit
     Left = 544
     Top = 57
-    Width = 193
+    Width = 113
     Height = 21
     ReadOnly = True
     TabOrder = 4
@@ -1021,7 +1021,7 @@ object Form5: TForm5
   object Edit3: TEdit
     Left = 544
     Top = 84
-    Width = 113
+    Width = 193
     Height = 21
     ReadOnly = True
     TabOrder = 5
@@ -1099,7 +1099,7 @@ object Form5: TForm5
     TabOrder = 14
   end
   object Button4: TButton
-    Left = 725
+    Left = 663
     Top = 328
     Width = 75
     Height = 25
@@ -1107,7 +1107,7 @@ object Form5: TForm5
     TabOrder = 15
   end
   object Button5: TButton
-    Left = 644
+    Left = 582
     Top = 328
     Width = 75
     Height = 25

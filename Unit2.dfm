@@ -3,7 +3,7 @@ object Form2: TForm2
   Top = 110
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
-  Caption = 'Orbital Elements Workshop v1.0 Beta'
+  Caption = 'Orbital Elements Workshop (v. 0.2)'
   ClientHeight = 474
   ClientWidth = 506
   Color = clMenu
@@ -1263,10 +1263,10 @@ object Form2: TForm2
       'Descending')
   end
   object start_button: TButton
-    Left = 296
-    Top = 386
+    Left = 261
+    Top = 388
     Width = 171
-    Height = 50
+    Height = 48
     Caption = 'Start'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -1278,29 +1278,29 @@ object Form2: TForm2
     OnClick = start_buttonClick
   end
   object help_button: TButton
-    Left = 261
-    Top = 442
-    Width = 50
-    Height = 24
+    Left = 438
+    Top = 415
+    Width = 60
+    Height = 21
     Caption = 'Help'
     TabOrder = 26
     OnClick = help_buttonClick
   end
   object about_button: TButton
-    Left = 448
-    Top = 442
-    Width = 50
-    Height = 24
+    Left = 438
+    Top = 444
+    Width = 60
+    Height = 21
     Caption = 'About'
     TabOrder = 27
     OnClick = about_buttonClick
   end
   object reset_button: TButton
-    Left = 317
-    Top = 442
-    Width = 125
-    Height = 24
-    Caption = 'Reset fields'
+    Left = 438
+    Top = 388
+    Width = 60
+    Height = 21
+    Caption = 'Reset'
     TabOrder = 25
     OnClick = reset_buttonClick
   end
@@ -1376,6 +1376,13 @@ object Form2: TForm2
       'Autostar (Soft16Cmt)'
       'Comet for Windows (Comet.dat)')
   end
+  object pBar1: TProgressBar
+    Left = 261
+    Top = 444
+    Width = 171
+    Height = 21
+    TabOrder = 35
+  end
   object openfile: TOpenDialog
     Filter = 
       'Text Documents|*.txt|INI Files|*.ini|DAT Files|*.dat|SSC Files|*' +
@@ -1396,9 +1403,14 @@ object Form2: TForm2
     ProxyParams.BasicAuthentication = False
     ProxyParams.ProxyPort = 0
     Request.ContentLength = -1
+    Request.ContentRangeEnd = -1
+    Request.ContentRangeStart = -1
+    Request.ContentRangeInstanceLength = -1
     Request.Accept = 'text/html, */*'
     Request.BasicAuthentication = False
     Request.UserAgent = 'Mozilla/3.0 (compatible; Indy Library)'
+    Request.Ranges.Units = 'bytes'
+    Request.Ranges = <>
     HTTPOptions = [hoForceEncodeParams]
     Left = 447
     Top = 24

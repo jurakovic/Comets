@@ -24,10 +24,10 @@ void __fastcall TForm5::FormClose(TObject *Sender, TCloseAction &Action)
 void __fastcall TForm5::Button1Click(TObject *Sender)
 {
 	if(Form5->Width == 426){
-		Form5->Width = 823;
+		Form5->Width = 774;
 		Button1->Caption = "<-- Details";
 	}
-	else if(Form5->Width == 823) {
+	else if(Form5->Width == 774) {
 		Form5->Width = 426;
 		Button1->Caption = "Details -->";
 	}
@@ -96,7 +96,7 @@ void __fastcall TForm5::ListBox1Click(TObject *Sender)
 	Edit11->Text = StringReplace(Edit11->Text, ",", ".", TReplaceFlags());
 
 
-	if (Form2->cmt[i].e>=1)
+	if (Form2->cmt[i].e>=1 || Form2->cmt[i].P>=99999)
 		Edit12->Text = "";
 	else {
 		Edit12->Text = FormatFloat("0.0000", Form2->cmt[i].P);

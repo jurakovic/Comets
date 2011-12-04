@@ -17,7 +17,8 @@
 #include "IdTCPConnection.hpp"
 #include <Dialogs.hpp>
 
-#include "Unit6.h"
+#include "Unit5.h"
+//include "Unit2.h"
 #include <ExtCtrls.hpp>
 #include <jpeg.hpp>
 #include <ComCtrls.hpp>
@@ -85,6 +86,7 @@ __published:	// IDE-managed Components
 	TLabel *Label1;
 	TGroupBox *GroupBox2;
 	TGroupBox *GroupBox3;
+	TProgressBar *pBar1;
 	void __fastcall ch1Click(TObject *Sender);
 	void __fastcall ch2Click(TObject *Sender);
 	void __fastcall ch3Click(TObject *Sender);
@@ -139,10 +141,14 @@ int import_main (int Ty, int exp_ty, const char *fin_name, const char *fout_name
 
 	rewind(fin);
 
-	//if (Ty==123) Ncmt/=13;						// jer je 17. format cfw, a jedan komet je definiran kroz 13 redova
 	if (Ty==3 || Ty==8 || Ty==10) Ncmt/=2;		// kao gore, samo što je 1 komet kroz 2 reda
 	if (Ty==8 || Ty==4 || Ty==5) --Ncmt;
 	if (Ty==7) Ncmt-=15;
+
+	if (Ty==17) {
+		//Ncmt-=7; 
+		Ncmt/=13;
+	}
 
 	if (Ty== 0) Ncmt = import_mpc (Ncmt, fin);
 	if (Ty== 1) Ncmt = import_skymap (Ncmt, fin);
@@ -161,7 +167,7 @@ int import_main (int Ty, int exp_ty, const char *fin_name, const char *fout_name
 	if (Ty==14) Ncmt = import_voyager (Ncmt, fin);
 	if (Ty==15) Ncmt = import_skytools (Ncmt, fin);
 	if (Ty==16) Ncmt = import_thesky (Ncmt, fin);
-	//if (Ty==123) Ncmt = import_cfw (Ncmt, fin);
+	if (Ty==17) Ncmt = import_cfw (Ncmt, fin);
 	//if (Ty==456) Ncmt = import_nasa1 (Ncmt, fin);
 	//if (Ty==789) Ncmt = import_nasa2 (Ncmt, fin);
 
@@ -180,8 +186,13 @@ int import_main (int Ty, int exp_ty, const char *fin_name, const char *fout_name
 		return 0;
 	}
 
+
+	pBar1->Position = 0;
+	pBar1->Max = 3*(Ncmt/4);
+
 	if(!sort_data(Ncmt)) return 0;
 
+	pBar1->Position = 0;
 	return Ncmt;
 }
 
@@ -1308,6 +1319,84 @@ int import_skytools (int N, FILE *fin)
 	return N;
 }
 
+int import_cfw (int N, FILE *fin)
+{
+
+	int j, k, l;
+	float G;
+
+	//for (int i=0; i<7; i++) fscanf(fin, "%*[^\n]\n");
+
+	for (int i=0; i<N; i++){
+
+		fscanf(fin, "name=%40[^\n]%*c\
+					%*[^\n]\n\
+					type=orbit\n\
+					T=%d %d %d.%d\n\
+					q=%f\n\
+					e=%f\n\
+					peri=%f\n\
+					node=%f\n\
+					i=%f\n\
+					prec=2000.0\n\
+					%*[^\n]\n\
+					mageq=%f %f\
+					\n",
+					cmt[i].full,
+					&cmt[i].y, &cmt[i].m, &cmt[i].d, &cmt[i].h,
+					&cmt[i].q,
+					&cmt[i].e,
+					&cmt[i].pn,
+					&cmt[i].an,
+					&cmt[i].i,
+					&cmt[i].H, &G);
+
+		cmt[i].G = G/2.5;
+
+		remove_spaces(cmt[i].full);
+
+		for (j=0; cmt[i].full[j]!='\0'; j++){
+
+			if (isdigit(cmt[i].full[j]) && cmt[i].full[j+1]=='P' && cmt[i].full[j+2]=='/'){
+
+				for(k=0; cmt[i].full[k]!='/'; k++)
+					cmt[i].ID[k]=cmt[i].full[k];
+
+				cmt[i].ID[k]='\0';
+
+				++k;
+
+				for(l=0; cmt[i].full[k]!='\0'; l++, k++)
+					cmt[i].name[l]=cmt[i].full[k];
+
+				cmt[i].name[l]='\0';
+			}
+
+			if (cmt[i].full[j]=='('){
+				for(k=0; cmt[i].full[k]!='('; k++)
+					cmt[i].ID[k]=cmt[i].full[k];
+
+				cmt[i].ID[k-1]='\0';
+
+				++k;
+
+				for(l=0; cmt[i].full[k]!=')'; k++, l++)
+					cmt[i].name[l]=cmt[i].full[k];
+
+				cmt[i].name[l]='\0';
+			}
+		}
+
+		cmt[i].P = compute_period (cmt[i].q, cmt[i].e);
+		cmt[i].T = greg_to_jul (cmt[i].y, cmt[i].m, cmt[i].d);
+		cmt[i].sort = get_sort_key(cmt[i].ID);
+
+		if(do_exclude(i)){N--; i--;}
+	}
+
+	return N;
+}
+
 void export_mpc (int N, FILE *fout)
 {
 
@@ -1823,12 +1912,6 @@ void remove_spaces (char *name)
 
 bool sort_data (int N)
 {
-	if(sort_combo1->ItemIndex>0){
-		Form6->Show();
-		Form6->P1->Position = 0;
-		Form6->P1->Max = N-1;
-	}
-
 	for (int i=0; i<N-1; i++){
 		for (int j=i+1; j<N; j++){
 			if (sort_combo1->ItemIndex == 1 && sort_combo2->ItemIndex == 0 && cmt[i].sort > cmt[j].sort) do_swap(i, j);
@@ -1847,12 +1930,9 @@ bool sort_data (int N)
 			if (sort_combo1->ItemIndex == 7 && sort_combo2->ItemIndex == 1 && cmt[i].i < cmt[j].i) do_swap(i, j);
 			if (sort_combo1->ItemIndex == 8 && sort_combo2->ItemIndex == 0 && cmt[i].P > cmt[j].P) do_swap(i, j);
 			if (sort_combo1->ItemIndex == 8 && sort_combo2->ItemIndex == 1 && cmt[i].P < cmt[j].P) do_swap(i, j);
-
-			Form6->P1->Position = i;
 		}
+		pBar1->Position = i;
 	}
-
-	Form6->Close();
 	return true;
 }
 

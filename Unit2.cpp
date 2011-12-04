@@ -56,14 +56,14 @@ void __fastcall TForm2::ch2Click(TObject *Sender)
 	{
 		combo2->Enabled = true;
 		t2->Enabled = true;
-		lab2->Enabled = true;
+		//lab2->Enabled = true;
 	}
 
 	else
 	{
 		combo2->Enabled = false;
 		t2->Enabled = false;
-		lab2->Enabled = false;
+		//lab2->Enabled = false;
 	}
 }
 //---------------------------------------------------------------------------
@@ -90,14 +90,14 @@ void __fastcall TForm2::ch4Click(TObject *Sender)
 	{
 		combo4->Enabled = true;
 		t4->Enabled = true;
-		lab4->Enabled = true;
+		//lab4->Enabled = true;
 	}
 
 	else
 	{
 		combo4->Enabled = false;
 		t4->Enabled = false;
-		lab4->Enabled = false;
+		//lab4->Enabled = false;
 	}
 }
 //---------------------------------------------------------------------------
@@ -108,14 +108,14 @@ void __fastcall TForm2::ch5Click(TObject *Sender)
 	{
 		combo5->Enabled = true;
 		t5->Enabled = true;
-		lab5->Enabled = true;
+		//lab5->Enabled = true;
 	}
 
 	else
 	{
 		combo5->Enabled = false;
 		t5->Enabled = false;
-		lab5->Enabled = false;
+		//lab5->Enabled = false;
 	}
 }
 //---------------------------------------------------------------------------
@@ -126,14 +126,14 @@ void __fastcall TForm2::ch6Click(TObject *Sender)
 	{
 		combo6->Enabled = true;
 		t6->Enabled = true;
-		lab6->Enabled = true;
+		//lab6->Enabled = true;
 	}
 
 	else
 	{
 		combo6->Enabled = false;
 		t6->Enabled = false;
-		lab6->Enabled = false;
+		//lab6->Enabled = false;
 	}
 }
 //---------------------------------------------------------------------------
@@ -144,14 +144,14 @@ void __fastcall TForm2::ch7Click(TObject *Sender)
 	{
 		combo7->Enabled = true;
 		t7->Enabled = true;
-		lab7->Enabled = true;
+		//lab7->Enabled = true;
 	}
 
 	else
 	{
 		combo7->Enabled = false;
 		t7->Enabled = false;
-		lab7->Enabled = false;
+		//lab7->Enabled = false;
 	}
 }
 //---------------------------------------------------------------------------
@@ -340,7 +340,6 @@ void __fastcall TForm2::start_buttonClick(TObject *Sender)
 			Form5->ListBox1->Items->Add(cmt[i].full);
 		}
 	}
-
 }
 //---------------------------------------------------------------------------
 

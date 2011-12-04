@@ -1133,9 +1133,9 @@ object Form3: TForm3
   object Label5: TLabel
     Left = 91
     Top = 38
-    Width = 166
+    Width = 137
     Height = 16
-    Caption = 'Version 1.0 Beta (June 2011)'
+    Caption = 'Version 0.2 (June 2011)'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -13
