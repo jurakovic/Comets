@@ -8,16 +8,39 @@
 #include <StdCtrls.hpp>
 #include <Forms.hpp>
 #include <ComCtrls.hpp>
+
+#include "CometMain.hpp"
+#include <ExtCtrls.hpp>
+#include <pngimage.hpp>
 //---------------------------------------------------------------------------
-class TForm4 : public TForm
+class TFrame4 : public TFrame
 {
 __published:	// IDE-managed Components
-	TRichEdit *RichEdit1;
+	TButton *Button2;
+	TButton *Button1;
+	TLabel *Label1;
+	TLabel *Label4;
+	TComboBox *ComboBox2;
+	TLabel *Label5;
+	TComboBox *ComboBox3;
+	TProgressBar *ProgressBar1;
+	TLabel *Label3;
+	TButton *Button3;
+	TImage *Image1;
+	TLabel *Label2;
+	TCheckBox *CheckBox1;
+	void __fastcall Button2Click(TObject *Sender);
+	void __fastcall Button1Click(TObject *Sender);
+	void __fastcall Button3Click(TObject *Sender);
+	void __fastcall ComboBox2Change(TObject *Sender);
+	void __fastcall ComboBox3Change(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
-	__fastcall TForm4(TComponent* Owner);
+	__fastcall TFrame4(TComponent* Owner);
+
+	int Ncmt;
 };
 //---------------------------------------------------------------------------
-extern PACKAGE TForm4 *Form4;
+extern PACKAGE TFrame4 *Frame4;
 //---------------------------------------------------------------------------
 #endif

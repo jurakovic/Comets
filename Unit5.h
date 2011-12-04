@@ -7,14 +7,16 @@
 #include <Controls.hpp>
 #include <StdCtrls.hpp>
 #include <Forms.hpp>
+#include <ExtCtrls.hpp>
+#include <pngimage.hpp>
 //---------------------------------------------------------------------------
-class TForm5 : public TForm
+class TFrame5 : public TFrame
 {
 __published:	// IDE-managed Components
-	TListBox *ListBox1;
-	TLabel *Label1;
+	TButton *Button2;
 	TButton *Button1;
-	TButton *Button3;
+	TLabel *Label1;
+	TListBox *ListBox1;
 	TLabel *Label2;
 	TEdit *Edit1;
 	TLabel *Label3;
@@ -37,20 +39,24 @@ __published:	// IDE-managed Components
 	TEdit *Edit11;
 	TLabel *Label11;
 	TEdit *Edit12;
-	TButton *Button4;
-	TButton *Button5;
-	TButton *Button2;
-	TGroupBox *GroupBox1;
-	TGroupBox *GroupBox2;
-	void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
+	TLabel *Label12;
+	TEdit *Edit13;
+	TEdit *Edit14;
+	TLabel *Label13;
+	TLabel *Label14;
+	TLabel *Label16;
+	TLabel *Label17;
+	TLabel *Label18;
+	TLabel *Label19;
+	TImage *Image1;
 	void __fastcall Button1Click(TObject *Sender);
-	void __fastcall Button6Click(TObject *Sender);
+	void __fastcall Button2Click(TObject *Sender);
 	void __fastcall ListBox1Click(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
-	__fastcall TForm5(TComponent* Owner);
+	__fastcall TFrame5(TComponent* Owner);
 };
 //---------------------------------------------------------------------------
-extern PACKAGE TForm5 *Form5;
+extern PACKAGE TFrame5 *Frame5;
 //---------------------------------------------------------------------------
 #endif

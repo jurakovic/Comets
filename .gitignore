@@ -1,0 +1,7 @@
+﻿
+*.local
+*.tvsconfig
+*.cache
+
+[Dd]ebug/
+[Rr]elease/

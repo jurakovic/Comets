@@ -7,21 +7,17 @@
 #include <Controls.hpp>
 #include <StdCtrls.hpp>
 #include <Forms.hpp>
+#include <ComCtrls.hpp>
 //---------------------------------------------------------------------------
-class TForm8 : public TForm
+class TForm7 : public TForm
 {
 __published:	// IDE-managed Components
-	TGroupBox *GroupBox1;
-	TLabel *Label1;
-	TComboBox *import_combo;
-	TButton *Button1;
-	TLabel *Label2;
-	TButton *brbt;
+	TProgressBar *ProgressBar1;
 private:	// User declarations
 public:		// User declarations
-	__fastcall TForm8(TComponent* Owner);
+	__fastcall TForm7(TComponent* Owner);
 };
 //---------------------------------------------------------------------------
-extern PACKAGE TForm8 *Form8;
+extern PACKAGE TForm7 *Form7;
 //---------------------------------------------------------------------------
 #endif
