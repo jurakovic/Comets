@@ -5,6 +5,8 @@
 
 #include "Unit1.h"
 #include "Unit5.h"
+#include "Unit7.h"
+#include "Unit8.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
@@ -80,6 +82,28 @@ void __fastcall TFrame5::ListBox1Click(TObject *Sender)
 		Edit14->Text = FormatFloat("0.00", Form1->cmt[i].G);
 		Edit14->Text = StringReplace(Edit14->Text, ",", ".", TReplaceFlags());
 	}
+
+	Edit15->Text = FormatFloat("0.000000", Form1->cmt[i].sort);
+	Edit15->Text = StringReplace(Edit15->Text, ",", ".", TReplaceFlags());
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TFrame5::BAboutClick(TObject *Sender)
+{
+	Form8->ShowModal();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFrame5::BSettingsClick(TObject *Sender)
+{
+	Form7->ShowModal();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFrame5::BExitClick(TObject *Sender)
+{
+	Form1->Close();
 }
 //---------------------------------------------------------------------------
 

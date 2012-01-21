@@ -1,31 +1,31 @@
 //---------------------------------------------------------------------------
 
-#ifndef Unit7H
-#define Unit7H
+#ifndef Unit9H
+#define Unit9H
 //---------------------------------------------------------------------------
 #include <System.Classes.hpp>
 #include <Vcl.Controls.hpp>
 #include <Vcl.StdCtrls.hpp>
 #include <Vcl.Forms.hpp>
+#include <Vcl.ExtCtrls.hpp>
 //---------------------------------------------------------------------------
-class TForm7 : public TForm
+class TForm9 : public TForm
 {
 __published:	// IDE-managed Components
+	TLabel *Label1;
+	TCheckBox *CheckBox1;
 	TButton *Button1;
 	TButton *Button2;
-	TGroupBox *GroupBox1;
-	TCheckBox *CheckBox1;
-	TCheckBox *CheckBox2;
-	TCheckBox *CheckBox3;
-	TCheckBox *CheckBox4;
-	void __fastcall Button2Click(TObject *Sender);
+	TBevel *Bevel1;
 	void __fastcall Button1Click(TObject *Sender);
-	void __fastcall FormShow(TObject *Sender);
+	void __fastcall Button2Click(TObject *Sender);
+	void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
 private:	// User declarations
 public:		// User declarations
-	__fastcall TForm7(TComponent* Owner);
+	__fastcall TForm9(TComponent* Owner);
+	bool exit;
 };
 //---------------------------------------------------------------------------
-extern PACKAGE TForm7 *Form7;
+extern PACKAGE TForm9 *Form9;
 //---------------------------------------------------------------------------
 #endif

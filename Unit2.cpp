@@ -5,6 +5,8 @@
 
 #include "Unit1.h"
 #include "Unit2.h"
+#include "Unit7.h"
+#include "Unit8.h"
 
 #include "CometMain.hpp"
 //---------------------------------------------------------------------------
@@ -24,20 +26,41 @@ __fastcall TFrame2::TFrame2(TComponent* Owner)
 //---------------------------------------------------------------------------
 void __fastcall TFrame2::Button1Click(TObject *Sender)
 {
+	if(CheckBox1->Checked)
+		Form1->Frame31->Visible = true;
+	else
+		Form1->Frame61->Visible = true;
+
 	Form1->Frame21->Visible = false;
-	Form1->Frame31->Visible = true;
+
+	if(Form1->Frame21->ComboBox1->ItemIndex == 18)
+		Form1->Frame31->CheckBox8->Visible = true;
+	else
+	   Form1->Frame31->CheckBox8->Visible = false;
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TFrame2::RadioButton1Click(TObject *Sender)
 {
 	if(RadioButton1->Checked){
+		if(isFileDownloaded) {
+		//ako je datoteka skinuta, prebroji komete i moze next
+			setDetectedComets();
+			Button1->Enabled = true;
+			Label4->Visible = true;
+			ProgressBar1->Visible = true;
+		}
+		else {
+		//inace ne
+			Button1->Enabled = false;
+			Label4->Visible = false;
+		}
+
 		Button3->Enabled = true;
 		Edit1->Enabled = false;
 		Button4->Enabled = false;
-		Label4->Visible = false;
 	}
-	if(!fileIsDownloaded) Button1->Enabled  = false;
+	if(!isFileDownloaded) Button1->Enabled  = false;
 }
 
 //---------------------------------------------------------------------------
@@ -45,11 +68,24 @@ void __fastcall TFrame2::RadioButton1Click(TObject *Sender)
 void __fastcall TFrame2::RadioButton2Click(TObject *Sender)
 {
 	if(RadioButton2->Checked){
-		if(Edit1->GetTextLen() > 0) Button1->Enabled = true;
+
+		if(Edit1->GetTextLen() > 0) {
+		//ako je datoteka ucitana, prebroji komete i moze next
+			setDetectedComets();
+			Button1->Enabled = true;
+			Label4->Visible = true;
+		}
+
+		else {
+		//inace ne
+			Button1->Enabled = false;
+			Label4->Visible = false;
+		}
+
 		Edit1->Enabled = true;
 		Button4->Enabled = true;
 		Button3->Enabled = false;
-		if(Edit1->GetTextLen() > 0) Label4->Visible = true;
+		ProgressBar1->Visible = false;
 	}
 }
 
@@ -57,8 +93,6 @@ void __fastcall TFrame2::RadioButton2Click(TObject *Sender)
 
 void __fastcall TFrame2::Button3Click(TObject *Sender)
 {
-	char *fileToDownload;
-
 	// s ovime se dobije trenutni datum
 	time_t rawtime;
 	struct tm *timeinfo;
@@ -72,6 +106,8 @@ void __fastcall TFrame2::Button3Click(TObject *Sender)
 	int hour = timeinfo->tm_hour;
 	int min = timeinfo->tm_min;
 	int sec = timeinfo->tm_sec;
+
+	UnicodeString fileToDownload;
 
 	if(ComboBox1->ItemIndex == 0) fileToDownload = "http://www.minorplanetcenter.net/iau/Ephemerides/Comets/Soft00Cmt.txt";
 	if(ComboBox1->ItemIndex == 1) fileToDownload = "http://www.minorplanetcenter.net/iau/Ephemerides/Comets/Soft01Cmt.txt";
@@ -93,7 +129,7 @@ void __fastcall TFrame2::Button3Click(TObject *Sender)
 	if(ComboBox1->ItemIndex == 18) fileToDownload = "http://ssd.jpl.nasa.gov/dat/ELEMENTS.COMET";
 
 	if(ComboBox1->ItemIndex != 18)
-		downloadedFile = Form1->coewFolder + "\\Soft" +
+		downloadedFile = Form1->defaultDataFolder + "\\Soft" +
 					FormatFloat("00", ComboBox1->ItemIndex) +
 					"Cmt_" + year + "-" +
 					FormatFloat("00", mon) + "-" +
@@ -102,11 +138,17 @@ void __fastcall TFrame2::Button3Click(TObject *Sender)
 					FormatFloat("00", min) + "-" +
 					FormatFloat("00", sec) + ".txt";
 
-	else downloadedFile = Form1->coewFolder + "\\ELEMENTS.COMET";
+	else downloadedFile = Form1->defaultDataFolder + "\\ELEMENTS_"
+					+ year + "-" +
+					FormatFloat("00", mon) + "-" +
+					FormatFloat("00", day) + "_" +
+					FormatFloat("00", hour) + "-" +
+					FormatFloat("00", min) + "-" +
+					FormatFloat("00", sec) + ".COMET";
 
 	try{
 		TFileStream *fStr = new TFileStream(downloadedFile, fmCreate);
-		H1->Get(fileToDownload, fStr);
+		H1->Get(AnsiString(fileToDownload).c_str(), fStr);
 		delete fStr;
 	}
 
@@ -115,7 +157,7 @@ void __fastcall TFrame2::Button3Click(TObject *Sender)
 			L"Error",
 			MB_OK | MB_ICONERROR);
 
-		//remove(downloadedFile.c_str());
+		remove(AnsiString(downloadedFile).c_str());
 		ProgressBar1->Position = 0;
 		ProgressBar1->Visible = false;
 		return;
@@ -125,12 +167,8 @@ void __fastcall TFrame2::Button3Click(TObject *Sender)
 
 	ProgressBar1->Position = ProgressBar1->Max;
 
-	fileIsDownloaded = true;
+	isFileDownloaded = true;
 	Button1->Enabled = true;
-	Label3->Visible = true;
-
-	Label4->Caption = "Total " + IntToStr(detectedComets) + " comets detected";
-	Label4->Visible = true;
 }
 //---------------------------------------------------------------------------
 
@@ -141,10 +179,10 @@ void __fastcall TFrame2::Button4Click(TObject *Sender)
 
 	if(Edit1->GetTextLen() > 0){
 
-		ComboBox1Change(Sender);
+		//ComboBox1Change(Sender);
 		setDetectedComets();
 
-		Label4->Caption = "Total " + IntToStr(detectedComets) + " detected comets.";
+		Label4->Caption = "Detected comets: " + IntToStr(detectedComets);
 		Label4->Visible = true;
 		Button1->Enabled = true;
 	}
@@ -155,23 +193,17 @@ void __fastcall TFrame2::ComboBox1Change(TObject *Sender)
 {
 	if(Edit1->GetTextLen() == 0) Button1->Enabled = false;
 
-	fileIsDownloaded = false;
+	isFileDownloaded = false;
 	RadioButton1->Enabled = true;
 	if(RadioButton1->Checked) Button3->Enabled = true;
 	RadioButton2->Enabled = true;
 	ProgressBar1->Position = 0;
 	ProgressBar1->Visible = false;
-	Label3->Visible = false;
 	Label4->Visible = false;
 
-	if(RadioButton2->Checked && Edit1->GetTextLen() > 0) {
-		setDetectedComets();
-		Label4->Caption = "Total " + IntToStr(detectedComets) + " detected comets.";
-		Label4->Visible = true;
-	}
+	if(RadioButton2->Checked && Edit1->GetTextLen() > 0) setDetectedComets();
 
 	Form1->Frame41->ProgressBar1->Visible = false;
-	Form1->Frame41->Label3->Visible = false;
 	Form1->Frame41->Label2->Visible = false;
 	Form1->Frame41->Button1->Enabled = false;
 
@@ -191,8 +223,9 @@ void __fastcall TFrame2::ComboBox1Change(TObject *Sender)
 	Form1->Frame51->Edit13->Text = "";
 	Form1->Frame51->Edit14->Text = "";
 
+	Form1->Frame61->Edit1->Text = "";
 	Form1->Frame61->ProgressBar1->Visible = false;
-    Form1->Frame61->ProgressBar1->Position = 0;
+	Form1->Frame61->ProgressBar1->Position = 0;
 	Form1->Frame61->Label4->Visible = false;
 }
 //---------------------------------------------------------------------------
@@ -209,5 +242,27 @@ void __fastcall TFrame2::H1WorkBegin(TObject *ASender, TWorkMode AWorkMode,
 void __fastcall TFrame2::H1Work(TObject *ASender, TWorkMode AWorkMode, __int64 AWorkCount)
 {
 	ProgressBar1->Position =  AWorkCount;
+	Application->ProcessMessages();
 }
 //---------------------------------------------------------------------------
+
+
+void __fastcall TFrame2::BAboutClick(TObject *Sender)
+{
+	Form8->ShowModal();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFrame2::BSettingsClick(TObject *Sender)
+{
+	Form7->ShowModal();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFrame2::BExitClick(TObject *Sender)
+{
+	Form1->Close();
+}
+//---------------------------------------------------------------------------
+
+

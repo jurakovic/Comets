@@ -1,40 +1,106 @@
 //---------------------------------------------------------------------------
 
-#ifndef Unit1H
-#define Unit1H
-//---------------------------------------------------------------------------
-#include <Classes.hpp>
-#include <Controls.hpp>
-#include <StdCtrls.hpp>
-#include <Forms.hpp>
-#include "Unit2.h"
-#include "Unit3.h"
-#include "Unit4.h"
-#include "Unit5.h"
-#include "Unit6.h"
+#include <vcl.h>
+#pragma hdrstop
 
-#include "CometMain.hpp"
-#include "Unit6.h"
-
+#include "Unit1.h"
 //---------------------------------------------------------------------------
-class TForm1 : public TForm
+#pragma package(smart_init)
+#pragma link "Unit2"
+#pragma link "Unit3"
+#pragma link "Unit4"
+#pragma link "Unit5"
+#pragma link "Unit6"
+#pragma link "Unit10"
+#pragma resource "*.dfm"
+TForm1 *Form1;
+//---------------------------------------------------------------------------
+__fastcall TForm1::TForm1(TComponent* Owner)
+	: TForm(Owner)
 {
-__published:	// IDE-managed Components
-	TFrame2 *Frame21;
-	TFrame3 *Frame31;
-	TFrame4 *Frame41;
-	TFrame5 *Frame51;
-	TFrame6 *Frame61;
-	void __fastcall FormShow(TObject *Sender);
-private:	// User declarations
-public:		// User declarations
-	__fastcall TForm1(TComponent* Owner);
-	AnsiString coewFolder;
-	struct Excludings excl;
-	Comet *cmt;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::FormShow(TObject *Sender)
+{
+	using namespace std;
+
+	defaultDataFolder = _wgetenv(L"appdata");
+	defaultDataFolder += "\\Comet OEW";
+
+	UnicodeString versionFile = defaultDataFolder + "\\version.ini";
+	settingsFile = defaultDataFolder + "\\settings.ini";
+
+	FILE *f1 = fopen(AnsiString(versionFile).c_str(), "r");
+
+	if(!f1){
+
+		mkdir(AnsiString(defaultDataFolder).c_str());
+
+		f1 = fopen(AnsiString(versionFile).c_str(), "w");
+		fprintf(f1, "%.1f", PROGRAM_VERSION);
+		fclose(f1);
+	}
+
+	else fclose(f1);
+
+	FILE *f2 = fopen(AnsiString(settingsFile).c_str(), "r");
+
+	if(!f2){
+		f2 = fopen(AnsiString(settingsFile).c_str(), "w");
+		fprintf(f2, "1 0 1 0");
+		Form1->sett.checkNewVersion = 1;
+		Form1->sett.advancedMode = 0;
+		Form1->sett.showSplash = 1;
+		Form1->sett.exitConfirm = 0;
+		fclose(f2);
+	}
+
+	else  {
+		fscanf(f2, "%d %d %d %d",
+			&Form1->sett.checkNewVersion,
+			&Form1->sett.advancedMode,
+			&Form1->sett.showSplash,
+			&Form1->sett.exitConfirm);
+		fclose(f2);
+	}
+
+	if(sett.advancedMode){
+		Frame21->CheckBox1->Checked = true;
+		Frame21->CheckBox1->Visible = false;
+	}
+
+	if(Form1->sett.showSplash)
+		Frame101->Visible = true;
+	else {
+		Frame101->Visible = false;
+		Frame21->Visible = true;
+	}
+
+	return;
+}
+
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::FormClose(TObject *Sender, TCloseAction &Action)
+{
+	if(Form1->sett.exitConfirm){
+		Action = true;
+	}
+
+	else{
+		if(exitFunction())
+			Action = true;
+		else
+			Action = false;
+	}
+
+	spremiPostavke();
+}
+//---------------------------------------------------------------------------
 
 
-int import_main (int importType, const char *importFile){
+int TForm1::import_main (int importType, UnicodeString importFile){
 
 	FILE *fin = Frame21->fin;
 	int Ncmt = Frame21->detectedComets;
@@ -75,32 +141,21 @@ int import_main (int importType, const char *importFile){
 			L"Error",
 			MB_OK | MB_ICONERROR);
 		Frame41->ProgressBar1->Visible = false;
-		Frame41->Label3->Visible = false;
 		Frame41->Label2->Visible = false;
 		return 0;
 	}
 
 	if(Frame41->ComboBox2->ItemIndex > 0) sort_data (Ncmt);
 
-	Frame41->Label3->Visible = true;
-
-	if(Ncmt == Frame21->detectedComets){
-		Frame41->Label2->Caption = "All comets successfully imported.";
-	}
-	else{
-		Frame41->Label2->Caption = IntToStr(Ncmt) + " of " + IntToStr(Frame21->detectedComets) + " comets imported.";
-	}
-
+	Frame41->Label2->Caption = "Import completed! " + IntToStr(Ncmt) + " of " + IntToStr(Frame21->detectedComets) + " comets imported.";
 	Frame41->Label2->Visible = true;
 
 	return Ncmt;
 }
 
-void export_main (int Ncmt, int exportFormat, const char* exportFile){
+void TForm1::export_main (int Ncmt, int exportFormat, UnicodeString exportFile){
 
-	FILE *fout;
-
-	fout=fopen(exportFile, "w");
+	FILE *fout = fopen(AnsiString(exportFile).c_str(), "w");
 
 	if(!fout){
 		Application->MessageBox(L"Unable to create input file",
@@ -137,12 +192,11 @@ void export_main (int Ncmt, int exportFormat, const char* exportFile){
 
 	Frame61->Label4->Visible = true;
 
-	//free(cmt);
 	delete [] cmt;
 }
 
 
-int import_mpc (int N, FILE *fin){
+int TForm1::import_mpc (int N, FILE *fin){
 
 	int j, k, l;
 	int m, line=1;
@@ -165,54 +219,29 @@ int import_mpc (int N, FILE *fin){
 
 		remove_spaces(cmt[i].full);
 
-		for (j=0; cmt[i].full[j]!='\0'; j++){
-			if ((isdigit(cmt[i].full[j]) && cmt[i].full[j+1]=='P' && cmt[i].full[j+2]=='/') ||
-				(isdigit(cmt[i].full[j]) && cmt[i].full[j+1]=='D' && cmt[i].full[j+2]=='/')){
-
-				for(k=0; cmt[i].full[k]!='/'; k++)
-					cmt[i].ID[k]=cmt[i].full[k];
-
-				cmt[i].ID[k]='\0';
-				++k;
-				for(l=0; cmt[i].full[k]!='\0'; l++, k++)
-					cmt[i].name[l]=cmt[i].full[k];
-
-				cmt[i].name[l]='\0';
-				break;
-			}
-
-			if (cmt[i].full[j]=='('){
-				for(k=0; cmt[i].full[k]!='('; k++)
-					cmt[i].ID[k]=cmt[i].full[k];
-
-				cmt[i].ID[k-1]='\0';
-
-				++k;
-				for(l=0; cmt[i].full[k]!=')'; k++, l++)
-					cmt[i].name[l]=cmt[i].full[k];
-
-				cmt[i].name[l]='\0';
-				break;
-			}
-		}
+		editFullIdName(cmt[i].full, cmt[i].ID, cmt[i].name, 1);
 
 		cmt[i].P = compute_period (cmt[i].q, cmt[i].e);
 		cmt[i].T = greg_to_jul (cmt[i].y, cmt[i].m, (int)cmt[i].d);
 		cmt[i].sort = get_sort_key(cmt[i].ID);
 		line++;
+
 		Frame41->ProgressBar1->Position = i+1;
 
-		if(do_exclude(i)){
-			N--;
-			i--;
-			Frame41->ProgressBar1->Max--;
+
+		if(Frame21->CheckBox1->Checked){
+			if(do_exclude(i)){
+				N--;
+				i--;
+				Frame41->ProgressBar1->Max--;
+			}
 		}
 	}
 
 	return N;
 }
 
-int import_skymap (int N, FILE *fin){
+int TForm1::import_skymap (int N, FILE *fin){
 
 	int j, k, l, u, t=0, space;
 	int m, line=1, len;
@@ -281,9 +310,13 @@ int import_skymap (int N, FILE *fin){
 		cmt[i].T = greg_to_jul (cmt[i].y, cmt[i].m, (int)cmt[i].d);
 		cmt[i].sort = get_sort_key(cmt[i].ID);
 		line++;
-		Frame41->ProgressBar1->Position = i+1;
 
-		if(do_exclude(i)){
+		if(Frame21->CheckBox1->Checked)
+			Frame41->ProgressBar1->Position = i+1;
+		else
+			Frame61->ProgressBar1->Position = i+1;
+
+		if(Frame21->CheckBox1->Checked && do_exclude(i)){
 			N--;
 			i--;
 			Frame41->ProgressBar1->Max--;
@@ -293,7 +326,7 @@ int import_skymap (int N, FILE *fin){
 	return N;
 }
 
-int import_guide (int N, FILE *fin){
+int TForm1::import_guide (int N, FILE *fin){
 
 	int j, k, m, line=1, len;
 	char c, x[21], full[42+1];
@@ -354,7 +387,7 @@ int import_guide (int N, FILE *fin){
 		line++;
 		Frame41->ProgressBar1->Position = i+1;
 
-		if(do_exclude(i)){
+		if(Frame21->CheckBox1->Checked && do_exclude(i)){
 			N--;
 			i--;
 			Frame41->ProgressBar1->Max--;
@@ -364,7 +397,7 @@ int import_guide (int N, FILE *fin){
 	return N;
 }
 
-int import_xephem (int N, FILE *fin){
+int TForm1::import_xephem (int N, FILE *fin){
 
 	//info: http://www.clearskyinstitute.com/xephem/help/xephem.html#mozTocId215848
 
@@ -377,7 +410,12 @@ int import_xephem (int N, FILE *fin){
 
 	for (int i=0; i<N; i++) {
 
-		fscanf(fin, "# From %25[^\n]%*c", x);
+		try{
+			fscanf(fin, "# From %25[^\n]%*c", x);
+		}
+		catch(...){
+			return 0;
+		}
 
 		j=0;
 		while ((c=fgetc(fin)) != ',' ){
@@ -385,37 +423,7 @@ int import_xephem (int N, FILE *fin){
 		}
         cmt[i].full[j]='\0';
 
-		for (j=0; cmt[i].full[j]!='\0'; j++){
-			if (isdigit(cmt[i].full[j]) &&
-				cmt[i].full[j+1]=='P' &&
-				cmt[i].full[j+2]=='/'){
-
-				for(k=0; cmt[i].full[k]!='/'; k++)
-					cmt[i].ID[k]=cmt[i].full[k];
-
-				cmt[i].ID[k]='\0';
-				++k;
-				for(l=0; cmt[i].full[k]!='\0'; l++, k++)
-					cmt[i].name[l]=cmt[i].full[k];
-
-				cmt[i].name[l]='\0';
-				break;
-			}
-
-			if (cmt[i].full[j]=='('){
-				for(k=0; cmt[i].full[k]!='('; k++)
-					cmt[i].ID[k]=cmt[i].full[k];
-
-				cmt[i].ID[k-1]='\0';
-
-				++k;
-				for(l=0; cmt[i].full[k]!=')'; k++, l++)
-					cmt[i].name[l]=cmt[i].full[k];
-
-				cmt[i].name[l]='\0';
-				break;
-			}
-		}
+		editFullIdName(cmt[i].full, cmt[i].ID, cmt[i].name, 1);
 
 		c=fgetc(fin);
 
@@ -435,6 +443,10 @@ int import_xephem (int N, FILE *fin){
 
 			cmt[i].q = smAxis*(1-cmt[i].e);
 			T = greg_to_jul (yy, mm, dd);
+
+			if(mAnomaly==0) mAnomaly = 0.00000001;
+			if(mdMotion==0) mdMotion = 0.00000001;
+
 			long double TT = (long double)T - mAnomaly/mdMotion;
 			cmt[i].T = (long int)TT;
 
@@ -445,7 +457,7 @@ int import_xephem (int N, FILE *fin){
 			line+=2;
 			Frame41->ProgressBar1->Position = i+1;
 
-			if(do_exclude(i)){
+			if(Frame21->CheckBox1->Checked && do_exclude(i)){
 				N--;
 				i--;
 				Frame41->ProgressBar1->Max--;
@@ -471,7 +483,7 @@ int import_xephem (int N, FILE *fin){
 			line+=2;
 			Frame41->ProgressBar1->Position = i+1;
 
-			if(do_exclude(i)){
+			if(Frame21->CheckBox1->Checked && do_exclude(i)){
 				N--;
 				i--;
 				Frame41->ProgressBar1->Max--;
@@ -496,7 +508,7 @@ int import_xephem (int N, FILE *fin){
 			line+=2;
 			Frame41->ProgressBar1->Position = i+1;
 
-			if(do_exclude(i)){
+			if(Frame21->CheckBox1->Checked && do_exclude(i)){
 				N--;
 				i--;
 				Frame41->ProgressBar1->Max--;
@@ -510,7 +522,7 @@ int import_xephem (int N, FILE *fin){
 	return N;
 }
 
-int import_home_planet (int N, FILE *fin){
+int TForm1::import_home_planet (int N, FILE *fin){
 
 	int j, k, l;
 	int m, line=1;
@@ -520,11 +532,16 @@ int import_home_planet (int N, FILE *fin){
 
 	for (int i=0; i<N; i++) {
 
-		j=0;
-		while ((c=fgetc(fin)) != ',' ){
-			cmt[i].full[j++]=c;
+		try{
+			j=0;
+			while ((c=fgetc(fin)) != ',' ){
+				cmt[i].full[j++]=c;
+			}
+			cmt[i].full[j]='\0';
 		}
-		cmt[i].full[j]='\0';
+		catch(...){
+			return 0;
+		}
 
 		m = fscanf(fin, "%d-%d-%f,%f,%f,%f,%f,%f,%50[^\n]%*c",
 			&cmt[i].y, &cmt[i].m, &cmt[i].d,
@@ -539,37 +556,7 @@ int import_home_planet (int N, FILE *fin){
 			continue;
 		}
 
-		for (j=0; cmt[i].full[j]!='\0'; j++){
-			if (isdigit(cmt[i].full[j]) &&
-				cmt[i].full[j+1]=='P' &&
-				cmt[i].full[j+2]=='/'){
-
-				for(k=0; cmt[i].full[k]!='/'; k++)
-					cmt[i].ID[k]=cmt[i].full[k];
-
-				cmt[i].ID[k]='\0';
-				++k;
-				for(l=0; cmt[i].full[k]!='\0'; l++, k++)
-					cmt[i].name[l]=cmt[i].full[k];
-
-				cmt[i].name[l]='\0';
-				break;
-			}
-
-			if (cmt[i].full[j]=='('){
-				for(k=0; cmt[i].full[k]!='('; k++)
-					cmt[i].ID[k]=cmt[i].full[k];
-
-				cmt[i].ID[k-1]='\0';
-
-				++k;
-				for(l=0; cmt[i].full[k]!=')'; k++, l++)
-					cmt[i].name[l]=cmt[i].full[k];
-
-				cmt[i].name[l]='\0';
-				break;
-			}
-		}
+		editFullIdName(cmt[i].full, cmt[i].ID, cmt[i].name, 1);
 
 		cmt[i].P = compute_period (cmt[i].q, cmt[i].e);
 		cmt[i].T = greg_to_jul (cmt[i].y, cmt[i].m, (int)cmt[i].d);
@@ -577,7 +564,7 @@ int import_home_planet (int N, FILE *fin){
 		line++;
 		Frame41->ProgressBar1->Position = i+1;
 
-		if(do_exclude(i)){
+		if(Frame21->CheckBox1->Checked && do_exclude(i)){
 			N--;
 			i--;
 			Frame41->ProgressBar1->Max--;
@@ -587,7 +574,7 @@ int import_home_planet (int N, FILE *fin){
 	return N;
 }
 
-int import_mystars (int N, FILE *fin){
+int TForm1::import_mystars (int N, FILE *fin){
 
 	int j, k, l;
 	int m, line=1;
@@ -616,37 +603,7 @@ int import_mystars (int N, FILE *fin){
 			continue;
 		}
 
-		for (j=0; cmt[i].full[j]!='\0'; j++){
-			if (isdigit(cmt[i].full[j]) &&
-				cmt[i].full[j+1]=='P' &&
-				cmt[i].full[j+2]=='/'){
-
-				for(k=0; cmt[i].full[k]!='/'; k++)
-					cmt[i].ID[k]=cmt[i].full[k];
-
-				cmt[i].ID[k]='\0';
-				++k;
-				for(l=0; cmt[i].full[k]!='\0'; l++, k++)
-					cmt[i].name[l]=cmt[i].full[k];
-
-				cmt[i].name[l]='\0';
-				break;
-			}
-
-			if (cmt[i].full[j]=='('){
-				for(k=0; cmt[i].full[k]!='('; k++)
-					cmt[i].ID[k]=cmt[i].full[k];
-
-				cmt[i].ID[k-1]='\0';
-
-				++k;
-				for(l=0; cmt[i].full[k]!=')'; k++, l++)
-					cmt[i].name[l]=cmt[i].full[k];
-
-				cmt[i].name[l]='\0';
-				break;
-			}
-		}
+		editFullIdName(cmt[i].full, cmt[i].ID, cmt[i].name, 1);
 
 		cmt[i].P = compute_period (cmt[i].q, cmt[i].e);
 		cmt[i].T = (int)TT + 2400000;
@@ -657,7 +614,7 @@ int import_mystars (int N, FILE *fin){
 		jul_to_greg(cmt[i].T, cmt[i].y, cmt[i].m, cmt[i].d);
 		cmt[i].d += TT - (int)TT;
 
-		if(do_exclude(i)){
+		if(Frame21->CheckBox1->Checked && do_exclude(i)){
 			N--;
 			i--;
 			Frame41->ProgressBar1->Max--;
@@ -667,7 +624,7 @@ int import_mystars (int N, FILE *fin){
 	return N;
 }
 
-int import_thesky (int N, FILE *fin){
+int TForm1::import_thesky (int N, FILE *fin){
 
 	int j, k, l;
 	int m, line=1;
@@ -694,37 +651,7 @@ int import_thesky (int N, FILE *fin){
 
 		remove_spaces(cmt[i].full);
 
-		for (j=0; cmt[i].full[j]!='\0'; j++){
-			if (isdigit(cmt[i].full[j]) &&
-				cmt[i].full[j+1]=='P' &&
-				cmt[i].full[j+2]=='/'){
-
-				for(k=0; cmt[i].full[k]!='/'; k++)
-					cmt[i].ID[k]=cmt[i].full[k];
-
-				cmt[i].ID[k]='\0';
-				++k;
-				for(l=0; cmt[i].full[k]!='\0'; l++, k++)
-					cmt[i].name[l]=cmt[i].full[k];
-
-				cmt[i].name[l]='\0';
-				break;
-			}
-
-			if (cmt[i].full[j]=='('){
-				for(k=0; cmt[i].full[k]!='('; k++)
-					cmt[i].ID[k]=cmt[i].full[k];
-
-				cmt[i].ID[k-1]='\0';
-
-				++k;
-				for(l=0; cmt[i].full[k]!=')'; k++, l++)
-					cmt[i].name[l]=cmt[i].full[k];
-
-				cmt[i].name[l]='\0';
-				break;
-			}
-		}
+		editFullIdName(cmt[i].full, cmt[i].ID, cmt[i].name, 1);
 
 		cmt[i].P = compute_period (cmt[i].q, cmt[i].e);
 		cmt[i].T = greg_to_jul (cmt[i].y, cmt[i].m, (int)cmt[i].d);
@@ -733,7 +660,7 @@ int import_thesky (int N, FILE *fin){
 		line++;
 		Frame41->ProgressBar1->Position = i+1;
 
-		if(do_exclude(i)){
+		if(Frame21->CheckBox1->Checked && do_exclude(i)){
 			N--;
 			i--;
 			Frame41->ProgressBar1->Max--;
@@ -743,7 +670,7 @@ int import_thesky (int N, FILE *fin){
 	return N;
 }
 
-int import_starry_night (int N, FILE *fin){
+int TForm1::import_starry_night (int N, FILE *fin){
 
 	int j, k, h;
 	int m, line=1;
@@ -810,7 +737,7 @@ int import_starry_night (int N, FILE *fin){
 		cmt[i].d += (float)h/10000;
 		//cmt[i].d += TT - (int)TT;
 
-		if(do_exclude(i)){
+		if(Frame21->CheckBox1->Checked && do_exclude(i)){
 			N--;
 			i--;
 			Frame41->ProgressBar1->Max--;
@@ -820,7 +747,7 @@ int import_starry_night (int N, FILE *fin){
 	return N;
 }
 
-int import_deep_space (int N, FILE *fin){
+int TForm1::import_deep_space (int N, FILE *fin){
 
 	int j, m, line=2;
 	float G;
@@ -879,7 +806,7 @@ int import_deep_space (int N, FILE *fin){
 		line+=2;
 		Frame41->ProgressBar1->Position = i+1;
 
-		if(do_exclude(i)){
+		if(Frame21->CheckBox1->Checked && do_exclude(i)){
 			N--;
 			i--;
 			Frame41->ProgressBar1->Max--;
@@ -889,7 +816,7 @@ int import_deep_space (int N, FILE *fin){
 	return N;
 }
 
-int import_pc_tcs (int N, FILE *fin){
+int TForm1::import_pc_tcs (int N, FILE *fin){
 
 	int j, k;
 	int m, line=1, len;
@@ -954,7 +881,7 @@ int import_pc_tcs (int N, FILE *fin){
 		line++;
 		Frame41->ProgressBar1->Position = i+1;
 
-		if(do_exclude(i)){
+		if(Frame21->CheckBox1->Checked && do_exclude(i)){
 			N--;
 			i--;
 			Frame41->ProgressBar1->Max--;
@@ -964,7 +891,7 @@ int import_pc_tcs (int N, FILE *fin){
 	return N;
 }
 
-int import_ecu (int N, FILE *fin){
+int TForm1::import_ecu (int N, FILE *fin){
 
 	int j, k, l;
 	float G;
@@ -989,37 +916,7 @@ int import_ecu (int N, FILE *fin){
 
 		remove_spaces(cmt[i].full);
 
-		for (j=0; cmt[i].full[j]!='\0'; j++){
-			if (isdigit(cmt[i].full[j]) &&
-				cmt[i].full[j+1]=='P' &&
-				cmt[i].full[j+2]=='/'){
-
-				for(k=0; cmt[i].full[k]!='/'; k++)
-					cmt[i].ID[k]=cmt[i].full[k];
-
-				cmt[i].ID[k]='\0';
-				++k;
-				for(l=0; cmt[i].full[k]!='\0'; l++, k++)
-					cmt[i].name[l]=cmt[i].full[k];
-
-				cmt[i].name[l]='\0';
-				break;
-			}
-
-			if (cmt[i].full[j]=='('){
-				for(k=0; cmt[i].full[k]!='('; k++)
-					cmt[i].ID[k]=cmt[i].full[k];
-
-				cmt[i].ID[k-1]='\0';
-
-				++k;
-				for(l=0; cmt[i].full[k]!=')'; k++, l++)
-					cmt[i].name[l]=cmt[i].full[k];
-
-				cmt[i].name[l]='\0';
-				break;
-			}
-		}
+		editFullIdName(cmt[i].full, cmt[i].ID, cmt[i].name, 1);
 
 		cmt[i].P = compute_period (cmt[i].q, cmt[i].e);
 		cmt[i].T = greg_to_jul (cmt[i].y, cmt[i].m, (int)cmt[i].d);
@@ -1027,7 +924,7 @@ int import_ecu (int N, FILE *fin){
 		line+=2;
 		Frame41->ProgressBar1->Position = i+1;
 
-		if(do_exclude(i)){
+		if(Frame21->CheckBox1->Checked && do_exclude(i)){
 			N--;
 			i--;
 			Frame41->ProgressBar1->Max--;
@@ -1037,7 +934,7 @@ int import_ecu (int N, FILE *fin){
 	return N;
 }
 
-int import_dance (int N, FILE *fin){
+int TForm1::import_dance (int N, FILE *fin){
 
 	int j, k;
 	int m, line=1, len;
@@ -1102,7 +999,7 @@ int import_dance (int N, FILE *fin){
 		line++;
 		Frame41->ProgressBar1->Position = i+1;
 
-		if(do_exclude(i)){
+		if(Frame21->CheckBox1->Checked && do_exclude(i)){
 			N--;
 			i--;
 			Frame41->ProgressBar1->Max--;
@@ -1112,7 +1009,7 @@ int import_dance (int N, FILE *fin){
 	return N;
 }
 
-int import_megastar (int N, FILE *fin){
+int TForm1::import_megastar (int N, FILE *fin){
 
 	int m, line=1;
 	float G;
@@ -1169,7 +1066,7 @@ int import_megastar (int N, FILE *fin){
 	return N;
 }
 
-int import_skychart (int N, FILE *fin){
+int TForm1::import_skychart (int N, FILE *fin){
 
 	int j, k, l;
 	int m, line=1;
@@ -1198,37 +1095,7 @@ int import_skychart (int N, FILE *fin){
 
 		fscanf(fin, "%*[^\n]\n");		//za izostavi ono na kraju
 
-		for (j=0; cmt[i].full[j]!='\0'; j++){
-			if (isdigit(cmt[i].full[j]) &&
-				cmt[i].full[j+1]=='P' &&
-				cmt[i].full[j+2]=='/'){
-
-				for(k=0; cmt[i].full[k]!='/'; k++)
-					cmt[i].ID[k]=cmt[i].full[k];
-
-				cmt[i].ID[k]='\0';
-				++k;
-				for(l=0; cmt[i].full[k]!='\0'; l++, k++)
-					cmt[i].name[l]=cmt[i].full[k];
-
-				cmt[i].name[l]='\0';
-				break;
-			}
-
-			if (cmt[i].full[j]=='('){
-				for(k=0; cmt[i].full[k]!='('; k++)
-					cmt[i].ID[k]=cmt[i].full[k];
-
-				cmt[i].ID[k-1]='\0';
-
-				++k;
-				for(l=0; cmt[i].full[k]!=')'; k++, l++)
-					cmt[i].name[l]=cmt[i].full[k];
-
-				cmt[i].name[l]='\0';
-				break;
-			}
-		}
+		editFullIdName(cmt[i].full, cmt[i].ID, cmt[i].name, 1);
 
 		cmt[i].P = compute_period (cmt[i].q, cmt[i].e);
 		cmt[i].T = greg_to_jul (cmt[i].y, cmt[i].m, (int)cmt[i].d);
@@ -1236,7 +1103,7 @@ int import_skychart (int N, FILE *fin){
 		line++;
 		Frame41->ProgressBar1->Position = i+1;
 
-		if(do_exclude(i)){
+		if(Frame21->CheckBox1->Checked && do_exclude(i)){
 			N--;
 			i--;
 			Frame41->ProgressBar1->Max--;
@@ -1246,7 +1113,7 @@ int import_skychart (int N, FILE *fin){
 	return N;
 }
 
-int import_voyager (int N, FILE *fin){
+int TForm1::import_voyager (int N, FILE *fin){
 
 	int m, line=1;
 	char mj[3+1];
@@ -1290,7 +1157,7 @@ int import_voyager (int N, FILE *fin){
 		line++;
 		Frame41->ProgressBar1->Position = i+1;
 
-		if(do_exclude(i)){
+		if(Frame21->CheckBox1->Checked && do_exclude(i)){
 			N--;
 			i--;
 			Frame41->ProgressBar1->Max--;
@@ -1300,7 +1167,7 @@ int import_voyager (int N, FILE *fin){
 	return N;
 }
 
-int import_skytools (int N, FILE *fin){
+int TForm1::import_skytools (int N, FILE *fin){
 
 	int j, k, l, u, t=0, space;
 	int yy, mm, dd;
@@ -1371,7 +1238,7 @@ int import_skytools (int N, FILE *fin){
 		line++;
 		Frame41->ProgressBar1->Position = i+1;
 
-		if(do_exclude(i)){
+		if(Frame21->CheckBox1->Checked && do_exclude(i)){
 			N--;
 			i--;
 			Frame41->ProgressBar1->Max--;
@@ -1381,12 +1248,20 @@ int import_skytools (int N, FILE *fin){
 	return N;
 }
 
-int import_cfw (int N, FILE *fin){
+int TForm1::import_cfw (int N, FILE *fin){
 
 	int j, k, l;
 	float G;
 
 	//for (int i=0; i<7; i++) fscanf(fin, "%*[^\n]\n");
+
+	fscanf(fin, "\n");
+	fscanf(fin, "[File]\n");
+	fscanf(fin, "group=Comets\n");
+	fscanf(fin, "\n");
+	fscanf(fin, "\n");
+	fscanf(fin, "[Data]\n");
+	fscanf(fin, "\n");
 
 	for (int i=0; i<N; i++){
 
@@ -1455,7 +1330,7 @@ int import_cfw (int N, FILE *fin){
 		cmt[i].sort = get_sort_key(cmt[i].ID);
 		Frame41->ProgressBar1->Position = i+1;
 
-		if(do_exclude(i)){
+		if(Frame21->CheckBox1->Checked && do_exclude(i)){
 			N--;
 			i--;
 			Frame41->ProgressBar1->Max--;
@@ -1465,7 +1340,7 @@ int import_cfw (int N, FILE *fin){
 	return N;
 }
 
-int import_nasa (int N, FILE *fin){
+int TForm1::import_nasa (int N, FILE *fin){
 
 	int j, k, l;
 	int m, line=1, len, trash;
@@ -1487,7 +1362,7 @@ int import_nasa (int N, FILE *fin){
 
 		remove_spaces(cmt[i].full);
 
-		if (Frame41->CheckBox1->Checked){
+		if (Frame31->CheckBox8->Checked){
 			len = strlen(cmt[i].full);
 			for (j=0; j<len; j++){
 				if (cmt[i].full[j  ]=='S' && cmt[i].full[j+1]=='O' &&
@@ -1546,9 +1421,10 @@ int import_nasa (int N, FILE *fin){
 		cmt[i].T = greg_to_jul (cmt[i].y, cmt[i].m, cmt[i].d);
 		cmt[i].sort = get_sort_key(cmt[i].ID);
 		Frame41->ProgressBar1->Position = i+1;
+		//Application->ProcessMessages();
 		line++;
 
-		if(do_exclude(i)){
+		if(Frame21->CheckBox1->Checked && do_exclude(i)){
 			N--;
 			i--;
 			Frame41->ProgressBar1->Max--;
@@ -1558,7 +1434,7 @@ int import_nasa (int N, FILE *fin){
 	return N;
 }
 
-void export_mpc (int N, FILE *fout){
+void TForm1::export_mpc (int N, FILE *fout){
 
 	for (int i=0; i<N; i++) {
 
@@ -1570,7 +1446,7 @@ void export_mpc (int N, FILE *fout){
 	}
 }
 
-void export_skymap (int N, FILE *fout){
+void TForm1::export_skymap (int N, FILE *fout){
 
 	int j, k, len;
 
@@ -1600,7 +1476,7 @@ void export_skymap (int N, FILE *fout){
 	}
 }
 
-void export_guide (int N, FILE *fout){
+void TForm1::export_guide (int N, FILE *fout){
 
 	int j, k, len;
 
@@ -1646,7 +1522,7 @@ void export_guide (int N, FILE *fout){
 	}
 }
 
-void export_xephem (int N, FILE *fout){
+void TForm1::export_xephem (int N, FILE *fout){
 
 	//info: http://www.clearskyinstitute.com/xephem/help/xephem.html#mozTocId215848
 
@@ -1689,7 +1565,7 @@ void export_xephem (int N, FILE *fout){
 	}
 }
 
-void export_home_planet (int N, FILE *fout){
+void TForm1::export_home_planet (int N, FILE *fout){
 
 	for (int i=0; i<N; i++) {
 
@@ -1703,7 +1579,7 @@ void export_home_planet (int N, FILE *fout){
 	}
 }
 
-void export_mystars (int N, FILE *fout){
+void TForm1::export_mystars (int N, FILE *fout){
 
 	for (int i=0; i<N; i++) {
 
@@ -1717,7 +1593,7 @@ void export_mystars (int N, FILE *fout){
 	}
 }
 
-void export_thesky (int N, FILE *fout){
+void TForm1::export_thesky (int N, FILE *fout){
 
 	for (int i=0; i<N; i++) {
 
@@ -1729,7 +1605,7 @@ void export_thesky (int N, FILE *fout){
 	}
 }
 
-void export_starry_night (int N, FILE *fout){
+void TForm1::export_starry_night (int N, FILE *fout){
 
 	for (int i=0; i<N; i++) {
 
@@ -1743,7 +1619,7 @@ void export_starry_night (int N, FILE *fout){
 	}
 }
 
-void export_deep_space (int N, FILE *fout){
+void TForm1::export_deep_space (int N, FILE *fout){
 
 	for (int i=0; i<N; i++) {
 
@@ -1755,7 +1631,7 @@ void export_deep_space (int N, FILE *fout){
 	}
 }
 
-void export_pc_tcs (int N, FILE *fout){
+void TForm1::export_pc_tcs (int N, FILE *fout){
 
 	int j, k, len;
 
@@ -1778,7 +1654,7 @@ void export_pc_tcs (int N, FILE *fout){
 	}
 }
 
-void export_ecu (int N, FILE *fout){
+void TForm1::export_ecu (int N, FILE *fout){
 
 	for (int i=0; i<N; i++) {
 
@@ -1790,7 +1666,7 @@ void export_ecu (int N, FILE *fout){
 	}
 }
 
-void export_dance (int N, FILE *fout){
+void TForm1::export_dance (int N, FILE *fout){
 
 	for (int i=0; i<N; i++) {
 
@@ -1802,7 +1678,7 @@ void export_dance (int N, FILE *fout){
 	}
 }
 
-void export_megastar (int N, FILE *fout){
+void TForm1::export_megastar (int N, FILE *fout){
 
 	for (int i=0; i<N; i++) {
 
@@ -1816,7 +1692,7 @@ void export_megastar (int N, FILE *fout){
 	}
 }
 
-void export_skychart (int N, FILE *fout){
+void TForm1::export_skychart (int N, FILE *fout){
 
 	for (int i=0; i<N; i++) {
 
@@ -1828,7 +1704,7 @@ void export_skychart (int N, FILE *fout){
 	}
 }
 
-void export_voyager (int N, FILE *fout){
+void TForm1::export_voyager (int N, FILE *fout){
 
 	char *mon;
 
@@ -1858,7 +1734,7 @@ void export_voyager (int N, FILE *fout){
 	}
 }
 
-void export_skytools (int N, FILE *fout){
+void TForm1::export_skytools (int N, FILE *fout){
 
 	int j, k, len;
 
@@ -1903,7 +1779,7 @@ void export_skytools (int N, FILE *fout){
 	}
 }
 
-void export_ssc (int N, FILE *fout){
+void TForm1::export_ssc (int N, FILE *fout){
 
 	char *mon;
 
@@ -1954,7 +1830,7 @@ void export_ssc (int N, FILE *fout){
 	}
 }
 
-void export_stell (int N, FILE *fout){
+void TForm1::export_stell (int N, FILE *fout){
 
 	for (int i=0; i<N; i++) {
 
@@ -1986,7 +1862,7 @@ void export_stell (int N, FILE *fout){
 	}
 }
 
-void sort_data (int N) {
+void TForm1::sort_data (int N) {
 
 	Frame41->ProgressBar1->Visible = true;
 	Frame41->ProgressBar1->Position = 0;
@@ -2016,7 +1892,7 @@ void sort_data (int N) {
 	}
 }
 
-void do_swap(int i, int j){
+void TForm1::do_swap(int i, int j){
 
 	Comet temp;
 	int k;
@@ -2092,35 +1968,33 @@ void do_swap(int i, int j){
 	cmt[j].sort=temp.sort;
 }
 
-bool define_exclude(){
+bool TForm1::define_exclude(){
 
 	for (int i=0; i<14; i++) excl.key[i]=false;
 
 	if(Frame31->CheckBox1->Checked){
 
-		char dd[3], mm[3], yy[5];
-		int d, m, y;
+		if (Frame31->EditD->GetTextLen() == 0 ||
+			Frame31->EditM->GetTextLen() == 0 ||
+			Frame31->EditY->GetTextLen() == 0) {
 
-		AnsiString str =  Frame31->MaskEdit1->Text;
-		const char *date = str.c_str();
+			 Application->MessageBox(L"Please enter value",
+				L"Error",
+				MB_OK | MB_ICONERROR);
+			return false;
+		}
 
-		dd[0]=date[0];
-		dd[1]=date[1];
-		dd[2]='\0';
-		mm[0]=date[3];
-		mm[1]=date[4];
-		mm[2]='\0';
-		yy[0]=date[6];
-		yy[1]=date[7];
-		yy[2]=date[8];
-		yy[3]=date[9];
-		yy[4]='\0';
+		int d = atoi(AnsiString(Frame31->EditD->Text).c_str());
+		int m = atoi(AnsiString(Frame31->EditM->Text).c_str());
+		int y = atoi(AnsiString(Frame31->EditY->Text).c_str());
 
-		d = atoi(dd);
-		m = atoi(mm);
-		y = atoi(yy);
+		if (d<1 || d>31 || m<1 || m>12 || y<1000 || y>3000){
 
-		if (d<1 || d>31 || m<1 || m>12 || y<1000 || y>3000) throw(Exception("Invalid date"));
+			 Application->MessageBox(L"Invalid date",
+				L"Error",
+				MB_OK | MB_ICONERROR);
+			return false;
+		}
 
 		excl.T = greg_to_jul(y, m, d);
 
@@ -2132,11 +2006,15 @@ bool define_exclude(){
 
 		if (Frame31->Edit2->GetTextLen() == 0) throw(Exception("Please enter value"));
 
-		AnsiString str = Frame31->Edit2->Text;
+		float q = atof(AnsiString(Frame31->Edit2->Text).c_str());
 
-		float q = atof(str.c_str());
+		if (q <= 0){
 
-		if (q <= 0) throw(Exception("Value must be greather than zero"));
+			 Application->MessageBox(L"Value must be greather than zero",
+				L"Error",
+				MB_OK | MB_ICONERROR);
+			return false;
+		}
 
 		excl.q = q;
 
@@ -2148,9 +2026,7 @@ bool define_exclude(){
 
 		if (Frame31->Edit3->GetTextLen() == 0) throw(Exception("Please enter value"));
 
-		AnsiString str =  Frame31->Edit3->Text;
-
-		float e = atof(str.c_str());
+		float e = atof(AnsiString(Frame31->Edit3->Text).c_str());
 
 		if (e<0 || e>1) throw(Exception("Value must be between 0 and 1"));
 
@@ -2164,9 +2040,7 @@ bool define_exclude(){
 
 		if (Frame31->Edit4->GetTextLen() == 0) throw(Exception("Please enter value"));
 
-		AnsiString str =  Frame31->Edit4->Text;
-
-		float an = atof(str.c_str());
+		float an = atof(AnsiString(Frame31->Edit4->Text).c_str());
 
 		if (an<0 || an>=360) throw(Exception("Value must be between 0 and 360"));
 
@@ -2180,9 +2054,7 @@ bool define_exclude(){
 
 		if (Frame31->Edit5->GetTextLen() == 0) throw(Exception("Please enter value"));
 
-		AnsiString str =  Frame31->Edit5->Text;
-
-		float pn = atof(str.c_str());
+		float pn = atof(AnsiString(Frame31->Edit5->Text).c_str());
 
 		if (pn<0 || pn>=360) throw(Exception("Value must be between 0 and 360"));
 
@@ -2196,9 +2068,7 @@ bool define_exclude(){
 
 		if (Frame31->Edit6->GetTextLen() == 0) throw(Exception("Please enter value"));
 
-		AnsiString str =  Frame31->Edit6->Text;
-
-		float i = atof(str.c_str());
+		float i = atof(AnsiString(Frame31->Edit6->Text).c_str());
 
 		if (i<0 || i>=180) throw(Exception("Value must be between 0 and 180"));
 
@@ -2212,9 +2082,7 @@ bool define_exclude(){
 
 		if (Frame31->Edit7->GetTextLen() == 0) throw(Exception("Please enter value"));
 
-		AnsiString str =  Frame31->Edit7->Text;
-
-		float P = atof(str.c_str());
+		float P = atof(AnsiString(Frame31->Edit7->Text).c_str());
 
 		if (P <= 0) throw(Exception("Value must be greather than zero"));
 
@@ -2227,7 +2095,7 @@ bool define_exclude(){
 	return true;
 }
 
-bool do_exclude(int i){
+bool TForm1::do_exclude(int i){
 
 	if (excl.key[ 0] && cmt[i].T > excl.T) return true;
 	if (excl.key[ 1] && cmt[i].T < excl.T) return true;
@@ -2247,8 +2115,22 @@ bool do_exclude(int i){
 	return false;
 }
 
-};
-//---------------------------------------------------------------------------
-extern PACKAGE TForm1 *Form1;
-//---------------------------------------------------------------------------
-#endif
+bool TForm1::exitFunction(){
+
+	Form9->ShowModal();
+	if(Form9->exit) return true;
+	else return false;
+}
+
+void TForm1::spremiPostavke(){
+
+	FILE *settFile = fopen(AnsiString(settingsFile).c_str(), "w");
+	fprintf(settFile, "%d %d %d %d",
+		sett.checkNewVersion,
+		sett.advancedMode,
+		sett.showSplash,
+		sett.exitConfirm);
+	fclose(settFile);
+}
+
+

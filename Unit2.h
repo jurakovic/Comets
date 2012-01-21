@@ -24,21 +24,26 @@
 class TFrame2 : public TFrame
 {
 __published:	// IDE-managed Components
-	TButton *Button1;
-	TLabel *Label1;
 	TLabel *Label2;
+	TLabel *Label4;
 	TComboBox *ComboBox1;
 	TRadioButton *RadioButton1;
 	TButton *Button3;
 	TRadioButton *RadioButton2;
 	TButton *Button4;
 	TEdit *Edit1;
-	TOpenDialog *OpenDialog1;
-	TIdHTTP *H1;
 	TProgressBar *ProgressBar1;
-	TLabel *Label3;
-	TImage *Image1;
-	TLabel *Label4;
+	TCheckBox *CheckBox1;
+	TPanel *Panel2;
+	TLabel *Label1;
+	TIdHTTP *H1;
+	TOpenDialog *OpenDialog1;
+	TBevel *Bevel1;
+	TButton *BAbout;
+	TButton *BSettings;
+	TButton *BBack;
+	TButton *Button1;
+	TButton *BExit;
 	void __fastcall Button1Click(TObject *Sender);
 	void __fastcall RadioButton1Click(TObject *Sender);
 	void __fastcall RadioButton2Click(TObject *Sender);
@@ -47,29 +52,30 @@ __published:	// IDE-managed Components
 	void __fastcall ComboBox1Change(TObject *Sender);
 	void __fastcall H1WorkBegin(TObject *ASender, TWorkMode AWorkMode, __int64 AWorkCountMax);
 	void __fastcall H1Work(TObject *ASender, TWorkMode AWorkMode, __int64 AWorkCount);
+	void __fastcall BAboutClick(TObject *Sender);
+	void __fastcall BSettingsClick(TObject *Sender);
+	void __fastcall BExitClick(TObject *Sender);
 
 private:	// User declarations
 public:		// User declarations
 	__fastcall TFrame2(TComponent* Owner);
-	bool fileIsDownloaded;
-	AnsiString downloadedFile;
+	bool isFileDownloaded;
+	UnicodeString downloadedFile;
 	FILE *fin;
 	int detectedComets;
 
 
 void setDetectedComets(){
 
-	char c, *importFile;
+	UnicodeString importFile;
+	char c;
 
 	if (RadioButton1->Checked)
-		importFile = downloadedFile.c_str();
+		importFile = downloadedFile;
+	else
+		importFile = Edit1->Text;
 
-	else{
-		AnsiString str = Edit1->Text;
-		importFile = str.c_str();
-	}
-
-	fin = fopen(importFile, "r");
+	fin = fopen(AnsiString(importFile).c_str(), "r");
 
 	if(!fin){
 		Application->MessageBox(L"Unable to open input file",
@@ -93,6 +99,9 @@ void setDetectedComets(){
 	if (importType==14) detectedComets-=23;
 	if (importType==17) detectedComets/=13;
 	if (importType==18) detectedComets-=2;
+
+	Label4->Caption = "Detected comets: " + IntToStr(detectedComets);
+	Label4->Visible = true;
 }
 
 };

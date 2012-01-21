@@ -32,11 +32,70 @@ void remove_spaces (char *name){
 		}
 }
 
+void editFullIdName(char *full, char *ID, char *name, int type){
+
+	int j, k, l;
+
+	if(type == 1){
+		for (j=0; full[j]!='\0'; j++){
+			if ((isdigit(full[j]) && full[j+1]=='P'
+				//&& full[j+2]=='/'
+				) ||
+				(isdigit(full[j]) && full[j+1]=='D'
+				//&& full[j+2]=='/'
+				)){
+
+				for(k=0; full[k]!='/'; k++)
+					ID[k]=full[k];
+
+				ID[k]='\0';
+				++k;
+				for(l=0; full[k]!='\0'; l++, k++)
+					name[l]=full[k];
+
+				name[l]='\0';
+				break;
+			}
+
+			if (full[j]=='('){
+				for(k=0; full[k]!='('; k++)
+					ID[k]=full[k];
+
+				ID[k-1]='\0';
+
+				++k;
+				for(l=0; full[k]!=')'; k++, l++)
+					name[l]=full[k];
+
+				name[l]='\0';
+				break;
+			}
+		}
+	}
+
+
+}
+
 double get_sort_key(char *ID){
 
 	int k;
 	double sort, v=0.0;
 	char temp[4+1], tempp[2+1], temppp[3+1];
+
+	temp[0]='\0';
+	temp[1]='\0';
+	temp[2]='\0';
+	temp[3]='\0';
+	temp[4]='\0';
+
+	tempp[0]='\0';
+	tempp[1]='\0';
+	tempp[2]='\0';
+
+	temppp[0]='\0';
+	temppp[1]='\0';
+	temppp[2]='\0';
+	temppp[3]='\0';
 
 	if(isdigit(ID[0])){
 		k=0;
@@ -48,6 +107,7 @@ double get_sort_key(char *ID){
 	}
 
 	else {
+
 		temp[0]=ID[2];
 		temp[1]=ID[3];
 		temp[2]=ID[4];
@@ -59,8 +119,8 @@ double get_sort_key(char *ID){
 
 		if (isalpha(ID[k]) && isalpha(ID[k+1]) && ID[k+2]=='\0'){
 
-				v = (ID[k]-64)/(double)100;
-				v += (ID[k]-64)/(double)10000;
+			v = (ID[k]-64)/(double)100;
+			v += (ID[k]-64)/(double)10000;
 		}
 
 		if (isalpha(ID[k]) && isdigit(ID[k+1]) && ID[k+2]=='\0'){
@@ -81,13 +141,10 @@ double get_sort_key(char *ID){
 			v = (ID[k]-64)/(double)100;
 			v += (ID[k+1]-64)/(double)10000;
 
-			tempp[0]='\0';
-			tempp[1]='\0';
-
 			tempp[0]=ID[k+2];
 			tempp[1]=ID[k+3];
 
-			v += atof(tempp)/(double)100000;
+			v += atof(tempp)/(double)1000000;
 		}
 
 		if (isalpha(ID[k]) && isalpha(ID[k+1]) && isdigit(ID[k+2]) && isdigit(ID[k+3]) && isdigit(ID[k+4])){
@@ -95,16 +152,11 @@ double get_sort_key(char *ID){
 			v = (ID[k]-64)/(double)100;
 			v += (ID[k+1]-64)/(double)10000;
 
-			temppp[0]='\0';
-			temppp[1]='\0';
-			temppp[2]='\0';
-//			temppp[3]='\0';
-
 			temppp[0]=ID[k+2];
 			temppp[1]=ID[k+3];
 			temppp[2]=ID[k+4];
 
-			v += atof(tempp)/(double)10000000;
+			v += atof(temppp)/(double)10000000;
 		}
 
 		sort+=v;

@@ -16,24 +16,29 @@
 class TFrame4 : public TFrame
 {
 __published:	// IDE-managed Components
+	TLabel *Label4;
+	TLabel *Label5;
+	TComboBox *ComboBox2;
+	TComboBox *ComboBox3;
+	TPanel *Panel2;
+	TLabel *Label1;
+	TButton *BAbout;
+	TButton *BSettings;
 	TButton *Button2;
 	TButton *Button1;
-	TLabel *Label1;
-	TLabel *Label4;
-	TComboBox *ComboBox2;
-	TLabel *Label5;
-	TComboBox *ComboBox3;
-	TProgressBar *ProgressBar1;
-	TLabel *Label3;
+	TButton *BExit;
 	TButton *Button3;
-	TImage *Image1;
+	TProgressBar *ProgressBar1;
 	TLabel *Label2;
-	TCheckBox *CheckBox1;
+	TBevel *Bevel1;
 	void __fastcall Button2Click(TObject *Sender);
 	void __fastcall Button1Click(TObject *Sender);
 	void __fastcall Button3Click(TObject *Sender);
 	void __fastcall ComboBox2Change(TObject *Sender);
 	void __fastcall ComboBox3Change(TObject *Sender);
+	void __fastcall BAboutClick(TObject *Sender);
+	void __fastcall BSettingsClick(TObject *Sender);
+	void __fastcall BExitClick(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
 	__fastcall TFrame4(TComponent* Owner);

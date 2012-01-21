@@ -3,7 +3,7 @@ object Form1: TForm1
   Top = 0
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
-  Caption = 'Comet Orbital Elements Workshop (v 0.3)'
+  Caption = 'Comet Orbital Elements Workshop (0.4)'
   ClientHeight = 400
   ClientWidth = 600
   Color = clBtnFace
@@ -6478,7 +6478,11 @@ object Form1: TForm1
     000000000000}
   OldCreateOrder = False
   Position = poDesktopCenter
+  OnClose = FormClose
   OnShow = FormShow
+  DesignSize = (
+    600
+    400)
   PixelsPerInch = 96
   TextHeight = 13
   inline Frame21: TFrame2
@@ -6487,6 +6491,10 @@ object Form1: TForm1
     Width = 600
     Height = 400
     Align = alCustom
+    Anchors = [akLeft, akTop, akRight, akBottom]
+    Color = clBtnFace
+    ParentBackground = False
+    ParentColor = False
     TabOrder = 0
   end
   inline Frame31: TFrame3
@@ -6495,6 +6503,7 @@ object Form1: TForm1
     Width = 600
     Height = 400
     Align = alCustom
+    Anchors = [akLeft, akTop, akRight, akBottom]
     Color = clBtnFace
     ParentBackground = False
     ParentColor = False
@@ -6506,6 +6515,7 @@ object Form1: TForm1
     Top = 0
     Width = 600
     Height = 400
+    Anchors = [akLeft, akTop, akRight, akBottom]
     TabOrder = 2
     Visible = False
   end
@@ -6515,6 +6525,7 @@ object Form1: TForm1
     Width = 600
     Height = 400
     Align = alCustom
+    Anchors = [akLeft, akTop, akRight, akBottom]
     TabOrder = 3
     Visible = False
   end
@@ -6524,10 +6535,16 @@ object Form1: TForm1
     Width = 600
     Height = 400
     Align = alCustom
+    Anchors = [akLeft, akTop, akRight, akBottom]
     TabOrder = 4
     Visible = False
-    inherited ComboBox1: TComboBox
-      OnChange = nil
-    end
+  end
+  inline Frame101: TFrame10
+    Left = 0
+    Top = 0
+    Width = 600
+    Height = 400
+    Anchors = [akLeft, akTop, akRight, akBottom]
+    TabOrder = 5
   end
 end

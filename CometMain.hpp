@@ -10,7 +10,7 @@
 
 #include <direct.h>
 
-#define PROGRAM_VERSION 0.3
+#define PROGRAM_VERSION 0.4
 
 #define MAX_CMT 3500
 #define equinox 2000
@@ -23,6 +23,13 @@
 // saznati kada, i to implementirati u program
 
 using namespace std;
+
+struct Settings{
+	int checkNewVersion;
+	int advancedMode;
+	int showSplash;
+	int exitConfirm;
+};
 
 class Comet{
 
@@ -83,8 +90,7 @@ long int greg_to_jul (int, int, int);
 void jul_to_greg (long int, int &, int &, float &);
 void remove_spaces (char *);
 
-bool sort_data(int);
-void do_swap(int i, int j);
+void editFullIdName(char *, char *, char *, int);
 
 bool define_exclude();
 bool do_exclude(int);

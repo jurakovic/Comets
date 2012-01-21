@@ -5,6 +5,8 @@
 
 #include "Unit1.h"
 #include "Unit4.h"
+#include "Unit7.h"
+#include "Unit8.h"
 
 #include "CometMain.hpp"
 //---------------------------------------------------------------------------
@@ -25,8 +27,8 @@ void __fastcall TFrame4::Button2Click(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TFrame4::Button1Click(TObject *Sender)
 {
-		Form1->Frame51->Visible = true;
-		Form1->Frame41->Visible = false;
+	Form1->Frame51->Visible = true;
+	Form1->Frame41->Visible = false;
 }
 //---------------------------------------------------------------------------
 
@@ -34,15 +36,13 @@ void __fastcall TFrame4::Button3Click(TObject *Sender)
 {
 	int importType = Form1->Frame21->ComboBox1->ItemIndex;
 
-	const char *importFile;
+	UnicodeString importFile;
 
 	if(Form1->Frame21->RadioButton1->Checked)
-		importFile = Form1->Frame21->downloadedFile.c_str();
+		importFile = Form1->Frame21->downloadedFile;
 
-	else{
-		AnsiString str = Form1->Frame21->Edit1->Text;
-		importFile = str.c_str();
-	}
+	else
+		importFile = Form1->Frame21->Edit1->Text;
 
 	Ncmt = Form1->import_main(importType, importFile);
 
@@ -61,7 +61,6 @@ void __fastcall TFrame4::ComboBox2Change(TObject *Sender)
 {
 	ProgressBar1->Visible = false;
 	Label2->Visible = false;
-	Label3->Visible = false;
 	Button1->Enabled = false;
 
 	Form1->Frame51->Edit1->Text = "";
@@ -92,6 +91,11 @@ void __fastcall TFrame4::ComboBox2Change(TObject *Sender)
 		ComboBox3->Enabled = true;
 		ComboBox3->ItemIndex = 0;
 	}
+
+	if(ComboBox2->ItemIndex == 0){
+		ComboBox3->Enabled = false;
+		ComboBox3->ItemIndex = -1;
+	}
 }
 //---------------------------------------------------------------------------
 
@@ -99,7 +103,6 @@ void __fastcall TFrame4::ComboBox3Change(TObject *Sender)
 {
 	ProgressBar1->Visible = false;
 	Label2->Visible = false;
-	Label3->Visible = false;
 	Button1->Enabled = false;
 
 	Form1->Frame51->ListBox1->Clear();
@@ -117,6 +120,26 @@ void __fastcall TFrame4::ComboBox3Change(TObject *Sender)
 	Form1->Frame51->Edit12->Text = "";
 	Form1->Frame51->Edit13->Text = "";
 	Form1->Frame51->Edit14->Text = "";
+}
+//---------------------------------------------------------------------------
+
+
+
+void __fastcall TFrame4::BAboutClick(TObject *Sender)
+{
+	Form8->ShowModal();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFrame4::BSettingsClick(TObject *Sender)
+{
+	Form7->ShowModal();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFrame4::BExitClick(TObject *Sender)
+{
+	Form1->Close();
 }
 //---------------------------------------------------------------------------
 
