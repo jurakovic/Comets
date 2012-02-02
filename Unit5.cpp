@@ -8,6 +8,7 @@
 #include "Unit5.h"
 #include "Unit7.h"
 #include "Unit8.h"
+#include "Unit11.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
@@ -20,8 +21,21 @@ __fastcall TFrame5::TFrame5(TComponent* Owner)
 //---------------------------------------------------------------------------
 void __fastcall TFrame5::Button1Click(TObject *Sender)
 {
-	Form1->Frame61->Visible = true;
-	Form1->Frame51->Visible = false;
+	//Form1->Frame61->Visible = true;
+	//Form1->Frame51->Visible = false;
+
+	int resx = GetSystemMetrics(SM_CXSCREEN);
+	int resy = GetSystemMetrics(SM_CYSCREEN);
+
+	Form11->Width = resx - 100;
+	Form11->Height = resy - 100;
+	Form11->Position = poDesktopCenter;
+
+	Form11->ComboBox1CloseUp(Sender);
+
+	Form1->Visible = false;
+
+	Form11->ShowModal();
 }
 //---------------------------------------------------------------------------
 

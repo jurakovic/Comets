@@ -1,11 +1,9 @@
-object Form1: TForm1
-  Left = 0
-  Top = 0
-  BorderIcons = [biSystemMenu, biMinimize]
-  BorderStyle = bsSingle
-  Caption = 'Comet Orbital Elements Workshop'
-  ClientHeight = 400
-  ClientWidth = 570
+object Form11: TForm11
+  Left = 146
+  Top = 110
+  Caption = 'Comet Orbital Elements Workshop - Export Preview'
+  ClientHeight = 392
+  ClientWidth = 619
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -6476,120 +6474,106 @@ object Form1: TForm1
     00FF000000FF0000000000000000000000000000000000000000000000000000
     0000000000000000000000000000000000000000000000000000000000000000
     000000000000}
-  Menu = MainMenu1
   OldCreateOrder = False
   Position = poDesktopCenter
   OnClose = FormClose
-  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
-  inline Frame61: TFrame6
+  object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 570
-    Height = 400
-    Align = alCustom
+    Width = 619
+    Height = 38
+    Align = alTop
     TabOrder = 0
+    ExplicitWidth = 776
+    object Label2: TLabel
+      Left = 8
+      Top = 9
+      Width = 86
+      Height = 16
+      Caption = 'Export Format:'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+    end
+    object ComboBox1: TComboBox
+      Left = 120
+      Top = 8
+      Width = 209
+      Height = 21
+      Style = csDropDownList
+      DropDownCount = 19
+      TabOrder = 0
+      OnCloseUp = ComboBox1CloseUp
+      Items.Strings = (
+        'MPC (Soft00Cmt)'
+        'SkyMap (Soft01Cmt)'
+        'Guide (Soft02Cmt)'
+        'xephem (Soft03Cmt)'
+        'Home Planet (Soft04Cmt)'
+        'MyStars! (Soft05Cmt)'
+        'TheSky (Soft06Cmt)'
+        'Starry Night (Soft07Cmt)'
+        'Deep Space (Soft08Cmt)'
+        'PC-TCS (Soft09Cmt)'
+        'Earth Centered Universe (Soft10Cmt)'
+        'Dance of the Planets (Soft11Cmt)'
+        'MegaStar V4.x (Soft12Cmt)'
+        'SkyChart III (Soft13Cmt)'
+        'Voyager II (Soft14Cmt)'
+        'SkyTools (Soft15Cmt)'
+        'Autostar (Soft16Cmt)'
+        'Celestia (SSC Format)'
+        'Stellarium')
+    end
+    object Button1: TButton
+      Left = 416
+      Top = 7
+      Width = 75
+      Height = 23
+      Caption = 'Save As'
+      TabOrder = 1
+    end
+    object Button2: TButton
+      Left = 497
+      Top = 7
+      Width = 75
+      Height = 23
+      Caption = 'Cancel'
+      TabOrder = 2
+      OnClick = Button2Click
+    end
+    object Button3: TButton
+      Left = 335
+      Top = 7
+      Width = 75
+      Height = 23
+      Caption = 'Refresh'
+      TabOrder = 3
+      OnClick = Button3Click
+    end
   end
-  inline Frame51: TFrame5
+  object RichEdit1: TRichEdit
     Left = 0
-    Top = 0
-    Width = 570
-    Height = 400
-    Align = alCustom
+    Top = 38
+    Width = 619
+    Height = 354
+    Align = alClient
+    Font.Charset = EASTEUROPE_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Lucida Console'
+    Font.Style = []
+    ParentFont = False
+    ReadOnly = True
+    ScrollBars = ssBoth
     TabOrder = 1
-  end
-  inline Frame31: TFrame3
-    Left = 0
-    Top = 0
-    Width = 570
-    Height = 400
-    Align = alCustom
-    Color = clBtnFace
-    ParentBackground = False
-    ParentColor = False
-    TabOrder = 2
-    inherited Panel2: TPanel
-      inherited Panel1: TPanel
-        ExplicitWidth = 554
-      end
-    end
-    inherited Button2: TButton
-      ExplicitLeft = 404
-    end
-    inherited Button1: TButton
-      ExplicitLeft = 485
-    end
-    inherited ProgressBar1: TProgressBar
-      ExplicitWidth = 435
-    end
-  end
-  inline Frame21: TFrame2
-    Left = 0
-    Top = 0
-    Width = 570
-    Height = 400
-    Align = alCustom
-    Color = clBtnFace
-    ParentBackground = False
-    ParentColor = False
-    TabOrder = 3
-    inherited Bevel1: TBevel
-      Left = 11
-      Top = 56
-      ExplicitLeft = 11
-      ExplicitTop = 56
-      ExplicitWidth = 556
-    end
-    inherited H1: TIdHTTP
-      Left = 272
-      Top = 176
-    end
-    inherited OpenDialog1: TOpenDialog
-      Left = 272
-      Top = 264
-    end
-  end
-  object MainMenu1: TMainMenu
-    Left = 408
-    object File1: TMenuItem
-      Caption = 'File'
-      object Presets1: TMenuItem
-        Caption = 'Presets'
-        object SavePreset1: TMenuItem
-          Caption = 'Save Preset'
-        end
-        object LoadPreset1: TMenuItem
-          Caption = 'Load Preset'
-        end
-      end
-      object N3: TMenuItem
-        Caption = '-'
-      end
-      object Exit1: TMenuItem
-        Caption = 'Exit'
-        OnClick = Exit1Click
-      end
-    end
-    object ools1: TMenuItem
-      Caption = 'Edit'
-      object Settings2: TMenuItem
-        Caption = 'Settings'
-        OnClick = Settings2Click
-      end
-    end
-    object Help1: TMenuItem
-      Caption = 'Help'
-      object Checkfornewversion1: TMenuItem
-        Caption = 'Check for new version'
-      end
-      object N1: TMenuItem
-        Caption = '-'
-      end
-      object About1: TMenuItem
-        Caption = 'About...'
-        OnClick = About1Click
-      end
-    end
+    ExplicitTop = 41
+    ExplicitWidth = 643
+    ExplicitHeight = 326
   end
 end

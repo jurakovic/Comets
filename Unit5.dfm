@@ -275,7 +275,6 @@ object Frame5: TFrame5
     Color = cl3DLight
     ParentBackground = False
     TabOrder = 0
-    ExplicitWidth = 600
     object Label1: TLabel
       Left = 16
       Top = 12
@@ -305,7 +304,6 @@ object Frame5: TFrame5
     ParentFont = False
     TabOrder = 1
     OnClick = Button2Click
-    ExplicitLeft = 434
   end
   object Button1: TButton
     Left = 485
@@ -322,7 +320,6 @@ object Frame5: TFrame5
     ParentFont = False
     TabOrder = 2
     OnClick = Button1Click
-    ExplicitLeft = 515
   end
   object ListBox1: TListBox
     Left = 11
