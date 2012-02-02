@@ -1,9 +1,179 @@
 #include "CometMain.hpp"
-#include "Unit4.h"
 #include "Unit3.h"
 
+void addCmt(Comet **head, Comet *cmt){
 
- double compute_period (double q, double e){
+	if(*head==NULL){
+
+		Comet *temp = new Comet(cmt);
+		*head = temp;
+	}
+
+	else{
+		Comet *temp = *head;
+
+		while(temp->next != NULL){
+			temp = temp->next;
+		}
+
+		Comet *r = new Comet(cmt);
+		temp->next = r;
+	}
+}
+
+void ocistiMemoriju(Comet **head){
+
+	Comet *current = NULL;
+	while ((*head) != NULL){
+		current = *head;
+		*head = current->next;
+		delete current;
+	}
+}
+
+void deleteFromMiddle(Comet *cmt){
+
+//	Pseudocode:
+//	void delete_node(Node* pNode) {
+//		pNode->Data = pNode->Next->Data;  // Assume that SData::operator=(SData&) exists.
+//		Node* pTemp = pNode->Next->Next;
+//		delete(pNode->Next);
+//		pNode->Next = pTemp;
+//	}
+
+	strcpy(cmt->full, cmt->next->full);
+	strcpy(cmt->name, cmt->next->name);
+	strcpy(cmt->ID, cmt->next->ID);
+	cmt->T = cmt->next->T;
+	cmt->y = cmt->next->y;
+	cmt->m = cmt->next->m;
+	cmt->d = cmt->next->d;
+	cmt->P = cmt->next->P;
+	cmt->q = cmt->next->q;
+	cmt->e = cmt->next->e;
+	cmt->i = cmt->next->i;
+	cmt->an = cmt->next->an;
+	cmt->pn = cmt->next->pn;
+	cmt->H = cmt->next->H;
+	cmt->G = cmt->next->G;
+	cmt->sort = cmt->next->sort;
+
+	Comet *temp = cmt->next->next;
+	delete cmt->next;
+	cmt->next = temp;
+}
+
+void deleteFirst(Comet **head){
+
+	Comet *temp;
+
+	if(*head == NULL) return;
+
+	else{
+
+		temp = *head;
+		*head = (*head)->next;
+		delete temp;
+	}
+}
+
+void deleteLast(Comet **head){
+
+	Comet *temp, *prev;
+
+	if (*head == NULL) return;
+
+    else if ((*head)->next == NULL){
+
+		temp = *head;
+		*head = NULL;
+		delete temp;
+    }
+
+	else{
+
+		prev = *head;
+		temp = (*head)->next;
+		while (temp->next != NULL){
+
+			prev = temp;
+			temp = temp->next;
+        }
+
+		prev->next = NULL;
+		delete temp;
+	}
+}
+
+int totalComets(Comet *head){
+
+	int counter = 0;
+	while(head!=NULL){
+		counter++;
+		head = head->next;
+	}
+	return counter;
+}
+
+Comet *getCmt(Comet *head, int index){
+
+	int i=0;
+
+	while(head!=NULL){
+
+		if(index == i) return head;
+
+		i++;
+		head = head->next;
+	}
+}
+
+Comet *sortList(Comet *h, int ty){
+
+	Comet *sorted = NULL;
+
+	while(h!=NULL){
+
+		Comet *head = h;
+		Comet **trail = &sorted;
+
+		h = h->next;
+
+		while(1){
+
+			if(*trail == NULL ||
+				(ty== 0 && head->sort < (*trail)->sort) ||
+				(ty== 1 && head->sort > (*trail)->sort) ||
+				(ty== 2 && head->T < (*trail)->T) ||
+				(ty== 3 && head->T > (*trail)->T) ||
+				(ty== 4 && head->q < (*trail)->q) ||
+				(ty== 5 && head->q > (*trail)->q) ||
+				(ty== 6 && head->e < (*trail)->e) ||
+				(ty== 7 && head->e > (*trail)->e) ||
+				(ty== 8 && head->an < (*trail)->an) ||
+				(ty== 9 && head->an > (*trail)->an) ||
+				(ty==10 && head->pn < (*trail)->pn) ||
+				(ty==11 && head->pn > (*trail)->pn) ||
+				(ty==12 && head->i < (*trail)->i) ||
+				(ty==13 && head->i > (*trail)->i) ||
+				(ty==14 && head->P < (*trail)->P) ||
+				(ty==15 && head->P > (*trail)->P)){
+
+				head->next = *trail;
+				*trail = head;
+				break;
+			}
+			else{
+				trail = &(*trail)->next;
+			}
+		}
+	}
+
+	return sorted;
+
+}
+
+double compute_period (double q, double e){
 
 	double P = 0.0;
 
@@ -45,8 +215,14 @@ void editFullIdName(char *full, char *ID, char *name, int type){
 				//&& full[j+2]=='/'
 				)){
 
-				for(k=0; full[k]!='/'; k++)
-					ID[k]=full[k];
+
+				strcpy(ID, full);
+
+				for(k=0; ; k++) {
+
+					if(ID[k]=='/') break;
+				}
+
 
 				ID[k]='\0';
 				++k;
@@ -57,23 +233,40 @@ void editFullIdName(char *full, char *ID, char *name, int type){
 				break;
 			}
 
-			if (full[j]=='('){
-				for(k=0; full[k]!='('; k++)
-					ID[k]=full[k];
+			if ((full[j]=='P' && full[j+1]=='/') ||
+				(full[j]=='C' && full[j+1]=='/')){
 
-				ID[k-1]='\0';
+				bool hasName = false;
 
-				++k;
-				for(l=0; full[k]!=')'; k++, l++)
-					name[l]=full[k];
+				for(int a=0; a<strlen(full); a++) {
+					//ako pronade zagradu, znaci da ima ime, ako ne nade onda nema
+					if(full[a]=='('){
+						hasName = true;
+						break;
+					}
+				}
 
-				name[l]='\0';
-				break;
+				if(hasName){
+					for(k=0; full[k]!='('; k++)
+						ID[k]=full[k];
+
+					ID[k-1]='\0';
+
+					++k;
+					for(l=0; full[k]!=')'; k++, l++)
+						name[l]=full[k];
+
+					name[l]='\0';
+					break;
+				}
+
+				else{
+					strcpy(ID, full);
+					break;
+				}
 			}
 		}
 	}
-
-
 }
 
 double get_sort_key(char *ID){
@@ -99,9 +292,10 @@ double get_sort_key(char *ID){
 
 	if(isdigit(ID[0])){
 		k=0;
-		do{
+		while(isdigit(ID[k])){
 			temp[k]=ID[k];
-		}while(isdigit(ID[k++]));
+			k++;
+		}
 
 		sort = atof(temp);
 	}

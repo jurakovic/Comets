@@ -19,6 +19,7 @@
 #include <ComCtrls.hpp>
 #include <ExtCtrls.hpp>
 #include <pngimage.hpp>
+#include <Vcl.Menus.hpp>
 
 //---------------------------------------------------------------------------
 class TFrame2 : public TFrame
@@ -39,11 +40,7 @@ __published:	// IDE-managed Components
 	TIdHTTP *H1;
 	TOpenDialog *OpenDialog1;
 	TBevel *Bevel1;
-	TButton *BAbout;
-	TButton *BSettings;
-	TButton *BBack;
 	TButton *Button1;
-	TButton *BExit;
 	void __fastcall Button1Click(TObject *Sender);
 	void __fastcall RadioButton1Click(TObject *Sender);
 	void __fastcall RadioButton2Click(TObject *Sender);
@@ -52,9 +49,6 @@ __published:	// IDE-managed Components
 	void __fastcall ComboBox1Change(TObject *Sender);
 	void __fastcall H1WorkBegin(TObject *ASender, TWorkMode AWorkMode, __int64 AWorkCountMax);
 	void __fastcall H1Work(TObject *ASender, TWorkMode AWorkMode, __int64 AWorkCount);
-	void __fastcall BAboutClick(TObject *Sender);
-	void __fastcall BSettingsClick(TObject *Sender);
-	void __fastcall BExitClick(TObject *Sender);
 
 private:	// User declarations
 public:		// User declarations

@@ -18,7 +18,7 @@ __fastcall TFrame10::TFrame10(TComponent* Owner)
 void __fastcall TFrame10::Image1Click(TObject *Sender)
 {
 	Form1->Frame21->Visible = true;
-	Form1->Frame101->Visible = false;
+	//Form1->Frame101->Visible = false;
 
 	if(CheckBox1->Checked) Form1->sett.showSplash = 0;
 }

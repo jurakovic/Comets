@@ -18,6 +18,7 @@ __published:	// IDE-managed Components
 	TCheckBox *CheckBox2;
 	TCheckBox *CheckBox3;
 	TCheckBox *CheckBox4;
+	TCheckBox *CheckBox5;
 	void __fastcall Button2Click(TObject *Sender);
 	void __fastcall Button1Click(TObject *Sender);
 	void __fastcall FormShow(TObject *Sender);

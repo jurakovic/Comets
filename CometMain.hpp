@@ -10,7 +10,7 @@
 
 #include <direct.h>
 
-#define PROGRAM_VERSION 0.4
+#define PROGRAM_VERSION 0.5
 
 #define MAX_CMT 3500
 #define equinox 2000
@@ -29,6 +29,7 @@ struct Settings{
 	int advancedMode;
 	int showSplash;
 	int exitConfirm;
+	int importConfirm;
 };
 
 class Comet{
@@ -50,6 +51,7 @@ public:
 	float H;
 	float G;
 	double sort;
+	Comet *next;
 
 	Comet(){
 
@@ -69,7 +71,35 @@ public:
 		H = 0.0;
 		G = 0.0;
 		sort = 0.0;
+		next = NULL;
 	}
+
+	Comet(Comet *cmt){
+
+		for(int a=0; a<81; a++) full[a] = '\0';
+		for(int a=0; a<56; a++) name[a] = '\0';
+		for(int a=0; a<26; a++) ID[a] = '\0';
+
+		strcpy(full, cmt->full);
+		strcpy(name, cmt->name);
+		strcpy(ID, cmt->ID);
+
+		T = cmt->T;
+		y = cmt->y;
+		m = cmt->m;
+		d = cmt->d;
+		P = cmt->P;
+		q = cmt->q;
+		e = cmt->e;
+		i = cmt->i;
+		an = cmt->an;
+		pn = cmt->pn;
+		H = cmt->H;
+		G = cmt->G;
+		sort = cmt->sort;
+		next = NULL;
+	}
+
 };
 
 struct Excludings{
@@ -82,6 +112,15 @@ struct Excludings{
 	float i;
 	float P;
 };
+
+void addCmt(Comet **, Comet *);
+Comet *getCmt(Comet *, int);
+void ocistiMemoriju(Comet **);
+Comet *sortList(Comet *, int);
+void deleteFromMiddle(Comet *);
+void deleteFirst(Comet **);
+void deleteLast(Comet **);
+int totalComets(Comet *);
 
 //	funkcije za racunanje...
 double get_sort_key(char *);

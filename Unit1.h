@@ -9,26 +9,40 @@
 #include <Forms.hpp>
 #include "Unit2.h"
 #include "Unit3.h"
-#include "Unit4.h"
 #include "Unit5.h"
 #include "Unit6.h"
 #include "Unit9.h"
 
 #include "CometMain.hpp"
 #include "Unit10.h"
+#include <Vcl.Menus.hpp>
 
 //---------------------------------------------------------------------------
 class TForm1 : public TForm
 {
 __published:	// IDE-managed Components
-	TFrame2 *Frame21;
-	TFrame3 *Frame31;
-	TFrame4 *Frame41;
-	TFrame5 *Frame51;
+	TMainMenu *MainMenu1;
+	TMenuItem *File1;
+	TMenuItem *Exit1;
+	TMenuItem *Help1;
+	TMenuItem *About1;
+	TMenuItem *N1;
+	TMenuItem *Checkfornewversion1;
+	TMenuItem *N3;
+	TMenuItem *Presets1;
+	TMenuItem *SavePreset1;
+	TMenuItem *LoadPreset1;
+	TMenuItem *ools1;
+	TMenuItem *Settings2;
 	TFrame6 *Frame61;
-	TFrame10 *Frame101;
+	TFrame5 *Frame51;
+	TFrame3 *Frame31;
+	TFrame2 *Frame21;
 	void __fastcall FormShow(TObject *Sender);
 	void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
+	void __fastcall Settings2Click(TObject *Sender);
+	void __fastcall Exit1Click(TObject *Sender);
+	void __fastcall About1Click(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
 	__fastcall TForm1(TComponent* Owner);
@@ -36,18 +50,20 @@ public:		// User declarations
 	UnicodeString settingsFile;
 	struct Excludings excl;
 	struct Settings sett;
+
 	Comet *cmt;
 
 	bool exitFunction();
 	void spremiPostavke();
 
-	void sort_data(int);
-	void do_swap(int , int);
 	bool define_exclude();
-	bool do_exclude(int);
+	bool do_exclude(Comet *);
+
+	void updateListbox(Comet *);
 
 	int import_main (int , UnicodeString);
 	void export_main (int , int , UnicodeString);
+	void export_semi(int , Comet *, FILE *);
 	int import_mpc (int, FILE *);
 	int import_skymap (int, FILE *);
 	int import_guide (int, FILE *);
@@ -66,24 +82,25 @@ public:		// User declarations
 	int import_megastar (int, FILE *);
 	int import_cfw (int, FILE *);		//comet for windows
 	int import_nasa (int, FILE *);		//ELEMENTS.COMET
-	void export_mpc (int, FILE *);
-	void export_skymap (int, FILE *);
-	void export_guide (int, FILE *);
-	void export_xephem (int, FILE *);
-	void export_home_planet (int, FILE *);
-	void export_mystars (int, FILE *);
-	void export_thesky (int, FILE *);
-	void export_starry_night (int, FILE *);
-	void export_deep_space (int, FILE *);
-	void export_pc_tcs (int, FILE *);
-	void export_ecu (int, FILE *);
-	void export_dance (int, FILE *);
-	void export_megastar (int, FILE *);
-	void export_skychart (int, FILE *);
-	void export_voyager (int, FILE *);
-	void export_skytools (int, FILE *);
-	void export_ssc (int, FILE *);
-	void export_stell (int, FILE *);
+
+	void export_mpc (Comet *, FILE *);
+	void export_skymap (Comet *, FILE *);
+	void export_guide (Comet *, FILE *);
+	void export_xephem (Comet *, FILE *);
+	void export_home_planet (Comet *, FILE *);
+	void export_mystars (Comet *, FILE *);
+	void export_thesky (Comet *, FILE *);
+	void export_starry_night (Comet *, FILE *);
+	void export_deep_space (Comet *, FILE *);
+	void export_pc_tcs (Comet *, FILE *);
+	void export_ecu (Comet *, FILE *);
+	void export_dance (Comet *, FILE *);
+	void export_megastar (Comet *, FILE *);
+	void export_skychart (Comet *, FILE *);
+	void export_voyager (Comet *, FILE *);
+	void export_skytools (Comet *, FILE *);
+	void export_ssc (Comet *, FILE *);
+	void export_stell (Comet *, FILE *);
 
 };
 //---------------------------------------------------------------------------

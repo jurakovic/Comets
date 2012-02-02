@@ -146,10 +146,9 @@ void __fastcall TFrame2::Button3Click(TObject *Sender)
 					FormatFloat("00", min) + "-" +
 					FormatFloat("00", sec) + ".COMET";
 
+	TFileStream *fStr = new TFileStream(downloadedFile, fmCreate);
 	try{
-		TFileStream *fStr = new TFileStream(downloadedFile, fmCreate);
 		H1->Get(AnsiString(fileToDownload).c_str(), fStr);
-		delete fStr;
 	}
 
 	catch (...){
@@ -157,12 +156,14 @@ void __fastcall TFrame2::Button3Click(TObject *Sender)
 			L"Error",
 			MB_OK | MB_ICONERROR);
 
+		delete fStr;
 		remove(AnsiString(downloadedFile).c_str());
 		ProgressBar1->Position = 0;
 		ProgressBar1->Visible = false;
 		return;
 	}
 
+	delete fStr;
 	setDetectedComets();
 
 	ProgressBar1->Position = ProgressBar1->Max;
@@ -174,15 +175,21 @@ void __fastcall TFrame2::Button3Click(TObject *Sender)
 
 void __fastcall TFrame2::Button4Click(TObject *Sender)
 {
-	OpenDialog1->Execute();
+	if(ComboBox1->ItemIndex < 17)
+		OpenDialog1->Filter = "Text files (*.txt)|*.TXT|All files (*.*)|*.*";;
+	if(ComboBox1->ItemIndex == 17)
+		OpenDialog1->Filter = "DAT files (*.dat)|*.DAT|All files (*.*)|*.*";
+	if(ComboBox1->ItemIndex == 18)
+		OpenDialog1->Filter = "COMET files (*.comet)|*.COMET|All files (*.*)|*.*";
+
+    OpenDialog1->Execute();
 	Edit1->Text =  OpenDialog1->FileName;
 
 	if(Edit1->GetTextLen() > 0){
 
-		//ComboBox1Change(Sender);
 		setDetectedComets();
 
-		Label4->Caption = "Detected comets: " + IntToStr(detectedComets);
+		Label4->Caption = "Detected comets: " + String(detectedComets);
 		Label4->Visible = true;
 		Button1->Enabled = true;
 	}
@@ -203,25 +210,12 @@ void __fastcall TFrame2::ComboBox1Change(TObject *Sender)
 
 	if(RadioButton2->Checked && Edit1->GetTextLen() > 0) setDetectedComets();
 
-	Form1->Frame41->ProgressBar1->Visible = false;
-	Form1->Frame41->Label2->Visible = false;
-	Form1->Frame41->Button1->Enabled = false;
+	Form1->Frame31->ProgressBar1->Visible = false;
+	Form1->Frame31->Button1->Enabled = false;
 
 	Form1->Frame51->ListBox1->Clear();
-	Form1->Frame51->Edit1->Text = "";
-	Form1->Frame51->Edit2->Text = "";
-	Form1->Frame51->Edit3->Text = "";
-	Form1->Frame51->Edit4->Text = "";
-	Form1->Frame51->Edit5->Text = "";
-	Form1->Frame51->Edit6->Text = "";
-	Form1->Frame51->Edit7->Text = "";
-	Form1->Frame51->Edit8->Text = "";
-	Form1->Frame51->Edit9->Text = "";
-	Form1->Frame51->Edit10->Text = "";
-	Form1->Frame51->Edit11->Text = "";
-	Form1->Frame51->Edit12->Text = "";
-	Form1->Frame51->Edit13->Text = "";
-	Form1->Frame51->Edit14->Text = "";
+
+	Form1->Frame51->ocistiEditPolja();
 
 	Form1->Frame61->Edit1->Text = "";
 	Form1->Frame61->ProgressBar1->Visible = false;
@@ -245,24 +239,4 @@ void __fastcall TFrame2::H1Work(TObject *ASender, TWorkMode AWorkMode, __int64 A
 	Application->ProcessMessages();
 }
 //---------------------------------------------------------------------------
-
-
-void __fastcall TFrame2::BAboutClick(TObject *Sender)
-{
-	Form8->ShowModal();
-}
-//---------------------------------------------------------------------------
-
-void __fastcall TFrame2::BSettingsClick(TObject *Sender)
-{
-	Form7->ShowModal();
-}
-//---------------------------------------------------------------------------
-
-void __fastcall TFrame2::BExitClick(TObject *Sender)
-{
-	Form1->Close();
-}
-//---------------------------------------------------------------------------
-
 

@@ -3,9 +3,9 @@ object Form1: TForm1
   Top = 0
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
-  Caption = 'Comet Orbital Elements Workshop (0.4)'
+  Caption = 'Comet Orbital Elements Workshop (0.5)'
   ClientHeight = 400
-  ClientWidth = 600
+  ClientWidth = 570
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -6476,75 +6476,125 @@ object Form1: TForm1
     00FF000000FF0000000000000000000000000000000000000000000000000000
     0000000000000000000000000000000000000000000000000000000000000000
     000000000000}
+  Menu = MainMenu1
   OldCreateOrder = False
   Position = poDesktopCenter
   OnClose = FormClose
   OnShow = FormShow
-  DesignSize = (
-    600
-    400)
   PixelsPerInch = 96
   TextHeight = 13
-  inline Frame21: TFrame2
+  inline Frame61: TFrame6
     Left = 0
     Top = 0
-    Width = 600
+    Width = 570
     Height = 400
     Align = alCustom
-    Anchors = [akLeft, akTop, akRight, akBottom]
-    Color = clBtnFace
-    ParentBackground = False
-    ParentColor = False
     TabOrder = 0
-  end
-  inline Frame31: TFrame3
-    Left = 0
-    Top = 0
-    Width = 600
-    Height = 400
-    Align = alCustom
-    Anchors = [akLeft, akTop, akRight, akBottom]
-    Color = clBtnFace
-    ParentBackground = False
-    ParentColor = False
-    TabOrder = 1
-    Visible = False
-  end
-  inline Frame41: TFrame4
-    Left = 0
-    Top = 0
-    Width = 600
-    Height = 400
-    Anchors = [akLeft, akTop, akRight, akBottom]
-    TabOrder = 2
-    Visible = False
+    inherited Panel2: TPanel
+      ExplicitWidth = 570
+    end
   end
   inline Frame51: TFrame5
     Left = 0
     Top = 0
-    Width = 600
+    Width = 570
     Height = 400
     Align = alCustom
-    Anchors = [akLeft, akTop, akRight, akBottom]
+    TabOrder = 1
+    inherited Panel2: TPanel
+      ExplicitWidth = 570
+    end
+    inherited Button2: TButton
+      ExplicitLeft = 404
+    end
+    inherited Button1: TButton
+      ExplicitLeft = 485
+    end
+  end
+  inline Frame31: TFrame3
+    Left = 0
+    Top = 0
+    Width = 570
+    Height = 400
+    Align = alCustom
+    Color = clBtnFace
+    ParentBackground = False
+    ParentColor = False
+    TabOrder = 2
+    inherited Panel2: TPanel
+      ExplicitWidth = 570
+      inherited Panel1: TPanel
+        ExplicitWidth = 554
+      end
+    end
+    inherited Button2: TButton
+      ExplicitLeft = 404
+    end
+    inherited Button1: TButton
+      ExplicitLeft = 485
+    end
+    inherited ProgressBar1: TProgressBar
+      ExplicitWidth = 435
+    end
+  end
+  inline Frame21: TFrame2
+    Left = 0
+    Top = 0
+    Width = 570
+    Height = 400
+    Align = alCustom
+    Color = clBtnFace
+    ParentBackground = False
+    ParentColor = False
     TabOrder = 3
-    Visible = False
+    inherited Panel2: TPanel
+      ExplicitWidth = 570
+    end
+    inherited Button1: TButton
+      ExplicitLeft = 485
+    end
   end
-  inline Frame61: TFrame6
-    Left = 0
-    Top = 0
-    Width = 600
-    Height = 400
-    Align = alCustom
-    Anchors = [akLeft, akTop, akRight, akBottom]
-    TabOrder = 4
-    Visible = False
-  end
-  inline Frame101: TFrame10
-    Left = 0
-    Top = 0
-    Width = 600
-    Height = 400
-    Anchors = [akLeft, akTop, akRight, akBottom]
-    TabOrder = 5
+  object MainMenu1: TMainMenu
+    Left = 512
+    Top = 32
+    object File1: TMenuItem
+      Caption = 'File'
+      object Presets1: TMenuItem
+        Caption = 'Presets'
+        object SavePreset1: TMenuItem
+          Caption = 'Save Preset'
+        end
+        object LoadPreset1: TMenuItem
+          Caption = 'Load Preset'
+        end
+      end
+      object N3: TMenuItem
+        Caption = '-'
+      end
+      object Exit1: TMenuItem
+        Caption = 'Exit'
+        OnClick = Exit1Click
+      end
+    end
+    object ools1: TMenuItem
+      Caption = 'Tools'
+      object Settings2: TMenuItem
+        Caption = 'Settings'
+        OnClick = Settings2Click
+      end
+    end
+    object Help1: TMenuItem
+      Caption = 'Help'
+      object Checkfornewversion1: TMenuItem
+        Caption = 'Check for new version'
+      end
+      object N1: TMenuItem
+        Caption = '-'
+      end
+      object About1: TMenuItem
+        Caption = 'About...'
+        OnClick = About1Click
+      end
+    end
   end
 end

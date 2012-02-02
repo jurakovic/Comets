@@ -1,21 +1,22 @@
 object Frame6: TFrame6
   Left = 0
   Top = 0
-  Width = 600
+  Width = 570
   Height = 400
   Align = alCustom
   TabOrder = 0
   DesignSize = (
-    600
+    570
     400)
   object Bevel1: TBevel
     Left = 7
     Top = 50
-    Width = 586
+    Width = 556
     Height = 303
     Align = alCustom
     Anchors = [akLeft, akTop, akRight, akBottom]
     Shape = bsBottomLine
+    ExplicitWidth = 586
   end
   object Label2: TLabel
     Left = 16
@@ -45,7 +46,7 @@ object Frame6: TFrame6
   end
   object Label4: TLabel
     Left = 16
-    Top = 322
+    Top = 194
     Width = 103
     Height = 16
     Anchors = [akLeft, akBottom]
@@ -61,12 +62,13 @@ object Frame6: TFrame6
   object Panel2: TPanel
     Left = 0
     Top = 0
-    Width = 600
+    Width = 570
     Height = 50
     Align = alTop
     Color = cl3DLight
     ParentBackground = False
     TabOrder = 0
+    ExplicitWidth = 600
     object Label1: TLabel
       Left = 16
       Top = 12
@@ -81,29 +83,9 @@ object Frame6: TFrame6
       ParentFont = False
     end
   end
-  object BAbout: TButton
-    Left = 11
-    Top = 364
-    Width = 25
-    Height = 25
-    Anchors = [akLeft, akBottom]
-    Caption = '?'
-    TabOrder = 1
-    OnClick = BAboutClick
-  end
-  object BSettings: TButton
-    Left = 42
-    Top = 364
-    Width = 75
-    Height = 25
-    Anchors = [akLeft, akBottom]
-    Caption = 'Settings'
-    TabOrder = 2
-    OnClick = BSettingsClick
-  end
   object Button3: TButton
-    Left = 304
-    Top = 364
+    Left = 404
+    Top = 365
     Width = 75
     Height = 25
     Anchors = [akRight, akBottom]
@@ -114,35 +96,8 @@ object Frame6: TFrame6
     Font.Name = 'Tahoma'
     Font.Style = []
     ParentFont = False
-    TabOrder = 3
+    TabOrder = 1
     OnClick = Button3Click
-  end
-  object Button2: TButton
-    Left = 385
-    Top = 364
-    Width = 75
-    Height = 25
-    Anchors = [akRight, akBottom]
-    Caption = 'Next >'
-    Enabled = False
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-    TabOrder = 4
-    OnClick = Button2Click
-  end
-  object BExit: TButton
-    Left = 514
-    Top = 364
-    Width = 75
-    Height = 25
-    Anchors = [akRight, akBottom]
-    Caption = 'Exit'
-    TabOrder = 5
-    OnClick = BExitClick
   end
   object ComboBox1: TComboBox
     Left = 168
@@ -151,7 +106,7 @@ object Frame6: TFrame6
     Height = 21
     Style = csDropDownList
     DropDownCount = 19
-    TabOrder = 6
+    TabOrder = 2
     OnChange = ComboBox1Change
     Items.Strings = (
       'MPC (Soft00Cmt)'
@@ -175,19 +130,19 @@ object Frame6: TFrame6
       'Stellarium')
   end
   object Button4: TButton
-    Left = 543
-    Top = 106
+    Left = 65
+    Top = 146
     Width = 25
     Height = 25
     Anchors = [akTop, akRight]
     Caption = '...'
-    TabOrder = 7
+    TabOrder = 3
     OnClick = Button4Click
   end
   object Edit1: TEdit
     Left = 168
     Top = 107
-    Width = 369
+    Width = 392
     Height = 24
     Anchors = [akLeft, akTop, akRight]
     Font.Charset = DEFAULT_CHARSET
@@ -196,14 +151,14 @@ object Frame6: TFrame6
     Font.Name = 'Tahoma'
     Font.Style = []
     ParentFont = False
-    TabOrder = 8
+    TabOrder = 4
     OnChange = Edit1Change
   end
   object Button1: TButton
-    Left = 168
-    Top = 184
+    Left = 11
+    Top = 292
     Width = 98
-    Height = 33
+    Height = 24
     Caption = 'Export'
     Enabled = False
     Font.Charset = DEFAULT_CHARSET
@@ -212,21 +167,37 @@ object Frame6: TFrame6
     Font.Name = 'Tahoma'
     Font.Style = [fsBold]
     ParentFont = False
-    TabOrder = 9
+    TabOrder = 5
     OnClick = Button1Click
   end
   object ProgressBar1: TProgressBar
-    Left = 16
-    Top = 287
-    Width = 568
+    Left = 115
+    Top = 292
+    Width = 445
     Height = 24
     Anchors = [akLeft, akRight, akBottom]
-    TabOrder = 10
+    TabOrder = 6
     Visible = False
   end
+  object Button2: TButton
+    Left = 485
+    Top = 365
+    Width = 75
+    Height = 25
+    Anchors = [akRight, akBottom]
+    Caption = 'Next >'
+    Enabled = False
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 7
+    OnClick = Button2Click
+  end
   object SaveDialog1: TSaveDialog
-    Filter = 'Text Document|*.txt|INI File|*.ini|DAT File|*.dat|All Files|*.*'
-    Left = 120
-    Top = 104
+    Left = 456
+    Top = 56
   end
 end

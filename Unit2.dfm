@@ -1,7 +1,7 @@
 object Frame2: TFrame2
   Left = 0
   Top = 0
-  Width = 600
+  Width = 570
   Height = 400
   Align = alCustom
   Color = clBtnFace
@@ -9,16 +9,17 @@ object Frame2: TFrame2
   ParentColor = False
   TabOrder = 0
   DesignSize = (
-    600
+    570
     400)
   object Bevel1: TBevel
     Left = 7
     Top = 50
-    Width = 586
+    Width = 556
     Height = 303
     Align = alCustom
     Anchors = [akLeft, akTop, akRight, akBottom]
     Shape = bsBottomLine
+    ExplicitWidth = 586
   end
   object Label2: TLabel
     Left = 16
@@ -55,7 +56,9 @@ object Frame2: TFrame2
     Height = 21
     Style = csDropDownList
     DropDownCount = 20
+    ItemIndex = 0
     TabOrder = 0
+    Text = 'MPC (Soft00Cmt)'
     OnChange = ComboBox1Change
     Items.Strings = (
       'MPC (Soft00Cmt)'
@@ -85,7 +88,6 @@ object Frame2: TFrame2
     Height = 17
     Caption = 'Download the latest orbital elements'
     Checked = True
-    Enabled = False
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -13
@@ -102,7 +104,6 @@ object Frame2: TFrame2
     Width = 98
     Height = 25
     Caption = 'Download'
-    Enabled = False
     TabOrder = 2
     OnClick = Button3Click
   end
@@ -112,7 +113,6 @@ object Frame2: TFrame2
     Width = 102
     Height = 17
     Caption = 'Use a local file'
-    Enabled = False
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -13
@@ -135,7 +135,7 @@ object Frame2: TFrame2
   object Edit1: TEdit
     Left = 168
     Top = 235
-    Width = 369
+    Width = 392
     Height = 24
     Anchors = [akLeft, akTop, akRight]
     Enabled = False
@@ -150,7 +150,7 @@ object Frame2: TFrame2
   object ProgressBar1: TProgressBar
     Left = 168
     Top = 146
-    Width = 369
+    Width = 392
     Height = 24
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 6
@@ -174,12 +174,13 @@ object Frame2: TFrame2
   object Panel2: TPanel
     Left = 0
     Top = 0
-    Width = 600
+    Width = 570
     Height = 50
     Align = alTop
     Color = cl3DLight
     ParentBackground = False
     TabOrder = 8
+    ExplicitWidth = 600
     object Label1: TLabel
       Left = 16
       Top = 12
@@ -194,45 +195,9 @@ object Frame2: TFrame2
       ParentFont = False
     end
   end
-  object BAbout: TButton
-    Left = 11
-    Top = 364
-    Width = 25
-    Height = 25
-    Anchors = [akLeft, akBottom]
-    Caption = '?'
-    TabOrder = 9
-    OnClick = BAboutClick
-  end
-  object BSettings: TButton
-    Left = 42
-    Top = 364
-    Width = 75
-    Height = 25
-    Anchors = [akLeft, akBottom]
-    Caption = 'Settings'
-    TabOrder = 10
-    OnClick = BSettingsClick
-  end
-  object BBack: TButton
-    Left = 304
-    Top = 364
-    Width = 75
-    Height = 25
-    Anchors = [akRight, akBottom]
-    Caption = '< Back'
-    Enabled = False
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-    TabOrder = 11
-  end
   object Button1: TButton
-    Left = 385
-    Top = 364
+    Left = 485
+    Top = 365
     Width = 75
     Height = 25
     Anchors = [akRight, akBottom]
@@ -244,18 +209,9 @@ object Frame2: TFrame2
     Font.Name = 'Tahoma'
     Font.Style = []
     ParentFont = False
-    TabOrder = 12
+    TabOrder = 9
     OnClick = Button1Click
-  end
-  object BExit: TButton
-    Left = 514
-    Top = 364
-    Width = 75
-    Height = 25
-    Anchors = [akRight, akBottom]
-    Caption = 'Exit'
-    TabOrder = 13
-    OnClick = BExitClick
+    ExplicitLeft = 515
   end
   object H1: TIdHTTP
     OnWork = H1Work
@@ -273,12 +229,11 @@ object Frame2: TFrame2
     Request.Ranges.Units = 'bytes'
     Request.Ranges = <>
     HTTPOptions = [hoForceEncodeParams]
-    Left = 552
-    Top = 144
+    Left = 480
+    Top = 96
   end
   object OpenDialog1: TOpenDialog
-    Filter = 'Text Document|*.txt|INI File|*.ini|DAT File|*.dat|All Files|*.*'
-    Left = 552
-    Top = 232
+    Left = 448
+    Top = 184
   end
 end

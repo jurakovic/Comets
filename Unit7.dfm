@@ -4,8 +4,8 @@ object Form7: TForm7
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Settings'
-  ClientHeight = 189
-  ClientWidth = 296
+  ClientHeight = 197
+  ClientWidth = 293
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -6479,32 +6479,41 @@ object Form7: TForm7
   OldCreateOrder = False
   Position = poDesktopCenter
   OnShow = FormShow
+  DesignSize = (
+    293
+    197)
   PixelsPerInch = 96
   TextHeight = 13
   object Button1: TButton
     Left = 213
-    Top = 156
-    Width = 75
+    Top = 164
+    Width = 72
     Height = 25
+    Anchors = [akLeft, akRight, akBottom]
     Caption = 'Cancel'
     TabOrder = 0
     OnClick = Button1Click
+    ExplicitTop = 367
   end
   object Button2: TButton
     Left = 132
-    Top = 156
+    Top = 164
     Width = 75
     Height = 25
+    Anchors = [akLeft, akRight, akBottom]
     Caption = 'OK'
     TabOrder = 1
     OnClick = Button2Click
+    ExplicitTop = 367
   end
   object GroupBox1: TGroupBox
     Left = 8
     Top = 8
-    Width = 280
-    Height = 141
+    Width = 277
+    Height = 150
+    Anchors = [akLeft, akTop, akRight, akBottom]
     TabOrder = 2
+    ExplicitHeight = 353
     object CheckBox1: TCheckBox
       Left = 16
       Top = 16
@@ -6522,7 +6531,7 @@ object Form7: TForm7
     end
     object CheckBox2: TCheckBox
       Left = 16
-      Top = 109
+      Top = 116
       Width = 129
       Height = 17
       Caption = 'Exit without confirm'
@@ -6536,7 +6545,7 @@ object Form7: TForm7
     end
     object CheckBox3: TCheckBox
       Left = 16
-      Top = 47
+      Top = 41
       Width = 169
       Height = 17
       Caption = 'Always use advanced mode'
@@ -6550,7 +6559,7 @@ object Form7: TForm7
     end
     object CheckBox4: TCheckBox
       Left = 16
-      Top = 78
+      Top = 91
       Width = 185
       Height = 17
       Caption = 'Show splash screen on startup'
@@ -6561,6 +6570,20 @@ object Form7: TForm7
       Font.Style = []
       ParentFont = False
       TabOrder = 3
+    end
+    object CheckBox5: TCheckBox
+      Left = 16
+      Top = 66
+      Width = 233
+      Height = 17
+      Caption = 'Show "Import completed" message'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 4
     end
   end
 end

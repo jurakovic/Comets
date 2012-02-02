@@ -6503,9 +6503,9 @@ object Form8: TForm8
   object Label2: TLabel
     Left = 74
     Top = 36
-    Width = 155
+    Width = 162
     Height = 16
-    Caption = 'Version 0.4 (January 2012)'
+    Caption = 'Version 0.5 (February 2012)'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -13
@@ -6518,7 +6518,7 @@ object Form8: TForm8
     Top = 58
     Width = 142
     Height = 16
-    Caption = 'Copyright '#169' 2011, jurluk'
+    Caption = 'Copyright '#169' 2012, jurluk'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -13

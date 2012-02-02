@@ -4,7 +4,6 @@
 #pragma hdrstop
 
 #include "Unit1.h"
-#include "Unit4.h"
 #include "Unit6.h"
 #include "Unit7.h"
 #include "Unit8.h"
@@ -38,13 +37,20 @@ void __fastcall TFrame6::Button3Click(TObject *Sender)
 
 void __fastcall TFrame6::Button4Click(TObject *Sender)
 {
+	if(ComboBox1->ItemIndex < 17)
+		SaveDialog1->Filter = "Text files (*.txt)|*.TXT|All files (*.*)|*.*";;
+	if(ComboBox1->ItemIndex == 17)
+		SaveDialog1->Filter = "SSC files (*.ssc)|*.SSC|All files (*.*)|*.*";
+	if(ComboBox1->ItemIndex == 18)
+		SaveDialog1->Filter = "INI files (*.ini)|*.INI|All files (*.*)|*.*";
+
 	SaveDialog1->Execute();
 	Edit1->Text =  SaveDialog1->FileName;
 
-	if(SaveDialog1->FilterIndex==1) Edit1->Text += ".txt";
-	if(SaveDialog1->FilterIndex==2) Edit1->Text = Edit1->Text + ".ini";
-	if(SaveDialog1->FilterIndex==3) Edit1->Text = Edit1->Text + ".dat";
-	if(SaveDialog1->FilterIndex==4) Edit1->Text = Edit1->Text + ".ssc";
+	//if(SaveDialog1->FilterIndex==1) Edit1->Text += ".txt";
+	//if(SaveDialog1->FilterIndex==2) Edit1->Text = Edit1->Text + ".ini";
+	//if(SaveDialog1->FilterIndex==3) Edit1->Text = Edit1->Text + ".dat";
+	//if(SaveDialog1->FilterIndex==4) Edit1->Text = Edit1->Text + ".ssc";
 }
 //---------------------------------------------------------------------------
 
@@ -77,7 +83,7 @@ void __fastcall TFrame6::Edit1Change(TObject *Sender)
 void __fastcall TFrame6::Button1Click(TObject *Sender)
 {
 
-	int Ncmt;
+	int Ncmt = Form1->Frame51->Ncmt;
 
 	if(Form1->Frame21->CheckBox1->Checked == false){
 
@@ -93,34 +99,10 @@ void __fastcall TFrame6::Button1Click(TObject *Sender)
 		Ncmt = Form1->import_main(importType, importFile);
 	}
 
-	if(Form1->Frame21->CheckBox1->Checked) Ncmt = Form1->Frame41->Ncmt;
-
 	int exportType = Form1->Frame61->ComboBox1->ItemIndex;
 
 	UnicodeString exportFile = Edit1->Text;
 
 	Form1->export_main(Ncmt, exportType, exportFile);
 }
-//---------------------------------------------------------------------------
-
-
-
-
-void __fastcall TFrame6::BAboutClick(TObject *Sender)
-{
-	Form8->ShowModal();
-}
-//---------------------------------------------------------------------------
-
-void __fastcall TFrame6::BSettingsClick(TObject *Sender)
-{
-	Form7->ShowModal();
-}
-//---------------------------------------------------------------------------
-
-void __fastcall TFrame6::BExitClick(TObject *Sender)
-{
-	Form1->Close();
-}
-//---------------------------------------------------------------------------
 

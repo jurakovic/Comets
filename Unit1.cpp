@@ -4,11 +4,12 @@
 #pragma hdrstop
 
 #include "Unit1.h"
+#include "Unit7.h"
+#include "Unit8.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "Unit2"
 #pragma link "Unit3"
-#pragma link "Unit4"
 #pragma link "Unit5"
 #pragma link "Unit6"
 #pragma link "Unit10"
@@ -70,12 +71,12 @@ void __fastcall TForm1::FormShow(TObject *Sender)
 		Frame21->CheckBox1->Visible = false;
 	}
 
-	if(Form1->sett.showSplash)
-		Frame101->Visible = true;
-	else {
-		Frame101->Visible = false;
+	//if(Form1->sett.showSplash)
+	//	Frame101->Visible = true;
+	//else {
+	//	Frame101->Visible = false;
 		Frame21->Visible = true;
-	}
+	//}
 
 	return;
 }
@@ -95,6 +96,7 @@ void __fastcall TForm1::FormClose(TObject *Sender, TCloseAction &Action)
 			Action = false;
 	}
 
+	ocistiMemoriju(&Form1->cmt);
 	spremiPostavke();
 }
 //---------------------------------------------------------------------------
@@ -102,14 +104,14 @@ void __fastcall TForm1::FormClose(TObject *Sender, TCloseAction &Action)
 
 int TForm1::import_main (int importType, UnicodeString importFile){
 
+	cmt = NULL;
+
 	FILE *fin = Frame21->fin;
 	int Ncmt = Frame21->detectedComets;
 
-	cmt = new Comet [Ncmt];
-
-	Frame41->ProgressBar1->Visible = true;
-	Frame41->ProgressBar1->Position = 0;
-	Frame41->ProgressBar1->Max = Ncmt;
+	Frame31->ProgressBar1->Visible = true;
+	Frame31->ProgressBar1->Position = 0;
+	Frame31->ProgressBar1->Max = Ncmt;
 
 	if (importType== 0) Ncmt = import_mpc (Ncmt, fin);
 	if (importType== 1) Ncmt = import_skymap (Ncmt, fin);
@@ -140,15 +142,13 @@ int TForm1::import_main (int importType, UnicodeString importFile){
 			L" - Excluding rules are too high",
 			L"Error",
 			MB_OK | MB_ICONERROR);
-		Frame41->ProgressBar1->Visible = false;
-		Frame41->Label2->Visible = false;
+		Frame31->ProgressBar1->Visible = false;
+		Frame31->Button1->Enabled = false;
 		return 0;
 	}
 
-	if(Frame41->ComboBox2->ItemIndex > 0) sort_data (Ncmt);
 
-	Frame41->Label2->Caption = "Import completed! " + IntToStr(Ncmt) + " of " + IntToStr(Frame21->detectedComets) + " comets imported.";
-	Frame41->Label2->Visible = true;
+
 
 	return Ncmt;
 }
@@ -168,33 +168,44 @@ void TForm1::export_main (int Ncmt, int exportFormat, UnicodeString exportFile){
 	Frame61->ProgressBar1->Position = 0;
 	Frame61->ProgressBar1->Max = Ncmt;
 
-	if (exportFormat== 0) export_mpc (Ncmt, fout);
-	if (exportFormat== 1) export_skymap (Ncmt, fout);
-	if (exportFormat== 2) export_guide (Ncmt, fout);
-	if (exportFormat== 3) export_xephem (Ncmt, fout);
-	if (exportFormat== 4) export_home_planet (Ncmt, fout);
-	if (exportFormat== 5) export_mystars (Ncmt, fout);
-	if (exportFormat== 6) export_thesky (Ncmt, fout);
-	if (exportFormat== 7) export_starry_night (Ncmt, fout);
-	if (exportFormat== 8) export_deep_space (Ncmt, fout);
-	if (exportFormat== 9) export_pc_tcs (Ncmt, fout);
-	if (exportFormat==10) export_ecu (Ncmt, fout);
-	if (exportFormat==11) export_dance (Ncmt, fout);
-	if (exportFormat==12) export_megastar (Ncmt, fout);
-	if (exportFormat==13) export_skychart (Ncmt, fout);
-	if (exportFormat==14) export_voyager (Ncmt, fout);
-	if (exportFormat==15) export_skytools (Ncmt, fout);
-	if (exportFormat==16) export_thesky (Ncmt, fout);
-	if (exportFormat==17) export_ssc (Ncmt, fout);
-	if (exportFormat==18) export_stell (Ncmt, fout);
+	export_semi(exportFormat, cmt, fout);
 
 	fclose(fout);
 
 	Frame61->Label4->Visible = true;
 
-	delete [] cmt;
+	//ocistiMemoriju(&cmt);
 }
 
+void TForm1::export_semi(int exp_ty, Comet *head, FILE *fout){
+
+	while(head!=NULL){
+
+		if (exp_ty== 0) export_mpc (head, fout);
+		if (exp_ty== 1) export_skymap (head, fout);
+		if (exp_ty== 2) export_guide (head, fout);
+		if (exp_ty== 3) export_xephem (head, fout);
+		if (exp_ty== 4) export_home_planet (head, fout);
+		if (exp_ty== 5) export_mystars (head, fout);
+		if (exp_ty== 6) export_thesky (head, fout);
+		if (exp_ty== 7) export_starry_night (head, fout);
+		if (exp_ty== 8) export_deep_space (head, fout);
+		if (exp_ty== 9) export_pc_tcs (head, fout);
+		if (exp_ty==10) export_ecu (head, fout);
+		if (exp_ty==11) export_dance (head, fout);
+		if (exp_ty==12) export_megastar (head, fout);
+		if (exp_ty==13) export_skychart (head, fout);
+		if (exp_ty==14) export_voyager (head, fout);
+		if (exp_ty==15) export_skytools (head, fout);
+		if (exp_ty==16) export_thesky (head, fout);
+		if (exp_ty==17) export_ssc (head, fout);
+		if (exp_ty==18) export_stell (head, fout);
+
+		head = head->next;
+	}
+
+	//Frame61->ProgressBar1->Position = Frame61->ProgressBar1->Max;
+}
 
 int TForm1::import_mpc (int N, FILE *fin){
 
@@ -204,38 +215,46 @@ int TForm1::import_mpc (int N, FILE *fin){
 
 	for (int i=0; i<N; i++) {
 
+		Comet *com = new Comet;
+
 		m = fscanf(fin, "%14c %d %02d %f %f %f %f %f %f%12c%f %f %55c %30[^\n]%*c",		// %f%12c%f mora bit tako zajedno
-			x, &cmt[i].y, &cmt[i].m, &cmt[i].d,
-			&cmt[i].q, &cmt[i].e, &cmt[i].pn, &cmt[i].an,
-			&cmt[i].i, x, &cmt[i].H, &cmt[i].G, cmt[i].full, x);
+			x, &com->y, &com->m, &com->d,
+			&com->q, &com->e, &com->pn, &com->an,
+			&com->i, x, &com->H, &com->G, com->full, x);
 
 		if (m < 14){
 			//cout << "\n\n  Unable to read data in line " << line;
 			fscanf(fin, "%*[^\n]\n");
 			N--; i--; line++;
-			Frame41->ProgressBar1->Max--;
+			Frame31->ProgressBar1->Max--;
+			delete com;
 			continue;
 		}
 
-		remove_spaces(cmt[i].full);
+		remove_spaces(com->full);
 
-		editFullIdName(cmt[i].full, cmt[i].ID, cmt[i].name, 1);
+		editFullIdName(com->full, com->ID, com->name, 1);
 
-		cmt[i].P = compute_period (cmt[i].q, cmt[i].e);
-		cmt[i].T = greg_to_jul (cmt[i].y, cmt[i].m, (int)cmt[i].d);
-		cmt[i].sort = get_sort_key(cmt[i].ID);
+		com->P = compute_period (com->q, com->e);
+		com->T = greg_to_jul (com->y, com->m, (int)com->d);
+		com->sort = get_sort_key(com->ID);
 		line++;
 
-		Frame41->ProgressBar1->Position = i+1;
+		Frame31->ProgressBar1->Position = i+1;
 
 
 		if(Frame21->CheckBox1->Checked){
-			if(do_exclude(i)){
+			if(do_exclude(com)){
 				N--;
 				i--;
-				Frame41->ProgressBar1->Max--;
+				Frame31->ProgressBar1->Max--;
+				delete com;
+				continue;
 			}
 		}
+
+		addCmt(&cmt, com);
+		delete com;
 	}
 
 	return N;
@@ -248,79 +267,92 @@ int TForm1::import_skymap (int N, FILE *fin){
 
 	for (int i=0; i<N; i++) {
 
+		Comet *com = new Comet;
+
 		m = fscanf(fin, "%47c %4d %2d %f %f %f %f %f %f %f %f\n",
-			cmt[i].full, &cmt[i].y, &cmt[i].m, &cmt[i].d,
-			&cmt[i].q, &cmt[i].e, &cmt[i].pn,
-			&cmt[i].an, &cmt[i].i, &cmt[i].H, &cmt[i].G);
+			com->full, &com->y, &com->m, &com->d,
+			&com->q, &com->e, &com->pn,
+			&com->an, &com->i, &com->H, &com->G);
 
 		if (m < 11){
 			//cout << "\n\n  Unable to read data in line " << line;
 			fscanf(fin, "%*[^\n]\n");
 			N--; i--; line++;
-			Frame41->ProgressBar1->Max--;
+			Frame31->ProgressBar1->Max--;
+			delete com;
 			continue;
 		}
 
-		remove_spaces(cmt[i].full);
+		remove_spaces(com->full);
 
-		for (j=0; cmt[i].full[j]!='\0'; j++){
-			if ((isdigit(cmt[i].full[j]) && cmt[i].full[j+1]=='P' && cmt[i].full[j+2]==' ') ||
-				(isdigit(cmt[i].full[j]) && cmt[i].full[j+1]=='D' && cmt[i].full[j+2]==' ')){
+		if ((com->full[0]=='C' && com->full[1]=='/') ||
+			(com->full[0]=='P' && com->full[1]=='/') ||
+			(com->full[0]=='D' && com->full[1]=='/')){
 
-				for(k=0; cmt[i].full[k]!=' '; k++)
-					cmt[i].ID[k]=cmt[i].full[k];
-
-				cmt[i].ID[k]='\0';
-				++k;
-				for(l=0; cmt[i].full[k]!='\0'; l++, k++)
-					cmt[i].name[l]=cmt[i].full[k];
-
-				cmt[i].name[l]='\0';
-				break;
-			}
-
-		if ((cmt[i].full[0]=='C' && cmt[i].full[1]=='/') ||
-			(cmt[i].full[0]=='P' && cmt[i].full[1]=='/') ||
-			(cmt[i].full[0]=='D' && cmt[i].full[1]=='/')){
-				space=0;
-				len = strlen(cmt[i].full);
-				for(u=0; u<len; u++){
-					if (cmt[i].full[u]==' ' && space==1) {
-						t=u;
-						break;
-					}
-					else if(cmt[i].full[u]==' ') space++;
+			space=0;
+			len = strlen(com->full);
+			for(u=0; u<len; u++){
+				if (com->full[u]==' ' && space==1) {
+					t=u;
+					break;
 				}
-
-				for(k=0; k<t; k++)
-					cmt[i].ID[k]=cmt[i].full[k];
-
-				cmt[i].ID[k]='\0';
-
-				++k;
-				for(l=0; cmt[i].full[k]!='\0'; k++, l++)
-					cmt[i].name[l]=cmt[i].full[k];
-
-				cmt[i].name[l]='\0';
-				break;
+				else if(com->full[u]==' ') space++;
 			}
+
+			for(k=0; k<t; k++)
+				com->ID[k]=com->full[k];
+
+			com->ID[k]='\0';
+
+			++k;
+			for(l=0; com->full[k]!='\0'; k++, l++)
+				com->name[l]=com->full[k];
+
+			com->name[l]='\0';
+
+			AnsiString s1 = String(com->ID) + " (" + String(com->name) + ")";
+			strcpy(com->full, s1.c_str());
+		}
+		else{
+
+			strcpy(com->ID, com->full);
+
+			for(k=0; ; k++) {
+
+				if(com->ID[k]==' ') break;
+			}
+
+			com->ID[k]='\0';
+			com->full[k]='/';
+
+			++k;
+			for(l=0; com->full[k]!='\0'; l++, k++)
+				com->name[l]=com->full[k];
+
+			com->name[l]='\0';
 		}
 
-		cmt[i].P = compute_period (cmt[i].q, cmt[i].e);
-		cmt[i].T = greg_to_jul (cmt[i].y, cmt[i].m, (int)cmt[i].d);
-		cmt[i].sort = get_sort_key(cmt[i].ID);
+
+		com->P = compute_period (com->q, com->e);
+		com->T = greg_to_jul (com->y, com->m, (int)com->d);
+		com->sort = get_sort_key(com->ID);
 		line++;
 
 		if(Frame21->CheckBox1->Checked)
-			Frame41->ProgressBar1->Position = i+1;
+			Frame31->ProgressBar1->Position = i+1;
 		else
 			Frame61->ProgressBar1->Position = i+1;
 
-		if(Frame21->CheckBox1->Checked && do_exclude(i)){
+		if(Frame21->CheckBox1->Checked && do_exclude(com)){
 			N--;
 			i--;
-			Frame41->ProgressBar1->Max--;
+			Frame31->ProgressBar1->Max--;
+			delete com;
+			continue;
 		}
+
+		addCmt(&cmt, com);
+		delete com;
 	}
 
 	return N;
@@ -333,65 +365,70 @@ int TForm1::import_guide (int N, FILE *fin){
 
 	for (int i=0; i<N; i++) {
 
+		Comet *com = new Comet;
+
 		m = fscanf(fin, "%42c %f %d %d 0.0 %f %f %f %f %f 2000.0 %f %f %20[^\n]%*c",
-			full, &cmt[i].d, &cmt[i].m, &cmt[i].y,
-			&cmt[i].q,  &cmt[i].e, &cmt[i].i, &cmt[i].pn,
-			&cmt[i].an, &cmt[i].H, &cmt[i].G, x);
+			full, &com->d, &com->m, &com->y,
+			&com->q,  &com->e, &com->i, &com->pn,
+			&com->an, &com->H, &com->G, x);
 
 		if (m < 12){
 			//cout << "\n\n  Unable to read data in line " << line;
 			fscanf(fin, "%*[^\n]\n");
 			N--; i--; line++;
-			Frame41->ProgressBar1->Max--;
+			Frame31->ProgressBar1->Max--;
+			delete com;
 			continue;
 		}
 
 		j=0;
 		while ((full[j]) != '(' ){
-			cmt[i].name[j]=full[j];
+			com->name[j]=full[j];
 			j++;
 		}
-		cmt[i].name[j-1]='\0';
+		com->name[j-1]='\0';
 
 		j++; k=0;
 		while ((full[j]) != ')' ){
-			cmt[i].ID[k]=full[j];
+			com->ID[k]=full[j];
 			j++; k++;
 		}
-		cmt[i].ID[k]='\0';
+		com->ID[k]='\0';
 
-
-		if ((cmt[i].name[0]=='P' && cmt[i].name[1]=='/') ||
-			(cmt[i].name[0]=='D' && cmt[i].name[1]=='/')){
-			len = strlen(cmt[i].name);
+		if ((com->name[0]=='P' && com->name[1]=='/') ||
+			(com->name[0]=='D' && com->name[1]=='/')){
+			len = strlen(com->name);
 			for (j=0; j<len; j++)
-				cmt[i].name[j]=cmt[i].name[j+2];		//j+2 jer je na mjestu 0='P', 1='/'
+				com->name[j]=com->name[j+2];		//j+2 jer je na mjestu 0='P', 1='/'
 
-			strcpy(cmt[i].full, cmt[i].ID);
-			strcat(cmt[i].full, "/");
-			strcat(cmt[i].full, cmt[i].name);
+			strcpy(com->full, com->ID);
+			strcat(com->full, "/");
+			strcat(com->full, com->name);
 		}
 
 		else {
-			strcpy(cmt[i].full, cmt[i].ID);
-			strcat(cmt[i].full, " (");
-			strcat(cmt[i].full, cmt[i].name);
-			strcat(cmt[i].full, ")");
+			strcpy(com->full, com->ID);
+			strcat(com->full, " (");
+			strcat(com->full, com->name);
+			strcat(com->full, ")");
 		}
 
-
-
-		cmt[i].P = compute_period (cmt[i].q, cmt[i].e);
-		cmt[i].T = greg_to_jul (cmt[i].y, cmt[i].m, (int)cmt[i].d);
-		cmt[i].sort = get_sort_key(cmt[i].ID);
+		com->P = compute_period (com->q, com->e);
+		com->T = greg_to_jul (com->y, com->m, (int)com->d);
+		com->sort = get_sort_key(com->ID);
 		line++;
-		Frame41->ProgressBar1->Position = i+1;
+		Frame31->ProgressBar1->Position = i+1;
 
-		if(Frame21->CheckBox1->Checked && do_exclude(i)){
+		if(Frame21->CheckBox1->Checked && do_exclude(com)){
 			N--;
 			i--;
-			Frame41->ProgressBar1->Max--;
+			Frame31->ProgressBar1->Max--;
+			delete com;
+			continue;
 		}
+
+		addCmt(&cmt, com);
+		delete com;
 	}
 
 	return N;
@@ -410,6 +447,8 @@ int TForm1::import_xephem (int N, FILE *fin){
 
 	for (int i=0; i<N; i++) {
 
+		Comet *com = new Comet;
+
 		try{
 			fscanf(fin, "# From %25[^\n]%*c", x);
 		}
@@ -419,104 +458,116 @@ int TForm1::import_xephem (int N, FILE *fin){
 
 		j=0;
 		while ((c=fgetc(fin)) != ',' ){
-			cmt[i].full[j++]=c;
+			com->full[j++]=c;
 		}
-        cmt[i].full[j]='\0';
+        com->full[j]='\0';
 
-		editFullIdName(cmt[i].full, cmt[i].ID, cmt[i].name, 1);
+		editFullIdName(com->full, com->ID, com->name, 1);
 
 		c=fgetc(fin);
 
 		if(c == 'e'){
 			m = fscanf(fin, ",%f,%f,%f,%f,%f,%f,%f,%d/%d.%d/%d,2000,g %f,%f\n",
-				&cmt[i].i, &cmt[i].an, &cmt[i].pn, &smAxis,
-				&mdMotion, &cmt[i].e, &mAnomaly, &mm, &dd,
-				&hh, &yy, &cmt[i].H, &cmt[i].G);
+				&com->i, &com->an, &com->pn, &smAxis,
+				&mdMotion, &com->e, &mAnomaly, &mm, &dd,
+				&hh, &yy, &com->H, &com->G);
 
 			if (m < 13){
 				//cout << "\n\n  Unable to read data in line " << line;
 				fscanf(fin, "%*[^\n]\n");
 				N--; i--; line++;
-				Frame41->ProgressBar1->Max--;
+				Frame31->ProgressBar1->Max--;
+				delete com;
 				continue;
 			}
 
-			cmt[i].q = smAxis*(1-cmt[i].e);
+			com->q = smAxis*(1-com->e);
 			T = greg_to_jul (yy, mm, dd);
 
 			if(mAnomaly==0) mAnomaly = 0.00000001;
 			if(mdMotion==0) mdMotion = 0.00000001;
 
 			long double TT = (long double)T - mAnomaly/mdMotion;
-			cmt[i].T = (long int)TT;
+			com->T = (long int)TT;
 
-			jul_to_greg(cmt[i].T, cmt[i].y, cmt[i].m, cmt[i].d);
-			cmt[i].d += (float)hh/10000;
-			cmt[i].d += TT-(long int)TT;
+			jul_to_greg(com->T, com->y, com->m, com->d);
+			com->d += (float)hh/10000;
+			com->d += TT-(long int)TT;
 
 			line+=2;
-			Frame41->ProgressBar1->Position = i+1;
+			Frame31->ProgressBar1->Position = i+1;
 
-			if(Frame21->CheckBox1->Checked && do_exclude(i)){
+			if(Frame21->CheckBox1->Checked && do_exclude(com)){
 				N--;
 				i--;
-				Frame41->ProgressBar1->Max--;
+				Frame31->ProgressBar1->Max--;
+				delete com;
+				continue;
 			}
 		}
 
 		if(c == 'p'){
 			m = fscanf(fin, ",%d/%f/%d,%f,%f,%f,%f,2000,%f,%f\n",
-				&cmt[i].m, &cmt[i].d, &cmt[i].y,
-				&cmt[i].i, &cmt[i].pn, &cmt[i].q, &cmt[i].an,
-				&cmt[i].H, &cmt[i].G);
+				&com->m, &com->d, &com->y,
+				&com->i, &com->pn, &com->q, &com->an,
+				&com->H, &com->G);
 
 			if (m < 9){
 				//cout << "\n\n  Unable to read data in line " << line;
 				fscanf(fin, "%*[^\n]\n");
 				N--; i--; line++;
-				Frame41->ProgressBar1->Max--;
+				Frame31->ProgressBar1->Max--;
+				delete com;
 				continue;
 			}
 
-			cmt[i].e = 1.000000;
-			cmt[i].T = greg_to_jul (cmt[i].y, cmt[i].m, (int)cmt[i].d);
+			com->e = 1.000000;
+			com->T = greg_to_jul (com->y, com->m, (int)com->d);
 			line+=2;
-			Frame41->ProgressBar1->Position = i+1;
+			Frame31->ProgressBar1->Position = i+1;
 
-			if(Frame21->CheckBox1->Checked && do_exclude(i)){
+			if(Frame21->CheckBox1->Checked && do_exclude(com)){
 				N--;
 				i--;
-				Frame41->ProgressBar1->Max--;
+				Frame31->ProgressBar1->Max--;
+				delete com;
+				continue;
 			}
 		}
 
 		if(c == 'h'){
 			m = fscanf(fin, ",%d/%f/%d,%f,%f,%f,%f,%f,2000,%f,%f\n",
-				&cmt[i].m, &cmt[i].d, &cmt[i].y,
-				&cmt[i].i, &cmt[i].an, &cmt[i].pn, &cmt[i].e,
-				&cmt[i].q, &cmt[i].H, &cmt[i].G);
+				&com->m, &com->d, &com->y,
+				&com->i, &com->an, &com->pn, &com->e,
+				&com->q, &com->H, &com->G);
 
 			if (m < 10){
 				//cout << "\n\n  Unable to read data in line " << line;
 				fscanf(fin, "%*[^\n]\n");
 				N--; i--; line++;
-				Frame41->ProgressBar1->Max--;
+				Frame31->ProgressBar1->Max--;
+				delete com;
 				continue;
 			}
 
-			cmt[i].T = greg_to_jul (cmt[i].y, cmt[i].m, (int)cmt[i].d);
+			com->T = greg_to_jul (com->y, com->m, (int)com->d);
 			line+=2;
-			Frame41->ProgressBar1->Position = i+1;
+			Frame31->ProgressBar1->Position = i+1;
 
-			if(Frame21->CheckBox1->Checked && do_exclude(i)){
+			if(Frame21->CheckBox1->Checked && do_exclude(com)){
 				N--;
 				i--;
-				Frame41->ProgressBar1->Max--;
+				Frame31->ProgressBar1->Max--;
+				delete com;
+				continue;
 			}
 		}
 
-		cmt[i].P = compute_period (cmt[i].q, cmt[i].e);
-		cmt[i].sort = get_sort_key(cmt[i].ID);
+		com->P = compute_period (com->q, com->e);
+		com->sort = get_sort_key(com->ID);
+
+		addCmt(&cmt, com);
+		delete com;
 	}
 
 	return N;
@@ -532,43 +583,51 @@ int TForm1::import_home_planet (int N, FILE *fin){
 
 	for (int i=0; i<N; i++) {
 
+		Comet *com = new Comet;
+
 		try{
 			j=0;
 			while ((c=fgetc(fin)) != ',' ){
-				cmt[i].full[j++]=c;
+				com->full[j++]=c;
 			}
-			cmt[i].full[j]='\0';
+			com->full[j]='\0';
 		}
 		catch(...){
 			return 0;
 		}
 
 		m = fscanf(fin, "%d-%d-%f,%f,%f,%f,%f,%f,%50[^\n]%*c",
-			&cmt[i].y, &cmt[i].m, &cmt[i].d,
-			&cmt[i].q, &cmt[i].e, &cmt[i].pn, &cmt[i].an,
-			&cmt[i].i, x);
+			&com->y, &com->m, &com->d,
+			&com->q, &com->e, &com->pn, &com->an,
+			&com->i, x);
 
 		if (m < 9){
 			//cout << "\n\n  Unable to read data in line " << line;
 			fscanf(fin, "%*[^\n]\n");
 			N--; i--; line++;
-			Frame41->ProgressBar1->Max--;
+			Frame31->ProgressBar1->Max--;
+			delete com;
 			continue;
 		}
 
-		editFullIdName(cmt[i].full, cmt[i].ID, cmt[i].name, 1);
+		editFullIdName(com->full, com->ID, com->name, 1);
 
-		cmt[i].P = compute_period (cmt[i].q, cmt[i].e);
-		cmt[i].T = greg_to_jul (cmt[i].y, cmt[i].m, (int)cmt[i].d);
-		cmt[i].sort = get_sort_key(cmt[i].ID);
+		com->P = compute_period (com->q, com->e);
+		com->T = greg_to_jul (com->y, com->m, (int)com->d);
+		com->sort = get_sort_key(com->ID);
 		line++;
-		Frame41->ProgressBar1->Position = i+1;
+		Frame31->ProgressBar1->Position = i+1;
 
-		if(Frame21->CheckBox1->Checked && do_exclude(i)){
+		if(Frame21->CheckBox1->Checked && do_exclude(com)){
 			N--;
 			i--;
-			Frame41->ProgressBar1->Max--;
+			Frame31->ProgressBar1->Max--;
+			delete com;
+			continue;
 		}
+
+		addCmt(&cmt, com);
+		delete com;
 	}
 
 	return N;
@@ -585,40 +644,48 @@ int TForm1::import_mystars (int N, FILE *fin){
 
 	for (int i=0; i<N; i++) {
 
+		Comet *com = new Comet;
+
 		j=0;
 		while ((c=fgetc(fin)) != ';' ){
-			cmt[i].full[j++]=c;
+			com->full[j++]=c;
 		}
 
 		m = fscanf(fin, "%f %f %f %f %f %f %f %f %30[^\n]%*c",
-			&TT, &cmt[i].pn, &cmt[i].e,
-			&cmt[i].q, &cmt[i].i, &cmt[i].an, &cmt[i].H,
-			&cmt[i].G, x);
+			&TT, &com->pn, &com->e,
+			&com->q, &com->i, &com->an, &com->H,
+			&com->G, x);
 
 		if (m < 9){
 			//cout << "\n\n  Unable to read data in line " << line;
 			fscanf(fin, "%*[^\n]\n");
 			N--; i--; line++;
-			Frame41->ProgressBar1->Max--;
+			Frame31->ProgressBar1->Max--;
+			delete com;
 			continue;
 		}
 
-		editFullIdName(cmt[i].full, cmt[i].ID, cmt[i].name, 1);
+		editFullIdName(com->full, com->ID, com->name, 1);
 
-		cmt[i].P = compute_period (cmt[i].q, cmt[i].e);
-		cmt[i].T = (int)TT + 2400000;
-		cmt[i].sort = get_sort_key(cmt[i].ID);
+		com->P = compute_period (com->q, com->e);
+		com->T = (int)TT + 2400000;
+		com->sort = get_sort_key(com->ID);
 		line++;
-		Frame41->ProgressBar1->Position = i+1;
+		Frame31->ProgressBar1->Position = i+1;
 
-		jul_to_greg(cmt[i].T, cmt[i].y, cmt[i].m, cmt[i].d);
-		cmt[i].d += TT - (int)TT;
+		jul_to_greg(com->T, com->y, com->m, com->d);
+		com->d += TT - (int)TT;
 
-		if(Frame21->CheckBox1->Checked && do_exclude(i)){
+		if(Frame21->CheckBox1->Checked && do_exclude(com)){
 			N--;
 			i--;
-			Frame41->ProgressBar1->Max--;
+			Frame31->ProgressBar1->Max--;
+			delete com;
+			continue;
 		}
+
+		addCmt(&cmt, com);
+		delete com;
 	}
 
 	return N;
@@ -632,39 +699,48 @@ int TForm1::import_thesky (int N, FILE *fin){
 	char x[20+1];
 
 	for (int i=0; i<N; i++) {
+
+		Comet *com = new Comet;
+
 //		fscanf(fin, "%40c %*c %d %*c %4d %2d %2d %*c %d %*c %f %*c %f %*c %f %*c %f %*c %f %*c %f %25[^\n]%*c",     stari nacin
 		m = fscanf(fin, "%45c %4d%2d%f | %f | %f | %f | %f | %f | %f | %f %20[^\n]%*c",
-			cmt[i].full, &cmt[i].y, &cmt[i].m,
-			&cmt[i].d, &cmt[i].q, &cmt[i].e,
-			&cmt[i].pn, &cmt[i].an, &cmt[i].i, &cmt[i].H,
+			com->full, &com->y, &com->m,
+			&com->d, &com->q, &com->e,
+			&com->pn, &com->an, &com->i, &com->H,
 			&G, x);
 
-		cmt[i].G = G/2.5;
+		com->G = G/2.5;
 
 		if (m < 12){
 			//cout << "\n\n  Unable to read data in line " << line;
 			fscanf(fin, "%*[^\n]\n");
 			N--; i--; line++;
-			Frame41->ProgressBar1->Max--;
+			Frame31->ProgressBar1->Max--;
+			delete com;
 			continue;
 		}
 
-		remove_spaces(cmt[i].full);
+		remove_spaces(com->full);
 
-		editFullIdName(cmt[i].full, cmt[i].ID, cmt[i].name, 1);
+		editFullIdName(com->full, com->ID, com->name, 1);
 
-		cmt[i].P = compute_period (cmt[i].q, cmt[i].e);
-		cmt[i].T = greg_to_jul (cmt[i].y, cmt[i].m, (int)cmt[i].d);
-		remove_spaces (cmt[i].name);
-		cmt[i].sort = get_sort_key(cmt[i].ID);
+		com->P = compute_period (com->q, com->e);
+		com->T = greg_to_jul (com->y, com->m, (int)com->d);
+		remove_spaces (com->name);
+		com->sort = get_sort_key(com->ID);
 		line++;
-		Frame41->ProgressBar1->Position = i+1;
+		Frame31->ProgressBar1->Position = i+1;
 
-		if(Frame21->CheckBox1->Checked && do_exclude(i)){
+		if(Frame21->CheckBox1->Checked && do_exclude(com)){
 			N--;
 			i--;
-			Frame41->ProgressBar1->Max--;
+			Frame31->ProgressBar1->Max--;
+			delete com;
+			continue;
 		}
+
+		addCmt(&cmt, com);
+		delete com;
 	}
 
 	return N;
@@ -684,64 +760,72 @@ int TForm1::import_starry_night (int N, FILE *fin){
 
 	for (int i=0; i<N; i++) {
 
+		Comet *com = new Comet;
+
 		m = fscanf(fin, "     %29c %f 0.0 %f %f %f %f %f %ld.%d %ld.5 %f",
-			cmt[i].name, &cmt[i].H, &cmt[i].e, &cmt[i].q, &cmt[i].an,
-			&cmt[i].pn, &cmt[i].i, &cmt[i].T, &h,
+			com->name, &com->H, &com->e, &com->q, &com->an,
+			&com->pn, &com->i, &com->T, &h,
 			&y, &G);
 
 		if (m < 11){
 			//cout << "\n\n  Unable to read data in line " << line;
 			fscanf(fin, "%*[^\n]\n");
 			N--; i--; line++;
-			Frame41->ProgressBar1->Max--;
+			Frame31->ProgressBar1->Max--;
+			delete com;
 			continue;
 		}
 
-		cmt[i].G = G/2.5;
+		com->G = G/2.5;
 
 		j=0;
 		fgetc(fin);
 		fgetc(fin);
 		while(j<13){
 			c = fgetc(fin);
-			cmt[i].ID[j++]=c;
+			com->ID[j++]=c;
 		}
-		cmt[i].ID[13] = '\0';
+		com->ID[13] = '\0';
 
 		fscanf(fin, "%*[^\n]\n");
 
-		remove_spaces(cmt[i].name);
-		remove_spaces(cmt[i].ID);
+		remove_spaces(com->name);
+		remove_spaces(com->ID);
 
-		if ((cmt[i].ID[0]=='C' && cmt[i].ID[1]=='/') ||
-			(cmt[i].ID[0]=='P' && cmt[i].ID[1]=='/')){
+		if ((com->ID[0]=='C' && com->ID[1]=='/') ||
+			(com->ID[0]=='P' && com->ID[1]=='/')){
 
-			strcpy(cmt[i].full, cmt[i].ID);
-			strcat(cmt[i].full, " (");
-			strcat(cmt[i].full, cmt[i].name);
-			strcat(cmt[i].full, ")");
+			strcpy(com->full, com->ID);
+			strcat(com->full, " (");
+			strcat(com->full, com->name);
+			strcat(com->full, ")");
 		}
 
 		else {
-			strcpy(cmt[i].full, cmt[i].ID);
-			strcat(cmt[i].full, "/");
-			strcat(cmt[i].full, cmt[i].name);
+			strcpy(com->full, com->ID);
+			strcat(com->full, "/");
+			strcat(com->full, com->name);
 		}
 
-		cmt[i].P = compute_period (cmt[i].q, cmt[i].e);
-		cmt[i].sort = get_sort_key(cmt[i].ID);
+		com->P = compute_period (com->q, com->e);
+		com->sort = get_sort_key(com->ID);
 		line++;
-		Frame41->ProgressBar1->Position = i+1;
+		Frame31->ProgressBar1->Position = i+1;
 
-		jul_to_greg(cmt[i].T, cmt[i].y, cmt[i].m, cmt[i].d);
-		cmt[i].d += (float)h/10000;
-		//cmt[i].d += TT - (int)TT;
+		jul_to_greg(com->T, com->y, com->m, com->d);
+		com->d += (float)h/10000;
+		//com->d += TT - (int)TT;
 
-		if(Frame21->CheckBox1->Checked && do_exclude(i)){
+		if(Frame21->CheckBox1->Checked && do_exclude(com)){
 			N--;
 			i--;
-			Frame41->ProgressBar1->Max--;
+			Frame31->ProgressBar1->Max--;
+			delete com;
+			continue;
 		}
+
+		addCmt(&cmt, com);
+		delete com;
 	}
 
 	return N;
@@ -758,59 +842,67 @@ int TForm1::import_deep_space (int N, FILE *fin){
 
 	for (int i=0; i<N; i++) {
 
+		Comet *com = new Comet;
+
 		j=0;
 		while ((c=fgetc(fin)) != '(' ){
-			cmt[i].name[j++]=c;
+			com->name[j++]=c;
 		}
-		cmt[i].name[j-1]='\0';
+		com->name[j-1]='\0';
 
 		j=0;
 		while ((c=fgetc(fin)) != ')' ){
-			cmt[i].ID[j++]=c;
+			com->ID[j++]=c;
 		}
-		cmt[i].ID[j]='\0';
+		com->ID[j]='\0';
 
 		m = fscanf(fin, "\n%8c %d %d %f %f %f %f %f %f %f %f\n",
-			x, &cmt[i].y, &cmt[i].m, &cmt[i].d,
-			&cmt[i].q, &cmt[i].e, &cmt[i].pn, &cmt[i].an,
-			&cmt[i].i, &cmt[i].H, &G);
+			x, &com->y, &com->m, &com->d,
+			&com->q, &com->e, &com->pn, &com->an,
+			&com->i, &com->H, &G);
 
-		cmt[i].G = G/2.5;
+		com->G = G/2.5;
 
 		if (m < 11){
 			//cout << "\n\n  Unable to read data in line " << line;
 			fscanf(fin, "%*[^\n]\n");
 			N--; i--; line++;
-			Frame41->ProgressBar1->Max--;
+			Frame31->ProgressBar1->Max--;
+			delete com;
 			continue;
 		}
 
-		if ((cmt[i].ID[0]=='C' && cmt[i].ID[1]=='/') ||
-			(cmt[i].ID[0]=='P' && cmt[i].ID[1]=='/')){
+		if ((com->ID[0]=='C' && com->ID[1]=='/') ||
+			(com->ID[0]=='P' && com->ID[1]=='/')){
 
-			strcpy(cmt[i].full, cmt[i].ID);
-			strcat(cmt[i].full, " (");
-			strcat(cmt[i].full, cmt[i].name);
-			strcat(cmt[i].full, ")");
+			strcpy(com->full, com->ID);
+			strcat(com->full, " (");
+			strcat(com->full, com->name);
+			strcat(com->full, ")");
 		}
 
 		else {
-			strcpy(cmt[i].full, cmt[i].ID);
-			strcat(cmt[i].full, "/");
-			strcat(cmt[i].full, cmt[i].name);
+			strcpy(com->full, com->ID);
+			strcat(com->full, "/");
+			strcat(com->full, com->name);
 		}
 
-		cmt[i].P = compute_period (cmt[i].q, cmt[i].e);
-		cmt[i].T = greg_to_jul (cmt[i].y, cmt[i].m, (int)cmt[i].d);
-		cmt[i].sort = get_sort_key(cmt[i].ID);
+		com->P = compute_period (com->q, com->e);
+		com->T = greg_to_jul (com->y, com->m, (int)com->d);
+		com->sort = get_sort_key(com->ID);
 		line+=2;
-		Frame41->ProgressBar1->Position = i+1;
+		Frame31->ProgressBar1->Position = i+1;
 
-		if(Frame21->CheckBox1->Checked && do_exclude(i)){
+		if(Frame21->CheckBox1->Checked && do_exclude(com)){
 			N--;
 			i--;
-			Frame41->ProgressBar1->Max--;
+			Frame31->ProgressBar1->Max--;
+			delete com;
+			continue;
 		}
+
+		addCmt(&cmt, com);
+		delete com;
 	}
 
 	return N;
@@ -825,67 +917,79 @@ int TForm1::import_pc_tcs (int N, FILE *fin){
 
 	for (int i=0; i<N; i++) {
 
-		m = fscanf(fin, "%s %f %f %f %f %f %d %d %f %f %f %60[^\n]%*c",
-			cmt[i].ID, &cmt[i].q, &cmt[i].e, &cmt[i].i,
-			&cmt[i].pn, &cmt[i].an, &cmt[i].y, &cmt[i].m,
-			&cmt[i].d, &cmt[i].H, &G, cmt[i].name);
+		Comet *com = new Comet;
 
-		cmt[i].G = G/2.5;
+		m = fscanf(fin, "%s %f %f %f %f %f %d %d %f %f %f %55[^\n]%*c",
+			com->ID, &com->q, &com->e, &com->i,
+			&com->pn, &com->an, &com->y, &com->m,
+			&com->d, &com->H, &G, com->name);
+
+		com->G = G/2.5;
 
 		if (m < 12){
 			//cout << "\n\n  Unable to read data in line " << line;
 			fscanf(fin, "%*[^\n]\n");
 			N--; i--; line++;
-			Frame41->ProgressBar1->Max--;
+			Frame31->ProgressBar1->Max--;
+			delete com;
 			continue;
 		}
 
 		for (j=0; j<20; j++) tempID[j]='\0';
 
-		if ((cmt[i].ID[0]=='C' && cmt[i].ID[1]=='/') ||
-			(cmt[i].ID[0]=='P' && cmt[i].ID[1]=='/')){
+		if ((com->ID[0]=='C' && com->ID[1]=='/') ||
+			(com->ID[0]=='P' && com->ID[1]=='/')){
 
-			for(j=6, k=0; cmt[i].ID[j]!='\0'; j++, k++)
-				tempID[k]=cmt[i].ID[j];
+			int p=2;
+			while(isdigit(com->ID[p])) p++;
+			//da pronade prvo mjesto gdje je slovo
+			//pa da od tog mjesta krene kopirati
+			for(j=p, k=0; com->ID[j]!='\0'; j++, k++)
+				tempID[k]=com->ID[j];
 
-			len = strlen(cmt[i].ID);
+			len = strlen(com->ID);
 			for(j=6; j<len; j++)
-				cmt[i].ID[j]=' ';
+				com->ID[j]=' ';
 
-			remove_spaces(cmt[i].ID);
+			remove_spaces(com->ID);
 
-			strcat(cmt[i].ID, " ");
-			strcat(cmt[i].ID, tempID);
+			strcat(com->ID, " ");
+			strcat(com->ID, tempID);
 		}
 
-		remove_spaces (cmt[i].name);
+		remove_spaces (com->name);
 
-		if ((cmt[i].ID[0]=='C' && cmt[i].ID[1]=='/') ||
-			(cmt[i].ID[0]=='P' && cmt[i].ID[1]=='/')){
+		if ((com->ID[0]=='C' && com->ID[1]=='/') ||
+			(com->ID[0]=='P' && com->ID[1]=='/')){
 
-			strcpy(cmt[i].full, cmt[i].ID);
-			strcat(cmt[i].full, " (");
-			strcat(cmt[i].full, cmt[i].name);
-			strcat(cmt[i].full, ")");
+			strcpy(com->full, com->ID);
+			strcat(com->full, " (");
+			strcat(com->full, com->name);
+			strcat(com->full, ")");
 		}
 
 		else {
-			strcpy(cmt[i].full, cmt[i].ID);
-			strcat(cmt[i].full, "/");
-			strcat(cmt[i].full, cmt[i].name);
+			strcpy(com->full, com->ID);
+			strcat(com->full, "/");
+			strcat(com->full, com->name);
 		}
 
-		cmt[i].P = compute_period (cmt[i].q, cmt[i].e);
-		cmt[i].T = greg_to_jul (cmt[i].y, cmt[i].m, (int)cmt[i].d);
-		cmt[i].sort = get_sort_key(cmt[i].ID);
+		com->P = compute_period (com->q, com->e);
+		com->T = greg_to_jul (com->y, com->m, (int)com->d);
+		com->sort = get_sort_key(com->ID);
 		line++;
-		Frame41->ProgressBar1->Position = i+1;
+		Frame31->ProgressBar1->Position = i+1;
 
-		if(Frame21->CheckBox1->Checked && do_exclude(i)){
+		if(Frame21->CheckBox1->Checked && do_exclude(com)){
 			N--;
 			i--;
-			Frame41->ProgressBar1->Max--;
+			Frame31->ProgressBar1->Max--;
+			delete com;
+			continue;
 		}
+
+		addCmt(&cmt, com);
+		delete com;
 	}
 
 	return N;
@@ -899,36 +1003,44 @@ int TForm1::import_ecu (int N, FILE *fin){
 
 	for (int i=0; i<N; i++) {
 
-		m = fscanf(fin, "%45[^\n]%*cE C 2000 %d %d %f %f %f %f %f %f %f %f\n",
-			cmt[i].full, &cmt[i].y, &cmt[i].m, &cmt[i].d,
-			&cmt[i].q, &cmt[i].e, &cmt[i].pn, &cmt[i].an,
-			&cmt[i].i, &cmt[i].H, &G);
+		Comet *com = new Comet;
 
-		cmt[i].G = G/2.5;
+		m = fscanf(fin, "%45[^\n]%*cE C 2000 %d %d %f %f %f %f %f %f %f %f\n",
+			com->full, &com->y, &com->m, &com->d,
+			&com->q, &com->e, &com->pn, &com->an,
+			&com->i, &com->H, &G);
+
+		com->G = G/2.5;
 
 		if (m < 11){
 			//cout << "\n\n  Unable to read data in line " << line;
 			fscanf(fin, "%*[^\n]\n");
 			N--; i--; line++;
-			Frame41->ProgressBar1->Max--;
+			Frame31->ProgressBar1->Max--;
+			delete com;
 			continue;
 		}
 
-		remove_spaces(cmt[i].full);
+		remove_spaces(com->full);
 
-		editFullIdName(cmt[i].full, cmt[i].ID, cmt[i].name, 1);
+		editFullIdName(com->full, com->ID, com->name, 1);
 
-		cmt[i].P = compute_period (cmt[i].q, cmt[i].e);
-		cmt[i].T = greg_to_jul (cmt[i].y, cmt[i].m, (int)cmt[i].d);
-		cmt[i].sort = get_sort_key(cmt[i].ID);
+		com->P = compute_period (com->q, com->e);
+		com->T = greg_to_jul (com->y, com->m, (int)com->d);
+		com->sort = get_sort_key(com->ID);
 		line+=2;
-		Frame41->ProgressBar1->Position = i+1;
+		Frame31->ProgressBar1->Position = i+1;
 
-		if(Frame21->CheckBox1->Checked && do_exclude(i)){
+		if(Frame21->CheckBox1->Checked && do_exclude(com)){
 			N--;
 			i--;
-			Frame41->ProgressBar1->Max--;
+			Frame31->ProgressBar1->Max--;
+			delete com;
+			continue;
 		}
+
+		addCmt(&cmt, com);
+		delete com;
 	}
 
 	return N;
@@ -944,66 +1056,74 @@ int TForm1::import_dance (int N, FILE *fin){
 
 	for (int i=0; i<N; i++) {
 
+		Comet *com = new Comet;
+
 		m = fscanf(fin, "%11c %f %f %f %f %f %d.%2d%6f %30[^\n]%*c",
-			cmt[i].ID, &cmt[i].q, &cmt[i].e, &cmt[i].i,
-			&cmt[i].an, &cmt[i].pn, &cmt[i].y, &cmt[i].m,
-			&cmt[i].d, cmt[i].name);
+			com->ID, &com->q, &com->e, &com->i,
+			&com->an, &com->pn, &com->y, &com->m,
+			&com->d, com->name);
 
 		if (m < 10){
 			//cout << "\n\n  Unable to read data in line " << line;
 			fscanf(fin, "%*[^\n]\n");
 			N--; i--; line++;
-			Frame41->ProgressBar1->Max--;
+			Frame31->ProgressBar1->Max--;
+			delete com;
 			continue;
 		}
 
-		remove_spaces (cmt[i].ID);
-		remove_spaces (cmt[i].name);
+		remove_spaces (com->ID);
+		remove_spaces (com->name);
 
 		for (j=0; j<20; j++) tempID[j]='\0';
 
-		if ((cmt[i].ID[0]=='C' && cmt[i].ID[1]=='/') ||
-			(cmt[i].ID[0]=='P' && cmt[i].ID[1]=='/')){
+		if ((com->ID[0]=='C' && com->ID[1]=='/') ||
+			(com->ID[0]=='P' && com->ID[1]=='/')){
 
-			for(j=6, k=0; cmt[i].ID[j]!='\0'; j++, k++)
-				tempID[k]=cmt[i].ID[j];
+			for(j=6, k=0; com->ID[j]!='\0'; j++, k++)
+				tempID[k]=com->ID[j];
 
-			len = strlen(cmt[i].ID);
-			for(j=6; j<len; j++) cmt[i].ID[j]=' ';
+			len = strlen(com->ID);
+			for(j=6; j<len; j++) com->ID[j]=' ';
 
-			remove_spaces(cmt[i].ID);
+			remove_spaces(com->ID);
 
-			strcat(cmt[i].ID, " ");
-			strcat(cmt[i].ID, tempID);
+			strcat(com->ID, " ");
+			strcat(com->ID, tempID);
 		}
 
-		if ((cmt[i].ID[0]=='C' && cmt[i].ID[1]=='/') ||
-			(cmt[i].ID[0]=='P' && cmt[i].ID[1]=='/')){
+		if ((com->ID[0]=='C' && com->ID[1]=='/') ||
+			(com->ID[0]=='P' && com->ID[1]=='/')){
 
-			strcpy(cmt[i].full, cmt[i].ID);
-			strcat(cmt[i].full, " (");
-			strcat(cmt[i].full, cmt[i].name);
-			strcat(cmt[i].full, ")");
+			strcpy(com->full, com->ID);
+			strcat(com->full, " (");
+			strcat(com->full, com->name);
+			strcat(com->full, ")");
 		}
 
 		else {
-			strcpy(cmt[i].full, cmt[i].ID);
-			strcat(cmt[i].full, "/");
-			strcat(cmt[i].full, cmt[i].name);
+			strcpy(com->full, com->ID);
+			strcat(com->full, "/");
+			strcat(com->full, com->name);
 		}
 
-		cmt[i].P = compute_period (cmt[i].q, cmt[i].e);
-		cmt[i].d /= 10000;
-		cmt[i].T = greg_to_jul (cmt[i].y, cmt[i].m, (int)cmt[i].d);
-		cmt[i].sort = get_sort_key(cmt[i].ID);
+		com->P = compute_period (com->q, com->e);
+		com->d /= 10000;
+		com->T = greg_to_jul (com->y, com->m, (int)com->d);
+		com->sort = get_sort_key(com->ID);
 		line++;
-		Frame41->ProgressBar1->Position = i+1;
+		Frame31->ProgressBar1->Position = i+1;
 
-		if(Frame21->CheckBox1->Checked && do_exclude(i)){
+		if(Frame21->CheckBox1->Checked && do_exclude(com)){
 			N--;
 			i--;
-			Frame41->ProgressBar1->Max--;
+			Frame31->ProgressBar1->Max--;
+			delete com;
+			continue;
 		}
+
+		addCmt(&cmt, com);
+		delete com;
 	}
 
 	return N;
@@ -1017,50 +1137,58 @@ int TForm1::import_megastar (int N, FILE *fin){
 
 	for (int i=0; i<N; i++) {
 
-		m = fscanf(fin, "%30c %12c %d %d %f %f %f %f %f %f %f %f %25[^\n]%*c",
-			cmt[i].name, cmt[i].ID, &cmt[i].y, &cmt[i].m, &cmt[i].d,
-			&cmt[i].q, &cmt[i].e, &cmt[i].pn,
-			&cmt[i].an, &cmt[i].i, &cmt[i].H, &G, x);
+		Comet *com = new Comet;
 
-		cmt[i].G = G/2.5;
+		m = fscanf(fin, "%30c %12c %d %d %f %f %f %f %f %f %f %f %25[^\n]%*c",
+			com->name, com->ID, &com->y, &com->m, &com->d,
+			&com->q, &com->e, &com->pn,
+			&com->an, &com->i, &com->H, &G, x);
+
+		com->G = G/2.5;
 
 		if (m < 13){
 			//cout << "\n\n  Unable to read data in line " << line;
 			fscanf(fin, "%*[^\n]\n");
 			N--; i--; line++;
-			Frame41->ProgressBar1->Max--;
+			Frame31->ProgressBar1->Max--;
+			delete com;
 			continue;
 		}
 
-		remove_spaces (cmt[i].ID);
-		remove_spaces (cmt[i].name);
+		remove_spaces (com->ID);
+		remove_spaces (com->name);
 
-		if ((cmt[i].ID[0]=='C' && cmt[i].ID[1]=='/') ||
-			(cmt[i].ID[0]=='P' && cmt[i].ID[1]=='/')){
+		if ((com->ID[0]=='C' && com->ID[1]=='/') ||
+			(com->ID[0]=='P' && com->ID[1]=='/')){
 
-			strcpy(cmt[i].full, cmt[i].ID);
-			strcat(cmt[i].full, " (");
-			strcat(cmt[i].full, cmt[i].name);
-			strcat(cmt[i].full, ")");
+			strcpy(com->full, com->ID);
+			strcat(com->full, " (");
+			strcat(com->full, com->name);
+			strcat(com->full, ")");
 		}
 
 		else {
-			strcpy(cmt[i].full, cmt[i].ID);
-			strcat(cmt[i].full, "/");
-			strcat(cmt[i].full, cmt[i].name);
+			strcpy(com->full, com->ID);
+			strcat(com->full, "/");
+			strcat(com->full, com->name);
 		}
 
-		cmt[i].P = compute_period (cmt[i].q, cmt[i].e);
-		cmt[i].T = greg_to_jul (cmt[i].y, cmt[i].m, cmt[i].d);
-		cmt[i].sort = get_sort_key(cmt[i].ID);
+		com->P = compute_period (com->q, com->e);
+		com->T = greg_to_jul (com->y, com->m, com->d);
+		com->sort = get_sort_key(com->ID);
 		line++;
-		Frame41->ProgressBar1->Position = i+1;
+		Frame31->ProgressBar1->Position = i+1;
 
-		if(do_exclude(i)){
+		if(do_exclude(com)){
 			N--;
 			i--;
-			Frame41->ProgressBar1->Max--;
+			Frame31->ProgressBar1->Max--;
+			delete com;
+			continue;
 		}
+
+		addCmt(&cmt, com);
+		delete com;
 	}
 
 	return N;
@@ -1074,40 +1202,48 @@ int TForm1::import_skychart (int N, FILE *fin){
 
 	for (int i=0; i<N; i++) {
 
+		Comet *com = new Comet;
+
 		m = fscanf(fin, "P11 2000.0 -%f %f %f %f %f 0 %d/%d/%f %f %f 0 0 ",
-			&cmt[i].q, &cmt[i].e, &cmt[i].i, &cmt[i].pn,
-			&cmt[i].an, &cmt[i].y, &cmt[i].m, &cmt[i].d,
-			&cmt[i].H, &cmt[i].G);
+			&com->q, &com->e, &com->i, &com->pn,
+			&com->an, &com->y, &com->m, &com->d,
+			&com->H, &com->G);
 
 		if (m < 10){
 			//cout << "\n\n  Unable to read data in line " << line;
 			fscanf(fin, "%*[^\n]\n");
 			N--; i--; line++;
-			Frame41->ProgressBar1->Max--;
+			Frame31->ProgressBar1->Max--;
+			delete com;
 			continue;
 		}
 
 		j=0;
 		while ((c=fgetc(fin)) != ';' ){
-			cmt[i].full[j++]=c;
+			com->full[j++]=c;
 		}
-		cmt[i].full[j]='\0';
+		com->full[j]='\0';
 
 		fscanf(fin, "%*[^\n]\n");		//za izostavi ono na kraju
 
-		editFullIdName(cmt[i].full, cmt[i].ID, cmt[i].name, 1);
+		editFullIdName(com->full, com->ID, com->name, 1);
 
-		cmt[i].P = compute_period (cmt[i].q, cmt[i].e);
-		cmt[i].T = greg_to_jul (cmt[i].y, cmt[i].m, (int)cmt[i].d);
-		cmt[i].sort = get_sort_key(cmt[i].ID);
+		com->P = compute_period (com->q, com->e);
+		com->T = greg_to_jul (com->y, com->m, (int)com->d);
+		com->sort = get_sort_key(com->ID);
 		line++;
-		Frame41->ProgressBar1->Position = i+1;
+		Frame31->ProgressBar1->Position = i+1;
 
-		if(Frame21->CheckBox1->Checked && do_exclude(i)){
+		if(Frame21->CheckBox1->Checked && do_exclude(com)){
 			N--;
 			i--;
-			Frame41->ProgressBar1->Max--;
+			Frame31->ProgressBar1->Max--;
+			delete com;
+			continue;
 		}
+
+		addCmt(&cmt, com);
+		delete com;
 	}
 
 	return N;
@@ -1122,46 +1258,54 @@ int TForm1::import_voyager (int N, FILE *fin){
 
 	for (int i=0; i<N; i++) {
 
+		Comet *com = new Comet;
+
 		m = fscanf(fin, "%27c %f %f %f %f %f %f %4d %3c %f 2000.0\n",
-			cmt[i].name, &cmt[i].q, &cmt[i].e, &cmt[i].i,
-			&cmt[i].an, &cmt[i].pn, &cmt[i].G, &cmt[i].y,
-			mj, &cmt[i].d);
+			com->name, &com->q, &com->e, &com->i,
+			&com->an, &com->pn, &com->G, &com->y,
+			mj, &com->d);
 
 		if (m < 10){
 			//cout << "\n\n  Unable to read data in line " << line;
 			fscanf(fin, "%*[^\n]\n");
 			N--; i--; line++;
-			Frame41->ProgressBar1->Max--;
+			Frame31->ProgressBar1->Max--;
+			delete com;
 			continue;
 		}
 
-		strcpy(cmt[i].full, cmt[i].name); 		//posto nema pravog full-a, name ce bit kao full
+		strcpy(com->full, com->name); 		//posto nema pravog full-a, name ce bit kao full
 
-		if (mj[0]=='J' && mj[1]=='a' && mj[2]=='n') cmt[i].m=1;
-		if (mj[0]=='F' && mj[1]=='e' && mj[2]=='b') cmt[i].m=2;
-		if (mj[0]=='M' && mj[1]=='a' && mj[2]=='r') cmt[i].m=3;
-		if (mj[0]=='A' && mj[1]=='p' && mj[2]=='r') cmt[i].m=4;
-		if (mj[0]=='M' && mj[1]=='a' && mj[2]=='y') cmt[i].m=5;
-		if (mj[0]=='J' && mj[1]=='u' && mj[2]=='n') cmt[i].m=6;
-		if (mj[0]=='J' && mj[1]=='u' && mj[2]=='l') cmt[i].m=7;
-		if (mj[0]=='A' && mj[1]=='u' && mj[2]=='g') cmt[i].m=8;
-		if (mj[0]=='S' && mj[1]=='e' && mj[2]=='p') cmt[i].m=9;
-		if (mj[0]=='O' && mj[1]=='c' && mj[2]=='t') cmt[i].m=10;
-		if (mj[0]=='N' && mj[1]=='o' && mj[2]=='v') cmt[i].m=11;
-		if (mj[0]=='D' && mj[1]=='e' && mj[2]=='c') cmt[i].m=12;
+		if (mj[0]=='J' && mj[1]=='a' && mj[2]=='n') com->m=1;
+		if (mj[0]=='F' && mj[1]=='e' && mj[2]=='b') com->m=2;
+		if (mj[0]=='M' && mj[1]=='a' && mj[2]=='r') com->m=3;
+		if (mj[0]=='A' && mj[1]=='p' && mj[2]=='r') com->m=4;
+		if (mj[0]=='M' && mj[1]=='a' && mj[2]=='y') com->m=5;
+		if (mj[0]=='J' && mj[1]=='u' && mj[2]=='n') com->m=6;
+		if (mj[0]=='J' && mj[1]=='u' && mj[2]=='l') com->m=7;
+		if (mj[0]=='A' && mj[1]=='u' && mj[2]=='g') com->m=8;
+		if (mj[0]=='S' && mj[1]=='e' && mj[2]=='p') com->m=9;
+		if (mj[0]=='O' && mj[1]=='c' && mj[2]=='t') com->m=10;
+		if (mj[0]=='N' && mj[1]=='o' && mj[2]=='v') com->m=11;
+		if (mj[0]=='D' && mj[1]=='e' && mj[2]=='c') com->m=12;
 
-		cmt[i].P = compute_period (cmt[i].q, cmt[i].e);
-		cmt[i].T = greg_to_jul (cmt[i].y, cmt[i].m, (int)cmt[i].d);
-		remove_spaces (cmt[i].name);
-//		cmt[i].sort = get_sort_key(cmt[i].ID);
+		com->P = compute_period (com->q, com->e);
+		com->T = greg_to_jul (com->y, com->m, (int)com->d);
+		remove_spaces (com->name);
+//		com->sort = get_sort_key(com->ID);
 		line++;
-		Frame41->ProgressBar1->Position = i+1;
+		Frame31->ProgressBar1->Position = i+1;
 
-		if(Frame21->CheckBox1->Checked && do_exclude(i)){
+		if(Frame21->CheckBox1->Checked && do_exclude(com)){
 			N--;
 			i--;
-			Frame41->ProgressBar1->Max--;
+			Frame31->ProgressBar1->Max--;
+			delete com;
+			continue;
 		}
+
+		addCmt(&cmt, com);
+		delete com;
 	}
 
 	return N;
@@ -1176,73 +1320,81 @@ int TForm1::import_skytools (int N, FILE *fin){
 
 	for (int i=0; i<N; i++) {
 
-		m = fscanf(fin, "C %40c %d %d %d %d %d %f %f %f %f %f %f %f %f 0.002000 %15[^\n]%*c",
-			cmt[i].full, &yy, &mm, &dd, &cmt[i].y, &cmt[i].m, &cmt[i].d,
-			&cmt[i].q, &cmt[i].e, &cmt[i].pn, &cmt[i].an, &cmt[i].i,
-			&cmt[i].H, &cmt[i].G, x);
+		Comet *com = new Comet;
 
-		//cmt[i].h*=10;
+		m = fscanf(fin, "C %40c %d %d %d %d %d %f %f %f %f %f %f %f %f 0.002000 %15[^\n]%*c",
+			com->full, &yy, &mm, &dd, &com->y, &com->m, &com->d,
+			&com->q, &com->e, &com->pn, &com->an, &com->i,
+			&com->H, &com->G, x);
+
+		//com->h*=10;
 
 		if (m < 15){
 			//cout << "\n\n  Unable to read data in line " << line;
 			fscanf(fin, "%*[^\n]\n");
 			N--; i--; line++;
-			Frame41->ProgressBar1->Max--;
+			Frame31->ProgressBar1->Max--;
+			delete com;
 			continue;
 		}
 
-		remove_spaces(cmt[i].full);
+		remove_spaces(com->full);
 
-		for (j=0; cmt[i].full[j]!='\0'; j++){
-			if (isdigit(cmt[i].full[j]) && cmt[i].full[j+1]=='P' && cmt[i].full[j+2]=='/'){
+		for (j=0; com->full[j]!='\0'; j++){
+			if (isdigit(com->full[j]) && com->full[j+1]=='P' && com->full[j+2]=='/'){
 
-				for(k=0; cmt[i].full[k]!='/'; k++)
-					cmt[i].ID[k]=cmt[i].full[k];
+				for(k=0; com->full[k]!='/'; k++)
+					com->ID[k]=com->full[k];
 
-				cmt[i].ID[k]='\0';
+				com->ID[k]='\0';
 				++k;
-				for(l=0; cmt[i].full[k]!='\0'; l++, k++)
-					cmt[i].name[l]=cmt[i].full[k];
+				for(l=0; com->full[k]!='\0'; l++, k++)
+					com->name[l]=com->full[k];
 
-				cmt[i].name[l]='\0';
+				com->name[l]='\0';
 			}
 
-		if ((cmt[i].full[0]=='C' && cmt[i].full[1]=='/') ||
-			(cmt[i].full[0]=='P' && cmt[i].full[1]=='/')){
+		if ((com->full[0]=='C' && com->full[1]=='/') ||
+			(com->full[0]=='P' && com->full[1]=='/')){
 				space=0;
-				len = strlen(cmt[i].full);
+				len = strlen(com->full);
 				for(u=0; u<len; u++){
-					if (cmt[i].full[u]==' ' && space==1) {
+					if (com->full[u]==' ' && space==1) {
 						t=u;
 						break;
 					}
-					else if(cmt[i].full[u]==' ') space++;
+					else if(com->full[u]==' ') space++;
 				}
 
 				for(k=0; k<t; k++)
-					cmt[i].ID[k]=cmt[i].full[k];
+					com->ID[k]=com->full[k];
 
-				cmt[i].ID[k]='\0';
+				com->ID[k]='\0';
 
 				++k;
-				for(l=0; cmt[i].full[k]!='\0'; k++, l++)
-					cmt[i].name[l]=cmt[i].full[k];
+				for(l=0; com->full[k]!='\0'; k++, l++)
+					com->name[l]=com->full[k];
 
-				cmt[i].name[l]='\0';
+				com->name[l]='\0';
 			}
 		}
 
-		cmt[i].P = compute_period (cmt[i].q, cmt[i].e);
-		cmt[i].T = greg_to_jul (cmt[i].y, cmt[i].m, (int)cmt[i].d);
-		cmt[i].sort = get_sort_key(cmt[i].ID);
+		com->P = compute_period (com->q, com->e);
+		com->T = greg_to_jul (com->y, com->m, (int)com->d);
+		com->sort = get_sort_key(com->ID);
 		line++;
-		Frame41->ProgressBar1->Position = i+1;
+		Frame31->ProgressBar1->Position = i+1;
 
-		if(Frame21->CheckBox1->Checked && do_exclude(i)){
+		if(Frame21->CheckBox1->Checked && do_exclude(com)){
 			N--;
 			i--;
-			Frame41->ProgressBar1->Max--;
+			Frame31->ProgressBar1->Max--;
+			delete com;
+			continue;
 		}
+
+		addCmt(&cmt, com);
+		delete com;
 	}
 
 	return N;
@@ -1265,6 +1417,8 @@ int TForm1::import_cfw (int N, FILE *fin){
 
 	for (int i=0; i<N; i++){
 
+		Comet *com = new Comet;
+
 		fscanf(fin, "name=%40[^\n]%*c\
 					%*[^\n]\n\
 					type=orbit\n\
@@ -1278,63 +1432,36 @@ int TForm1::import_cfw (int N, FILE *fin){
 					%*[^\n]\n\
 					mageq=%f %f\
 					\n",
-					cmt[i].full,
-					&cmt[i].y, &cmt[i].m, &cmt[i].d,
-					&cmt[i].q,
-					&cmt[i].e,
-					&cmt[i].pn,
-					&cmt[i].an,
-					&cmt[i].i,
-					&cmt[i].H, &G);
+					com->full,
+					&com->y, &com->m, &com->d,
+					&com->q,
+					&com->e,
+					&com->pn,
+					&com->an,
+					&com->i,
+					&com->H, &G);
 
-		cmt[i].G = G/2.5;
+		com->G = G/2.5;
 
-		remove_spaces(cmt[i].full);
+		remove_spaces(com->full);
 
-		for (j=0; cmt[i].full[j]!='\0'; j++){
+		editFullIdName(com->full, com->ID, com->name, 1);
 
-			if (isdigit(cmt[i].full[j]) && cmt[i].full[j+1]=='P' && cmt[i].full[j+2]=='/'){
+		com->P = compute_period (com->q, com->e);
+		com->T = greg_to_jul (com->y, com->m, (int)com->d);
+		com->sort = get_sort_key(com->ID);
+		Frame31->ProgressBar1->Position = i+1;
 
-				for(k=0; cmt[i].full[k]!='/'; k++)
-					cmt[i].ID[k]=cmt[i].full[k];
-
-				cmt[i].ID[k]='\0';
-
-				++k;
-
-				for(l=0; cmt[i].full[k]!='\0'; l++, k++)
-					cmt[i].name[l]=cmt[i].full[k];
-
-				cmt[i].name[l]='\0';
-				break;
-			}
-
-			if (cmt[i].full[j]=='('){
-				for(k=0; cmt[i].full[k]!='('; k++)
-					cmt[i].ID[k]=cmt[i].full[k];
-
-				cmt[i].ID[k-1]='\0';
-
-				++k;
-
-				for(l=0; cmt[i].full[k]!=')'; k++, l++)
-					cmt[i].name[l]=cmt[i].full[k];
-
-				cmt[i].name[l]='\0';
-				break;
-			}
-		}
-
-		cmt[i].P = compute_period (cmt[i].q, cmt[i].e);
-		cmt[i].T = greg_to_jul (cmt[i].y, cmt[i].m, (int)cmt[i].d);
-		cmt[i].sort = get_sort_key(cmt[i].ID);
-		Frame41->ProgressBar1->Position = i+1;
-
-		if(Frame21->CheckBox1->Checked && do_exclude(i)){
+		if(Frame21->CheckBox1->Checked && do_exclude(com)){
 			N--;
 			i--;
-			Frame41->ProgressBar1->Max--;
+			Frame31->ProgressBar1->Max--;
+			delete com;
+			continue;
 		}
+
+		addCmt(&cmt, com);
+		delete com;
 	}
 
 	return N;
@@ -1351,621 +1478,478 @@ int TForm1::import_nasa (int N, FILE *fin){
 
 	for (int i=0; i<N; i++) {
 
+		Comet *com = new Comet;
+
 		k=0; j=0;
 		while (k<44){
 			c=fgetc(fin);
-			cmt[i].full[j]=c;
+			com->full[j]=c;
 			if (c==' ' && j==0) --j;
 			j++;
 			k++;
 		}
 
-		remove_spaces(cmt[i].full);
+		remove_spaces(com->full);
 
 		if (Frame31->CheckBox8->Checked){
-			len = strlen(cmt[i].full);
+			bool skip = false;
+			len = strlen(com->full);
 			for (j=0; j<len; j++){
-				if (cmt[i].full[j  ]=='S' && cmt[i].full[j+1]=='O' &&
-					cmt[i].full[j+2]=='H' && cmt[i].full[j+3]=='O'){
+				if (com->full[j  ]=='S' && com->full[j+1]=='O' &&
+					com->full[j+2]=='H' && com->full[j+3]=='O'
+				 && com->full[0  ]=='C'
+					){
 
 					N--; i--;
-					Frame41->ProgressBar1->Max--;
-					continue;
+					Frame31->ProgressBar1->Max--;
+					skip = true;
+					break;
 				}
+			}
+			if(skip){
+				fscanf(fin, "%*[^\n]\n");
+				delete com;
+				continue;
 			}
 		}
 
-		for (j=0; cmt[i].full[j]!='\0'; j++){
-			if ((isdigit(cmt[i].full[j]) && cmt[i].full[j+1]=='P' && cmt[i].full[j+2]=='/') ||
-				(isdigit(cmt[i].full[j]) && cmt[i].full[j+1]=='D' && cmt[i].full[j+2]=='/')){
+		for (j=0; com->full[j]!='\0'; j++){
+			if ((isdigit(com->full[j]) && com->full[j+1]=='P' && com->full[j+2]=='/') ||
+				(isdigit(com->full[j]) && com->full[j+1]=='D' && com->full[j+2]=='/')){
 
-				for(k=0; cmt[i].full[k]!='/'; k++)
-					cmt[i].ID[k]=cmt[i].full[k];
+				for(k=0; com->full[k]!='/'; k++)
+					com->ID[k]=com->full[k];
 
-				cmt[i].ID[k]='\0';
+				com->ID[k]='\0';
 				++k;
-				for(l=0; cmt[i].full[k]!='\0'; l++, k++)
-					cmt[i].name[l]=cmt[i].full[k];
+				for(l=0; com->full[k]!='\0'; l++, k++)
+					com->name[l]=com->full[k];
 
-				cmt[i].name[l]='\0';
+				com->name[l]='\0';
 			}
 
-			if (cmt[i].full[j]=='('){
-				for(k=0; cmt[i].full[k]!='('; k++)
-					cmt[i].ID[k]=cmt[i].full[k];
+			if (com->full[j]=='('){
+				for(k=0; com->full[k]!='('; k++)
+					com->ID[k]=com->full[k];
 
-				cmt[i].ID[k-1]='\0';
+				com->ID[k-1]='\0';
 
 				++k;
-				for(l=0; cmt[i].full[k]!=')'; k++, l++)
-					cmt[i].name[l]=cmt[i].full[k];
+				for(l=0; com->full[k]!=')'; k++, l++)
+					com->name[l]=com->full[k];
 
-				cmt[i].name[l]='\0';
+				com->name[l]='\0';
 			}
 		}
 
 		m = fscanf(fin, "%d %f %f %f %f %f %4d%2d%f %20[^\n]%*c",
-			&trash, &cmt[i].q, &cmt[i].e, &cmt[i].i,
-			&cmt[i].pn, &cmt[i].an, &cmt[i].y, &cmt[i].m,
-			&cmt[i].d, x);
+			&trash, &com->q, &com->e, &com->i,
+			&com->pn, &com->an, &com->y, &com->m,
+			&com->d, x);
 
 		if (m < 10){
 			//cout << "\n\n  Unable to read data in line " << line;
 			fscanf(fin, "%*[^\n]\n");
 			N--; i--; line++;
-			Frame41->ProgressBar1->Max--;
+			Frame31->ProgressBar1->Max--;
+			delete com;
 			continue;
 		}
 
-		cmt[i].P = compute_period (cmt[i].q, cmt[i].e);
-		cmt[i].T = greg_to_jul (cmt[i].y, cmt[i].m, cmt[i].d);
-		cmt[i].sort = get_sort_key(cmt[i].ID);
-		Frame41->ProgressBar1->Position = i+1;
+		com->P = compute_period (com->q, com->e);
+		com->T = greg_to_jul (com->y, com->m, com->d);
+		com->sort = get_sort_key(com->ID);
+		Frame31->ProgressBar1->Position = i+1;
 		//Application->ProcessMessages();
 		line++;
 
-		if(Frame21->CheckBox1->Checked && do_exclude(i)){
+		if(Frame21->CheckBox1->Checked && do_exclude(com)){
 			N--;
 			i--;
-			Frame41->ProgressBar1->Max--;
+			Frame31->ProgressBar1->Max--;
+			delete com;
+			continue;
 		}
+
+		addCmt(&cmt, com);
+		delete com;
 	}
 
 	return N;
 }
 
-void TForm1::export_mpc (int N, FILE *fout){
 
-	for (int i=0; i<N; i++) {
+void TForm1::export_mpc (Comet *cmt, FILE *fout){
 
-		fprintf(fout,"              %4d %02d %07.4f %9f  %.6f  %8.4f  %8.4f  %8.4f  %4d%02d%02d  %4.1f %4.1f  %-56s MPC 00000\n",
-				cmt[i].y, cmt[i].m, cmt[i].d, cmt[i].q, cmt[i].e,
-				cmt[i].pn, cmt[i].an, cmt[i].i, ep_y, ep_m, ep_d, cmt[i].H, cmt[i].G, cmt[i].full);
+	fprintf(fout,"              %4d %02d %07.4f %9f  %.6f  %8.4f  %8.4f  %8.4f  %4d%02d%02d  %4.1f %4.1f  %-56s MPC 00000\n",
+			cmt->y, cmt->m, cmt->d, cmt->q, cmt->e,
+			cmt->pn, cmt->an, cmt->i, ep_y, ep_m, ep_d, cmt->H, cmt->G, cmt->full);
 
-		Frame61->ProgressBar1->Position = i+1;
-	}
+	Frame61->ProgressBar1->Position += 1;
 }
 
-void TForm1::export_skymap (int N, FILE *fout){
+void TForm1::export_skymap (Comet *cmt, FILE *fout){
 
 	int j, k, len;
 
-	for (int i=0; i<N; i++) {
-
-		k=0;
-		len = strlen(cmt[i].ID);
-		for(j=0; j<len; j++){
-			fputc(cmt[i].ID[j], fout);
-			k++;
-		}
-		fputc(' ', fout); k++;
-		len = strlen(cmt[i].name);
-		for(j=0; j<len; j++){
-			fputc(cmt[i].name[j], fout);
-			k++;
-		}
-		while(k!=47){
-			fputc(' ', fout); k++;
-		}
-
-		fprintf(fout,"%4d %02d %07.4f %9f       %.6f %8.4f %8.4f %8.4f  %4.1f  %4.1f\n",
-				cmt[i].y, cmt[i].m, cmt[i].d, cmt[i].q,
-				cmt[i].e, cmt[i].pn, cmt[i].an, cmt[i].i, cmt[i].H, cmt[i].G);
-
-		Frame61->ProgressBar1->Position = i+1;
-	}
-}
-
-void TForm1::export_guide (int N, FILE *fout){
-
-	int j, k, len;
-
-	for (int i=0; i<N; i++) {
-
-		k=0;
-		len = strlen(cmt[i].ID);
-		if (cmt[i].ID[len-1]=='P' && isdigit(cmt[i].ID[len-2])){
-			fputc('P', fout); k++;
-			fputc('/', fout); k++;
-		}
-
-		if (cmt[i].ID[len-1]=='D' && isdigit(cmt[i].ID[len-2])){
-			fputc('D', fout); k++;
-			fputc('/', fout); k++;
-		}
-
-		len = strlen(cmt[i].name);
-		for(j=0; j<len; j++){
-			fputc(cmt[i].name[j], fout);
-			k++;
-		}
-		fputc(' ', fout); k++;
-		fputc('(', fout); k++;
-
-		len = strlen(cmt[i].ID);
-		for(j=0; j<len; j++){
-			fputc(cmt[i].ID[j], fout);
-			k++;
-		}
-		fputc(')', fout); k++;
+	k=0;
+	len = strlen(cmt->ID);
+	for(j=0; j<len; j++){
+		fputc(cmt->ID[j], fout);
 		k++;
-
-		while(k!=44){
-			fputc(' ', fout); k++;
-		}
-
-		fprintf(fout,"%7.4f  %2d  %4d  0.0        %9.6f    %.6f  %8.4f    %8.4f    %8.4f    %d.0   %4.1f %4.1f    MPC 00000\n",
-				cmt[i].d, cmt[i].m, cmt[i].y, cmt[i].q, cmt[i].e,
-				cmt[i].i, cmt[i].pn, cmt[i].an, equinox, cmt[i].H, cmt[i].G);
-
-		Frame61->ProgressBar1->Position = i+1;
 	}
+	fputc(' ', fout); k++;
+	len = strlen(cmt->name);
+	for(j=0; j<len; j++){
+		fputc(cmt->name[j], fout);
+		k++;
+	}
+	while(k!=47){
+		fputc(' ', fout); k++;
+	}
+
+	fprintf(fout,"%4d %02d %07.4f %9f       %.6f %8.4f %8.4f %8.4f  %4.1f  %4.1f\n",
+			cmt->y, cmt->m, cmt->d, cmt->q,
+			cmt->e, cmt->pn, cmt->an, cmt->i, cmt->H, cmt->G);
+
+	Frame61->ProgressBar1->Position += 1;
 }
 
-void TForm1::export_xephem (int N, FILE *fout){
+void TForm1::export_guide (Comet *cmt, FILE *fout){
+
+	int j, k, len;
+
+	k=0;
+	len = strlen(cmt->ID);
+	if (cmt->ID[len-1]=='P' && isdigit(cmt->ID[len-2])){
+		fputc('P', fout); k++;
+		fputc('/', fout); k++;
+	}
+
+	if (cmt->ID[len-1]=='D' && isdigit(cmt->ID[len-2])){
+		fputc('D', fout); k++;
+		fputc('/', fout); k++;
+	}
+
+	len = strlen(cmt->name);
+	for(j=0; j<len; j++){
+		fputc(cmt->name[j], fout);
+		k++;
+	}
+	fputc(' ', fout); k++;
+	fputc('(', fout); k++;
+
+	len = strlen(cmt->ID);
+	for(j=0; j<len; j++){
+		fputc(cmt->ID[j], fout);
+		k++;
+	}
+	fputc(')', fout); k++;
+	k++;
+
+	while(k!=44){
+		fputc(' ', fout); k++;
+	}
+
+	fprintf(fout,"%7.4f  %2d  %4d  0.0        %9.6f    %.6f  %8.4f    %8.4f    %8.4f    %d.0   %4.1f %4.1f    MPC 00000\n",
+			cmt->d, cmt->m, cmt->y, cmt->q, cmt->e,
+			cmt->i, cmt->pn, cmt->an, equinox, cmt->H, cmt->G);
+
+	Frame61->ProgressBar1->Position += 1;
+}
+
+void TForm1::export_xephem (Comet *cmt, FILE *fout){
 
 	//info: http://www.clearskyinstitute.com/xephem/help/xephem.html#mozTocId215848
 
-	for (int i=0; i<N; i++) {
+	fprintf(fout,"# From MPC 00000\n%s,", cmt->full);
 
-		fprintf(fout,"# From MPC 00000\n%s,", cmt[i].full);
+	if(cmt->e < 1){
 
-		if(cmt[i].e < 1){
+		double smAxis = cmt->q/(1-cmt->e);
+		double mdMotion = 0.9856076686/cmt->P;
+		double mAnomaly = -(mdMotion * (cmt->T - greg_to_jul(ep_y, ep_m, ep_d)));
 
+		if (mAnomaly <   0) mAnomaly+=360;
+		if (mAnomaly > 360) mAnomaly-=360;
 
-			double smAxis = cmt[i].q/(1-cmt[i].e);
-			double mdMotion = 0.9856076686/cmt[i].P;
-			double mAnomaly = -(mdMotion * (cmt[i].T - greg_to_jul(ep_y, ep_m, ep_d)));
-
-			if (mAnomaly <   0) mAnomaly+=360;
-			if (mAnomaly > 360) mAnomaly-=360;
-
-			fprintf(fout, "e,%.4f,%.4f,%.4f,%.6f,%.7f,%.8f,%.4f,%02d/%02d.0/%d,%d,g %4.1f,%.1f\n",
-				cmt[i].i, cmt[i].an, cmt[i].pn, smAxis, mdMotion, cmt[i].e,
-				mAnomaly, ep_m, ep_d, ep_y, equinox, cmt[i].H, cmt[i].G);
-		}
-
-		if(cmt[i].e == 1.0){
-
-			fprintf(fout, "p,%02d/%06.3f/%4d,%.3f,%.3f,%.5f,%.3f,2000,%.1f,%.1f\n",
-				cmt[i].m, cmt[i].d, cmt[i].y,
-				cmt[i].i, cmt[i].pn, cmt[i].q, cmt[i].an,
-				cmt[i].H, cmt[i].G);
-		}
-
-		if(cmt[i].e > 1.0){
-
-			fprintf(fout, "h,%02d/%07.4f/%4d,%.4f,%.4f,%.4f,%.6f,%.6f,2000,%.1f,%.1f\n",
-				cmt[i].m, cmt[i].d, cmt[i].y,
-				cmt[i].i, cmt[i].an, cmt[i].pn, cmt[i].e,
-				cmt[i].q, cmt[i].H, cmt[i].G);
-		}
-
-		Frame61->ProgressBar1->Position = i+1;
+		fprintf(fout, "e,%.4f,%.4f,%.4f,%.6f,%.7f,%.8f,%.4f,%02d/%02d.0/%d,%d,g %4.1f,%.1f\n",
+			cmt->i, cmt->an, cmt->pn, smAxis, mdMotion, cmt->e,
+			mAnomaly, ep_m, ep_d, ep_y, equinox, cmt->H, cmt->G);
 	}
+
+	if(cmt->e == 1.0){
+
+		fprintf(fout, "p,%02d/%06.3f/%4d,%.3f,%.3f,%.5f,%.3f,2000,%.1f,%.1f\n",
+			cmt->m, cmt->d, cmt->y,
+			cmt->i, cmt->pn, cmt->q, cmt->an,
+			cmt->H, cmt->G);
+	}
+
+	if(cmt->e > 1.0){
+
+		fprintf(fout, "h,%02d/%07.4f/%4d,%.4f,%.4f,%.4f,%.6f,%.6f,2000,%.1f,%.1f\n",
+			cmt->m, cmt->d, cmt->y,
+			cmt->i, cmt->an, cmt->pn, cmt->e,
+			cmt->q, cmt->H, cmt->G);
+	}
+
+	Frame61->ProgressBar1->Position += 1;
 }
 
-void TForm1::export_home_planet (int N, FILE *fout){
+void TForm1::export_home_planet (Comet *cmt, FILE *fout){
 
-	for (int i=0; i<N; i++) {
+	double smAxis = cmt->q/((1-cmt->e)+0.000001);
 
-		double smAxis = cmt[i].q/((1-cmt[i].e)+0.000001);
+	fprintf(fout,"%s,%d-%d-%7.4f,%.6f,%.6f,%.4f,%.4f,%.4f,%.5f,%.5f years, MPC      \n",
+			cmt->full, cmt->y, cmt->m, cmt->d, cmt->q,
+			cmt->e, cmt->pn, cmt->an, cmt->i, smAxis, cmt->P);
 
-		fprintf(fout,"%s,%d-%d-%7.4f,%.6f,%.6f,%.4f,%.4f,%.4f,%.5f,%.5f years, MPC      \n",
-				cmt[i].full, cmt[i].y, cmt[i].m, cmt[i].d, cmt[i].q,
-				cmt[i].e, cmt[i].pn, cmt[i].an, cmt[i].i, smAxis, cmt[i].P);
-
-		Frame61->ProgressBar1->Position = i+1;
-	}
+	Frame61->ProgressBar1->Position += 1;
 }
 
-void TForm1::export_mystars (int N, FILE *fout){
+void TForm1::export_mystars (Comet *cmt, FILE *fout){
 
-	for (int i=0; i<N; i++) {
+	int h = (cmt->d - (int)cmt->d)*10000;
 
-		int h = (cmt[i].d - (int)cmt[i].d)*10000;
+	fprintf(fout,"%s;\t%ld.%04d\t%.4f\t%.6f\t%.6f\t%.4f\t%.4f\t%.1f\t%.1f\tMPC00000\t%ld.0\n",
+			cmt->full, cmt->T-2400000, h, cmt->pn, cmt->e, cmt->q,
+			cmt->i, cmt->an, cmt->H, cmt->G, eq_JD-2400000);
 
-		fprintf(fout,"%s;\t%ld.%04d\t%.4f\t%.6f\t%.6f\t%.4f\t%.4f\t%.1f\t%.1f\tMPC00000\t%ld.0\n",
-				cmt[i].full, cmt[i].T-2400000, h, cmt[i].pn, cmt[i].e, cmt[i].q,
-				cmt[i].i, cmt[i].an, cmt[i].H, cmt[i].G, eq_JD-2400000);
-
-		Frame61->ProgressBar1->Position = i+1;
-	}
+	Frame61->ProgressBar1->Position += 1;
 }
 
-void TForm1::export_thesky (int N, FILE *fout){
+void TForm1::export_thesky (Comet *cmt, FILE *fout){
 
-	for (int i=0; i<N; i++) {
+	fprintf(fout,"%-39s|%d|%4d%02d%07.4f |%9f |%.6f |%8.4f |%8.4f |%8.4f |%4.1f |%4.1f | MPC 00000\n",
+			cmt->full, equinox, cmt->y, cmt->m, cmt->d, cmt->q,
+			cmt->e, cmt->pn, cmt->an, cmt->i, cmt->H, cmt->G*2.5);
 
-		fprintf(fout,"%-39s|%d|%4d%02d%07.4f |%9f |%.6f |%8.4f |%8.4f |%8.4f |%4.1f |%4.1f | MPC 00000\n",
-				cmt[i].full, equinox, cmt[i].y, cmt[i].m, cmt[i].d, cmt[i].q,
-				cmt[i].e, cmt[i].pn, cmt[i].an, cmt[i].i, cmt[i].H, cmt[i].G*2.5);
-
-		Frame61->ProgressBar1->Position = i+1;
-	}
+	Frame61->ProgressBar1->Position += 1;
 }
 
-void TForm1::export_starry_night (int N, FILE *fout){
+void TForm1::export_starry_night (Comet *cmt, FILE *fout){
 
-	for (int i=0; i<N; i++) {
+	int h = (cmt->d - (int)cmt->d)*10000;
 
-		int h = (cmt[i].d - (int)cmt[i].d)*10000;
+	fprintf(fout,"     %-29s %4.1f    0.0   %.6f   %9.6f    %8.4f  %8.4f  %8.4f  %ld.%04d    %ld.5  %4.1f  %-13s MPC 00000\n",
+			cmt->name, cmt->H, cmt->e, cmt->q, cmt->an, cmt->pn,
+			cmt->i, cmt->T, h, eq_JD, cmt->G*2.5, cmt->ID);
 
-		fprintf(fout,"     %-29s %4.1f    0.0   %.6f   %9.6f    %8.4f  %8.4f  %8.4f  %ld.%04d    %ld.5  %4.1f  %-13s MPC 00000\n",
-				cmt[i].name, cmt[i].H, cmt[i].e, cmt[i].q, cmt[i].an, cmt[i].pn,
-				cmt[i].i, cmt[i].T, h, eq_JD, cmt[i].G*2.5, cmt[i].ID);
-
-		Frame61->ProgressBar1->Position = i+1;
-	}
+	Frame61->ProgressBar1->Position += 1;
 }
 
-void TForm1::export_deep_space (int N, FILE *fout){
+void TForm1::export_deep_space (Comet *cmt, FILE *fout){
 
-	for (int i=0; i<N; i++) {
+	fprintf(fout,"%s (%s)\nC J%d %4d %02d %07.4f %.6f %.6f %.4f %.4f %.4f %.1f %.1f\n",
+			cmt->name, cmt->ID, equinox, cmt->y, cmt->m, cmt->d,
+			cmt->q, cmt->e, cmt->pn, cmt->an, cmt->i, cmt->H, cmt->G*2.5);
 
-		fprintf(fout,"%s (%s)\nC J%d %4d %02d %07.4f %.6f %.6f %.4f %.4f %.4f %.1f %.1f\n",
-				cmt[i].name, cmt[i].ID, equinox, cmt[i].y, cmt[i].m, cmt[i].d,
-				cmt[i].q, cmt[i].e, cmt[i].pn, cmt[i].an, cmt[i].i, cmt[i].H, cmt[i].G*2.5);
-
-		Frame61->ProgressBar1->Position = i+1;
-	}
+	Frame61->ProgressBar1->Position += 1;
 }
 
-void TForm1::export_pc_tcs (int N, FILE *fout){
+void TForm1::export_pc_tcs (Comet *cmt, FILE *fout){
 
 	int j, k, len;
 
-	for (int i=0; i<N; i++) {
-
-		len = strlen(cmt[i].ID);
-		for (j=0; j<len; j++){
-			if (cmt[i].ID[j]==' '){
-				k=j;
-				for( ; cmt[i].ID[k]!='\0'; k++)
-					cmt[i].ID[k]=cmt[i].ID[k+1];
-			}
+	len = strlen(cmt->ID);
+	for (j=0; j<len; j++){
+		if (cmt->ID[j]==' '){
+			k=j;
+			for( ; cmt->ID[k]!='\0'; k++)
+				cmt->ID[k]=cmt->ID[k+1];
 		}
-
-		fprintf(fout,"%s %.6f %.6f %.4f %.4f %.4f %4d %02d %07.4f %.1f %.1f %s\n",
-				cmt[i].ID, cmt[i].q, cmt[i].e, cmt[i].i, cmt[i].pn, cmt[i].an,
-				cmt[i].y, cmt[i].m, cmt[i].d, cmt[i].H, cmt[i].G*2.5, cmt[i].name);
-
-		Frame61->ProgressBar1->Position = i+1;
 	}
+
+	fprintf(fout,"%s %.6f %.6f %.4f %.4f %.4f %4d %02d %07.4f %.1f %.1f %s\n",
+			cmt->ID, cmt->q, cmt->e, cmt->i, cmt->pn, cmt->an,
+			cmt->y, cmt->m, cmt->d, cmt->H, cmt->G*2.5, cmt->name);
+
+	Frame61->ProgressBar1->Position += 1;;
 }
 
-void TForm1::export_ecu (int N, FILE *fout){
+void TForm1::export_ecu (Comet *cmt, FILE *fout){
 
-	for (int i=0; i<N; i++) {
+	fprintf(fout,"%s\nE C %d %4d %02d %07.4f %.6f %.6f %.4f %.4f %.4f %.1f %.1f\n",
+			cmt->full, equinox, cmt->y, cmt->m, cmt->d, cmt->q,
+			cmt->e, cmt->pn, cmt->an, cmt->i, cmt->H, cmt->G*2.5);
 
-		fprintf(fout,"%s\nE C %d %4d %02d %07.4f %.6f %.6f %.4f %.4f %.4f %.1f %.1f\n",
-				cmt[i].full, equinox, cmt[i].y, cmt[i].m, cmt[i].d, cmt[i].q,
-				cmt[i].e, cmt[i].pn, cmt[i].an, cmt[i].i, cmt[i].H, cmt[i].G*2.5);
-
-		Frame61->ProgressBar1->Position = i+1;
-	}
+	Frame61->ProgressBar1->Position += 1;
 }
 
-void TForm1::export_dance (int N, FILE *fout){
+void TForm1::export_dance (Comet *cmt, FILE *fout){
 
-	for (int i=0; i<N; i++) {
+	fprintf(fout,"%s\nE C %d %4d %02d %07.4f %.6f %.6f %.4f %.4f %.4f %.1f %.1f\n",
+			cmt->full, equinox, cmt->y, cmt->m, cmt->d,
+			cmt->q, cmt->e, cmt->pn, cmt->an, cmt->i, cmt->H, cmt->G);
 
-		fprintf(fout,"%s\nE C %d %4d %02d %07.4f %.6f %.6f %.4f %.4f %.4f %.1f %.1f\n",
-				cmt[i].full, equinox, cmt[i].y, cmt[i].m, cmt[i].d,
-				cmt[i].q, cmt[i].e, cmt[i].pn, cmt[i].an, cmt[i].i, cmt[i].H, cmt[i].G);
-
-		Frame61->ProgressBar1->Position = i+1;
-	}
+	Frame61->ProgressBar1->Position += 1;
 }
 
-void TForm1::export_megastar (int N, FILE *fout){
+void TForm1::export_megastar (Comet *cmt, FILE *fout){
 
-	for (int i=0; i<N; i++) {
+	fprintf(fout,"%-30s%-12s%4d %02d  %07.4f   %9.6f   %.6f    %8.4f    %8.4f    %8.4f   %4.1f   %4.1f    %d MPC 00000\n",
+			cmt->name, cmt->ID, cmt->y, cmt->m, cmt->d,
+			cmt->q, cmt->e, cmt->pn, cmt->an,
+			cmt->i, cmt->H, cmt->G*2.5, equinox);
 
-		fprintf(fout,"%-30s%-12s%4d %02d  %07.4f   %9.6f   %.6f    %8.4f    %8.4f    %8.4f   %4.1f   %4.1f    %d MPC 00000\n",
-				cmt[i].name, cmt[i].ID, cmt[i].y, cmt[i].m, cmt[i].d,
-				cmt[i].q, cmt[i].e, cmt[i].pn, cmt[i].an,
-				cmt[i].i, cmt[i].H, cmt[i].G*2.5, equinox);
-
-
-		Frame61->ProgressBar1->Position = i+1;
-	}
+	Frame61->ProgressBar1->Position += 1;
 }
 
-void TForm1::export_skychart (int N, FILE *fout){
+void TForm1::export_skychart (Comet *cmt, FILE *fout){
 
-	for (int i=0; i<N; i++) {
+	fprintf(fout,"P11	%d.0	-%.6f\t%.6f\t%.3f\t%.4f\t%.4f\t0\t%4d/%02d/%07.4f\t%.1f %.1f\t0\t0\t%s; MPC 00000\t\n",
+			equinox, cmt->q, cmt->e, cmt->i, cmt->pn, cmt->an, cmt->y,
+			cmt->m, cmt->d, cmt->H, cmt->G, cmt->full);
 
-		fprintf(fout,"P11	%d.0	-%.6f\t%.6f\t%.3f\t%.4f\t%.4f\t0\t%4d/%02d/%07.4f\t%.1f %.1f\t0\t0\t%s; MPC 00000\t\n",
-				equinox, cmt[i].q, cmt[i].e, cmt[i].i, cmt[i].pn, cmt[i].an, cmt[i].y,
-				cmt[i].m, cmt[i].d, cmt[i].H, cmt[i].G, cmt[i].full);
-
-		Frame61->ProgressBar1->Position = i+1;
-	}
+	Frame61->ProgressBar1->Position += 1;
 }
 
-void TForm1::export_voyager (int N, FILE *fout){
+void TForm1::export_voyager (Comet *cmt, FILE *fout){
 
 	char *mon;
 
-	for (int i=0; i<N; i++) {
+	if (cmt->m== 1) mon = "Jan";
+	if (cmt->m== 2) mon = "Feb";
+	if (cmt->m== 3) mon = "Mar";
+	if (cmt->m== 4) mon = "Apr";
+	if (cmt->m== 5) mon = "May";
+	if (cmt->m== 6) mon = "Jun";
+	if (cmt->m== 7) mon = "Jul";
+	if (cmt->m== 8) mon = "Aug";
+	if (cmt->m== 9) mon = "Sep";
+	if (cmt->m==10) mon = "Oct";
+	if (cmt->m==11) mon = "Nov";
+	if (cmt->m==12) mon = "Dec";
 
-		if (cmt[i].m== 1) mon = "Jan";
-		if (cmt[i].m== 2) mon = "Feb";
-		if (cmt[i].m== 3) mon = "Mar";
-		if (cmt[i].m== 4) mon = "Apr";
-		if (cmt[i].m== 5) mon = "May";
-		if (cmt[i].m== 6) mon = "Jun";
-		if (cmt[i].m== 7) mon = "Jul";
-		if (cmt[i].m== 8) mon = "Aug";
-		if (cmt[i].m== 9) mon = "Sep";
-		if (cmt[i].m==10) mon = "Oct";
-		if (cmt[i].m==11) mon = "Nov";
-		if (cmt[i].m==12) mon = "Dec";
+	fprintf(fout,"%-26s %9.6f   %.6f  %8.4f   %8.4f   %8.4f   0.0  %4d%s",
+			cmt->name, cmt->q, cmt->e, cmt->i, cmt->an,
+			cmt->pn, cmt->y, mon);
 
-		fprintf(fout,"%-26s %9.6f   %.6f  %8.4f   %8.4f   %8.4f   0.0  %4d%s",
-				cmt[i].name, cmt[i].q, cmt[i].e, cmt[i].i, cmt[i].an,
-				cmt[i].pn, cmt[i].y, mon);
+	if ((int)cmt->d<10) fprintf(fout, "%7.4f  %d.0\n", cmt->d, equinox);
+	else fprintf(fout, "%7.4f %d.0\n", cmt->d, equinox);
 
-		if ((int)cmt[i].d<10) fprintf(fout, "%7.4f  %d.0\n", cmt[i].d, equinox);
-		else fprintf(fout, "%7.4f %d.0\n", cmt[i].d, equinox);
-
-		Frame61->ProgressBar1->Position = i+1;
-	}
+	Frame61->ProgressBar1->Position += 1;
 }
 
-void TForm1::export_skytools (int N, FILE *fout){
+void TForm1::export_skytools (Comet *cmt, FILE *fout){
 
 	int j, k, len;
 
-	for (int i=0; i<N; i++) {
+	int h = (cmt->d - (int)cmt->d)*10000;
 
-		int h = (cmt[i].d - (int)cmt[i].d)*10000;
+	if(h>999) h/=10;
 
-		if(h>999) h/=10;
+	k=0;
+	fputc('C', fout); k++;
+	fputc(' ', fout); k++;
+	len = strlen(cmt->ID);
+	for(j=0; j<len; j++){
+		fputc(cmt->ID[j], fout);
+		k++;
+	}
 
-		k=0;
-		fputc('C', fout); k++;
+	len = strlen(cmt->ID);
+	if ((cmt->ID[len-1]=='P' && isdigit(cmt->ID[len-2])) ||
+		(cmt->ID[len-1]=='D' && isdigit(cmt->ID[len-2]))){
+		fputc('/', fout); k++;
+	}
+	else {
+		fputc(' ', fout);
+		k++;
+	}
+	len = strlen(cmt->name);
+	for(j=0; j<len; j++){
+		fputc(cmt->name[j], fout);
+		k++;
+	}
+	while(k<43){
 		fputc(' ', fout); k++;
-		len = strlen(cmt[i].ID);
-		for(j=0; j<len; j++){
-			fputc(cmt[i].ID[j], fout);
-			k++;
-		}
-
-		len = strlen(cmt[i].ID);
-		if ((cmt[i].ID[len-1]=='P' && isdigit(cmt[i].ID[len-2])) ||
-			(cmt[i].ID[len-1]=='D' && isdigit(cmt[i].ID[len-2]))){
-			fputc('/', fout); k++;
-		}
-		else {
-			fputc(' ', fout);
-			k++;
-		}
-		len = strlen(cmt[i].name);
-		for(j=0; j<len; j++){
-			fputc(cmt[i].name[j], fout);
-			k++;
-		}
-		while(k<43){
-			fputc(' ', fout); k++;
-		}
-
-		fprintf(fout,"2011 02 08 %4d %02d %02d.%-.03d  %9.6f   %.6f %7.3f %7.3f %7.3f  %4.1f  %4.1f 0.00%d MPC 00000\n",
-				cmt[i].y, cmt[i].m, (int)cmt[i].d, h, cmt[i].q, cmt[i].e,
-				cmt[i].pn, cmt[i].an, cmt[i].i, cmt[i].H, cmt[i].G, equinox);
-
-		Frame61->ProgressBar1->Position = i+1;
 	}
+
+	fprintf(fout,"2011 02 08 %4d %02d %02d.%-.03d  %9.6f   %.6f %7.3f %7.3f %7.3f  %4.1f  %4.1f 0.00%d MPC 00000\n",
+			cmt->y, cmt->m, (int)cmt->d, h, cmt->q, cmt->e,
+			cmt->pn, cmt->an, cmt->i, cmt->H, cmt->G, equinox);
+
+	Frame61->ProgressBar1->Position += 1;
 }
 
-void TForm1::export_ssc (int N, FILE *fout){
+void TForm1::export_ssc (Comet *cmt, FILE *fout){
 
 	char *mon;
 
-	for (int i=0; i<N; i++) {
+	if (cmt->e == 1) cmt->e = 1.000001;
+	int h = (cmt->d - (int)cmt->d)*10000;
 
-		if (cmt[i].e == 1) cmt[i].e = 1.000001;
+	int len = strlen(cmt->full);
+	for (int j=0; j<len; j++)
+		if (cmt->full[j]=='/') cmt->full[j]=' ';
 
-		int h = (cmt[i].d - (int)cmt[i].d)*10000;
+	if (cmt->m== 1) mon = "Jan";
+	if (cmt->m== 2) mon = "Feb";
+	if (cmt->m== 3) mon = "Mar";
+	if (cmt->m== 4) mon = "Apr";
+	if (cmt->m== 5) mon = "May";
+	if (cmt->m== 6) mon = "Jun";
+	if (cmt->m== 7) mon = "Jul";
+	if (cmt->m== 8) mon = "Aug";
+	if (cmt->m== 9) mon = "Sep";
+	if (cmt->m==10) mon = "Oct";
+	if (cmt->m==11) mon = "Nov";
+	if (cmt->m==12) mon = "Dec";
 
-		int len = strlen(cmt[i].full);
-		for (int j=0; j<len; j++) if (cmt[i].full[j]=='/') cmt[i].full[j]=' ';
+	fprintf(fout,"\"%s\" \"Sol\"\n", cmt->full);
+	fprintf(fout,"{\n");
+	fprintf(fout,"Class \"comet\" \n");
+	fprintf(fout,"Mesh \"asteroid.cms\" \n");
+	fprintf(fout,"Texture \"asteroid.jpg\" \n");
+	fprintf(fout,"Radius 5 \n");
+	fprintf(fout,"Albedo 0.1 \n");
+	fprintf(fout,"EllipticalOrbit \n");
+	fprintf(fout,"\t{ \n");
+	fprintf(fout,"\tPeriod \t\t\t %f \n", cmt->P);
+	fprintf(fout,"\tPericenterDistance \t %f \n", cmt->q);
+	fprintf(fout,"\tEccentricity \t\t %f \n", cmt->e);
+	fprintf(fout,"\tInclination \t\t %.4f \n", cmt->i);
+	fprintf(fout,"\tAscendingNode \t\t %.4f \n", cmt->an);
+	fprintf(fout,"\tArgOfPericenter \t %.4f \n", cmt->pn);
+	fprintf(fout,"\tMeanAnomaly \t\t 0  \n");
+	fprintf(fout,"\tEpoch \t\t\t %ld.%.4d\t# %d %s %.2d.%.4d \n",
+			cmt->T, h, cmt->y, mon, (int)cmt->d, h);
+	fprintf(fout,"\t} \n");
+	fprintf(fout,"}\n\n\n");
 
-		if (cmt[i].m== 1) mon = "Jan";
-		if (cmt[i].m== 2) mon = "Feb";
-		if (cmt[i].m== 3) mon = "Mar";
-		if (cmt[i].m== 4) mon = "Apr";
-		if (cmt[i].m== 5) mon = "May";
-		if (cmt[i].m== 6) mon = "Jun";
-		if (cmt[i].m== 7) mon = "Jul";
-		if (cmt[i].m== 8) mon = "Aug";
-		if (cmt[i].m== 9) mon = "Sep";
-		if (cmt[i].m==10) mon = "Oct";
-		if (cmt[i].m==11) mon = "Nov";
-		if (cmt[i].m==12) mon = "Dec";
-
-		fprintf(fout,"\"%s\" \"Sol\"\n", cmt[i].full);
-		fprintf(fout,"{\n");
-		fprintf(fout,"Class \"comet\" \n");
-		fprintf(fout,"Mesh \"asteroid.cms\" \n");
-		fprintf(fout,"Texture \"asteroid.jpg\" \n");
-		fprintf(fout,"Radius 5 \n");
-		fprintf(fout,"Albedo 0.1 \n");
-		fprintf(fout,"EllipticalOrbit \n");
-		fprintf(fout,"\t{ \n");
-		fprintf(fout,"\tPeriod \t\t\t %f \n", cmt[i].P);
-		fprintf(fout,"\tPericenterDistance \t %f \n", cmt[i].q);
-		fprintf(fout,"\tEccentricity \t\t %f \n", cmt[i].e);
-		fprintf(fout,"\tInclination \t\t %.4f \n", cmt[i].i);
-		fprintf(fout,"\tAscendingNode \t\t %.4f \n", cmt[i].an);
-		fprintf(fout,"\tArgOfPericenter \t %.4f \n", cmt[i].pn);
-		fprintf(fout,"\tMeanAnomaly \t\t 0  \n");
-		fprintf(fout,"\tEpoch \t\t\t %ld.%.4d\t# %d %s %.2d.%.4d \n",
-				cmt[i].T, h, cmt[i].y, mon, (int)cmt[i].d, h);
-		fprintf(fout,"\t} \n");
-		fprintf(fout,"}\n\n\n");
-
-		Frame61->ProgressBar1->Position = i+1;
-	}
+	Frame61->ProgressBar1->Position += 1;
 }
 
-void TForm1::export_stell (int N, FILE *fout){
+void TForm1::export_stell (Comet *cmt, FILE *fout){
 
-	for (int i=0; i<N; i++) {
+	int len = strlen(cmt->name);
+	for (int j=0; j<len; j++)
+		if (isupper(cmt->name[j])) cmt->name[j] = tolower(cmt->name[j]);
 
-		int len = strlen(cmt[i].name);
-		for (int j=0; j<len; j++) if (isupper(cmt[i].name[j])) cmt[i].name[j] = tolower(cmt[i].name[j]);
+	int h = (cmt->d - (int)cmt->d)*10000;
 
-		int h = (cmt[i].d - (int)cmt[i].d)*10000;
+	fprintf(fout,"[%s]\n", cmt->name);
+	fprintf(fout,"parent = Sun\n");
+	fprintf(fout,"orbit_Inclination = %f\n", cmt->i);
+	fprintf(fout,"coord_func = comet_orbit\n");
+	fprintf(fout,"orbit_Eccentricity = %f\n", cmt->e);
+	fprintf(fout,"orbit_ArgOfPericenter = %f\n", cmt->pn);
+	fprintf(fout,"absolute_magnitude=%.1f\n", cmt->H);
+	fprintf(fout,"name = %s\n", cmt->full);
+	fprintf(fout,"slope_parameter = %.1f\n", cmt->G);
+	fprintf(fout,"lighting = false\n");
+	fprintf(fout,"tex_map = nomap.png\n");
+	fprintf(fout,"color = 1.0, 1.0, 1.0\n");
+	fprintf(fout,"orbit_AscendingNode = %f\n", cmt->an);
+	fprintf(fout,"albedo = 1\n");
+	fprintf(fout,"radius = 5\n");
+	fprintf(fout,"orbit_PericenterDistance = %f\n", cmt->q);
+	fprintf(fout,"type = comet\n");
+	fprintf(fout,"orbit_TimeAtPericenter = %ld.%.4d\n\n", cmt->T, h);
 
-		fprintf(fout,"[%s]\n", cmt[i].name);
-		fprintf(fout,"parent = Sun\n");
-		fprintf(fout,"orbit_Inclination = %f\n", cmt[i].i);
-		fprintf(fout,"coord_func = comet_orbit\n");
-		fprintf(fout,"orbit_Eccentricity = %f\n", cmt[i].e);
-		fprintf(fout,"orbit_ArgOfPericenter = %f\n", cmt[i].pn);
-		fprintf(fout,"absolute_magnitude=%.1f\n", cmt[i].H);
-		fprintf(fout,"name = %s\n", cmt[i].full);
-		fprintf(fout,"slope_parameter = %.1f\n", cmt[i].G);
-		fprintf(fout,"lighting = false\n");
-		fprintf(fout,"tex_map = nomap.png\n");
-		fprintf(fout,"color = 1.0, 1.0, 1.0\n");
-		fprintf(fout,"orbit_AscendingNode = %f\n", cmt[i].an);
-		fprintf(fout,"albedo = 1\n");
-		fprintf(fout,"radius = 5\n");
-		fprintf(fout,"orbit_PericenterDistance = %f\n", cmt[i].q);
-		fprintf(fout,"type = comet\n");
-		fprintf(fout,"orbit_TimeAtPericenter = %ld.%.4d\n\n", cmt[i].T, h);
-
-		Frame61->ProgressBar1->Position = i+1;
-	}
-}
-
-void TForm1::sort_data (int N) {
-
-	Frame41->ProgressBar1->Visible = true;
-	Frame41->ProgressBar1->Position = 0;
-	Frame41->ProgressBar1->Max = N-1;
-
-	for (int i=0; i<N-1; i++){
-		for (int j=i+1; j<N; j++){
-			if (Frame41->ComboBox2->ItemIndex == 1 && Frame41->ComboBox3->ItemIndex == 0 && cmt[i].sort > cmt[j].sort) do_swap(i, j);
-			if (Frame41->ComboBox2->ItemIndex == 1 && Frame41->ComboBox3->ItemIndex == 1 && cmt[i].sort < cmt[j].sort) do_swap(i, j);
-			if (Frame41->ComboBox2->ItemIndex == 2 && Frame41->ComboBox3->ItemIndex == 0 && cmt[i].T > cmt[j].T) do_swap(i, j);
-			if (Frame41->ComboBox2->ItemIndex == 2 && Frame41->ComboBox3->ItemIndex == 1 && cmt[i].T < cmt[j].T) do_swap(i, j);
-			if (Frame41->ComboBox2->ItemIndex == 3 && Frame41->ComboBox3->ItemIndex == 0 && cmt[i].q > cmt[j].q) do_swap(i, j);
-			if (Frame41->ComboBox2->ItemIndex == 3 && Frame41->ComboBox3->ItemIndex == 1 && cmt[i].q < cmt[j].q) do_swap(i, j);
-			if (Frame41->ComboBox2->ItemIndex == 4 && Frame41->ComboBox3->ItemIndex == 0 && cmt[i].e > cmt[j].e) do_swap(i, j);
-			if (Frame41->ComboBox2->ItemIndex == 4 && Frame41->ComboBox3->ItemIndex == 1 && cmt[i].e < cmt[j].e) do_swap(i, j);
-			if (Frame41->ComboBox2->ItemIndex == 5 && Frame41->ComboBox3->ItemIndex == 0 && cmt[i].an > cmt[j].an) do_swap(i, j);
-			if (Frame41->ComboBox2->ItemIndex == 5 && Frame41->ComboBox3->ItemIndex == 1 && cmt[i].an < cmt[j].an) do_swap(i, j);
-			if (Frame41->ComboBox2->ItemIndex == 6 && Frame41->ComboBox3->ItemIndex == 0 && cmt[i].pn > cmt[j].pn) do_swap(i, j);
-			if (Frame41->ComboBox2->ItemIndex == 6 && Frame41->ComboBox3->ItemIndex == 1 && cmt[i].pn < cmt[j].pn) do_swap(i, j);
-			if (Frame41->ComboBox2->ItemIndex == 7 && Frame41->ComboBox3->ItemIndex == 0 && cmt[i].i > cmt[j].i) do_swap(i, j);
-			if (Frame41->ComboBox2->ItemIndex == 7 && Frame41->ComboBox3->ItemIndex == 1 && cmt[i].i < cmt[j].i) do_swap(i, j);
-			if (Frame41->ComboBox2->ItemIndex == 8 && Frame41->ComboBox3->ItemIndex == 0 && cmt[i].P > cmt[j].P) do_swap(i, j);
-			if (Frame41->ComboBox2->ItemIndex == 8 && Frame41->ComboBox3->ItemIndex == 1 && cmt[i].P < cmt[j].P) do_swap(i, j);
-		}
-
-		Frame41->ProgressBar1->Position = i+1;
-	}
-}
-
-void TForm1::do_swap(int i, int j){
-
-	Comet temp;
-	int k;
-
-	for(k=0;k<81;k++) {
-		temp.full[k]=cmt[i].full[k];
-		cmt[i].full[k]=cmt[j].full[k];
-		cmt[j].full[k]=temp.full[k];
-	}
-
-	for(k=0;k<56;k++) {
-		temp.name[k]=cmt[i].name[k];
-		cmt[i].name[k]=cmt[j].name[k];
-		cmt[j].name[k]=temp.name[k];
-	}
-
-	for(k=0;k<26;k++) {
-		temp.ID[k]=cmt[i].ID[k];
-		cmt[i].ID[k]=cmt[j].ID[k];
-		cmt[j].ID[k]=temp.ID[k];
-	}
-
-	temp.T = cmt[i].T;
-	cmt[i].T = cmt[j].T;
-	cmt[j].T = temp.T;
-
-	temp.y = cmt[i].y;
-	cmt[i].y = cmt[j].y;
-	cmt[j].y = temp.y;
-
-	temp.m = cmt[i].m;
-	cmt[i].m = cmt[j].m;
-	cmt[j].m = temp.m;
-
-	temp.d = cmt[i].d;
-	cmt[i].d = cmt[j].d;
-	cmt[j].d = temp.d;
-
-	temp.P = cmt[i].P;
-	cmt[i].P = cmt[j].P;
-	cmt[j].P = temp.P;
-
-	temp.q = cmt[i].q;
-	cmt[i].q = cmt[j].q;
-	cmt[j].q = temp.q;
-
-	temp.e = cmt[i].e;
-	cmt[i].e = cmt[j].e;
-	cmt[j].e = temp.e;
-
-	temp.i = cmt[i].i;
-	cmt[i].i = cmt[j].i;
-	cmt[j].i = temp.i;
-
-	temp.an = cmt[i].an;
-	cmt[i].an = cmt[j].an;
-	cmt[j].an = temp.an;
-
-	temp.pn = cmt[i].pn;
-	cmt[i].pn = cmt[j].pn;
-	cmt[j].pn = temp.pn;
-
-	temp.H = cmt[i].H;
-	cmt[i].H = cmt[j].H;
-	cmt[j].H = temp.H;
-
-	temp.G = cmt[i].G;
-	cmt[i].G = cmt[j].G;
-	cmt[j].G = temp.G;
-
-	temp.sort=cmt[i].sort;
-	cmt[i].sort=cmt[j].sort;
-	cmt[j].sort=temp.sort;
+	Frame61->ProgressBar1->Position += 1;
 }
 
 bool TForm1::define_exclude(){
@@ -2004,7 +1988,13 @@ bool TForm1::define_exclude(){
 
 	if(Frame31->CheckBox2->Checked){
 
-		if (Frame31->Edit2->GetTextLen() == 0) throw(Exception("Please enter value"));
+		if (Frame31->Edit2->GetTextLen() == 0){
+
+			Application->MessageBox(L"Please enter value",
+				L"Error",
+				MB_OK | MB_ICONERROR);
+			return false;
+		}
 
 		float q = atof(AnsiString(Frame31->Edit2->Text).c_str());
 
@@ -2024,11 +2014,23 @@ bool TForm1::define_exclude(){
 
 	if(Frame31->CheckBox3->Checked){
 
-		if (Frame31->Edit3->GetTextLen() == 0) throw(Exception("Please enter value"));
+		if (Frame31->Edit3->GetTextLen() == 0){
+
+			Application->MessageBox(L"Please enter value",
+				L"Error",
+				MB_OK | MB_ICONERROR);
+			return false;
+		}
 
 		float e = atof(AnsiString(Frame31->Edit3->Text).c_str());
 
-		if (e<0 || e>1) throw(Exception("Value must be between 0 and 1"));
+		if (e<0 || e>1){
+
+			Application->MessageBox(L"Value must be between 0 and 1",
+				L"Error",
+				MB_OK | MB_ICONERROR);
+			return false;
+		}
 
 		excl.e = e;
 
@@ -2038,11 +2040,23 @@ bool TForm1::define_exclude(){
 
 	if(Frame31->CheckBox4->Checked){
 
-		if (Frame31->Edit4->GetTextLen() == 0) throw(Exception("Please enter value"));
+		if (Frame31->Edit4->GetTextLen() == 0){
+
+			Application->MessageBox(L"Please enter value",
+				L"Error",
+				MB_OK | MB_ICONERROR);
+			return false;
+		}
 
 		float an = atof(AnsiString(Frame31->Edit4->Text).c_str());
 
-		if (an<0 || an>=360) throw(Exception("Value must be between 0 and 360"));
+		if (an<0 || an>=360){
+
+			Application->MessageBox(L"Value must be between 0 and 360",
+				L"Error",
+				MB_OK | MB_ICONERROR);
+			return false;
+		}
 
 		excl.an = an;
 
@@ -2052,11 +2066,23 @@ bool TForm1::define_exclude(){
 
 	if(Frame31->CheckBox5->Checked){
 
-		if (Frame31->Edit5->GetTextLen() == 0) throw(Exception("Please enter value"));
+		if (Frame31->Edit5->GetTextLen() == 0){
+
+			Application->MessageBox(L"Please enter value",
+				L"Error",
+				MB_OK | MB_ICONERROR);
+			return false;
+		}
 
 		float pn = atof(AnsiString(Frame31->Edit5->Text).c_str());
 
-		if (pn<0 || pn>=360) throw(Exception("Value must be between 0 and 360"));
+		if (pn<0 || pn>=360){
+
+			Application->MessageBox(L"Value must be between 0 and 360",
+				L"Error",
+				MB_OK | MB_ICONERROR);
+			return false;
+		}
 
 		excl.pn = pn;
 
@@ -2066,11 +2092,23 @@ bool TForm1::define_exclude(){
 
 	if(Frame31->CheckBox6->Checked){
 
-		if (Frame31->Edit6->GetTextLen() == 0) throw(Exception("Please enter value"));
+		if (Frame31->Edit6->GetTextLen() == 0){
+
+			Application->MessageBox(L"Please enter value",
+				L"Error",
+				MB_OK | MB_ICONERROR);
+			return false;
+		}
 
 		float i = atof(AnsiString(Frame31->Edit6->Text).c_str());
 
-		if (i<0 || i>=180) throw(Exception("Value must be between 0 and 180"));
+		if (i<0 || i>=180){
+
+			Application->MessageBox(L"Value must be between 0 and 180",
+				L"Error",
+				MB_OK | MB_ICONERROR);
+			return false;
+		}
 
 		excl.i = i;
 
@@ -2080,11 +2118,23 @@ bool TForm1::define_exclude(){
 
 	if(Frame31->CheckBox7->Checked){
 
-		if (Frame31->Edit7->GetTextLen() == 0) throw(Exception("Please enter value"));
+		if (Frame31->Edit7->GetTextLen() == 0){
+
+        	Application->MessageBox(L"Please enter value",
+				L"Error",
+				MB_OK | MB_ICONERROR);
+			return false;
+		}
 
 		float P = atof(AnsiString(Frame31->Edit7->Text).c_str());
 
-		if (P <= 0) throw(Exception("Value must be greather than zero"));
+		if (P <= 0){
+
+			Application->MessageBox(L"Value must be greather than zero",
+				L"Error",
+				MB_OK | MB_ICONERROR);
+			return false;
+		}
 
 		excl.P = P;
 
@@ -2095,22 +2145,22 @@ bool TForm1::define_exclude(){
 	return true;
 }
 
-bool TForm1::do_exclude(int i){
+bool TForm1::do_exclude(Comet *cmt){
 
-	if (excl.key[ 0] && cmt[i].T > excl.T) return true;
-	if (excl.key[ 1] && cmt[i].T < excl.T) return true;
-	if (excl.key[ 2] && cmt[i].q > excl.q) return true;
-	if (excl.key[ 3] && cmt[i].q < excl.q) return true;
-	if (excl.key[ 4] && cmt[i].e > excl.e) return true;
-	if (excl.key[ 5] && cmt[i].e < excl.e) return true;
-	if (excl.key[ 6] && cmt[i].an > excl.an) return true;
-	if (excl.key[ 7] && cmt[i].an < excl.an) return true;
-	if (excl.key[ 8] && cmt[i].pn > excl.pn) return true;
-	if (excl.key[ 9] && cmt[i].pn < excl.pn) return true;
-	if (excl.key[10] && cmt[i].i > excl.i) return true;
-	if (excl.key[11] && cmt[i].i < excl.i) return true;
-	if (excl.key[12] && cmt[i].P > excl.P) return true;
-	if (excl.key[13] && cmt[i].P < excl.P) return true;
+	if (excl.key[ 0] && cmt->T > excl.T) return true;
+	if (excl.key[ 1] && cmt->T < excl.T) return true;
+	if (excl.key[ 2] && cmt->q > excl.q) return true;
+	if (excl.key[ 3] && cmt->q < excl.q) return true;
+	if (excl.key[ 4] && cmt->e > excl.e) return true;
+	if (excl.key[ 5] && cmt->e < excl.e) return true;
+	if (excl.key[ 6] && cmt->an > excl.an) return true;
+	if (excl.key[ 7] && cmt->an < excl.an) return true;
+	if (excl.key[ 8] && cmt->pn > excl.pn) return true;
+	if (excl.key[ 9] && cmt->pn < excl.pn) return true;
+	if (excl.key[10] && cmt->i > excl.i) return true;
+	if (excl.key[11] && cmt->i < excl.i) return true;
+	if (excl.key[12] && cmt->P > excl.P) return true;
+	if (excl.key[13] && cmt->P < excl.P) return true;
 
 	return false;
 }
@@ -2133,4 +2183,33 @@ void TForm1::spremiPostavke(){
 	fclose(settFile);
 }
 
+void TForm1::updateListbox(Comet *head){
+
+	Form1->Frame51->ListBox1->Clear();
+
+  	while(head!=NULL){
+		Form1->Frame51->ListBox1->Items->Add(head->full);
+		head = head->next;
+	}
+}
+
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::Settings2Click(TObject *Sender)
+{
+	Form7->ShowModal();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::Exit1Click(TObject *Sender)
+{
+	Form1->Close();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::About1Click(TObject *Sender)
+{
+	Form8->ShowModal();
+}
+//---------------------------------------------------------------------------
 

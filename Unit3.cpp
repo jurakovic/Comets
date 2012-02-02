@@ -19,28 +19,9 @@ __fastcall TFrame3::TFrame3(TComponent* Owner)
 //---------------------------------------------------------------------------
 void __fastcall TFrame3::Button1Click(TObject *Sender)
 {
-	if ((CheckBox1->Checked && ComboBox1->ItemIndex == -1) ||
-		(CheckBox2->Checked && ComboBox2->ItemIndex == -1) ||
-		(CheckBox3->Checked && ComboBox3->ItemIndex == -1) ||
-		(CheckBox4->Checked && ComboBox4->ItemIndex == -1) ||
-		(CheckBox5->Checked && ComboBox5->ItemIndex == -1) ||
-		(CheckBox6->Checked && ComboBox6->ItemIndex == -1) ||
-		(CheckBox7->Checked && ComboBox7->ItemIndex == -1)){
 
-		Application->MessageBox(L"Please select < or >",
-			L"Error",
-			MB_OK | MB_ICONERROR);
-		return;
-	}
-
-	if(!Form1->define_exclude()) return;
-
-	Form1->Frame41->Visible = true;
+	Form1->Frame51->Visible = true;
 	Form1->Frame31->Visible = false;
-
-	Form1->Frame41->ProgressBar1->Visible = false;
-	Form1->Frame41->Label2->Visible = false;
-	Form1->Frame41->Button1->Enabled = false;
 }
 //---------------------------------------------------------------------------
 
@@ -48,6 +29,10 @@ void __fastcall TFrame3::Button2Click(TObject *Sender)
 {
 	Form1->Frame21->Visible = true;
 	Form1->Frame31->Visible = false;
+
+	ProgressBar1->Visible = false;
+	Button1->Enabled = false;
+	ocistiMemoriju(&Form1->cmt);
 }
 
 
@@ -59,6 +44,7 @@ void __fastcall TFrame3::CheckBox1Click(TObject *Sender)
 		EditD->Enabled = CheckBox1->Checked;
 		EditM->Enabled = CheckBox1->Checked;
 		EditY->Enabled = CheckBox1->Checked;
+		Button3->Enabled = CheckBox1->Checked;
 }
 //---------------------------------------------------------------------------
 
@@ -107,26 +93,6 @@ void __fastcall TFrame3::CheckBox7Click(TObject *Sender)
 		Edit7->Enabled = CheckBox7->Checked;
 		Label7->Enabled = CheckBox7->Checked;
 }
-
-//---------------------------------------------------------------------------
-
-
-void __fastcall TFrame3::BAboutClick(TObject *Sender)
-{
-	Form8->ShowModal();
-}
-//---------------------------------------------------------------------------
-
-void __fastcall TFrame3::BSettingsClick(TObject *Sender)
-{
-	Form7->ShowModal();
-}
-//---------------------------------------------------------------------------
-
-void __fastcall TFrame3::BExitClick(TObject *Sender)
-{
-	Form1->Close();
-}
 //---------------------------------------------------------------------------
 bool TFrame3::provjeriTocku(char *str){
 
@@ -169,6 +135,78 @@ void __fastcall TFrame3::Edit2KeyPress(TObject *Sender, System::WideChar &Key)
 		Beep();
 		Key = false;
 	}
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFrame3::Button3Click(TObject *Sender)
+{
+	time_t rawtime;
+	struct tm *timeinfo;
+
+	time (&rawtime);
+	timeinfo = localtime(&rawtime);
+	int d = timeinfo->tm_mday;
+	int m = 1+timeinfo->tm_mon;
+	int y = 1900+timeinfo->tm_year;
+
+	EditD->Text = AnsiString(d);
+	EditM->Text = AnsiString(m);
+	EditY->Text = AnsiString(y);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFrame3::Button4Click(TObject *Sender)
+{
+	if ((CheckBox1->Checked && ComboBox1->ItemIndex == -1) ||
+		(CheckBox2->Checked && ComboBox2->ItemIndex == -1) ||
+		(CheckBox3->Checked && ComboBox3->ItemIndex == -1) ||
+		(CheckBox4->Checked && ComboBox4->ItemIndex == -1) ||
+		(CheckBox5->Checked && ComboBox5->ItemIndex == -1) ||
+		(CheckBox6->Checked && ComboBox6->ItemIndex == -1) ||
+		(CheckBox7->Checked && ComboBox7->ItemIndex == -1)){
+
+		Application->MessageBox(L"Please select Greather than (>) or Less than (<)",
+			L"Error",
+			MB_OK | MB_ICONERROR);
+		return;
+	}
+
+	if(Form1->define_exclude() == false) return;
+
+	ocistiMemoriju(&Form1->cmt);
+
+	int importType = Form1->Frame21->ComboBox1->ItemIndex;
+
+	UnicodeString importFile;
+
+	if(Form1->Frame21->RadioButton1->Checked)
+		importFile = Form1->Frame21->downloadedFile;
+
+	else
+		importFile = Form1->Frame21->Edit1->Text;
+
+	int Ncmt = Form1->import_main(importType, importFile);
+
+	if(Ncmt==0) return;
+
+	Application->MessageBox(String(String(Ncmt) + " of " + String(Form1->Frame21->detectedComets) + " comets imported.").w_str(),
+			L"Import completed!",
+			MB_OK | MB_ICONASTERISK);
+
+	Form1->Frame51->ListBox1->Clear();
+	Form1->updateListbox(Form1->cmt);
+
+	Form1->Frame51->Ncmt = Ncmt;
+	Form1->Frame51->Label20->Caption = "Comets: " + String(Ncmt);
+
+	Form1->Frame51->Button3->Enabled = true;
+	Form1->Frame51->Button4->Enabled = true;
+	Form1->Frame51->Button5->Enabled = true;
+
+	Form1->Frame51->nosort2->Checked = true;
+	Form1->Frame51->Ascending1->Checked = true;
+	Form1->Frame51->Button1->Enabled = true;
+	Button1->Enabled = true;
 }
 //---------------------------------------------------------------------------
 
