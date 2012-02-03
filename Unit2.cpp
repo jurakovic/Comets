@@ -7,6 +7,7 @@
 #include "Unit2.h"
 #include "Unit7.h"
 #include "Unit8.h"
+#include "Unit12.h"
 
 #include "CometMain.hpp"
 //---------------------------------------------------------------------------
@@ -215,7 +216,8 @@ void __fastcall TFrame2::ComboBox1Change(TObject *Sender)
 
 	Form1->Frame51->ListBox1->Clear();
 
-	Form1->Frame51->ocistiEditPolja();
+	//Form12->Close();
+	//Form12->Visible = false;
 
 	Form1->Frame61->Edit1->Text = "";
 	Form1->Frame61->ProgressBar1->Visible = false;

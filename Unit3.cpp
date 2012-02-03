@@ -202,6 +202,8 @@ void __fastcall TFrame3::Button4Click(TObject *Sender)
 	Form1->Frame51->Button3->Enabled = true;
 	Form1->Frame51->Button4->Enabled = true;
 	Form1->Frame51->Button5->Enabled = true;
+	Form1->Frame51->Button6->Enabled = true;
+	Form1->Frame51->Button7->Enabled = true;
 
 	Form1->Frame51->nosort2->Checked = true;
 	Form1->Frame51->Ascending1->Checked = true;

@@ -180,7 +180,6 @@ object Frame2: TFrame2
     Color = cl3DLight
     ParentBackground = False
     TabOrder = 8
-    ExplicitWidth = 600
     object Label1: TLabel
       Left = 16
       Top = 12
@@ -211,7 +210,6 @@ object Frame2: TFrame2
     ParentFont = False
     TabOrder = 9
     OnClick = Button1Click
-    ExplicitLeft = 515
   end
   object H1: TIdHTTP
     OnWork = H1Work

@@ -470,7 +470,6 @@ object Frame3: TFrame3
     Color = cl3DLight
     ParentBackground = False
     TabOrder = 23
-    ExplicitWidth = 600
     DesignSize = (
       570
       50)
@@ -494,7 +493,6 @@ object Frame3: TFrame3
       Height = 1
       Anchors = [akLeft, akRight, akBottom]
       TabOrder = 0
-      ExplicitWidth = 584
     end
   end
   object Button2: TButton
@@ -512,7 +510,6 @@ object Frame3: TFrame3
     ParentFont = False
     TabOrder = 24
     OnClick = Button2Click
-    ExplicitLeft = 434
   end
   object Button1: TButton
     Left = 485
@@ -530,7 +527,6 @@ object Frame3: TFrame3
     ParentFont = False
     TabOrder = 25
     OnClick = Button1Click
-    ExplicitLeft = 515
   end
   object CheckBox8: TCheckBox
     Left = 16
@@ -581,6 +577,5 @@ object Frame3: TFrame3
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 29
     Visible = False
-    ExplicitWidth = 465
   end
 end

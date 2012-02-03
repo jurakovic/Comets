@@ -17,10 +17,10 @@ __fastcall TForm11::TForm11(TComponent* Owner)
 //---------------------------------------------------------------------------
 void __fastcall TForm11::FormClose(TObject *Sender, TCloseAction &Action)
 {
-	Form1->Visible = true;
-	Form1->Frame21->Visible = false;
-	Form1->Frame31->Visible = false;
-	Form1->Frame51->Visible = true;
+	//Form1->Visible = true;
+	//Form1->Frame21->Visible = false;
+	//Form1->Frame31->Visible = false;
+	//Form1->Frame51->Visible = true;
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm11::Button2Click(TObject *Sender)
@@ -32,8 +32,6 @@ void __fastcall TForm11::ComboBox1CloseUp(TObject *Sender)
 {
 	if(ComboBox1->ItemIndex == -1) return;
 
-	using namespace std;
-
 	RichEdit1->Clear();
 
 	UnicodeString tempFile = _wgetenv(L"temp");
@@ -43,41 +41,8 @@ void __fastcall TForm11::ComboBox1CloseUp(TObject *Sender)
 
 	Form1->export_main(10, type, AnsiString(tempFile).c_str());
 
-	FILE *fin = fopen(AnsiString(tempFile).c_str(), "r");
+	RichEdit1->Lines->LoadFromFile(tempFile);
 
-	int N = 0;
-	char c;
-	while ((c=fgetc(fin)) != EOF){
-		if (c=='\n') N++;
-	}
-
-	rewind(fin);
-
-	char line[512+1];
-
-	for(int i=0; i<N; i++){
-
-		if(type == 17){
-			//ako je odaran celestia format vazni su i razmaci
-
-			int j=0;
-
-			while(1){
-				c = fgetc(fin);
-				if(c=='\n') break;
-				line[j++] = c;
-			}
-			while(j<=512){
-				line[j++]='\0';
-			}
-		}
-
-		else fscanf(fin, "%512[^\n]%*c", line);
-
-		RichEdit1->Lines->Add(line);
-	}
-
-	fclose(fin);
 	remove(AnsiString(tempFile).c_str());
 }
 //---------------------------------------------------------------------------

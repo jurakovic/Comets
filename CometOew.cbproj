@@ -150,6 +150,12 @@
 				<DependentOn>Unit11.h</DependentOn>
 				<BuildOrder>15</BuildOrder>
 			</CppCompile>
+			<CppCompile Include="Unit12.cpp">
+				<Form>Form12</Form>
+				<FormType>dfm</FormType>
+				<DependentOn>Unit12.h</DependentOn>
+				<BuildOrder>16</BuildOrder>
+			</CppCompile>
 			<CppCompile Include="Unit2.cpp">
 				<Form>Frame2</Form>
 				<DesignClass>TFrame</DesignClass>
@@ -192,16 +198,17 @@
 				<DependentOn>Unit9.h</DependentOn>
 				<BuildOrder>14</BuildOrder>
 			</CppCompile>
-			<FormResources Include="Unit5.dfm"/>
 			<FormResources Include="Unit3.dfm"/>
-			<FormResources Include="Unit2.dfm"/>
-			<FormResources Include="Unit6.dfm"/>
-			<FormResources Include="Unit9.dfm"/>
-			<FormResources Include="Unit8.dfm"/>
-			<FormResources Include="Unit7.dfm"/>
-			<FormResources Include="Unit10.dfm"/>
-			<FormResources Include="Unit1.dfm"/>
+			<FormResources Include="Unit5.dfm"/>
 			<FormResources Include="Unit11.dfm"/>
+			<FormResources Include="Unit2.dfm"/>
+			<FormResources Include="Unit8.dfm"/>
+			<FormResources Include="Unit9.dfm"/>
+			<FormResources Include="Unit6.dfm"/>
+			<FormResources Include="Unit7.dfm"/>
+			<FormResources Include="Unit1.dfm"/>
+			<FormResources Include="Unit10.dfm"/>
+			<FormResources Include="Unit12.dfm"/>
 			<BuildConfiguration Include="Release">
 				<Key>Cfg_2</Key>
 				<CfgParent>Base</CfgParent>
@@ -288,13 +295,15 @@
 					<DeployFile Class="ProjectOutput" Configuration="Debug" LocalName="Debug\CometOew.exe">
 						<Platform Name="Win32"/>
 					</DeployFile>
-					<DeployFile Class="DependencyModule" Condition="'$(DynamicRTL)'=='true'" LocalName="$(BDS)\Redist\osx32\libcgstl.dylib">
-						<Platform Name="OSX32"/>
-					</DeployFile>
-					<DeployFile Class="DependencyModule" Condition="'$(UsingDelphiRTL)'=='true'" LocalName="$(BDS)\bin\borlndmm.dll">
-						<Platform Name="Win32"/>
+					<DeployFile Class="DebugSymbols" Configuration="Debug" LocalName="Debug\CometOew.tds">
+						<Platform Name="Win32">
+							<RemoteName>CometOew.tds</RemoteName>
+						</Platform>
 					</DeployFile>
 					<DeployFile Class="DependencyModule" Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32120.dll">
+						<Platform Name="Win32"/>
+					</DeployFile>
+					<DeployFile Class="DependencyModule" Condition="'$(UsingDelphiRTL)'=='true'" LocalName="$(BDS)\bin\borlndmm.dll">
 						<Platform Name="Win32"/>
 					</DeployFile>
 					<DeployFile Class="DependencyModule" Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32120mt.dll">
@@ -303,10 +312,8 @@
 					<DeployFile Class="DependencyModule" Condition="'$(DynamicRTL)'=='true'" LocalName="$(BDS)\Redist\osx32\libcgcrtl.dylib">
 						<Platform Name="OSX32"/>
 					</DeployFile>
-					<DeployFile Class="DebugSymbols" Configuration="Debug" LocalName="Debug\CometOew.tds">
-						<Platform Name="Win32">
-							<RemoteName>CometOew.tds</RemoteName>
-						</Platform>
+					<DeployFile Class="DependencyModule" Condition="'$(DynamicRTL)'=='true'" LocalName="$(BDS)\Redist\osx32\libcgstl.dylib">
+						<Platform Name="OSX32"/>
 					</DeployFile>
 					<DeployClass Name="ProjectOutput" Required="true">
 						<Platform Name="OSX32">

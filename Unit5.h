@@ -18,44 +18,11 @@
 class TFrame5 : public TFrame
 {
 __published:	// IDE-managed Components
-	TLabel *Label2;
-	TLabel *Label3;
-	TLabel *Label4;
-	TLabel *Label5;
-	TLabel *Label6;
-	TLabel *Label7;
-	TLabel *Label8;
-	TLabel *Label9;
-	TLabel *Label10;
-	TLabel *Label11;
-	TLabel *Label12;
-	TLabel *Label13;
-	TLabel *Label14;
-	TLabel *Label15;
-	TLabel *Label16;
-	TLabel *Label17;
-	TLabel *Label18;
 	TPanel *Panel2;
 	TLabel *Label1;
 	TButton *Button2;
 	TButton *Button1;
 	TListBox *ListBox1;
-	TEdit *Edit1;
-	TEdit *Edit2;
-	TEdit *Edit3;
-	TEdit *Edit4;
-	TEdit *Edit7;
-	TEdit *Edit8;
-	TEdit *Edit9;
-	TEdit *Edit10;
-	TEdit *Edit11;
-	TEdit *Edit12;
-	TEdit *Edit6;
-	TEdit *Edit5;
-	TEdit *Edit13;
-	TEdit *Edit14;
-	TEdit *Edit15;
-	TLabel *Label19;
 	TPopupActionBar *PopupActionBar1;
 	TMenuItem *nosort2;
 	TMenuItem *name1;
@@ -74,9 +41,10 @@ __published:	// IDE-managed Components
 	TButton *Button5;
 	TBevel *Bevel1;
 	TLabel *Label20;
+	TButton *Button6;
+	TButton *Button7;
 	void __fastcall Button1Click(TObject *Sender);
 	void __fastcall Button2Click(TObject *Sender);
-	void __fastcall ListBox1Click(TObject *Sender);
 	void __fastcall Button3Click(TObject *Sender);
 	void __fastcall nosort2Click(TObject *Sender);
 	void __fastcall name1Click(TObject *Sender);
@@ -93,11 +61,13 @@ __published:	// IDE-managed Components
 	void __fastcall PopupActionBar1Change(TObject *Sender, TMenuItem *Source, bool Rebuild);
 	void __fastcall Button4Click(TObject *Sender);
 	void __fastcall ListBox1KeyPress(TObject *Sender, System::WideChar &Key);
+	void __fastcall Button7Click(TObject *Sender);
+	void __fastcall ListBox1Click(TObject *Sender);
+	void __fastcall Button6Click(TObject *Sender);
 
 private:	// User declarations
 public:		// User declarations
 	__fastcall TFrame5(TComponent* Owner);
-	void ocistiEditPolja();
 	int Ncmt;
 };
 //---------------------------------------------------------------------------
