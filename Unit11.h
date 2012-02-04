@@ -21,7 +21,6 @@ __published:	// IDE-managed Components
 	TButton *Button2;
 	TButton *Button3;
 	TRichEdit *RichEdit1;
-	void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
 	void __fastcall Button3Click(TObject *Sender);
 	void __fastcall Button2Click(TObject *Sender);
 	void __fastcall ComboBox1CloseUp(TObject *Sender);

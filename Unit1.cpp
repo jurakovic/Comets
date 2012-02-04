@@ -147,9 +147,6 @@ int TForm1::import_main (int importType, UnicodeString importFile){
 		return 0;
 	}
 
-
-
-
 	return Ncmt;
 }
 
@@ -198,9 +195,10 @@ void TForm1::export_semi(int exp_ty, Comet *head, FILE *fout){
 		if (exp_ty==18) export_stell (head, fout);
 
 		head = head->next;
+		Frame61->ProgressBar1->Position += 1;
 	}
 
-	//Frame61->ProgressBar1->Position = Frame61->ProgressBar1->Max;
+	Application->ProcessMessages();
 }
 
 int TForm1::import_mpc (int N, FILE *fin){
@@ -2187,6 +2185,8 @@ void TForm1::updateListbox(Comet *head){
 		Form1->Frame51->ListBox1->Items->Add(head->full);
 		head = head->next;
 	}
+
+	Form1->Frame61->clearFrame();
 }
 
 //---------------------------------------------------------------------------
@@ -2208,4 +2208,5 @@ void __fastcall TForm1::About1Click(TObject *Sender)
 	Form8->ShowModal();
 }
 //---------------------------------------------------------------------------
+
 

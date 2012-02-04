@@ -15,14 +15,6 @@ __fastcall TForm11::TForm11(TComponent* Owner)
 {
 }
 //---------------------------------------------------------------------------
-void __fastcall TForm11::FormClose(TObject *Sender, TCloseAction &Action)
-{
-	//Form1->Visible = true;
-	//Form1->Frame21->Visible = false;
-	//Form1->Frame31->Visible = false;
-	//Form1->Frame51->Visible = true;
-}
-//---------------------------------------------------------------------------
 void __fastcall TForm11::Button2Click(TObject *Sender)
 {
 	this->Close();
@@ -40,7 +32,7 @@ void __fastcall TForm11::ComboBox1CloseUp(TObject *Sender)
 	int type = ComboBox1->ItemIndex;
 
 	Form1->export_main(10, type, AnsiString(tempFile).c_str());
-
+    Form1->Frame61->ProgressBar1->Visible = false;
 	RichEdit1->Lines->LoadFromFile(tempFile);
 
 	remove(AnsiString(tempFile).c_str());
@@ -52,7 +44,9 @@ void __fastcall TForm11::Button3Click(TObject *Sender)
 }
 void __fastcall TForm11::Button1Click(TObject *Sender)
 {
+	Form1->Frame61->ComboBox1->ItemIndex = ComboBox1->ItemIndex;
 	Form1->Frame61->Button1Click(Sender);
+	Form1->Frame61->clearFrame();
 }
 //---------------------------------------------------------------------------
 

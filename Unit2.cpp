@@ -72,6 +72,7 @@ void __fastcall TFrame2::RadioButton2Click(TObject *Sender)
 
 		if(Edit1->GetTextLen() > 0) {
 		//ako je datoteka ucitana, prebroji komete i moze next
+            checkImportType();
 			setDetectedComets();
 			Button1->Enabled = true;
 			Label4->Visible = true;
@@ -183,16 +184,18 @@ void __fastcall TFrame2::Button4Click(TObject *Sender)
 	if(ComboBox1->ItemIndex == 18)
 		OpenDialog1->Filter = "COMET files (*.comet)|*.COMET|All files (*.*)|*.*";
 
-    OpenDialog1->Execute();
-	Edit1->Text =  OpenDialog1->FileName;
+	if(OpenDialog1->Execute()){
+		Edit1->Text =  OpenDialog1->FileName;
 
-	if(Edit1->GetTextLen() > 0){
+
+		checkImportType();
 
 		setDetectedComets();
 
 		Label4->Caption = "Detected comets: " + String(detectedComets);
 		Label4->Visible = true;
 		Button1->Enabled = true;
+
 	}
 }
 //---------------------------------------------------------------------------
@@ -202,14 +205,20 @@ void __fastcall TFrame2::ComboBox1Change(TObject *Sender)
 	if(Edit1->GetTextLen() == 0) Button1->Enabled = false;
 
 	isFileDownloaded = false;
-	RadioButton1->Enabled = true;
+	//RadioButton1->Enabled = true;
 	if(RadioButton1->Checked) Button3->Enabled = true;
-	RadioButton2->Enabled = true;
+	//RadioButton2->Enabled = true;
 	ProgressBar1->Position = 0;
 	ProgressBar1->Visible = false;
 	Label4->Visible = false;
 
-	if(RadioButton2->Checked && Edit1->GetTextLen() > 0) setDetectedComets();
+	if(RadioButton2->Checked && Edit1->GetTextLen() > 0) {
+
+		checkImportType();
+		setDetectedComets();
+	}
+
+	//if(isFileDownloaded)
 
 	Form1->Frame31->ProgressBar1->Visible = false;
 	Form1->Frame31->Button1->Enabled = false;
@@ -237,3 +246,266 @@ void __fastcall TFrame2::H1Work(TObject *ASender, TWorkMode AWorkMode, __int64 A
 }
 //---------------------------------------------------------------------------
 
+void TFrame2::setDetectedComets(){
+
+	UnicodeString importFile;
+	char c;
+
+	if (RadioButton1->Checked)
+		importFile = downloadedFile;
+	else
+		importFile = Edit1->Text;
+
+	fin = fopen(AnsiString(importFile).c_str(), "r");
+
+	if(!fin){
+		Application->MessageBox(L"Unable to open input file",
+			L"Error",
+			MB_OK | MB_ICONERROR);
+		return;
+	}
+
+	detectedComets = 0;
+	while ((c=fgetc(fin)) != EOF){
+		if (c=='\n') detectedComets++;
+	}
+	rewind(fin);
+
+	int importType = ComboBox1->ItemIndex;
+
+	if (importType==3 || importType==8 || importType==10) detectedComets/=2;
+	if (importType==8 || importType==4 || importType==5) --detectedComets;
+	if (importType==7) detectedComets-=15;
+	if (importType==11) detectedComets-=5;
+	if (importType==14) detectedComets-=23;
+	if (importType==17) detectedComets/=13;
+	if (importType==18) detectedComets-=2;
+
+	Label4->Caption = "Detected comets: " + IntToStr(detectedComets);
+	Label4->Visible = true;
+}
+//---------------------------------------------------------------------------
+
+void TFrame2::checkImportType(){
+
+	FILE *f = fopen(AnsiString(Edit1->Text).c_str(), "r");
+
+	int impType = getImportType(f);
+
+	if(impType == -1){
+		ShowMessage("ovo nije ni jedan import type");
+		return;
+	}
+
+	if(ComboBox1->ItemIndex != impType){
+
+		UnicodeString detected;
+
+		if(impType== 0) detected = "MPC (Soft00Cmt)";
+		if(impType== 1) detected = "SkyMap (Soft01Cmt)";
+		if(impType== 2) detected = "Guide (Soft02Cmt)";
+		if(impType== 3) detected = "xephem (Soft03Cmt)";
+		if(impType== 4) detected = "Home Planet (Soft04Cmt)";
+		if(impType== 5) detected = "MyStars! (Soft05Cmt)";
+		if(impType== 6) detected = "TheSky (Soft06Cmt)";
+		if(impType== 7) detected = "Starry Night (Soft07Cmt)";
+		if(impType== 8) detected = "Deep Space (Soft08Cmt)";
+		if(impType== 9) detected = "PC-TCS (Soft09Cmt)";
+		if(impType==10) detected = "Earth Centered Universe (Soft10Cmt)";
+		if(impType==11) detected = "Dance of the Planets (Soft11Cmt)";
+		if(impType==12) detected = "MegaStar V4.x (Soft12Cmt)";
+		if(impType==13) detected = "SkyChart III (Soft13Cmt)";
+		if(impType==14) detected = "Voyager II (Soft14Cmt)";
+		if(impType==15) detected = "SkyTools (Soft15Cmt)";
+		if(impType==16) detected = "Autostar (Soft16Cmt)";
+		if(impType==17) detected = "Comet for Windows";
+		if(impType==18) detected = "NASA (ELEMENTS.COMET)";
+
+
+		UnicodeString a = "Detected import format: " + detected  +
+			"\nSelected import format: " + ComboBox1->Text +
+			"\n\nChange it to " + detected + "?";
+
+		int test = Application->MessageBox(
+			a.w_str(),
+			L"Change selected import format?",
+			MB_OKCANCEL | MB_ICONQUESTION);
+
+		if(test == IDOK) ComboBox1->ItemIndex = impType;
+	}
+}
+//---------------------------------------------------------------------------
+
+int TFrame2::getImportType(FILE *fin){
+
+	int m;
+	Comet *com = new Comet;
+
+	char x[30+1];
+	//mpc
+    m = fscanf(fin, "%14c %d %02d %f %f %f %f %f %f%12c%f %f %55c %30[^\n]%*c",		// %f%12c%f mora bit tako zajedno
+			x, &com->y, &com->m, &com->d,
+			&com->q, &com->e, &com->pn, &com->an,
+			&com->i, x, &com->H, &com->G, com->full, x);
+
+	if (m == 14) {
+		delete com;
+		return 0;
+	}
+
+	rewind(fin);
+
+	//skymap
+	m = fscanf(fin, "%47c %4d %2d %f %f %f %f %f %f %f %f\n",
+		com->full, &com->y, &com->m, &com->d,
+		&com->q, &com->e, &com->pn,
+		&com->an, &com->i, &com->H, &com->G);
+
+	if (m == 11) {
+		delete com;
+		return 1;
+	}
+
+	rewind(fin);
+
+	char full[42+1];
+	//guide
+	m = fscanf(fin, "%42c %f %d %d 0.0 %f %f %f %f %f 2000.0 %f %f %20[^\n]%*c",
+		full, &com->d, &com->m, &com->y,
+		&com->q,  &com->e, &com->i, &com->pn,
+		&com->an, &com->H, &com->G, x);
+
+	if (m == 12) {
+		delete com;
+		return 2;
+	}
+
+	rewind(fin);
+
+	//thesky
+	m = fscanf(fin, "%45c %4d%2d%f | %f | %f | %f | %f | %f | %f | %f %20[^\n]%*c",
+		com->full, &com->y, &com->m,
+		&com->d, &com->q, &com->e,
+		&com->pn, &com->an, &com->i, &com->H,
+		&com->G, x);
+
+	if (m == 12) {
+		delete com;
+		return 6;
+	}
+
+	rewind(fin);
+
+	long int y;
+	int h;
+	float G;
+	//starry night
+	m = fscanf(fin, "     %29c %f 0.0 %f %f %f %f %f %ld.%d %ld.5 %f",
+		com->name, &com->H, &com->e, &com->q, &com->an,
+		&com->pn, &com->i, &com->T, &h,
+		&y, &G);
+
+	if (m == 11) {
+		delete com;
+		return 7;
+	}
+
+	rewind(fin);
+
+	//pc-tcs
+	m = fscanf(fin, "%s %f %f %f %f %f %d %d %f %f %f %55[^\n]%*c",
+		com->ID, &com->q, &com->e, &com->i,
+		&com->pn, &com->an, &com->y, &com->m,
+		&com->d, &com->H, &G, com->name);
+
+	if (m == 12) {
+		delete com;
+		return 9;
+	}
+
+	rewind(fin);
+
+	//earth centered universe
+	m = fscanf(fin, "%45[^\n]%*cE C 2000 %d %d %f %f %f %f %f %f %f %f\n",
+		com->full, &com->y, &com->m, &com->d,
+		&com->q, &com->e, &com->pn, &com->an,
+		&com->i, &com->H, &G);
+
+	if (m == 11) {
+		delete com;
+		return 10;
+	}
+
+	rewind(fin);
+
+	//dance of the planets
+	m = fscanf(fin, "%11c %f %f %f %f %f %d.%2d%6f %30[^\n]%*c",
+		com->ID, &com->q, &com->e, &com->i,
+		&com->an, &com->pn, &com->y, &com->m,
+		&com->d, com->name);
+
+	if (m == 10) {
+		delete com;
+		return 11;
+	}
+
+	rewind(fin);
+
+	char u[25+1];
+	//megastar
+	m = fscanf(fin, "%30c %12c %d %d %f %f %f %f %f %f %f %f %25[^\n]%*c",
+		com->name, com->ID, &com->y, &com->m, &com->d,
+		&com->q, &com->e, &com->pn,
+		&com->an, &com->i, &com->H, &com->G, u);
+
+	if (m == 13) {
+		delete com;
+		return 12;
+	}
+
+	rewind(fin);
+
+	//skychart
+	m = fscanf(fin, "P11 2000.0 -%f %f %f %f %f 0 %d/%d/%f %f %f 0 0 ",
+		&com->q, &com->e, &com->i, &com->pn,
+		&com->an, &com->y, &com->m, &com->d,
+		&com->H, &com->G);
+
+	if (m == 10) {
+		delete com;
+		return 13;
+	}
+
+	rewind(fin);
+
+	char mj[3+1];
+	//voyager
+	m = fscanf(fin, "%27c %f %f %f %f %f %f %4d %3c %f 2000.0\n",
+		com->name, &com->q, &com->e, &com->i,
+		&com->an, &com->pn, &com->G, &com->y,
+		mj, &com->d);
+
+	if (m == 10) {
+		delete com;
+		return 14;
+	}
+
+	rewind(fin);
+
+	int yy, mm, dd;
+	char o[15+1];
+	//skytools
+	m = fscanf(fin, "C %40c %d %d %d %d %d %f %f %f %f %f %f %f %f 0.002000 %15[^\n]%*c",
+		com->full, &yy, &mm, &dd, &com->y, &com->m, &com->d,
+		&com->q, &com->e, &com->pn, &com->an, &com->i,
+		&com->H, &com->G, o);
+
+	if (m == 15) {
+		delete com;
+		return 15;
+	}
+
+
+	return -1;
+}
+//---------------------------------------------------------------------------

@@ -39,8 +39,7 @@ void __fastcall TFrame6::Button3Click(TObject *Sender)
 
 void __fastcall TFrame6::ComboBox1Change(TObject *Sender)
 {
-	ProgressBar1->Visible = false;
-	ProgressBar1->Position = 0;
+	clearFrame();
 }
 //---------------------------------------------------------------------------
 
@@ -113,9 +112,16 @@ void __fastcall TFrame6::Button1Click(TObject *Sender)
 	else return;
 
 	Form1->export_main(Ncmt, exportType, expFileName);
+	Form1->Frame61->Label3->Visible = true;
 
 	Application->MessageBox(L"All data successfully exported",
-			L"Export completed!",
-			MB_OK | MB_ICONASTERISK);
+		L"Export completed!",
+		MB_OK | MB_ICONASTERISK);
 }
 
+void TFrame6::clearFrame(){
+
+	Form1->Frame61->ProgressBar1->Visible = false;
+	Form1->Frame61->ProgressBar1->Position = 0;
+	Form1->Frame61->Label3->Visible = false;
+}

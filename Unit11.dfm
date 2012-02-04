@@ -6477,7 +6477,6 @@ object Form11: TForm11
     000000000000}
   OldCreateOrder = False
   Position = poDesktopCenter
-  OnClose = FormClose
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel

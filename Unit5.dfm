@@ -101,7 +101,7 @@ object Frame5: TFrame5
     ParentFont = False
     TabOrder = 3
     OnClick = ListBox1Click
-    OnDblClick = Button7Click
+    OnDblClick = ListBox1DblClick
     OnKeyPress = ListBox1KeyPress
   end
   object Button3: TButton

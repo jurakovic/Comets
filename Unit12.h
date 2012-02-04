@@ -13,21 +13,7 @@
 class TForm12 : public TForm
 {
 __published:	// IDE-managed Components
-	TEdit *Edit1;
-	TEdit *Edit10;
-	TEdit *Edit11;
-	TEdit *Edit12;
-	TEdit *Edit13;
-	TEdit *Edit14;
-	TEdit *Edit15;
-	TEdit *Edit2;
-	TEdit *Edit3;
-	TEdit *Edit4;
-	TEdit *Edit5;
-	TEdit *Edit6;
-	TEdit *Edit7;
-	TEdit *Edit8;
-	TEdit *Edit9;
+	TGroupBox *GroupBox1;
 	TLabel *Label10;
 	TLabel *Label11;
 	TLabel *Label12;
@@ -46,8 +32,25 @@ __published:	// IDE-managed Components
 	TLabel *Label7;
 	TLabel *Label8;
 	TLabel *Label9;
+	TEdit *Edit1;
+	TEdit *Edit10;
+	TEdit *Edit11;
+	TEdit *Edit12;
+	TEdit *Edit13;
+	TEdit *Edit14;
+	TEdit *Edit15;
+	TEdit *Edit2;
+	TEdit *Edit3;
+	TEdit *Edit4;
+	TEdit *Edit5;
+	TEdit *Edit6;
+	TEdit *Edit7;
+	TEdit *Edit8;
+	TEdit *Edit9;
+	TButton *Button1;
 	void __fastcall FormShow(TObject *Sender);
 	void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
+	void __fastcall Button1Click(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
 	__fastcall TForm12(TComponent* Owner);

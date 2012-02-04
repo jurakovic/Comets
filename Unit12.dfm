@@ -1,10 +1,10 @@
 object Form12: TForm12
   Left = 0
   Top = 0
-  BorderStyle = bsToolWindow
+  BorderStyle = bsDialog
   Caption = 'Comet Details'
-  ClientHeight = 290
-  ClientWidth = 322
+  ClientHeight = 420
+  ClientWidth = 334
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -6478,452 +6478,476 @@ object Form12: TForm12
   OldCreateOrder = False
   OnClose = FormClose
   OnShow = FormShow
+  DesignSize = (
+    334
+    420)
   PixelsPerInch = 96
   TextHeight = 13
-  object Label10: TLabel
-    Left = 8
-    Top = 224
-    Width = 98
-    Height = 14
-    Caption = 'Arg. of Pericenter'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -12
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-  end
-  object Label11: TLabel
-    Left = 8
-    Top = 251
-    Width = 34
-    Height = 14
-    Caption = 'Period'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -12
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-  end
-  object Label12: TLabel
-    Left = 201
-    Top = 170
-    Width = 6
-    Height = 14
-    Caption = #176
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -12
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-  end
-  object Label13: TLabel
-    Left = 201
-    Top = 197
-    Width = 6
-    Height = 14
-    Caption = #176
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -12
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-  end
-  object Label14: TLabel
-    Left = 201
-    Top = 224
-    Width = 6
-    Height = 14
-    Caption = #176
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -12
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-  end
-  object Label15: TLabel
-    Left = 201
-    Top = 251
-    Width = 28
-    Height = 14
-    Caption = 'years'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -12
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-  end
-  object Label16: TLabel
-    Left = 247
-    Top = 224
-    Width = 8
-    Height = 14
-    Caption = 'H'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -12
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-  end
-  object Label17: TLabel
-    Left = 247
-    Top = 251
-    Width = 8
-    Height = 14
-    Caption = 'G'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -12
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-  end
-  object Label18: TLabel
-    Left = 201
-    Top = 117
-    Width = 16
-    Height = 14
-    Caption = 'AU'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -12
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-  end
-  object Label19: TLabel
-    Left = 254
-    Top = 120
-    Width = 21
-    Height = 14
-    Caption = 'sort'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -12
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-    Visible = False
-  end
-  object Label2: TLabel
+  object GroupBox1: TGroupBox
     Left = 8
     Top = 8
-    Width = 52
-    Height = 14
-    Caption = 'Full Name'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -12
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-  end
-  object Label3: TLabel
-    Left = 8
-    Top = 35
-    Width = 63
-    Height = 14
-    Caption = 'Designation'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -12
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-  end
-  object Label4: TLabel
-    Left = 8
-    Top = 62
-    Width = 31
-    Height = 14
-    Caption = 'Name'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -12
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-  end
-  object Label5: TLabel
-    Left = 8
-    Top = 89
-    Width = 61
-    Height = 14
-    Caption = 'Perih. Date'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -12
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-  end
-  object Label6: TLabel
-    Left = 8
-    Top = 116
-    Width = 81
-    Height = 14
-    Caption = 'Perih. Distance'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -12
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-  end
-  object Label7: TLabel
-    Left = 8
-    Top = 143
-    Width = 63
-    Height = 14
-    Caption = 'Eccentricity'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -12
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-  end
-  object Label8: TLabel
-    Left = 8
-    Top = 170
-    Width = 55
-    Height = 14
-    Caption = 'Inclination'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -12
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-  end
-  object Label9: TLabel
-    Left = 8
-    Top = 197
-    Width = 89
-    Height = 14
-    Caption = 'Ascending Node'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -12
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-  end
-  object Edit1: TEdit
-    Left = 118
-    Top = 6
-    Width = 188
-    Height = 21
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-    ReadOnly = True
+    Width = 318
+    Height = 373
+    Anchors = [akLeft, akTop, akRight, akBottom]
     TabOrder = 0
+    ExplicitWidth = 487
+    ExplicitHeight = 397
+    object Label10: TLabel
+      Left = 12
+      Top = 228
+      Width = 98
+      Height = 14
+      Caption = 'Arg. of Pericenter'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label11: TLabel
+      Left = 12
+      Top = 255
+      Width = 34
+      Height = 14
+      Caption = 'Period'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label12: TLabel
+      Left = 205
+      Top = 174
+      Width = 6
+      Height = 14
+      Caption = #176
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label13: TLabel
+      Left = 205
+      Top = 201
+      Width = 6
+      Height = 14
+      Caption = #176
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label14: TLabel
+      Left = 205
+      Top = 228
+      Width = 6
+      Height = 14
+      Caption = #176
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label15: TLabel
+      Left = 205
+      Top = 255
+      Width = 28
+      Height = 14
+      Caption = 'years'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label16: TLabel
+      Left = 251
+      Top = 228
+      Width = 8
+      Height = 14
+      Caption = 'H'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label17: TLabel
+      Left = 251
+      Top = 255
+      Width = 8
+      Height = 14
+      Caption = 'G'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label18: TLabel
+      Left = 205
+      Top = 121
+      Width = 16
+      Height = 14
+      Caption = 'AU'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label19: TLabel
+      Left = 258
+      Top = 124
+      Width = 21
+      Height = 14
+      Caption = 'sort'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      Visible = False
+    end
+    object Label2: TLabel
+      Left = 12
+      Top = 12
+      Width = 52
+      Height = 14
+      Caption = 'Full Name'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label3: TLabel
+      Left = 12
+      Top = 39
+      Width = 63
+      Height = 14
+      Caption = 'Designation'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label4: TLabel
+      Left = 12
+      Top = 66
+      Width = 31
+      Height = 14
+      Caption = 'Name'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label5: TLabel
+      Left = 12
+      Top = 93
+      Width = 61
+      Height = 14
+      Caption = 'Perih. Date'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label6: TLabel
+      Left = 12
+      Top = 120
+      Width = 81
+      Height = 14
+      Caption = 'Perih. Distance'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label7: TLabel
+      Left = 12
+      Top = 147
+      Width = 63
+      Height = 14
+      Caption = 'Eccentricity'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label8: TLabel
+      Left = 12
+      Top = 174
+      Width = 55
+      Height = 14
+      Caption = 'Inclination'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label9: TLabel
+      Left = 12
+      Top = 201
+      Width = 89
+      Height = 14
+      Caption = 'Ascending Node'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Edit1: TEdit
+      Left = 122
+      Top = 10
+      Width = 188
+      Height = 21
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 0
+    end
+    object Edit10: TEdit
+      Left = 122
+      Top = 199
+      Width = 77
+      Height = 21
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 1
+    end
+    object Edit11: TEdit
+      Left = 122
+      Top = 226
+      Width = 77
+      Height = 21
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 2
+    end
+    object Edit12: TEdit
+      Left = 122
+      Top = 253
+      Width = 77
+      Height = 21
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 3
+    end
+    object Edit13: TEdit
+      Left = 270
+      Top = 226
+      Width = 40
+      Height = 21
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 4
+    end
+    object Edit14: TEdit
+      Left = 270
+      Top = 253
+      Width = 40
+      Height = 21
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 5
+    end
+    object Edit15: TEdit
+      Left = 236
+      Top = 145
+      Width = 74
+      Height = 21
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 6
+      Visible = False
+    end
+    object Edit2: TEdit
+      Left = 122
+      Top = 37
+      Width = 128
+      Height = 21
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 7
+    end
+    object Edit3: TEdit
+      Left = 122
+      Top = 64
+      Width = 188
+      Height = 21
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 8
+    end
+    object Edit4: TEdit
+      Left = 122
+      Top = 91
+      Width = 40
+      Height = 21
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 9
+    end
+    object Edit5: TEdit
+      Left = 168
+      Top = 91
+      Width = 22
+      Height = 21
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 10
+    end
+    object Edit6: TEdit
+      Left = 196
+      Top = 91
+      Width = 54
+      Height = 21
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 11
+    end
+    object Edit7: TEdit
+      Left = 122
+      Top = 118
+      Width = 77
+      Height = 21
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 12
+    end
+    object Edit8: TEdit
+      Left = 122
+      Top = 145
+      Width = 77
+      Height = 21
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 13
+    end
+    object Edit9: TEdit
+      Left = 122
+      Top = 172
+      Width = 77
+      Height = 21
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 14
+    end
   end
-  object Edit10: TEdit
-    Left = 118
-    Top = 195
-    Width = 77
-    Height = 21
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-    ReadOnly = True
+  object Button1: TButton
+    Left = 8
+    Top = 387
+    Width = 75
+    Height = 25
+    Anchors = [akLeft, akBottom]
+    Caption = 'Close'
     TabOrder = 1
-  end
-  object Edit11: TEdit
-    Left = 118
-    Top = 222
-    Width = 77
-    Height = 21
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-    ReadOnly = True
-    TabOrder = 2
-  end
-  object Edit12: TEdit
-    Left = 118
-    Top = 249
-    Width = 77
-    Height = 21
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-    ReadOnly = True
-    TabOrder = 3
-  end
-  object Edit13: TEdit
-    Left = 266
-    Top = 222
-    Width = 40
-    Height = 21
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-    ReadOnly = True
-    TabOrder = 4
-  end
-  object Edit14: TEdit
-    Left = 266
-    Top = 249
-    Width = 40
-    Height = 21
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-    ReadOnly = True
-    TabOrder = 5
-  end
-  object Edit15: TEdit
-    Left = 232
-    Top = 141
-    Width = 74
-    Height = 21
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-    ReadOnly = True
-    TabOrder = 6
-    Visible = False
-  end
-  object Edit2: TEdit
-    Left = 118
-    Top = 33
-    Width = 128
-    Height = 21
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-    ReadOnly = True
-    TabOrder = 7
-  end
-  object Edit3: TEdit
-    Left = 118
-    Top = 60
-    Width = 188
-    Height = 21
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-    ReadOnly = True
-    TabOrder = 8
-  end
-  object Edit4: TEdit
-    Left = 118
-    Top = 87
-    Width = 40
-    Height = 21
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-    ReadOnly = True
-    TabOrder = 9
-  end
-  object Edit5: TEdit
-    Left = 164
-    Top = 87
-    Width = 22
-    Height = 21
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-    ReadOnly = True
-    TabOrder = 10
-  end
-  object Edit6: TEdit
-    Left = 192
-    Top = 87
-    Width = 54
-    Height = 21
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-    ReadOnly = True
-    TabOrder = 11
-  end
-  object Edit7: TEdit
-    Left = 118
-    Top = 114
-    Width = 77
-    Height = 21
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-    ReadOnly = True
-    TabOrder = 12
-  end
-  object Edit8: TEdit
-    Left = 118
-    Top = 141
-    Width = 77
-    Height = 21
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-    ReadOnly = True
-    TabOrder = 13
-  end
-  object Edit9: TEdit
-    Left = 118
-    Top = 168
-    Width = 77
-    Height = 21
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-    ReadOnly = True
-    TabOrder = 14
+    OnClick = Button1Click
+    ExplicitTop = 411
   end
 end

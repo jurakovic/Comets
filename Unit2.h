@@ -53,51 +53,13 @@ __published:	// IDE-managed Components
 private:	// User declarations
 public:		// User declarations
 	__fastcall TFrame2(TComponent* Owner);
+	void setDetectedComets();
+	int getImportType(FILE *);
+	void checkImportType();
 	bool isFileDownloaded;
 	UnicodeString downloadedFile;
 	FILE *fin;
 	int detectedComets;
-
-
-void setDetectedComets(){
-
-	UnicodeString importFile;
-	char c;
-
-	if (RadioButton1->Checked)
-		importFile = downloadedFile;
-	else
-		importFile = Edit1->Text;
-
-	fin = fopen(AnsiString(importFile).c_str(), "r");
-
-	if(!fin){
-		Application->MessageBox(L"Unable to open input file",
-			L"Error",
-			MB_OK | MB_ICONERROR);
-		return;
-	}
-
-	detectedComets = 0;
-	while ((c=fgetc(fin)) != EOF){
-		if (c=='\n') detectedComets++;
-	}
-	rewind(fin);
-
-	int importType = ComboBox1->ItemIndex;
-
-	if (importType==3 || importType==8 || importType==10) detectedComets/=2;
-	if (importType==8 || importType==4 || importType==5) --detectedComets;
-	if (importType==7) detectedComets-=15;
-	if (importType==11) detectedComets-=5;
-	if (importType==14) detectedComets-=23;
-	if (importType==17) detectedComets/=13;
-	if (importType==18) detectedComets-=2;
-
-	Label4->Caption = "Detected comets: " + IntToStr(detectedComets);
-	Label4->Visible = true;
-}
-
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TFrame2 *Frame2;

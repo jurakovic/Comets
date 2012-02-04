@@ -31,6 +31,20 @@ object Frame6: TFrame6
     Font.Style = []
     ParentFont = False
   end
+  object Label3: TLabel
+    Left = 16
+    Top = 168
+    Width = 160
+    Height = 14
+    Caption = 'All data successfully exported'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+    Visible = False
+  end
   object Panel2: TPanel
     Left = 0
     Top = 0
@@ -125,23 +139,6 @@ object Frame6: TFrame6
     Anchors = [akLeft, akRight, akBottom]
     TabOrder = 4
     Visible = False
-  end
-  object Button2: TButton
-    Left = 485
-    Top = 365
-    Width = 75
-    Height = 25
-    Anchors = [akRight, akBottom]
-    Caption = 'Next >'
-    Enabled = False
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-    TabOrder = 5
-    OnClick = Button2Click
   end
   object SaveDialog1: TSaveDialog
     Left = 456

@@ -64,11 +64,13 @@ __published:	// IDE-managed Components
 	void __fastcall Button7Click(TObject *Sender);
 	void __fastcall ListBox1Click(TObject *Sender);
 	void __fastcall Button6Click(TObject *Sender);
+	void __fastcall ListBox1DblClick(TObject *Sender);
 
 private:	// User declarations
 public:		// User declarations
 	__fastcall TFrame5(TComponent* Owner);
 	int Ncmt;
+	bool canDoChange;
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TFrame5 *Frame5;

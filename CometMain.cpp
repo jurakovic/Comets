@@ -204,17 +204,14 @@ void remove_spaces (char *name){
 
 void editFullIdName(char *full, char *ID, char *name, int type){
 
-	int j, k, l;
+	int j, k, l, m;
 
 	if(type == 1){
 		for (j=0; full[j]!='\0'; j++){
-			if ((isdigit(full[j]) && full[j+1]=='P'
-				//&& full[j+2]=='/'
-				) ||
-				(isdigit(full[j]) && full[j+1]=='D'
-				//&& full[j+2]=='/'
-				)){
+			if ((isdigit(full[j]) && full[j+1]=='P' && full[j+2]=='/') ||
+				(isdigit(full[j]) && full[j+1]=='D' && full[j+2]=='/')){
 
+				// 2P/Encke
 
 				strcpy(ID, full);
 
@@ -230,6 +227,37 @@ void editFullIdName(char *full, char *ID, char *name, int type){
 					name[l]=full[k];
 
 				name[l]='\0';
+				break;
+			}
+
+			if ((isdigit(full[j]) && full[j+1]=='P' && full[j+2]=='-') ||
+				(isdigit(full[j]) && full[j+1]=='D' && full[j+2]=='-')){
+
+				// 128P-B/Shoemaker-Holt
+
+				strcpy(ID, full);
+
+				for(k=0; ; k++) {
+
+					if(ID[k]=='-') break;
+				}
+				ID[k]='\0';
+				m = k;
+				while(full[k]!='/') ++k;
+
+				++k;
+				for(l=0; full[k]!='\0'; l++, k++)
+					name[l]=full[k];
+
+				for( ; full[m]!='/'; m++, l++)
+					name[l]=full[m];
+
+				name[l]='\0';
+
+				strcpy(full, ID);
+				strcat(full, "/");
+				strcat(full, name);
+
 				break;
 			}
 

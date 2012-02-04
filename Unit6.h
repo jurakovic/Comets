@@ -26,7 +26,7 @@ __published:	// IDE-managed Components
 	TButton *Button1;
 	TProgressBar *ProgressBar1;
 	TBevel *Bevel1;
-	TButton *Button2;
+	TLabel *Label3;
 	void __fastcall Button2Click(TObject *Sender);
 	void __fastcall Button3Click(TObject *Sender);
 	void __fastcall ComboBox1Change(TObject *Sender);
@@ -35,6 +35,7 @@ private:	// User declarations
 public:		// User declarations
 	__fastcall TFrame6(TComponent* Owner);
 	AnsiString expFileName;
+	void clearFrame();
 
 };
 //---------------------------------------------------------------------------

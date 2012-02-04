@@ -84,3 +84,9 @@ void __fastcall TForm12::FormClose(TObject *Sender, TCloseAction &Action)
 }
 //---------------------------------------------------------------------------
 
+void __fastcall TForm12::Button1Click(TObject *Sender)
+{
+	this->Close();
+}
+//---------------------------------------------------------------------------
+

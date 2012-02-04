@@ -22,6 +22,8 @@ void __fastcall TFrame3::Button1Click(TObject *Sender)
 
 	Form1->Frame51->Visible = true;
 	Form1->Frame31->Visible = false;
+
+	Form1->Frame51->canDoChange = false;
 }
 //---------------------------------------------------------------------------
 
