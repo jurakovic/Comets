@@ -1,10 +1,10 @@
 object Form12: TForm12
   Left = 0
   Top = 0
-  BorderStyle = bsSizeToolWin
+  BorderStyle = bsToolWindow
   Caption = 'Comet Details'
-  ClientHeight = 280
-  ClientWidth = 312
+  ClientHeight = 290
+  ClientWidth = 322
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText

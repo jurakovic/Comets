@@ -216,13 +216,8 @@ void __fastcall TFrame2::ComboBox1Change(TObject *Sender)
 
 	Form1->Frame51->ListBox1->Clear();
 
-	//Form12->Close();
-	//Form12->Visible = false;
-
-	Form1->Frame61->Edit1->Text = "";
 	Form1->Frame61->ProgressBar1->Visible = false;
 	Form1->Frame61->ProgressBar1->Position = 0;
-	Form1->Frame61->Label4->Visible = false;
 }
 //---------------------------------------------------------------------------
 

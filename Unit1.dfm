@@ -6509,20 +6509,6 @@ object Form1: TForm1
     ParentBackground = False
     ParentColor = False
     TabOrder = 2
-    inherited Panel2: TPanel
-      inherited Panel1: TPanel
-        ExplicitWidth = 554
-      end
-    end
-    inherited Button2: TButton
-      ExplicitLeft = 404
-    end
-    inherited Button1: TButton
-      ExplicitLeft = 485
-    end
-    inherited ProgressBar1: TProgressBar
-      ExplicitWidth = 435
-    end
   end
   inline Frame21: TFrame2
     Left = 0

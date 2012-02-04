@@ -6537,13 +6537,14 @@ object Form11: TForm11
       Height = 23
       Caption = 'Save As'
       TabOrder = 1
+      OnClick = Button1Click
     end
     object Button2: TButton
       Left = 497
       Top = 7
       Width = 75
       Height = 23
-      Caption = 'Cancel'
+      Caption = 'Close'
       TabOrder = 2
       OnClick = Button2Click
     end

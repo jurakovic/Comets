@@ -72,8 +72,8 @@ void TForm12::updateEditFields(Comet *cmt){
 //---------------------------------------------------------------------------
 void __fastcall TForm12::FormShow(TObject *Sender)
 {
-	Form12->Top = Form1->Top - 5;
-	Form12->Left = Form1->Left + Form1->Width + 5;
+	Form12->Top = Form1->Top;
+	Form12->Left = Form1->Left + Form1->Width + 10;
 }
 
 //---------------------------------------------------------------------------

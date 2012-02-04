@@ -50,3 +50,9 @@ void __fastcall TForm11::Button3Click(TObject *Sender)
 {
 	ComboBox1CloseUp(Sender);
 }
+void __fastcall TForm11::Button1Click(TObject *Sender)
+{
+	Form1->Frame61->Button1Click(Sender);
+}
+//---------------------------------------------------------------------------
+

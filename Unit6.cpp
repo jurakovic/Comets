@@ -7,6 +7,7 @@
 #include "Unit6.h"
 #include "Unit7.h"
 #include "Unit8.h"
+#include "Unit11.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
@@ -35,49 +36,14 @@ void __fastcall TFrame6::Button3Click(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TFrame6::Button4Click(TObject *Sender)
-{
-	if(ComboBox1->ItemIndex < 17)
-		SaveDialog1->Filter = "Text files (*.txt)|*.TXT|All files (*.*)|*.*";;
-	if(ComboBox1->ItemIndex == 17)
-		SaveDialog1->Filter = "SSC files (*.ssc)|*.SSC|All files (*.*)|*.*";
-	if(ComboBox1->ItemIndex == 18)
-		SaveDialog1->Filter = "INI files (*.ini)|*.INI|All files (*.*)|*.*";
-
-	SaveDialog1->Execute();
-	Edit1->Text =  SaveDialog1->FileName;
-
-	//if(SaveDialog1->FilterIndex==1) Edit1->Text += ".txt";
-	//if(SaveDialog1->FilterIndex==2) Edit1->Text = Edit1->Text + ".ini";
-	//if(SaveDialog1->FilterIndex==3) Edit1->Text = Edit1->Text + ".dat";
-	//if(SaveDialog1->FilterIndex==4) Edit1->Text = Edit1->Text + ".ssc";
-}
-//---------------------------------------------------------------------------
 
 void __fastcall TFrame6::ComboBox1Change(TObject *Sender)
 {
-	if(ComboBox1->ItemIndex > -1 && Edit1->GetTextLen() > 0)
-		Button1->Enabled = true;
-	else Button1->Enabled = false;
-
 	ProgressBar1->Visible = false;
 	ProgressBar1->Position = 0;
-	Label4->Visible = false;
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TFrame6::Edit1Change(TObject *Sender)
-{
-	if(ComboBox1->ItemIndex > -1 && Edit1->GetTextLen() > 0){
-
-		Button1->Enabled = true;
-		ProgressBar1->Visible = false;
-		ProgressBar1->Position = 0;
-		Label4->Visible = false;
-	}
-	else Button1->Enabled = false;
-}
-//---------------------------------------------------------------------------
 
 
 void __fastcall TFrame6::Button1Click(TObject *Sender)
@@ -99,10 +65,57 @@ void __fastcall TFrame6::Button1Click(TObject *Sender)
 		Ncmt = Form1->import_main(importType, importFile);
 	}
 
-	int exportType = Form1->Frame61->ComboBox1->ItemIndex;
+	int exportType = ComboBox1->ItemIndex;
 
-	UnicodeString exportFile = Edit1->Text;
+	if(ComboBox1->ItemIndex < 17)
+		SaveDialog1->Filter = "Text files (*.txt)|*.TXT|All files (*.*)|*.*";;
+	if(ComboBox1->ItemIndex == 17)
+		SaveDialog1->Filter = "SSC files (*.ssc)|*.SSC|All files (*.*)|*.*";
+	if(ComboBox1->ItemIndex == 18)
+		SaveDialog1->Filter = "INI files (*.ini)|*.INI|All files (*.*)|*.*";
 
-	Form1->export_main(Ncmt, exportType, exportFile);
+	if(SaveDialog1->Execute()){
+		expFileName = SaveDialog1->FileName;
+
+		if(ComboBox1->ItemIndex < 17 && SaveDialog1->FilterIndex==1){
+
+			if((expFileName.AnsiPos(".txt") == 0 && expFileName.AnsiPos(".TXT") > 0) ||
+				(expFileName.AnsiPos(".txt") > 0 && expFileName.AnsiPos(".TXT") == 0)){
+
+				// do nothing
+			}
+
+			else expFileName += ".txt";
+		}
+
+		if(ComboBox1->ItemIndex == 17 && SaveDialog1->FilterIndex==1){
+
+			if((expFileName.AnsiPos(".ssc") == 0 && expFileName.AnsiPos(".SSC") > 0) ||
+				(expFileName.AnsiPos(".ssc") > 0 && expFileName.AnsiPos(".SSC") == 0)){
+
+				// do nothing
+			}
+
+			else expFileName += ".ssc";
+		}
+
+		if(ComboBox1->ItemIndex == 18 && SaveDialog1->FilterIndex==1){
+
+			if((expFileName.AnsiPos(".ini") == 0 && expFileName.AnsiPos(".INI") > 0) ||
+				(expFileName.AnsiPos(".ini") > 0 && expFileName.AnsiPos(".INI") == 0)){
+
+				// do nothing
+			}
+
+			else expFileName += ".ini";
+		}
+	}
+	else return;
+
+	Form1->export_main(Ncmt, exportType, expFileName);
+
+	Application->MessageBox(L"All data successfully exported",
+			L"Export completed!",
+			MB_OK | MB_ICONASTERISK);
 }
 

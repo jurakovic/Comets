@@ -171,10 +171,6 @@ void TForm1::export_main (int Ncmt, int exportFormat, UnicodeString exportFile){
 	export_semi(exportFormat, cmt, fout);
 
 	fclose(fout);
-
-	Frame61->Label4->Visible = true;
-
-	//ocistiMemoriju(&cmt);
 }
 
 void TForm1::export_semi(int exp_ty, Comet *head, FILE *fout){

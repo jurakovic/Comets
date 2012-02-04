@@ -27,6 +27,9 @@ void __fastcall TFrame5::Button1Click(TObject *Sender)
 
 	Form1->Frame61->ProgressBar1->Visible = false;
 	Form1->Frame61->ProgressBar1->Position = 0;
+
+	if(Form11->ComboBox1->ItemIndex > -1)
+		Form1->Frame61->ComboBox1->ItemIndex = Form11->ComboBox1->ItemIndex;
 }
 //---------------------------------------------------------------------------
 

@@ -189,7 +189,7 @@ void __fastcall TFrame3::Button4Click(TObject *Sender)
 
 	if(Ncmt==0) return;
 
-	Application->MessageBox(String(String(Ncmt) + " of " + String(Form1->Frame21->detectedComets) + " comets imported.").w_str(),
+	Application->MessageBox(String(String(Ncmt) + " of " + String(Form1->Frame21->detectedComets) + " comets imported").w_str(),
 			L"Import completed!",
 			MB_OK | MB_ICONASTERISK);
 

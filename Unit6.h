@@ -18,28 +18,23 @@ class TFrame6 : public TFrame
 {
 __published:	// IDE-managed Components
 	TLabel *Label2;
-	TLabel *Label3;
 	TPanel *Panel2;
 	TLabel *Label1;
 	TButton *Button3;
 	TComboBox *ComboBox1;
-	TButton *Button4;
-	TEdit *Edit1;
 	TSaveDialog *SaveDialog1;
-	TLabel *Label4;
 	TButton *Button1;
 	TProgressBar *ProgressBar1;
 	TBevel *Bevel1;
 	TButton *Button2;
 	void __fastcall Button2Click(TObject *Sender);
 	void __fastcall Button3Click(TObject *Sender);
-	void __fastcall Button4Click(TObject *Sender);
 	void __fastcall ComboBox1Change(TObject *Sender);
-	void __fastcall Edit1Change(TObject *Sender);
 	void __fastcall Button1Click(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
 	__fastcall TFrame6(TComponent* Owner);
+	AnsiString expFileName;
 
 };
 //---------------------------------------------------------------------------

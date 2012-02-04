@@ -31,34 +31,6 @@ object Frame6: TFrame6
     Font.Style = []
     ParentFont = False
   end
-  object Label3: TLabel
-    Left = 16
-    Top = 110
-    Width = 51
-    Height = 16
-    Caption = 'Save As:'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -13
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-  end
-  object Label4: TLabel
-    Left = 16
-    Top = 194
-    Width = 103
-    Height = 16
-    Anchors = [akLeft, akBottom]
-    Caption = 'Export completed!'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -13
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-    Visible = False
-  end
   object Panel2: TPanel
     Left = 0
     Top = 0
@@ -68,7 +40,6 @@ object Frame6: TFrame6
     Color = cl3DLight
     ParentBackground = False
     TabOrder = 0
-    ExplicitWidth = 600
     object Label1: TLabel
       Left = 16
       Top = 12
@@ -100,13 +71,15 @@ object Frame6: TFrame6
     OnClick = Button3Click
   end
   object ComboBox1: TComboBox
-    Left = 168
+    Left = 115
     Top = 65
     Width = 209
     Height = 21
     Style = csDropDownList
     DropDownCount = 19
+    ItemIndex = 0
     TabOrder = 2
+    Text = 'MPC (Soft00Cmt)'
     OnChange = ComboBox1Change
     Items.Strings = (
       'MPC (Soft00Cmt)'
@@ -129,54 +102,28 @@ object Frame6: TFrame6
       'Celestia (SSC Format)'
       'Stellarium')
   end
-  object Button4: TButton
-    Left = 65
-    Top = 146
-    Width = 25
-    Height = 25
-    Anchors = [akTop, akRight]
-    Caption = '...'
-    TabOrder = 3
-    OnClick = Button4Click
-  end
-  object Edit1: TEdit
-    Left = 168
-    Top = 107
-    Width = 392
-    Height = 24
-    Anchors = [akLeft, akTop, akRight]
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -13
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-    TabOrder = 4
-    OnChange = Edit1Change
-  end
   object Button1: TButton
     Left = 11
-    Top = 292
+    Top = 116
     Width = 98
     Height = 24
     Caption = 'Export'
-    Enabled = False
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -13
     Font.Name = 'Tahoma'
     Font.Style = [fsBold]
     ParentFont = False
-    TabOrder = 5
+    TabOrder = 3
     OnClick = Button1Click
   end
   object ProgressBar1: TProgressBar
     Left = 115
-    Top = 292
+    Top = 116
     Width = 445
     Height = 24
     Anchors = [akLeft, akRight, akBottom]
-    TabOrder = 6
+    TabOrder = 4
     Visible = False
   end
   object Button2: TButton
@@ -193,7 +140,7 @@ object Frame6: TFrame6
     Font.Name = 'Tahoma'
     Font.Style = []
     ParentFont = False
-    TabOrder = 7
+    TabOrder = 5
     OnClick = Button2Click
   end
   object SaveDialog1: TSaveDialog
