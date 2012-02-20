@@ -6490,8 +6490,6 @@ object Form12: TForm12
     Height = 373
     Anchors = [akLeft, akTop, akRight, akBottom]
     TabOrder = 0
-    ExplicitWidth = 487
-    ExplicitHeight = 397
     object Label10: TLabel
       Left = 12
       Top = 228
@@ -6948,6 +6946,5 @@ object Form12: TForm12
     Caption = 'Close'
     TabOrder = 1
     OnClick = Button1Click
-    ExplicitTop = 411
   end
 end

@@ -292,6 +292,8 @@ void TFrame2::checkImportType(){
 
 	int impType = getImportType(f);
 
+	fclose(f);
+
 	if(impType == -1){
 		ShowMessage("ovo nije ni jedan import type");
 		return;
@@ -341,29 +343,20 @@ int TFrame2::getImportType(FILE *fin){
 	int m;
 	Comet *com = new Comet;
 
-	char x[30+1];
-	//mpc
-    m = fscanf(fin, "%14c %d %02d %f %f %f %f %f %f%12c%f %f %55c %30[^\n]%*c",		// %f%12c%f mora bit tako zajedno
-			x, &com->y, &com->m, &com->d,
-			&com->q, &com->e, &com->pn, &com->an,
-			&com->i, x, &com->H, &com->G, com->full, x);
+	char x[50+1];
+	long int y;
+	int h;
+	float G;
 
-	if (m == 14) {
+	//pc-tcs
+	m = fscanf(fin, "%s %f %f %f %f %f %d %d %f %f %f %55[^\n]%*c",
+		com->ID, &com->q, &com->e, &com->i,
+		&com->pn, &com->an, &com->y, &com->m,
+		&com->d, &com->H, &G, com->name);
+
+	if (m == 12) {
 		delete com;
-		return 0;
-	}
-
-	rewind(fin);
-
-	//skymap
-	m = fscanf(fin, "%47c %4d %2d %f %f %f %f %f %f %f %f\n",
-		com->full, &com->y, &com->m, &com->d,
-		&com->q, &com->e, &com->pn,
-		&com->an, &com->i, &com->H, &com->G);
-
-	if (m == 11) {
-		delete com;
-		return 1;
+		return 9;
 	}
 
 	rewind(fin);
@@ -382,71 +375,43 @@ int TFrame2::getImportType(FILE *fin){
 
 	rewind(fin);
 
-	//thesky
-	m = fscanf(fin, "%45c %4d%2d%f | %f | %f | %f | %f | %f | %f | %f %20[^\n]%*c",
-		com->full, &com->y, &com->m,
-		&com->d, &com->q, &com->e,
-		&com->pn, &com->an, &com->i, &com->H,
-		&com->G, x);
-
-	if (m == 12) {
-		delete com;
-		return 6;
-	}
-
-	rewind(fin);
-
-	long int y;
-	int h;
-	float G;
-	//starry night
-	m = fscanf(fin, "     %29c %f 0.0 %f %f %f %f %f %ld.%d %ld.5 %f",
-		com->name, &com->H, &com->e, &com->q, &com->an,
-		&com->pn, &com->i, &com->T, &h,
-		&y, &G);
-
-	if (m == 11) {
-		delete com;
-		return 7;
-	}
-
-	rewind(fin);
-
-	//pc-tcs
-	m = fscanf(fin, "%s %f %f %f %f %f %d %d %f %f %f %55[^\n]%*c",
-		com->ID, &com->q, &com->e, &com->i,
-		&com->pn, &com->an, &com->y, &com->m,
-		&com->d, &com->H, &G, com->name);
-
-	if (m == 12) {
-		delete com;
-		return 9;
-	}
-
-	rewind(fin);
-
-	//earth centered universe
-	m = fscanf(fin, "%45[^\n]%*cE C 2000 %d %d %f %f %f %f %f %f %f %f\n",
-		com->full, &com->y, &com->m, &com->d,
-		&com->q, &com->e, &com->pn, &com->an,
-		&com->i, &com->H, &G);
-
-	if (m == 11) {
-		delete com;
-		return 10;
-	}
-
-	rewind(fin);
-
-	//dance of the planets
-	m = fscanf(fin, "%11c %f %f %f %f %f %d.%2d%6f %30[^\n]%*c",
-		com->ID, &com->q, &com->e, &com->i,
-		&com->an, &com->pn, &com->y, &com->m,
-		&com->d, com->name);
+	//skychart
+	m = fscanf(fin, "P11 2000.0 -%f %f %f %f %f 0 %d/%d/%f %f %f 0 0 ",
+		&com->q, &com->e, &com->i, &com->pn,
+		&com->an, &com->y, &com->m, &com->d,
+		&com->H, &com->G);
 
 	if (m == 10) {
 		delete com;
-		return 11;
+		return 13;
+	}
+
+	rewind(fin);
+
+	//mpc
+    m = fscanf(fin, "%14c %d %02d %f %f %f %f %f %f%12c%f %f %55c %30[^\n]%*c",		// %f%12c%f mora bit tako zajedno
+			x, &com->y, &com->m, &com->d,
+			&com->q, &com->e, &com->pn, &com->an,
+			&com->i, x, &com->H, &com->G, com->full, x);
+
+	if (m == 14) {
+		delete com;
+		return 0;
+	}
+
+	rewind(fin);
+
+	int yy, mm, dd;
+	char o[15+1];
+	//skytools
+	m = fscanf(fin, "C %40c %d %d %d %d %d %f %f %f %f %f %f %f %f 0.002000 %15[^\n]%*c",
+		com->full, &yy, &mm, &dd, &com->y, &com->m, &com->d,
+		&com->q, &com->e, &com->pn, &com->an, &com->i,
+		&com->H, &com->G, o);
+
+	if (m == 15) {
+		delete com;
+		return 15;
 	}
 
 	rewind(fin);
@@ -465,21 +430,102 @@ int TFrame2::getImportType(FILE *fin){
 
 	rewind(fin);
 
-	//skychart
-	m = fscanf(fin, "P11 2000.0 -%f %f %f %f %f 0 %d/%d/%f %f %f 0 0 ",
-		&com->q, &com->e, &com->i, &com->pn,
-		&com->an, &com->y, &com->m, &com->d,
-		&com->H, &com->G);
+	//skymap
+	m = fscanf(fin, "%47c %4d %2d %f %f %f %f %f %f %f %f\n",
+		com->full, &com->y, &com->m, &com->d,
+		&com->q, &com->e, &com->pn,
+		&com->an, &com->i, &com->H, &com->G);
+
+	if (m == 11) {
+		delete com;
+		return 1;
+	}
+
+	rewind(fin);
+
+	int dmy;
+	m = fscanf(fin, "RDPC	%d\n", &dmy);
+
+	if(m == 1){
+		delete com;
+		return 5;
+	}
+
+	rewind(fin);
+
+	//thesky
+	m = fscanf(fin, "%45c %4d%2d%f | %f | %f | %f | %f | %f | %f | %f %20[^\n]%*c",
+		com->full, &com->y, &com->m,
+		&com->d, &com->q, &com->e,
+		&com->pn, &com->an, &com->i, &com->H,
+		&com->G, x);
+
+	if (m == 12) {
+		delete com;
+		return 6;
+	}
+
+	rewind(fin);
+
+	//starry night
+	for (int i=0; i<10; i++) fscanf(fin, "%*[^\n]\n");
+	m = fscanf(fin, "     %29c %f 0.0 %f %f %f %f %f %ld.%d %ld.5 %f",
+		com->name, &com->H, &com->e, &com->q, &com->an,
+		&com->pn, &com->i, &com->T, &h,
+		&y, &G);
+
+	if (m == 11) {
+		delete com;
+		return 7;
+	}
+
+	rewind(fin);
+
+	//earth centered universe
+	m = fscanf(fin, "%45[^\n]%*cE C 2000 %d %d %f %f %f %f %f %f %f %f\n",
+		com->full, &com->y, &com->m, &com->d,
+		&com->q, &com->e, &com->pn, &com->an,
+		&com->i, &com->H, &G);
+
+	if (m == 11) {
+		delete com;
+		return 10;
+	}
+
+	rewind(fin);
+
+	fscanf(fin, "%*[^\n]\n");
+	fscanf(fin, "%*[^\n]\n");
+	fscanf(fin, "%*[^\n]\n");
+
+	m = fscanf(fin, "C J2000 %d %d %f %f %f %f %f %f %f %f\n",
+		x, &com->y, &com->m, &com->d,
+		&com->q, &com->e, &com->pn, &com->an,
+		&com->i, &com->H, &G);
+
+	if (m == 10){
+		delete com;
+		return 8;
+	}
+	rewind(fin);
+
+	//dance of the planets
+	for (int i=0; i<5; i++) fscanf(fin, "%*[^\n]\n");
+	m = fscanf(fin, "%11c %f %f %f %f %f %d.%2d%6f %30[^\n]%*c",
+		com->ID, &com->q, &com->e, &com->i,
+		&com->an, &com->pn, &com->y, &com->m,
+		&com->d, com->name);
 
 	if (m == 10) {
 		delete com;
-		return 13;
+		return 11;
 	}
 
 	rewind(fin);
 
 	char mj[3+1];
 	//voyager
+	for (int i=0; i<18; i++) fscanf(fin, "%*[^\n]\n");
 	m = fscanf(fin, "%27c %f %f %f %f %f %f %4d %3c %f 2000.0\n",
 		com->name, &com->q, &com->e, &com->i,
 		&com->an, &com->pn, &com->G, &com->y,
@@ -492,19 +538,38 @@ int TFrame2::getImportType(FILE *fin){
 
 	rewind(fin);
 
-	int yy, mm, dd;
-	char o[15+1];
-	//skytools
-	m = fscanf(fin, "C %40c %d %d %d %d %d %f %f %f %f %f %f %f %f 0.002000 %15[^\n]%*c",
-		com->full, &yy, &mm, &dd, &com->y, &com->m, &com->d,
-		&com->q, &com->e, &com->pn, &com->an, &com->i,
-		&com->H, &com->G, o);
+	int dummy;
+	m = fscanf(fin, "# From MPC %d\n", &dummy);
 
-	if (m == 15) {
+	if(m == 1){
 		delete com;
-		return 15;
+		return 3;
 	}
 
+	rewind(fin);
+
+	char c;
+	int j=0;
+
+	fscanf(fin, "%*[^\n]\n");
+
+	while ((c=fgetc(fin)) != ','){
+
+		if(c == '\n') break;
+
+		com->full[j++]=c;
+	}
+	com->full[j]='\0';
+
+	m = fscanf(fin, "%d-%d-%f,%f,%f,%f,%f,%f,%50[^\n]%*c",
+		&com->y, &com->m, &com->d,
+		&com->q, &com->e, &com->pn, &com->an,
+		&com->i, x);
+
+	if (m == 9){
+		delete com;
+		return 4;
+	}
 
 	return -1;
 }

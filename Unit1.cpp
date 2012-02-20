@@ -2205,8 +2205,11 @@ void __fastcall TForm1::Exit1Click(TObject *Sender)
 
 void __fastcall TForm1::About1Click(TObject *Sender)
 {
+	Form8->Position = poOwnerFormCenter;
 	Form8->ShowModal();
 }
 //---------------------------------------------------------------------------
+
+
 
 

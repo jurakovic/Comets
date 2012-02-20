@@ -72,8 +72,19 @@ void TForm12::updateEditFields(Comet *cmt){
 //---------------------------------------------------------------------------
 void __fastcall TForm12::FormShow(TObject *Sender)
 {
+	int resx = GetSystemMetrics(SM_CXSCREEN);
+	int resy = GetSystemMetrics(SM_CYSCREEN);
+
+	int outOfBorders = resx - Form1->Left - Form1->Width - Form12->Width - 15;
+	int left;
+
+	if(outOfBorders >= 0)
+		left = Form1->Left + Form1->Width + 10;
+	else
+		left = Form1->Left - Form12->Width - 10;
+
 	Form12->Top = Form1->Top;
-	Form12->Left = Form1->Left + Form1->Width + 10;
+	Form12->Left = left;
 }
 
 //---------------------------------------------------------------------------

@@ -75,7 +75,11 @@ void __fastcall TFrame5::nosort2Click(TObject *Sender)
 
 		int Ncmt = Form1->import_main(importType, importFile);
 
-		if(Ncmt) Form1->updateListbox(Form1->cmt);
+		if(Ncmt) {
+			Form1->updateListbox(Form1->cmt);
+			ListBox1->ItemIndex = 0;
+			ListBox1Click(Sender);
+		}
 	}
 }
 //---------------------------------------------------------------------------
@@ -86,6 +90,7 @@ void __fastcall TFrame5::name1Click(TObject *Sender)
 
 	else{
 
+		int index = ListBox1->ItemIndex;
 		name1->Checked=true;
 
 		//Form12->Close();
@@ -95,6 +100,7 @@ void __fastcall TFrame5::name1Click(TObject *Sender)
 		else Form1->cmt = sortList(Form1->cmt, 1);
 
 		Form1->updateListbox(Form1->cmt);
+		ListBox1->ItemIndex = index;
 		ListBox1Click(Sender);
 	}
 }
@@ -106,7 +112,7 @@ void __fastcall TFrame5::PerihelionDate1Click(TObject *Sender)
 	if(PerihelionDate1->Checked) return;
 
 	else{
-
+		int index = ListBox1->ItemIndex;
 		PerihelionDate1->Checked=true;
 
 		//Form12->Close();
@@ -116,6 +122,7 @@ void __fastcall TFrame5::PerihelionDate1Click(TObject *Sender)
 		else Form1->cmt = sortList(Form1->cmt, 3);
 
 		Form1->updateListbox(Form1->cmt);
+		ListBox1->ItemIndex = index;
 		ListBox1Click(Sender);
 	}
 }
@@ -126,7 +133,7 @@ void __fastcall TFrame5::PericenterDistance1Click(TObject *Sender)
 	if(PericenterDistance1->Checked) return;
 
 	else{
-
+		int index = ListBox1->ItemIndex;
 		PericenterDistance1->Checked=true;
 
 		//Form12->Close();
@@ -136,6 +143,8 @@ void __fastcall TFrame5::PericenterDistance1Click(TObject *Sender)
 		else Form1->cmt = sortList(Form1->cmt, 5);
 
 		Form1->updateListbox(Form1->cmt);
+		ListBox1->ItemIndex = index;
+		ListBox1Click(Sender);
 	}
 }
 //---------------------------------------------------------------------------
@@ -145,7 +154,7 @@ void __fastcall TFrame5::Eccentricity1Click(TObject *Sender)
 	if(Eccentricity1->Checked) return;
 
 	else{
-
+		int index = ListBox1->ItemIndex;
 		Eccentricity1->Checked=true;
 
 		//Form12->Close();
@@ -155,6 +164,7 @@ void __fastcall TFrame5::Eccentricity1Click(TObject *Sender)
 		else Form1->cmt = sortList(Form1->cmt, 7);
 
 		Form1->updateListbox(Form1->cmt);
+		ListBox1->ItemIndex = index;
 		ListBox1Click(Sender);
 	}
 }
@@ -165,7 +175,7 @@ void __fastcall TFrame5::LongoftheAscNode1Click(TObject *Sender)
 	if(LongoftheAscNode1->Checked) return;
 
 	else{
-
+		int index = ListBox1->ItemIndex;
 		LongoftheAscNode1->Checked=true;
 
 		//Form12->Close();
@@ -175,6 +185,7 @@ void __fastcall TFrame5::LongoftheAscNode1Click(TObject *Sender)
 		else Form1->cmt = sortList(Form1->cmt, 9);
 
 		Form1->updateListbox(Form1->cmt);
+		ListBox1->ItemIndex = index;
 		ListBox1Click(Sender);
 	}
 }
@@ -185,7 +196,7 @@ void __fastcall TFrame5::LongofPericenter1Click(TObject *Sender)
 	if(LongofPericenter1->Checked) return;
 
 	else{
-
+		int index = ListBox1->ItemIndex;
 		LongofPericenter1->Checked=true;
 
 		//Form12->Close();
@@ -195,6 +206,7 @@ void __fastcall TFrame5::LongofPericenter1Click(TObject *Sender)
 		else Form1->cmt = sortList(Form1->cmt, 11);
 
 		Form1->updateListbox(Form1->cmt);
+		ListBox1->ItemIndex = index;
 		ListBox1Click(Sender);
 	}
 }
@@ -205,7 +217,7 @@ void __fastcall TFrame5::Inclination1Click(TObject *Sender)
 	if(Inclination1->Checked) return;
 
 	else{
-
+		int index = ListBox1->ItemIndex;
 		Inclination1->Checked=true;
 
 		//Form12->Close();
@@ -215,6 +227,7 @@ void __fastcall TFrame5::Inclination1Click(TObject *Sender)
 		else Form1->cmt = sortList(Form1->cmt, 13);
 
 		Form1->updateListbox(Form1->cmt);
+		ListBox1->ItemIndex = index;
 		ListBox1Click(Sender);
 	}
 }
@@ -225,7 +238,7 @@ void __fastcall TFrame5::Period1Click(TObject *Sender)
 	if(Period1->Checked) return;
 
 	else{
-
+		int index = ListBox1->ItemIndex;
 		Period1->Checked=true;
 
 		//Form12->Close();
@@ -235,6 +248,7 @@ void __fastcall TFrame5::Period1Click(TObject *Sender)
 		else Form1->cmt = sortList(Form1->cmt, 15);
 
 		Form1->updateListbox(Form1->cmt);
+		ListBox1->ItemIndex = index;
 		ListBox1Click(Sender);
 	}
 }
@@ -245,6 +259,7 @@ void __fastcall TFrame5::Ascending1Click(TObject *Sender)
 	if(Ascending1->Checked) return;
 
 	else{
+		int index = ListBox1->ItemIndex;
 		Ascending1->Checked=true;
 
 		//Form12->Close();
@@ -261,6 +276,7 @@ void __fastcall TFrame5::Ascending1Click(TObject *Sender)
 		if(Period1->Checked) Form1->cmt = sortList(Form1->cmt, 14);
 
 		Form1->updateListbox(Form1->cmt);
+		ListBox1->ItemIndex = index;
 		ListBox1Click(Sender);
 	}
 }
@@ -271,6 +287,7 @@ void __fastcall TFrame5::Descending1Click(TObject *Sender)
 	if(Descending1->Checked) return;
 
 	else{
+		int index = ListBox1->ItemIndex;
 		Descending1->Checked=true;
 
 		//Form12->Close();
@@ -287,6 +304,7 @@ void __fastcall TFrame5::Descending1Click(TObject *Sender)
 		if(Period1->Checked) Form1->cmt = sortList(Form1->cmt, 15);
 
 		Form1->updateListbox(Form1->cmt);
+		ListBox1->ItemIndex = index;
 		ListBox1Click(Sender);
 	}
 }
