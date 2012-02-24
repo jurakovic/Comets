@@ -31,6 +31,8 @@ void __fastcall TFrame5::Button1Click(TObject *Sender)
 
 	if(Form11->ComboBox1->ItemIndex > -1)
 		Form1->Frame61->ComboBox1->ItemIndex = Form11->ComboBox1->ItemIndex;
+
+	if(Form12->Visible) Form12->Close();
 }
 //---------------------------------------------------------------------------
 
@@ -93,9 +95,6 @@ void __fastcall TFrame5::name1Click(TObject *Sender)
 		int index = ListBox1->ItemIndex;
 		name1->Checked=true;
 
-		//Form12->Close();
-		//Form12->Visible = false;
-
 		if(Ascending1->Checked) Form1->cmt = sortList(Form1->cmt, 0);
 		else Form1->cmt = sortList(Form1->cmt, 1);
 
@@ -115,9 +114,6 @@ void __fastcall TFrame5::PerihelionDate1Click(TObject *Sender)
 		int index = ListBox1->ItemIndex;
 		PerihelionDate1->Checked=true;
 
-		//Form12->Close();
-		//Form12->Visible = false;
-
 		if(Ascending1->Checked) Form1->cmt = sortList(Form1->cmt, 2);
 		else Form1->cmt = sortList(Form1->cmt, 3);
 
@@ -135,9 +131,6 @@ void __fastcall TFrame5::PericenterDistance1Click(TObject *Sender)
 	else{
 		int index = ListBox1->ItemIndex;
 		PericenterDistance1->Checked=true;
-
-		//Form12->Close();
-		//Form12->Visible = false;
 
 		if(Ascending1->Checked) Form1->cmt = sortList(Form1->cmt, 4);
 		else Form1->cmt = sortList(Form1->cmt, 5);
@@ -157,9 +150,6 @@ void __fastcall TFrame5::Eccentricity1Click(TObject *Sender)
 		int index = ListBox1->ItemIndex;
 		Eccentricity1->Checked=true;
 
-		//Form12->Close();
-		//Form12->Visible = false;
-
 		if(Ascending1->Checked) Form1->cmt = sortList(Form1->cmt, 6);
 		else Form1->cmt = sortList(Form1->cmt, 7);
 
@@ -177,9 +167,6 @@ void __fastcall TFrame5::LongoftheAscNode1Click(TObject *Sender)
 	else{
 		int index = ListBox1->ItemIndex;
 		LongoftheAscNode1->Checked=true;
-
-		//Form12->Close();
-		//Form12->Visible = false;
 
 		if(Ascending1->Checked) Form1->cmt = sortList(Form1->cmt, 8);
 		else Form1->cmt = sortList(Form1->cmt, 9);
@@ -199,9 +186,6 @@ void __fastcall TFrame5::LongofPericenter1Click(TObject *Sender)
 		int index = ListBox1->ItemIndex;
 		LongofPericenter1->Checked=true;
 
-		//Form12->Close();
-		//Form12->Visible = false;
-
 		if(Ascending1->Checked) Form1->cmt = sortList(Form1->cmt, 10);
 		else Form1->cmt = sortList(Form1->cmt, 11);
 
@@ -219,9 +203,6 @@ void __fastcall TFrame5::Inclination1Click(TObject *Sender)
 	else{
 		int index = ListBox1->ItemIndex;
 		Inclination1->Checked=true;
-
-		//Form12->Close();
-		//Form12->Visible = false;
 
 		if(Ascending1->Checked) Form1->cmt = sortList(Form1->cmt, 12);
 		else Form1->cmt = sortList(Form1->cmt, 13);
@@ -241,9 +222,6 @@ void __fastcall TFrame5::Period1Click(TObject *Sender)
 		int index = ListBox1->ItemIndex;
 		Period1->Checked=true;
 
-		//Form12->Close();
-		//Form12->Visible = false;
-
 		if(Ascending1->Checked) Form1->cmt = sortList(Form1->cmt, 14);
 		else Form1->cmt = sortList(Form1->cmt, 15);
 
@@ -261,9 +239,6 @@ void __fastcall TFrame5::Ascending1Click(TObject *Sender)
 	else{
 		int index = ListBox1->ItemIndex;
 		Ascending1->Checked=true;
-
-		//Form12->Close();
-		//Form12->Visible = false;
 
 		if(nosort2->Checked) return;
 		if(name1->Checked) Form1->cmt = sortList(Form1->cmt, 0);
@@ -289,9 +264,6 @@ void __fastcall TFrame5::Descending1Click(TObject *Sender)
 	else{
 		int index = ListBox1->ItemIndex;
 		Descending1->Checked=true;
-
-		//Form12->Close();
-		//Form12->Visible = false;
 
 		if(nosort2->Checked) return;
 		if(name1->Checked) Form1->cmt = sortList(Form1->cmt, 1);
@@ -319,10 +291,8 @@ void __fastcall TFrame5::Button5Click(TObject *Sender)
 	ocistiMemoriju(&Form1->cmt);
 
 	Form12->Close();
-	//Form12->Visible = false;
 
 	Button3->Enabled = false;
-	Button7->Caption = "Details -->";
 	Button7->Enabled = false;
 	Button4->Enabled = false;
 	Button5->Enabled = false;
@@ -337,36 +307,30 @@ void __fastcall TFrame5::Button5Click(TObject *Sender)
 void __fastcall TFrame5::PopupActionBar1Change(TObject *Sender, TMenuItem *Source,
           bool Rebuild)
 {
-	//Form12->Close();
-
 	if(canDoChange == false) {
-
 		//samo da se nakon prvog klika ne napravi update listboxa
 		canDoChange = true;
 		return;
 	}
 
-	//if(canDoChange){
+	if(name1->Checked && Ascending1->Checked) Form1->cmt = sortList(Form1->cmt, 0);
+	if(name1->Checked && Descending1->Checked) Form1->cmt = sortList(Form1->cmt, 1);
+	if(PerihelionDate1->Checked && Ascending1->Checked) Form1->cmt = sortList(Form1->cmt, 2);
+	if(PerihelionDate1->Checked && Descending1->Checked) Form1->cmt = sortList(Form1->cmt, 3);
+	if(PericenterDistance1->Checked && Ascending1->Checked) Form1->cmt = sortList(Form1->cmt, 4);
+	if(PericenterDistance1->Checked && Descending1->Checked) Form1->cmt = sortList(Form1->cmt, 5);
+	if(Eccentricity1->Checked && Ascending1->Checked) Form1->cmt = sortList(Form1->cmt, 6);
+	if(Eccentricity1->Checked && Descending1->Checked) Form1->cmt = sortList(Form1->cmt, 7);
+	if(LongoftheAscNode1->Checked && Ascending1->Checked) Form1->cmt = sortList(Form1->cmt, 8);
+	if(LongoftheAscNode1->Checked && Descending1->Checked) Form1->cmt = sortList(Form1->cmt, 9);
+	if(LongofPericenter1->Checked && Ascending1->Checked) Form1->cmt = sortList(Form1->cmt, 10);
+	if(LongofPericenter1->Checked && Descending1->Checked) Form1->cmt = sortList(Form1->cmt, 11);
+	if(Inclination1->Checked && Ascending1->Checked) Form1->cmt = sortList(Form1->cmt, 12);
+	if(Inclination1->Checked && Descending1->Checked) Form1->cmt = sortList(Form1->cmt, 13);
+	if(Period1->Checked && Ascending1->Checked) Form1->cmt = sortList(Form1->cmt, 14);
+	if(Period1->Checked && Descending1->Checked) Form1->cmt = sortList(Form1->cmt, 15);
 
-		if(name1->Checked && Ascending1->Checked) Form1->cmt = sortList(Form1->cmt, 0);
-		if(name1->Checked && Descending1->Checked) Form1->cmt = sortList(Form1->cmt, 1);
-		if(PerihelionDate1->Checked && Ascending1->Checked) Form1->cmt = sortList(Form1->cmt, 2);
-		if(PerihelionDate1->Checked && Descending1->Checked) Form1->cmt = sortList(Form1->cmt, 3);
-		if(PericenterDistance1->Checked && Ascending1->Checked) Form1->cmt = sortList(Form1->cmt, 4);
-		if(PericenterDistance1->Checked && Descending1->Checked) Form1->cmt = sortList(Form1->cmt, 5);
-		if(Eccentricity1->Checked && Ascending1->Checked) Form1->cmt = sortList(Form1->cmt, 6);
-		if(Eccentricity1->Checked && Descending1->Checked) Form1->cmt = sortList(Form1->cmt, 7);
-		if(LongoftheAscNode1->Checked && Ascending1->Checked) Form1->cmt = sortList(Form1->cmt, 8);
-		if(LongoftheAscNode1->Checked && Descending1->Checked) Form1->cmt = sortList(Form1->cmt, 9);
-		if(LongofPericenter1->Checked && Ascending1->Checked) Form1->cmt = sortList(Form1->cmt, 10);
-		if(LongofPericenter1->Checked && Descending1->Checked) Form1->cmt = sortList(Form1->cmt, 11);
-		if(Inclination1->Checked && Ascending1->Checked) Form1->cmt = sortList(Form1->cmt, 12);
-		if(Inclination1->Checked && Descending1->Checked) Form1->cmt = sortList(Form1->cmt, 13);
-		if(Period1->Checked && Ascending1->Checked) Form1->cmt = sortList(Form1->cmt, 14);
-		if(Period1->Checked && Descending1->Checked) Form1->cmt = sortList(Form1->cmt, 15);
-
-		Form1->updateListbox(Form1->cmt);
-	//}
+	Form1->updateListbox(Form1->cmt);
 }
 //---------------------------------------------------------------------------
 
@@ -414,12 +378,14 @@ void __fastcall TFrame5::Button4Click(TObject *Sender)
 			Form1->Frame31->ProgressBar1->Visible = false;
 			Form1->Frame31->Button1->Enabled = false;
 
-			//Form12->Close();
-			//Form12->Visible = false;
+			Form12->Close();
 
 			Button3->Enabled = false;
 			Button4->Enabled = false;
 			Button5->Enabled = false;
+			Button6->Enabled = false;
+			Button7->Enabled = false;
+			Label20->Caption = "Comets: 0";
 			return;
 		}
 	}
@@ -434,7 +400,9 @@ void __fastcall TFrame5::Button4Click(TObject *Sender)
 
 void __fastcall TFrame5::ListBox1KeyPress(TObject *Sender, System::WideChar &Key)
 {
-	if(Key == VK_DELETE || Key == VK_BACK) Button4Click(Sender);
+	if(Key == VK_DELETE
+		//|| Key == VK_BACK
+		) Button4Click(Sender);
 	else return;
 }
 //---------------------------------------------------------------------------

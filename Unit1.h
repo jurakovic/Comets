@@ -64,6 +64,8 @@ public:		// User declarations
 	int import_main (int , UnicodeString);
 	void export_main (int , int , UnicodeString);
 	void export_semi(int , Comet *, FILE *);
+	void writeNecessaryText(int, FILE *);
+
 	int import_mpc (int, FILE *);
 	int import_skymap (int, FILE *);
 	int import_guide (int, FILE *);

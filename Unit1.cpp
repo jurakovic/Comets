@@ -165,10 +165,72 @@ void TForm1::export_main (int Ncmt, int exportFormat, UnicodeString exportFile){
 	Frame61->ProgressBar1->Position = 0;
 	Frame61->ProgressBar1->Max = Ncmt;
 
+	writeNecessaryText(exportFormat, fout);
+
 	export_semi(exportFormat, cmt, fout);
 
 	fclose(fout);
 }
+
+void TForm1::writeNecessaryText(int exp_ty, FILE *fout){
+
+	if(exp_ty == 4){
+		fprintf(fout, "Name,Perihelion time,Perihelion AU,Eccentricity,Long. perihelion,Long. node,Inclination,Semimajor axis,Period\n");
+	}
+
+	if(exp_ty == 5){
+		fprintf(fout, "RDPC	%d\n", Form1->Frame51->Ncmt);
+	}
+
+	if(exp_ty == 7){
+		fprintf(fout, "NOTE: If viewing this file and it appears confused, make the window very wide!\n\n");
+		fprintf(fout, "   The numbers are all in the proper format for easy use in Starry Night's\n");
+		fprintf(fout, "orbit editor. Just click on the word Sun in the planet floater and then\n");
+		fprintf(fout, "click on add. In the first window that appears select the comet as the type\n");
+		fprintf(fout, "of object you want to add. Please see the manual for more information.\n\n");
+		fprintf(fout, "   The orbital information should have the reference plane set at Ecliptic\n");
+		fprintf(fout, " 2000 and the Style should be pericentric. Don't forget to use copy and\n");
+		fprintf(fout, " paste to ease the input of the orbital data into Starry Night.\n\n");
+		fprintf(fout, "This file kindly prepared by the IAU Minor Planet Center & Central Bureau for Astronomical Telegrams.\n\n");
+        fprintf(fout, "Num  Name                          Mag.   Diam      e            q        Node         w         i         Tp           Epoch       k   Desig         Reference\n\n");
+	}
+
+	if(exp_ty == 8){
+		fprintf(fout, "Type C: Equinox Year Month Day q e Peri Node i Mag k\n");
+		fprintf(fout, "Type A: Equinox Year Month Day a M e Peri Node i H G\n");
+	}
+
+	if(exp_ty == 11){
+		fprintf(fout, "Comet      peri(au)   e         iø       êø       wø     peridate     name\n");
+		fprintf(fout, "(In order to be recognised by Dance of the Planets, this file)\n");
+		fprintf(fout, "(must have a .cmt extension.)\n");
+		fprintf(fout, "(File prepared by IAU Minor Planet Center/Central Bureau)\n");
+		fprintf(fout, "(for Astronomical Telegrams.)\n");
+
+	}
+
+	if(exp_ty == 14){
+		fprintf(fout, "NOTE TO VOYAGER II USERS:\n\n");
+		fprintf(fout, "   The following table will link the symbols below with the names used in\n");
+		fprintf(fout, "the Voyager II \"Define New Orbit...\" dialog for comets.\n\n");
+		fprintf(fout, "     q        perihelion distance (astronomical units)\n");
+		fprintf(fout, "     e        eccentricity (no units)\n");
+		fprintf(fout, "     i        inclination of orbit to ecliptic (degrees)\n");
+		fprintf(fout, "     Node     longitude of ascending node (degrees)\n");
+		fprintf(fout, "     w        argument of perihelion (degrees)\n");
+		fprintf(fout, "     L        mean anomaly (this is 0 at perihelion) (degrees)\n");
+		fprintf(fout, "     Date     epoch of orbit\n");
+		fprintf(fout, "     Equinox  reference equinox (usually 2000.0)\n\n");
+		fprintf(fout, "Save this page as plain text from your browser and use the table to input\n");
+		fprintf(fout, "the orbital elements for the comets that you would like to plot and\n");
+		fprintf(fout, "follow.  If you have any question, consult your software manual or the\n");
+		fprintf(fout, "Carina web site: <a href=\"http://www.carinasoft.com\">http://www.carinasoft.com</a>\n\n");
+		fprintf(fout, "Thanks to the IAU Minor Planet Center & Central Bureau for Astronomical\n");
+		fprintf(fout, "Telegrams for providing this information.\n\n");
+		fprintf(fout, "Name                            q          e         i        Node         w       L      T(Date)    Equinox\n");
+	}
+}
+
 
 void TForm1::export_semi(int exp_ty, Comet *head, FILE *fout){
 

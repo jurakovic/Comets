@@ -43,51 +43,47 @@ void __fastcall TFrame2::Button1Click(TObject *Sender)
 
 void __fastcall TFrame2::RadioButton1Click(TObject *Sender)
 {
-	if(RadioButton1->Checked){
-		if(isFileDownloaded) {
-		//ako je datoteka skinuta, prebroji komete i moze next
-			setDetectedComets();
-			Button1->Enabled = true;
-			Label4->Visible = true;
-			ProgressBar1->Visible = true;
-		}
-		else {
-		//inace ne
-			Button1->Enabled = false;
-			Label4->Visible = false;
-		}
+	Button3->Enabled = true;
+	Edit1->Enabled = false;
+	Button4->Enabled = false;
 
-		Button3->Enabled = true;
-		Edit1->Enabled = false;
-		Button4->Enabled = false;
+	if(isFileDownloaded) {
+	//ako je datoteka skinuta, prebroji komete i moze next
+		setDetectedComets();
+		Button1->Enabled = true;
+		Label4->Visible = true;
+		ProgressBar1->Visible = true;
 	}
-	if(!isFileDownloaded) Button1->Enabled  = false;
+	else {
+		Button1->Enabled = false;
+		Label4->Visible = false;
+	}
 }
 
 //---------------------------------------------------------------------------
 
 void __fastcall TFrame2::RadioButton2Click(TObject *Sender)
 {
-	if(RadioButton2->Checked){
+	Edit1->Enabled = true;
+	Button4->Enabled = true;
+	Button3->Enabled = false;
+	ProgressBar1->Visible = false;
 
-		if(Edit1->GetTextLen() > 0) {
-		//ako je datoteka ucitana, prebroji komete i moze next
-            checkImportType();
-			setDetectedComets();
-			Button1->Enabled = true;
-			Label4->Visible = true;
-		}
+	if(Edit1->GetTextLen() > 0) {
+	//ako je datoteka ucitana, prebroji komete i moze next
 
-		else {
-		//inace ne
-			Button1->Enabled = false;
-			Label4->Visible = false;
-		}
+		FILE *test = fopen(AnsiString(Edit1->Text).c_str(), "r");
+		if(test == NULL) return;
 
-		Edit1->Enabled = true;
-		Button4->Enabled = true;
-		Button3->Enabled = false;
-		ProgressBar1->Visible = false;
+		if(checkImportType() == false) return;
+		Button1->Enabled = true;
+		Label4->Visible = true;
+	}
+
+	else {
+	//inace ne
+		Button1->Enabled = false;
+		Label4->Visible = false;
 	}
 }
 
@@ -187,15 +183,7 @@ void __fastcall TFrame2::Button4Click(TObject *Sender)
 	if(OpenDialog1->Execute()){
 		Edit1->Text =  OpenDialog1->FileName;
 
-
 		checkImportType();
-
-		setDetectedComets();
-
-		Label4->Caption = "Detected comets: " + String(detectedComets);
-		Label4->Visible = true;
-		Button1->Enabled = true;
-
 	}
 }
 //---------------------------------------------------------------------------
@@ -205,9 +193,7 @@ void __fastcall TFrame2::ComboBox1Change(TObject *Sender)
 	if(Edit1->GetTextLen() == 0) Button1->Enabled = false;
 
 	isFileDownloaded = false;
-	//RadioButton1->Enabled = true;
 	if(RadioButton1->Checked) Button3->Enabled = true;
-	//RadioButton2->Enabled = true;
 	ProgressBar1->Position = 0;
 	ProgressBar1->Visible = false;
 	Label4->Visible = false;
@@ -215,10 +201,7 @@ void __fastcall TFrame2::ComboBox1Change(TObject *Sender)
 	if(RadioButton2->Checked && Edit1->GetTextLen() > 0) {
 
 		checkImportType();
-		setDetectedComets();
 	}
-
-	//if(isFileDownloaded)
 
 	Form1->Frame31->ProgressBar1->Visible = false;
 	Form1->Frame31->Button1->Enabled = false;
@@ -281,12 +264,13 @@ void TFrame2::setDetectedComets(){
 	if (importType==17) detectedComets/=13;
 	if (importType==18) detectedComets-=2;
 
-	Label4->Caption = "Detected comets: " + IntToStr(detectedComets);
+	Label4->Caption = "Detected comets: " + String(detectedComets);
 	Label4->Visible = true;
+	Button1->Enabled = true;
 }
 //---------------------------------------------------------------------------
 
-void TFrame2::checkImportType(){
+bool TFrame2::checkImportType(){
 
 	FILE *f = fopen(AnsiString(Edit1->Text).c_str(), "r");
 
@@ -295,8 +279,10 @@ void TFrame2::checkImportType(){
 	fclose(f);
 
 	if(impType == -1){
-		ShowMessage("ovo nije ni jedan import type");
-		return;
+		Label4->Visible = false;
+		Button1->Enabled = false;	
+		ShowMessage("Invalid import type");
+		return false;
 	}
 
 	if(ComboBox1->ItemIndex != impType){
@@ -323,7 +309,7 @@ void TFrame2::checkImportType(){
 		if(impType==17) detected = "Comet for Windows";
 		if(impType==18) detected = "NASA (ELEMENTS.COMET)";
 
-
+		/*
 		UnicodeString a = "Detected import format: " + detected  +
 			"\nSelected import format: " + ComboBox1->Text +
 			"\n\nChange it to " + detected + "?";
@@ -334,7 +320,17 @@ void TFrame2::checkImportType(){
 			MB_OKCANCEL | MB_ICONQUESTION);
 
 		if(test == IDOK) ComboBox1->ItemIndex = impType;
+		*/
+
+		UnicodeString text = "Import format will be changed to " + detected;
+		UnicodeString title = "Detected " + detected + " import format";
+
+		Application->MessageBox(text.w_str(), title.w_str(), MB_OK | MB_ICONQUESTION);
+
+		ComboBox1->ItemIndex = impType;
 	}
+	setDetectedComets();
+	return true;
 }
 //---------------------------------------------------------------------------
 
@@ -548,28 +544,31 @@ int TFrame2::getImportType(FILE *fin){
 
 	rewind(fin);
 
-	char c;
-	int j=0;
+	try{
+		char c;
+		int j=0;
 
-	fscanf(fin, "%*[^\n]\n");
+		fscanf(fin, "%*[^\n]\n");
 
-	while ((c=fgetc(fin)) != ','){
+		while ((c=fgetc(fin)) != ','){
 
-		if(c == '\n') break;
+			if(c == '\n' || c == EOF) break;
 
-		com->full[j++]=c;
+			com->full[j++]=c;
+		}
+		com->full[j]='\0';
+
+		m = fscanf(fin, "%d-%d-%f,%f,%f,%f,%f,%f,%50[^\n]%*c",
+			&com->y, &com->m, &com->d,
+			&com->q, &com->e, &com->pn, &com->an,
+			&com->i, x);
+
+		if (m == 9){
+			delete com;
+			return 4;
+		}
 	}
-	com->full[j]='\0';
-
-	m = fscanf(fin, "%d-%d-%f,%f,%f,%f,%f,%f,%50[^\n]%*c",
-		&com->y, &com->m, &com->d,
-		&com->q, &com->e, &com->pn, &com->an,
-		&com->i, x);
-
-	if (m == 9){
-		delete com;
-		return 4;
-	}
+	catch(...){}
 
 	return -1;
 }

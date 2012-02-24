@@ -55,7 +55,7 @@ public:		// User declarations
 	__fastcall TFrame2(TComponent* Owner);
 	void setDetectedComets();
 	int getImportType(FILE *);
-	void checkImportType();
+	bool checkImportType();
 	bool isFileDownloaded;
 	UnicodeString downloadedFile;
 	FILE *fin;
