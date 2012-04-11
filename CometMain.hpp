@@ -19,17 +19,12 @@
 #define ep_d 8
 #define eq_JD greg_to_jul(ep_y, ep_m, ep_d)-1
 
-// eq_JD se nakon nekog vremena povecava za 200 dana
-// saznati kada, i to implementirati u program
-
 using namespace std;
 
 struct Settings{
 	int checkNewVersion;
 	int advancedMode;
-	int showSplash;
 	int exitConfirm;
-	int importConfirm;
 };
 
 class Comet{

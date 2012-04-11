@@ -132,83 +132,83 @@
 			<ResFiles Include="CometOew.res">
 				<BuildOrder>1</BuildOrder>
 			</ResFiles>
-			<CppCompile Include="Unit1.cpp">
-				<Form>Form1</Form>
-				<DependentOn>Unit1.h</DependentOn>
-				<BuildOrder>2</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="Unit10.cpp">
-				<Form>Frame10</Form>
-				<FormType>dfm</FormType>
-				<DesignClass>TFrame</DesignClass>
-				<DependentOn>Unit10.h</DependentOn>
-				<BuildOrder>15</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="Unit11.cpp">
-				<Form>Form11</Form>
-				<FormType>dfm</FormType>
-				<DependentOn>Unit11.h</DependentOn>
-				<BuildOrder>15</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="Unit12.cpp">
-				<Form>Form12</Form>
-				<FormType>dfm</FormType>
-				<DependentOn>Unit12.h</DependentOn>
-				<BuildOrder>16</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="Unit2.cpp">
-				<Form>Frame2</Form>
-				<DesignClass>TFrame</DesignClass>
-				<DependentOn>Unit2.h</DependentOn>
-				<BuildOrder>6</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="Unit3.cpp">
-				<Form>Frame3</Form>
-				<DesignClass>TFrame</DesignClass>
-				<DependentOn>Unit3.h</DependentOn>
-				<BuildOrder>4</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="Unit5.cpp">
-				<Form>Frame5</Form>
-				<DesignClass>TFrame</DesignClass>
-				<DependentOn>Unit5.h</DependentOn>
-				<BuildOrder>5</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="Unit6.cpp">
-				<Form>Frame6</Form>
-				<DesignClass>TFrame</DesignClass>
-				<DependentOn>Unit6.h</DependentOn>
-				<BuildOrder>6</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="Unit7.cpp">
-				<Form>Form7</Form>
-				<FormType>dfm</FormType>
-				<DependentOn>Unit7.h</DependentOn>
-				<BuildOrder>13</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="Unit8.cpp">
+			<CppCompile Include="FormAbout.cpp">
 				<Form>Form8</Form>
 				<FormType>dfm</FormType>
-				<DependentOn>Unit8.h</DependentOn>
+				<DependentOn>FormAbout.h</DependentOn>
 				<BuildOrder>12</BuildOrder>
 			</CppCompile>
-			<CppCompile Include="Unit9.cpp">
+			<CppCompile Include="FormDetails.cpp">
+				<Form>Form12</Form>
+				<FormType>dfm</FormType>
+				<DependentOn>FormDetails.h</DependentOn>
+				<BuildOrder>16</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="FormExit.cpp">
 				<Form>Form9</Form>
 				<FormType>dfm</FormType>
-				<DependentOn>Unit9.h</DependentOn>
+				<DependentOn>FormExit.h</DependentOn>
 				<BuildOrder>14</BuildOrder>
 			</CppCompile>
-			<FormResources Include="Unit3.dfm"/>
-			<FormResources Include="Unit5.dfm"/>
-			<FormResources Include="Unit11.dfm"/>
-			<FormResources Include="Unit2.dfm"/>
-			<FormResources Include="Unit8.dfm"/>
-			<FormResources Include="Unit9.dfm"/>
-			<FormResources Include="Unit6.dfm"/>
-			<FormResources Include="Unit7.dfm"/>
-			<FormResources Include="Unit1.dfm"/>
-			<FormResources Include="Unit10.dfm"/>
-			<FormResources Include="Unit12.dfm"/>
+			<CppCompile Include="FormPreview.cpp">
+				<Form>Form11</Form>
+				<FormType>dfm</FormType>
+				<DependentOn>FormPreview.h</DependentOn>
+				<BuildOrder>15</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="FormSettings.cpp">
+				<Form>Form7</Form>
+				<FormType>dfm</FormType>
+				<DependentOn>FormSettings.h</DependentOn>
+				<BuildOrder>13</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="Frame1.cpp">
+				<Form>Frame01</Form>
+				<DesignClass>TFrame</DesignClass>
+				<DependentOn>Frame1.h</DependentOn>
+				<BuildOrder>6</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="Frame2.cpp">
+				<Form>Frame02</Form>
+				<DesignClass>TFrame</DesignClass>
+				<DependentOn>Frame2.h</DependentOn>
+				<BuildOrder>4</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="Frame3.cpp">
+				<Form>Frame03</Form>
+				<DesignClass>TFrame</DesignClass>
+				<DependentOn>Frame3.h</DependentOn>
+				<BuildOrder>5</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="Frame4.cpp">
+				<Form>Frame04</Form>
+				<DesignClass>TFrame</DesignClass>
+				<DependentOn>Frame4.h</DependentOn>
+				<BuildOrder>6</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="FrameSplash.cpp">
+				<Form>FrameSplash1</Form>
+				<FormType>dfm</FormType>
+				<DesignClass>TFrame</DesignClass>
+				<DependentOn>FrameSplash.h</DependentOn>
+				<BuildOrder>15</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="MainForm.cpp">
+				<Form>Form1</Form>
+				<DependentOn>MainForm.h</DependentOn>
+				<BuildOrder>2</BuildOrder>
+			</CppCompile>
+			<FormResources Include="Frame1.dfm"/>
+			<FormResources Include="Frame4.dfm"/>
+			<FormResources Include="FormPreview.dfm"/>
+			<FormResources Include="FormSettings.dfm"/>
+			<FormResources Include="Frame2.dfm"/>
+			<FormResources Include="Frame3.dfm"/>
+			<FormResources Include="FrameSplash.dfm"/>
+			<FormResources Include="MainForm.dfm"/>
+			<FormResources Include="FormExit.dfm"/>
+			<FormResources Include="FormAbout.dfm"/>
+			<FormResources Include="FormDetails.dfm"/>
 			<BuildConfiguration Include="Release">
 				<Key>Cfg_2</Key>
 				<CfgParent>Base</CfgParent>
@@ -295,15 +295,13 @@
 					<DeployFile Class="ProjectOutput" Configuration="Debug" LocalName="Debug\CometOew.exe">
 						<Platform Name="Win32"/>
 					</DeployFile>
-					<DeployFile Class="DebugSymbols" Configuration="Debug" LocalName="Debug\CometOew.tds">
-						<Platform Name="Win32">
-							<RemoteName>CometOew.tds</RemoteName>
-						</Platform>
-					</DeployFile>
-					<DeployFile Class="DependencyModule" Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32120.dll">
-						<Platform Name="Win32"/>
+					<DeployFile Class="DependencyModule" Condition="'$(DynamicRTL)'=='true'" LocalName="$(BDS)\Redist\osx32\libcgstl.dylib">
+						<Platform Name="OSX32"/>
 					</DeployFile>
 					<DeployFile Class="DependencyModule" Condition="'$(UsingDelphiRTL)'=='true'" LocalName="$(BDS)\bin\borlndmm.dll">
+						<Platform Name="Win32"/>
+					</DeployFile>
+					<DeployFile Class="DependencyModule" Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32120.dll">
 						<Platform Name="Win32"/>
 					</DeployFile>
 					<DeployFile Class="DependencyModule" Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32120mt.dll">
@@ -312,8 +310,10 @@
 					<DeployFile Class="DependencyModule" Condition="'$(DynamicRTL)'=='true'" LocalName="$(BDS)\Redist\osx32\libcgcrtl.dylib">
 						<Platform Name="OSX32"/>
 					</DeployFile>
-					<DeployFile Class="DependencyModule" Condition="'$(DynamicRTL)'=='true'" LocalName="$(BDS)\Redist\osx32\libcgstl.dylib">
-						<Platform Name="OSX32"/>
+					<DeployFile Class="DebugSymbols" Configuration="Debug" LocalName="Debug\CometOew.tds">
+						<Platform Name="Win32">
+							<RemoteName>CometOew.tds</RemoteName>
+						</Platform>
 					</DeployFile>
 					<DeployClass Name="ProjectOutput" Required="true">
 						<Platform Name="OSX32">

@@ -1,15 +1,4 @@
 #include "CometMain.hpp"
-#include "Unit3.h"
-
-
-
-
-
-
-
-
-
-
 
 
 double compute_period (double q, double e){
@@ -228,7 +217,7 @@ double get_sort_key(char *ID){
 
 void jul_to_greg (long int T, int &y, int &m, float &d){
 
-//	izracuvanje gregorijanskog datuma iz julijanskog dana
+//	racunanje gregorijanskog datuma iz julijanskog dana
 //	izvor: http://en.wikipedia.org/wiki/Julian_day#Gregorian_calendar_from_Julian_day_number
 
 	int v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13;

@@ -34,17 +34,37 @@
 
 
 
-USEFORM("Unit3.cpp", Frame3); /* TFrame: File Type */
-USEFORM("Unit5.cpp", Frame5); /* TFrame: File Type */
-USEFORM("Unit11.cpp", Form11);
-USEFORM("Unit2.cpp", Frame2); /* TFrame: File Type */
-USEFORM("Unit8.cpp", Form8);
-USEFORM("Unit9.cpp", Form9);
-USEFORM("Unit6.cpp", Frame6); /* TFrame: File Type */
-USEFORM("Unit7.cpp", Form7);
-USEFORM("Unit1.cpp", Form1);
-USEFORM("Unit10.cpp", Frame10); /* TFrame: File Type */
-USEFORM("Unit12.cpp", Form12);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+USEFORM("Frame1.cpp", Frame01); /* TFrame: File Type */
+USEFORM("Frame4.cpp", Frame04); /* TFrame: File Type */
+USEFORM("FormPreview.cpp", Form11);
+USEFORM("FormSettings.cpp", Form7);
+USEFORM("Frame2.cpp", Frame02); /* TFrame: File Type */
+USEFORM("Frame3.cpp", Frame03); /* TFrame: File Type */
+USEFORM("FrameSplash.cpp", FrameSplash1); /* TFrame: File Type */
+USEFORM("MainForm.cpp", Form1);
+USEFORM("FormExit.cpp", Form9);
+USEFORM("FormAbout.cpp", Form8);
+USEFORM("FormDetails.cpp", Form12);
 //---------------------------------------------------------------------------
 WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {
