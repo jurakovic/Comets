@@ -8,16 +8,6 @@ object Frame03: TFrame03
   DesignSize = (
     570
     400)
-  object Bevel1: TBevel
-    Left = 7
-    Top = 50
-    Width = 556
-    Height = 303
-    Align = alCustom
-    Anchors = [akLeft, akTop, akRight, akBottom]
-    Shape = bsBottomLine
-    ExplicitWidth = 586
-  end
   object Label20: TLabel
     Left = 485
     Top = 324
@@ -30,6 +20,16 @@ object Frame03: TFrame03
     Font.Name = 'Tahoma'
     Font.Style = []
     ParentFont = False
+  end
+  object Bevel1: TBevel
+    Left = 7
+    Top = 50
+    Width = 556
+    Height = 303
+    Align = alCustom
+    Anchors = [akLeft, akTop, akRight, akBottom]
+    Shape = bsBottomLine
+    ExplicitWidth = 586
   end
   object Panel2: TPanel
     Left = 0
@@ -77,6 +77,7 @@ object Frame03: TFrame03
     Height = 25
     Anchors = [akRight, akBottom]
     Caption = 'Next >'
+    Enabled = False
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -11
@@ -115,7 +116,7 @@ object Frame03: TFrame03
   end
   object Button4: TButton
     Left = 485
-    Top = 157
+    Top = 187
     Width = 75
     Height = 25
     Caption = 'Delete'
@@ -124,7 +125,7 @@ object Frame03: TFrame03
   end
   object Button5: TButton
     Left = 485
-    Top = 188
+    Top = 218
     Width = 75
     Height = 25
     Caption = 'Clear'
@@ -133,21 +134,36 @@ object Frame03: TFrame03
   end
   object Button6: TButton
     Left = 485
-    Top = 250
+    Top = 264
     Width = 75
     Height = 25
-    Caption = 'Preview'
+    Caption = 'Export'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
     TabOrder = 7
     OnClick = Button6Click
   end
   object Button7: TButton
     Left = 485
-    Top = 95
+    Top = 141
     Width = 75
     Height = 25
     Caption = 'Details >>'
     TabOrder = 8
     OnClick = Button7Click
+  end
+  object Filters: TButton
+    Left = 485
+    Top = 95
+    Width = 75
+    Height = 25
+    Caption = 'Filters'
+    TabOrder = 9
+    OnClick = FiltersClick
   end
   object PopupActionBar1: TPopupActionBar
     OnChange = PopupActionBar1Change

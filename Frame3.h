@@ -39,10 +39,11 @@ __published:	// IDE-managed Components
 	TMenuItem *Descending1;
 	TButton *Button4;
 	TButton *Button5;
-	TBevel *Bevel1;
 	TLabel *Label20;
 	TButton *Button6;
 	TButton *Button7;
+	TButton *Filters;
+	TBevel *Bevel1;
 	void __fastcall Button1Click(TObject *Sender);
 	void __fastcall Button2Click(TObject *Sender);
 	void __fastcall Button3Click(TObject *Sender);
@@ -65,6 +66,7 @@ __published:	// IDE-managed Components
 	void __fastcall ListBox1Click(TObject *Sender);
 	void __fastcall Button6Click(TObject *Sender);
 	void __fastcall ListBox1DblClick(TObject *Sender);
+	void __fastcall FiltersClick(TObject *Sender);
 
 private:	// User declarations
 public:		// User declarations

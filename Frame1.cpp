@@ -27,10 +27,7 @@ __fastcall TFrame01::TFrame01(TComponent* Owner)
 //---------------------------------------------------------------------------
 void __fastcall TFrame01::Button1Click(TObject *Sender)
 {
-	if(CheckBox1->Checked)
-		Form1->Frame2->Visible = true;
-	else
-		Form1->Frame4->Visible = true;
+	Form1->Frame3->Visible = true;
 
 	Form1->Frame1->Visible = false;
 
@@ -39,7 +36,6 @@ void __fastcall TFrame01::Button1Click(TObject *Sender)
 	else
 	   Form1->Frame2->CheckBox8->Visible = false;
 
-	Form1->Presets1->Enabled = true;
 }
 //---------------------------------------------------------------------------
 
@@ -52,13 +48,14 @@ void __fastcall TFrame01::RadioButton1Click(TObject *Sender)
 	if(isFileDownloaded) {
 	//ako je datoteka skinuta, prebroji komete i moze next
 		setDetectedComets();
-		Button1->Enabled = true;
 		Label4->Visible = true;
 		ProgressBar1->Visible = true;
+		Button1->Enabled = true;
 	}
 	else {
-		Button1->Enabled = false;
 		Label4->Visible = false;
+		Button2->Enabled = false;
+		Button1->Enabled = false;
 	}
 }
 
@@ -78,13 +75,15 @@ void __fastcall TFrame01::RadioButton2Click(TObject *Sender)
 		if(test == NULL) return;
 
 		if(checkImportType() == false) return;
-		Button1->Enabled = true;
 		Label4->Visible = true;
+		Button2->Enabled = true;
+		Button1->Enabled = true;
 	}
 
 	else {
-		Button1->Enabled = false;
 		Label4->Visible = false;
+		Button2->Enabled = false;
+		Button1->Enabled = false;
 	}
 }
 
@@ -168,7 +167,7 @@ void __fastcall TFrame01::Button3Click(TObject *Sender)
 	ProgressBar1->Position = ProgressBar1->Max;
 
 	isFileDownloaded = true;
-	Button1->Enabled = true;
+	Button2->Enabled = true;
 }
 //---------------------------------------------------------------------------
 
@@ -198,13 +197,16 @@ void __fastcall TFrame01::ComboBox1Change(TObject *Sender)
 	ProgressBar1->Position = 0;
 	ProgressBar1->Visible = false;
 	Label4->Visible = false;
+	Button2->Enabled = false;
+	Button1->Enabled = false;
 
 	if(RadioButton2->Checked && Edit1->GetTextLen() > 0) {
 
 		checkImportType();
 	}
 
-	Form1->Frame2->ProgressBar1->Visible = false;
+	ProgressBar1->Visible = false;
+	ProgressBar2->Visible = false;
 	Form1->Frame2->Button1->Enabled = false;
 
 	Form1->Frame3->ListBox1->Clear();
@@ -330,7 +332,7 @@ void TFrame01::setDetectedComets(){
 
 	Label4->Caption = "Detected comets: " + String(detectedComets);
 	Label4->Visible = true;
-	Button1->Enabled = true;
+	Button2->Enabled = true;
 }
 
 //---------------------------------------------------------------------------
@@ -614,7 +616,45 @@ int TFrame01::getImportType(FILE *fin){
 //---------------------------------------------------------------------------
 void __fastcall TFrame01::Button2Click(TObject *Sender)
 {
-	Form11->ShowModal();
+	ocistiMemoriju(&Form1->cmt);
+
+	int importType = Form1->Frame1->ComboBox1->ItemIndex;
+
+	UnicodeString importFile;
+
+	if(Form1->Frame1->RadioButton1->Checked)
+		importFile = Form1->Frame1->downloadedFile;
+
+	else
+		importFile = Form1->Frame1->Edit1->Text;
+
+	int Ncmt = Form1->import_main(importType, importFile);
+
+	if(Ncmt==0) return;
+
+	/*Application->MessageBox(String(String(Ncmt) + " of " + String(Form1->Frame1->detectedComets) + " comets imported").w_str(),
+			L"Import completed!",
+			MB_OK | MB_ICONASTERISK);  */
+
+	Label2->Caption = String(Ncmt) + " of " + String(Form1->Frame1->detectedComets) + " comets imported";
+	Label2->Visible = true;
+
+	Form1->Frame3->ListBox1->Clear();
+	Form1->updateListbox(Form1->cmt);
+
+	Form1->Frame3->Ncmt = Ncmt;
+	Form1->Frame3->Label20->Caption = "Comets: " + String(Ncmt);
+
+	Form1->Frame3->Button3->Enabled = true;
+	Form1->Frame3->Button4->Enabled = true;
+	Form1->Frame3->Button5->Enabled = true;
+	Form1->Frame3->Button6->Enabled = true;
+	Form1->Frame3->Button7->Enabled = true;
+
+	Form1->Frame3->nosort2->Checked = true;
+	Form1->Frame3->Ascending1->Checked = true;
+	Form1->Frame3->Button1->Enabled = true;
+	Button1->Enabled = true;
+	//Beep();
 }
 //---------------------------------------------------------------------------
-

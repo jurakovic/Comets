@@ -10,6 +10,7 @@
 #include "FormAbout.h"
 #include "FormPreview.h"
 #include "FormDetails.h"
+#include "FormFilters.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
@@ -38,9 +39,8 @@ void __fastcall TFrame03::Button1Click(TObject *Sender)
 
 void __fastcall TFrame03::Button2Click(TObject *Sender)
 {
-	Form1->Frame2->Visible = true;
+	Form1->Frame1->Visible = true;
 	Form1->Frame3->Visible = false;
-	Form1->Presets1->Enabled = true;
 
 	Form12->Close();
 }
@@ -80,7 +80,7 @@ void __fastcall TFrame03::nosort2Click(TObject *Sender)
 
 		if(Ncmt) {
 			Form1->updateListbox(Form1->cmt);
-			ListBox1->ItemIndex = 0;
+			if(Form12->Visible) ListBox1->ItemIndex = 0;
 			ListBox1Click(Sender);
 		}
 	}
@@ -100,7 +100,7 @@ void __fastcall TFrame03::name1Click(TObject *Sender)
 		else Form1->cmt = sortList(Form1->cmt, 1);
 
 		Form1->updateListbox(Form1->cmt);
-		ListBox1->ItemIndex = index;
+		if(Form12->Visible) ListBox1->ItemIndex = index;
 		ListBox1Click(Sender);
 	}
 }
@@ -119,7 +119,7 @@ void __fastcall TFrame03::PerihelionDate1Click(TObject *Sender)
 		else Form1->cmt = sortList(Form1->cmt, 3);
 
 		Form1->updateListbox(Form1->cmt);
-		ListBox1->ItemIndex = index;
+		if(Form12->Visible) ListBox1->ItemIndex = index;
 		ListBox1Click(Sender);
 	}
 }
@@ -137,7 +137,7 @@ void __fastcall TFrame03::PericenterDistance1Click(TObject *Sender)
 		else Form1->cmt = sortList(Form1->cmt, 5);
 
 		Form1->updateListbox(Form1->cmt);
-		ListBox1->ItemIndex = index;
+		if(Form12->Visible) ListBox1->ItemIndex = index;
 		ListBox1Click(Sender);
 	}
 }
@@ -155,7 +155,7 @@ void __fastcall TFrame03::Eccentricity1Click(TObject *Sender)
 		else Form1->cmt = sortList(Form1->cmt, 7);
 
 		Form1->updateListbox(Form1->cmt);
-		ListBox1->ItemIndex = index;
+		if(Form12->Visible) ListBox1->ItemIndex = index;
 		ListBox1Click(Sender);
 	}
 }
@@ -173,7 +173,7 @@ void __fastcall TFrame03::LongoftheAscNode1Click(TObject *Sender)
 		else Form1->cmt = sortList(Form1->cmt, 9);
 
 		Form1->updateListbox(Form1->cmt);
-		ListBox1->ItemIndex = index;
+		if(Form12->Visible) ListBox1->ItemIndex = index;
 		ListBox1Click(Sender);
 	}
 }
@@ -191,7 +191,7 @@ void __fastcall TFrame03::LongofPericenter1Click(TObject *Sender)
 		else Form1->cmt = sortList(Form1->cmt, 11);
 
 		Form1->updateListbox(Form1->cmt);
-		ListBox1->ItemIndex = index;
+		if(Form12->Visible) ListBox1->ItemIndex = index;
 		ListBox1Click(Sender);
 	}
 }
@@ -209,7 +209,7 @@ void __fastcall TFrame03::Inclination1Click(TObject *Sender)
 		else Form1->cmt = sortList(Form1->cmt, 13);
 
 		Form1->updateListbox(Form1->cmt);
-		ListBox1->ItemIndex = index;
+		if(Form12->Visible) ListBox1->ItemIndex = index;
 		ListBox1Click(Sender);
 	}
 }
@@ -227,7 +227,7 @@ void __fastcall TFrame03::Period1Click(TObject *Sender)
 		else Form1->cmt = sortList(Form1->cmt, 15);
 
 		Form1->updateListbox(Form1->cmt);
-		ListBox1->ItemIndex = index;
+		if(Form12->Visible) ListBox1->ItemIndex = index;
 		ListBox1Click(Sender);
 	}
 }
@@ -252,7 +252,7 @@ void __fastcall TFrame03::Ascending1Click(TObject *Sender)
 		if(Period1->Checked) Form1->cmt = sortList(Form1->cmt, 14);
 
 		Form1->updateListbox(Form1->cmt);
-		ListBox1->ItemIndex = index;
+		if(Form12->Visible) ListBox1->ItemIndex = index;
 		ListBox1Click(Sender);
 	}
 }
@@ -277,7 +277,7 @@ void __fastcall TFrame03::Descending1Click(TObject *Sender)
 		if(Period1->Checked) Form1->cmt = sortList(Form1->cmt, 15);
 
 		Form1->updateListbox(Form1->cmt);
-		ListBox1->ItemIndex = index;
+		if(Form12->Visible) ListBox1->ItemIndex = index;
 		ListBox1Click(Sender);
 	}
 }
@@ -287,7 +287,6 @@ void __fastcall TFrame03::Button5Click(TObject *Sender)
 {
 	ListBox1->Clear();
 	Button1->Enabled = false;
-	Form1->Frame2->ProgressBar1->Visible = false;
 	Form1->Frame2->Button1->Enabled = false;
 	ocistiMemoriju(&Form1->cmt);
 
@@ -298,6 +297,7 @@ void __fastcall TFrame03::Button5Click(TObject *Sender)
 	Button4->Enabled = false;
 	Button5->Enabled = false;
 	Button6->Enabled = false;
+	Filters->Enabled = false;
 	Ncmt = 0;
 	Label20->Caption = "Comets: 0";
 }
@@ -306,7 +306,7 @@ void __fastcall TFrame03::Button5Click(TObject *Sender)
 
 
 void __fastcall TFrame03::PopupActionBar1Change(TObject *Sender, TMenuItem *Source,
-          bool Rebuild)
+		  bool Rebuild)
 {
 	if(canDoChange == false) {
 		//samo da se nakon prvog klika ne napravi update listboxa
@@ -376,7 +376,6 @@ void __fastcall TFrame03::Button4Click(TObject *Sender)
 		if(i==-1){
 
 			Button1->Enabled = false;
-			Form1->Frame2->ProgressBar1->Visible = false;
 			Form1->Frame2->Button1->Enabled = false;
 
 			Form12->Close();
@@ -386,6 +385,7 @@ void __fastcall TFrame03::Button4Click(TObject *Sender)
 			Button5->Enabled = false;
 			Button6->Enabled = false;
 			Button7->Enabled = false;
+			Filters->Enabled = false;
 			Label20->Caption = "Comets: 0";
 			return;
 		}
@@ -438,6 +438,8 @@ void __fastcall TFrame03::ListBox1Click(TObject *Sender)
 {
 	if(Form12->Visible)	{
 
+		if(ListBox1->ItemIndex == -1) ListBox1->ItemIndex = 0;
+
 		Comet *cmt = getCmt(Form1->cmt, ListBox1->ItemIndex);
 		Form12->updateEditFields(cmt);
 		delete cmt;
@@ -474,6 +476,13 @@ void __fastcall TFrame03::ListBox1DblClick(TObject *Sender)
 	Comet *cmt = getCmt(Form1->cmt, ListBox1->ItemIndex);
 	Form12->updateEditFields(cmt);
 	delete cmt;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFrame03::FiltersClick(TObject *Sender)
+{
+	Form1->Frame3->Visible = false;
+	Form1->Frame2->Visible = true;
 }
 //---------------------------------------------------------------------------
 

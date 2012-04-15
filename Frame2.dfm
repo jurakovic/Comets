@@ -476,9 +476,9 @@ object Frame02: TFrame02
     object Label1: TLabel
       Left = 16
       Top = 12
-      Width = 211
+      Width = 53
       Height = 21
-      Caption = 'Exclude data and Import'
+      Caption = 'Filters'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -17
@@ -501,7 +501,7 @@ object Frame02: TFrame02
     Width = 75
     Height = 25
     Anchors = [akRight, akBottom]
-    Caption = '< Back'
+    Caption = 'Apply'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -11
@@ -517,8 +517,7 @@ object Frame02: TFrame02
     Width = 75
     Height = 25
     Anchors = [akRight, akBottom]
-    Caption = 'Next >'
-    Enabled = False
+    Caption = 'Cancel'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -11
@@ -554,30 +553,6 @@ object Frame02: TFrame02
     TabOrder = 27
     OnClick = Button3Click
   end
-  object Button4: TButton
-    Left = 11
-    Top = 314
-    Width = 107
-    Height = 25
-    Caption = 'Import'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -12
-    Font.Name = 'Tahoma'
-    Font.Style = [fsBold]
-    ParentFont = False
-    TabOrder = 28
-    OnClick = Button4Click
-  end
-  object ProgressBar1: TProgressBar
-    Left = 124
-    Top = 314
-    Width = 435
-    Height = 24
-    Anchors = [akLeft, akTop, akRight]
-    TabOrder = 29
-    Visible = False
-  end
   object CheckBox9: TCheckBox
     Left = 16
     Top = 66
@@ -590,7 +565,7 @@ object Frame02: TFrame02
     Font.Name = 'Tahoma'
     Font.Style = []
     ParentFont = False
-    TabOrder = 30
+    TabOrder = 28
     OnClick = CheckBox9Click
   end
   object Edit1: TEdit
@@ -599,6 +574,30 @@ object Frame02: TFrame02
     Width = 238
     Height = 21
     Enabled = False
+    TabOrder = 29
+  end
+  object Button4: TButton
+    Left = 10
+    Top = 365
+    Width = 75
+    Height = 25
+    Caption = 'Load Preset'
+    TabOrder = 30
+  end
+  object Button5: TButton
+    Left = 91
+    Top = 365
+    Width = 75
+    Height = 25
+    Caption = 'Save Preset'
     TabOrder = 31
+  end
+  object Button6: TButton
+    Left = 172
+    Top = 365
+    Width = 75
+    Height = 25
+    Caption = 'Reset All'
+    TabOrder = 32
   end
 end

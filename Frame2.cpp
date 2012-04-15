@@ -19,23 +19,39 @@ __fastcall TFrame02::TFrame02(TComponent* Owner)
 //---------------------------------------------------------------------------
 void __fastcall TFrame02::Button1Click(TObject *Sender)
 {
-
-	Form1->Frame3->Visible = true;
 	Form1->Frame2->Visible = false;
-
-	Form1->Frame3->canDoChange = false;
-	Form1->Presets1->Enabled = false;
+	Form1->Frame3->Visible = true;
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TFrame02::Button2Click(TObject *Sender)
 {
-	Form1->Frame1->Visible = true;
-	Form1->Frame2->Visible = false;
+	if(CheckBox9->Checked && Edit1->Text.Length() == 0) {
+		Application->MessageBox(L"Please enter comet name",
+			L"Error",
+			MB_OK | MB_ICONERROR);
+		return;
+	}
 
-	ProgressBar1->Visible = false;
-	Button1->Enabled = false;
-	ocistiMemoriju(&Form1->cmt);
+ 	if ((CheckBox1->Checked && ComboBox1->ItemIndex == -1) ||
+		(CheckBox2->Checked && ComboBox2->ItemIndex == -1) ||
+		(CheckBox3->Checked && ComboBox3->ItemIndex == -1) ||
+		(CheckBox4->Checked && ComboBox4->ItemIndex == -1) ||
+		(CheckBox5->Checked && ComboBox5->ItemIndex == -1) ||
+		(CheckBox6->Checked && ComboBox6->ItemIndex == -1) ||
+		(CheckBox7->Checked && ComboBox7->ItemIndex == -1)){
+
+		Application->MessageBox(L"Please select Greather than (>) or Less than (<)",
+			L"Error",
+			MB_OK | MB_ICONERROR);
+		return;
+	}
+
+	if(Form1->define_exclude() == false) return;
+	Form1->Frame1->Button2Click(Sender);
+
+	Form1->Frame3->Visible = true;
+	Form1->Frame2->Visible = false;
 }
 
 //---------------------------------------------------------------------------

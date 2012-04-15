@@ -29,10 +29,6 @@ __published:	// IDE-managed Components
 	TMenuItem *About1;
 	TMenuItem *N1;
 	TMenuItem *Checkfornewversion1;
-	TMenuItem *N3;
-	TMenuItem *Presets1;
-	TMenuItem *SavePreset1;
-	TMenuItem *LoadPreset1;
 	TMenuItem *ools1;
 	TMenuItem *Settings2;
 	TFrame04 *Frame4;

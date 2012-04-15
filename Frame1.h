@@ -25,15 +25,6 @@
 class TFrame01 : public TFrame
 {
 __published:	// IDE-managed Components
-	TLabel *Label2;
-	TLabel *Label4;
-	TComboBox *ComboBox1;
-	TRadioButton *RadioButton1;
-	TButton *Button3;
-	TRadioButton *RadioButton2;
-	TButton *Button4;
-	TEdit *Edit1;
-	TProgressBar *ProgressBar1;
 	TCheckBox *CheckBox1;
 	TPanel *Panel2;
 	TLabel *Label1;
@@ -41,6 +32,19 @@ __published:	// IDE-managed Components
 	TOpenDialog *OpenDialog1;
 	TBevel *Bevel1;
 	TButton *Button1;
+	TGroupBox *GroupBox1;
+	TComboBox *ComboBox1;
+	TRadioButton *RadioButton1;
+	TButton *Button3;
+	TProgressBar *ProgressBar1;
+	TRadioButton *RadioButton2;
+	TButton *Button4;
+	TEdit *Edit1;
+	TLabel *Label4;
+	TGroupBox *GroupBox2;
+	TButton *Button2;
+	TProgressBar *ProgressBar2;
+	TLabel *Label2;
 	void __fastcall Button1Click(TObject *Sender);
 	void __fastcall RadioButton1Click(TObject *Sender);
 	void __fastcall RadioButton2Click(TObject *Sender);

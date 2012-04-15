@@ -132,9 +132,9 @@ int TForm1::import_main (int importType, UnicodeString importFile){
 
 	int Ncmt = Frame1->detectedComets;
 
-	Frame2->ProgressBar1->Visible = true;
-	Frame2->ProgressBar1->Position = 0;
-	Frame2->ProgressBar1->Max = Ncmt;
+	Frame1->ProgressBar2->Visible = true;
+	Frame1->ProgressBar2->Position = 0;
+	Frame1->ProgressBar2->Max = Ncmt;
 
 	if (importType== 0) Ncmt = import_mpc (Ncmt, fin);
 	if (importType== 1) Ncmt = import_skymap (Ncmt, fin);
@@ -166,7 +166,7 @@ int TForm1::import_main (int importType, UnicodeString importFile){
 			L" - Excluding rules are too high",
 			L"Error",
 			MB_OK | MB_ICONERROR);
-		Frame2->ProgressBar1->Visible = false;
+		Frame1->ProgressBar2->Visible = false;
 		Frame2->Button1->Enabled = false;
 		return 0;
 	}
@@ -306,7 +306,7 @@ int TForm1::import_mpc (int N, FILE *fin){
 			//cout << "\n\n  Unable to read data in line " << line;
 			fscanf(fin, "%*[^\n]\n");
 			N--; i--; line++;
-			Frame2->ProgressBar1->Max--;
+			Frame1->ProgressBar2->Max--;
 			delete com;
 			continue;
 		}
@@ -320,14 +320,14 @@ int TForm1::import_mpc (int N, FILE *fin){
 		com->sort = get_sort_key(com->ID);
 		line++;
 
-		Frame2->ProgressBar1->Position = i+1;
+		Frame1->ProgressBar2->Position = i+1;
 
 
 		if(Frame1->CheckBox1->Checked){
 			if(do_exclude(com) || check_name(com)){
 				N--;
 				i--;
-				Frame2->ProgressBar1->Max--;
+				Frame1->ProgressBar2->Max--;
 				delete com;
 				continue;
 			}
@@ -358,7 +358,7 @@ int TForm1::import_skymap (int N, FILE *fin){
 			//cout << "\n\n  Unable to read data in line " << line;
 			fscanf(fin, "%*[^\n]\n");
 			N--; i--; line++;
-			Frame2->ProgressBar1->Max--;
+			Frame1->ProgressBar2->Max--;
 			delete com;
 			continue;
 		}
@@ -419,7 +419,7 @@ int TForm1::import_skymap (int N, FILE *fin){
 		line++;
 
 		if(Frame1->CheckBox1->Checked)
-			Frame2->ProgressBar1->Position = i+1;
+			Frame1->ProgressBar2->Position = i+1;
 		else
 			Frame4->ProgressBar1->Position = i+1;
 
@@ -427,7 +427,7 @@ int TForm1::import_skymap (int N, FILE *fin){
 			if(do_exclude(com) || check_name(com)){
 				N--;
 				i--;
-				Frame2->ProgressBar1->Max--;
+				Frame1->ProgressBar2->Max--;
 				delete com;
 				continue;
 			}
@@ -458,7 +458,7 @@ int TForm1::import_guide (int N, FILE *fin){
 			//cout << "\n\n  Unable to read data in line " << line;
 			fscanf(fin, "%*[^\n]\n");
 			N--; i--; line++;
-			Frame2->ProgressBar1->Max--;
+			Frame1->ProgressBar2->Max--;
 			delete com;
 			continue;
 		}
@@ -499,13 +499,13 @@ int TForm1::import_guide (int N, FILE *fin){
 		com->T = greg_to_jul (com->y, com->m, (int)com->d);
 		com->sort = get_sort_key(com->ID);
 		line++;
-		Frame2->ProgressBar1->Position = i+1;
+		Frame1->ProgressBar2->Position = i+1;
 
 		if(Frame1->CheckBox1->Checked){
 			if(do_exclude(com) || check_name(com)){
 				N--;
 				i--;
-				Frame2->ProgressBar1->Max--;
+				Frame1->ProgressBar2->Max--;
 				delete com;
 				continue;
 			}
@@ -560,7 +560,7 @@ int TForm1::import_xephem (int N, FILE *fin){
 				//cout << "\n\n  Unable to read data in line " << line;
 				fscanf(fin, "%*[^\n]\n");
 				N--; i--; line++;
-				Frame2->ProgressBar1->Max--;
+				Frame1->ProgressBar2->Max--;
 				delete com;
 				continue;
 			}
@@ -579,13 +579,13 @@ int TForm1::import_xephem (int N, FILE *fin){
 			com->d += TT-(long int)TT;
 
 			line+=2;
-			Frame2->ProgressBar1->Position = i+1;
+			Frame1->ProgressBar2->Position = i+1;
 
 			if(Frame1->CheckBox1->Checked){
 				if(do_exclude(com) || check_name(com)){
 					N--;
 					i--;
-					Frame2->ProgressBar1->Max--;
+					Frame1->ProgressBar2->Max--;
 					delete com;
 					continue;
 				}
@@ -602,7 +602,7 @@ int TForm1::import_xephem (int N, FILE *fin){
 				//cout << "\n\n  Unable to read data in line " << line;
 				fscanf(fin, "%*[^\n]\n");
 				N--; i--; line++;
-				Frame2->ProgressBar1->Max--;
+				Frame1->ProgressBar2->Max--;
 				delete com;
 				continue;
 			}
@@ -610,13 +610,13 @@ int TForm1::import_xephem (int N, FILE *fin){
 			com->e = 1.000000;
 			com->T = greg_to_jul (com->y, com->m, (int)com->d);
 			line+=2;
-			Frame2->ProgressBar1->Position = i+1;
+			Frame1->ProgressBar2->Position = i+1;
 
 			if(Frame1->CheckBox1->Checked){
 				if(do_exclude(com) || check_name(com)){
 					N--;
 					i--;
-					Frame2->ProgressBar1->Max--;
+					Frame1->ProgressBar2->Max--;
 					delete com;
 					continue;
 				}
@@ -633,20 +633,20 @@ int TForm1::import_xephem (int N, FILE *fin){
 				//cout << "\n\n  Unable to read data in line " << line;
 				fscanf(fin, "%*[^\n]\n");
 				N--; i--; line++;
-				Frame2->ProgressBar1->Max--;
+				Frame1->ProgressBar2->Max--;
 				delete com;
 				continue;
 			}
 
 			com->T = greg_to_jul (com->y, com->m, (int)com->d);
 			line+=2;
-			Frame2->ProgressBar1->Position = i+1;
+			Frame1->ProgressBar2->Position = i+1;
 
 			if(Frame1->CheckBox1->Checked){
 				if(do_exclude(com) || check_name(com)){
 					N--;
 					i--;
-					Frame2->ProgressBar1->Max--;
+					Frame1->ProgressBar2->Max--;
 					delete com;
 					continue;
 				}
@@ -695,7 +695,7 @@ int TForm1::import_home_planet (int N, FILE *fin){
 			//cout << "\n\n  Unable to read data in line " << line;
 			fscanf(fin, "%*[^\n]\n");
 			N--; i--; line++;
-			Frame2->ProgressBar1->Max--;
+			Frame1->ProgressBar2->Max--;
 			delete com;
 			continue;
 		}
@@ -706,13 +706,13 @@ int TForm1::import_home_planet (int N, FILE *fin){
 		com->T = greg_to_jul (com->y, com->m, (int)com->d);
 		com->sort = get_sort_key(com->ID);
 		line++;
-		Frame2->ProgressBar1->Position = i+1;
+		Frame1->ProgressBar2->Position = i+1;
 
 		if(Frame1->CheckBox1->Checked){
 			if(do_exclude(com) || check_name(com)){
 				N--;
 				i--;
-				Frame2->ProgressBar1->Max--;
+				Frame1->ProgressBar2->Max--;
 				delete com;
 				continue;
 			}
@@ -752,7 +752,7 @@ int TForm1::import_mystars (int N, FILE *fin){
 			//cout << "\n\n  Unable to read data in line " << line;
 			fscanf(fin, "%*[^\n]\n");
 			N--; i--; line++;
-			Frame2->ProgressBar1->Max--;
+			Frame1->ProgressBar2->Max--;
 			delete com;
 			continue;
 		}
@@ -763,7 +763,7 @@ int TForm1::import_mystars (int N, FILE *fin){
 		com->T = (int)TT + 2400000;
 		com->sort = get_sort_key(com->ID);
 		line++;
-		Frame2->ProgressBar1->Position = i+1;
+		Frame1->ProgressBar2->Position = i+1;
 
 		jul_to_greg(com->T, com->y, com->m, com->d);
 		com->d += TT - (int)TT;
@@ -772,7 +772,7 @@ int TForm1::import_mystars (int N, FILE *fin){
 			if(do_exclude(com) || check_name(com)){
 				N--;
 				i--;
-				Frame2->ProgressBar1->Max--;
+				Frame1->ProgressBar2->Max--;
 				delete com;
 				continue;
 			}
@@ -809,7 +809,7 @@ int TForm1::import_thesky (int N, FILE *fin){
 			//cout << "\n\n  Unable to read data in line " << line;
 			fscanf(fin, "%*[^\n]\n");
 			N--; i--; line++;
-			Frame2->ProgressBar1->Max--;
+			Frame1->ProgressBar2->Max--;
 			delete com;
 			continue;
 		}
@@ -823,13 +823,13 @@ int TForm1::import_thesky (int N, FILE *fin){
 		remove_spaces (com->name);
 		com->sort = get_sort_key(com->ID);
 		line++;
-		Frame2->ProgressBar1->Position = i+1;
+		Frame1->ProgressBar2->Position = i+1;
 
 		if(Frame1->CheckBox1->Checked){
 			if(do_exclude(com) || check_name(com)){
 				N--;
 				i--;
-				Frame2->ProgressBar1->Max--;
+				Frame1->ProgressBar2->Max--;
 				delete com;
 				continue;
 			}
@@ -867,7 +867,7 @@ int TForm1::import_starry_night (int N, FILE *fin){
 			//cout << "\n\n  Unable to read data in line " << line;
 			fscanf(fin, "%*[^\n]\n");
 			N--; i--; line++;
-			Frame2->ProgressBar1->Max--;
+			Frame1->ProgressBar2->Max--;
 			delete com;
 			continue;
 		}
@@ -906,7 +906,7 @@ int TForm1::import_starry_night (int N, FILE *fin){
 		com->P = compute_period (com->q, com->e);
 		com->sort = get_sort_key(com->ID);
 		line++;
-		Frame2->ProgressBar1->Position = i+1;
+		Frame1->ProgressBar2->Position = i+1;
 
 		jul_to_greg(com->T, com->y, com->m, com->d);
 		com->d += (float)h/10000;
@@ -916,7 +916,7 @@ int TForm1::import_starry_night (int N, FILE *fin){
 			if(do_exclude(com) || check_name(com)){
 				N--;
 				i--;
-				Frame2->ProgressBar1->Max--;
+				Frame1->ProgressBar2->Max--;
 				delete com;
 				continue;
 			}
@@ -965,7 +965,7 @@ int TForm1::import_deep_space (int N, FILE *fin){
 			//cout << "\n\n  Unable to read data in line " << line;
 			fscanf(fin, "%*[^\n]\n");
 			N--; i--; line++;
-			Frame2->ProgressBar1->Max--;
+			Frame1->ProgressBar2->Max--;
 			delete com;
 			continue;
 		}
@@ -989,13 +989,13 @@ int TForm1::import_deep_space (int N, FILE *fin){
 		com->T = greg_to_jul (com->y, com->m, (int)com->d);
 		com->sort = get_sort_key(com->ID);
 		line+=2;
-		Frame2->ProgressBar1->Position = i+1;
+		Frame1->ProgressBar2->Position = i+1;
 
 		if(Frame1->CheckBox1->Checked){
 			if(do_exclude(com) || check_name(com)){
 				N--;
 				i--;
-				Frame2->ProgressBar1->Max--;
+				Frame1->ProgressBar2->Max--;
 				delete com;
 				continue;
 			}
@@ -1030,7 +1030,7 @@ int TForm1::import_pc_tcs (int N, FILE *fin){
 			//cout << "\n\n  Unable to read data in line " << line;
 			fscanf(fin, "%*[^\n]\n");
 			N--; i--; line++;
-			Frame2->ProgressBar1->Max--;
+			Frame1->ProgressBar2->Max--;
 			delete com;
 			continue;
 		}
@@ -1078,13 +1078,13 @@ int TForm1::import_pc_tcs (int N, FILE *fin){
 		com->T = greg_to_jul (com->y, com->m, (int)com->d);
 		com->sort = get_sort_key(com->ID);
 		line++;
-		Frame2->ProgressBar1->Position = i+1;
+		Frame1->ProgressBar2->Position = i+1;
 
 		if(Frame1->CheckBox1->Checked){
 			if(do_exclude(com) || check_name(com)){
 				N--;
 				i--;
-				Frame2->ProgressBar1->Max--;
+				Frame1->ProgressBar2->Max--;
 				delete com;
 				continue;
 			}
@@ -1118,7 +1118,7 @@ int TForm1::import_ecu (int N, FILE *fin){
 			//cout << "\n\n  Unable to read data in line " << line;
 			fscanf(fin, "%*[^\n]\n");
 			N--; i--; line++;
-			Frame2->ProgressBar1->Max--;
+			Frame1->ProgressBar2->Max--;
 			delete com;
 			continue;
 		}
@@ -1131,13 +1131,13 @@ int TForm1::import_ecu (int N, FILE *fin){
 		com->T = greg_to_jul (com->y, com->m, (int)com->d);
 		com->sort = get_sort_key(com->ID);
 		line+=2;
-		Frame2->ProgressBar1->Position = i+1;
+		Frame1->ProgressBar2->Position = i+1;
 
 		if(Frame1->CheckBox1->Checked){
 			if(do_exclude(com) || check_name(com)){
 				N--;
 				i--;
-				Frame2->ProgressBar1->Max--;
+				Frame1->ProgressBar2->Max--;
 				delete com;
 				continue;
 			}
@@ -1171,7 +1171,7 @@ int TForm1::import_dance (int N, FILE *fin){
 			//cout << "\n\n  Unable to read data in line " << line;
 			fscanf(fin, "%*[^\n]\n");
 			N--; i--; line++;
-			Frame2->ProgressBar1->Max--;
+			Frame1->ProgressBar2->Max--;
 			delete com;
 			continue;
 		}
@@ -1216,13 +1216,13 @@ int TForm1::import_dance (int N, FILE *fin){
 		com->T = greg_to_jul (com->y, com->m, (int)com->d);
 		com->sort = get_sort_key(com->ID);
 		line++;
-		Frame2->ProgressBar1->Position = i+1;
+		Frame1->ProgressBar2->Position = i+1;
 
 		if(Frame1->CheckBox1->Checked){
 			if(do_exclude(com) || check_name(com)){
 				N--;
 				i--;
-				Frame2->ProgressBar1->Max--;
+				Frame1->ProgressBar2->Max--;
 				delete com;
 				continue;
 			}
@@ -1256,7 +1256,7 @@ int TForm1::import_megastar (int N, FILE *fin){
 			//cout << "\n\n  Unable to read data in line " << line;
 			fscanf(fin, "%*[^\n]\n");
 			N--; i--; line++;
-			Frame2->ProgressBar1->Max--;
+			Frame1->ProgressBar2->Max--;
 			delete com;
 			continue;
 		}
@@ -1283,13 +1283,13 @@ int TForm1::import_megastar (int N, FILE *fin){
 		com->T = greg_to_jul (com->y, com->m, com->d);
 		com->sort = get_sort_key(com->ID);
 		line++;
-		Frame2->ProgressBar1->Position = i+1;
+		Frame1->ProgressBar2->Position = i+1;
 
 		if(Frame1->CheckBox1->Checked){
 			if(do_exclude(com) || check_name(com)){
 				N--;
 				i--;
-				Frame2->ProgressBar1->Max--;
+				Frame1->ProgressBar2->Max--;
 				delete com;
 				continue;
 			}
@@ -1321,7 +1321,7 @@ int TForm1::import_skychart (int N, FILE *fin){
 			//cout << "\n\n  Unable to read data in line " << line;
 			fscanf(fin, "%*[^\n]\n");
 			N--; i--; line++;
-			Frame2->ProgressBar1->Max--;
+			Frame1->ProgressBar2->Max--;
 			delete com;
 			continue;
 		}
@@ -1340,13 +1340,13 @@ int TForm1::import_skychart (int N, FILE *fin){
 		com->T = greg_to_jul (com->y, com->m, (int)com->d);
 		com->sort = get_sort_key(com->ID);
 		line++;
-		Frame2->ProgressBar1->Position = i+1;
+		Frame1->ProgressBar2->Position = i+1;
 
 		if(Frame1->CheckBox1->Checked){
 			if(do_exclude(com) || check_name(com)){
 				N--;
 				i--;
-				Frame2->ProgressBar1->Max--;
+				Frame1->ProgressBar2->Max--;
 				delete com;
 				continue;
 			}
@@ -1379,7 +1379,7 @@ int TForm1::import_voyager (int N, FILE *fin){
 			//cout << "\n\n  Unable to read data in line " << line;
 			fscanf(fin, "%*[^\n]\n");
 			N--; i--; line++;
-			Frame2->ProgressBar1->Max--;
+			Frame1->ProgressBar2->Max--;
 			delete com;
 			continue;
 		}
@@ -1404,13 +1404,13 @@ int TForm1::import_voyager (int N, FILE *fin){
 		remove_spaces (com->name);
 //		com->sort = get_sort_key(com->ID);
 		line++;
-		Frame2->ProgressBar1->Position = i+1;
+		Frame1->ProgressBar2->Position = i+1;
 
 		if(Frame1->CheckBox1->Checked){
 			if(do_exclude(com) || check_name(com)){
 				N--;
 				i--;
-				Frame2->ProgressBar1->Max--;
+				Frame1->ProgressBar2->Max--;
 				delete com;
 				continue;
 			}
@@ -1445,7 +1445,7 @@ int TForm1::import_skytools (int N, FILE *fin){
 			//cout << "\n\n  Unable to read data in line " << line;
 			fscanf(fin, "%*[^\n]\n");
 			N--; i--; line++;
-			Frame2->ProgressBar1->Max--;
+			Frame1->ProgressBar2->Max--;
 			delete com;
 			continue;
 		}
@@ -1495,13 +1495,13 @@ int TForm1::import_skytools (int N, FILE *fin){
 		com->T = greg_to_jul (com->y, com->m, (int)com->d);
 		com->sort = get_sort_key(com->ID);
 		line++;
-		Frame2->ProgressBar1->Position = i+1;
+		Frame1->ProgressBar2->Position = i+1;
 
 		if(Frame1->CheckBox1->Checked){
 			if(do_exclude(com) || check_name(com)){
 				N--;
 				i--;
-				Frame2->ProgressBar1->Max--;
+				Frame1->ProgressBar2->Max--;
 				delete com;
 				continue;
 			}
@@ -1564,13 +1564,13 @@ int TForm1::import_cfw (int N, FILE *fin){
 		com->P = compute_period (com->q, com->e);
 		com->T = greg_to_jul (com->y, com->m, (int)com->d);
 		com->sort = get_sort_key(com->ID);
-		Frame2->ProgressBar1->Position = i+1;
+		Frame1->ProgressBar2->Position = i+1;
 
 		if(Frame1->CheckBox1->Checked){
 			if(do_exclude(com) || check_name(com)){
 				N--;
 				i--;
-				Frame2->ProgressBar1->Max--;
+				Frame1->ProgressBar2->Max--;
 				delete com;
 				continue;
 			}
@@ -1617,7 +1617,7 @@ int TForm1::import_nasa (int N, FILE *fin){
 					){
 
 					N--; i--;
-					Frame2->ProgressBar1->Max--;
+					Frame1->ProgressBar2->Max--;
 					skip = true;
 					break;
 				}
@@ -1667,7 +1667,7 @@ int TForm1::import_nasa (int N, FILE *fin){
 			//cout << "\n\n  Unable to read data in line " << line;
 			fscanf(fin, "%*[^\n]\n");
 			N--; i--; line++;
-			Frame2->ProgressBar1->Max--;
+			Frame1->ProgressBar2->Max--;
 			delete com;
 			continue;
 		}
@@ -1675,7 +1675,7 @@ int TForm1::import_nasa (int N, FILE *fin){
 		com->P = compute_period (com->q, com->e);
 		com->T = greg_to_jul (com->y, com->m, com->d);
 		com->sort = get_sort_key(com->ID);
-		Frame2->ProgressBar1->Position = i+1;
+		Frame1->ProgressBar2->Position = i+1;
 		//Application->ProcessMessages();
 		line++;
 
@@ -1683,7 +1683,7 @@ int TForm1::import_nasa (int N, FILE *fin){
 			if(do_exclude(com) || check_name(com)){
 				N--;
 				i--;
-				Frame2->ProgressBar1->Max--;
+				Frame1->ProgressBar2->Max--;
 				delete com;
 				continue;
 			}
@@ -2314,20 +2314,20 @@ bool TForm1::define_exclude(){
 
 bool TForm1::do_exclude(Comet *cmt){
 
-	if (excl.key[ 0] && cmt->T > excl.T) return true;
-	if (excl.key[ 1] && cmt->T < excl.T) return true;
-	if (excl.key[ 2] && cmt->q > excl.q) return true;
-	if (excl.key[ 3] && cmt->q < excl.q) return true;
-	if (excl.key[ 4] && cmt->e > excl.e) return true;
-	if (excl.key[ 5] && cmt->e < excl.e) return true;
-	if (excl.key[ 6] && cmt->an > excl.an) return true;
-	if (excl.key[ 7] && cmt->an < excl.an) return true;
-	if (excl.key[ 8] && cmt->pn > excl.pn) return true;
-	if (excl.key[ 9] && cmt->pn < excl.pn) return true;
-	if (excl.key[10] && cmt->i > excl.i) return true;
-	if (excl.key[11] && cmt->i < excl.i) return true;
-	if (excl.key[12] && cmt->P > excl.P) return true;
-	if (excl.key[13] && cmt->P < excl.P) return true;
+	if (excl.key[ 0] && cmt->T < excl.T) return true;
+	if (excl.key[ 1] && cmt->T > excl.T) return true;
+	if (excl.key[ 2] && cmt->q < excl.q) return true;
+	if (excl.key[ 3] && cmt->q > excl.q) return true;
+	if (excl.key[ 4] && cmt->e < excl.e) return true;
+	if (excl.key[ 5] && cmt->e > excl.e) return true;
+	if (excl.key[ 6] && cmt->an < excl.an) return true;
+	if (excl.key[ 7] && cmt->an > excl.an) return true;
+	if (excl.key[ 8] && cmt->pn < excl.pn) return true;
+	if (excl.key[ 9] && cmt->pn > excl.pn) return true;
+	if (excl.key[10] && cmt->i < excl.i) return true;
+	if (excl.key[11] && cmt->i > excl.i) return true;
+	if (excl.key[12] && cmt->P < excl.P) return true;
+	if (excl.key[13] && cmt->P > excl.P) return true;
 
 	return false;
 }
@@ -2427,7 +2427,5 @@ void __fastcall TForm1::About1Click(TObject *Sender)
 	Form8->ShowModal();
 }
 //---------------------------------------------------------------------------
-
-
 
 

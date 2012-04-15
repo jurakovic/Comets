@@ -51,10 +51,11 @@ __published:	// IDE-managed Components
 	TButton *Button1;
 	TCheckBox *CheckBox8;
 	TButton *Button3;
-	TButton *Button4;
-	TProgressBar *ProgressBar1;
 	TCheckBox *CheckBox9;
 	TEdit *Edit1;
+	TButton *Button4;
+	TButton *Button5;
+	TButton *Button6;
 	void __fastcall Button1Click(TObject *Sender);
 	void __fastcall Button2Click(TObject *Sender);
 	void __fastcall CheckBox1Click(TObject *Sender);

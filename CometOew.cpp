@@ -54,17 +54,20 @@
 
 
 
+
+
 USEFORM("Frame1.cpp", Frame01); /* TFrame: File Type */
-USEFORM("Frame4.cpp", Frame04); /* TFrame: File Type */
+USEFORM("Frame2.cpp", Frame02); /* TFrame: File Type */
 USEFORM("FormPreview.cpp", Form11);
 USEFORM("FormSettings.cpp", Form7);
-USEFORM("Frame2.cpp", Frame02); /* TFrame: File Type */
-USEFORM("Frame3.cpp", Frame03); /* TFrame: File Type */
 USEFORM("FrameSplash.cpp", FrameSplash1); /* TFrame: File Type */
 USEFORM("MainForm.cpp", Form1);
+USEFORM("Frame3.cpp", Frame03); /* TFrame: File Type */
+USEFORM("Frame4.cpp", Frame04); /* TFrame: File Type */
 USEFORM("FormExit.cpp", Form9);
 USEFORM("FormAbout.cpp", Form8);
 USEFORM("FormDetails.cpp", Form12);
+USEFORM("FormFilters.cpp", Form2);
 //---------------------------------------------------------------------------
 WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {
@@ -79,6 +82,7 @@ WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 		Application->CreateForm(__classid(TForm9), &Form9);
 		Application->CreateForm(__classid(TForm11), &Form11);
 		Application->CreateForm(__classid(TForm12), &Form12);
+		Application->CreateForm(__classid(TForm2), &Form2);
 		Application->Run();
 	}
 	catch (Exception &exception)

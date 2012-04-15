@@ -1,11 +1,11 @@
-object Form1: TForm1
+object Form2: TForm2
   Left = 0
   Top = 0
-  BorderIcons = [biSystemMenu, biMinimize]
+  BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
-  Caption = 'Comet Orbital Elements Workshop'
-  ClientHeight = 400
-  ClientWidth = 570
+  Caption = 'Filters'
+  ClientHeight = 298
+  ClientWidth = 551
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -6476,92 +6476,472 @@ object Form1: TForm1
     00FF000000FF0000000000000000000000000000000000000000000000000000
     0000000000000000000000000000000000000000000000000000000000000000
     000000000000}
-  Menu = MainMenu1
   OldCreateOrder = False
-  Position = poDefault
-  OnClose = FormClose
-  OnCreate = FormCreate
+  Position = poOwnerFormCenter
   PixelsPerInch = 96
   TextHeight = 13
-  inline Frame4: TFrame04
-    Left = 0
-    Top = 0
-    Width = 570
-    Height = 400
-    Align = alCustom
+  object GroupBox1: TGroupBox
+    Left = 8
+    Top = 8
+    Width = 535
+    Height = 251
     TabOrder = 0
-  end
-  inline Frame3: TFrame03
-    Left = 0
-    Top = 0
-    Width = 570
-    Height = 400
-    Align = alCustom
-    TabOrder = 1
-  end
-  inline Frame2: TFrame02
-    Left = 0
-    Top = 0
-    Width = 570
-    Height = 400
-    Align = alCustom
-    Color = clBtnFace
-    ParentBackground = False
-    ParentColor = False
-    TabOrder = 2
-  end
-  inline Frame1: TFrame01
-    Left = 0
-    Top = 0
-    Width = 570
-    Height = 400
-    Align = alCustom
-    Color = clBtnFace
-    ParentBackground = False
-    ParentColor = False
-    TabOrder = 3
-    inherited GroupBox1: TGroupBox
-      DesignSize = (
-        550
-        193)
-      inherited Label4: TLabel
-        Anchors = [akLeft, akTop, akBottom]
-      end
+    object Label7: TLabel
+      Left = 469
+      Top = 197
+      Width = 31
+      Height = 16
+      Caption = 'years'
+      Enabled = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
     end
-    inherited GroupBox2: TGroupBox
-      DesignSize = (
-        550
-        82)
+    object Label6: TLabel
+      Left = 469
+      Top = 170
+      Width = 6
+      Height = 16
+      Caption = #176
+      Enabled = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
     end
-  end
-  object MainMenu1: TMainMenu
-    Left = 408
-    object File1: TMenuItem
-      Caption = 'File'
-      object Exit1: TMenuItem
-        Caption = 'Exit'
-        OnClick = Exit1Click
-      end
+    object Label5: TLabel
+      Left = 469
+      Top = 143
+      Width = 6
+      Height = 16
+      Caption = #176
+      Enabled = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
     end
-    object ools1: TMenuItem
-      Caption = 'Edit'
-      object Settings2: TMenuItem
-        Caption = 'Settings'
-        OnClick = Settings2Click
-      end
+    object Label4: TLabel
+      Left = 469
+      Top = 116
+      Width = 6
+      Height = 16
+      Caption = #176
+      Enabled = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
     end
-    object Help1: TMenuItem
-      Caption = 'Help'
-      object Checkfornewversion1: TMenuItem
-        Caption = 'Check for new version'
-      end
-      object N1: TMenuItem
-        Caption = '-'
-      end
-      object About1: TMenuItem
-        Caption = 'About...'
-        OnClick = About1Click
-      end
+    object Label2: TLabel
+      Left = 469
+      Top = 61
+      Width = 16
+      Height = 16
+      Caption = 'AU'
+      Enabled = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+    end
+    object CheckBox9: TCheckBox
+      Left = 9
+      Top = 9
+      Width = 109
+      Height = 17
+      Caption = 'Name'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 0
+    end
+    object EditY: TEdit
+      Left = 461
+      Top = 32
+      Width = 39
+      Height = 22
+      Hint = 'Year'
+      Enabled = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      MaxLength = 4
+      NumbersOnly = True
+      ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 1
+    end
+    object EditM: TEdit
+      Left = 429
+      Top = 32
+      Width = 26
+      Height = 22
+      Hint = 'Month'
+      Enabled = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      MaxLength = 2
+      NumbersOnly = True
+      ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 2
+    end
+    object EditD: TEdit
+      Left = 397
+      Top = 32
+      Width = 26
+      Height = 22
+      Hint = 'Day'
+      Enabled = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      MaxLength = 2
+      NumbersOnly = True
+      ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 3
+    end
+    object Edit7: TEdit
+      Left = 397
+      Top = 195
+      Width = 66
+      Height = 22
+      Enabled = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      MaxLength = 5
+      ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 4
+    end
+    object Edit6: TEdit
+      Left = 397
+      Top = 168
+      Width = 66
+      Height = 22
+      Enabled = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      MaxLength = 5
+      ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 5
+    end
+    object Edit5: TEdit
+      Left = 397
+      Top = 141
+      Width = 66
+      Height = 22
+      Enabled = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      MaxLength = 5
+      ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 6
+    end
+    object Edit4: TEdit
+      Left = 397
+      Top = 114
+      Width = 66
+      Height = 22
+      Enabled = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      MaxLength = 5
+      ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 7
+    end
+    object Edit3: TEdit
+      Left = 397
+      Top = 87
+      Width = 66
+      Height = 22
+      Enabled = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      MaxLength = 5
+      ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 8
+    end
+    object Edit2: TEdit
+      Left = 397
+      Top = 60
+      Width = 66
+      Height = 22
+      Enabled = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      MaxLength = 5
+      ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 9
+    end
+    object Edit1: TEdit
+      Left = 262
+      Top = 6
+      Width = 238
+      Height = 21
+      Enabled = False
+      TabOrder = 10
+    end
+    object ComboBox7: TComboBox
+      Left = 262
+      Top = 195
+      Width = 121
+      Height = 21
+      Style = csDropDownList
+      Enabled = False
+      TabOrder = 11
+      Items.Strings = (
+        'Greather than (>)'
+        'Less than (<)')
+    end
+    object ComboBox6: TComboBox
+      Left = 262
+      Top = 168
+      Width = 121
+      Height = 21
+      Style = csDropDownList
+      Enabled = False
+      TabOrder = 12
+      Items.Strings = (
+        'Greather than (>)'
+        'Less than (<)')
+    end
+    object ComboBox5: TComboBox
+      Left = 262
+      Top = 141
+      Width = 121
+      Height = 21
+      Style = csDropDownList
+      Enabled = False
+      TabOrder = 13
+      Items.Strings = (
+        'Greather than (>)'
+        'Less than (<)')
+    end
+    object ComboBox4: TComboBox
+      Left = 262
+      Top = 114
+      Width = 121
+      Height = 21
+      Style = csDropDownList
+      Enabled = False
+      TabOrder = 14
+      Items.Strings = (
+        'Greather than (>)'
+        'Less than (<)')
+    end
+    object ComboBox3: TComboBox
+      Left = 262
+      Top = 87
+      Width = 121
+      Height = 21
+      Style = csDropDownList
+      Enabled = False
+      TabOrder = 15
+      Items.Strings = (
+        'Greather than (>)'
+        'Less than (<)')
+    end
+    object ComboBox2: TComboBox
+      Left = 262
+      Top = 60
+      Width = 121
+      Height = 21
+      Style = csDropDownList
+      Enabled = False
+      TabOrder = 16
+      Items.Strings = (
+        'Greather than (>)'
+        'Less than (<)')
+    end
+    object ComboBox1: TComboBox
+      Left = 262
+      Top = 33
+      Width = 121
+      Height = 21
+      Style = csDropDownList
+      Enabled = False
+      TabOrder = 17
+      Items.Strings = (
+        'Greather than (>)'
+        'Less than (<)')
+    end
+    object CheckBox8: TCheckBox
+      Left = 9
+      Top = 225
+      Width = 153
+      Height = 17
+      Caption = 'Exclude SOHO comets'
+      Checked = True
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      State = cbChecked
+      TabOrder = 18
+    end
+    object CheckBox7: TCheckBox
+      Left = 9
+      Top = 198
+      Width = 57
+      Height = 17
+      Caption = 'Period'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 19
+    end
+    object CheckBox6: TCheckBox
+      Left = 9
+      Top = 171
+      Width = 81
+      Height = 17
+      Caption = 'Inclination'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 20
+    end
+    object CheckBox5: TCheckBox
+      Left = 9
+      Top = 144
+      Width = 153
+      Height = 17
+      Caption = 'Longitude of Pericenter'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 21
+    end
+    object CheckBox4: TCheckBox
+      Left = 9
+      Top = 117
+      Width = 209
+      Height = 17
+      Caption = 'Longitude of the Ascending Node'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 22
+    end
+    object CheckBox3: TCheckBox
+      Left = 9
+      Top = 90
+      Width = 81
+      Height = 17
+      Caption = 'Eccentricity'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 23
+    end
+    object CheckBox2: TCheckBox
+      Left = 9
+      Top = 63
+      Width = 137
+      Height = 17
+      Caption = 'Pericenter Distance'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 24
+    end
+    object CheckBox1: TCheckBox
+      Left = 9
+      Top = 36
+      Width = 109
+      Height = 17
+      Caption = 'Perihelion Date'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 25
+    end
+    object Button3: TButton
+      Left = 506
+      Top = 34
+      Width = 17
+      Height = 17
+      Enabled = False
+      TabOrder = 26
     end
   end
 end
