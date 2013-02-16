@@ -1,297 +1,327 @@
-#ifndef _COMET_OEW_
-#define _COMET_OEW_
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Runtime.InteropServices;
+using System.IO;
+using System.Windows.Forms;
+using System.Text.RegularExpressions;
 
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <cmath>
-#include <ctime>
-#include <cctype>
+namespace Comet_OEW
+{
+    public class Comet
+    {
+        public string full;
+        public string name;
+        public string id;
+        public long T;
+        public int y;
+        public int m;
+        public int d;
+        public int h;
+        public double P;
+        public double q;
+        public double e;
+        public double i;
+        public double an;
+        public double pn;
+        public double g;
+        public double k;
+        public double sortkey;
 
-#include <direct.h>
+        public static int total = 0;
+        public static int total2 = 0;
 
-#define PROGRAM_VERSION 0.5
+        public Comet()
+        {
+            full = null;
+            name = null;
+            id = null;
+            T = 0;
+            y = 0;
+            m = 0;
+            d = 0;
+            h = 0;
+            P = 0.0;
+            q = 0.0;
+            e = 0.0;
+            i = 0.0;
+            an = 0.0;
+            pn = 0.0;
+            g = 0.0;
+            k = 0.0;
+            sortkey = 0.0;
+        }
 
-#define MAX_CMT 3500
-#define equinox 2000
-#define ep_y 2011
-#define ep_m 2
-#define ep_d 8
-#define eq_JD greg_to_jul(ep_y, ep_m, ep_d)-1
+        public Comet(Comet c)
+        {
+            full = c.full;
+            name = c.name;
+            id = c.id;
+            T = c.T;
+            y = c.y;
+            m = c.m;
+            d = c.d;
+            h = c.h;
+            P = c.P;
+            q = c.q;
+            e = c.e;
+            i = c.i;
+            an = c.an;
+            pn = c.pn;
+            g = c.g;
+            k = c.k;
+            sortkey = c.sortkey;
+        }
 
-using namespace std;
+        public void setPeriod()
+        {
+            if (e < 1.0) P = Math.Pow((q / (1.0 - e)), 1.5);
+            if (e > 1.0) P = Math.Pow((q / (e - 1.0)), 1.5);
+            if (e == 1.0) P = Math.Pow((q / (1 - 0.999999)), 1.5);
+        }
 
-struct Settings{
-	int checkNewVersion;
-	int advancedMode;
-	int exitConfirm;
-};
+        public void setT()
+        {
+            this.T = gregToJul(this.y, this.m, this.d);
+        }
 
-class Comet{
+        public void setSortkey()
+        {
+            int oldt = total2;
 
-public:
-	char full [80+1];
-	char name [55+1];
-	char ID [25+1];
-	long int T;
-	int y;
-	int m;
-	float d;
-	double P;
-	float q;
-	float e;
-	float i;
-	float an;
-	float pn;
-	float H;
-	float G;
-	double sort;
-	Comet *next;
+            string s1, s2;
+            double sort = 0.0;
+            double v = 0.0;
 
-	Comet(){
+            // 2P/Encke
+            Regex r1 = new Regex(@"^[0-9]+[PD]/");
 
-		for(int i=0; i<81; i++) full[i] = '\0';
-		for(int i=0; i<56; i++) name[i] = '\0';
-		for(int i=0; i<26; i++) ID[i] = '\0';
-		T = 0;
-		y = 0;
-		m = 0;
-		d = 0.0;
-		P = 0.0;
-		q = 0.0;
-		e = 0.0;
-		i = 0.0;
-		an = 0.0;
-		pn = 0.0;
-		H = 0.0;
-		G = 0.0;
-		sort = 0.0;
-		next = NULL;
-	}
+            // C/1995 O1 (Hale-Bopp)
+            Regex r2 = new Regex(@"^[CPD]/-?[0-9]+ [A-Z][0-9]");
 
-	Comet(Comet *cmt){
+            // C/2001 U10 (SOHO)
+            Regex r3 = new Regex(@"^[CPD]/-?[0-9]+ [A-Z][0-9][0-9]");
 
-		for(int a=0; a<81; a++) full[a] = '\0';
-		for(int a=0; a<56; a++) name[a] = '\0';
-		for(int a=0; a<26; a++) ID[a] = '\0';
+            // P/2005 JN (Spacewatch)
+            Regex r4 = new Regex(@"^[CPD]/-?[0-9]+ [A-Z][A-Z]");
 
-		strcpy(full, cmt->full);
-		strcpy(name, cmt->name);
-		strcpy(ID, cmt->ID);
+            // C/1997 BA6
+            Regex r5 = new Regex(@"^[CPD]/-?[0-9]+ [A-Z][A-Z][0-9]");
 
-		T = cmt->T;
-		y = cmt->y;
-		m = cmt->m;
-		d = cmt->d;
-		P = cmt->P;
-		q = cmt->q;
-		e = cmt->e;
-		i = cmt->i;
-		an = cmt->an;
-		pn = cmt->pn;
-		H = cmt->H;
-		G = cmt->G;
-		sort = cmt->sort;
-		next = NULL;
-	}
+            // P/1998 VS24 (LINEAR)
+            Regex r6 = new Regex(@"^[CPD]/-?[0-9]+ [A-Z][A-Z][0-9][0-9]");
 
-};
+            // P/1999 XN120 (Catalina)
+            Regex r7 = new Regex(@"^[CPD]/-?[0-9]+ [A-Z][A-Z][0-9][0-9][0-9]");
 
-struct Excludings{
-	bool key[14];
-	long int T;
-	float q;
-	float e;
-	float an;
-	float pn;
-	float i;
-	float P;
-};
+            // 1. slovo dijelim sa 100
+            // 2. slovo dijelim sa 10000
+            // brojeve dijelim sa 10000000
+            double prvoSlovo = 100.0;
+            double drugoSlovo = 10000.0;
+            double broj = 10000000.0;
 
-template <class T> void addCmt(T **head, T *cmt){
+            if (r7.Match(full).Success)
+            {
+                total2++;
 
-	if(*head==NULL){
+                int spaceIndex = id.IndexOf(' ');
+                s1 = id.Substring(2, spaceIndex - 2);
+                sort = Convert.ToDouble(s1);
 
-		T *temp = new T(cmt);
-		*head = temp;
-	}
+                v = (id[++spaceIndex] - 64) / prvoSlovo;
+                v += (id[++spaceIndex] - 64) / drugoSlovo;
 
-	else{
-		T *temp = *head;
+                s2 = id.Substring(++spaceIndex, 3);
+                v += Convert.ToDouble(s2) / broj;
+            }
 
-		while(temp->next != NULL){
-			temp = temp->next;
-		}
+            else if (r6.Match(full).Success)
+            {
+                total2++;
 
-		T *r = new T(cmt);
-		temp->next = r;
-	}
-}
+                int spaceIndex = id.IndexOf(' ');
+                s1 = id.Substring(2, spaceIndex - 2);
+                sort = Convert.ToDouble(s1);
 
-template <class T> T *getCmt(T *head, int index){
+                v = (id[++spaceIndex] - 64) / prvoSlovo;
+                v += (id[++spaceIndex] - 64) / drugoSlovo;
 
-	int i=0;
+                s2 = id.Substring(++spaceIndex, 2);
+                v += Convert.ToDouble(s2) / broj;
+            }
 
-	while(head!=NULL){
+            else if (r5.Match(full).Success)
+            {
+                total2++;
 
-		if(index == i) return head;
+                int spaceIndex = id.IndexOf(' ');
+                s1 = id.Substring(2, spaceIndex - 2);
+                sort = Convert.ToDouble(s1);
 
-		i++;
-		head = head->next;
-	}
-}
+                v = (id[++spaceIndex] - 64) / prvoSlovo;
+                v += (id[++spaceIndex] - 64) / drugoSlovo;
+                v += (id[++spaceIndex] - 48) / broj;
+            }
 
-template <class T> void deleteFirst(T **head){
+            else if (r4.Match(full).Success)
+            {
+                total2++;
 
-	T *temp;
+                int spaceIndex = id.IndexOf(' ');
+                s1 = id.Substring(2, spaceIndex - 2); 
+                sort = Convert.ToDouble(s1);
 
-	if(*head == NULL) return;
+                v = (id[++spaceIndex] - 64) / prvoSlovo;
+                v += (id[++spaceIndex] - 64) / drugoSlovo;
+            }
 
-	else{
+            else if (r3.Match(full).Success)
+            {
+                total2++;
 
-		temp = *head;
-		*head = (*head)->next;
-		delete temp;
-	}
-}
+                int spaceIndex = id.IndexOf(' ');
+                s1 = id.Substring(2, spaceIndex - 2);
+                sort = Convert.ToDouble(s1);
 
-template <class T> void deleteFromMiddle(T *cmt){
+                v = (id[++spaceIndex] - 64) / prvoSlovo;
 
-//	Pseudocode:
-//	void delete_node(Node* pNode) {
-//		pNode->Data = pNode->Next->Data;  // Assume that SData::operator=(SData&) exists.
-//		Node* pTemp = pNode->Next->Next;
-//		delete(pNode->Next);
-//		pNode->Next = pTemp;
-//	}
+                s2 = id.Substring(++spaceIndex, 2);
+                v += Convert.ToDouble(s2) / broj;
+            }
 
-	strcpy(cmt->full, cmt->next->full);
-	strcpy(cmt->name, cmt->next->name);
-	strcpy(cmt->ID, cmt->next->ID);
-	cmt->T = cmt->next->T;
-	cmt->y = cmt->next->y;
-	cmt->m = cmt->next->m;
-	cmt->d = cmt->next->d;
-	cmt->P = cmt->next->P;
-	cmt->q = cmt->next->q;
-	cmt->e = cmt->next->e;
-	cmt->i = cmt->next->i;
-	cmt->an = cmt->next->an;
-	cmt->pn = cmt->next->pn;
-	cmt->H = cmt->next->H;
-	cmt->G = cmt->next->G;
-	cmt->sort = cmt->next->sort;
+            else if (r2.Match(full).Success)
+            {
+                total2++;
 
-	T *temp = cmt->next->next;
-	delete cmt->next;
-	cmt->next = temp;
-}
+                int spaceIndex = id.IndexOf(' ');
+                s1 = id.Substring(2, spaceIndex - 2);
+                sort = Convert.ToDouble(s1);
 
-template <class T> void deleteLast(T **head){
+                v = (id[++spaceIndex] - 64) / prvoSlovo;
+                v += (id[++spaceIndex] - 48) / broj;
+            }
 
-	T *temp, *prev;
+            else if (r1.Match(full).Success)
+            {
+                total2++;
 
-	if (*head == NULL) return;
+                s1 = id.Substring(0, id.Length - 1);
+                sort = Convert.ToDouble(s1);
+                sort -= 1000;
+            }
 
-	else if ((*head)->next == NULL){
+            //if (oldt == total2)
+            //{
+            //    MessageBox.Show(full);
+            //}
 
-		temp = *head;
-		*head = NULL;
-		delete temp;
+            sort += v;
+            sort += 1000; //da npr C/240 V1 ne bude isto kao i 240P/NEAT i slicno...
+
+            this.sortkey = sort;
+        }
+
+        public static string[] setIdNameFull(string full)
+        {
+            int oldt = total;
+
+            //                   id   name  full
+            string[] idname = { null, null, null };
+
+            // 2P/Encke
+            Regex r1 = new Regex(@"^[0-9]+[PD]/"); // |2P/|
+
+            // 128P-B/Shoemaker-Holt
+            Regex r2 = new Regex(@"^[0-9]+[PD]-[A-Z]+"); // |128P-B|
+
+            // C/1750 C1, C/-146 P1
+            Regex r3 = new Regex(@"^[CPD]/-?[0-9]+ [A-Z]+[0-9]*$"); // |C/1750 C1|
+
+            // C/2012 S1 (ISON)
+            Regex r4 = new Regex(@"^[CPD]/-?[0-9]+ [A-Z]+[0-9]* [(]"); // |C/2012 S1 (|
+
+            //D/-146 P1-G
+            Regex r5 = new Regex(@"^[CPD]/-?[0-9]+ [A-Z]+[0-9]*-[A-Z]*[0-9]*$");
+
+            // D/1993 F2-N (Shoemaker-Levy 9), D/1993 F2-P1 (Shoemaker-Levy 9)
+            Regex r6 = new Regex(@"^[CPD]/-?[0-9]+ [A-Z]+[0-9]*-."); // |D/1993 F2-|
+
+            if (r1.Match(full).Success)
+            {
+                total++;
+                idname[0] = full.Substring(0, full.IndexOf('/')); // 2P
+                idname[1] = full.Substring(full.IndexOf('/') + 1); // Encke
+                idname[2] = idname[0] + "/" + idname[1];
+                
+                //MessageBox.Show(full + " je regex r1" + r1.ToString() + " = ");
+            }
+
+            else if (r2.Match(full).Success)
+            {
+                total++;
+                idname[0] = full.Substring(0, full.IndexOf('-')); // 128P
+                idname[1] = full.Substring(full.IndexOf('/') + 1); // Shoemaker-Holt
+                idname[1] += full.Substring(full.IndexOf('-'), full.IndexOf('/') - full.IndexOf('-')); // Shoemaker-Holt-B
+                idname[2] = idname[0] + "/" + idname[1];
+
+                //MessageBox.Show(full + " je regex r2 " + r2.ToString() + " = ");
+            }
+
+            else if (r3.Match(full).Success)
+            {
+                total++;
+                idname[0] = full; // C/1750 C1
+                idname[1] = "";
+                idname[2] = idname[0];
+
+                //MessageBox.Show(full + " je regex r3 " + r3.ToString() + " = ");
+            }
+
+            else if (r4.Match(full).Success)
+            {
+                total++;
+                idname[0] = full.Substring(0, full.IndexOf('(') - 1); // C/2012 S1
+                idname[1] = full.Substring(full.IndexOf('(')).Trim('(', ')'); // ISON
+                idname[2] = idname[0] + " (" + idname[1] + ")";
+
+                //MessageBox.Show(full + " je regex r4 " + r4.ToString() + " = ");
+            }
+
+            else if (r5.Match(full).Success)
+            {
+                total++;
+                idname[0] = full; // D/1993 F2
+                idname[1] = "";
+                idname[2] = idname[0];
+
+                //MessageBox.Show(full + " je regex r5 " + r5.ToString() + " = ");
+            }
+
+            else if (r6.Match(full).Success)
+            {
+                total++;
+                idname[0] = full.Substring(0, full.LastIndexOf('-')); // D/1993 F2
+                idname[1] = full.Substring(full.IndexOf('(')).Trim('(', ')'); //Shoemaker-Levy 9
+                idname[1] += full.Substring(full.IndexOf('-') , full.IndexOf('(') - 1 - full.IndexOf('-') ); // 
+                idname[2] = idname[0] + " (" + idname[1] + ")";
+
+                //MessageBox.Show(full + " je regex r6 " + r6.ToString() + " = ");
+            }
+
+            if (oldt == total)
+            {
+                MessageBox.Show(full);
+            }
+
+            return idname;
+        }
+
+        public static long gregToJul(int y, int m, int d)
+        {
+            return 367 * y - (7 * (y + (m + 9) / 12)) / 4 - ((3 * (y + (m - 9) / 7)) / 100 + 1) / 4 + (275 * m) / 9 + d + 1721029;
+        }
     }
-
-	else{
-
-		prev = *head;
-		temp = (*head)->next;
-		while (temp->next != NULL){
-
-			prev = temp;
-			temp = temp->next;
-		}
-
-		prev->next = NULL;
-		delete temp;
-	}
 }
-
-template <class T> void ocistiMemoriju(T **head){
-
-	T *current = NULL;
-	while ((*head) != NULL){
-		current = *head;
-		*head = current->next;
-		delete current;
-	}
-}
-
-template <class T> int totalComets(T *head){
-
-	int counter = 0;
-	while(head!=NULL){
-		counter++;
-		head = head->next;
-	}
-	return counter;
-}
-
-template <class T> T *sortList(T *h, int ty){
-
-	T *sorted = NULL;
-
-	while(h!=NULL){
-
-		T *head = h;
-		T **trail = &sorted;
-
-		h = h->next;
-
-		while(1){
-
-			if(*trail == NULL ||
-				(ty== 0 && head->sort < (*trail)->sort) ||
-				(ty== 1 && head->sort > (*trail)->sort) ||
-				(ty== 2 && head->T < (*trail)->T) ||
-				(ty== 3 && head->T > (*trail)->T) ||
-				(ty== 4 && head->q < (*trail)->q) ||
-				(ty== 5 && head->q > (*trail)->q) ||
-				(ty== 6 && head->e < (*trail)->e) ||
-				(ty== 7 && head->e > (*trail)->e) ||
-				(ty== 8 && head->an < (*trail)->an) ||
-				(ty== 9 && head->an > (*trail)->an) ||
-				(ty==10 && head->pn < (*trail)->pn) ||
-				(ty==11 && head->pn > (*trail)->pn) ||
-				(ty==12 && head->i < (*trail)->i) ||
-				(ty==13 && head->i > (*trail)->i) ||
-				(ty==14 && head->P < (*trail)->P) ||
-				(ty==15 && head->P > (*trail)->P)){
-
-				head->next = *trail;
-				*trail = head;
-				break;
-			}
-			else{
-				trail = &(*trail)->next;
-			}
-		}
-	}
-
-	return sorted;
-}
-
-//	funkcije za racunanje...
-double get_sort_key(char *);
-double compute_period (double, double);
-long int greg_to_jul (int, int, int);
-void jul_to_greg (long int, int &, int &, float &);
-void remove_spaces (char *);
-
-void editFullIdName(char *, char *, char *, int);
-
-bool define_exclude();
-bool do_exclude(int);
-
-void wait(int);
-
-#endif
-
