@@ -115,8 +115,8 @@ namespace Comet_OEW
                     c.h = Convert.ToInt32(str.Substring(25, 4).Trim());
                     c.q = Convert.ToDouble(str.Substring(31, 8).Trim());
                     c.e = Convert.ToDouble(str.Substring(41, 8).Trim());
-                    c.pn = Convert.ToDouble(str.Substring(51, 8).Trim());
-                    c.an = Convert.ToDouble(str.Substring(61, 8).Trim());
+                    c.w = Convert.ToDouble(str.Substring(51, 8).Trim());
+                    c.om = Convert.ToDouble(str.Substring(61, 8).Trim());
                     c.i = Convert.ToDouble(str.Substring(71, 8).Trim());
                     c.g = Convert.ToDouble(str.Substring(91, 4).Trim());
                     c.k = Convert.ToDouble(str.Substring(96, 4).Trim());
@@ -127,14 +127,26 @@ namespace Comet_OEW
                     continue;
                 }
 
+                c.k *= 2.5;
+
                 string[] idn = Comet.setIdNameFull(c.full);
                 c.id = idn[0];
                 c.name = idn[1];
                 c.full = idn[2];
 
-                c.setT();
-                c.setPeriod();
-                c.setSortkey();
+                double t = Comet.GregToJul(2000, 1, 1); // equinox 2000.0
+
+                c.T = Comet.GregToJul(c.y, c.m, c.d) + c.h / 10000;
+                c.P = Comet.getPeriod_P(c.q, c.e);
+                c.a = Comet.getSemimajorAxis_a(c.q, c.e);
+                c.n = Comet.getMeanMotion_n(c.e, c.P);
+                c.M = Comet.getMeanAnomaly_M(c.T, t, c.e, c.n);
+                c.E = Comet.getEccentricAnomaly_E(c.e, c.M);
+                c.v = Comet.getTrueAnomaly_v(c.e, c.E, c.q, c.T, t);
+                c.L = Comet.getMeanLongitude_L(c.w, c.M);
+                c.Q = Comet.getAphelionDistance_Q(c.e, c.a);
+
+                c.set_sortkey();
 
                 masterList.Add(c);
             }
@@ -145,26 +157,51 @@ namespace Comet_OEW
             contextSort.Show(this.Left + btnSort.Left + 9, this.Top + btnSort.Top + 53);
         }
 
-        private void listComet_SelectedIndexChanged(object sender, EventArgs e)
+        private void comboComet_SelectedIndexChanged(object sender, EventArgs e)
         {
-            int ind = listComet.SelectedIndex;
+            int ind = comboComet.SelectedIndex;
 
             Comet c = userList.ElementAt(ind);
 
-            tFull.Text = c.full;
+            //tFull.Text = c.full;
             tId.Text = c.id;
             tName.Text = c.name;
-            tT.Text = c.y.ToString() + "." + c.m.ToString("00") + "." + c.d.ToString("00") + "." + c.h.ToString("0000");
+            tT.Text = c.y.ToString() + "-" + c.m.ToString("00") + "-" + c.d.ToString("00") + "." + c.h.ToString("0000");
             tQ.Text = String.Format("{0:0.000000}", c.q);
             tE.Text = String.Format("{0:0.000000}", c.e);
             tI.Text = String.Format("{0:0.0000}", c.i);
-            tAn.Text = String.Format("{0:0.0000}", c.an);
-            tPn.Text = String.Format("{0:0.0000}", c.pn);
-            if (c.e < 1.0 && c.P < 10000) tP.Text = String.Format("{0:0.000000}", c.P);
-            else tP.Text = "";
+            tAn.Text = String.Format("{0:0.0000}", c.om);
+            tPn.Text = String.Format("{0:0.0000}", c.w);
+  
             tG.Text = String.Format("{0:0.0}", c.g);
             tK.Text = String.Format("{0:0.0}", c.k);
+
             tSort.Text = String.Format("{0:0.0000000}", c.sortkey);
+
+            tEquinox.Text = "2000.0";
+
+            //if (c.e < 1.0)
+            //{
+                tP.Text = String.Format("{0:0.000000}", c.P);
+                tA.Text = String.Format("{0:0.000000}", c.a);
+                tN.Text = String.Format("{0:0.000000}", c.n);
+                tM.Text = String.Format("{0:0.000000}", c.M);
+                tEan.Text = String.Format("{0:0.000000}", c.E);
+                tPhi.Text = String.Format("{0:0.000000}", c.v);
+                tL.Text = String.Format("{0:0.000000}", c.L);
+                tAph.Text = String.Format("{0:0.000000}", c.Q);
+            //}
+            //else
+            //{
+            //    tP.Text = "";
+            //    tA.Text = "";
+            //    tN.Text = "";
+            //    tM.Text = "";
+            //    tEan.Text = "";
+            //    tPhi.Text = "";
+            //    tL.Text = "";
+            //    tAph.Text = "";
+            //}
         }
 
         public void sortList()
@@ -203,10 +240,10 @@ namespace Comet_OEW
                 userList = masterList.OrderByDescending(Comet => Comet.q).ToList();
 
             else if (longOfTheAscNodeToolStripMenuItem.Checked && ascendingToolStripMenuItem.Checked)
-                userList = masterList.OrderBy(Comet => Comet.an).ToList();
+                userList = masterList.OrderBy(Comet => Comet.om).ToList();
 
             else if (longOfTheAscNodeToolStripMenuItem.Checked && descendingToolStripMenuItem.Checked)
-                userList = masterList.OrderByDescending(Comet => Comet.an).ToList();
+                userList = masterList.OrderByDescending(Comet => Comet.om).ToList();
 
             else if (eccentricityToolStripMenuItem.Checked && ascendingToolStripMenuItem.Checked)
                 userList = masterList.OrderBy(Comet => Comet.e).ToList();
@@ -226,7 +263,7 @@ namespace Comet_OEW
             else if (periodToolStripMenuItem.Checked && descendingToolStripMenuItem.Checked)
                 userList = masterList.OrderByDescending(Comet => Comet.P).ToList();
 
-            updateListBox();
+            updateComboComet();
         }
 
         private void ContextClick1(object sender, EventArgs e)
@@ -267,15 +304,31 @@ namespace Comet_OEW
             sortList();
         }
 
-        private void updateListBox()
+        private void updateComboComet()
         {
-            listComet.Items.Clear();
+            comboComet.Items.Clear();
             foreach (Comet c in userList)
             {
-                listComet.Items.Add(c.full);
+                comboComet.Items.Add(c.full);
             }
-            listComet.SelectedIndex = 0;
+            comboComet.SelectedIndex = 0;
             toolStripStatusLabel1.Text = "Comets: " + userList.Count;
+        }
+
+        private void btnEdit_Click(object sender, EventArgs e)
+        {
+            foreach (Control c in gbDetails.Controls)
+            {
+                if (c is TextBox) (c as TextBox).ReadOnly = false;
+            }
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            foreach (Control c in gbDetails.Controls)
+            {
+                if (c is TextBox) (c as TextBox).ReadOnly = true;
+            }
         }
     }
 }
