@@ -36,6 +36,27 @@ namespace Comet_OEW
         {
             downloadsDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             downloadsDir += @"\Comet OEW\";
+
+            cbLatt.SelectedIndex = 0;
+            cbLong.SelectedIndex = 0;
+
+
+            tStDaY.Text = DateTime.Now.Year.ToString();
+            tStDaM.Text = DateTime.Now.Month.ToString("00");
+            tStDaD.Text = DateTime.Now.Day.ToString("00");
+            tStTiH.Text = DateTime.Now.Hour.ToString("00");
+            tStTiM.Text = "00";
+            tEnDaY.Text = DateTime.Now.AddMonths(1).Year.ToString();
+            tEnDaM.Text = DateTime.Now.AddMonths(1).Month.ToString("00");
+            tEnDaD.Text = DateTime.Now.AddMonths(1).Day.ToString("00");
+            tEnTiH.Text = DateTime.Now.Hour.ToString("00");
+            tEnTiM.Text = "00";
+            tIntD.Text = "1";
+            tIntH.Text = "0";
+            tMagLim.Text = "10";
+
+            tTimeZone.Text = "1";
+
         }
 
         private void importFromFileToolStripMenuItem_Click(object sender, EventArgs e)
@@ -154,7 +175,7 @@ namespace Comet_OEW
 
         private void btnSort_Click(object sender, EventArgs e)
         {
-            contextSort.Show(this.Left + btnSort.Left + 9, this.Top + btnSort.Top + 53);
+            contextSort.Show(this.Left + gbDetails.Left + btnSort.Left + 9, this.Top + gbDetails.Top + btnSort.Top + 53);
         }
 
         private void comboComet_SelectedIndexChanged(object sender, EventArgs e)
@@ -164,8 +185,8 @@ namespace Comet_OEW
             Comet c = userList.ElementAt(ind);
 
             //tFull.Text = c.full;
-            tId.Text = c.id;
-            tName.Text = c.name;
+            //tId.Text = c.id;
+            //tName.Text = c.name;
             tT.Text = c.y.ToString() + "-" + c.m.ToString("00") + "-" + c.d.ToString("00") + "." + c.h.ToString("0000");
             tQ.Text = String.Format("{0:0.000000}", c.q);
             tE.Text = String.Format("{0:0.000000}", c.e);
