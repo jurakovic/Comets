@@ -27,12 +27,15 @@ namespace Comet_OEW
         public double om;   //Longitude of the Ascending Node
         public double w;    //Argument of Pericenter
         public double a;    //Semimajor Axis
-        public double n;    //Mean Motion
-        public double M;    //Mean Anomaly
-        public double E;    //Eccentric Anomaly
-        public double v;    //True Anomaly
-        public double L;    //Mean Longitude
+        //public double n;    //Mean Motion
+        //public double M;    //Mean Anomaly
+        //public double E;    //Eccentric Anomaly
+        //public double v;    //True Anomaly
+        //public double L;    //Mean Longitude
         public double Q;    //Aphelion Distance
+        //public double bw;   //Longitude of Pericenter
+        //public double l;    //True longitude l = v + bw;
+        //public double F;    //eccentric longitude F = w + om + E;
         public double g;
         public double k;
         public double sortkey;
@@ -57,10 +60,10 @@ namespace Comet_OEW
             om = 0.0;
             w = 0.0;
             a = 0.0;
-            n = 0.0;
-            M = 0.0;
-            E = 0.0;
-            v = 0.0;
+            //n = 0.0;
+            //M = 0.0;
+            //E = 0.0;
+            //v = 0.0;
             Q = 0.0;
             g = 0.0;
             k = 0.0;
@@ -218,6 +221,8 @@ namespace Comet_OEW
         {
             if (e < 1.0)
                 return q / (1 - e);
+            else if (e > 1.0)
+                return -(q / (1 - e));
             else
                 return 0.0;
         }
@@ -230,7 +235,7 @@ namespace Comet_OEW
                 return 0.0;
         }
 
-        public static double getMeanAnomaly_M(double T, double t, double e, double n)
+        public static double getMeanAnomaly_M(double T, double t, double e, double n, double q)
         {
             double M = 0.0;
 
@@ -238,12 +243,18 @@ namespace Comet_OEW
             {
                 //http://en.wikipedia.org/wiki/Epoch_%28astronomy%29#Epoch_versus_equinox
 
-                double delta = T - t;
-                
-                M = delta * n;
-                M = RangeDegrees(M);
-            }
+                double delta = t - T;
 
+                M = delta * n;
+                M = NormalizeDegrees(M);
+            }
+            else
+            {
+                double delta = (t - T) * 365.256363004; //delta mora bit u sidereal year
+
+                M = (13.3286488 * delta) / Math.Pow(q, 3 / 2);
+                M = NormalizeDegrees(M);
+            }
             return M;
         }
 
@@ -287,10 +298,9 @@ namespace Comet_OEW
             return v;
         }
 
-        public static double getMeanLongitude_L(double w, double M)
+        public static double getMeanLongitude_L(double M, double om, double w)
         {
-            double L = M + w;
-            return RangeDegrees(L);
+            return NormalizeDegrees(M + om + w);
         }
 
         public static double getAphelionDistance_Q(double e, double a)
@@ -301,25 +311,77 @@ namespace Comet_OEW
                 return 0.0;
         }
 
+        public static double getLongitudeOfPericenter_bw(double om, double w)
+        {
+            return NormalizeDegrees(om + w);
+        }
+
+        public static double getTrueLongitude_l(double v, double bw)
+        {
+            return NormalizeDegrees(v + bw);
+        }
+
+        public static double getEccentricLongitude_F(double w, double om, double E)
+        {
+            return NormalizeDegrees(w + om + E);
+        }
+
         public static double kepler(double e, double M)
         {
             //http://orbitsimulator.com/sheela/kepler.htm -> source
+            //double diff = 1.0;
+            //double E0 = M;
+            //double E = 0;
+            //while (diff > 0.0000001)
+            //{
+            //    E = E0 - (E0 - e * (Math.Sin(E0)) - DegToRad(M)) / (1.0 - e * Math.Cos(E0));
+            //    diff = Math.Abs(E0 - E);
+            //    E0 = E;
+            //}
+            //return NormalizeDegrees(RadToDeg(E));
 
-            double diff = 1.0;
-            double E0 = 180;
-            double E = 0;
-            while (diff > 0.0000001)
+            double M_PI_2 = 1.5707963267948966192313216916398;
+            double M_PI_4 = 0.78539816339744830961566084581988;
+            double M_PI = 3.1415926535897932384626433832795;
+            int KEPLER_STEPS = 53;
+            double Eo = M_PI_2;
+            double F, M1;
+            double D = M_PI_4;
+            int i;
+
+            /* covert to radians */
+            M = DegToRad(M);
+
+            F = Math.Sign(M);
+            M = Math.Abs(M) / (2.0 * M_PI);
+            M = (M - (int)M) * 2.0 * M_PI * F;
+
+            if (M < 0)
+                M = M + 2.0 * M_PI;
+            F = 1.0;
+
+            if (M > M_PI)
+                F = -1.0;
+
+            if (M > M_PI)
+                M = 2.0 * M_PI - M;
+
+            for (i = 0; i < KEPLER_STEPS; i++)
             {
-                E = E0 - (E0 - e * (Math.Sin(E0)) - DegToRad(M)) / (1.0 - e * Math.Cos(E0));
-                diff = Math.Abs(E0 - E);
-                E0 = E;
+                M1 = Eo - e * Math.Sin(Eo);
+                Eo = Eo + D * Math.Sign(M - M1);
+                D /= 2.0;
             }
-            return RadToDeg(E);
+            Eo *= F;
+
+            /* back to degrees */
+            Eo = RadToDeg(Eo);
+            return Eo;
         }
 
         public static double barker(double q, double T, double t)
         {
-            double delta = T - t;
+            double delta = t - T;
             double G, Y, W;
 
             W = ((0.03649116245) / (q * Math.Sqrt(q))) * delta;
@@ -391,8 +453,10 @@ namespace Comet_OEW
             return Math.PI * degAngle / 180.0;
         }
 
-        public static double RangeDegrees(double deg)
+        public static double NormalizeDegrees(double deg)
         {
+            deg %= 360;
+
             while (deg < 0)
             {
                 deg += 360;
@@ -501,9 +565,10 @@ namespace Comet_OEW
             return idname;
         }
 
-        public static long GregToJul(int y, int m, int d)
+        public static double GregToJul(int y, int m, int d, int h)
         {
-            return 367 * y - (7 * (y + (m + 9) / 12)) / 4 - ((3 * (y + (m - 9) / 7)) / 100 + 1) / 4 + (275 * m) / 9 + d + 1721029;
+            double hh = (double)h / 10000;
+            return 367 * y - (7 * (y + (m + 9) / 12)) / 4 - ((3 * (y + (m - 9) / 7)) / 100 + 1) / 4 + (275 * m) / 9 + d + 1721029 + hh;
         }
     }
 }

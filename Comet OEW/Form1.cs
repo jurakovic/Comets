@@ -69,7 +69,6 @@ namespace Comet_OEW
                 int type = fd.FilterIndex;
 
                 importMain(type, filename);
-                sortList();
             }
         }
 
@@ -134,17 +133,24 @@ namespace Comet_OEW
                 c.name = idn[1];
                 c.full = idn[2];
 
-                double t = Comet.GregToJul(2000, 1, 1); // equinox 2000.0
+                int y = DateTime.Now.Year;
+                int m = DateTime.Now.Month;
+                int d = DateTime.Now.Day;
+                int h = (int)(((double)DateTime.Now.Hour / 24) * 10000);
+                double today = Comet.GregToJul(y, m, d, h);
 
-                c.T = Comet.GregToJul(c.y, c.m, c.d) + c.h / 10000;
+                c.T = Comet.GregToJul(c.y, c.m, c.d, c.h);
                 c.P = Comet.getPeriod_P(c.q, c.e);
                 c.a = Comet.getSemimajorAxis_a(c.q, c.e);
-                c.n = Comet.getMeanMotion_n(c.e, c.P);
-                c.M = Comet.getMeanAnomaly_M(c.T, t, c.e, c.n);
-                c.E = Comet.getEccentricAnomaly_E(c.e, c.M);
-                c.v = Comet.getTrueAnomaly_v(c.e, c.E, c.q, c.T, t);
-                c.L = Comet.getMeanLongitude_L(c.w, c.M);
+                //c.n = Comet.getMeanMotion_n(c.e, c.P);
+                //c.M = Comet.getMeanAnomaly_M(c.T, today, c.e, c.n, c.q);
+                //c.E = Comet.getEccentricAnomaly_E(c.e, c.M);
+                //c.v = Comet.getTrueAnomaly_v(c.e, c.E, c.q, c.T, today);
+                //c.L = Comet.getMeanLongitude_L(c.M, c.om, c.w);
                 c.Q = Comet.getAphelionDistance_Q(c.e, c.a);
+                //c.bw = Comet.getLongitudeOfPericenter_bw(c.om, c.w);
+                //c.l = Comet.getTrueLongitude_l(c.v, c.bw);
+                //c.F = Comet.getEccentricLongitude_F(c.w, c.om, c.E);
 
                 c.set_sortkey();
 
@@ -164,8 +170,8 @@ namespace Comet_OEW
             Comet c = userList.ElementAt(ind);
 
             //tFull.Text = c.full;
-            tId.Text = c.id;
-            tName.Text = c.name;
+            //tId.Text = c.id;
+            //tName.Text = c.name;
             tT.Text = c.y.ToString() + "-" + c.m.ToString("00") + "-" + c.d.ToString("00") + "." + c.h.ToString("0000");
             tQ.Text = String.Format("{0:0.000000}", c.q);
             tE.Text = String.Format("{0:0.000000}", c.e);
@@ -178,35 +184,38 @@ namespace Comet_OEW
 
             tSort.Text = String.Format("{0:0.0000000}", c.sortkey);
 
-            tEquinox.Text = "2000.0";
+            //tEquinox.Text = "2000.0";
 
-            //if (c.e < 1.0)
-            //{
+            if (c.e < 1.0 && c.P < 10000)
+            {
                 tP.Text = String.Format("{0:0.000000}", c.P);
                 tA.Text = String.Format("{0:0.000000}", c.a);
-                tN.Text = String.Format("{0:0.000000}", c.n);
-                tM.Text = String.Format("{0:0.000000}", c.M);
-                tEan.Text = String.Format("{0:0.000000}", c.E);
-                tPhi.Text = String.Format("{0:0.000000}", c.v);
-                tL.Text = String.Format("{0:0.000000}", c.L);
+                //tN.Text = String.Format("{0:0.000000}", c.n);
+                //tM.Text = String.Format("{0:0.000000}", c.M);
+                //tEan.Text = String.Format("{0:0.000000}", c.E);
+                //tPhi.Text = String.Format("{0:0.000000}", c.v);
+                //tL.Text = String.Format("{0:0.000000}", c.L);
                 tAph.Text = String.Format("{0:0.000000}", c.Q);
-            //}
-            //else
-            //{
-            //    tP.Text = "";
-            //    tA.Text = "";
+                //tBw.Text = String.Format("{0:0.000000}", c.bw);
+                //tF.Text = String.Format("{0:0.000000}", c.F);
+                //tTl.Text = String.Format("{0:0.000000}", c.l);
+            }
+            else
+            {
+                tP.Text = "";
+                tA.Text = "";
             //    tN.Text = "";
             //    tM.Text = "";
             //    tEan.Text = "";
             //    tPhi.Text = "";
             //    tL.Text = "";
-            //    tAph.Text = "";
-            //}
+                tAph.Text = "";
+            }
         }
 
         public void sortList()
         {
-            if (masterList.Count <= 1)
+            if (masterList.Count == 0)
             {
                 toolStripStatusLabel1.Text = "Ready";
                 return;
@@ -329,6 +338,12 @@ namespace Comet_OEW
             {
                 if (c is TextBox) (c as TextBox).ReadOnly = true;
             }
+        }
+
+        private void btnFilter_Click(object sender, EventArgs e)
+        {
+            FilterForm ff = new FilterForm();
+            ff.ShowDialog();
         }
     }
 }
