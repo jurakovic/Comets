@@ -27,15 +27,15 @@ namespace Comet_OEW
         public double om;   //Longitude of the Ascending Node
         public double w;    //Argument of Pericenter
         public double a;    //Semimajor Axis
-        //public double n;    //Mean Motion
-        //public double M;    //Mean Anomaly
-        //public double E;    //Eccentric Anomaly
-        //public double v;    //True Anomaly
-        //public double L;    //Mean Longitude
+        public double n;    //Mean Motion
+        public double M;    //Mean Anomaly
+        public double E;    //Eccentric Anomaly
+        public double v;    //True Anomaly
+        public double L;    //Mean Longitude
         public double Q;    //Aphelion Distance
-        //public double bw;   //Longitude of Pericenter
-        //public double l;    //True longitude l = v + bw;
-        //public double F;    //eccentric longitude F = w + om + E;
+        public double bw;   //Longitude of Pericenter
+        public double l;    //True longitude l = v + bw;
+        public double F;    //eccentric longitude F = w + om + E;
         public double g;
         public double k;
         public double sortkey;
@@ -60,10 +60,10 @@ namespace Comet_OEW
             om = 0.0;
             w = 0.0;
             a = 0.0;
-            //n = 0.0;
-            //M = 0.0;
-            //E = 0.0;
-            //v = 0.0;
+            n = 0.0;
+            M = 0.0;
+            E = 0.0;
+            v = 0.0;
             Q = 0.0;
             g = 0.0;
             k = 0.0;
