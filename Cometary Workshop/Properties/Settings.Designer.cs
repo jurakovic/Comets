@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Comet_OEW.Properties
+namespace Cometary_Workshop.Properties
 {
 
 

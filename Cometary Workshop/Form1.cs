@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Net;
 
-namespace Comet_OEW
+namespace Cometary_Workshop
 {
     public partial class Form1 : Form
     {
@@ -36,6 +36,12 @@ namespace Comet_OEW
         {
             downloadsDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             downloadsDir += @"\Comet OEW\";
+
+            dtPickerStartDate.Value = dtPickerStartDate.Value.AddHours(-DateTime.Now.Hour);
+            dtPickerStartDate.Value = dtPickerStartDate.Value.AddMinutes(-DateTime.Now.Minute);
+            dtPickerStartDate.Value = dtPickerStartDate.Value.AddHours(21);
+            dtPickerStopDate.Value = dtPickerStartDate.Value;
+            dtPickerStopDate.Value = dtPickerStopDate.Value.AddMonths(1);
         }
 
         private void importFromFileToolStripMenuItem_Click(object sender, EventArgs e)
@@ -186,31 +192,30 @@ namespace Comet_OEW
 
             tEquinox.Text = "2000.0";
 
-            //if (c.e < 1.0)
-            //{
-                tP.Text = String.Format("{0:0.000000}", c.P);
-                tA.Text = String.Format("{0:0.000000}", c.a);
-                tN.Text = String.Format("{0:0.000000}", c.n);
-                tM.Text = String.Format("{0:0.000000}", c.M);
-                tEan.Text = String.Format("{0:0.000000}", c.E);
-                tPhi.Text = String.Format("{0:0.000000}", c.v);
-                tL.Text = String.Format("{0:0.000000}", c.L);
-                tAph.Text = String.Format("{0:0.000000}", c.Q);
-                tBw.Text = String.Format("{0:0.000000}", c.bw);
-                tF.Text = String.Format("{0:0.000000}", c.F);
-                tTl.Text = String.Format("{0:0.000000}", c.l);
-            //}
-            //else
-            //{
-            //    tP.Text = "";
-            //    tA.Text = "";
-            //    tN.Text = "";
-            //    tM.Text = "";
-            //    tEan.Text = "";
-            //    tPhi.Text = "";
-            //    tL.Text = "";
-            //    tAph.Text = "";
-            //}
+            tP.Text = String.Format("{0:0.000000}", c.P);
+            tA.Text = String.Format("{0:0.000000}", c.a);
+            tN.Text = String.Format("{0:0.000000}", c.n);
+            tM.Text = String.Format("{0:0.000000}", c.M);
+            tEan.Text = String.Format("{0:0.000000}", c.E);
+            tPhi.Text = String.Format("{0:0.000000}", c.v);
+            tL.Text = String.Format("{0:0.000000}", c.L);
+            tAph.Text = String.Format("{0:0.000000}", c.Q);
+            tBw.Text = String.Format("{0:0.000000}", c.bw);
+            tF.Text = String.Format("{0:0.000000}", c.F);
+            tTl.Text = String.Format("{0:0.000000}", c.l);
+
+            if (c.e == 1.0)
+            {
+                tAph.Text = "";
+                tA.Text = "";
+                tN.Text = "0";
+                tM.Text = "0";
+                tEan.Text = "0";
+            }
+            if (c.P > 10000)
+            {
+                tP.Text = "";
+            }
         }
 
         public void sortList()
@@ -259,6 +264,12 @@ namespace Comet_OEW
 
             else if (eccentricityToolStripMenuItem.Checked && descendingToolStripMenuItem.Checked)
                 userList = masterList.OrderByDescending(Comet => Comet.e).ToList();
+
+            else if (argOfPericenterToolStripMenuItem.Checked && ascendingToolStripMenuItem.Checked)
+                userList = masterList.OrderBy(Comet => Comet.w).ToList();
+
+            else if (argOfPericenterToolStripMenuItem.Checked && descendingToolStripMenuItem.Checked)
+                userList = masterList.OrderByDescending(Comet => Comet.w).ToList();
 
             else if (inclinationToolStripMenuItem.Checked && ascendingToolStripMenuItem.Checked)
                 userList = masterList.OrderBy(Comet => Comet.i).ToList();
@@ -322,22 +333,128 @@ namespace Comet_OEW
             }
             comboComet.SelectedIndex = 0;
             toolStripStatusLabel1.Text = "Comets: " + userList.Count;
+
+            //tabControl1.Enabled = true;
         }
 
-        private void btnEdit_Click(object sender, EventArgs e)
+        private void btnCalculate_Click(object sender, EventArgs e)
         {
-            //foreach (Control c in gbDetails.Controls)
-            //{
-            //    if (c is TextBox) (c as TextBox).ReadOnly = false;
-            //}
+            textBox1.Text = "";
+
+            int ind = comboComet.SelectedIndex;
+            //if (ind == -1) return;
+
+            //Comet c = userList.ElementAt(ind);
+
+            double h1, h2;
+            h1 = dtPickerStartDate.Value.Hour + dtPickerStartDate.Value.Minute / 60;
+            h2 = dtPickerStopDate.Value.Hour + dtPickerStopDate.Value.Minute / 60;
+
+            int startHour = (int)((h1 / (double)24) * 10000);
+            int stopHour = (int)((h2 / (double)24) * 10000);
+
+            double startJD, stopJD;
+            startJD = Comet.GregToJul(dtPickerStartDate.Value.Year, dtPickerStartDate.Value.Month, 
+                dtPickerStartDate.Value.Day, startHour);
+            stopJD = Comet.GregToJul(dtPickerStopDate.Value.Year, dtPickerStopDate.Value.Month,
+                dtPickerStopDate.Value.Day, stopHour);
+
+            double interval = Convert.ToDouble(tbIntervalDay.Text) + (Convert.ToDouble(tbIntervalHour.Text) / 24) * 10000;
+
+            double k = 0.01720209895;
+
+            while (startJD < stopJD)
+            {
+                double dd = startJD - 730530;
+                double sun_om = 0.0;
+                double sun_i = 0.0;
+                double sun_w = 282.9404 + 4.70935E-5 * dd;
+                double sun_a = 1.0;
+                double sun_e = 0.016709 - 1.151E-9 * dd;
+                double sun_M = 356.0470 + 0.9856002585 * dd;
+
+                double ecl = 23.4393 - 3.563E-7 * dd;
+
+                double sun_E = sun_M + sun_e * Math.Sin(d2r(sun_M)) * (1.0 + sun_e * Math.Cos(d2r(sun_M)));
+
+                double sun_xv = Math.Cos(d2r(sun_E)) - sun_e;
+                double sun_yv = Math.Sqrt(1.0 - sun_e*sun_e) * Math.Sin(d2r(sun_E));
+
+                double sun_v = Math.Atan2(sun_yv, sun_xv);
+                double sun_r = Math.Sqrt(sun_xv * sun_xv + sun_yv * sun_yv);
+
+
+                double lonsun = sun_v + sun_w;
+
+                double sun_xs = sun_r * Math.Cos(d2r(lonsun));
+                double sun_ys = sun_r * Math.Sin(d2r(lonsun));
+
+                double sun_xe = sun_xs;
+                double sun_ye = sun_ys * Math.Cos(d2r(ecl));
+                double sun_ze = sun_ys * Math.Sin(d2r(ecl));
+
+                double sun_RA = r2d( Math.Atan2(sun_ye, sun_xe));
+                double sun_Dec = r2d( Math.Atan2(sun_ze, Math.Sqrt(sun_xe * sun_xe + sun_ye * sun_ye)));
+
+                textBox1.Text += "date: " + startJD + "  RA: " + sun_RA + "  Dec: " + sun_Dec + Environment.NewLine;
+               
+                
+                /*
+                double cv, cr;
+
+                double delta = startJD - c.T;
+                if (c.e < 0.98)
+                {
+                    double M = Comet.NormalizeDegrees(((180 / Math.PI) * delta * k) / Math.Pow(c.a, 3.0 / 2.0));
+                    double E = Comet.kepler(c.e, M);
+
+                    double x = c.a * (Math.Cos(Comet.DegToRad(E) - c.e));
+                    double y = c.a * Math.Sqrt(1 - c.e*c.e) * Math.Sin(d2r(E));
+
+                    cv = Math.Atan2(y, x);
+                    cr = Math.Sqrt(x * x + y * y);
+                }
+                else if (c.e == 1.0)
+                {
+                    double a = 1.5 * delta * k / Math.Sqrt(2 * c.q * c.q * c.q);
+                    double b = Math.Sqrt(1 + a * a);
+                    double w = Math.Pow(b + a, 1.0 / 3.0) - Math.Pow(b - a, 1.0 / 3.0);
+
+                    cv = 2 * Math.Atan(w);
+                    cr = c.q * (1 + w * w);
+                }
+                else
+                {
+                    double a = 0.75 * delta * k * Math.Sqrt((1 + c.e) / (c.q * c.q * c.q));
+                    double b = Math.Sqrt(1 + a * a);
+                    double W = Math.Pow(b + a, 1.0 / 3.0) - Math.Pow(b - a, 1.0 / 3.0);
+                    double f = (1 - c.e) / (1 + c.e);
+
+                    double a1 = (2 / 3) + (2 / 5) * W * W;
+                    double a2 = (7 / 5) + (33 / 35) * W * W + (37 / 175) * Math.Pow(W, 4);
+                    double a3 = W * W * ((432 / 175) + (956 / 1125) * W * W + (84 / 1575) * Math.Pow(W, 4));
+
+                    double C = W * W / (1 + W * W);
+                    double g = f * C * C;
+                    double w = W * (1 + f * C * (a1 + a2 * g + a3 * g * g));
+
+                    cv = 2 * Math.Atan(w);
+                    cr = c.q * (1 + w * w) / (1 + w * w * f);
+                }*/
+
+
+                startJD += interval;
+            }
         }
 
-        private void btnSave_Click(object sender, EventArgs e)
+        public static double r2d(double radAngle)
         {
-            //foreach (Control c in gbDetails.Controls)
-            //{
-            //    if (c is TextBox) (c as TextBox).ReadOnly = true;
-            //}
+            return radAngle * (180.0 / Math.PI);
+        }
+
+        public static double d2r(double degAngle)
+        {
+            return Math.PI * degAngle / 180.0;
         }
     }
 }

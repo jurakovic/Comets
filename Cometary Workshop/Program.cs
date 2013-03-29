@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Comet_OEW
+namespace Cometary_Workshop
 {
     static class Program
     {

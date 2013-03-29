@@ -8,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Comet_OEW
+namespace Cometary_Workshop
 {
-    public partial class FilterForm : Form
+    public partial class LocationForm : Form
     {
-        public FilterForm()
+        public LocationForm()
         {
             InitializeComponent();
         }

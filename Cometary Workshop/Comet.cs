@@ -8,7 +8,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 
-namespace Comet_OEW
+namespace Cometary_Workshop
 {
     public class Comet
     {
@@ -262,7 +262,7 @@ namespace Comet_OEW
         {
             if (e < 1.0)
                 return kepler(e, M);
-            else 
+            else
                 return 0.0;
         }
 
@@ -283,7 +283,7 @@ namespace Comet_OEW
                 v = 2.0 * Math.Atan(s);
                 v = RadToDeg(v);
             }
-            else 
+            else
             {
                 double s, Q, gama;
 
@@ -382,13 +382,14 @@ namespace Comet_OEW
         public static double barker(double q, double T, double t)
         {
             double delta = t - T;
-            double G, Y, W;
+            double G, Y, W, S;
 
             W = ((0.03649116245) / (q * Math.Sqrt(q))) * delta;
             G = W / 2.0;
             Y = Math.Pow((G + Math.Sqrt(G * G + 1)), 1.0 / 3.0);
+            S = Y - 1 / Y;
 
-            return Y - 1 / Y;
+            return S;
         }
 
         public static double hyp_barker(double Q1, double G, double T, double t)
@@ -400,8 +401,8 @@ namespace Comet_OEW
 
             Q2 = Q1 * t1;
             S = 2 / (3 * Math.Abs(Q2));
-            S = 2 / Math.Tan(2 * Math.Atan(Math.Pow((Math.Tan(Math.Atan(S) / 2)), 1/3)));
-            
+            S = 2 / Math.Tan(2 * Math.Atan(Math.Pow((Math.Tan(Math.Atan(S) / 2)), 1 / 3)));
+
             if (t1 < 0)
                 S = -S;
             L = 0;
@@ -426,7 +427,7 @@ namespace Comet_OEW
 
                 if (Math.Abs(F) > PREC)
                     goto next_z;
-                
+
                 L++;
 
                 if (L > 100)
@@ -501,7 +502,7 @@ namespace Comet_OEW
                 idname[0] = full.Substring(0, full.IndexOf('/')); // 2P
                 idname[1] = full.Substring(full.IndexOf('/') + 1); // Encke
                 idname[2] = idname[0] + "/" + idname[1];
-                
+
                 //MessageBox.Show(full + " je regex r1" + r1.ToString() + " = ");
             }
 
@@ -551,7 +552,7 @@ namespace Comet_OEW
                 total++;
                 idname[0] = full.Substring(0, full.LastIndexOf('-')); // D/1993 F2
                 idname[1] = full.Substring(full.IndexOf('(')).Trim('(', ')'); //Shoemaker-Levy 9
-                idname[1] += full.Substring(full.IndexOf('-') , full.IndexOf('(') - 1 - full.IndexOf('-') ); // 
+                idname[1] += full.Substring(full.IndexOf('-'), full.IndexOf('(') - 1 - full.IndexOf('-')); // 
                 idname[2] = idname[0] + " (" + idname[1] + ")";
 
                 //MessageBox.Show(full + " je regex r6 " + r6.ToString() + " = ");

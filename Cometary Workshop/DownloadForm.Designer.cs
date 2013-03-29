@@ -1,4 +1,4 @@
-﻿namespace Comet_OEW
+﻿namespace Cometary_Workshop
 {
     partial class DownloadForm
     {
