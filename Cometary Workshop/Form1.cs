@@ -14,6 +14,9 @@ namespace Cometary_Workshop
 {
     public partial class Form1 : Form
     {
+        const double DEG2RAD = Math.PI / 180.0;
+        const double RAD2DEG = 180.0 / Math.PI;
+
         public static string downloadsDir;
         public static string localDataDir;
         public static string filename;
@@ -22,6 +25,8 @@ namespace Cometary_Workshop
         public static List<Comet> masterList = new List<Comet>();
         public static List<Comet> userList = new List<Comet>();
         public static string lastSortItem = "noSortToolStripMenuItem";
+
+        public Location obs = new Location(45, 16);
         
         public Form1()
         {
@@ -342,7 +347,7 @@ namespace Cometary_Workshop
             textBox1.Text = "";
 
             int ind = comboComet.SelectedIndex;
-            //if (ind == -1) return;
+            if (ind == -1) return;
 
             //Comet c = userList.ElementAt(ind);
 
@@ -361,100 +366,206 @@ namespace Cometary_Workshop
 
             double interval = Convert.ToDouble(tbIntervalDay.Text) + (Convert.ToDouble(tbIntervalHour.Text) / 24) * 10000;
 
-            double k = 0.01720209895;
+            Comet cmt = userList[ind];
 
             while (startJD < stopJD)
             {
-                double dd = startJD - 730530;
-                double sun_om = 0.0;
-                double sun_i = 0.0;
-                double sun_w = 282.9404 + 4.70935E-5 * dd;
-                double sun_a = 1.0;
-                double sun_e = 0.016709 - 1.151E-9 * dd;
-                double sun_M = 356.0470 + 0.9856002585 * dd;
-
-                double ecl = 23.4393 - 3.563E-7 * dd;
-
-                double sun_E = sun_M + sun_e * Math.Sin(d2r(sun_M)) * (1.0 + sun_e * Math.Cos(d2r(sun_M)));
-
-                double sun_xv = Math.Cos(d2r(sun_E)) - sun_e;
-                double sun_yv = Math.Sqrt(1.0 - sun_e*sun_e) * Math.Sin(d2r(sun_E));
-
-                double sun_v = Math.Atan2(sun_yv, sun_xv);
-                double sun_r = Math.Sqrt(sun_xv * sun_xv + sun_yv * sun_yv);
-
-
-                double lonsun = sun_v + sun_w;
-
-                double sun_xs = sun_r * Math.Cos(d2r(lonsun));
-                double sun_ys = sun_r * Math.Sin(d2r(lonsun));
-
-                double sun_xe = sun_xs;
-                double sun_ye = sun_ys * Math.Cos(d2r(ecl));
-                double sun_ze = sun_ys * Math.Sin(d2r(ecl));
-
-                double sun_RA = r2d( Math.Atan2(sun_ye, sun_xe));
-                double sun_Dec = r2d( Math.Atan2(sun_ze, Math.Sqrt(sun_xe * sun_xe + sun_ye * sun_ye)));
-
-                textBox1.Text += "date: " + startJD + "  RA: " + sun_RA + "  Dec: " + sun_Dec + Environment.NewLine;
-               
-                
-                /*
-                double cv, cr;
-
-                double delta = startJD - c.T;
-                if (c.e < 0.98)
-                {
-                    double M = Comet.NormalizeDegrees(((180 / Math.PI) * delta * k) / Math.Pow(c.a, 3.0 / 2.0));
-                    double E = Comet.kepler(c.e, M);
-
-                    double x = c.a * (Math.Cos(Comet.DegToRad(E) - c.e));
-                    double y = c.a * Math.Sqrt(1 - c.e*c.e) * Math.Sin(d2r(E));
-
-                    cv = Math.Atan2(y, x);
-                    cr = Math.Sqrt(x * x + y * y);
-                }
-                else if (c.e == 1.0)
-                {
-                    double a = 1.5 * delta * k / Math.Sqrt(2 * c.q * c.q * c.q);
-                    double b = Math.Sqrt(1 + a * a);
-                    double w = Math.Pow(b + a, 1.0 / 3.0) - Math.Pow(b - a, 1.0 / 3.0);
-
-                    cv = 2 * Math.Atan(w);
-                    cr = c.q * (1 + w * w);
-                }
-                else
-                {
-                    double a = 0.75 * delta * k * Math.Sqrt((1 + c.e) / (c.q * c.q * c.q));
-                    double b = Math.Sqrt(1 + a * a);
-                    double W = Math.Pow(b + a, 1.0 / 3.0) - Math.Pow(b - a, 1.0 / 3.0);
-                    double f = (1 - c.e) / (1 + c.e);
-
-                    double a1 = (2 / 3) + (2 / 5) * W * W;
-                    double a2 = (7 / 5) + (33 / 35) * W * W + (37 / 175) * Math.Pow(W, 4);
-                    double a3 = W * W * ((432 / 175) + (956 / 1125) * W * W + (84 / 1575) * Math.Pow(W, 4));
-
-                    double C = W * W / (1 + W * W);
-                    double g = f * C * C;
-                    double w = W * (1 + f * C * (a1 + a2 * g + a3 * g * g));
-
-                    cv = 2 * Math.Atan(w);
-                    cr = c.q * (1 + w * w) / (1 + w * w * f);
-                }*/
-
+                double [] altaz = CometAlt(cmt, startJD, obs);
+                textBox1.Text += 
+                    " ra: " + hmsstring( altaz[3]/15.0) + 
+                    " dec: " + anglestring( altaz[4], true, false) + 
+                    " alt: " + altaz[0] + 
+                    " az:" + altaz[1] + Environment.NewLine;
 
                 startJD += interval;
             }
         }
 
-        public static double r2d(double radAngle)
+        public double[] CometAlt(Comet cmt, double jday, Location obs)
         {
-            return radAngle * (180.0 / Math.PI);
+            // Alt/Az, hour angle, ra/dec, ecliptic long. and lat, illuminated fraction (=1.0), dist(Sun), dist(Earth), brightness of planet p
+            double[] sun_xyz = sunxyz(jday);
+            double[] planet_xyz = comet_xyz(cmt, jday);
+            double dx = planet_xyz[0] + sun_xyz[0];
+            double dy = planet_xyz[1] + sun_xyz[1];
+            double dz = planet_xyz[2] + sun_xyz[2];
+            double lon = rev(atan2d(dy, dx));
+            double lat = atan2d(dz, Math.Sqrt(dx * dx + dy * dy));
+            double[] radec = radecr(planet_xyz, sun_xyz, jday, obs);
+            double ra = radec[0];
+            double dec = radec[1];
+            double[] altaz = radec2aa(ra, dec, jday, obs);
+            double dist = radec[2];
+            double r = planet_xyz[3];
+            double mag = cmt.g + 5 * log10(dist) + 2.5 * cmt.k * log10(r);	// Schlyter's formula is wrong!
+            return new double[11] { altaz[0], altaz[1], altaz[2], ra, dec, lon, lat, 1.0, r, dist, mag };
         }
 
-        public static double d2r(double degAngle)
+        public double[] comet_xyz(Comet cmt, double jday)
         {
-            return Math.PI * degAngle / 180.0;
+            // heliocentric xyz for comet (cn is index to comets)
+            // based on Paul Schlyter's page http://www.stjarnhimlen.se/comp/ppcomp.html
+            // returns heliocentric x, y, z, distance, longitude and latitude of object
+            double d = jday - 2451543.5;
+            double q = cmt.q;
+            double e = cmt.e;
+            //double Tj = jd0(cmt.y, cmt.m, cmt.d);	// get julian day of perihelion time
+            double Tj = cmt.T;
+
+            double v, r;
+
+            if (e > 0.98)
+            {
+                // treat as near parabolic (approx. method valid inside orbit of Pluto)
+                double k = 0.01720209895;	// Gaussian gravitational constant
+                double a = 0.75 * (jday - Tj) * k * Math.Sqrt((1 + e) / (q * q * q));
+                double b = Math.Sqrt(1 + a * a);
+                double W = cbrt(b + a) - cbrt(b - a);
+                double c = 1 + 1 / (W * W);
+                double f = (1 - e) / (1 + e);
+                double g = f / (c * c);
+                double a1 = (2 / 3) + (2 / 5) * W * W;
+                double a2 = (7 / 5) + (33 / 35) * W * W + (37 / 175) * W * W * W * W;
+                double a3 = W * W * ((432 / 175) + (956 / 1125) * W * W + (84 / 1575) * W * W * W * W);
+                double _w = W * (1 + g * c * (a1 + a2 * g + a3 * g * g));
+                v = 2 * atand(_w);
+                r = q * (1 + _w * _w) / (1 + _w * _w * f);
+            }
+            else
+            {		// treat as elliptic
+                double a = q / (1.0 - e);
+                double P = 365.2568984 * Math.Sqrt(a * a * a);	// period in days
+                double M = 360.0 * (jday - Tj) / P; 	// mean anomaly
+                // eccentric anomaly E
+                double E0 = M + RAD2DEG * e * sind(M) * (1.0 + e * cosd(M));
+                double E1 = E0 - (E0 - RAD2DEG * e * sind(E0) - M) / (1.0 - e * cosd(E0));
+                while (Math.Abs(E0 - E1) > 0.0005)
+                {
+                    E0 = E1;
+                    E1 = E0 - (E0 - RAD2DEG * e * sind(E0) - M) / (1.0 - e * cosd(E0));
+                }
+                double xv = a * (cosd(E1) - e);
+                double yv = a * Math.Sqrt(1.0 - e * e) * sind(E1);
+                v = rev(atan2d(yv, xv));		// true anomaly
+                r = Math.Sqrt(xv * xv + yv * yv);	// distance
+            }	// from here common for all orbits
+
+            double N = cmt.om + 3.82394E-5 * d;	// precess from J2000.0 to now;
+            double w = cmt.w;	// why not precess this value?
+            double i = cmt.i;
+            double xh = r * (cosd(N) * cosd(v + w) - sind(N) * sind(v + w) * cosd(i));
+            double yh = r * (sind(N) * cosd(v + w) + cosd(N) * sind(v + w) * cosd(i));
+            double zh = r * (sind(v + w) * sind(i));
+            double lonecl = atan2d(yh, xh);
+            double latecl = atan2d(zh, Math.Sqrt(xh * xh + yh * yh + zh * zh));
+
+            return new double[6] { xh, yh, zh, r, lonecl, latecl };
         }
+
+        public double[] sunxyz(double jday)
+        {
+            // return x,y,z ecliptic coordinates, distance, true longitude
+            // days counted from 1999 Dec 31.0 UT
+            double d = jday - 2451543.5;
+            double w = 282.9404 + 4.70935E-5 * d;		// argument of perihelion
+            double e = 0.016709 - 1.151E-9 * d;
+            double M = rev(356.0470 + 0.9856002585 * d); // mean anomaly
+            double E = M + e * RAD2DEG * sind(M) * (1.0 + e * cosd(M));
+            double xv = cosd(E) - e;
+            double yv = Math.Sqrt(1.0 - e * e) * sind(E);
+            double v = atan2d(yv, xv);		// true anomaly
+            double r = Math.Sqrt(xv * xv + yv * yv);	// distance
+            double lonsun = rev(v + w);	// true longitude
+            double xs = r * cosd(lonsun);		// rectangular coordinates, zs = 0 for sun 
+            double ys = r * sind(lonsun);
+
+            return new double[6] { xs, ys, 0, r, lonsun, 0 };
+        }
+
+        double[] radecr(double[] obj, double[] sun, double jday, Location obs)
+        {
+            // radecr returns ra, dec and earth distance
+            // obj and sun comprise Heliocentric Ecliptic Rectangular Coordinates
+            // (note Sun coords are really Earth heliocentric coordinates with reverse signs)
+            // Equatorial geocentric co-ordinates
+            var xg = obj[0] + sun[0];
+            var yg = obj[1] + sun[1];
+            var zg = obj[2];
+            // Obliquity of Ecliptic (exponent corrected, was E-9!)
+            var obl = 23.4393 - 3.563E-7 * (jday - 2451543.5);
+            // Convert to eq. co-ordinates
+            var x1 = xg;
+            var y1 = yg * cosd(obl) - zg * sind(obl);
+            var z1 = yg * sind(obl) + zg * cosd(obl);
+            // RA and dec (33.2)
+            var ra = rev(atan2d(y1, x1));
+            var dec = atan2d(z1, Math.Sqrt(x1 * x1 + y1 * y1));
+            var dist = Math.Sqrt(x1 * x1 + y1 * y1 + z1 * z1);
+            return new double[3] { ra, dec, dist };
+        }
+
+        double[] radec2aa(double ra, double dec, double jday, Location obs)
+        {
+            // Convert ra/dec to alt/az, also return hour angle, azimut = 0 when north
+            // DOES NOT correct for parallax!
+            // TH0=Greenwich sid. time (eq. 12.4), H=hour angle (chapter 13)
+            var TH0 = 280.46061837 + 360.98564736629 * (jday - 2451545.0);
+            var H = rev(TH0 - obs.longitude - ra);
+            var alt = asind(sind(obs.latitude) * sind(dec) + cosd(obs.latitude) * cosd(dec) * cosd(H));
+            var az = atan2d(sind(H), (cosd(H) * sind(obs.latitude) - tand(dec) * cosd(obs.latitude)));
+            return new double[3] { alt, rev(az + 180.0), H };
+        }
+
+        string hmsstring(double t)
+        {
+            // the caller must add a leading + if required.
+            var hours = Math.Abs(t);
+            var minutes = 60.0 * (hours - Math.Floor(hours));
+            hours = Math.Floor(hours);
+            var seconds = Math.Round(60.0 * (minutes - Math.Floor(minutes)));
+            minutes = Math.Floor(minutes);
+            if (seconds >= 60) { minutes += 1; seconds -= 60; }
+            if (minutes >= 60) { hours += 1; minutes -= 60; }
+            if (hours >= 24) { hours -= 24; }
+            var hmsstr = (t < 0) ? "-" : "";
+            hmsstr = ((hours < 10) ? "0" : "") + hours;
+            hmsstr += ((minutes < 10) ? ":0" : ":") + minutes;
+            hmsstr += ((seconds < 10) ? ":0" : ":") + seconds;
+            return hmsstr;
+        }
+
+        string anglestring(double a, bool circle, bool arcmin)
+        {
+            // Return angle as degrees:minutes. 'circle' is true for range between 0 and 360 
+            // and false for -90 to +90, if 'arcmin' use deg and arcmin symbols
+            var ar = Math.Round(a * 60) / 60;
+            var deg = Math.Abs(ar);
+            var min = Math.Round(60.0 * (deg - Math.Floor(deg)));
+            if (min >= 60) { deg += 1; min = 0; }
+            var anglestr = "";
+            if (!circle) anglestr += (ar < 0 ? "-" : "+");
+            if (circle) anglestr += ((Math.Floor(deg) < 100) ? "0" : "");
+            anglestr += ((Math.Floor(deg) < 10) ? "0" : "") + Math.Floor(deg);
+            if (arcmin) anglestr += ((min < 10) ? "&deg;0" : "&deg;") + (min) + "' ";
+            else anglestr += ((min < 10) ? ":0" : ":") + (min);
+            return anglestr;
+        }
+
+        public static double r2d(double radAngle) { return radAngle * (180.0 / Math.PI); }
+        public static double d2r(double degAngle) { return Math.PI * degAngle / 180.0; }
+
+        public double rev(double angle) { return angle - Math.Floor(angle / 360.0) * 360.0; }		// 0<=a<360
+        public double rev2(double angle) { var a = rev(angle); return (a >= 180 ? a - 360.0 : a); }	// -180<=a<180
+        public double sind(double angle) { return Math.Sin(angle * DEG2RAD); }
+        public double cosd(double angle) { return Math.Cos(angle * DEG2RAD); }
+        public double tand(double angle) { return Math.Tan(angle * DEG2RAD); }
+        public double asind(double c) { return RAD2DEG * Math.Asin(c); }
+        public double acosd(double c) { return RAD2DEG * Math.Acos(c); }
+        public double atand(double c) { return RAD2DEG * Math.Atan(c); }
+        public double atan2d(double y, double x) { return RAD2DEG * Math.Atan2(y, x); }
+        public double log10(double x) { return Math.Log10(x); }
+        public double sqr(double x) { return x * x; }
+        public double cbrt(double x) { return Math.Pow(x, 1 / 3.0); }
+        public double SGN(double x) { return (x < 0) ? -1 : +1; }
     }
 }

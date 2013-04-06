@@ -1480,7 +1480,7 @@
             // 
             this.tbIntervalHour.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.tbIntervalHour.Location = new System.Drawing.Point(68, 18);
-            this.tbIntervalHour.MaxLength = 2;
+            this.tbIntervalHour.MaxLength = 3;
             this.tbIntervalHour.Name = "tbIntervalHour";
             this.tbIntervalHour.Size = new System.Drawing.Size(23, 22);
             this.tbIntervalHour.TabIndex = 1;
@@ -1534,7 +1534,7 @@
             // textBox1
             // 
             this.textBox1.BackColor = System.Drawing.SystemColors.Window;
-            this.textBox1.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.textBox1.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.textBox1.Location = new System.Drawing.Point(6, 59);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
