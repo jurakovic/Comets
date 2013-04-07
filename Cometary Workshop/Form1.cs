@@ -26,7 +26,7 @@ namespace Cometary_Workshop
         public static List<Comet> userList = new List<Comet>();
         public static string lastSortItem = "noSortToolStripMenuItem";
 
-        public Location obs = new Location(45, 16);
+        public static Location obs;// = new Location(45, 16);
         
         public Form1()
         {
@@ -41,12 +41,6 @@ namespace Cometary_Workshop
         {
             downloadsDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             downloadsDir += @"\Comet OEW\";
-
-            dtPickerStartDate.Value = dtPickerStartDate.Value.AddHours(-DateTime.Now.Hour);
-            dtPickerStartDate.Value = dtPickerStartDate.Value.AddMinutes(-DateTime.Now.Minute);
-            dtPickerStartDate.Value = dtPickerStartDate.Value.AddHours(21);
-            dtPickerStopDate.Value = dtPickerStartDate.Value;
-            dtPickerStopDate.Value = dtPickerStopDate.Value.AddMonths(1);
         }
 
         private void importFromFileToolStripMenuItem_Click(object sender, EventArgs e)
@@ -342,42 +336,47 @@ namespace Cometary_Workshop
             //tabControl1.Enabled = true;
         }
 
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (tabControl1.SelectedIndex == 3)
+            {
+                String appdir = Path.GetDirectoryName(Application.ExecutablePath);
+                String myfile = Path.Combine(appdir, "halley.html");
+                webBrowser1.Url = new Uri("file:///" + myfile);
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            FormEphemSettings fes = new FormEphemSettings();
+            fes.ShowDialog();
+        }
+
         private void btnCalculate_Click(object sender, EventArgs e)
         {
             textBox1.Text = "";
 
             int ind = comboComet.SelectedIndex;
             if (ind == -1) return;
-
-            //Comet c = userList.ElementAt(ind);
-
-            double h1, h2;
-            h1 = dtPickerStartDate.Value.Hour + dtPickerStartDate.Value.Minute / 60;
-            h2 = dtPickerStopDate.Value.Hour + dtPickerStopDate.Value.Minute / 60;
-
-            int startHour = (int)((h1 / (double)24) * 10000);
-            int stopHour = (int)((h2 / (double)24) * 10000);
-
-            double startJD, stopJD;
-            startJD = Comet.GregToJul(dtPickerStartDate.Value.Year, dtPickerStartDate.Value.Month, 
-                dtPickerStartDate.Value.Day, startHour);
-            stopJD = Comet.GregToJul(dtPickerStopDate.Value.Year, dtPickerStopDate.Value.Month,
-                dtPickerStopDate.Value.Day, stopHour);
-
-            double interval = Convert.ToDouble(tbIntervalDay.Text) + (Convert.ToDouble(tbIntervalHour.Text) / 24) * 10000;
-
+                       
             Comet cmt = userList[ind];
 
-            while (startJD < stopJD)
-            {
-                double [] altaz = CometAlt(cmt, startJD, obs);
-                textBox1.Text += 
-                    " ra: " + hmsstring( altaz[3]/15.0) + 
-                    " dec: " + anglestring( altaz[4], true, false) + 
-                    " alt: " + altaz[0] + 
-                    " az:" + altaz[1] + Environment.NewLine;
+            double start = obs.startJD;
+            double stop = obs.stopJD;
 
-                startJD += interval;
+            while (start < stop)
+            {
+                double[] altaz = CometAlt(cmt, start, obs);
+                int[] date = jdtocd(start);
+                textBox1.Text +=
+                    date[2] + "-" + date[1] + "-" + date[0] + "   " +
+                    date[3] + ":" + date[4] + "   " +
+                    " ra: " + hmsstring(altaz[3] / 15.0) +
+                    " dec: " + anglestring(altaz[4], true, false) +
+                    " alt: " + fixnum(altaz[0], 7, 1) +
+                    " az:" + fixnum(altaz[1], 8, 1) + Environment.NewLine;
+
+                start += obs.interval;
             }
         }
 
@@ -488,19 +487,19 @@ namespace Cometary_Workshop
             // obj and sun comprise Heliocentric Ecliptic Rectangular Coordinates
             // (note Sun coords are really Earth heliocentric coordinates with reverse signs)
             // Equatorial geocentric co-ordinates
-            var xg = obj[0] + sun[0];
-            var yg = obj[1] + sun[1];
-            var zg = obj[2];
+            double xg = obj[0] + sun[0];
+            double yg = obj[1] + sun[1];
+            double zg = obj[2];
             // Obliquity of Ecliptic (exponent corrected, was E-9!)
-            var obl = 23.4393 - 3.563E-7 * (jday - 2451543.5);
+            double obl = 23.4393 - 3.563E-7 * (jday - 2451543.5);
             // Convert to eq. co-ordinates
-            var x1 = xg;
-            var y1 = yg * cosd(obl) - zg * sind(obl);
-            var z1 = yg * sind(obl) + zg * cosd(obl);
+            double x1 = xg;
+            double y1 = yg * cosd(obl) - zg * sind(obl);
+            double z1 = yg * sind(obl) + zg * cosd(obl);
             // RA and dec (33.2)
-            var ra = rev(atan2d(y1, x1));
-            var dec = atan2d(z1, Math.Sqrt(x1 * x1 + y1 * y1));
-            var dist = Math.Sqrt(x1 * x1 + y1 * y1 + z1 * z1);
+            double ra = rev(atan2d(y1, x1));
+            double dec = atan2d(z1, Math.Sqrt(x1 * x1 + y1 * y1));
+            double dist = Math.Sqrt(x1 * x1 + y1 * y1 + z1 * z1);
             return new double[3] { ra, dec, dist };
         }
 
@@ -551,6 +550,86 @@ namespace Cometary_Workshop
             return anglestr;
         }
 
+        string fixnum(double n, int l, int d)
+        {
+            // convert float n to right adjusted string of length l with d digits after decimal point.
+            // the sign always requires one character, allow for that in l!
+            int m = 1;
+            for (int i = 0; i < d; i++) m *= 10;
+            double n1 = Math.Round(Math.Abs(n) * m);
+            double nint = Math.Floor(n1 / m);
+            string nfract = (n1 - m * nint) + ""; // force conversion to string
+            while (nfract.Length < d) nfract = "0" + nfract;
+            string str = (n < 0 ? "-" : " ") + nint;
+            if (d > 0) str = str + "." + nfract;
+            while (str.Length < l) str = " " + str;
+            return str;
+        }
+
+        int[] jdtocd(double jd)
+        {
+            // The calendar date from julian date, see Meeus p. 63
+            // Returns year, month, day, day of week, hours, minutes, seconds
+
+
+            double year, month, day, hours, minutes, seconds;
+
+            double Z = Math.Floor(jd + 0.5);
+            double F = jd + 0.5 - Z;
+            double A;
+            if (Z < 2299161)
+            {
+                A = Z;
+            }
+            else
+            {
+                double alpha = Math.Floor((Z - 1867216.25) / 36524.25);
+                A = Z + 1 + alpha - Math.Floor(alpha / 4);
+            }
+            double B = A + 1524;
+            double C = Math.Floor((B - 122.1) / 365.25);
+            double D = Math.Floor(365.25 * C);
+            double E = Math.Floor((B - D) / 30.6001);
+            double d = B - D - Math.Floor(30.6001 * E) + F;
+            if (E < 14)
+            {
+                month = E - 1;
+            }
+            else
+            {
+                month = E - 13;
+            }
+            if (month > 2)
+            {
+                year = C - 4716;
+            }
+            else
+            {
+                year = C - 4715;
+            }
+            day = Math.Floor(d);
+            double h = (d - day) * 24;
+            hours = Math.Floor(h);
+            double m = (h - hours) * 60;
+            minutes = Math.Floor(m);
+            seconds = Math.Round((m - minutes) * 60);
+            if (seconds >= 60)
+            {
+                minutes = minutes + 1;
+                seconds = seconds - 60;
+            }
+            if (minutes >= 60)
+            {
+                hours = hours + 1;
+                minutes = 0;
+            }
+            return new int[] { 
+                Convert.ToInt32(year), Convert.ToInt32(month),
+                Convert.ToInt32(day), Convert.ToInt32(hours), 
+                Convert.ToInt32(minutes), Convert.ToInt32(seconds)
+            };
+        }
+
         public static double r2d(double radAngle) { return radAngle * (180.0 / Math.PI); }
         public static double d2r(double degAngle) { return Math.PI * degAngle / 180.0; }
 
@@ -567,5 +646,7 @@ namespace Cometary_Workshop
         public double sqr(double x) { return x * x; }
         public double cbrt(double x) { return Math.Pow(x, 1 / 3.0); }
         public double SGN(double x) { return (x < 0) ? -1 : +1; }
+
+
     }
 }

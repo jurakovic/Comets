@@ -144,31 +144,22 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.dtPickerStopDate = new System.Windows.Forms.DateTimePicker();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label59 = new System.Windows.Forms.Label();
-            this.label58 = new System.Windows.Forms.Label();
-            this.tbIntervalHour = new System.Windows.Forms.TextBox();
-            this.tbIntervalDay = new System.Windows.Forms.TextBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.dtPickerStartDate = new System.Windows.Forms.DateTimePicker();
+            this.button1 = new System.Windows.Forms.Button();
             this.btnCalculate = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.menuStrip1.SuspendLayout();
             this.contextSort.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
-            this.groupBox3.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.groupBox1.SuspendLayout();
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.tabPage4.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -447,6 +438,7 @@
             this.tabControl1.Size = new System.Drawing.Size(704, 396);
             this.tabControl1.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tabControl1.TabIndex = 4;
+            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
             // tabPage1
             // 
@@ -1411,9 +1403,7 @@
             // tabPage2
             // 
             this.tabPage2.BackColor = System.Drawing.SystemColors.Control;
-            this.tabPage2.Controls.Add(this.groupBox3);
-            this.tabPage2.Controls.Add(this.groupBox2);
-            this.tabPage2.Controls.Add(this.groupBox1);
+            this.tabPage2.Controls.Add(this.button1);
             this.tabPage2.Controls.Add(this.btnCalculate);
             this.tabPage2.Controls.Add(this.textBox1);
             this.tabPage2.Location = new System.Drawing.Point(4, 24);
@@ -1423,109 +1413,22 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Ephemeris";
             // 
-            // groupBox3
+            // button1
             // 
-            this.groupBox3.Controls.Add(this.dtPickerStopDate);
-            this.groupBox3.Location = new System.Drawing.Point(165, 6);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(153, 47);
-            this.groupBox3.TabIndex = 1;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Stop date and time";
-            // 
-            // dtPickerStopDate
-            // 
-            this.dtPickerStopDate.CustomFormat = "dd-MM-yyyy HH:mm";
-            this.dtPickerStopDate.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.dtPickerStopDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtPickerStopDate.Location = new System.Drawing.Point(6, 18);
-            this.dtPickerStopDate.MaxDate = new System.DateTime(2300, 12, 31, 0, 0, 0, 0);
-            this.dtPickerStopDate.MinDate = new System.DateTime(1800, 1, 1, 0, 0, 0, 0);
-            this.dtPickerStopDate.Name = "dtPickerStopDate";
-            this.dtPickerStopDate.Size = new System.Drawing.Size(140, 22);
-            this.dtPickerStopDate.TabIndex = 0;
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.label59);
-            this.groupBox2.Controls.Add(this.label58);
-            this.groupBox2.Controls.Add(this.tbIntervalHour);
-            this.groupBox2.Controls.Add(this.tbIntervalDay);
-            this.groupBox2.Location = new System.Drawing.Point(324, 6);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(133, 47);
-            this.groupBox2.TabIndex = 2;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Interval";
-            // 
-            // label59
-            // 
-            this.label59.AutoSize = true;
-            this.label59.Location = new System.Drawing.Point(93, 22);
-            this.label59.Name = "label59";
-            this.label59.Size = new System.Drawing.Size(34, 13);
-            this.label59.TabIndex = 3;
-            this.label59.Text = "hours";
-            // 
-            // label58
-            // 
-            this.label58.AutoSize = true;
-            this.label58.Location = new System.Drawing.Point(32, 22);
-            this.label58.Name = "label58";
-            this.label58.Size = new System.Drawing.Size(30, 13);
-            this.label58.TabIndex = 2;
-            this.label58.Text = "days";
-            // 
-            // tbIntervalHour
-            // 
-            this.tbIntervalHour.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.tbIntervalHour.Location = new System.Drawing.Point(68, 18);
-            this.tbIntervalHour.MaxLength = 3;
-            this.tbIntervalHour.Name = "tbIntervalHour";
-            this.tbIntervalHour.Size = new System.Drawing.Size(23, 22);
-            this.tbIntervalHour.TabIndex = 1;
-            this.tbIntervalHour.Text = "0";
-            this.tbIntervalHour.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // tbIntervalDay
-            // 
-            this.tbIntervalDay.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.tbIntervalDay.Location = new System.Drawing.Point(7, 18);
-            this.tbIntervalDay.MaxLength = 2;
-            this.tbIntervalDay.Name = "tbIntervalDay";
-            this.tbIntervalDay.Size = new System.Drawing.Size(23, 22);
-            this.tbIntervalDay.TabIndex = 0;
-            this.tbIntervalDay.Text = "1";
-            this.tbIntervalDay.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.dtPickerStartDate);
-            this.groupBox1.Location = new System.Drawing.Point(6, 6);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(153, 47);
-            this.groupBox1.TabIndex = 0;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Start date and time";
-            // 
-            // dtPickerStartDate
-            // 
-            this.dtPickerStartDate.CustomFormat = "dd-MM-yyyy HH:mm";
-            this.dtPickerStartDate.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.dtPickerStartDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtPickerStartDate.Location = new System.Drawing.Point(6, 18);
-            this.dtPickerStartDate.MaxDate = new System.DateTime(2300, 12, 31, 0, 0, 0, 0);
-            this.dtPickerStartDate.MinDate = new System.DateTime(1800, 1, 1, 0, 0, 0, 0);
-            this.dtPickerStartDate.Name = "dtPickerStartDate";
-            this.dtPickerStartDate.Size = new System.Drawing.Size(140, 22);
-            this.dtPickerStartDate.TabIndex = 0;
+            this.button1.Location = new System.Drawing.Point(6, 6);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(125, 23);
+            this.button1.TabIndex = 5;
+            this.button1.Text = "Settings";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // btnCalculate
             // 
-            this.btnCalculate.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.btnCalculate.Location = new System.Drawing.Point(463, 12);
+            this.btnCalculate.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.btnCalculate.Location = new System.Drawing.Point(137, 6);
             this.btnCalculate.Name = "btnCalculate";
-            this.btnCalculate.Size = new System.Drawing.Size(104, 42);
+            this.btnCalculate.Size = new System.Drawing.Size(125, 23);
             this.btnCalculate.TabIndex = 3;
             this.btnCalculate.Text = "Calculate";
             this.btnCalculate.UseVisualStyleBackColor = true;
@@ -1535,11 +1438,11 @@
             // 
             this.textBox1.BackColor = System.Drawing.SystemColors.Window;
             this.textBox1.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.textBox1.Location = new System.Drawing.Point(6, 59);
+            this.textBox1.Location = new System.Drawing.Point(6, 35);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBox1.Size = new System.Drawing.Size(682, 303);
+            this.textBox1.Size = new System.Drawing.Size(682, 327);
             this.textBox1.TabIndex = 4;
             // 
             // tabPage3
@@ -1566,11 +1469,20 @@
             // tabPage4
             // 
             this.tabPage4.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage4.Controls.Add(this.webBrowser1);
             this.tabPage4.Location = new System.Drawing.Point(4, 24);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Size = new System.Drawing.Size(696, 368);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Orbit";
+            // 
+            // webBrowser1
+            // 
+            this.webBrowser1.Location = new System.Drawing.Point(-10, -15);
+            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowser1.Name = "webBrowser1";
+            this.webBrowser1.Size = new System.Drawing.Size(706, 500);
+            this.webBrowser1.TabIndex = 0;
             // 
             // Form1
             // 
@@ -1601,12 +1513,9 @@
             this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.tabPage4.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1733,16 +1642,9 @@
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.Button btnCalculate;
         private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.DateTimePicker dtPickerStartDate;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Label label59;
-        private System.Windows.Forms.Label label58;
-        private System.Windows.Forms.TextBox tbIntervalHour;
-        private System.Windows.Forms.TextBox tbIntervalDay;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.DateTimePicker dtPickerStopDate;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.WebBrowser webBrowser1;
     }
 }
 

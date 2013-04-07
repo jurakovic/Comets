@@ -72,6 +72,12 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormEphemSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormEphemSettings.Designer.cs">
+      <DependentUpon>FormEphemSettings.cs</DependentUpon>
+    </Compile>
     <Compile Include="Location.cs" />
     <Compile Include="LocationForm.cs">
       <SubType>Form</SubType>
@@ -83,6 +89,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormEphemSettings.resx">
+      <DependentUpon>FormEphemSettings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LocationForm.resx">
       <DependentUpon>LocationForm.cs</DependentUpon>
