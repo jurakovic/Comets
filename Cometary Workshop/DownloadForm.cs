@@ -82,5 +82,10 @@ namespace Cometary_Workshop
                 this.ControlBox = true;
             }
         }
+
+        private void DownloadForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

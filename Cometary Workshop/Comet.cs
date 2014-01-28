@@ -78,6 +78,9 @@ namespace Cometary_Workshop
             double sort = 0.0;
             double v = 0.0;
 
+            //282P
+            Regex r0 = new Regex(@"^[0-9]+[PD]");
+
             // 2P/Encke
             Regex r1 = new Regex(@"^[0-9]+[PD]/");
 
@@ -188,6 +191,15 @@ namespace Cometary_Workshop
             }
 
             else if (r1.Match(full).Success)
+            {
+                total2++;
+
+                s1 = id.Substring(0, id.Length - 1);
+                sort = Convert.ToDouble(s1);
+                sort -= 1000;
+            }
+
+            else if (r0.Match(full).Success)
             {
                 total2++;
 
@@ -476,7 +488,11 @@ namespace Cometary_Workshop
             int oldt = total;
 
             //                   id   name  full
-            string[] idname = { null, null, null };
+            //string[] idname = { null, null, null };
+            string[] idname = { "", "", "" };
+
+            //282P
+            Regex r0 = new Regex(@"^[0-9]+[PD]"); // |282P|
 
             // 2P/Encke
             Regex r1 = new Regex(@"^[0-9]+[PD]/"); // |2P/|
@@ -496,14 +512,46 @@ namespace Cometary_Workshop
             // D/1993 F2-N (Shoemaker-Levy 9), D/1993 F2-P1 (Shoemaker-Levy 9)
             Regex r6 = new Regex(@"^[CPD]/-?[0-9]+ [A-Z]+[0-9]*-."); // |D/1993 F2-|
 
-            if (r1.Match(full).Success)
+
+            if (r6.Match(full).Success)
             {
                 total++;
-                idname[0] = full.Substring(0, full.IndexOf('/')); // 2P
-                idname[1] = full.Substring(full.IndexOf('/') + 1); // Encke
-                idname[2] = idname[0] + "/" + idname[1];
+                idname[0] = full.Substring(0, full.LastIndexOf('-')); // D/1993 F2
+                idname[1] = full.Substring(full.IndexOf('(')).Trim('(', ')'); //Shoemaker-Levy 9
+                idname[1] += full.Substring(full.IndexOf('-'), full.IndexOf('(') - 1 - full.IndexOf('-')); // 
+                idname[2] = idname[0] + " (" + idname[1] + ")";
 
-                //MessageBox.Show(full + " je regex r1" + r1.ToString() + " = ");
+                //MessageBox.Show(full + " je regex r6 " + r6.ToString() + " = ");
+            }
+
+            else if (r5.Match(full).Success)
+            {
+                total++;
+                idname[0] = full; // D/1993 F2
+                idname[1] = "";
+                idname[2] = idname[0];
+
+                //MessageBox.Show(full + " je regex r5 " + r5.ToString() + " = ");
+            }
+
+            else if (r4.Match(full).Success)
+            {
+                total++;
+                idname[0] = full.Substring(0, full.IndexOf('(') - 1); // C/2012 S1
+                idname[1] = full.Substring(full.IndexOf('(')).Trim('(', ')'); // ISON
+                idname[2] = idname[0] + " (" + idname[1] + ")";
+
+                //MessageBox.Show(full + " je regex r4 " + r4.ToString() + " = ");
+            }
+
+            else if (r3.Match(full).Success)
+            {
+                total++;
+                idname[0] = full; // C/1750 C1
+                idname[1] = "";
+                idname[2] = idname[0];
+
+                //MessageBox.Show(full + " je regex r3 " + r3.ToString() + " = ");
             }
 
             else if (r2.Match(full).Success)
@@ -517,45 +565,24 @@ namespace Cometary_Workshop
                 //MessageBox.Show(full + " je regex r2 " + r2.ToString() + " = ");
             }
 
-            else if (r3.Match(full).Success)
+            else if (r1.Match(full).Success)
             {
                 total++;
-                idname[0] = full; // C/1750 C1
+                idname[0] = full.Substring(0, full.IndexOf('/')); // 2P
+                idname[1] = full.Substring(full.IndexOf('/') + 1); // Encke
+                idname[2] = idname[0] + "/" + idname[1];
+
+                //MessageBox.Show(full + " je regex r1" + r1.ToString() + " = ");
+            }
+
+            else if (r0.Match(full).Success)
+            {
+                total++;
+                idname[0] = full;
                 idname[1] = "";
-                idname[2] = idname[0];
+                idname[2] = full;
 
-                //MessageBox.Show(full + " je regex r3 " + r3.ToString() + " = ");
-            }
-
-            else if (r4.Match(full).Success)
-            {
-                total++;
-                idname[0] = full.Substring(0, full.IndexOf('(') - 1); // C/2012 S1
-                idname[1] = full.Substring(full.IndexOf('(')).Trim('(', ')'); // ISON
-                idname[2] = idname[0] + " (" + idname[1] + ")";
-
-                //MessageBox.Show(full + " je regex r4 " + r4.ToString() + " = ");
-            }
-
-            else if (r5.Match(full).Success)
-            {
-                total++;
-                idname[0] = full; // D/1993 F2
-                idname[1] = "";
-                idname[2] = idname[0];
-
-                //MessageBox.Show(full + " je regex r5 " + r5.ToString() + " = ");
-            }
-
-            else if (r6.Match(full).Success)
-            {
-                total++;
-                idname[0] = full.Substring(0, full.LastIndexOf('-')); // D/1993 F2
-                idname[1] = full.Substring(full.IndexOf('(')).Trim('(', ')'); //Shoemaker-Levy 9
-                idname[1] += full.Substring(full.IndexOf('-'), full.IndexOf('(') - 1 - full.IndexOf('-')); // 
-                idname[2] = idname[0] + " (" + idname[1] + ")";
-
-                //MessageBox.Show(full + " je regex r6 " + r6.ToString() + " = ");
+                //MessageBox.Show(full + " je regex r1" + r1.ToString() + " = ");
             }
 
             //if (oldt == total)
