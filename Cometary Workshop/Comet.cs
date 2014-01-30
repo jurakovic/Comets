@@ -16,28 +16,28 @@ namespace Cometary_Workshop
         public string name;
         public string id;
         public double T;
-        public int y;
-        public int m;
-        public int d;
-        public int h;
+        public int Ty;
+        public int Tm;
+        public int Td;
+        public int Th;
         public double P;    //Period
         public double q;    //Perihelion Distance
         public double e;    //Eccentricity
         public double i;    //Inclination
-        public double om;   //Longitude of the Ascending Node
+        public double N;   //Longitude of the Ascending Node
         public double w;    //Argument of Pericenter
-        public double a;    //Semimajor Axis
-        public double n;    //Mean Motion
-        public double M;    //Mean Anomaly
-        public double E;    //Eccentric Anomaly
-        public double v;    //True Anomaly
-        public double L;    //Mean Longitude
-        public double Q;    //Aphelion Distance
-        public double bw;   //Longitude of Pericenter
-        public double l;    //True longitude l = v + bw;
-        public double F;    //eccentric longitude F = w + om + E;
-        public double g;
-        public double k;
+        //public double a;    //Semimajor Axis
+        //public double n;    //Mean Motion
+        //public double M;    //Mean Anomaly
+        //public double E;    //Eccentric Anomaly
+        //public double v;    //True Anomaly
+        //public double L;    //Mean Longitude
+        //public double Q;    //Aphelion Distance
+        //public double bw;   //Longitude of Pericenter
+        //public double l;    //True longitude l = v + bw;
+        //public double F;    //eccentric longitude F = w + om + E;
+        public double H;
+        public double G;
         public double sortkey;
 
         public static int total = 0;
@@ -49,24 +49,24 @@ namespace Cometary_Workshop
             name = null;
             id = null;
             T = 0;
-            y = 0;
-            m = 0;
-            d = 0;
-            h = 0;
+            Ty = 0;
+            Tm = 0;
+            Td = 0;
+            Th = 0;
             P = 0.0;
             q = 0.0;
             e = 0.0;
             i = 0.0;
-            om = 0.0;
+            N = 0.0;
             w = 0.0;
-            a = 0.0;
-            n = 0.0;
-            M = 0.0;
-            E = 0.0;
-            v = 0.0;
-            Q = 0.0;
-            g = 0.0;
-            k = 0.0;
+            //a = 0.0;
+            //n = 0.0;
+            //M = 0.0;
+            //E = 0.0;
+            //v = 0.0;
+            //Q = 0.0;
+            H = 0.0;
+            G = 0.0;
             sortkey = 0.0;
         }
 
@@ -583,7 +583,7 @@ namespace Cometary_Workshop
                 idname[2] = full;
 
                 //MessageBox.Show(full + " je regex r1" + r1.ToString() + " = ");
-            }
+            } 
 
             //if (oldt == total)
             //{

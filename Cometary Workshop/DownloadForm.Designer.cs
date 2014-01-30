@@ -55,7 +55,6 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Downloading...";
-            this.Load += new System.EventHandler(this.DownloadForm_Load);
             this.Shown += new System.EventHandler(this.DownloadForm_Shown);
             this.ResumeLayout(false);
 

@@ -36,7 +36,7 @@ namespace Cometary_Workshop
             else
             {
                 string url = "http://www.minorplanetcenter.net/iau/Ephemerides/Comets/Soft00Cmt.txt";
-                Form1.filename = Form1.downloadsDir + @"Soft00" +
+                Form1.localFile = Form1.downloadsDir + @"Soft00" +
                         "Cmt_" + DateTime.Now.Year + "-" +
                         DateTime.Now.Month.ToString("00") + "-" +
                         DateTime.Now.Day.ToString("00") + "_" +
@@ -49,7 +49,7 @@ namespace Cometary_Workshop
                     Client.DownloadProgressChanged += Client_DownloadProgressChanged;
                     Client.DownloadFileCompleted += Client_DownloadFileCompleted;
                     Uri urll = new Uri(url);
-                    Client.DownloadFileAsync(urll, Form1.filename);
+                    Client.DownloadFileAsync(urll, Form1.localFile);
                 }
                 catch
                 {
@@ -67,10 +67,10 @@ namespace Cometary_Workshop
         {
             //this.Close();
 
-            FileInfo fi = new FileInfo(Form1.filename);
+            FileInfo fi = new FileInfo(Form1.localFile);
             if (fi.Length == 0)
             {
-                File.Delete(Form1.filename);
+                File.Delete(Form1.localFile);
                 this.Visible = false;
                 MessageBox.Show(e.Error.Message, "Error", MessageBoxButtons.OK);
                 this.Close();
@@ -81,11 +81,6 @@ namespace Cometary_Workshop
                 this.Text = "Done";
                 this.ControlBox = true;
             }
-        }
-
-        private void DownloadForm_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }
