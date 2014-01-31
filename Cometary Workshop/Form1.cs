@@ -307,13 +307,14 @@ namespace Cometary_Workshop
 
                 c.T = Comet.GregToJul(c.Ty, c.Tm, c.Td, c.Th);
                 c.P = Comet.getPeriod_P(c.q, c.e);
-                //c.a = Comet.getSemimajorAxis_a(c.q, c.e);
+                c.a = Comet.getSemimajorAxis_a(c.q, c.e);
+                
                 //c.n = Comet.getMeanMotion_n(c.e, c.P);
                 //c.M = Comet.getMeanAnomaly_M(c.T, today, c.e, c.n, c.q);
                 //c.E = Comet.getEccentricAnomaly_E(c.e, c.M);
                 //c.v = Comet.getTrueAnomaly_v(c.e, c.E, c.q, c.T, today);
                 //c.L = Comet.getMeanLongitude_L(c.M, c.om, c.w);
-                //c.Q = Comet.getAphelionDistance_Q(c.e, c.a);
+                c.Q = Comet.getAphelionDistance_Q(c.e, c.a);
                 //c.bw = Comet.getLongitudeOfPericenter_bw(c.om, c.w);
                 //c.l = Comet.getTrueLongitude_l(c.v, c.bw);
                 //c.F = Comet.getEccentricLongitude_F(c.w, c.om, c.E);
@@ -451,19 +452,27 @@ namespace Cometary_Workshop
             tAn.Text = String.Format("{0:0.0000}", c.N);
             tPn.Text = String.Format("{0:0.0000}", c.w);
 
+            if (c.P > 10000)
+            {
+                tP.Text = "";
+                tAph.Text = "";
+                tA.Text = "";
+            }
+            else
+            {
+                tP.Text = String.Format("{0:0.000000}", c.P);
+                tAph.Text = String.Format("{0:0.000000}", c.Q);
+                tA.Text = String.Format("{0:0.000000}", c.a);
+            }
+
+            
+
             tG.Text = String.Format("{0:0.0}", c.H);
             tK.Text = String.Format("{0:0.0}", c.G);
 
             tSort.Text = String.Format("{0:0.0000000}", c.sortkey);
 
             tEquinox.Text = "2000.0";
-
-            tP.Text = String.Format("{0:0.000000}", c.P);
-
-            if (c.P > 10000)
-            {
-                tP.Text = "";
-            }
         }
 
         private void btnDownload_Click(object sender, EventArgs e)
