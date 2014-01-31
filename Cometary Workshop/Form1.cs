@@ -314,24 +314,26 @@ namespace Cometary_Workshop
 
             foreach (Comet c in masterList)
             {
-                if (filterFlags[0] && c.full.Contains(filterName)) { userList.Add(c); continue; }
-                if (filterFlags[1] && !c.full.Contains(filterName)) { userList.Add(c); continue; }
-                if (filterFlags[2] && c.T > filterValues[1]) { userList.Add(c); continue; }
-                if (filterFlags[3] && c.T < filterValues[1]) { userList.Add(c); continue; }
-                if (filterFlags[4] && c.q > filterValues[2]) { userList.Add(c); continue; }
-                if (filterFlags[5] && c.q < filterValues[2]) { userList.Add(c); continue; }
-                if (filterFlags[6] && c.Q > filterValues[3]) { userList.Add(c); continue; }
-                if (filterFlags[7] && c.Q < filterValues[3]) { userList.Add(c); continue; }
-                if (filterFlags[8] && c.e > filterValues[4]) { userList.Add(c); continue; }
-                if (filterFlags[9] && c.e < filterValues[4]) { userList.Add(c); continue; }
-                if (filterFlags[10] && c.N > filterValues[5]) { userList.Add(c); continue; }
-                if (filterFlags[11] && c.N < filterValues[5]) { userList.Add(c); continue; }
-                if (filterFlags[12] && c.w > filterValues[6]) { userList.Add(c); continue; }
-                if (filterFlags[13] && c.w < filterValues[6]) { userList.Add(c); continue; }
-                if (filterFlags[14] && c.i > filterValues[7]) { userList.Add(c); continue; }
-                if (filterFlags[15] && c.i < filterValues[7]) { userList.Add(c); continue; }
-                if (filterFlags[16] && c.P > filterValues[8]) { userList.Add(c); continue; }
-                if (filterFlags[17] && c.P < filterValues[8]) { userList.Add(c); continue; }
+                if (filterFlags[0] && !c.full.Contains(filterName)) continue;
+                if (filterFlags[1] && c.full.Contains(filterName)) continue;
+                if (filterFlags[2] && c.T < filterValues[1]) continue;
+                if (filterFlags[3] && c.T > filterValues[1]) continue;
+                if (filterFlags[4] && c.q < filterValues[2]) continue;
+                if (filterFlags[5] && c.q > filterValues[2]) continue;
+                if (filterFlags[6] && c.Q < filterValues[3]) continue;
+                if (filterFlags[7] && c.Q > filterValues[3]) continue;
+                if (filterFlags[8] && c.e < filterValues[4]) continue;
+                if (filterFlags[9] && c.e > filterValues[4]) continue;
+                if (filterFlags[10] && c.N < filterValues[5]) continue;
+                if (filterFlags[11] && c.N > filterValues[5]) continue;
+                if (filterFlags[12] && c.w < filterValues[6]) continue;
+                if (filterFlags[13] && c.w > filterValues[6]) continue;
+                if (filterFlags[14] && c.i < filterValues[7]) continue;
+                if (filterFlags[15] && c.i > filterValues[7]) continue;
+                if (filterFlags[16] && c.P < filterValues[8]) continue;
+                if (filterFlags[17] && c.P > filterValues[8]) continue;
+
+                userList.Add(c);
             }
 
             sortList(userList);
