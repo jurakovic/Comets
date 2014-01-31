@@ -28,6 +28,13 @@ namespace Cometary_Workshop
 
         public static string lastSortItem = "noSortToolStripMenuItem";
 
+        FiltersForm ff;
+
+        public static bool masterFilterFlag;
+        public static bool[] filterFlags;
+        public static double[] filterValues;
+        public static string filterName;
+
         public Form1()
         {
             System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
@@ -35,6 +42,10 @@ namespace Cometary_Workshop
             System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
 
             InitializeComponent();
+
+            filterFlags = new bool[18];
+            filterValues = new double[9];
+            filterName = null;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -124,18 +135,18 @@ namespace Cometary_Workshop
 
         private void btnBrowseImportFile_Click(object sender, EventArgs e)
         {
-            OpenFileDialog fd = new OpenFileDialog();
-            fd.InitialDirectory = downloadsDir;
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.InitialDirectory = downloadsDir;
 
-            fd.Filter = "Text files (*.txt)|*.TXT|" +
+            ofd.Filter = "Text files (*.txt)|*.TXT|" +
                         "DAT files (*.dat)|*.DAT|" +
                         "COMET files (*.comet)|*.COMET|" +
                         "All files (*.*)|*.*";
 
-            if (fd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                tbImportFilename.Text = fd.FileName;
-                localFile = fd.FileName;
+                tbImportFilename.Text = ofd.FileName;
+                localFile = ofd.FileName;
             }
         }
 
@@ -161,28 +172,33 @@ namespace Cometary_Workshop
         }
 
 
-        private void updateCometListbox()
+        private void updateCometListbox(List<Comet> list)
         {
             cometListbox.Items.Clear();
-            foreach (Comet c in userList)
+            foreach (Comet c in list)
             {
                 cometListbox.Items.Add(c.full);
             }
             cometListbox.SelectedIndex = 0;
 
-            labelComets.Text = "Comets: " + userList.Count;
+
+            if (list.Count == masterList.Count)
+                labelComets.Text = "Comets: " + list.Count;
+            else
+                labelComets.Text = "Comets: " + list.Count + " (" + masterList.Count + ")";
         }
 
         void importMain(string filename, int importType)
         {
+            if (!File.Exists(filename)) return;
+
             masterList.Clear();
             userList.Clear();
 
             importMpc(filename);
 
-            //userList = masterList.ToList();
-            sortList();
-            updateCometListbox();
+            userList = masterList.ToList();
+            sortList(userList);
         }
 
         void importMpc(string filename)
@@ -275,87 +291,121 @@ namespace Cometary_Workshop
 
             lastSortItem = (sender as ToolStripMenuItem).Name;
 
-            sortList();
+            sortList(userList);
         }
 
         private void ascendingToolStripMenuItem_Click(object sender, EventArgs e)
         {
             descendingToolStripMenuItem.Checked = false;
-            sortList();
+            sortList(userList);
         }
 
         private void descendingToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ascendingToolStripMenuItem.Checked = false;
-            sortList();
+            sortList(userList);
         }
 
-        public void sortList()
+        public void copyListUsingFilters()
         {
-            if (masterList.Count == 0)
+            if (masterFilterFlag == false) return;
+
+            userList.Clear();
+
+            foreach (Comet c in masterList)
             {
-                //toolStripStatusLabel1.Text = "Ready";
+                if (filterFlags[0] && c.full.Contains(filterName)) { userList.Add(c); continue; }
+                if (filterFlags[1] && !c.full.Contains(filterName)) { userList.Add(c); continue; }
+                if (filterFlags[2] && c.T > filterValues[1]) { userList.Add(c); continue; }
+                if (filterFlags[3] && c.T < filterValues[1]) { userList.Add(c); continue; }
+                if (filterFlags[4] && c.q > filterValues[2]) { userList.Add(c); continue; }
+                if (filterFlags[5] && c.q < filterValues[2]) { userList.Add(c); continue; }
+                if (filterFlags[6] && c.Q > filterValues[3]) { userList.Add(c); continue; }
+                if (filterFlags[7] && c.Q < filterValues[3]) { userList.Add(c); continue; }
+                if (filterFlags[8] && c.e > filterValues[4]) { userList.Add(c); continue; }
+                if (filterFlags[9] && c.e < filterValues[4]) { userList.Add(c); continue; }
+                if (filterFlags[10] && c.N > filterValues[5]) { userList.Add(c); continue; }
+                if (filterFlags[11] && c.N < filterValues[5]) { userList.Add(c); continue; }
+                if (filterFlags[12] && c.w > filterValues[6]) { userList.Add(c); continue; }
+                if (filterFlags[13] && c.w < filterValues[6]) { userList.Add(c); continue; }
+                if (filterFlags[14] && c.i > filterValues[7]) { userList.Add(c); continue; }
+                if (filterFlags[15] && c.i < filterValues[7]) { userList.Add(c); continue; }
+                if (filterFlags[16] && c.P > filterValues[8]) { userList.Add(c); continue; }
+                if (filterFlags[17] && c.P < filterValues[8]) { userList.Add(c); continue; }
+            }
+
+            sortList(userList);
+            masterFilterFlag = false;
+        }
+
+        public void sortList(List<Comet> list)
+        {
+            if (list.Count == 0)
+            {
                 return;
             }
 
-            else if (noSortToolStripMenuItem.Checked && ascendingToolStripMenuItem.Checked)
-                userList = masterList.ToList();
+            List<Comet> tempList = list.ToList();
+            userList.Clear();
+
+            if (noSortToolStripMenuItem.Checked && ascendingToolStripMenuItem.Checked)
+                userList = tempList.ToList();
 
             else if (noSortToolStripMenuItem.Checked && descendingToolStripMenuItem.Checked)
             {
-                userList = masterList.ToList();
+                userList = tempList.ToList();
                 userList.Reverse();
             }
 
             else if (nameToolStripMenuItem.Checked && ascendingToolStripMenuItem.Checked)
-                userList = masterList.OrderBy(Comet => Comet.sortkey).ToList();
+                userList = tempList.OrderBy(Comet => Comet.sortkey).ToList();
 
             else if (nameToolStripMenuItem.Checked && descendingToolStripMenuItem.Checked)
-                userList = masterList.OrderByDescending(Comet => Comet.sortkey).ToList();
+                userList = tempList.OrderByDescending(Comet => Comet.sortkey).ToList();
 
             else if (perihelionDateToolStripMenuItem.Checked && ascendingToolStripMenuItem.Checked)
-                userList = masterList.OrderBy(Comet => Comet.T).ToList();
+                userList = tempList.OrderBy(Comet => Comet.T).ToList();
 
             else if (perihelionDateToolStripMenuItem.Checked && descendingToolStripMenuItem.Checked)
-                userList = masterList.OrderByDescending(Comet => Comet.T).ToList();
+                userList = tempList.OrderByDescending(Comet => Comet.T).ToList();
 
             else if (pericenterDistanceToolStripMenuItem.Checked && ascendingToolStripMenuItem.Checked)
-                userList = masterList.OrderBy(Comet => Comet.q).ToList();
+                userList = tempList.OrderBy(Comet => Comet.q).ToList();
 
             else if (pericenterDistanceToolStripMenuItem.Checked && descendingToolStripMenuItem.Checked)
-                userList = masterList.OrderByDescending(Comet => Comet.q).ToList();
+                userList = tempList.OrderByDescending(Comet => Comet.q).ToList();
 
             else if (longOfTheAscNodeToolStripMenuItem.Checked && ascendingToolStripMenuItem.Checked)
-                userList = masterList.OrderBy(Comet => Comet.N).ToList();
+                userList = tempList.OrderBy(Comet => Comet.N).ToList();
 
             else if (longOfTheAscNodeToolStripMenuItem.Checked && descendingToolStripMenuItem.Checked)
-                userList = masterList.OrderByDescending(Comet => Comet.N).ToList();
+                userList = tempList.OrderByDescending(Comet => Comet.N).ToList();
 
             else if (eccentricityToolStripMenuItem.Checked && ascendingToolStripMenuItem.Checked)
-                userList = masterList.OrderBy(Comet => Comet.e).ToList();
+                userList = tempList.OrderBy(Comet => Comet.e).ToList();
 
             else if (eccentricityToolStripMenuItem.Checked && descendingToolStripMenuItem.Checked)
-                userList = masterList.OrderByDescending(Comet => Comet.e).ToList();
+                userList = tempList.OrderByDescending(Comet => Comet.e).ToList();
 
             else if (argOfPericenterToolStripMenuItem.Checked && ascendingToolStripMenuItem.Checked)
-                userList = masterList.OrderBy(Comet => Comet.w).ToList();
+                userList = tempList.OrderBy(Comet => Comet.w).ToList();
 
             else if (argOfPericenterToolStripMenuItem.Checked && descendingToolStripMenuItem.Checked)
-                userList = masterList.OrderByDescending(Comet => Comet.w).ToList();
+                userList = tempList.OrderByDescending(Comet => Comet.w).ToList();
 
             else if (inclinationToolStripMenuItem.Checked && ascendingToolStripMenuItem.Checked)
-                userList = masterList.OrderBy(Comet => Comet.i).ToList();
+                userList = tempList.OrderBy(Comet => Comet.i).ToList();
 
             else if (inclinationToolStripMenuItem.Checked && descendingToolStripMenuItem.Checked)
-                userList = masterList.OrderByDescending(Comet => Comet.i).ToList();
+                userList = tempList.OrderByDescending(Comet => Comet.i).ToList();
 
             else if (periodToolStripMenuItem.Checked && ascendingToolStripMenuItem.Checked)
-                userList = masterList.OrderBy(Comet => Comet.P).ToList();
+                userList = tempList.OrderBy(Comet => Comet.P).ToList();
 
             else if (periodToolStripMenuItem.Checked && descendingToolStripMenuItem.Checked)
-                userList = masterList.OrderByDescending(Comet => Comet.P).ToList();
+                userList = tempList.OrderByDescending(Comet => Comet.P).ToList();
 
-            updateCometListbox();
+            updateCometListbox(userList);
         }
 
         private void cometListbox_SelectedIndexChanged(object sender, EventArgs e)
@@ -395,17 +445,17 @@ namespace Cometary_Workshop
             tEquinox.Text = "2000.0";
         }
 
-        public int getCometListboxIndex()
+        private void btnFilters_Click(object sender, EventArgs e)
         {
-            return cometListbox.SelectedIndex;
+            if (ff == null) ff = new FiltersForm();
+
+            ff.ShowDialog();
+            copyListUsingFilters();
         }
 
-        public int listboxIndex
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
         {
-
-            get { return this.cometListbox.SelectedIndex; }
-
-            //set { this.txtLog.Text = value; }
+            this.TopMost = checkBox2.Checked;
         }
     }
 }

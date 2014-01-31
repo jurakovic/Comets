@@ -42,8 +42,6 @@ namespace Cometary_Workshop
 
                 try
                 {
-
-
                     WebClient Client = new WebClient();
                     Client.DownloadProgressChanged += Client_DownloadProgressChanged;
                     Client.DownloadFileCompleted += Client_DownloadFileCompleted;
@@ -52,13 +50,14 @@ namespace Cometary_Workshop
                 }
                 catch
                 {
-                    MessageBox.Show("Unable to download orbital elements", "Error", MessageBoxButtons.OK);
-                    File.Delete(downloadedFile);
-                    return;
+                    //pogledati Client_DownloadFileCompleted()
+
+                    //MessageBox.Show("Unable to download orbital elements", "Error", MessageBoxButtons.OK);
+                    //File.Delete(downloadedFile);
+                    //return;
                 }
             }
         }
-
 
         void Client_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
@@ -66,8 +65,12 @@ namespace Cometary_Workshop
         }
         void Client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
-            //importMain(downloadedFile, 0);
-
+            if (new FileInfo(this.textFile.Text).Length == 0)
+            {
+                File.Delete(this.textFile.Text);
+                MessageBox.Show(e.Error.Message, "Error", MessageBoxButtons.OK);
+                //this.Close();
+            }
         }
 
         private void btnClose_Click(object sender, EventArgs e)

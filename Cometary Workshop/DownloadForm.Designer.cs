@@ -58,29 +58,36 @@
             // 
             // textUrl
             // 
+            this.textUrl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textUrl.Location = new System.Drawing.Point(12, 27);
             this.textUrl.Name = "textUrl";
             this.textUrl.ReadOnly = true;
-            this.textUrl.Size = new System.Drawing.Size(460, 21);
+            this.textUrl.Size = new System.Drawing.Size(510, 21);
             this.textUrl.TabIndex = 2;
             // 
             // textFile
             // 
+            this.textFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textFile.Location = new System.Drawing.Point(12, 71);
             this.textFile.Name = "textFile";
             this.textFile.ReadOnly = true;
-            this.textFile.Size = new System.Drawing.Size(460, 21);
+            this.textFile.Size = new System.Drawing.Size(510, 21);
             this.textFile.TabIndex = 3;
             // 
             // progDownload
             // 
+            this.progDownload.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.progDownload.Location = new System.Drawing.Point(12, 100);
             this.progDownload.Name = "progDownload";
-            this.progDownload.Size = new System.Drawing.Size(460, 21);
+            this.progDownload.Size = new System.Drawing.Size(510, 21);
             this.progDownload.TabIndex = 4;
             // 
             // btnDownload
             // 
+            this.btnDownload.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.btnDownload.Location = new System.Drawing.Point(11, 129);
             this.btnDownload.Name = "btnDownload";
             this.btnDownload.Size = new System.Drawing.Size(90, 23);
@@ -91,7 +98,8 @@
             // 
             // btnClose
             // 
-            this.btnClose.Location = new System.Drawing.Point(383, 129);
+            this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnClose.Location = new System.Drawing.Point(433, 129);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(90, 23);
             this.btnClose.TabIndex = 6;
@@ -107,7 +115,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(484, 165);
+            this.ClientSize = new System.Drawing.Size(534, 165);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.btnDownload);
             this.Controls.Add(this.progDownload);

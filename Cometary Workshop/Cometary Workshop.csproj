@@ -55,6 +55,12 @@
       <DependentUpon>DownloadForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Ephemeris.cs" />
+    <Compile Include="FiltersForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FiltersForm.Designer.cs">
+      <DependentUpon>FiltersForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -66,6 +72,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="DownloadForm.resx">
       <DependentUpon>DownloadForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FiltersForm.resx">
+      <DependentUpon>FiltersForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
