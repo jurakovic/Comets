@@ -5,59 +5,60 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Net;
 using System.IO;
+using System.Net;
 
 namespace Cometary_Workshop
 {
     public partial class DownloadForm : Form
     {
-        public DownloadForm()
+        public DownloadForm(string url, string file)
         {
             InitializeComponent();
+
+            this.textUrl.Text = url;
+            this.textFile.Text = file;
         }
 
-        private void DownloadForm_Shown(object sender, EventArgs e)
+        private void btnDownload_Click(object sender, EventArgs e)
         {
-            bw.RunWorkerAsync();
+            bwDownload.RunWorkerAsync();
         }
 
-        private void bw_DoWork(object sender, DoWorkEventArgs e)
+        private void bwDownload_DoWork(object sender, DoWorkEventArgs e)
         {
             if (progDownload.InvokeRequired)
             {
                 progDownload.Invoke((MethodInvoker)delegate()
                 {
-                    bw_DoWork(sender, e);
+                    bwDownload_DoWork(sender, e);
                 });
             }
             else
             {
-                string url = "http://www.minorplanetcenter.net/iau/Ephemerides/Comets/Soft00Cmt.txt";
-                Form1.localFile = Form1.downloadsDir + @"Soft00" +
-                        "Cmt_" + DateTime.Now.Year + "-" +
-                        DateTime.Now.Month.ToString("00") + "-" +
-                        DateTime.Now.Day.ToString("00") + "_" +
-                        DateTime.Now.Hour.ToString("00") + "-" +
-                        DateTime.Now.Minute.ToString("00") + "-" +
-                        DateTime.Now.Second.ToString("00") + ".txt";
+                string url = this.textUrl.Text;
+                string downloadedFile = this.textFile.Text;
+
                 try
                 {
+
+
                     WebClient Client = new WebClient();
                     Client.DownloadProgressChanged += Client_DownloadProgressChanged;
                     Client.DownloadFileCompleted += Client_DownloadFileCompleted;
                     Uri urll = new Uri(url);
-                    Client.DownloadFileAsync(urll, Form1.localFile);
+                    Client.DownloadFileAsync(urll, downloadedFile);
                 }
                 catch
                 {
-                    //MessageBox.Show("Unable to download orbital elements", "Error", MessageBoxButtons.OK);
-                    //return;
+                    MessageBox.Show("Unable to download orbital elements", "Error", MessageBoxButtons.OK);
+                    File.Delete(downloadedFile);
+                    return;
                 }
             }
         }
+
 
         void Client_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
@@ -65,22 +66,13 @@ namespace Cometary_Workshop
         }
         void Client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
-            //this.Close();
+            //importMain(downloadedFile, 0);
 
-            FileInfo fi = new FileInfo(Form1.localFile);
-            if (fi.Length == 0)
-            {
-                File.Delete(Form1.localFile);
-                this.Visible = false;
-                MessageBox.Show(e.Error.Message, "Error", MessageBoxButtons.OK);
-                this.Close();
-            }
-            else
-            {
-                Form1.fileIsDownloaded = true;
-                this.Text = "Done";
-                this.ControlBox = true;
-            }
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

@@ -49,24 +49,6 @@ namespace Cometary_Workshop
         }
 
 
-        private void radioInternet_CheckedChanged(object sender, EventArgs e)
-        {
-            btnDownload.Enabled = radioInternet.Checked;
-            radioAutomatic.Checked = true;
-            radioManual.Enabled = false;
-
-            progDownload.Visible = radioInternet.Checked && fileIsDownloaded;
-            labelDownload.Visible = radioInternet.Checked && fileIsDownloaded;
-
-            labelWarning.Visible = false;
-        }
-        private void radioFile_CheckedChanged(object sender, EventArgs e)
-        {
-            tbImportFilename.Enabled = radioFile.Checked;
-            btnBrowseImportFile.Enabled = radioFile.Checked;
-            radioManual.Enabled = true;
-        }
-
         private void radioManual_CheckedChanged(object sender, EventArgs e)
         {
             comboImportType.Enabled = radioManual.Checked;
@@ -123,31 +105,31 @@ namespace Cometary_Workshop
             tbFilterPeriod.Enabled = (sender as CheckBox).Checked;
         }
 
+        private void btnDownload_Click(object sender, EventArgs e)
+        {
+            string url = "http://www.minorplanetcenter.net/iau/Ephemerides/Comets/Soft00Cmt.txt";
+            downloadedFile = Form1.downloadsDir + @"Soft00" +
+                    "Cmt_" + DateTime.Now.Year + "-" +
+                    DateTime.Now.Month.ToString("00") + "-" +
+                    DateTime.Now.Day.ToString("00") + "_" +
+                    DateTime.Now.Hour.ToString("00") + "-" +
+                    DateTime.Now.Minute.ToString("00") + "-" +
+                    DateTime.Now.Second.ToString("00") + ".txt";
+
+            DownloadForm df = new DownloadForm(url, downloadedFile);
+            df.ShowDialog();
+
+            if (File.Exists(downloadedFile)) importMain(downloadedFile, 0);
+        }
 
         private void btnBrowseImportFile_Click(object sender, EventArgs e)
         {
             OpenFileDialog fd = new OpenFileDialog();
             fd.InitialDirectory = downloadsDir;
 
-            fd.Filter = "MPC (Soft00Cmt) (*.txt)|*.TXT|" +
-                        "SkyMap (Soft01Cmt) (*.txt)|*.TXT|" +
-                        "Guide (Soft02Cmt) (*.txt)|*.TXT|" +
-                        "xephem (Soft03Cmt) (*.txt)|*.TXT|" +
-                        "Home Planet (Soft04Cmt) (*.txt)|*.TXT|" +
-                        "MyStars! (Soft05Cmt) (*.txt)|*.TXT|" +
-                        "TheSky (Soft06Cmt) (*.txt)|*.TXT|" +
-                        "Starry Night (Soft07Cmt) (*.txt)|*.TXT|" +
-                        "Deep Space (Soft08Cmt) (*.txt)|*.TXT|" +
-                        "PC-TCS (Soft09Cmt) (*.txt)|*.TXT|" +
-                        "Earth Centered Universe (Soft10Cmt) (*.txt)|*.TXT|" +
-                        "Dance of the Planets (Soft11Cmt) (*.txt)|*.TXT|" +
-                        "MegaStar V4.x (Soft12Cmt) (*.txt)|*.TXT|" +
-                        "SkyChart III (Soft13Cmt) (*.txt)|*.TXT|" +
-                        "Voyager II (Soft14Cmt) (*.txt)|*.TXT|" +
-                        "SkyTools (Soft15Cmt) (*.txt)|*.TXT|" +
-                        "Autostar (Soft16Cmt) (*.txt)|*.TXT|" +
-                        "Comet for Windows (Comet.dat) (*.dat)|*.DAT|" +
-                        "NASA (ELEMENTS.COMET) (*.comet)|*.COMET|" +
+            fd.Filter = "Text files (*.txt)|*.TXT|" +
+                        "DAT files (*.dat)|*.DAT|" +
+                        "COMET files (*.comet)|*.COMET|" +
                         "All files (*.*)|*.*";
 
             if (fd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -160,36 +142,20 @@ namespace Cometary_Workshop
 
         private void btnOptions_Click(object sender, EventArgs e)
         {
-            contextOptions.Show(this.tabPage2, (sender as Button).Left + 1, (sender as Button).Top + (sender as Button).Height - 1);
+            contextOptions.Show(this.tabPage1, (sender as Button).Left + 1, (sender as Button).Top + (sender as Button).Height - 1);
         }
 
         private void btnImport_Click(object sender, EventArgs e)
         {
-            if (radioInternet.Checked)
+
+            if (tbImportFilename.Text.Length == 0)
             {
-                if (fileIsDownloaded != true)
-                {
-                    labelWarning.Text = "Please first download data.";
-                    labelWarning.Visible = true;
-                    return;
-                }
-
-                filename = downloadedFile;
-
-            }
-            else //if radiofile.checked
-            {
-                if (tbImportFilename.Text.Length == 0)
-                {
-                    labelWarning.Text = "Please first select file.";
-                    labelWarning.Visible = true;
-                    return;
-                }
-
-                filename = localFile;
+                labelWarning.Text = "Please first select file.";
+                labelWarning.Visible = true;
+                return;
             }
 
-
+            filename = localFile;
 
             importMain(filename, 0);
         }
@@ -205,50 +171,6 @@ namespace Cometary_Workshop
             cometListbox.SelectedIndex = 0;
 
             labelComets.Text = "Comets: " + userList.Count;
-        }
-
-        private void bwDownload_DoWork(object sender, DoWorkEventArgs e)
-        {
-            if (progDownload.InvokeRequired)
-            {
-                progDownload.Invoke((MethodInvoker)delegate()
-                {
-                    bwDownload_DoWork(sender, e);
-                });
-            }
-            else
-            {
-                string url = "http://www.minorplanetcenter.net/iau/Ephemerides/Comets/Soft00Cmt.txt";
-                downloadedFile = Form1.downloadsDir + @"Soft00" +
-                        "Cmt_" + DateTime.Now.Year + "-" +
-                        DateTime.Now.Month.ToString("00") + "-" +
-                        DateTime.Now.Day.ToString("00") + "_" +
-                        DateTime.Now.Hour.ToString("00") + "-" +
-                        DateTime.Now.Minute.ToString("00") + "-" +
-                        DateTime.Now.Second.ToString("00") + ".txt";
-                try
-                {
-                    WebClient Client = new WebClient();
-                    Client.DownloadProgressChanged += Client_DownloadProgressChanged;
-                    Client.DownloadFileCompleted += Client_DownloadFileCompleted;
-                    Uri urll = new Uri(url);
-                    Client.DownloadFileAsync(urll, downloadedFile);
-                }
-                catch
-                {
-                    MessageBox.Show("Unable to download orbital elements", "Error", MessageBoxButtons.OK);
-                    return;
-                }
-            }
-        }
-        void Client_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
-        {
-            progDownload.Value = e.ProgressPercentage;
-        }
-        void Client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
-        {
-            labelDownload.Visible = true;
-            fileIsDownloaded = true;
         }
 
         void importMain(string filename, int importType)
@@ -327,7 +249,7 @@ namespace Cometary_Workshop
 
         private void btnSort_Click(object sender, EventArgs e)
         {
-            contextSort.Show(this.tabPage2, (sender as Button).Left + 1, (sender as Button).Top + (sender as Button).Height - 1);
+            contextSort.Show(this.tabPage1, (sender as Button).Left + 1, (sender as Button).Top + (sender as Button).Height - 1);
         }
 
         private void ContextClick1(object sender, EventArgs e)
@@ -465,24 +387,12 @@ namespace Cometary_Workshop
                 tA.Text = String.Format("{0:0.000000}", c.a);
             }
 
-            
-
             tG.Text = String.Format("{0:0.0}", c.H);
             tK.Text = String.Format("{0:0.0}", c.G);
 
             tSort.Text = String.Format("{0:0.0000000}", c.sortkey);
 
             tEquinox.Text = "2000.0";
-        }
-
-        private void btnDownload_Click(object sender, EventArgs e)
-        {
-            progDownload.Value = 0;
-            progDownload.Visible = true;
-            labelDownload.Visible = false;
-            labelWarning.Visible = false;
-            
-            bwDownload.RunWorkerAsync();
         }
 
         public int getCometListboxIndex()
@@ -496,9 +406,6 @@ namespace Cometary_Workshop
             get { return this.cometListbox.SelectedIndex; }
 
             //set { this.txtLog.Text = value; }
-
         }
     }
-
-
 }

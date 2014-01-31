@@ -33,28 +33,14 @@
             this.btnExit = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.labelWarning = new System.Windows.Forms.Label();
-            this.panelImport3 = new System.Windows.Forms.Panel();
-            this.label21 = new System.Windows.Forms.Label();
-            this.comboImportType = new System.Windows.Forms.ComboBox();
-            this.radioManual = new System.Windows.Forms.RadioButton();
-            this.label22 = new System.Windows.Forms.Label();
-            this.radioAutomatic = new System.Windows.Forms.RadioButton();
-            this.panelImport2 = new System.Windows.Forms.Panel();
-            this.btnDownload = new System.Windows.Forms.Button();
-            this.labelDownload = new System.Windows.Forms.Label();
-            this.progDownload = new System.Windows.Forms.ProgressBar();
-            this.tbImportFilename = new System.Windows.Forms.TextBox();
-            this.btnBrowseImportFile = new System.Windows.Forms.Button();
-            this.radioFile = new System.Windows.Forms.RadioButton();
-            this.radioInternet = new System.Windows.Forms.RadioButton();
-            this.label19 = new System.Windows.Forms.Label();
-            this.btnImport = new System.Windows.Forms.Button();
-            this.panelImport1 = new System.Windows.Forms.Panel();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.label63 = new System.Windows.Forms.Label();
+            this.label64 = new System.Windows.Forms.Label();
+            this.label65 = new System.Windows.Forms.Label();
+            this.tA = new System.Windows.Forms.TextBox();
+            this.label46 = new System.Windows.Forms.Label();
+            this.label47 = new System.Windows.Forms.Label();
+            this.label49 = new System.Windows.Forms.Label();
+            this.tAph = new System.Windows.Forms.TextBox();
             this.btnFilters = new System.Windows.Forms.Button();
             this.tSort = new System.Windows.Forms.TextBox();
             this.label23 = new System.Windows.Forms.Label();
@@ -102,7 +88,8 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.btnApplyFilters = new System.Windows.Forms.Button();
             this.comboFilterName = new System.Windows.Forms.ComboBox();
             this.tbFilterPeriod = new System.Windows.Forms.TextBox();
             this.tbFilterIncl = new System.Windows.Forms.TextBox();
@@ -134,7 +121,28 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label66 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.comboImportType = new System.Windows.Forms.ComboBox();
+            this.labelWarning = new System.Windows.Forms.Label();
+            this.radioManual = new System.Windows.Forms.RadioButton();
+            this.btnImport = new System.Windows.Forms.Button();
+            this.label22 = new System.Windows.Forms.Label();
+            this.tbImportFilename = new System.Windows.Forms.TextBox();
+            this.btnBrowseImportFile = new System.Windows.Forms.Button();
+            this.radioAutomatic = new System.Windows.Forms.RadioButton();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnDownload = new System.Windows.Forms.Button();
+            this.label19 = new System.Windows.Forms.Label();
+            this.progDownload = new System.Windows.Forms.ProgressBar();
+            this.panelImport1 = new System.Windows.Forms.Panel();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.btnSaveLocation = new System.Windows.Forms.Button();
             this.label44 = new System.Windows.Forms.Label();
             this.label43 = new System.Windows.Forms.Label();
             this.textBox9 = new System.Windows.Forms.TextBox();
@@ -190,11 +198,11 @@
             this.pictureBox9 = new System.Windows.Forms.PictureBox();
             this.panelHeader = new System.Windows.Forms.Panel();
             this.contextOptions = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.deleteSelectedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.deleteAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.bwDownload = new System.ComponentModel.BackgroundWorker();
             this.labelComets = new System.Windows.Forms.Label();
             this.contextSort = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.noSortToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -209,29 +217,18 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.ascendingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.descendingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnApplyFilters = new System.Windows.Forms.Button();
-            this.btnSaveLocation = new System.Windows.Forms.Button();
-            this.deleteSelectedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.label46 = new System.Windows.Forms.Label();
-            this.label47 = new System.Windows.Forms.Label();
-            this.label49 = new System.Windows.Forms.Label();
-            this.tAph = new System.Windows.Forms.TextBox();
-            this.label63 = new System.Windows.Forms.Label();
-            this.label64 = new System.Windows.Forms.Label();
-            this.label65 = new System.Windows.Forms.Label();
-            this.tA = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            this.panelImport3.SuspendLayout();
-            this.panelImport2.SuspendLayout();
-            this.panelImport1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
-            this.tabPage2.SuspendLayout();
             this.panelDatabase.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            this.tabPage3.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.panelFilters.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.tabPage3.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.panelImport1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.tabPage4.SuspendLayout();
             this.panelLocation.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
@@ -290,334 +287,150 @@
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.SystemColors.Control;
-            this.tabPage1.Controls.Add(this.labelWarning);
-            this.tabPage1.Controls.Add(this.panelImport3);
-            this.tabPage1.Controls.Add(this.panelImport2);
-            this.tabPage1.Controls.Add(this.btnImport);
-            this.tabPage1.Controls.Add(this.panelImport1);
+            this.tabPage1.Controls.Add(this.label63);
+            this.tabPage1.Controls.Add(this.label64);
+            this.tabPage1.Controls.Add(this.label65);
+            this.tabPage1.Controls.Add(this.tA);
+            this.tabPage1.Controls.Add(this.label46);
+            this.tabPage1.Controls.Add(this.label47);
+            this.tabPage1.Controls.Add(this.label49);
+            this.tabPage1.Controls.Add(this.tAph);
+            this.tabPage1.Controls.Add(this.btnFilters);
+            this.tabPage1.Controls.Add(this.tSort);
+            this.tabPage1.Controls.Add(this.label23);
+            this.tabPage1.Controls.Add(this.btnSort);
+            this.tabPage1.Controls.Add(this.btnOptions);
+            this.tabPage1.Controls.Add(this.label42);
+            this.tabPage1.Controls.Add(this.label41);
+            this.tabPage1.Controls.Add(this.label40);
+            this.tabPage1.Controls.Add(this.label38);
+            this.tabPage1.Controls.Add(this.label36);
+            this.tabPage1.Controls.Add(this.label35);
+            this.tabPage1.Controls.Add(this.label33);
+            this.tabPage1.Controls.Add(this.label34);
+            this.tabPage1.Controls.Add(this.tEquinox);
+            this.tabPage1.Controls.Add(this.label32);
+            this.tabPage1.Controls.Add(this.tK);
+            this.tabPage1.Controls.Add(this.label28);
+            this.tabPage1.Controls.Add(this.label45);
+            this.tabPage1.Controls.Add(this.tG);
+            this.tabPage1.Controls.Add(this.label48);
+            this.tabPage1.Controls.Add(this.label50);
+            this.tabPage1.Controls.Add(this.label51);
+            this.tabPage1.Controls.Add(this.label52);
+            this.tabPage1.Controls.Add(this.label53);
+            this.tabPage1.Controls.Add(this.label54);
+            this.tabPage1.Controls.Add(this.label55);
+            this.tabPage1.Controls.Add(this.label56);
+            this.tabPage1.Controls.Add(this.label57);
+            this.tabPage1.Controls.Add(this.label58);
+            this.tabPage1.Controls.Add(this.label59);
+            this.tabPage1.Controls.Add(this.tP);
+            this.tabPage1.Controls.Add(this.tPn);
+            this.tabPage1.Controls.Add(this.tAn);
+            this.tabPage1.Controls.Add(this.tI);
+            this.tabPage1.Controls.Add(this.tE);
+            this.tabPage1.Controls.Add(this.tQ);
+            this.tabPage1.Controls.Add(this.tT);
+            this.tabPage1.Controls.Add(this.label60);
+            this.tabPage1.Controls.Add(this.tName);
+            this.tabPage1.Controls.Add(this.tId);
+            this.tabPage1.Controls.Add(this.label61);
+            this.tabPage1.Controls.Add(this.label62);
+            this.tabPage1.Controls.Add(this.cometListbox);
+            this.tabPage1.Controls.Add(this.panelDatabase);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(752, 413);
-            this.tabPage1.TabIndex = 1;
-            this.tabPage1.Text = "Import";
+            this.tabPage1.TabIndex = 3;
+            this.tabPage1.Text = "Database";
             // 
-            // labelWarning
+            // label63
             // 
-            this.labelWarning.AutoSize = true;
-            this.labelWarning.Location = new System.Drawing.Point(142, 378);
-            this.labelWarning.Name = "labelWarning";
-            this.labelWarning.Size = new System.Drawing.Size(69, 13);
-            this.labelWarning.TabIndex = 17;
-            this.labelWarning.Text = "labelWarning";
-            this.labelWarning.Visible = false;
+            this.label63.AutoSize = true;
+            this.label63.Font = new System.Drawing.Font("Tahoma", 8F);
+            this.label63.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.label63.Location = new System.Drawing.Point(588, 225);
+            this.label63.Name = "label63";
+            this.label63.Size = new System.Drawing.Size(86, 13);
+            this.label63.TabIndex = 272;
+            this.label63.Text = "Semi-major axis:";
             // 
-            // panelImport3
+            // label64
             // 
-            this.panelImport3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelImport3.Controls.Add(this.label21);
-            this.panelImport3.Controls.Add(this.comboImportType);
-            this.panelImport3.Controls.Add(this.radioManual);
-            this.panelImport3.Controls.Add(this.label22);
-            this.panelImport3.Controls.Add(this.radioAutomatic);
-            this.panelImport3.Location = new System.Drawing.Point(6, 225);
-            this.panelImport3.Name = "panelImport3";
-            this.panelImport3.Size = new System.Drawing.Size(740, 142);
-            this.panelImport3.TabIndex = 16;
+            this.label64.AutoSize = true;
+            this.label64.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label64.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.label64.Location = new System.Drawing.Point(697, 246);
+            this.label64.Name = "label64";
+            this.label64.Size = new System.Drawing.Size(23, 14);
+            this.label64.TabIndex = 271;
+            this.label64.Text = "AU";
             // 
-            // label21
+            // label65
             // 
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(2, 5);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(141, 13);
-            this.label21.TabIndex = 18;
-            this.label21.Text = "Please select import format.";
+            this.label65.AutoSize = true;
+            this.label65.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label65.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.label65.Location = new System.Drawing.Point(576, 246);
+            this.label65.Name = "label65";
+            this.label65.Size = new System.Drawing.Size(13, 14);
+            this.label65.TabIndex = 270;
+            this.label65.Text = "a";
             // 
-            // comboImportType
+            // tA
             // 
-            this.comboImportType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboImportType.Enabled = false;
-            this.comboImportType.FormattingEnabled = true;
-            this.comboImportType.Items.AddRange(new object[] {
-            "MPC (Soft00Cmt)",
-            "SkyMap (Soft01Cmt)",
-            "Guide (Soft02Cmt)",
-            "xephem (Soft03Cmt)",
-            "Home Planet (Soft04Cmt)",
-            "MyStars! (Soft05Cmt)",
-            "TheSky (Soft06Cmt)",
-            "Starry Night (Soft07Cmt)",
-            "Deep Space (Soft08Cmt)",
-            "PC-TCS (Soft09Cmt)",
-            "Earth Centered Universe (Soft10Cmt)",
-            "Dance of the Planets (Soft11Cmt)",
-            "MegaStar V4.x (Soft12Cmt)",
-            "SkyChart III (Soft13Cmt)",
-            "Voyager II (Soft14Cmt)",
-            "SkyTools (Soft15Cmt)",
-            "Autostar (Soft16Cmt)",
-            "Comet for Windows (Comet.dat)",
-            "NASA (ELEMENTS.COMET)"});
-            this.comboImportType.Location = new System.Drawing.Point(27, 107);
-            this.comboImportType.Name = "comboImportType";
-            this.comboImportType.Size = new System.Drawing.Size(220, 21);
-            this.comboImportType.TabIndex = 17;
+            this.tA.BackColor = System.Drawing.SystemColors.Window;
+            this.tA.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tA.Location = new System.Drawing.Point(591, 243);
+            this.tA.Name = "tA";
+            this.tA.ReadOnly = true;
+            this.tA.Size = new System.Drawing.Size(104, 22);
+            this.tA.TabIndex = 269;
             // 
-            // radioManual
+            // label46
             // 
-            this.radioManual.AutoSize = true;
-            this.radioManual.Enabled = false;
-            this.radioManual.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.radioManual.Location = new System.Drawing.Point(10, 82);
-            this.radioManual.Name = "radioManual";
-            this.radioManual.Size = new System.Drawing.Size(66, 17);
-            this.radioManual.TabIndex = 16;
-            this.radioManual.Text = "Manual";
-            this.radioManual.UseVisualStyleBackColor = true;
-            this.radioManual.CheckedChanged += new System.EventHandler(this.radioManual_CheckedChanged);
+            this.label46.AutoSize = true;
+            this.label46.Font = new System.Drawing.Font("Tahoma", 8F);
+            this.label46.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.label46.Location = new System.Drawing.Point(424, 226);
+            this.label46.Name = "label46";
+            this.label46.Size = new System.Drawing.Size(95, 13);
+            this.label46.TabIndex = 268;
+            this.label46.Text = "Aphelion distance:";
             // 
-            // label22
+            // label47
             // 
-            this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(27, 51);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(222, 13);
-            this.label22.TabIndex = 15;
-            this.label22.Text = "Program automatically detects Import format";
+            this.label47.AutoSize = true;
+            this.label47.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label47.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.label47.Location = new System.Drawing.Point(533, 246);
+            this.label47.Name = "label47";
+            this.label47.Size = new System.Drawing.Size(23, 14);
+            this.label47.TabIndex = 267;
+            this.label47.Text = "AU";
             // 
-            // radioAutomatic
+            // label49
             // 
-            this.radioAutomatic.AutoSize = true;
-            this.radioAutomatic.Checked = true;
-            this.radioAutomatic.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.radioAutomatic.Location = new System.Drawing.Point(10, 26);
-            this.radioAutomatic.Name = "radioAutomatic";
-            this.radioAutomatic.Size = new System.Drawing.Size(81, 17);
-            this.radioAutomatic.TabIndex = 13;
-            this.radioAutomatic.TabStop = true;
-            this.radioAutomatic.Text = "Automatic";
-            this.radioAutomatic.UseVisualStyleBackColor = true;
+            this.label49.AutoSize = true;
+            this.label49.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label49.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.label49.Location = new System.Drawing.Point(409, 246);
+            this.label49.Name = "label49";
+            this.label49.Size = new System.Drawing.Size(16, 14);
+            this.label49.TabIndex = 266;
+            this.label49.Text = "Q";
             // 
-            // panelImport2
+            // tAph
             // 
-            this.panelImport2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelImport2.Controls.Add(this.btnDownload);
-            this.panelImport2.Controls.Add(this.labelDownload);
-            this.panelImport2.Controls.Add(this.progDownload);
-            this.panelImport2.Controls.Add(this.tbImportFilename);
-            this.panelImport2.Controls.Add(this.btnBrowseImportFile);
-            this.panelImport2.Controls.Add(this.radioFile);
-            this.panelImport2.Controls.Add(this.radioInternet);
-            this.panelImport2.Controls.Add(this.label19);
-            this.panelImport2.Location = new System.Drawing.Point(6, 77);
-            this.panelImport2.Name = "panelImport2";
-            this.panelImport2.Size = new System.Drawing.Size(740, 142);
-            this.panelImport2.TabIndex = 15;
-            // 
-            // btnDownload
-            // 
-            this.btnDownload.Location = new System.Drawing.Point(27, 51);
-            this.btnDownload.Name = "btnDownload";
-            this.btnDownload.Size = new System.Drawing.Size(103, 22);
-            this.btnDownload.TabIndex = 16;
-            this.btnDownload.Text = "Download";
-            this.btnDownload.UseVisualStyleBackColor = true;
-            this.btnDownload.Click += new System.EventHandler(this.btnDownload_Click);
-            // 
-            // labelDownload
-            // 
-            this.labelDownload.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelDownload.AutoSize = true;
-            this.labelDownload.Location = new System.Drawing.Point(594, 28);
-            this.labelDownload.Name = "labelDownload";
-            this.labelDownload.Size = new System.Drawing.Size(110, 13);
-            this.labelDownload.TabIndex = 15;
-            this.labelDownload.Text = "Download completed.";
-            this.labelDownload.Visible = false;
-            // 
-            // progDownload
-            // 
-            this.progDownload.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.progDownload.Location = new System.Drawing.Point(136, 52);
-            this.progDownload.Name = "progDownload";
-            this.progDownload.Size = new System.Drawing.Size(565, 20);
-            this.progDownload.TabIndex = 14;
-            this.progDownload.Visible = false;
-            // 
-            // tbImportFilename
-            // 
-            this.tbImportFilename.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbImportFilename.Enabled = false;
-            this.tbImportFilename.Location = new System.Drawing.Point(136, 108);
-            this.tbImportFilename.Name = "tbImportFilename";
-            this.tbImportFilename.Size = new System.Drawing.Size(565, 21);
-            this.tbImportFilename.TabIndex = 13;
-            // 
-            // btnBrowseImportFile
-            // 
-            this.btnBrowseImportFile.Enabled = false;
-            this.btnBrowseImportFile.Location = new System.Drawing.Point(27, 107);
-            this.btnBrowseImportFile.Name = "btnBrowseImportFile";
-            this.btnBrowseImportFile.Size = new System.Drawing.Size(103, 22);
-            this.btnBrowseImportFile.TabIndex = 12;
-            this.btnBrowseImportFile.Text = "Browse";
-            this.btnBrowseImportFile.UseVisualStyleBackColor = true;
-            this.btnBrowseImportFile.Click += new System.EventHandler(this.btnBrowseImportFile_Click);
-            // 
-            // radioFile
-            // 
-            this.radioFile.AutoSize = true;
-            this.radioFile.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.radioFile.Location = new System.Drawing.Point(10, 82);
-            this.radioFile.Name = "radioFile";
-            this.radioFile.Size = new System.Drawing.Size(110, 17);
-            this.radioFile.TabIndex = 10;
-            this.radioFile.Text = "Use a local file";
-            this.radioFile.UseVisualStyleBackColor = true;
-            this.radioFile.CheckedChanged += new System.EventHandler(this.radioFile_CheckedChanged);
-            // 
-            // radioInternet
-            // 
-            this.radioInternet.AutoSize = true;
-            this.radioInternet.Checked = true;
-            this.radioInternet.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.radioInternet.Location = new System.Drawing.Point(10, 26);
-            this.radioInternet.Name = "radioInternet";
-            this.radioInternet.Size = new System.Drawing.Size(307, 17);
-            this.radioInternet.TabIndex = 9;
-            this.radioInternet.TabStop = true;
-            this.radioInternet.Text = "Download the latest orbital elements from Internet";
-            this.radioInternet.UseVisualStyleBackColor = true;
-            this.radioInternet.CheckedChanged += new System.EventHandler(this.radioInternet_CheckedChanged);
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(2, 5);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(164, 13);
-            this.label19.TabIndex = 8;
-            this.label19.Text = "Please select data source below.";
-            // 
-            // btnImport
-            // 
-            this.btnImport.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.btnImport.Location = new System.Drawing.Point(33, 373);
-            this.btnImport.Name = "btnImport";
-            this.btnImport.Size = new System.Drawing.Size(103, 23);
-            this.btnImport.TabIndex = 10;
-            this.btnImport.Text = "Import";
-            this.btnImport.UseVisualStyleBackColor = true;
-            this.btnImport.Click += new System.EventHandler(this.btnImport_Click);
-            // 
-            // panelImport1
-            // 
-            this.panelImport1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelImport1.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.panelImport1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panelImport1.Controls.Add(this.label2);
-            this.panelImport1.Controls.Add(this.label1);
-            this.panelImport1.Controls.Add(this.pictureBox3);
-            this.panelImport1.Location = new System.Drawing.Point(6, 6);
-            this.panelImport1.Name = "panelImport1";
-            this.panelImport1.Size = new System.Drawing.Size(740, 65);
-            this.panelImport1.TabIndex = 0;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(64, 21);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(336, 13);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Import Comets to Database from local file or download from Internet";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label1.Location = new System.Drawing.Point(64, 3);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(42, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Import";
-            // 
-            // pictureBox3
-            // 
-            this.pictureBox3.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.pictureBox3.Location = new System.Drawing.Point(3, 3);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(55, 55);
-            this.pictureBox3.TabIndex = 0;
-            this.pictureBox3.TabStop = false;
-            // 
-            // tabPage2
-            // 
-            this.tabPage2.BackColor = System.Drawing.SystemColors.Control;
-            this.tabPage2.Controls.Add(this.label63);
-            this.tabPage2.Controls.Add(this.label64);
-            this.tabPage2.Controls.Add(this.label65);
-            this.tabPage2.Controls.Add(this.tA);
-            this.tabPage2.Controls.Add(this.label46);
-            this.tabPage2.Controls.Add(this.label47);
-            this.tabPage2.Controls.Add(this.label49);
-            this.tabPage2.Controls.Add(this.tAph);
-            this.tabPage2.Controls.Add(this.btnFilters);
-            this.tabPage2.Controls.Add(this.tSort);
-            this.tabPage2.Controls.Add(this.label23);
-            this.tabPage2.Controls.Add(this.btnSort);
-            this.tabPage2.Controls.Add(this.btnOptions);
-            this.tabPage2.Controls.Add(this.label42);
-            this.tabPage2.Controls.Add(this.label41);
-            this.tabPage2.Controls.Add(this.label40);
-            this.tabPage2.Controls.Add(this.label38);
-            this.tabPage2.Controls.Add(this.label36);
-            this.tabPage2.Controls.Add(this.label35);
-            this.tabPage2.Controls.Add(this.label33);
-            this.tabPage2.Controls.Add(this.label34);
-            this.tabPage2.Controls.Add(this.tEquinox);
-            this.tabPage2.Controls.Add(this.label32);
-            this.tabPage2.Controls.Add(this.tK);
-            this.tabPage2.Controls.Add(this.label28);
-            this.tabPage2.Controls.Add(this.label45);
-            this.tabPage2.Controls.Add(this.tG);
-            this.tabPage2.Controls.Add(this.label48);
-            this.tabPage2.Controls.Add(this.label50);
-            this.tabPage2.Controls.Add(this.label51);
-            this.tabPage2.Controls.Add(this.label52);
-            this.tabPage2.Controls.Add(this.label53);
-            this.tabPage2.Controls.Add(this.label54);
-            this.tabPage2.Controls.Add(this.label55);
-            this.tabPage2.Controls.Add(this.label56);
-            this.tabPage2.Controls.Add(this.label57);
-            this.tabPage2.Controls.Add(this.label58);
-            this.tabPage2.Controls.Add(this.label59);
-            this.tabPage2.Controls.Add(this.tP);
-            this.tabPage2.Controls.Add(this.tPn);
-            this.tabPage2.Controls.Add(this.tAn);
-            this.tabPage2.Controls.Add(this.tI);
-            this.tabPage2.Controls.Add(this.tE);
-            this.tabPage2.Controls.Add(this.tQ);
-            this.tabPage2.Controls.Add(this.tT);
-            this.tabPage2.Controls.Add(this.label60);
-            this.tabPage2.Controls.Add(this.tName);
-            this.tabPage2.Controls.Add(this.tId);
-            this.tabPage2.Controls.Add(this.label61);
-            this.tabPage2.Controls.Add(this.label62);
-            this.tabPage2.Controls.Add(this.cometListbox);
-            this.tabPage2.Controls.Add(this.panelDatabase);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(752, 413);
-            this.tabPage2.TabIndex = 3;
-            this.tabPage2.Text = "Database";
+            this.tAph.BackColor = System.Drawing.SystemColors.Window;
+            this.tAph.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tAph.Location = new System.Drawing.Point(427, 243);
+            this.tAph.Name = "tAph";
+            this.tAph.ReadOnly = true;
+            this.tAph.Size = new System.Drawing.Size(104, 22);
+            this.tAph.TabIndex = 265;
             // 
             // btnFilters
             // 
@@ -632,7 +445,7 @@
             // 
             this.tSort.BackColor = System.Drawing.SystemColors.Window;
             this.tSort.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.tSort.Location = new System.Drawing.Point(591, 343);
+            this.tSort.Location = new System.Drawing.Point(591, 193);
             this.tSort.Name = "tSort";
             this.tSort.ReadOnly = true;
             this.tSort.Size = new System.Drawing.Size(104, 22);
@@ -643,7 +456,7 @@
             this.label23.AutoSize = true;
             this.label23.Font = new System.Drawing.Font("Tahoma", 8F);
             this.label23.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.label23.Location = new System.Drawing.Point(588, 326);
+            this.label23.Location = new System.Drawing.Point(588, 176);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(48, 13);
             this.label23.TabIndex = 263;
@@ -761,7 +574,7 @@
             // 
             this.tEquinox.BackColor = System.Drawing.SystemColors.Window;
             this.tEquinox.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.tEquinox.Location = new System.Drawing.Point(591, 193);
+            this.tEquinox.Location = new System.Drawing.Point(591, 343);
             this.tEquinox.Name = "tEquinox";
             this.tEquinox.ReadOnly = true;
             this.tEquinox.Size = new System.Drawing.Size(104, 22);
@@ -772,7 +585,7 @@
             this.label32.AutoSize = true;
             this.label32.Font = new System.Drawing.Font("Tahoma", 8F);
             this.label32.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.label32.Location = new System.Drawing.Point(588, 176);
+            this.label32.Location = new System.Drawing.Point(588, 326);
             this.label32.Name = "label32";
             this.label32.Size = new System.Drawing.Size(49, 13);
             this.label32.TabIndex = 243;
@@ -1072,7 +885,7 @@
             this.cometListbox.FormattingEnabled = true;
             this.cometListbox.Location = new System.Drawing.Point(6, 77);
             this.cometListbox.Name = "cometListbox";
-            this.cometListbox.Size = new System.Drawing.Size(229, 316);
+            this.cometListbox.Size = new System.Drawing.Size(229, 329);
             this.cometListbox.TabIndex = 1;
             this.cometListbox.SelectedIndexChanged += new System.EventHandler(this.cometListbox_SelectedIndexChanged);
             // 
@@ -1118,44 +931,54 @@
             this.pictureBox2.TabIndex = 0;
             this.pictureBox2.TabStop = false;
             // 
-            // tabPage3
+            // tabPage2
             // 
-            this.tabPage3.BackColor = System.Drawing.SystemColors.Control;
-            this.tabPage3.Controls.Add(this.btnApplyFilters);
-            this.tabPage3.Controls.Add(this.comboFilterName);
-            this.tabPage3.Controls.Add(this.tbFilterPeriod);
-            this.tabPage3.Controls.Add(this.tbFilterIncl);
-            this.tabPage3.Controls.Add(this.tbFilterLongPeric);
-            this.tabPage3.Controls.Add(this.tbFilterAscNode);
-            this.tabPage3.Controls.Add(this.tbFilterEcc);
-            this.tabPage3.Controls.Add(this.tbFilterPericDist);
-            this.tabPage3.Controls.Add(this.comboFilterPeriod);
-            this.tabPage3.Controls.Add(this.comboFilterIncl);
-            this.tabPage3.Controls.Add(this.comboFilterLongPeric);
-            this.tabPage3.Controls.Add(this.comboFilterAscNode);
-            this.tabPage3.Controls.Add(this.comboFilterEcc);
-            this.tabPage3.Controls.Add(this.comboFilterPericDist);
-            this.tabPage3.Controls.Add(this.btnFilterPerihDateNow);
-            this.tabPage3.Controls.Add(this.tbFilterPerihDateY);
-            this.tabPage3.Controls.Add(this.tbFilterPerihDateM);
-            this.tabPage3.Controls.Add(this.tbFilterPerihDateD);
-            this.tabPage3.Controls.Add(this.comboFilterPerihDate);
-            this.tabPage3.Controls.Add(this.tbFilterName);
-            this.tabPage3.Controls.Add(this.chFilterPeriod);
-            this.tabPage3.Controls.Add(this.chFilterIncl);
-            this.tabPage3.Controls.Add(this.chFilterLongPeric);
-            this.tabPage3.Controls.Add(this.chFilterAscNode);
-            this.tabPage3.Controls.Add(this.chFilterEcc);
-            this.tabPage3.Controls.Add(this.chFilterPericDist);
-            this.tabPage3.Controls.Add(this.chFilterPerihDate);
-            this.tabPage3.Controls.Add(this.chFilterName);
-            this.tabPage3.Controls.Add(this.panelFilters);
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(752, 413);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Filters";
+            this.tabPage2.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage2.Controls.Add(this.btnApplyFilters);
+            this.tabPage2.Controls.Add(this.comboFilterName);
+            this.tabPage2.Controls.Add(this.tbFilterPeriod);
+            this.tabPage2.Controls.Add(this.tbFilterIncl);
+            this.tabPage2.Controls.Add(this.tbFilterLongPeric);
+            this.tabPage2.Controls.Add(this.tbFilterAscNode);
+            this.tabPage2.Controls.Add(this.tbFilterEcc);
+            this.tabPage2.Controls.Add(this.tbFilterPericDist);
+            this.tabPage2.Controls.Add(this.comboFilterPeriod);
+            this.tabPage2.Controls.Add(this.comboFilterIncl);
+            this.tabPage2.Controls.Add(this.comboFilterLongPeric);
+            this.tabPage2.Controls.Add(this.comboFilterAscNode);
+            this.tabPage2.Controls.Add(this.comboFilterEcc);
+            this.tabPage2.Controls.Add(this.comboFilterPericDist);
+            this.tabPage2.Controls.Add(this.btnFilterPerihDateNow);
+            this.tabPage2.Controls.Add(this.tbFilterPerihDateY);
+            this.tabPage2.Controls.Add(this.tbFilterPerihDateM);
+            this.tabPage2.Controls.Add(this.tbFilterPerihDateD);
+            this.tabPage2.Controls.Add(this.comboFilterPerihDate);
+            this.tabPage2.Controls.Add(this.tbFilterName);
+            this.tabPage2.Controls.Add(this.chFilterPeriod);
+            this.tabPage2.Controls.Add(this.chFilterIncl);
+            this.tabPage2.Controls.Add(this.chFilterLongPeric);
+            this.tabPage2.Controls.Add(this.chFilterAscNode);
+            this.tabPage2.Controls.Add(this.chFilterEcc);
+            this.tabPage2.Controls.Add(this.chFilterPericDist);
+            this.tabPage2.Controls.Add(this.chFilterPerihDate);
+            this.tabPage2.Controls.Add(this.chFilterName);
+            this.tabPage2.Controls.Add(this.panelFilters);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(752, 413);
+            this.tabPage2.TabIndex = 2;
+            this.tabPage2.Text = "Filters";
+            // 
+            // btnApplyFilters
+            // 
+            this.btnApplyFilters.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.btnApplyFilters.Location = new System.Drawing.Point(33, 333);
+            this.btnApplyFilters.Name = "btnApplyFilters";
+            this.btnApplyFilters.Size = new System.Drawing.Size(103, 23);
+            this.btnApplyFilters.TabIndex = 28;
+            this.btnApplyFilters.Text = "Apply";
+            this.btnApplyFilters.UseVisualStyleBackColor = true;
             // 
             // comboFilterName
             // 
@@ -1480,6 +1303,244 @@
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
+            // tabPage3
+            // 
+            this.tabPage3.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage3.Controls.Add(this.groupBox2);
+            this.tabPage3.Controls.Add(this.groupBox1);
+            this.tabPage3.Controls.Add(this.panelImport1);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(752, 413);
+            this.tabPage3.TabIndex = 1;
+            this.tabPage3.Text = "Update";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.label66);
+            this.groupBox2.Controls.Add(this.label21);
+            this.groupBox2.Controls.Add(this.comboImportType);
+            this.groupBox2.Controls.Add(this.labelWarning);
+            this.groupBox2.Controls.Add(this.radioManual);
+            this.groupBox2.Controls.Add(this.btnImport);
+            this.groupBox2.Controls.Add(this.label22);
+            this.groupBox2.Controls.Add(this.tbImportFilename);
+            this.groupBox2.Controls.Add(this.btnBrowseImportFile);
+            this.groupBox2.Controls.Add(this.radioAutomatic);
+            this.groupBox2.Location = new System.Drawing.Point(6, 163);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(740, 244);
+            this.groupBox2.TabIndex = 19;
+            this.groupBox2.TabStop = false;
+            // 
+            // label66
+            // 
+            this.label66.AutoSize = true;
+            this.label66.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label66.Location = new System.Drawing.Point(6, 17);
+            this.label66.Name = "label66";
+            this.label66.Size = new System.Drawing.Size(126, 13);
+            this.label66.TabIndex = 38;
+            this.label66.Text = "Import from local file";
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(6, 86);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(137, 13);
+            this.label21.TabIndex = 34;
+            this.label21.Text = "Please select import format";
+            // 
+            // comboImportType
+            // 
+            this.comboImportType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboImportType.Enabled = false;
+            this.comboImportType.FormattingEnabled = true;
+            this.comboImportType.Items.AddRange(new object[] {
+            "MPC (Soft00Cmt)",
+            "SkyMap (Soft01Cmt)",
+            "Guide (Soft02Cmt)",
+            "xephem (Soft03Cmt)",
+            "Home Planet (Soft04Cmt)",
+            "MyStars! (Soft05Cmt)",
+            "TheSky (Soft06Cmt)",
+            "Starry Night (Soft07Cmt)",
+            "Deep Space (Soft08Cmt)",
+            "PC-TCS (Soft09Cmt)",
+            "Earth Centered Universe (Soft10Cmt)",
+            "Dance of the Planets (Soft11Cmt)",
+            "MegaStar V4.x (Soft12Cmt)",
+            "SkyChart III (Soft13Cmt)",
+            "Voyager II (Soft14Cmt)",
+            "SkyTools (Soft15Cmt)",
+            "Autostar (Soft16Cmt)",
+            "Comet for Windows (Comet.dat)",
+            "NASA (ELEMENTS.COMET)"});
+            this.comboImportType.Location = new System.Drawing.Point(32, 172);
+            this.comboImportType.Name = "comboImportType";
+            this.comboImportType.Size = new System.Drawing.Size(220, 21);
+            this.comboImportType.TabIndex = 33;
+            // 
+            // labelWarning
+            // 
+            this.labelWarning.AutoSize = true;
+            this.labelWarning.Location = new System.Drawing.Point(150, 216);
+            this.labelWarning.Name = "labelWarning";
+            this.labelWarning.Size = new System.Drawing.Size(69, 13);
+            this.labelWarning.TabIndex = 17;
+            this.labelWarning.Text = "labelWarning";
+            this.labelWarning.Visible = false;
+            // 
+            // radioManual
+            // 
+            this.radioManual.AutoSize = true;
+            this.radioManual.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.radioManual.Location = new System.Drawing.Point(18, 147);
+            this.radioManual.Name = "radioManual";
+            this.radioManual.Size = new System.Drawing.Size(66, 17);
+            this.radioManual.TabIndex = 32;
+            this.radioManual.Text = "Manual";
+            this.radioManual.UseVisualStyleBackColor = true;
+            this.radioManual.CheckedChanged += new System.EventHandler(this.radioManual_CheckedChanged);
+            // 
+            // btnImport
+            // 
+            this.btnImport.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.btnImport.Location = new System.Drawing.Point(31, 211);
+            this.btnImport.Name = "btnImport";
+            this.btnImport.Size = new System.Drawing.Size(103, 23);
+            this.btnImport.TabIndex = 10;
+            this.btnImport.Text = "Import";
+            this.btnImport.UseVisualStyleBackColor = true;
+            this.btnImport.Click += new System.EventHandler(this.btnImport_Click);
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(30, 128);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(222, 13);
+            this.label22.TabIndex = 31;
+            this.label22.Text = "Program automatically detects Import format";
+            // 
+            // tbImportFilename
+            // 
+            this.tbImportFilename.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbImportFilename.Location = new System.Drawing.Point(140, 45);
+            this.tbImportFilename.Name = "tbImportFilename";
+            this.tbImportFilename.Size = new System.Drawing.Size(561, 21);
+            this.tbImportFilename.TabIndex = 37;
+            // 
+            // btnBrowseImportFile
+            // 
+            this.btnBrowseImportFile.Location = new System.Drawing.Point(31, 45);
+            this.btnBrowseImportFile.Name = "btnBrowseImportFile";
+            this.btnBrowseImportFile.Size = new System.Drawing.Size(103, 22);
+            this.btnBrowseImportFile.TabIndex = 36;
+            this.btnBrowseImportFile.Text = "Browse";
+            this.btnBrowseImportFile.UseVisualStyleBackColor = true;
+            this.btnBrowseImportFile.Click += new System.EventHandler(this.btnBrowseImportFile_Click);
+            // 
+            // radioAutomatic
+            // 
+            this.radioAutomatic.AutoSize = true;
+            this.radioAutomatic.Checked = true;
+            this.radioAutomatic.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.radioAutomatic.Location = new System.Drawing.Point(18, 105);
+            this.radioAutomatic.Name = "radioAutomatic";
+            this.radioAutomatic.Size = new System.Drawing.Size(81, 17);
+            this.radioAutomatic.TabIndex = 30;
+            this.radioAutomatic.TabStop = true;
+            this.radioAutomatic.Text = "Automatic";
+            this.radioAutomatic.UseVisualStyleBackColor = true;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.btnDownload);
+            this.groupBox1.Controls.Add(this.label19);
+            this.groupBox1.Controls.Add(this.progDownload);
+            this.groupBox1.Location = new System.Drawing.Point(6, 77);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(740, 80);
+            this.groupBox1.TabIndex = 18;
+            this.groupBox1.TabStop = false;
+            // 
+            // btnDownload
+            // 
+            this.btnDownload.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.btnDownload.Location = new System.Drawing.Point(31, 45);
+            this.btnDownload.Name = "btnDownload";
+            this.btnDownload.Size = new System.Drawing.Size(103, 22);
+            this.btnDownload.TabIndex = 32;
+            this.btnDownload.Text = "Download";
+            this.btnDownload.UseVisualStyleBackColor = true;
+            this.btnDownload.Click += new System.EventHandler(this.btnDownload_Click);
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label19.Location = new System.Drawing.Point(6, 17);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(297, 13);
+            this.label19.TabIndex = 25;
+            this.label19.Text = "Download the latest orbital elements from Internet";
+            // 
+            // progDownload
+            // 
+            this.progDownload.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.progDownload.Location = new System.Drawing.Point(140, 46);
+            this.progDownload.Name = "progDownload";
+            this.progDownload.Size = new System.Drawing.Size(561, 20);
+            this.progDownload.TabIndex = 30;
+            this.progDownload.Visible = false;
+            // 
+            // panelImport1
+            // 
+            this.panelImport1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelImport1.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.panelImport1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panelImport1.Controls.Add(this.label2);
+            this.panelImport1.Controls.Add(this.label1);
+            this.panelImport1.Controls.Add(this.pictureBox3);
+            this.panelImport1.Location = new System.Drawing.Point(6, 6);
+            this.panelImport1.Name = "panelImport1";
+            this.panelImport1.Size = new System.Drawing.Size(740, 65);
+            this.panelImport1.TabIndex = 0;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(64, 21);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(336, 13);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "Import Comets to Database from local file or download from Internet";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label1.Location = new System.Drawing.Point(64, 3);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(42, 13);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Import";
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.pictureBox3.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(55, 55);
+            this.pictureBox3.TabIndex = 0;
+            this.pictureBox3.TabStop = false;
+            // 
             // tabPage4
             // 
             this.tabPage4.BackColor = System.Drawing.SystemColors.Control;
@@ -1515,6 +1576,16 @@
             this.tabPage4.Size = new System.Drawing.Size(752, 413);
             this.tabPage4.TabIndex = 4;
             this.tabPage4.Text = "Location";
+            // 
+            // btnSaveLocation
+            // 
+            this.btnSaveLocation.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.btnSaveLocation.Location = new System.Drawing.Point(33, 243);
+            this.btnSaveLocation.Name = "btnSaveLocation";
+            this.btnSaveLocation.Size = new System.Drawing.Size(103, 23);
+            this.btnSaveLocation.TabIndex = 37;
+            this.btnSaveLocation.Text = "Save";
+            this.btnSaveLocation.UseVisualStyleBackColor = true;
             // 
             // label44
             // 
@@ -2048,6 +2119,12 @@
             this.contextOptions.Name = "contextMenuStrip1";
             this.contextOptions.Size = new System.Drawing.Size(155, 98);
             // 
+            // deleteSelectedToolStripMenuItem
+            // 
+            this.deleteSelectedToolStripMenuItem.Name = "deleteSelectedToolStripMenuItem";
+            this.deleteSelectedToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.deleteSelectedToolStripMenuItem.Text = "Delete Selected";
+            // 
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
@@ -2070,10 +2147,6 @@
             this.deleteAllToolStripMenuItem.Name = "deleteAllToolStripMenuItem";
             this.deleteAllToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.deleteAllToolStripMenuItem.Text = "Delete All";
-            // 
-            // bwDownload
-            // 
-            this.bwDownload.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bwDownload_DoWork);
             // 
             // labelComets
             // 
@@ -2200,118 +2273,6 @@
             this.descendingToolStripMenuItem.Text = "Descending";
             this.descendingToolStripMenuItem.Click += new System.EventHandler(this.descendingToolStripMenuItem_Click);
             // 
-            // btnApplyFilters
-            // 
-            this.btnApplyFilters.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.btnApplyFilters.Location = new System.Drawing.Point(33, 333);
-            this.btnApplyFilters.Name = "btnApplyFilters";
-            this.btnApplyFilters.Size = new System.Drawing.Size(103, 23);
-            this.btnApplyFilters.TabIndex = 28;
-            this.btnApplyFilters.Text = "Apply";
-            this.btnApplyFilters.UseVisualStyleBackColor = true;
-            // 
-            // btnSaveLocation
-            // 
-            this.btnSaveLocation.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.btnSaveLocation.Location = new System.Drawing.Point(33, 243);
-            this.btnSaveLocation.Name = "btnSaveLocation";
-            this.btnSaveLocation.Size = new System.Drawing.Size(103, 23);
-            this.btnSaveLocation.TabIndex = 37;
-            this.btnSaveLocation.Text = "Save";
-            this.btnSaveLocation.UseVisualStyleBackColor = true;
-            // 
-            // deleteSelectedToolStripMenuItem
-            // 
-            this.deleteSelectedToolStripMenuItem.Name = "deleteSelectedToolStripMenuItem";
-            this.deleteSelectedToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
-            this.deleteSelectedToolStripMenuItem.Text = "Delete Selected";
-            // 
-            // label46
-            // 
-            this.label46.AutoSize = true;
-            this.label46.Font = new System.Drawing.Font("Tahoma", 8F);
-            this.label46.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.label46.Location = new System.Drawing.Point(424, 226);
-            this.label46.Name = "label46";
-            this.label46.Size = new System.Drawing.Size(95, 13);
-            this.label46.TabIndex = 268;
-            this.label46.Text = "Aphelion distance:";
-            // 
-            // label47
-            // 
-            this.label47.AutoSize = true;
-            this.label47.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label47.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.label47.Location = new System.Drawing.Point(533, 246);
-            this.label47.Name = "label47";
-            this.label47.Size = new System.Drawing.Size(23, 14);
-            this.label47.TabIndex = 267;
-            this.label47.Text = "AU";
-            // 
-            // label49
-            // 
-            this.label49.AutoSize = true;
-            this.label49.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label49.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.label49.Location = new System.Drawing.Point(409, 246);
-            this.label49.Name = "label49";
-            this.label49.Size = new System.Drawing.Size(16, 14);
-            this.label49.TabIndex = 266;
-            this.label49.Text = "Q";
-            // 
-            // tAph
-            // 
-            this.tAph.BackColor = System.Drawing.SystemColors.Window;
-            this.tAph.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.tAph.Location = new System.Drawing.Point(427, 243);
-            this.tAph.Name = "tAph";
-            this.tAph.ReadOnly = true;
-            this.tAph.Size = new System.Drawing.Size(104, 22);
-            this.tAph.TabIndex = 265;
-            // 
-            // label63
-            // 
-            this.label63.AutoSize = true;
-            this.label63.Font = new System.Drawing.Font("Tahoma", 8F);
-            this.label63.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.label63.Location = new System.Drawing.Point(588, 225);
-            this.label63.Name = "label63";
-            this.label63.Size = new System.Drawing.Size(86, 13);
-            this.label63.TabIndex = 272;
-            this.label63.Text = "Semi-major axis:";
-            // 
-            // label64
-            // 
-            this.label64.AutoSize = true;
-            this.label64.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label64.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.label64.Location = new System.Drawing.Point(697, 246);
-            this.label64.Name = "label64";
-            this.label64.Size = new System.Drawing.Size(23, 14);
-            this.label64.TabIndex = 271;
-            this.label64.Text = "AU";
-            // 
-            // label65
-            // 
-            this.label65.AutoSize = true;
-            this.label65.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label65.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.label65.Location = new System.Drawing.Point(576, 246);
-            this.label65.Name = "label65";
-            this.label65.Size = new System.Drawing.Size(13, 14);
-            this.label65.TabIndex = 270;
-            this.label65.Text = "a";
-            // 
-            // tA
-            // 
-            this.tA.BackColor = System.Drawing.SystemColors.Window;
-            this.tA.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.tA.Location = new System.Drawing.Point(591, 243);
-            this.tA.Name = "tA";
-            this.tA.ReadOnly = true;
-            this.tA.Size = new System.Drawing.Size(104, 22);
-            this.tA.TabIndex = 269;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2322,7 +2283,9 @@
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.tabControl1);
             this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Cometary Workshop";
@@ -2330,23 +2293,22 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
-            this.panelImport3.ResumeLayout(false);
-            this.panelImport3.PerformLayout();
-            this.panelImport2.ResumeLayout(false);
-            this.panelImport2.PerformLayout();
-            this.panelImport1.ResumeLayout(false);
-            this.panelImport1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
-            this.tabPage2.ResumeLayout(false);
-            this.tabPage2.PerformLayout();
             this.panelDatabase.ResumeLayout(false);
             this.panelDatabase.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            this.tabPage3.ResumeLayout(false);
-            this.tabPage3.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
             this.panelFilters.ResumeLayout(false);
             this.panelFilters.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.tabPage3.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.panelImport1.ResumeLayout(false);
+            this.panelImport1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
             this.panelLocation.ResumeLayout(false);
@@ -2382,13 +2344,13 @@
         #endregion
 
         private System.Windows.Forms.Button btnExit;
-        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.Panel panelImport1;
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel panelHeader;
-        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.Panel panelFilters;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
@@ -2428,18 +2390,6 @@
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.PictureBox pictureBox9;
         private System.Windows.Forms.Button btnImport;
-        private System.Windows.Forms.RadioButton radioAutomatic;
-        private System.Windows.Forms.Panel panelImport3;
-        private System.Windows.Forms.Label label21;
-        private System.Windows.Forms.ComboBox comboImportType;
-        private System.Windows.Forms.RadioButton radioManual;
-        private System.Windows.Forms.Label label22;
-        private System.Windows.Forms.Panel panelImport2;
-        private System.Windows.Forms.TextBox tbImportFilename;
-        private System.Windows.Forms.Button btnBrowseImportFile;
-        private System.Windows.Forms.RadioButton radioFile;
-        private System.Windows.Forms.RadioButton radioInternet;
-        private System.Windows.Forms.Label label19;
         private System.Windows.Forms.ComboBox comboFilterPericDist;
         private System.Windows.Forms.Button btnFilterPerihDateNow;
         private System.Windows.Forms.TextBox tbFilterPerihDateY;
@@ -2509,9 +2459,6 @@
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem deleteAllToolStripMenuItem;
-        private System.Windows.Forms.Label labelDownload;
-        private System.Windows.Forms.ProgressBar progDownload;
-        private System.ComponentModel.BackgroundWorker bwDownload;
         private System.Windows.Forms.Button btnSort;
         private System.Windows.Forms.Label labelComets;
         private System.Windows.Forms.ContextMenuStrip contextSort;
@@ -2531,7 +2478,6 @@
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Button btnFilters;
         private System.Windows.Forms.Label labelWarning;
-        private System.Windows.Forms.Button btnDownload;
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.ComboBox comboBox2;
         private System.Windows.Forms.ComboBox comboBox1;
@@ -2544,7 +2490,7 @@
         private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.ListBox cometListbox;
         private System.Windows.Forms.ComboBox comboFilterName;
         private System.Windows.Forms.Label label44;
@@ -2571,6 +2517,19 @@
         private System.Windows.Forms.Label label47;
         private System.Windows.Forms.Label label49;
         private System.Windows.Forms.TextBox tAph;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Button btnDownload;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.ProgressBar progDownload;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Label label66;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.ComboBox comboImportType;
+        private System.Windows.Forms.RadioButton radioManual;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.TextBox tbImportFilename;
+        private System.Windows.Forms.Button btnBrowseImportFile;
+        private System.Windows.Forms.RadioButton radioAutomatic;
     }
 }
 
