@@ -419,10 +419,13 @@ namespace Cometary_Workshop
 
         private void btnFilters_Click(object sender, EventArgs e)
         {
-            if (ff == null) ff = new FiltersForm();
+            //if (ff == null) ff = new FiltersForm();
 
-            ff.ShowDialog();
-            copyListUsingFilters();
+            //ff.ShowDialog();
+            //copyListUsingFilters();
+
+            //gbFilters.Visible = !gbFilters.Visible;
+            gbDetails.Visible = !gbDetails.Visible;
         }
     }
 }
