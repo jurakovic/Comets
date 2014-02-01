@@ -89,34 +89,39 @@
             this.label6 = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.btnApplyFilters = new System.Windows.Forms.Button();
-            this.comboFilterName = new System.Windows.Forms.ComboBox();
-            this.tbFilterPeriod = new System.Windows.Forms.TextBox();
-            this.tbFilterIncl = new System.Windows.Forms.TextBox();
-            this.tbFilterLongPeric = new System.Windows.Forms.TextBox();
-            this.tbFilterAscNode = new System.Windows.Forms.TextBox();
-            this.tbFilterEcc = new System.Windows.Forms.TextBox();
-            this.tbFilterPericDist = new System.Windows.Forms.TextBox();
-            this.comboFilterPeriod = new System.Windows.Forms.ComboBox();
-            this.comboFilterIncl = new System.Windows.Forms.ComboBox();
-            this.comboFilterLongPeric = new System.Windows.Forms.ComboBox();
-            this.comboFilterAscNode = new System.Windows.Forms.ComboBox();
-            this.comboFilterEcc = new System.Windows.Forms.ComboBox();
-            this.comboFilterPericDist = new System.Windows.Forms.ComboBox();
-            this.btnFilterPerihDateNow = new System.Windows.Forms.Button();
-            this.tbFilterPerihDateY = new System.Windows.Forms.TextBox();
-            this.tbFilterPerihDateM = new System.Windows.Forms.TextBox();
-            this.tbFilterPerihDateD = new System.Windows.Forms.TextBox();
-            this.comboFilterPerihDate = new System.Windows.Forms.ComboBox();
-            this.tbFilterName = new System.Windows.Forms.TextBox();
-            this.chFilterPeriod = new System.Windows.Forms.CheckBox();
-            this.chFilterIncl = new System.Windows.Forms.CheckBox();
-            this.chFilterLongPeric = new System.Windows.Forms.CheckBox();
-            this.chFilterAscNode = new System.Windows.Forms.CheckBox();
-            this.chFilterEcc = new System.Windows.Forms.CheckBox();
-            this.chFilterPericDist = new System.Windows.Forms.CheckBox();
-            this.chFilterPerihDate = new System.Windows.Forms.CheckBox();
-            this.chFilterName = new System.Windows.Forms.CheckBox();
+            this.gbFilters = new System.Windows.Forms.GroupBox();
+            this.comboBox3 = new System.Windows.Forms.ComboBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.tbAphDist = new System.Windows.Forms.TextBox();
+            this.comboPerihDist = new System.Windows.Forms.ComboBox();
+            this.chPerihDist = new System.Windows.Forms.CheckBox();
+            this.comboAphDist = new System.Windows.Forms.ComboBox();
+            this.tbPerihDist = new System.Windows.Forms.TextBox();
+            this.chAphDist = new System.Windows.Forms.CheckBox();
+            this.btnPerihDateNow = new System.Windows.Forms.Button();
+            this.tbPerihDateY = new System.Windows.Forms.TextBox();
+            this.tbPerihDateM = new System.Windows.Forms.TextBox();
+            this.tbPerihDateD = new System.Windows.Forms.TextBox();
+            this.comboName = new System.Windows.Forms.ComboBox();
+            this.tbPeriod = new System.Windows.Forms.TextBox();
+            this.tbIncl = new System.Windows.Forms.TextBox();
+            this.tbLongPeric = new System.Windows.Forms.TextBox();
+            this.tbAscNode = new System.Windows.Forms.TextBox();
+            this.tbEcc = new System.Windows.Forms.TextBox();
+            this.comboPeriod = new System.Windows.Forms.ComboBox();
+            this.comboIncl = new System.Windows.Forms.ComboBox();
+            this.comboLongPeric = new System.Windows.Forms.ComboBox();
+            this.comboAscNode = new System.Windows.Forms.ComboBox();
+            this.comboEcc = new System.Windows.Forms.ComboBox();
+            this.comboPerihDate = new System.Windows.Forms.ComboBox();
+            this.tbName = new System.Windows.Forms.TextBox();
+            this.chPeriod = new System.Windows.Forms.CheckBox();
+            this.chIncl = new System.Windows.Forms.CheckBox();
+            this.chLongPeric = new System.Windows.Forms.CheckBox();
+            this.chAscNode = new System.Windows.Forms.CheckBox();
+            this.chEcc = new System.Windows.Forms.CheckBox();
+            this.chPerihDate = new System.Windows.Forms.CheckBox();
+            this.chName = new System.Windows.Forms.CheckBox();
             this.panelFilters = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -217,12 +222,14 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.ascendingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.descendingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.btnApplyFilters = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.panelDatabase.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.tabPage2.SuspendLayout();
+            this.gbFilters.SuspendLayout();
             this.panelFilters.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tabPage3.SuspendLayout();
@@ -288,7 +295,6 @@
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.SystemColors.Control;
-            this.tabPage1.Controls.Add(this.checkBox2);
             this.tabPage1.Controls.Add(this.label63);
             this.tabPage1.Controls.Add(this.label64);
             this.tabPage1.Controls.Add(this.label65);
@@ -937,34 +943,7 @@
             // tabPage2
             // 
             this.tabPage2.BackColor = System.Drawing.SystemColors.Control;
-            this.tabPage2.Controls.Add(this.btnApplyFilters);
-            this.tabPage2.Controls.Add(this.comboFilterName);
-            this.tabPage2.Controls.Add(this.tbFilterPeriod);
-            this.tabPage2.Controls.Add(this.tbFilterIncl);
-            this.tabPage2.Controls.Add(this.tbFilterLongPeric);
-            this.tabPage2.Controls.Add(this.tbFilterAscNode);
-            this.tabPage2.Controls.Add(this.tbFilterEcc);
-            this.tabPage2.Controls.Add(this.tbFilterPericDist);
-            this.tabPage2.Controls.Add(this.comboFilterPeriod);
-            this.tabPage2.Controls.Add(this.comboFilterIncl);
-            this.tabPage2.Controls.Add(this.comboFilterLongPeric);
-            this.tabPage2.Controls.Add(this.comboFilterAscNode);
-            this.tabPage2.Controls.Add(this.comboFilterEcc);
-            this.tabPage2.Controls.Add(this.comboFilterPericDist);
-            this.tabPage2.Controls.Add(this.btnFilterPerihDateNow);
-            this.tabPage2.Controls.Add(this.tbFilterPerihDateY);
-            this.tabPage2.Controls.Add(this.tbFilterPerihDateM);
-            this.tabPage2.Controls.Add(this.tbFilterPerihDateD);
-            this.tabPage2.Controls.Add(this.comboFilterPerihDate);
-            this.tabPage2.Controls.Add(this.tbFilterName);
-            this.tabPage2.Controls.Add(this.chFilterPeriod);
-            this.tabPage2.Controls.Add(this.chFilterIncl);
-            this.tabPage2.Controls.Add(this.chFilterLongPeric);
-            this.tabPage2.Controls.Add(this.chFilterAscNode);
-            this.tabPage2.Controls.Add(this.chFilterEcc);
-            this.tabPage2.Controls.Add(this.chFilterPericDist);
-            this.tabPage2.Controls.Add(this.chFilterPerihDate);
-            this.tabPage2.Controls.Add(this.chFilterName);
+            this.tabPage2.Controls.Add(this.gbFilters);
             this.tabPage2.Controls.Add(this.panelFilters);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
@@ -973,296 +952,374 @@
             this.tabPage2.TabIndex = 2;
             this.tabPage2.Text = "Filters";
             // 
-            // btnApplyFilters
+            // gbFilters
             // 
-            this.btnApplyFilters.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.btnApplyFilters.Location = new System.Drawing.Point(33, 333);
-            this.btnApplyFilters.Name = "btnApplyFilters";
-            this.btnApplyFilters.Size = new System.Drawing.Size(103, 23);
-            this.btnApplyFilters.TabIndex = 28;
-            this.btnApplyFilters.Text = "Apply";
-            this.btnApplyFilters.UseVisualStyleBackColor = true;
+            this.gbFilters.Controls.Add(this.button1);
+            this.gbFilters.Controls.Add(this.btnApplyFilters);
+            this.gbFilters.Controls.Add(this.comboBox3);
+            this.gbFilters.Controls.Add(this.checkBox2);
+            this.gbFilters.Controls.Add(this.tbAphDist);
+            this.gbFilters.Controls.Add(this.comboPerihDist);
+            this.gbFilters.Controls.Add(this.chPerihDist);
+            this.gbFilters.Controls.Add(this.comboAphDist);
+            this.gbFilters.Controls.Add(this.tbPerihDist);
+            this.gbFilters.Controls.Add(this.chAphDist);
+            this.gbFilters.Controls.Add(this.btnPerihDateNow);
+            this.gbFilters.Controls.Add(this.tbPerihDateY);
+            this.gbFilters.Controls.Add(this.tbPerihDateM);
+            this.gbFilters.Controls.Add(this.tbPerihDateD);
+            this.gbFilters.Controls.Add(this.comboName);
+            this.gbFilters.Controls.Add(this.tbPeriod);
+            this.gbFilters.Controls.Add(this.tbIncl);
+            this.gbFilters.Controls.Add(this.tbLongPeric);
+            this.gbFilters.Controls.Add(this.tbAscNode);
+            this.gbFilters.Controls.Add(this.tbEcc);
+            this.gbFilters.Controls.Add(this.comboPeriod);
+            this.gbFilters.Controls.Add(this.comboIncl);
+            this.gbFilters.Controls.Add(this.comboLongPeric);
+            this.gbFilters.Controls.Add(this.comboAscNode);
+            this.gbFilters.Controls.Add(this.comboEcc);
+            this.gbFilters.Controls.Add(this.comboPerihDate);
+            this.gbFilters.Controls.Add(this.tbName);
+            this.gbFilters.Controls.Add(this.chPeriod);
+            this.gbFilters.Controls.Add(this.chIncl);
+            this.gbFilters.Controls.Add(this.chLongPeric);
+            this.gbFilters.Controls.Add(this.chAscNode);
+            this.gbFilters.Controls.Add(this.chEcc);
+            this.gbFilters.Controls.Add(this.chPerihDate);
+            this.gbFilters.Controls.Add(this.chName);
+            this.gbFilters.Location = new System.Drawing.Point(6, 77);
+            this.gbFilters.Name = "gbFilters";
+            this.gbFilters.Size = new System.Drawing.Size(740, 330);
+            this.gbFilters.TabIndex = 6;
+            this.gbFilters.TabStop = false;
             // 
-            // comboFilterName
+            // comboBox3
             // 
-            this.comboFilterName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboFilterName.Enabled = false;
-            this.comboFilterName.FormattingEnabled = true;
-            this.comboFilterName.Items.AddRange(new object[] {
+            this.comboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox3.Enabled = false;
+            this.comboBox3.FormattingEnabled = true;
+            this.comboBox3.Items.AddRange(new object[] {
+            "Exclude",
+            "Include only"});
+            this.comboBox3.Location = new System.Drawing.Point(235, 256);
+            this.comboBox3.Name = "comboBox3";
+            this.comboBox3.Size = new System.Drawing.Size(111, 21);
+            this.comboBox3.TabIndex = 63;
+            // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Location = new System.Drawing.Point(10, 259);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(147, 17);
+            this.checkBox2.TabIndex = 62;
+            this.checkBox2.Text = "SOHO sungrazing comets";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            // 
+            // tbAphDist
+            // 
+            this.tbAphDist.Enabled = false;
+            this.tbAphDist.Location = new System.Drawing.Point(362, 94);
+            this.tbAphDist.Name = "tbAphDist";
+            this.tbAphDist.Size = new System.Drawing.Size(113, 21);
+            this.tbAphDist.TabIndex = 61;
+            // 
+            // comboPerihDist
+            // 
+            this.comboPerihDist.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboPerihDist.Enabled = false;
+            this.comboPerihDist.FormattingEnabled = true;
+            this.comboPerihDist.Items.AddRange(new object[] {
+            "Greather than (>)",
+            "Less than (<)"});
+            this.comboPerihDist.Location = new System.Drawing.Point(235, 67);
+            this.comboPerihDist.Name = "comboPerihDist";
+            this.comboPerihDist.Size = new System.Drawing.Size(111, 21);
+            this.comboPerihDist.TabIndex = 42;
+            // 
+            // chPerihDist
+            // 
+            this.chPerihDist.AutoSize = true;
+            this.chPerihDist.Location = new System.Drawing.Point(10, 70);
+            this.chPerihDist.Name = "chPerihDist";
+            this.chPerihDist.Size = new System.Drawing.Size(115, 17);
+            this.chPerihDist.TabIndex = 30;
+            this.chPerihDist.Text = "Perihelion distance";
+            this.chPerihDist.UseVisualStyleBackColor = true;
+            // 
+            // comboAphDist
+            // 
+            this.comboAphDist.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboAphDist.Enabled = false;
+            this.comboAphDist.FormattingEnabled = true;
+            this.comboAphDist.Items.AddRange(new object[] {
+            "Greather than (>)",
+            "Less than (<)"});
+            this.comboAphDist.Location = new System.Drawing.Point(235, 94);
+            this.comboAphDist.Name = "comboAphDist";
+            this.comboAphDist.Size = new System.Drawing.Size(111, 21);
+            this.comboAphDist.TabIndex = 60;
+            // 
+            // tbPerihDist
+            // 
+            this.tbPerihDist.Enabled = false;
+            this.tbPerihDist.Location = new System.Drawing.Point(362, 67);
+            this.tbPerihDist.Name = "tbPerihDist";
+            this.tbPerihDist.Size = new System.Drawing.Size(113, 21);
+            this.tbPerihDist.TabIndex = 48;
+            // 
+            // chAphDist
+            // 
+            this.chAphDist.AutoSize = true;
+            this.chAphDist.Location = new System.Drawing.Point(10, 97);
+            this.chAphDist.Name = "chAphDist";
+            this.chAphDist.Size = new System.Drawing.Size(110, 17);
+            this.chAphDist.TabIndex = 59;
+            this.chAphDist.Text = "Aphelion distance";
+            this.chAphDist.UseVisualStyleBackColor = true;
+            // 
+            // btnPerihDateNow
+            // 
+            this.btnPerihDateNow.Enabled = false;
+            this.btnPerihDateNow.Location = new System.Drawing.Point(478, 42);
+            this.btnPerihDateNow.Name = "btnPerihDateNow";
+            this.btnPerihDateNow.Size = new System.Drawing.Size(15, 15);
+            this.btnPerihDateNow.TabIndex = 58;
+            this.btnPerihDateNow.UseVisualStyleBackColor = true;
+            // 
+            // tbPerihDateY
+            // 
+            this.tbPerihDateY.Enabled = false;
+            this.tbPerihDateY.Location = new System.Drawing.Point(424, 40);
+            this.tbPerihDateY.Name = "tbPerihDateY";
+            this.tbPerihDateY.Size = new System.Drawing.Size(50, 21);
+            this.tbPerihDateY.TabIndex = 57;
+            // 
+            // tbPerihDateM
+            // 
+            this.tbPerihDateM.Enabled = false;
+            this.tbPerihDateM.Location = new System.Drawing.Point(393, 40);
+            this.tbPerihDateM.Name = "tbPerihDateM";
+            this.tbPerihDateM.Size = new System.Drawing.Size(25, 21);
+            this.tbPerihDateM.TabIndex = 56;
+            // 
+            // tbPerihDateD
+            // 
+            this.tbPerihDateD.Enabled = false;
+            this.tbPerihDateD.Location = new System.Drawing.Point(362, 40);
+            this.tbPerihDateD.Name = "tbPerihDateD";
+            this.tbPerihDateD.Size = new System.Drawing.Size(25, 21);
+            this.tbPerihDateD.TabIndex = 55;
+            // 
+            // comboName
+            // 
+            this.comboName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboName.Enabled = false;
+            this.comboName.FormattingEnabled = true;
+            this.comboName.Items.AddRange(new object[] {
             "Contains",
             "Does not contain"});
-            this.comboFilterName.Location = new System.Drawing.Point(246, 83);
-            this.comboFilterName.Name = "comboFilterName";
-            this.comboFilterName.Size = new System.Drawing.Size(111, 21);
-            this.comboFilterName.TabIndex = 27;
+            this.comboName.Location = new System.Drawing.Point(235, 13);
+            this.comboName.Name = "comboName";
+            this.comboName.Size = new System.Drawing.Size(111, 21);
+            this.comboName.TabIndex = 54;
             // 
-            // tbFilterPeriod
+            // tbPeriod
             // 
-            this.tbFilterPeriod.Enabled = false;
-            this.tbFilterPeriod.Location = new System.Drawing.Point(363, 286);
-            this.tbFilterPeriod.Name = "tbFilterPeriod";
-            this.tbFilterPeriod.Size = new System.Drawing.Size(46, 21);
-            this.tbFilterPeriod.TabIndex = 26;
+            this.tbPeriod.Enabled = false;
+            this.tbPeriod.Location = new System.Drawing.Point(362, 230);
+            this.tbPeriod.Name = "tbPeriod";
+            this.tbPeriod.Size = new System.Drawing.Size(113, 21);
+            this.tbPeriod.TabIndex = 53;
             // 
-            // tbFilterIncl
+            // tbIncl
             // 
-            this.tbFilterIncl.Enabled = false;
-            this.tbFilterIncl.Location = new System.Drawing.Point(363, 257);
-            this.tbFilterIncl.Name = "tbFilterIncl";
-            this.tbFilterIncl.Size = new System.Drawing.Size(46, 21);
-            this.tbFilterIncl.TabIndex = 25;
+            this.tbIncl.Enabled = false;
+            this.tbIncl.Location = new System.Drawing.Point(362, 203);
+            this.tbIncl.Name = "tbIncl";
+            this.tbIncl.Size = new System.Drawing.Size(113, 21);
+            this.tbIncl.TabIndex = 52;
             // 
-            // tbFilterLongPeric
+            // tbLongPeric
             // 
-            this.tbFilterLongPeric.Enabled = false;
-            this.tbFilterLongPeric.Location = new System.Drawing.Point(363, 226);
-            this.tbFilterLongPeric.Name = "tbFilterLongPeric";
-            this.tbFilterLongPeric.Size = new System.Drawing.Size(46, 21);
-            this.tbFilterLongPeric.TabIndex = 24;
+            this.tbLongPeric.Enabled = false;
+            this.tbLongPeric.Location = new System.Drawing.Point(362, 174);
+            this.tbLongPeric.Name = "tbLongPeric";
+            this.tbLongPeric.Size = new System.Drawing.Size(113, 21);
+            this.tbLongPeric.TabIndex = 51;
             // 
-            // tbFilterAscNode
+            // tbAscNode
             // 
-            this.tbFilterAscNode.Enabled = false;
-            this.tbFilterAscNode.Location = new System.Drawing.Point(363, 198);
-            this.tbFilterAscNode.Name = "tbFilterAscNode";
-            this.tbFilterAscNode.Size = new System.Drawing.Size(46, 21);
-            this.tbFilterAscNode.TabIndex = 23;
+            this.tbAscNode.Enabled = false;
+            this.tbAscNode.Location = new System.Drawing.Point(362, 148);
+            this.tbAscNode.Name = "tbAscNode";
+            this.tbAscNode.Size = new System.Drawing.Size(113, 21);
+            this.tbAscNode.TabIndex = 50;
             // 
-            // tbFilterEcc
+            // tbEcc
             // 
-            this.tbFilterEcc.Enabled = false;
-            this.tbFilterEcc.Location = new System.Drawing.Point(363, 170);
-            this.tbFilterEcc.Name = "tbFilterEcc";
-            this.tbFilterEcc.Size = new System.Drawing.Size(46, 21);
-            this.tbFilterEcc.TabIndex = 22;
+            this.tbEcc.Enabled = false;
+            this.tbEcc.Location = new System.Drawing.Point(362, 122);
+            this.tbEcc.Name = "tbEcc";
+            this.tbEcc.Size = new System.Drawing.Size(113, 21);
+            this.tbEcc.TabIndex = 49;
             // 
-            // tbFilterPericDist
+            // comboPeriod
             // 
-            this.tbFilterPericDist.Enabled = false;
-            this.tbFilterPericDist.Location = new System.Drawing.Point(363, 140);
-            this.tbFilterPericDist.Name = "tbFilterPericDist";
-            this.tbFilterPericDist.Size = new System.Drawing.Size(46, 21);
-            this.tbFilterPericDist.TabIndex = 21;
-            // 
-            // comboFilterPeriod
-            // 
-            this.comboFilterPeriod.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboFilterPeriod.Enabled = false;
-            this.comboFilterPeriod.FormattingEnabled = true;
-            this.comboFilterPeriod.Items.AddRange(new object[] {
+            this.comboPeriod.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboPeriod.Enabled = false;
+            this.comboPeriod.FormattingEnabled = true;
+            this.comboPeriod.Items.AddRange(new object[] {
             "Greather than (>)",
             "Less than (<)"});
-            this.comboFilterPeriod.Location = new System.Drawing.Point(246, 285);
-            this.comboFilterPeriod.Name = "comboFilterPeriod";
-            this.comboFilterPeriod.Size = new System.Drawing.Size(111, 21);
-            this.comboFilterPeriod.TabIndex = 20;
+            this.comboPeriod.Location = new System.Drawing.Point(235, 229);
+            this.comboPeriod.Name = "comboPeriod";
+            this.comboPeriod.Size = new System.Drawing.Size(111, 21);
+            this.comboPeriod.TabIndex = 47;
             // 
-            // comboFilterIncl
+            // comboIncl
             // 
-            this.comboFilterIncl.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboFilterIncl.Enabled = false;
-            this.comboFilterIncl.FormattingEnabled = true;
-            this.comboFilterIncl.Items.AddRange(new object[] {
+            this.comboIncl.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboIncl.Enabled = false;
+            this.comboIncl.FormattingEnabled = true;
+            this.comboIncl.Items.AddRange(new object[] {
             "Greather than (>)",
             "Less than (<)"});
-            this.comboFilterIncl.Location = new System.Drawing.Point(246, 256);
-            this.comboFilterIncl.Name = "comboFilterIncl";
-            this.comboFilterIncl.Size = new System.Drawing.Size(111, 21);
-            this.comboFilterIncl.TabIndex = 19;
+            this.comboIncl.Location = new System.Drawing.Point(235, 202);
+            this.comboIncl.Name = "comboIncl";
+            this.comboIncl.Size = new System.Drawing.Size(111, 21);
+            this.comboIncl.TabIndex = 46;
             // 
-            // comboFilterLongPeric
+            // comboLongPeric
             // 
-            this.comboFilterLongPeric.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboFilterLongPeric.Enabled = false;
-            this.comboFilterLongPeric.FormattingEnabled = true;
-            this.comboFilterLongPeric.Items.AddRange(new object[] {
+            this.comboLongPeric.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboLongPeric.Enabled = false;
+            this.comboLongPeric.FormattingEnabled = true;
+            this.comboLongPeric.Items.AddRange(new object[] {
             "Greather than (>)",
             "Less than (<)"});
-            this.comboFilterLongPeric.Location = new System.Drawing.Point(246, 227);
-            this.comboFilterLongPeric.Name = "comboFilterLongPeric";
-            this.comboFilterLongPeric.Size = new System.Drawing.Size(111, 21);
-            this.comboFilterLongPeric.TabIndex = 18;
+            this.comboLongPeric.Location = new System.Drawing.Point(235, 175);
+            this.comboLongPeric.Name = "comboLongPeric";
+            this.comboLongPeric.Size = new System.Drawing.Size(111, 21);
+            this.comboLongPeric.TabIndex = 45;
             // 
-            // comboFilterAscNode
+            // comboAscNode
             // 
-            this.comboFilterAscNode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboFilterAscNode.Enabled = false;
-            this.comboFilterAscNode.FormattingEnabled = true;
-            this.comboFilterAscNode.Items.AddRange(new object[] {
+            this.comboAscNode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboAscNode.Enabled = false;
+            this.comboAscNode.FormattingEnabled = true;
+            this.comboAscNode.Items.AddRange(new object[] {
             "Greather than (>)",
             "Less than (<)"});
-            this.comboFilterAscNode.Location = new System.Drawing.Point(246, 198);
-            this.comboFilterAscNode.Name = "comboFilterAscNode";
-            this.comboFilterAscNode.Size = new System.Drawing.Size(111, 21);
-            this.comboFilterAscNode.TabIndex = 17;
+            this.comboAscNode.Location = new System.Drawing.Point(235, 148);
+            this.comboAscNode.Name = "comboAscNode";
+            this.comboAscNode.Size = new System.Drawing.Size(111, 21);
+            this.comboAscNode.TabIndex = 44;
             // 
-            // comboFilterEcc
+            // comboEcc
             // 
-            this.comboFilterEcc.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboFilterEcc.Enabled = false;
-            this.comboFilterEcc.FormattingEnabled = true;
-            this.comboFilterEcc.Items.AddRange(new object[] {
+            this.comboEcc.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboEcc.Enabled = false;
+            this.comboEcc.FormattingEnabled = true;
+            this.comboEcc.Items.AddRange(new object[] {
             "Greather than (>)",
             "Less than (<)"});
-            this.comboFilterEcc.Location = new System.Drawing.Point(246, 169);
-            this.comboFilterEcc.Name = "comboFilterEcc";
-            this.comboFilterEcc.Size = new System.Drawing.Size(111, 21);
-            this.comboFilterEcc.TabIndex = 16;
+            this.comboEcc.Location = new System.Drawing.Point(235, 121);
+            this.comboEcc.Name = "comboEcc";
+            this.comboEcc.Size = new System.Drawing.Size(111, 21);
+            this.comboEcc.TabIndex = 43;
             // 
-            // comboFilterPericDist
+            // comboPerihDate
             // 
-            this.comboFilterPericDist.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboFilterPericDist.Enabled = false;
-            this.comboFilterPericDist.FormattingEnabled = true;
-            this.comboFilterPericDist.Items.AddRange(new object[] {
+            this.comboPerihDate.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboPerihDate.Enabled = false;
+            this.comboPerihDate.FormattingEnabled = true;
+            this.comboPerihDate.Items.AddRange(new object[] {
             "Greather than (>)",
             "Less than (<)"});
-            this.comboFilterPericDist.Location = new System.Drawing.Point(246, 140);
-            this.comboFilterPericDist.Name = "comboFilterPericDist";
-            this.comboFilterPericDist.Size = new System.Drawing.Size(111, 21);
-            this.comboFilterPericDist.TabIndex = 15;
+            this.comboPerihDate.Location = new System.Drawing.Point(235, 40);
+            this.comboPerihDate.Name = "comboPerihDate";
+            this.comboPerihDate.Size = new System.Drawing.Size(111, 21);
+            this.comboPerihDate.TabIndex = 37;
             // 
-            // btnFilterPerihDateNow
+            // tbName
             // 
-            this.btnFilterPerihDateNow.Enabled = false;
-            this.btnFilterPerihDateNow.Location = new System.Drawing.Point(453, 113);
-            this.btnFilterPerihDateNow.Name = "btnFilterPerihDateNow";
-            this.btnFilterPerihDateNow.Size = new System.Drawing.Size(15, 15);
-            this.btnFilterPerihDateNow.TabIndex = 14;
-            this.btnFilterPerihDateNow.UseVisualStyleBackColor = true;
+            this.tbName.Enabled = false;
+            this.tbName.Location = new System.Drawing.Point(362, 13);
+            this.tbName.Name = "tbName";
+            this.tbName.Size = new System.Drawing.Size(166, 21);
+            this.tbName.TabIndex = 36;
             // 
-            // tbFilterPerihDateY
+            // chPeriod
             // 
-            this.tbFilterPerihDateY.Enabled = false;
-            this.tbFilterPerihDateY.Location = new System.Drawing.Point(415, 111);
-            this.tbFilterPerihDateY.Name = "tbFilterPerihDateY";
-            this.tbFilterPerihDateY.Size = new System.Drawing.Size(32, 21);
-            this.tbFilterPerihDateY.TabIndex = 13;
+            this.chPeriod.AutoSize = true;
+            this.chPeriod.Location = new System.Drawing.Point(10, 232);
+            this.chPeriod.Name = "chPeriod";
+            this.chPeriod.Size = new System.Drawing.Size(56, 17);
+            this.chPeriod.TabIndex = 35;
+            this.chPeriod.Text = "Period";
+            this.chPeriod.UseVisualStyleBackColor = true;
             // 
-            // tbFilterPerihDateM
+            // chIncl
             // 
-            this.tbFilterPerihDateM.Enabled = false;
-            this.tbFilterPerihDateM.Location = new System.Drawing.Point(389, 111);
-            this.tbFilterPerihDateM.Name = "tbFilterPerihDateM";
-            this.tbFilterPerihDateM.Size = new System.Drawing.Size(20, 21);
-            this.tbFilterPerihDateM.TabIndex = 12;
+            this.chIncl.AutoSize = true;
+            this.chIncl.Location = new System.Drawing.Point(10, 205);
+            this.chIncl.Name = "chIncl";
+            this.chIncl.Size = new System.Drawing.Size(75, 17);
+            this.chIncl.TabIndex = 34;
+            this.chIncl.Text = "Inclination";
+            this.chIncl.UseVisualStyleBackColor = true;
             // 
-            // tbFilterPerihDateD
+            // chLongPeric
             // 
-            this.tbFilterPerihDateD.Enabled = false;
-            this.tbFilterPerihDateD.Location = new System.Drawing.Point(363, 111);
-            this.tbFilterPerihDateD.Name = "tbFilterPerihDateD";
-            this.tbFilterPerihDateD.Size = new System.Drawing.Size(20, 21);
-            this.tbFilterPerihDateD.TabIndex = 11;
+            this.chLongPeric.AutoSize = true;
+            this.chLongPeric.Location = new System.Drawing.Point(10, 178);
+            this.chLongPeric.Name = "chLongPeric";
+            this.chLongPeric.Size = new System.Drawing.Size(138, 17);
+            this.chLongPeric.TabIndex = 33;
+            this.chLongPeric.Text = "Longitude of Pericenter";
+            this.chLongPeric.UseVisualStyleBackColor = true;
             // 
-            // comboFilterPerihDate
+            // chAscNode
             // 
-            this.comboFilterPerihDate.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboFilterPerihDate.Enabled = false;
-            this.comboFilterPerihDate.FormattingEnabled = true;
-            this.comboFilterPerihDate.Items.AddRange(new object[] {
-            "Greather than (>)",
-            "Less than (<)"});
-            this.comboFilterPerihDate.Location = new System.Drawing.Point(246, 111);
-            this.comboFilterPerihDate.Name = "comboFilterPerihDate";
-            this.comboFilterPerihDate.Size = new System.Drawing.Size(111, 21);
-            this.comboFilterPerihDate.TabIndex = 10;
+            this.chAscNode.AutoSize = true;
+            this.chAscNode.Location = new System.Drawing.Point(10, 151);
+            this.chAscNode.Name = "chAscNode";
+            this.chAscNode.Size = new System.Drawing.Size(165, 17);
+            this.chAscNode.TabIndex = 32;
+            this.chAscNode.Text = "Longitude of Ascending node";
+            this.chAscNode.UseVisualStyleBackColor = true;
             // 
-            // tbFilterName
+            // chEcc
             // 
-            this.tbFilterName.Enabled = false;
-            this.tbFilterName.Location = new System.Drawing.Point(363, 83);
-            this.tbFilterName.Name = "tbFilterName";
-            this.tbFilterName.Size = new System.Drawing.Size(201, 21);
-            this.tbFilterName.TabIndex = 9;
+            this.chEcc.AutoSize = true;
+            this.chEcc.Location = new System.Drawing.Point(10, 125);
+            this.chEcc.Name = "chEcc";
+            this.chEcc.Size = new System.Drawing.Size(81, 17);
+            this.chEcc.TabIndex = 31;
+            this.chEcc.Text = "Eccentricity";
+            this.chEcc.UseVisualStyleBackColor = true;
             // 
-            // chFilterPeriod
+            // chPerihDate
             // 
-            this.chFilterPeriod.AutoSize = true;
-            this.chFilterPeriod.Location = new System.Drawing.Point(11, 287);
-            this.chFilterPeriod.Name = "chFilterPeriod";
-            this.chFilterPeriod.Size = new System.Drawing.Size(56, 17);
-            this.chFilterPeriod.TabIndex = 8;
-            this.chFilterPeriod.Text = "Period";
-            this.chFilterPeriod.UseVisualStyleBackColor = true;
-            this.chFilterPeriod.CheckedChanged += new System.EventHandler(this.chFilterPeriod_CheckedChanged);
+            this.chPerihDate.AutoSize = true;
+            this.chPerihDate.Location = new System.Drawing.Point(10, 43);
+            this.chPerihDate.Name = "chPerihDate";
+            this.chPerihDate.Size = new System.Drawing.Size(97, 17);
+            this.chPerihDate.TabIndex = 29;
+            this.chPerihDate.Text = "Perihelion date";
+            this.chPerihDate.UseVisualStyleBackColor = true;
             // 
-            // chFilterIncl
+            // chName
             // 
-            this.chFilterIncl.AutoSize = true;
-            this.chFilterIncl.Location = new System.Drawing.Point(11, 258);
-            this.chFilterIncl.Name = "chFilterIncl";
-            this.chFilterIncl.Size = new System.Drawing.Size(75, 17);
-            this.chFilterIncl.TabIndex = 7;
-            this.chFilterIncl.Text = "Inclination";
-            this.chFilterIncl.UseVisualStyleBackColor = true;
-            this.chFilterIncl.CheckedChanged += new System.EventHandler(this.chFilterIncl_CheckedChanged);
-            // 
-            // chFilterLongPeric
-            // 
-            this.chFilterLongPeric.AutoSize = true;
-            this.chFilterLongPeric.Location = new System.Drawing.Point(11, 229);
-            this.chFilterLongPeric.Name = "chFilterLongPeric";
-            this.chFilterLongPeric.Size = new System.Drawing.Size(138, 17);
-            this.chFilterLongPeric.TabIndex = 6;
-            this.chFilterLongPeric.Text = "Longitude of Pericenter";
-            this.chFilterLongPeric.UseVisualStyleBackColor = true;
-            this.chFilterLongPeric.CheckedChanged += new System.EventHandler(this.chFilterLongPeric_CheckedChanged);
-            // 
-            // chFilterAscNode
-            // 
-            this.chFilterAscNode.AutoSize = true;
-            this.chFilterAscNode.Location = new System.Drawing.Point(11, 200);
-            this.chFilterAscNode.Name = "chFilterAscNode";
-            this.chFilterAscNode.Size = new System.Drawing.Size(165, 17);
-            this.chFilterAscNode.TabIndex = 5;
-            this.chFilterAscNode.Text = "Longitude of Ascending node";
-            this.chFilterAscNode.UseVisualStyleBackColor = true;
-            this.chFilterAscNode.CheckedChanged += new System.EventHandler(this.chFilterAscNode_CheckedChanged);
-            // 
-            // chFilterEcc
-            // 
-            this.chFilterEcc.AutoSize = true;
-            this.chFilterEcc.Location = new System.Drawing.Point(11, 171);
-            this.chFilterEcc.Name = "chFilterEcc";
-            this.chFilterEcc.Size = new System.Drawing.Size(81, 17);
-            this.chFilterEcc.TabIndex = 4;
-            this.chFilterEcc.Text = "Eccentricity";
-            this.chFilterEcc.UseVisualStyleBackColor = true;
-            this.chFilterEcc.CheckedChanged += new System.EventHandler(this.chFilterEcc_CheckedChanged);
-            // 
-            // chFilterPericDist
-            // 
-            this.chFilterPericDist.AutoSize = true;
-            this.chFilterPericDist.Location = new System.Drawing.Point(11, 142);
-            this.chFilterPericDist.Name = "chFilterPericDist";
-            this.chFilterPericDist.Size = new System.Drawing.Size(118, 17);
-            this.chFilterPericDist.TabIndex = 3;
-            this.chFilterPericDist.Text = "Pericenter distance";
-            this.chFilterPericDist.UseVisualStyleBackColor = true;
-            this.chFilterPericDist.CheckedChanged += new System.EventHandler(this.chFilterPericDist_CheckedChanged);
-            // 
-            // chFilterPerihDate
-            // 
-            this.chFilterPerihDate.AutoSize = true;
-            this.chFilterPerihDate.Location = new System.Drawing.Point(11, 113);
-            this.chFilterPerihDate.Name = "chFilterPerihDate";
-            this.chFilterPerihDate.Size = new System.Drawing.Size(97, 17);
-            this.chFilterPerihDate.TabIndex = 2;
-            this.chFilterPerihDate.Text = "Perihelion date";
-            this.chFilterPerihDate.UseVisualStyleBackColor = true;
-            this.chFilterPerihDate.CheckedChanged += new System.EventHandler(this.chFilterPerihDate_CheckedChanged);
-            // 
-            // chFilterName
-            // 
-            this.chFilterName.AutoSize = true;
-            this.chFilterName.Location = new System.Drawing.Point(11, 86);
-            this.chFilterName.Name = "chFilterName";
-            this.chFilterName.Size = new System.Drawing.Size(53, 17);
-            this.chFilterName.TabIndex = 1;
-            this.chFilterName.Text = "Name";
-            this.chFilterName.UseVisualStyleBackColor = true;
-            this.chFilterName.CheckedChanged += new System.EventHandler(this.chFilterName_CheckedChanged);
+            this.chName.AutoSize = true;
+            this.chName.Location = new System.Drawing.Point(10, 15);
+            this.chName.Name = "chName";
+            this.chName.Size = new System.Drawing.Size(53, 17);
+            this.chName.TabIndex = 28;
+            this.chName.Text = "Name";
+            this.chName.UseVisualStyleBackColor = true;
             // 
             // panelFilters
             // 
@@ -1513,7 +1570,7 @@
             this.panelImport1.Controls.Add(this.pictureBox3);
             this.panelImport1.Location = new System.Drawing.Point(6, 6);
             this.panelImport1.Name = "panelImport1";
-            this.panelImport1.Size = new System.Drawing.Size(740, 65);
+            this.panelImport1.Size = new System.Drawing.Size(1221, 65);
             this.panelImport1.TabIndex = 0;
             // 
             // label2
@@ -1806,7 +1863,7 @@
             this.panelLocation.Controls.Add(this.pictureBox4);
             this.panelLocation.Location = new System.Drawing.Point(6, 6);
             this.panelLocation.Name = "panelLocation";
-            this.panelLocation.Size = new System.Drawing.Size(740, 65);
+            this.panelLocation.Size = new System.Drawing.Size(1221, 65);
             this.panelLocation.TabIndex = 0;
             // 
             // label7
@@ -1859,7 +1916,7 @@
             this.panelEphem.Controls.Add(this.pictureBox5);
             this.panelEphem.Location = new System.Drawing.Point(6, 6);
             this.panelEphem.Name = "panelEphem";
-            this.panelEphem.Size = new System.Drawing.Size(740, 65);
+            this.panelEphem.Size = new System.Drawing.Size(1221, 65);
             this.panelEphem.TabIndex = 0;
             // 
             // label9
@@ -1912,7 +1969,7 @@
             this.panelLightCurve.Controls.Add(this.pictureBox6);
             this.panelLightCurve.Location = new System.Drawing.Point(6, 6);
             this.panelLightCurve.Name = "panelLightCurve";
-            this.panelLightCurve.Size = new System.Drawing.Size(740, 65);
+            this.panelLightCurve.Size = new System.Drawing.Size(1221, 65);
             this.panelLightCurve.TabIndex = 0;
             // 
             // label11
@@ -1965,7 +2022,7 @@
             this.panelOrbit.Controls.Add(this.pictureBox7);
             this.panelOrbit.Location = new System.Drawing.Point(6, 6);
             this.panelOrbit.Name = "panelOrbit";
-            this.panelOrbit.Size = new System.Drawing.Size(740, 65);
+            this.panelOrbit.Size = new System.Drawing.Size(1221, 65);
             this.panelOrbit.TabIndex = 0;
             // 
             // label13
@@ -2018,7 +2075,7 @@
             this.panelSettings.Controls.Add(this.pictureBox8);
             this.panelSettings.Location = new System.Drawing.Point(6, 6);
             this.panelSettings.Name = "panelSettings";
-            this.panelSettings.Size = new System.Drawing.Size(740, 65);
+            this.panelSettings.Size = new System.Drawing.Size(1221, 65);
             this.panelSettings.TabIndex = 0;
             // 
             // label15
@@ -2276,16 +2333,25 @@
             this.descendingToolStripMenuItem.Text = "Descending";
             this.descendingToolStripMenuItem.Click += new System.EventHandler(this.descendingToolStripMenuItem_Click);
             // 
-            // checkBox2
+            // btnApplyFilters
             // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(652, 380);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(65, 17);
-            this.checkBox2.TabIndex = 0;
-            this.checkBox2.Text = "topmost";
-            this.checkBox2.UseVisualStyleBackColor = true;
-            this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
+            this.btnApplyFilters.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.btnApplyFilters.Location = new System.Drawing.Point(31, 297);
+            this.btnApplyFilters.Name = "btnApplyFilters";
+            this.btnApplyFilters.Size = new System.Drawing.Size(103, 23);
+            this.btnApplyFilters.TabIndex = 64;
+            this.btnApplyFilters.Text = "Apply";
+            this.btnApplyFilters.UseVisualStyleBackColor = true;
+            // 
+            // button1
+            // 
+            this.button1.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.button1.Location = new System.Drawing.Point(140, 297);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(103, 23);
+            this.button1.TabIndex = 65;
+            this.button1.Text = "Reset";
+            this.button1.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -2311,7 +2377,8 @@
             this.panelDatabase.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.tabPage2.ResumeLayout(false);
-            this.tabPage2.PerformLayout();
+            this.gbFilters.ResumeLayout(false);
+            this.gbFilters.PerformLayout();
             this.panelFilters.ResumeLayout(false);
             this.panelFilters.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -2404,32 +2471,6 @@
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.PictureBox pictureBox9;
         private System.Windows.Forms.Button btnImport;
-        private System.Windows.Forms.ComboBox comboFilterPericDist;
-        private System.Windows.Forms.Button btnFilterPerihDateNow;
-        private System.Windows.Forms.TextBox tbFilterPerihDateY;
-        private System.Windows.Forms.TextBox tbFilterPerihDateM;
-        private System.Windows.Forms.TextBox tbFilterPerihDateD;
-        private System.Windows.Forms.ComboBox comboFilterPerihDate;
-        private System.Windows.Forms.TextBox tbFilterName;
-        private System.Windows.Forms.CheckBox chFilterPeriod;
-        private System.Windows.Forms.CheckBox chFilterIncl;
-        private System.Windows.Forms.CheckBox chFilterLongPeric;
-        private System.Windows.Forms.CheckBox chFilterAscNode;
-        private System.Windows.Forms.CheckBox chFilterEcc;
-        private System.Windows.Forms.CheckBox chFilterPericDist;
-        private System.Windows.Forms.CheckBox chFilterPerihDate;
-        private System.Windows.Forms.CheckBox chFilterName;
-        private System.Windows.Forms.TextBox tbFilterPeriod;
-        private System.Windows.Forms.TextBox tbFilterIncl;
-        private System.Windows.Forms.TextBox tbFilterLongPeric;
-        private System.Windows.Forms.TextBox tbFilterAscNode;
-        private System.Windows.Forms.TextBox tbFilterEcc;
-        private System.Windows.Forms.TextBox tbFilterPericDist;
-        private System.Windows.Forms.ComboBox comboFilterPeriod;
-        private System.Windows.Forms.ComboBox comboFilterIncl;
-        private System.Windows.Forms.ComboBox comboFilterLongPeric;
-        private System.Windows.Forms.ComboBox comboFilterAscNode;
-        private System.Windows.Forms.ComboBox comboFilterEcc;
         private System.Windows.Forms.Label label42;
         private System.Windows.Forms.Label label41;
         private System.Windows.Forms.Label label40;
@@ -2506,7 +2547,6 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.ListBox cometListbox;
-        private System.Windows.Forms.ComboBox comboFilterName;
         private System.Windows.Forms.Label label44;
         private System.Windows.Forms.Label label43;
         private System.Windows.Forms.TextBox textBox9;
@@ -2520,7 +2560,6 @@
         private System.Windows.Forms.TextBox textBox6;
         private System.Windows.Forms.Label label27;
         private System.Windows.Forms.Label label29;
-        private System.Windows.Forms.Button btnApplyFilters;
         private System.Windows.Forms.Button btnSaveLocation;
         private System.Windows.Forms.ToolStripMenuItem deleteSelectedToolStripMenuItem;
         private System.Windows.Forms.Label label63;
@@ -2544,7 +2583,41 @@
         private System.Windows.Forms.TextBox tbImportFilename;
         private System.Windows.Forms.Button btnBrowseImportFile;
         private System.Windows.Forms.RadioButton radioAutomatic;
+        private System.Windows.Forms.GroupBox gbFilters;
+        private System.Windows.Forms.ComboBox comboBox3;
         private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.TextBox tbAphDist;
+        private System.Windows.Forms.ComboBox comboPerihDist;
+        private System.Windows.Forms.CheckBox chPerihDist;
+        private System.Windows.Forms.ComboBox comboAphDist;
+        private System.Windows.Forms.TextBox tbPerihDist;
+        private System.Windows.Forms.CheckBox chAphDist;
+        private System.Windows.Forms.Button btnPerihDateNow;
+        private System.Windows.Forms.TextBox tbPerihDateY;
+        private System.Windows.Forms.TextBox tbPerihDateM;
+        private System.Windows.Forms.TextBox tbPerihDateD;
+        private System.Windows.Forms.ComboBox comboName;
+        private System.Windows.Forms.TextBox tbPeriod;
+        private System.Windows.Forms.TextBox tbIncl;
+        private System.Windows.Forms.TextBox tbLongPeric;
+        private System.Windows.Forms.TextBox tbAscNode;
+        private System.Windows.Forms.TextBox tbEcc;
+        private System.Windows.Forms.ComboBox comboPeriod;
+        private System.Windows.Forms.ComboBox comboIncl;
+        private System.Windows.Forms.ComboBox comboLongPeric;
+        private System.Windows.Forms.ComboBox comboAscNode;
+        private System.Windows.Forms.ComboBox comboEcc;
+        private System.Windows.Forms.ComboBox comboPerihDate;
+        private System.Windows.Forms.TextBox tbName;
+        private System.Windows.Forms.CheckBox chPeriod;
+        private System.Windows.Forms.CheckBox chIncl;
+        private System.Windows.Forms.CheckBox chLongPeric;
+        private System.Windows.Forms.CheckBox chAscNode;
+        private System.Windows.Forms.CheckBox chEcc;
+        private System.Windows.Forms.CheckBox chPerihDate;
+        private System.Windows.Forms.CheckBox chName;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnApplyFilters;
     }
 }
 

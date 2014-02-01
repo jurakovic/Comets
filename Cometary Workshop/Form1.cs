@@ -65,56 +65,6 @@ namespace Cometary_Workshop
             comboImportType.Enabled = radioManual.Checked;
         }
 
-        private void chFilterName_CheckedChanged(object sender, EventArgs e)
-        {
-            comboFilterName.Enabled = (sender as CheckBox).Checked;
-            tbFilterName.Enabled = (sender as CheckBox).Checked;
-        }
-
-        private void chFilterPerihDate_CheckedChanged(object sender, EventArgs e)
-        {
-            comboFilterPerihDate.Enabled = (sender as CheckBox).Checked;
-            tbFilterPerihDateD.Enabled = (sender as CheckBox).Checked;
-            tbFilterPerihDateM.Enabled = (sender as CheckBox).Checked;
-            tbFilterPerihDateY.Enabled = (sender as CheckBox).Checked;
-            btnFilterPerihDateNow.Enabled = (sender as CheckBox).Checked;
-        }
-
-        private void chFilterPericDist_CheckedChanged(object sender, EventArgs e)
-        {
-            comboFilterPericDist.Enabled = (sender as CheckBox).Checked;
-            tbFilterPericDist.Enabled = (sender as CheckBox).Checked;
-        }
-
-        private void chFilterEcc_CheckedChanged(object sender, EventArgs e)
-        {
-            comboFilterEcc.Enabled = (sender as CheckBox).Checked;
-            tbFilterEcc.Enabled = (sender as CheckBox).Checked;
-        }
-
-        private void chFilterAscNode_CheckedChanged(object sender, EventArgs e)
-        {
-            comboFilterAscNode.Enabled = (sender as CheckBox).Checked;
-            tbFilterAscNode.Enabled = (sender as CheckBox).Checked;
-        }
-
-        private void chFilterLongPeric_CheckedChanged(object sender, EventArgs e)
-        {
-            comboFilterLongPeric.Enabled = (sender as CheckBox).Checked;
-            tbFilterLongPeric.Enabled = (sender as CheckBox).Checked;
-        }
-
-        private void chFilterIncl_CheckedChanged(object sender, EventArgs e)
-        {
-            comboFilterIncl.Enabled = (sender as CheckBox).Checked;
-            tbFilterIncl.Enabled = (sender as CheckBox).Checked;
-        }
-
-        private void chFilterPeriod_CheckedChanged(object sender, EventArgs e)
-        {
-            comboFilterPeriod.Enabled = (sender as CheckBox).Checked;
-            tbFilterPeriod.Enabled = (sender as CheckBox).Checked;
-        }
 
         private void btnDownload_Click(object sender, EventArgs e)
         {
@@ -175,12 +125,31 @@ namespace Cometary_Workshop
         private void updateCometListbox(List<Comet> list)
         {
             cometListbox.Items.Clear();
-            foreach (Comet c in list)
-            {
-                cometListbox.Items.Add(c.full);
-            }
-            cometListbox.SelectedIndex = 0;
 
+            if (list.Count == 0)
+            {
+                tId.Text = "";
+                tName.Text = "";
+                tT.Text = "";
+                tQ.Text = "";
+                tE.Text = "";
+                tI.Text = "";
+                tAn.Text = "";
+                tPn.Text = "";
+                tP.Text = "";
+                tAph.Text = "";
+                tA.Text = "";
+                tG.Text = "";
+                tK.Text = "";
+                tSort.Text = "";
+                tEquinox.Text = "";
+            }
+
+            else
+            {
+                foreach (Comet c in list) cometListbox.Items.Add(c.full);
+                cometListbox.SelectedIndex = 0;
+            }
 
             if (list.Count == masterList.Count)
                 labelComets.Text = "Comets: " + list.Count;
@@ -314,8 +283,8 @@ namespace Cometary_Workshop
 
             foreach (Comet c in masterList)
             {
-                if (filterFlags[0] && !c.full.Contains(filterName)) continue;
-                if (filterFlags[1] && c.full.Contains(filterName)) continue;
+                if (filterFlags[0] && !c.full.ToUpper().Contains(filterName.ToUpper())) continue;
+                if (filterFlags[1] && c.full.ToUpper().Contains(filterName.ToUpper())) continue;
                 if (filterFlags[2] && c.T < filterValues[1]) continue;
                 if (filterFlags[3] && c.T > filterValues[1]) continue;
                 if (filterFlags[4] && c.q < filterValues[2]) continue;
@@ -344,6 +313,7 @@ namespace Cometary_Workshop
         {
             if (list.Count == 0)
             {
+                updateCometListbox(userList);
                 return;
             }
 
@@ -453,11 +423,6 @@ namespace Cometary_Workshop
 
             ff.ShowDialog();
             copyListUsingFilters();
-        }
-
-        private void checkBox2_CheckedChanged(object sender, EventArgs e)
-        {
-            this.TopMost = checkBox2.Checked;
         }
     }
 }
