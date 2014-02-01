@@ -33,61 +33,97 @@
             this.btnExit = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.label63 = new System.Windows.Forms.Label();
-            this.label64 = new System.Windows.Forms.Label();
-            this.label65 = new System.Windows.Forms.Label();
-            this.tA = new System.Windows.Forms.TextBox();
-            this.label46 = new System.Windows.Forms.Label();
-            this.label47 = new System.Windows.Forms.Label();
-            this.label49 = new System.Windows.Forms.Label();
-            this.tAph = new System.Windows.Forms.TextBox();
             this.btnFilters = new System.Windows.Forms.Button();
-            this.tSort = new System.Windows.Forms.TextBox();
-            this.label23 = new System.Windows.Forms.Label();
             this.btnSort = new System.Windows.Forms.Button();
             this.btnOptions = new System.Windows.Forms.Button();
-            this.label42 = new System.Windows.Forms.Label();
-            this.label41 = new System.Windows.Forms.Label();
-            this.label40 = new System.Windows.Forms.Label();
-            this.label38 = new System.Windows.Forms.Label();
-            this.label36 = new System.Windows.Forms.Label();
-            this.label35 = new System.Windows.Forms.Label();
-            this.label33 = new System.Windows.Forms.Label();
-            this.label34 = new System.Windows.Forms.Label();
-            this.tEquinox = new System.Windows.Forms.TextBox();
-            this.label32 = new System.Windows.Forms.Label();
-            this.tK = new System.Windows.Forms.TextBox();
-            this.label28 = new System.Windows.Forms.Label();
-            this.label45 = new System.Windows.Forms.Label();
-            this.tG = new System.Windows.Forms.TextBox();
-            this.label48 = new System.Windows.Forms.Label();
-            this.label50 = new System.Windows.Forms.Label();
-            this.label51 = new System.Windows.Forms.Label();
-            this.label52 = new System.Windows.Forms.Label();
-            this.label53 = new System.Windows.Forms.Label();
-            this.label54 = new System.Windows.Forms.Label();
-            this.label55 = new System.Windows.Forms.Label();
-            this.label56 = new System.Windows.Forms.Label();
-            this.label57 = new System.Windows.Forms.Label();
-            this.label58 = new System.Windows.Forms.Label();
-            this.label59 = new System.Windows.Forms.Label();
-            this.tP = new System.Windows.Forms.TextBox();
-            this.tPn = new System.Windows.Forms.TextBox();
-            this.tAn = new System.Windows.Forms.TextBox();
-            this.tI = new System.Windows.Forms.TextBox();
-            this.tE = new System.Windows.Forms.TextBox();
-            this.tQ = new System.Windows.Forms.TextBox();
-            this.tT = new System.Windows.Forms.TextBox();
-            this.label60 = new System.Windows.Forms.Label();
-            this.tName = new System.Windows.Forms.TextBox();
-            this.tId = new System.Windows.Forms.TextBox();
-            this.label61 = new System.Windows.Forms.Label();
-            this.label62 = new System.Windows.Forms.Label();
             this.cometListbox = new System.Windows.Forms.ListBox();
             this.panelDatabase = new System.Windows.Forms.Panel();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.gbFilters = new System.Windows.Forms.GroupBox();
+            this.btnCancelFilters = new System.Windows.Forms.Button();
+            this.btnApplyFilters = new System.Windows.Forms.Button();
+            this.comboBox3 = new System.Windows.Forms.ComboBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.tbAphDist = new System.Windows.Forms.TextBox();
+            this.comboPerihDist = new System.Windows.Forms.ComboBox();
+            this.chPerihDist = new System.Windows.Forms.CheckBox();
+            this.comboAphDist = new System.Windows.Forms.ComboBox();
+            this.tbPerihDist = new System.Windows.Forms.TextBox();
+            this.chAphDist = new System.Windows.Forms.CheckBox();
+            this.btnPerihDateNow = new System.Windows.Forms.Button();
+            this.tbPerihDateY = new System.Windows.Forms.TextBox();
+            this.tbPerihDateM = new System.Windows.Forms.TextBox();
+            this.tbPerihDateD = new System.Windows.Forms.TextBox();
+            this.comboName = new System.Windows.Forms.ComboBox();
+            this.tbPeriod = new System.Windows.Forms.TextBox();
+            this.tbIncl = new System.Windows.Forms.TextBox();
+            this.tbLongPeric = new System.Windows.Forms.TextBox();
+            this.tbAscNode = new System.Windows.Forms.TextBox();
+            this.tbEcc = new System.Windows.Forms.TextBox();
+            this.comboPeriod = new System.Windows.Forms.ComboBox();
+            this.comboIncl = new System.Windows.Forms.ComboBox();
+            this.comboLongPeric = new System.Windows.Forms.ComboBox();
+            this.comboAscNode = new System.Windows.Forms.ComboBox();
+            this.comboEcc = new System.Windows.Forms.ComboBox();
+            this.comboPerihDate = new System.Windows.Forms.ComboBox();
+            this.tbName = new System.Windows.Forms.TextBox();
+            this.chPeriod = new System.Windows.Forms.CheckBox();
+            this.chIncl = new System.Windows.Forms.CheckBox();
+            this.chLongPeric = new System.Windows.Forms.CheckBox();
+            this.chAscNode = new System.Windows.Forms.CheckBox();
+            this.chEcc = new System.Windows.Forms.CheckBox();
+            this.chPerihDate = new System.Windows.Forms.CheckBox();
+            this.chName = new System.Windows.Forms.CheckBox();
+            this.gbDetails = new System.Windows.Forms.GroupBox();
+            this.label62 = new System.Windows.Forms.Label();
+            this.label61 = new System.Windows.Forms.Label();
+            this.label63 = new System.Windows.Forms.Label();
+            this.tId = new System.Windows.Forms.TextBox();
+            this.label64 = new System.Windows.Forms.Label();
+            this.tName = new System.Windows.Forms.TextBox();
+            this.label65 = new System.Windows.Forms.Label();
+            this.label60 = new System.Windows.Forms.Label();
+            this.tA = new System.Windows.Forms.TextBox();
+            this.tT = new System.Windows.Forms.TextBox();
+            this.label46 = new System.Windows.Forms.Label();
+            this.tQ = new System.Windows.Forms.TextBox();
+            this.label47 = new System.Windows.Forms.Label();
+            this.tE = new System.Windows.Forms.TextBox();
+            this.label49 = new System.Windows.Forms.Label();
+            this.tI = new System.Windows.Forms.TextBox();
+            this.tAph = new System.Windows.Forms.TextBox();
+            this.tAn = new System.Windows.Forms.TextBox();
+            this.tPn = new System.Windows.Forms.TextBox();
+            this.tSort = new System.Windows.Forms.TextBox();
+            this.tP = new System.Windows.Forms.TextBox();
+            this.label23 = new System.Windows.Forms.Label();
+            this.label59 = new System.Windows.Forms.Label();
+            this.label58 = new System.Windows.Forms.Label();
+            this.label57 = new System.Windows.Forms.Label();
+            this.label42 = new System.Windows.Forms.Label();
+            this.label56 = new System.Windows.Forms.Label();
+            this.label41 = new System.Windows.Forms.Label();
+            this.label55 = new System.Windows.Forms.Label();
+            this.label40 = new System.Windows.Forms.Label();
+            this.label54 = new System.Windows.Forms.Label();
+            this.label38 = new System.Windows.Forms.Label();
+            this.label53 = new System.Windows.Forms.Label();
+            this.label36 = new System.Windows.Forms.Label();
+            this.label52 = new System.Windows.Forms.Label();
+            this.label35 = new System.Windows.Forms.Label();
+            this.label51 = new System.Windows.Forms.Label();
+            this.label33 = new System.Windows.Forms.Label();
+            this.label50 = new System.Windows.Forms.Label();
+            this.label34 = new System.Windows.Forms.Label();
+            this.label48 = new System.Windows.Forms.Label();
+            this.tEquinox = new System.Windows.Forms.TextBox();
+            this.tG = new System.Windows.Forms.TextBox();
+            this.label32 = new System.Windows.Forms.Label();
+            this.label45 = new System.Windows.Forms.Label();
+            this.tK = new System.Windows.Forms.TextBox();
+            this.label28 = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label66 = new System.Windows.Forms.Label();
@@ -175,7 +211,7 @@
             this.noSortToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.perihelionDateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pericenterDistanceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.perihelionDistanceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.inclinationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.eccentricityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.longOfTheAscNodeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -184,46 +220,13 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.ascendingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.descendingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.gbFilters = new System.Windows.Forms.GroupBox();
-            this.btnCancelFilters = new System.Windows.Forms.Button();
-            this.btnApplyFilters = new System.Windows.Forms.Button();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.tbAphDist = new System.Windows.Forms.TextBox();
-            this.comboPerihDist = new System.Windows.Forms.ComboBox();
-            this.chPerihDist = new System.Windows.Forms.CheckBox();
-            this.comboAphDist = new System.Windows.Forms.ComboBox();
-            this.tbPerihDist = new System.Windows.Forms.TextBox();
-            this.chAphDist = new System.Windows.Forms.CheckBox();
-            this.btnPerihDateNow = new System.Windows.Forms.Button();
-            this.tbPerihDateY = new System.Windows.Forms.TextBox();
-            this.tbPerihDateM = new System.Windows.Forms.TextBox();
-            this.tbPerihDateD = new System.Windows.Forms.TextBox();
-            this.comboName = new System.Windows.Forms.ComboBox();
-            this.tbPeriod = new System.Windows.Forms.TextBox();
-            this.tbIncl = new System.Windows.Forms.TextBox();
-            this.tbLongPeric = new System.Windows.Forms.TextBox();
-            this.tbAscNode = new System.Windows.Forms.TextBox();
-            this.tbEcc = new System.Windows.Forms.TextBox();
-            this.comboPeriod = new System.Windows.Forms.ComboBox();
-            this.comboIncl = new System.Windows.Forms.ComboBox();
-            this.comboLongPeric = new System.Windows.Forms.ComboBox();
-            this.comboAscNode = new System.Windows.Forms.ComboBox();
-            this.comboEcc = new System.Windows.Forms.ComboBox();
-            this.comboPerihDate = new System.Windows.Forms.ComboBox();
-            this.tbName = new System.Windows.Forms.TextBox();
-            this.chPeriod = new System.Windows.Forms.CheckBox();
-            this.chIncl = new System.Windows.Forms.CheckBox();
-            this.chLongPeric = new System.Windows.Forms.CheckBox();
-            this.chAscNode = new System.Windows.Forms.CheckBox();
-            this.chEcc = new System.Windows.Forms.CheckBox();
-            this.chPerihDate = new System.Windows.Forms.CheckBox();
-            this.chName = new System.Windows.Forms.CheckBox();
-            this.gbDetails = new System.Windows.Forms.GroupBox();
+            this.aphelionDistanceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.panelDatabase.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            this.gbFilters.SuspendLayout();
+            this.gbDetails.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -249,8 +252,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).BeginInit();
             this.contextOptions.SuspendLayout();
             this.contextSort.SuspendLayout();
-            this.gbFilters.SuspendLayout();
-            this.gbDetails.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnExit
@@ -284,6 +285,7 @@
             this.tabControl1.Size = new System.Drawing.Size(760, 439);
             this.tabControl1.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tabControl1.TabIndex = 1;
+            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
             // tabPage1
             // 
@@ -302,92 +304,6 @@
             this.tabPage1.TabIndex = 3;
             this.tabPage1.Text = "Database";
             // 
-            // label63
-            // 
-            this.label63.AutoSize = true;
-            this.label63.Font = new System.Drawing.Font("Tahoma", 8F);
-            this.label63.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.label63.Location = new System.Drawing.Point(347, 124);
-            this.label63.Name = "label63";
-            this.label63.Size = new System.Drawing.Size(86, 13);
-            this.label63.TabIndex = 272;
-            this.label63.Text = "Semi-major axis:";
-            // 
-            // label64
-            // 
-            this.label64.AutoSize = true;
-            this.label64.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label64.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.label64.Location = new System.Drawing.Point(463, 145);
-            this.label64.Name = "label64";
-            this.label64.Size = new System.Drawing.Size(23, 14);
-            this.label64.TabIndex = 271;
-            this.label64.Text = "AU";
-            // 
-            // label65
-            // 
-            this.label65.AutoSize = true;
-            this.label65.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label65.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.label65.Location = new System.Drawing.Point(335, 145);
-            this.label65.Name = "label65";
-            this.label65.Size = new System.Drawing.Size(13, 14);
-            this.label65.TabIndex = 270;
-            this.label65.Text = "a";
-            // 
-            // tA
-            // 
-            this.tA.BackColor = System.Drawing.SystemColors.Window;
-            this.tA.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.tA.Location = new System.Drawing.Point(350, 142);
-            this.tA.Name = "tA";
-            this.tA.ReadOnly = true;
-            this.tA.Size = new System.Drawing.Size(113, 22);
-            this.tA.TabIndex = 269;
-            // 
-            // label46
-            // 
-            this.label46.AutoSize = true;
-            this.label46.Font = new System.Drawing.Font("Tahoma", 8F);
-            this.label46.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.label46.Location = new System.Drawing.Point(183, 125);
-            this.label46.Name = "label46";
-            this.label46.Size = new System.Drawing.Size(95, 13);
-            this.label46.TabIndex = 268;
-            this.label46.Text = "Aphelion distance:";
-            // 
-            // label47
-            // 
-            this.label47.AutoSize = true;
-            this.label47.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label47.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.label47.Location = new System.Drawing.Point(299, 145);
-            this.label47.Name = "label47";
-            this.label47.Size = new System.Drawing.Size(23, 14);
-            this.label47.TabIndex = 267;
-            this.label47.Text = "AU";
-            // 
-            // label49
-            // 
-            this.label49.AutoSize = true;
-            this.label49.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label49.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.label49.Location = new System.Drawing.Point(168, 145);
-            this.label49.Name = "label49";
-            this.label49.Size = new System.Drawing.Size(16, 14);
-            this.label49.TabIndex = 266;
-            this.label49.Text = "Q";
-            // 
-            // tAph
-            // 
-            this.tAph.BackColor = System.Drawing.SystemColors.Window;
-            this.tAph.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.tAph.Location = new System.Drawing.Point(186, 142);
-            this.tAph.Name = "tAph";
-            this.tAph.ReadOnly = true;
-            this.tAph.Size = new System.Drawing.Size(113, 22);
-            this.tAph.TabIndex = 265;
-            // 
             // btnFilters
             // 
             this.btnFilters.Location = new System.Drawing.Point(263, 77);
@@ -397,27 +313,6 @@
             this.btnFilters.Text = "Filters";
             this.btnFilters.UseVisualStyleBackColor = true;
             this.btnFilters.Click += new System.EventHandler(this.btnFilters_Click);
-            // 
-            // tSort
-            // 
-            this.tSort.BackColor = System.Drawing.SystemColors.Window;
-            this.tSort.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.tSort.Location = new System.Drawing.Point(350, 92);
-            this.tSort.Name = "tSort";
-            this.tSort.ReadOnly = true;
-            this.tSort.Size = new System.Drawing.Size(113, 22);
-            this.tSort.TabIndex = 262;
-            // 
-            // label23
-            // 
-            this.label23.AutoSize = true;
-            this.label23.Font = new System.Drawing.Font("Tahoma", 8F);
-            this.label23.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.label23.Location = new System.Drawing.Point(347, 75);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(48, 13);
-            this.label23.TabIndex = 263;
-            this.label23.Text = "Sortkey:";
             // 
             // btnSort
             // 
@@ -438,401 +333,6 @@
             this.btnOptions.Text = "Options";
             this.btnOptions.UseVisualStyleBackColor = true;
             this.btnOptions.Click += new System.EventHandler(this.btnOptions_Click);
-            // 
-            // label42
-            // 
-            this.label42.AutoSize = true;
-            this.label42.Font = new System.Drawing.Font("Tahoma", 8F);
-            this.label42.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.label42.Location = new System.Drawing.Point(183, 224);
-            this.label42.Name = "label42";
-            this.label42.Size = new System.Drawing.Size(119, 13);
-            this.label42.TabIndex = 253;
-            this.label42.Text = "Magnitude parameters:";
-            // 
-            // label41
-            // 
-            this.label41.AutoSize = true;
-            this.label41.Font = new System.Drawing.Font("Tahoma", 8F);
-            this.label41.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.label41.Location = new System.Drawing.Point(347, 175);
-            this.label41.Name = "label41";
-            this.label41.Size = new System.Drawing.Size(123, 13);
-            this.label41.TabIndex = 252;
-            this.label41.Text = "Argument of pericenter:";
-            // 
-            // label40
-            // 
-            this.label40.AutoSize = true;
-            this.label40.Font = new System.Drawing.Font("Tahoma", 8F);
-            this.label40.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.label40.Location = new System.Drawing.Point(183, 175);
-            this.label40.Name = "label40";
-            this.label40.Size = new System.Drawing.Size(87, 13);
-            this.label40.TabIndex = 251;
-            this.label40.Text = "Ascending node:";
-            // 
-            // label38
-            // 
-            this.label38.AutoSize = true;
-            this.label38.Font = new System.Drawing.Font("Tahoma", 8F);
-            this.label38.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.label38.Location = new System.Drawing.Point(183, 75);
-            this.label38.Name = "label38";
-            this.label38.Size = new System.Drawing.Size(41, 13);
-            this.label38.TabIndex = 249;
-            this.label38.Text = "Period:";
-            // 
-            // label36
-            // 
-            this.label36.AutoSize = true;
-            this.label36.Font = new System.Drawing.Font("Tahoma", 8F);
-            this.label36.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.label36.Location = new System.Drawing.Point(19, 225);
-            this.label36.Name = "label36";
-            this.label36.Size = new System.Drawing.Size(66, 13);
-            this.label36.TabIndex = 247;
-            this.label36.Text = "Eccentricity:";
-            // 
-            // label35
-            // 
-            this.label35.AutoSize = true;
-            this.label35.Font = new System.Drawing.Font("Tahoma", 8F);
-            this.label35.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.label35.Location = new System.Drawing.Point(19, 175);
-            this.label35.Name = "label35";
-            this.label35.Size = new System.Drawing.Size(60, 13);
-            this.label35.TabIndex = 246;
-            this.label35.Text = "Inclination:";
-            // 
-            // label33
-            // 
-            this.label33.AutoSize = true;
-            this.label33.Font = new System.Drawing.Font("Tahoma", 8F);
-            this.label33.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.label33.Location = new System.Drawing.Point(19, 125);
-            this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(100, 13);
-            this.label33.TabIndex = 245;
-            this.label33.Text = "Perihelion distance:";
-            // 
-            // label34
-            // 
-            this.label34.AutoSize = true;
-            this.label34.Font = new System.Drawing.Font("Tahoma", 8F);
-            this.label34.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.label34.Location = new System.Drawing.Point(19, 75);
-            this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(82, 13);
-            this.label34.TabIndex = 244;
-            this.label34.Text = "Perihelion date:";
-            // 
-            // tEquinox
-            // 
-            this.tEquinox.BackColor = System.Drawing.SystemColors.Window;
-            this.tEquinox.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.tEquinox.Location = new System.Drawing.Point(350, 242);
-            this.tEquinox.Name = "tEquinox";
-            this.tEquinox.ReadOnly = true;
-            this.tEquinox.Size = new System.Drawing.Size(113, 22);
-            this.tEquinox.TabIndex = 215;
-            // 
-            // label32
-            // 
-            this.label32.AutoSize = true;
-            this.label32.Font = new System.Drawing.Font("Tahoma", 8F);
-            this.label32.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.label32.Location = new System.Drawing.Point(347, 225);
-            this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(49, 13);
-            this.label32.TabIndex = 243;
-            this.label32.Text = "Equinox:";
-            // 
-            // tK
-            // 
-            this.tK.BackColor = System.Drawing.SystemColors.Window;
-            this.tK.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.tK.Location = new System.Drawing.Point(250, 242);
-            this.tK.Name = "tK";
-            this.tK.ReadOnly = true;
-            this.tK.Size = new System.Drawing.Size(40, 22);
-            this.tK.TabIndex = 220;
-            // 
-            // label28
-            // 
-            this.label28.AutoSize = true;
-            this.label28.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label28.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.label28.Location = new System.Drawing.Point(235, 245);
-            this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(13, 14);
-            this.label28.TabIndex = 235;
-            this.label28.Text = "k";
-            // 
-            // label45
-            // 
-            this.label45.AutoSize = true;
-            this.label45.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label45.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.label45.Location = new System.Drawing.Point(170, 245);
-            this.label45.Name = "label45";
-            this.label45.Size = new System.Drawing.Size(14, 14);
-            this.label45.TabIndex = 234;
-            this.label45.Text = "g";
-            // 
-            // tG
-            // 
-            this.tG.BackColor = System.Drawing.SystemColors.Window;
-            this.tG.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.tG.Location = new System.Drawing.Point(186, 242);
-            this.tG.Name = "tG";
-            this.tG.ReadOnly = true;
-            this.tG.Size = new System.Drawing.Size(40, 22);
-            this.tG.TabIndex = 219;
-            // 
-            // label48
-            // 
-            this.label48.AutoSize = true;
-            this.label48.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label48.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.label48.Location = new System.Drawing.Point(299, 95);
-            this.label48.Name = "label48";
-            this.label48.Size = new System.Drawing.Size(35, 14);
-            this.label48.TabIndex = 233;
-            this.label48.Text = "years";
-            // 
-            // label50
-            // 
-            this.label50.AutoSize = true;
-            this.label50.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label50.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.label50.Location = new System.Drawing.Point(170, 95);
-            this.label50.Name = "label50";
-            this.label50.Size = new System.Drawing.Size(14, 14);
-            this.label50.TabIndex = 228;
-            this.label50.Text = "P";
-            // 
-            // label51
-            // 
-            this.label51.AutoSize = true;
-            this.label51.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label51.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.label51.Location = new System.Drawing.Point(135, 145);
-            this.label51.Name = "label51";
-            this.label51.Size = new System.Drawing.Size(23, 14);
-            this.label51.TabIndex = 229;
-            this.label51.Text = "AU";
-            // 
-            // label52
-            // 
-            this.label52.AutoSize = true;
-            this.label52.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label52.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.label52.Location = new System.Drawing.Point(333, 195);
-            this.label52.Name = "label52";
-            this.label52.Size = new System.Drawing.Size(15, 14);
-            this.label52.TabIndex = 227;
-            this.label52.Text = "ω";
-            // 
-            // label53
-            // 
-            this.label53.AutoSize = true;
-            this.label53.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label53.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.label53.Location = new System.Drawing.Point(463, 195);
-            this.label53.Name = "label53";
-            this.label53.Size = new System.Drawing.Size(13, 14);
-            this.label53.TabIndex = 232;
-            this.label53.Text = "°";
-            // 
-            // label54
-            // 
-            this.label54.AutoSize = true;
-            this.label54.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label54.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.label54.Location = new System.Drawing.Point(169, 195);
-            this.label54.Name = "label54";
-            this.label54.Size = new System.Drawing.Size(15, 14);
-            this.label54.TabIndex = 226;
-            this.label54.Text = "Ω";
-            // 
-            // label55
-            // 
-            this.label55.AutoSize = true;
-            this.label55.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label55.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.label55.Location = new System.Drawing.Point(10, 195);
-            this.label55.Name = "label55";
-            this.label55.Size = new System.Drawing.Size(9, 14);
-            this.label55.TabIndex = 225;
-            this.label55.Text = "i";
-            // 
-            // label56
-            // 
-            this.label56.AutoSize = true;
-            this.label56.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label56.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.label56.Location = new System.Drawing.Point(299, 195);
-            this.label56.Name = "label56";
-            this.label56.Size = new System.Drawing.Size(13, 14);
-            this.label56.TabIndex = 231;
-            this.label56.Text = "°";
-            // 
-            // label57
-            // 
-            this.label57.AutoSize = true;
-            this.label57.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label57.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.label57.Location = new System.Drawing.Point(7, 245);
-            this.label57.Name = "label57";
-            this.label57.Size = new System.Drawing.Size(14, 14);
-            this.label57.TabIndex = 224;
-            this.label57.Text = "e";
-            // 
-            // label58
-            // 
-            this.label58.AutoSize = true;
-            this.label58.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label58.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.label58.Location = new System.Drawing.Point(6, 145);
-            this.label58.Name = "label58";
-            this.label58.Size = new System.Drawing.Size(14, 14);
-            this.label58.TabIndex = 223;
-            this.label58.Text = "q";
-            // 
-            // label59
-            // 
-            this.label59.AutoSize = true;
-            this.label59.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label59.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.label59.Location = new System.Drawing.Point(135, 195);
-            this.label59.Name = "label59";
-            this.label59.Size = new System.Drawing.Size(13, 14);
-            this.label59.TabIndex = 230;
-            this.label59.Text = "°";
-            // 
-            // tP
-            // 
-            this.tP.BackColor = System.Drawing.SystemColors.Window;
-            this.tP.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.tP.Location = new System.Drawing.Point(186, 92);
-            this.tP.Name = "tP";
-            this.tP.ReadOnly = true;
-            this.tP.Size = new System.Drawing.Size(113, 22);
-            this.tP.TabIndex = 210;
-            // 
-            // tPn
-            // 
-            this.tPn.BackColor = System.Drawing.SystemColors.Window;
-            this.tPn.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.tPn.Location = new System.Drawing.Point(350, 192);
-            this.tPn.Name = "tPn";
-            this.tPn.ReadOnly = true;
-            this.tPn.Size = new System.Drawing.Size(113, 22);
-            this.tPn.TabIndex = 213;
-            // 
-            // tAn
-            // 
-            this.tAn.BackColor = System.Drawing.SystemColors.Window;
-            this.tAn.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.tAn.Location = new System.Drawing.Point(186, 192);
-            this.tAn.Name = "tAn";
-            this.tAn.ReadOnly = true;
-            this.tAn.Size = new System.Drawing.Size(113, 22);
-            this.tAn.TabIndex = 212;
-            // 
-            // tI
-            // 
-            this.tI.BackColor = System.Drawing.SystemColors.Window;
-            this.tI.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.tI.Location = new System.Drawing.Point(22, 192);
-            this.tI.Name = "tI";
-            this.tI.ReadOnly = true;
-            this.tI.Size = new System.Drawing.Size(113, 22);
-            this.tI.TabIndex = 207;
-            // 
-            // tE
-            // 
-            this.tE.BackColor = System.Drawing.SystemColors.Window;
-            this.tE.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.tE.Location = new System.Drawing.Point(22, 242);
-            this.tE.Name = "tE";
-            this.tE.ReadOnly = true;
-            this.tE.Size = new System.Drawing.Size(113, 22);
-            this.tE.TabIndex = 208;
-            // 
-            // tQ
-            // 
-            this.tQ.BackColor = System.Drawing.SystemColors.Window;
-            this.tQ.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.tQ.Location = new System.Drawing.Point(22, 142);
-            this.tQ.Name = "tQ";
-            this.tQ.ReadOnly = true;
-            this.tQ.Size = new System.Drawing.Size(113, 22);
-            this.tQ.TabIndex = 206;
-            // 
-            // tT
-            // 
-            this.tT.BackColor = System.Drawing.SystemColors.Window;
-            this.tT.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.tT.Location = new System.Drawing.Point(22, 92);
-            this.tT.Name = "tT";
-            this.tT.ReadOnly = true;
-            this.tT.Size = new System.Drawing.Size(113, 22);
-            this.tT.TabIndex = 205;
-            // 
-            // label60
-            // 
-            this.label60.AutoSize = true;
-            this.label60.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label60.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.label60.Location = new System.Drawing.Point(6, 95);
-            this.label60.Name = "label60";
-            this.label60.Size = new System.Drawing.Size(15, 14);
-            this.label60.TabIndex = 222;
-            this.label60.Text = "T";
-            // 
-            // tName
-            // 
-            this.tName.BackColor = System.Drawing.SystemColors.Window;
-            this.tName.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.tName.Location = new System.Drawing.Point(186, 42);
-            this.tName.Name = "tName";
-            this.tName.ReadOnly = true;
-            this.tName.Size = new System.Drawing.Size(277, 22);
-            this.tName.TabIndex = 204;
-            // 
-            // tId
-            // 
-            this.tId.BackColor = System.Drawing.SystemColors.Window;
-            this.tId.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.tId.Location = new System.Drawing.Point(22, 42);
-            this.tId.Name = "tId";
-            this.tId.ReadOnly = true;
-            this.tId.Size = new System.Drawing.Size(113, 22);
-            this.tId.TabIndex = 203;
-            // 
-            // label61
-            // 
-            this.label61.AutoSize = true;
-            this.label61.Font = new System.Drawing.Font("Tahoma", 8F);
-            this.label61.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.label61.Location = new System.Drawing.Point(183, 25);
-            this.label61.Name = "label61";
-            this.label61.Size = new System.Drawing.Size(38, 13);
-            this.label61.TabIndex = 221;
-            this.label61.Text = "Name:";
-            // 
-            // label62
-            // 
-            this.label62.AutoSize = true;
-            this.label62.Font = new System.Drawing.Font("Tahoma", 8F);
-            this.label62.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.label62.Location = new System.Drawing.Point(19, 25);
-            this.label62.Name = "label62";
-            this.label62.Size = new System.Drawing.Size(22, 13);
-            this.label62.TabIndex = 202;
-            this.label62.Text = "ID:";
             // 
             // cometListbox
             // 
@@ -887,6 +387,965 @@
             this.pictureBox2.Size = new System.Drawing.Size(55, 55);
             this.pictureBox2.TabIndex = 0;
             this.pictureBox2.TabStop = false;
+            // 
+            // gbFilters
+            // 
+            this.gbFilters.Controls.Add(this.btnCancelFilters);
+            this.gbFilters.Controls.Add(this.btnApplyFilters);
+            this.gbFilters.Controls.Add(this.comboBox3);
+            this.gbFilters.Controls.Add(this.checkBox2);
+            this.gbFilters.Controls.Add(this.tbAphDist);
+            this.gbFilters.Controls.Add(this.comboPerihDist);
+            this.gbFilters.Controls.Add(this.chPerihDist);
+            this.gbFilters.Controls.Add(this.comboAphDist);
+            this.gbFilters.Controls.Add(this.tbPerihDist);
+            this.gbFilters.Controls.Add(this.chAphDist);
+            this.gbFilters.Controls.Add(this.btnPerihDateNow);
+            this.gbFilters.Controls.Add(this.tbPerihDateY);
+            this.gbFilters.Controls.Add(this.tbPerihDateM);
+            this.gbFilters.Controls.Add(this.tbPerihDateD);
+            this.gbFilters.Controls.Add(this.comboName);
+            this.gbFilters.Controls.Add(this.tbPeriod);
+            this.gbFilters.Controls.Add(this.tbIncl);
+            this.gbFilters.Controls.Add(this.tbLongPeric);
+            this.gbFilters.Controls.Add(this.tbAscNode);
+            this.gbFilters.Controls.Add(this.tbEcc);
+            this.gbFilters.Controls.Add(this.comboPeriod);
+            this.gbFilters.Controls.Add(this.comboIncl);
+            this.gbFilters.Controls.Add(this.comboLongPeric);
+            this.gbFilters.Controls.Add(this.comboAscNode);
+            this.gbFilters.Controls.Add(this.comboEcc);
+            this.gbFilters.Controls.Add(this.comboPerihDate);
+            this.gbFilters.Controls.Add(this.tbName);
+            this.gbFilters.Controls.Add(this.chPeriod);
+            this.gbFilters.Controls.Add(this.chIncl);
+            this.gbFilters.Controls.Add(this.chLongPeric);
+            this.gbFilters.Controls.Add(this.chAscNode);
+            this.gbFilters.Controls.Add(this.chEcc);
+            this.gbFilters.Controls.Add(this.chPerihDate);
+            this.gbFilters.Controls.Add(this.chName);
+            this.gbFilters.Location = new System.Drawing.Point(241, 101);
+            this.gbFilters.Name = "gbFilters";
+            this.gbFilters.Size = new System.Drawing.Size(505, 305);
+            this.gbFilters.TabIndex = 273;
+            this.gbFilters.TabStop = false;
+            this.gbFilters.Visible = false;
+            // 
+            // btnCancelFilters
+            // 
+            this.btnCancelFilters.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.btnCancelFilters.Location = new System.Drawing.Point(186, 275);
+            this.btnCancelFilters.Name = "btnCancelFilters";
+            this.btnCancelFilters.Size = new System.Drawing.Size(113, 23);
+            this.btnCancelFilters.TabIndex = 65;
+            this.btnCancelFilters.Text = "Cancel";
+            this.btnCancelFilters.UseVisualStyleBackColor = true;
+            this.btnCancelFilters.Click += new System.EventHandler(this.btnCancelFilters_Click);
+            // 
+            // btnApplyFilters
+            // 
+            this.btnApplyFilters.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.btnApplyFilters.Location = new System.Drawing.Point(22, 275);
+            this.btnApplyFilters.Name = "btnApplyFilters";
+            this.btnApplyFilters.Size = new System.Drawing.Size(113, 23);
+            this.btnApplyFilters.TabIndex = 64;
+            this.btnApplyFilters.Text = "Apply";
+            this.btnApplyFilters.UseVisualStyleBackColor = true;
+            this.btnApplyFilters.Click += new System.EventHandler(this.btnApplyFilters_Click);
+            // 
+            // comboBox3
+            // 
+            this.comboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox3.Enabled = false;
+            this.comboBox3.FormattingEnabled = true;
+            this.comboBox3.Items.AddRange(new object[] {
+            "Exclude",
+            "Include only"});
+            this.comboBox3.Location = new System.Drawing.Point(187, 239);
+            this.comboBox3.Name = "comboBox3";
+            this.comboBox3.Size = new System.Drawing.Size(111, 21);
+            this.comboBox3.TabIndex = 63;
+            // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Location = new System.Drawing.Point(24, 241);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(147, 17);
+            this.checkBox2.TabIndex = 62;
+            this.checkBox2.Text = "SOHO sungrazing comets";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            // 
+            // tbAphDist
+            // 
+            this.tbAphDist.Enabled = false;
+            this.tbAphDist.Location = new System.Drawing.Point(304, 89);
+            this.tbAphDist.Name = "tbAphDist";
+            this.tbAphDist.Size = new System.Drawing.Size(113, 21);
+            this.tbAphDist.TabIndex = 61;
+            // 
+            // comboPerihDist
+            // 
+            this.comboPerihDist.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboPerihDist.Enabled = false;
+            this.comboPerihDist.FormattingEnabled = true;
+            this.comboPerihDist.Items.AddRange(new object[] {
+            "Greather than (>)",
+            "Less than (<)"});
+            this.comboPerihDist.Location = new System.Drawing.Point(187, 64);
+            this.comboPerihDist.Name = "comboPerihDist";
+            this.comboPerihDist.Size = new System.Drawing.Size(111, 21);
+            this.comboPerihDist.TabIndex = 42;
+            // 
+            // chPerihDist
+            // 
+            this.chPerihDist.AutoSize = true;
+            this.chPerihDist.Location = new System.Drawing.Point(24, 66);
+            this.chPerihDist.Name = "chPerihDist";
+            this.chPerihDist.Size = new System.Drawing.Size(115, 17);
+            this.chPerihDist.TabIndex = 30;
+            this.chPerihDist.Text = "Perihelion distance";
+            this.chPerihDist.UseVisualStyleBackColor = true;
+            this.chPerihDist.CheckedChanged += new System.EventHandler(this.chPerihDist_CheckedChanged);
+            // 
+            // comboAphDist
+            // 
+            this.comboAphDist.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboAphDist.Enabled = false;
+            this.comboAphDist.FormattingEnabled = true;
+            this.comboAphDist.Items.AddRange(new object[] {
+            "Greather than (>)",
+            "Less than (<)"});
+            this.comboAphDist.Location = new System.Drawing.Point(187, 89);
+            this.comboAphDist.Name = "comboAphDist";
+            this.comboAphDist.Size = new System.Drawing.Size(111, 21);
+            this.comboAphDist.TabIndex = 60;
+            // 
+            // tbPerihDist
+            // 
+            this.tbPerihDist.Enabled = false;
+            this.tbPerihDist.Location = new System.Drawing.Point(304, 64);
+            this.tbPerihDist.Name = "tbPerihDist";
+            this.tbPerihDist.Size = new System.Drawing.Size(113, 21);
+            this.tbPerihDist.TabIndex = 48;
+            // 
+            // chAphDist
+            // 
+            this.chAphDist.AutoSize = true;
+            this.chAphDist.Location = new System.Drawing.Point(24, 91);
+            this.chAphDist.Name = "chAphDist";
+            this.chAphDist.Size = new System.Drawing.Size(110, 17);
+            this.chAphDist.TabIndex = 59;
+            this.chAphDist.Text = "Aphelion distance";
+            this.chAphDist.UseVisualStyleBackColor = true;
+            this.chAphDist.CheckedChanged += new System.EventHandler(this.chAphDist_CheckedChanged);
+            // 
+            // btnPerihDateNow
+            // 
+            this.btnPerihDateNow.Enabled = false;
+            this.btnPerihDateNow.Location = new System.Drawing.Point(420, 41);
+            this.btnPerihDateNow.Name = "btnPerihDateNow";
+            this.btnPerihDateNow.Size = new System.Drawing.Size(15, 15);
+            this.btnPerihDateNow.TabIndex = 58;
+            this.btnPerihDateNow.UseVisualStyleBackColor = true;
+            this.btnPerihDateNow.Click += new System.EventHandler(this.btnPerihDateNow_Click);
+            // 
+            // tbPerihDateY
+            // 
+            this.tbPerihDateY.Enabled = false;
+            this.tbPerihDateY.Location = new System.Drawing.Point(366, 39);
+            this.tbPerihDateY.Name = "tbPerihDateY";
+            this.tbPerihDateY.Size = new System.Drawing.Size(50, 21);
+            this.tbPerihDateY.TabIndex = 57;
+            // 
+            // tbPerihDateM
+            // 
+            this.tbPerihDateM.Enabled = false;
+            this.tbPerihDateM.Location = new System.Drawing.Point(335, 39);
+            this.tbPerihDateM.Name = "tbPerihDateM";
+            this.tbPerihDateM.Size = new System.Drawing.Size(25, 21);
+            this.tbPerihDateM.TabIndex = 56;
+            // 
+            // tbPerihDateD
+            // 
+            this.tbPerihDateD.Enabled = false;
+            this.tbPerihDateD.Location = new System.Drawing.Point(304, 39);
+            this.tbPerihDateD.Name = "tbPerihDateD";
+            this.tbPerihDateD.Size = new System.Drawing.Size(25, 21);
+            this.tbPerihDateD.TabIndex = 55;
+            // 
+            // comboName
+            // 
+            this.comboName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboName.Enabled = false;
+            this.comboName.FormattingEnabled = true;
+            this.comboName.Items.AddRange(new object[] {
+            "Contains",
+            "Does not contain"});
+            this.comboName.Location = new System.Drawing.Point(187, 14);
+            this.comboName.Name = "comboName";
+            this.comboName.Size = new System.Drawing.Size(111, 21);
+            this.comboName.TabIndex = 54;
+            // 
+            // tbPeriod
+            // 
+            this.tbPeriod.Enabled = false;
+            this.tbPeriod.Location = new System.Drawing.Point(304, 215);
+            this.tbPeriod.Name = "tbPeriod";
+            this.tbPeriod.Size = new System.Drawing.Size(113, 21);
+            this.tbPeriod.TabIndex = 53;
+            // 
+            // tbIncl
+            // 
+            this.tbIncl.Enabled = false;
+            this.tbIncl.Location = new System.Drawing.Point(304, 190);
+            this.tbIncl.Name = "tbIncl";
+            this.tbIncl.Size = new System.Drawing.Size(113, 21);
+            this.tbIncl.TabIndex = 52;
+            // 
+            // tbLongPeric
+            // 
+            this.tbLongPeric.Enabled = false;
+            this.tbLongPeric.Location = new System.Drawing.Point(304, 163);
+            this.tbLongPeric.Name = "tbLongPeric";
+            this.tbLongPeric.Size = new System.Drawing.Size(113, 21);
+            this.tbLongPeric.TabIndex = 51;
+            // 
+            // tbAscNode
+            // 
+            this.tbAscNode.Enabled = false;
+            this.tbAscNode.Location = new System.Drawing.Point(304, 139);
+            this.tbAscNode.Name = "tbAscNode";
+            this.tbAscNode.Size = new System.Drawing.Size(113, 21);
+            this.tbAscNode.TabIndex = 50;
+            // 
+            // tbEcc
+            // 
+            this.tbEcc.Enabled = false;
+            this.tbEcc.Location = new System.Drawing.Point(304, 115);
+            this.tbEcc.Name = "tbEcc";
+            this.tbEcc.Size = new System.Drawing.Size(113, 21);
+            this.tbEcc.TabIndex = 49;
+            // 
+            // comboPeriod
+            // 
+            this.comboPeriod.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboPeriod.Enabled = false;
+            this.comboPeriod.FormattingEnabled = true;
+            this.comboPeriod.Items.AddRange(new object[] {
+            "Greather than (>)",
+            "Less than (<)"});
+            this.comboPeriod.Location = new System.Drawing.Point(187, 214);
+            this.comboPeriod.Name = "comboPeriod";
+            this.comboPeriod.Size = new System.Drawing.Size(111, 21);
+            this.comboPeriod.TabIndex = 47;
+            // 
+            // comboIncl
+            // 
+            this.comboIncl.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboIncl.Enabled = false;
+            this.comboIncl.FormattingEnabled = true;
+            this.comboIncl.Items.AddRange(new object[] {
+            "Greather than (>)",
+            "Less than (<)"});
+            this.comboIncl.Location = new System.Drawing.Point(187, 189);
+            this.comboIncl.Name = "comboIncl";
+            this.comboIncl.Size = new System.Drawing.Size(111, 21);
+            this.comboIncl.TabIndex = 46;
+            // 
+            // comboLongPeric
+            // 
+            this.comboLongPeric.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboLongPeric.Enabled = false;
+            this.comboLongPeric.FormattingEnabled = true;
+            this.comboLongPeric.Items.AddRange(new object[] {
+            "Greather than (>)",
+            "Less than (<)"});
+            this.comboLongPeric.Location = new System.Drawing.Point(187, 164);
+            this.comboLongPeric.Name = "comboLongPeric";
+            this.comboLongPeric.Size = new System.Drawing.Size(111, 21);
+            this.comboLongPeric.TabIndex = 45;
+            // 
+            // comboAscNode
+            // 
+            this.comboAscNode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboAscNode.Enabled = false;
+            this.comboAscNode.FormattingEnabled = true;
+            this.comboAscNode.Items.AddRange(new object[] {
+            "Greather than (>)",
+            "Less than (<)"});
+            this.comboAscNode.Location = new System.Drawing.Point(187, 139);
+            this.comboAscNode.Name = "comboAscNode";
+            this.comboAscNode.Size = new System.Drawing.Size(111, 21);
+            this.comboAscNode.TabIndex = 44;
+            // 
+            // comboEcc
+            // 
+            this.comboEcc.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboEcc.Enabled = false;
+            this.comboEcc.FormattingEnabled = true;
+            this.comboEcc.Items.AddRange(new object[] {
+            "Greather than (>)",
+            "Less than (<)"});
+            this.comboEcc.Location = new System.Drawing.Point(187, 114);
+            this.comboEcc.Name = "comboEcc";
+            this.comboEcc.Size = new System.Drawing.Size(111, 21);
+            this.comboEcc.TabIndex = 43;
+            // 
+            // comboPerihDate
+            // 
+            this.comboPerihDate.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboPerihDate.Enabled = false;
+            this.comboPerihDate.FormattingEnabled = true;
+            this.comboPerihDate.Items.AddRange(new object[] {
+            "Greather than (>)",
+            "Less than (<)"});
+            this.comboPerihDate.Location = new System.Drawing.Point(187, 39);
+            this.comboPerihDate.Name = "comboPerihDate";
+            this.comboPerihDate.Size = new System.Drawing.Size(111, 21);
+            this.comboPerihDate.TabIndex = 37;
+            // 
+            // tbName
+            // 
+            this.tbName.Enabled = false;
+            this.tbName.Location = new System.Drawing.Point(304, 14);
+            this.tbName.Name = "tbName";
+            this.tbName.Size = new System.Drawing.Size(166, 21);
+            this.tbName.TabIndex = 36;
+            // 
+            // chPeriod
+            // 
+            this.chPeriod.AutoSize = true;
+            this.chPeriod.Location = new System.Drawing.Point(24, 216);
+            this.chPeriod.Name = "chPeriod";
+            this.chPeriod.Size = new System.Drawing.Size(56, 17);
+            this.chPeriod.TabIndex = 35;
+            this.chPeriod.Text = "Period";
+            this.chPeriod.UseVisualStyleBackColor = true;
+            this.chPeriod.CheckedChanged += new System.EventHandler(this.chPeriod_CheckedChanged);
+            // 
+            // chIncl
+            // 
+            this.chIncl.AutoSize = true;
+            this.chIncl.Location = new System.Drawing.Point(24, 191);
+            this.chIncl.Name = "chIncl";
+            this.chIncl.Size = new System.Drawing.Size(75, 17);
+            this.chIncl.TabIndex = 34;
+            this.chIncl.Text = "Inclination";
+            this.chIncl.UseVisualStyleBackColor = true;
+            this.chIncl.CheckedChanged += new System.EventHandler(this.chIncl_CheckedChanged);
+            // 
+            // chLongPeric
+            // 
+            this.chLongPeric.AutoSize = true;
+            this.chLongPeric.Location = new System.Drawing.Point(24, 166);
+            this.chLongPeric.Name = "chLongPeric";
+            this.chLongPeric.Size = new System.Drawing.Size(138, 17);
+            this.chLongPeric.TabIndex = 33;
+            this.chLongPeric.Text = "Longitude of Pericenter";
+            this.chLongPeric.UseVisualStyleBackColor = true;
+            this.chLongPeric.CheckedChanged += new System.EventHandler(this.chLongPeric_CheckedChanged);
+            // 
+            // chAscNode
+            // 
+            this.chAscNode.AutoSize = true;
+            this.chAscNode.Location = new System.Drawing.Point(24, 141);
+            this.chAscNode.Name = "chAscNode";
+            this.chAscNode.Size = new System.Drawing.Size(165, 17);
+            this.chAscNode.TabIndex = 32;
+            this.chAscNode.Text = "Longitude of Ascending node";
+            this.chAscNode.UseVisualStyleBackColor = true;
+            this.chAscNode.CheckedChanged += new System.EventHandler(this.chAscNode_CheckedChanged);
+            // 
+            // chEcc
+            // 
+            this.chEcc.AutoSize = true;
+            this.chEcc.Location = new System.Drawing.Point(24, 116);
+            this.chEcc.Name = "chEcc";
+            this.chEcc.Size = new System.Drawing.Size(81, 17);
+            this.chEcc.TabIndex = 31;
+            this.chEcc.Text = "Eccentricity";
+            this.chEcc.UseVisualStyleBackColor = true;
+            this.chEcc.CheckedChanged += new System.EventHandler(this.chEcc_CheckedChanged);
+            // 
+            // chPerihDate
+            // 
+            this.chPerihDate.AutoSize = true;
+            this.chPerihDate.Location = new System.Drawing.Point(24, 41);
+            this.chPerihDate.Name = "chPerihDate";
+            this.chPerihDate.Size = new System.Drawing.Size(97, 17);
+            this.chPerihDate.TabIndex = 29;
+            this.chPerihDate.Text = "Perihelion date";
+            this.chPerihDate.UseVisualStyleBackColor = true;
+            this.chPerihDate.CheckedChanged += new System.EventHandler(this.chPerihDate_CheckedChanged);
+            // 
+            // chName
+            // 
+            this.chName.AutoSize = true;
+            this.chName.Location = new System.Drawing.Point(24, 16);
+            this.chName.Name = "chName";
+            this.chName.Size = new System.Drawing.Size(53, 17);
+            this.chName.TabIndex = 28;
+            this.chName.Text = "Name";
+            this.chName.UseVisualStyleBackColor = true;
+            this.chName.CheckedChanged += new System.EventHandler(this.chName_CheckedChanged);
+            // 
+            // gbDetails
+            // 
+            this.gbDetails.Controls.Add(this.label62);
+            this.gbDetails.Controls.Add(this.label61);
+            this.gbDetails.Controls.Add(this.label63);
+            this.gbDetails.Controls.Add(this.tId);
+            this.gbDetails.Controls.Add(this.label64);
+            this.gbDetails.Controls.Add(this.tName);
+            this.gbDetails.Controls.Add(this.label65);
+            this.gbDetails.Controls.Add(this.label60);
+            this.gbDetails.Controls.Add(this.tA);
+            this.gbDetails.Controls.Add(this.tT);
+            this.gbDetails.Controls.Add(this.label46);
+            this.gbDetails.Controls.Add(this.tQ);
+            this.gbDetails.Controls.Add(this.label47);
+            this.gbDetails.Controls.Add(this.tE);
+            this.gbDetails.Controls.Add(this.label49);
+            this.gbDetails.Controls.Add(this.tI);
+            this.gbDetails.Controls.Add(this.tAph);
+            this.gbDetails.Controls.Add(this.tAn);
+            this.gbDetails.Controls.Add(this.tPn);
+            this.gbDetails.Controls.Add(this.tSort);
+            this.gbDetails.Controls.Add(this.tP);
+            this.gbDetails.Controls.Add(this.label23);
+            this.gbDetails.Controls.Add(this.label59);
+            this.gbDetails.Controls.Add(this.label58);
+            this.gbDetails.Controls.Add(this.label57);
+            this.gbDetails.Controls.Add(this.label42);
+            this.gbDetails.Controls.Add(this.label56);
+            this.gbDetails.Controls.Add(this.label41);
+            this.gbDetails.Controls.Add(this.label55);
+            this.gbDetails.Controls.Add(this.label40);
+            this.gbDetails.Controls.Add(this.label54);
+            this.gbDetails.Controls.Add(this.label38);
+            this.gbDetails.Controls.Add(this.label53);
+            this.gbDetails.Controls.Add(this.label36);
+            this.gbDetails.Controls.Add(this.label52);
+            this.gbDetails.Controls.Add(this.label35);
+            this.gbDetails.Controls.Add(this.label51);
+            this.gbDetails.Controls.Add(this.label33);
+            this.gbDetails.Controls.Add(this.label50);
+            this.gbDetails.Controls.Add(this.label34);
+            this.gbDetails.Controls.Add(this.label48);
+            this.gbDetails.Controls.Add(this.tEquinox);
+            this.gbDetails.Controls.Add(this.tG);
+            this.gbDetails.Controls.Add(this.label32);
+            this.gbDetails.Controls.Add(this.label45);
+            this.gbDetails.Controls.Add(this.tK);
+            this.gbDetails.Controls.Add(this.label28);
+            this.gbDetails.Location = new System.Drawing.Point(241, 101);
+            this.gbDetails.Name = "gbDetails";
+            this.gbDetails.Size = new System.Drawing.Size(505, 305);
+            this.gbDetails.TabIndex = 274;
+            this.gbDetails.TabStop = false;
+            // 
+            // label62
+            // 
+            this.label62.AutoSize = true;
+            this.label62.Font = new System.Drawing.Font("Tahoma", 8F);
+            this.label62.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.label62.Location = new System.Drawing.Point(19, 25);
+            this.label62.Name = "label62";
+            this.label62.Size = new System.Drawing.Size(22, 13);
+            this.label62.TabIndex = 202;
+            this.label62.Text = "ID:";
+            // 
+            // label61
+            // 
+            this.label61.AutoSize = true;
+            this.label61.Font = new System.Drawing.Font("Tahoma", 8F);
+            this.label61.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.label61.Location = new System.Drawing.Point(183, 25);
+            this.label61.Name = "label61";
+            this.label61.Size = new System.Drawing.Size(38, 13);
+            this.label61.TabIndex = 221;
+            this.label61.Text = "Name:";
+            // 
+            // label63
+            // 
+            this.label63.AutoSize = true;
+            this.label63.Font = new System.Drawing.Font("Tahoma", 8F);
+            this.label63.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.label63.Location = new System.Drawing.Point(347, 124);
+            this.label63.Name = "label63";
+            this.label63.Size = new System.Drawing.Size(86, 13);
+            this.label63.TabIndex = 272;
+            this.label63.Text = "Semi-major axis:";
+            // 
+            // tId
+            // 
+            this.tId.BackColor = System.Drawing.SystemColors.Window;
+            this.tId.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tId.Location = new System.Drawing.Point(22, 42);
+            this.tId.Name = "tId";
+            this.tId.ReadOnly = true;
+            this.tId.Size = new System.Drawing.Size(113, 22);
+            this.tId.TabIndex = 203;
+            // 
+            // label64
+            // 
+            this.label64.AutoSize = true;
+            this.label64.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label64.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.label64.Location = new System.Drawing.Point(463, 145);
+            this.label64.Name = "label64";
+            this.label64.Size = new System.Drawing.Size(23, 14);
+            this.label64.TabIndex = 271;
+            this.label64.Text = "AU";
+            // 
+            // tName
+            // 
+            this.tName.BackColor = System.Drawing.SystemColors.Window;
+            this.tName.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tName.Location = new System.Drawing.Point(186, 42);
+            this.tName.Name = "tName";
+            this.tName.ReadOnly = true;
+            this.tName.Size = new System.Drawing.Size(277, 22);
+            this.tName.TabIndex = 204;
+            // 
+            // label65
+            // 
+            this.label65.AutoSize = true;
+            this.label65.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label65.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.label65.Location = new System.Drawing.Point(335, 145);
+            this.label65.Name = "label65";
+            this.label65.Size = new System.Drawing.Size(13, 14);
+            this.label65.TabIndex = 270;
+            this.label65.Text = "a";
+            // 
+            // label60
+            // 
+            this.label60.AutoSize = true;
+            this.label60.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label60.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.label60.Location = new System.Drawing.Point(6, 95);
+            this.label60.Name = "label60";
+            this.label60.Size = new System.Drawing.Size(15, 14);
+            this.label60.TabIndex = 222;
+            this.label60.Text = "T";
+            // 
+            // tA
+            // 
+            this.tA.BackColor = System.Drawing.SystemColors.Window;
+            this.tA.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tA.Location = new System.Drawing.Point(350, 142);
+            this.tA.Name = "tA";
+            this.tA.ReadOnly = true;
+            this.tA.Size = new System.Drawing.Size(113, 22);
+            this.tA.TabIndex = 269;
+            // 
+            // tT
+            // 
+            this.tT.BackColor = System.Drawing.SystemColors.Window;
+            this.tT.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tT.Location = new System.Drawing.Point(22, 92);
+            this.tT.Name = "tT";
+            this.tT.ReadOnly = true;
+            this.tT.Size = new System.Drawing.Size(113, 22);
+            this.tT.TabIndex = 205;
+            // 
+            // label46
+            // 
+            this.label46.AutoSize = true;
+            this.label46.Font = new System.Drawing.Font("Tahoma", 8F);
+            this.label46.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.label46.Location = new System.Drawing.Point(183, 125);
+            this.label46.Name = "label46";
+            this.label46.Size = new System.Drawing.Size(95, 13);
+            this.label46.TabIndex = 268;
+            this.label46.Text = "Aphelion distance:";
+            // 
+            // tQ
+            // 
+            this.tQ.BackColor = System.Drawing.SystemColors.Window;
+            this.tQ.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tQ.Location = new System.Drawing.Point(22, 142);
+            this.tQ.Name = "tQ";
+            this.tQ.ReadOnly = true;
+            this.tQ.Size = new System.Drawing.Size(113, 22);
+            this.tQ.TabIndex = 206;
+            // 
+            // label47
+            // 
+            this.label47.AutoSize = true;
+            this.label47.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label47.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.label47.Location = new System.Drawing.Point(299, 145);
+            this.label47.Name = "label47";
+            this.label47.Size = new System.Drawing.Size(23, 14);
+            this.label47.TabIndex = 267;
+            this.label47.Text = "AU";
+            // 
+            // tE
+            // 
+            this.tE.BackColor = System.Drawing.SystemColors.Window;
+            this.tE.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tE.Location = new System.Drawing.Point(22, 242);
+            this.tE.Name = "tE";
+            this.tE.ReadOnly = true;
+            this.tE.Size = new System.Drawing.Size(113, 22);
+            this.tE.TabIndex = 208;
+            // 
+            // label49
+            // 
+            this.label49.AutoSize = true;
+            this.label49.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label49.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.label49.Location = new System.Drawing.Point(168, 145);
+            this.label49.Name = "label49";
+            this.label49.Size = new System.Drawing.Size(16, 14);
+            this.label49.TabIndex = 266;
+            this.label49.Text = "Q";
+            // 
+            // tI
+            // 
+            this.tI.BackColor = System.Drawing.SystemColors.Window;
+            this.tI.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tI.Location = new System.Drawing.Point(22, 192);
+            this.tI.Name = "tI";
+            this.tI.ReadOnly = true;
+            this.tI.Size = new System.Drawing.Size(113, 22);
+            this.tI.TabIndex = 207;
+            // 
+            // tAph
+            // 
+            this.tAph.BackColor = System.Drawing.SystemColors.Window;
+            this.tAph.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tAph.Location = new System.Drawing.Point(186, 142);
+            this.tAph.Name = "tAph";
+            this.tAph.ReadOnly = true;
+            this.tAph.Size = new System.Drawing.Size(113, 22);
+            this.tAph.TabIndex = 265;
+            // 
+            // tAn
+            // 
+            this.tAn.BackColor = System.Drawing.SystemColors.Window;
+            this.tAn.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tAn.Location = new System.Drawing.Point(186, 192);
+            this.tAn.Name = "tAn";
+            this.tAn.ReadOnly = true;
+            this.tAn.Size = new System.Drawing.Size(113, 22);
+            this.tAn.TabIndex = 212;
+            // 
+            // tPn
+            // 
+            this.tPn.BackColor = System.Drawing.SystemColors.Window;
+            this.tPn.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tPn.Location = new System.Drawing.Point(350, 192);
+            this.tPn.Name = "tPn";
+            this.tPn.ReadOnly = true;
+            this.tPn.Size = new System.Drawing.Size(113, 22);
+            this.tPn.TabIndex = 213;
+            // 
+            // tSort
+            // 
+            this.tSort.BackColor = System.Drawing.SystemColors.Window;
+            this.tSort.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tSort.Location = new System.Drawing.Point(350, 92);
+            this.tSort.Name = "tSort";
+            this.tSort.ReadOnly = true;
+            this.tSort.Size = new System.Drawing.Size(113, 22);
+            this.tSort.TabIndex = 262;
+            // 
+            // tP
+            // 
+            this.tP.BackColor = System.Drawing.SystemColors.Window;
+            this.tP.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tP.Location = new System.Drawing.Point(186, 92);
+            this.tP.Name = "tP";
+            this.tP.ReadOnly = true;
+            this.tP.Size = new System.Drawing.Size(113, 22);
+            this.tP.TabIndex = 210;
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Font = new System.Drawing.Font("Tahoma", 8F);
+            this.label23.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.label23.Location = new System.Drawing.Point(347, 75);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(48, 13);
+            this.label23.TabIndex = 263;
+            this.label23.Text = "Sortkey:";
+            // 
+            // label59
+            // 
+            this.label59.AutoSize = true;
+            this.label59.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label59.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.label59.Location = new System.Drawing.Point(135, 195);
+            this.label59.Name = "label59";
+            this.label59.Size = new System.Drawing.Size(13, 14);
+            this.label59.TabIndex = 230;
+            this.label59.Text = "°";
+            // 
+            // label58
+            // 
+            this.label58.AutoSize = true;
+            this.label58.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label58.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.label58.Location = new System.Drawing.Point(6, 145);
+            this.label58.Name = "label58";
+            this.label58.Size = new System.Drawing.Size(14, 14);
+            this.label58.TabIndex = 223;
+            this.label58.Text = "q";
+            // 
+            // label57
+            // 
+            this.label57.AutoSize = true;
+            this.label57.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label57.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.label57.Location = new System.Drawing.Point(7, 245);
+            this.label57.Name = "label57";
+            this.label57.Size = new System.Drawing.Size(14, 14);
+            this.label57.TabIndex = 224;
+            this.label57.Text = "e";
+            // 
+            // label42
+            // 
+            this.label42.AutoSize = true;
+            this.label42.Font = new System.Drawing.Font("Tahoma", 8F);
+            this.label42.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.label42.Location = new System.Drawing.Point(183, 224);
+            this.label42.Name = "label42";
+            this.label42.Size = new System.Drawing.Size(119, 13);
+            this.label42.TabIndex = 253;
+            this.label42.Text = "Magnitude parameters:";
+            // 
+            // label56
+            // 
+            this.label56.AutoSize = true;
+            this.label56.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label56.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.label56.Location = new System.Drawing.Point(299, 195);
+            this.label56.Name = "label56";
+            this.label56.Size = new System.Drawing.Size(13, 14);
+            this.label56.TabIndex = 231;
+            this.label56.Text = "°";
+            // 
+            // label41
+            // 
+            this.label41.AutoSize = true;
+            this.label41.Font = new System.Drawing.Font("Tahoma", 8F);
+            this.label41.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.label41.Location = new System.Drawing.Point(347, 175);
+            this.label41.Name = "label41";
+            this.label41.Size = new System.Drawing.Size(123, 13);
+            this.label41.TabIndex = 252;
+            this.label41.Text = "Argument of pericenter:";
+            // 
+            // label55
+            // 
+            this.label55.AutoSize = true;
+            this.label55.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label55.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.label55.Location = new System.Drawing.Point(10, 195);
+            this.label55.Name = "label55";
+            this.label55.Size = new System.Drawing.Size(9, 14);
+            this.label55.TabIndex = 225;
+            this.label55.Text = "i";
+            // 
+            // label40
+            // 
+            this.label40.AutoSize = true;
+            this.label40.Font = new System.Drawing.Font("Tahoma", 8F);
+            this.label40.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.label40.Location = new System.Drawing.Point(183, 175);
+            this.label40.Name = "label40";
+            this.label40.Size = new System.Drawing.Size(87, 13);
+            this.label40.TabIndex = 251;
+            this.label40.Text = "Ascending node:";
+            // 
+            // label54
+            // 
+            this.label54.AutoSize = true;
+            this.label54.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label54.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.label54.Location = new System.Drawing.Point(169, 195);
+            this.label54.Name = "label54";
+            this.label54.Size = new System.Drawing.Size(15, 14);
+            this.label54.TabIndex = 226;
+            this.label54.Text = "Ω";
+            // 
+            // label38
+            // 
+            this.label38.AutoSize = true;
+            this.label38.Font = new System.Drawing.Font("Tahoma", 8F);
+            this.label38.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.label38.Location = new System.Drawing.Point(183, 75);
+            this.label38.Name = "label38";
+            this.label38.Size = new System.Drawing.Size(41, 13);
+            this.label38.TabIndex = 249;
+            this.label38.Text = "Period:";
+            // 
+            // label53
+            // 
+            this.label53.AutoSize = true;
+            this.label53.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label53.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.label53.Location = new System.Drawing.Point(463, 195);
+            this.label53.Name = "label53";
+            this.label53.Size = new System.Drawing.Size(13, 14);
+            this.label53.TabIndex = 232;
+            this.label53.Text = "°";
+            // 
+            // label36
+            // 
+            this.label36.AutoSize = true;
+            this.label36.Font = new System.Drawing.Font("Tahoma", 8F);
+            this.label36.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.label36.Location = new System.Drawing.Point(19, 225);
+            this.label36.Name = "label36";
+            this.label36.Size = new System.Drawing.Size(66, 13);
+            this.label36.TabIndex = 247;
+            this.label36.Text = "Eccentricity:";
+            // 
+            // label52
+            // 
+            this.label52.AutoSize = true;
+            this.label52.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label52.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.label52.Location = new System.Drawing.Point(333, 195);
+            this.label52.Name = "label52";
+            this.label52.Size = new System.Drawing.Size(15, 14);
+            this.label52.TabIndex = 227;
+            this.label52.Text = "ω";
+            // 
+            // label35
+            // 
+            this.label35.AutoSize = true;
+            this.label35.Font = new System.Drawing.Font("Tahoma", 8F);
+            this.label35.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.label35.Location = new System.Drawing.Point(19, 175);
+            this.label35.Name = "label35";
+            this.label35.Size = new System.Drawing.Size(60, 13);
+            this.label35.TabIndex = 246;
+            this.label35.Text = "Inclination:";
+            // 
+            // label51
+            // 
+            this.label51.AutoSize = true;
+            this.label51.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label51.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.label51.Location = new System.Drawing.Point(135, 145);
+            this.label51.Name = "label51";
+            this.label51.Size = new System.Drawing.Size(23, 14);
+            this.label51.TabIndex = 229;
+            this.label51.Text = "AU";
+            // 
+            // label33
+            // 
+            this.label33.AutoSize = true;
+            this.label33.Font = new System.Drawing.Font("Tahoma", 8F);
+            this.label33.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.label33.Location = new System.Drawing.Point(19, 125);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(100, 13);
+            this.label33.TabIndex = 245;
+            this.label33.Text = "Perihelion distance:";
+            // 
+            // label50
+            // 
+            this.label50.AutoSize = true;
+            this.label50.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label50.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.label50.Location = new System.Drawing.Point(170, 95);
+            this.label50.Name = "label50";
+            this.label50.Size = new System.Drawing.Size(14, 14);
+            this.label50.TabIndex = 228;
+            this.label50.Text = "P";
+            // 
+            // label34
+            // 
+            this.label34.AutoSize = true;
+            this.label34.Font = new System.Drawing.Font("Tahoma", 8F);
+            this.label34.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.label34.Location = new System.Drawing.Point(19, 75);
+            this.label34.Name = "label34";
+            this.label34.Size = new System.Drawing.Size(82, 13);
+            this.label34.TabIndex = 244;
+            this.label34.Text = "Perihelion date:";
+            // 
+            // label48
+            // 
+            this.label48.AutoSize = true;
+            this.label48.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label48.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.label48.Location = new System.Drawing.Point(299, 95);
+            this.label48.Name = "label48";
+            this.label48.Size = new System.Drawing.Size(35, 14);
+            this.label48.TabIndex = 233;
+            this.label48.Text = "years";
+            // 
+            // tEquinox
+            // 
+            this.tEquinox.BackColor = System.Drawing.SystemColors.Window;
+            this.tEquinox.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tEquinox.Location = new System.Drawing.Point(350, 242);
+            this.tEquinox.Name = "tEquinox";
+            this.tEquinox.ReadOnly = true;
+            this.tEquinox.Size = new System.Drawing.Size(113, 22);
+            this.tEquinox.TabIndex = 215;
+            // 
+            // tG
+            // 
+            this.tG.BackColor = System.Drawing.SystemColors.Window;
+            this.tG.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tG.Location = new System.Drawing.Point(186, 242);
+            this.tG.Name = "tG";
+            this.tG.ReadOnly = true;
+            this.tG.Size = new System.Drawing.Size(40, 22);
+            this.tG.TabIndex = 219;
+            // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Font = new System.Drawing.Font("Tahoma", 8F);
+            this.label32.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.label32.Location = new System.Drawing.Point(347, 225);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(49, 13);
+            this.label32.TabIndex = 243;
+            this.label32.Text = "Equinox:";
+            // 
+            // label45
+            // 
+            this.label45.AutoSize = true;
+            this.label45.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label45.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.label45.Location = new System.Drawing.Point(170, 245);
+            this.label45.Name = "label45";
+            this.label45.Size = new System.Drawing.Size(14, 14);
+            this.label45.TabIndex = 234;
+            this.label45.Text = "g";
+            // 
+            // tK
+            // 
+            this.tK.BackColor = System.Drawing.SystemColors.Window;
+            this.tK.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tK.Location = new System.Drawing.Point(250, 242);
+            this.tK.Name = "tK";
+            this.tK.ReadOnly = true;
+            this.tK.Size = new System.Drawing.Size(40, 22);
+            this.tK.TabIndex = 220;
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label28.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.label28.Location = new System.Drawing.Point(235, 245);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(13, 14);
+            this.label28.TabIndex = 235;
+            this.label28.Text = "k";
             // 
             // tabPage3
             // 
@@ -1749,7 +2208,8 @@
             this.noSortToolStripMenuItem,
             this.nameToolStripMenuItem,
             this.perihelionDateToolStripMenuItem,
-            this.pericenterDistanceToolStripMenuItem,
+            this.perihelionDistanceToolStripMenuItem,
+            this.aphelionDistanceToolStripMenuItem,
             this.inclinationToolStripMenuItem,
             this.eccentricityToolStripMenuItem,
             this.longOfTheAscNodeToolStripMenuItem,
@@ -1759,7 +2219,7 @@
             this.ascendingToolStripMenuItem,
             this.descendingToolStripMenuItem});
             this.contextSort.Name = "contextMenuStrip1";
-            this.contextSort.Size = new System.Drawing.Size(196, 252);
+            this.contextSort.Size = new System.Drawing.Size(196, 274);
             // 
             // noSortToolStripMenuItem
             // 
@@ -1787,13 +2247,13 @@
             this.perihelionDateToolStripMenuItem.Text = "Perihelion Date";
             this.perihelionDateToolStripMenuItem.Click += new System.EventHandler(this.ContextClick1);
             // 
-            // pericenterDistanceToolStripMenuItem
+            // perihelionDistanceToolStripMenuItem
             // 
-            this.pericenterDistanceToolStripMenuItem.CheckOnClick = true;
-            this.pericenterDistanceToolStripMenuItem.Name = "pericenterDistanceToolStripMenuItem";
-            this.pericenterDistanceToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
-            this.pericenterDistanceToolStripMenuItem.Text = "Pericenter Distance";
-            this.pericenterDistanceToolStripMenuItem.Click += new System.EventHandler(this.ContextClick1);
+            this.perihelionDistanceToolStripMenuItem.CheckOnClick = true;
+            this.perihelionDistanceToolStripMenuItem.Name = "perihelionDistanceToolStripMenuItem";
+            this.perihelionDistanceToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.perihelionDistanceToolStripMenuItem.Text = "Perihelion Distance";
+            this.perihelionDistanceToolStripMenuItem.Click += new System.EventHandler(this.ContextClick1);
             // 
             // inclinationToolStripMenuItem
             // 
@@ -1858,449 +2318,13 @@
             this.descendingToolStripMenuItem.Text = "Descending";
             this.descendingToolStripMenuItem.Click += new System.EventHandler(this.descendingToolStripMenuItem_Click);
             // 
-            // gbFilters
-            // 
-            this.gbFilters.Controls.Add(this.btnCancelFilters);
-            this.gbFilters.Controls.Add(this.btnApplyFilters);
-            this.gbFilters.Controls.Add(this.comboBox3);
-            this.gbFilters.Controls.Add(this.checkBox2);
-            this.gbFilters.Controls.Add(this.tbAphDist);
-            this.gbFilters.Controls.Add(this.comboPerihDist);
-            this.gbFilters.Controls.Add(this.chPerihDist);
-            this.gbFilters.Controls.Add(this.comboAphDist);
-            this.gbFilters.Controls.Add(this.tbPerihDist);
-            this.gbFilters.Controls.Add(this.chAphDist);
-            this.gbFilters.Controls.Add(this.btnPerihDateNow);
-            this.gbFilters.Controls.Add(this.tbPerihDateY);
-            this.gbFilters.Controls.Add(this.tbPerihDateM);
-            this.gbFilters.Controls.Add(this.tbPerihDateD);
-            this.gbFilters.Controls.Add(this.comboName);
-            this.gbFilters.Controls.Add(this.tbPeriod);
-            this.gbFilters.Controls.Add(this.tbIncl);
-            this.gbFilters.Controls.Add(this.tbLongPeric);
-            this.gbFilters.Controls.Add(this.tbAscNode);
-            this.gbFilters.Controls.Add(this.tbEcc);
-            this.gbFilters.Controls.Add(this.comboPeriod);
-            this.gbFilters.Controls.Add(this.comboIncl);
-            this.gbFilters.Controls.Add(this.comboLongPeric);
-            this.gbFilters.Controls.Add(this.comboAscNode);
-            this.gbFilters.Controls.Add(this.comboEcc);
-            this.gbFilters.Controls.Add(this.comboPerihDate);
-            this.gbFilters.Controls.Add(this.tbName);
-            this.gbFilters.Controls.Add(this.chPeriod);
-            this.gbFilters.Controls.Add(this.chIncl);
-            this.gbFilters.Controls.Add(this.chLongPeric);
-            this.gbFilters.Controls.Add(this.chAscNode);
-            this.gbFilters.Controls.Add(this.chEcc);
-            this.gbFilters.Controls.Add(this.chPerihDate);
-            this.gbFilters.Controls.Add(this.chName);
-            this.gbFilters.Location = new System.Drawing.Point(241, 101);
-            this.gbFilters.Name = "gbFilters";
-            this.gbFilters.Size = new System.Drawing.Size(505, 305);
-            this.gbFilters.TabIndex = 273;
-            this.gbFilters.TabStop = false;
-            // 
-            // btnCancelFilters
-            // 
-            this.btnCancelFilters.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.btnCancelFilters.Location = new System.Drawing.Point(186, 275);
-            this.btnCancelFilters.Name = "btnCancelFilters";
-            this.btnCancelFilters.Size = new System.Drawing.Size(113, 23);
-            this.btnCancelFilters.TabIndex = 65;
-            this.btnCancelFilters.Text = "Cancel";
-            this.btnCancelFilters.UseVisualStyleBackColor = true;
-            // 
-            // btnApplyFilters
-            // 
-            this.btnApplyFilters.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.btnApplyFilters.Location = new System.Drawing.Point(22, 275);
-            this.btnApplyFilters.Name = "btnApplyFilters";
-            this.btnApplyFilters.Size = new System.Drawing.Size(113, 23);
-            this.btnApplyFilters.TabIndex = 64;
-            this.btnApplyFilters.Text = "Apply";
-            this.btnApplyFilters.UseVisualStyleBackColor = true;
-            // 
-            // comboBox3
-            // 
-            this.comboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox3.Enabled = false;
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Items.AddRange(new object[] {
-            "Exclude",
-            "Include only"});
-            this.comboBox3.Location = new System.Drawing.Point(187, 239);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(111, 21);
-            this.comboBox3.TabIndex = 63;
-            // 
-            // checkBox2
-            // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(24, 241);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(147, 17);
-            this.checkBox2.TabIndex = 62;
-            this.checkBox2.Text = "SOHO sungrazing comets";
-            this.checkBox2.UseVisualStyleBackColor = true;
-            // 
-            // tbAphDist
-            // 
-            this.tbAphDist.Enabled = false;
-            this.tbAphDist.Location = new System.Drawing.Point(304, 89);
-            this.tbAphDist.Name = "tbAphDist";
-            this.tbAphDist.Size = new System.Drawing.Size(113, 21);
-            this.tbAphDist.TabIndex = 61;
-            // 
-            // comboPerihDist
-            // 
-            this.comboPerihDist.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboPerihDist.Enabled = false;
-            this.comboPerihDist.FormattingEnabled = true;
-            this.comboPerihDist.Items.AddRange(new object[] {
-            "Greather than (>)",
-            "Less than (<)"});
-            this.comboPerihDist.Location = new System.Drawing.Point(187, 64);
-            this.comboPerihDist.Name = "comboPerihDist";
-            this.comboPerihDist.Size = new System.Drawing.Size(111, 21);
-            this.comboPerihDist.TabIndex = 42;
-            // 
-            // chPerihDist
-            // 
-            this.chPerihDist.AutoSize = true;
-            this.chPerihDist.Location = new System.Drawing.Point(24, 66);
-            this.chPerihDist.Name = "chPerihDist";
-            this.chPerihDist.Size = new System.Drawing.Size(115, 17);
-            this.chPerihDist.TabIndex = 30;
-            this.chPerihDist.Text = "Perihelion distance";
-            this.chPerihDist.UseVisualStyleBackColor = true;
-            // 
-            // comboAphDist
-            // 
-            this.comboAphDist.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboAphDist.Enabled = false;
-            this.comboAphDist.FormattingEnabled = true;
-            this.comboAphDist.Items.AddRange(new object[] {
-            "Greather than (>)",
-            "Less than (<)"});
-            this.comboAphDist.Location = new System.Drawing.Point(187, 89);
-            this.comboAphDist.Name = "comboAphDist";
-            this.comboAphDist.Size = new System.Drawing.Size(111, 21);
-            this.comboAphDist.TabIndex = 60;
-            // 
-            // tbPerihDist
-            // 
-            this.tbPerihDist.Enabled = false;
-            this.tbPerihDist.Location = new System.Drawing.Point(304, 64);
-            this.tbPerihDist.Name = "tbPerihDist";
-            this.tbPerihDist.Size = new System.Drawing.Size(113, 21);
-            this.tbPerihDist.TabIndex = 48;
-            // 
-            // chAphDist
-            // 
-            this.chAphDist.AutoSize = true;
-            this.chAphDist.Location = new System.Drawing.Point(24, 91);
-            this.chAphDist.Name = "chAphDist";
-            this.chAphDist.Size = new System.Drawing.Size(110, 17);
-            this.chAphDist.TabIndex = 59;
-            this.chAphDist.Text = "Aphelion distance";
-            this.chAphDist.UseVisualStyleBackColor = true;
-            // 
-            // btnPerihDateNow
-            // 
-            this.btnPerihDateNow.Enabled = false;
-            this.btnPerihDateNow.Location = new System.Drawing.Point(420, 41);
-            this.btnPerihDateNow.Name = "btnPerihDateNow";
-            this.btnPerihDateNow.Size = new System.Drawing.Size(15, 15);
-            this.btnPerihDateNow.TabIndex = 58;
-            this.btnPerihDateNow.UseVisualStyleBackColor = true;
-            // 
-            // tbPerihDateY
-            // 
-            this.tbPerihDateY.Enabled = false;
-            this.tbPerihDateY.Location = new System.Drawing.Point(366, 39);
-            this.tbPerihDateY.Name = "tbPerihDateY";
-            this.tbPerihDateY.Size = new System.Drawing.Size(50, 21);
-            this.tbPerihDateY.TabIndex = 57;
-            // 
-            // tbPerihDateM
-            // 
-            this.tbPerihDateM.Enabled = false;
-            this.tbPerihDateM.Location = new System.Drawing.Point(335, 39);
-            this.tbPerihDateM.Name = "tbPerihDateM";
-            this.tbPerihDateM.Size = new System.Drawing.Size(25, 21);
-            this.tbPerihDateM.TabIndex = 56;
-            // 
-            // tbPerihDateD
-            // 
-            this.tbPerihDateD.Enabled = false;
-            this.tbPerihDateD.Location = new System.Drawing.Point(304, 39);
-            this.tbPerihDateD.Name = "tbPerihDateD";
-            this.tbPerihDateD.Size = new System.Drawing.Size(25, 21);
-            this.tbPerihDateD.TabIndex = 55;
-            // 
-            // comboName
-            // 
-            this.comboName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboName.Enabled = false;
-            this.comboName.FormattingEnabled = true;
-            this.comboName.Items.AddRange(new object[] {
-            "Contains",
-            "Does not contain"});
-            this.comboName.Location = new System.Drawing.Point(187, 14);
-            this.comboName.Name = "comboName";
-            this.comboName.Size = new System.Drawing.Size(111, 21);
-            this.comboName.TabIndex = 54;
-            // 
-            // tbPeriod
-            // 
-            this.tbPeriod.Enabled = false;
-            this.tbPeriod.Location = new System.Drawing.Point(304, 215);
-            this.tbPeriod.Name = "tbPeriod";
-            this.tbPeriod.Size = new System.Drawing.Size(113, 21);
-            this.tbPeriod.TabIndex = 53;
-            // 
-            // tbIncl
-            // 
-            this.tbIncl.Enabled = false;
-            this.tbIncl.Location = new System.Drawing.Point(304, 190);
-            this.tbIncl.Name = "tbIncl";
-            this.tbIncl.Size = new System.Drawing.Size(113, 21);
-            this.tbIncl.TabIndex = 52;
-            // 
-            // tbLongPeric
-            // 
-            this.tbLongPeric.Enabled = false;
-            this.tbLongPeric.Location = new System.Drawing.Point(304, 163);
-            this.tbLongPeric.Name = "tbLongPeric";
-            this.tbLongPeric.Size = new System.Drawing.Size(113, 21);
-            this.tbLongPeric.TabIndex = 51;
-            // 
-            // tbAscNode
-            // 
-            this.tbAscNode.Enabled = false;
-            this.tbAscNode.Location = new System.Drawing.Point(304, 139);
-            this.tbAscNode.Name = "tbAscNode";
-            this.tbAscNode.Size = new System.Drawing.Size(113, 21);
-            this.tbAscNode.TabIndex = 50;
-            // 
-            // tbEcc
-            // 
-            this.tbEcc.Enabled = false;
-            this.tbEcc.Location = new System.Drawing.Point(304, 115);
-            this.tbEcc.Name = "tbEcc";
-            this.tbEcc.Size = new System.Drawing.Size(113, 21);
-            this.tbEcc.TabIndex = 49;
-            // 
-            // comboPeriod
-            // 
-            this.comboPeriod.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboPeriod.Enabled = false;
-            this.comboPeriod.FormattingEnabled = true;
-            this.comboPeriod.Items.AddRange(new object[] {
-            "Greather than (>)",
-            "Less than (<)"});
-            this.comboPeriod.Location = new System.Drawing.Point(187, 214);
-            this.comboPeriod.Name = "comboPeriod";
-            this.comboPeriod.Size = new System.Drawing.Size(111, 21);
-            this.comboPeriod.TabIndex = 47;
-            // 
-            // comboIncl
-            // 
-            this.comboIncl.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboIncl.Enabled = false;
-            this.comboIncl.FormattingEnabled = true;
-            this.comboIncl.Items.AddRange(new object[] {
-            "Greather than (>)",
-            "Less than (<)"});
-            this.comboIncl.Location = new System.Drawing.Point(187, 189);
-            this.comboIncl.Name = "comboIncl";
-            this.comboIncl.Size = new System.Drawing.Size(111, 21);
-            this.comboIncl.TabIndex = 46;
-            // 
-            // comboLongPeric
-            // 
-            this.comboLongPeric.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboLongPeric.Enabled = false;
-            this.comboLongPeric.FormattingEnabled = true;
-            this.comboLongPeric.Items.AddRange(new object[] {
-            "Greather than (>)",
-            "Less than (<)"});
-            this.comboLongPeric.Location = new System.Drawing.Point(187, 164);
-            this.comboLongPeric.Name = "comboLongPeric";
-            this.comboLongPeric.Size = new System.Drawing.Size(111, 21);
-            this.comboLongPeric.TabIndex = 45;
-            // 
-            // comboAscNode
-            // 
-            this.comboAscNode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboAscNode.Enabled = false;
-            this.comboAscNode.FormattingEnabled = true;
-            this.comboAscNode.Items.AddRange(new object[] {
-            "Greather than (>)",
-            "Less than (<)"});
-            this.comboAscNode.Location = new System.Drawing.Point(187, 139);
-            this.comboAscNode.Name = "comboAscNode";
-            this.comboAscNode.Size = new System.Drawing.Size(111, 21);
-            this.comboAscNode.TabIndex = 44;
-            // 
-            // comboEcc
-            // 
-            this.comboEcc.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboEcc.Enabled = false;
-            this.comboEcc.FormattingEnabled = true;
-            this.comboEcc.Items.AddRange(new object[] {
-            "Greather than (>)",
-            "Less than (<)"});
-            this.comboEcc.Location = new System.Drawing.Point(187, 114);
-            this.comboEcc.Name = "comboEcc";
-            this.comboEcc.Size = new System.Drawing.Size(111, 21);
-            this.comboEcc.TabIndex = 43;
-            // 
-            // comboPerihDate
-            // 
-            this.comboPerihDate.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboPerihDate.Enabled = false;
-            this.comboPerihDate.FormattingEnabled = true;
-            this.comboPerihDate.Items.AddRange(new object[] {
-            "Greather than (>)",
-            "Less than (<)"});
-            this.comboPerihDate.Location = new System.Drawing.Point(187, 39);
-            this.comboPerihDate.Name = "comboPerihDate";
-            this.comboPerihDate.Size = new System.Drawing.Size(111, 21);
-            this.comboPerihDate.TabIndex = 37;
-            // 
-            // tbName
-            // 
-            this.tbName.Enabled = false;
-            this.tbName.Location = new System.Drawing.Point(304, 14);
-            this.tbName.Name = "tbName";
-            this.tbName.Size = new System.Drawing.Size(166, 21);
-            this.tbName.TabIndex = 36;
-            // 
-            // chPeriod
-            // 
-            this.chPeriod.AutoSize = true;
-            this.chPeriod.Location = new System.Drawing.Point(24, 216);
-            this.chPeriod.Name = "chPeriod";
-            this.chPeriod.Size = new System.Drawing.Size(56, 17);
-            this.chPeriod.TabIndex = 35;
-            this.chPeriod.Text = "Period";
-            this.chPeriod.UseVisualStyleBackColor = true;
-            // 
-            // chIncl
-            // 
-            this.chIncl.AutoSize = true;
-            this.chIncl.Location = new System.Drawing.Point(24, 191);
-            this.chIncl.Name = "chIncl";
-            this.chIncl.Size = new System.Drawing.Size(75, 17);
-            this.chIncl.TabIndex = 34;
-            this.chIncl.Text = "Inclination";
-            this.chIncl.UseVisualStyleBackColor = true;
-            // 
-            // chLongPeric
-            // 
-            this.chLongPeric.AutoSize = true;
-            this.chLongPeric.Location = new System.Drawing.Point(24, 166);
-            this.chLongPeric.Name = "chLongPeric";
-            this.chLongPeric.Size = new System.Drawing.Size(138, 17);
-            this.chLongPeric.TabIndex = 33;
-            this.chLongPeric.Text = "Longitude of Pericenter";
-            this.chLongPeric.UseVisualStyleBackColor = true;
-            // 
-            // chAscNode
-            // 
-            this.chAscNode.AutoSize = true;
-            this.chAscNode.Location = new System.Drawing.Point(24, 141);
-            this.chAscNode.Name = "chAscNode";
-            this.chAscNode.Size = new System.Drawing.Size(165, 17);
-            this.chAscNode.TabIndex = 32;
-            this.chAscNode.Text = "Longitude of Ascending node";
-            this.chAscNode.UseVisualStyleBackColor = true;
-            // 
-            // chEcc
-            // 
-            this.chEcc.AutoSize = true;
-            this.chEcc.Location = new System.Drawing.Point(24, 116);
-            this.chEcc.Name = "chEcc";
-            this.chEcc.Size = new System.Drawing.Size(81, 17);
-            this.chEcc.TabIndex = 31;
-            this.chEcc.Text = "Eccentricity";
-            this.chEcc.UseVisualStyleBackColor = true;
-            // 
-            // chPerihDate
-            // 
-            this.chPerihDate.AutoSize = true;
-            this.chPerihDate.Location = new System.Drawing.Point(24, 41);
-            this.chPerihDate.Name = "chPerihDate";
-            this.chPerihDate.Size = new System.Drawing.Size(97, 17);
-            this.chPerihDate.TabIndex = 29;
-            this.chPerihDate.Text = "Perihelion date";
-            this.chPerihDate.UseVisualStyleBackColor = true;
-            // 
-            // chName
-            // 
-            this.chName.AutoSize = true;
-            this.chName.Location = new System.Drawing.Point(24, 16);
-            this.chName.Name = "chName";
-            this.chName.Size = new System.Drawing.Size(53, 17);
-            this.chName.TabIndex = 28;
-            this.chName.Text = "Name";
-            this.chName.UseVisualStyleBackColor = true;
-            // 
-            // gbDetails
-            // 
-            this.gbDetails.Controls.Add(this.label62);
-            this.gbDetails.Controls.Add(this.label61);
-            this.gbDetails.Controls.Add(this.label63);
-            this.gbDetails.Controls.Add(this.tId);
-            this.gbDetails.Controls.Add(this.label64);
-            this.gbDetails.Controls.Add(this.tName);
-            this.gbDetails.Controls.Add(this.label65);
-            this.gbDetails.Controls.Add(this.label60);
-            this.gbDetails.Controls.Add(this.tA);
-            this.gbDetails.Controls.Add(this.tT);
-            this.gbDetails.Controls.Add(this.label46);
-            this.gbDetails.Controls.Add(this.tQ);
-            this.gbDetails.Controls.Add(this.label47);
-            this.gbDetails.Controls.Add(this.tE);
-            this.gbDetails.Controls.Add(this.label49);
-            this.gbDetails.Controls.Add(this.tI);
-            this.gbDetails.Controls.Add(this.tAph);
-            this.gbDetails.Controls.Add(this.tAn);
-            this.gbDetails.Controls.Add(this.tPn);
-            this.gbDetails.Controls.Add(this.tSort);
-            this.gbDetails.Controls.Add(this.tP);
-            this.gbDetails.Controls.Add(this.label23);
-            this.gbDetails.Controls.Add(this.label59);
-            this.gbDetails.Controls.Add(this.label58);
-            this.gbDetails.Controls.Add(this.label57);
-            this.gbDetails.Controls.Add(this.label42);
-            this.gbDetails.Controls.Add(this.label56);
-            this.gbDetails.Controls.Add(this.label41);
-            this.gbDetails.Controls.Add(this.label55);
-            this.gbDetails.Controls.Add(this.label40);
-            this.gbDetails.Controls.Add(this.label54);
-            this.gbDetails.Controls.Add(this.label38);
-            this.gbDetails.Controls.Add(this.label53);
-            this.gbDetails.Controls.Add(this.label36);
-            this.gbDetails.Controls.Add(this.label52);
-            this.gbDetails.Controls.Add(this.label35);
-            this.gbDetails.Controls.Add(this.label51);
-            this.gbDetails.Controls.Add(this.label33);
-            this.gbDetails.Controls.Add(this.label50);
-            this.gbDetails.Controls.Add(this.label34);
-            this.gbDetails.Controls.Add(this.label48);
-            this.gbDetails.Controls.Add(this.tEquinox);
-            this.gbDetails.Controls.Add(this.tG);
-            this.gbDetails.Controls.Add(this.label32);
-            this.gbDetails.Controls.Add(this.label45);
-            this.gbDetails.Controls.Add(this.tK);
-            this.gbDetails.Controls.Add(this.label28);
-            this.gbDetails.Location = new System.Drawing.Point(241, 101);
-            this.gbDetails.Name = "gbDetails";
-            this.gbDetails.Size = new System.Drawing.Size(505, 305);
-            this.gbDetails.TabIndex = 274;
-            this.gbDetails.TabStop = false;
+            // aphelionDistanceToolStripMenuItem
+            // 
+            this.aphelionDistanceToolStripMenuItem.CheckOnClick = true;
+            this.aphelionDistanceToolStripMenuItem.Name = "aphelionDistanceToolStripMenuItem";
+            this.aphelionDistanceToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.aphelionDistanceToolStripMenuItem.Text = "Aphelion Distance";
+            this.aphelionDistanceToolStripMenuItem.Click += new System.EventHandler(this.ContextClick1);
             // 
             // Form1
             // 
@@ -2324,6 +2348,10 @@
             this.panelDatabase.ResumeLayout(false);
             this.panelDatabase.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            this.gbFilters.ResumeLayout(false);
+            this.gbFilters.PerformLayout();
+            this.gbDetails.ResumeLayout(false);
+            this.gbDetails.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
@@ -2359,10 +2387,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).EndInit();
             this.contextOptions.ResumeLayout(false);
             this.contextSort.ResumeLayout(false);
-            this.gbFilters.ResumeLayout(false);
-            this.gbFilters.PerformLayout();
-            this.gbDetails.ResumeLayout(false);
-            this.gbDetails.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2461,7 +2485,7 @@
         private System.Windows.Forms.ToolStripMenuItem noSortToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem nameToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem perihelionDateToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem pericenterDistanceToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem perihelionDistanceToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem inclinationToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem eccentricityToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem longOfTheAscNodeToolStripMenuItem;
@@ -2560,6 +2584,7 @@
         private System.Windows.Forms.CheckBox chPerihDate;
         private System.Windows.Forms.CheckBox chName;
         private System.Windows.Forms.GroupBox gbDetails;
+        private System.Windows.Forms.ToolStripMenuItem aphelionDistanceToolStripMenuItem;
     }
 }
 

@@ -231,10 +231,15 @@ namespace Cometary_Workshop
 
         public static double getSemimajorAxis_a(double q, double e)
         {
-            if (e < 1.0)
+            //if (e < 1.0)
+            //    return q / (1 - e);
+            //else if (e > 1.0)
+            //    return -(q / (1 - e));
+            //else
+            //    return 0.0;
+
+            if (e < 0.98)
                 return q / (1 - e);
-            else if (e > 1.0)
-                return -(q / (1 - e));
             else
                 return 0.0;
         }
@@ -317,7 +322,7 @@ namespace Cometary_Workshop
 
         public static double getAphelionDistance_Q(double e, double a)
         {
-            if (e < 1.0)
+            if (e < 0.98)
                 return a * (1 + e);
             else
                 return 0.0;
