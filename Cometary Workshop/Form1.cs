@@ -26,7 +26,7 @@ namespace Cometary_Workshop
         public static List<Comet> masterList = new List<Comet>();
         public static List<Comet> userList = new List<Comet>();
 
-        public static string lastSortItem = "noSortToolStripMenuItem";
+        public static string lastSortItem = "nameToolStripMenuItem";
 
         //public static bool masterFilterFlag;
         public static bool[] filterFlags;
@@ -125,20 +125,20 @@ namespace Cometary_Workshop
 
             if (list.Count == 0)
             {
-                tId.Text = "";
-                tName.Text = "";
-                tT.Text = "";
-                tQ.Text = "";
-                tE.Text = "";
-                tI.Text = "";
-                tAn.Text = "";
-                tPn.Text = "";
-                tP.Text = "";
-                tAph.Text = "";
-                tA.Text = "";
-                tG.Text = "";
-                tK.Text = "";
-                tSort.Text = "";
+                t_id.Text = "";
+                t_name.Text = "";
+                t_T.Text = "";
+                t_q1.Text = "";
+                t_e.Text = "";
+                t_i.Text = "";
+                t_N.Text = "";
+                t_w.Text = "";
+                t_P.Text = "";
+                t_Q2.Text = "";
+                t_a.Text = "";
+                t_g.Text = "";
+                t_k.Text = "";
+                t_sortKey.Text = "";
                 tEquinox.Text = "";
             }
 
@@ -189,8 +189,8 @@ namespace Cometary_Workshop
                     c.w = Convert.ToDouble(str.Substring(51, 8).Trim());
                     c.N = Convert.ToDouble(str.Substring(61, 8).Trim());
                     c.i = Convert.ToDouble(str.Substring(71, 8).Trim());
-                    c.H = Convert.ToDouble(str.Substring(91, 4).Trim());
-                    c.G = Convert.ToDouble(str.Substring(96, 4).Trim());
+                    c.g = Convert.ToDouble(str.Substring(91, 4).Trim());
+                    c.k = Convert.ToDouble(str.Substring(96, 4).Trim());
                     c.full = str.Substring(102, 55).Trim();
                 }
                 catch
@@ -198,7 +198,7 @@ namespace Cometary_Workshop
                     continue;
                 }
 
-                c.G *= 2.5;
+                c.k *= 2.5;
 
                 string[] idn = Comet.setIdNameFull(c.full);
                 c.id = idn[0];
@@ -214,18 +214,10 @@ namespace Cometary_Workshop
                 c.T = Comet.GregToJul(c.Ty, c.Tm, c.Td, c.Th);
                 c.P = Comet.getPeriod_P(c.q, c.e);
                 c.a = Comet.getSemimajorAxis_a(c.q, c.e);
-                
-                //c.n = Comet.getMeanMotion_n(c.e, c.P);
-                //c.M = Comet.getMeanAnomaly_M(c.T, today, c.e, c.n, c.q);
-                //c.E = Comet.getEccentricAnomaly_E(c.e, c.M);
-                //c.v = Comet.getTrueAnomaly_v(c.e, c.E, c.q, c.T, today);
-                //c.L = Comet.getMeanLongitude_L(c.M, c.om, c.w);
-                c.Q = Comet.getAphelionDistance_Q(c.e, c.a);
-                //c.bw = Comet.getLongitudeOfPericenter_bw(c.om, c.w);
-                //c.l = Comet.getTrueLongitude_l(c.v, c.bw);
-                //c.F = Comet.getEccentricLongitude_F(c.w, c.om, c.E);
 
-                c.set_sortkey();
+                c.Q = Comet.getAphelionDistance_Q(c.e, c.a);
+
+                c.get_sortkey();
 
                 masterList.Add(c);
             }
@@ -260,6 +252,7 @@ namespace Cometary_Workshop
             lastSortItem = (sender as ToolStripMenuItem).Name;
 
             sortList(userList);
+
         }
 
         private void ascendingToolStripMenuItem_Click(object sender, EventArgs e)
@@ -288,8 +281,8 @@ namespace Cometary_Workshop
                 if (filterFlags[3] && c.T > filterValues[1]) continue;
                 if (filterFlags[4] && c.q < filterValues[2]) continue;
                 if (filterFlags[5] && c.q > filterValues[2]) continue;
-                if (filterFlags[6] && !(c.e < 1.0) && c.Q < filterValues[3]) continue;
-                if (filterFlags[7] && !(c.e < 1.0) && c.Q > filterValues[3]) continue;
+                if (filterFlags[6] && c.Q < filterValues[3]) continue;
+                if (filterFlags[7] && c.Q > filterValues[3]) continue;
                 if (filterFlags[8] && c.e < filterValues[4]) continue;
                 if (filterFlags[9] && c.e > filterValues[4]) continue;
                 if (filterFlags[10] && c.N < filterValues[5]) continue;
@@ -319,16 +312,7 @@ namespace Cometary_Workshop
             List<Comet> tempList = list.ToList();
             userList.Clear();
 
-            if (noSortToolStripMenuItem.Checked && ascendingToolStripMenuItem.Checked)
-                userList = tempList.ToList();
-
-            else if (noSortToolStripMenuItem.Checked && descendingToolStripMenuItem.Checked)
-            {
-                userList = tempList.ToList();
-                userList.Reverse();
-            }
-
-            else if (nameToolStripMenuItem.Checked && ascendingToolStripMenuItem.Checked)
+            if (nameToolStripMenuItem.Checked && ascendingToolStripMenuItem.Checked)
                 userList = tempList.OrderBy(Comet => Comet.sortkey).ToList();
 
             else if (nameToolStripMenuItem.Checked && descendingToolStripMenuItem.Checked)
@@ -345,12 +329,6 @@ namespace Cometary_Workshop
 
             else if (perihelionDistanceToolStripMenuItem.Checked && descendingToolStripMenuItem.Checked)
                 userList = tempList.OrderByDescending(Comet => Comet.q).ToList();
-
-            else if (aphelionDistanceToolStripMenuItem.Checked && ascendingToolStripMenuItem.Checked)
-                userList = tempList.OrderBy(Comet => Comet.Q).ToList();
-
-            else if (aphelionDistanceToolStripMenuItem.Checked && descendingToolStripMenuItem.Checked)
-                userList = tempList.OrderByDescending(Comet => Comet.Q).ToList();
 
             else if (longOfTheAscNodeToolStripMenuItem.Checked && ascendingToolStripMenuItem.Checked)
                 userList = tempList.OrderBy(Comet => Comet.N).ToList();
@@ -392,32 +370,32 @@ namespace Cometary_Workshop
             Comet c = userList.ElementAt(ind);
 
             //tFull.Text = c.full;
-            tId.Text = c.id;
-            tName.Text = c.name;
-            tT.Text = c.Ty.ToString() + "-" + c.Tm.ToString("00") + "-" + c.Td.ToString("00") + "." + c.Th.ToString("0000");
-            tQ.Text = String.Format("{0:0.000000}", c.q);
-            tE.Text = String.Format("{0:0.000000}", c.e);
-            tI.Text = String.Format("{0:0.0000}", c.i);
-            tAn.Text = String.Format("{0:0.0000}", c.N);
-            tPn.Text = String.Format("{0:0.0000}", c.w);
+            t_id.Text = c.id;
+            t_name.Text = c.name;
+            t_T.Text = c.Ty.ToString() + "-" + c.Tm.ToString("00") + "-" + c.Td.ToString("00") + "." + c.Th.ToString("0000");
+            t_q1.Text = String.Format("{0:0.000000}", c.q);
+            t_e.Text = String.Format("{0:0.000000}", c.e);
+            t_i.Text = String.Format("{0:0.0000}", c.i);
+            t_N.Text = String.Format("{0:0.0000}", c.N);
+            t_w.Text = String.Format("{0:0.0000}", c.w);
 
-            //if (c.P > 10000)
-            //{
-            //    tP.Text = "";
-            //    tAph.Text = "";
-            //    tA.Text = "";
-            //}
-            //else
-            //{
-                tP.Text = String.Format("{0:0.000000}", c.P);
-                tAph.Text = String.Format("{0:0.000000}", c.Q);
-                tA.Text = String.Format("{0:0.000000}", c.a);
-            //}
+            if (c.P > 10000 || c.e > 0.98)
+            {
+                t_P.Text = "";
+                t_Q2.Text = "";
+                t_a.Text = "";
+            }
+            else
+            {
+                t_P.Text = String.Format("{0:0.000000}", c.P);
+                t_Q2.Text = String.Format("{0:0.000000}", c.Q);
+                t_a.Text = String.Format("{0:0.000000}", c.a);
+            }
 
-            tG.Text = String.Format("{0:0.0}", c.H);
-            tK.Text = String.Format("{0:0.0}", c.G);
+            t_g.Text = String.Format("{0:0.0}", c.g);
+            t_k.Text = String.Format("{0:0.0}", c.k);
 
-            tSort.Text = String.Format("{0:0.0000000}", c.sortkey);
+            t_sortKey.Text = String.Format("{0:0.0000000}", c.sortkey);
 
             tEquinox.Text = "2000.0";
         }

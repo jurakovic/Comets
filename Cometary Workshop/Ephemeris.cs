@@ -121,7 +121,7 @@ namespace Cometary_Workshop
             double[] altaz = radec2aa(ra, dec, jday, obs);
             double dist = radec[2];
             double r = planet_xyz[3];
-            double mag = Form1.userList.ElementAt(cn).G + 5 * log10(dist) + 2.5 * Form1.userList.ElementAt(cn).H * log10(r);	// Schlyter's formula is wrong!
+            double mag = Form1.userList.ElementAt(cn).k + 5 * log10(dist) + 2.5 * Form1.userList.ElementAt(cn).g * log10(r);	// Schlyter's formula is wrong!
             return new double[]{altaz[0], altaz[1], altaz[2], ra, dec, lon, lat, 1.0, r, dist, mag};
         }	// CometAlt()
 

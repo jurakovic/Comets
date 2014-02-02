@@ -27,17 +27,9 @@ namespace Cometary_Workshop
         public double N;   //Longitude of the Ascending Node
         public double w;    //Argument of Pericenter
         public double a;    //Semimajor Axis
-        //public double n;    //Mean Motion
-        //public double M;    //Mean Anomaly
-        //public double E;    //Eccentric Anomaly
-        //public double v;    //True Anomaly
-        //public double L;    //Mean Longitude
         public double Q;    //Aphelion Distance
-        //public double bw;   //Longitude of Pericenter
-        //public double l;    //True longitude l = v + bw;
-        //public double F;    //eccentric longitude F = w + om + E;
-        public double H;
-        public double G;
+        public double g;
+        public double k;
         public double sortkey;
 
         public static int total = 0;
@@ -60,17 +52,13 @@ namespace Cometary_Workshop
             N = 0.0;
             w = 0.0;
             a = 0.0;
-            //n = 0.0;
-            //M = 0.0;
-            //E = 0.0;
-            //v = 0.0;
             Q = 0.0;
-            H = 0.0;
-            G = 0.0;
+            g = 0.0;
+            k = 0.0;
             sortkey = 0.0;
         }
 
-        public void set_sortkey()
+        public void get_sortkey()
         {
             int oldt = total2;
 
@@ -231,261 +219,23 @@ namespace Cometary_Workshop
 
         public static double getSemimajorAxis_a(double q, double e)
         {
-            //if (e < 1.0)
-            //    return q / (1 - e);
-            //else if (e > 1.0)
-            //    return -(q / (1 - e));
-            //else
-            //    return 0.0;
-
-            if (e < 0.98)
+            if (e < 1.0)
                 return q / (1 - e);
-            else
-                return 0.0;
-        }
-
-        public static double getMeanMotion_n(double e, double P)
-        {
-            if (e < 1.0)
-                return 0.9856076686 / P; // Gaussian gravitational constant (degrees)
-            else
-                return 0.0;
-        }
-
-        public static double getMeanAnomaly_M(double T, double t, double e, double n, double q)
-        {
-            double M = 0.0;
-
-            if (e < 1.0)
-            {
-                //http://en.wikipedia.org/wiki/Epoch_%28astronomy%29#Epoch_versus_equinox
-
-                double delta = t - T;
-
-                M = delta * n;
-                M = NormalizeDegrees(M);
-            }
-            else
-            {
-                double delta = (t - T) * 365.256363004; //delta mora bit u sidereal year
-
-                M = (13.3286488 * delta) / Math.Pow(q, 3 / 2);
-                M = NormalizeDegrees(M);
-            }
-            return M;
-        }
-
-        public static double getEccentricAnomaly_E(double e, double M)
-        {
-            if (e < 1.0)
-                return kepler(e, M);
-            else
-                return 0.0;
-        }
-
-        public static double getTrueAnomaly_v(double e, double E, double q, double T, double t)
-        {
-            double v = 0.0;
-
-            if (e < 1.0)
-            {
-                E = DegToRad(E);
-                v = Math.Sqrt((1.0 + e) / (1.0 - e)) * Math.Tan(E / 2.0);
-                v = 2.0 * Math.Atan(v);
-                v = RadToDeg(v);
-            }
-            else if (e == 1.0)
-            {
-                double s = barker(q, T, t);
-                v = 2.0 * Math.Atan(s);
-                v = RadToDeg(v);
-            }
-            else
-            {
-                double s, Q, gama;
-
-                Q = (0.01720209895 / (2 * q)) * Math.Sqrt((1 + e) / q);
-                gama = (1 - e) / (1 + e);
-
-                s = hyp_barker(Q, gama, T, t);
-                v = 2.0 * Math.Atan(s);
-                v = RadToDeg(v);
-            }
-
-            return v;
-        }
-
-        public static double getMeanLongitude_L(double M, double om, double w)
-        {
-            return NormalizeDegrees(M + om + w);
+            else if (e > 1.0)
+                return -(q / (1 - e));
+            else //if (e == 1.0)
+                return q / (1 - 0.999999);
         }
 
         public static double getAphelionDistance_Q(double e, double a)
         {
-            if (e < 0.98)
+
+            if (e < 1.0)
                 return a * (1 + e);
-            else
-                return 0.0;
-        }
-
-        public static double getLongitudeOfPericenter_bw(double om, double w)
-        {
-            return NormalizeDegrees(om + w);
-        }
-
-        public static double getTrueLongitude_l(double v, double bw)
-        {
-            return NormalizeDegrees(v + bw);
-        }
-
-        public static double getEccentricLongitude_F(double w, double om, double E)
-        {
-            return NormalizeDegrees(w + om + E);
-        }
-
-        public static double kepler(double e, double M)
-        {
-            //http://orbitsimulator.com/sheela/kepler.htm -> source
-            //double diff = 1.0;
-            //double E0 = M;
-            //double E = 0;
-            //while (diff > 0.0000001)
-            //{
-            //    E = E0 - (E0 - e * (Math.Sin(E0)) - DegToRad(M)) / (1.0 - e * Math.Cos(E0));
-            //    diff = Math.Abs(E0 - E);
-            //    E0 = E;
-            //}
-            //return NormalizeDegrees(RadToDeg(E));
-
-            double M_PI_2 = 1.5707963267948966192313216916398;
-            double M_PI_4 = 0.78539816339744830961566084581988;
-            double M_PI = 3.1415926535897932384626433832795;
-            int KEPLER_STEPS = 53;
-            double Eo = M_PI_2;
-            double F, M1;
-            double D = M_PI_4;
-            int i;
-
-            /* covert to radians */
-            M = DegToRad(M);
-
-            F = Math.Sign(M);
-            M = Math.Abs(M) / (2.0 * M_PI);
-            M = (M - (int)M) * 2.0 * M_PI * F;
-
-            if (M < 0)
-                M = M + 2.0 * M_PI;
-            F = 1.0;
-
-            if (M > M_PI)
-                F = -1.0;
-
-            if (M > M_PI)
-                M = 2.0 * M_PI - M;
-
-            for (i = 0; i < KEPLER_STEPS; i++)
-            {
-                M1 = Eo - e * Math.Sin(Eo);
-                Eo = Eo + D * Math.Sign(M - M1);
-                D /= 2.0;
-            }
-            Eo *= F;
-
-            /* back to degrees */
-            Eo = RadToDeg(Eo);
-            return Eo;
-        }
-
-        public static double barker(double q, double T, double t)
-        {
-            double delta = t - T;
-            double G, Y, W, S;
-
-            W = ((0.03649116245) / (q * Math.Sqrt(q))) * delta;
-            G = W / 2.0;
-            Y = Math.Pow((G + Math.Sqrt(G * G + 1)), 1.0 / 3.0);
-            S = Y - 1 / Y;
-
-            return S;
-        }
-
-        public static double hyp_barker(double Q1, double G, double T, double t)
-        {
-            double PREC = 0.0000001;
-            double S, S0, S1, Y, G1, Q2, Q3, Z1, F;
-            double t1 = T - t;
-            int Z, L;
-
-            Q2 = Q1 * t1;
-            S = 2 / (3 * Math.Abs(Q2));
-            S = 2 / Math.Tan(2 * Math.Atan(Math.Pow((Math.Tan(Math.Atan(S) / 2)), 1 / 3)));
-
-            if (t1 < 0)
-                S = -S;
-            L = 0;
-
-            do
-            {
-                S0 = S;
-                Z = 1;
-                Y = S * S;
-                G1 = -Y * S;
-                Q3 = Q2 + 2.0 * G * S * Y / 3.0;
-
-            next_z:
-                Z++;
-                G1 = -G1 * G * Y;
-                Z1 = (Z - (Z + 1) * G) / (2.0 * Z + 1.0);
-                F = Z1 * G1;
-                Q3 = Q3 + F;
-
-                if (Z > 100 || Math.Abs(F) > 10000)
-                    return 0.0;
-
-                if (Math.Abs(F) > PREC)
-                    goto next_z;
-
-                L++;
-
-                if (L > 100)
-                    return 0.0;
-
-                do
-                {
-                    S1 = S;
-                    S = (2 * S * S * S / 3 + Q3) / (S * S + 1);
-                } while (Math.Abs(S - S1) > PREC);
-
-            } while (Math.Abs(S - S0) > PREC);
-
-            return S;
-        }
-
-        public static double RadToDeg(double radAngle)
-        {
-            return radAngle * (180.0 / Math.PI);
-        }
-
-        public static double DegToRad(double degAngle)
-        {
-            return Math.PI * degAngle / 180.0;
-        }
-
-        public static double NormalizeDegrees(double deg)
-        {
-            deg %= 360;
-
-            while (deg < 0)
-            {
-                deg += 360;
-            }
-
-            while (deg >= 360)
-            {
-                deg -= 360;
-            }
-
-            return deg;
+            else if (e > 1.0)
+                return a * (1 + (2-e));
+            else //if (e == 1.0)
+                return a * (1 + 0.999999);
         }
 
         public static string[] setIdNameFull(string full)
