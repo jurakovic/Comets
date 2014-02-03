@@ -259,8 +259,6 @@
             this.chGeoDist = new System.Windows.Forms.CheckBox();
             this.chHelioDist = new System.Windows.Forms.CheckBox();
             this.chMag = new System.Windows.Forms.CheckBox();
-            this.bwCalculate = new System.ComponentModel.BackgroundWorker();
-            this.progCalculate = new System.Windows.Forms.ProgressBar();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.panelDatabase.SuspendLayout();
@@ -2394,7 +2392,6 @@
             // 
             // panelEphemSettings
             // 
-            this.panelEphemSettings.Controls.Add(this.progCalculate);
             this.panelEphemSettings.Controls.Add(this.comboCometEphem);
             this.panelEphemSettings.Controls.Add(this.groupBox3);
             this.panelEphemSettings.Controls.Add(this.btnCalcEphem);
@@ -2815,18 +2812,6 @@
             this.chMag.Text = "Magnitude";
             this.chMag.UseVisualStyleBackColor = true;
             // 
-            // bwCalculate
-            // 
-            this.bwCalculate.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bwCalculate_DoWork);
-            // 
-            // progCalculate
-            // 
-            this.progCalculate.Location = new System.Drawing.Point(358, 4);
-            this.progCalculate.Name = "progCalculate";
-            this.progCalculate.Size = new System.Drawing.Size(274, 21);
-            this.progCalculate.TabIndex = 6;
-            this.progCalculate.Visible = false;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3142,8 +3127,6 @@
         private System.Windows.Forms.CheckBox chEcLon;
         private System.Windows.Forms.CheckBox chAz;
         private System.Windows.Forms.CheckBox chAlt;
-        private System.ComponentModel.BackgroundWorker bwCalculate;
-        private System.Windows.Forms.ProgressBar progCalculate;
     }
 }
 
