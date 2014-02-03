@@ -79,15 +79,15 @@ namespace Cometary_Workshop
             comboLon.SelectedIndex = 0;
 
             tbStartYear.Text = DateTime.Now.AddHours(1).Year.ToString();
-            tbStartMonth.Text = DateTime.Now.AddHours(1).Month.ToString();
-            tbStartDay.Text = DateTime.Now.AddHours(1).Day.ToString();
-            tbStartHour.Text = DateTime.Now.AddHours(1).Hour.ToString();
+            tbStartMonth.Text = DateTime.Now.AddHours(1).Month.ToString("00");
+            tbStartDay.Text = DateTime.Now.AddHours(1).Day.ToString("00");
+            tbStartHour.Text = DateTime.Now.AddHours(1).Hour.ToString("00");
             tbStartMin.Text = "00";
 
             tbEndYear.Text = DateTime.Now.AddDays(15).AddHours(1).Year.ToString();
-            tbEndMonth.Text = DateTime.Now.AddDays(15).AddHours(1).Month.ToString();
-            tbEndDay.Text = DateTime.Now.AddDays(15).AddHours(1).Day.ToString();
-            tbEndHour.Text = DateTime.Now.AddDays(15).AddHours(1).Hour.ToString();
+            tbEndMonth.Text = DateTime.Now.AddDays(15).AddHours(1).Month.ToString("00");
+            tbEndDay.Text = DateTime.Now.AddDays(15).AddHours(1).Day.ToString("00");
+            tbEndHour.Text = DateTime.Now.AddDays(15).AddHours(1).Hour.ToString("00");
             tbEndMin.Text = "00";
 
             tbIntervalDay.Text = "1";
@@ -711,8 +711,15 @@ namespace Cometary_Workshop
                                     Convert.ToInt32(tbEndHour.Text),
                                     Convert.ToInt32(tbEndMin.Text), 0).AddMinutes(-obs.tz);
 
+            DateTime LOCstart = new DateTime(Convert.ToInt32(tbStartYear.Text),
+                                    Convert.ToInt32(tbStartMonth.Text),
+                                    Convert.ToInt32(tbStartDay.Text),
+                                    Convert.ToInt32(tbStartHour.Text),
+                                    Convert.ToInt32(tbStartMin.Text), 0);
+
             double jday = jd(UTstart.Year, UTstart.Month, UTstart.Day, UTstart.Hour, UTstart.Minute, UTstart.Second);
             double jdmax = jd(UTmax.Year, UTmax.Month, UTmax.Day, UTmax.Hour, UTmax.Minute, UTmax.Second);
+            double locjday = jd(LOCstart.Year, LOCstart.Month, LOCstart.Day, LOCstart.Hour, LOCstart.Minute, LOCstart.Second);
 
             double interval = Convert.ToDouble(tbIntervalDay.Text) + 
                             (Convert.ToDouble(tbIntervalHour.Text) + (Convert.ToDouble(tbIntervalMin.Text) / 60.0)) / 24;
@@ -721,8 +728,8 @@ namespace Cometary_Workshop
 
             tbEphem.Clear();
 
-            //               20h25m57  -23°59'  -67.6   344.1  303°02'  -04°38'   12.8° W   1.478   2.422   16.0
-            tbEphem.Text += "  R.A.      Dec     Alt     Az    Ecl.Lon  Ecl.Lat   Elong.      r       d     Magn." + Environment.NewLine;
+            //               19.02.2014.00.00  20h26m03  -23°58'  -67.1    20.3  303°03'  -04°37'   12.8° W   1.478   2.423   16.0
+            tbEphem.Text += "                    R.A.      Dec     Alt     Az    Ecl.Lon  Ecl.Lat   Elong.      r       d     Magn." + Environment.NewLine;
             //tbEphem.Text += "[h  m  s]  [° ']    [°]     [°]    [° ']    [° ']     [°]      [AU]    [AU]" + Environment.NewLine;
 
             if (comboCometEphem.SelectedIndex < 0) return;
@@ -751,19 +758,22 @@ namespace Cometary_Workshop
                 double elong = sep[0];
                 double pa = sep[1];
 
-                tbEphem.Text += hmsstring(ra / 15.0) + "  " +
+                tbEphem.Text +=
+                    dateString(locjday) + "  " +
+                    hmsstring(ra / 15.0) + "  " +
                     anglestring(dec, false, true) + "  " +
                     fixnum(alt, 5, 1) + "  " +
-                    fixnum(az, 5, 1) + "  " +
-                    anglestring(eclon, true, true) + "  " +
-                    anglestring(eclat, false, true) + "  " +
-                    fixnum(elong, 4, 1) + "°" + (pa >= 180 ? " W" : " E") + "  " +
+                    fixnum(az, 6, 1) + "  " +
+                    //anglestring(eclon, true, true) + "  " +
+                    //anglestring(eclat, false, true) + "  " +
+                    fixnum(elong, 6, 1) + "°" + (pa >= 180 ? " W" : " E") + "  " +
                     fixnum(r, 5, 3) + "  " +
                     fixnum(dist, 5, 3) + "  " +
                     fixnum(mag, 4, 1) + Environment.NewLine;
 
 
-                jday += 1.0;
+                jday += interval;
+                locjday += interval;
             }
         }
 
@@ -787,6 +797,85 @@ namespace Cometary_Workshop
             double j = Math.Floor(365.25 * (y + 4716)) + Math.Floor(30.6001 * (m + 1)) + d + b - 1524.5;
             return j;
         }	// jd0()
+
+
+        int[] jdtocd(double jd)
+        {
+            // The calendar date from julian date, see Meeus p. 63
+            // Returns year, month, day, day of week, hours, minutes, seconds
+            double Z = Math.Floor(jd + 0.5);
+            double F = jd + 0.5 - Z;
+            double A;
+            if (Z < 2299161)
+            {
+                A = Z;
+            }
+            else
+            {
+                double alpha = Math.Floor((Z - 1867216.25) / 36524.25);
+                A = Z + 1 + alpha - Math.Floor(alpha / 4);
+            }
+            double B = A + 1524;
+            double C = Math.Floor((B - 122.1) / 365.25);
+            double D = Math.Floor(365.25 * C);
+            double E = Math.Floor((B - D) / 30.6001);
+            double d = B - D - Math.Floor(30.6001 * E) + F;
+            double year, month;
+            if (E < 14)
+            {
+                month = E - 1;
+            }
+            else
+            {
+                month = E - 13;
+            }
+            if (month > 2)
+            {
+                year = C - 4716;
+            }
+            else
+            {
+                year = C - 4715;
+            }
+            double day = Math.Floor(d);
+            double h = (d - day) * 24;
+            double hours = Math.Floor(h);
+            double m = (h - hours) * 60;
+            double minutes = Math.Floor(m);
+            double seconds = Math.Round((m - minutes) * 60);
+            if (seconds >= 60)
+            {
+                minutes = minutes + 1;
+                seconds = seconds - 60;
+            }
+            if (minutes >= 60)
+            {
+                hours = hours + 1;
+                minutes = 0;
+            }
+            double dw = Math.Floor(jd + 1.5) - 7 * Math.Floor((jd + 1.5) / 7);
+            return new int[] { (int)year, (int)month, (int)day, (int)dw, (int)hours, (int)minutes, (int)seconds };
+        }
+
+        string dateString(double jday)
+        {
+            int[] date = jdtocd(jday);
+
+            int year = date[0];
+            int month = date[1];
+            int day = date[2];
+            int hour = date[4];
+            int minute = date[5];
+
+            string datestr = ""; 
+            
+            datestr += ((day < 10) ? "0" : "") + day;
+            datestr += ((month < 10) ? ".0" : ".") + month;
+            datestr += "." + year;
+            datestr += ((hour < 10) ? " 0" : " ") + hour;
+            datestr += ((minute < 10) ? ":0" : ":") + minute;
+            return datestr;
+        }
 
         double[] CometAlt(Comet c, double jday, Obs obs)
         {
