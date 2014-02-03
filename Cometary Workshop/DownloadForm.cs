@@ -51,10 +51,6 @@ namespace Cometary_Workshop
                 catch
                 {
                     //pogledati Client_DownloadFileCompleted()
-
-                    //MessageBox.Show("Unable to download orbital elements", "Error", MessageBoxButtons.OK);
-                    //File.Delete(downloadedFile);
-                    //return;
                 }
             }
         }

@@ -38,23 +38,18 @@ namespace Cometary_Workshop
             public double latitude;
             public double longitude;
             public double tz;
-            //public double year, month, day, hours, minutes, seconds;
 
             public Obs(double lat, double lon, double tz)
             {
                 this.latitude = lat;
                 this.longitude = lon;
                 this.tz = tz;
-                //this.year = y;
-                //this.month = m;
-                //this.day = d;
-                //this.hours = hr;
-                //this.minutes = min;
-                //this.seconds = sec;
             }
         };
 
         Obs obs;
+        Comet c;
+        double jday, jdmax, interval;
 
         public Form1()
         {
@@ -711,10 +706,10 @@ namespace Cometary_Workshop
                                     Convert.ToInt32(tbEndHour.Text),
                                     Convert.ToInt32(tbEndMin.Text), 0).AddMinutes(-obs.tz);
 
-            double jday = jd(UTstart.Year, UTstart.Month, UTstart.Day, UTstart.Hour, UTstart.Minute, UTstart.Second);
-            double jdmax = jd(UTmax.Year, UTmax.Month, UTmax.Day, UTmax.Hour, UTmax.Minute, UTmax.Second);
+            jday = jd(UTstart.Year, UTstart.Month, UTstart.Day, UTstart.Hour, UTstart.Minute, UTstart.Second);
+            jdmax = jd(UTmax.Year, UTmax.Month, UTmax.Day, UTmax.Hour, UTmax.Minute, UTmax.Second);
 
-            double interval = Convert.ToDouble(tbIntervalDay.Text) + 
+            interval = Convert.ToDouble(tbIntervalDay.Text) + 
                             (Convert.ToDouble(tbIntervalHour.Text) + (Convert.ToDouble(tbIntervalMin.Text) / 60.0)) / 24;
 
             
@@ -726,9 +721,20 @@ namespace Cometary_Workshop
             //tbEphem.Text += "[h  m  s]  [° ']    [°]     [°]    [° ']    [° ']     [°]      [AU]    [AU]" + Environment.NewLine;
 
             if (comboCometEphem.SelectedIndex < 0) return;
-            Comet c = userList.ElementAt(comboCometEphem.SelectedIndex);
+            c = userList.ElementAt(comboCometEphem.SelectedIndex);
 
-            while (jday < jdmax) 
+
+            bwCalculate.RunWorkerAsync();
+        }
+
+        void calculateEphem(Comet c, double jday, double jdmax, double interval, Obs obs)
+        {
+
+            int maxsize = (int)((jdmax - jday) / interval);
+            progCalculate.Visible = true;
+            progCalculate.Value = 0;
+
+            while (jday < jdmax)
             {
                 double[] dat = CometAlt(c, jday, obs);
                 double alt = dat[0];
@@ -762,8 +768,25 @@ namespace Cometary_Workshop
                     fixnum(dist, 5, 3) + "  " +
                     fixnum(mag, 4, 1) + Environment.NewLine;
 
+                jday += interval;
+                progCalculate.Value += 1;
+            }
+            progCalculate.Value = progCalculate.Maximum;
+            progCalculate.Visible = false;
+        }
 
-                jday += 1.0;
+        private void bwCalculate_DoWork(object sender, DoWorkEventArgs e)
+        {
+            if (progCalculate.InvokeRequired)
+            {
+                progCalculate.Invoke((MethodInvoker)delegate()
+                {
+                    bwCalculate_DoWork(sender, e);
+                });
+            }
+            else
+            {
+                calculateEphem(c, jday, jdmax, interval, obs);
             }
         }
 
@@ -1004,5 +1027,7 @@ namespace Cometary_Workshop
         double sqr(double x) { return x * x; }
         double cbrt(double x) { return Math.Pow(x, 1 / 3.0); }
         double SGN(double x) { return (x < 0) ? -1 : +1; }
+
+
     }
 }
