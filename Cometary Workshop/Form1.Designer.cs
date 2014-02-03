@@ -190,9 +190,9 @@
             this.radioButton3 = new System.Windows.Forms.RadioButton();
             this.radioButton4 = new System.Windows.Forms.RadioButton();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.chRec = new System.Windows.Forms.CheckBox();
+            this.radioUT = new System.Windows.Forms.RadioButton();
+            this.radioLocal = new System.Windows.Forms.RadioButton();
+            this.chDec = new System.Windows.Forms.CheckBox();
             this.chTime = new System.Windows.Forms.CheckBox();
             this.chRA = new System.Windows.Forms.CheckBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -1987,7 +1987,7 @@
             this.groupBox5.Controls.Add(this.chAlt);
             this.groupBox5.Controls.Add(this.panel2);
             this.groupBox5.Controls.Add(this.panel1);
-            this.groupBox5.Controls.Add(this.chRec);
+            this.groupBox5.Controls.Add(this.chDec);
             this.groupBox5.Controls.Add(this.chTime);
             this.groupBox5.Controls.Add(this.chRA);
             this.groupBox5.Location = new System.Drawing.Point(8, 120);
@@ -2132,46 +2132,46 @@
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.radioButton2);
-            this.panel1.Controls.Add(this.radioButton1);
+            this.panel1.Controls.Add(this.radioUT);
+            this.panel1.Controls.Add(this.radioLocal);
             this.panel1.Location = new System.Drawing.Point(10, 41);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(100, 46);
             this.panel1.TabIndex = 3;
             // 
-            // radioButton2
+            // radioUT
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(3, 26);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(94, 17);
-            this.radioButton2.TabIndex = 4;
-            this.radioButton2.Text = "Universal Time";
-            this.radioButton2.UseVisualStyleBackColor = true;
+            this.radioUT.AutoSize = true;
+            this.radioUT.Location = new System.Drawing.Point(3, 26);
+            this.radioUT.Name = "radioUT";
+            this.radioUT.Size = new System.Drawing.Size(94, 17);
+            this.radioUT.TabIndex = 4;
+            this.radioUT.Text = "Universal Time";
+            this.radioUT.UseVisualStyleBackColor = true;
             // 
-            // radioButton1
+            // radioLocal
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Checked = true;
-            this.radioButton1.Location = new System.Drawing.Point(3, 3);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(74, 17);
-            this.radioButton1.TabIndex = 3;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Local Time";
-            this.radioButton1.UseVisualStyleBackColor = true;
+            this.radioLocal.AutoSize = true;
+            this.radioLocal.Checked = true;
+            this.radioLocal.Location = new System.Drawing.Point(3, 3);
+            this.radioLocal.Name = "radioLocal";
+            this.radioLocal.Size = new System.Drawing.Size(74, 17);
+            this.radioLocal.TabIndex = 3;
+            this.radioLocal.TabStop = true;
+            this.radioLocal.Text = "Local Time";
+            this.radioLocal.UseVisualStyleBackColor = true;
             // 
-            // chRec
+            // chDec
             // 
-            this.chRec.AutoSize = true;
-            this.chRec.Checked = true;
-            this.chRec.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chRec.Location = new System.Drawing.Point(178, 43);
-            this.chRec.Name = "chRec";
-            this.chRec.Size = new System.Drawing.Size(107, 17);
-            this.chRec.TabIndex = 1;
-            this.chRec.Text = "Declination (Dec)";
-            this.chRec.UseVisualStyleBackColor = true;
+            this.chDec.AutoSize = true;
+            this.chDec.Checked = true;
+            this.chDec.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chDec.Location = new System.Drawing.Point(178, 43);
+            this.chDec.Name = "chDec";
+            this.chDec.Size = new System.Drawing.Size(107, 17);
+            this.chDec.TabIndex = 1;
+            this.chDec.Text = "Declination (Dec)";
+            this.chDec.UseVisualStyleBackColor = true;
             // 
             // chTime
             // 
@@ -3110,7 +3110,7 @@
         private System.Windows.Forms.TextBox tbStartYear;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.GroupBox groupBox5;
-        private System.Windows.Forms.CheckBox chRec;
+        private System.Windows.Forms.CheckBox chDec;
         private System.Windows.Forms.CheckBox chRA;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.TextBox tbIntervalMin;
@@ -3122,8 +3122,8 @@
         private System.Windows.Forms.RadioButton radioButton3;
         private System.Windows.Forms.RadioButton radioButton4;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.RadioButton radioUT;
+        private System.Windows.Forms.RadioButton radioLocal;
         private System.Windows.Forms.CheckBox chTime;
         private System.Windows.Forms.CheckBox chMag;
         private System.Windows.Forms.CheckBox chGeoDist;

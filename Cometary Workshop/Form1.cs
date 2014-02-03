@@ -684,6 +684,8 @@ namespace Cometary_Workshop
 
         private void btnCalcEphem_Click(object sender, EventArgs e)
         {
+            if (comboCometEphem.SelectedIndex < 0) return;
+
             /////////////////////////
             double locationLatitude = 45.783333;
             double locationLongitude = 15.933333;
@@ -721,21 +723,38 @@ namespace Cometary_Workshop
             double jdmax = jd(UTmax.Year, UTmax.Month, UTmax.Day, UTmax.Hour, UTmax.Minute, UTmax.Second);
             double locjday = jd(LOCstart.Year, LOCstart.Month, LOCstart.Day, LOCstart.Hour, LOCstart.Minute, LOCstart.Second);
 
-            double interval = Convert.ToDouble(tbIntervalDay.Text) + 
+            double interval = Convert.ToDouble(tbIntervalDay.Text) +
                             (Convert.ToDouble(tbIntervalHour.Text) + (Convert.ToDouble(tbIntervalMin.Text) / 60.0)) / 24;
 
-            
+
 
             tbEphem.Clear();
 
             //               19.02.2014.00.00  20h26m03  -23°58'  -67.1    20.3  303°03'  -04°37'   12.8° W   1.478   2.423   16.0
-            tbEphem.Text += "                    R.A.      Dec     Alt     Az    Ecl.Lon  Ecl.Lat   Elong.      r       d     Magn." + Environment.NewLine;
+            //tbEphem.Text += "  Local date/time   R.A.      Dec     Alt     Az    Ecl.Lon  Ecl.Lat   Elong.      r       d     Magn." + Environment.NewLine;
             //tbEphem.Text += "[h  m  s]  [° ']    [°]     [°]    [° ']    [° ']     [°]      [AU]    [AU]" + Environment.NewLine;
 
-            if (comboCometEphem.SelectedIndex < 0) return;
+            if (chTime.Checked)
+            {
+                if (radioLocal.Checked) tbEphem.Text += "Local date/time  ";
+                else tbEphem.Text += "   UT date/time  ";
+            }
+            if (chRA.Checked) tbEphem.Text += "   R.A.   ";
+            if (chDec.Checked) tbEphem.Text += "   Dec   ";
+            if (chAlt.Checked) tbEphem.Text += "  Alt  ";
+            if (chAz.Checked) tbEphem.Text += "    Az  ";
+            if (chEcLon.Checked) tbEphem.Text += " Ecl.Lon ";
+            if (chEcLat.Checked) tbEphem.Text += " Ecl.Lat ";
+            if (chElong.Checked) tbEphem.Text += "    Elong.  ";
+            if (chHelioDist.Checked) tbEphem.Text += "    r   ";
+            if (chGeoDist.Checked) tbEphem.Text += "    d   ";
+            if (chMag.Checked) tbEphem.Text += "  Mag. ";
+
+            tbEphem.Text += Environment.NewLine;
+
             Comet c = userList.ElementAt(comboCometEphem.SelectedIndex);
 
-            while (jday < jdmax) 
+            while (jday <= jdmax)
             {
                 double[] dat = CometAlt(c, jday, obs);
                 double alt = dat[0];
@@ -758,19 +777,38 @@ namespace Cometary_Workshop
                 double elong = sep[0];
                 double pa = sep[1];
 
-                tbEphem.Text +=
-                    dateString(locjday) + "  " +
-                    hmsstring(ra / 15.0) + "  " +
-                    anglestring(dec, false, true) + "  " +
-                    fixnum(alt, 5, 1) + "  " +
-                    fixnum(az, 6, 1) + "  " +
-                    //anglestring(eclon, true, true) + "  " +
-                    //anglestring(eclat, false, true) + "  " +
-                    fixnum(elong, 6, 1) + "°" + (pa >= 180 ? " W" : " E") + "  " +
-                    fixnum(r, 5, 3) + "  " +
-                    fixnum(dist, 5, 3) + "  " +
-                    fixnum(mag, 4, 1) + Environment.NewLine;
+                string line = "";
 
+                if (chTime.Checked)
+                {
+                    if (radioLocal.Checked) line += dateString(locjday);
+                    else line += dateString(jday);
+                }
+                //if (chRA.Checked) line += hmsstring(ra / 15.0);
+                //if (chDec.Checked) line += anglestring(dec, false, true);
+                //if (chAlt.Checked) line += fixnum(alt, 5, 1);
+                //if (chAz.Checked) line += fixnum(az, 6, 1);
+                //if (chEcLon.Checked) line += anglestring(eclon, true, true);
+                //if (chEcLat.Checked) line += anglestring(eclat, false, true);
+                //if (chElong.Checked) line += fixnum(elong, 6, 1) + "°" + (pa >= 180 ? " W" : " E") + " ";
+                //if (chHelioDist.Checked) line += fixnum(r, 5, 3);
+                //if (chGeoDist.Checked) line += fixnum(dist, 5, 3);
+                //if (chMag.Checked) line += fixnum(mag, 4, 1);
+
+
+                line += chRA.Checked ? hmsstring(ra / 15.0) : "";
+                line += chDec.Checked ? anglestring(dec, false, true) : "";
+                line += chAlt.Checked ? fixnum(alt, 5, 1) : "";
+                line += chAz.Checked ? fixnum(az, 6, 1) : "";
+                line += chEcLon.Checked ? anglestring(eclon, true, true) : "";
+                line += chEcLat.Checked ? anglestring(eclat, false, true) : "";
+                line += chElong.Checked ? fixnum(elong, 6, 1) + "°" + (pa >= 180 ? " W" : " E") + " " : "";
+                line += chHelioDist.Checked ? fixnum(r, 5, 3) : "";
+                line += chGeoDist.Checked ? fixnum(dist, 5, 3) : "";
+                line += chMag.Checked ? fixnum(mag, 4, 1) : "";
+
+
+                tbEphem.Text += line + Environment.NewLine;
 
                 jday += interval;
                 locjday += interval;
@@ -855,26 +893,6 @@ namespace Cometary_Workshop
             }
             double dw = Math.Floor(jd + 1.5) - 7 * Math.Floor((jd + 1.5) / 7);
             return new int[] { (int)year, (int)month, (int)day, (int)dw, (int)hours, (int)minutes, (int)seconds };
-        }
-
-        string dateString(double jday)
-        {
-            int[] date = jdtocd(jday);
-
-            int year = date[0];
-            int month = date[1];
-            int day = date[2];
-            int hour = date[4];
-            int minute = date[5];
-
-            string datestr = ""; 
-            
-            datestr += ((day < 10) ? "0" : "") + day;
-            datestr += ((month < 10) ? ".0" : ".") + month;
-            datestr += "." + year;
-            datestr += ((hour < 10) ? " 0" : " ") + hour;
-            datestr += ((minute < 10) ? ":0" : ":") + minute;
-            return datestr;
         }
 
         double[] CometAlt(Comet c, double jday, Obs obs)
@@ -1042,7 +1060,7 @@ namespace Cometary_Workshop
             string str = (n < 0 ? "-" : " ") + nint;
             if (d > 0) str = str + "." + nfract;
             while (str.Length < l) str = " " + str;
-            return str;
+            return " " + str + " ";
         } // end fixnum()
 
         string hmsstring(double t)
@@ -1060,7 +1078,7 @@ namespace Cometary_Workshop
             hmsstr = ((hours < 10) ? "0" : "") + hours;
             hmsstr += ((minutes < 10) ? "h0" : "h") + minutes;
             hmsstr += ((seconds < 10) ? "m0" : "m") + seconds;
-            return hmsstr;
+            return " " + hmsstr + " ";
         }	// end hmsstring()
 
         string anglestring(double a, bool circle, bool arcmin)
@@ -1077,8 +1095,30 @@ namespace Cometary_Workshop
             anglestr += ((Math.Floor(deg) < 10) ? "0" : "") + Math.Floor(deg);
             if (arcmin) anglestr += ((min < 10) ? "°0" : "°") + (min) + "'";
             else anglestr += ((min < 10) ? ":0" : ":") + (min);
-            return anglestr;
+            return " " + anglestr + " ";
         } // end anglestring()
+
+        string dateString(double jday)
+        {
+            int[] date = jdtocd(jday);
+
+            int year = date[0];
+            int month = date[1];
+            int day = date[2];
+            int hour = date[4];
+            int minute = date[5];
+
+            string datestr = "";
+
+            datestr += ((day < 10) ? "0" : "") + day;
+            datestr += ((month < 10) ? ".0" : ".") + month;
+            datestr += "." + year;
+            datestr += ((hour < 10) ? " 0" : " ") + hour;
+            datestr += ((minute < 10) ? ":0" : ":") + minute;
+            return datestr + " ";
+        }
+
+
 
         double rev(double angle) { return angle - Math.Floor(angle / 360.0) * 360.0; }		// 0<=a<360
         double rev2(double angle) { double a = rev(angle); return (a >= 180 ? a - 360.0 : a); }	// -180<=a<180
