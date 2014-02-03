@@ -91,7 +91,7 @@
             this.btnDownload.Location = new System.Drawing.Point(11, 129);
             this.btnDownload.Name = "btnDownload";
             this.btnDownload.Size = new System.Drawing.Size(90, 23);
-            this.btnDownload.TabIndex = 5;
+            this.btnDownload.TabIndex = 0;
             this.btnDownload.Text = "Download";
             this.btnDownload.UseVisualStyleBackColor = true;
             this.btnDownload.Click += new System.EventHandler(this.btnDownload_Click);
@@ -102,7 +102,7 @@
             this.btnClose.Location = new System.Drawing.Point(433, 129);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(90, 23);
-            this.btnClose.TabIndex = 6;
+            this.btnClose.TabIndex = 1;
             this.btnClose.Text = "Close";
             this.btnClose.UseVisualStyleBackColor = true;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
