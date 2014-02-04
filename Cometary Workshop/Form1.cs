@@ -726,33 +726,29 @@ namespace Cometary_Workshop
             double interval = Convert.ToDouble(tbIntervalDay.Text) +
                             (Convert.ToDouble(tbIntervalHour.Text) + (Convert.ToDouble(tbIntervalMin.Text) / 60.0)) / 24;
 
-
-
-            tbEphem.Clear();
-
-            //               19.02.2014.00.00  20h26m03  -23°58'  -67.1    20.3  303°03'  -04°37'   12.8° W   1.478   2.423   16.0
-            //tbEphem.Text += "  Local date/time   R.A.      Dec     Alt     Az    Ecl.Lon  Ecl.Lat   Elong.      r       d     Magn." + Environment.NewLine;
-            //tbEphem.Text += "[h  m  s]  [° ']    [°]     [°]    [° ']    [° ']     [°]      [AU]    [AU]" + Environment.NewLine;
+            richEphem.Clear();
 
             if (chTime.Checked)
             {
-                if (radioLocal.Checked) tbEphem.Text += "Local date/time  ";
-                else tbEphem.Text += "   UT date/time  ";
+                if (radioLocal.Checked) richEphem.Text += "Local date/time  ";
+                else richEphem.Text += "   UT date/time  ";
             }
-            if (chRA.Checked) tbEphem.Text += "   R.A.   ";
-            if (chDec.Checked) tbEphem.Text += "   Dec   ";
-            if (chAlt.Checked) tbEphem.Text += "  Alt  ";
-            if (chAz.Checked) tbEphem.Text += "    Az  ";
-            if (chEcLon.Checked) tbEphem.Text += " Ecl.Lon ";
-            if (chEcLat.Checked) tbEphem.Text += " Ecl.Lat ";
-            if (chElong.Checked) tbEphem.Text += "    Elong.  ";
-            if (chHelioDist.Checked) tbEphem.Text += "    r   ";
-            if (chGeoDist.Checked) tbEphem.Text += "    d   ";
-            if (chMag.Checked) tbEphem.Text += "  Mag. ";
+            if (chRA.Checked) richEphem.Text += "   R.A.   ";
+            if (chDec.Checked) richEphem.Text += "   Dec   ";
+            if (chAlt.Checked) richEphem.Text += "  Alt  ";
+            if (chAz.Checked) richEphem.Text += "    Az  ";
+            if (chEcLon.Checked) richEphem.Text += " Ecl.Lon ";
+            if (chEcLat.Checked) richEphem.Text += " Ecl.Lat ";
+            if (chElong.Checked) richEphem.Text += "    Elong. ";
+            if (chHelioDist.Checked) richEphem.Text += "    r   ";
+            if (chGeoDist.Checked) richEphem.Text += "    d   ";
+            if (chMag.Checked) richEphem.Text += "  Mag.";
 
-            tbEphem.Text += Environment.NewLine;
+            richEphem.Text += Environment.NewLine;
 
             Comet c = userList.ElementAt(comboCometEphem.SelectedIndex);
+
+            DateTime begin = DateTime.Now;
 
             while (jday <= jdmax)
             {
@@ -784,35 +780,36 @@ namespace Cometary_Workshop
                     if (radioLocal.Checked) line += dateString(locjday);
                     else line += dateString(jday);
                 }
-                //if (chRA.Checked) line += hmsstring(ra / 15.0);
-                //if (chDec.Checked) line += anglestring(dec, false, true);
-                //if (chAlt.Checked) line += fixnum(alt, 5, 1);
-                //if (chAz.Checked) line += fixnum(az, 6, 1);
-                //if (chEcLon.Checked) line += anglestring(eclon, true, true);
-                //if (chEcLat.Checked) line += anglestring(eclat, false, true);
-                //if (chElong.Checked) line += fixnum(elong, 6, 1) + "°" + (pa >= 180 ? " W" : " E") + " ";
-                //if (chHelioDist.Checked) line += fixnum(r, 5, 3);
-                //if (chGeoDist.Checked) line += fixnum(dist, 5, 3);
-                //if (chMag.Checked) line += fixnum(mag, 4, 1);
+                if (chRA.Checked) line += "  " + hmsstring(ra / 15.0);
+                if (chDec.Checked) line += "  " + anglestring(dec, false, true);
+                if (chAlt.Checked) line += "  " + fixnum(alt, 5, 1);
+                if (chAz.Checked) line += "  " + fixnum(az, 6, 1);
+                if (chEcLon.Checked) line += "  " + anglestring(eclon, true, true);
+                if (chEcLat.Checked) line += "  " + anglestring(eclat, false, true);
+                if (chElong.Checked) line += "  " + fixnum(elong, 6, 1) + "°" + (pa >= 180 ? " W" : " E");
+                if (chHelioDist.Checked) line += "  " + fixnum(r, 5, 3);
+                if (chGeoDist.Checked) line += "  " + fixnum(dist, 5, 3);
+                if (chMag.Checked) line += "  " + fixnum(mag, 4, 1);
 
+                //line += chRA.Checked ? "  " + hmsstring(ra / 15.0) : "";
+                //line += chDec.Checked ? "  " + anglestring(dec, false, true) : "";
+                //line += chAlt.Checked ? "  " + fixnum(alt, 5, 1) : "";
+                //line += chAz.Checked ? "  " + fixnum(az, 6, 1) : "";
+                //line += chEcLon.Checked ? "  " + anglestring(eclon, true, true) : "";
+                //line += chEcLat.Checked ? "  " + anglestring(eclat, false, true) : "";
+                //line += chElong.Checked ? "  " + fixnum(elong, 6, 1) + "°" + (pa >= 180 ? " W" : " E") + " " : "";
+                //line += chHelioDist.Checked ? "  " + fixnum(r, 5, 3) : "";
+                //line += chGeoDist.Checked ? "  " + fixnum(dist, 5, 3) : "";
+                //line += chMag.Checked ? "  " + fixnum(mag, 4, 1) : "";
 
-                line += chRA.Checked ? hmsstring(ra / 15.0) : "";
-                line += chDec.Checked ? anglestring(dec, false, true) : "";
-                line += chAlt.Checked ? fixnum(alt, 5, 1) : "";
-                line += chAz.Checked ? fixnum(az, 6, 1) : "";
-                line += chEcLon.Checked ? anglestring(eclon, true, true) : "";
-                line += chEcLat.Checked ? anglestring(eclat, false, true) : "";
-                line += chElong.Checked ? fixnum(elong, 6, 1) + "°" + (pa >= 180 ? " W" : " E") + " " : "";
-                line += chHelioDist.Checked ? fixnum(r, 5, 3) : "";
-                line += chGeoDist.Checked ? fixnum(dist, 5, 3) : "";
-                line += chMag.Checked ? fixnum(mag, 4, 1) : "";
-
-
-                tbEphem.Text += line + Environment.NewLine;
+                richEphem.Text += line +Environment.NewLine;
 
                 jday += interval;
                 locjday += interval;
             }
+
+            DateTime end = DateTime.Now;
+            MessageBox.Show((end - begin).TotalMilliseconds.ToString());
         }
 
         double jd(double year, double month, double day, double hour, double min, double sec)
@@ -1060,7 +1057,7 @@ namespace Cometary_Workshop
             string str = (n < 0 ? "-" : " ") + nint;
             if (d > 0) str = str + "." + nfract;
             while (str.Length < l) str = " " + str;
-            return " " + str + " ";
+            return str;
         } // end fixnum()
 
         string hmsstring(double t)
@@ -1078,7 +1075,7 @@ namespace Cometary_Workshop
             hmsstr = ((hours < 10) ? "0" : "") + hours;
             hmsstr += ((minutes < 10) ? "h0" : "h") + minutes;
             hmsstr += ((seconds < 10) ? "m0" : "m") + seconds;
-            return " " + hmsstr + " ";
+            return hmsstr;
         }	// end hmsstring()
 
         string anglestring(double a, bool circle, bool arcmin)
@@ -1095,7 +1092,7 @@ namespace Cometary_Workshop
             anglestr += ((Math.Floor(deg) < 10) ? "0" : "") + Math.Floor(deg);
             if (arcmin) anglestr += ((min < 10) ? "°0" : "°") + (min) + "'";
             else anglestr += ((min < 10) ? ":0" : ":") + (min);
-            return " " + anglestr + " ";
+            return anglestr ;
         } // end anglestring()
 
         string dateString(double jday)
@@ -1115,7 +1112,7 @@ namespace Cometary_Workshop
             datestr += "." + year;
             datestr += ((hour < 10) ? " 0" : " ") + hour;
             datestr += ((minute < 10) ? ":0" : ":") + minute;
-            return datestr + " ";
+            return datestr;
         }
 
 

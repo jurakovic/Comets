@@ -214,7 +214,6 @@
             this.tbEndDay = new System.Windows.Forms.TextBox();
             this.btnCalcEphem = new System.Windows.Forms.Button();
             this.btnSettingsEphem = new System.Windows.Forms.Button();
-            this.tbEphem = new System.Windows.Forms.TextBox();
             this.panelEphem = new System.Windows.Forms.Panel();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
@@ -259,6 +258,7 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.ascendingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.descendingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.richEphem = new System.Windows.Forms.RichTextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.panelDatabase.SuspendLayout();
@@ -1934,7 +1934,7 @@
             // 
             this.tabPage5.BackColor = System.Drawing.SystemColors.Control;
             this.tabPage5.Controls.Add(this.panelEphemSettings);
-            this.tabPage5.Controls.Add(this.tbEphem);
+            this.tabPage5.Controls.Add(this.richEphem);
             this.tabPage5.Controls.Add(this.panelEphem);
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
@@ -2387,18 +2387,6 @@
             this.btnSettingsEphem.UseVisualStyleBackColor = true;
             this.btnSettingsEphem.Click += new System.EventHandler(this.btnSettingsEphem_Click);
             // 
-            // tbEphem
-            // 
-            this.tbEphem.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.tbEphem.Location = new System.Drawing.Point(6, 112);
-            this.tbEphem.Multiline = true;
-            this.tbEphem.Name = "tbEphem";
-            this.tbEphem.ReadOnly = true;
-            this.tbEphem.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbEphem.Size = new System.Drawing.Size(740, 295);
-            this.tbEphem.TabIndex = 1;
-            this.tbEphem.WordWrap = false;
-            // 
             // panelEphem
             // 
             this.panelEphem.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -2818,6 +2806,17 @@
             this.descendingToolStripMenuItem.Text = "Descending";
             this.descendingToolStripMenuItem.Click += new System.EventHandler(this.descendingToolStripMenuItem_Click);
             // 
+            // richEphem
+            // 
+            this.richEphem.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.richEphem.Location = new System.Drawing.Point(6, 112);
+            this.richEphem.Name = "richEphem";
+            this.richEphem.ReadOnly = true;
+            this.richEphem.Size = new System.Drawing.Size(740, 295);
+            this.richEphem.TabIndex = 5;
+            this.richEphem.Text = "";
+            this.richEphem.WordWrap = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2865,7 +2864,6 @@
             this.panelLocation.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             this.tabPage5.ResumeLayout(false);
-            this.tabPage5.PerformLayout();
             this.panelEphemSettings.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
@@ -3095,7 +3093,6 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Button btnCalcEphem;
         private System.Windows.Forms.Button btnSettingsEphem;
-        private System.Windows.Forms.TextBox tbEphem;
         private System.Windows.Forms.ComboBox comboCometEphem;
         private System.Windows.Forms.TextBox tbEndMin;
         private System.Windows.Forms.TextBox tbEndHour;
@@ -3133,6 +3130,7 @@
         private System.Windows.Forms.CheckBox chEcLon;
         private System.Windows.Forms.CheckBox chAz;
         private System.Windows.Forms.CheckBox chAlt;
+        private System.Windows.Forms.RichTextBox richEphem;
     }
 }
 
