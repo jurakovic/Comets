@@ -186,9 +186,9 @@
             this.chAz = new System.Windows.Forms.CheckBox();
             this.chAlt = new System.Windows.Forms.CheckBox();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.radioButton5 = new System.Windows.Forms.RadioButton();
-            this.radioButton3 = new System.Windows.Forms.RadioButton();
-            this.radioButton4 = new System.Windows.Forms.RadioButton();
+            this.radOfDate = new System.Windows.Forms.RadioButton();
+            this.radJ2000 = new System.Windows.Forms.RadioButton();
+            this.radB1950 = new System.Windows.Forms.RadioButton();
             this.panel1 = new System.Windows.Forms.Panel();
             this.radioUT = new System.Windows.Forms.RadioButton();
             this.radioLocal = new System.Windows.Forms.RadioButton();
@@ -214,6 +214,7 @@
             this.tbEndDay = new System.Windows.Forms.TextBox();
             this.btnCalcEphem = new System.Windows.Forms.Button();
             this.btnSettingsEphem = new System.Windows.Forms.Button();
+            this.richEphem = new System.Windows.Forms.RichTextBox();
             this.panelEphem = new System.Windows.Forms.Panel();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
@@ -258,7 +259,6 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.ascendingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.descendingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.richEphem = new System.Windows.Forms.RichTextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.panelDatabase.SuspendLayout();
@@ -2090,45 +2090,45 @@
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.radioButton5);
-            this.panel2.Controls.Add(this.radioButton3);
-            this.panel2.Controls.Add(this.radioButton4);
+            this.panel2.Controls.Add(this.radOfDate);
+            this.panel2.Controls.Add(this.radJ2000);
+            this.panel2.Controls.Add(this.radB1950);
             this.panel2.Location = new System.Drawing.Point(175, 63);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(100, 71);
             this.panel2.TabIndex = 4;
             // 
-            // radioButton5
+            // radOfDate
             // 
-            this.radioButton5.AutoSize = true;
-            this.radioButton5.Location = new System.Drawing.Point(3, 49);
-            this.radioButton5.Name = "radioButton5";
-            this.radioButton5.Size = new System.Drawing.Size(60, 17);
-            this.radioButton5.TabIndex = 5;
-            this.radioButton5.Text = "of date";
-            this.radioButton5.UseVisualStyleBackColor = true;
+            this.radOfDate.AutoSize = true;
+            this.radOfDate.Location = new System.Drawing.Point(3, 49);
+            this.radOfDate.Name = "radOfDate";
+            this.radOfDate.Size = new System.Drawing.Size(60, 17);
+            this.radOfDate.TabIndex = 5;
+            this.radOfDate.Text = "of date";
+            this.radOfDate.UseVisualStyleBackColor = true;
             // 
-            // radioButton3
+            // radJ2000
             // 
-            this.radioButton3.AutoSize = true;
-            this.radioButton3.Checked = true;
-            this.radioButton3.Location = new System.Drawing.Point(3, 26);
-            this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(54, 17);
-            this.radioButton3.TabIndex = 4;
-            this.radioButton3.TabStop = true;
-            this.radioButton3.Text = "J2000";
-            this.radioButton3.UseVisualStyleBackColor = true;
+            this.radJ2000.AutoSize = true;
+            this.radJ2000.Checked = true;
+            this.radJ2000.Location = new System.Drawing.Point(3, 26);
+            this.radJ2000.Name = "radJ2000";
+            this.radJ2000.Size = new System.Drawing.Size(54, 17);
+            this.radJ2000.TabIndex = 4;
+            this.radJ2000.TabStop = true;
+            this.radJ2000.Text = "J2000";
+            this.radJ2000.UseVisualStyleBackColor = true;
             // 
-            // radioButton4
+            // radB1950
             // 
-            this.radioButton4.AutoSize = true;
-            this.radioButton4.Location = new System.Drawing.Point(3, 3);
-            this.radioButton4.Name = "radioButton4";
-            this.radioButton4.Size = new System.Drawing.Size(55, 17);
-            this.radioButton4.TabIndex = 3;
-            this.radioButton4.Text = "B1950";
-            this.radioButton4.UseVisualStyleBackColor = true;
+            this.radB1950.AutoSize = true;
+            this.radB1950.Location = new System.Drawing.Point(3, 3);
+            this.radB1950.Name = "radB1950";
+            this.radB1950.Size = new System.Drawing.Size(55, 17);
+            this.radB1950.TabIndex = 3;
+            this.radB1950.Text = "B1950";
+            this.radB1950.UseVisualStyleBackColor = true;
             // 
             // panel1
             // 
@@ -2386,6 +2386,17 @@
             this.btnSettingsEphem.Text = "Settings ▲";
             this.btnSettingsEphem.UseVisualStyleBackColor = true;
             this.btnSettingsEphem.Click += new System.EventHandler(this.btnSettingsEphem_Click);
+            // 
+            // richEphem
+            // 
+            this.richEphem.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.richEphem.Location = new System.Drawing.Point(6, 112);
+            this.richEphem.Name = "richEphem";
+            this.richEphem.ReadOnly = true;
+            this.richEphem.Size = new System.Drawing.Size(740, 295);
+            this.richEphem.TabIndex = 5;
+            this.richEphem.Text = "";
+            this.richEphem.WordWrap = false;
             // 
             // panelEphem
             // 
@@ -2806,17 +2817,6 @@
             this.descendingToolStripMenuItem.Text = "Descending";
             this.descendingToolStripMenuItem.Click += new System.EventHandler(this.descendingToolStripMenuItem_Click);
             // 
-            // richEphem
-            // 
-            this.richEphem.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.richEphem.Location = new System.Drawing.Point(6, 112);
-            this.richEphem.Name = "richEphem";
-            this.richEphem.ReadOnly = true;
-            this.richEphem.Size = new System.Drawing.Size(740, 295);
-            this.richEphem.TabIndex = 5;
-            this.richEphem.Text = "";
-            this.richEphem.WordWrap = false;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3115,9 +3115,9 @@
         private System.Windows.Forms.TextBox tbIntervalDay;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.RadioButton radioButton5;
-        private System.Windows.Forms.RadioButton radioButton3;
-        private System.Windows.Forms.RadioButton radioButton4;
+        private System.Windows.Forms.RadioButton radOfDate;
+        private System.Windows.Forms.RadioButton radJ2000;
+        private System.Windows.Forms.RadioButton radB1950;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.RadioButton radioUT;
         private System.Windows.Forms.RadioButton radioLocal;

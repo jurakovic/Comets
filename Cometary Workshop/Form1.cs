@@ -78,16 +78,18 @@ namespace Cometary_Workshop
             comboLat.SelectedIndex = 0;
             comboLon.SelectedIndex = 0;
 
-            tbStartYear.Text = DateTime.Now.AddHours(1).Year.ToString();
-            tbStartMonth.Text = DateTime.Now.AddHours(1).Month.ToString("00");
-            tbStartDay.Text = DateTime.Now.AddHours(1).Day.ToString("00");
-            tbStartHour.Text = DateTime.Now.AddHours(1).Hour.ToString("00");
+            DateTime dt = DateTime.Now.AddHours(1);
+            tbStartYear.Text = dt.Year.ToString();
+            tbStartMonth.Text = dt.Month.ToString("00");
+            tbStartDay.Text = dt.Day.ToString("00");
+            tbStartHour.Text = dt.Hour.ToString("00");
             tbStartMin.Text = "00";
 
-            tbEndYear.Text = DateTime.Now.AddDays(15).AddHours(1).Year.ToString();
-            tbEndMonth.Text = DateTime.Now.AddDays(15).AddHours(1).Month.ToString("00");
-            tbEndDay.Text = DateTime.Now.AddDays(15).AddHours(1).Day.ToString("00");
-            tbEndHour.Text = DateTime.Now.AddDays(15).AddHours(1).Hour.ToString("00");
+            dt = dt.AddDays(15);
+            tbEndYear.Text = dt.Year.ToString();
+            tbEndMonth.Text = dt.Month.ToString("00");
+            tbEndDay.Text = dt.Day.ToString("00");
+            tbEndHour.Text = dt.Hour.ToString("00");
             tbEndMin.Text = "00";
 
             tbIntervalDay.Text = "1";
@@ -787,8 +789,8 @@ namespace Cometary_Workshop
                 if (chEcLon.Checked) line += "  " + anglestring(eclon, true, true);
                 if (chEcLat.Checked) line += "  " + anglestring(eclat, false, true);
                 if (chElong.Checked) line += "  " + fixnum(elong, 6, 1) + "°" + (pa >= 180 ? " W" : " E");
-                if (chHelioDist.Checked) line += "  " + fixnum(r, 5, 3);
-                if (chGeoDist.Checked) line += "  " + fixnum(dist, 5, 3);
+                if (chHelioDist.Checked) line += "  " + fixnum(r, 6, 4);
+                if (chGeoDist.Checked) line += "  " + fixnum(dist, 6, 4);
                 if (chMag.Checked) line += "  " + fixnum(mag, 4, 1);
 
                 //line += chRA.Checked ? "  " + hmsstring(ra / 15.0) : "";
@@ -809,7 +811,7 @@ namespace Cometary_Workshop
             }
 
             DateTime end = DateTime.Now;
-            MessageBox.Show((end - begin).TotalMilliseconds.ToString());
+            //MessageBox.Show((end - begin).TotalMilliseconds.ToString());
         }
 
         double jd(double year, double month, double day, double hour, double min, double sec)
@@ -990,7 +992,11 @@ namespace Cometary_Workshop
                 v = rev(atan2d(yv, xv));		// true anomaly
                 r = Math.Sqrt(xv * xv + yv * yv);	// distance
             }	// from here common for all orbits
-            double N = cmt.N + 3.82394E-5 * d;	// precess from J2000.0 to now;
+            double N; 
+            if (radJ2000.Checked)
+                N = cmt.N;
+            else // precess from J2000.0 to now;
+                N = cmt.N + 3.82394E-5 * d;
             double ww = cmt.w;	// why not precess this value?
             double i = cmt.i;
             double xh = r * (cosd(N) * cosd(v + ww) - sind(N) * sind(v + ww) * cosd(i));
@@ -1011,7 +1017,12 @@ namespace Cometary_Workshop
             double yg = obj[1] + sun[1];
             double zg = obj[2];
             // Obliquity of Ecliptic (exponent corrected, was E-9!)
-            double obl = 23.4393 - 3.563E-7 * (jday - 2451543.5);
+            double obl;
+            if (radJ2000.Checked)
+                obl = 23.439291111;
+            else
+                obl = 23.439291111 - 3.563E-7 * (jday - 2451543.5);
+
             // Convert to eq. co-ordinates
             double x1 = xg;
             double y1 = yg * cosd(obl) - zg * sind(obl);
