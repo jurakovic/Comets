@@ -234,7 +234,7 @@ namespace Cometary_Workshop
                 return a * (1 + e);
             else if (e > 1.0)
                 return a * (1 + (2-e));
-            else //if (e == 1.0)
+            else //if (e == 1.0) //koristi se zamo za sortiranje
                 return a * (1 + 0.999999);
         }
 
@@ -242,7 +242,7 @@ namespace Cometary_Workshop
         {
             int oldt = total;
 
-            //                   id   name  full
+            //                     id   name  full
             //string[] idname = { null, null, null };
             string[] idname = { "", "", "" };
 

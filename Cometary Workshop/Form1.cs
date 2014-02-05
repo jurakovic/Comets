@@ -443,6 +443,9 @@ namespace Cometary_Workshop
 
         private void btnFilters_Click(object sender, EventArgs e)
         {
+            //za cancel
+            //foreach (Control c in gbFilters.Controls.OfType<CheckBox>()) (c as CheckBox).Checked = false;
+
             btnFilters.Text = gbFilters.Visible ? "Filters ▼" : "Filters ▲";
 
             gbFilters.Visible = !gbFilters.Visible;
@@ -650,6 +653,7 @@ namespace Cometary_Workshop
         {
             if (tabControl1.SelectedIndex == 0)
             {
+                btnFilters.Text = "Filters ▼";
                 gbDetails.Visible = true;
                 gbFilters.Visible = false;
             }
