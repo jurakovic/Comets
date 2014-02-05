@@ -38,19 +38,14 @@ namespace Cometary_Workshop
             public double latitude;
             public double longitude;
             public double tz;
-            //public double year, month, day, hours, minutes, seconds;
+            public bool dst;
 
-            public Obs(double lat, double lon, double tz)
+            public Obs(double lat, double lon, double tz, bool dst)
             {
                 this.latitude = lat;
                 this.longitude = lon;
                 this.tz = tz;
-                //this.year = y;
-                //this.month = m;
-                //this.day = d;
-                //this.hours = hr;
-                //this.minutes = min;
-                //this.seconds = sec;
+                this.dst = dst;
             }
         };
 
@@ -688,46 +683,61 @@ namespace Cometary_Workshop
         {
             if (comboCometEphem.SelectedIndex < 0) return;
 
-            /////////////////////////
+            //////////////////////////////
+            //prebacit na save kod lokacije
             double locationLatitude = 45.783333;
             double locationLongitude = 15.933333;
+            bool dst = checkBoxDST.Checked;
             double timezone;
 
             timezone = Convert.ToDouble(tbTimezone.Text.Substring(1, 2));
             timezone += Convert.ToDouble(tbTimezone.Text.Substring(4, 2)) / 60;
             if (tbTimezone.Text[0] == '-') timezone = -timezone;
 
-            obs = new Obs(locationLatitude, locationLongitude, timezone * 60);
-            //prebacit na save kod lokacije
+            obs = new Obs(locationLatitude, locationLongitude, timezone * 60, dst);
+            ///////////////////////////////
 
-            btnSettingsEphem.Text = "Settings ▼";
-            panelEphemSettings.Height = 29;
 
-            DateTime UTstart = new DateTime(Convert.ToInt32(tbStartYear.Text),
-                                    Convert.ToInt32(tbStartMonth.Text),
-                                    Convert.ToInt32(tbStartDay.Text),
-                                    Convert.ToInt32(tbStartHour.Text),
-                                    Convert.ToInt32(tbStartMin.Text), 0).AddMinutes(-obs.tz);
+            DateTime localStartTime;
+            DateTime localStopTime;
 
-            DateTime UTmax = new DateTime(Convert.ToInt32(tbEndYear.Text),
-                                    Convert.ToInt32(tbEndMonth.Text),
-                                    Convert.ToInt32(tbEndDay.Text),
-                                    Convert.ToInt32(tbEndHour.Text),
-                                    Convert.ToInt32(tbEndMin.Text), 0).AddMinutes(-obs.tz);
+            try
+            {
+                localStartTime = new DateTime(Convert.ToInt32(tbStartYear.Text),
+                                        Convert.ToInt32(tbStartMonth.Text),
+                                        Convert.ToInt32(tbStartDay.Text),
+                                        Convert.ToInt32(tbStartHour.Text),
+                                        Convert.ToInt32(tbStartMin.Text), 0);
 
-            DateTime LOCstart = new DateTime(Convert.ToInt32(tbStartYear.Text),
-                                    Convert.ToInt32(tbStartMonth.Text),
-                                    Convert.ToInt32(tbStartDay.Text),
-                                    Convert.ToInt32(tbStartHour.Text),
-                                    Convert.ToInt32(tbStartMin.Text), 0);
+                localStopTime = new DateTime(Convert.ToInt32(tbEndYear.Text),
+                                        Convert.ToInt32(tbEndMonth.Text),
+                                        Convert.ToInt32(tbEndDay.Text),
+                                        Convert.ToInt32(tbEndHour.Text),
+                                        Convert.ToInt32(tbEndMin.Text), 0);
+            }
+            catch
+            {
+                MessageBox.Show("Invalid date");
+                return;
+            }
+            if (obs.dst)
+            {
+                localStartTime = localStartTime.AddHours(-1);
+                localStopTime = localStopTime.AddHours(-1);
+            }
 
-            double jday = jd(UTstart.Year, UTstart.Month, UTstart.Day, UTstart.Hour, UTstart.Minute, UTstart.Second);
-            double jdmax = jd(UTmax.Year, UTmax.Month, UTmax.Day, UTmax.Hour, UTmax.Minute, UTmax.Second);
-            double locjday = jd(LOCstart.Year, LOCstart.Month, LOCstart.Day, LOCstart.Hour, LOCstart.Minute, LOCstart.Second);
+            DateTime UTStartTime = localStartTime.AddMinutes(-obs.tz);
+            DateTime UTStopTIme = localStopTime.AddMinutes(-obs.tz);
+
+            double jday = jd(UTStartTime.Year, UTStartTime.Month, UTStartTime.Day, UTStartTime.Hour, UTStartTime.Minute, UTStartTime.Second);
+            double jdmax = jd(UTStopTIme.Year, UTStopTIme.Month, UTStopTIme.Day, UTStopTIme.Hour, UTStopTIme.Minute, UTStopTIme.Second);
+            double locjday = jd(localStartTime.Year, localStartTime.Month, localStartTime.Day, localStartTime.Hour, localStartTime.Minute, localStartTime.Second);
 
             double interval = Convert.ToDouble(tbIntervalDay.Text) +
                             (Convert.ToDouble(tbIntervalHour.Text) + (Convert.ToDouble(tbIntervalMin.Text) / 60.0)) / 24;
 
+            btnSettingsEphem.Text = "Settings ▼";
+            panelEphemSettings.Height = 29;
             richEphem.Clear();
 
             if (chTime.Checked)
@@ -742,8 +752,8 @@ namespace Cometary_Workshop
             if (chEcLon.Checked) richEphem.Text += " Ecl.Lon ";
             if (chEcLat.Checked) richEphem.Text += " Ecl.Lat ";
             if (chElong.Checked) richEphem.Text += "    Elong. ";
-            if (chHelioDist.Checked) richEphem.Text += "    r   ";
-            if (chGeoDist.Checked) richEphem.Text += "    d   ";
+            if (chHelioDist.Checked) richEphem.Text += "    r    ";
+            if (chGeoDist.Checked) richEphem.Text += "    d    ";
             if (chMag.Checked) richEphem.Text += "  Mag.";
 
             richEphem.Text += Environment.NewLine;
@@ -777,11 +787,7 @@ namespace Cometary_Workshop
 
                 string line = "";
 
-                if (chTime.Checked)
-                {
-                    if (radioLocal.Checked) line += dateString(locjday);
-                    else line += dateString(jday);
-                }
+                if (chTime.Checked) line += radioLocal.Checked ? dateString(locjday) : dateString(jday);
                 if (chRA.Checked) line += "  " + hmsstring(ra / 15.0);
                 if (chDec.Checked) line += "  " + anglestring(dec, false, true);
                 if (chAlt.Checked) line += "  " + fixnum(alt, 5, 1);
@@ -793,17 +799,6 @@ namespace Cometary_Workshop
                 if (chGeoDist.Checked) line += "  " + fixnum(dist, 6, 4);
                 if (chMag.Checked) line += "  " + fixnum(mag, 4, 1);
 
-                //line += chRA.Checked ? "  " + hmsstring(ra / 15.0) : "";
-                //line += chDec.Checked ? "  " + anglestring(dec, false, true) : "";
-                //line += chAlt.Checked ? "  " + fixnum(alt, 5, 1) : "";
-                //line += chAz.Checked ? "  " + fixnum(az, 6, 1) : "";
-                //line += chEcLon.Checked ? "  " + anglestring(eclon, true, true) : "";
-                //line += chEcLat.Checked ? "  " + anglestring(eclat, false, true) : "";
-                //line += chElong.Checked ? "  " + fixnum(elong, 6, 1) + "°" + (pa >= 180 ? " W" : " E") + " " : "";
-                //line += chHelioDist.Checked ? "  " + fixnum(r, 5, 3) : "";
-                //line += chGeoDist.Checked ? "  " + fixnum(dist, 5, 3) : "";
-                //line += chMag.Checked ? "  " + fixnum(mag, 4, 1) : "";
-
                 richEphem.Text += line +Environment.NewLine;
 
                 jday += interval;
@@ -811,7 +806,7 @@ namespace Cometary_Workshop
             }
 
             DateTime end = DateTime.Now;
-            //MessageBox.Show((end - begin).TotalMilliseconds.ToString());
+            MessageBox.Show((end - begin).TotalMilliseconds.ToString());
         }
 
         double jd(double year, double month, double day, double hour, double min, double sec)
