@@ -354,17 +354,17 @@
             // 
             // btnFilters
             // 
-            this.btnFilters.Location = new System.Drawing.Point(263, 77);
+            this.btnFilters.Location = new System.Drawing.Point(591, 77);
             this.btnFilters.Name = "btnFilters";
             this.btnFilters.Size = new System.Drawing.Size(113, 23);
             this.btnFilters.TabIndex = 264;
-            this.btnFilters.Text = "Filters";
+            this.btnFilters.Text = "Filters ▼";
             this.btnFilters.UseVisualStyleBackColor = true;
             this.btnFilters.Click += new System.EventHandler(this.btnFilters_Click);
             // 
             // btnSort
             // 
-            this.btnSort.Location = new System.Drawing.Point(427, 77);
+            this.btnSort.Location = new System.Drawing.Point(263, 77);
             this.btnSort.Name = "btnSort";
             this.btnSort.Size = new System.Drawing.Size(113, 23);
             this.btnSort.TabIndex = 261;
@@ -374,7 +374,7 @@
             // 
             // btnOptions
             // 
-            this.btnOptions.Location = new System.Drawing.Point(591, 77);
+            this.btnOptions.Location = new System.Drawing.Point(427, 77);
             this.btnOptions.Name = "btnOptions";
             this.btnOptions.Size = new System.Drawing.Size(113, 23);
             this.btnOptions.TabIndex = 260;
@@ -488,7 +488,7 @@
             this.btnCancelFilters.TabIndex = 65;
             this.btnCancelFilters.Text = "Cancel";
             this.btnCancelFilters.UseVisualStyleBackColor = true;
-            this.btnCancelFilters.Click += new System.EventHandler(this.btnCancelFilters_Click);
+            this.btnCancelFilters.Click += new System.EventHandler(this.btnFilters_Click);
             // 
             // btnApplyFilters
             // 

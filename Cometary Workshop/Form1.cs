@@ -409,18 +409,16 @@ namespace Cometary_Workshop
         private void cometListbox_SelectedIndexChanged(object sender, EventArgs e)
         {
             int ind = cometListbox.SelectedIndex;
-
             Comet c = userList.ElementAt(ind);
 
-            //tFull.Text = c.full;
             t_id.Text = c.id;
             t_name.Text = c.name;
             t_T.Text = c.Ty.ToString() + "-" + c.Tm.ToString("00") + "-" + c.Td.ToString("00") + "." + c.Th.ToString("0000");
-            t_q1.Text = String.Format("{0:0.000000}", c.q);
-            t_e.Text = String.Format("{0:0.000000}", c.e);
-            t_i.Text = String.Format("{0:0.0000}", c.i);
-            t_N.Text = String.Format("{0:0.0000}", c.N);
-            t_w.Text = String.Format("{0:0.0000}", c.w);
+            t_q1.Text = c.q.ToString("0.000000");
+            t_e.Text = c.e.ToString("0.000000");
+            t_i.Text = c.i.ToString("0.0000");
+            t_N.Text = c.N.ToString("0.0000");
+            t_w.Text = c.w.ToString("0.0000");
 
             if (c.P > 10000 || c.e > 0.98)
             {
@@ -430,25 +428,22 @@ namespace Cometary_Workshop
             }
             else
             {
-                t_P.Text = String.Format("{0:0.000000}", c.P);
-                t_Q2.Text = String.Format("{0:0.000000}", c.Q);
-                t_a.Text = String.Format("{0:0.000000}", c.a);
+                t_P.Text = c.P.ToString("0.000000");
+                t_Q2.Text = c.Q.ToString("0.000000");
+                t_a.Text = c.a.ToString("0.000000");
             }
 
-            t_g.Text = String.Format("{0:0.0}", c.g);
-            t_k.Text = String.Format("{0:0.0}", c.k);
+            t_g.Text = c.g.ToString("0.0");
+            t_k.Text = c.k.ToString("0.0");
 
-            t_sortKey.Text = String.Format("{0:0.0000000}", c.sortkey);
+            t_sortKey.Text = c.sortkey.ToString("0.0000000");
 
             tEquinox.Text = "2000.0";
         }
 
         private void btnFilters_Click(object sender, EventArgs e)
         {
-            //if (ff == null) ff = new FiltersForm();
-
-            //ff.ShowDialog();
-            //copyListUsingFilters();
+            btnFilters.Text = gbFilters.Visible ? "Filters ▼" : "Filters ▲";
 
             gbFilters.Visible = !gbFilters.Visible;
             gbDetails.Visible = !gbDetails.Visible;
@@ -648,12 +643,7 @@ namespace Cometary_Workshop
             //masterFilterFlag = true;
 
             copyListUseFilters();
-        }
-
-        private void btnCancelFilters_Click(object sender, EventArgs e)
-        {
-            gbFilters.Visible = !gbFilters.Visible;
-            gbDetails.Visible = !gbDetails.Visible;
+            btnFilters_Click(sender, e);
         }
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
