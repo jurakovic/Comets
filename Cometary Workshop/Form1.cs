@@ -747,14 +747,14 @@ namespace Cometary_Workshop
             }
             if (chRA.Checked) richEphem.Text += "   R.A.   ";
             if (chDec.Checked) richEphem.Text += "   Dec   ";
-            if (chAlt.Checked) richEphem.Text += "  Alt  ";
-            if (chAz.Checked) richEphem.Text += "    Az  ";
+            if (chAlt.Checked) richEphem.Text += "   Alt  ";
+            if (chAz.Checked) richEphem.Text += "   Az   ";
             if (chEcLon.Checked) richEphem.Text += " Ecl.Lon ";
             if (chEcLat.Checked) richEphem.Text += " Ecl.Lat ";
-            if (chElong.Checked) richEphem.Text += "    Elong. ";
+            if (chElong.Checked) richEphem.Text += "   Elong. ";
             if (chHelioDist.Checked) richEphem.Text += "    r    ";
             if (chGeoDist.Checked) richEphem.Text += "    d    ";
-            if (chMag.Checked) richEphem.Text += "  Mag.";
+            if (chMag.Checked) richEphem.Text += " Mag.";
 
             richEphem.Text += Environment.NewLine;
 
@@ -790,16 +790,16 @@ namespace Cometary_Workshop
                 if (chTime.Checked) line += radioLocal.Checked ? dateString(locjday) : dateString(jday);
                 if (chRA.Checked) line += "  " + hmsstring(ra / 15.0);
                 if (chDec.Checked) line += "  " + anglestring(dec, false, true);
-                if (chAlt.Checked) line += "  " + fixnum(alt, 5, 1);
-                if (chAz.Checked) line += "  " + fixnum(az, 6, 1);
+                if (chAlt.Checked) line += "  " + fixnum(alt, 5, 1) + "°";
+                if (chAz.Checked) line += " " + fixnum(az, 6, 1) + "°";
                 if (chEcLon.Checked) line += "  " + anglestring(eclon, true, true);
                 if (chEcLat.Checked) line += "  " + anglestring(eclat, false, true);
-                if (chElong.Checked) line += "  " + fixnum(elong, 6, 1) + "°" + (pa >= 180 ? " W" : " E");
-                if (chHelioDist.Checked) line += "  " + fixnum(r, 6, 4);
-                if (chGeoDist.Checked) line += "  " + fixnum(dist, 6, 4);
-                if (chMag.Checked) line += "  " + fixnum(mag, 4, 1);
+                if (chElong.Checked) line += " " + fixnum(elong, 6, 1) + "°" + (pa >= 180 ? " W" : " E");
+                if (chHelioDist.Checked) line += " " + fixnum(r, 8, 4);
+                if (chGeoDist.Checked) line += " " + fixnum(dist, 8, 4);
+                if (chMag.Checked) line += " " + fixnum(mag, 4, 1);
 
-                richEphem.Text += line +Environment.NewLine;
+                richEphem.Text += line + Environment.NewLine;
 
                 jday += interval;
                 locjday += interval;
@@ -807,86 +807,6 @@ namespace Cometary_Workshop
 
             DateTime end = DateTime.Now;
             MessageBox.Show((end - begin).TotalMilliseconds.ToString());
-        }
-
-        double jd(double year, double month, double day, double hour, double min, double sec)
-        {
-            double j = jd0(year, month, day, 0);
-            j += (hour + (min / 60.0) + (sec / 3600.0)) / 24;
-            return j;
-        }
-
-        double jd0(double year, double month, double day, double hour)
-        {
-            // The Julian date at 0 hours(*) UT at Greenwich
-            // (*) or actual UT time if day comprises time as fraction
-            double y = year;
-            double m = month;
-            double d = day + hour / 10000.0;
-            if (m < 3) { m += 12; y -= 1; }
-            double a = Math.Floor(y / 100);
-            double b = 2 - a + Math.Floor(a / 4);
-            double j = Math.Floor(365.25 * (y + 4716)) + Math.Floor(30.6001 * (m + 1)) + d + b - 1524.5;
-            return j;
-        }	// jd0()
-
-
-        int[] jdtocd(double jd)
-        {
-            // The calendar date from julian date, see Meeus p. 63
-            // Returns year, month, day, day of week, hours, minutes, seconds
-            double Z = Math.Floor(jd + 0.5);
-            double F = jd + 0.5 - Z;
-            double A;
-            if (Z < 2299161)
-            {
-                A = Z;
-            }
-            else
-            {
-                double alpha = Math.Floor((Z - 1867216.25) / 36524.25);
-                A = Z + 1 + alpha - Math.Floor(alpha / 4);
-            }
-            double B = A + 1524;
-            double C = Math.Floor((B - 122.1) / 365.25);
-            double D = Math.Floor(365.25 * C);
-            double E = Math.Floor((B - D) / 30.6001);
-            double d = B - D - Math.Floor(30.6001 * E) + F;
-            double year, month;
-            if (E < 14)
-            {
-                month = E - 1;
-            }
-            else
-            {
-                month = E - 13;
-            }
-            if (month > 2)
-            {
-                year = C - 4716;
-            }
-            else
-            {
-                year = C - 4715;
-            }
-            double day = Math.Floor(d);
-            double h = (d - day) * 24;
-            double hours = Math.Floor(h);
-            double m = (h - hours) * 60;
-            double minutes = Math.Floor(m);
-            double seconds = Math.Round((m - minutes) * 60);
-            if (seconds >= 60)
-            {
-                minutes = minutes + 1;
-                seconds = seconds - 60;
-            }
-            if (minutes >= 60)
-            {
-                hours = hours + 1;
-                minutes = 0;
-            }
-            double dw = Math.Floor(jd + 1.5) - 7 * Math.Floor((jd + 1.5) / 7);
-            return new int[] { (int)year, (int)month, (int)day, (int)dw, (int)hours, (int)minutes, (int)seconds };
         }
 
         double[] CometAlt(Comet c, double jday, Obs obs)
@@ -1100,6 +1020,87 @@ namespace Cometary_Workshop
             else anglestr += ((min < 10) ? ":0" : ":") + (min);
             return anglestr ;
         } // end anglestring()
+
+
+        double jd(double year, double month, double day, double hour, double min, double sec)
+        {
+            double j = jd0(year, month, day, 0);
+            j += (hour + (min / 60.0) + (sec / 3600.0)) / 24;
+            return j;
+        }
+
+        double jd0(double year, double month, double day, double hour)
+        {
+            // The Julian date at 0 hours(*) UT at Greenwich
+            // (*) or actual UT time if day comprises time as fraction
+            double y = year;
+            double m = month;
+            double d = day + hour / 10000.0;
+            if (m < 3) { m += 12; y -= 1; }
+            double a = Math.Floor(y / 100);
+            double b = 2 - a + Math.Floor(a / 4);
+            double j = Math.Floor(365.25 * (y + 4716)) + Math.Floor(30.6001 * (m + 1)) + d + b - 1524.5;
+            return j;
+        }	// jd0()
+
+
+        int[] jdtocd(double jd)
+        {
+            // The calendar date from julian date, see Meeus p. 63
+            // Returns year, month, day, day of week, hours, minutes, seconds
+            double Z = Math.Floor(jd + 0.5);
+            double F = jd + 0.5 - Z;
+            double A;
+            if (Z < 2299161)
+            {
+                A = Z;
+            }
+            else
+            {
+                double alpha = Math.Floor((Z - 1867216.25) / 36524.25);
+                A = Z + 1 + alpha - Math.Floor(alpha / 4);
+            }
+            double B = A + 1524;
+            double C = Math.Floor((B - 122.1) / 365.25);
+            double D = Math.Floor(365.25 * C);
+            double E = Math.Floor((B - D) / 30.6001);
+            double d = B - D - Math.Floor(30.6001 * E) + F;
+            double year, month;
+            if (E < 14)
+            {
+                month = E - 1;
+            }
+            else
+            {
+                month = E - 13;
+            }
+            if (month > 2)
+            {
+                year = C - 4716;
+            }
+            else
+            {
+                year = C - 4715;
+            }
+            double day = Math.Floor(d);
+            double h = (d - day) * 24;
+            double hours = Math.Floor(h);
+            double m = (h - hours) * 60;
+            double minutes = Math.Floor(m);
+            double seconds = Math.Round((m - minutes) * 60);
+            if (seconds >= 60)
+            {
+                minutes = minutes + 1;
+                seconds = seconds - 60;
+            }
+            if (minutes >= 60)
+            {
+                hours = hours + 1;
+                minutes = 0;
+            }
+            double dw = Math.Floor(jd + 1.5) - 7 * Math.Floor((jd + 1.5) / 7);
+            return new int[] { (int)year, (int)month, (int)day, (int)dw, (int)hours, (int)minutes, (int)seconds };
+        }
 
         string dateString(double jday)
         {
