@@ -827,7 +827,11 @@ namespace Cometary_Workshop
         {
             // return alt, az, time angle, ra, dec, ecl. long. and lat=0, illum=1, 0, dist, brightness 
             double[] sdat = sunxyz(jday);
-            double ecl = 23.4393 - 3.563E-7 * (jday - 2451543.5);
+            double ecl;
+            if (radJ2000.Checked)
+                ecl = 23.439291111;
+            else
+                ecl = 23.439291111 - 3.563E-7 * (jday - 2451543.5);
             double xe = sdat[0];
             double ye = sdat[1] * cosd(ecl);
             double ze = sdat[1] * sind(ecl);

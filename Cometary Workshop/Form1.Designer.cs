@@ -2101,29 +2101,29 @@
             // radOfDate
             // 
             this.radOfDate.AutoSize = true;
-            this.radOfDate.Location = new System.Drawing.Point(3, 49);
+            this.radOfDate.Checked = true;
+            this.radOfDate.Location = new System.Drawing.Point(3, 3);
             this.radOfDate.Name = "radOfDate";
             this.radOfDate.Size = new System.Drawing.Size(60, 17);
             this.radOfDate.TabIndex = 5;
+            this.radOfDate.TabStop = true;
             this.radOfDate.Text = "of date";
             this.radOfDate.UseVisualStyleBackColor = true;
             // 
             // radJ2000
             // 
             this.radJ2000.AutoSize = true;
-            this.radJ2000.Checked = true;
             this.radJ2000.Location = new System.Drawing.Point(3, 26);
             this.radJ2000.Name = "radJ2000";
             this.radJ2000.Size = new System.Drawing.Size(54, 17);
             this.radJ2000.TabIndex = 4;
-            this.radJ2000.TabStop = true;
             this.radJ2000.Text = "J2000";
             this.radJ2000.UseVisualStyleBackColor = true;
             // 
             // radB1950
             // 
             this.radB1950.AutoSize = true;
-            this.radB1950.Location = new System.Drawing.Point(3, 3);
+            this.radB1950.Location = new System.Drawing.Point(3, 49);
             this.radB1950.Name = "radB1950";
             this.radB1950.Size = new System.Drawing.Size(55, 17);
             this.radB1950.TabIndex = 3;
