@@ -33,23 +33,8 @@ namespace Cometary_Workshop
         public static double[] filterValues;
         public static string filterName;
 
-        class Obs
-        {
-            public double latitude;
-            public double longitude;
-            public double tz;
-            public bool dst;
 
-            public Obs(double lat, double lon, double tz, bool dst)
-            {
-                this.latitude = lat;
-                this.longitude = lon;
-                this.tz = tz;
-                this.dst = dst;
-            }
-        };
-
-        Obs obs;
+        Observer obs;
 
         public Form1()
         {
@@ -63,7 +48,10 @@ namespace Cometary_Workshop
         private void Form1_Load(object sender, EventArgs e)
         {
             downloadsDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            downloadsDir += @"\Cometary Workshop\";
+            downloadsDir += @"\Comet Ephemerides\";
+
+            if (!Directory.Exists(downloadsDir)) Directory.CreateDirectory(downloadsDir);
+
 
             filterFlags = new bool[18];
             filterValues = new double[9];
@@ -96,13 +84,6 @@ namespace Cometary_Workshop
         {
             this.Close();
         }
-
-
-        private void radioManual_CheckedChanged(object sender, EventArgs e)
-        {
-            comboImportType.Enabled = radioManual.Checked;
-        }
-
 
         private void btnDownload_Click(object sender, EventArgs e)
         {
@@ -138,19 +119,14 @@ namespace Cometary_Workshop
             }
         }
 
-        private void btnOptions_Click(object sender, EventArgs e)
-        {
-            contextOptions.Show(this.tabPage1, (sender as Button).Left + 1, (sender as Button).Top + (sender as Button).Height - 1);
-        }
-
         private void btnImport_Click(object sender, EventArgs e)
         {
 
             if (tbImportFilename.Text.Length == 0)
             {
-                labelWarning.Text = "Please first select file.";
-                labelWarning.Visible = true;
-                return;
+                //MessageBox.Show("Please first select file");
+                //return;
+                btnBrowseImportFile_Click(sender, e);
             }
 
             filename = localFile;
@@ -441,6 +417,11 @@ namespace Cometary_Workshop
             tEquinox.Text = "2000.0";
         }
 
+        private void textboxEnter(object sender, MouseEventArgs e)
+        {
+            (sender as TextBox).SelectAll();
+        }
+
         private void btnFilters_Click(object sender, EventArgs e)
         {
             //za cancel
@@ -471,13 +452,9 @@ namespace Cometary_Workshop
         {
             comboPerihDist.Enabled = (sender as CheckBox).Checked;
             tbPerihDist.Enabled = (sender as CheckBox).Checked;
+            labelPerihDist.Enabled = (sender as CheckBox).Checked;
         }
 
-        private void chAphDist_CheckedChanged(object sender, EventArgs e)
-        {
-            comboAphDist.Enabled = (sender as CheckBox).Checked;
-            tbAphDist.Enabled = (sender as CheckBox).Checked;
-        }
 
         private void chEcc_CheckedChanged(object sender, EventArgs e)
         {
@@ -489,24 +466,28 @@ namespace Cometary_Workshop
         {
             comboAscNode.Enabled = (sender as CheckBox).Checked;
             tbAscNode.Enabled = (sender as CheckBox).Checked;
+            labelAcsNode.Enabled = (sender as CheckBox).Checked;
         }
 
         private void chLongPeric_CheckedChanged(object sender, EventArgs e)
         {
             comboLongPeric.Enabled = (sender as CheckBox).Checked;
             tbLongPeric.Enabled = (sender as CheckBox).Checked;
+            labelLongPeric.Enabled = (sender as CheckBox).Checked;
         }
 
         private void chIncl_CheckedChanged(object sender, EventArgs e)
         {
             comboIncl.Enabled = (sender as CheckBox).Checked;
             tbIncl.Enabled = (sender as CheckBox).Checked;
+            labelIncl.Enabled = (sender as CheckBox).Checked;
         }
 
         private void chPeriod_CheckedChanged(object sender, EventArgs e)
         {
             comboPeriod.Enabled = (sender as CheckBox).Checked;
             tbPeriod.Enabled = (sender as CheckBox).Checked;
+            labelPeriod.Enabled = (sender as CheckBox).Checked;
         }
 
         private void btnPerihDateNow_Click(object sender, EventArgs e)
@@ -526,7 +507,6 @@ namespace Cometary_Workshop
 
             if ((chPerihDate.Checked && comboPerihDate.SelectedIndex == -1) ||
                 (chPerihDist.Checked && comboPerihDist.SelectedIndex == -1) ||
-                (chAphDist.Checked && comboAphDist.SelectedIndex == -1) ||
                 (chEcc.Checked && comboEcc.SelectedIndex == -1) ||
                 (chAscNode.Checked && comboAscNode.SelectedIndex == -1) ||
                 (chLongPeric.Checked && comboLongPeric.SelectedIndex == -1) ||
@@ -546,7 +526,6 @@ namespace Cometary_Workshop
                 (chPerihDate.Checked && tbPerihDateM.Text.Length == 0) ||
                 (chPerihDate.Checked && tbPerihDateY.Text.Length == 0) ||
                 (chPerihDist.Checked && tbPerihDist.Text.Length == 0) ||
-                (chAphDist.Checked && tbAphDist.Text.Length == 0) ||
                 (chEcc.Checked && tbEcc.Text.Length == 0) ||
                 (chAscNode.Checked && tbAscNode.Text.Length == 0) ||
                 (chLongPeric.Checked && tbLongPeric.Text.Length == 0) ||
@@ -600,13 +579,6 @@ namespace Cometary_Workshop
                 if (comboPerihDist.SelectedIndex == 0) filterFlags[4] = true;
                 if (comboPerihDist.SelectedIndex == 1) filterFlags[5] = true;
             }
-            if (chAphDist.Checked)
-            {
-                filterValues[3] = Convert.ToDouble(tbAphDist.Text);
-
-                if (comboAphDist.SelectedIndex == 0) filterFlags[6] = true;
-                if (comboAphDist.SelectedIndex == 1) filterFlags[7] = true;
-            }
             if (chEcc.Checked)
             {
                 filterValues[4] = Convert.ToDouble(tbEcc.Text);
@@ -659,6 +631,37 @@ namespace Cometary_Workshop
             }
         }
 
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            this.TopMost = checkBox1.Checked;
+        }
+
+        private void btnSaveLocation_Click(object sender, EventArgs e)
+        {
+            double latdeg = Convert.ToDouble(tbLatDeg.Text);
+            double latmin = Convert.ToDouble(tbLatMin.Text);
+            double latsec = Convert.ToDouble(tbLatSec.Text);
+
+            double londeg = Convert.ToDouble(tbLonDeg.Text);
+            double lonmin = Convert.ToDouble(tbLonMin.Text);
+            double lonsec = Convert.ToDouble(tbLonSec.Text);
+
+            double lat = latdeg + latmin / 60 + latsec / 3600;
+            if (comboLat.SelectedIndex == 1) lat = -lat;
+
+            double lon = londeg + lonmin / 60 + lonsec / 3600;
+            if (comboLon.SelectedIndex == 1) lon = -lon;
+
+            bool dst = checkBoxDST.Checked;
+
+            double timezone;
+            timezone = Convert.ToDouble(tbTimezone.Text.Substring(1, 2));
+            timezone += Convert.ToDouble(tbTimezone.Text.Substring(4, 2)) / 60;
+            if (tbTimezone.Text[0] == '-') timezone = -timezone;
+
+            obs = new Observer(lat, lon, timezone * 60, dst);
+        }
+
         private void btnSettingsEphem_Click(object sender, EventArgs e)
         {
             if (panelEphemSettings.Height == 29)
@@ -673,24 +676,11 @@ namespace Cometary_Workshop
             }
         }
 
+
         private void btnCalcEphem_Click(object sender, EventArgs e)
         {
             if (comboCometEphem.SelectedIndex < 0) return;
-
-            //////////////////////////////
-            //prebacit na save kod lokacije
-            double locationLatitude = 45.783333;
-            double locationLongitude = 15.933333;
-            bool dst = checkBoxDST.Checked;
-            double timezone;
-
-            timezone = Convert.ToDouble(tbTimezone.Text.Substring(1, 2));
-            timezone += Convert.ToDouble(tbTimezone.Text.Substring(4, 2)) / 60;
-            if (tbTimezone.Text[0] == '-') timezone = -timezone;
-
-            obs = new Obs(locationLatitude, locationLongitude, timezone * 60, dst);
-            ///////////////////////////////
-
+            if (obs == null) btnSaveLocation_Click(sender, e);
 
             DateTime localStartTime;
             DateTime localStopTime;
@@ -714,14 +704,14 @@ namespace Cometary_Workshop
                 MessageBox.Show("Invalid date");
                 return;
             }
-            if (obs.dst)
-            {
-                localStartTime = localStartTime.AddHours(-1);
-                localStopTime = localStopTime.AddHours(-1);
-            }
-
             DateTime UTStartTime = localStartTime.AddMinutes(-obs.tz);
             DateTime UTStopTIme = localStopTime.AddMinutes(-obs.tz);
+
+            if (obs.dst)
+            {
+                UTStartTime = UTStartTime.AddHours(-1);
+                UTStopTIme = UTStopTIme.AddHours(-1);
+            }
 
             double jday = jd(UTStartTime.Year, UTStartTime.Month, UTStartTime.Day, UTStartTime.Hour, UTStartTime.Minute, UTStartTime.Second);
             double jdmax = jd(UTStopTIme.Year, UTStopTIme.Month, UTStopTIme.Day, UTStopTIme.Hour, UTStopTIme.Minute, UTStopTIme.Second);
@@ -734,11 +724,8 @@ namespace Cometary_Workshop
             panelEphemSettings.Height = 29;
             richEphem.Clear();
 
-            if (chTime.Checked)
-            {
-                if (radioLocal.Checked) richEphem.Text += "Local date/time  ";
-                else richEphem.Text += "   UT date/time  ";
-            }
+            if (radioLocalTime.Checked) richEphem.Text += "     Local Time  ";
+            else richEphem.Text += " Universal Time  ";
             if (chRA.Checked) richEphem.Text += "   R.A.   ";
             if (chDec.Checked) richEphem.Text += "   Dec   ";
             if (chAlt.Checked) richEphem.Text += "   Alt  ";
@@ -781,7 +768,7 @@ namespace Cometary_Workshop
 
                 string line = "";
 
-                if (chTime.Checked) line += radioLocal.Checked ? dateString(locjday) : dateString(jday);
+                line += radioLocalTime.Checked ? dateString(locjday) : dateString(jday);
                 if (chRA.Checked) line += "  " + hmsstring(ra / 15.0);
                 if (chDec.Checked) line += "  " + anglestring(dec, false, true);
                 if (chAlt.Checked) line += "  " + fixnum(alt, 5, 1) + "°";
@@ -800,10 +787,10 @@ namespace Cometary_Workshop
             }
 
             DateTime end = DateTime.Now;
-            MessageBox.Show((end - begin).TotalMilliseconds.ToString());
+            //MessageBox.Show((end - begin).TotalMilliseconds.ToString());
         }
 
-        double[] CometAlt(Comet c, double jday, Obs obs)
+        double[] CometAlt(Comet c, double jday, Observer obs)
         {
             // Alt/Az, hour angle, ra/dec, ecliptic long. and lat, illuminated fraction (=1.0), dist(Sun), dist(Earth), brightness of planet p
             double[] sun_xyz = sunxyz(jday);
@@ -819,19 +806,15 @@ namespace Cometary_Workshop
             double[] altaz = radec2aa(ra, dec, jday, obs);
             double dist = radec[2];
             double r = cmt_xyz[3];
-            double mag = c.k + 5 * log10(dist) + 2.5 * c.g * log10(r);	// Schlyter's formula is wrong!
+            double mag = c.k + 5 * log10(dist) + 2.5 * c.g * log10(r);	
             return new double[] { altaz[0], altaz[1], altaz[2], ra, dec, lon, lat, 1.0, r, dist, mag };
-        }	// CometAlt()
+        }
 
-        double[] SunAlt(double jday, Obs obs)
+        double[] SunAlt(double jday, Observer obs)
         {
             // return alt, az, time angle, ra, dec, ecl. long. and lat=0, illum=1, 0, dist, brightness 
             double[] sdat = sunxyz(jday);
-            double ecl;
-            if (radJ2000.Checked)
-                ecl = 23.439291111;
-            else
-                ecl = 23.439291111 - 3.563E-7 * (jday - 2451543.5);
+            double ecl = 23.439291111 - 3.563E-7 * (jday - 2451543.5);
             double xe = sdat[0];
             double ye = sdat[1] * cosd(ecl);
             double ze = sdat[1] * sind(ecl);
@@ -846,9 +829,9 @@ namespace Cometary_Workshop
             // return x,y,z ecliptic coordinates, distance, true longitude
             // days counted from 1999 Dec 31.0 UT
             double d = jday - 2451543.5;
-            double w = 282.9404 + 4.70935E-5 * d;		// argument of perihelion
+            double w = 282.9404 + 4.70935E-5 * d;
             double e = 0.016709 - 1.151E-9 * d;
-            double M = rev(356.0470 + 0.9856002585 * d); // mean anomaly
+            double M = rev(356.0470 + 0.9856002585 * d);
             double E = M + e * RAD2DEG * sind(M) * (1.0 + e * cosd(M));
             double xv = cosd(E) - e;
             double yv = Math.Sqrt(1.0 - e * e) * sind(E);
@@ -905,11 +888,7 @@ namespace Cometary_Workshop
                 v = rev(atan2d(yv, xv));		// true anomaly
                 r = Math.Sqrt(xv * xv + yv * yv);	// distance
             }	// from here common for all orbits
-            double N; 
-            if (radJ2000.Checked)
-                N = cmt.N;
-            else // precess from J2000.0 to now;
-                N = cmt.N + 3.82394E-5 * d;
+            double N = cmt.N + 3.82394E-5 * d;
             double ww = cmt.w;	// why not precess this value?
             double i = cmt.i;
             double xh = r * (cosd(N) * cosd(v + ww) - sind(N) * sind(v + ww) * cosd(i));
@@ -918,9 +897,9 @@ namespace Cometary_Workshop
             double lonecl = atan2d(yh, xh);
             double latecl = atan2d(zh, Math.Sqrt(xh * xh + yh * yh + zh * zh));
             return new double[] { xh, yh, zh, r, lonecl, latecl };
-        }	// comet_xyz()
+        }
 
-        double[] radecr(double[] obj, double[] sun, double jday, Obs obs)
+        double[] radecr(double[] obj, double[] sun, double jday, Observer obs)
         {
             // radecr returns ra, dec and earth distance
             // obj and sun comprise Heliocentric Ecliptic Rectangular Coordinates
@@ -929,13 +908,8 @@ namespace Cometary_Workshop
             double xg = obj[0] + sun[0];
             double yg = obj[1] + sun[1];
             double zg = obj[2];
-            // Obliquity of Ecliptic (exponent corrected, was E-9!)
-            double obl;
-            if (radJ2000.Checked)
-                obl = 23.439291111;
-            else
-                obl = 23.439291111 - 3.563E-7 * (jday - 2451543.5);
-
+            // Obliquity of Ecliptic
+            double obl = 23.439291111 - 3.563E-7 * (jday - 2451543.5);
             // Convert to eq. co-ordinates
             double x1 = xg;
             double y1 = yg * cosd(obl) - zg * sind(obl);
@@ -945,19 +919,18 @@ namespace Cometary_Workshop
             double dec = atan2d(z1, Math.Sqrt(x1 * x1 + y1 * y1));
             double dist = Math.Sqrt(x1 * x1 + y1 * y1 + z1 * z1);
             return new double[] { ra, dec, dist };
-        } 	// radecr()
+        } 	
 
-        double[] radec2aa(double ra, double dec, double jday, Obs obs)
+        double[] radec2aa(double ra, double dec, double jday, Observer obs)
         {
             // Convert ra/dec to alt/az, also return hour angle, azimut = 0 when north
-            // DOES NOT correct for parallax!
             // TH0=Greenwich sid. time (eq. 12.4), H=hour angle (chapter 13)
             double TH0 = 280.46061837 + 360.98564736629 * (jday - 2451545.0);
             double H = rev(TH0 + obs.longitude - ra);
             double alt = asind(sind(obs.latitude) * sind(dec) + cosd(obs.latitude) * cosd(dec) * cosd(H));
             double az = atan2d(sind(H), (cosd(H) * sind(obs.latitude) - tand(dec) * cosd(obs.latitude)));
             return new double[] { alt, rev(az + 180.0), H };
-        }	// radec2aa()
+        }
 
         double[] separation(double ra1, double ra2, double dec1, double dec2)
         {
@@ -966,7 +939,7 @@ namespace Cometary_Workshop
             if (d < 0.1) d = Math.Sqrt(sqr(rev2(ra1 - ra2) * cosd((dec1 + dec2) / 2)) + sqr(dec1 - dec2));	// (17.2)
             double pa = atan2d(sind(ra1 - ra2), cosd(dec2) * tand(dec1) - sind(dec2) * cosd(ra1 - ra2));		// angle
             return new double[] { d, rev(pa) };
-        }	// end separation()
+        }
 
         string fixnum(double n, int l, int d)
         {
@@ -982,7 +955,7 @@ namespace Cometary_Workshop
             if (d > 0) str = str + "." + nfract;
             while (str.Length < l) str = " " + str;
             return str;
-        } // end fixnum()
+        } 
 
         string hmsstring(double t)
         {
@@ -1000,7 +973,7 @@ namespace Cometary_Workshop
             hmsstr += ((minutes < 10) ? "h0" : "h") + minutes;
             hmsstr += ((seconds < 10) ? "m0" : "m") + seconds;
             return hmsstr;
-        }	// end hmsstring()
+        }
 
         string anglestring(double a, bool circle, bool arcmin)
         {
@@ -1017,7 +990,7 @@ namespace Cometary_Workshop
             if (arcmin) anglestr += ((min < 10) ? "°0" : "°") + (min) + "'";
             else anglestr += ((min < 10) ? ":0" : ":") + (min);
             return anglestr ;
-        } // end anglestring()
+        } 
 
 
         double jd(double year, double month, double day, double hour, double min, double sec)
@@ -1039,7 +1012,7 @@ namespace Cometary_Workshop
             double b = 2 - a + Math.Floor(a / 4);
             double j = Math.Floor(365.25 * (y + 4716)) + Math.Floor(30.6001 * (m + 1)) + d + b - 1524.5;
             return j;
-        }	// jd0()
+        }
 
 
         int[] jdtocd(double jd)
@@ -1134,6 +1107,5 @@ namespace Cometary_Workshop
         double log10(double x) { return 0.43429448190325182765112891891661 * Math.Log(x); }
         double sqr(double x) { return x * x; }
         double cbrt(double x) { return Math.Pow(x, 1 / 3.0); }
-        double SGN(double x) { return (x < 0) ? -1 : +1; }
     }
 }
