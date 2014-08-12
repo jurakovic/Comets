@@ -35,7 +35,7 @@
             this.gbFilters = new System.Windows.Forms.GroupBox();
             this.labelPeriod = new System.Windows.Forms.Label();
             this.labelIncl = new System.Windows.Forms.Label();
-            this.labelLongPeric = new System.Windows.Forms.Label();
+            this.labelArgPeric = new System.Windows.Forms.Label();
             this.labelAcsNode = new System.Windows.Forms.Label();
             this.labelPerihDist = new System.Windows.Forms.Label();
             this.btnCancelFilters = new System.Windows.Forms.Button();
@@ -50,23 +50,24 @@
             this.comboName = new System.Windows.Forms.ComboBox();
             this.tbPeriod = new System.Windows.Forms.TextBox();
             this.tbIncl = new System.Windows.Forms.TextBox();
-            this.tbLongPeric = new System.Windows.Forms.TextBox();
+            this.tbArgPeric = new System.Windows.Forms.TextBox();
             this.tbAscNode = new System.Windows.Forms.TextBox();
             this.tbEcc = new System.Windows.Forms.TextBox();
             this.comboPeriod = new System.Windows.Forms.ComboBox();
             this.comboIncl = new System.Windows.Forms.ComboBox();
-            this.comboLongPeric = new System.Windows.Forms.ComboBox();
+            this.comboArgPeric = new System.Windows.Forms.ComboBox();
             this.comboAscNode = new System.Windows.Forms.ComboBox();
             this.comboEcc = new System.Windows.Forms.ComboBox();
             this.comboPerihDate = new System.Windows.Forms.ComboBox();
             this.tbName = new System.Windows.Forms.TextBox();
             this.chPeriod = new System.Windows.Forms.CheckBox();
             this.chIncl = new System.Windows.Forms.CheckBox();
-            this.chLongPeric = new System.Windows.Forms.CheckBox();
+            this.chArgPeric = new System.Windows.Forms.CheckBox();
             this.chAscNode = new System.Windows.Forms.CheckBox();
             this.chEcc = new System.Windows.Forms.CheckBox();
             this.chPerihDate = new System.Windows.Forms.CheckBox();
             this.chName = new System.Windows.Forms.CheckBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.btnFilters = new System.Windows.Forms.Button();
             this.btnSort = new System.Windows.Forms.Button();
             this.cometListbox = new System.Windows.Forms.ListBox();
@@ -75,6 +76,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.gbDetails = new System.Windows.Forms.GroupBox();
+            this.btnDelete = new System.Windows.Forms.Button();
             this.label62 = new System.Windows.Forms.Label();
             this.label61 = new System.Windows.Forms.Label();
             this.label63 = new System.Windows.Forms.Label();
@@ -93,7 +95,6 @@
             this.t_i = new System.Windows.Forms.TextBox();
             this.t_Q2 = new System.Windows.Forms.TextBox();
             this.t_N = new System.Windows.Forms.TextBox();
-            this.t_w = new System.Windows.Forms.TextBox();
             this.t_sortKey = new System.Windows.Forms.TextBox();
             this.t_P = new System.Windows.Forms.TextBox();
             this.label23 = new System.Windows.Forms.Label();
@@ -122,6 +123,7 @@
             this.label45 = new System.Windows.Forms.Label();
             this.t_k = new System.Windows.Forms.TextBox();
             this.label28 = new System.Windows.Forms.Label();
+            this.t_w = new System.Windows.Forms.TextBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label66 = new System.Windows.Forms.Label();
@@ -234,8 +236,6 @@
             this.menuItem9 = new System.Windows.Forms.MenuItem();
             this.menuItemAsc = new System.Windows.Forms.MenuItem();
             this.menuItemDesc = new System.Windows.Forms.MenuItem();
-            this.button1 = new System.Windows.Forms.Button();
-            this.btnDelete = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.gbFilters.SuspendLayout();
@@ -320,7 +320,7 @@
             // 
             this.gbFilters.Controls.Add(this.labelPeriod);
             this.gbFilters.Controls.Add(this.labelIncl);
-            this.gbFilters.Controls.Add(this.labelLongPeric);
+            this.gbFilters.Controls.Add(this.labelArgPeric);
             this.gbFilters.Controls.Add(this.labelAcsNode);
             this.gbFilters.Controls.Add(this.labelPerihDist);
             this.gbFilters.Controls.Add(this.btnCancelFilters);
@@ -335,19 +335,19 @@
             this.gbFilters.Controls.Add(this.comboName);
             this.gbFilters.Controls.Add(this.tbPeriod);
             this.gbFilters.Controls.Add(this.tbIncl);
-            this.gbFilters.Controls.Add(this.tbLongPeric);
+            this.gbFilters.Controls.Add(this.tbArgPeric);
             this.gbFilters.Controls.Add(this.tbAscNode);
             this.gbFilters.Controls.Add(this.tbEcc);
             this.gbFilters.Controls.Add(this.comboPeriod);
             this.gbFilters.Controls.Add(this.comboIncl);
-            this.gbFilters.Controls.Add(this.comboLongPeric);
+            this.gbFilters.Controls.Add(this.comboArgPeric);
             this.gbFilters.Controls.Add(this.comboAscNode);
             this.gbFilters.Controls.Add(this.comboEcc);
             this.gbFilters.Controls.Add(this.comboPerihDate);
             this.gbFilters.Controls.Add(this.tbName);
             this.gbFilters.Controls.Add(this.chPeriod);
             this.gbFilters.Controls.Add(this.chIncl);
-            this.gbFilters.Controls.Add(this.chLongPeric);
+            this.gbFilters.Controls.Add(this.chArgPeric);
             this.gbFilters.Controls.Add(this.chAscNode);
             this.gbFilters.Controls.Add(this.chEcc);
             this.gbFilters.Controls.Add(this.chPerihDate);
@@ -379,15 +379,15 @@
             this.labelIncl.TabIndex = 36;
             this.labelIncl.Text = "°";
             // 
-            // labelLongPeric
+            // labelArgPeric
             // 
-            this.labelLongPeric.AutoSize = true;
-            this.labelLongPeric.Enabled = false;
-            this.labelLongPeric.Location = new System.Drawing.Point(417, 180);
-            this.labelLongPeric.Name = "labelLongPeric";
-            this.labelLongPeric.Size = new System.Drawing.Size(12, 13);
-            this.labelLongPeric.TabIndex = 35;
-            this.labelLongPeric.Text = "°";
+            this.labelArgPeric.AutoSize = true;
+            this.labelArgPeric.Enabled = false;
+            this.labelArgPeric.Location = new System.Drawing.Point(417, 180);
+            this.labelArgPeric.Name = "labelArgPeric";
+            this.labelArgPeric.Size = new System.Drawing.Size(12, 13);
+            this.labelArgPeric.TabIndex = 35;
+            this.labelArgPeric.Text = "°";
             // 
             // labelAcsNode
             // 
@@ -532,14 +532,14 @@
             this.tbIncl.TabIndex = 25;
             this.tbIncl.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textboxEnter);
             // 
-            // tbLongPeric
+            // tbArgPeric
             // 
-            this.tbLongPeric.Enabled = false;
-            this.tbLongPeric.Location = new System.Drawing.Point(303, 177);
-            this.tbLongPeric.Name = "tbLongPeric";
-            this.tbLongPeric.Size = new System.Drawing.Size(113, 21);
-            this.tbLongPeric.TabIndex = 22;
-            this.tbLongPeric.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textboxEnter);
+            this.tbArgPeric.Enabled = false;
+            this.tbArgPeric.Location = new System.Drawing.Point(303, 177);
+            this.tbArgPeric.Name = "tbArgPeric";
+            this.tbArgPeric.Size = new System.Drawing.Size(113, 21);
+            this.tbArgPeric.TabIndex = 22;
+            this.tbArgPeric.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textboxEnter);
             // 
             // tbAscNode
             // 
@@ -585,18 +585,18 @@
             this.comboIncl.Size = new System.Drawing.Size(111, 21);
             this.comboIncl.TabIndex = 24;
             // 
-            // comboLongPeric
+            // comboArgPeric
             // 
-            this.comboLongPeric.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboLongPeric.Enabled = false;
-            this.comboLongPeric.FormattingEnabled = true;
-            this.comboLongPeric.Items.AddRange(new object[] {
+            this.comboArgPeric.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboArgPeric.Enabled = false;
+            this.comboArgPeric.FormattingEnabled = true;
+            this.comboArgPeric.Items.AddRange(new object[] {
             "Greather than (>)",
             "Less than (<)"});
-            this.comboLongPeric.Location = new System.Drawing.Point(186, 178);
-            this.comboLongPeric.Name = "comboLongPeric";
-            this.comboLongPeric.Size = new System.Drawing.Size(111, 21);
-            this.comboLongPeric.TabIndex = 21;
+            this.comboArgPeric.Location = new System.Drawing.Point(186, 178);
+            this.comboArgPeric.Name = "comboArgPeric";
+            this.comboArgPeric.Size = new System.Drawing.Size(111, 21);
+            this.comboArgPeric.TabIndex = 21;
             // 
             // comboAscNode
             // 
@@ -668,16 +668,16 @@
             this.chIncl.UseVisualStyleBackColor = true;
             this.chIncl.CheckedChanged += new System.EventHandler(this.chIncl_CheckedChanged);
             // 
-            // chLongPeric
+            // chArgPeric
             // 
-            this.chLongPeric.AutoSize = true;
-            this.chLongPeric.Location = new System.Drawing.Point(23, 180);
-            this.chLongPeric.Name = "chLongPeric";
-            this.chLongPeric.Size = new System.Drawing.Size(138, 17);
-            this.chLongPeric.TabIndex = 20;
-            this.chLongPeric.Text = "Argument of Pericenter";
-            this.chLongPeric.UseVisualStyleBackColor = true;
-            this.chLongPeric.CheckedChanged += new System.EventHandler(this.chLongPeric_CheckedChanged);
+            this.chArgPeric.AutoSize = true;
+            this.chArgPeric.Location = new System.Drawing.Point(23, 180);
+            this.chArgPeric.Name = "chArgPeric";
+            this.chArgPeric.Size = new System.Drawing.Size(138, 17);
+            this.chArgPeric.TabIndex = 20;
+            this.chArgPeric.Text = "Argument of Pericenter";
+            this.chArgPeric.UseVisualStyleBackColor = true;
+            this.chArgPeric.CheckedChanged += new System.EventHandler(this.chLongPeric_CheckedChanged);
             // 
             // chAscNode
             // 
@@ -723,11 +723,20 @@
             this.chName.UseVisualStyleBackColor = true;
             this.chName.CheckedChanged += new System.EventHandler(this.chName_CheckedChanged);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(590, 77);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(115, 23);
+            this.button1.TabIndex = 275;
+            this.button1.Text = "Export >>";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
             // btnFilters
             // 
-            this.btnFilters.Location = new System.Drawing.Point(427, 77);
+            this.btnFilters.Location = new System.Drawing.Point(426, 77);
             this.btnFilters.Name = "btnFilters";
-            this.btnFilters.Size = new System.Drawing.Size(113, 23);
+            this.btnFilters.Size = new System.Drawing.Size(115, 23);
             this.btnFilters.TabIndex = 3;
             this.btnFilters.Text = "Filters ▼";
             this.btnFilters.UseVisualStyleBackColor = true;
@@ -735,9 +744,9 @@
             // 
             // btnSort
             // 
-            this.btnSort.Location = new System.Drawing.Point(263, 77);
+            this.btnSort.Location = new System.Drawing.Point(262, 77);
             this.btnSort.Name = "btnSort";
-            this.btnSort.Size = new System.Drawing.Size(113, 23);
+            this.btnSort.Size = new System.Drawing.Size(115, 23);
             this.btnSort.TabIndex = 1;
             this.btnSort.Text = "Sort";
             this.btnSort.UseVisualStyleBackColor = true;
@@ -853,6 +862,15 @@
             this.gbDetails.Size = new System.Drawing.Size(501, 295);
             this.gbDetails.TabIndex = 274;
             this.gbDetails.TabStop = false;
+            // 
+            // btnDelete
+            // 
+            this.btnDelete.Location = new System.Drawing.Point(350, 166);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(113, 23);
+            this.btnDelete.TabIndex = 273;
+            this.btnDelete.Text = "Delete";
+            this.btnDelete.UseVisualStyleBackColor = true;
             // 
             // label62
             // 
@@ -1042,16 +1060,6 @@
             this.t_N.ReadOnly = true;
             this.t_N.Size = new System.Drawing.Size(113, 22);
             this.t_N.TabIndex = 8;
-            // 
-            // t_w
-            // 
-            this.t_w.BackColor = System.Drawing.SystemColors.Window;
-            this.t_w.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.t_w.Location = new System.Drawing.Point(22, 261);
-            this.t_w.Name = "t_w";
-            this.t_w.ReadOnly = true;
-            this.t_w.Size = new System.Drawing.Size(113, 22);
-            this.t_w.TabIndex = 13;
             // 
             // t_sortKey
             // 
@@ -1355,6 +1363,16 @@
             this.label28.Size = new System.Drawing.Size(13, 14);
             this.label28.TabIndex = 235;
             this.label28.Text = "k";
+            // 
+            // t_w
+            // 
+            this.t_w.BackColor = System.Drawing.SystemColors.Window;
+            this.t_w.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.t_w.Location = new System.Drawing.Point(22, 261);
+            this.t_w.Name = "t_w";
+            this.t_w.ReadOnly = true;
+            this.t_w.Size = new System.Drawing.Size(113, 22);
+            this.t_w.TabIndex = 13;
             // 
             // tabPage3
             // 
@@ -2570,24 +2588,6 @@
             this.menuItemDesc.Text = "Descending";
             this.menuItemDesc.Click += new System.EventHandler(this.menuItemDesc_Click);
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(591, 77);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(113, 23);
-            this.button1.TabIndex = 275;
-            this.button1.Text = "Export >>";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // btnDelete
-            // 
-            this.btnDelete.Location = new System.Drawing.Point(350, 166);
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(113, 23);
-            this.btnDelete.TabIndex = 273;
-            this.btnDelete.Text = "Delete";
-            this.btnDelete.UseVisualStyleBackColor = true;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2741,19 +2741,19 @@
         private System.Windows.Forms.ComboBox comboName;
         private System.Windows.Forms.TextBox tbPeriod;
         private System.Windows.Forms.TextBox tbIncl;
-        private System.Windows.Forms.TextBox tbLongPeric;
+        private System.Windows.Forms.TextBox tbArgPeric;
         private System.Windows.Forms.TextBox tbAscNode;
         private System.Windows.Forms.TextBox tbEcc;
         private System.Windows.Forms.ComboBox comboPeriod;
         private System.Windows.Forms.ComboBox comboIncl;
-        private System.Windows.Forms.ComboBox comboLongPeric;
+        private System.Windows.Forms.ComboBox comboArgPeric;
         private System.Windows.Forms.ComboBox comboAscNode;
         private System.Windows.Forms.ComboBox comboEcc;
         private System.Windows.Forms.ComboBox comboPerihDate;
         private System.Windows.Forms.TextBox tbName;
         private System.Windows.Forms.CheckBox chPeriod;
         private System.Windows.Forms.CheckBox chIncl;
-        private System.Windows.Forms.CheckBox chLongPeric;
+        private System.Windows.Forms.CheckBox chArgPeric;
         private System.Windows.Forms.CheckBox chAscNode;
         private System.Windows.Forms.CheckBox chEcc;
         private System.Windows.Forms.CheckBox chPerihDate;
@@ -2839,7 +2839,7 @@
         private System.Windows.Forms.Panel panelHeader;
         private System.Windows.Forms.Label labelPeriod;
         private System.Windows.Forms.Label labelIncl;
-        private System.Windows.Forms.Label labelLongPeric;
+        private System.Windows.Forms.Label labelArgPeric;
         private System.Windows.Forms.Label labelAcsNode;
         private System.Windows.Forms.Label labelPerihDist;
         private System.Windows.Forms.Label label5;
