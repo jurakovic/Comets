@@ -119,16 +119,19 @@ namespace Cometary_Workshop
 
         private void btnImport_Click(object sender, EventArgs e)
         {
+            if (tbImportFilename.Text.Length == 0) btnBrowseImportFile_Click(sender, e);
 
-            if (tbImportFilename.Text.Length == 0)
+            filename = tbImportFilename.Text;
+
+            if (filename.Length == 0) return;
+
+            if (!File.Exists(filename))
             {
-                //MessageBox.Show("Please first select file");
-                //return;
-                btnBrowseImportFile_Click(sender, e);
+                MessageBox.Show("File not found." + Environment.NewLine + "Check the file name and try again.               ", "Import",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
-
-            filename = localFile;
-
+            
             importMain(filename, 0);
         }
 
@@ -178,7 +181,7 @@ namespace Cometary_Workshop
 
         void importMain(string filename, int importType)
         {
-            if (!File.Exists(filename)) return;
+
 
             masterList.Clear();
             userList.Clear();

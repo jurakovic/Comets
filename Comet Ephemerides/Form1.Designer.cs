@@ -351,7 +351,7 @@
             this.gbFilters.Controls.Add(this.chName);
             this.gbFilters.Location = new System.Drawing.Point(241, 101);
             this.gbFilters.Name = "gbFilters";
-            this.gbFilters.Size = new System.Drawing.Size(505, 305);
+            this.gbFilters.Size = new System.Drawing.Size(501, 292);
             this.gbFilters.TabIndex = 273;
             this.gbFilters.TabStop = false;
             this.gbFilters.Visible = false;
@@ -846,7 +846,7 @@
             this.gbDetails.Controls.Add(this.label28);
             this.gbDetails.Location = new System.Drawing.Point(241, 101);
             this.gbDetails.Name = "gbDetails";
-            this.gbDetails.Size = new System.Drawing.Size(505, 305);
+            this.gbDetails.Size = new System.Drawing.Size(501, 292);
             this.gbDetails.TabIndex = 274;
             this.gbDetails.TabStop = false;
             // 
@@ -1375,7 +1375,7 @@
             this.groupBox2.Controls.Add(this.btnBrowseImportFile);
             this.groupBox2.Location = new System.Drawing.Point(6, 152);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(740, 155);
+            this.groupBox2.Size = new System.Drawing.Size(736, 119);
             this.groupBox2.TabIndex = 19;
             this.groupBox2.TabStop = false;
             // 
@@ -1392,7 +1392,7 @@
             // btnImport
             // 
             this.btnImport.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.btnImport.Location = new System.Drawing.Point(31, 100);
+            this.btnImport.Location = new System.Drawing.Point(31, 80);
             this.btnImport.Name = "btnImport";
             this.btnImport.Size = new System.Drawing.Size(103, 23);
             this.btnImport.TabIndex = 4;
@@ -1426,7 +1426,7 @@
             this.groupBox1.Controls.Add(this.progDownload);
             this.groupBox1.Location = new System.Drawing.Point(6, 71);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(740, 80);
+            this.groupBox1.Size = new System.Drawing.Size(736, 80);
             this.groupBox1.TabIndex = 18;
             this.groupBox1.TabStop = false;
             // 
@@ -1470,7 +1470,7 @@
             this.panelImport1.Controls.Add(this.pictureBox3);
             this.panelImport1.Location = new System.Drawing.Point(6, 6);
             this.panelImport1.Name = "panelImport1";
-            this.panelImport1.Size = new System.Drawing.Size(740, 65);
+            this.panelImport1.Size = new System.Drawing.Size(736, 65);
             this.panelImport1.TabIndex = 0;
             // 
             // label2
@@ -1527,7 +1527,7 @@
             this.gbLocTimezone.Controls.Add(this.btnSetTimezone);
             this.gbLocTimezone.Location = new System.Drawing.Point(6, 236);
             this.gbLocTimezone.Name = "gbLocTimezone";
-            this.gbLocTimezone.Size = new System.Drawing.Size(740, 78);
+            this.gbLocTimezone.Size = new System.Drawing.Size(736, 78);
             this.gbLocTimezone.TabIndex = 65;
             this.gbLocTimezone.TabStop = false;
             this.gbLocTimezone.Text = "Timezone";
@@ -1572,7 +1572,7 @@
             this.gbLocLon.Controls.Add(this.label37);
             this.gbLocLon.Location = new System.Drawing.Point(6, 181);
             this.gbLocLon.Name = "gbLocLon";
-            this.gbLocLon.Size = new System.Drawing.Size(740, 49);
+            this.gbLocLon.Size = new System.Drawing.Size(736, 49);
             this.gbLocLon.TabIndex = 64;
             this.gbLocLon.TabStop = false;
             this.gbLocLon.Text = "Longitude";
@@ -1659,7 +1659,7 @@
             this.gbLocLat.Controls.Add(this.comboLat);
             this.gbLocLat.Location = new System.Drawing.Point(6, 126);
             this.gbLocLat.Name = "gbLocLat";
-            this.gbLocLat.Size = new System.Drawing.Size(740, 49);
+            this.gbLocLat.Size = new System.Drawing.Size(736, 49);
             this.gbLocLat.TabIndex = 63;
             this.gbLocLat.TabStop = false;
             this.gbLocLat.Text = "Latitude";
@@ -1751,7 +1751,7 @@
             this.gbLocName.Controls.Add(this.tbLocName);
             this.gbLocName.Location = new System.Drawing.Point(6, 71);
             this.gbLocName.Name = "gbLocName";
-            this.gbLocName.Size = new System.Drawing.Size(740, 49);
+            this.gbLocName.Size = new System.Drawing.Size(736, 49);
             this.gbLocName.TabIndex = 38;
             this.gbLocName.TabStop = false;
             this.gbLocName.Text = "Name";
@@ -1775,7 +1775,7 @@
             this.panelLocation.Controls.Add(this.pictureBox4);
             this.panelLocation.Location = new System.Drawing.Point(6, 6);
             this.panelLocation.Name = "panelLocation";
-            this.panelLocation.Size = new System.Drawing.Size(740, 65);
+            this.panelLocation.Size = new System.Drawing.Size(736, 65);
             this.panelLocation.TabIndex = 0;
             // 
             // label7
@@ -2260,7 +2260,7 @@
             this.panelEphem.Controls.Add(this.pictureBox5);
             this.panelEphem.Location = new System.Drawing.Point(6, 6);
             this.panelEphem.Name = "panelEphem";
-            this.panelEphem.Size = new System.Drawing.Size(740, 65);
+            this.panelEphem.Size = new System.Drawing.Size(736, 65);
             this.panelEphem.TabIndex = 0;
             // 
             // label9
