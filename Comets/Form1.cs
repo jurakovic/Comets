@@ -26,12 +26,11 @@ namespace Comets
         public static List<Comet> masterList = new List<Comet>();
         public static List<Comet> userList = new List<Comet>();
 
-        public static bool masterFilterFlag;
+        //public static bool masterFilterFlag;
         public static bool[] filterFlags;
         public static double[] filterValues;
         public static string filterName;
 
-        FiltersForm filters = null;
 
         Observer obs;
 
@@ -55,6 +54,7 @@ namespace Comets
             filterFlags = new bool[18];
             filterValues = new double[9];
             filterName = null;
+
 
             comboLat.SelectedIndex = 0;
             comboLon.SelectedIndex = 0;
@@ -419,14 +419,210 @@ namespace Comets
 
         private void btnFilters_Click(object sender, EventArgs e)
         {
-            if (filters == null)
-                filters = new FiltersForm();
+            //za cancel
+            //foreach (Control c in gbFilters.Controls.OfType<CheckBox>()) (c as CheckBox).Checked = false;
 
-            filters.ShowDialog();
+            btnFilters.Text = gbFilters.Visible ? "Filters ▼" : "Filters ▲";
 
-            if (masterFilterFlag)
+            gbFilters.Visible = !gbFilters.Visible;
+            gbDetails.Visible = !gbDetails.Visible;
+        }
+
+        private void chName_CheckedChanged(object sender, EventArgs e)
+        {
+            comboName.Enabled = (sender as CheckBox).Checked;
+            tbName.Enabled = (sender as CheckBox).Checked;
+        }
+
+        private void chPerihDate_CheckedChanged(object sender, EventArgs e)
+        {
+            comboPerihDate.Enabled = (sender as CheckBox).Checked;
+            tbPerihDateD.Enabled = (sender as CheckBox).Checked;
+            tbPerihDateM.Enabled = (sender as CheckBox).Checked;
+            tbPerihDateY.Enabled = (sender as CheckBox).Checked;
+            btnPerihDateNow.Enabled = (sender as CheckBox).Checked;
+        }
+
+        private void chPerihDist_CheckedChanged(object sender, EventArgs e)
+        {
+            comboPerihDist.Enabled = (sender as CheckBox).Checked;
+            tbPerihDist.Enabled = (sender as CheckBox).Checked;
+            labelPerihDist.Enabled = (sender as CheckBox).Checked;
+        }
+
+
+        private void chEcc_CheckedChanged(object sender, EventArgs e)
+        {
+            comboEcc.Enabled = (sender as CheckBox).Checked;
+            tbEcc.Enabled = (sender as CheckBox).Checked;
+        }
+
+        private void chAscNode_CheckedChanged(object sender, EventArgs e)
+        {
+            comboAscNode.Enabled = (sender as CheckBox).Checked;
+            tbAscNode.Enabled = (sender as CheckBox).Checked;
+            labelAcsNode.Enabled = (sender as CheckBox).Checked;
+        }
+
+        private void chLongPeric_CheckedChanged(object sender, EventArgs e)
+        {
+            comboLongPeric.Enabled = (sender as CheckBox).Checked;
+            tbLongPeric.Enabled = (sender as CheckBox).Checked;
+            labelLongPeric.Enabled = (sender as CheckBox).Checked;
+        }
+
+        private void chIncl_CheckedChanged(object sender, EventArgs e)
+        {
+            comboIncl.Enabled = (sender as CheckBox).Checked;
+            tbIncl.Enabled = (sender as CheckBox).Checked;
+            labelIncl.Enabled = (sender as CheckBox).Checked;
+        }
+
+        private void chPeriod_CheckedChanged(object sender, EventArgs e)
+        {
+            comboPeriod.Enabled = (sender as CheckBox).Checked;
+            tbPeriod.Enabled = (sender as CheckBox).Checked;
+            labelPeriod.Enabled = (sender as CheckBox).Checked;
+        }
+
+        private void btnPerihDateNow_Click(object sender, EventArgs e)
+        {
+            tbPerihDateD.Text = DateTime.Now.Day.ToString("00");
+            tbPerihDateM.Text = DateTime.Now.Month.ToString("00");
+            tbPerihDateY.Text = DateTime.Now.Year.ToString("0000");
+        }
+
+        private void btnApplyFilters_Click(object sender, EventArgs e)
+        {
+            if (chName.Checked && comboName.SelectedIndex == -1)
             {
-                copyListUseFilters();
+                MessageBox.Show("Please select Contains or Does not contain", "Error", MessageBoxButtons.OK);
+                return;
+            }
+
+            if ((chPerihDate.Checked && comboPerihDate.SelectedIndex == -1) ||
+                (chPerihDist.Checked && comboPerihDist.SelectedIndex == -1) ||
+                (chEcc.Checked && comboEcc.SelectedIndex == -1) ||
+                (chAscNode.Checked && comboAscNode.SelectedIndex == -1) ||
+                (chLongPeric.Checked && comboLongPeric.SelectedIndex == -1) ||
+                (chPeriod.Checked && comboPeriod.SelectedIndex == -1))
+            {
+                MessageBox.Show("Please select Greather than (>) or Less than (<)", "Error", MessageBoxButtons.OK);
+                return;
+            }
+
+            if (chName.Checked && tbName.Text.Length == 0)
+            {
+                MessageBox.Show("Please enter name", "Error", MessageBoxButtons.OK);
+                return;
+            }
+
+            if ((chPerihDate.Checked && tbPerihDateD.Text.Length == 0) ||
+                (chPerihDate.Checked && tbPerihDateM.Text.Length == 0) ||
+                (chPerihDate.Checked && tbPerihDateY.Text.Length == 0) ||
+                (chPerihDist.Checked && tbPerihDist.Text.Length == 0) ||
+                (chEcc.Checked && tbEcc.Text.Length == 0) ||
+                (chAscNode.Checked && tbAscNode.Text.Length == 0) ||
+                (chLongPeric.Checked && tbLongPeric.Text.Length == 0) ||
+                (chPeriod.Checked && tbPeriod.Text.Length == 0))
+            {
+                MessageBox.Show("Please enter value", "Error", MessageBoxButtons.OK);
+                return;
+            }
+
+            //check date
+            if (chPerihDate.Checked)
+            {
+                try
+                {
+                    DateTime test = new DateTime(Convert.ToInt32(tbPerihDateY.Text), Convert.ToInt32(tbPerihDateM.Text), Convert.ToInt32(tbPerihDateD.Text));
+                }
+                catch
+                {
+                    MessageBox.Show("Invalid date", "Error", MessageBoxButtons.OK);
+                    return;
+                }
+            }
+
+            //clear all
+            for (int i = 0; i < 18; i++) filterFlags[i] = false;
+            for (int i = 0; i < 9; i++) filterValues[i] = 0.0;
+            filterName = null;
+
+            //get values
+            if (chName.Checked)
+            {
+                //filterValue[0]
+                filterName = tbName.Text;
+
+                if (comboName.SelectedIndex == 0) filterFlags[0] = true;
+                if (comboName.SelectedIndex == 1) filterFlags[1] = true;
+            }
+
+            if (chPerihDate.Checked)
+            {
+                //filterValues[1] = Comet.GregToJul(Convert.ToInt32(tbPerihDateY.Text), Convert.ToInt32(tbPerihDateM.Text), Convert.ToInt32(tbPerihDateD.Text), 0);
+                filterValues[1] = jd0(Convert.ToInt32(tbPerihDateY.Text), Convert.ToInt32(tbPerihDateM.Text), Convert.ToInt32(tbPerihDateD.Text), 0);
+
+                if (comboPerihDate.SelectedIndex == 0) filterFlags[2] = true;
+                if (comboPerihDate.SelectedIndex == 1) filterFlags[3] = true;
+            }
+            if (chPerihDist.Checked)
+            {
+                filterValues[2] = Convert.ToDouble(tbPerihDist.Text);
+
+                if (comboPerihDist.SelectedIndex == 0) filterFlags[4] = true;
+                if (comboPerihDist.SelectedIndex == 1) filterFlags[5] = true;
+            }
+            if (chEcc.Checked)
+            {
+                filterValues[4] = Convert.ToDouble(tbEcc.Text);
+
+                if (comboEcc.SelectedIndex == 0) filterFlags[8] = true;
+                if (comboEcc.SelectedIndex == 1) filterFlags[9] = true;
+            }
+            if (chAscNode.Checked)
+            {
+                filterValues[5] = Convert.ToDouble(tbAscNode.Text);
+
+                if (comboAscNode.SelectedIndex == 0) filterFlags[10] = true;
+                if (comboAscNode.SelectedIndex == 1) filterFlags[11] = true;
+            }
+            if (chLongPeric.Checked)
+            {
+                filterValues[6] = Convert.ToDouble(tbLongPeric.Text);
+
+                if (comboLongPeric.SelectedIndex == 0) filterFlags[12] = true;
+                if (comboLongPeric.SelectedIndex == 1) filterFlags[13] = true;
+            }
+            if (chIncl.Checked)
+            {
+                filterValues[7] = Convert.ToDouble(tbIncl.Text);
+
+                if (comboIncl.SelectedIndex == 0) filterFlags[14] = true;
+                if (comboIncl.SelectedIndex == 1) filterFlags[15] = true;
+            }
+            if (chPeriod.Checked)
+            {
+                filterValues[8] = Convert.ToDouble(tbPeriod.Text);
+
+                if (comboPeriod.SelectedIndex == 0) filterFlags[16] = true;
+                if (comboPeriod.SelectedIndex == 1) filterFlags[17] = true;
+            }
+
+            //masterFilterFlag = true;
+
+            copyListUseFilters();
+            btnFilters_Click(sender, e);
+        }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (tabControl1.SelectedIndex == 0)
+            {
+                btnFilters.Text = "Filters ▼";
+                gbDetails.Visible = true;
+                gbFilters.Visible = false;
             }
         }
 
