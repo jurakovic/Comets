@@ -26,8 +26,6 @@ namespace Cometary_Workshop
         public static List<Comet> masterList = new List<Comet>();
         public static List<Comet> userList = new List<Comet>();
 
-        public static string lastSortItem = "nameToolStripMenuItem";
-
         //public static bool masterFilterFlag;
         public static bool[] filterFlags;
         public static double[] filterValues;
@@ -244,45 +242,39 @@ namespace Cometary_Workshop
 
         private void btnSort_Click(object sender, EventArgs e)
         {
-            contextSort.Show(this.tabPage1, (sender as Button).Left + 1, (sender as Button).Top + (sender as Button).Height - 1);
+            contextMenu1.Show(this.tabPage1, new Point((sender as Button).Left + 1, (sender as Button).Top + (sender as Button).Height - 1));
         }
 
-        private void ContextClick1(object sender, EventArgs e)
+        private void menuItem1_Click(object sender, EventArgs e)
         {
             //ako kliknem na item koji je vec odabran
-            if ((sender as ToolStripMenuItem).Name == lastSortItem)
-            {
-                (sender as ToolStripMenuItem).Checked = true;
-                return;
-            }
+            if ((sender as MenuItem).Checked) return;
 
             //da zapamti kako su zadnja 2 odabrana
-            bool order = ascendingToolStripMenuItem.Checked;
+            bool order = menuItemAsc.Checked;
 
-            //da onaj koji je prethodno bio odabran sad bude false
-            foreach (ToolStripItem item in contextSort.Items)
-            {
-                if (item.Name == lastSortItem) (item as ToolStripMenuItem).Checked = false;
-            }
+            //prvo sve odznačiti
+            foreach (MenuItem item in contextMenu1.MenuItems) (item as MenuItem).Checked = false;
 
-            ascendingToolStripMenuItem.Checked = order;
-            descendingToolStripMenuItem.Checked = !order;
+            //pa označiti onog koji je kliknut
+            (sender as MenuItem).Checked = true;
 
-            lastSortItem = (sender as ToolStripMenuItem).Name;
+            menuItemAsc.Checked = order;
+            menuItemDesc.Checked = !order;
 
             sortList(userList);
-
         }
-
-        private void ascendingToolStripMenuItem_Click(object sender, EventArgs e)
+        private void menuItemAsc_Click(object sender, EventArgs e)
         {
-            descendingToolStripMenuItem.Checked = false;
+            menuItemAsc.Checked = true;
+            menuItemDesc.Checked = false;
             sortList(userList);
         }
 
-        private void descendingToolStripMenuItem_Click(object sender, EventArgs e)
+        private void menuItemDesc_Click(object sender, EventArgs e)
         {
-            ascendingToolStripMenuItem.Checked = false;
+            menuItemAsc.Checked = false;
+            menuItemDesc.Checked = true;
             sortList(userList);
         }
 
@@ -331,52 +323,52 @@ namespace Cometary_Workshop
             List<Comet> tempList = list.ToList();
             userList.Clear();
 
-            if (nameToolStripMenuItem.Checked && ascendingToolStripMenuItem.Checked)
+            if (menuItemName.Checked && menuItemAsc.Checked)
                 userList = tempList.OrderBy(Comet => Comet.sortkey).ToList();
 
-            else if (nameToolStripMenuItem.Checked && descendingToolStripMenuItem.Checked)
+            else if (menuItemName.Checked && menuItemDesc.Checked)
                 userList = tempList.OrderByDescending(Comet => Comet.sortkey).ToList();
 
-            else if (perihelionDateToolStripMenuItem.Checked && ascendingToolStripMenuItem.Checked)
+            else if (menuItemPerihDate.Checked && menuItemAsc.Checked)
                 userList = tempList.OrderBy(Comet => Comet.T).ToList();
 
-            else if (perihelionDateToolStripMenuItem.Checked && descendingToolStripMenuItem.Checked)
+            else if (menuItemPerihDate.Checked && menuItemDesc.Checked)
                 userList = tempList.OrderByDescending(Comet => Comet.T).ToList();
 
-            else if (perihelionDistanceToolStripMenuItem.Checked && ascendingToolStripMenuItem.Checked)
+            else if (menuItemPerihDist.Checked && menuItemAsc.Checked)
                 userList = tempList.OrderBy(Comet => Comet.q).ToList();
 
-            else if (perihelionDistanceToolStripMenuItem.Checked && descendingToolStripMenuItem.Checked)
+            else if (menuItemPerihDist.Checked && menuItemDesc.Checked)
                 userList = tempList.OrderByDescending(Comet => Comet.q).ToList();
 
-            else if (longOfTheAscNodeToolStripMenuItem.Checked && ascendingToolStripMenuItem.Checked)
+            else if (menuItemIncl.Checked && menuItemAsc.Checked)
                 userList = tempList.OrderBy(Comet => Comet.N).ToList();
 
-            else if (longOfTheAscNodeToolStripMenuItem.Checked && descendingToolStripMenuItem.Checked)
+            else if (menuItemIncl.Checked && menuItemDesc.Checked)
                 userList = tempList.OrderByDescending(Comet => Comet.N).ToList();
 
-            else if (eccentricityToolStripMenuItem.Checked && ascendingToolStripMenuItem.Checked)
+            else if (menuItemEcc.Checked && menuItemAsc.Checked)
                 userList = tempList.OrderBy(Comet => Comet.e).ToList();
 
-            else if (eccentricityToolStripMenuItem.Checked && descendingToolStripMenuItem.Checked)
+            else if (menuItemEcc.Checked && menuItemDesc.Checked)
                 userList = tempList.OrderByDescending(Comet => Comet.e).ToList();
 
-            else if (argOfPericenterToolStripMenuItem.Checked && ascendingToolStripMenuItem.Checked)
+            else if (menuItemAscNode.Checked && menuItemAsc.Checked)
                 userList = tempList.OrderBy(Comet => Comet.w).ToList();
 
-            else if (argOfPericenterToolStripMenuItem.Checked && descendingToolStripMenuItem.Checked)
+            else if (menuItemAscNode.Checked && menuItemDesc.Checked)
                 userList = tempList.OrderByDescending(Comet => Comet.w).ToList();
 
-            else if (inclinationToolStripMenuItem.Checked && ascendingToolStripMenuItem.Checked)
+            else if (menuItemArgPeri.Checked && menuItemAsc.Checked)
                 userList = tempList.OrderBy(Comet => Comet.i).ToList();
 
-            else if (inclinationToolStripMenuItem.Checked && descendingToolStripMenuItem.Checked)
+            else if (menuItemArgPeri.Checked && menuItemDesc.Checked)
                 userList = tempList.OrderByDescending(Comet => Comet.i).ToList();
 
-            else if (periodToolStripMenuItem.Checked && ascendingToolStripMenuItem.Checked)
+            else if (menuItemPeriod.Checked && menuItemAsc.Checked)
                 userList = tempList.OrderBy(Comet => Comet.P).ToList();
 
-            else if (periodToolStripMenuItem.Checked && descendingToolStripMenuItem.Checked)
+            else if (menuItemPeriod.Checked && menuItemDesc.Checked)
                 userList = tempList.OrderByDescending(Comet => Comet.P).ToList();
 
             updateCometListbox(userList);
@@ -1107,5 +1099,9 @@ namespace Cometary_Workshop
         double log10(double x) { return 0.43429448190325182765112891891661 * Math.Log(x); }
         double sqr(double x) { return x * x; }
         double cbrt(double x) { return Math.Pow(x, 1 / 3.0); }
+
+
+
+
     }
 }

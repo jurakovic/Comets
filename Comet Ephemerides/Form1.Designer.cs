@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.btnExit = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -222,19 +221,19 @@
             this.label11 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.labelComets = new System.Windows.Forms.Label();
-            this.contextSort = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.nameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.perihelionDateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.perihelionDistanceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.inclinationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.eccentricityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.longOfTheAscNodeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.argOfPericenterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.periodToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.ascendingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.descendingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelHeader = new System.Windows.Forms.Panel();
+            this.contextMenu1 = new System.Windows.Forms.ContextMenu();
+            this.menuItemName = new System.Windows.Forms.MenuItem();
+            this.menuItemPerihDate = new System.Windows.Forms.MenuItem();
+            this.menuItemPerihDist = new System.Windows.Forms.MenuItem();
+            this.menuItemIncl = new System.Windows.Forms.MenuItem();
+            this.menuItemEcc = new System.Windows.Forms.MenuItem();
+            this.menuItemAscNode = new System.Windows.Forms.MenuItem();
+            this.menuItemArgPeri = new System.Windows.Forms.MenuItem();
+            this.menuItemPeriod = new System.Windows.Forms.MenuItem();
+            this.menuItem9 = new System.Windows.Forms.MenuItem();
+            this.menuItemAsc = new System.Windows.Forms.MenuItem();
+            this.menuItemDesc = new System.Windows.Forms.MenuItem();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.gbFilters.SuspendLayout();
@@ -265,7 +264,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).BeginInit();
             this.tabPage9.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.contextSort.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnExit
@@ -2465,112 +2463,6 @@
             this.labelComets.TabIndex = 4;
             this.labelComets.Text = "Comets: 0";
             // 
-            // contextSort
-            // 
-            this.contextSort.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.nameToolStripMenuItem,
-            this.perihelionDateToolStripMenuItem,
-            this.perihelionDistanceToolStripMenuItem,
-            this.inclinationToolStripMenuItem,
-            this.eccentricityToolStripMenuItem,
-            this.longOfTheAscNodeToolStripMenuItem,
-            this.argOfPericenterToolStripMenuItem,
-            this.periodToolStripMenuItem,
-            this.toolStripSeparator2,
-            this.ascendingToolStripMenuItem,
-            this.descendingToolStripMenuItem});
-            this.contextSort.Name = "contextMenuStrip1";
-            this.contextSort.Size = new System.Drawing.Size(196, 230);
-            // 
-            // nameToolStripMenuItem
-            // 
-            this.nameToolStripMenuItem.Checked = true;
-            this.nameToolStripMenuItem.CheckOnClick = true;
-            this.nameToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.nameToolStripMenuItem.Name = "nameToolStripMenuItem";
-            this.nameToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
-            this.nameToolStripMenuItem.Text = "Name";
-            this.nameToolStripMenuItem.Click += new System.EventHandler(this.ContextClick1);
-            // 
-            // perihelionDateToolStripMenuItem
-            // 
-            this.perihelionDateToolStripMenuItem.CheckOnClick = true;
-            this.perihelionDateToolStripMenuItem.Name = "perihelionDateToolStripMenuItem";
-            this.perihelionDateToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
-            this.perihelionDateToolStripMenuItem.Text = "Perihelion Date";
-            this.perihelionDateToolStripMenuItem.Click += new System.EventHandler(this.ContextClick1);
-            // 
-            // perihelionDistanceToolStripMenuItem
-            // 
-            this.perihelionDistanceToolStripMenuItem.CheckOnClick = true;
-            this.perihelionDistanceToolStripMenuItem.Name = "perihelionDistanceToolStripMenuItem";
-            this.perihelionDistanceToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
-            this.perihelionDistanceToolStripMenuItem.Text = "Perihelion Distance";
-            this.perihelionDistanceToolStripMenuItem.Click += new System.EventHandler(this.ContextClick1);
-            // 
-            // inclinationToolStripMenuItem
-            // 
-            this.inclinationToolStripMenuItem.CheckOnClick = true;
-            this.inclinationToolStripMenuItem.Name = "inclinationToolStripMenuItem";
-            this.inclinationToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
-            this.inclinationToolStripMenuItem.Text = "Inclination";
-            this.inclinationToolStripMenuItem.Click += new System.EventHandler(this.ContextClick1);
-            // 
-            // eccentricityToolStripMenuItem
-            // 
-            this.eccentricityToolStripMenuItem.CheckOnClick = true;
-            this.eccentricityToolStripMenuItem.Name = "eccentricityToolStripMenuItem";
-            this.eccentricityToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
-            this.eccentricityToolStripMenuItem.Text = "Eccentricity";
-            this.eccentricityToolStripMenuItem.Click += new System.EventHandler(this.ContextClick1);
-            // 
-            // longOfTheAscNodeToolStripMenuItem
-            // 
-            this.longOfTheAscNodeToolStripMenuItem.CheckOnClick = true;
-            this.longOfTheAscNodeToolStripMenuItem.Name = "longOfTheAscNodeToolStripMenuItem";
-            this.longOfTheAscNodeToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
-            this.longOfTheAscNodeToolStripMenuItem.Text = "Long. of the Asc. Node";
-            this.longOfTheAscNodeToolStripMenuItem.Click += new System.EventHandler(this.ContextClick1);
-            // 
-            // argOfPericenterToolStripMenuItem
-            // 
-            this.argOfPericenterToolStripMenuItem.CheckOnClick = true;
-            this.argOfPericenterToolStripMenuItem.Name = "argOfPericenterToolStripMenuItem";
-            this.argOfPericenterToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
-            this.argOfPericenterToolStripMenuItem.Text = "Arg. of Pericenter";
-            this.argOfPericenterToolStripMenuItem.Click += new System.EventHandler(this.ContextClick1);
-            // 
-            // periodToolStripMenuItem
-            // 
-            this.periodToolStripMenuItem.CheckOnClick = true;
-            this.periodToolStripMenuItem.Name = "periodToolStripMenuItem";
-            this.periodToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
-            this.periodToolStripMenuItem.Text = "Period";
-            this.periodToolStripMenuItem.Click += new System.EventHandler(this.ContextClick1);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(192, 6);
-            // 
-            // ascendingToolStripMenuItem
-            // 
-            this.ascendingToolStripMenuItem.Checked = true;
-            this.ascendingToolStripMenuItem.CheckOnClick = true;
-            this.ascendingToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ascendingToolStripMenuItem.Name = "ascendingToolStripMenuItem";
-            this.ascendingToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
-            this.ascendingToolStripMenuItem.Text = "Ascending";
-            this.ascendingToolStripMenuItem.Click += new System.EventHandler(this.ascendingToolStripMenuItem_Click);
-            // 
-            // descendingToolStripMenuItem
-            // 
-            this.descendingToolStripMenuItem.CheckOnClick = true;
-            this.descendingToolStripMenuItem.Name = "descendingToolStripMenuItem";
-            this.descendingToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
-            this.descendingToolStripMenuItem.Text = "Descending";
-            this.descendingToolStripMenuItem.Click += new System.EventHandler(this.descendingToolStripMenuItem_Click);
-            // 
             // panelHeader
             // 
             this.panelHeader.BackColor = System.Drawing.Color.Black;
@@ -2581,6 +2473,98 @@
             this.panelHeader.Name = "panelHeader";
             this.panelHeader.Size = new System.Drawing.Size(780, 75);
             this.panelHeader.TabIndex = 3;
+            // 
+            // contextMenu1
+            // 
+            this.contextMenu1.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.menuItemName,
+            this.menuItemPerihDate,
+            this.menuItemPerihDist,
+            this.menuItemIncl,
+            this.menuItemEcc,
+            this.menuItemAscNode,
+            this.menuItemArgPeri,
+            this.menuItemPeriod,
+            this.menuItem9,
+            this.menuItemAsc,
+            this.menuItemDesc});
+            // 
+            // menuItemName
+            // 
+            this.menuItemName.Checked = true;
+            this.menuItemName.Index = 0;
+            this.menuItemName.RadioCheck = true;
+            this.menuItemName.Text = "Name";
+            this.menuItemName.Click += new System.EventHandler(this.menuItem1_Click);
+            // 
+            // menuItemPerihDate
+            // 
+            this.menuItemPerihDate.Index = 1;
+            this.menuItemPerihDate.RadioCheck = true;
+            this.menuItemPerihDate.Text = "Perihelion Date";
+            this.menuItemPerihDate.Click += new System.EventHandler(this.menuItem1_Click);
+            // 
+            // menuItemPerihDist
+            // 
+            this.menuItemPerihDist.Index = 2;
+            this.menuItemPerihDist.RadioCheck = true;
+            this.menuItemPerihDist.Text = "Perihelion Distance";
+            this.menuItemPerihDist.Click += new System.EventHandler(this.menuItem1_Click);
+            // 
+            // menuItemIncl
+            // 
+            this.menuItemIncl.Index = 3;
+            this.menuItemIncl.RadioCheck = true;
+            this.menuItemIncl.Text = "Inclination";
+            this.menuItemIncl.Click += new System.EventHandler(this.menuItem1_Click);
+            // 
+            // menuItemEcc
+            // 
+            this.menuItemEcc.Index = 4;
+            this.menuItemEcc.RadioCheck = true;
+            this.menuItemEcc.Text = "Eccentricity";
+            this.menuItemEcc.Click += new System.EventHandler(this.menuItem1_Click);
+            // 
+            // menuItemAscNode
+            // 
+            this.menuItemAscNode.Index = 5;
+            this.menuItemAscNode.RadioCheck = true;
+            this.menuItemAscNode.Text = "Long. of the Asc. Node";
+            this.menuItemAscNode.Click += new System.EventHandler(this.menuItem1_Click);
+            // 
+            // menuItemArgPeri
+            // 
+            this.menuItemArgPeri.Index = 6;
+            this.menuItemArgPeri.RadioCheck = true;
+            this.menuItemArgPeri.Text = "Arg. of Pericenter";
+            this.menuItemArgPeri.Click += new System.EventHandler(this.menuItem1_Click);
+            // 
+            // menuItemPeriod
+            // 
+            this.menuItemPeriod.Index = 7;
+            this.menuItemPeriod.RadioCheck = true;
+            this.menuItemPeriod.Text = "Period";
+            this.menuItemPeriod.Click += new System.EventHandler(this.menuItem1_Click);
+            // 
+            // menuItem9
+            // 
+            this.menuItem9.Index = 8;
+            this.menuItem9.Text = "-";
+            // 
+            // menuItemAsc
+            // 
+            this.menuItemAsc.Checked = true;
+            this.menuItemAsc.Index = 9;
+            this.menuItemAsc.RadioCheck = true;
+            this.menuItemAsc.Text = "Ascending";
+            this.menuItemAsc.Click += new System.EventHandler(this.menuItemAsc_Click);
+            // 
+            // menuItemDesc
+            // 
+            this.menuItemDesc.Index = 10;
+            this.menuItemDesc.RadioCheck = true;
+            this.menuItemDesc.Text = "Descending";
+            this.menuItemDesc.Click += new System.EventHandler(this.menuItemDesc_Click);
             // 
             // Form1
             // 
@@ -2646,7 +2630,6 @@
             this.tabPage9.ResumeLayout(false);
             this.tabPage9.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.contextSort.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2700,18 +2683,6 @@
         private System.Windows.Forms.Label label62;
         private System.Windows.Forms.Button btnSort;
         private System.Windows.Forms.Label labelComets;
-        private System.Windows.Forms.ContextMenuStrip contextSort;
-        private System.Windows.Forms.ToolStripMenuItem nameToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem perihelionDateToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem perihelionDistanceToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem inclinationToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem eccentricityToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem longOfTheAscNodeToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem argOfPericenterToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem periodToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripMenuItem ascendingToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem descendingToolStripMenuItem;
         private System.Windows.Forms.TextBox t_sortKey;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Button btnFilters;
@@ -2859,6 +2830,18 @@
         private System.Windows.Forms.CheckBox checkBox3;
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.ContextMenu contextMenu1;
+        private System.Windows.Forms.MenuItem menuItemName;
+        private System.Windows.Forms.MenuItem menuItemPerihDate;
+        private System.Windows.Forms.MenuItem menuItemPerihDist;
+        private System.Windows.Forms.MenuItem menuItemIncl;
+        private System.Windows.Forms.MenuItem menuItemEcc;
+        private System.Windows.Forms.MenuItem menuItemAscNode;
+        private System.Windows.Forms.MenuItem menuItemArgPeri;
+        private System.Windows.Forms.MenuItem menuItemPeriod;
+        private System.Windows.Forms.MenuItem menuItem9;
+        private System.Windows.Forms.MenuItem menuItemAsc;
+        private System.Windows.Forms.MenuItem menuItemDesc;
     }
 }
 

@@ -802,9 +802,6 @@
         AAAAAElFTkSuQmCC
 </value>
   </data>
-  <metadata name="contextSort.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>29, 25</value>
-  </metadata>
   <data name="panelHeader.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         /9j/4AAQSkZJRgABAQEAYABgAAD/4QBoRXhpZgAATU0AKgAAAAgABAEaAAUAAAABAAAAPgEbAAUAAAAB
@@ -1724,6 +1721,9 @@
         GSuSybjknBIYgHGccDjGMVW2yIlLrK76aene23bsf//Z
 </value>
   </data>
+  <metadata name="contextMenu1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>143, 25</value>
+  </metadata>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAABAAcAAAAAAAEAIAAkxQIAdgAAAICAAAABACAAKAgBAJrFAgBAQAAAAQAgAChCAADCzQMAMDAAAAEA
