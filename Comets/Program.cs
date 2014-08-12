@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace Cometary_Workshop
+namespace Comets
 {
     static class Program
     {

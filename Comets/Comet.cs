@@ -8,7 +8,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 
-namespace Cometary_Workshop
+namespace Comets
 {
     public class Comet
     {

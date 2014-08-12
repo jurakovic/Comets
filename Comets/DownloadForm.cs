@@ -9,7 +9,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Net;
 
-namespace Cometary_Workshop
+namespace Comets
 {
     public partial class DownloadForm : Form
     {

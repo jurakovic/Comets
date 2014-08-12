@@ -1,4 +1,4 @@
-﻿namespace Cometary_Workshop
+﻿namespace Comets
 {
     partial class Form1
     {
@@ -2430,9 +2430,9 @@
             this.label12.AutoSize = true;
             this.label12.Location = new System.Drawing.Point(107, 47);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(143, 13);
+            this.label12.Size = new System.Drawing.Size(133, 13);
             this.label12.TabIndex = 2;
-            this.label12.Text = "Version 0.7 (February 2014)";
+            this.label12.Text = "Version 0.7 (August 2014)";
             // 
             // label11
             // 
@@ -2440,9 +2440,9 @@
             this.label11.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label11.Location = new System.Drawing.Point(107, 21);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(135, 16);
+            this.label11.Size = new System.Drawing.Size(56, 16);
             this.label11.TabIndex = 1;
-            this.label11.Text = "Comet Ephemerides";
+            this.label11.Text = "Comets";
             // 
             // pictureBox1
             // 
@@ -2581,7 +2581,7 @@
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Comet Ephemerides";
+            this.Text = "Comets";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Cometary_Workshop
+namespace Comets
 {
     class Observer
     {

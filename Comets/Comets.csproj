@@ -7,8 +7,8 @@
     <ProjectGuid>{C7911B59-6327-4BDE-AA7B-49CEDC796EBD}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Comet_Ephemerides</RootNamespace>
-    <AssemblyName>Comet Ephemerides</AssemblyName>
+    <RootNamespace>Comets</RootNamespace>
+    <AssemblyName>Comets</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>false</IsWebBootstrapper>
