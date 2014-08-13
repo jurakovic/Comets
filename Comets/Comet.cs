@@ -238,7 +238,7 @@ namespace Comets
                 return a * (1 + 0.999999);
         }
 
-        public static string[] setIdNameFull(string full)
+        public static string[] setIdNameFromFull(string full)
         {
             int oldt = total;
 
@@ -314,7 +314,7 @@ namespace Comets
                 total++;
                 idname[0] = full.Substring(0, full.IndexOf('-')); // 128P
                 idname[1] = full.Substring(full.IndexOf('/') + 1); // Shoemaker-Holt
-                idname[1] += full.Substring(full.IndexOf('-'), full.IndexOf('/') - full.IndexOf('-')); // Shoemaker-Holt-B
+                idname[1] += " " + full.Substring(full.IndexOf('-') + 1, full.IndexOf('/') - full.IndexOf('-') - 1); // Shoemaker-Holt-B
                 idname[2] = idname[0] + "/" + idname[1];
 
                 //MessageBox.Show(full + " je regex r2 " + r2.ToString() + " = ");
@@ -346,6 +346,50 @@ namespace Comets
             //}
 
             return idname;
+        }
+
+        public static string[] setFullFromIdName(string id, string name)
+        {
+            string[] fin = { "", "", "" };
+            string full, fragm = "";
+
+            if (id.Contains('-') && id[2] != '-')
+            {
+                //128P-B
+                //C/-146 P1
+                int ind = id.IndexOf('-');
+                fragm = id.Substring(ind + 1, id.Length - ind - 1);
+                id = id.Substring(0, ind);
+            }
+
+            full = id;
+
+            if (id.Contains('/'))
+            {
+                if (name != "")
+                {
+                    full += " (" + name;
+
+                    if (fragm != "") full += " " + fragm;
+
+                    full += ")";
+                }
+            }
+            else
+            {
+                if (name != null)
+                {
+                    full += "/" + name;
+
+                    if (fragm != "") full += " " + fragm;
+                }
+            }
+
+            fin[0] = id;
+            fin[1] = name;
+            fin[2] = full;
+
+            return fin;
         }
 
         public static double GregToJul(int y, int m, int d, int h)

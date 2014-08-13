@@ -180,12 +180,28 @@ namespace Comets
 
         void importMain(string filename, int importType)
         {
-
-
             masterList.Clear();
             userList.Clear();
 
-            importMpc(filename);
+            int type = getImportType(filename);
+            //type = 1;
+            if (type == -1)
+            {
+                MessageBox.Show("Unknown import type.               ", "Import", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            else MessageBox.Show("Type: " + type);
+
+            if (type == 0)
+                importMpc(filename);
+            if (type == 1)
+                importSkyMap(filename);
+            if (type == 2)
+                importGuide(filename);
+            if (type == 3)
+                importXephem(filename);
+            if (type == 4)
+                importHomePlanet(filename);
 
             //userList = masterList.ToList();
             ///sortList(userList);
@@ -193,43 +209,138 @@ namespace Comets
             copyListUseFilters();
         }
 
+        int getImportType(string filename)
+        {
+            Comet c = new Comet();
+
+            string[] lines = File.ReadAllLines(filename);
+            string full;
+            string lastLine = lines[lines.Count() - 1];
+
+            try //mpc 0
+            {
+                c.Ty = Convert.ToInt32(lastLine.Substring(14, 4).Trim());
+                c.Tm = Convert.ToInt32(lastLine.Substring(19, 2).Trim());
+                c.Td = Convert.ToInt32(lastLine.Substring(22, 2).Trim());
+                c.Th = Convert.ToInt32(lastLine.Substring(25, 4).Trim());
+                c.q = Convert.ToDouble(lastLine.Substring(30, 9).Trim());
+                c.e = Convert.ToDouble(lastLine.Substring(41, 8).Trim());
+                c.w = Convert.ToDouble(lastLine.Substring(51, 8).Trim());
+                c.N = Convert.ToDouble(lastLine.Substring(61, 8).Trim());
+                c.i = Convert.ToDouble(lastLine.Substring(71, 8).Trim());
+                c.k = Convert.ToDouble(lastLine.Substring(91, 4).Trim());
+                c.g = Convert.ToDouble(lastLine.Substring(96, 4).Trim());
+                full = lastLine.Substring(102, 55).Trim();
+
+                return 0;
+            }
+            catch
+            {
+                //go next
+            }
+
+            try //skymap 1
+            {
+                full = lastLine.Substring(0, 44).Trim();
+                c.Ty = Convert.ToInt32(lastLine.Substring(47, 4).Trim());
+                c.Tm = Convert.ToInt32(lastLine.Substring(52, 2).Trim());
+                c.Td = Convert.ToInt32(lastLine.Substring(55, 2).Trim());
+                c.Th = Convert.ToInt32(lastLine.Substring(58, 4).Trim().PadRight(4, '0'));
+                c.q = Convert.ToDouble(lastLine.Substring(63, 10).Trim());
+                c.e = Convert.ToDouble(lastLine.Substring(78, 10).Trim());
+                c.w = Convert.ToDouble(lastLine.Substring(88, 9).Trim());
+                c.N = Convert.ToDouble(lastLine.Substring(97, 9).Trim());
+                c.i = Convert.ToDouble(lastLine.Substring(106, 9).Trim());
+                c.g = Convert.ToDouble(lastLine.Substring(115, 5).Trim());
+                c.k = Convert.ToDouble(lastLine.Substring(121, 5).Trim());
+
+                return 1;
+            }
+            catch
+            {
+
+            }
+
+            try //guide 2
+            {
+                full = lastLine.Substring(0, 42).Trim();
+                c.Td = Convert.ToInt32(lastLine.Substring(43, 2).Trim());
+                c.Th = Convert.ToInt32(lastLine.Substring(46, 4).Trim());
+                c.Tm = Convert.ToInt32(lastLine.Substring(52, 2).Trim());
+                c.Ty = Convert.ToInt32(lastLine.Substring(55, 5).Trim());
+                c.q = Convert.ToDouble(lastLine.Substring(73, 10).Trim());
+                c.e = Convert.ToDouble(lastLine.Substring(85, 10).Trim());
+                c.i = Convert.ToDouble(lastLine.Substring(95, 10).Trim());
+                c.w = Convert.ToDouble(lastLine.Substring(107, 10).Trim());
+                c.N = Convert.ToDouble(lastLine.Substring(119, 10).Trim());
+                c.k = Convert.ToDouble(lastLine.Substring(140, 5).Trim());
+                c.g = Convert.ToDouble(lastLine.Substring(145, 5).Trim());
+
+                return 2;
+            }
+            catch
+            {
+
+            }
+
+            try //home planet 4
+            {
+                string[] parts = lastLine.Split(',');
+
+                if (parts.Count() == 10) return 4;
+            }
+            catch
+            {
+                
+            }
+
+            try //xephem 3
+            {
+                string[] parts = lastLine.Split(',');
+                
+                if (parts.Count() == 13) return 3;
+
+                //if (parts[1] == "e" || parts[1] == "p" || parts[1] == "h")  return 3;
+            }
+            catch
+            {
+
+            }
+
+            return -1;
+        }
+
         void importMpc(string filename)
         {
             foreach (string line in File.ReadAllLines(filename))
             {
-                //string str = line.Replace('.', ',');
-                string str = line;
-
                 Comet c = new Comet();
 
                 try
                 {
-                    c.Ty = Convert.ToInt32(str.Substring(14, 4).Trim());
-                    c.Tm = Convert.ToInt32(str.Substring(19, 2).Trim());
-                    c.Td = Convert.ToInt32(str.Substring(22, 2).Trim());
-                    c.Th = Convert.ToInt32(str.Substring(25, 4).Trim());
-                    c.q = Convert.ToDouble(str.Substring(31, 8).Trim());
-                    c.e = Convert.ToDouble(str.Substring(41, 8).Trim());
-                    c.w = Convert.ToDouble(str.Substring(51, 8).Trim());
-                    c.N = Convert.ToDouble(str.Substring(61, 8).Trim());
-                    c.i = Convert.ToDouble(str.Substring(71, 8).Trim());
-                    c.k = Convert.ToDouble(str.Substring(91, 4).Trim());
-                    c.g = Convert.ToDouble(str.Substring(96, 4).Trim());
-                    c.full = str.Substring(102, 55).Trim();
+                    c.Ty = Convert.ToInt32(line.Substring(14, 4).Trim());
+                    c.Tm = Convert.ToInt32(line.Substring(19, 2).Trim());
+                    c.Td = Convert.ToInt32(line.Substring(22, 2).Trim());
+                    c.Th = Convert.ToInt32(line.Substring(25, 4).Trim().PadRight(4, '0'));
+                    c.q = Convert.ToDouble(line.Substring(30, 9).Trim());
+                    c.e = Convert.ToDouble(line.Substring(41, 8).Trim());
+                    c.w = Convert.ToDouble(line.Substring(51, 8).Trim());
+                    c.N = Convert.ToDouble(line.Substring(61, 8).Trim());
+                    c.i = Convert.ToDouble(line.Substring(71, 8).Trim());
+                    c.g = Convert.ToDouble(line.Substring(91, 4).Trim());
+                    c.k = Convert.ToDouble(line.Substring(96, 4).Trim());
+                    c.full = line.Substring(102, 55).Trim();
                 }
                 catch
                 {
                     continue;
                 }
 
-                //c.k *= 2.5;
-
-                string[] idn = Comet.setIdNameFull(c.full);
+                string[] idn = Comet.setIdNameFromFull(c.full);
                 c.id = idn[0];
                 c.name = idn[1];
                 c.full = idn[2];
 
-                //c.T = Comet.GregToJul(c.Ty, c.Tm, c.Td, c.Th);
                 c.T = jd0(c.Ty, c.Tm, c.Td, c.Th);
                 c.P = Comet.getPeriod_P(c.q, c.e);
                 c.a = Comet.getSemimajorAxis_a(c.q, c.e);
@@ -241,6 +352,339 @@ namespace Comets
                 masterList.Add(c);
             }
         }
+
+        void importSkyMap(string filename)
+        {
+            //pazit kod exporta zbog 167P
+
+            foreach (string line in File.ReadAllLines(filename))
+            {
+                string tempfull = "", id = "", name = "";
+
+                Comet c = new Comet();
+
+                try
+                {
+                    tempfull = line.Substring(0, 44).Trim();
+                    c.Ty = Convert.ToInt32(line.Substring(47, 4).Trim());
+                    c.Tm = Convert.ToInt32(line.Substring(52, 2).Trim());
+                    c.Td = Convert.ToInt32(line.Substring(55, 2).Trim());
+                    c.Th = Convert.ToInt32(line.Substring(58, 4).Trim().PadRight(4, '0'));
+                    c.q = Convert.ToDouble(line.Substring(63, 10).Trim());
+                    c.e = Convert.ToDouble(line.Substring(78, 10).Trim());
+                    c.w = Convert.ToDouble(line.Substring(88, 9).Trim());
+                    c.N = Convert.ToDouble(line.Substring(97, 9).Trim());
+                    c.i = Convert.ToDouble(line.Substring(106, 9).Trim());
+                    c.g = Convert.ToDouble(line.Substring(115, 5).Trim());
+                    c.k = Convert.ToDouble(line.Substring(121, 5).Trim());
+                }
+                catch
+                {
+                    continue;
+                }
+
+                if ((tempfull[0] == 'C' && tempfull[1] == '/') ||
+                    (tempfull[0] == 'P' && tempfull[1] == '/') ||
+                    (tempfull[0] == 'D' && tempfull[1] == '/'))
+                {
+
+                    int spaces = tempfull.Count(f => f == ' ');
+
+                    if (spaces == 1)
+                    {
+                        id = tempfull;
+                    }
+                    else //if (spaces >= 2)
+                    {
+                        int secondspace = GetNthIndex(tempfull, ' ', 2);
+                        id = tempfull.Substring(0, secondspace);
+                        name = tempfull.Substring(secondspace + 1, tempfull.Length - secondspace - 1);
+                        //tempfull = id + " (" + name + ")";
+                    }
+                }
+                else
+                {
+                    int spaceind = tempfull.IndexOf(' ');
+                    if (spaceind == -1)
+                    {
+                        //ako nema razmaka, "282P"
+                        id = tempfull;
+                    }
+                    else
+                    {
+                        id = tempfull.Substring(0, spaceind);
+                        name = tempfull.Substring(spaceind + 1, tempfull.Length - spaceind - 1);
+                    }
+                    //tempfull = c.id + "/" + c.name;
+                }
+
+                string[] idn = Comet.setFullFromIdName(id, name);
+                c.id = idn[0];
+                c.name = idn[1];
+                c.full = idn[2];
+
+                c.T = jd0(c.Ty, c.Tm, c.Td, c.Th);
+                c.P = Comet.getPeriod_P(c.q, c.e);
+                c.a = Comet.getSemimajorAxis_a(c.q, c.e);
+
+                c.Q = Comet.getAphelionDistance_Q(c.e, c.a);
+
+                c.get_sortkey();
+
+                masterList.Add(c);
+            }
+        }
+
+        void importGuide(string filename)
+        {
+            foreach (string line in File.ReadAllLines(filename))
+            {
+                string full = "", id = "", name = "";
+
+                Comet c = new Comet();
+
+                try
+                {
+                    full = line.Substring(0, 42).Trim();
+                    c.Td = Convert.ToInt32(line.Substring(43, 2).Trim());
+                    c.Th = Convert.ToInt32(line.Substring(46, 4).Trim());
+                    c.Tm = Convert.ToInt32(line.Substring(52, 2).Trim());
+                    c.Ty = Convert.ToInt32(line.Substring(55, 5).Trim());
+                    c.q = Convert.ToDouble(line.Substring(73, 10).Trim());
+                    c.e = Convert.ToDouble(line.Substring(85, 10).Trim());
+                    c.i = Convert.ToDouble(line.Substring(95, 10).Trim());
+                    c.w = Convert.ToDouble(line.Substring(107, 10).Trim());
+                    c.N = Convert.ToDouble(line.Substring(119, 10).Trim());
+                    c.g = Convert.ToDouble(line.Substring(140, 5).Trim());
+                    c.k = Convert.ToDouble(line.Substring(145, 5).Trim());
+                }
+                catch
+                {
+                    continue;
+                }
+
+                if (full.Contains('('))
+                {
+                    int ind = full.IndexOf('(');
+
+                    name = full.Substring(0, ind - 1);
+                    if (name.Contains("/")) name = name.Substring(2, name.Length - 2);
+
+                    id = full.Substring(ind + 1, full.Length - ind - 2);
+                }
+                else
+                {
+                    id = full;
+                }
+
+                string[] idn = Comet.setFullFromIdName(id, name);
+                c.id = idn[0];
+                c.name = idn[1];
+                c.full = idn[2];
+
+                c.T = jd0(c.Ty, c.Tm, c.Td, c.Th);
+                c.P = Comet.getPeriod_P(c.q, c.e);
+                c.a = Comet.getSemimajorAxis_a(c.q, c.e);
+
+                c.Q = Comet.getAphelionDistance_Q(c.e, c.a);
+
+                c.get_sortkey();
+
+                masterList.Add(c);
+            }
+        }
+
+        void importXephem(string filename)
+        {
+            //
+            // ispraviti vrijeme perihela
+            //
+
+            string[] lines = File.ReadAllLines(filename);
+
+            for (int i = 1; i < lines.Count(); i += 2)
+            {
+                Comet c = new Comet();
+
+                try
+                {
+                    string[] parts = lines[i].Split(',');
+
+                    c.full = parts[0];
+                    string[] idn = Comet.setIdNameFromFull(c.full);
+                    c.id = idn[0];
+                    c.name = idn[1];
+                    c.full = idn[2];
+
+                    if (parts[1] == "e")
+                    {
+                        double smAxis, mdMotion, mAnomaly;
+                        int yyy, mmm, ddd, hhh;
+                        double T;
+
+                        c.i = Convert.ToDouble(parts[2]);
+                        c.N = Convert.ToDouble(parts[3]);
+                        c.w = Convert.ToDouble(parts[4]);
+                        smAxis = Convert.ToDouble(parts[5]);
+                        mdMotion = Convert.ToDouble(parts[6]);
+                        c.e = Convert.ToDouble(parts[7]);
+                        mAnomaly = Convert.ToDouble(parts[8]);
+
+                        string[] date = parts[9].Split('/');
+                        mmm = Convert.ToInt32(date[0]);
+                        string[] dt = date[1].Split('.');
+                        ddd = Convert.ToInt32(dt[0]);
+                        hhh = Convert.ToInt32(dt[1]);
+                        if (dt[1].Length == 1) hhh *= 1000;
+                        if (dt[1].Length == 2) hhh *= 100;
+                        if (dt[1].Length == 3) hhh *= 10;
+                        yyy = Convert.ToInt32(date[2]);
+
+                        c.g = Convert.ToDouble(parts[11].Substring(2, parts[11].Length - 2));
+                        c.k = Convert.ToDouble(parts[12]);
+
+                        c.q = smAxis * (1 - c.e);
+                        T = jd0(yyy, mmm, ddd, hhh);
+
+                        if (mAnomaly == 0) mAnomaly = 0.00000001;
+                        if (mdMotion == 0) mdMotion = 0.00000001;
+
+                        c.T = T - mAnomaly / mdMotion;
+                        //////////////////////////////////////
+
+
+                        int[] dd = jdtocd(c.T);
+                        c.Ty = dd[0];
+                        c.Tm = dd[1];
+                        c.Td = dd[2];
+                        c.Th = (int)(((dd[4] + (dd[5] / 60.0) + (dd[6] / 3600.0)) / 24) * 10000);
+                    }
+                    if (parts[1] == "p")
+                    {
+                        string[] date = parts[2].Split('/');
+                        c.Tm = Convert.ToInt32(date[0]);
+                        string[] dd = date[1].Split('.');
+                        c.Td = Convert.ToInt32(dd[0]);
+                        c.Th = Convert.ToInt32(dd[1]);
+                        if (dd[1].Length == 1) c.Th *= 1000;
+                        if (dd[1].Length == 2) c.Th *= 100;
+                        if (dd[1].Length == 3) c.Th *= 10;
+                        c.Ty = Convert.ToInt32(date[2]);
+
+                        c.i = Convert.ToDouble(parts[3]);
+                        c.w = Convert.ToDouble(parts[4]);
+                        c.q = Convert.ToDouble(parts[5]);
+                        c.N = Convert.ToDouble(parts[6]);
+                        c.g = Convert.ToDouble(parts[8]);
+                        c.k = Convert.ToDouble(parts[9]);
+
+                        c.e = 1.0;
+                        c.T = jd0(c.Ty, c.Tm, c.Td, c.Th);
+                    }
+                    if (parts[1] == "h")
+                    {
+                        string[] date = parts[2].Split('/');
+                        c.Tm = Convert.ToInt32(date[0]);
+                        string[] dd = date[1].Split('.');
+                        c.Td = Convert.ToInt32(dd[0]);
+                        c.Th = Convert.ToInt32(dd[1]);
+                        if (dd[1].Length == 1) c.Th *= 1000;
+                        if (dd[1].Length == 2) c.Th *= 100;
+                        if (dd[1].Length == 3) c.Th *= 10;
+                        c.Ty = Convert.ToInt32(date[2]);
+
+                        c.i = Convert.ToDouble(parts[3]);
+                        c.N = Convert.ToDouble(parts[4]);
+                        c.w = Convert.ToDouble(parts[5]);
+                        c.e = Convert.ToDouble(parts[6]);
+                        c.q = Convert.ToDouble(parts[7]);
+                        c.g = Convert.ToDouble(parts[9]);
+                        c.k = Convert.ToDouble(parts[10]);
+
+                        c.T = jd0(c.Ty, c.Tm, c.Td, c.Th);
+                    }
+                }
+                catch
+                {
+                    continue;
+                }
+
+                c.P = Comet.getPeriod_P(c.q, c.e);
+                c.a = Comet.getSemimajorAxis_a(c.q, c.e);
+
+                c.Q = Comet.getAphelionDistance_Q(c.e, c.a);
+
+                c.get_sortkey();
+
+                masterList.Add(c);
+            }
+        }
+
+        void importHomePlanet(string filename)
+        {
+            string[] lines = File.ReadAllLines(filename);
+            // P/1994 N2 (McNaught-Hartley),2015-10-24.5483,2.447345,0.674298,313.2490,35.7357,17.8732,7.51405,20.60 years, MPC 26543
+            for (int i = 1; i < lines.Count(); i++)
+            {
+                Comet c = new Comet();
+
+                try
+                {
+                    string[] parts = lines[i].Split(',');
+
+                    string full = parts[0];
+                    string[] idn = Comet.setIdNameFromFull(full);
+                    c.id = idn[0];
+                    c.name = idn[1];
+                    c.full = idn[2];
+
+                    string[] date = parts[1].Split('-');
+                    c.Ty = Convert.ToInt32(date[0]);
+                    c.Tm = Convert.ToInt32(date[1]);
+                    string[] dayhour = date[2].Split('.');
+                    c.Td = Convert.ToInt32(dayhour[0]);
+                    c.Th = Convert.ToInt32(dayhour[1].PadRight(4, '0'));
+
+                    c.q = Convert.ToDouble(parts[2]);
+                    c.e = Convert.ToDouble(parts[3]);
+                    c.w = Convert.ToDouble(parts[4]);
+                    c.N = Convert.ToDouble(parts[5]);
+                    c.i = Convert.ToDouble(parts[6]);
+
+                    c.P = Comet.getPeriod_P(c.q, c.e);
+                    c.a = Comet.getSemimajorAxis_a(c.q, c.e);
+
+                    c.Q = Comet.getAphelionDistance_Q(c.e, c.a);
+
+                    c.get_sortkey();
+                }
+                catch
+                {
+                    continue;
+                }
+
+                masterList.Add(c);
+            }
+        }
+
+        //void template(string filename)
+        //{
+        //    foreach (string line in File.ReadAllLines(filename))
+        //    {
+        //        Comet c = new Comet();
+
+        //        try
+        //        {
+
+        //        }
+        //        catch
+        //        {
+        //            continue;
+        //        }
+
+        //        masterList.Add(c);
+        //    }
+        //}
 
         private void btnSort_Click(object sender, EventArgs e)
         {
@@ -344,10 +788,10 @@ namespace Comets
                 userList = tempList.OrderByDescending(Comet => Comet.q).ToList();
 
             else if (menuItemIncl.Checked && menuItemAsc.Checked)
-                userList = tempList.OrderBy(Comet => Comet.N).ToList();
+                userList = tempList.OrderBy(Comet => Comet.i).ToList();
 
             else if (menuItemIncl.Checked && menuItemDesc.Checked)
-                userList = tempList.OrderByDescending(Comet => Comet.N).ToList();
+                userList = tempList.OrderByDescending(Comet => Comet.i).ToList();
 
             else if (menuItemEcc.Checked && menuItemAsc.Checked)
                 userList = tempList.OrderBy(Comet => Comet.e).ToList();
@@ -356,16 +800,16 @@ namespace Comets
                 userList = tempList.OrderByDescending(Comet => Comet.e).ToList();
 
             else if (menuItemAscNode.Checked && menuItemAsc.Checked)
-                userList = tempList.OrderBy(Comet => Comet.w).ToList();
+                userList = tempList.OrderBy(Comet => Comet.N).ToList();
 
             else if (menuItemAscNode.Checked && menuItemDesc.Checked)
-                userList = tempList.OrderByDescending(Comet => Comet.w).ToList();
+                userList = tempList.OrderByDescending(Comet => Comet.N).ToList();
 
             else if (menuItemArgPeri.Checked && menuItemAsc.Checked)
-                userList = tempList.OrderBy(Comet => Comet.i).ToList();
+                userList = tempList.OrderBy(Comet => Comet.w).ToList();
 
             else if (menuItemArgPeri.Checked && menuItemDesc.Checked)
-                userList = tempList.OrderByDescending(Comet => Comet.i).ToList();
+                userList = tempList.OrderByDescending(Comet => Comet.w).ToList();
 
             else if (menuItemPeriod.Checked && menuItemAsc.Checked)
                 userList = tempList.OrderBy(Comet => Comet.P).ToList();
@@ -873,7 +1317,7 @@ namespace Comets
             double[] altaz = radec2aa(ra, dec, jday, obs);
             double dist = radec[2];
             double r = cmt_xyz[3];
-            double mag = c.k + 5 * log10(dist) + 2.5 * c.g * log10(r);	
+            double mag = c.g + 5 * log10(dist) + 2.5 * c.k * log10(r);	
             return new double[] { altaz[0], altaz[1], altaz[2], ra, dec, lon, lat, 1.0, r, dist, mag };
         }
 
@@ -1160,7 +1604,24 @@ namespace Comets
             return datestr;
         }
 
+        public int GetNthIndex(string s, char t, int n)
+        {
+            //http://stackoverflow.com/questions/2571716/find-nth-occurrence-of-a-character-in-a-string
 
+            int count = 0;
+            for (int i = 0; i < s.Length; i++)
+            {
+                if (s[i] == t)
+                {
+                    count++;
+                    if (count == n)
+                    {
+                        return i;
+                    }
+                }
+            }
+            return -1;
+        }
 
         double rev(double angle) { return angle - Math.Floor(angle / 360.0) * 360.0; }		// 0<=a<360
         double rev2(double angle) { double a = rev(angle); return (a >= 180 ? a - 360.0 : a); }	// -180<=a<180
@@ -1175,5 +1636,9 @@ namespace Comets
         double sqr(double x) { return x * x; }
         double cbrt(double x) { return Math.Pow(x, 1 / 3.0); }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
