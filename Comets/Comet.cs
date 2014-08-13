@@ -377,7 +377,7 @@ namespace Comets
             }
             else
             {
-                if (name != null)
+                if (name != "")
                 {
                     full += "/" + name;
 
