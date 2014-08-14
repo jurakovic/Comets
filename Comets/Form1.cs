@@ -19,9 +19,10 @@ namespace Comets
         public static string downloadsDir;
         public static string localDataDir;
         public static string downloadedFile;
-        public static string localFile;
         public static string filename;
         public static bool fileIsDownloaded = false;
+
+        int importType;
 
         public static List<Comet> masterList = new List<Comet>();
         public static List<Comet> userList = new List<Comet>();
@@ -48,7 +49,6 @@ namespace Comets
             downloadsDir += @"\Comet Ephemerides\";
 
             if (!Directory.Exists(downloadsDir)) Directory.CreateDirectory(downloadsDir);
-
 
             filterFlags = new bool[18];
             filterValues = new double[9];
@@ -112,15 +112,44 @@ namespace Comets
             if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 tbImportFilename.Text = ofd.FileName;
-                localFile = ofd.FileName;
+                filename = tbImportFilename.Text.Trim();
+
+                importType = getImportType(filename);
+
+                if (importType == -1)
+                {
+                    labelImpFormat.Text = "unknown";
+                    labelDetectedComets.Text = "-";
+                    return;
+                }
+
+                if (importType == 0) labelImpFormat.Text = "MPC (Soft00Cmt)";
+                if (importType == 1) labelImpFormat.Text = "SkyMap (Soft01Cmt)";
+                if (importType == 2) labelImpFormat.Text = "Guide (Soft02Cmt)";
+                if (importType == 3) labelImpFormat.Text = "xephem (Soft03Cmt)";
+                if (importType == 4) labelImpFormat.Text = "Home Planet (Soft04Cmt)";
+                if (importType == 5) labelImpFormat.Text = "MyStars! (Soft05Cmt)";
+                if (importType == 6) labelImpFormat.Text = "TheSky (Soft06Cmt) / Autostar (Soft16Cmt)";
+                if (importType == 7) labelImpFormat.Text = "Starry Night (Soft07Cmt)";
+                if (importType == 8) labelImpFormat.Text = "Deep Space (Soft08Cmt)";
+                if (importType == 9) labelImpFormat.Text = "PC-TCS (Soft09Cmt)";
+                if (importType == 10) labelImpFormat.Text = "Earth Centered Universe (Soft10Cmt)";
+                if (importType == 11) labelImpFormat.Text = "Dance of the Planets (Soft11Cmt)";
+                if (importType == 12) labelImpFormat.Text = "MegaStar V4.x (Soft12Cmt)";
+                if (importType == 13) labelImpFormat.Text = "SkyChart III (Soft13Cmt)";
+                if (importType == 14) labelImpFormat.Text = "Voyager II (Soft14Cmt)";
+                if (importType == 15) labelImpFormat.Text = "SkyTools (Soft15Cmt)";
+                //if (importType == 16) labelImportFormat.Text = "Autostar (Soft16Cmt)";
+                if (importType == 17) labelImpFormat.Text = "Comet for Windows";
+                if (importType == 18) labelImpFormat.Text = "NASA (ELEMENTS.COMET)";
+
+                labelDetectedComets.Text = GetNumberOfComets(filename, importType).ToString();
             }
         }
 
         private void btnImport_Click(object sender, EventArgs e)
         {
             if (tbImportFilename.Text.Length == 0) btnBrowseImportFile_Click(sender, e);
-
-            filename = tbImportFilename.Text;
 
             if (filename.Length == 0) return;
 
@@ -178,25 +207,34 @@ namespace Comets
                 labelComets.Text = "Comets: " + list.Count + " (" + masterList.Count + ")";
         }
 
+        int GetNumberOfComets(string filename, int importType)
+        {
+            int lines = File.ReadLines(filename).Count();
+
+            if (importType == 3 || importType == 8 || importType == 10) lines /= 2;
+            if (importType == 8 || importType == 4 || importType == 5) --lines;
+            if (importType == 7) lines -= 15;
+            if (importType == 11) lines -= 5;
+            if (importType == 14) lines -= 23;
+            if (importType == 17) lines /= 13;
+            if (importType == 18) lines -= 2;
+
+            return lines;
+        }
+
         void importMain(string filename)
         {
             masterList.Clear();
             userList.Clear();
 
-            int importType = getImportType(filename);
-            //int importType = 15;
+            //importType = 18; //za testiranje
 
             if (importType == -1)
             {
                 MessageBox.Show("Unknown import type.               ", "Import", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            else
-            {
-                MessageBox.Show("Type: " + importType);
-                tbImportFilename.Text = "";
-                return;
-            }
+
             if (importType == 0)
                 importMpc0(filename);
             if (importType == 1)
@@ -229,6 +267,15 @@ namespace Comets
                 importVoyager14(filename);
             if (importType == 15)
                 importSkyTools15(filename);
+            if (importType == 17)
+                importCometForWindows(filename);
+            if (importType == 18)
+                importNasaComet(filename);
+
+            //update tab
+            tbImportFilename.Text = "";
+            labelImpFormat.Text = "(no file selected)";
+            labelDetectedComets.Text = "-";
 
             copyListUseFilters();
         }
@@ -268,7 +315,7 @@ namespace Comets
                 c.Ty = Convert.ToInt32(lastLine.Substring(47, 4).Trim());
                 c.Tm = Convert.ToInt32(lastLine.Substring(52, 2).Trim());
                 c.Td = Convert.ToInt32(lastLine.Substring(55, 2).Trim());
-                c.Th = Convert.ToInt32(lastLine.Substring(58, 4).Trim().PadRight(4, '0'));
+                c.Th = Convert.ToInt32(lastLine.Substring(58, 4).Trim());
                 c.q = Convert.ToDouble(lastLine.Substring(63, 10).Trim());
                 c.e = Convert.ToDouble(lastLine.Substring(78, 10).Trim());
                 c.w = Convert.ToDouble(lastLine.Substring(88, 9).Trim());
@@ -323,7 +370,7 @@ namespace Comets
             }
             catch
             {
-                
+
             }
 
             try //mystars 5
@@ -407,8 +454,8 @@ namespace Comets
                 c.Ty = Convert.ToInt32(lastLine.Substring(56, 4).Trim());
                 c.Tm = Convert.ToInt32(lastLine.Substring(61, 2).Trim());
                 c.Td = Convert.ToInt32(lastLine.Substring(61, 2).Trim());
-                c.Th = Convert.ToInt32(lastLine.Substring(65, 4).Trim().PadRight(4, '0'));
-                    
+                c.Th = Convert.ToInt32(lastLine.Substring(65, 4).Trim());
+
                 return 11;
             }
             catch
@@ -423,7 +470,7 @@ namespace Comets
                 c.Ty = Convert.ToInt32(lastLine.Substring(42, 4).Trim());
                 c.Tm = Convert.ToInt32(lastLine.Substring(47, 2).Trim());
                 c.Td = Convert.ToInt32(lastLine.Substring(51, 2).Trim());
-                c.Th = Convert.ToInt32(lastLine.Substring(54, 4).Trim().PadRight(4, '0'));
+                c.Th = Convert.ToInt32(lastLine.Substring(54, 4).Trim());
                 c.q = Convert.ToDouble(lastLine.Substring(59, 12).Trim());
                 c.e = Convert.ToDouble(lastLine.Substring(73, 8).Trim());
                 c.w = Convert.ToDouble(lastLine.Substring(85, 8).Trim());
@@ -449,25 +496,19 @@ namespace Comets
 
             }
 
-            try //voyager 14
-            {
-                if (lastLine.Contains("Jan") ||
-                    lastLine.Contains("Feb") ||
-                    lastLine.Contains("Mar") ||
-                    lastLine.Contains("Apr") ||
-                    lastLine.Contains("May") ||
-                    lastLine.Contains("Jun") ||
-                    lastLine.Contains("Jul") ||
-                    lastLine.Contains("Aug") ||
-                    lastLine.Contains("Sep") ||
-                    lastLine.Contains("Oct") ||
-                    lastLine.Contains("Nov") ||
-                    lastLine.Contains("Dec")) return 14;
-            }
-            catch
-            {
-
-            }
+            //voyager 14
+            if (lastLine.Contains("Jan") ||
+                lastLine.Contains("Feb") ||
+                lastLine.Contains("Mar") ||
+                lastLine.Contains("Apr") ||
+                lastLine.Contains("May") ||
+                lastLine.Contains("Jun") ||
+                lastLine.Contains("Jul") ||
+                lastLine.Contains("Aug") ||
+                lastLine.Contains("Sep") ||
+                lastLine.Contains("Oct") ||
+                lastLine.Contains("Nov") ||
+                lastLine.Contains("Dec")) return 14;
 
             try //skytools 15
             {
@@ -478,7 +519,7 @@ namespace Comets
                 c.Ty = Convert.ToInt32(lastLine.Substring(54, 4).Trim());
                 c.Tm = Convert.ToInt32(lastLine.Substring(59, 2).Trim());
                 c.Td = Convert.ToInt32(lastLine.Substring(61, 2).Trim());
-                c.Th = Convert.ToInt32(lastLine.Substring(65, 4).Trim().PadRight(4, '0'));
+                c.Th = Convert.ToInt32(lastLine.Substring(65, 4).Trim());
 
                 c.q = Convert.ToDouble(lastLine.Substring(70, 9).Trim());
                 c.e = Convert.ToDouble(lastLine.Substring(82, 8).Trim());
@@ -495,6 +536,12 @@ namespace Comets
             {
 
             }
+
+            //comet for windows 17
+            if (lines[1] == "[File]") return 17;
+
+            //nasa elements.comet 18
+            if (lines[1].Contains("-----")) return 18;
 
             return -1;
         }
@@ -568,7 +615,7 @@ namespace Comets
                     c.k = Convert.ToDouble(line.Substring(121, 5).Trim());
 
 
-                    if ((tempfull[0] == 'C' || tempfull[0] == 'P' || tempfull[0] == 'D') && tempfull[1] == '/')
+                    if ((tempfull[0] == 'C' || tempfull[0] == 'P' || tempfull[0] == 'D' || tempfull[0] == 'X') && tempfull[1] == '/')
                     {
                         int spaces = tempfull.Count(f => f == ' ');
 
@@ -634,7 +681,7 @@ namespace Comets
 
                     full = line.Substring(0, 42).Trim();
                     c.Td = Convert.ToInt32(line.Substring(43, 2).Trim());
-                    c.Th = Convert.ToInt32(line.Substring(46, 4).Trim());
+                    c.Th = Convert.ToInt32(line.Substring(46, 4).Trim().PadRight(4, '0'));
                     c.Tm = Convert.ToInt32(line.Substring(52, 2).Trim());
                     c.Ty = Convert.ToInt32(line.Substring(55, 5).Trim());
                     c.q = Convert.ToDouble(line.Substring(73, 10).Trim());
@@ -707,58 +754,48 @@ namespace Comets
 
                     if (parts[1] == "e")
                     {
-                        double smAxis, mdMotion, mAnomaly;
-                        int yyy, mmm, ddd, hhh;
-                        double T;
-
                         c.i = Convert.ToDouble(parts[2]);
                         c.N = Convert.ToDouble(parts[3]);
                         c.w = Convert.ToDouble(parts[4]);
-                        smAxis = Convert.ToDouble(parts[5]);
-                        mdMotion = Convert.ToDouble(parts[6]);
+                        double smAxis = Convert.ToDouble(parts[5]);
+                        double mdMotion = Convert.ToDouble(parts[6]);
                         c.e = Convert.ToDouble(parts[7]);
-                        mAnomaly = Convert.ToDouble(parts[8]);
+                        double mAnomaly = Convert.ToDouble(parts[8]);
 
                         string[] date = parts[9].Split('/');
-                        mmm = Convert.ToInt32(date[0]);
-                        string[] dt = date[1].Split('.');
-                        ddd = Convert.ToInt32(dt[0]);
-                        hhh = Convert.ToInt32(dt[1]);
-                        if (dt[1].Length == 1) hhh *= 1000;
-                        if (dt[1].Length == 2) hhh *= 100;
-                        if (dt[1].Length == 3) hhh *= 10;
-                        yyy = Convert.ToInt32(date[2]);
-
+                        int m = Convert.ToInt32(date[0]);
+                        int y = Convert.ToInt32(date[2]);
+                        string[] dh = date[1].Split('.');
+                        int d = Convert.ToInt32(dh[0]);
+                        int h = Convert.ToInt32(dh[1].Trim().PadRight(4, '0'));
+                        
                         c.g = Convert.ToDouble(parts[11].Substring(2, parts[11].Length - 2));
                         c.k = Convert.ToDouble(parts[12]);
 
                         c.q = smAxis * (1 - c.e);
-                        T = jd0(yyy, mmm, ddd, hhh);
+                        double T = jd0(y, m, d, h);
 
                         if (mAnomaly == 0) mAnomaly = 0.00000001;
                         if (mdMotion == 0) mdMotion = 0.00000001;
 
                         c.T = T - mAnomaly / mdMotion;
-                        //////////////////////////////////////
+                        ////////////////////////////////////// to malo pogledati i ispraviti
 
 
-                        int[] dd = jdtocd(c.T);
-                        c.Ty = dd[0];
-                        c.Tm = dd[1];
-                        c.Td = dd[2];
-                        c.Th = (int)(((dd[4] + (dd[5] / 60.0) + (dd[6] / 3600.0)) / 24) * 10000);
+                        int[] newdate = jdtocd(c.T);
+                        c.Ty = newdate[0];
+                        c.Tm = newdate[1];
+                        c.Td = newdate[2];
+                        c.Th = (int)(((newdate[4] + (newdate[5] / 60.0) + (newdate[6] / 3600.0)) / 24) * 10000);
                     }
                     if (parts[1] == "p")
                     {
                         string[] date = parts[2].Split('/');
                         c.Tm = Convert.ToInt32(date[0]);
-                        string[] dd = date[1].Split('.');
-                        c.Td = Convert.ToInt32(dd[0]);
-                        c.Th = Convert.ToInt32(dd[1]);
-                        if (dd[1].Length == 1) c.Th *= 1000;
-                        if (dd[1].Length == 2) c.Th *= 100;
-                        if (dd[1].Length == 3) c.Th *= 10;
                         c.Ty = Convert.ToInt32(date[2]);
+                        string[] dh = date[1].Split('.');
+                        c.Td = Convert.ToInt32(dh[0]);
+                        c.Th = Convert.ToInt32(dh[1].Trim().PadRight(4, '0'));
 
                         c.i = Convert.ToDouble(parts[3]);
                         c.w = Convert.ToDouble(parts[4]);
@@ -774,13 +811,10 @@ namespace Comets
                     {
                         string[] date = parts[2].Split('/');
                         c.Tm = Convert.ToInt32(date[0]);
-                        string[] dd = date[1].Split('.');
-                        c.Td = Convert.ToInt32(dd[0]);
-                        c.Th = Convert.ToInt32(dd[1]);
-                        if (dd[1].Length == 1) c.Th *= 1000;
-                        if (dd[1].Length == 2) c.Th *= 100;
-                        if (dd[1].Length == 3) c.Th *= 10;
                         c.Ty = Convert.ToInt32(date[2]);
+                        string[] dh = date[1].Split('.');
+                        c.Td = Convert.ToInt32(dh[0]);
+                        c.Th = Convert.ToInt32(dh[1].Trim().PadRight(4, '0'));
 
                         c.i = Convert.ToDouble(parts[3]);
                         c.N = Convert.ToDouble(parts[4]);
@@ -830,9 +864,9 @@ namespace Comets
                     string[] date = parts[1].Split('-');
                     c.Ty = Convert.ToInt32(date[0]);
                     c.Tm = Convert.ToInt32(date[1]);
-                    string[] dayhour = date[2].Split('.');
-                    c.Td = Convert.ToInt32(dayhour[0]);
-                    c.Th = Convert.ToInt32(dayhour[1].PadRight(4, '0'));
+                    string[] dh = date[2].Split('.');
+                    c.Td = Convert.ToInt32(dh[0]);
+                    c.Th = Convert.ToInt32(dh[1].Trim().PadRight(4, '0'));
 
                     c.q = Convert.ToDouble(parts[2]);
                     c.e = Convert.ToDouble(parts[3]);
@@ -885,7 +919,7 @@ namespace Comets
 
                     Th = parts[1].Split('.');
                     T = Convert.ToDouble(Th[0]);
-                    h = Convert.ToInt32(Th[1].PadRight(4, '0'));
+                    h = Convert.ToInt32(Th[1].Trim().PadRight(4, '0'));
                     c.T = T + 2400000.5;
 
                     int[] dd = jdtocd(c.T);
@@ -939,7 +973,7 @@ namespace Comets
                     c.Ty = Convert.ToInt32(date.Substring(0, 4));
                     c.Tm = Convert.ToInt32(date.Substring(4, 2));
                     c.Td = Convert.ToInt32(date.Substring(6, 2));
-                    c.Th = Convert.ToInt32(date.Substring(9, 4));
+                    c.Th = Convert.ToInt32(date.Substring(9, 4).Trim().PadRight(4, '0'));
 
                     c.q = Convert.ToDouble(parts[3]);
                     c.e = Convert.ToDouble(parts[4]);
@@ -1407,7 +1441,7 @@ namespace Comets
 
                     tempfull = line.Substring(2, 41).Trim();
 
-                    if ((tempfull[0] == 'C' || tempfull[0] == 'P' || tempfull[0] == 'D') && tempfull[1] == '/')
+                    if ((tempfull[0] == 'C' || tempfull[0] == 'P' || tempfull[0] == 'D' || tempfull[0] == 'X') && tempfull[1] == '/')
                     {
                         int spaces = tempfull.Count(f => f == ' ');
 
@@ -1448,6 +1482,108 @@ namespace Comets
 
                     c.g = Convert.ToDouble(line.Substring(115, 5).Trim());
                     c.k = Convert.ToDouble(line.Substring(122, 4).Trim());
+
+                    c.T = jd0(c.Ty, c.Tm, c.Td, c.Th);
+                    c.P = Comet.getPeriod_P(c.q, c.e);
+                    c.a = Comet.getSemimajorAxis_a(c.q, c.e);
+
+                    c.Q = Comet.getAphelionDistance_Q(c.e, c.a);
+
+                    c.get_sortkey();
+                }
+                catch
+                {
+                    continue;
+                }
+
+                masterList.Add(c);
+            }
+        }
+
+        void importCometForWindows(string filename)
+        {
+            string[] lines = File.ReadAllLines(filename);
+
+            for (int i = 6; i < lines.Count(); i += 13)
+            {
+                Comet c = new Comet();
+
+                try
+                {
+                    string full = lines[i].Split('=')[1];
+                    //string full = lines[i].Substring(5, lines[i].Length - 5);
+                    string[] idn = Comet.setIdNameFromFull(full);
+                    c.id = idn[0];
+                    c.name = idn[1];
+                    c.full = idn[2];
+
+                    string[] date = lines[i + 3].Split('=')[1].Split(' ');
+                    c.Ty = Convert.ToInt32(date[0]);
+                    c.Tm = Convert.ToInt32(date[1]);
+                    string[] dh = date[2].Split('.');
+                    c.Td = Convert.ToInt32(dh[0]);
+                    c.Th = Convert.ToInt32(dh[1].Trim().PadRight(4, '0'));
+
+                    c.q = Convert.ToDouble(lines[i + 4].Split('=')[1]);
+                    c.e = Convert.ToDouble(lines[i + 5].Split('=')[1]);
+                    c.w = Convert.ToDouble(lines[i + 6].Split('=')[1]);
+                    c.N = Convert.ToDouble(lines[i + 7].Split('=')[1]);
+                    c.i = Convert.ToDouble(lines[i + 8].Split('=')[1]);
+
+                    string[] gk = lines[i + 11].Split('=')[1].Split(' ');
+                    c.g = Convert.ToDouble(gk[0]);
+                    c.k = Convert.ToDouble(gk[1]) / 2.5;
+
+                    c.T = jd0(c.Ty, c.Tm, c.Td, c.Th);
+                    c.P = Comet.getPeriod_P(c.q, c.e);
+                    c.a = Comet.getSemimajorAxis_a(c.q, c.e);
+
+                    c.Q = Comet.getAphelionDistance_Q(c.e, c.a);
+
+                    c.get_sortkey();
+                }
+                catch
+                {
+                    continue;
+                }
+
+                masterList.Add(c);
+            }
+        }
+
+        void importNasaComet(string filename)
+        {
+            string[] lines = File.ReadAllLines(filename);
+
+            for (int i = 2; i < lines.Count(); i++)
+            {
+                Comet c = new Comet();
+
+                try
+                {
+                    string full = lines[i].Substring(0, 43).Trim();
+                    string[] idn = Comet.setIdNameFromFull(full);
+                    c.id = idn[0];
+                    c.name = idn[1];
+                    c.full = idn[2];
+
+                    /////////////////////////
+                    //pogledat epoch
+                    //mozda treba njega ucitat pa precesirat vrijednosti W N i na epoch 2000
+
+                    //int epoch = Convert.ToInt32(lines[i].Substring(44, 7);
+                    /////////////////////////
+
+                    c.q = Convert.ToDouble(lines[i].Substring(52, 11).Trim());
+                    c.e = Convert.ToDouble(lines[i].Substring(64, 10).Trim());
+                    c.i = Convert.ToDouble(lines[i].Substring(75, 9).Trim());
+                    c.w = Convert.ToDouble(lines[i].Substring(85, 9).Trim());
+                    c.N = Convert.ToDouble(lines[i].Substring(95, 9).Trim());
+
+                    c.Ty = Convert.ToInt32(lines[i].Substring(105, 4).Trim());
+                    c.Tm = Convert.ToInt32(lines[i].Substring(109, 2).Trim());
+                    c.Td = Convert.ToInt32(lines[i].Substring(111, 2).Trim());
+                    c.Th = Convert.ToInt32(Convert.ToDouble(lines[i].Substring(114, 5).Trim().PadRight(5, '0')) / 10.0);
 
                     c.T = jd0(c.Ty, c.Tm, c.Td, c.Th);
                     c.P = Comet.getPeriod_P(c.q, c.e);
@@ -1807,7 +1943,7 @@ namespace Comets
                 return;
             }
 
-            if (chName.Checked && tbName.Text.Length == 0)
+            if (chName.Checked && tbName.Text.Trim().Length == 0)
             {
                 MessageBox.Show("Please enter name.               ", "Filters", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -1849,7 +1985,7 @@ namespace Comets
             if (chName.Checked)
             {
                 //filterValue[0]
-                filterName = tbName.Text;
+                filterName = tbName.Text.Trim();
 
                 if (comboName.SelectedIndex == 0) filterFlags[0] = true;
                 if (comboName.SelectedIndex == 1) filterFlags[1] = true;

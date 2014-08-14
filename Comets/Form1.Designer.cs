@@ -126,6 +126,10 @@
             this.t_w = new System.Windows.Forms.TextBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.labelDetectedComets = new System.Windows.Forms.Label();
+            this.labelImpFormat = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
             this.label66 = new System.Windows.Forms.Label();
             this.btnImport = new System.Windows.Forms.Button();
             this.tbImportFilename = new System.Windows.Forms.TextBox();
@@ -1391,15 +1395,57 @@
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.labelDetectedComets);
+            this.groupBox2.Controls.Add(this.labelImpFormat);
+            this.groupBox2.Controls.Add(this.label17);
+            this.groupBox2.Controls.Add(this.label14);
             this.groupBox2.Controls.Add(this.label66);
             this.groupBox2.Controls.Add(this.btnImport);
             this.groupBox2.Controls.Add(this.tbImportFilename);
             this.groupBox2.Controls.Add(this.btnBrowseImportFile);
             this.groupBox2.Location = new System.Drawing.Point(6, 152);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(736, 119);
+            this.groupBox2.Size = new System.Drawing.Size(736, 162);
             this.groupBox2.TabIndex = 19;
             this.groupBox2.TabStop = false;
+            // 
+            // labelDetectedComets
+            // 
+            this.labelDetectedComets.AutoSize = true;
+            this.labelDetectedComets.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.labelDetectedComets.Location = new System.Drawing.Point(101, 100);
+            this.labelDetectedComets.Name = "labelDetectedComets";
+            this.labelDetectedComets.Size = new System.Drawing.Size(12, 13);
+            this.labelDetectedComets.TabIndex = 42;
+            this.labelDetectedComets.Text = "-";
+            // 
+            // labelImpFormat
+            // 
+            this.labelImpFormat.AutoSize = true;
+            this.labelImpFormat.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.labelImpFormat.Location = new System.Drawing.Point(107, 79);
+            this.labelImpFormat.Name = "labelImpFormat";
+            this.labelImpFormat.Size = new System.Drawing.Size(102, 13);
+            this.labelImpFormat.TabIndex = 41;
+            this.labelImpFormat.Text = "(no file selected)";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(31, 100);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(74, 13);
+            this.label17.TabIndex = 40;
+            this.label17.Text = "Total Comets:";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(31, 79);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(83, 13);
+            this.label14.TabIndex = 39;
+            this.label14.Text = "Import Format: ";
             // 
             // label66
             // 
@@ -1414,7 +1460,7 @@
             // btnImport
             // 
             this.btnImport.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.btnImport.Location = new System.Drawing.Point(31, 80);
+            this.btnImport.Location = new System.Drawing.Point(29, 124);
             this.btnImport.Name = "btnImport";
             this.btnImport.Size = new System.Drawing.Size(103, 23);
             this.btnImport.TabIndex = 4;
@@ -1426,6 +1472,7 @@
             // 
             this.tbImportFilename.Location = new System.Drawing.Point(140, 45);
             this.tbImportFilename.Name = "tbImportFilename";
+            this.tbImportFilename.ReadOnly = true;
             this.tbImportFilename.Size = new System.Drawing.Size(561, 21);
             this.tbImportFilename.TabIndex = 37;
             // 
@@ -2866,6 +2913,10 @@
         private System.Windows.Forms.MenuItem menuItemDesc;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button btnDelete;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label labelDetectedComets;
+        private System.Windows.Forms.Label labelImpFormat;
     }
 }
 
