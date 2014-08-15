@@ -228,7 +228,7 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.labelComets = new System.Windows.Forms.Label();
             this.panelHeader = new System.Windows.Forms.Panel();
-            this.contextMenu1 = new System.Windows.Forms.ContextMenu();
+            this.contextSort = new System.Windows.Forms.ContextMenu();
             this.menuItemDesig = new System.Windows.Forms.MenuItem();
             this.menuItemName = new System.Windows.Forms.MenuItem();
             this.menuItemPerihDate = new System.Windows.Forms.MenuItem();
@@ -241,6 +241,35 @@
             this.menuItem9 = new System.Windows.Forms.MenuItem();
             this.menuItemAsc = new System.Windows.Forms.MenuItem();
             this.menuItemDesc = new System.Windows.Forms.MenuItem();
+            this.panelName = new System.Windows.Forms.Panel();
+            this.panelPerihDate = new System.Windows.Forms.Panel();
+            this.panelPerihDist = new System.Windows.Forms.Panel();
+            this.panelEcc = new System.Windows.Forms.Panel();
+            this.panelAscNode = new System.Windows.Forms.Panel();
+            this.panelArgPeric = new System.Windows.Forms.Panel();
+            this.panelIncl = new System.Windows.Forms.Panel();
+            this.panelPeriod = new System.Windows.Forms.Panel();
+            this.contextExport = new System.Windows.Forms.ContextMenu();
+            this.menuItem1 = new System.Windows.Forms.MenuItem();
+            this.menuItem2 = new System.Windows.Forms.MenuItem();
+            this.menuItem3 = new System.Windows.Forms.MenuItem();
+            this.menuItem4 = new System.Windows.Forms.MenuItem();
+            this.menuItem5 = new System.Windows.Forms.MenuItem();
+            this.menuItem6 = new System.Windows.Forms.MenuItem();
+            this.menuItem7 = new System.Windows.Forms.MenuItem();
+            this.menuItem8 = new System.Windows.Forms.MenuItem();
+            this.menuItem10 = new System.Windows.Forms.MenuItem();
+            this.menuItem11 = new System.Windows.Forms.MenuItem();
+            this.menuItem12 = new System.Windows.Forms.MenuItem();
+            this.menuItem13 = new System.Windows.Forms.MenuItem();
+            this.menuItem14 = new System.Windows.Forms.MenuItem();
+            this.menuItem15 = new System.Windows.Forms.MenuItem();
+            this.menuItem16 = new System.Windows.Forms.MenuItem();
+            this.menuItem17 = new System.Windows.Forms.MenuItem();
+            this.menuItem18 = new System.Windows.Forms.MenuItem();
+            this.menuItem19 = new System.Windows.Forms.MenuItem();
+            this.menuItem20 = new System.Windows.Forms.MenuItem();
+            this.menuItem21 = new System.Windows.Forms.MenuItem();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.gbFilters.SuspendLayout();
@@ -271,6 +300,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).BeginInit();
             this.tabPage9.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.panelName.SuspendLayout();
+            this.panelPerihDate.SuspendLayout();
+            this.panelPerihDist.SuspendLayout();
+            this.panelEcc.SuspendLayout();
+            this.panelAscNode.SuspendLayout();
+            this.panelArgPeric.SuspendLayout();
+            this.panelIncl.SuspendLayout();
+            this.panelPeriod.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnExit
@@ -323,40 +360,16 @@
             // 
             // gbFilters
             // 
-            this.gbFilters.Controls.Add(this.labelPeriod);
-            this.gbFilters.Controls.Add(this.labelIncl);
-            this.gbFilters.Controls.Add(this.labelArgPeric);
-            this.gbFilters.Controls.Add(this.labelAcsNode);
-            this.gbFilters.Controls.Add(this.labelPerihDist);
+            this.gbFilters.Controls.Add(this.panelPerihDist);
+            this.gbFilters.Controls.Add(this.panelEcc);
+            this.gbFilters.Controls.Add(this.panelIncl);
+            this.gbFilters.Controls.Add(this.panelAscNode);
+            this.gbFilters.Controls.Add(this.panelArgPeric);
+            this.gbFilters.Controls.Add(this.panelPeriod);
+            this.gbFilters.Controls.Add(this.panelPerihDate);
+            this.gbFilters.Controls.Add(this.panelName);
             this.gbFilters.Controls.Add(this.btnCancelFilters);
             this.gbFilters.Controls.Add(this.btnApplyFilters);
-            this.gbFilters.Controls.Add(this.comboPerihDist);
-            this.gbFilters.Controls.Add(this.chPerihDist);
-            this.gbFilters.Controls.Add(this.tbPerihDist);
-            this.gbFilters.Controls.Add(this.btnPerihDateNow);
-            this.gbFilters.Controls.Add(this.tbPerihDateY);
-            this.gbFilters.Controls.Add(this.tbPerihDateM);
-            this.gbFilters.Controls.Add(this.tbPerihDateD);
-            this.gbFilters.Controls.Add(this.comboName);
-            this.gbFilters.Controls.Add(this.tbPeriod);
-            this.gbFilters.Controls.Add(this.tbIncl);
-            this.gbFilters.Controls.Add(this.tbArgPeric);
-            this.gbFilters.Controls.Add(this.tbAscNode);
-            this.gbFilters.Controls.Add(this.tbEcc);
-            this.gbFilters.Controls.Add(this.comboPeriod);
-            this.gbFilters.Controls.Add(this.comboIncl);
-            this.gbFilters.Controls.Add(this.comboArgPeric);
-            this.gbFilters.Controls.Add(this.comboAscNode);
-            this.gbFilters.Controls.Add(this.comboEcc);
-            this.gbFilters.Controls.Add(this.comboPerihDate);
-            this.gbFilters.Controls.Add(this.tbName);
-            this.gbFilters.Controls.Add(this.chPeriod);
-            this.gbFilters.Controls.Add(this.chIncl);
-            this.gbFilters.Controls.Add(this.chArgPeric);
-            this.gbFilters.Controls.Add(this.chAscNode);
-            this.gbFilters.Controls.Add(this.chEcc);
-            this.gbFilters.Controls.Add(this.chPerihDate);
-            this.gbFilters.Controls.Add(this.chName);
             this.gbFilters.Location = new System.Drawing.Point(241, 70);
             this.gbFilters.Name = "gbFilters";
             this.gbFilters.Size = new System.Drawing.Size(501, 323);
@@ -368,7 +381,7 @@
             // 
             this.labelPeriod.AutoSize = true;
             this.labelPeriod.Enabled = false;
-            this.labelPeriod.Location = new System.Drawing.Point(417, 243);
+            this.labelPeriod.Location = new System.Drawing.Point(398, 5);
             this.labelPeriod.Name = "labelPeriod";
             this.labelPeriod.Size = new System.Drawing.Size(34, 13);
             this.labelPeriod.TabIndex = 37;
@@ -378,7 +391,7 @@
             // 
             this.labelIncl.AutoSize = true;
             this.labelIncl.Enabled = false;
-            this.labelIncl.Location = new System.Drawing.Point(417, 212);
+            this.labelIncl.Location = new System.Drawing.Point(398, 5);
             this.labelIncl.Name = "labelIncl";
             this.labelIncl.Size = new System.Drawing.Size(12, 13);
             this.labelIncl.TabIndex = 36;
@@ -388,7 +401,7 @@
             // 
             this.labelArgPeric.AutoSize = true;
             this.labelArgPeric.Enabled = false;
-            this.labelArgPeric.Location = new System.Drawing.Point(417, 180);
+            this.labelArgPeric.Location = new System.Drawing.Point(398, 4);
             this.labelArgPeric.Name = "labelArgPeric";
             this.labelArgPeric.Size = new System.Drawing.Size(12, 13);
             this.labelArgPeric.TabIndex = 35;
@@ -398,7 +411,7 @@
             // 
             this.labelAcsNode.AutoSize = true;
             this.labelAcsNode.Enabled = false;
-            this.labelAcsNode.Location = new System.Drawing.Point(417, 150);
+            this.labelAcsNode.Location = new System.Drawing.Point(398, 5);
             this.labelAcsNode.Name = "labelAcsNode";
             this.labelAcsNode.Size = new System.Drawing.Size(12, 13);
             this.labelAcsNode.TabIndex = 34;
@@ -408,7 +421,7 @@
             // 
             this.labelPerihDist.AutoSize = true;
             this.labelPerihDist.Enabled = false;
-            this.labelPerihDist.Location = new System.Drawing.Point(417, 88);
+            this.labelPerihDist.Location = new System.Drawing.Point(398, 5);
             this.labelPerihDist.Name = "labelPerihDist";
             this.labelPerihDist.Size = new System.Drawing.Size(21, 13);
             this.labelPerihDist.TabIndex = 33;
@@ -444,7 +457,7 @@
             this.comboPerihDist.Items.AddRange(new object[] {
             "Greather than (>)",
             "Less than (<)"});
-            this.comboPerihDist.Location = new System.Drawing.Point(186, 85);
+            this.comboPerihDist.Location = new System.Drawing.Point(167, 2);
             this.comboPerihDist.Name = "comboPerihDist";
             this.comboPerihDist.Size = new System.Drawing.Size(111, 21);
             this.comboPerihDist.TabIndex = 9;
@@ -452,18 +465,18 @@
             // chPerihDist
             // 
             this.chPerihDist.AutoSize = true;
-            this.chPerihDist.Location = new System.Drawing.Point(23, 87);
+            this.chPerihDist.Location = new System.Drawing.Point(4, 4);
             this.chPerihDist.Name = "chPerihDist";
             this.chPerihDist.Size = new System.Drawing.Size(115, 17);
             this.chPerihDist.TabIndex = 8;
             this.chPerihDist.Text = "Perihelion distance";
             this.chPerihDist.UseVisualStyleBackColor = true;
-            this.chPerihDist.CheckedChanged += new System.EventHandler(this.chPerihDist_CheckedChanged);
+            this.chPerihDist.CheckedChanged += new System.EventHandler(this.checkboxFilters_CheckedChanged);
             // 
             // tbPerihDist
             // 
             this.tbPerihDist.Enabled = false;
-            this.tbPerihDist.Location = new System.Drawing.Point(303, 85);
+            this.tbPerihDist.Location = new System.Drawing.Point(284, 2);
             this.tbPerihDist.MaxLength = 6;
             this.tbPerihDist.Name = "tbPerihDist";
             this.tbPerihDist.Size = new System.Drawing.Size(113, 21);
@@ -473,7 +486,7 @@
             // btnPerihDateNow
             // 
             this.btnPerihDateNow.Enabled = false;
-            this.btnPerihDateNow.Location = new System.Drawing.Point(419, 56);
+            this.btnPerihDateNow.Location = new System.Drawing.Point(400, 4);
             this.btnPerihDateNow.Name = "btnPerihDateNow";
             this.btnPerihDateNow.Size = new System.Drawing.Size(16, 16);
             this.btnPerihDateNow.TabIndex = 7;
@@ -483,7 +496,7 @@
             // tbPerihDateY
             // 
             this.tbPerihDateY.Enabled = false;
-            this.tbPerihDateY.Location = new System.Drawing.Point(365, 54);
+            this.tbPerihDateY.Location = new System.Drawing.Point(346, 2);
             this.tbPerihDateY.MaxLength = 4;
             this.tbPerihDateY.Name = "tbPerihDateY";
             this.tbPerihDateY.Size = new System.Drawing.Size(51, 21);
@@ -493,7 +506,7 @@
             // tbPerihDateM
             // 
             this.tbPerihDateM.Enabled = false;
-            this.tbPerihDateM.Location = new System.Drawing.Point(334, 54);
+            this.tbPerihDateM.Location = new System.Drawing.Point(315, 2);
             this.tbPerihDateM.MaxLength = 2;
             this.tbPerihDateM.Name = "tbPerihDateM";
             this.tbPerihDateM.Size = new System.Drawing.Size(25, 21);
@@ -503,7 +516,7 @@
             // tbPerihDateD
             // 
             this.tbPerihDateD.Enabled = false;
-            this.tbPerihDateD.Location = new System.Drawing.Point(303, 54);
+            this.tbPerihDateD.Location = new System.Drawing.Point(284, 2);
             this.tbPerihDateD.MaxLength = 2;
             this.tbPerihDateD.Name = "tbPerihDateD";
             this.tbPerihDateD.Size = new System.Drawing.Size(25, 21);
@@ -518,7 +531,7 @@
             this.comboName.Items.AddRange(new object[] {
             "Contains",
             "Does not contain"});
-            this.comboName.Location = new System.Drawing.Point(186, 23);
+            this.comboName.Location = new System.Drawing.Point(167, 2);
             this.comboName.Name = "comboName";
             this.comboName.Size = new System.Drawing.Size(111, 21);
             this.comboName.TabIndex = 0;
@@ -526,7 +539,7 @@
             // tbPeriod
             // 
             this.tbPeriod.Enabled = false;
-            this.tbPeriod.Location = new System.Drawing.Point(303, 240);
+            this.tbPeriod.Location = new System.Drawing.Point(284, 2);
             this.tbPeriod.MaxLength = 5;
             this.tbPeriod.Name = "tbPeriod";
             this.tbPeriod.Size = new System.Drawing.Size(113, 21);
@@ -536,7 +549,7 @@
             // tbIncl
             // 
             this.tbIncl.Enabled = false;
-            this.tbIncl.Location = new System.Drawing.Point(303, 209);
+            this.tbIncl.Location = new System.Drawing.Point(284, 2);
             this.tbIncl.MaxLength = 6;
             this.tbIncl.Name = "tbIncl";
             this.tbIncl.Size = new System.Drawing.Size(113, 21);
@@ -546,7 +559,7 @@
             // tbArgPeric
             // 
             this.tbArgPeric.Enabled = false;
-            this.tbArgPeric.Location = new System.Drawing.Point(303, 177);
+            this.tbArgPeric.Location = new System.Drawing.Point(284, 1);
             this.tbArgPeric.MaxLength = 6;
             this.tbArgPeric.Name = "tbArgPeric";
             this.tbArgPeric.Size = new System.Drawing.Size(113, 21);
@@ -556,7 +569,7 @@
             // tbAscNode
             // 
             this.tbAscNode.Enabled = false;
-            this.tbAscNode.Location = new System.Drawing.Point(303, 147);
+            this.tbAscNode.Location = new System.Drawing.Point(284, 2);
             this.tbAscNode.MaxLength = 6;
             this.tbAscNode.Name = "tbAscNode";
             this.tbAscNode.Size = new System.Drawing.Size(113, 21);
@@ -566,7 +579,7 @@
             // tbEcc
             // 
             this.tbEcc.Enabled = false;
-            this.tbEcc.Location = new System.Drawing.Point(303, 117);
+            this.tbEcc.Location = new System.Drawing.Point(284, 3);
             this.tbEcc.MaxLength = 6;
             this.tbEcc.Name = "tbEcc";
             this.tbEcc.Size = new System.Drawing.Size(113, 21);
@@ -581,7 +594,7 @@
             this.comboPeriod.Items.AddRange(new object[] {
             "Greather than (>)",
             "Less than (<)"});
-            this.comboPeriod.Location = new System.Drawing.Point(186, 240);
+            this.comboPeriod.Location = new System.Drawing.Point(167, 2);
             this.comboPeriod.Name = "comboPeriod";
             this.comboPeriod.Size = new System.Drawing.Size(111, 21);
             this.comboPeriod.TabIndex = 27;
@@ -594,7 +607,7 @@
             this.comboIncl.Items.AddRange(new object[] {
             "Greather than (>)",
             "Less than (<)"});
-            this.comboIncl.Location = new System.Drawing.Point(186, 209);
+            this.comboIncl.Location = new System.Drawing.Point(167, 2);
             this.comboIncl.Name = "comboIncl";
             this.comboIncl.Size = new System.Drawing.Size(111, 21);
             this.comboIncl.TabIndex = 24;
@@ -607,7 +620,7 @@
             this.comboArgPeric.Items.AddRange(new object[] {
             "Greather than (>)",
             "Less than (<)"});
-            this.comboArgPeric.Location = new System.Drawing.Point(186, 178);
+            this.comboArgPeric.Location = new System.Drawing.Point(167, 2);
             this.comboArgPeric.Name = "comboArgPeric";
             this.comboArgPeric.Size = new System.Drawing.Size(111, 21);
             this.comboArgPeric.TabIndex = 21;
@@ -620,7 +633,7 @@
             this.comboAscNode.Items.AddRange(new object[] {
             "Greather than (>)",
             "Less than (<)"});
-            this.comboAscNode.Location = new System.Drawing.Point(186, 147);
+            this.comboAscNode.Location = new System.Drawing.Point(167, 2);
             this.comboAscNode.Name = "comboAscNode";
             this.comboAscNode.Size = new System.Drawing.Size(111, 21);
             this.comboAscNode.TabIndex = 18;
@@ -633,7 +646,7 @@
             this.comboEcc.Items.AddRange(new object[] {
             "Greather than (>)",
             "Less than (<)"});
-            this.comboEcc.Location = new System.Drawing.Point(186, 116);
+            this.comboEcc.Location = new System.Drawing.Point(167, 2);
             this.comboEcc.Name = "comboEcc";
             this.comboEcc.Size = new System.Drawing.Size(111, 21);
             this.comboEcc.TabIndex = 15;
@@ -646,7 +659,7 @@
             this.comboPerihDate.Items.AddRange(new object[] {
             "Greather than (>)",
             "Less than (<)"});
-            this.comboPerihDate.Location = new System.Drawing.Point(186, 54);
+            this.comboPerihDate.Location = new System.Drawing.Point(167, 2);
             this.comboPerihDate.Name = "comboPerihDate";
             this.comboPerihDate.Size = new System.Drawing.Size(111, 21);
             this.comboPerihDate.TabIndex = 3;
@@ -654,7 +667,7 @@
             // tbName
             // 
             this.tbName.Enabled = false;
-            this.tbName.Location = new System.Drawing.Point(303, 23);
+            this.tbName.Location = new System.Drawing.Point(284, 2);
             this.tbName.MaxLength = 25;
             this.tbName.Name = "tbName";
             this.tbName.Size = new System.Drawing.Size(166, 21);
@@ -663,79 +676,79 @@
             // chPeriod
             // 
             this.chPeriod.AutoSize = true;
-            this.chPeriod.Location = new System.Drawing.Point(23, 242);
+            this.chPeriod.Location = new System.Drawing.Point(4, 4);
             this.chPeriod.Name = "chPeriod";
             this.chPeriod.Size = new System.Drawing.Size(56, 17);
             this.chPeriod.TabIndex = 26;
             this.chPeriod.Text = "Period";
             this.chPeriod.UseVisualStyleBackColor = true;
-            this.chPeriod.CheckedChanged += new System.EventHandler(this.chPeriod_CheckedChanged);
+            this.chPeriod.CheckedChanged += new System.EventHandler(this.checkboxFilters_CheckedChanged);
             // 
             // chIncl
             // 
             this.chIncl.AutoSize = true;
-            this.chIncl.Location = new System.Drawing.Point(23, 211);
+            this.chIncl.Location = new System.Drawing.Point(4, 4);
             this.chIncl.Name = "chIncl";
             this.chIncl.Size = new System.Drawing.Size(75, 17);
             this.chIncl.TabIndex = 23;
             this.chIncl.Text = "Inclination";
             this.chIncl.UseVisualStyleBackColor = true;
-            this.chIncl.CheckedChanged += new System.EventHandler(this.chIncl_CheckedChanged);
+            this.chIncl.CheckedChanged += new System.EventHandler(this.checkboxFilters_CheckedChanged);
             // 
             // chArgPeric
             // 
             this.chArgPeric.AutoSize = true;
-            this.chArgPeric.Location = new System.Drawing.Point(23, 180);
+            this.chArgPeric.Location = new System.Drawing.Point(4, 4);
             this.chArgPeric.Name = "chArgPeric";
             this.chArgPeric.Size = new System.Drawing.Size(138, 17);
             this.chArgPeric.TabIndex = 20;
             this.chArgPeric.Text = "Argument of Pericenter";
             this.chArgPeric.UseVisualStyleBackColor = true;
-            this.chArgPeric.CheckedChanged += new System.EventHandler(this.chLongPeric_CheckedChanged);
+            this.chArgPeric.CheckedChanged += new System.EventHandler(this.checkboxFilters_CheckedChanged);
             // 
             // chAscNode
             // 
             this.chAscNode.AutoSize = true;
-            this.chAscNode.Location = new System.Drawing.Point(23, 149);
+            this.chAscNode.Location = new System.Drawing.Point(4, 4);
             this.chAscNode.Name = "chAscNode";
             this.chAscNode.Size = new System.Drawing.Size(165, 17);
             this.chAscNode.TabIndex = 17;
             this.chAscNode.Text = "Longitude of Ascending node";
             this.chAscNode.UseVisualStyleBackColor = true;
-            this.chAscNode.CheckedChanged += new System.EventHandler(this.chAscNode_CheckedChanged);
+            this.chAscNode.CheckedChanged += new System.EventHandler(this.checkboxFilters_CheckedChanged);
             // 
             // chEcc
             // 
             this.chEcc.AutoSize = true;
-            this.chEcc.Location = new System.Drawing.Point(23, 118);
+            this.chEcc.Location = new System.Drawing.Point(4, 4);
             this.chEcc.Name = "chEcc";
             this.chEcc.Size = new System.Drawing.Size(81, 17);
             this.chEcc.TabIndex = 14;
             this.chEcc.Text = "Eccentricity";
             this.chEcc.UseVisualStyleBackColor = true;
-            this.chEcc.CheckedChanged += new System.EventHandler(this.chEcc_CheckedChanged);
+            this.chEcc.CheckedChanged += new System.EventHandler(this.checkboxFilters_CheckedChanged);
             // 
             // chPerihDate
             // 
             this.chPerihDate.AutoSize = true;
-            this.chPerihDate.Location = new System.Drawing.Point(23, 56);
+            this.chPerihDate.Location = new System.Drawing.Point(4, 4);
             this.chPerihDate.Name = "chPerihDate";
             this.chPerihDate.Size = new System.Drawing.Size(97, 17);
             this.chPerihDate.TabIndex = 2;
             this.chPerihDate.Text = "Perihelion date";
             this.chPerihDate.UseVisualStyleBackColor = true;
-            this.chPerihDate.CheckedChanged += new System.EventHandler(this.chPerihDate_CheckedChanged);
+            this.chPerihDate.CheckedChanged += new System.EventHandler(this.checkboxFilters_CheckedChanged);
             // 
             // chName
             // 
             this.chName.AutoSize = true;
-            this.chName.Location = new System.Drawing.Point(23, 25);
+            this.chName.Location = new System.Drawing.Point(4, 4);
             this.chName.Name = "chName";
             this.chName.Size = new System.Drawing.Size(53, 17);
             this.chName.TabIndex = 0;
             this.chName.Text = "Name";
             this.chName.UseVisualStyleBackColor = true;
-            this.chName.CheckedChanged += new System.EventHandler(this.chName_CheckedChanged);
+            this.chName.CheckedChanged += new System.EventHandler(this.checkboxFilters_CheckedChanged);
             // 
             // button1
             // 
@@ -743,8 +756,9 @@
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(115, 23);
             this.button1.TabIndex = 275;
-            this.button1.Text = "Export >>";
+            this.button1.Text = "Export ▼";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // btnFilters
             // 
@@ -762,7 +776,7 @@
             this.btnSort.Name = "btnSort";
             this.btnSort.Size = new System.Drawing.Size(115, 23);
             this.btnSort.TabIndex = 1;
-            this.btnSort.Text = "Sort";
+            this.btnSort.Text = "Sort ▼";
             this.btnSort.UseVisualStyleBackColor = true;
             this.btnSort.Click += new System.EventHandler(this.btnSort_Click);
             // 
@@ -2534,9 +2548,9 @@
             this.panelHeader.Size = new System.Drawing.Size(780, 75);
             this.panelHeader.TabIndex = 3;
             // 
-            // contextMenu1
+            // contextSort
             // 
-            this.contextMenu1.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.contextSort.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.menuItemDesig,
             this.menuItemName,
             this.menuItemPerihDate,
@@ -2561,6 +2575,7 @@
             // menuItemName
             // 
             this.menuItemName.Index = 1;
+            this.menuItemName.RadioCheck = true;
             this.menuItemName.Text = "Name";
             this.menuItemName.Click += new System.EventHandler(this.menuItem1_Click);
             // 
@@ -2633,6 +2648,237 @@
             this.menuItemDesc.Text = "Descending";
             this.menuItemDesc.Click += new System.EventHandler(this.menuItemDesc_Click);
             // 
+            // panelName
+            // 
+            this.panelName.Controls.Add(this.comboName);
+            this.panelName.Controls.Add(this.chName);
+            this.panelName.Controls.Add(this.tbName);
+            this.panelName.Location = new System.Drawing.Point(19, 21);
+            this.panelName.Name = "panelName";
+            this.panelName.Size = new System.Drawing.Size(452, 25);
+            this.panelName.TabIndex = 38;
+            // 
+            // panelPerihDate
+            // 
+            this.panelPerihDate.Controls.Add(this.chPerihDate);
+            this.panelPerihDate.Controls.Add(this.comboPerihDate);
+            this.panelPerihDate.Controls.Add(this.tbPerihDateD);
+            this.panelPerihDate.Controls.Add(this.tbPerihDateM);
+            this.panelPerihDate.Controls.Add(this.tbPerihDateY);
+            this.panelPerihDate.Controls.Add(this.btnPerihDateNow);
+            this.panelPerihDate.Location = new System.Drawing.Point(19, 52);
+            this.panelPerihDate.Name = "panelPerihDate";
+            this.panelPerihDate.Size = new System.Drawing.Size(452, 25);
+            this.panelPerihDate.TabIndex = 39;
+            // 
+            // panelPerihDist
+            // 
+            this.panelPerihDist.Controls.Add(this.chPerihDist);
+            this.panelPerihDist.Controls.Add(this.tbPerihDist);
+            this.panelPerihDist.Controls.Add(this.comboPerihDist);
+            this.panelPerihDist.Controls.Add(this.labelPerihDist);
+            this.panelPerihDist.Location = new System.Drawing.Point(19, 83);
+            this.panelPerihDist.Name = "panelPerihDist";
+            this.panelPerihDist.Size = new System.Drawing.Size(452, 25);
+            this.panelPerihDist.TabIndex = 41;
+            // 
+            // panelEcc
+            // 
+            this.panelEcc.Controls.Add(this.chEcc);
+            this.panelEcc.Controls.Add(this.comboEcc);
+            this.panelEcc.Controls.Add(this.tbEcc);
+            this.panelEcc.Location = new System.Drawing.Point(19, 114);
+            this.panelEcc.Name = "panelEcc";
+            this.panelEcc.Size = new System.Drawing.Size(452, 25);
+            this.panelEcc.TabIndex = 42;
+            // 
+            // panelAscNode
+            // 
+            this.panelAscNode.Controls.Add(this.comboAscNode);
+            this.panelAscNode.Controls.Add(this.chAscNode);
+            this.panelAscNode.Controls.Add(this.tbAscNode);
+            this.panelAscNode.Controls.Add(this.labelAcsNode);
+            this.panelAscNode.Location = new System.Drawing.Point(19, 145);
+            this.panelAscNode.Name = "panelAscNode";
+            this.panelAscNode.Size = new System.Drawing.Size(452, 25);
+            this.panelAscNode.TabIndex = 42;
+            // 
+            // panelArgPeric
+            // 
+            this.panelArgPeric.Controls.Add(this.chArgPeric);
+            this.panelArgPeric.Controls.Add(this.comboArgPeric);
+            this.panelArgPeric.Controls.Add(this.tbArgPeric);
+            this.panelArgPeric.Controls.Add(this.labelArgPeric);
+            this.panelArgPeric.Location = new System.Drawing.Point(19, 176);
+            this.panelArgPeric.Name = "panelArgPeric";
+            this.panelArgPeric.Size = new System.Drawing.Size(452, 25);
+            this.panelArgPeric.TabIndex = 42;
+            // 
+            // panelIncl
+            // 
+            this.panelIncl.Controls.Add(this.chIncl);
+            this.panelIncl.Controls.Add(this.comboIncl);
+            this.panelIncl.Controls.Add(this.tbIncl);
+            this.panelIncl.Controls.Add(this.labelIncl);
+            this.panelIncl.Location = new System.Drawing.Point(19, 207);
+            this.panelIncl.Name = "panelIncl";
+            this.panelIncl.Size = new System.Drawing.Size(452, 25);
+            this.panelIncl.TabIndex = 42;
+            // 
+            // panelPeriod
+            // 
+            this.panelPeriod.Controls.Add(this.chPeriod);
+            this.panelPeriod.Controls.Add(this.comboPeriod);
+            this.panelPeriod.Controls.Add(this.labelPeriod);
+            this.panelPeriod.Controls.Add(this.tbPeriod);
+            this.panelPeriod.Location = new System.Drawing.Point(19, 238);
+            this.panelPeriod.Name = "panelPeriod";
+            this.panelPeriod.Size = new System.Drawing.Size(452, 25);
+            this.panelPeriod.TabIndex = 42;
+            // 
+            // contextExport
+            // 
+            this.contextExport.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.menuItem19,
+            this.menuItem21,
+            this.menuItem20,
+            this.menuItem1,
+            this.menuItem2,
+            this.menuItem3,
+            this.menuItem4,
+            this.menuItem5,
+            this.menuItem6,
+            this.menuItem7,
+            this.menuItem8,
+            this.menuItem10,
+            this.menuItem11,
+            this.menuItem12,
+            this.menuItem13,
+            this.menuItem14,
+            this.menuItem15,
+            this.menuItem16,
+            this.menuItem17,
+            this.menuItem18});
+            // 
+            // menuItem1
+            // 
+            this.menuItem1.Index = 3;
+            this.menuItem1.Text = "MPC";
+            this.menuItem1.Click += new System.EventHandler(this.contextExportMenuItem_Click);
+            // 
+            // menuItem2
+            // 
+            this.menuItem2.Index = 4;
+            this.menuItem2.Text = "SkyMap";
+            this.menuItem2.Click += new System.EventHandler(this.contextExportMenuItem_Click);
+            // 
+            // menuItem3
+            // 
+            this.menuItem3.Index = 5;
+            this.menuItem3.Text = "Guide";
+            this.menuItem3.Click += new System.EventHandler(this.contextExportMenuItem_Click);
+            // 
+            // menuItem4
+            // 
+            this.menuItem4.Index = 6;
+            this.menuItem4.Text = "xephem";
+            this.menuItem4.Click += new System.EventHandler(this.contextExportMenuItem_Click);
+            // 
+            // menuItem5
+            // 
+            this.menuItem5.Index = 7;
+            this.menuItem5.Text = "Home Planet";
+            this.menuItem5.Click += new System.EventHandler(this.contextExportMenuItem_Click);
+            // 
+            // menuItem6
+            // 
+            this.menuItem6.Index = 8;
+            this.menuItem6.Text = "MyStars!";
+            this.menuItem6.Click += new System.EventHandler(this.contextExportMenuItem_Click);
+            // 
+            // menuItem7
+            // 
+            this.menuItem7.Index = 9;
+            this.menuItem7.Text = "TheSky";
+            this.menuItem7.Click += new System.EventHandler(this.contextExportMenuItem_Click);
+            // 
+            // menuItem8
+            // 
+            this.menuItem8.Index = 10;
+            this.menuItem8.Text = "Starry Night";
+            this.menuItem8.Click += new System.EventHandler(this.contextExportMenuItem_Click);
+            // 
+            // menuItem10
+            // 
+            this.menuItem10.Index = 11;
+            this.menuItem10.Text = "Deep Space";
+            this.menuItem10.Click += new System.EventHandler(this.contextExportMenuItem_Click);
+            // 
+            // menuItem11
+            // 
+            this.menuItem11.Index = 12;
+            this.menuItem11.Text = "PC-TCS";
+            this.menuItem11.Click += new System.EventHandler(this.contextExportMenuItem_Click);
+            // 
+            // menuItem12
+            // 
+            this.menuItem12.Index = 13;
+            this.menuItem12.Text = "Earth Centered Universe";
+            this.menuItem12.Click += new System.EventHandler(this.contextExportMenuItem_Click);
+            // 
+            // menuItem13
+            // 
+            this.menuItem13.Index = 14;
+            this.menuItem13.Text = "Dance of the Planets";
+            this.menuItem13.Click += new System.EventHandler(this.contextExportMenuItem_Click);
+            // 
+            // menuItem14
+            // 
+            this.menuItem14.Index = 15;
+            this.menuItem14.Text = "MegaStar V4.x";
+            this.menuItem14.Click += new System.EventHandler(this.contextExportMenuItem_Click);
+            // 
+            // menuItem15
+            // 
+            this.menuItem15.Index = 16;
+            this.menuItem15.Text = "SkyChart III";
+            this.menuItem15.Click += new System.EventHandler(this.contextExportMenuItem_Click);
+            // 
+            // menuItem16
+            // 
+            this.menuItem16.Index = 17;
+            this.menuItem16.Text = "Voyager II";
+            this.menuItem16.Click += new System.EventHandler(this.contextExportMenuItem_Click);
+            // 
+            // menuItem17
+            // 
+            this.menuItem17.Index = 18;
+            this.menuItem17.Text = "SkyTools";
+            this.menuItem17.Click += new System.EventHandler(this.contextExportMenuItem_Click);
+            // 
+            // menuItem18
+            // 
+            this.menuItem18.Index = 19;
+            this.menuItem18.Text = "Autostar";
+            this.menuItem18.Click += new System.EventHandler(this.contextExportMenuItem_Click);
+            // 
+            // menuItem19
+            // 
+            this.menuItem19.Index = 0;
+            this.menuItem19.Text = "Celestia";
+            this.menuItem19.Click += new System.EventHandler(this.contextExportMenuItem_Click);
+            // 
+            // menuItem20
+            // 
+            this.menuItem20.Index = 2;
+            this.menuItem20.Text = "-";
+            // 
+            // menuItem21
+            // 
+            this.menuItem21.Index = 1;
+            this.menuItem21.Text = "Stellarium";
+            this.menuItem21.Click += new System.EventHandler(this.contextExportMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2653,7 +2899,6 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.gbFilters.ResumeLayout(false);
-            this.gbFilters.PerformLayout();
             this.panelDatabase.ResumeLayout(false);
             this.panelDatabase.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
@@ -2697,6 +2942,22 @@
             this.tabPage9.ResumeLayout(false);
             this.tabPage9.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.panelName.ResumeLayout(false);
+            this.panelName.PerformLayout();
+            this.panelPerihDate.ResumeLayout(false);
+            this.panelPerihDate.PerformLayout();
+            this.panelPerihDist.ResumeLayout(false);
+            this.panelPerihDist.PerformLayout();
+            this.panelEcc.ResumeLayout(false);
+            this.panelEcc.PerformLayout();
+            this.panelAscNode.ResumeLayout(false);
+            this.panelAscNode.PerformLayout();
+            this.panelArgPeric.ResumeLayout(false);
+            this.panelArgPeric.PerformLayout();
+            this.panelIncl.ResumeLayout(false);
+            this.panelIncl.PerformLayout();
+            this.panelPeriod.ResumeLayout(false);
+            this.panelPeriod.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2897,7 +3158,7 @@
         private System.Windows.Forms.CheckBox checkBox3;
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.ContextMenu contextMenu1;
+        private System.Windows.Forms.ContextMenu contextSort;
         private System.Windows.Forms.MenuItem menuItemDesig;
         private System.Windows.Forms.MenuItem menuItemPerihDate;
         private System.Windows.Forms.MenuItem menuItemPerihDist;
@@ -2916,6 +3177,35 @@
         private System.Windows.Forms.Label labelDetectedComets;
         private System.Windows.Forms.Label labelImpFormat;
         private System.Windows.Forms.MenuItem menuItemName;
+        private System.Windows.Forms.Panel panelPerihDate;
+        private System.Windows.Forms.Panel panelName;
+        private System.Windows.Forms.Panel panelPerihDist;
+        private System.Windows.Forms.Panel panelEcc;
+        private System.Windows.Forms.Panel panelIncl;
+        private System.Windows.Forms.Panel panelAscNode;
+        private System.Windows.Forms.Panel panelArgPeric;
+        private System.Windows.Forms.Panel panelPeriod;
+        private System.Windows.Forms.ContextMenu contextExport;
+        private System.Windows.Forms.MenuItem menuItem19;
+        private System.Windows.Forms.MenuItem menuItem20;
+        private System.Windows.Forms.MenuItem menuItem1;
+        private System.Windows.Forms.MenuItem menuItem2;
+        private System.Windows.Forms.MenuItem menuItem3;
+        private System.Windows.Forms.MenuItem menuItem4;
+        private System.Windows.Forms.MenuItem menuItem5;
+        private System.Windows.Forms.MenuItem menuItem6;
+        private System.Windows.Forms.MenuItem menuItem7;
+        private System.Windows.Forms.MenuItem menuItem8;
+        private System.Windows.Forms.MenuItem menuItem10;
+        private System.Windows.Forms.MenuItem menuItem11;
+        private System.Windows.Forms.MenuItem menuItem12;
+        private System.Windows.Forms.MenuItem menuItem13;
+        private System.Windows.Forms.MenuItem menuItem14;
+        private System.Windows.Forms.MenuItem menuItem15;
+        private System.Windows.Forms.MenuItem menuItem16;
+        private System.Windows.Forms.MenuItem menuItem17;
+        private System.Windows.Forms.MenuItem menuItem18;
+        private System.Windows.Forms.MenuItem menuItem21;
     }
 }
 

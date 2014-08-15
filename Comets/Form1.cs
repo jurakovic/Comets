@@ -1621,7 +1621,7 @@ namespace Comets
 
         private void btnSort_Click(object sender, EventArgs e)
         {
-            contextMenu1.Show(this.tabPage1, new Point((sender as Button).Left + 1, (sender as Button).Top + (sender as Button).Height - 1));
+            contextSort.Show(this.tabPage1, new Point((sender as Button).Left + 1, (sender as Button).Top + (sender as Button).Height - 1));
         }
 
         private void menuItem1_Click(object sender, EventArgs e)
@@ -1633,7 +1633,7 @@ namespace Comets
             bool order = menuItemAsc.Checked;
 
             //prvo sve odznačiti
-            foreach (MenuItem item in contextMenu1.MenuItems) (item as MenuItem).Checked = false;
+            foreach (MenuItem item in contextSort.MenuItems) (item as MenuItem).Checked = false;
 
             //pa označiti onog koji je kliknut
             (sender as MenuItem).Checked = true;
@@ -1667,18 +1667,18 @@ namespace Comets
                 if (filters[0].flag && filters[0].index == 1 && c.full.ToUpper().Contains(filters[0].text.ToUpper())) continue;
                 if (filters[1].flag && filters[1].index == 0 && c.T < filters[1].value) continue;
                 if (filters[1].flag && filters[1].index == 1 && c.T > filters[1].value) continue;
-                if (filters[2].flag && filters[1].index == 0 && c.q < filters[2].value) continue;
-                if (filters[2].flag && filters[1].index == 1 && c.q > filters[2].value) continue;
-                if (filters[3].flag && filters[1].index == 0 && c.e < filters[3].value) continue;
-                if (filters[3].flag && filters[1].index == 1 && c.e > filters[3].value) continue;
-                if (filters[4].flag && filters[1].index == 0 && c.N < filters[4].value) continue;
-                if (filters[4].flag && filters[1].index == 1 && c.N > filters[4].value) continue;
-                if (filters[5].flag && filters[1].index == 0 && c.w < filters[5].value) continue;
-                if (filters[5].flag && filters[1].index == 1 && c.w > filters[5].value) continue;
-                if (filters[6].flag && filters[1].index == 0 && c.i < filters[6].value) continue;
-                if (filters[6].flag && filters[1].index == 1 && c.i > filters[6].value) continue;
-                if (filters[7].flag && filters[1].index == 0 && c.P < filters[7].value) continue;
-                if (filters[7].flag && filters[1].index == 1 && c.P > filters[7].value) continue;
+                if (filters[2].flag && filters[2].index == 0 && c.q < filters[2].value) continue;
+                if (filters[2].flag && filters[2].index == 1 && c.q > filters[2].value) continue;
+                if (filters[3].flag && filters[3].index == 0 && c.e < filters[3].value) continue;
+                if (filters[3].flag && filters[3].index == 1 && c.e > filters[3].value) continue;
+                if (filters[4].flag && filters[4].index == 0 && c.N < filters[4].value) continue;
+                if (filters[4].flag && filters[4].index == 1 && c.N > filters[4].value) continue;
+                if (filters[5].flag && filters[5].index == 0 && c.w < filters[5].value) continue;
+                if (filters[5].flag && filters[5].index == 1 && c.w > filters[5].value) continue;
+                if (filters[6].flag && filters[6].index == 0 && c.i < filters[6].value) continue;
+                if (filters[6].flag && filters[6].index == 1 && c.i > filters[6].value) continue;
+                if (filters[7].flag && filters[7].index == 0 && c.P < filters[7].value) continue;
+                if (filters[7].flag && filters[7].index == 1 && c.P > filters[7].value) continue;
 
                 userList.Add(c);
             }
@@ -1795,61 +1795,14 @@ namespace Comets
             gbDetails.Visible = !gbDetails.Visible;
         }
 
-        private void chName_CheckedChanged(object sender, EventArgs e)
+        private void checkboxFilters_CheckedChanged(object sender, EventArgs e)
         {
-            comboName.Enabled = (sender as CheckBox).Checked;
-            tbName.Enabled = (sender as CheckBox).Checked;
-        }
+            foreach (Control c in (sender as CheckBox).Parent.Controls)
+            {
+                c.Enabled = (sender as CheckBox).Checked;
+            }
 
-        private void chPerihDate_CheckedChanged(object sender, EventArgs e)
-        {
-            comboPerihDate.Enabled = (sender as CheckBox).Checked;
-            tbPerihDateD.Enabled = (sender as CheckBox).Checked;
-            tbPerihDateM.Enabled = (sender as CheckBox).Checked;
-            tbPerihDateY.Enabled = (sender as CheckBox).Checked;
-            btnPerihDateNow.Enabled = (sender as CheckBox).Checked;
-        }
-
-        private void chPerihDist_CheckedChanged(object sender, EventArgs e)
-        {
-            comboPerihDist.Enabled = (sender as CheckBox).Checked;
-            tbPerihDist.Enabled = (sender as CheckBox).Checked;
-            labelPerihDist.Enabled = (sender as CheckBox).Checked;
-        }
-
-
-        private void chEcc_CheckedChanged(object sender, EventArgs e)
-        {
-            comboEcc.Enabled = (sender as CheckBox).Checked;
-            tbEcc.Enabled = (sender as CheckBox).Checked;
-        }
-
-        private void chAscNode_CheckedChanged(object sender, EventArgs e)
-        {
-            comboAscNode.Enabled = (sender as CheckBox).Checked;
-            tbAscNode.Enabled = (sender as CheckBox).Checked;
-            labelAcsNode.Enabled = (sender as CheckBox).Checked;
-        }
-
-        private void chLongPeric_CheckedChanged(object sender, EventArgs e)
-        {
-            comboArgPeric.Enabled = (sender as CheckBox).Checked;
-            tbArgPeric.Enabled = (sender as CheckBox).Checked;
-            labelArgPeric.Enabled = (sender as CheckBox).Checked;
-        }
-
-        private void chIncl_CheckedChanged(object sender, EventArgs e)
-        {
-            comboIncl.Enabled = (sender as CheckBox).Checked;
-            tbIncl.Enabled = (sender as CheckBox).Checked;
-            labelIncl.Enabled = (sender as CheckBox).Checked;
-        }
-
-        private void chPeriod_CheckedChanged(object sender, EventArgs e)
-        {
-            comboPeriod.Enabled = (sender as CheckBox).Checked;
-            tbPeriod.Enabled = (sender as CheckBox).Checked;
-            labelPeriod.Enabled = (sender as CheckBox).Checked;
+            (sender as CheckBox).Enabled = true;
         }
 
         private void btnPerihDateNow_Click(object sender, EventArgs e)
@@ -2547,5 +2500,164 @@ namespace Comets
                 value = 0.0;
             }
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            contextExport.Show(this.tabPage1, new Point((sender as Button).Left + 1, (sender as Button).Top + (sender as Button).Height - 1));
+        }
+
+        private void contextExportMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "Text file (*.tct)|*.txt|" +
+                "SSC file (*.ssc)|*.ssc|" +
+                "DAT file (*.dat)|*.dat|" +
+                "COMET file (*.COMET)|*.COMET|" +
+                "All files (*.*)|*.*";
+
+            int exportType = -1;
+            if ((sender as MenuItem).Text == "Celestia") exportType = 17;
+
+            if (exportType == 17) sfd.FilterIndex = 1;
+
+
+            if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                exportMain(sfd.FileName, exportType);
+            }
+        }
+
+        void exportMain(string filename, int exportType)
+        {
+            writePretext(filename, exportType);
+
+            if (exportType == 17) exportCelestia(filename);
+
+
+            System.Diagnostics.Process.Start(filename);
+        }
+
+        void writePretext(string filename, int exportType)
+        {
+            StreamWriter sw = new StreamWriter(filename);
+
+            if (exportType == 4)
+            {
+                sw.Write("Name,Perihelion time,Perihelion AU,Eccentricity,Long. perihelion,Long. node,Inclination,Semimajor axis,Period\n");
+            }
+
+            if (exportType == 5)
+            {
+                sw.Write("RDPC\t" + userList.Count + Environment.NewLine);
+            }
+
+            if (exportType == 7)
+            {
+                sw.Write("NOTE: If viewing this file and it appears confused, make the window very wide!\n\n");
+                sw.Write("   The numbers are all in the proper format for easy use in Starry Night's\n");
+                sw.Write("orbit editor. Just click on the word Sun in the planet floater and then\n");
+                sw.Write("click on add. In the first window that appears select the comet as the type\n");
+                sw.Write("of object you want to add. Please see the manual for more information.\n\n");
+                sw.Write("   The orbital information should have the reference plane set at Ecliptic\n");
+                sw.Write(" 2000 and the Style should be pericentric. Don't forget to use copy and\n");
+                sw.Write(" paste to ease the input of the orbital data into Starry Night.\n\n");
+                sw.Write("This file kindly prepared by the IAU Minor Planet Center & Central Bureau for Astronomical Telegrams.\n\n");
+                sw.Write("Num  Name                          Mag.   Diam      e            q        Node         w         i         Tp           Epoch       k   Desig         Reference\n\n");
+            }
+
+            if (exportType == 8)
+            {
+                sw.Write("Type C: Equinox Year Month Day q e Peri Node i Mag k\n");
+                sw.Write("Type A: Equinox Year Month Day a M e Peri Node i H G\n");
+            }
+
+            if (exportType == 11)
+            {
+                sw.Write("Comet      peri(au)   e         iř       ęř       wř     peridate     name\n");
+                sw.Write("(In order to be recognised by Dance of the Planets, this file)\n");
+                sw.Write("(must have a .cmt extension.)\n");
+                sw.Write("(File prepared by IAU Minor Planet Center/Central Bureau)\n");
+                sw.Write("(for Astronomical Telegrams.)\n");
+
+            }
+
+            if (exportType == 14)
+            {
+                sw.Write("NOTE TO VOYAGER II USERS:\n\n");
+                sw.Write("   The following table will link the symbols below with the names used in\n");
+                sw.Write("the Voyager II \"Define New Orbit...\" dialog for comets.\n\n");
+                sw.Write("     q        perihelion distance (astronomical units)\n");
+                sw.Write("     e        eccentricity (no units)\n");
+                sw.Write("     i        inclination of orbit to ecliptic (degrees)\n");
+                sw.Write("     Node     longitude of ascending node (degrees)\n");
+                sw.Write("     w        argument of perihelion (degrees)\n");
+                sw.Write("     L        mean anomaly (this is 0 at perihelion) (degrees)\n");
+                sw.Write("     Date     epoch of orbit\n");
+                sw.Write("     Equinox  reference equinox (usually 2000.0)\n\n");
+                sw.Write("Save this page as plain text from your browser and use the table to input\n");
+                sw.Write("the orbital elements for the comets that you would like to plot and\n");
+                sw.Write("follow.  If you have any question, consult your software manual or the\n");
+                sw.Write("Carina web site: <a href=\"http://www.carinasoft.com\">http://www.carinasoft.com</a>\n\n");
+                sw.Write("Thanks to the IAU Minor Planet Center & Central Bureau for Astronomical\n");
+                sw.Write("Telegrams for providing this information.\n\n");
+                sw.Write("Name                            q          e         i        Node         w       L      T(Date)    Equinox\n");
+            }
+
+            sw.Close();
+        }
+
+        void exportCelestia(string filename)
+        {
+            StreamWriter sw = new StreamWriter(filename);
+
+            foreach (Comet c in userList)
+            {
+                string mon = "";
+                if (c.Tm == 1) mon = "Jan";
+                if (c.Tm == 2) mon = "Feb";
+                if (c.Tm == 3) mon = "Mar";
+                if (c.Tm == 4) mon = "Apr";
+                if (c.Tm == 5) mon = "May";
+                if (c.Tm == 6) mon = "Jun";
+                if (c.Tm == 7) mon = "Jul";
+                if (c.Tm == 8) mon = "Aug";
+                if (c.Tm == 9) mon = "Sep";
+                if (c.Tm == 10) mon = "Oct";
+                if (c.Tm == 11) mon = "Nov";
+                if (c.Tm == 12) mon = "Dec";
+
+                sw.WriteLine("\"" + c.full.Replace('/', ' ') + "\" \"Sol\"");
+                sw.WriteLine("{");
+                sw.WriteLine("\tClass \"comet\"");
+                sw.WriteLine("\tMesh \"asteroid.cms\"");
+                sw.WriteLine("\tTexture \"asteroid.jpg\"");
+                sw.WriteLine("\tRadius 5");
+                sw.WriteLine("\tAlbedo 0.1");
+                //sw.WriteLine("\t# Magnitude " + c.g.ToString("0.0") + " " + c.k.ToString("0.0"));
+                sw.WriteLine("\tEllipticalOrbit");
+                sw.WriteLine("\t{");
+                sw.WriteLine("\t\tPeriod         " + c.P.ToString("0.000000").PadLeft(20, ' '));
+                sw.WriteLine("\t\tPericenterDistance        " + c.q.ToString("0.000000").PadLeft(9, ' '));
+
+                if(c.e < 1.0)
+                    sw.WriteLine("\t\tEccentricity               " + c.e.ToString("0.000000").PadLeft(8, ' '));
+                else
+                    sw.WriteLine("\t\tEccentricity               0.999999   # Real: " + c.e.ToString("0.000000"));
+
+                sw.WriteLine("\t\tInclination              " + c.i.ToString("0.0000").PadLeft(8, ' '));
+                sw.WriteLine("\t\tAscendingNode            " + c.N.ToString("0.0000").PadLeft(8, ' '));
+                sw.WriteLine("\t\tArgOfPericenter          " + c.w.ToString("0.0000").PadLeft(8, ' '));
+                sw.WriteLine("\t\tMeanAnomaly                0.0");
+                sw.WriteLine("\t\tEpoch                " + c.T.ToString("0.0000").PadLeft(12, ' ')
+                    + "     # " + c.Ty.ToString() + " " + mon + " " + c.Td.ToString("00") + "." + c.Th.ToString("0000"));
+                sw.WriteLine("\t}");
+                sw.WriteLine("}");
+                sw.WriteLine("");
+            }
+
+            sw.Close();
+        }
+
+
     }
 }
