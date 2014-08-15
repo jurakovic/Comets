@@ -15,7 +15,6 @@ namespace Comets
         public string full;
         public string name;
         public string id;
-        public string fragm;
         public double T;
         public int Ty;
         public int Tm;
@@ -33,15 +32,11 @@ namespace Comets
         public double k;
         public double sortkey;
 
-        public static int total = 0;
-        public static int total2 = 0;
-
         public Comet()
         {
             full = "";
             name = "";
             id = "";
-            fragm = "";
             T = 0;
             Ty = 0;
             Tm = 0;
@@ -63,9 +58,6 @@ namespace Comets
 
         public static double GetSortkey(string id)
         {
-            int oldt = total2;
-
-            string s1, s2;
             double sort = 0.0;
             double v = 0.0;
             double offset = 2000.0;
@@ -96,8 +88,7 @@ namespace Comets
 
             if (char.IsDigit(id[0]))
             {
-                s1 = id.Substring(0, id.Length - 1);
-                sort = Convert.ToDouble(s1);
+                sort = Convert.ToDouble(id.Substring(0, id.Length - 1));
             }
             else
             {
@@ -138,7 +129,7 @@ namespace Comets
             else if (e > 1.0)
                 return Math.Pow((q / (e - 1.0)), 1.5);
             else //if (e == 1.0)
-                return Math.Pow((q / (1 - 0.999999)), 1.5);
+                return Math.Pow((q / (1 - 0.999999)), 1.5); //okvirno samo za sortiranje
         }
 
         public static double getSemimajorAxis_a(double q, double e)

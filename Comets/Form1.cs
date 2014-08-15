@@ -28,10 +28,7 @@ namespace Comets
         public static List<Comet> masterList = new List<Comet>();
         public static List<Comet> userList = new List<Comet>();
 
-        //public static bool masterFilterFlag;
-        public static bool[] filterFlags;
-        public static double[] filterValues;
-        public static string filterName;
+        public static Filter[] filters = new Filter[8];
 
         Observer obs;
 
@@ -48,13 +45,12 @@ namespace Comets
         {
             downloadsDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             downloadsDir += @"\Comet Ephemerides\";
-
             if (!Directory.Exists(downloadsDir)) Directory.CreateDirectory(downloadsDir);
 
-            filterFlags = new bool[18];
-            filterValues = new double[9];
-            filterName = null;
-
+            for (int i = 0; i < filters.Count(); i++)
+            {
+                filters[i] = new Filter();
+            }
 
             comboLat.SelectedIndex = 0;
             comboLon.SelectedIndex = 0;
@@ -1620,36 +1616,31 @@ namespace Comets
 
         public void copyListUseFilters()
         {
-            //if (masterFilterFlag == false) return;
-
             userList.Clear();
 
             foreach (Comet c in masterList)
             {
-                if (filterFlags[0] && !c.full.ToUpper().Contains(filterName.ToUpper())) continue;
-                if (filterFlags[1] && c.full.ToUpper().Contains(filterName.ToUpper())) continue;
-                if (filterFlags[2] && c.T < filterValues[1]) continue;
-                if (filterFlags[3] && c.T > filterValues[1]) continue;
-                if (filterFlags[4] && c.q < filterValues[2]) continue;
-                if (filterFlags[5] && c.q > filterValues[2]) continue;
-                //if (filterFlags[6] && c.Q < filterValues[3]) continue;
-                //if (filterFlags[7] && c.Q > filterValues[3]) continue;
-                if (filterFlags[8] && c.e < filterValues[4]) continue;
-                if (filterFlags[9] && c.e > filterValues[4]) continue;
-                if (filterFlags[10] && c.N < filterValues[5]) continue;
-                if (filterFlags[11] && c.N > filterValues[5]) continue;
-                if (filterFlags[12] && c.w < filterValues[6]) continue;
-                if (filterFlags[13] && c.w > filterValues[6]) continue;
-                if (filterFlags[14] && c.i < filterValues[7]) continue;
-                if (filterFlags[15] && c.i > filterValues[7]) continue;
-                if (filterFlags[16] && c.P < filterValues[8]) continue;
-                if (filterFlags[17] && c.P > filterValues[8]) continue;
+                if (filters[0].flag && filters[0].index == 0 && !c.full.ToUpper().Contains(filters[0].text.ToUpper())) continue;
+                if (filters[0].flag && filters[0].index == 1 && c.full.ToUpper().Contains(filters[0].text.ToUpper())) continue;
+                if (filters[1].flag && filters[1].index == 0 && c.T < filters[1].value) continue;
+                if (filters[1].flag && filters[1].index == 1 && c.T > filters[1].value) continue;
+                if (filters[2].flag && filters[1].index == 0 && c.q < filters[2].value) continue;
+                if (filters[2].flag && filters[1].index == 1 && c.q > filters[2].value) continue;
+                if (filters[3].flag && filters[1].index == 0 && c.e < filters[3].value) continue;
+                if (filters[3].flag && filters[1].index == 1 && c.e > filters[3].value) continue;
+                if (filters[4].flag && filters[1].index == 0 && c.N < filters[4].value) continue;
+                if (filters[4].flag && filters[1].index == 1 && c.N > filters[4].value) continue;
+                if (filters[5].flag && filters[1].index == 0 && c.w < filters[5].value) continue;
+                if (filters[5].flag && filters[1].index == 1 && c.w > filters[5].value) continue;
+                if (filters[6].flag && filters[1].index == 0 && c.i < filters[6].value) continue;
+                if (filters[6].flag && filters[1].index == 1 && c.i > filters[6].value) continue;
+                if (filters[7].flag && filters[1].index == 0 && c.P < filters[7].value) continue;
+                if (filters[7].flag && filters[1].index == 1 && c.P > filters[7].value) continue;
 
                 userList.Add(c);
             }
 
             sortList(userList);
-            //masterFilterFlag = false;
         }
 
         public void sortList(List<Comet> list)
@@ -1663,11 +1654,17 @@ namespace Comets
             List<Comet> tempList = list.ToList();
             userList.Clear();
 
-            if (menuItemName.Checked && menuItemAsc.Checked)
+            if (menuItemDesig.Checked && menuItemAsc.Checked)
                 userList = tempList.OrderBy(Comet => Comet.sortkey).ToList();
 
-            else if (menuItemName.Checked && menuItemDesc.Checked)
+            else if (menuItemDesig.Checked && menuItemDesc.Checked)
                 userList = tempList.OrderByDescending(Comet => Comet.sortkey).ToList();
+
+            if (menuItemName.Checked && menuItemAsc.Checked)
+                userList = tempList.OrderBy(Comet => Comet.name).ToList();
+
+            else if (menuItemName.Checked && menuItemDesc.Checked)
+                userList = tempList.OrderByDescending(Comet => Comet.name).ToList();
 
             else if (menuItemPerihDate.Checked && menuItemAsc.Checked)
                 userList = tempList.OrderBy(Comet => Comet.T).ToList();
@@ -1756,84 +1753,6 @@ namespace Comets
 
         private void btnFilters_Click(object sender, EventArgs e)
         {
-            //za cancel
-            //foreach (Control c in gbFilters.Controls.OfType<CheckBox>()) (c as CheckBox).Checked = false;
-
-            //btnFilters.Text = gbFilters.Visible ? "Filters ▼" : "Filters ▲";
-
-            if (filterFlags[0] || filterFlags[1])
-            {
-                chName.Checked = true;
-                if (filterFlags[0]) comboName.SelectedIndex = 0;
-                else comboName.SelectedIndex = 1;
-
-                tbName.Text = filterName;
-            }
-            else chName.Checked = false;
-            if (filterFlags[2] || filterFlags[3])
-            {
-                chPerihDate.Checked = true;
-                if (filterFlags[2]) comboPerihDate.SelectedIndex = 0;
-                else comboPerihDate.SelectedIndex = 1;
-
-                //tbPerihDateD.Text = filterName;
-            }
-            else chPerihDate.Checked = false;
-            if (filterFlags[4] || filterFlags[5])
-            {
-                chPerihDist.Checked = true;
-                if (filterFlags[4]) comboPerihDist.SelectedIndex = 0;
-                else comboPerihDist.SelectedIndex = 1;
-
-                tbPerihDist.Text = filterValues[2].ToString("0.000000");
-            }
-            else chPerihDist.Checked = false;
-            if (filterFlags[8] || filterFlags[9])
-            {
-                chEcc.Checked = true;
-                if (filterFlags[8]) comboEcc.SelectedIndex = 0;
-                else comboEcc.SelectedIndex = 1;
-
-                tbEcc.Text = filterValues[4].ToString("0.000000");
-            }
-            else chEcc.Checked = false;
-            if (filterFlags[10] || filterFlags[11])
-            {
-                chAscNode.Checked = true;
-                if (filterFlags[10]) comboAscNode.SelectedIndex = 0;
-                else comboAscNode.SelectedIndex = 1;
-
-                tbAscNode.Text = filterValues[5].ToString("0.000000");
-            }
-            else chAscNode.Checked = false;
-            if (filterFlags[12] || filterFlags[13])
-            {
-                chArgPeric.Checked = true;
-                if (filterFlags[12]) comboArgPeric.SelectedIndex = 0;
-                else comboName.SelectedIndex = 1;
-
-                tbArgPeric.Text = filterValues[6].ToString("0.000000");
-            }
-            else chArgPeric.Checked = false;
-            if (filterFlags[14] || filterFlags[15])
-            {
-                chIncl.Checked = true;
-                if (filterFlags[14]) comboIncl.SelectedIndex = 0;
-                else comboIncl.SelectedIndex = 1;
-
-                tbIncl.Text = filterValues[7].ToString("0.000000");
-            }
-            else chIncl.Checked = false;
-            if (filterFlags[16] || filterFlags[17])
-            {
-                chPeriod.Checked = true;
-                if (filterFlags[16]) comboPeriod.SelectedIndex = 0;
-                else comboPeriod.SelectedIndex = 1;
-
-                tbPeriod.Text = filterValues[8].ToString("0.000000");
-            }
-            else chPeriod.Checked = false;
-
             gbFilters.Visible = !gbFilters.Visible;
             gbDetails.Visible = !gbDetails.Visible;
         }
@@ -1927,14 +1846,14 @@ namespace Comets
                 return;
             }
 
-            if ((chPerihDate.Checked && tbPerihDateD.Text.Length == 0) ||
-                (chPerihDate.Checked && tbPerihDateM.Text.Length == 0) ||
-                (chPerihDate.Checked && tbPerihDateY.Text.Length == 0) ||
-                (chPerihDist.Checked && tbPerihDist.Text.Length == 0) ||
-                (chEcc.Checked && tbEcc.Text.Length == 0) ||
-                (chAscNode.Checked && tbAscNode.Text.Length == 0) ||
-                (chArgPeric.Checked && tbArgPeric.Text.Length == 0) ||
-                (chPeriod.Checked && tbPeriod.Text.Length == 0))
+            if ((chPerihDate.Checked && tbPerihDateD.Text.Trim().Length == 0) ||
+                (chPerihDate.Checked && tbPerihDateM.Text.Trim().Length == 0) ||
+                (chPerihDate.Checked && tbPerihDateY.Text.Trim().Length == 0) ||
+                (chPerihDist.Checked && tbPerihDist.Text.Trim().Length == 0) ||
+                (chEcc.Checked && tbEcc.Text.Trim().Length == 0) ||
+                (chAscNode.Checked && tbAscNode.Text.Trim().Length == 0) ||
+                (chArgPeric.Checked && tbArgPeric.Text.Trim().Length == 0) ||
+                (chPeriod.Checked && tbPeriod.Text.Trim().Length == 0))
             {
                 MessageBox.Show("Please enter value.               ", "Filters", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -1954,76 +1873,99 @@ namespace Comets
                 }
             }
 
-            //clear all
-            for (int i = 0; i < 18; i++) filterFlags[i] = false;
-            for (int i = 0; i < 9; i++) filterValues[i] = 0.0;
-            filterName = null;
+            filters[0].flag = chName.Checked;
+            filters[0].index = comboName.SelectedIndex;
+            filters[0].text = tbName.Text.Trim();
 
-            //get values
-            if (chName.Checked)
-            {
-                //filterValue[0]
-                filterName = tbName.Text.Trim();
+            filters[1].flag = chPerihDate.Checked;
+            filters[1].index = comboPerihDate.SelectedIndex;
+            filters[1].text = tbPerihDateD.Text.Trim() + "." + tbPerihDateM.Text.Trim() + "." + tbPerihDateY.Text.Trim();
+            if (filters[1].flag) filters[1].value = jd0(Convert.ToInt32(tbPerihDateY.Text.Trim()), Convert.ToInt32(tbPerihDateM.Text.Trim()), Convert.ToInt32(tbPerihDateD.Text.Trim()), 0);
 
-                if (comboName.SelectedIndex == 0) filterFlags[0] = true;
-                if (comboName.SelectedIndex == 1) filterFlags[1] = true;
-            }
+            filters[2].flag = chPerihDist.Checked;
+            filters[2].index = comboPerihDist.SelectedIndex;
+            filters[2].text = tbPerihDist.Text.Trim();
+            if (filters[2].flag) filters[2].value = Convert.ToDouble(filters[2].text);
 
-            if (chPerihDate.Checked)
-            {
-                //filterValues[1] = Comet.GregToJul(Convert.ToInt32(tbPerihDateY.Text), Convert.ToInt32(tbPerihDateM.Text), Convert.ToInt32(tbPerihDateD.Text), 0);
-                filterValues[1] = jd0(Convert.ToInt32(tbPerihDateY.Text), Convert.ToInt32(tbPerihDateM.Text), Convert.ToInt32(tbPerihDateD.Text), 0);
+            filters[3].flag = chEcc.Checked;
+            filters[3].index = comboEcc.SelectedIndex;
+            filters[3].text = tbEcc.Text.Trim();
+            if (filters[3].flag) filters[3].value = Convert.ToDouble(filters[3].text);
 
-                if (comboPerihDate.SelectedIndex == 0) filterFlags[2] = true;
-                if (comboPerihDate.SelectedIndex == 1) filterFlags[3] = true;
-            }
-            if (chPerihDist.Checked)
-            {
-                filterValues[2] = Convert.ToDouble(tbPerihDist.Text);
+            filters[4].flag = chAscNode.Checked;
+            filters[4].index = comboAscNode.SelectedIndex;
+            filters[4].text = tbAscNode.Text.Trim();
+            if (filters[4].flag) filters[4].value = Convert.ToDouble(filters[4].text);
 
-                if (comboPerihDist.SelectedIndex == 0) filterFlags[4] = true;
-                if (comboPerihDist.SelectedIndex == 1) filterFlags[5] = true;
-            }
-            if (chEcc.Checked)
-            {
-                filterValues[4] = Convert.ToDouble(tbEcc.Text);
+            filters[5].flag = chArgPeric.Checked;
+            filters[5].index = comboArgPeric.SelectedIndex;
+            filters[5].text = tbArgPeric.Text.Trim();
+            if (filters[5].flag) filters[5].value = Convert.ToDouble(filters[5].text);
 
-                if (comboEcc.SelectedIndex == 0) filterFlags[8] = true;
-                if (comboEcc.SelectedIndex == 1) filterFlags[9] = true;
-            }
-            if (chAscNode.Checked)
-            {
-                filterValues[5] = Convert.ToDouble(tbAscNode.Text);
+            filters[6].flag = chIncl.Checked;
+            filters[6].index = comboIncl.SelectedIndex;
+            filters[6].text = tbIncl.Text.Trim();
+            if (filters[6].flag) filters[6].value = Convert.ToDouble(filters[6].text);
 
-                if (comboAscNode.SelectedIndex == 0) filterFlags[10] = true;
-                if (comboAscNode.SelectedIndex == 1) filterFlags[11] = true;
-            }
-            if (chArgPeric.Checked)
-            {
-                filterValues[6] = Convert.ToDouble(tbArgPeric.Text);
-
-                if (comboArgPeric.SelectedIndex == 0) filterFlags[12] = true;
-                if (comboArgPeric.SelectedIndex == 1) filterFlags[13] = true;
-            }
-            if (chIncl.Checked)
-            {
-                filterValues[7] = Convert.ToDouble(tbIncl.Text);
-
-                if (comboIncl.SelectedIndex == 0) filterFlags[14] = true;
-                if (comboIncl.SelectedIndex == 1) filterFlags[15] = true;
-            }
-            if (chPeriod.Checked)
-            {
-                filterValues[8] = Convert.ToDouble(tbPeriod.Text);
-
-                if (comboPeriod.SelectedIndex == 0) filterFlags[16] = true;
-                if (comboPeriod.SelectedIndex == 1) filterFlags[17] = true;
-            }
-
-            //masterFilterFlag = true;
+            filters[7].flag = chPeriod.Checked;
+            filters[7].index = comboPeriod.SelectedIndex;
+            filters[7].text = tbPeriod.Text.Trim();
+            if (filters[7].flag) filters[7].value = Convert.ToDouble(filters[7].text);
 
             copyListUseFilters();
-            btnFilters_Click(sender, e);
+
+            gbFilters.Visible = !gbFilters.Visible;
+            gbDetails.Visible = !gbDetails.Visible;
+        }
+
+        private void btnCancelFilters_Click(object sender, EventArgs e)
+        {
+            chName.Checked = filters[0].flag;
+            comboName.SelectedIndex = filters[0].index;
+            comboName.Text = filters[0].text;
+
+            chPerihDate.Checked = filters[1].flag;
+            comboPerihDate.SelectedIndex = filters[1].index;
+            if (filters[1].text != "")
+            {
+                string[] date = filters[1].text.Split('.');
+                tbPerihDateD.Text = date[0];
+                tbPerihDateM.Text = date[1];
+                tbPerihDateY.Text = date[2];
+            }
+            else
+            {
+                tbPerihDateD.Text = "";
+                tbPerihDateM.Text = "";
+                tbPerihDateY.Text = "";
+            }
+
+            chPerihDist.Checked = filters[2].flag;
+            comboPerihDist.SelectedIndex = filters[2].index;
+            comboPerihDist.Text = filters[2].text;
+
+            chEcc.Checked = filters[3].flag;
+            comboEcc.SelectedIndex = filters[3].index;
+            comboEcc.Text = filters[3].text;
+
+            chAscNode.Checked = filters[4].flag;
+            comboAscNode.SelectedIndex = filters[4].index;
+            comboAscNode.Text = filters[4].text;
+
+            chArgPeric.Checked = filters[5].flag;
+            comboArgPeric.SelectedIndex = filters[5].index;
+            comboArgPeric.Text = filters[5].text;
+
+            chIncl.Checked = filters[6].flag;
+            comboIncl.SelectedIndex = filters[6].index;
+            comboIncl.Text = filters[6].text;
+
+            chPeriod.Checked = filters[7].flag;
+            comboPeriod.SelectedIndex = filters[7].index;
+            comboPeriod.Text = filters[7].text;
+
+            gbFilters.Visible = !gbFilters.Visible;
+            gbDetails.Visible = !gbDetails.Visible;
         }
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
@@ -2537,6 +2479,23 @@ namespace Comets
         double log10(double x) { return 0.43429448190325182765112891891661 * Math.Log(x); }
         double sqr(double x) { return x * x; }
         double cbrt(double x) { return Math.Pow(x, 1 / 3.0); }
+
+        public class Filter
+        {
+            public bool flag;
+            public int index;
+            public string text;
+            public double value;
+
+            public Filter()
+            {
+                flag = false;
+                index = -1;
+                text = "";
+                value = 0.0;
+            }
+        }
+
 
     }
 }

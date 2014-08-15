@@ -229,6 +229,7 @@
             this.labelComets = new System.Windows.Forms.Label();
             this.panelHeader = new System.Windows.Forms.Panel();
             this.contextMenu1 = new System.Windows.Forms.ContextMenu();
+            this.menuItemDesig = new System.Windows.Forms.MenuItem();
             this.menuItemName = new System.Windows.Forms.MenuItem();
             this.menuItemPerihDate = new System.Windows.Forms.MenuItem();
             this.menuItemPerihDist = new System.Windows.Forms.MenuItem();
@@ -422,7 +423,7 @@
             this.btnCancelFilters.TabIndex = 32;
             this.btnCancelFilters.Text = "Cancel";
             this.btnCancelFilters.UseVisualStyleBackColor = true;
-            this.btnCancelFilters.Click += new System.EventHandler(this.btnFilters_Click);
+            this.btnCancelFilters.Click += new System.EventHandler(this.btnCancelFilters_Click);
             // 
             // btnApplyFilters
             // 
@@ -463,6 +464,7 @@
             // 
             this.tbPerihDist.Enabled = false;
             this.tbPerihDist.Location = new System.Drawing.Point(303, 85);
+            this.tbPerihDist.MaxLength = 6;
             this.tbPerihDist.Name = "tbPerihDist";
             this.tbPerihDist.Size = new System.Drawing.Size(113, 21);
             this.tbPerihDist.TabIndex = 10;
@@ -482,6 +484,7 @@
             // 
             this.tbPerihDateY.Enabled = false;
             this.tbPerihDateY.Location = new System.Drawing.Point(365, 54);
+            this.tbPerihDateY.MaxLength = 4;
             this.tbPerihDateY.Name = "tbPerihDateY";
             this.tbPerihDateY.Size = new System.Drawing.Size(51, 21);
             this.tbPerihDateY.TabIndex = 6;
@@ -491,6 +494,7 @@
             // 
             this.tbPerihDateM.Enabled = false;
             this.tbPerihDateM.Location = new System.Drawing.Point(334, 54);
+            this.tbPerihDateM.MaxLength = 2;
             this.tbPerihDateM.Name = "tbPerihDateM";
             this.tbPerihDateM.Size = new System.Drawing.Size(25, 21);
             this.tbPerihDateM.TabIndex = 5;
@@ -500,6 +504,7 @@
             // 
             this.tbPerihDateD.Enabled = false;
             this.tbPerihDateD.Location = new System.Drawing.Point(303, 54);
+            this.tbPerihDateD.MaxLength = 2;
             this.tbPerihDateD.Name = "tbPerihDateD";
             this.tbPerihDateD.Size = new System.Drawing.Size(25, 21);
             this.tbPerihDateD.TabIndex = 4;
@@ -522,6 +527,7 @@
             // 
             this.tbPeriod.Enabled = false;
             this.tbPeriod.Location = new System.Drawing.Point(303, 240);
+            this.tbPeriod.MaxLength = 5;
             this.tbPeriod.Name = "tbPeriod";
             this.tbPeriod.Size = new System.Drawing.Size(113, 21);
             this.tbPeriod.TabIndex = 28;
@@ -531,6 +537,7 @@
             // 
             this.tbIncl.Enabled = false;
             this.tbIncl.Location = new System.Drawing.Point(303, 209);
+            this.tbIncl.MaxLength = 6;
             this.tbIncl.Name = "tbIncl";
             this.tbIncl.Size = new System.Drawing.Size(113, 21);
             this.tbIncl.TabIndex = 25;
@@ -540,6 +547,7 @@
             // 
             this.tbArgPeric.Enabled = false;
             this.tbArgPeric.Location = new System.Drawing.Point(303, 177);
+            this.tbArgPeric.MaxLength = 6;
             this.tbArgPeric.Name = "tbArgPeric";
             this.tbArgPeric.Size = new System.Drawing.Size(113, 21);
             this.tbArgPeric.TabIndex = 22;
@@ -549,6 +557,7 @@
             // 
             this.tbAscNode.Enabled = false;
             this.tbAscNode.Location = new System.Drawing.Point(303, 147);
+            this.tbAscNode.MaxLength = 6;
             this.tbAscNode.Name = "tbAscNode";
             this.tbAscNode.Size = new System.Drawing.Size(113, 21);
             this.tbAscNode.TabIndex = 19;
@@ -558,6 +567,7 @@
             // 
             this.tbEcc.Enabled = false;
             this.tbEcc.Location = new System.Drawing.Point(303, 117);
+            this.tbEcc.MaxLength = 6;
             this.tbEcc.Name = "tbEcc";
             this.tbEcc.Size = new System.Drawing.Size(113, 21);
             this.tbEcc.TabIndex = 16;
@@ -645,6 +655,7 @@
             // 
             this.tbName.Enabled = false;
             this.tbName.Location = new System.Drawing.Point(303, 23);
+            this.tbName.MaxLength = 25;
             this.tbName.Name = "tbName";
             this.tbName.Size = new System.Drawing.Size(166, 21);
             this.tbName.TabIndex = 1;
@@ -2546,6 +2557,7 @@
             // contextMenu1
             // 
             this.contextMenu1.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.menuItemDesig,
             this.menuItemName,
             this.menuItemPerihDate,
             this.menuItemPerihDist,
@@ -2558,79 +2570,85 @@
             this.menuItemAsc,
             this.menuItemDesc});
             // 
+            // menuItemDesig
+            // 
+            this.menuItemDesig.Checked = true;
+            this.menuItemDesig.Index = 0;
+            this.menuItemDesig.RadioCheck = true;
+            this.menuItemDesig.Text = "Designation";
+            this.menuItemDesig.Click += new System.EventHandler(this.menuItem1_Click);
+            // 
             // menuItemName
             // 
-            this.menuItemName.Checked = true;
-            this.menuItemName.Index = 0;
-            this.menuItemName.RadioCheck = true;
+            this.menuItemName.Index = 1;
             this.menuItemName.Text = "Name";
             this.menuItemName.Click += new System.EventHandler(this.menuItem1_Click);
             // 
             // menuItemPerihDate
             // 
-            this.menuItemPerihDate.Index = 1;
+            this.menuItemPerihDate.Index = 2;
             this.menuItemPerihDate.RadioCheck = true;
             this.menuItemPerihDate.Text = "Perihelion Date";
             this.menuItemPerihDate.Click += new System.EventHandler(this.menuItem1_Click);
             // 
             // menuItemPerihDist
             // 
-            this.menuItemPerihDist.Index = 2;
+            this.menuItemPerihDist.Index = 3;
             this.menuItemPerihDist.RadioCheck = true;
             this.menuItemPerihDist.Text = "Perihelion Distance";
             this.menuItemPerihDist.Click += new System.EventHandler(this.menuItem1_Click);
             // 
             // menuItemIncl
             // 
-            this.menuItemIncl.Index = 3;
+            this.menuItemIncl.Index = 4;
             this.menuItemIncl.RadioCheck = true;
             this.menuItemIncl.Text = "Inclination";
             this.menuItemIncl.Click += new System.EventHandler(this.menuItem1_Click);
             // 
             // menuItemEcc
             // 
-            this.menuItemEcc.Index = 4;
+            this.menuItemEcc.Index = 5;
             this.menuItemEcc.RadioCheck = true;
             this.menuItemEcc.Text = "Eccentricity";
             this.menuItemEcc.Click += new System.EventHandler(this.menuItem1_Click);
             // 
             // menuItemAscNode
             // 
-            this.menuItemAscNode.Index = 5;
+            this.menuItemAscNode.Index = 6;
             this.menuItemAscNode.RadioCheck = true;
             this.menuItemAscNode.Text = "Long. of the Asc. Node";
             this.menuItemAscNode.Click += new System.EventHandler(this.menuItem1_Click);
             // 
             // menuItemArgPeri
             // 
-            this.menuItemArgPeri.Index = 6;
+            this.menuItemArgPeri.Index = 7;
             this.menuItemArgPeri.RadioCheck = true;
             this.menuItemArgPeri.Text = "Arg. of Pericenter";
             this.menuItemArgPeri.Click += new System.EventHandler(this.menuItem1_Click);
             // 
             // menuItemPeriod
             // 
-            this.menuItemPeriod.Index = 7;
+            this.menuItemPeriod.Index = 8;
             this.menuItemPeriod.RadioCheck = true;
             this.menuItemPeriod.Text = "Period";
             this.menuItemPeriod.Click += new System.EventHandler(this.menuItem1_Click);
             // 
             // menuItem9
             // 
-            this.menuItem9.Index = 8;
+            this.menuItem9.Index = 9;
             this.menuItem9.Text = "-";
             // 
             // menuItemAsc
             // 
             this.menuItemAsc.Checked = true;
-            this.menuItemAsc.Index = 9;
+            this.menuItemAsc.Index = 10;
             this.menuItemAsc.RadioCheck = true;
             this.menuItemAsc.Text = "Ascending";
             this.menuItemAsc.Click += new System.EventHandler(this.menuItemAsc_Click);
             // 
             // menuItemDesc
             // 
-            this.menuItemDesc.Index = 10;
+            this.menuItemDesc.Index = 11;
             this.menuItemDesc.RadioCheck = true;
             this.menuItemDesc.Text = "Descending";
             this.menuItemDesc.Click += new System.EventHandler(this.menuItemDesc_Click);
@@ -2900,7 +2918,7 @@
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.ContextMenu contextMenu1;
-        private System.Windows.Forms.MenuItem menuItemName;
+        private System.Windows.Forms.MenuItem menuItemDesig;
         private System.Windows.Forms.MenuItem menuItemPerihDate;
         private System.Windows.Forms.MenuItem menuItemPerihDist;
         private System.Windows.Forms.MenuItem menuItemIncl;
@@ -2917,6 +2935,7 @@
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label labelDetectedComets;
         private System.Windows.Forms.Label labelImpFormat;
+        private System.Windows.Forms.MenuItem menuItemName;
     }
 }
 
