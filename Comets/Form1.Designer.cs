@@ -468,7 +468,7 @@
             this.tbPerihDist.Name = "tbPerihDist";
             this.tbPerihDist.Size = new System.Drawing.Size(113, 21);
             this.tbPerihDist.TabIndex = 10;
-            this.tbPerihDist.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textboxEnter);
+            this.tbPerihDist.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxFilters_KeyPress);
             // 
             // btnPerihDateNow
             // 
@@ -488,7 +488,7 @@
             this.tbPerihDateY.Name = "tbPerihDateY";
             this.tbPerihDateY.Size = new System.Drawing.Size(51, 21);
             this.tbPerihDateY.TabIndex = 6;
-            this.tbPerihDateY.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textboxEnter);
+            this.tbPerihDateY.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxFilters_KeyPress);
             // 
             // tbPerihDateM
             // 
@@ -498,7 +498,7 @@
             this.tbPerihDateM.Name = "tbPerihDateM";
             this.tbPerihDateM.Size = new System.Drawing.Size(25, 21);
             this.tbPerihDateM.TabIndex = 5;
-            this.tbPerihDateM.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textboxEnter);
+            this.tbPerihDateM.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxFilters_KeyPress);
             // 
             // tbPerihDateD
             // 
@@ -508,7 +508,7 @@
             this.tbPerihDateD.Name = "tbPerihDateD";
             this.tbPerihDateD.Size = new System.Drawing.Size(25, 21);
             this.tbPerihDateD.TabIndex = 4;
-            this.tbPerihDateD.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textboxEnter);
+            this.tbPerihDateD.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxFilters_KeyPress);
             // 
             // comboName
             // 
@@ -531,7 +531,7 @@
             this.tbPeriod.Name = "tbPeriod";
             this.tbPeriod.Size = new System.Drawing.Size(113, 21);
             this.tbPeriod.TabIndex = 28;
-            this.tbPeriod.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textboxEnter);
+            this.tbPeriod.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxFilters_KeyPress);
             // 
             // tbIncl
             // 
@@ -541,7 +541,7 @@
             this.tbIncl.Name = "tbIncl";
             this.tbIncl.Size = new System.Drawing.Size(113, 21);
             this.tbIncl.TabIndex = 25;
-            this.tbIncl.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textboxEnter);
+            this.tbIncl.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxFilters_KeyPress);
             // 
             // tbArgPeric
             // 
@@ -551,7 +551,7 @@
             this.tbArgPeric.Name = "tbArgPeric";
             this.tbArgPeric.Size = new System.Drawing.Size(113, 21);
             this.tbArgPeric.TabIndex = 22;
-            this.tbArgPeric.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textboxEnter);
+            this.tbArgPeric.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxFilters_KeyPress);
             // 
             // tbAscNode
             // 
@@ -561,7 +561,7 @@
             this.tbAscNode.Name = "tbAscNode";
             this.tbAscNode.Size = new System.Drawing.Size(113, 21);
             this.tbAscNode.TabIndex = 19;
-            this.tbAscNode.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textboxEnter);
+            this.tbAscNode.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxFilters_KeyPress);
             // 
             // tbEcc
             // 
@@ -571,7 +571,7 @@
             this.tbEcc.Name = "tbEcc";
             this.tbEcc.Size = new System.Drawing.Size(113, 21);
             this.tbEcc.TabIndex = 16;
-            this.tbEcc.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textboxEnter);
+            this.tbEcc.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxFilters_KeyPress);
             // 
             // comboPeriod
             // 
@@ -659,7 +659,6 @@
             this.tbName.Name = "tbName";
             this.tbName.Size = new System.Drawing.Size(166, 21);
             this.tbName.TabIndex = 1;
-            this.tbName.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textboxEnter);
             // 
             // chPeriod
             // 
@@ -1483,9 +1482,9 @@
             // 
             this.tbImportFilename.Location = new System.Drawing.Point(140, 45);
             this.tbImportFilename.Name = "tbImportFilename";
-            this.tbImportFilename.ReadOnly = true;
             this.tbImportFilename.Size = new System.Drawing.Size(561, 21);
             this.tbImportFilename.TabIndex = 37;
+            this.tbImportFilename.TextChanged += new System.EventHandler(this.tbImportFilename_TextChanged);
             // 
             // btnBrowseImportFile
             // 
@@ -1665,7 +1664,6 @@
             this.tbLonDeg.Size = new System.Drawing.Size(47, 21);
             this.tbLonDeg.TabIndex = 0;
             this.tbLonDeg.Text = "15";
-            this.tbLonDeg.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textboxEnter);
             // 
             // label27
             // 
@@ -1684,7 +1682,6 @@
             this.tbLonMin.Size = new System.Drawing.Size(47, 21);
             this.tbLonMin.TabIndex = 1;
             this.tbLonMin.Text = "56";
-            this.tbLonMin.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textboxEnter);
             // 
             // label30
             // 
@@ -1703,7 +1700,6 @@
             this.tbLonSec.Size = new System.Drawing.Size(47, 21);
             this.tbLonSec.TabIndex = 2;
             this.tbLonSec.Text = "00";
-            this.tbLonSec.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textboxEnter);
             // 
             // comboLon
             // 
@@ -1752,7 +1748,6 @@
             this.tbLatDeg.Size = new System.Drawing.Size(47, 21);
             this.tbLatDeg.TabIndex = 0;
             this.tbLatDeg.Text = "45";
-            this.tbLatDeg.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textboxEnter);
             // 
             // tbLatMin
             // 
@@ -1762,7 +1757,6 @@
             this.tbLatMin.Size = new System.Drawing.Size(47, 21);
             this.tbLatMin.TabIndex = 1;
             this.tbLatMin.Text = "47";
-            this.tbLatMin.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textboxEnter);
             // 
             // label29
             // 
@@ -1790,7 +1784,6 @@
             this.tbLatSec.Size = new System.Drawing.Size(47, 21);
             this.tbLatSec.TabIndex = 2;
             this.tbLatSec.Text = "00";
-            this.tbLatSec.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textboxEnter);
             // 
             // label39
             // 
@@ -2131,7 +2124,6 @@
             this.tbStartYear.Size = new System.Drawing.Size(55, 21);
             this.tbStartYear.TabIndex = 2;
             this.tbStartYear.Text = "YYYY";
-            this.tbStartYear.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textboxEnter);
             // 
             // tbIntervalMin
             // 
@@ -2142,7 +2134,6 @@
             this.tbIntervalMin.Size = new System.Drawing.Size(55, 21);
             this.tbIntervalMin.TabIndex = 12;
             this.tbIntervalMin.Text = "MM";
-            this.tbIntervalMin.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textboxEnter);
             // 
             // label3
             // 
@@ -2162,7 +2153,6 @@
             this.tbIntervalHour.Size = new System.Drawing.Size(55, 21);
             this.tbIntervalHour.TabIndex = 11;
             this.tbIntervalHour.Text = "HH";
-            this.tbIntervalHour.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textboxEnter);
             // 
             // tbStartMonth
             // 
@@ -2173,7 +2163,6 @@
             this.tbStartMonth.Size = new System.Drawing.Size(55, 21);
             this.tbStartMonth.TabIndex = 1;
             this.tbStartMonth.Text = "MM";
-            this.tbStartMonth.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textboxEnter);
             // 
             // tbIntervalDay
             // 
@@ -2184,7 +2173,6 @@
             this.tbIntervalDay.Size = new System.Drawing.Size(55, 21);
             this.tbIntervalDay.TabIndex = 10;
             this.tbIntervalDay.Text = "DD";
-            this.tbIntervalDay.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textboxEnter);
             // 
             // tbStartDay
             // 
@@ -2195,7 +2183,6 @@
             this.tbStartDay.Size = new System.Drawing.Size(55, 21);
             this.tbStartDay.TabIndex = 0;
             this.tbStartDay.Text = "DD";
-            this.tbStartDay.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textboxEnter);
             // 
             // tbStartHour
             // 
@@ -2206,7 +2193,6 @@
             this.tbStartHour.Size = new System.Drawing.Size(55, 21);
             this.tbStartHour.TabIndex = 3;
             this.tbStartHour.Text = "HH";
-            this.tbStartHour.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textboxEnter);
             // 
             // tbStartMin
             // 
@@ -2217,7 +2203,6 @@
             this.tbStartMin.Size = new System.Drawing.Size(55, 21);
             this.tbStartMin.TabIndex = 4;
             this.tbStartMin.Text = "MM";
-            this.tbStartMin.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textboxEnter);
             // 
             // label20
             // 
@@ -2246,7 +2231,6 @@
             this.tbEndMin.Size = new System.Drawing.Size(55, 21);
             this.tbEndMin.TabIndex = 9;
             this.tbEndMin.Text = "MM";
-            this.tbEndMin.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textboxEnter);
             // 
             // tbEndYear
             // 
@@ -2257,7 +2241,6 @@
             this.tbEndYear.Size = new System.Drawing.Size(55, 21);
             this.tbEndYear.TabIndex = 7;
             this.tbEndYear.Text = "YYYY";
-            this.tbEndYear.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textboxEnter);
             // 
             // tbEndHour
             // 
@@ -2268,7 +2251,6 @@
             this.tbEndHour.Size = new System.Drawing.Size(55, 21);
             this.tbEndHour.TabIndex = 8;
             this.tbEndHour.Text = "HH";
-            this.tbEndHour.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textboxEnter);
             // 
             // tbEndMonth
             // 
@@ -2279,7 +2261,6 @@
             this.tbEndMonth.Size = new System.Drawing.Size(55, 21);
             this.tbEndMonth.TabIndex = 6;
             this.tbEndMonth.Text = "MM";
-            this.tbEndMonth.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textboxEnter);
             // 
             // tbEndDay
             // 
@@ -2290,7 +2271,6 @@
             this.tbEndDay.Size = new System.Drawing.Size(55, 21);
             this.tbEndDay.TabIndex = 5;
             this.tbEndDay.Text = "DD";
-            this.tbEndDay.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textboxEnter);
             // 
             // btnCalcEphem
             // 

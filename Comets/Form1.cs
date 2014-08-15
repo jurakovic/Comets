@@ -150,6 +150,49 @@ namespace Comets
             //}
         }
 
+        private void tbImportFilename_TextChanged(object sender, EventArgs e)
+        {
+            filename = tbImportFilename.Text.Trim().Trim('"');
+
+            if (!File.Exists(filename))
+            {
+                labelImpFormat.Text = "(file not found)";
+                labelDetectedComets.Text = "-";
+                return;
+            }
+
+            importType = getImportType(filename);
+
+            if (importType == -1)
+            {
+                labelImpFormat.Text = "unknown";
+                labelDetectedComets.Text = "-";
+                return;
+            }
+
+            if (importType == 0) labelImpFormat.Text = "MPC (Soft00Cmt)";
+            if (importType == 1) labelImpFormat.Text = "SkyMap (Soft01Cmt)";
+            if (importType == 2) labelImpFormat.Text = "Guide (Soft02Cmt)";
+            if (importType == 3) labelImpFormat.Text = "xephem (Soft03Cmt)";
+            if (importType == 4) labelImpFormat.Text = "Home Planet (Soft04Cmt)";
+            if (importType == 5) labelImpFormat.Text = "MyStars! (Soft05Cmt)";
+            if (importType == 6) labelImpFormat.Text = "TheSky (Soft06Cmt) / Autostar (Soft16Cmt)";
+            if (importType == 7) labelImpFormat.Text = "Starry Night (Soft07Cmt)";
+            if (importType == 8) labelImpFormat.Text = "Deep Space (Soft08Cmt)";
+            if (importType == 9) labelImpFormat.Text = "PC-TCS (Soft09Cmt)";
+            if (importType == 10) labelImpFormat.Text = "Earth Centered Universe (Soft10Cmt)";
+            if (importType == 11) labelImpFormat.Text = "Dance of the Planets (Soft11Cmt)";
+            if (importType == 12) labelImpFormat.Text = "MegaStar V4.x (Soft12Cmt)";
+            if (importType == 13) labelImpFormat.Text = "SkyChart III (Soft13Cmt)";
+            if (importType == 14) labelImpFormat.Text = "Voyager II (Soft14Cmt)";
+            if (importType == 15) labelImpFormat.Text = "SkyTools (Soft15Cmt)";
+            //if (importType == 16) labelImportFormat.Text = "Autostar (Soft16Cmt)";
+            if (importType == 17) labelImpFormat.Text = "Comet for Windows";
+            if (importType == 18) labelImpFormat.Text = "NASA (ELEMENTS.COMET)";
+
+            labelDetectedComets.Text = GetNumberOfComets(filename, importType).ToString();
+        }
+
         private void btnImport_Click(object sender, EventArgs e)
         {
             if (tbImportFilename.Text.Length == 0) btnBrowseImportFile_Click(sender, e);
@@ -1746,11 +1789,6 @@ namespace Comets
             tEquinox.Text = "2000.0";
         }
 
-        private void textboxEnter(object sender, MouseEventArgs e)
-        {
-            (sender as TextBox).SelectAll();
-        }
-
         private void btnFilters_Click(object sender, EventArgs e)
         {
             gbFilters.Visible = !gbFilters.Visible;
@@ -1819,6 +1857,20 @@ namespace Comets
             tbPerihDateD.Text = DateTime.Now.Day.ToString("00");
             tbPerihDateM.Text = DateTime.Now.Month.ToString("00");
             tbPerihDateY.Text = DateTime.Now.Year.ToString("0000");
+        }
+
+        private void textBoxFilters_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar)&& !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
+            {
+                e.Handled = true;
+            }
+
+            // only allow one decimal point
+            if (e.KeyChar == '.' && (sender as TextBox).Text.IndexOf('.') > -1)
+            {
+                e.Handled = true;
+            }
         }
 
         private void btnApplyFilters_Click(object sender, EventArgs e)
@@ -2495,7 +2547,5 @@ namespace Comets
                 value = 0.0;
             }
         }
-
-
     }
 }
