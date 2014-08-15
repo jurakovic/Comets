@@ -883,9 +883,9 @@
             this.label62.ForeColor = System.Drawing.SystemColors.GrayText;
             this.label62.Location = new System.Drawing.Point(19, 9);
             this.label62.Name = "label62";
-            this.label62.Size = new System.Drawing.Size(22, 13);
+            this.label62.Size = new System.Drawing.Size(67, 13);
             this.label62.TabIndex = 0;
-            this.label62.Text = "ID:";
+            this.label62.Text = "Designation:";
             // 
             // label61
             // 

@@ -23,6 +23,7 @@ namespace Comets
         public static bool fileIsDownloaded = false;
 
         int importType;
+        bool finishedImportFlag;
 
         public static List<Comet> masterList = new List<Comet>();
         public static List<Comet> userList = new List<Comet>();
@@ -145,13 +146,19 @@ namespace Comets
 
                 labelDetectedComets.Text = GetNumberOfComets(filename, importType).ToString();
             }
+            //else
+            //{
+            //    tbImportFilename.Text = "";
+            //    labelImpFormat.Text = "(no file selected)";
+            //    labelDetectedComets.Text = "-";
+            //}
         }
 
         private void btnImport_Click(object sender, EventArgs e)
         {
             if (tbImportFilename.Text.Length == 0) btnBrowseImportFile_Click(sender, e);
 
-            if (filename.Length == 0) return;
+            if (tbImportFilename.Text.Length == 0) return;
 
             if (!File.Exists(filename))
             {
@@ -272,11 +279,7 @@ namespace Comets
             if (importType == 18)
                 importNasaComet(filename);
 
-            //update tab
-            tbImportFilename.Text = "";
-            labelImpFormat.Text = "(no file selected)";
-            labelDetectedComets.Text = "-";
-
+            finishedImportFlag = true;
             copyListUseFilters();
         }
 
@@ -570,7 +573,6 @@ namespace Comets
                     string[] idn = Comet.setIdNameFromFull(c.full);
                     c.id = idn[0];
                     c.name = idn[1];
-                    c.full = idn[2];
 
                     c.T = jd0(c.Ty, c.Tm, c.Td, c.Th);
                     c.P = Comet.getPeriod_P(c.q, c.e);
@@ -578,7 +580,8 @@ namespace Comets
 
                     c.Q = Comet.getAphelionDistance_Q(c.e, c.a);
 
-                    c.get_sortkey();
+                    c.sortkey = Comet.GetSortkey(c.id);
+                    
                 }
                 catch
                 {
@@ -644,13 +647,11 @@ namespace Comets
                             id = tempfull.Substring(0, spaceind);
                             name = tempfull.Substring(spaceind + 1, tempfull.Length - spaceind - 1);
                         }
-                        //tempfull = c.id + "/" + c.name;
                     }
 
-                    string[] idn = Comet.setFullFromIdName(id, name);
-                    c.id = idn[0];
-                    c.name = idn[1];
-                    c.full = idn[2];
+                    c.full = Comet.setFullFromIdName(id, name);
+                    c.id = id;
+                    c.name = name;
 
                     c.T = jd0(c.Ty, c.Tm, c.Td, c.Th);
                     c.P = Comet.getPeriod_P(c.q, c.e);
@@ -658,7 +659,7 @@ namespace Comets
 
                     c.Q = Comet.getAphelionDistance_Q(c.e, c.a);
 
-                    c.get_sortkey();
+                    c.sortkey = Comet.GetSortkey(c.id);
                 }
                 catch
                 {
@@ -677,9 +678,9 @@ namespace Comets
 
                 try
                 {
-                    string full = "", id = "", name = "";
+                    string tempfull = "", id = "", name = "";
 
-                    full = line.Substring(0, 42).Trim();
+                    tempfull = line.Substring(0, 42).Trim();
                     c.Td = Convert.ToInt32(line.Substring(43, 2).Trim());
                     c.Th = Convert.ToInt32(line.Substring(46, 4).Trim().PadRight(4, '0'));
                     c.Tm = Convert.ToInt32(line.Substring(52, 2).Trim());
@@ -692,24 +693,23 @@ namespace Comets
                     c.g = Convert.ToDouble(line.Substring(140, 5).Trim());
                     c.k = Convert.ToDouble(line.Substring(145, 5).Trim());
 
-                    if (full.Contains('('))
+                    if (tempfull.Contains('('))
                     {
-                        int ind = full.IndexOf('(');
+                        int ind = tempfull.IndexOf('(');
 
-                        name = full.Substring(0, ind - 1);
+                        name = tempfull.Substring(0, ind - 1);
                         if (name.Contains("/")) name = name.Substring(2, name.Length - 2);
 
-                        id = full.Substring(ind + 1, full.Length - ind - 2);
+                        id = tempfull.Substring(ind + 1, tempfull.Length - ind - 2);
                     }
                     else
                     {
-                        id = full;
+                        id = tempfull;
                     }
 
-                    string[] idn = Comet.setFullFromIdName(id, name);
-                    c.id = idn[0];
-                    c.name = idn[1];
-                    c.full = idn[2];
+                    c.full = Comet.setFullFromIdName(id, name);
+                    c.id = id;
+                    c.name = name;
 
                     c.T = jd0(c.Ty, c.Tm, c.Td, c.Th);
                     c.P = Comet.getPeriod_P(c.q, c.e);
@@ -717,7 +717,7 @@ namespace Comets
 
                     c.Q = Comet.getAphelionDistance_Q(c.e, c.a);
 
-                    c.get_sortkey();
+                    c.sortkey = Comet.GetSortkey(c.id);
                 }
                 catch
                 {
@@ -747,10 +747,10 @@ namespace Comets
                     string[] parts = lines[i].Split(',');
 
                     c.full = parts[0];
+                    if (c.full[c.full.Length-1] == '/') c.full = c.full.TrimEnd('/');
                     string[] idn = Comet.setIdNameFromFull(c.full);
                     c.id = idn[0];
                     c.name = idn[1];
-                    c.full = idn[2];
 
                     if (parts[1] == "e")
                     {
@@ -832,7 +832,7 @@ namespace Comets
 
                     c.Q = Comet.getAphelionDistance_Q(c.e, c.a);
 
-                    c.get_sortkey();
+                    c.sortkey = Comet.GetSortkey(c.id);
                 }
                 catch
                 {
@@ -855,11 +855,11 @@ namespace Comets
                 {
                     string[] parts = lines[i].Split(',');
 
-                    string full = parts[0];
-                    string[] idn = Comet.setIdNameFromFull(full);
+                    c.full = parts[0];
+                    if (c.full[c.full.Length - 1] == '/') c.full = c.full.TrimEnd('/');
+                    string[] idn = Comet.setIdNameFromFull(c.full);
                     c.id = idn[0];
                     c.name = idn[1];
-                    c.full = idn[2];
 
                     string[] date = parts[1].Split('-');
                     c.Ty = Convert.ToInt32(date[0]);
@@ -880,7 +880,7 @@ namespace Comets
 
                     c.Q = Comet.getAphelionDistance_Q(c.e, c.a);
 
-                    c.get_sortkey();
+                    c.sortkey = Comet.GetSortkey(c.id);
                 }
                 catch
                 {
@@ -910,12 +910,11 @@ namespace Comets
                 {
                     string[] parts = lines[i].Split('\t');
 
-                    string full = parts[0];
-                    full = full.TrimEnd(';');
-                    string[] idn = Comet.setIdNameFromFull(full);
+                    c.full = parts[0];
+                    c.full = c.full.TrimEnd(';');
+                    string[] idn = Comet.setIdNameFromFull(c.full);
                     c.id = idn[0];
                     c.name = idn[1];
-                    c.full = idn[2];
 
                     Th = parts[1].Split('.');
                     T = Convert.ToDouble(Th[0]);
@@ -942,7 +941,7 @@ namespace Comets
 
                     c.Q = Comet.getAphelionDistance_Q(c.e, c.a);
 
-                    c.get_sortkey();
+                    c.sortkey = Comet.GetSortkey(c.id);
                 }
                 catch
                 {
@@ -963,11 +962,10 @@ namespace Comets
                 {
                     string[] parts = line.Split('|');
 
-                    string full = parts[0].Trim();
-                    string[] idn = Comet.setIdNameFromFull(full);
+                    c.full = parts[0].Trim();
+                    string[] idn = Comet.setIdNameFromFull(c.full);
                     c.id = idn[0];
                     c.name = idn[1];
-                    c.full = idn[2];
 
                     string date = parts[2].Trim().PadRight(13, '0');
                     c.Ty = Convert.ToInt32(date.Substring(0, 4));
@@ -989,7 +987,7 @@ namespace Comets
 
                     c.Q = Comet.getAphelionDistance_Q(c.e, c.a);
 
-                    c.get_sortkey();
+                    c.sortkey = Comet.GetSortkey(c.id);
                 }
                 catch
                 {
@@ -1010,7 +1008,7 @@ namespace Comets
                 
                 try
                 {
-                    string name = lines[i].Substring(5, 29).Trim();
+                    c.name = lines[i].Substring(5, 29).Trim();
                     c.g = Convert.ToDouble(lines[i].Substring(34, 6).Trim());
                     c.e = Convert.ToDouble(lines[i].Substring(48, 10).Trim());
                     c.q = Convert.ToDouble(lines[i].Substring(59, 11).Trim());
@@ -1019,12 +1017,9 @@ namespace Comets
                     c.i = Convert.ToDouble(lines[i].Substring(92, 10).Trim());
                     c.T = Convert.ToDouble(lines[i].Substring(102, 14).Trim());
                     c.k = Convert.ToDouble(lines[i].Substring(129, 6).Trim()) / 2.5;
-                    string id = lines[i].Substring(136, 14).Trim();
+                    c.id = lines[i].Substring(136, 14).Trim();
 
-                    string[] idn = Comet.setFullFromIdName(id, name);
-                    c.id = idn[0];
-                    c.name = idn[1];
-                    c.full = idn[2];
+                    c.full = Comet.setFullFromIdName(c.id, c.name);
 
                     int[] dd = jdtocd(c.T);
                     c.Ty = dd[0];
@@ -1038,7 +1033,7 @@ namespace Comets
 
                     c.Q = Comet.getAphelionDistance_Q(c.e, c.a);
 
-                    c.get_sortkey();
+                    c.sortkey = Comet.GetSortkey(c.id);
                 }
                 catch
                 {
@@ -1059,14 +1054,11 @@ namespace Comets
 
                 try
                 {
-                    string full = lines[i];
-                    string[] idname = full.Split('(');
-                    string name = idname[0].Trim();
-                    string id = idname[1].TrimEnd(')');
-                    string[] idn = Comet.setFullFromIdName(id, name);
-                    c.id = idn[0];
-                    c.name = idn[1];
-                    c.full = idn[2];
+                    string tempfull = lines[i];
+                    string[] idname = tempfull.Split('(');
+                    c.name = idname[0].Trim();
+                    c.id = idname[1].TrimEnd(')');
+                    c.full = Comet.setFullFromIdName(c.id, c.name);
 
                     string line = lines[i + 1];
                     string[] parts = line.Split(' ');
@@ -1091,7 +1083,7 @@ namespace Comets
 
                     c.Q = Comet.getAphelionDistance_Q(c.e, c.a);
 
-                    c.get_sortkey();
+                    c.sortkey = Comet.GetSortkey(c.id);
                 }
                 catch
                 {
@@ -1141,12 +1133,10 @@ namespace Comets
                     c.g = Convert.ToDouble(parts[9]);
                     c.k = Convert.ToDouble(parts[10]) / 2.5;
 
-                    string name = parts[11].Trim();
+                    c.name = parts[11].Trim();
 
-                    string[] idn = Comet.setFullFromIdName(id, name);
-                    c.id = idn[0];
-                    c.name = idn[1];
-                    c.full = idn[2];
+                    c.full = Comet.setFullFromIdName(id, c.name);
+                    c.id = id;
 
                     c.T = jd0(c.Ty, c.Tm, c.Td, c.Th);
                     c.P = Comet.getPeriod_P(c.q, c.e);
@@ -1154,7 +1144,7 @@ namespace Comets
 
                     c.Q = Comet.getAphelionDistance_Q(c.e, c.a);
 
-                    c.get_sortkey();
+                    c.sortkey = Comet.GetSortkey(c.id);
                 }
                 catch
                 {
@@ -1175,11 +1165,10 @@ namespace Comets
 
                 try
                 {
-                    string full = lines[i];
-                    string[] idn = Comet.setIdNameFromFull(full);
+                    c.full = lines[i];
+                    string[] idn = Comet.setIdNameFromFull(c.full);
                     c.id = idn[0];
                     c.name = idn[1];
-                    c.full = idn[2];
 
                     string line = lines[i + 1];
                     string[] parts = line.Split(' ');
@@ -1204,7 +1193,7 @@ namespace Comets
 
                     c.Q = Comet.getAphelionDistance_Q(c.e, c.a);
 
-                    c.get_sortkey();
+                    c.sortkey = Comet.GetSortkey(c.id);
                 }
                 catch
                 {
@@ -1249,16 +1238,13 @@ namespace Comets
                     c.Td = Convert.ToInt32(lines[i].Substring(61, 2).Trim());
                     c.Th = Convert.ToInt32(lines[i].Substring(65, 4).Trim().PadRight(4, '0'));
 
-                    string name;
                     if(lines[i].Length == 69)
-                        name = "";
+                        c.name = "";
                     else
-                        name = lines[i].Substring(70, lines[i].Length - 70).Trim();
+                        c.name = lines[i].Substring(70, lines[i].Length - 70).Trim();
 
-                    string[] idn = Comet.setFullFromIdName(id, name);
-                    c.id = idn[0];
-                    c.name = idn[1];
-                    c.full = idn[2];
+                    c.full = Comet.setFullFromIdName(id, c.name);
+                    c.id = id;
 
                     c.T = jd0(c.Ty, c.Tm, c.Td, c.Th);
                     c.P = Comet.getPeriod_P(c.q, c.e);
@@ -1266,7 +1252,7 @@ namespace Comets
 
                     c.Q = Comet.getAphelionDistance_Q(c.e, c.a);
 
-                    c.get_sortkey();
+                    c.sortkey = Comet.GetSortkey(c.id);
                 }
                 catch
                 {
@@ -1285,13 +1271,10 @@ namespace Comets
 
                 try
                 {
-                    string name = line.Substring(0, 30).Trim();
-                    string id = line.Substring(30, 12).Trim();
+                    c.name = line.Substring(0, 30).Trim();
+                    c.id = line.Substring(30, 12).Trim();
 
-                    string[] idn = Comet.setFullFromIdName(id, name);
-                    c.id = idn[0];
-                    c.name = idn[1];
-                    c.full = idn[2];
+                    c.full = Comet.setFullFromIdName(c.id, c.name);
 
                     c.Ty = Convert.ToInt32(line.Substring(42, 4).Trim());
                     c.Tm = Convert.ToInt32(line.Substring(47, 2).Trim());
@@ -1312,7 +1295,7 @@ namespace Comets
 
                     c.Q = Comet.getAphelionDistance_Q(c.e, c.a);
 
-                    c.get_sortkey();
+                    c.sortkey = Comet.GetSortkey(c.id);
                 }
                 catch
                 {
@@ -1350,11 +1333,10 @@ namespace Comets
                     c.g = Convert.ToDouble(gk[0]);
                     c.k = Convert.ToDouble(gk[1]);
 
-                    string full = parts[12].Split(';')[0];
-                    string[] idn = Comet.setIdNameFromFull(full);
+                    c.full = parts[12].Split(';')[0];
+                    string[] idn = Comet.setIdNameFromFull(c.full);
                     c.id = idn[0];
                     c.name = idn[1];
-                    c.full = idn[2];
 
                     c.T = jd0(c.Ty, c.Tm, c.Td, c.Th);
                     c.P = Comet.getPeriod_P(c.q, c.e);
@@ -1362,7 +1344,7 @@ namespace Comets
 
                     c.Q = Comet.getAphelionDistance_Q(c.e, c.a);
 
-                    c.get_sortkey();
+                    c.sortkey = Comet.GetSortkey(c.id);
                 }
                 catch
                 {
@@ -1418,7 +1400,7 @@ namespace Comets
 
                     c.Q = Comet.getAphelionDistance_Q(c.e, c.a);
 
-                    c.get_sortkey();
+                    c.sortkey = Comet.GetSortkey(c.id);
                 }
                 catch
                 {
@@ -1456,17 +1438,16 @@ namespace Comets
                             name = tempfull.Substring(secondspace + 1, tempfull.Length - secondspace - 1);
                         }
 
-                        string[] idn = Comet.setFullFromIdName(id, name);
-                        c.id = idn[0];
-                        c.name = idn[1];
-                        c.full = idn[2];
+                        c.full = Comet.setFullFromIdName(id, name);
+                        c.id = id;
+                        c.name = name;
                     }
                     else
                     {
-                        string[] idn = Comet.setIdNameFromFull(tempfull);
+                        c.full = tempfull;
+                        string[] idn = Comet.setIdNameFromFull(c.full);
                         c.id = idn[0];
                         c.name = idn[1];
-                        c.full = idn[2];
                     }
 
                     c.Ty = Convert.ToInt32(line.Substring(54, 4).Trim());
@@ -1489,7 +1470,7 @@ namespace Comets
 
                     c.Q = Comet.getAphelionDistance_Q(c.e, c.a);
 
-                    c.get_sortkey();
+                    c.sortkey = Comet.GetSortkey(c.id);
                 }
                 catch
                 {
@@ -1510,12 +1491,10 @@ namespace Comets
 
                 try
                 {
-                    string full = lines[i].Split('=')[1];
-                    //string full = lines[i].Substring(5, lines[i].Length - 5);
-                    string[] idn = Comet.setIdNameFromFull(full);
+                    c.full = lines[i].Split('=')[1];
+                    string[] idn = Comet.setIdNameFromFull(c.full);
                     c.id = idn[0];
                     c.name = idn[1];
-                    c.full = idn[2];
 
                     string[] date = lines[i + 3].Split('=')[1].Split(' ');
                     c.Ty = Convert.ToInt32(date[0]);
@@ -1540,7 +1519,7 @@ namespace Comets
 
                     c.Q = Comet.getAphelionDistance_Q(c.e, c.a);
 
-                    c.get_sortkey();
+                    c.sortkey = Comet.GetSortkey(c.id);
                 }
                 catch
                 {
@@ -1561,11 +1540,10 @@ namespace Comets
 
                 try
                 {
-                    string full = lines[i].Substring(0, 43).Trim();
-                    string[] idn = Comet.setIdNameFromFull(full);
+                    c.full = lines[i].Substring(0, 43).Trim();
+                    string[] idn = Comet.setIdNameFromFull(c.full);
                     c.id = idn[0];
                     c.name = idn[1];
-                    c.full = idn[2];
 
                     /////////////////////////
                     //pogledat epoch
@@ -1591,7 +1569,7 @@ namespace Comets
 
                     c.Q = Comet.getAphelionDistance_Q(c.e, c.a);
 
-                    c.get_sortkey();
+                    c.sortkey = Comet.GetSortkey(c.id);
                 }
                 catch
                 {
@@ -1766,7 +1744,7 @@ namespace Comets
             t_g.Text = c.g.ToString("0.0");
             t_k.Text = c.k.ToString("0.0");
 
-            t_sortKey.Text = c.sortkey.ToString("0.0000000");
+            t_sortKey.Text = c.sortkey.ToString("0.00000000000");
 
             tEquinox.Text = "2000.0";
         }
@@ -2055,6 +2033,14 @@ namespace Comets
                 btnFilters.Text = "Filters ▼";
                 gbDetails.Visible = true;
                 gbFilters.Visible = false;
+            }
+            if (tabControl1.SelectedIndex == 1 && finishedImportFlag == true)
+            {
+                tbImportFilename.Text = "";
+                labelImpFormat.Text = "(no file selected)";
+                labelDetectedComets.Text = "-";
+
+                finishedImportFlag = false;
             }
         }
 

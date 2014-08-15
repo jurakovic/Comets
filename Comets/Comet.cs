@@ -15,6 +15,7 @@ namespace Comets
         public string full;
         public string name;
         public string id;
+        public string fragm;
         public double T;
         public int Ty;
         public int Tm;
@@ -24,7 +25,7 @@ namespace Comets
         public double q;    //Perihelion Distance
         public double e;    //Eccentricity
         public double i;    //Inclination
-        public double N;   //Longitude of the Ascending Node
+        public double N;    //Longitude of the Ascending Node
         public double w;    //Argument of Pericenter
         public double a;    //Semimajor Axis
         public double Q;    //Aphelion Distance
@@ -37,9 +38,10 @@ namespace Comets
 
         public Comet()
         {
-            full = null;
-            name = null;
-            id = null;
+            full = "";
+            name = "";
+            id = "";
+            fragm = "";
             T = 0;
             Ty = 0;
             Tm = 0;
@@ -58,153 +60,75 @@ namespace Comets
             sortkey = 0.0;
         }
 
-        public void get_sortkey()
+
+        public static double GetSortkey(string id)
         {
             int oldt = total2;
 
             string s1, s2;
             double sort = 0.0;
             double v = 0.0;
+            double offset = 2000.0;
+            string fragm = "";
 
-            //282P
-            Regex r0 = new Regex(@"^[0-9]+[PD]");
+            //http://stackoverflow.com/questions/3720012/regular-expression-to-split-string-and-number
+            Regex numAlpha = new Regex("(?<letters>[a-zA-Z]*)(?<digits>[0-9]*)");
 
-            // 2P/Encke
-            Regex r1 = new Regex(@"^[0-9]+[PD]/");
-
-            // C/1995 O1 (Hale-Bopp)
-            Regex r2 = new Regex(@"^[CPD]/-?[0-9]+ [A-Z][0-9]");
-
-            // C/2001 U10 (SOHO)
-            Regex r3 = new Regex(@"^[CPD]/-?[0-9]+ [A-Z][0-9][0-9]");
-
-            // P/2005 JN (Spacewatch)
-            Regex r4 = new Regex(@"^[CPD]/-?[0-9]+ [A-Z][A-Z]");
-
-            // C/1997 BA6
-            Regex r5 = new Regex(@"^[CPD]/-?[0-9]+ [A-Z][A-Z][0-9]");
-
-            // P/1998 VS24 (LINEAR)
-            Regex r6 = new Regex(@"^[CPD]/-?[0-9]+ [A-Z][A-Z][0-9][0-9]");
-
-            // P/1999 XN120 (Catalina)
-            Regex r7 = new Regex(@"^[CPD]/-?[0-9]+ [A-Z][A-Z][0-9][0-9][0-9]");
-
-            // 1. slovo dijelim sa 100
-            // 2. slovo dijelim sa 10000
-            // brojeve dijelim sa 10000000
-            double prvoSlovo = 100.0;
-            double drugoSlovo = 10000.0;
-            double broj = 10000000.0;
-
-            if (r7.Match(full).Success)
+            if (id.Contains('-') && id[2] != '-') // 128P-B, C/-146 P1
             {
-                total2++;
+                string[] fi = id.Split('-');
+                id = fi[0];
+                fragm = fi[1];
 
-                int spaceIndex = id.IndexOf(' ');
-                s1 = id.Substring(2, spaceIndex - 2);
-                sort = Convert.ToDouble(s1);
+                var match = numAlpha.Match(fragm);
 
-                v = (id[++spaceIndex] - 64) / prvoSlovo;
-                v += (id[++spaceIndex] - 64) / drugoSlovo;
+                string fragmLetters = match.Groups["letters"].Value;
+                string fragmDigits = match.Groups["digits"].Value;
 
-                s2 = id.Substring(++spaceIndex, 3);
-                v += Convert.ToDouble(s2) / broj;
+                for (int i = 0, divider = 1000000000; i < fragmLetters.Length; i++, divider *= 100)
+                {
+                    v += (fragmLetters[i] - 64) / (double)divider;
+                }
+
+                if (fragmDigits != "")
+                    v += Convert.ToDouble(fragmDigits) / 10000000000000.0;
             }
 
-            else if (r6.Match(full).Success)
+            if (char.IsDigit(id[0]))
             {
-                total2++;
-
-                int spaceIndex = id.IndexOf(' ');
-                s1 = id.Substring(2, spaceIndex - 2);
-                sort = Convert.ToDouble(s1);
-
-                v = (id[++spaceIndex] - 64) / prvoSlovo;
-                v += (id[++spaceIndex] - 64) / drugoSlovo;
-
-                s2 = id.Substring(++spaceIndex, 2);
-                v += Convert.ToDouble(s2) / broj;
-            }
-
-            else if (r5.Match(full).Success)
-            {
-                total2++;
-
-                int spaceIndex = id.IndexOf(' ');
-                s1 = id.Substring(2, spaceIndex - 2);
-                sort = Convert.ToDouble(s1);
-
-                v = (id[++spaceIndex] - 64) / prvoSlovo;
-                v += (id[++spaceIndex] - 64) / drugoSlovo;
-                v += (id[++spaceIndex] - 48) / broj;
-            }
-
-            else if (r4.Match(full).Success)
-            {
-                total2++;
-
-                int spaceIndex = id.IndexOf(' ');
-                s1 = id.Substring(2, spaceIndex - 2);
-                sort = Convert.ToDouble(s1);
-
-                v = (id[++spaceIndex] - 64) / prvoSlovo;
-                v += (id[++spaceIndex] - 64) / drugoSlovo;
-            }
-
-            else if (r3.Match(full).Success)
-            {
-                total2++;
-
-                int spaceIndex = id.IndexOf(' ');
-                s1 = id.Substring(2, spaceIndex - 2);
-                sort = Convert.ToDouble(s1);
-
-                v = (id[++spaceIndex] - 64) / prvoSlovo;
-
-                s2 = id.Substring(++spaceIndex, 2);
-                v += Convert.ToDouble(s2) / broj;
-            }
-
-            else if (r2.Match(full).Success)
-            {
-                total2++;
-
-                int spaceIndex = id.IndexOf(' ');
-                s1 = id.Substring(2, spaceIndex - 2);
-                sort = Convert.ToDouble(s1);
-
-                v = (id[++spaceIndex] - 64) / prvoSlovo;
-                v += (id[++spaceIndex] - 48) / broj;
-            }
-
-            else if (r1.Match(full).Success)
-            {
-                total2++;
-
                 s1 = id.Substring(0, id.Length - 1);
                 sort = Convert.ToDouble(s1);
-                sort -= 1000;
             }
-
-            else if (r0.Match(full).Success)
+            else
             {
-                total2++;
+                string[] yc = id.Split(' ');
+                sort = Convert.ToDouble(yc[0].Split('/')[1]) + offset; //da npr C/240 V1 ne bude isto kao i 240P/NEAT i slicno...
 
-                s1 = id.Substring(0, id.Length - 1);
-                sort = Convert.ToDouble(s1);
-                sort -= 1000;
+                string code = yc[1];
+                
+                var match = numAlpha.Match(code);
+
+                string codeLetters = match.Groups["letters"].Value;
+                string codeDigits = match.Groups["digits"].Value;
+
+                // pretpostavka da mogu doci najvise 2 slova u id-u
+                // 1. slovo dijelim sa 100
+                // 2. slovo dijelim sa 10000
+                // pretpostavka da se moze pojaviti najvise troznamenkasti broj
+                // njega dijelim sa 10000000
+
+                for (int i = 0, divider = 100; i < codeLetters.Length; i++, divider *= 100)
+                {
+                    v += (codeLetters[i] - 64) / (double)divider;
+                }
+
+                if (codeDigits != "")
+                    v += Convert.ToDouble(codeDigits) / 10000000.0;
             }
-
-            //if (oldt == total2)
-            //{
-            //    MessageBox.Show(full);
-            //}
 
             sort += v;
-            sort += 1000; //da npr C/240 V1 ne bude isto kao i 240P/NEAT i slicno...
 
-            this.sortkey = sort;
+            return sort;
         }
 
         public static double getPeriod_P(double q, double e)
@@ -240,139 +164,47 @@ namespace Comets
 
         public static string[] setIdNameFromFull(string full)
         {
-            int oldt = total;
+            string id = "", name = "";
 
-            //                     id   name  full
-            //string[] idname = { null, null, null };
-            string[] idname = { "", "", "" };
-
-            //282P
-            Regex r0 = new Regex(@"^[0-9]+[PD]"); // |282P|
-
-            // 2P/Encke
-            Regex r1 = new Regex(@"^[0-9]+[PD]/"); // |2P/|
-
-            // 128P-B/Shoemaker-Holt
-            Regex r2 = new Regex(@"^[0-9]+[PD]-[A-Z]+"); // |128P-B|
-
-            // C/1750 C1, C/-146 P1
-            Regex r3 = new Regex(@"^[CPD]/-?[0-9]+ [A-Z]+[0-9]*$"); // |C/1750 C1|
-
-            // C/2012 S1 (ISON)
-            Regex r4 = new Regex(@"^[CPD]/-?[0-9]+ [A-Z]+[0-9]* [(]"); // |C/2012 S1 (|
-
-            //D/-146 P1-G
-            Regex r5 = new Regex(@"^[CPD]/-?[0-9]+ [A-Z]+[0-9]*-[A-Z]*[0-9]*$");
-
-            // D/1993 F2-N (Shoemaker-Levy 9), D/1993 F2-P1 (Shoemaker-Levy 9)
-            Regex r6 = new Regex(@"^[CPD]/-?[0-9]+ [A-Z]+[0-9]*-."); // |D/1993 F2-|
-
-
-            if (r6.Match(full).Success)
+            if (char.IsDigit(full[0]))
             {
-                total++;
-                idname[0] = full.Substring(0, full.LastIndexOf('-')); // D/1993 F2
-                idname[1] = full.Substring(full.IndexOf('(')).Trim('(', ')'); //Shoemaker-Levy 9
-                idname[1] += full.Substring(full.IndexOf('-'), full.IndexOf('(') - 1 - full.IndexOf('-')); // 
-                idname[2] = idname[0] + " (" + idname[1] + ")";
-
-                //MessageBox.Show(full + " je regex r6 " + r6.ToString() + " = ");
+                if (full.Contains('/'))
+                {
+                    string[] idname = full.Split('/');
+                    id = idname[0];
+                    name = idname[1];
+                }
+                else
+                {
+                    id = full;
+                }
+            }
+            else
+            {
+                if (full.Contains('('))
+                {
+                    string[] idname = full.Split('(');
+                    id = idname[0].Trim();
+                    name = idname[1].TrimEnd(')');
+                }
+                else
+                {
+                    id = full;
+                }
             }
 
-            else if (r5.Match(full).Success)
-            {
-                total++;
-                idname[0] = full; // D/1993 F2
-                idname[1] = "";
-                idname[2] = idname[0];
-
-                //MessageBox.Show(full + " je regex r5 " + r5.ToString() + " = ");
-            }
-
-            else if (r4.Match(full).Success)
-            {
-                total++;
-                idname[0] = full.Substring(0, full.IndexOf('(') - 1); // C/2012 S1
-                idname[1] = full.Substring(full.IndexOf('(')).Trim('(', ')'); // ISON
-                idname[2] = idname[0] + " (" + idname[1] + ")";
-
-                //MessageBox.Show(full + " je regex r4 " + r4.ToString() + " = ");
-            }
-
-            else if (r3.Match(full).Success)
-            {
-                total++;
-                idname[0] = full; // C/1750 C1
-                idname[1] = "";
-                idname[2] = idname[0];
-
-                //MessageBox.Show(full + " je regex r3 " + r3.ToString() + " = ");
-            }
-
-            else if (r2.Match(full).Success)
-            {
-                total++;
-                idname[0] = full.Substring(0, full.IndexOf('-')); // 128P
-                idname[1] = full.Substring(full.IndexOf('/') + 1); // Shoemaker-Holt
-                idname[1] += " " + full.Substring(full.IndexOf('-') + 1, full.IndexOf('/') - full.IndexOf('-') - 1); // Shoemaker-Holt-B
-                idname[2] = idname[0] + "/" + idname[1];
-
-                //MessageBox.Show(full + " je regex r2 " + r2.ToString() + " = ");
-            }
-
-            else if (r1.Match(full).Success)
-            {
-                total++;
-                idname[0] = full.Substring(0, full.IndexOf('/')); // 2P
-                idname[1] = full.Substring(full.IndexOf('/') + 1); // Encke
-                idname[2] = idname[0] + "/" + idname[1];
-
-                //MessageBox.Show(full + " je regex r1" + r1.ToString() + " = ");
-            }
-
-            else if (r0.Match(full).Success)
-            {
-                total++;
-                idname[0] = full;
-                idname[1] = "";
-                idname[2] = full;
-
-                //MessageBox.Show(full + " je regex r1" + r1.ToString() + " = ");
-            } 
-
-            //if (oldt == total)
-            //{
-            //    MessageBox.Show(full);
-            //}
-
-            return idname;
+            return new string[] {id, name};
         }
 
-        public static string[] setFullFromIdName(string id, string name)
+        public static string setFullFromIdName(string id, string name)
         {
-            string[] fin = { "", "", "" };
-            string full, fragm = "";
-
-            if (id.Contains('-') && id[2] != '-')
-            {
-                //128P-B
-                //C/-146 P1
-                int ind = id.IndexOf('-');
-                fragm = id.Substring(ind + 1, id.Length - ind - 1);
-                id = id.Substring(0, ind);
-            }
-
-            full = id;
+            string full = id;
 
             if (id.Contains('/'))
             {
                 if (name != "")
                 {
-                    full += " (" + name;
-
-                    if (fragm != "") full += " " + fragm;
-
-                    full += ")";
+                    full += " (" + name + ")";
                 }
             }
             else
@@ -380,16 +212,10 @@ namespace Comets
                 if (name != "")
                 {
                     full += "/" + name;
-
-                    if (fragm != "") full += " " + fragm;
                 }
             }
 
-            fin[0] = id;
-            fin[1] = name;
-            fin[2] = full;
-
-            return fin;
+            return full;
         }
 
         public static double GregToJul(int y, int m, int d, int h)
