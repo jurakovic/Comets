@@ -155,6 +155,13 @@ namespace Comets
         {
             filename = tbImportFilename.Text.Trim().Trim('"');
 
+            if (filename.Length == 0)
+            {
+                labelImpFormat.Text = "(no file selected)";
+                labelDetectedComets.Text = "-";
+                return;
+            }
+
             if (!File.Exists(filename))
             {
                 labelImpFormat.Text = "(file not found)";
@@ -1885,6 +1892,7 @@ namespace Comets
         private void contextLoadPresetMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "Comet preset file (*.cpf)|*.cpf";
 
             Filter[] tempFilters = new Filter[8];
             for (int i = 0; i < tempFilters.Count(); i++)
@@ -1909,9 +1917,9 @@ namespace Comets
                     }
 
                     setFiltersToForm(tempFilters);
-                    filters = tempFilters.ToArray();
-                    filtersApplied = false;
-                    copyListUseFilters();
+                    //filters = tempFilters.ToArray();
+                    //filtersApplied = false;
+                    //copyListUseFilters();
                 }
                 catch
                 {
@@ -1919,8 +1927,8 @@ namespace Comets
                     MessageBox.Show("Invalid preset file.                                    ", "Load preset", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                gbFilters.Visible = !gbFilters.Visible;
-                gbDetails.Visible = !gbDetails.Visible;
+                //gbFilters.Visible = !gbFilters.Visible;
+                //gbDetails.Visible = !gbDetails.Visible;
             }
         }
 
