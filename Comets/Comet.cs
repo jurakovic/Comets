@@ -28,6 +28,7 @@ namespace Comets
         public double w;    //Argument of Pericenter
         public double a;    //Semimajor Axis
         public double Q;    //Aphelion Distance
+        public double n;    //Mean motion
         public double g;
         public double k;
         public double sortkey;
@@ -50,6 +51,7 @@ namespace Comets
             w = 0.0;
             a = 0.0;
             Q = 0.0;
+            n = 0.0;
             g = 0.0;
             k = 0.0;
             sortkey = 0.0;
@@ -151,6 +153,14 @@ namespace Comets
                 return a * (1 + (2-e));
             else //if (e == 1.0) //koristi se zamo za sortiranje
                 return a * (1 + 0.999999);
+        }
+
+        public static double getMeanMotion_n(double e, double P)
+        {
+            if (e < 1.0)
+                return 0.9856076686 / P; // Gaussian gravitational constant (degrees)
+            else
+                return 0.0;
         }
 
         public static string[] setIdNameFromFull(string full)

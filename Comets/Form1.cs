@@ -223,7 +223,7 @@ namespace Comets
                 t_q1.Text = "";
                 t_e.Text = "";
                 t_i.Text = "";
-                t_N.Text = "";
+                t_N1.Text = "";
                 t_w.Text = "";
                 t_P.Text = "";
                 t_Q2.Text = "";
@@ -616,7 +616,7 @@ namespace Comets
                     c.T = jd0(c.Ty, c.Tm, c.Td, c.Th);
                     c.P = Comet.getPeriod_P(c.q, c.e);
                     c.a = Comet.getSemimajorAxis_a(c.q, c.e);
-
+                    c.n = Comet.getMeanMotion_n(c.e, c.P);
                     c.Q = Comet.getAphelionDistance_Q(c.e, c.a);
 
                     c.sortkey = Comet.GetSortkey(c.id);
@@ -695,7 +695,7 @@ namespace Comets
                     c.T = jd0(c.Ty, c.Tm, c.Td, c.Th);
                     c.P = Comet.getPeriod_P(c.q, c.e);
                     c.a = Comet.getSemimajorAxis_a(c.q, c.e);
-
+                    c.n = Comet.getMeanMotion_n(c.e, c.P);
                     c.Q = Comet.getAphelionDistance_Q(c.e, c.a);
 
                     c.sortkey = Comet.GetSortkey(c.id);
@@ -753,7 +753,7 @@ namespace Comets
                     c.T = jd0(c.Ty, c.Tm, c.Td, c.Th);
                     c.P = Comet.getPeriod_P(c.q, c.e);
                     c.a = Comet.getSemimajorAxis_a(c.q, c.e);
-
+                    c.n = Comet.getMeanMotion_n(c.e, c.P);
                     c.Q = Comet.getAphelionDistance_Q(c.e, c.a);
 
                     c.sortkey = Comet.GetSortkey(c.id);
@@ -868,7 +868,7 @@ namespace Comets
 
                     c.P = Comet.getPeriod_P(c.q, c.e);
                     c.a = Comet.getSemimajorAxis_a(c.q, c.e);
-
+                    c.n = Comet.getMeanMotion_n(c.e, c.P);
                     c.Q = Comet.getAphelionDistance_Q(c.e, c.a);
 
                     c.sortkey = Comet.GetSortkey(c.id);
@@ -916,7 +916,7 @@ namespace Comets
                     c.T = jd0(c.Ty, c.Tm, c.Td, c.Th);
                     c.P = Comet.getPeriod_P(c.q, c.e);
                     c.a = Comet.getSemimajorAxis_a(c.q, c.e);
-
+                    c.n = Comet.getMeanMotion_n(c.e, c.P);
                     c.Q = Comet.getAphelionDistance_Q(c.e, c.a);
 
                     c.sortkey = Comet.GetSortkey(c.id);
@@ -977,7 +977,7 @@ namespace Comets
                     c.T = jd0(c.Ty, c.Tm, c.Td, c.Th);
                     c.P = Comet.getPeriod_P(c.q, c.e);
                     c.a = Comet.getSemimajorAxis_a(c.q, c.e);
-
+                    c.n = Comet.getMeanMotion_n(c.e, c.P);
                     c.Q = Comet.getAphelionDistance_Q(c.e, c.a);
 
                     c.sortkey = Comet.GetSortkey(c.id);
@@ -1023,7 +1023,7 @@ namespace Comets
                     c.T = jd0(c.Ty, c.Tm, c.Td, c.Th);
                     c.P = Comet.getPeriod_P(c.q, c.e);
                     c.a = Comet.getSemimajorAxis_a(c.q, c.e);
-
+                    c.n = Comet.getMeanMotion_n(c.e, c.P);
                     c.Q = Comet.getAphelionDistance_Q(c.e, c.a);
 
                     c.sortkey = Comet.GetSortkey(c.id);
@@ -1069,7 +1069,7 @@ namespace Comets
                     c.T = jd0(c.Ty, c.Tm, c.Td, c.Th);
                     c.P = Comet.getPeriod_P(c.q, c.e);
                     c.a = Comet.getSemimajorAxis_a(c.q, c.e);
-
+                    c.n = Comet.getMeanMotion_n(c.e, c.P);
                     c.Q = Comet.getAphelionDistance_Q(c.e, c.a);
 
                     c.sortkey = Comet.GetSortkey(c.id);
@@ -1119,7 +1119,7 @@ namespace Comets
                     c.T = jd0(c.Ty, c.Tm, c.Td, c.Th);
                     c.P = Comet.getPeriod_P(c.q, c.e);
                     c.a = Comet.getSemimajorAxis_a(c.q, c.e);
-
+                    c.n = Comet.getMeanMotion_n(c.e, c.P);
                     c.Q = Comet.getAphelionDistance_Q(c.e, c.a);
 
                     c.sortkey = Comet.GetSortkey(c.id);
@@ -1180,7 +1180,7 @@ namespace Comets
                     c.T = jd0(c.Ty, c.Tm, c.Td, c.Th);
                     c.P = Comet.getPeriod_P(c.q, c.e);
                     c.a = Comet.getSemimajorAxis_a(c.q, c.e);
-
+                    c.n = Comet.getMeanMotion_n(c.e, c.P);
                     c.Q = Comet.getAphelionDistance_Q(c.e, c.a);
 
                     c.sortkey = Comet.GetSortkey(c.id);
@@ -1229,7 +1229,7 @@ namespace Comets
                     c.T = jd0(c.Ty, c.Tm, c.Td, c.Th);
                     c.P = Comet.getPeriod_P(c.q, c.e);
                     c.a = Comet.getSemimajorAxis_a(c.q, c.e);
-
+                    c.n = Comet.getMeanMotion_n(c.e, c.P);
                     c.Q = Comet.getAphelionDistance_Q(c.e, c.a);
 
                     c.sortkey = Comet.GetSortkey(c.id);
@@ -1288,7 +1288,7 @@ namespace Comets
                     c.T = jd0(c.Ty, c.Tm, c.Td, c.Th);
                     c.P = Comet.getPeriod_P(c.q, c.e);
                     c.a = Comet.getSemimajorAxis_a(c.q, c.e);
-
+                    c.n = Comet.getMeanMotion_n(c.e, c.P);
                     c.Q = Comet.getAphelionDistance_Q(c.e, c.a);
 
                     c.sortkey = Comet.GetSortkey(c.id);
@@ -1331,7 +1331,7 @@ namespace Comets
                     c.T = jd0(c.Ty, c.Tm, c.Td, c.Th);
                     c.P = Comet.getPeriod_P(c.q, c.e);
                     c.a = Comet.getSemimajorAxis_a(c.q, c.e);
-
+                    c.n = Comet.getMeanMotion_n(c.e, c.P);
                     c.Q = Comet.getAphelionDistance_Q(c.e, c.a);
 
                     c.sortkey = Comet.GetSortkey(c.id);
@@ -1380,7 +1380,7 @@ namespace Comets
                     c.T = jd0(c.Ty, c.Tm, c.Td, c.Th);
                     c.P = Comet.getPeriod_P(c.q, c.e);
                     c.a = Comet.getSemimajorAxis_a(c.q, c.e);
-
+                    c.n = Comet.getMeanMotion_n(c.e, c.P);
                     c.Q = Comet.getAphelionDistance_Q(c.e, c.a);
 
                     c.sortkey = Comet.GetSortkey(c.id);
@@ -1436,7 +1436,7 @@ namespace Comets
                     c.T = jd0(c.Ty, c.Tm, c.Td, c.Th);
                     c.P = Comet.getPeriod_P(c.q, c.e);
                     c.a = Comet.getSemimajorAxis_a(c.q, c.e);
-
+                    c.n = Comet.getMeanMotion_n(c.e, c.P);
                     c.Q = Comet.getAphelionDistance_Q(c.e, c.a);
 
                     c.sortkey = Comet.GetSortkey(c.id);
@@ -1506,7 +1506,7 @@ namespace Comets
                     c.T = jd0(c.Ty, c.Tm, c.Td, c.Th);
                     c.P = Comet.getPeriod_P(c.q, c.e);
                     c.a = Comet.getSemimajorAxis_a(c.q, c.e);
-
+                    c.n = Comet.getMeanMotion_n(c.e, c.P);
                     c.Q = Comet.getAphelionDistance_Q(c.e, c.a);
 
                     c.sortkey = Comet.GetSortkey(c.id);
@@ -1555,7 +1555,7 @@ namespace Comets
                     c.T = jd0(c.Ty, c.Tm, c.Td, c.Th);
                     c.P = Comet.getPeriod_P(c.q, c.e);
                     c.a = Comet.getSemimajorAxis_a(c.q, c.e);
-
+                    c.n = Comet.getMeanMotion_n(c.e, c.P);
                     c.Q = Comet.getAphelionDistance_Q(c.e, c.a);
 
                     c.sortkey = Comet.GetSortkey(c.id);
@@ -1605,7 +1605,7 @@ namespace Comets
                     c.T = jd0(c.Ty, c.Tm, c.Td, c.Th);
                     c.P = Comet.getPeriod_P(c.q, c.e);
                     c.a = Comet.getSemimajorAxis_a(c.q, c.e);
-
+                    c.n = Comet.getMeanMotion_n(c.e, c.P);
                     c.Q = Comet.getAphelionDistance_Q(c.e, c.a);
 
                     c.sortkey = Comet.GetSortkey(c.id);
@@ -1765,7 +1765,7 @@ namespace Comets
             t_q1.Text = c.q.ToString("0.000000");
             t_e.Text = c.e.ToString("0.000000");
             t_i.Text = c.i.ToString("0.0000");
-            t_N.Text = c.N.ToString("0.0000");
+            t_N1.Text = c.N.ToString("0.0000");
             t_w.Text = c.w.ToString("0.0000");
 
             if (c.P > 10000 || c.e > 0.98)
@@ -1773,12 +1773,14 @@ namespace Comets
                 t_P.Text = "";
                 t_Q2.Text = "";
                 t_a.Text = "";
+                t_n2.Text = "";
             }
             else
             {
                 t_P.Text = c.P.ToString("0.000000");
                 t_Q2.Text = c.Q.ToString("0.000000");
                 t_a.Text = c.a.ToString("0.000000");
+                t_n2.Text = c.n.ToString("0.000000");
             }
 
             t_g.Text = c.g.ToString("0.0");
@@ -2509,7 +2511,7 @@ namespace Comets
         private void contextExportMenuItem_Click(object sender, EventArgs e)
         {
             SaveFileDialog sfd = new SaveFileDialog();
-            sfd.Filter = "Text file (*.tct)|*.txt|" +
+            sfd.Filter = "Text file (*.txt)|*.txt|" +
                 "SSC file (*.ssc)|*.ssc|" +
                 "DAT file (*.dat)|*.dat|" +
                 "COMET file (*.COMET)|*.COMET|" +
@@ -2518,7 +2520,7 @@ namespace Comets
             int exportType = -1;
             if ((sender as MenuItem).Text == "Celestia") exportType = 17;
 
-            if (exportType == 17) sfd.FilterIndex = 1;
+            if (exportType == 17) sfd.FilterIndex = 2;
 
 
             if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -2657,7 +2659,5 @@ namespace Comets
 
             sw.Close();
         }
-
-
     }
 }
