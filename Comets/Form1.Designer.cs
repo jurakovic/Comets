@@ -84,7 +84,10 @@
             this.label6 = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.gbDetails = new System.Windows.Forms.GroupBox();
+            this.label21 = new System.Windows.Forms.Label();
+            this.t_n2 = new System.Windows.Forms.TextBox();
             this.btnDelete = new System.Windows.Forms.Button();
+            this.label18 = new System.Windows.Forms.Label();
             this.label62 = new System.Windows.Forms.Label();
             this.label61 = new System.Windows.Forms.Label();
             this.label63 = new System.Windows.Forms.Label();
@@ -270,9 +273,10 @@
             this.menuItem16 = new System.Windows.Forms.MenuItem();
             this.menuItem17 = new System.Windows.Forms.MenuItem();
             this.menuItem18 = new System.Windows.Forms.MenuItem();
-            this.t_n2 = new System.Windows.Forms.TextBox();
-            this.label18 = new System.Windows.Forms.Label();
-            this.label21 = new System.Windows.Forms.Label();
+            this.btnPresets = new System.Windows.Forms.Button();
+            this.contextPresets = new System.Windows.Forms.ContextMenu();
+            this.contextSavePresetMenuItem = new System.Windows.Forms.MenuItem();
+            this.contextLoadPresetMenuItem = new System.Windows.Forms.MenuItem();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.gbFilters.SuspendLayout();
@@ -363,6 +367,7 @@
             // 
             // gbFilters
             // 
+            this.gbFilters.Controls.Add(this.btnPresets);
             this.gbFilters.Controls.Add(this.panelPerihDist);
             this.gbFilters.Controls.Add(this.panelEcc);
             this.gbFilters.Controls.Add(this.panelIncl);
@@ -472,7 +477,7 @@
             // tbEcc
             // 
             this.tbEcc.Enabled = false;
-            this.tbEcc.Location = new System.Drawing.Point(284, 3);
+            this.tbEcc.Location = new System.Drawing.Point(284, 2);
             this.tbEcc.MaxLength = 6;
             this.tbEcc.Name = "tbEcc";
             this.tbEcc.Size = new System.Drawing.Size(113, 21);
@@ -627,7 +632,7 @@
             // tbArgPeric
             // 
             this.tbArgPeric.Enabled = false;
-            this.tbArgPeric.Location = new System.Drawing.Point(284, 1);
+            this.tbArgPeric.Location = new System.Drawing.Point(284, 2);
             this.tbArgPeric.MaxLength = 6;
             this.tbArgPeric.Name = "tbArgPeric";
             this.tbArgPeric.Size = new System.Drawing.Size(113, 21);
@@ -822,7 +827,7 @@
             // btnCancelFilters
             // 
             this.btnCancelFilters.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.btnCancelFilters.Location = new System.Drawing.Point(350, 288);
+            this.btnCancelFilters.Location = new System.Drawing.Point(350, 289);
             this.btnCancelFilters.Name = "btnCancelFilters";
             this.btnCancelFilters.Size = new System.Drawing.Size(113, 23);
             this.btnCancelFilters.TabIndex = 32;
@@ -985,6 +990,27 @@
             this.gbDetails.TabIndex = 274;
             this.gbDetails.TabStop = false;
             // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label21.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.label21.Location = new System.Drawing.Point(335, 76);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(14, 14);
+            this.label21.TabIndex = 276;
+            this.label21.Text = "n";
+            // 
+            // t_n2
+            // 
+            this.t_n2.BackColor = System.Drawing.SystemColors.Window;
+            this.t_n2.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.t_n2.Location = new System.Drawing.Point(350, 73);
+            this.t_n2.Name = "t_n2";
+            this.t_n2.ReadOnly = true;
+            this.t_n2.Size = new System.Drawing.Size(113, 22);
+            this.t_n2.TabIndex = 274;
+            // 
             // btnDelete
             // 
             this.btnDelete.Location = new System.Drawing.Point(350, 166);
@@ -993,6 +1019,17 @@
             this.btnDelete.TabIndex = 273;
             this.btnDelete.Text = "Delete";
             this.btnDelete.UseVisualStyleBackColor = true;
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Font = new System.Drawing.Font("Tahoma", 8F);
+            this.label18.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.label18.Location = new System.Drawing.Point(347, 56);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(72, 13);
+            this.label18.TabIndex = 275;
+            this.label18.Text = "Mean motion:";
             // 
             // label62
             // 
@@ -1187,7 +1224,7 @@
             // 
             this.t_sortKey.BackColor = System.Drawing.SystemColors.Window;
             this.t_sortKey.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.t_sortKey.Location = new System.Drawing.Point(350, 262);
+            this.t_sortKey.Location = new System.Drawing.Point(350, 261);
             this.t_sortKey.Name = "t_sortKey";
             this.t_sortKey.ReadOnly = true;
             this.t_sortKey.Size = new System.Drawing.Size(113, 22);
@@ -1209,7 +1246,7 @@
             this.label23.AutoSize = true;
             this.label23.Font = new System.Drawing.Font("Tahoma", 8F);
             this.label23.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.label23.Location = new System.Drawing.Point(347, 245);
+            this.label23.Location = new System.Drawing.Point(347, 244);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(48, 13);
             this.label23.TabIndex = 263;
@@ -2887,37 +2924,34 @@
             this.menuItem18.Text = "Autostar";
             this.menuItem18.Click += new System.EventHandler(this.contextExportMenuItem_Click);
             // 
-            // t_n2
+            // btnPresets
             // 
-            this.t_n2.BackColor = System.Drawing.SystemColors.Window;
-            this.t_n2.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.t_n2.Location = new System.Drawing.Point(350, 73);
-            this.t_n2.Name = "t_n2";
-            this.t_n2.ReadOnly = true;
-            this.t_n2.Size = new System.Drawing.Size(113, 22);
-            this.t_n2.TabIndex = 274;
+            this.btnPresets.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.btnPresets.Location = new System.Drawing.Point(185, 289);
+            this.btnPresets.Name = "btnPresets";
+            this.btnPresets.Size = new System.Drawing.Size(113, 23);
+            this.btnPresets.TabIndex = 43;
+            this.btnPresets.Text = "Presets ▼";
+            this.btnPresets.UseVisualStyleBackColor = true;
+            this.btnPresets.Click += new System.EventHandler(this.btnPresets_Click);
             // 
-            // label18
+            // contextPresets
             // 
-            this.label18.AutoSize = true;
-            this.label18.Font = new System.Drawing.Font("Tahoma", 8F);
-            this.label18.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.label18.Location = new System.Drawing.Point(347, 56);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(72, 13);
-            this.label18.TabIndex = 275;
-            this.label18.Text = "Mean motion:";
+            this.contextPresets.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.contextSavePresetMenuItem,
+            this.contextLoadPresetMenuItem});
             // 
-            // label21
+            // contextSavePresetMenuItem
             // 
-            this.label21.AutoSize = true;
-            this.label21.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label21.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.label21.Location = new System.Drawing.Point(335, 76);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(14, 14);
-            this.label21.TabIndex = 276;
-            this.label21.Text = "n";
+            this.contextSavePresetMenuItem.Index = 0;
+            this.contextSavePresetMenuItem.Text = "Save Preset";
+            this.contextSavePresetMenuItem.Click += new System.EventHandler(this.contextSavePresetMenuItem_Click);
+            // 
+            // contextLoadPresetMenuItem
+            // 
+            this.contextLoadPresetMenuItem.Index = 1;
+            this.contextLoadPresetMenuItem.Text = "Load Preset";
+            this.contextLoadPresetMenuItem.Click += new System.EventHandler(this.contextLoadPresetMenuItem_Click);
             // 
             // Form1
             // 
@@ -3249,6 +3283,10 @@
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.TextBox t_n2;
         private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Button btnPresets;
+        private System.Windows.Forms.ContextMenu contextPresets;
+        private System.Windows.Forms.MenuItem contextSavePresetMenuItem;
+        private System.Windows.Forms.MenuItem contextLoadPresetMenuItem;
     }
 }
 
