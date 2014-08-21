@@ -24,7 +24,7 @@ namespace Comets
 
         int importType;
         bool finishedImportFlag;
-        bool filtersApplied;
+        bool filtersAppliedFlag;
 
         public static List<Comet> masterList = new List<Comet>();
         public static List<Comet> userList = new List<Comet>();
@@ -559,6 +559,7 @@ namespace Comets
                 importNasaComet(filename);
 
             finishedImportFlag = true;
+            filtersAppliedFlag = false;
             copyListUseFilters();
         }
 
@@ -1865,7 +1866,7 @@ namespace Comets
 
         public void copyListUseFilters()
         {
-            if (filtersApplied || masterList.Count == 0) return;
+            if (filtersAppliedFlag || masterList.Count == 0) return;
 
             userList.Clear();
 
@@ -1892,7 +1893,7 @@ namespace Comets
             }
 
             sortList(userList);
-            filtersApplied = true;
+            filtersAppliedFlag = true;
         }
 
         #endregion
@@ -2071,7 +2072,7 @@ namespace Comets
             fs[7].text = tbPeriod.Text.Trim();
             if (fs[7].flag) fs[7].value = Convert.ToDouble(fs[7].text);
 
-            filtersApplied = false;
+            filtersAppliedFlag = false;
             filters = fs.ToArray();
 
             return true;
@@ -2269,9 +2270,14 @@ namespace Comets
                 sw.WriteLine("\t\tPericenterDistance        " + c.q.ToString("0.000000").PadLeft(9, ' '));
 
                 if (c.e < 1.0)
+                {
                     sw.WriteLine("\t\tEccentricity               " + c.e.ToString("0.000000").PadLeft(8, ' '));
+                }
                 else
-                    sw.WriteLine("\t\tEccentricity               0.999999   # Real: " + c.e.ToString("0.000000"));
+                {
+                    sw.WriteLine("\t\tEccentricity               0.999999");
+                    sw.WriteLine("\t\t#Eccentricity               " + c.e.ToString("0.000000").PadLeft(8, ' ') + "   # Real");
+                }
 
                 sw.WriteLine("\t\tInclination              " + c.i.ToString("0.0000").PadLeft(8, ' '));
                 sw.WriteLine("\t\tAscendingNode            " + c.N.ToString("0.0000").PadLeft(8, ' '));
