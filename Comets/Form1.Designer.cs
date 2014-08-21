@@ -33,6 +33,7 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.gbFilters = new System.Windows.Forms.GroupBox();
+            this.btnPresets = new System.Windows.Forms.Button();
             this.panelPerihDist = new System.Windows.Forms.Panel();
             this.chPerihDist = new System.Windows.Forms.CheckBox();
             this.tbPerihDist = new System.Windows.Forms.TextBox();
@@ -75,7 +76,7 @@
             this.tbName = new System.Windows.Forms.TextBox();
             this.btnCancelFilters = new System.Windows.Forms.Button();
             this.btnApplyFilters = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnExport = new System.Windows.Forms.Button();
             this.btnFilters = new System.Windows.Forms.Button();
             this.btnSort = new System.Windows.Forms.Button();
             this.cometListbox = new System.Windows.Forms.ListBox();
@@ -273,7 +274,6 @@
             this.menuItem16 = new System.Windows.Forms.MenuItem();
             this.menuItem17 = new System.Windows.Forms.MenuItem();
             this.menuItem18 = new System.Windows.Forms.MenuItem();
-            this.btnPresets = new System.Windows.Forms.Button();
             this.contextPresets = new System.Windows.Forms.ContextMenu();
             this.contextSavePresetMenuItem = new System.Windows.Forms.MenuItem();
             this.contextLoadPresetMenuItem = new System.Windows.Forms.MenuItem();
@@ -352,7 +352,7 @@
             // 
             this.tabPage1.BackColor = System.Drawing.SystemColors.Control;
             this.tabPage1.Controls.Add(this.gbFilters);
-            this.tabPage1.Controls.Add(this.button1);
+            this.tabPage1.Controls.Add(this.btnExport);
             this.tabPage1.Controls.Add(this.btnFilters);
             this.tabPage1.Controls.Add(this.btnSort);
             this.tabPage1.Controls.Add(this.cometListbox);
@@ -384,6 +384,17 @@
             this.gbFilters.TabIndex = 273;
             this.gbFilters.TabStop = false;
             this.gbFilters.Visible = false;
+            // 
+            // btnPresets
+            // 
+            this.btnPresets.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.btnPresets.Location = new System.Drawing.Point(185, 289);
+            this.btnPresets.Name = "btnPresets";
+            this.btnPresets.Size = new System.Drawing.Size(113, 23);
+            this.btnPresets.TabIndex = 43;
+            this.btnPresets.Text = "Presets ▼";
+            this.btnPresets.UseVisualStyleBackColor = true;
+            this.btnPresets.Click += new System.EventHandler(this.btnPresets_Click);
             // 
             // panelPerihDist
             // 
@@ -846,15 +857,15 @@
             this.btnApplyFilters.UseVisualStyleBackColor = true;
             this.btnApplyFilters.Click += new System.EventHandler(this.btnApplyFilters_Click);
             // 
-            // button1
+            // btnExport
             // 
-            this.button1.Location = new System.Drawing.Point(590, 77);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(115, 23);
-            this.button1.TabIndex = 275;
-            this.button1.Text = "Export ▼";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnExport.Location = new System.Drawing.Point(590, 77);
+            this.btnExport.Name = "btnExport";
+            this.btnExport.Size = new System.Drawing.Size(115, 23);
+            this.btnExport.TabIndex = 275;
+            this.btnExport.Text = "Export ▼";
+            this.btnExport.UseVisualStyleBackColor = true;
+            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
             // 
             // btnFilters
             // 
@@ -2703,63 +2714,63 @@
             this.menuItemDesig.Index = 0;
             this.menuItemDesig.RadioCheck = true;
             this.menuItemDesig.Text = "Designation";
-            this.menuItemDesig.Click += new System.EventHandler(this.menuItem1_Click);
+            this.menuItemDesig.Click += new System.EventHandler(this.menuItemSort_Click);
             // 
             // menuItemName
             // 
             this.menuItemName.Index = 1;
             this.menuItemName.RadioCheck = true;
             this.menuItemName.Text = "Name";
-            this.menuItemName.Click += new System.EventHandler(this.menuItem1_Click);
+            this.menuItemName.Click += new System.EventHandler(this.menuItemSort_Click);
             // 
             // menuItemPerihDate
             // 
             this.menuItemPerihDate.Index = 2;
             this.menuItemPerihDate.RadioCheck = true;
             this.menuItemPerihDate.Text = "Perihelion Date";
-            this.menuItemPerihDate.Click += new System.EventHandler(this.menuItem1_Click);
+            this.menuItemPerihDate.Click += new System.EventHandler(this.menuItemSort_Click);
             // 
             // menuItemPerihDist
             // 
             this.menuItemPerihDist.Index = 3;
             this.menuItemPerihDist.RadioCheck = true;
             this.menuItemPerihDist.Text = "Perihelion Distance";
-            this.menuItemPerihDist.Click += new System.EventHandler(this.menuItem1_Click);
+            this.menuItemPerihDist.Click += new System.EventHandler(this.menuItemSort_Click);
             // 
             // menuItemIncl
             // 
             this.menuItemIncl.Index = 4;
             this.menuItemIncl.RadioCheck = true;
             this.menuItemIncl.Text = "Inclination";
-            this.menuItemIncl.Click += new System.EventHandler(this.menuItem1_Click);
+            this.menuItemIncl.Click += new System.EventHandler(this.menuItemSort_Click);
             // 
             // menuItemEcc
             // 
             this.menuItemEcc.Index = 5;
             this.menuItemEcc.RadioCheck = true;
             this.menuItemEcc.Text = "Eccentricity";
-            this.menuItemEcc.Click += new System.EventHandler(this.menuItem1_Click);
+            this.menuItemEcc.Click += new System.EventHandler(this.menuItemSort_Click);
             // 
             // menuItemAscNode
             // 
             this.menuItemAscNode.Index = 6;
             this.menuItemAscNode.RadioCheck = true;
             this.menuItemAscNode.Text = "Long. of the Asc. Node";
-            this.menuItemAscNode.Click += new System.EventHandler(this.menuItem1_Click);
+            this.menuItemAscNode.Click += new System.EventHandler(this.menuItemSort_Click);
             // 
             // menuItemArgPeri
             // 
             this.menuItemArgPeri.Index = 7;
             this.menuItemArgPeri.RadioCheck = true;
             this.menuItemArgPeri.Text = "Arg. of Pericenter";
-            this.menuItemArgPeri.Click += new System.EventHandler(this.menuItem1_Click);
+            this.menuItemArgPeri.Click += new System.EventHandler(this.menuItemSort_Click);
             // 
             // menuItemPeriod
             // 
             this.menuItemPeriod.Index = 8;
             this.menuItemPeriod.RadioCheck = true;
             this.menuItemPeriod.Text = "Period";
-            this.menuItemPeriod.Click += new System.EventHandler(this.menuItem1_Click);
+            this.menuItemPeriod.Click += new System.EventHandler(this.menuItemSort_Click);
             // 
             // menuItem9
             // 
@@ -2923,17 +2934,6 @@
             this.menuItem18.Index = 19;
             this.menuItem18.Text = "Autostar";
             this.menuItem18.Click += new System.EventHandler(this.contextExportMenuItem_Click);
-            // 
-            // btnPresets
-            // 
-            this.btnPresets.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.btnPresets.Location = new System.Drawing.Point(185, 289);
-            this.btnPresets.Name = "btnPresets";
-            this.btnPresets.Size = new System.Drawing.Size(113, 23);
-            this.btnPresets.TabIndex = 43;
-            this.btnPresets.Text = "Presets ▼";
-            this.btnPresets.UseVisualStyleBackColor = true;
-            this.btnPresets.Click += new System.EventHandler(this.btnPresets_Click);
             // 
             // contextPresets
             // 
@@ -3244,7 +3244,7 @@
         private System.Windows.Forms.MenuItem menuItem9;
         private System.Windows.Forms.MenuItem menuItemAsc;
         private System.Windows.Forms.MenuItem menuItemDesc;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnExport;
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label14;
