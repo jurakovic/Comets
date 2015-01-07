@@ -142,6 +142,7 @@
             // 
             this.menuItemImport.Index = 2;
             this.menuItemImport.Text = "Import";
+            this.menuItemImport.Click += new System.EventHandler(this.menuItemImport_Click);
             // 
             // menuItemExport
             // 

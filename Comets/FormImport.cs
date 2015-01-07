@@ -10,17 +10,16 @@ using System.Windows.Forms;
 
 namespace Comets
 {
-    public partial class FormMain : Form
+    public partial class FormImport : Form
     {
-        public FormMain()
+        public FormImport()
         {
             InitializeComponent();
         }
 
-        private void menuItemImport_Click(object sender, EventArgs e)
+        private void btnClose_Click(object sender, EventArgs e)
         {
-            FormImport formImport = new FormImport();
-            formImport.ShowDialog();
+            this.Close();
         }
     }
 }
