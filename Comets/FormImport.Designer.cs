@@ -38,12 +38,13 @@
             this.progressDownload = new System.Windows.Forms.ProgressBar();
             this.btnClose = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.lblStatus = new System.Windows.Forms.Label();
             this.labelDetectedComets = new System.Windows.Forms.Label();
-            this.labelImpportFormat1 = new System.Windows.Forms.Label();
+            this.lblImportFormat1 = new System.Windows.Forms.Label();
             this.labelTotalComets = new System.Windows.Forms.Label();
             this.labelImportFormat = new System.Windows.Forms.Label();
             this.btnImport = new System.Windows.Forms.Button();
+            this.lblStatus = new System.Windows.Forms.Label();
+            this.bwDownload = new System.ComponentModel.BackgroundWorker();
             this.groupBoxLocalFile.SuspendLayout();
             this.groupBoxDownload.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -80,15 +81,17 @@
             this.txtImportFilename.Name = "txtImportFilename";
             this.txtImportFilename.Size = new System.Drawing.Size(526, 21);
             this.txtImportFilename.TabIndex = 1;
+            this.txtImportFilename.TextChanged += new System.EventHandler(this.txtImportFilename_TextChanged);
             // 
             // btnBrowse
             // 
-            this.btnBrowse.Location = new System.Drawing.Point(31, 48);
+            this.btnBrowse.Location = new System.Drawing.Point(31, 47);
             this.btnBrowse.Name = "btnBrowse";
-            this.btnBrowse.Size = new System.Drawing.Size(103, 22);
+            this.btnBrowse.Size = new System.Drawing.Size(103, 23);
             this.btnBrowse.TabIndex = 0;
             this.btnBrowse.Text = "Browse";
             this.btnBrowse.UseVisualStyleBackColor = true;
+            this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
             // 
             // groupBoxDownload
             // 
@@ -106,12 +109,13 @@
             // btnDownload
             // 
             this.btnDownload.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.btnDownload.Location = new System.Drawing.Point(31, 48);
+            this.btnDownload.Location = new System.Drawing.Point(31, 47);
             this.btnDownload.Name = "btnDownload";
-            this.btnDownload.Size = new System.Drawing.Size(103, 22);
+            this.btnDownload.Size = new System.Drawing.Size(103, 23);
             this.btnDownload.TabIndex = 0;
             this.btnDownload.Text = "Download";
             this.btnDownload.UseVisualStyleBackColor = true;
+            this.btnDownload.Click += new System.EventHandler(this.btnDownload_Click);
             // 
             // label19
             // 
@@ -127,9 +131,9 @@
             // 
             this.progressDownload.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressDownload.Location = new System.Drawing.Point(140, 49);
+            this.progressDownload.Location = new System.Drawing.Point(140, 48);
             this.progressDownload.Name = "progressDownload";
-            this.progressDownload.Size = new System.Drawing.Size(526, 20);
+            this.progressDownload.Size = new System.Drawing.Size(526, 21);
             this.progressDownload.TabIndex = 1;
             this.progressDownload.Visible = false;
             // 
@@ -150,7 +154,7 @@
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.labelDetectedComets);
-            this.groupBox1.Controls.Add(this.labelImpportFormat1);
+            this.groupBox1.Controls.Add(this.lblImportFormat1);
             this.groupBox1.Controls.Add(this.labelTotalComets);
             this.groupBox1.Controls.Add(this.labelImportFormat);
             this.groupBox1.Controls.Add(this.btnImport);
@@ -160,16 +164,6 @@
             this.groupBox1.Size = new System.Drawing.Size(690, 140);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
-            // 
-            // lblStatus
-            // 
-            this.lblStatus.AutoSize = true;
-            this.lblStatus.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.lblStatus.Location = new System.Drawing.Point(6, 17);
-            this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(44, 13);
-            this.lblStatus.TabIndex = 25;
-            this.lblStatus.Text = "Status";
             // 
             // labelDetectedComets
             // 
@@ -181,15 +175,15 @@
             this.labelDetectedComets.TabIndex = 47;
             this.labelDetectedComets.Text = "-";
             // 
-            // labelImpportFormat1
+            // lblImportFormat1
             // 
-            this.labelImpportFormat1.AutoSize = true;
-            this.labelImpportFormat1.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.labelImpportFormat1.Location = new System.Drawing.Point(109, 48);
-            this.labelImpportFormat1.Name = "labelImpportFormat1";
-            this.labelImpportFormat1.Size = new System.Drawing.Size(102, 13);
-            this.labelImpportFormat1.TabIndex = 46;
-            this.labelImpportFormat1.Text = "(no file selected)";
+            this.lblImportFormat1.AutoSize = true;
+            this.lblImportFormat1.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.lblImportFormat1.Location = new System.Drawing.Point(109, 48);
+            this.lblImportFormat1.Name = "lblImportFormat1";
+            this.lblImportFormat1.Size = new System.Drawing.Size(102, 13);
+            this.lblImportFormat1.TabIndex = 46;
+            this.lblImportFormat1.Text = "(no file selected)";
             // 
             // labelTotalComets
             // 
@@ -218,6 +212,21 @@
             this.btnImport.TabIndex = 0;
             this.btnImport.Text = "Import";
             this.btnImport.UseVisualStyleBackColor = true;
+            this.btnImport.Click += new System.EventHandler(this.btnImport_Click);
+            // 
+            // lblStatus
+            // 
+            this.lblStatus.AutoSize = true;
+            this.lblStatus.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.lblStatus.Location = new System.Drawing.Point(6, 17);
+            this.lblStatus.Name = "lblStatus";
+            this.lblStatus.Size = new System.Drawing.Size(44, 13);
+            this.lblStatus.TabIndex = 25;
+            this.lblStatus.Text = "Status";
+            // 
+            // bwDownload
+            // 
+            this.bwDownload.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bwDownload_DoWork);
             // 
             // FormImport
             // 
@@ -261,10 +270,11 @@
         private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label labelDetectedComets;
-        private System.Windows.Forms.Label labelImpportFormat1;
+        private System.Windows.Forms.Label lblImportFormat1;
         private System.Windows.Forms.Label labelTotalComets;
         private System.Windows.Forms.Label labelImportFormat;
         private System.Windows.Forms.Button btnImport;
         private System.Windows.Forms.Label lblStatus;
+        private System.ComponentModel.BackgroundWorker bwDownload;
     }
 }

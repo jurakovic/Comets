@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Comet.cs" />
+    <Compile Include="EphemHelper.cs" />
     <Compile Include="FormImport.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -61,6 +62,8 @@
     <Compile Include="FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="ImportHelper.cs" />
+    <Compile Include="Observer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FormImport.resx">
