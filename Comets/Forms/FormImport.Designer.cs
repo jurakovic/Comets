@@ -1,4 +1,4 @@
-﻿namespace Comets
+﻿namespace Comets.Forms
 {
     partial class FormImport
     {

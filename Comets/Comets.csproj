@@ -48,29 +48,30 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Comet.cs" />
-    <Compile Include="EphemHelper.cs" />
-    <Compile Include="FormImport.cs">
+    <Compile Include="Classes\Comet.cs" />
+    <Compile Include="Helpers\EphemHelper.cs" />
+    <Compile Include="Forms\FormImport.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormImport.Designer.cs">
+    <Compile Include="Forms\FormImport.Designer.cs">
       <DependentUpon>FormImport.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormMain.cs">
+    <Compile Include="Forms\FormMain.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormMain.Designer.cs">
+    <Compile Include="Forms\FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="ImportHelper.cs" />
-    <Compile Include="Observer.cs" />
+    <Compile Include="Helpers\ImportHelper.cs" />
+    <Compile Include="Classes\Observer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="FormImport.resx">
+    <EmbeddedResource Include="Forms\FormImport.resx">
       <DependentUpon>FormImport.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormMain.resx">
+    <EmbeddedResource Include="Forms\FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

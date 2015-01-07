@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Comets.Classes;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace Comets
+namespace Comets.Helpers
 {
     public static class ImportHelper
     {
@@ -42,7 +43,26 @@ namespace Comets
 
         public static string[] ImportTypeName = 
         {
-            "MPC (Soft00Cmt)",            "SkyMap (Soft01Cmt)",            "Guide (Soft02Cmt)",            "xephem (Soft03Cmt)",            "Home Planet (Soft04Cmt)",            "MyStars! (Soft05Cmt)",            "TheSky (Soft06Cmt)",            "Starry Night (Soft07Cmt)",            "Deep Space (Soft08Cmt)",            "PC-TCS (Soft09Cmt)",            "Earth Centered Universe (Soft10Cmt)",            "Dance of the Planets (Soft11Cmt)",            "MegaStar V4.x (Soft12Cmt)",            "SkyChart III (Soft13Cmt)",            "Voyager II (Soft14Cmt)",            "SkyTools (Soft15Cmt)",            "Autostar (Soft16Cmt)",            "Celestia",            "Comet for Windows",            "NASA (ELEMENTS.COMET)"
+            "MPC (Soft00Cmt)",
+            "SkyMap (Soft01Cmt)",
+            "Guide (Soft02Cmt)",
+            "xephem (Soft03Cmt)",
+            "Home Planet (Soft04Cmt)",
+            "MyStars! (Soft05Cmt)",
+            "TheSky (Soft06Cmt)",
+            "Starry Night (Soft07Cmt)",
+            "Deep Space (Soft08Cmt)",
+            "PC-TCS (Soft09Cmt)",
+            "Earth Centered Universe (Soft10Cmt)",
+            "Dance of the Planets (Soft11Cmt)",
+            "MegaStar V4.x (Soft12Cmt)",
+            "SkyChart III (Soft13Cmt)",
+            "Voyager II (Soft14Cmt)",
+            "SkyTools (Soft15Cmt)",
+            "Autostar (Soft16Cmt)",
+            "Celestia",
+            "Comet for Windows",
+            "NASA (ELEMENTS.COMET)"
         };
 
         #endregion
