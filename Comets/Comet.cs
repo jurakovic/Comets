@@ -12,52 +12,37 @@ namespace Comets
 {
     public class Comet
     {
-        public string full;
-        public string name;
-        public string id;
-        public double T;
-        public int Ty;
-        public int Tm;
-        public int Td;
-        public int Th;
-        public double P;    //Period
-        public double q;    //Perihelion Distance
-        public double e;    //Eccentricity
-        public double i;    //Inclination
-        public double N;    //Longitude of the Ascending Node
-        public double w;    //Argument of Pericenter
-        public double a;    //Semimajor Axis
-        public double Q;    //Aphelion Distance
-        public double n;    //Mean motion
-        public double g;
-        public double k;
-        public double sortkey;
+        public string full { get; set; }
+        public string name { get; set; }
+        public string id { get; set; }
+        public double T { get; set; }
+        public int Ty { get; set; }
+        public int Tm { get; set; }
+        public int Td { get; set; }
+        public int Th { get; set; }
+        public double P { get; set; }    //Period
+        public double q { get; set; }    //Perihelion Distance
+        public double e { get; set; }    //Eccentricity
+        public double i { get; set; }    //Inclination
+        public double N { get; set; }    //Longitude of the Ascending Node
+        public double w { get; set; }    //Argument of Pericenter
+        public double a { get; set; }    //Semimajor Axis
+        public double Q { get; set; }    //Aphelion Distance
+        public double n { get; set; }    //Mean motion
+        public double g { get; set; }
+        public double k { get; set; }
+        public double sortkey { get; set; }
 
         public Comet()
         {
-            full = "";
-            name = "";
-            id = "";
-            T = 0;
-            Ty = 0;
-            Tm = 0;
-            Td = 0;
-            Th = 0;
-            P = 0.0;
-            q = 0.0;
-            e = 0.0;
-            i = 0.0;
-            N = 0.0;
-            w = 0.0;
-            a = 0.0;
-            Q = 0.0;
-            n = 0.0;
-            g = 0.0;
-            k = 0.0;
-            sortkey = 0.0;
+
         }
 
-
+        /// <summary>
+        /// Calculates Sortkey
+        /// </summary>
+        /// <param name="id">ID</param>
+        /// <returns></returns>
         public static double GetSortkey(string id)
         {
             double sort = 0.0;
@@ -98,7 +83,7 @@ namespace Comets
                 sort = Convert.ToDouble(yc[0].Split('/')[1]) + offset; //da npr C/240 V1 ne bude isto kao i 240P/NEAT i slicno...
 
                 string code = yc[1];
-                
+
                 var match = numAlpha.Match(code);
 
                 string codeLetters = match.Groups["letters"].Value;
@@ -124,7 +109,13 @@ namespace Comets
             return sort;
         }
 
-        public static double getPeriod_P(double q, double e)
+        /// <summary>
+        /// Calculates Period (P)
+        /// </summary>
+        /// <param name="q">Perihelion distance (q)</param>
+        /// <param name="e">Eccentricity (e)</param>
+        /// <returns></returns>
+        public static double GetPeriod(double q, double e)
         {
             if (e < 1.0)
                 return Math.Pow((q / (1.0 - e)), 1.5);
@@ -134,7 +125,13 @@ namespace Comets
                 return Math.Pow((q / (1 - 0.999999)), 1.5); //okvirno samo za sortiranje
         }
 
-        public static double getSemimajorAxis_a(double q, double e)
+        /// <summary>
+        /// Calculates Semimajor axis (a)
+        /// </summary>
+        /// <param name="q">Perihelion distance (q)</param>
+        /// <param name="e">Eccentricity (e)</param>
+        /// <returns></returns>
+        public static double GetSemimajorAxis(double q, double e)
         {
             if (e < 1.0)
                 return q / (1 - e);
@@ -144,18 +141,30 @@ namespace Comets
                 return q / (1 - 0.999999);
         }
 
-        public static double getAphelionDistance_Q(double e, double a)
+        /// <summary>
+        /// Calculates Aphelion distance (Q)
+        /// </summary>
+        /// <param name="e">Eccentricity (e)</param>
+        /// <param name="a">Semimajor axis (a)</param>
+        /// <returns></returns>
+        public static double GetAphelionDistance(double e, double a)
         {
 
             if (e < 1.0)
                 return a * (1 + e);
             else if (e > 1.0)
-                return a * (1 + (2-e));
+                return a * (1 + (2 - e));
             else //if (e == 1.0) //koristi se zamo za sortiranje
                 return a * (1 + 0.999999);
         }
 
-        public static double getMeanMotion_n(double e, double P)
+        /// <summary>
+        /// Calculates Mean motion (n)
+        /// </summary>
+        /// <param name="e">Eccentricity (e)</param>
+        /// <param name="P">Period (P)</param>
+        /// <returns></returns>
+        public static double GetMeanMotion(double e, double P)
         {
             if (e < 1.0)
                 return 0.9856076686 / P; // Gaussian gravitational constant (degrees)
@@ -163,7 +172,12 @@ namespace Comets
                 return 0.0;
         }
 
-        public static string[] setIdNameFromFull(string full)
+        /// <summary>
+        /// Sets Comet ID and Name from Full
+        /// </summary>
+        /// <param name="full">Full comet name</param>
+        /// <returns></returns>
+        public static string[] GetIdNameFromFull(string full)
         {
             string id = "", name = "";
 
@@ -194,10 +208,16 @@ namespace Comets
                 }
             }
 
-            return new string[] {id, name};
+            return new string[] { id, name };
         }
 
-        public static string setFullFromIdName(string id, string name)
+        /// <summary>
+        /// Sets Full from ID and Name
+        /// </summary>
+        /// <param name="id">Comet ID</param>
+        /// <param name="name">Comet Name</param>
+        /// <returns></returns>
+        public static string GetFullFromIdName(string id, string name)
         {
             string full = id;
 
@@ -219,7 +239,15 @@ namespace Comets
             return full;
         }
 
-        public static double GregToJul(int y, int m, int d, int h)
+        /// <summary>
+        /// Converts Gregorian date to Julian day
+        /// </summary>
+        /// <param name="y">Year</param>
+        /// <param name="m">Month</param>
+        /// <param name="d">Day</param>
+        /// <param name="h">Hour (0000)</param>
+        /// <returns></returns>
+        public static double GregorianToJulian(int y, int m, int d, int h)
         {
             double hh = (double)h / 10000;
             return 367 * y - (7 * (y + (m + 9) / 12)) / 4 - ((3 * (y + (m - 9) / 7)) / 100 + 1) / 4 + (275 * m) / 9 + d + 1721029 + hh;
