@@ -1,21 +1,29 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Comets", "Comets\Comets.csproj", "{C7911B59-6327-4BDE-AA7B-49CEDC796EBD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Comets", "Comets\Comets.csproj", "{A92F71ED-BE7E-452C-A542-EDF7655CEEAD}"
 EndProject
 Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 2
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://jurakovic.visualstudio.com/defaultcollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = Comets\\Comets.csproj
+		SccProjectName1 = Comets
+		SccLocalPath1 = Comets
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C7911B59-6327-4BDE-AA7B-49CEDC796EBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C7911B59-6327-4BDE-AA7B-49CEDC796EBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C7911B59-6327-4BDE-AA7B-49CEDC796EBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C7911B59-6327-4BDE-AA7B-49CEDC796EBD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C7911B59-6327-4BDE-AA7B-49CEDC796EBD}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{A92F71ED-BE7E-452C-A542-EDF7655CEEAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A92F71ED-BE7E-452C-A542-EDF7655CEEAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A92F71ED-BE7E-452C-A542-EDF7655CEEAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A92F71ED-BE7E-452C-A542-EDF7655CEEAD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
