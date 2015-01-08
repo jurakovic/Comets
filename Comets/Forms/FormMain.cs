@@ -1,13 +1,9 @@
 ﻿using Comets.Classes;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
+using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace Comets.Forms
@@ -25,11 +21,15 @@ namespace Comets.Forms
 
         public FormMain()
         {
-            System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
+            CultureInfo customCulture = (CultureInfo)Thread.CurrentThread.CurrentCulture.Clone();
             customCulture.NumberFormat.NumberDecimalSeparator = ".";
-            System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
+            Thread.CurrentThread.CurrentCulture = customCulture;
 
             InitializeComponent();
+
+            int offset = 250;
+            this.Width = SystemInformation.VirtualScreen.Width - offset;
+            this.Height = SystemInformation.VirtualScreen.Height - offset;
         }
 
         private void FormMain_Load(object sender, EventArgs e)
@@ -49,7 +49,7 @@ namespace Comets.Forms
 
         public void SetStatusCometsLabel(int count)
         {
-            this.statusComets.Text = "Comets: " + count.ToString();
+            this.statusComets.Text = String.Format("Comets: {0}", count.ToString());
         }
     }
 }

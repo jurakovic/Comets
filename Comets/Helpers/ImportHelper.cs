@@ -71,9 +71,16 @@ namespace Comets.Helpers
 
         public static ImportType GetImportType(string filename)
         {
+            if (!File.Exists(filename))
+                return ImportType.Unknown;
+
+            string[] lines = File.ReadAllLines(filename);
+
+            if (lines.Count() == 0)
+                return ImportType.Unknown;
+
             Comet c = new Comet();
 
-            string[] lines = System.IO.File.ReadAllLines(filename);
             string lastLine = lines[lines.Count() - 1];
 
             try //mpc 0
@@ -327,10 +334,12 @@ namespace Comets.Helpers
             }
 
             //comet for windows 18
-            if (lines[1] == "[File]") return ImportType.CometForWindows;
+            if (lines[1] == "[File]")
+                return ImportType.CometForWindows;
 
             //nasa elements.comet 19
-            if (lines[1].Contains("-----")) return ImportType.NASA;
+            if (lines[1].Contains("-----"))
+                return ImportType.NASA;
 
             return ImportType.Unknown;
         }
@@ -374,10 +383,7 @@ namespace Comets.Helpers
         public static List<Comet> ImportMain(int importType, string filename)
         {
             if (importType == (int)ImportType.Unknown)
-            {
-                MessageBox.Show("Unknown import type.                                 ", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
-            }
 
             List<Comet> list = new List<Comet>();
 
