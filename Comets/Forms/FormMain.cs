@@ -16,7 +16,7 @@ namespace Comets.Forms
         public static string filename;
         public static bool fileIsDownloaded = false;
 
-        public static List<Comet> masterList = new List<Comet>();
+        public static List<Comet> mainList = new List<Comet>();
         public static List<Comet> userList = new List<Comet>();
 
         public FormMain()

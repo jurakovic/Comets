@@ -19,8 +19,9 @@ namespace Comets.Forms
         const string url = "http://www.minorplanetcenter.net/iau/Ephemerides/Comets/Soft00Cmt.txt";
 
         string downloadFilename;
+        string localFilename;
         string importFilename;
-
+        
         int importType = (int)ImportHelper.ImportType.Unknown;
 
         FormMain formMain = null;
@@ -33,6 +34,12 @@ namespace Comets.Forms
 
         private void btnDownload_Click(object sender, EventArgs e)
         {
+            if (downloadFilename != null)
+            {
+                File.Delete(downloadFilename);
+                progressDownload.Value = 0;
+            }
+
             downloadFilename = FormMain.downloadsDir + "Soft00Cmt_" + DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".txt";
 
             bwDownload.RunWorkerAsync();
@@ -99,71 +106,87 @@ namespace Comets.Forms
 
             if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                importFilename = ofd.FileName;
-                txtImportFilename.Text = importFilename; // to ce triggerati event
+                txtImportFilename.Text = ofd.FileName; // txtImportFilename_TextChanged()
             }
         }
 
         private void setImportStatus()
         {
+            if (importFilename == null)
+            {
+                if (localFilename == null && downloadFilename != null)
+                    importFilename = downloadFilename;
+
+                else if (downloadFilename == null && localFilename != null)
+                    importFilename = localFilename;
+            }
+
             importType = (int)ImportHelper.GetImportType(importFilename);
 
-            if (!File.Exists(importFilename))
+            switch (importType)
             {
-                lblImportFormat1.Text = "(file not found)";
-                labelDetectedComets.Text = "-";
-            }
-            else if (importFilename == null)
-            {
-                lblImportFormat1.Text = "(no file selected)";
-                labelDetectedComets.Text = "-";
-            }
-            else if (importType == (int)ImportHelper.ImportType.Unknown)
-            {
-                lblImportFormat1.Text = "unknown";
-                labelDetectedComets.Text = "-";
-            }
-            else
-            {
-                lblImportFormat1.Text = ImportHelper.ImportTypeName[importType];
-                labelDetectedComets.Text = ImportHelper.GetNumberOfComets(importFilename, importType).ToString();
+                case (int)ImportHelper.ImportType.NoFileSelected:
+                    lblImportFormat1.Text = "(no file selected)";
+                    labelDetectedComets.Text = "-";
+                    break;
+
+                case (int)ImportHelper.ImportType.FileNotFound:
+                    lblImportFormat1.Text = "(file not found)";
+                    labelDetectedComets.Text = "-";
+                    break;
+
+                case (int)ImportHelper.ImportType.EmptyFile:
+                    lblImportFormat1.Text = "(empty file)";
+                    labelDetectedComets.Text = "-";
+                    break;
+
+                case (int)ImportHelper.ImportType.Unknown:
+                    lblImportFormat1.Text = "(unknown)";
+                    labelDetectedComets.Text = "-";
+                    break;
+
+                default:
+                    lblImportFormat1.Text = ImportHelper.ImportTypeName[importType];
+                    labelDetectedComets.Text = ImportHelper.GetNumberOfComets(importFilename, importType).ToString();
+                    break;
             }
         }
 
         private void txtImportFilename_TextChanged(object sender, EventArgs e)
         {
-            string localFilename = txtImportFilename.Text.Trim().Trim('"');
+            localFilename = txtImportFilename.Text.Trim().Trim('"');
 
             if (localFilename.Length == 0)
             {
-                if (downloadFilename != null)
-                    importFilename = downloadFilename;
-                else
-                    importFilename = null;
+                localFilename = null;
+                importFilename = null;
             }
+
             else
-            {
                 importFilename = localFilename;
-            }
 
             setImportStatus();
         }
 
         private void btnImport_Click(object sender, EventArgs e)
         {
+            if (importType >= (int)ImportHelper.ImportType.NoFileSelected)
+            {
+                return;
+            }
+
             List<Comet> list = ImportHelper.ImportMain(importType, importFilename);
 
             if (list == null)
             {
-                MessageBox.Show("Unknown import format.\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Something wrong happened. Zero comets imported.\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
-            else
-            {
-                FormMain.masterList = list;
-                this.formMain.SetStatusCometsLabel(list.Count);
-                MessageBox.Show("Import complete.\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                btnClose.Focus();
-            }
+
+            FormMain.mainList = list;
+            this.formMain.SetStatusCometsLabel(list.Count);
+            MessageBox.Show("Import complete.\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            btnClose.Focus();
         }
     }
 }

@@ -14,7 +14,6 @@ namespace Comets.Helpers
 
         public enum ImportType
         {
-            Unknown = -1,
             MPC = 0,
             SkyMap = 1,
             Guide = 2,
@@ -34,7 +33,12 @@ namespace Comets.Helpers
             Autostar = 16,
             Celestia = 17,
             CometForWindows = 18,
-            NASA = 19
+            NASA = 19,
+
+            NoFileSelected = 51,
+            FileNotFound = 52,
+            EmptyFile = 53,
+            Unknown = 54
         }
 
         #endregion
@@ -71,13 +75,16 @@ namespace Comets.Helpers
 
         public static ImportType GetImportType(string filename)
         {
+            if (filename == null)
+                return ImportType.NoFileSelected;
+
             if (!File.Exists(filename))
-                return ImportType.Unknown;
+                return ImportType.FileNotFound;
+
+            if (new FileInfo(filename).Length == 0)
+                return ImportType.EmptyFile;
 
             string[] lines = File.ReadAllLines(filename);
-
-            if (lines.Count() == 0)
-                return ImportType.Unknown;
 
             Comet c = new Comet();
 
@@ -333,13 +340,20 @@ namespace Comets.Helpers
 
             }
 
-            //comet for windows 18
-            if (lines[1] == "[File]")
-                return ImportType.CometForWindows;
+            try
+            {
+                //comet for windows 18
+                if (lines[1] == "[File]")
+                    return ImportType.CometForWindows;
 
-            //nasa elements.comet 19
-            if (lines[1].Contains("-----"))
-                return ImportType.NASA;
+                //nasa elements.comet 19
+                if (lines[1].Contains("-----"))
+                    return ImportType.NASA;
+            }
+            catch
+            {
+
+            }
 
             return ImportType.Unknown;
         }
@@ -382,9 +396,6 @@ namespace Comets.Helpers
 
         public static List<Comet> ImportMain(int importType, string filename)
         {
-            if (importType == (int)ImportType.Unknown)
-                return null;
-
             List<Comet> list = new List<Comet>();
 
             if (importType == (int)ImportType.MPC)
