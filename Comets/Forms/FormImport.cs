@@ -106,7 +106,7 @@ namespace Comets.Forms
 
             if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                txtImportFilename.Text = ofd.FileName; // txtImportFilename_TextChanged()
+                txtLocalFile.Text = ofd.FileName; // txtImportFilename_TextChanged()
             }
         }
 
@@ -126,27 +126,27 @@ namespace Comets.Forms
             switch (importType)
             {
                 case (int)ImportHelper.ImportType.NoFileSelected:
-                    lblImportFormat1.Text = "(no file selected)";
+                    lblImportFormat.Text = "(no file selected)";
                     labelDetectedComets.Text = "-";
                     break;
 
                 case (int)ImportHelper.ImportType.FileNotFound:
-                    lblImportFormat1.Text = "(file not found)";
+                    lblImportFormat.Text = "(file not found)";
                     labelDetectedComets.Text = "-";
                     break;
 
                 case (int)ImportHelper.ImportType.EmptyFile:
-                    lblImportFormat1.Text = "(empty file)";
+                    lblImportFormat.Text = "(empty file)";
                     labelDetectedComets.Text = "-";
                     break;
 
                 case (int)ImportHelper.ImportType.Unknown:
-                    lblImportFormat1.Text = "(unknown)";
+                    lblImportFormat.Text = "(unknown)";
                     labelDetectedComets.Text = "-";
                     break;
 
                 default:
-                    lblImportFormat1.Text = ImportHelper.ImportTypeName[importType];
+                    lblImportFormat.Text = ImportHelper.ImportTypeName[importType];
                     labelDetectedComets.Text = ImportHelper.GetNumberOfComets(importFilename, importType).ToString();
                     break;
             }
@@ -154,7 +154,7 @@ namespace Comets.Forms
 
         private void txtImportFilename_TextChanged(object sender, EventArgs e)
         {
-            localFilename = txtImportFilename.Text.Trim().Trim('"');
+            localFilename = txtLocalFile.Text.Trim().Trim('"');
 
             if (localFilename.Length == 0)
             {

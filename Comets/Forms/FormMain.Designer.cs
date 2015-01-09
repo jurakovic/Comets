@@ -221,7 +221,7 @@
             // statusSpace
             // 
             this.statusSpace.Name = "statusSpace";
-            this.statusSpace.Size = new System.Drawing.Size(769, 17);
+            this.statusSpace.Size = new System.Drawing.Size(369, 17);
             this.statusSpace.Spring = true;
             // 
             // statusProgressBar
