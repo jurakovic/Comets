@@ -184,6 +184,7 @@ namespace Comets.Forms
             }
 
             FormMain.mainList = list;
+            FormMain.userList = list;
             this.formMain.SetStatusCometsLabel(list.Count);
             MessageBox.Show("Import complete.\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
             btnClose.Focus();

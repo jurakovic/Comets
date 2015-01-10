@@ -19,6 +19,8 @@ namespace Comets.Forms
         public static List<Comet> mainList = new List<Comet>();
         public static List<Comet> userList = new List<Comet>();
 
+        FormDatabase fdb;
+
         public FormMain()
         {
             CultureInfo customCulture = (CultureInfo)Thread.CurrentThread.CurrentCulture.Clone();
@@ -30,6 +32,8 @@ namespace Comets.Forms
             int offset = 250;
             this.Width = SystemInformation.VirtualScreen.Width - offset;
             this.Height = SystemInformation.VirtualScreen.Height - offset;
+
+            fdb = new FormDatabase();
         }
 
         private void FormMain_Load(object sender, EventArgs e)
@@ -41,10 +45,21 @@ namespace Comets.Forms
                 Directory.CreateDirectory(downloadsDir);
         }
 
+        private void menuItemStatusBar_Click(object sender, EventArgs e)
+        {
+            menuItemStatusBar.Checked = !menuItemStatusBar.Checked;
+            this.statusStrip.Visible = menuItemStatusBar.Checked;
+        }
+
         private void menuItemImport_Click(object sender, EventArgs e)
         {
             FormImport formImport = new FormImport(this);
             formImport.ShowDialog();
+        }
+
+        private void menuItemDatabase_Click(object sender, EventArgs e)
+        {
+            fdb.ShowDialog();
         }
 
         public void SetStatusCometsLabel(int count)
