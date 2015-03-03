@@ -181,44 +181,44 @@
             this.label18.AutoSize = true;
             this.label18.Font = new System.Drawing.Font("Tahoma", 8F);
             this.label18.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.label18.Location = new System.Drawing.Point(389, 80);
+            this.label18.Location = new System.Drawing.Point(390, 80);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(72, 13);
+            this.label18.Size = new System.Drawing.Size(68, 13);
             this.label18.TabIndex = 275;
-            this.label18.Text = "Mean motion:";
+            this.label18.Text = "Mean motion";
             // 
             // label62
             // 
             this.label62.AutoSize = true;
             this.label62.Font = new System.Drawing.Font("Tahoma", 8F);
             this.label62.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.label62.Location = new System.Drawing.Point(31, 24);
+            this.label62.Location = new System.Drawing.Point(32, 24);
             this.label62.Name = "label62";
-            this.label62.Size = new System.Drawing.Size(67, 13);
+            this.label62.Size = new System.Drawing.Size(63, 13);
             this.label62.TabIndex = 0;
-            this.label62.Text = "Designation:";
+            this.label62.Text = "Designation";
             // 
             // label61
             // 
             this.label61.AutoSize = true;
             this.label61.Font = new System.Drawing.Font("Tahoma", 8F);
             this.label61.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.label61.Location = new System.Drawing.Point(210, 24);
+            this.label61.Location = new System.Drawing.Point(211, 24);
             this.label61.Name = "label61";
-            this.label61.Size = new System.Drawing.Size(38, 13);
+            this.label61.Size = new System.Drawing.Size(34, 13);
             this.label61.TabIndex = 221;
-            this.label61.Text = "Name:";
+            this.label61.Text = "Name";
             // 
             // label63
             // 
             this.label63.AutoSize = true;
             this.label63.Font = new System.Drawing.Font("Tahoma", 8F);
             this.label63.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.label63.Location = new System.Drawing.Point(389, 133);
+            this.label63.Location = new System.Drawing.Point(390, 133);
             this.label63.Name = "label63";
-            this.label63.Size = new System.Drawing.Size(86, 13);
+            this.label63.Size = new System.Drawing.Size(82, 13);
             this.label63.TabIndex = 272;
-            this.label63.Text = "Semi-major axis:";
+            this.label63.Text = "Semi-major axis";
             // 
             // t_P
             // 
@@ -256,22 +256,22 @@
             this.label32.AutoSize = true;
             this.label32.Font = new System.Drawing.Font("Tahoma", 8F);
             this.label32.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.label32.Location = new System.Drawing.Point(389, 242);
+            this.label32.Location = new System.Drawing.Point(390, 242);
             this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(49, 13);
+            this.label32.Size = new System.Drawing.Size(45, 13);
             this.label32.TabIndex = 243;
-            this.label32.Text = "Equinox:";
+            this.label32.Text = "Equinox";
             // 
             // label34
             // 
             this.label34.AutoSize = true;
             this.label34.Font = new System.Drawing.Font("Tahoma", 8F);
             this.label34.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.label34.Location = new System.Drawing.Point(31, 80);
+            this.label34.Location = new System.Drawing.Point(32, 80);
             this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(82, 13);
+            this.label34.Size = new System.Drawing.Size(78, 13);
             this.label34.TabIndex = 244;
-            this.label34.Text = "Perihelion date:";
+            this.label34.Text = "Perihelion date";
             // 
             // tEquinox
             // 
@@ -320,11 +320,11 @@
             this.label38.AutoSize = true;
             this.label38.Font = new System.Drawing.Font("Tahoma", 8F);
             this.label38.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.label38.Location = new System.Drawing.Point(210, 80);
+            this.label38.Location = new System.Drawing.Point(211, 80);
             this.label38.Name = "label38";
-            this.label38.Size = new System.Drawing.Size(41, 13);
+            this.label38.Size = new System.Drawing.Size(37, 13);
             this.label38.TabIndex = 249;
-            this.label38.Text = "Period:";
+            this.label38.Text = "Period";
             // 
             // label64
             // 
@@ -373,11 +373,11 @@
             this.label46.AutoSize = true;
             this.label46.Font = new System.Drawing.Font("Tahoma", 8F);
             this.label46.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.label46.Location = new System.Drawing.Point(210, 134);
+            this.label46.Location = new System.Drawing.Point(211, 134);
             this.label46.Name = "label46";
-            this.label46.Size = new System.Drawing.Size(95, 13);
+            this.label46.Size = new System.Drawing.Size(91, 13);
             this.label46.TabIndex = 268;
-            this.label46.Text = "Aphelion distance:";
+            this.label46.Text = "Aphelion distance";
             // 
             // t_q1
             // 
@@ -489,11 +489,11 @@
             this.label42.AutoSize = true;
             this.label42.Font = new System.Drawing.Font("Tahoma", 8F);
             this.label42.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.label42.Location = new System.Drawing.Point(389, 187);
+            this.label42.Location = new System.Drawing.Point(390, 187);
             this.label42.Name = "label42";
-            this.label42.Size = new System.Drawing.Size(119, 13);
+            this.label42.Size = new System.Drawing.Size(115, 13);
             this.label42.TabIndex = 253;
-            this.label42.Text = "Magnitude parameters:";
+            this.label42.Text = "Magnitude parameters";
             // 
             // label56
             // 
@@ -511,11 +511,11 @@
             this.label41.AutoSize = true;
             this.label41.Font = new System.Drawing.Font("Tahoma", 8F);
             this.label41.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.label41.Location = new System.Drawing.Point(210, 242);
+            this.label41.Location = new System.Drawing.Point(211, 242);
             this.label41.Name = "label41";
-            this.label41.Size = new System.Drawing.Size(123, 13);
+            this.label41.Size = new System.Drawing.Size(119, 13);
             this.label41.TabIndex = 252;
-            this.label41.Text = "Argument of pericenter:";
+            this.label41.Text = "Argument of pericenter";
             // 
             // label55
             // 
@@ -533,11 +533,11 @@
             this.label40.AutoSize = true;
             this.label40.Font = new System.Drawing.Font("Tahoma", 8F);
             this.label40.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.label40.Location = new System.Drawing.Point(210, 188);
+            this.label40.Location = new System.Drawing.Point(211, 188);
             this.label40.Name = "label40";
-            this.label40.Size = new System.Drawing.Size(87, 13);
+            this.label40.Size = new System.Drawing.Size(83, 13);
             this.label40.TabIndex = 251;
-            this.label40.Text = "Ascending node:";
+            this.label40.Text = "Ascending node";
             // 
             // label54
             // 
@@ -566,11 +566,11 @@
             this.label36.AutoSize = true;
             this.label36.Font = new System.Drawing.Font("Tahoma", 8F);
             this.label36.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.label36.Location = new System.Drawing.Point(31, 188);
+            this.label36.Location = new System.Drawing.Point(32, 188);
             this.label36.Name = "label36";
-            this.label36.Size = new System.Drawing.Size(66, 13);
+            this.label36.Size = new System.Drawing.Size(62, 13);
             this.label36.TabIndex = 0;
-            this.label36.Text = "Eccentricity:";
+            this.label36.Text = "Eccentricity";
             // 
             // label52
             // 
@@ -588,11 +588,11 @@
             this.label35.AutoSize = true;
             this.label35.Font = new System.Drawing.Font("Tahoma", 8F);
             this.label35.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.label35.Location = new System.Drawing.Point(31, 242);
+            this.label35.Location = new System.Drawing.Point(32, 242);
             this.label35.Name = "label35";
-            this.label35.Size = new System.Drawing.Size(60, 13);
+            this.label35.Size = new System.Drawing.Size(56, 13);
             this.label35.TabIndex = 246;
-            this.label35.Text = "Inclination:";
+            this.label35.Text = "Inclination";
             // 
             // label51
             // 
@@ -610,11 +610,11 @@
             this.label33.AutoSize = true;
             this.label33.Font = new System.Drawing.Font("Tahoma", 8F);
             this.label33.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.label33.Location = new System.Drawing.Point(31, 134);
+            this.label33.Location = new System.Drawing.Point(32, 134);
             this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(100, 13);
+            this.label33.Size = new System.Drawing.Size(96, 13);
             this.label33.TabIndex = 245;
-            this.label33.Text = "Perihelion distance:";
+            this.label33.Text = "Perihelion distance";
             // 
             // t_g
             // 
@@ -702,7 +702,7 @@
             // 
             this.t_sortKey.BackColor = System.Drawing.SystemColors.Window;
             this.t_sortKey.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.t_sortKey.Location = new System.Drawing.Point(649, 381);
+            this.t_sortKey.Location = new System.Drawing.Point(470, 379);
             this.t_sortKey.Name = "t_sortKey";
             this.t_sortKey.ReadOnly = true;
             this.t_sortKey.Size = new System.Drawing.Size(118, 22);
@@ -714,22 +714,22 @@
             this.lblSortKey.AutoSize = true;
             this.lblSortKey.Font = new System.Drawing.Font("Tahoma", 8F);
             this.lblSortKey.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.lblSortKey.Location = new System.Drawing.Point(646, 364);
+            this.lblSortKey.Location = new System.Drawing.Point(468, 362);
             this.lblSortKey.Name = "lblSortKey";
-            this.lblSortKey.Size = new System.Drawing.Size(48, 13);
+            this.lblSortKey.Size = new System.Drawing.Size(44, 13);
             this.lblSortKey.TabIndex = 285;
-            this.lblSortKey.Text = "Sortkey:";
+            this.lblSortKey.Text = "Sortkey";
             this.lblSortKey.Visible = false;
             // 
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.button1.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.button1.Location = new System.Drawing.Point(335, 378);
+            this.button1.Location = new System.Drawing.Point(649, 379);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(142, 25);
+            this.button1.Size = new System.Drawing.Size(118, 23);
             this.button1.TabIndex = 291;
-            this.button1.Text = "Cancel";
+            this.button1.Text = "Close";
             this.button1.UseVisualStyleBackColor = true;
             // 
             // contextSort
