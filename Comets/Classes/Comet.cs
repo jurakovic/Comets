@@ -26,6 +26,7 @@ namespace Comets.Classes
         public double g { get; set; }
         public double k { get; set; }
         public double sortkey { get; set; }
+        public string idKey { get; set; }
 
         public Comet()
         {
@@ -101,6 +102,30 @@ namespace Comets.Classes
             sort += v;
 
             return sort;
+        }
+
+        /// <summary>
+        /// Returns IDKey
+        /// </summary>
+        /// <param name="id">ID</param>
+        /// <returns></returns>
+        public static string GetIdKey(string id)
+        {
+            string key = string.Empty;
+
+            if (char.IsDigit(id[0]))
+            {
+                key = id;
+
+                for (int i = key.Length; i < 5; i++)
+                    key = '0' + key;
+            }
+            else
+            {
+                key = id.Remove(0, 2).Replace("-", string.Empty).Replace(" ", string.Empty);
+            }
+
+            return key;
         }
 
         /// <summary>

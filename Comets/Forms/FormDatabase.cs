@@ -56,6 +56,7 @@ namespace Comets.Forms
             t_k.Text = c.k.ToString("0.0");
 
             t_sortKey.Text = c.sortkey.ToString("0.00000000000");
+            //t_sortKey.Text = c.idKey;
 
             tEquinox.Text = "2000.0";
         }

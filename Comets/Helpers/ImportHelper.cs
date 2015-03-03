@@ -498,7 +498,7 @@ namespace Comets.Helpers
                     c.Q = Comet.GetAphelionDistance(c.e, c.a);
 
                     c.sortkey = Comet.GetSortkey(c.id);
-
+                    c.idKey = Comet.GetIdKey(c.id);
                 }
                 catch
                 {
@@ -577,6 +577,7 @@ namespace Comets.Helpers
                     c.Q = Comet.GetAphelionDistance(c.e, c.a);
 
                     c.sortkey = Comet.GetSortkey(c.id);
+                    c.idKey = Comet.GetIdKey(c.id);
                 }
                 catch
                 {
@@ -635,6 +636,7 @@ namespace Comets.Helpers
                     c.Q = Comet.GetAphelionDistance(c.e, c.a);
 
                     c.sortkey = Comet.GetSortkey(c.id);
+                    c.idKey = Comet.GetIdKey(c.id);
                 }
                 catch
                 {
@@ -750,6 +752,7 @@ namespace Comets.Helpers
                     c.Q = Comet.GetAphelionDistance(c.e, c.a);
 
                     c.sortkey = Comet.GetSortkey(c.id);
+                    c.idKey = Comet.GetIdKey(c.id);
                 }
                 catch
                 {
@@ -798,6 +801,7 @@ namespace Comets.Helpers
                     c.Q = Comet.GetAphelionDistance(c.e, c.a);
 
                     c.sortkey = Comet.GetSortkey(c.id);
+                    c.idKey = Comet.GetIdKey(c.id);
                 }
                 catch
                 {
@@ -859,6 +863,7 @@ namespace Comets.Helpers
                     c.Q = Comet.GetAphelionDistance(c.e, c.a);
 
                     c.sortkey = Comet.GetSortkey(c.id);
+                    c.idKey = Comet.GetIdKey(c.id);
                 }
                 catch
                 {
@@ -905,6 +910,7 @@ namespace Comets.Helpers
                     c.Q = Comet.GetAphelionDistance(c.e, c.a);
 
                     c.sortkey = Comet.GetSortkey(c.id);
+                    c.idKey = Comet.GetIdKey(c.id);
                 }
                 catch
                 {
@@ -951,6 +957,7 @@ namespace Comets.Helpers
                     c.Q = Comet.GetAphelionDistance(c.e, c.a);
 
                     c.sortkey = Comet.GetSortkey(c.id);
+                    c.idKey = Comet.GetIdKey(c.id);
                 }
                 catch
                 {
@@ -1001,6 +1008,7 @@ namespace Comets.Helpers
                     c.Q = Comet.GetAphelionDistance(c.e, c.a);
 
                     c.sortkey = Comet.GetSortkey(c.id);
+                    c.idKey = Comet.GetIdKey(c.id);
                 }
                 catch
                 {
@@ -1062,6 +1070,7 @@ namespace Comets.Helpers
                     c.Q = Comet.GetAphelionDistance(c.e, c.a);
 
                     c.sortkey = Comet.GetSortkey(c.id);
+                    c.idKey = Comet.GetIdKey(c.id);
                 }
                 catch
                 {
@@ -1111,6 +1120,7 @@ namespace Comets.Helpers
                     c.Q = Comet.GetAphelionDistance(c.e, c.a);
 
                     c.sortkey = Comet.GetSortkey(c.id);
+                    c.idKey = Comet.GetIdKey(c.id);
                 }
                 catch
                 {
@@ -1170,6 +1180,7 @@ namespace Comets.Helpers
                     c.Q = Comet.GetAphelionDistance(c.e, c.a);
 
                     c.sortkey = Comet.GetSortkey(c.id);
+                    c.idKey = Comet.GetIdKey(c.id);
                 }
                 catch
                 {
@@ -1213,6 +1224,7 @@ namespace Comets.Helpers
                     c.Q = Comet.GetAphelionDistance(c.e, c.a);
 
                     c.sortkey = Comet.GetSortkey(c.id);
+                    c.idKey = Comet.GetIdKey(c.id);
                 }
                 catch
                 {
@@ -1262,6 +1274,7 @@ namespace Comets.Helpers
                     c.Q = Comet.GetAphelionDistance(c.e, c.a);
 
                     c.sortkey = Comet.GetSortkey(c.id);
+                    c.idKey = Comet.GetIdKey(c.id);
                 }
                 catch
                 {
@@ -1318,6 +1331,7 @@ namespace Comets.Helpers
                     c.Q = Comet.GetAphelionDistance(c.e, c.a);
 
                     c.sortkey = Comet.GetSortkey(c.id);
+                    c.idKey = Comet.GetIdKey(c.id);
                 }
                 catch
                 {
@@ -1388,6 +1402,7 @@ namespace Comets.Helpers
                     c.Q = Comet.GetAphelionDistance(c.e, c.a);
 
                     c.sortkey = Comet.GetSortkey(c.id);
+                    c.idKey = Comet.GetIdKey(c.id);
                 }
                 catch
                 {
@@ -1437,6 +1452,7 @@ namespace Comets.Helpers
                     c.Q = Comet.GetAphelionDistance(c.e, c.a);
 
                     c.sortkey = Comet.GetSortkey(c.id);
+                    c.idKey = Comet.GetIdKey(c.id);
                 }
                 catch
                 {
@@ -1487,6 +1503,7 @@ namespace Comets.Helpers
                     c.Q = Comet.GetAphelionDistance(c.e, c.a);
 
                     c.sortkey = Comet.GetSortkey(c.id);
+                    c.idKey = Comet.GetIdKey(c.id);
                 }
                 catch
                 {
