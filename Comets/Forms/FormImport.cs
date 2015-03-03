@@ -59,6 +59,7 @@ namespace Comets.Forms
                 progressDownload.Visible = true;
 
                 WebClient Client = new WebClient();
+                Client.Proxy.Credentials = System.Net.CredentialCache.DefaultNetworkCredentials;
                 Client.DownloadProgressChanged += Client_DownloadProgressChanged;
                 Client.DownloadFileCompleted += Client_DownloadFileCompleted;
                 Uri uri = new Uri(url);
