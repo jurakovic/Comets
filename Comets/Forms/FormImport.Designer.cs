@@ -57,9 +57,9 @@
             this.gbxLocalFile.Controls.Add(this.lblLocalFile);
             this.gbxLocalFile.Controls.Add(this.txtLocalFile);
             this.gbxLocalFile.Controls.Add(this.btnBrowse);
-            this.gbxLocalFile.Location = new System.Drawing.Point(7, 97);
+            this.gbxLocalFile.Location = new System.Drawing.Point(10, 99);
             this.gbxLocalFile.Name = "gbxLocalFile";
-            this.gbxLocalFile.Size = new System.Drawing.Size(690, 94);
+            this.gbxLocalFile.Size = new System.Drawing.Size(689, 94);
             this.gbxLocalFile.TabIndex = 1;
             this.gbxLocalFile.TabStop = false;
             // 
@@ -77,9 +77,9 @@
             // 
             this.txtLocalFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtLocalFile.Location = new System.Drawing.Point(140, 48);
+            this.txtLocalFile.Location = new System.Drawing.Point(155, 48);
             this.txtLocalFile.Name = "txtLocalFile";
-            this.txtLocalFile.Size = new System.Drawing.Size(526, 21);
+            this.txtLocalFile.Size = new System.Drawing.Size(510, 21);
             this.txtLocalFile.TabIndex = 1;
             this.txtLocalFile.TextChanged += new System.EventHandler(this.txtImportFilename_TextChanged);
             // 
@@ -87,7 +87,7 @@
             // 
             this.btnBrowse.Location = new System.Drawing.Point(31, 47);
             this.btnBrowse.Name = "btnBrowse";
-            this.btnBrowse.Size = new System.Drawing.Size(103, 23);
+            this.btnBrowse.Size = new System.Drawing.Size(118, 23);
             this.btnBrowse.TabIndex = 0;
             this.btnBrowse.Text = "Browse";
             this.btnBrowse.UseVisualStyleBackColor = true;
@@ -100,9 +100,9 @@
             this.gbxDownload.Controls.Add(this.btnDownload);
             this.gbxDownload.Controls.Add(this.lblDownload);
             this.gbxDownload.Controls.Add(this.progressDownload);
-            this.gbxDownload.Location = new System.Drawing.Point(7, 2);
+            this.gbxDownload.Location = new System.Drawing.Point(10, 4);
             this.gbxDownload.Name = "gbxDownload";
-            this.gbxDownload.Size = new System.Drawing.Size(690, 94);
+            this.gbxDownload.Size = new System.Drawing.Size(689, 94);
             this.gbxDownload.TabIndex = 0;
             this.gbxDownload.TabStop = false;
             // 
@@ -111,7 +111,7 @@
             this.btnDownload.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.btnDownload.Location = new System.Drawing.Point(31, 47);
             this.btnDownload.Name = "btnDownload";
-            this.btnDownload.Size = new System.Drawing.Size(103, 23);
+            this.btnDownload.Size = new System.Drawing.Size(118, 23);
             this.btnDownload.TabIndex = 0;
             this.btnDownload.Text = "Download";
             this.btnDownload.UseVisualStyleBackColor = true;
@@ -131,9 +131,9 @@
             // 
             this.progressDownload.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressDownload.Location = new System.Drawing.Point(140, 48);
+            this.progressDownload.Location = new System.Drawing.Point(155, 48);
             this.progressDownload.Name = "progressDownload";
-            this.progressDownload.Size = new System.Drawing.Size(526, 21);
+            this.progressDownload.Size = new System.Drawing.Size(510, 21);
             this.progressDownload.TabIndex = 1;
             this.progressDownload.Visible = false;
             // 
@@ -141,9 +141,9 @@
             // 
             this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnClose.Location = new System.Drawing.Point(282, 351);
+            this.btnClose.Location = new System.Drawing.Point(546, 351);
             this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(142, 25);
+            this.btnClose.Size = new System.Drawing.Size(118, 23);
             this.btnClose.TabIndex = 3;
             this.btnClose.Text = "Close";
             this.btnClose.UseVisualStyleBackColor = true;
@@ -158,9 +158,9 @@
             this.gbxStatus.Controls.Add(this.lblImportFormatDescr);
             this.gbxStatus.Controls.Add(this.btnImport);
             this.gbxStatus.Controls.Add(this.lblStatus);
-            this.gbxStatus.Location = new System.Drawing.Point(7, 191);
+            this.gbxStatus.Location = new System.Drawing.Point(10, 193);
             this.gbxStatus.Name = "gbxStatus";
-            this.gbxStatus.Size = new System.Drawing.Size(690, 140);
+            this.gbxStatus.Size = new System.Drawing.Size(689, 140);
             this.gbxStatus.TabIndex = 2;
             this.gbxStatus.TabStop = false;
             // 
@@ -207,7 +207,7 @@
             this.btnImport.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.btnImport.Location = new System.Drawing.Point(31, 93);
             this.btnImport.Name = "btnImport";
-            this.btnImport.Size = new System.Drawing.Size(103, 23);
+            this.btnImport.Size = new System.Drawing.Size(118, 23);
             this.btnImport.TabIndex = 0;
             this.btnImport.Text = "Import";
             this.btnImport.UseVisualStyleBackColor = true;
@@ -232,7 +232,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnClose;
-            this.ClientSize = new System.Drawing.Size(704, 393);
+            this.ClientSize = new System.Drawing.Size(709, 394);
             this.Controls.Add(this.gbxStatus);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.gbxLocalFile);

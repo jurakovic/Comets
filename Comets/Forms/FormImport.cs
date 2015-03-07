@@ -97,17 +97,9 @@ namespace Comets.Forms
 
         private void btnBrowse_Click(object sender, EventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.InitialDirectory = FormMain.downloadsDir;
-
-            ofd.Filter = "Text files (*.txt)|*.TXT|" +
-                        "DAT files (*.dat)|*.DAT|" +
-                        "COMET files (*.comet)|*.COMET|" +
-                        "All files (*.*)|*.*";
-
-            if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            if (formMain.ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                txtLocalFile.Text = ofd.FileName; // txtImportFilename_TextChanged()
+                txtLocalFile.Text = formMain.ofd.FileName; // txtImportFilename_TextChanged()
             }
         }
 

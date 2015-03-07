@@ -11,15 +11,19 @@ namespace Comets.Forms
     public partial class FormMain : Form
     {
         public static string downloadsDir;
-        public static string localDataDir;
         public static string downloadedFile;
-        public static string filename;
-        public static bool fileIsDownloaded = false;
+
+        public static string localDataDir;
+        public static string localDatabase;
+
+        //public static string filename;
+        //public static bool fileIsDownloaded = false;
 
         public static List<Comet> mainList = new List<Comet>();
         public static List<Comet> userList = new List<Comet>();
 
         FormDatabase fdb;
+        public OpenFileDialog ofd;
 
         public FormMain()
         {
@@ -32,17 +36,28 @@ namespace Comets.Forms
             int offset = 250;
             this.Width = SystemInformation.VirtualScreen.Width - offset;
             this.Height = SystemInformation.VirtualScreen.Height - offset;
-
-            fdb = new FormDatabase();
         }
 
         private void FormMain_Load(object sender, EventArgs e)
         {      
             downloadsDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            downloadsDir += @"\Comets\";
+            downloadsDir += "\\Comets";
 
             if (!Directory.Exists(downloadsDir))
                 Directory.CreateDirectory(downloadsDir);
+
+            localDataDir = downloadsDir;
+            localDatabase = localDataDir + "\\Comets.db";
+
+            fdb = new FormDatabase();
+
+            ofd = new OpenFileDialog();
+            ofd.InitialDirectory = FormMain.localDataDir;
+            ofd.Filter = "Orbital elements files (*.txt, *.dat, *.comet)|*.txt;*.dat;*.comet|" +
+                        "Text documents (*.txt)|*.txt|" +
+                        "DAT files (*.dat)|*.dat|" +
+                        "COMET files (*.comet)|*.comet|" +
+                        "All files (*.*)|*.*";
         }
 
         private void menuItemStatusBar_Click(object sender, EventArgs e)
