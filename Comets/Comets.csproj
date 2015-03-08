@@ -49,11 +49,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Comet.cs" />
+    <Compile Include="Classes\ElementTypes.cs" />
     <Compile Include="Forms\FormDatabase.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\FormDatabase.Designer.cs">
       <DependentUpon>FormDatabase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormExport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormExport.Designer.cs">
+      <DependentUpon>FormExport.cs</DependentUpon>
     </Compile>
     <Compile Include="Helpers\EphemHelper.cs" />
     <Compile Include="Forms\FormImport.cs">
@@ -68,12 +75,16 @@
     <Compile Include="Forms\FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\ExportHelper.cs" />
     <Compile Include="Helpers\ImportHelper.cs" />
     <Compile Include="Classes\Observer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Forms\FormDatabase.resx">
       <DependentUpon>FormDatabase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormExport.resx">
+      <DependentUpon>FormExport.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormImport.resx">
       <DependentUpon>FormImport.cs</DependentUpon>

@@ -79,7 +79,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtLocalFile.Location = new System.Drawing.Point(155, 48);
             this.txtLocalFile.Name = "txtLocalFile";
-            this.txtLocalFile.Size = new System.Drawing.Size(510, 21);
+            this.txtLocalFile.Size = new System.Drawing.Size(499, 21);
             this.txtLocalFile.TabIndex = 1;
             this.txtLocalFile.TextChanged += new System.EventHandler(this.txtImportFilename_TextChanged);
             // 
@@ -133,7 +133,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.progressDownload.Location = new System.Drawing.Point(155, 48);
             this.progressDownload.Name = "progressDownload";
-            this.progressDownload.Size = new System.Drawing.Size(510, 21);
+            this.progressDownload.Size = new System.Drawing.Size(499, 21);
             this.progressDownload.TabIndex = 1;
             this.progressDownload.Visible = false;
             // 

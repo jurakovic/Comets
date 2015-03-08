@@ -149,6 +149,7 @@
             // 
             this.menuItemExport.Index = 3;
             this.menuItemExport.Text = "Export";
+            this.menuItemExport.Click += new System.EventHandler(this.menuItemExport_Click);
             // 
             // menuItemSeparatorEdit2
             // 

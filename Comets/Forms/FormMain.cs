@@ -68,8 +68,10 @@ namespace Comets.Forms
 
         private void menuItemImport_Click(object sender, EventArgs e)
         {
-            FormImport formImport = new FormImport(this);
-            formImport.ShowDialog();
+            using (FormImport formImport = new FormImport(this))
+            {
+                formImport.ShowDialog();
+            }
         }
 
         private void menuItemDatabase_Click(object sender, EventArgs e)
@@ -80,6 +82,14 @@ namespace Comets.Forms
         public void SetStatusCometsLabel(int count)
         {
             this.statusComets.Text = String.Format("Comets: {0}", count.ToString());
+        }
+
+        private void menuItemExport_Click(object sender, EventArgs e)
+        {
+            using (FormExport formExport = new FormExport())
+            {
+                formExport.ShowDialog();
+            }
         }
     }
 }

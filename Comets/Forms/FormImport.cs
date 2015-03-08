@@ -3,14 +3,10 @@ using Comets.Helpers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using ImportType = Comets.Classes.ElementTypes.Type;
 
 namespace Comets.Forms
 {
@@ -21,8 +17,8 @@ namespace Comets.Forms
         string downloadFilename;
         string localFilename;
         string importFilename;
-        
-        int importType = (int)ImportHelper.ImportType.Unknown;
+
+        int importType = (int)ImportType.Unknown;
 
         FormMain formMain = null;
 
@@ -40,7 +36,7 @@ namespace Comets.Forms
                 progressDownload.Value = 0;
             }
 
-            downloadFilename = FormMain.downloadsDir + "Soft00Cmt_" + DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".txt";
+            downloadFilename = FormMain.downloadsDir + "\\Soft00Cmt_" + DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".txt";
 
             bwDownload.RunWorkerAsync();
         }
@@ -118,28 +114,28 @@ namespace Comets.Forms
 
             switch (importType)
             {
-                case (int)ImportHelper.ImportType.NoFileSelected:
+                case (int)ImportType.NoFileSelected:
                     lblImportFormat.Text = "(no file selected)";
                     labelDetectedComets.Text = "-";
                     break;
 
-                case (int)ImportHelper.ImportType.FileNotFound:
+                case (int)ImportType.FileNotFound:
                     lblImportFormat.Text = "(file not found)";
                     labelDetectedComets.Text = "-";
                     break;
 
-                case (int)ImportHelper.ImportType.EmptyFile:
+                case (int)ImportType.EmptyFile:
                     lblImportFormat.Text = "(empty file)";
                     labelDetectedComets.Text = "-";
                     break;
 
-                case (int)ImportHelper.ImportType.Unknown:
+                case (int)ImportType.Unknown:
                     lblImportFormat.Text = "(unknown)";
                     labelDetectedComets.Text = "-";
                     break;
 
                 default:
-                    lblImportFormat.Text = ImportHelper.ImportTypeName[importType];
+                    lblImportFormat.Text = ElementTypes.TypeName[importType];
                     labelDetectedComets.Text = ImportHelper.GetNumberOfComets(importFilename, importType).ToString();
                     break;
             }
@@ -163,7 +159,7 @@ namespace Comets.Forms
 
         private void btnImport_Click(object sender, EventArgs e)
         {
-            if (importType >= (int)ImportHelper.ImportType.NoFileSelected)
+            if (importType >= (int)ImportType.NoFileSelected)
             {
                 return;
             }
