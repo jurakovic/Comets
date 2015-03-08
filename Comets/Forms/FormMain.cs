@@ -1,4 +1,5 @@
 ﻿using Comets.Classes;
+using Comets.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -15,6 +16,8 @@ namespace Comets.Forms
 
         public static string localDataDir;
         public static string localDatabase;
+        public bool isDataChanged = false;
+
 
         //public static string filename;
         //public static bool fileIsDownloaded = false;
@@ -58,6 +61,21 @@ namespace Comets.Forms
                         "DAT files (*.dat)|*.dat|" +
                         "COMET files (*.comet)|*.comet|" +
                         "All files (*.*)|*.*";
+
+            if (File.Exists(localDatabase))
+            {
+                mainList = ImportHelper.ImportMain((int)ElementTypes.Type.MPC, localDatabase);
+                userList = mainList;
+                SetStatusCometsLabel(mainList.Count);
+            }
+        }
+
+        private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (isDataChanged && mainList.Count > 0)
+            {
+                ExportHelper.ExportMain((int)ElementTypes.Type.MPC, localDatabase);
+            }
         }
 
         private void menuItemStatusBar_Click(object sender, EventArgs e)
