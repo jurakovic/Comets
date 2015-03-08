@@ -184,7 +184,7 @@ namespace Comets.Helpers
                     double smAxis = Comet.GetSemimajorAxis(c.q, c.e);
                     double mdMotion = Comet.GetMeanMotion(c.e, c.P);
 
-                    string format = "{0},e,{1:0.0000},{2:0.0000},{3:0.0000##},{4:0.0000##},{5:0.0000000},{6:0.00000000},0.0000,{8:00}/{9:00}.{10}/{11},2000,g {12,4:0.0},{13:0.0}";
+                    string format = "{0},e,{1:0.0000},{2:0.0000},{3:0.0000##},{4:0.0000##},{5:0.0000000},{6:0.00000000},0.0000,{7:00}/{8:00}.{9}/{10},2000,g {11,4:0.0},{12:0.0}";
                     sb.AppendLine(String.Format(format, tempFull, c.i, c.N, c.w, smAxis, mdMotion, c.e, c.Tm, c.Td, c.Th, c.Ty, c.g, c.k));
                 }
 
