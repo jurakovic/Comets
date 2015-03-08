@@ -18,7 +18,17 @@ namespace Comets.Helpers
 
             WriteHeaderText(exportType, ref sb);
 
-            ExportMpc0(ref sb);
+            if (exportType == (int)ExportType.MPC)
+                ExportMpc0(ref sb);
+
+            if (exportType == (int)ExportType.SkyMap)
+                ExportSkyMap1(ref sb);
+
+            if (exportType == (int)ExportType.Guide)
+                ExportGuide2(ref sb);
+
+            if (exportType == (int)ExportType.xephem)
+                ExportXephem3(ref sb);
 
             File.WriteAllText(filename, sb.ToString());
         }
@@ -112,6 +122,84 @@ namespace Comets.Helpers
             foreach (Comet c in FormMain.userList)
             {
                 sb.AppendLine(String.Format(format, c.Ty, c.Tm, c.Td, c.Th, c.q, c.e, c.w, c.N, c.i, c.g, c.k, c.full));
+            }
+        }
+
+        protected static void ExportSkyMap1(ref StringBuilder sb)
+        {
+            string format = "{0,-47}{1,4} {2:00} {3:00}.{4:0000} {5,9:0.000000}       {6:0.000000} {7,8:0.0000} {8,8:0.0000} {9,8:0.0000}  {10,4:0.0}  {11,4:0.0}";
+
+            foreach (Comet c in FormMain.userList)
+            {
+                string tempFull = string.Empty;
+
+                if (char.IsNumber(c.id[0]))
+                    tempFull = c.full.Replace("/", " ");
+                else
+                    tempFull = c.full.Replace("(", "").Replace(")", "");
+
+                sb.AppendLine(String.Format(format, tempFull, c.Ty, c.Tm, c.Td, c.Th, c.q, c.e, c.w, c.N, c.i, c.g, c.k));
+            }
+        }
+
+        protected static void ExportGuide2(ref StringBuilder sb)
+        {
+            string format = "{0,-43}{1,2}.{2:0000}  {3,2}  {4,4}  0.0        {5,9:0.000000}    {6:0.000000}  {7,8:0.0000}    {8,8:0.0000}    {9,8:0.0000}    2000.0   {10,4:0.0} {11,4:0.0}    MPC 00000";
+
+            foreach (Comet c in FormMain.userList)
+            {
+                string tempFull = string.Empty;
+
+                if (c.name.Length == 0)
+                    tempFull = c.id;
+                else
+                {
+                    if (char.IsNumber(c.id[0]))
+                        tempFull = "P/" + c.name + " (" + c.id + ")";
+                    else
+                        tempFull = c.name + " (" + c.id + ")";
+                }
+
+                sb.AppendLine(String.Format(format, tempFull, c.Td, c.Th, c.Tm, c.Ty, c.q, c.e, c.i, c.w, c.N, c.g, c.k));
+            }
+        }
+
+        protected static void ExportXephem3(ref StringBuilder sb)
+        {
+            //info: http://www.clearskyinstitute.com/xephem/help/xephem.html#mozTocId215848
+
+            foreach (Comet c in FormMain.userList)
+            {
+                sb.AppendLine("# From MPC 00000");
+
+                string tempFull = c.id;
+
+                if (char.IsNumber(c.id[0]))
+                    tempFull += "/" + c.name; //tempFull += "/" + (c.name.Length > 0 ? c.name : string.Empty);
+                else if (c.name.Length > 0)
+                    tempFull += " (" + c.name + ")";
+
+                if (c.e < 1.0)
+                {
+                    double smAxis = Comet.GetSemimajorAxis(c.q, c.e);
+                    double mdMotion = Comet.GetMeanMotion(c.e, c.P);
+
+                    string format = "{0},e,{1:0.0000},{2:0.0000},{3:0.0000##},{4:0.0000##},{5:0.0000000},{6:0.00000000},0.0000,{8:00}/{9:00}.{10}/{11},2000,g {12,4:0.0},{13:0.0}";
+                    sb.AppendLine(String.Format(format, tempFull, c.i, c.N, c.w, smAxis, mdMotion, c.e, c.Tm, c.Td, c.Th, c.Ty, c.g, c.k));
+                }
+
+                if (c.e == 1.0)
+                {
+                    double Td = c.Td + c.Th/10000.0;
+                    string format = "{0},p,{1:00}/{2:00.000#}/{3},{4:0.000#},{5:0.000#},{6:0.00000#},{7:0.000#},2000,{8:0.0},{9:0.0}";
+                    sb.AppendLine(String.Format(format, tempFull, c.Tm, Td, c.Ty, c.i, c.w, c.q, c.N, c.g, c.k));
+                }
+
+                if (c.e > 1.0)
+                {
+                    string format = "{0},h,{1:00}/{2:00}.{3}/{4},{5:0.0000},{6:0.0000},{7:0.0000},{8:0.000000},{9:0.000000},2000,{10:0.0},{11:0.0}";
+                    sb.AppendLine(String.Format(format, tempFull, c.Tm, c.Td, c.Th, c.Ty, c.i, c.N, c.w, c.e, c.q, c.g, c.k));
+                }
             }
         }
 
