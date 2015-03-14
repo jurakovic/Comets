@@ -19,16 +19,64 @@ namespace Comets.Helpers
             WriteHeaderText(exportType, ref sb);
 
             if (exportType == (int)ExportType.MPC)
-                ExportMpc0(ref sb);
+                ExportMpc00(ref sb);
 
             if (exportType == (int)ExportType.SkyMap)
-                ExportSkyMap1(ref sb);
+                ExportSkyMap01(ref sb);
 
             if (exportType == (int)ExportType.Guide)
-                ExportGuide2(ref sb);
+                ExportGuide02(ref sb);
 
             if (exportType == (int)ExportType.xephem)
-                ExportXephem3(ref sb);
+                ExportXephem03(ref sb);
+
+            if (exportType == (int)ExportType.HomePlanet)
+                ExportHomePlanet04(ref sb);
+
+            if (exportType == (int)ExportType.MyStars)
+                ExportMyStars05(ref sb);
+
+            if (exportType == (int)ExportType.TheSky)
+                ExportTheSky06(ref sb);
+
+            if (exportType == (int)ExportType.StarryNight)
+                ExportStarryNight07(ref sb);
+
+            if (exportType == (int)ExportType.DeepSpace)
+                ExportDeepSpace08(ref sb);
+
+            if (exportType == (int)ExportType.PCTCS)
+                ExportPcTcs09(ref sb);
+
+            if (exportType == (int)ExportType.EarthCenteredUniverse)
+                ExportEarthCenUniv10(ref sb);
+
+            if (exportType == (int)ExportType.DanceOfThePlanets)
+                ExportDanceOfThePlanets11(ref sb);
+
+            if (exportType == (int)ExportType.MegaStarV4)
+                ExportMegaStar12(ref sb);
+
+            if (exportType == (int)ExportType.SkyChartIII)
+                ExportSkyChart13(ref sb);
+
+            if (exportType == (int)ExportType.VoyagerII)
+                ExportVoyager14(ref sb);
+
+            if (exportType == (int)ExportType.SkyTools)
+                ExportSkyTools15(ref sb);
+
+            if (exportType == (int)ExportType.Autostar)
+                ExportTheSky06(ref sb);
+
+            //if (exportType == (int)ExportType.Celestia)
+            //    ExportCelestia(ref sb);
+
+            //if (exportType == (int)ExportType.CometForWindows)
+            //    ExportCometForWindows(ref sb);
+
+            //if (exportType == (int)ExportType.NASA)
+            //    ExportNasaComet(ref sb);
 
             File.WriteAllText(filename, sb.ToString());
         }
@@ -64,7 +112,8 @@ namespace Comets.Helpers
                 sb.AppendLine();
                 sb.AppendLine("This file kindly prepared by the IAU Minor Planet Center & Central Bureau for Astronomical Telegrams.");
                 sb.AppendLine();
-                sb.AppendLine("Num  Name                          Mag.   Diam      e            q        Node         w         i         Tp           Epoch       k   Desig         ReferenceDD");
+                sb.AppendLine("Num  Name                          Mag.   Diam      e            q        Node         w         i         Tp           Epoch       k   Desig         Reference");
+                sb.AppendLine();
             }
 
             if (exportType == (int)ExportType.DeepSpace)
@@ -115,7 +164,7 @@ namespace Comets.Helpers
 
         #region EportFunctions
 
-        protected static void ExportMpc0(ref StringBuilder sb)
+        protected static void ExportMpc00(ref StringBuilder sb)
         {
             string format = "              {0,4} {1:00} {2,2}.{3:0000} {4,9:0.000000}  {5:0.000000}  {6,8:0.0000}  {7,8:0.0000}  {8,8:0.0000}  00000000  {9,4:0.0} {10,4:0.0}  {11,-56} MPC 00000";
 
@@ -125,14 +174,14 @@ namespace Comets.Helpers
             }
         }
 
-        protected static void ExportSkyMap1(ref StringBuilder sb)
+        protected static void ExportSkyMap01(ref StringBuilder sb)
         {
+            string tempFull = string.Empty;
+
             string format = "{0,-47}{1,4} {2:00} {3:00}.{4:0000} {5,9:0.000000}       {6:0.000000} {7,8:0.0000} {8,8:0.0000} {9,8:0.0000}  {10,4:0.0}  {11,4:0.0}";
 
             foreach (Comet c in FormMain.userList)
             {
-                string tempFull = string.Empty;
-
                 if (char.IsNumber(c.id[0]))
                     tempFull = c.full.Replace("/", " ");
                 else
@@ -142,14 +191,14 @@ namespace Comets.Helpers
             }
         }
 
-        protected static void ExportGuide2(ref StringBuilder sb)
+        protected static void ExportGuide02(ref StringBuilder sb)
         {
+            string tempFull = string.Empty;
+
             string format = "{0,-43}{1,2}.{2:0000}  {3,2}  {4,4}  0.0        {5,9:0.000000}    {6:0.000000}  {7,8:0.0000}    {8,8:0.0000}    {9,8:0.0000}    2000.0   {10,4:0.0} {11,4:0.0}    MPC 00000";
 
             foreach (Comet c in FormMain.userList)
             {
-                string tempFull = string.Empty;
-
                 if (c.name.Length == 0)
                     tempFull = c.id;
                 else
@@ -164,18 +213,20 @@ namespace Comets.Helpers
             }
         }
 
-        protected static void ExportXephem3(ref StringBuilder sb)
+        protected static void ExportXephem03(ref StringBuilder sb)
         {
             //info: http://www.clearskyinstitute.com/xephem/help/xephem.html#mozTocId215848
+
+            string tempFull = string.Empty;
 
             foreach (Comet c in FormMain.userList)
             {
                 sb.AppendLine("# From MPC 00000");
 
-                string tempFull = c.id;
+                tempFull = c.id;
 
                 if (char.IsNumber(c.id[0]))
-                    tempFull += "/" + c.name; //tempFull += "/" + (c.name.Length > 0 ? c.name : string.Empty);
+                    tempFull += "/" + c.name;
                 else if (c.name.Length > 0)
                     tempFull += " (" + c.name + ")";
 
@@ -187,15 +238,13 @@ namespace Comets.Helpers
                     string format = "{0},e,{1:0.0000},{2:0.0000},{3:0.0000##},{4:0.0000##},{5:0.0000000},{6:0.00000000},0.0000,{7:00}/{8:00}.{9}/{10},2000,g {11,4:0.0},{12:0.0}";
                     sb.AppendLine(String.Format(format, tempFull, c.i, c.N, c.w, smAxis, mdMotion, c.e, c.Tm, c.Td, c.Th, c.Ty, c.g, c.k));
                 }
-
-                if (c.e == 1.0)
+                else if (c.e == 1.0)
                 {
                     double Td = c.Td + c.Th/10000.0;
                     string format = "{0},p,{1:00}/{2:00.000#}/{3},{4:0.000#},{5:0.000#},{6:0.00000#},{7:0.000#},2000,{8:0.0},{9:0.0}";
                     sb.AppendLine(String.Format(format, tempFull, c.Tm, Td, c.Ty, c.i, c.w, c.q, c.N, c.g, c.k));
                 }
-
-                if (c.e > 1.0)
+                else if (c.e > 1.0)
                 {
                     string format = "{0},h,{1:00}/{2:00}.{3}/{4},{5:0.0000},{6:0.0000},{7:0.0000},{8:0.000000},{9:0.000000},2000,{10:0.0},{11:0.0}";
                     sb.AppendLine(String.Format(format, tempFull, c.Tm, c.Td, c.Th, c.Ty, c.i, c.N, c.w, c.e, c.q, c.g, c.k));
@@ -203,6 +252,194 @@ namespace Comets.Helpers
             }
         }
 
+        protected static void ExportHomePlanet04(ref StringBuilder sb)
+        {
+            string tempFull = string.Empty;
+            string format = string.Empty;
+
+            foreach (Comet c in FormMain.userList)
+            {
+                tempFull = c.id;
+
+                if (char.IsNumber(c.id[0]))
+                    tempFull += "/" + c.name;
+                else if (c.name.Length > 0)
+                    tempFull += " (" + c.name + ")";
+
+                if (c.P < 30000)
+                {
+                    format = "{0},{1}-{2}-{3}.{4:0000},{5:0.000000},{6:0.000000},{7:0.0000},{8:0.0000},{9:0.0000},{10:0.00000},{11:0.00} years, MPC 00000";
+                    double smAxis = Comet.GetSemimajorAxis(c.q, c.e);
+                    sb.AppendLine(String.Format(format, tempFull, c.Ty, c.Tm, c.Td, c.Th, c.q, c.e, c.w, c.N, c.i, smAxis, c.P));
+                }
+                else
+                {
+                    format = "{0},{1}-{2}-{3}.{4:0000},{5:0.000000},{6:0.000000},{7:0.0000},{8:0.0000},{9:0.0000},,, MPC 00000";
+                    sb.AppendLine(String.Format(format, tempFull, c.Ty, c.Tm, c.Td, c.Th, c.q, c.e, c.w, c.N, c.i));
+                }
+            }
+        }
+
+        protected static void ExportMyStars05(ref StringBuilder sb)
+        {
+            //
+            // {2} zapravo nije w, nije ni M
+            //
+
+            int d = 4;
+            int m = 3;
+            int y = 2015;
+            double JD = Comet.GregorianToJulian(y, m, d, 5000);
+
+            string format = "{0};\t{1:0.0000}\t{2:0.0000}\t{3:0.000000}\t{4:0.000000}\t{5:0.0000}\t{6:0.0000}\t{7:0.0}\t{8:0.0}\tMPC00000\t{9:0.0}";
+
+            foreach (Comet c in FormMain.userList)
+            {
+                sb.AppendLine(String.Format(format, c.full, c.T - 2400000.5, c.w, c.e, c.q, c.i, c.N, c.g, c.k, JD-2400000.5));
+            }
+        }
+
+        protected static void ExportTheSky06(ref StringBuilder sb)
+        {
+            string format = "{0,-39}|2000|{1,4}{2:00}{3:00}.{4:0000} |{5,9:0.000000} |{6:0.000000} |{7,8:0.0000} |{8,8:0.0000} |{9,8:0.0000} |{10,4:0.0} |{11,4:0.0} | MPC 00000";
+
+            foreach (Comet c in FormMain.userList)
+            {
+                sb.AppendLine(String.Format(format, c.full, c.Ty, c.Tm, c.Td, c.Th, c.q, c.e, c.w, c.N, c.i, c.g, c.k*2.5));
+            }
+        }
+
+        protected static void ExportStarryNight07(ref StringBuilder sb)
+        {
+            string format = "     {0,-29} {1,4:0.0}    0.0   {2:0.000000}   {3,9:0.000000}    {4,8:0.0000}  {5,8:0.0000}  {6,8:0.0000}  {7,12:0.0000}    0000000.0  {8,4:0.0}  {9,-13} MPC 00000";
+
+            foreach (Comet c in FormMain.userList)
+            {
+                sb.AppendLine(String.Format(format, c.name, c.g, c.e, c.q, c.N, c.w, c.i, c.T, c.k * 2.5, c.id));
+            }
+        }
+
+        protected static void ExportDeepSpace08(ref StringBuilder sb)
+        {
+            string format = "C J2000 {0} {1:00} {2:00}.{3:0000} {4:0.000000} {5:0.000000} {6:0.0000} {7:0.0000} {8:0.0000} {9:0.0} {10:0.0}";
+
+            foreach (Comet c in FormMain.userList)
+            {
+                sb.AppendLine(c.name + " (" + c.id + ")");
+                sb.AppendLine(String.Format(format, c.Ty, c.Tm, c.Td, c.Th, c.q, c.e, c.w, c.N, c.i, c.g, c.k * 2.5));
+            }
+        }
+
+        protected static void ExportPcTcs09(ref StringBuilder sb)
+        {
+            string tempId = string.Empty;
+            string line = string.Empty;
+
+            string format = "{0} {1:0.000000} {2:0.000000} {3:0.0000} {4:0.0000} {5:0.0000} {6,4} {7:00} {8:00}.{9:0000} {10:0.0} {11:0.0} {12}";
+
+            foreach (Comet c in FormMain.userList)
+            {
+                tempId = c.id.Replace(" ", "");
+                line = String.Format(format, tempId, c.q, c.e, c.i, c.w, c.N, c.Ty, c.Tm, c.Td, c.Th, c.g, c.k * 2.5, c.name);
+
+                sb.AppendLine(String.Format("{0,-126}", line));
+            }
+        }
+        
+        protected static void ExportEarthCenUniv10(ref StringBuilder sb)
+        {
+            string format = "E C 2000 {0} {1:00} {2:00}.{3:0000} {4:0.000000} {5:0.000000} {6:0.0000} {7:0.0000} {8:0.0000} {9:0.0} {10:0.0}";
+
+            foreach (Comet c in FormMain.userList)
+            {
+                sb.AppendLine(c.full);
+                sb.AppendLine(String.Format(format, c.Ty, c.Tm, c.Td, c.Th, c.q, c.e, c.w, c.N, c.i, c.g, c.k * 2.5));
+            }
+        }
+
+        protected static void ExportDanceOfThePlanets11(ref StringBuilder sb)
+        {
+            string tempId = string.Empty;
+            string q = string.Empty;
+
+            string format = "{0,-11}{1} {2:0.000000} {3,8:0.0000} {4,8:0.0000} {5,8:0.0000} {6,4}.{7:00}{8:00}{9:0000} {10}";
+
+            foreach (Comet c in FormMain.userList)
+            {
+                tempId = c.id.Replace(" ", "");
+
+                if (c.q >= 10.0)
+                    q = "********";
+                else
+                    q = String.Format("{0:0.000000}", c.q);
+
+                sb.AppendLine(String.Format(format, tempId, q, c.e, c.i, c.N, c.w, c.Ty, c.Tm, c.Td, c.Th, c.name));
+            }
+        }
+
+        protected static void ExportMegaStar12(ref StringBuilder sb)
+        {
+            string format = "{0,-30}{1,-12}{2,4} {3:00}  {4:00}.{5:0000}   {6,9:0.000000}   {7:0.000000}    {8,8:0.0000}    {9,8:0.0000}    {10,8:0.0000}   {11,4:0.0}   {12,4:0.0}    2000 MPC 00000";
+
+            foreach (Comet c in FormMain.userList)
+            {
+                sb.AppendLine(String.Format(format, c.name, c.id, c.Ty, c.Tm, c.Td, c.Th, c.q, c.e, c.w, c.N, c.i, c.g, c.k * 2.5));
+            }
+        }
+        
+        protected static void ExportSkyChart13(ref StringBuilder sb)
+        {
+            string format = "P11	2000.0	-{0:0.000000}\t{1:0.000000}\t{2:0.0000}\t{3:0.0000}\t{4:0.0000}\t0\t{5}/{6:00}/{7:00}.{8:0000}\t{9:0.0} {10:0.0}\t0\t0\t{11}; MPC 00000";
+
+            foreach (Comet c in FormMain.userList)
+            {
+                sb.AppendLine(String.Format(format, c.q, c.e, c.i, c.w, c.N, c.Ty, c.Tm, c.Td, c.Th, c.g, c.k, c.full));
+            }
+        }
+
+        protected static void ExportVoyager14(ref StringBuilder sb)
+        {
+            string mon = string.Empty;
+            string line = string.Empty;
+
+            string format = "{0,-26} {1,9:0.000000}   {2:0.000000}  {3,8:0.0000}   {4,8:0.0000}   {5,8:0.0000}   0.0  {6,4}{7}";
+
+            foreach (Comet c in FormMain.userList)
+            {
+                if (c.Tm == 1) mon = "Jan";
+                if (c.Tm == 2) mon = "Feb";
+                if (c.Tm == 3) mon = "Mar";
+                if (c.Tm == 4) mon = "Apr";
+                if (c.Tm == 5) mon = "May";
+                if (c.Tm == 6) mon = "Jun";
+                if (c.Tm == 7) mon = "Jul";
+                if (c.Tm == 8) mon = "Aug";
+                if (c.Tm == 9) mon = "Sep";
+                if (c.Tm == 10) mon = "Oct";
+                if (c.Tm == 11) mon = "Nov";
+                if (c.Tm == 12) mon = "Dec";
+
+                line = String.Format(format, c.name, c.q, c.e, c.i, c.N, c.w, c.Ty, mon);
+
+                if (c.Td < 10)
+                    line += String.Format("{0}.{1:0000}  2000.0", c.Td, c.Th);
+                else
+                    line += String.Format("{0}.{1:0000} 2000.0", c.Td, c.Th);
+
+                sb.AppendLine(line);
+            }
+        }
+
+        protected static void ExportSkyTools15(ref StringBuilder sb)
+        {
+            string format = "C {0,-40} 0000 00 00 {1,4} {2:00} {3:00}.{4:000}  {5,9:0.000000}   {6:0.000000} {7,7:0.000} {8,7:0.000} {9,7:0.000}  {10,4:0.0}  {11,4:0.0} 0.002000 MPC 00000";
+
+            foreach (Comet c in FormMain.userList)
+            {
+                sb.AppendLine(String.Format(format, c.full, c.Ty, c.Tm, c.Td, c.Th / 10, c.q, c.e, c.w, c.N, c.i, c.g, c.k));
+            }
+        }
+        
         #endregion
     }
 }
