@@ -69,8 +69,8 @@ namespace Comets.Helpers
             if (exportType == (int)ExportType.Autostar)
                 ExportTheSky06(ref sb);
 
-            //if (exportType == (int)ExportType.Celestia)
-            //    ExportCelestia(ref sb);
+            if (exportType == (int)ExportType.Celestia)
+                ExportCelestia(ref sb);
 
             //if (exportType == (int)ExportType.CometForWindows)
             //    ExportCometForWindows(ref sb);
@@ -439,7 +439,60 @@ namespace Comets.Helpers
                 sb.AppendLine(String.Format(format, c.full, c.Ty, c.Tm, c.Td, c.Th / 10, c.q, c.e, c.w, c.N, c.i, c.g, c.k));
             }
         }
-        
+
+        protected static void ExportCelestia(ref StringBuilder sb)
+        {
+            string mon = string.Empty;
+
+            foreach (Comet c in FormMain.userList)
+            {
+                if (c.Tm == 1) mon = "Jan";
+                if (c.Tm == 2) mon = "Feb";
+                if (c.Tm == 3) mon = "Mar";
+                if (c.Tm == 4) mon = "Apr";
+                if (c.Tm == 5) mon = "May";
+                if (c.Tm == 6) mon = "Jun";
+                if (c.Tm == 7) mon = "Jul";
+                if (c.Tm == 8) mon = "Aug";
+                if (c.Tm == 9) mon = "Sep";
+                if (c.Tm == 10) mon = "Oct";
+                if (c.Tm == 11) mon = "Nov";
+                if (c.Tm == 12) mon = "Dec";
+
+                sb.AppendLine(String.Format("\"{0}\" \"Sol\"", c.full.Replace('/', ' ')));
+                sb.AppendLine("{");
+                sb.AppendLine("\tClass \"comet\"");
+                sb.AppendLine("\tMesh \"asteroid.cms\"");
+                sb.AppendLine("\tTexture \"asteroid.jpg\"");
+                sb.AppendLine("\tRadius 5");
+                sb.AppendLine("\tAlbedo 0.1");
+                sb.AppendLine(String.Format("\t#Magnitude g {0:0.0}, k {1:0.0}", c.g, c.k));
+                sb.AppendLine("\tEllipticalOrbit");
+                sb.AppendLine("\t{");
+                sb.AppendLine(String.Format("\t\tPeriod         {0,20:0.000000}", c.P));
+                sb.AppendLine(String.Format("\t\tPericenterDistance        {0,9:0.000000}", c.q));
+
+                if (c.e < 1.0)
+                {
+                    sb.AppendLine(String.Format("\t\tEccentricity               {0,8:0.000000}", c.e)); ;
+                }
+                else
+                {
+                    sb.AppendLine("\t\tEccentricity               0.999999");
+                    sb.AppendLine(String.Format("\t\t#Eccentricity               {0,8:0.000000}  # Real", c.e));
+                }
+
+                sb.AppendLine(String.Format("\t\tInclination              {0,8:0.0000}", c.i));
+                sb.AppendLine(String.Format("\t\tAscendingNode            {0,8:0.0000}", c.N));
+                sb.AppendLine(String.Format("\t\tArgOfPericenter          {0,8:0.0000}", c.w));
+                sb.AppendLine("\t\tMeanAnomaly                0.0");
+                sb.AppendLine(String.Format("\t\tEpoch                {0,12:0.0000}     # {1,4} {2:00} {3:00}.{4:000}", c.T, c.Ty, mon, c.Td, c.Th));
+                sb.AppendLine("\t}");
+                sb.AppendLine("}");
+                sb.AppendLine("");
+            }
+        }
+
         #endregion
     }
 }
