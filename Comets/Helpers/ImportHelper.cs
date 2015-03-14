@@ -589,9 +589,7 @@ namespace Comets.Helpers
 
         public static void ImportXephem03(string filename, ref List<Comet> masterList)
         {
-            //
-            // ispraviti vrijeme perihela
-            //
+            // http://www.clearskyinstitute.com/xephem/help/xephem.html#mozTocId215848
 
             string[] lines = File.ReadAllLines(filename);
 
@@ -614,10 +612,10 @@ namespace Comets.Helpers
                         c.i = Convert.ToDouble(parts[2]);
                         c.N = Convert.ToDouble(parts[3]);
                         c.w = Convert.ToDouble(parts[4]);
-                        double smAxis = Convert.ToDouble(parts[5]);
-                        double mdMotion = Convert.ToDouble(parts[6]);
+                        double a = Convert.ToDouble(parts[5]); // semi-major axis
+                        double n = Convert.ToDouble(parts[6]); // mean daily motion
                         c.e = Convert.ToDouble(parts[7]);
-                        double mAnomaly = Convert.ToDouble(parts[8]);
+                        double M = Convert.ToDouble(parts[8]); // mean anomaly, i.e., degrees from perihelion
 
                         string[] date = parts[9].Split('/');
                         int m = Convert.ToInt32(date[0]);
@@ -629,27 +627,34 @@ namespace Comets.Helpers
                         c.g = Convert.ToDouble(parts[11].Substring(2, parts[11].Length - 2));
                         c.k = Convert.ToDouble(parts[12]);
 
-                        c.q = smAxis * (1 - c.e);
-                        double T = EphemHelper.jd0(y, m, d, h);
+                        c.q = a * (1 - c.e);
+                        
+                        if (M == 0)
+                        {
+                            c.Tm = m;
+                            c.Td = d;
+                            c.Th = h;
+                            c.Ty = y;
+                        }
+                        else
+                        {
+                            double E = EphemHelper.jd0(y, m, d, h); // epoch date, i.e., time of M
 
-                        //pogledati import xephem kad je mean anomaly 0
-                        //onda je T onaj T koji je zapisan
-                        //ako nije 0, onda T izracunat kako je sad napravljeno
+                            c.T = E - M / n;
 
-                        if (mAnomaly == 0) mAnomaly = 0.00000001;
-                        if (mdMotion == 0) mdMotion = 0.00000001;
+                            if (M >= 180)
+                                c.T +=  Comet.GetPeriod(c.q, c.e) * 365.25;
+                            
+                            int[] newdate = EphemHelper.jdtocd(c.T);
+                            c.Ty = newdate[0];
+                            c.Tm = newdate[1];
+                            c.Td = newdate[2];
+                            c.Th = (int)(((newdate[4] + (newdate[5] / 60.0) + (newdate[6] / 3600.0)) / 24) * 10000);
 
-                        c.T = T - mAnomaly / mdMotion;
-                        ////////////////////////////////////// to malo pogledati i ispraviti
-
-
-                        int[] newdate = EphemHelper.jdtocd(c.T);
-                        c.Ty = newdate[0];
-                        c.Tm = newdate[1];
-                        c.Td = newdate[2];
-                        c.Th = (int)(((newdate[4] + (newdate[5] / 60.0) + (newdate[6] / 3600.0)) / 24) * 10000);
+                            var bzvz = c.Th + 3;
+                        }
                     }
-                    if (parts[1] == "p")
+                    else if (parts[1] == "p")
                     {
                         string[] date = parts[2].Split('/');
                         c.Tm = Convert.ToInt32(date[0]);
@@ -668,7 +673,7 @@ namespace Comets.Helpers
                         c.e = 1.0;
                         c.T = EphemHelper.jd0(c.Ty, c.Tm, c.Td, c.Th);
                     }
-                    if (parts[1] == "h")
+                    else if (parts[1] == "h")
                     {
                         string[] date = parts[2].Split('/');
                         c.Tm = Convert.ToInt32(date[0]);
