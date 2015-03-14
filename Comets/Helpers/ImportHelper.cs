@@ -166,7 +166,7 @@ namespace Comets.Helpers
 
             try //pc-tcs 9
             {
-                string[] parts = lastLine.Split(' ');
+                string[] parts = lastLine.TrimEnd().Split(' ');
                 if (parts.Count() >= 12 && lastLine.Length == 126) return ImportType.PCTCS;
             }
             catch
@@ -337,34 +337,34 @@ namespace Comets.Helpers
             List<Comet> list = new List<Comet>();
 
             if (importType == (int)ImportType.MPC)
-                ImportMpc0(filename, ref list);
+                ImportMpc00(filename, ref list);
 
             if (importType == (int)ImportType.SkyMap)
-                ImportSkyMap1(filename, ref list);
+                ImportSkyMap01(filename, ref list);
 
             if (importType == (int)ImportType.Guide)
-                ImportGuide2(filename, ref list);
+                ImportGuide02(filename, ref list);
 
             if (importType == (int)ImportType.xephem)
-                ImportXephem3(filename, ref list);
+                ImportXephem03(filename, ref list);
 
             if (importType == (int)ImportType.HomePlanet)
-                ImportHomePlanet4(filename, ref list);
+                ImportHomePlanet04(filename, ref list);
 
             if (importType == (int)ImportType.MyStars)
-                ImportMyStars5(filename, ref list);
+                ImportMyStars05(filename, ref list);
 
             if (importType == (int)ImportType.TheSky)
-                ImportTheSky6(filename, ref list);
+                ImportTheSky06(filename, ref list);
 
             if (importType == (int)ImportType.StarryNight)
-                ImportStarryNight7(filename, ref list);
+                ImportStarryNight07(filename, ref list);
 
             if (importType == (int)ImportType.DeepSpace)
-                ImportDeepSpace8(filename, ref list);
+                ImportDeepSpace08(filename, ref list);
 
             if (importType == (int)ImportType.PCTCS)
-                ImportPcTcs9(filename, ref list);
+                ImportPcTcs09(filename, ref list);
 
             if (importType == (int)ImportType.EarthCenteredUniverse)
                 ImportEarthCenUniv10(filename, ref list);
@@ -404,7 +404,7 @@ namespace Comets.Helpers
 
         #region ImportFunctions
 
-        public static void ImportMpc0(string filename, ref List<Comet> masterList)
+        public static void ImportMpc00(string filename, ref List<Comet> masterList)
         {
             foreach (string line in File.ReadAllLines(filename))
             {
@@ -447,7 +447,7 @@ namespace Comets.Helpers
             }
         }
 
-        public static void ImportSkyMap1(string filename, ref List<Comet> masterList)
+        public static void ImportSkyMap01(string filename, ref List<Comet> masterList)
         {
             //pazit kod exporta zbog 167P
 
@@ -526,7 +526,7 @@ namespace Comets.Helpers
             }
         }
 
-        public static void ImportGuide2(string filename, ref List<Comet> masterList)
+        public static void ImportGuide02(string filename, ref List<Comet> masterList)
         {
             foreach (string line in File.ReadAllLines(filename))
             {
@@ -587,7 +587,7 @@ namespace Comets.Helpers
             }
         }
 
-        public static void ImportXephem3(string filename, ref List<Comet> masterList)
+        public static void ImportXephem03(string filename, ref List<Comet> masterList)
         {
             //
             // ispraviti vrijeme perihela
@@ -631,6 +631,10 @@ namespace Comets.Helpers
 
                         c.q = smAxis * (1 - c.e);
                         double T = EphemHelper.jd0(y, m, d, h);
+
+                        //pogledati import xephem kad je mean anomaly 0
+                        //onda je T onaj T koji je zapisan
+                        //ako nije 0, onda T izracunat kako je sad napravljeno
 
                         if (mAnomaly == 0) mAnomaly = 0.00000001;
                         if (mdMotion == 0) mdMotion = 0.00000001;
@@ -701,7 +705,7 @@ namespace Comets.Helpers
             }
         }
 
-        public static void ImportHomePlanet4(string filename, ref List<Comet> masterList)
+        public static void ImportHomePlanet04(string filename, ref List<Comet> masterList)
         {
             string[] lines = File.ReadAllLines(filename);
 
@@ -750,7 +754,7 @@ namespace Comets.Helpers
             }
         }
 
-        public static void ImportMyStars5(string filename, ref List<Comet> masterList)
+        public static void ImportMyStars05(string filename, ref List<Comet> masterList)
         {
             //
             // w zapravo nije w
@@ -812,7 +816,7 @@ namespace Comets.Helpers
             }
         }
 
-        public static void ImportTheSky6(string filename, ref List<Comet> masterList)
+        public static void ImportTheSky06(string filename, ref List<Comet> masterList)
         {
             foreach (string line in File.ReadAllLines(filename))
             {
@@ -859,7 +863,7 @@ namespace Comets.Helpers
             }
         }
 
-        public static void ImportStarryNight7(string filename, ref List<Comet> masterList)
+        public static void ImportStarryNight07(string filename, ref List<Comet> masterList)
         {
             string[] lines = File.ReadAllLines(filename);
 
@@ -906,7 +910,7 @@ namespace Comets.Helpers
             }
         }
 
-        public static void ImportDeepSpace8(string filename, ref List<Comet> masterList)
+        public static void ImportDeepSpace08(string filename, ref List<Comet> masterList)
         {
             string[] lines = File.ReadAllLines(filename);
 
@@ -957,7 +961,7 @@ namespace Comets.Helpers
             }
         }
 
-        public static void ImportPcTcs9(string filename, ref List<Comet> masterList)
+        public static void ImportPcTcs09(string filename, ref List<Comet> masterList)
         {
             foreach (string line in File.ReadAllLines(filename))
             {
@@ -965,7 +969,7 @@ namespace Comets.Helpers
 
                 try
                 {
-                    string[] parts = line.Split(' ');
+                    string[] parts = line.TrimEnd().Split(' ');
 
                     string id = parts[0];
 
@@ -979,7 +983,6 @@ namespace Comets.Helpers
 
                         id = id1 + " " + id2;
                     }
-
 
                     c.q = Convert.ToDouble(parts[1]);
                     c.e = Convert.ToDouble(parts[2]);
@@ -996,7 +999,11 @@ namespace Comets.Helpers
                     c.g = Convert.ToDouble(parts[9]);
                     c.k = Convert.ToDouble(parts[10]) / 2.5;
 
-                    c.name = parts[11].Trim();
+                    string tempName = string.Empty;
+                    for (int i = 11; i < parts.Count(); i++)
+                        tempName += parts[i] + " ";
+
+                    c.name = tempName.Trim();
 
                     c.full = Comet.GetFullFromIdName(id, c.name);
                     c.id = id;
