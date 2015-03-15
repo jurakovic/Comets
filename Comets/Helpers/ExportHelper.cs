@@ -486,7 +486,7 @@ namespace Comets.Helpers
                 sb.AppendLine(String.Format("\t\tAscendingNode            {0,8:0.0000}", c.N));
                 sb.AppendLine(String.Format("\t\tArgOfPericenter          {0,8:0.0000}", c.w));
                 sb.AppendLine("\t\tMeanAnomaly                0.0");
-                sb.AppendLine(String.Format("\t\tEpoch                {0,12:0.0000}     # {1,4} {2:00} {3:00}.{4:000}", c.T, c.Ty, mon, c.Td, c.Th));
+                sb.AppendLine(String.Format("\t\tEpoch                {0,12:0.0000}     # {1,4} {2} {3:00}.{4:0000}", c.T, c.Ty, mon, c.Td, c.Th));
                 sb.AppendLine("\t}");
                 sb.AppendLine("}");
                 sb.AppendLine("");
