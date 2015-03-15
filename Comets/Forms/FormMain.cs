@@ -18,10 +18,6 @@ namespace Comets.Forms
         public static string localDatabase;
         public bool isDataChanged = false;
 
-
-        //public static string filename;
-        //public static bool fileIsDownloaded = false;
-
         public static List<Comet> mainList = new List<Comet>();
         public static List<Comet> userList = new List<Comet>();
 
@@ -74,7 +70,7 @@ namespace Comets.Forms
         {
             if (isDataChanged && mainList.Count > 0)
             {
-                ExportHelper.ExportMain((int)ElementTypes.Type.MPC, localDatabase);
+                ExportHelper.ExportMain((int)ElementTypes.Type.MPC, localDatabase, mainList);
             }
         }
 

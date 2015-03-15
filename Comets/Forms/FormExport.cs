@@ -44,10 +44,10 @@ namespace Comets.Forms
         {
             string filename = txtSaveAs.Text.Trim();
 
-            if (filename.Length > 0)
+            if (filename.Length > 0 && FormMain.userList.Count > 0)
             {
                 int exportType = cbxExportFormat.SelectedIndex;
-                ExportHelper.ExportMain(exportType, filename);
+                ExportHelper.ExportMain(exportType, filename, FormMain.userList);
                 MessageBox.Show("Export complete.\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }

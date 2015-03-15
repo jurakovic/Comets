@@ -339,63 +339,58 @@ namespace Comets.Helpers
             if (importType == (int)ImportType.MPC)
                 ImportMpc00(filename, ref list);
 
-            if (importType == (int)ImportType.SkyMap)
+            else if (importType == (int)ImportType.SkyMap)
                 ImportSkyMap01(filename, ref list);
 
-            if (importType == (int)ImportType.Guide)
+            else if (importType == (int)ImportType.Guide)
                 ImportGuide02(filename, ref list);
 
-            if (importType == (int)ImportType.xephem)
+            else if (importType == (int)ImportType.xephem)
                 ImportXephem03(filename, ref list);
 
-            if (importType == (int)ImportType.HomePlanet)
+            else if (importType == (int)ImportType.HomePlanet)
                 ImportHomePlanet04(filename, ref list);
 
-            if (importType == (int)ImportType.MyStars)
+            else if (importType == (int)ImportType.MyStars)
                 ImportMyStars05(filename, ref list);
 
-            if (importType == (int)ImportType.TheSky)
+            else if (importType == (int)ImportType.TheSky)
                 ImportTheSky06(filename, ref list);
 
-            if (importType == (int)ImportType.StarryNight)
+            else if (importType == (int)ImportType.StarryNight)
                 ImportStarryNight07(filename, ref list);
 
-            if (importType == (int)ImportType.DeepSpace)
+            else if (importType == (int)ImportType.DeepSpace)
                 ImportDeepSpace08(filename, ref list);
 
-            if (importType == (int)ImportType.PCTCS)
+            else if (importType == (int)ImportType.PCTCS)
                 ImportPcTcs09(filename, ref list);
 
-            if (importType == (int)ImportType.EarthCenteredUniverse)
+            else if (importType == (int)ImportType.EarthCenteredUniverse)
                 ImportEarthCenUniv10(filename, ref list);
 
-            if (importType == (int)ImportType.DanceOfThePlanets)
+            else if (importType == (int)ImportType.DanceOfThePlanets)
                 ImportDanceOfThePlanets11(filename, ref list);
 
-            if (importType == (int)ImportType.MegaStarV4)
+            else if (importType == (int)ImportType.MegaStarV4)
                 ImportMegaStar12(filename, ref list);
 
-            if (importType == (int)ImportType.SkyChartIII)
+            else if (importType == (int)ImportType.SkyChartIII)
                 ImportSkyChart13(filename, ref list);
 
-            if (importType == (int)ImportType.VoyagerII)
+            else if (importType == (int)ImportType.VoyagerII)
                 ImportVoyager14(filename, ref list);
 
-            if (importType == (int)ImportType.SkyTools)
+            else if (importType == (int)ImportType.SkyTools)
                 ImportSkyTools15(filename, ref list);
 
-            if (importType == (int)ImportType.CometForWindows)
+            else if (importType == (int)ImportType.CometForWindows)
                 ImportCometForWindows(filename, ref list);
 
-            if (importType == (int)ImportType.NASA)
+            else if (importType == (int)ImportType.NASA)
                 ImportNasaComet(filename, ref list);
 
-            //finishedImportFlag = true;
-            //filtersAppliedFlag = false;
-            //copyListUseFilters();
-
-            if (list != null)
-                list = list.OrderBy(x => x.sortkey).ToList();
+            list = list.OrderBy(x => x.sortkey).ToList();
 
             return list;
         }
@@ -404,7 +399,7 @@ namespace Comets.Helpers
 
         #region ImportFunctions
 
-        public static void ImportMpc00(string filename, ref List<Comet> masterList)
+        public static void ImportMpc00(string filename, ref List<Comet> list)
         {
             foreach (string line in File.ReadAllLines(filename))
             {
@@ -443,13 +438,15 @@ namespace Comets.Helpers
                     continue;
                 }
 
-                masterList.Add(c);
+                list.Add(c);
             }
         }
 
-        public static void ImportSkyMap01(string filename, ref List<Comet> masterList)
+        public static void ImportSkyMap01(string filename, ref List<Comet> list)
         {
-            //pazit kod exporta zbog 167P
+            string tempFull = string.Empty;
+            string tempId = string.Empty;
+            string tempName = string.Empty;
 
             foreach (string line in File.ReadAllLines(filename))
             {
@@ -457,9 +454,7 @@ namespace Comets.Helpers
 
                 try
                 {
-                    string tempfull = "", id = "", name = "";
-
-                    tempfull = line.Substring(0, 44).Trim();
+                    tempFull = line.Substring(0, 44).Trim();
                     c.Ty = Convert.ToInt32(line.Substring(47, 4).Trim());
                     c.Tm = Convert.ToInt32(line.Substring(52, 2).Trim());
                     c.Td = Convert.ToInt32(line.Substring(55, 2).Trim());
@@ -473,40 +468,39 @@ namespace Comets.Helpers
                     c.k = Convert.ToDouble(line.Substring(121, 5).Trim());
 
 
-                    if ((tempfull[0] == 'C' || tempfull[0] == 'P' || tempfull[0] == 'D' || tempfull[0] == 'X') && tempfull[1] == '/')
+                    if ((tempFull[0] == 'C' || tempFull[0] == 'P' || tempFull[0] == 'D' || tempFull[0] == 'X') && tempFull[1] == '/')
                     {
-                        int spaces = tempfull.Count(f => f == ' ');
+                        int spaces = tempFull.Count(f => f == ' ');
 
                         if (spaces == 1)
                         {
-                            id = tempfull;
+                            tempId = tempFull;
                         }
                         else //if (spaces >= 2)
                         {
-                            int secondspace = GetNthIndex(tempfull, ' ', 2);
-                            id = tempfull.Substring(0, secondspace);
-                            name = tempfull.Substring(secondspace + 1, tempfull.Length - secondspace - 1);
-                            //tempfull = id + " (" + name + ")";
+                            int secondspace = GetNthIndex(tempFull, ' ', 2);
+                            tempId = tempFull.Substring(0, secondspace);
+                            tempName = tempFull.Substring(secondspace + 1, tempFull.Length - secondspace - 1);
                         }
                     }
                     else
                     {
-                        int spaceind = tempfull.IndexOf(' ');
+                        int spaceind = tempFull.IndexOf(' ');
                         if (spaceind == -1)
                         {
                             //ako nema razmaka, "282P"
-                            id = tempfull;
+                            tempId = tempFull;
                         }
                         else
                         {
-                            id = tempfull.Substring(0, spaceind);
-                            name = tempfull.Substring(spaceind + 1, tempfull.Length - spaceind - 1);
+                            tempId = tempFull.Substring(0, spaceind);
+                            tempName = tempFull.Substring(spaceind + 1, tempFull.Length - spaceind - 1);
                         }
                     }
 
-                    c.full = Comet.GetFullFromIdName(id, name);
-                    c.id = id;
-                    c.name = name;
+                    c.full = Comet.GetFullFromIdName(tempId, tempName);
+                    c.id = tempId;
+                    c.name = tempName;
 
                     c.T = EphemHelper.jd0(c.Ty, c.Tm, c.Td, c.Th);
                     c.P = Comet.GetPeriod(c.q, c.e);
@@ -522,21 +516,23 @@ namespace Comets.Helpers
                     continue;
                 }
 
-                masterList.Add(c);
+                list.Add(c);
             }
         }
 
-        public static void ImportGuide02(string filename, ref List<Comet> masterList)
+        public static void ImportGuide02(string filename, ref List<Comet> list)
         {
+            string tempFull = string.Empty;
+            string tempId = string.Empty;
+            string tempName = string.Empty;
+
             foreach (string line in File.ReadAllLines(filename))
             {
                 Comet c = new Comet();
 
                 try
                 {
-                    string tempfull = "", id = "", name = "";
-
-                    tempfull = line.Substring(0, 42).Trim();
+                    tempFull = line.Substring(0, 42).Trim();
                     c.Td = Convert.ToInt32(line.Substring(43, 2).Trim());
                     c.Th = Convert.ToInt32(line.Substring(46, 4).Trim().PadRight(4, '0'));
                     c.Tm = Convert.ToInt32(line.Substring(52, 2).Trim());
@@ -549,23 +545,25 @@ namespace Comets.Helpers
                     c.g = Convert.ToDouble(line.Substring(140, 5).Trim());
                     c.k = Convert.ToDouble(line.Substring(145, 5).Trim());
 
-                    if (tempfull.Contains('('))
+                    if (tempFull.Contains('('))
                     {
-                        int ind = tempfull.IndexOf('(');
+                        int ind = tempFull.IndexOf('(');
 
-                        name = tempfull.Substring(0, ind - 1);
-                        if (name.Contains("/")) name = name.Substring(2, name.Length - 2);
+                        tempName = tempFull.Substring(0, ind - 1);
 
-                        id = tempfull.Substring(ind + 1, tempfull.Length - ind - 2);
+                        if (tempName.Contains("/"))
+                            tempName = tempName.Substring(2, tempName.Length - 2);
+
+                        tempId = tempFull.Substring(ind + 1, tempFull.Length - ind - 2);
                     }
                     else
                     {
-                        id = tempfull;
+                        tempId = tempFull;
                     }
 
-                    c.full = Comet.GetFullFromIdName(id, name);
-                    c.id = id;
-                    c.name = name;
+                    c.full = Comet.GetFullFromIdName(tempId, tempName);
+                    c.id = tempId;
+                    c.name = tempName;
 
                     c.T = EphemHelper.jd0(c.Ty, c.Tm, c.Td, c.Th);
                     c.P = Comet.GetPeriod(c.q, c.e);
@@ -583,11 +581,11 @@ namespace Comets.Helpers
 
 
 
-                masterList.Add(c);
+                list.Add(c);
             }
         }
 
-        public static void ImportXephem03(string filename, ref List<Comet> masterList)
+        public static void ImportXephem03(string filename, ref List<Comet> list)
         {
             // http://www.clearskyinstitute.com/xephem/help/xephem.html#mozTocId215848
 
@@ -706,11 +704,11 @@ namespace Comets.Helpers
                     continue;
                 }
 
-                masterList.Add(c);
+                list.Add(c);
             }
         }
 
-        public static void ImportHomePlanet04(string filename, ref List<Comet> masterList)
+        public static void ImportHomePlanet04(string filename, ref List<Comet> list)
         {
             string[] lines = File.ReadAllLines(filename);
 
@@ -755,11 +753,11 @@ namespace Comets.Helpers
                     continue;
                 }
 
-                masterList.Add(c);
+                list.Add(c);
             }
         }
 
-        public static void ImportMyStars05(string filename, ref List<Comet> masterList)
+        public static void ImportMyStars05(string filename, ref List<Comet> list)
         {
             //
             // w zapravo nije w
@@ -817,11 +815,11 @@ namespace Comets.Helpers
                     continue;
                 }
 
-                masterList.Add(c);
+                list.Add(c);
             }
         }
 
-        public static void ImportTheSky06(string filename, ref List<Comet> masterList)
+        public static void ImportTheSky06(string filename, ref List<Comet> list)
         {
             foreach (string line in File.ReadAllLines(filename))
             {
@@ -864,11 +862,11 @@ namespace Comets.Helpers
                     continue;
                 }
 
-                masterList.Add(c);
+                list.Add(c);
             }
         }
 
-        public static void ImportStarryNight07(string filename, ref List<Comet> masterList)
+        public static void ImportStarryNight07(string filename, ref List<Comet> list)
         {
             string[] lines = File.ReadAllLines(filename);
 
@@ -911,11 +909,11 @@ namespace Comets.Helpers
                     continue;
                 }
 
-                masterList.Add(c);
+                list.Add(c);
             }
         }
 
-        public static void ImportDeepSpace08(string filename, ref List<Comet> masterList)
+        public static void ImportDeepSpace08(string filename, ref List<Comet> list)
         {
             string[] lines = File.ReadAllLines(filename);
 
@@ -962,11 +960,11 @@ namespace Comets.Helpers
                     continue;
                 }
 
-                masterList.Add(c);
+                list.Add(c);
             }
         }
 
-        public static void ImportPcTcs09(string filename, ref List<Comet> masterList)
+        public static void ImportPcTcs09(string filename, ref List<Comet> list)
         {
             foreach (string line in File.ReadAllLines(filename))
             {
@@ -1027,11 +1025,11 @@ namespace Comets.Helpers
                     continue;
                 }
 
-                masterList.Add(c);
+                list.Add(c);
             }
         }
 
-        public static void ImportEarthCenUniv10(string filename, ref List<Comet> masterList)
+        public static void ImportEarthCenUniv10(string filename, ref List<Comet> list)
         {
             string[] lines = File.ReadAllLines(filename);
 
@@ -1077,11 +1075,11 @@ namespace Comets.Helpers
                     continue;
                 }
 
-                masterList.Add(c);
+                list.Add(c);
             }
         }
 
-        public static void ImportDanceOfThePlanets11(string filename, ref List<Comet> masterList)
+        public static void ImportDanceOfThePlanets11(string filename, ref List<Comet> list)
         {
             string[] lines = File.ReadAllLines(filename);
 
@@ -1116,7 +1114,7 @@ namespace Comets.Helpers
                     c.Th = Convert.ToInt32(lines[i].Substring(65, 4).Trim().PadRight(4, '0'));
 
                     if (lines[i].Length == 69)
-                        c.name = "";
+                        c.name = string.Empty;
                     else
                         c.name = lines[i].Substring(70, lines[i].Length - 70).Trim();
 
@@ -1137,11 +1135,11 @@ namespace Comets.Helpers
                     continue;
                 }
 
-                masterList.Add(c);
+                list.Add(c);
             }
         }
 
-        public static void ImportMegaStar12(string filename, ref List<Comet> masterList)
+        public static void ImportMegaStar12(string filename, ref List<Comet> list)
         {
             foreach (string line in File.ReadAllLines(filename))
             {
@@ -1181,11 +1179,11 @@ namespace Comets.Helpers
                     continue;
                 }
 
-                masterList.Add(c);
+                list.Add(c);
             }
         }
 
-        public static void ImportSkyChart13(string filename, ref List<Comet> masterList)
+        public static void ImportSkyChart13(string filename, ref List<Comet> list)
         {
             foreach (string line in File.ReadAllLines(filename))
             {
@@ -1231,11 +1229,11 @@ namespace Comets.Helpers
                     continue;
                 }
 
-                masterList.Add(c);
+                list.Add(c);
             }
         }
 
-        public static void ImportVoyager14(string filename, ref List<Comet> masterList)
+        public static void ImportVoyager14(string filename, ref List<Comet> list)
         {
             string[] lines = File.ReadAllLines(filename);
 
@@ -1246,7 +1244,7 @@ namespace Comets.Helpers
                 try
                 {
                     c.name = lines[i].Substring(0, 27).Trim();
-                    c.id = "";
+                    c.id = string.Empty;
                     c.full = c.name;
 
                     c.q = Convert.ToDouble(lines[i].Substring(27, 9).Trim());
@@ -1288,44 +1286,46 @@ namespace Comets.Helpers
                     continue;
                 }
 
-                masterList.Add(c);
+                list.Add(c);
             }
         }
 
-        public static void ImportSkyTools15(string filename, ref List<Comet> masterList)
+        public static void ImportSkyTools15(string filename, ref List<Comet> list)
         {
+            string tempFull = string.Empty;
+            string tempId = string.Empty;
+            string tempName = string.Empty;
+
             foreach (string line in File.ReadAllLines(filename))
             {
                 Comet c = new Comet();
 
                 try
                 {
-                    string tempfull = "", id = "", name = "";
+                    tempFull = line.Substring(2, 41).Trim();
 
-                    tempfull = line.Substring(2, 41).Trim();
-
-                    if ((tempfull[0] == 'C' || tempfull[0] == 'P' || tempfull[0] == 'D' || tempfull[0] == 'X') && tempfull[1] == '/')
+                    if ((tempFull[0] == 'C' || tempFull[0] == 'P' || tempFull[0] == 'D' || tempFull[0] == 'X') && tempFull[1] == '/')
                     {
-                        int spaces = tempfull.Count(f => f == ' ');
+                        int spaces = tempFull.Count(f => f == ' ');
 
                         if (spaces == 1)
                         {
-                            id = tempfull;
+                            tempId = tempFull;
                         }
                         else //if (spaces >= 2)
                         {
-                            int secondspace = GetNthIndex(tempfull, ' ', 2);
-                            id = tempfull.Substring(0, secondspace);
-                            name = tempfull.Substring(secondspace + 1, tempfull.Length - secondspace - 1);
+                            int secondspace = GetNthIndex(tempFull, ' ', 2);
+                            tempId = tempFull.Substring(0, secondspace);
+                            tempName = tempFull.Substring(secondspace + 1, tempFull.Length - secondspace - 1);
                         }
 
-                        c.full = Comet.GetFullFromIdName(id, name);
-                        c.id = id;
-                        c.name = name;
+                        c.full = Comet.GetFullFromIdName(tempId, tempName);
+                        c.id = tempId;
+                        c.name = tempName;
                     }
                     else
                     {
-                        c.full = tempfull;
+                        c.full = tempFull;
                         string[] idn = Comet.GetIdNameFromFull(c.full);
                         c.id = idn[0];
                         c.name = idn[1];
@@ -1359,11 +1359,11 @@ namespace Comets.Helpers
                     continue;
                 }
 
-                masterList.Add(c);
+                list.Add(c);
             }
         }
 
-        public static void ImportCometForWindows(string filename, ref List<Comet> masterList)
+        public static void ImportCometForWindows(string filename, ref List<Comet> list)
         {
             string[] lines = File.ReadAllLines(filename);
 
@@ -1409,11 +1409,11 @@ namespace Comets.Helpers
                     continue;
                 }
 
-                masterList.Add(c);
+                list.Add(c);
             }
         }
 
-        public static void ImportNasaComet(string filename, ref List<Comet> masterList)
+        public static void ImportNasaComet(string filename, ref List<Comet> list)
         {
             string[] lines = File.ReadAllLines(filename);
 
@@ -1460,7 +1460,7 @@ namespace Comets.Helpers
                     continue;
                 }
 
-                masterList.Add(c);
+                list.Add(c);
             }
         }
 
@@ -1468,14 +1468,14 @@ namespace Comets.Helpers
 
         #region GetNthIndex
 
-        private static int GetNthIndex(string s, char t, int n)
+        private static int GetNthIndex(string s, char c, int n)
         {
             //http://stackoverflow.com/questions/2571716/find-nth-occurrence-of-a-character-in-a-string
 
             int count = 0;
             for (int i = 0; i < s.Length; i++)
             {
-                if (s[i] == t)
+                if (s[i] == c)
                 {
                     count++;
                     if (count == n)

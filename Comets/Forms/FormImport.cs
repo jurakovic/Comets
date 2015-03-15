@@ -166,17 +166,19 @@ namespace Comets.Forms
 
             List<Comet> list = ImportHelper.ImportMain(importType, importFilename);
 
-            if (list == null)
+            if (list.Count == 0)
             {
                 MessageBox.Show("Something wrong happened. Zero comets imported.\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
             }
-
-            FormMain.mainList = list;
-            FormMain.userList = list;
-            this.formMain.SetStatusCometsLabel(list.Count);
-            MessageBox.Show("Import complete.\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            btnClose.Focus();
+            else
+            {
+                formMain.isDataChanged = true;
+                FormMain.mainList = list;
+                FormMain.userList = list;
+                this.formMain.SetStatusCometsLabel(list.Count);
+                MessageBox.Show("Import complete.\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                btnClose.Focus();
+            }
         }
     }
 }
