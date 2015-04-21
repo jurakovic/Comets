@@ -36,7 +36,7 @@ namespace Comets.Forms
                 progressDownload.Value = 0;
             }
 
-            downloadFilename = FormMain.Settings.General.Downloads + "\\Soft00Cmt_" + DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".txt";
+            downloadFilename = FormMain.Settings.Downloads + "\\Soft00Cmt_" + DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".txt";
 
             bwDownload.RunWorkerAsync();
         }

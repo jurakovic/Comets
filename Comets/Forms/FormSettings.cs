@@ -1,14 +1,11 @@
 ﻿using Comets.Classes;
 using System;
 using System.Windows.Forms;
-using System.Xml;
 
 namespace Comets.Forms
 {
     public partial class FormSettings : Form
     {
-        const string settingsxml = "settings.xml";
-
         public FormSettings()
         {
             InitializeComponent();
@@ -16,53 +13,31 @@ namespace Comets.Forms
 
         private void FormSettings_Load(object sender, EventArgs e)
         {
-            txtAppData.Text = FormMain.Settings.General.AppData;
-            txtDownloads.Text = FormMain.Settings.General.Downloads;
-            chDownloadOnStartup.Checked = FormMain.Settings.General.DownloadOnStartup;
-            chNewVersionOnStartup.Checked = FormMain.Settings.General.NewVersionOnStartup;
-            chRememberWindowPosition.Checked = FormMain.Settings.General.RememberWindowPosition;
-            chExitWithoutConfirm.Checked = FormMain.Settings.General.ExitWithoutConfirm;
+            txtAppData.Text = FormMain.Settings.AppData;
+            txtDownloads.Text = FormMain.Settings.Downloads;
+            chDownloadOnStartup.Checked = FormMain.Settings.DownloadOnStartup;
+            chNewVersionOnStartup.Checked = FormMain.Settings.NewVersionOnStartup;
+            chRememberWindowPosition.Checked = FormMain.Settings.RememberWindowPosition;
+            chExitWithoutConfirm.Checked = FormMain.Settings.ExitWithoutConfirm;
 
-            txtName.Text = FormMain.Settings.Location.Name;
+            rbNoProxy.Checked = !FormMain.Settings.UseProxy;
+            if (FormMain.Settings.UseProxy)
+            {
+                txtDomain.Text = FormMain.Settings.Domain;
+                txtUsername.Text = FormMain.Settings.Username;
+                txtPassword.Text = FormMain.Settings.Password;
+                txtProxy.Text = FormMain.Settings.Proxy;
+                txtPort.Text = FormMain.Settings.Port;
+            }
 
-            bool north = FormMain.Settings.Location.Latitude >= 0.0;
-            int latDeg = Math.Abs((int)FormMain.Settings.Location.Latitude);
-
-            double la1 = FormMain.Settings.Location.Latitude - latDeg;
-            double la2 = la1 * 60; //latMin
-            double la3 = la2 - (int)la2;
-            double la4 = la3 * 60; //latSec
-
-            int latMin = (int)la2;
-            int latSec = (int)la4;
-
-            txtLatDeg.Text = latDeg.ToString();
-            txtLatMin.Text = latMin.ToString("00");
-            txtLatSec.Text = latSec.ToString("00");
-
-            bool east = FormMain.Settings.Location.Longitude >= 0.0;
-            int lonDeg = Math.Abs((int)FormMain.Settings.Location.Longitude);
-
-            double lo1 = FormMain.Settings.Location.Longitude - lonDeg;
-            double lo2 = lo1 * 60; //lotMin
-            double lo3 = lo2 - (int)lo2;
-            double lo4 = lo3 * 60; //lotSec
-
-            int lonMin = (int)lo2;
-            int lonSec = (int)lo4;
-
-            txtLonDeg.Text = lonDeg.ToString();
-            txtLonMin.Text = lonMin.ToString("00");
-            txtLonSec.Text = lonSec.ToString("00");
-
-            cbxNorthSouth.SelectedIndex = north ? 0 : 1;
-            cbxEastWest.SelectedIndex = east ? 0 : 1;
-
-            //txtTimezone
-
-            chDST.Checked = FormMain.Settings.Location.DST;
-
-
+            txtName.Text = FormMain.Settings.Name;
+            txtLatitude.Text = (Math.Abs(FormMain.Settings.Latitude)).ToString("0.000000");
+            cbxNorthSouth.SelectedIndex = FormMain.Settings.Latitude >= 0.0 ? 0 : 1;
+            txtLongitude.Text = (Math.Abs(FormMain.Settings.Longitude)).ToString("0.000000");
+            cbxEastWest.SelectedIndex = FormMain.Settings.Longitude >= 0.0 ? 0 : 1;
+            txtAltitude.Text = FormMain.Settings.Altitude.ToString();
+            numTimezone.Value = FormMain.Settings.Timezone;
+            chDST.Checked = FormMain.Settings.DST;
         }
 
         private void btnClose_Click(object sender, EventArgs e)
@@ -70,66 +45,68 @@ namespace Comets.Forms
             this.Close();
         }
 
-        private void btnSave_Click(object sender, EventArgs e)
+        private void btnOK_Click(object sender, EventArgs e)
         {
-            //TO DO
-            //Collect data
+            FormMain.Settings.AppData = txtAppData.Text.Trim();
+            FormMain.Settings.Downloads = txtDownloads.Text.Trim();
+            FormMain.Settings.DownloadOnStartup = chDownloadOnStartup.Checked;
+            FormMain.Settings.NewVersionOnStartup = chNewVersionOnStartup.Checked;
+            FormMain.Settings.ExitWithoutConfirm = chExitWithoutConfirm.Checked;
+            FormMain.Settings.RememberWindowPosition = chRememberWindowPosition.Checked;
 
-            SaveSettings(FormMain.Settings);
-        }
-
-        public static Settings LoadSettings()
-        {
-            Settings settings = new Settings();
-
-            //TO DO
-
-            return settings;
-        }
-
-        private void SaveSettings(Settings settings)
-        {
-            XmlWriterSettings xmlWriterSettings = new XmlWriterSettings()
+            FormMain.Settings.UseProxy = rbManualProxy.Checked;
+            if (FormMain.Settings.UseProxy)
             {
-                Indent = true,
-                IndentChars = "\t",
-                NewLineOnAttributes = true
-            };
-
-            using (XmlWriter writer = XmlWriter.Create(settingsxml, xmlWriterSettings))
-            {
-                writer.WriteStartDocument();
-                writer.WriteStartElement("Settings");
-
-                writer.WriteStartElement("General");
-                writer.WriteElementString("AppData", settings.General.AppData);
-                writer.WriteElementString("Downloads", settings.General.Downloads);
-                writer.WriteElementString("DownloadOnStartup", settings.General.DownloadOnStartup.ToString());
-                writer.WriteElementString("NewVersionOnStartup", settings.General.NewVersionOnStartup.ToString());
-                writer.WriteElementString("RememberWindowPosition", settings.General.RememberWindowPosition.ToString());
-                writer.WriteElementString("ExitWithoutConfirm", settings.General.ExitWithoutConfirm.ToString());
-                writer.WriteEndElement();
-
-                writer.WriteStartElement("Location");
-                writer.WriteElementString("Name", settings.Location.Name);
-                writer.WriteElementString("Latitude", settings.Location.Latitude.ToString());
-                writer.WriteElementString("Longitude", settings.Location.Longitude.ToString());
-                writer.WriteElementString("Timezone", settings.Location.Timezone.ToString());
-                writer.WriteElementString("DST", settings.Location.DST.ToString());
-                writer.WriteEndElement();
-
-                writer.WriteStartElement("Programs");
-                foreach (var a in settings.Programs.ProgramsDict)
-                {
-                    string name = ElementTypes.TypeName[a.Key];
-                    string dir = a.Value;
-                    writer.WriteElementString(name, dir);
-                }
-                writer.WriteEndElement();
-
-                writer.WriteEndElement();
-                writer.WriteEndDocument();
+                FormMain.Settings.Domain = txtDomain.Text.Trim();
+                FormMain.Settings.Username = txtUsername.Text.Trim();
+                FormMain.Settings.Password = txtPassword.Text.Trim();
+                FormMain.Settings.Proxy = txtProxy.Text.Trim();
+                FormMain.Settings.Port = txtPort.Text.Trim();
             }
+
+            FormMain.Settings.Name = txtName.Text.Trim();
+            FormMain.Settings.Latitude = Convert.ToDouble(txtLatitude.Text.Trim());
+            if (cbxNorthSouth.SelectedIndex == 1) FormMain.Settings.Latitude *= -1;
+            FormMain.Settings.Longitude = Convert.ToDouble(txtLongitude.Text.Trim());
+            if (cbxEastWest.SelectedIndex == 1) FormMain.Settings.Longitude *= -1;
+            FormMain.Settings.Altitude = Convert.ToInt32(txtAltitude.Text.Trim());
+            FormMain.Settings.Timezone = Convert.ToInt32(numTimezone.Text.Trim());
+            FormMain.Settings.DST = chDST.Checked;
+
+            Settings.SaveSettings(FormMain.Settings);
+            this.Close();
+        }
+
+        private void rbCommon_CheckedChanged(object sender, EventArgs e)
+        {
+            pnlProxy.Enabled = rbManualProxy.Checked;
+        }
+
+        private void txtLatitude_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = ValidateKeyPress(sender, e, 10, true, 6);
+        }
+
+        private void txtLongitude_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = ValidateKeyPress(sender, e, 10, true, 6);
+        }
+
+        bool ValidateKeyPress(object sender, KeyPressEventArgs e, int length, bool separator, int decimals)
+        {
+            string text = (sender as TextBox).Text;
+
+            if (length > 0 && !char.IsControl(e.KeyChar) && text.Length >= length) return true;
+
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.')) return true;
+
+            if (!separator && (e.KeyChar == '.')) return true;
+
+            if (decimals > 0 && !char.IsControl(e.KeyChar) && (text.IndexOf('.') > -1) && text.Substring(text.IndexOf('.'), text.Length - text.IndexOf('.')).Length > decimals) return true;
+
+            if (separator && (e.KeyChar == '.') && (text.IndexOf('.') > -1)) return true;
+
+            return false;
         }
     }
 }

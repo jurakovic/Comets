@@ -31,28 +31,49 @@ namespace Comets.Forms
 
             InitializeComponent();
 
-            int offset = 250;
-            this.Width = SystemInformation.VirtualScreen.Width - offset;
-            this.Height = SystemInformation.VirtualScreen.Height - offset;
+            Settings = Settings.LoadSettings();
+
+            int margin = 250;
+            if (Settings.RememberWindowPosition)
+            {
+                if (Settings.Maximized)
+                {
+                    this.Width = Screen.PrimaryScreen.WorkingArea.Width - margin;
+                    this.Height = Screen.PrimaryScreen.WorkingArea.Height - margin;
+                    this.WindowState = FormWindowState.Maximized;
+                }
+                else
+                {
+                    this.Left = Settings.Left;
+                    this.Top = Settings.Top;
+                    this.Width = Settings.Width;
+                    this.Height = Settings.Height;
+                    this.StartPosition = FormStartPosition.Manual;
+                }
+            }
+            else
+            {
+                this.Width = Screen.PrimaryScreen.WorkingArea.Width - margin;
+                this.Height = Screen.PrimaryScreen.WorkingArea.Height - margin;
+                this.StartPosition = FormStartPosition.CenterScreen;
+            }
         }
 
         private void FormMain_Load(object sender, EventArgs e)
         {
-            Settings = FormSettings.LoadSettings();
-            
             fdb = new FormDatabase();
 
             ofd = new OpenFileDialog();
-            ofd.InitialDirectory = Settings.General.AppData;
+            ofd.InitialDirectory = Settings.AppData;
             ofd.Filter = "Orbital elements files (*.txt, *.dat, *.comet)|*.txt;*.dat;*.comet|" +
                         "Text documents (*.txt)|*.txt|" +
                         "DAT files (*.dat)|*.dat|" +
                         "COMET files (*.comet)|*.comet|" +
                         "All files (*.*)|*.*";
 
-            if (File.Exists(Settings.General.Database))
+            if (File.Exists(Settings.Database))
             {
-                mainList = ImportHelper.ImportMain((int)ElementTypes.Type.MPC, Settings.General.Database);
+                mainList = ImportHelper.ImportMain((int)ElementTypes.Type.MPC, Settings.Database);
                 userList = mainList;
                 SetStatusCometsLabel(mainList.Count);
             }
@@ -62,8 +83,30 @@ namespace Comets.Forms
         {
             if (isDataChanged && mainList.Count > 0)
             {
-                ExportHelper.ExportMain((int)ElementTypes.Type.MPC, Settings.General.Database, mainList);
+                ExportHelper.ExportMain((int)ElementTypes.Type.MPC, Settings.Database, mainList);
             }
+
+            if (Settings.RememberWindowPosition)
+            {
+                if (this.WindowState == FormWindowState.Maximized)
+                {
+                    Settings.Maximized = true;
+                }
+                else if (this.WindowState == FormWindowState.Normal)
+                {
+                    Settings.Maximized = false;
+                    Settings.Left = this.Left;
+                    Settings.Top = this.Top;
+                    Settings.Width = this.Width;
+                    Settings.Height = this.Height;
+                }
+
+                Settings.SaveSettings(Settings);
+            }
+
+            // da ponovo ispiše postavke
+            if(Settings.HasErrors)
+                Settings.SaveSettings(Settings);
         }
 
         private void menuItemStatusBar_Click(object sender, EventArgs e)
