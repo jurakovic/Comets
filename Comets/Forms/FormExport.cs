@@ -2,6 +2,7 @@
 using Comets.Helpers;
 using System;
 using System.Windows.Forms;
+using ExportType = Comets.Classes.ElementTypes.Type;
 
 namespace Comets.Forms
 {
@@ -46,7 +47,7 @@ namespace Comets.Forms
 
             if (filename.Length > 0 && FormMain.userList.Count > 0)
             {
-                int exportType = cbxExportFormat.SelectedIndex;
+                ExportType exportType = (ExportType)cbxExportFormat.SelectedIndex;
                 ExportHelper.ExportMain(exportType, filename, FormMain.userList);
                 MessageBox.Show("Export complete.\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }

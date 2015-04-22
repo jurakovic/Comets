@@ -18,7 +18,7 @@ namespace Comets.Forms
         string localFilename;
         string importFilename;
 
-        int importType = (int)ImportType.Unknown;
+        ImportType importType = ImportType.Unknown;
 
         FormMain formMain = null;
 
@@ -117,32 +117,32 @@ namespace Comets.Forms
                     importFilename = localFilename;
             }
 
-            importType = (int)ImportHelper.GetImportType(importFilename);
+            importType = ImportHelper.GetImportType(importFilename);
 
             switch (importType)
             {
-                case (int)ImportType.NoFileSelected:
+                case ImportType.NoFileSelected:
                     lblImportFormat.Text = "(no file selected)";
                     labelDetectedComets.Text = "-";
                     break;
 
-                case (int)ImportType.FileNotFound:
+                case ImportType.FileNotFound:
                     lblImportFormat.Text = "(file not found)";
                     labelDetectedComets.Text = "-";
                     break;
 
-                case (int)ImportType.EmptyFile:
+                case ImportType.EmptyFile:
                     lblImportFormat.Text = "(empty file)";
                     labelDetectedComets.Text = "-";
                     break;
 
-                case (int)ImportType.Unknown:
+                case ImportType.Unknown:
                     lblImportFormat.Text = "(unknown)";
                     labelDetectedComets.Text = "-";
                     break;
 
                 default:
-                    lblImportFormat.Text = ElementTypes.TypeName[importType];
+                    lblImportFormat.Text = ElementTypes.TypeName[(int)importType];
                     labelDetectedComets.Text = ImportHelper.GetNumberOfComets(importFilename, importType).ToString();
                     break;
             }
@@ -166,25 +166,23 @@ namespace Comets.Forms
 
         private void btnImport_Click(object sender, EventArgs e)
         {
-            if (importType >= (int)ImportType.NoFileSelected)
+            if (importType < ImportType.NoFileSelected)
             {
-                return;
-            }
+                List<Comet> list = ImportHelper.ImportMain(importType, importFilename);
 
-            List<Comet> list = ImportHelper.ImportMain(importType, importFilename);
-
-            if (list.Count == 0)
-            {
-                MessageBox.Show("Something wrong happened. Zero comets imported.\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else
-            {
-                formMain.isDataChanged = true;
-                FormMain.mainList = list;
-                FormMain.userList = list;
-                this.formMain.SetStatusCometsLabel(list.Count);
-                MessageBox.Show("Import complete.\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                btnClose.Focus();
+                if (list.Count == 0)
+                {
+                    MessageBox.Show("Something wrong happened. Zero comets imported.\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    formMain.isDataChanged = true;
+                    FormMain.mainList = list;
+                    FormMain.userList = list;
+                    this.formMain.SetStatusCometsLabel(list.Count);
+                    MessageBox.Show("Import complete.\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    btnClose.Focus();
+                }
             }
         }
     }

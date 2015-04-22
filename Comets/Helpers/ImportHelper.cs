@@ -300,29 +300,29 @@ namespace Comets.Helpers
 
         #region GetNumberOfComets
 
-        public static int GetNumberOfComets(string filename, int importType)
+        public static int GetNumberOfComets(string filename, ImportType importType)
         {
             int lines = File.ReadLines(filename).Count();
 
-            if (importType == (int)ImportType.xephem || importType == (int)ImportType.DeepSpace || importType == (int)ImportType.EarthCenteredUniverse)
+            if (importType == ImportType.xephem || importType == ImportType.DeepSpace || importType == ImportType.EarthCenteredUniverse)
                 lines /= 2;
             
-            if (importType == (int)ImportType.DeepSpace || importType == (int)ImportType.HomePlanet || importType == (int)ImportType.MyStars)
+            if (importType == ImportType.DeepSpace || importType == ImportType.HomePlanet || importType == ImportType.MyStars)
                 --lines;
             
-            if (importType == (int)ImportType.StarryNight)
+            if (importType == ImportType.StarryNight)
                 lines -= 15;
             
-            if (importType == (int)ImportType.DanceOfThePlanets)
+            if (importType == ImportType.DanceOfThePlanets)
                 lines -= 5;
             
-            if (importType == (int)ImportType.VoyagerII)
+            if (importType == ImportType.VoyagerII)
                 lines -= 23;
             
-            if (importType == (int)ImportType.CometForWindows)
+            if (importType == ImportType.CometForWindows)
                 lines /= 13;
             
-            if (importType == (int)ImportType.NASA)
+            if (importType == ImportType.NASA)
                 lines -= 2;
 
             return lines;
@@ -332,63 +332,66 @@ namespace Comets.Helpers
 
         #region ImportMain
 
-        public static List<Comet> ImportMain(int importType, string filename)
+        public static List<Comet> ImportMain(ImportType importType, string filename)
         {
             List<Comet> list = new List<Comet>();
 
-            if (importType == (int)ImportType.MPC)
-                ImportMpc00(filename, ref list);
+            switch (importType)
+            {
+                case ImportType.MPC:
+                    ImportMpc00(filename, ref list); break;
 
-            else if (importType == (int)ImportType.SkyMap)
-                ImportSkyMap01(filename, ref list);
+                case ImportType.SkyMap:
+                    ImportSkyMap01(filename, ref list); break;
 
-            else if (importType == (int)ImportType.Guide)
-                ImportGuide02(filename, ref list);
+                case ImportType.Guide:
+                    ImportGuide02(filename, ref list); break;
 
-            else if (importType == (int)ImportType.xephem)
-                ImportXephem03(filename, ref list);
+                case ImportType.xephem:
+                    ImportXephem03(filename, ref list); break;
 
-            else if (importType == (int)ImportType.HomePlanet)
-                ImportHomePlanet04(filename, ref list);
+                case ImportType.HomePlanet:
+                    ImportHomePlanet04(filename, ref list); break;
 
-            else if (importType == (int)ImportType.MyStars)
-                ImportMyStars05(filename, ref list);
+                case ImportType.MyStars:
+                    ImportMyStars05(filename, ref list); break;
 
-            else if (importType == (int)ImportType.TheSky)
-                ImportTheSky06(filename, ref list);
+                case ImportType.TheSky:
+                    ImportTheSky06(filename, ref list); break;
 
-            else if (importType == (int)ImportType.StarryNight)
-                ImportStarryNight07(filename, ref list);
+                case ImportType.StarryNight:
+                    ImportStarryNight07(filename, ref list); break;
 
-            else if (importType == (int)ImportType.DeepSpace)
-                ImportDeepSpace08(filename, ref list);
+                case ImportType.DeepSpace:
+                    ImportDeepSpace08(filename, ref list); break;
 
-            else if (importType == (int)ImportType.PCTCS)
-                ImportPcTcs09(filename, ref list);
+                case ImportType.PCTCS:
+                    ImportPcTcs09(filename, ref list); break;
 
-            else if (importType == (int)ImportType.EarthCenteredUniverse)
-                ImportEarthCenUniv10(filename, ref list);
+                case ImportType.EarthCenteredUniverse:
+                    ImportEarthCenUniv10(filename, ref list); break;
 
-            else if (importType == (int)ImportType.DanceOfThePlanets)
-                ImportDanceOfThePlanets11(filename, ref list);
+                case ImportType.DanceOfThePlanets:
+                    ImportDanceOfThePlanets11(filename, ref list); break;
 
-            else if (importType == (int)ImportType.MegaStarV4)
-                ImportMegaStar12(filename, ref list);
+                case ImportType.MegaStarV4:
+                    ImportMegaStar12(filename, ref list); break;
 
-            else if (importType == (int)ImportType.SkyChartIII)
-                ImportSkyChart13(filename, ref list);
+                case ImportType.SkyChartIII:
+                    ImportSkyChart13(filename, ref list); break;
 
-            else if (importType == (int)ImportType.VoyagerII)
-                ImportVoyager14(filename, ref list);
+                case ImportType.VoyagerII:
+                    ImportVoyager14(filename, ref list); break;
 
-            else if (importType == (int)ImportType.SkyTools)
-                ImportSkyTools15(filename, ref list);
+                case ImportType.SkyTools:
+                    ImportSkyTools15(filename, ref list); break;
 
-            else if (importType == (int)ImportType.CometForWindows)
-                ImportCometForWindows(filename, ref list);
+                case ImportType.CometForWindows:
+                    ImportCometForWindows(filename, ref list); break;
 
-            else if (importType == (int)ImportType.NASA)
-                ImportNasaComet(filename, ref list);
+                case ImportType.NASA:
+                    ImportNasaComet(filename, ref list); break;
+            }
 
             list = list.OrderBy(x => x.sortkey).ToList();
 

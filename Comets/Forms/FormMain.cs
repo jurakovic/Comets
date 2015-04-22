@@ -86,7 +86,7 @@ namespace Comets.Forms
         {
             if (isDataChanged && mainList.Count > 0)
             {
-                ExportHelper.ExportMain((int)ElementTypes.Type.MPC, Settings.Database, mainList);
+                ExportHelper.ExportMain(ElementTypes.Type.MPC, Settings.Database, mainList);
             }
 
             if (Settings.RememberWindowPosition)

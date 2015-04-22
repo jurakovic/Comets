@@ -6,78 +6,80 @@ using System.IO;
 using System.Text;
 using ExportType = Comets.Classes.ElementTypes.Type;
 
-
 namespace Comets.Helpers
 {
     class ExportHelper
     {
         #region ExportMain
 
-        public static void ExportMain(int exportType, string filename, List<Comet> list)
+        public static void ExportMain(ExportType exportType, string filename, List<Comet> list)
         {
             StringBuilder sb = new StringBuilder();
 
             WriteHeaderText(exportType, ref sb);
 
-            if (exportType == (int)ExportType.MPC)
-                ExportMpc00(ref sb, list);
+            switch (exportType)
+            {
+                case ExportType.MPC:
+                    ExportMpc00(ref sb, list); break;
 
-            if (exportType == (int)ExportType.SkyMap)
-                ExportSkyMap01(ref sb, list);
+                case ExportType.SkyMap:
+                    ExportSkyMap01(ref sb, list); break;
 
-            if (exportType == (int)ExportType.Guide)
-                ExportGuide02(ref sb, list);
+                case ExportType.Guide:
+                    ExportGuide02(ref sb, list); break;
 
-            if (exportType == (int)ExportType.xephem)
-                ExportXephem03(ref sb, list);
+                case ExportType.xephem:
+                    ExportXephem03(ref sb, list); break;
 
-            if (exportType == (int)ExportType.HomePlanet)
-                ExportHomePlanet04(ref sb, list);
+                case ExportType.HomePlanet:
+                    ExportHomePlanet04(ref sb, list); break;
 
-            if (exportType == (int)ExportType.MyStars)
-                ExportMyStars05(ref sb, list);
+                case ExportType.MyStars:
+                    ExportMyStars05(ref sb, list); break;
 
-            if (exportType == (int)ExportType.TheSky)
-                ExportTheSky06(ref sb, list);
+                case ExportType.TheSky:
+                    ExportTheSky06(ref sb, list); break;
 
-            if (exportType == (int)ExportType.StarryNight)
-                ExportStarryNight07(ref sb, list);
+                case ExportType.StarryNight:
+                    ExportStarryNight07(ref sb, list); break;
 
-            if (exportType == (int)ExportType.DeepSpace)
-                ExportDeepSpace08(ref sb, list);
+                case ExportType.DeepSpace:
+                    ExportDeepSpace08(ref sb, list); break;
 
-            if (exportType == (int)ExportType.PCTCS)
-                ExportPcTcs09(ref sb, list);
+                case ExportType.PCTCS:
+                    ExportPcTcs09(ref sb, list); break;
 
-            if (exportType == (int)ExportType.EarthCenteredUniverse)
-                ExportEarthCenUniv10(ref sb, list);
+                case ExportType.EarthCenteredUniverse:
+                    ExportEarthCenUniv10(ref sb, list); break;
 
-            if (exportType == (int)ExportType.DanceOfThePlanets)
-                ExportDanceOfThePlanets11(ref sb, list);
+                case ExportType.DanceOfThePlanets:
+                    ExportDanceOfThePlanets11(ref sb, list); break;
 
-            if (exportType == (int)ExportType.MegaStarV4)
-                ExportMegaStar12(ref sb, list);
+                case ExportType.MegaStarV4:
+                    ExportMegaStar12(ref sb, list); break;
 
-            if (exportType == (int)ExportType.SkyChartIII)
-                ExportSkyChart13(ref sb, list);
+                case ExportType.SkyChartIII:
+                    ExportSkyChart13(ref sb, list); break;
 
-            if (exportType == (int)ExportType.VoyagerII)
-                ExportVoyager14(ref sb, list);
+                case ExportType.VoyagerII:
+                    ExportVoyager14(ref sb, list); break;
 
-            if (exportType == (int)ExportType.SkyTools)
-                ExportSkyTools15(ref sb, list);
+                case ExportType.SkyTools:
+                    ExportSkyTools15(ref sb, list); break;
 
-            if (exportType == (int)ExportType.Autostar)
-                ExportTheSky06(ref sb, list);
+                case ExportType.Autostar:
+                    ExportTheSky06(ref sb, list); break;
 
-            if (exportType == (int)ExportType.Celestia)
-                ExportCelestia(ref sb, list);
+                case ExportType.Celestia:
+                    ExportCelestia(ref sb, list); break;
 
-            //if (exportType == (int)ExportType.CometForWindows)
-            //    ExportCometForWindows(ref sb);
+                //case ExportType.CometForWindows:
+                //    ExportCometForWindows(ref sb, list); break;
 
-            //if (exportType == (int)ExportType.NASA)
-            //    ExportNasaComet(ref sb);
+                //case ExportType.NASA:
+                //    ExportNasaComet(ref sb, list); break;
+            }
 
             File.WriteAllText(filename, sb.ToString());
         }
@@ -86,78 +88,74 @@ namespace Comets.Helpers
 
         #region WriteHeaderText
 
-        public static void WriteHeaderText(int exportType, ref StringBuilder sb)
+        public static void WriteHeaderText(ExportType exportType, ref StringBuilder sb)
         {
-            if (exportType == (int)ExportType.HomePlanet)
+            switch (exportType)
             {
-                sb.AppendLine("Name,Perihelion time,Perihelion AU,Eccentricity,Long. perihelion,Long. node,Inclination,Semimajor axis,Period");
-            }
+                case ExportType.HomePlanet:
+                    sb.AppendLine("Name,Perihelion time,Perihelion AU,Eccentricity,Long. perihelion,Long. node,Inclination,Semimajor axis,Period");
+                    break;
 
-            if (exportType == (int)ExportType.MyStars)
-            {
-                sb.Append("RDPC\t").AppendLine(FormMain.userList.Count.ToString());
-            }
+                case ExportType.MyStars:
+                    sb.Append("RDPC\t").AppendLine(FormMain.userList.Count.ToString());
+                    break;
 
-            if (exportType == (int)ExportType.StarryNight)
-            {
-                sb.AppendLine("NOTE: If viewing this file and it appears confused, make the window very wide!");
-                sb.AppendLine();
-                sb.AppendLine("   The numbers are all in the proper format for easy use in Starry Night's");
-                sb.AppendLine("orbit editor. Just click on the word Sun in the planet floater and then");
-                sb.AppendLine("click on add. In the first window that appears select the comet as the type");
-                sb.AppendLine("of object you want to add. Please see the manual for more information.");
-                sb.AppendLine();
-                sb.AppendLine("   The orbital information should have the reference plane set at Ecliptic");
-                sb.AppendLine(" 2000 and the Style should be pericentric. Don't forget to use copy and");
-                sb.AppendLine(" paste to ease the input of the orbital data into Starry Night.");
-                sb.AppendLine();
-                sb.AppendLine("This file kindly prepared by the IAU Minor Planet Center & Central Bureau for Astronomical Telegrams.");
-                sb.AppendLine();
-                sb.AppendLine("Num  Name                          Mag.   Diam      e            q        Node         w         i         Tp           Epoch       k   Desig         Reference");
-                sb.AppendLine();
-            }
+                case ExportType.StarryNight:
+                    sb.AppendLine("NOTE: If viewing this file and it appears confused, make the window very wide!");
+                    sb.AppendLine();
+                    sb.AppendLine("   The numbers are all in the proper format for easy use in Starry Night's");
+                    sb.AppendLine("orbit editor. Just click on the word Sun in the planet floater and then");
+                    sb.AppendLine("click on add. In the first window that appears select the comet as the type");
+                    sb.AppendLine("of object you want to add. Please see the manual for more information.");
+                    sb.AppendLine();
+                    sb.AppendLine("   The orbital information should have the reference plane set at Ecliptic");
+                    sb.AppendLine(" 2000 and the Style should be pericentric. Don't forget to use copy and");
+                    sb.AppendLine(" paste to ease the input of the orbital data into Starry Night.");
+                    sb.AppendLine();
+                    sb.AppendLine("This file kindly prepared by the IAU Minor Planet Center & Central Bureau for Astronomical Telegrams.");
+                    sb.AppendLine();
+                    sb.AppendLine("Num  Name                          Mag.   Diam      e            q        Node         w         i         Tp           Epoch       k   Desig         Reference");
+                    sb.AppendLine();
+                    break;
 
-            if (exportType == (int)ExportType.DeepSpace)
-            {
-                sb.AppendLine("Type C: Equinox Year Month Day q e Peri Node i Mag k");
-                sb.AppendLine("Type A: Equinox Year Month Day a M e Peri Node i H G");
-            }
+                case ExportType.DeepSpace:
+                    sb.AppendLine("Type C: Equinox Year Month Day q e Peri Node i Mag k");
+                    sb.AppendLine("Type A: Equinox Year Month Day a M e Peri Node i H G");
+                    break;
 
-            if (exportType == (int)ExportType.DanceOfThePlanets)
-            {
-                sb.AppendLine("Comet      peri(au)   e         iř       ęř       wř     peridate     name");
-                sb.AppendLine("(In order to be recognised by Dance of the Planets, this file)");
-                sb.AppendLine("(must have a .cmt extension.)");
-                sb.AppendLine("(File prepared by IAU Minor Planet Center/Central Bureau)");
-                sb.AppendLine("(for Astronomical Telegrams.)");
+                case ExportType.DanceOfThePlanets:
+                    sb.AppendLine("Comet      peri(au)   e         iř       ęř       wř     peridate     name");
+                    sb.AppendLine("(In order to be recognised by Dance of the Planets, this file)");
+                    sb.AppendLine("(must have a .cmt extension.)");
+                    sb.AppendLine("(File prepared by IAU Minor Planet Center/Central Bureau)");
+                    sb.AppendLine("(for Astronomical Telegrams.)");
+                    break;
 
-            }
-
-            if (exportType == (int)ExportType.VoyagerII)
-            {
-                sb.AppendLine("NOTE TO VOYAGER II USERS:");
-                sb.AppendLine();
-                sb.AppendLine("   The following table will link the symbols below with the names used in");
-                sb.AppendLine("the Voyager II \"Define New Orbit...\" dialog for comets.");
-                sb.AppendLine();
-                sb.AppendLine("     q        perihelion distance (astronomical units)");
-                sb.AppendLine("     e        eccentricity (no units)");
-                sb.AppendLine("     i        inclination of orbit to ecliptic (degrees)");
-                sb.AppendLine("     Node     longitude of ascending node (degrees)");
-                sb.AppendLine("     w        argument of perihelion (degrees)");
-                sb.AppendLine("     L        mean anomaly (this is 0 at perihelion) (degrees)");
-                sb.AppendLine("     Date     epoch of orbit");
-                sb.AppendLine("     Equinox  reference equinox (usually 2000.0)");
-                sb.AppendLine();
-                sb.AppendLine("Save this page as plain text from your browser and use the table to input");
-                sb.AppendLine("the orbital elements for the comets that you would like to plot and");
-                sb.AppendLine("follow.  If you have any question, consult your software manual or the");
-                sb.AppendLine("Carina web site: <a href=\"http://www.carinasoft.com\">http://www.carinasoft.com</a>");
-                sb.AppendLine();
-                sb.AppendLine("Thanks to the IAU Minor Planet Center & Central Bureau for Astronomical");
-                sb.AppendLine("Telegrams for providing this information.");
-                sb.AppendLine();
-                sb.AppendLine("Name                            q          e         i        Node         w       L      T(Date)    Equinox");
+                case ExportType.VoyagerII:
+                    sb.AppendLine("NOTE TO VOYAGER II USERS:");
+                    sb.AppendLine();
+                    sb.AppendLine("   The following table will link the symbols below with the names used in");
+                    sb.AppendLine("the Voyager II \"Define New Orbit...\" dialog for comets.");
+                    sb.AppendLine();
+                    sb.AppendLine("     q        perihelion distance (astronomical units)");
+                    sb.AppendLine("     e        eccentricity (no units)");
+                    sb.AppendLine("     i        inclination of orbit to ecliptic (degrees)");
+                    sb.AppendLine("     Node     longitude of ascending node (degrees)");
+                    sb.AppendLine("     w        argument of perihelion (degrees)");
+                    sb.AppendLine("     L        mean anomaly (this is 0 at perihelion) (degrees)");
+                    sb.AppendLine("     Date     epoch of orbit");
+                    sb.AppendLine("     Equinox  reference equinox (usually 2000.0)");
+                    sb.AppendLine();
+                    sb.AppendLine("Save this page as plain text from your browser and use the table to input");
+                    sb.AppendLine("the orbital elements for the comets that you would like to plot and");
+                    sb.AppendLine("follow.  If you have any question, consult your software manual or the");
+                    sb.AppendLine("Carina web site: <a href=\"http://www.carinasoft.com\">http://www.carinasoft.com</a>");
+                    sb.AppendLine();
+                    sb.AppendLine("Thanks to the IAU Minor Planet Center & Central Bureau for Astronomical");
+                    sb.AppendLine("Telegrams for providing this information.");
+                    sb.AppendLine();
+                    sb.AppendLine("Name                            q          e         i        Node         w       L      T(Date)    Equinox");
+                    break;
             }
         }
 
@@ -390,7 +388,7 @@ namespace Comets.Helpers
         
         protected static void ExportSkyChart13(ref StringBuilder sb, List<Comet> list)
         {
-            string format = "P11	2000.0	-{0:0.000000}\t{1:0.000000}\t{2:0.0000}\t{3:0.0000}\t{4:0.0000}\t0\t{5}/{6:00}/{7:00}.{8:0000}\t{9:0.0} {10:0.0}\t0\t0\t{11}; MPC 00000";
+            string format = "P11\t2000.0\t-{0:0.000000}\t{1:0.000000}\t{2:0.0000}\t{3:0.0000}\t{4:0.0000}\t0\t{5}/{6:00}/{7:00}.{8:0000}\t{9:0.0}\t{10:0.0}\t0\t0\t{11}; MPC 00000";
 
             foreach (Comet c in list)
             {
