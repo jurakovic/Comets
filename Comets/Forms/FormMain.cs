@@ -77,6 +77,9 @@ namespace Comets.Forms
                 userList = mainList;
                 SetStatusCometsLabel(mainList.Count);
             }
+
+            if (!Directory.Exists(Settings.Downloads))
+                Directory.CreateDirectory(Settings.Downloads);
         }
 
         private void FormMain_FormClosing(object sender, FormClosingEventArgs e)

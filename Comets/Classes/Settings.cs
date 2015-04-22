@@ -34,7 +34,7 @@ namespace Comets.Classes
         public string Username { get; set; }
         public string Password { get; set; }
         public string Proxy { get; set; }
-        public string Port { get; set; }
+        public int Port { get; set; }
 
         // Location
         public string Name { get; set; }
@@ -68,7 +68,7 @@ namespace Comets.Classes
             Username = string.Empty;
             Password = string.Empty;
             Proxy = string.Empty;
-            Port = string.Empty;
+            Port = 0;
 
             Name = "Home";
             Latitude = 0.0;
@@ -127,7 +127,7 @@ namespace Comets.Classes
                             if (property == "Username") { settings.Username = value; continue; }
                             if (property == "Password") { settings.Password = value; continue; }
                             if (property == "Proxy") { settings.Proxy = value; continue; }
-                            if (property == "Port") { settings.Port = value; continue; }
+                            if (property == "Port") { settings.Port = Convert.ToInt32(value); continue; }
 
                             if (property == "Name") { settings.Name = value; continue; }
                             if (property == "Latitude") { settings.Latitude = Convert.ToDouble(value); continue; }
@@ -185,15 +185,20 @@ namespace Comets.Classes
                 sb.AppendLine();
             }
 
-            if (settings.UseProxy)
+            if (settings.UseProxy ||
+                !string.IsNullOrEmpty(settings.Domain) ||
+                !string.IsNullOrEmpty(settings.Username) ||
+                !string.IsNullOrEmpty(settings.Password) ||
+                !string.IsNullOrEmpty(settings.Proxy) ||
+                settings.Port > 0)
             {
                 sb.AppendLine("[Network]");
                 sb.AppendLine(String.Format(format, "UseProxy", settings.UseProxy));
-                sb.AppendLine(String.Format(format, "Domain", settings.Domain));
-                sb.AppendLine(String.Format(format, "Username", settings.Username));
-                sb.AppendLine(String.Format(format, "Password", settings.Password));
-                sb.AppendLine(String.Format(format, "Proxy", settings.Proxy));
-                sb.AppendLine(String.Format(format, "Port", settings.Port));
+                if (!string.IsNullOrEmpty(settings.Domain)) sb.AppendLine(String.Format(format, "Domain", settings.Domain));
+                if (!string.IsNullOrEmpty(settings.Username)) sb.AppendLine(String.Format(format, "Username", settings.Username));
+                if (!string.IsNullOrEmpty(settings.Password)) sb.AppendLine(String.Format(format, "Password", settings.Password));
+                if (!string.IsNullOrEmpty(settings.Proxy)) sb.AppendLine(String.Format(format, "Proxy", settings.Proxy));
+                if (settings.Port > 0) sb.AppendLine(String.Format(format, "Port", settings.Port));
                 sb.AppendLine();
             }
 

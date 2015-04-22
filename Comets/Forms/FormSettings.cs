@@ -21,14 +21,12 @@ namespace Comets.Forms
             chExitWithoutConfirm.Checked = FormMain.Settings.ExitWithoutConfirm;
 
             rbNoProxy.Checked = !FormMain.Settings.UseProxy;
-            if (FormMain.Settings.UseProxy)
-            {
-                txtDomain.Text = FormMain.Settings.Domain;
-                txtUsername.Text = FormMain.Settings.Username;
-                txtPassword.Text = FormMain.Settings.Password;
-                txtProxy.Text = FormMain.Settings.Proxy;
-                txtPort.Text = FormMain.Settings.Port;
-            }
+            rbManualProxy.Checked = FormMain.Settings.UseProxy;
+            txtDomain.Text = FormMain.Settings.Domain;
+            txtUsername.Text = FormMain.Settings.Username;
+            txtPassword.Text = FormMain.Settings.Password;
+            txtProxy.Text = FormMain.Settings.Proxy;
+            txtPort.Text = FormMain.Settings.Port > 0 ? FormMain.Settings.Port.ToString() : string.Empty;
 
             txtName.Text = FormMain.Settings.Name;
             txtLatitude.Text = (Math.Abs(FormMain.Settings.Latitude)).ToString("0.000000");
@@ -55,14 +53,11 @@ namespace Comets.Forms
             FormMain.Settings.RememberWindowPosition = chRememberWindowPosition.Checked;
 
             FormMain.Settings.UseProxy = rbManualProxy.Checked;
-            if (FormMain.Settings.UseProxy)
-            {
-                FormMain.Settings.Domain = txtDomain.Text.Trim();
-                FormMain.Settings.Username = txtUsername.Text.Trim();
-                FormMain.Settings.Password = txtPassword.Text.Trim();
-                FormMain.Settings.Proxy = txtProxy.Text.Trim();
-                FormMain.Settings.Port = txtPort.Text.Trim();
-            }
+            FormMain.Settings.Domain = txtDomain.Text.Trim();
+            FormMain.Settings.Username = txtUsername.Text.Trim();
+            FormMain.Settings.Password = txtPassword.Text.Trim();
+            FormMain.Settings.Proxy = txtProxy.Text.Trim();
+            FormMain.Settings.Port = txtPort.Text.Trim().Length == 0 ? 0 : Convert.ToInt32(txtPort.Text.Trim());
 
             FormMain.Settings.Name = txtName.Text.Trim();
             FormMain.Settings.Latitude = Convert.ToDouble(txtLatitude.Text.Trim());

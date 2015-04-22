@@ -55,7 +55,14 @@ namespace Comets.Forms
                 progressDownload.Visible = true;
 
                 WebClient Client = new WebClient();
-                Client.Proxy.Credentials = System.Net.CredentialCache.DefaultNetworkCredentials;
+
+                if (FormMain.Settings.UseProxy)
+                {
+                    WebProxy proxy = new WebProxy(FormMain.Settings.Proxy, FormMain.Settings.Port);
+                    proxy.Credentials = new NetworkCredential(FormMain.Settings.Username, FormMain.Settings.Password, FormMain.Settings.Domain);
+                    Client.Proxy = proxy;
+                }
+
                 Client.DownloadProgressChanged += Client_DownloadProgressChanged;
                 Client.DownloadFileCompleted += Client_DownloadFileCompleted;
                 Uri uri = new Uri(url);
@@ -78,7 +85,7 @@ namespace Comets.Forms
 
         void Client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
-            if (new FileInfo(downloadFilename).Length == 0)
+            if (File.Exists(downloadFilename) && new FileInfo(downloadFilename).Length == 0)
             {
                 progressDownload.Visible = false;
                 File.Delete(downloadFilename);
