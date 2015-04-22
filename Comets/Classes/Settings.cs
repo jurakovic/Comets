@@ -107,34 +107,36 @@ namespace Comets.Classes
                             property = split[0].Trim();
                             value = split[1].Trim();
 
-                            if (property == "AppData") { settings.AppData = value; continue; }
-                            if (property == "Database") { settings.Database = value; continue; }
-                            if (property == "Downloads") { settings.Downloads = value; continue; }
-                            if (property == "DownloadOnStartup") { settings.DownloadOnStartup = Convert.ToBoolean(value); continue; }
-                            if (property == "RememberWindowPosition") { settings.RememberWindowPosition = Convert.ToBoolean(value); continue; }
-                            
-                            //if (property == "NewVersionOnStartup") { settings.NewVersionOnStartup = Convert.ToBoolean(value); continue; } 
-                            //if (property == "ExitWithoutConfirm") { settings.ExitWithoutConfirm = Convert.ToBoolean(value); continue; }
+                            switch (property)
+                            {
+                                case "AppData": settings.AppData = value; break;
+                                case "Database": settings.Database = value; break;
+                                case "Downloads": settings.Downloads = value; break;
+                                case "DownloadOnStartup": settings.DownloadOnStartup = Convert.ToBoolean(value); break;
+                                case "RememberWindowPosition": settings.RememberWindowPosition = Convert.ToBoolean(value); break;
+                                //case "NewVersionOnStartup": settings.NewVersionOnStartup = Convert.ToBoolean(value); break; 
+                                //case "ExitWithoutConfirm": settings.ExitWithoutConfirm = Convert.ToBoolean(value); break;
 
-                            if (property == "Maximized") { settings.Maximized = Convert.ToBoolean(value); continue; }
-                            if (property == "Left") { settings.Left = Convert.ToInt32(value); continue; }
-                            if (property == "Top") { settings.Top = Convert.ToInt32(value); continue; }
-                            if (property == "Width") { settings.Width = Convert.ToInt32(value); continue; }
-                            if (property == "Height") { settings.Height = Convert.ToInt32(value); continue; }
+                                case "Maximized": settings.Maximized = Convert.ToBoolean(value); break;
+                                case "Left": settings.Left = Convert.ToInt32(value); break;
+                                case "Top": settings.Top = Convert.ToInt32(value); break;
+                                case "Width": settings.Width = Convert.ToInt32(value); break;
+                                case "Height": settings.Height = Convert.ToInt32(value); break;
 
-                            if (property == "UseProxy") { settings.UseProxy = Convert.ToBoolean(value); continue; }
-                            if (property == "Domain") { settings.Domain = value; continue; }
-                            if (property == "Username") { settings.Username = value; continue; }
-                            if (property == "Password") { settings.Password = value; continue; }
-                            if (property == "Proxy") { settings.Proxy = value; continue; }
-                            if (property == "Port") { settings.Port = Convert.ToInt32(value); continue; }
+                                case "UseProxy": settings.UseProxy = Convert.ToBoolean(value); break;
+                                case "Domain": settings.Domain = value; break;
+                                case "Username": settings.Username = value; break;
+                                case "Password": settings.Password = value; break;
+                                case "Proxy": settings.Proxy = value; break;
+                                case "Port": settings.Port = Convert.ToInt32(value); break;
 
-                            if (property == "Name") { settings.Name = value; continue; }
-                            if (property == "Latitude") { settings.Latitude = Convert.ToDouble(value); continue; }
-                            if (property == "Longitude") { settings.Longitude = Convert.ToDouble(value); continue; }
-                            if (property == "Altitude") { settings.Altitude = Convert.ToInt32(value); continue; }
-                            if (property == "Timezone") { settings.Timezone = Convert.ToInt32(value); continue; }
-                            if (property == "DST") { settings.DST = Convert.ToBoolean(value); continue; }
+                                case "Name": settings.Name = value; break;
+                                case "Latitude": settings.Latitude = Convert.ToDouble(value); break;
+                                case "Longitude": settings.Longitude = Convert.ToDouble(value); break;
+                                case "Altitude": settings.Altitude = Convert.ToInt32(value); break;
+                                case "Timezone": settings.Timezone = Convert.ToInt32(value); break;
+                                case "DST": settings.DST = Convert.ToBoolean(value); break;
+                            }
                         }
                     }
                     catch
