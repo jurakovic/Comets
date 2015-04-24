@@ -42,13 +42,11 @@ namespace Comets.Forms
                     this.Height = Screen.PrimaryScreen.WorkingArea.Height - margin;
                     this.WindowState = FormWindowState.Maximized;
                 }
-                else
+                else //if (!Settings.Maximized && Settings.Left == 0 && Settings.Top == 0 && Settings.Width == 0 && Settings.Height == 0)
                 {
-                    this.Left = Settings.Left;
-                    this.Top = Settings.Top;
-                    this.Width = Settings.Width;
-                    this.Height = Settings.Height;
-                    this.StartPosition = FormStartPosition.Manual;
+                    this.Width = Screen.PrimaryScreen.WorkingArea.Width - margin;
+                    this.Height = Screen.PrimaryScreen.WorkingArea.Height - margin;
+                    this.StartPosition = FormStartPosition.CenterScreen;
                 }
             }
             else
@@ -61,6 +59,15 @@ namespace Comets.Forms
 
         private void FormMain_Load(object sender, EventArgs e)
         {
+            if (Settings.RememberWindowPosition && (Settings.Left > 0 || Settings.Top > 0 || Settings.Width > 0 || Settings.Height > 0))
+            {
+                this.Left = Settings.Left;
+                this.Top = Settings.Top;
+                this.Width = Settings.Width;
+                this.Height = Settings.Height;
+                this.StartPosition = FormStartPosition.Manual;
+            }
+
             fdb = new FormDatabase();
 
             ofd = new OpenFileDialog();
@@ -91,18 +98,11 @@ namespace Comets.Forms
 
             if (Settings.RememberWindowPosition)
             {
-                if (this.WindowState == FormWindowState.Maximized)
-                {
-                    Settings.Maximized = true;
-                }
-                else if (this.WindowState == FormWindowState.Normal)
-                {
-                    Settings.Maximized = false;
-                    Settings.Left = this.Left;
-                    Settings.Top = this.Top;
-                    Settings.Width = this.Width;
-                    Settings.Height = this.Height;
-                }
+                Settings.Maximized = this.WindowState == FormWindowState.Maximized;
+                Settings.Left = this.Left;
+                Settings.Top = this.Top;
+                Settings.Width = this.Width;
+                Settings.Height = this.Height;
 
                 Settings.SaveSettings(Settings);
             }
