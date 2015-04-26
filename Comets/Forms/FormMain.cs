@@ -55,6 +55,9 @@ namespace Comets.Forms
                 this.Height = Screen.PrimaryScreen.WorkingArea.Height - margin;
                 this.StartPosition = FormStartPosition.CenterScreen;
             }
+
+            menuItemStatusBar.Checked = Settings.ShowStatusBar;
+            this.statusStrip.Visible = Settings.ShowStatusBar;
         }
 
         private void FormMain_Load(object sender, EventArgs e)
@@ -85,13 +88,18 @@ namespace Comets.Forms
                 SetStatusCometsLabel(mainList.Count);
             }
 
+            if (Settings.DownloadOnStartup)
+            {
+                //TO DO
+            }
+
             if (!Directory.Exists(Settings.Downloads))
                 Directory.CreateDirectory(Settings.Downloads);
         }
 
         private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (isDataChanged && mainList.Count > 0)
+            if ((isDataChanged || !File.Exists(Settings.Database) || Settings.IsSettingsChanged) && mainList.Count > 0)
             {
                 ExportHelper.ExportMain(ElementTypes.Type.MPC, Settings.Database, mainList);
             }
@@ -115,6 +123,7 @@ namespace Comets.Forms
         private void menuItemStatusBar_Click(object sender, EventArgs e)
         {
             menuItemStatusBar.Checked = !menuItemStatusBar.Checked;
+            Settings.ShowStatusBar = menuItemStatusBar.Checked;
             this.statusStrip.Visible = menuItemStatusBar.Checked;
         }
 
@@ -149,6 +158,9 @@ namespace Comets.Forms
             using (FormSettings frs = new FormSettings())
             {
                 frs.ShowDialog();
+
+                menuItemStatusBar.Checked = Settings.ShowStatusBar;
+                this.statusStrip.Visible = Settings.ShowStatusBar;
             }
         }
     }

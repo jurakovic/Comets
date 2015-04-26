@@ -87,6 +87,9 @@
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
+            this.chShowStatusBar = new System.Windows.Forms.CheckBox();
+            this.btnDefaultAppData = new System.Windows.Forms.Button();
+            this.btnDefaultDownloads = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabGeneral.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -134,13 +137,14 @@
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.chShowStatusBar);
             this.groupBox2.Controls.Add(this.chExitWithoutConfirm);
             this.groupBox2.Controls.Add(this.chNewVersionOnStartup);
             this.groupBox2.Controls.Add(this.chRememberWindowPosition);
             this.groupBox2.Controls.Add(this.chDownloadOnStartup);
             this.groupBox2.Location = new System.Drawing.Point(8, 169);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(668, 87);
+            this.groupBox2.Size = new System.Drawing.Size(668, 119);
             this.groupBox2.TabIndex = 4;
             this.groupBox2.TabStop = false;
             // 
@@ -190,6 +194,8 @@
             // 
             this.gbxLocalFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbxLocalFile.Controls.Add(this.btnDefaultDownloads);
+            this.gbxLocalFile.Controls.Add(this.btnDefaultAppData);
             this.gbxLocalFile.Controls.Add(this.lblDownloads);
             this.gbxLocalFile.Controls.Add(this.txtDownloads);
             this.gbxLocalFile.Controls.Add(this.btnDownloads);
@@ -219,7 +225,7 @@
             this.txtDownloads.Location = new System.Drawing.Point(155, 115);
             this.txtDownloads.MaxLength = 512;
             this.txtDownloads.Name = "txtDownloads";
-            this.txtDownloads.Size = new System.Drawing.Size(479, 21);
+            this.txtDownloads.Size = new System.Drawing.Size(433, 21);
             this.txtDownloads.TabIndex = 3;
             // 
             // btnDownloads
@@ -230,6 +236,7 @@
             this.btnDownloads.TabIndex = 2;
             this.btnDownloads.Text = "Browse";
             this.btnDownloads.UseVisualStyleBackColor = true;
+            this.btnDownloads.Click += new System.EventHandler(this.btnDownloads_Click);
             // 
             // lblAppData
             // 
@@ -248,7 +255,7 @@
             this.txtAppData.Location = new System.Drawing.Point(155, 48);
             this.txtAppData.MaxLength = 512;
             this.txtAppData.Name = "txtAppData";
-            this.txtAppData.Size = new System.Drawing.Size(479, 21);
+            this.txtAppData.Size = new System.Drawing.Size(433, 21);
             this.txtAppData.TabIndex = 1;
             // 
             // btnAppData
@@ -259,6 +266,7 @@
             this.btnAppData.TabIndex = 0;
             this.btnAppData.Text = "Browse";
             this.btnAppData.UseVisualStyleBackColor = true;
+            this.btnAppData.Click += new System.EventHandler(this.btnAppData_Click);
             // 
             // tabNetwork
             // 
@@ -755,6 +763,36 @@
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
+            // chShowStatusBar
+            // 
+            this.chShowStatusBar.AutoSize = true;
+            this.chShowStatusBar.Location = new System.Drawing.Point(9, 90);
+            this.chShowStatusBar.Name = "chShowStatusBar";
+            this.chShowStatusBar.Size = new System.Drawing.Size(104, 17);
+            this.chShowStatusBar.TabIndex = 4;
+            this.chShowStatusBar.Text = "Show status bar";
+            this.chShowStatusBar.UseVisualStyleBackColor = true;
+            // 
+            // btnDefaultAppData
+            // 
+            this.btnDefaultAppData.Location = new System.Drawing.Point(594, 47);
+            this.btnDefaultAppData.Name = "btnDefaultAppData";
+            this.btnDefaultAppData.Size = new System.Drawing.Size(69, 23);
+            this.btnDefaultAppData.TabIndex = 3;
+            this.btnDefaultAppData.Text = "Default";
+            this.btnDefaultAppData.UseVisualStyleBackColor = true;
+            this.btnDefaultAppData.Click += new System.EventHandler(this.btnDefaultAppData_Click);
+            // 
+            // btnDefaultDownloads
+            // 
+            this.btnDefaultDownloads.Location = new System.Drawing.Point(594, 114);
+            this.btnDefaultDownloads.Name = "btnDefaultDownloads";
+            this.btnDefaultDownloads.Size = new System.Drawing.Size(69, 23);
+            this.btnDefaultDownloads.TabIndex = 42;
+            this.btnDefaultDownloads.Text = "Default";
+            this.btnDefaultDownloads.UseVisualStyleBackColor = true;
+            this.btnDefaultDownloads.Click += new System.EventHandler(this.btnDefaultDownloads_Click);
+            // 
             // FormSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -855,5 +893,8 @@
         private System.Windows.Forms.Label lblUtc;
         private System.Windows.Forms.Label lblAltitude;
         private System.Windows.Forms.TextBox txtAltitude;
+        private System.Windows.Forms.CheckBox chShowStatusBar;
+        private System.Windows.Forms.Button btnDefaultDownloads;
+        private System.Windows.Forms.Button btnDefaultAppData;
     }
 }

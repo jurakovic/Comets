@@ -51,7 +51,6 @@
             this.menuItemHelp = new System.Windows.Forms.MenuItem();
             this.menuItemAbout = new System.Windows.Forms.MenuItem();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
-            this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusComets = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusSpace = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusProgressBar = new System.Windows.Forms.ToolStripProgressBar();
@@ -196,23 +195,14 @@
             // statusStrip
             // 
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.statusLabel,
             this.statusComets,
             this.statusSpace,
             this.statusProgressBar});
-            this.statusStrip.Location = new System.Drawing.Point(0, 518);
+            this.statusStrip.Location = new System.Drawing.Point(0, 539);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Size = new System.Drawing.Size(784, 22);
             this.statusStrip.TabIndex = 1;
             this.statusStrip.Text = "statusStrip1";
-            // 
-            // statusLabel
-            // 
-            this.statusLabel.AutoSize = false;
-            this.statusLabel.Name = "statusLabel";
-            this.statusLabel.Size = new System.Drawing.Size(200, 17);
-            this.statusLabel.Text = "Ready";
-            this.statusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // statusComets
             // 
@@ -239,7 +229,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(784, 540);
+            this.ClientSize = new System.Drawing.Size(784, 561);
             this.Controls.Add(this.statusStrip);
             this.IsMdiContainer = true;
             this.Menu = this.mainMenu;
@@ -280,7 +270,6 @@
         private System.Windows.Forms.MenuItem menuItemLocation;
         private System.Windows.Forms.MenuItem menuItemStatusBar;
         private System.Windows.Forms.StatusStrip statusStrip;
-        private System.Windows.Forms.ToolStripStatusLabel statusLabel;
         private System.Windows.Forms.ToolStripStatusLabel statusSpace;
         private System.Windows.Forms.ToolStripProgressBar statusProgressBar;
         private System.Windows.Forms.ToolStripStatusLabel statusComets;

@@ -19,6 +19,7 @@ namespace Comets.Classes
         public bool RememberWindowPosition { get; set; }
         public bool NewVersionOnStartup { get; set; }
         public bool ExitWithoutConfirm { get; set; }
+        public bool ShowStatusBar { get; set; }
 
         //Window
         public bool Maximized { get; set; }
@@ -26,7 +27,6 @@ namespace Comets.Classes
         public int Top { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
-
 
         //Network
         public bool UseProxy { get; set; }
@@ -48,6 +48,7 @@ namespace Comets.Classes
         public Dictionary<int, string> ProgramsDict { get; set; }
 
         public bool HasErrors { get; set; }
+        public bool IsSettingsChanged { get; set; }
         
         public Settings()
         {
@@ -56,8 +57,9 @@ namespace Comets.Classes
             Downloads = AppData + "\\Downloads";
             DownloadOnStartup = false;
             NewVersionOnStartup = false;
-            RememberWindowPosition = false;
+            RememberWindowPosition = true;
             ExitWithoutConfirm = false;
+            ShowStatusBar = true;
 
             Maximized = false;
             Width = 0;
@@ -80,6 +82,7 @@ namespace Comets.Classes
             ProgramsDict = new Dictionary<int, string>();
 
             HasErrors = false;
+            IsSettingsChanged = false;
         }
 
         public static Settings LoadSettings()
@@ -114,6 +117,7 @@ namespace Comets.Classes
                                 case "Downloads": settings.Downloads = value; break;
                                 case "DownloadOnStartup": settings.DownloadOnStartup = Convert.ToBoolean(value); break;
                                 case "RememberWindowPosition": settings.RememberWindowPosition = Convert.ToBoolean(value); break;
+                                case "ShowStatusBar": settings.ShowStatusBar = Convert.ToBoolean(value); break;
                                 //case "NewVersionOnStartup": settings.NewVersionOnStartup = Convert.ToBoolean(value); break; 
                                 //case "ExitWithoutConfirm": settings.ExitWithoutConfirm = Convert.ToBoolean(value); break;
 
@@ -166,6 +170,7 @@ namespace Comets.Classes
             sb.AppendLine(String.Format(format, "Downloads", settings.Downloads));
             sb.AppendLine(String.Format(format, "DownloadOnStartup", settings.DownloadOnStartup));
             sb.AppendLine(String.Format(format, "RememberWindowPosition", settings.RememberWindowPosition));
+            sb.AppendLine(String.Format(format, "ShowStatusBar", settings.ShowStatusBar));
             //sb.AppendLine(String.Format(format, "NewVersionOnStartup", settings.NewVersionOnStartup));
             //sb.AppendLine(String.Format(format, "ExitWithoutConfirm", settings.ExitWithoutConfirm));
             sb.AppendLine();

@@ -19,6 +19,7 @@ namespace Comets.Forms
             chNewVersionOnStartup.Checked = FormMain.Settings.NewVersionOnStartup;
             chRememberWindowPosition.Checked = FormMain.Settings.RememberWindowPosition;
             chExitWithoutConfirm.Checked = FormMain.Settings.ExitWithoutConfirm;
+            chShowStatusBar.Checked = FormMain.Settings.ShowStatusBar;
 
             rbNoProxy.Checked = !FormMain.Settings.UseProxy;
             rbManualProxy.Checked = FormMain.Settings.UseProxy;
@@ -46,11 +47,13 @@ namespace Comets.Forms
         private void btnOK_Click(object sender, EventArgs e)
         {
             FormMain.Settings.AppData = txtAppData.Text.Trim();
+            FormMain.Settings.Database = FormMain.Settings.AppData + "\\Comets.db";
             FormMain.Settings.Downloads = txtDownloads.Text.Trim();
             FormMain.Settings.DownloadOnStartup = chDownloadOnStartup.Checked;
             FormMain.Settings.NewVersionOnStartup = chNewVersionOnStartup.Checked;
             FormMain.Settings.ExitWithoutConfirm = chExitWithoutConfirm.Checked;
             FormMain.Settings.RememberWindowPosition = chRememberWindowPosition.Checked;
+            FormMain.Settings.ShowStatusBar = chShowStatusBar.Checked;
 
             FormMain.Settings.UseProxy = rbManualProxy.Checked;
             FormMain.Settings.Domain = txtDomain.Text.Trim();
@@ -68,8 +71,46 @@ namespace Comets.Forms
             FormMain.Settings.Timezone = Convert.ToInt32(numTimezone.Text.Trim());
             FormMain.Settings.DST = chDST.Checked;
 
+            FormMain.Settings.IsSettingsChanged = true;
+
             Settings.SaveSettings(FormMain.Settings);
             this.Close();
+        }
+
+        private void btnAppData_Click(object sender, EventArgs e)
+        {
+            using (FolderBrowserDialog fbd = new FolderBrowserDialog())
+            {
+                fbd.SelectedPath = FormMain.Settings.AppData;
+                fbd.Description = "Select Application data directory";
+                fbd.ShowNewFolderButton = true;
+
+                if (fbd.ShowDialog() == DialogResult.OK)
+                    txtAppData.Text = fbd.SelectedPath;
+            }
+        }
+
+        private void btnDownloads_Click(object sender, EventArgs e)
+        {
+            using (FolderBrowserDialog fbd = new FolderBrowserDialog())
+            {
+                fbd.SelectedPath = FormMain.Settings.Downloads;
+                fbd.Description = "Select Downloads directory";
+                fbd.ShowNewFolderButton = true;
+
+                if (fbd.ShowDialog() == DialogResult.OK)
+                    txtDownloads.Text = fbd.SelectedPath;
+            }
+        }
+
+        private void btnDefaultAppData_Click(object sender, EventArgs e)
+        {
+            txtAppData.Text = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Comets";
+        }
+
+        private void btnDefaultDownloads_Click(object sender, EventArgs e)
+        {
+            txtDownloads.Text = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Comets\\Downloads";
         }
 
         private void rbCommon_CheckedChanged(object sender, EventArgs e)
