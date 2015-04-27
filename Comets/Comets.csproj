@@ -51,11 +51,23 @@
     <Compile Include="Classes\Comet.cs" />
     <Compile Include="Classes\ElementTypes.cs" />
     <Compile Include="Classes\Settings.cs" />
+    <Compile Include="Forms\Ephemeris\FormEphemerisResult.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Ephemeris\FormEphemerisResult.Designer.cs">
+      <DependentUpon>FormEphemerisResult.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FormDatabase.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\FormDatabase.Designer.cs">
       <DependentUpon>FormDatabase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Ephemeris\FormEphemerisSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Ephemeris\FormEphemerisSettings.Designer.cs">
+      <DependentUpon>FormEphemerisSettings.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\FormExport.cs">
       <SubType>Form</SubType>
@@ -87,8 +99,14 @@
     <Compile Include="Classes\Observer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Forms\Ephemeris\FormEphemerisResult.resx">
+      <DependentUpon>FormEphemerisResult.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormDatabase.resx">
       <DependentUpon>FormDatabase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Ephemeris\FormEphemerisSettings.resx">
+      <DependentUpon>FormEphemerisSettings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormExport.resx">
       <DependentUpon>FormExport.cs</DependentUpon>

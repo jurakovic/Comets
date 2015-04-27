@@ -1,4 +1,5 @@
 ﻿using Comets.Classes;
+using Comets.Forms.Ephemeris;
 using Comets.Helpers;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,6 @@ using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
-using System.Xml;
 
 namespace Comets.Forms
 {
@@ -18,6 +18,8 @@ namespace Comets.Forms
         public bool isDataChanged = false;
 
         private FormDatabase fdb;
+        private FormEphemerisSettings fes;
+        public static string EphemerisResult;
 
         public OpenFileDialog ofd;
 
@@ -72,6 +74,7 @@ namespace Comets.Forms
             }
 
             fdb = new FormDatabase();
+            fes = new FormEphemerisSettings();
 
             ofd = new OpenFileDialog();
             ofd.InitialDirectory = Settings.AppData;
@@ -161,6 +164,18 @@ namespace Comets.Forms
 
                 menuItemStatusBar.Checked = Settings.ShowStatusBar;
                 this.statusStrip.Visible = Settings.ShowStatusBar;
+            }
+        }
+
+        private void menuItemEphemerides_Click(object sender, EventArgs e)
+        {
+            fes.ShowDialog();
+
+            if (EphemerisResult != null)
+            {
+                FormEphemerisResult fer = new FormEphemerisResult(EphemerisResult);
+                fer.MdiParent = this;
+                fer.Show();
             }
         }
     }

@@ -82,6 +82,7 @@
             // 
             this.menuItemEphemerides.Index = 0;
             this.menuItemEphemerides.Text = "Ephemerides";
+            this.menuItemEphemerides.Click += new System.EventHandler(this.menuItemEphemerides_Click);
             // 
             // menuItemLightCurve
             // 
@@ -215,7 +216,7 @@
             // statusSpace
             // 
             this.statusSpace.Name = "statusSpace";
-            this.statusSpace.Size = new System.Drawing.Size(369, 17);
+            this.statusSpace.Size = new System.Drawing.Size(569, 17);
             this.statusSpace.Spring = true;
             // 
             // statusProgressBar
