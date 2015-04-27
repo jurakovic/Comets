@@ -10,6 +10,12 @@ namespace Comets.Helpers
 {
     class ExportHelper
     {
+        #region month const
+
+        public static string[] month = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+
+        #endregion
+
         #region ExportMain
 
         public static void ExportMain(ExportType exportType, string filename, List<Comet> list)
@@ -398,27 +404,12 @@ namespace Comets.Helpers
 
         protected static void ExportVoyager14(ref StringBuilder sb, List<Comet> list)
         {
-            string mon = string.Empty;
             string line = string.Empty;
-
             string format = "{0,-26} {1,9:0.000000}   {2:0.000000}  {3,8:0.0000}   {4,8:0.0000}   {5,8:0.0000}   0.0  {6,4}{7}";
 
             foreach (Comet c in list)
             {
-                if (c.Tm == 1) mon = "Jan";
-                if (c.Tm == 2) mon = "Feb";
-                if (c.Tm == 3) mon = "Mar";
-                if (c.Tm == 4) mon = "Apr";
-                if (c.Tm == 5) mon = "May";
-                if (c.Tm == 6) mon = "Jun";
-                if (c.Tm == 7) mon = "Jul";
-                if (c.Tm == 8) mon = "Aug";
-                if (c.Tm == 9) mon = "Sep";
-                if (c.Tm == 10) mon = "Oct";
-                if (c.Tm == 11) mon = "Nov";
-                if (c.Tm == 12) mon = "Dec";
-
-                line = String.Format(format, c.name, c.q, c.e, c.i, c.N, c.w, c.Ty, mon);
+                line = String.Format(format, c.name, c.q, c.e, c.i, c.N, c.w, c.Ty, month[c.Tm - 1]);
 
                 if (c.Td < 10)
                     line += String.Format("{0}.{1:0000}  2000.0", c.Td, c.Th);
@@ -441,23 +432,8 @@ namespace Comets.Helpers
 
         protected static void ExportCelestia(ref StringBuilder sb, List<Comet> list)
         {
-            string mon = string.Empty;
-
             foreach (Comet c in list)
             {
-                if (c.Tm == 1) mon = "Jan";
-                if (c.Tm == 2) mon = "Feb";
-                if (c.Tm == 3) mon = "Mar";
-                if (c.Tm == 4) mon = "Apr";
-                if (c.Tm == 5) mon = "May";
-                if (c.Tm == 6) mon = "Jun";
-                if (c.Tm == 7) mon = "Jul";
-                if (c.Tm == 8) mon = "Aug";
-                if (c.Tm == 9) mon = "Sep";
-                if (c.Tm == 10) mon = "Oct";
-                if (c.Tm == 11) mon = "Nov";
-                if (c.Tm == 12) mon = "Dec";
-
                 sb.AppendLine(String.Format("\"{0}\" \"Sol\"", c.full.Replace('/', ' ')));
                 sb.AppendLine("{");
                 sb.AppendLine("\tClass \"comet\"");
@@ -485,7 +461,7 @@ namespace Comets.Helpers
                 sb.AppendLine(String.Format("\t\tAscendingNode            {0,8:0.0000}", c.N));
                 sb.AppendLine(String.Format("\t\tArgOfPericenter          {0,8:0.0000}", c.w));
                 sb.AppendLine("\t\tMeanAnomaly                0.0");
-                sb.AppendLine(String.Format("\t\tEpoch                {0,12:0.0000}     # {1,4} {2} {3:00}.{4:0000}", c.T, c.Ty, mon, c.Td, c.Th));
+                sb.AppendLine(String.Format("\t\tEpoch                {0,12:0.0000}     # {1,4} {2} {3:00}.{4:0000}", c.T, c.Ty, month[c.Tm - 1], c.Td, c.Th));
                 sb.AppendLine("\t}");
                 sb.AppendLine("}");
                 sb.AppendLine();
