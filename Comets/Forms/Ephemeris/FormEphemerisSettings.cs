@@ -12,7 +12,7 @@ namespace Comets.Forms.Ephemeris
     {
         private string EphemerisResult { get; set; }
 
-        public FormEphemerisSettings()
+        public FormEphemerisSettings(FormMain formMain)
         {
             InitializeComponent();
 
@@ -33,6 +33,8 @@ namespace Comets.Forms.Ephemeris
             tbIntervalDay.Text = "1";
             tbIntervalHour.Text = "00";
             tbIntervalMin.Text = "00";
+
+            this.ParentOfThis = formMain;
         }
 
         private void FormEphemerisSettings_Load(object sender, EventArgs e)
@@ -173,7 +175,12 @@ namespace Comets.Forms.Ephemeris
 
         private void FormEphemerisSettings_FormClosing(object sender, FormClosingEventArgs e)
         {
-            FormMain.EphemerisResult = this.EphemerisResult;
+            if (EphemerisResult != null)
+            {
+                FormEphemerisResult fre = new FormEphemerisResult(EphemerisResult);
+                fre.MdiParent = this.ParentOfThis;
+                fre.Show();
+            }
         }
     }
 }

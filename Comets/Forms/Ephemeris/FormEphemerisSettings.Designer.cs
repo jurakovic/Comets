@@ -543,5 +543,6 @@
         private System.Windows.Forms.CheckBox chAlt;
         private System.Windows.Forms.CheckBox chDec;
         private System.Windows.Forms.CheckBox chRA;
+        private FormMain ParentOfThis;
     }
 }

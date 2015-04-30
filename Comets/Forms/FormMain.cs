@@ -19,7 +19,6 @@ namespace Comets.Forms
 
         private FormDatabase fdb;
         private FormEphemerisSettings fes;
-        public static string EphemerisResult;
 
         public OpenFileDialog ofd;
 
@@ -74,7 +73,7 @@ namespace Comets.Forms
             }
 
             fdb = new FormDatabase();
-            fes = new FormEphemerisSettings();
+            fes = new FormEphemerisSettings(this);
 
             ofd = new OpenFileDialog();
             ofd.InitialDirectory = Settings.AppData;
@@ -170,13 +169,6 @@ namespace Comets.Forms
         private void menuItemEphemerides_Click(object sender, EventArgs e)
         {
             fes.ShowDialog();
-
-            if (EphemerisResult != null)
-            {
-                FormEphemerisResult fer = new FormEphemerisResult(EphemerisResult);
-                fer.MdiParent = this;
-                fer.Show();
-            }
         }
     }
 }

@@ -53,7 +53,6 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Ephemeris - <Comet name>";
-            this.Load += new System.EventHandler(this.FormEphemerisResult_Load);
             this.ResumeLayout(false);
 
         }
