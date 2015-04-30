@@ -8,7 +8,7 @@ namespace Comets.Helpers
         const double DEG2RAD = Math.PI / 180.0;
         const double RAD2DEG = 180.0 / Math.PI;
 
-        public static double[] CometAlt(Comet c, double jday, Observer obs)
+        public static double[] CometAlt(Comet c, double jday, Settings sett)
         {
             // Alt/Az, hour angle, ra/dec, ecliptic long. and lat, illuminated fraction (=1.0), dist(Sun), dist(Earth), brightness of planet p
             double[] sun_xyz = sunxyz(jday);
@@ -18,17 +18,17 @@ namespace Comets.Helpers
             double dz = cmt_xyz[2] + sun_xyz[2];
             double lon = rev(atan2d(dy, dx));
             double lat = atan2d(dz, Math.Sqrt(dx * dx + dy * dy));
-            double[] radec = radecr(cmt_xyz, sun_xyz, jday, obs);
+            double[] radec = radecr(cmt_xyz, sun_xyz, jday);
             double ra = radec[0];
             double dec = radec[1];
-            double[] altaz = radec2aa(ra, dec, jday, obs);
+            double[] altaz = radec2aa(ra, dec, jday, sett);
             double dist = radec[2];
             double r = cmt_xyz[3];
             double mag = c.g + 5 * log10(dist) + 2.5 * c.k * log10(r);
             return new double[] { altaz[0], altaz[1], altaz[2], ra, dec, lon, lat, 1.0, r, dist, mag };
         }
 
-        public static double[] SunAlt(double jday, Observer obs)
+        public static double[] SunAlt(double jday, Settings sett)
         {
             // return alt, az, time angle, ra, dec, ecl. long. and lat=0, illum=1, 0, dist, brightness 
             double[] sdat = sunxyz(jday);
@@ -38,7 +38,7 @@ namespace Comets.Helpers
             double ze = sdat[1] * sind(ecl);
             double ra = rev(atan2d(ye, xe));
             double dec = atan2d(ze, Math.Sqrt(xe * xe + ye * ye));
-            double[] topo = radec2aa(ra, dec, jday, obs);
+            double[] topo = radec2aa(ra, dec, jday, sett);
             return new double[] { topo[0], topo[1], topo[2], ra, dec, sdat[4], 0, 1, 0, sdat[3], -26.74 };
         }
 
@@ -117,7 +117,7 @@ namespace Comets.Helpers
             return new double[] { xh, yh, zh, r, lonecl, latecl };
         }
 
-        public static double[] radecr(double[] obj, double[] sun, double jday, Observer obs)
+        public static double[] radecr(double[] obj, double[] sun, double jday)
         {
             // radecr returns ra, dec and earth distance
             // obj and sun comprise Heliocentric Ecliptic Rectangular Coordinates
@@ -139,14 +139,14 @@ namespace Comets.Helpers
             return new double[] { ra, dec, dist };
         }
 
-        public static double[] radec2aa(double ra, double dec, double jday, Observer obs)
+        public static double[] radec2aa(double ra, double dec, double jday, Settings sett)
         {
             // Convert ra/dec to alt/az, also return hour angle, azimut = 0 when north
             // TH0=Greenwich sid. time (eq. 12.4), H=hour angle (chapter 13)
             double TH0 = 280.46061837 + 360.98564736629 * (jday - 2451545.0);
-            double H = rev(TH0 + obs.longitude - ra);
-            double alt = asind(sind(obs.latitude) * sind(dec) + cosd(obs.latitude) * cosd(dec) * cosd(H));
-            double az = atan2d(sind(H), (cosd(H) * sind(obs.latitude) - tand(dec) * cosd(obs.latitude)));
+            double H = rev(TH0 + sett.Longitude - ra);
+            double alt = asind(sind(sett.Latitude) * sind(dec) + cosd(sett.Latitude) * cosd(dec) * cosd(H));
+            double az = atan2d(sind(H), (cosd(H) * sind(sett.Latitude) - tand(dec) * cosd(sett.Latitude)));
             return new double[] { alt, rev(az + 180.0), H };
         }
 

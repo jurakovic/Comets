@@ -493,6 +493,7 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Ephemeris settings";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormEphemerisSettings_FormClosing);
             this.Load += new System.EventHandler(this.FormEphemerisSettings_Load);
             this.gbxSelectComet.ResumeLayout(false);
             this.gbxSelectComet.PerformLayout();

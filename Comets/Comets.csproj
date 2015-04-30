@@ -96,7 +96,6 @@
     </Compile>
     <Compile Include="Helpers\ExportHelper.cs" />
     <Compile Include="Helpers\ImportHelper.cs" />
-    <Compile Include="Classes\Observer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Forms\Ephemeris\FormEphemerisResult.resx">
