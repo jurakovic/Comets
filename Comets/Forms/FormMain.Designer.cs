@@ -31,13 +31,15 @@
             this.components = new System.ComponentModel.Container();
             this.mainMenu = new System.Windows.Forms.MainMenu(this.components);
             this.menuItemFile = new System.Windows.Forms.MenuItem();
-            this.menuItemEphemerides = new System.Windows.Forms.MenuItem();
-            this.menuItemLightCurve = new System.Windows.Forms.MenuItem();
-            this.menuItemOrbitVIewer = new System.Windows.Forms.MenuItem();
+            this.menuItemEphemerisFile = new System.Windows.Forms.MenuItem();
+            this.menuItemMagnitudeGraph = new System.Windows.Forms.MenuItem();
+            this.menuItemOrbitViewer = new System.Windows.Forms.MenuItem();
             this.menuItemSeparatorFile1 = new System.Windows.Forms.MenuItem();
             this.menuItemOrbitalElements = new System.Windows.Forms.MenuItem();
             this.menuItemSeparatorFile3 = new System.Windows.Forms.MenuItem();
             this.menuItemExit = new System.Windows.Forms.MenuItem();
+            this.menuItemEphemeris = new System.Windows.Forms.MenuItem();
+            this.menuItemEphemSettings = new System.Windows.Forms.MenuItem();
             this.menuItemEdit = new System.Windows.Forms.MenuItem();
             this.menuItemDatabase = new System.Windows.Forms.MenuItem();
             this.menuItemSeparatorEdit1 = new System.Windows.Forms.MenuItem();
@@ -48,12 +50,17 @@
             this.menuItemSettings = new System.Windows.Forms.MenuItem();
             this.menuItemView = new System.Windows.Forms.MenuItem();
             this.menuItemStatusBar = new System.Windows.Forms.MenuItem();
+            this.menuItemWindow = new System.Windows.Forms.MenuItem();
+            this.menuItemCascade = new System.Windows.Forms.MenuItem();
+            this.menuItemTileHoriz = new System.Windows.Forms.MenuItem();
+            this.menuItemTileVert = new System.Windows.Forms.MenuItem();
             this.menuItemHelp = new System.Windows.Forms.MenuItem();
             this.menuItemAbout = new System.Windows.Forms.MenuItem();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.statusComets = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusSpace = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusProgressBar = new System.Windows.Forms.ToolStripProgressBar();
+            this.menuItemWindowSeparator = new System.Windows.Forms.MenuItem();
             this.statusStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -61,39 +68,41 @@
             // 
             this.mainMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.menuItemFile,
+            this.menuItemEphemeris,
             this.menuItemEdit,
             this.menuItemView,
+            this.menuItemWindow,
             this.menuItemHelp});
             // 
             // menuItemFile
             // 
             this.menuItemFile.Index = 0;
             this.menuItemFile.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.menuItemEphemerides,
-            this.menuItemLightCurve,
-            this.menuItemOrbitVIewer,
+            this.menuItemEphemerisFile,
+            this.menuItemMagnitudeGraph,
+            this.menuItemOrbitViewer,
             this.menuItemSeparatorFile1,
             this.menuItemOrbitalElements,
             this.menuItemSeparatorFile3,
             this.menuItemExit});
             this.menuItemFile.Text = "File";
             // 
-            // menuItemEphemerides
+            // menuItemEphemerisFile
             // 
-            this.menuItemEphemerides.Index = 0;
-            this.menuItemEphemerides.Text = "Ephemerides";
-            this.menuItemEphemerides.Click += new System.EventHandler(this.menuItemEphemerides_Click);
+            this.menuItemEphemerisFile.Index = 0;
+            this.menuItemEphemerisFile.Text = "Ephemeris";
+            this.menuItemEphemerisFile.Click += new System.EventHandler(this.menuItemEphemerides_Click);
             // 
-            // menuItemLightCurve
+            // menuItemMagnitudeGraph
             // 
-            this.menuItemLightCurve.Index = 1;
-            this.menuItemLightCurve.Text = "Light curve";
+            this.menuItemMagnitudeGraph.Index = 1;
+            this.menuItemMagnitudeGraph.Text = "Magnitude graph";
             // 
-            // menuItemOrbitVIewer
+            // menuItemOrbitViewer
             // 
-            this.menuItemOrbitVIewer.Index = 2;
-            this.menuItemOrbitVIewer.Text = "Orbit viewer";
-            this.menuItemOrbitVIewer.Visible = false;
+            this.menuItemOrbitViewer.Index = 2;
+            this.menuItemOrbitViewer.Text = "Orbit viewer";
+            this.menuItemOrbitViewer.Visible = false;
             // 
             // menuItemSeparatorFile1
             // 
@@ -114,10 +123,25 @@
             // 
             this.menuItemExit.Index = 6;
             this.menuItemExit.Text = "Exit";
+            this.menuItemExit.Click += new System.EventHandler(this.menuItemExit_Click);
+            // 
+            // menuItemEphemeris
+            // 
+            this.menuItemEphemeris.Index = 1;
+            this.menuItemEphemeris.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.menuItemEphemSettings});
+            this.menuItemEphemeris.Text = "Ephemeris";
+            this.menuItemEphemeris.Visible = false;
+            // 
+            // menuItemEphemSettings
+            // 
+            this.menuItemEphemSettings.Index = 0;
+            this.menuItemEphemSettings.Text = "Settings";
+            this.menuItemEphemSettings.Click += new System.EventHandler(this.menuItemEphemSettings_Click);
             // 
             // menuItemEdit
             // 
-            this.menuItemEdit.Index = 1;
+            this.menuItemEdit.Index = 2;
             this.menuItemEdit.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.menuItemDatabase,
             this.menuItemSeparatorEdit1,
@@ -169,7 +193,7 @@
             // 
             // menuItemView
             // 
-            this.menuItemView.Index = 2;
+            this.menuItemView.Index = 3;
             this.menuItemView.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.menuItemStatusBar});
             this.menuItemView.Text = "View";
@@ -181,9 +205,38 @@
             this.menuItemStatusBar.Text = "Statur bar";
             this.menuItemStatusBar.Click += new System.EventHandler(this.menuItemStatusBar_Click);
             // 
+            // menuItemWindow
+            // 
+            this.menuItemWindow.Index = 4;
+            this.menuItemWindow.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.menuItemCascade,
+            this.menuItemTileHoriz,
+            this.menuItemTileVert,
+            this.menuItemWindowSeparator});
+            this.menuItemWindow.Text = "Window";
+            this.menuItemWindow.Visible = false;
+            // 
+            // menuItemCascade
+            // 
+            this.menuItemCascade.Index = 0;
+            this.menuItemCascade.Text = "Cascade";
+            this.menuItemCascade.Click += new System.EventHandler(this.menuItemCascade_Click);
+            // 
+            // menuItemTileHoriz
+            // 
+            this.menuItemTileHoriz.Index = 1;
+            this.menuItemTileHoriz.Text = "Tile Vertical";
+            this.menuItemTileHoriz.Click += new System.EventHandler(this.menuItemTileHoriz_Click);
+            // 
+            // menuItemTileVert
+            // 
+            this.menuItemTileVert.Index = 2;
+            this.menuItemTileVert.Text = "Tile Horizontal";
+            this.menuItemTileVert.Click += new System.EventHandler(this.menuItemTileVert_Click);
+            // 
             // menuItemHelp
             // 
-            this.menuItemHelp.Index = 3;
+            this.menuItemHelp.Index = 5;
             this.menuItemHelp.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.menuItemAbout});
             this.menuItemHelp.Text = "Help";
@@ -199,7 +252,7 @@
             this.statusComets,
             this.statusSpace,
             this.statusProgressBar});
-            this.statusStrip.Location = new System.Drawing.Point(0, 539);
+            this.statusStrip.Location = new System.Drawing.Point(0, 534);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Size = new System.Drawing.Size(784, 22);
             this.statusStrip.TabIndex = 1;
@@ -226,11 +279,16 @@
             this.statusProgressBar.Size = new System.Drawing.Size(200, 16);
             this.statusProgressBar.Visible = false;
             // 
+            // menuItemWindowSeparator
+            // 
+            this.menuItemWindowSeparator.Index = 3;
+            this.menuItemWindowSeparator.Text = "-";
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(784, 561);
+            this.ClientSize = new System.Drawing.Size(784, 556);
             this.Controls.Add(this.statusStrip);
             this.IsMdiContainer = true;
             this.Menu = this.mainMenu;
@@ -240,6 +298,7 @@
             this.Text = "Comets";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
             this.Load += new System.EventHandler(this.FormMain_Load);
+            this.MdiChildActivate += new System.EventHandler(this.FormMain_MdiChildActivate);
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
             this.ResumeLayout(false);
@@ -255,9 +314,9 @@
         private System.Windows.Forms.MenuItem menuItemView;
         private System.Windows.Forms.MenuItem menuItemHelp;
         private System.Windows.Forms.MenuItem menuItemDatabase;
-        private System.Windows.Forms.MenuItem menuItemEphemerides;
-        private System.Windows.Forms.MenuItem menuItemLightCurve;
-        private System.Windows.Forms.MenuItem menuItemOrbitVIewer;
+        private System.Windows.Forms.MenuItem menuItemEphemerisFile;
+        private System.Windows.Forms.MenuItem menuItemMagnitudeGraph;
+        private System.Windows.Forms.MenuItem menuItemOrbitViewer;
         private System.Windows.Forms.MenuItem menuItemSeparatorFile1;
         private System.Windows.Forms.MenuItem menuItemExit;
         private System.Windows.Forms.MenuItem menuItemSeparatorEdit1;
@@ -274,6 +333,13 @@
         private System.Windows.Forms.ToolStripStatusLabel statusSpace;
         private System.Windows.Forms.ToolStripProgressBar statusProgressBar;
         private System.Windows.Forms.ToolStripStatusLabel statusComets;
+        private System.Windows.Forms.MenuItem menuItemWindow;
+        private System.Windows.Forms.MenuItem menuItemCascade;
+        private System.Windows.Forms.MenuItem menuItemTileHoriz;
+        private System.Windows.Forms.MenuItem menuItemTileVert;
+        private System.Windows.Forms.MenuItem menuItemEphemeris;
+        private System.Windows.Forms.MenuItem menuItemEphemSettings;
+        private System.Windows.Forms.MenuItem menuItemWindowSeparator;
     }
 }
 

@@ -37,12 +37,7 @@ namespace Comets.Classes
         public int Port { get; set; }
 
         // Location
-        public string Name { get; set; }
-        public double Latitude { get; set; }
-        public double Longitude { get; set; }
-        public int Altitude { get; set; }
-        public int Timezone { get; set; }
-        public bool DST { get; set; }
+        public Location Location { get; set; }
 
         //Programs
         public Dictionary<int, string> ProgramsDict { get; set; }
@@ -72,12 +67,7 @@ namespace Comets.Classes
             Proxy = string.Empty;
             Port = 0;
 
-            Name = "Home";
-            Latitude = 0.0;
-            Longitude = 0.0;
-            Altitude = 0;
-            Timezone = 0;
-            DST = false;
+            Location = new Location();
 
             ProgramsDict = new Dictionary<int, string>();
 
@@ -134,12 +124,12 @@ namespace Comets.Classes
                                 case "Proxy": settings.Proxy = value; break;
                                 case "Port": settings.Port = Convert.ToInt32(value); break;
 
-                                case "Name": settings.Name = value; break;
-                                case "Latitude": settings.Latitude = Convert.ToDouble(value); break;
-                                case "Longitude": settings.Longitude = Convert.ToDouble(value); break;
-                                case "Altitude": settings.Altitude = Convert.ToInt32(value); break;
-                                case "Timezone": settings.Timezone = Convert.ToInt32(value); break;
-                                case "DST": settings.DST = Convert.ToBoolean(value); break;
+                                case "Name": settings.Location.Name = value; break;
+                                case "Latitude": settings.Location.Latitude = Convert.ToDouble(value); break;
+                                case "Longitude": settings.Location.Longitude = Convert.ToDouble(value); break;
+                                case "Altitude": settings.Location.Altitude = Convert.ToInt32(value); break;
+                                case "Timezone": settings.Location.Timezone = Convert.ToInt32(value); break;
+                                case "DST": settings.Location.DST = Convert.ToBoolean(value); break;
                             }
                         }
                     }
@@ -210,12 +200,12 @@ namespace Comets.Classes
             }
 
             sb.AppendLine("[Location]");
-            sb.AppendLine(String.Format(format, "Name", settings.Name));
-            sb.AppendLine(String.Format(format, "Latitude", settings.Latitude.ToString("0.000000")));
-            sb.AppendLine(String.Format(format, "Longitude", settings.Longitude.ToString("0.000000")));
-            sb.AppendLine(String.Format(format, "Altitude", settings.Altitude));
-            sb.AppendLine(String.Format(format, "Timezone", settings.Timezone));
-            sb.AppendLine(String.Format(format, "DST", settings.DST));
+            sb.AppendLine(String.Format(format, "Name", settings.Location.Name));
+            sb.AppendLine(String.Format(format, "Latitude", settings.Location.Latitude.ToString("0.000000")));
+            sb.AppendLine(String.Format(format, "Longitude", settings.Location.Longitude.ToString("0.000000")));
+            sb.AppendLine(String.Format(format, "Altitude", settings.Location.Altitude));
+            sb.AppendLine(String.Format(format, "Timezone", settings.Location.Timezone));
+            sb.AppendLine(String.Format(format, "DST", settings.Location.DST));
             sb.AppendLine();
 
 

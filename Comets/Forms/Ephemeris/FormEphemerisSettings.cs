@@ -10,39 +10,87 @@ namespace Comets.Forms.Ephemeris
 {
     public partial class FormEphemerisSettings : Form
     {
-        private string EphemerisResult { get; set; }
+        private EphemerisSettings EphemerisSettings { get; set; }
+        private bool AddNewEphemeris { get; set; }
 
-        public FormEphemerisSettings(FormMain formMain)
+        public FormEphemerisSettings(EphemerisSettings settings = null)
         {
             InitializeComponent();
 
-            DateTime dt = DateTime.Now.AddHours(1);
-            tbStartYear.Text = dt.Year.ToString();
-            tbStartMonth.Text = dt.Month.ToString("00");
-            tbStartDay.Text = dt.Day.ToString("00");
-            tbStartHour.Text = dt.Hour.ToString("00");
-            tbStartMin.Text = "00";
+            this.EphemerisSettings = settings;
 
-            dt = dt.AddDays(15);
-            tbEndYear.Text = dt.Year.ToString();
-            tbEndMonth.Text = dt.Month.ToString("00");
-            tbEndDay.Text = dt.Day.ToString("00");
-            tbEndHour.Text = dt.Hour.ToString("00");
-            tbEndMin.Text = "00";
+            if (EphemerisSettings == null)
+            {
+                AddNewEphemeris = true;
 
-            tbIntervalDay.Text = "1";
-            tbIntervalHour.Text = "00";
-            tbIntervalMin.Text = "00";
+                DateTime dt = DateTime.Now.AddHours(1);
+                tbStartYear.Text = dt.Year.ToString();
+                tbStartMonth.Text = dt.Month.ToString("00");
+                tbStartDay.Text = dt.Day.ToString("00");
+                tbStartHour.Text = dt.Hour.ToString("00");
+                tbStartMin.Text = "00";
 
-            this.ParentOfThis = formMain;
+                dt = dt.AddDays(15);
+                tbEndYear.Text = dt.Year.ToString();
+                tbEndMonth.Text = dt.Month.ToString("00");
+                tbEndDay.Text = dt.Day.ToString("00");
+                tbEndHour.Text = dt.Hour.ToString("00");
+                tbEndMin.Text = "00";
+
+                tbIntervalDay.Text = "1";
+                tbIntervalHour.Text = "00";
+                tbIntervalMin.Text = "00";
+            }
+            else
+            {
+                tbStartYear.Text = EphemerisSettings.Start.Year.ToString();
+                tbStartMonth.Text = EphemerisSettings.Start.Month.ToString("00");
+                tbStartDay.Text = EphemerisSettings.Start.Day.ToString("00");
+                tbStartHour.Text = EphemerisSettings.Start.Hour.ToString("00");
+                tbStartMin.Text = "00";
+
+                tbEndYear.Text = EphemerisSettings.Stop.Year.ToString();
+                tbEndMonth.Text = EphemerisSettings.Stop.Month.ToString("00");
+                tbEndDay.Text = EphemerisSettings.Stop.Day.ToString("00");
+                tbEndHour.Text = EphemerisSettings.Stop.Hour.ToString("00");
+                tbEndMin.Text = "00";
+
+                int intD, intH, intM;
+                intD = (int)EphemerisSettings.Interval;
+                double hh = (EphemerisSettings.Interval - intD) * 24;
+                intH = (int)hh;
+                double min = hh - intH;
+                intM = (int)Math.Round(min * 60, 0);
+
+                tbIntervalDay.Text = intD.ToString();
+                tbIntervalHour.Text = intH.ToString("00");
+                tbIntervalMin.Text = intM.ToString("00");
+
+                radioLocalTime.Checked = EphemerisSettings.LocalTime;
+                radioUnivTime.Checked = !EphemerisSettings.LocalTime;
+                chRA.Checked = EphemerisSettings.RA;
+                chDec.Checked = EphemerisSettings.Dec;
+                chEcLon.Checked = EphemerisSettings.EcLon;
+                chEcLat.Checked = EphemerisSettings.EcLat;
+                chHelioDist.Checked = EphemerisSettings.HelioDist;
+                chGeoDist.Checked = EphemerisSettings.GeoDist;
+                chAlt.Checked = EphemerisSettings.Alt;
+                chAz.Checked = EphemerisSettings.Az;
+                chElong.Checked = EphemerisSettings.Elongation;
+                chMag.Checked = EphemerisSettings.Magnitude;
+            }
         }
 
         private void FormEphemerisSettings_Load(object sender, EventArgs e)
         {
-            EphemerisResult = null;
-
             cbComet.DisplayMember = "full";
             cbComet.DataSource = FormMain.userList;
+
+            if (EphemerisSettings != null)
+            {
+                if (FormMain.userList.Contains(EphemerisSettings.Comet))
+                    cbComet.Text = EphemerisSettings.Comet.full;
+            }
         }
 
         private void cbComet_SelectedIndexChanged(object sender, EventArgs e)
@@ -62,23 +110,26 @@ namespace Comets.Forms.Ephemeris
         {
             if (cbComet.SelectedIndex >= 0)
             {
-                //local start, stop
-                DateTime locStart;
-                DateTime locStop;
+                int syr, smo, sdy, shr, smi, eyr, emo, edy, ehr, emi;
+                double ind, inm, inh;
 
                 try
                 {
-                    locStart = new DateTime(Convert.ToInt32(tbStartYear.Text),
-                                            Convert.ToInt32(tbStartMonth.Text),
-                                            Convert.ToInt32(tbStartDay.Text),
-                                            Convert.ToInt32(tbStartHour.Text),
-                                            Convert.ToInt32(tbStartMin.Text), 0);
+                    syr = Convert.ToInt32(tbStartYear.Text);
+                    smo = Convert.ToInt32(tbStartMonth.Text);
+                    sdy = Convert.ToInt32(tbStartDay.Text);
+                    shr = Convert.ToInt32(tbStartHour.Text);
+                    smi = Convert.ToInt32(tbStartMin.Text);
 
-                    locStop = new DateTime(Convert.ToInt32(tbEndYear.Text),
-                                            Convert.ToInt32(tbEndMonth.Text),
-                                            Convert.ToInt32(tbEndDay.Text),
-                                            Convert.ToInt32(tbEndHour.Text),
-                                            Convert.ToInt32(tbEndMin.Text), 0);
+                    eyr = Convert.ToInt32(tbEndYear.Text);
+                    emo = Convert.ToInt32(tbEndMonth.Text);
+                    edy = Convert.ToInt32(tbEndDay.Text);
+                    ehr = Convert.ToInt32(tbEndHour.Text);
+                    emi = Convert.ToInt32(tbEndMin.Text);
+
+                    ind = Convert.ToDouble(tbIntervalDay.Text);
+                    inh = Convert.ToDouble(tbIntervalHour.Text);
+                    inm = Convert.ToDouble(tbIntervalMin.Text);
                 }
                 catch
                 {
@@ -86,88 +137,30 @@ namespace Comets.Forms.Ephemeris
                     return;
                 }
 
-                DateTime utcStart = locStart.AddHours(-FormMain.Settings.Timezone);
-                DateTime utcStop = locStop.AddHours(-FormMain.Settings.Timezone);
+                if (this.EphemerisSettings == null)
+                    EphemerisSettings = new EphemerisSettings();
 
-                if (FormMain.Settings.DST)
-                {
-                    utcStart = utcStart.AddHours(-1);
-                    utcStop = utcStop.AddHours(-1);
-                }
+                EphemerisSettings.Location = FormMain.Settings.Location;
+                EphemerisSettings.Comet = FormMain.userList.ElementAt(cbComet.SelectedIndex);
 
-                double jday = EphemHelper.jd(utcStart.Year, utcStart.Month, utcStart.Day, utcStart.Hour, utcStart.Minute, utcStart.Second);
-                double jdmax = EphemHelper.jd(utcStop.Year, utcStop.Month, utcStop.Day, utcStop.Hour, utcStop.Minute, utcStop.Second);
-                double locjday = EphemHelper.jd(locStart.Year, locStart.Month, locStart.Day, locStart.Hour, locStart.Minute, locStart.Second);
+                //local start, stop time
+                EphemerisSettings.Start = new DateTime(syr, smo, sdy, shr, smi, 0);
+                EphemerisSettings.Stop = new DateTime(eyr, emo, edy, ehr, emi, 0);
+                EphemerisSettings.Interval = ind  + (inh + (inm / 60.0)) / 24;
 
-                double interval = Convert.ToDouble(tbIntervalDay.Text) + (Convert.ToDouble(tbIntervalHour.Text) + (Convert.ToDouble(tbIntervalMin.Text) / 60.0)) / 24;
+                EphemerisSettings.LocalTime = radioLocalTime.Checked;
+                EphemerisSettings.RA = chRA.Checked;
+                EphemerisSettings.Dec = chDec.Checked;
+                EphemerisSettings.EcLon = chEcLon.Checked;
+                EphemerisSettings.EcLat = chEcLat.Checked;
+                EphemerisSettings.HelioDist = chHelioDist.Checked;
+                EphemerisSettings.GeoDist = chGeoDist.Checked;
+                EphemerisSettings.Alt = chAlt.Checked;
+                EphemerisSettings.Az = chAz.Checked;
+                EphemerisSettings.Elongation = chElong.Checked;
+                EphemerisSettings.Magnitude = chMag.Checked;
 
-                StringBuilder sb = new StringBuilder();
-
-                sb.Append(radioLocalTime.Checked ? "     Local Time  " : " Universal Time  ");
-                if (chRA.Checked) sb.Append("   R.A.   ");
-                if (chDec.Checked) sb.Append("   Dec   ");
-                if (chAlt.Checked) sb.Append("   Alt  ");
-                if (chAz.Checked) sb.Append("   Az   ");
-                if (chEcLon.Checked) sb.Append(" Ecl.Lon ");
-                if (chEcLat.Checked) sb.Append(" Ecl.Lat ");
-                if (chElong.Checked) sb.Append("   Elong. ");
-                if (chHelioDist.Checked) sb.Append("    r    ");
-                if (chGeoDist.Checked) sb.Append("    d    ");
-                if (chMag.Checked) sb.AppendLine(" Mag.");
-
-                Comet c = FormMain.userList.ElementAt(cbComet.SelectedIndex);
-
-                DateTime begin = DateTime.Now;
-
-                await Task.Run(() =>
-                {
-                    StringBuilder line = new StringBuilder();
-
-                    while (jday <= jdmax)
-                    {
-                        double[] dat = EphemHelper.CometAlt(c, jday, FormMain.Settings);
-                        double alt = dat[0];
-                        double az = dat[1];
-                        //double ha = dat[2];
-                        double ra = dat[3];
-                        double dec = dat[4] - (dat[4] > 180.0 ? 360 : 0);
-                        double eclon = EphemHelper.rev(dat[5]);
-                        double eclat = dat[6];
-                        double ill = dat[7];
-                        double r = dat[8];
-                        double dist = dat[9];
-                        double mag = dat[10];
-
-                        double[] sundat = EphemHelper.SunAlt(jday, FormMain.Settings);
-                        double sunra = sundat[3];
-                        double sundec = sundat[4] - (sundat[4] > 180.0 ? 360 : 0);
-
-                        double[] sep = EphemHelper.separation(ra, sunra, dec, sundec);
-                        double elong = sep[0];
-                        double pa = sep[1];
-
-                        line.Clear();
-
-                        line.Append(radioLocalTime.Checked ? EphemHelper.dateString(locjday) : EphemHelper.dateString(jday));
-                        if (chRA.Checked) line.Append("  " + EphemHelper.hmsstring(ra / 15.0));
-                        if (chDec.Checked) line.Append("  " + EphemHelper.anglestring(dec, false, true));
-                        if (chAlt.Checked) line.Append("  " + EphemHelper.fixnum(alt, 5, 1) + "°");
-                        if (chAz.Checked) line.Append(" " + EphemHelper.fixnum(az, 6, 1) + "°");
-                        if (chEcLon.Checked) line.Append("  " + EphemHelper.anglestring(eclon, true, true));
-                        if (chEcLat.Checked) line.Append("  " + EphemHelper.anglestring(eclat, false, true));
-                        if (chElong.Checked) line.Append(" " + EphemHelper.fixnum(elong, 6, 1) + "°" + (pa >= 180 ? " W" : " E"));
-                        if (chHelioDist.Checked) line.Append(" " + EphemHelper.fixnum(r, 8, 4));
-                        if (chGeoDist.Checked) line.Append(" " + EphemHelper.fixnum(dist, 8, 4));
-                        if (chMag.Checked) line.Append(" " + EphemHelper.fixnum(mag, 4, 1));
-
-                        sb.AppendLine(line.ToString());
-
-                        jday += interval;
-                        locjday += interval;
-                    }
-                });
-
-                EphemerisResult = sb.ToString();
+                EphemerisSettings = await EphemerisHelper.CalculateEphemeris(EphemerisSettings);
 
                 this.Close();
             }
@@ -175,11 +168,26 @@ namespace Comets.Forms.Ephemeris
 
         private void FormEphemerisSettings_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (EphemerisResult != null)
+            if (AddNewEphemeris && EphemerisSettings != null)
             {
-                FormEphemerisResult fre = new FormEphemerisResult(EphemerisResult);
-                fre.MdiParent = this.ParentOfThis;
-                fre.Show();
+                FormMain.ChildCount++;
+
+                FormMain main = this.Owner as FormMain;
+                main.AddWindowItem(EphemerisSettings.ToString());
+
+                FormEphemerisResult fer = new FormEphemerisResult(EphemerisSettings, FormMain.ChildCount);
+                fer.MdiParent = main;
+                fer.Show();
+                fer.WindowState = FormWindowState.Maximized;
+            }
+            else if (EphemerisSettings != null)
+            {
+                FormMain main = this.Owner as FormMain;
+                FormEphemerisResult fer = main.ActiveMdiChild as FormEphemerisResult;
+
+                fer.EphemerisSettings = this.EphemerisSettings;
+                fer.LoadResults();
+                main.RenameWindowItem((int)fer.Tag, fer.Text);
             }
         }
     }

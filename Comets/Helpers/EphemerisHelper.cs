@@ -1,14 +1,115 @@
 ﻿using Comets.Classes;
 using System;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Comets.Helpers
 {
-    public static class EphemHelper
+    public static class EphemerisHelper
     {
+        #region const
+
         const double DEG2RAD = Math.PI / 180.0;
         const double RAD2DEG = 180.0 / Math.PI;
 
-        public static double[] CometAlt(Comet c, double jday, Settings sett)
+        #endregion
+
+        #region CalculateEphemeris
+
+        public async static Task<EphemerisSettings> CalculateEphemeris(EphemerisSettings settings)
+        {
+            DateTime utcStart = settings.Start.AddHours(-settings.Location.Timezone);
+            DateTime utcStop = settings.Stop.AddHours(-settings.Location.Timezone);
+
+            if (settings.Location.DST)
+            {
+                utcStart = utcStart.AddHours(-1);
+                utcStop = utcStop.AddHours(-1);
+            }
+
+            double jday = jd(utcStart.Year, utcStart.Month, utcStart.Day, utcStart.Hour, utcStart.Minute, utcStart.Second);
+            double jdmax = jd(utcStop.Year, utcStop.Month, utcStop.Day, utcStop.Hour, utcStop.Minute, utcStop.Second);
+            double locjday = jd(settings.Start.Year, settings.Start.Month, settings.Start.Day, settings.Start.Hour, settings.Start.Minute, settings.Start.Second);
+
+            StringBuilder sb = new StringBuilder();
+
+            string[] month = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+            sb.AppendLine("Comet:\t\t\t\t" + settings.Comet.full);
+            sb.AppendLine("Perihelion date:\t\t" + settings.Comet.Ty.ToString() + " " + month[settings.Comet.Tm - 1] + " " + settings.Comet.Td.ToString("00") + "." + settings.Comet.Th.ToString("0000"));
+            sb.AppendLine("Perihelion distance:\t\t" + settings.Comet.q.ToString("0.000000") + " AU");
+            sb.AppendLine("Period:\t\t\t" + (settings.Comet.P < 10000 && settings.Comet.e < 0.98 ? settings.Comet.P.ToString("0.000000") + " years" : "-"));
+            sb.AppendLine();
+
+            sb.Append(settings.LocalTime ? "     Local Time  " : " Universal Time  ");
+            if (settings.RA) sb.Append("   R.A.   ");
+            if (settings.Dec) sb.Append("   Dec   ");
+            if (settings.Alt) sb.Append("   Alt  ");
+            if (settings.Az) sb.Append("   Az   ");
+            if (settings.EcLon) sb.Append(" Ecl.Lon ");
+            if (settings.EcLat) sb.Append(" Ecl.Lat ");
+            if (settings.Elongation) sb.Append("   Elong. ");
+            if (settings.HelioDist) sb.Append("    r    ");
+            if (settings.GeoDist) sb.Append("    d    ");
+            if (settings.Magnitude) sb.AppendLine(" Mag.");
+
+            await Task.Run(() =>
+            {
+                StringBuilder line = new StringBuilder();
+
+                while (jday <= jdmax)
+                {
+                    double[] dat = CometAlt(settings.Comet, jday, settings.Location);
+                    double alt = dat[0];
+                    double az = dat[1];
+                    //double ha = dat[2];
+                    double ra = dat[3];
+                    double dec = dat[4] - (dat[4] > 180.0 ? 360 : 0);
+                    double eclon = rev(dat[5]);
+                    double eclat = dat[6];
+                    double ill = dat[7];
+                    double r = dat[8];
+                    double dist = dat[9];
+                    double mag = dat[10];
+
+                    double[] sundat = SunAlt(jday, settings.Location);
+                    double sunra = sundat[3];
+                    double sundec = sundat[4] - (sundat[4] > 180.0 ? 360 : 0);
+
+                    double[] sep = separation(ra, sunra, dec, sundec);
+                    double elong = sep[0];
+                    double pa = sep[1];
+
+                    line.Clear();
+
+                    line.Append(settings.LocalTime ? dateString(locjday) : dateString(jday));
+                    if (settings.RA) line.Append("  " + hmsstring(ra / 15.0));
+                    if (settings.Dec) line.Append("  " + anglestring(dec, false, true));
+                    if (settings.Alt) line.Append("  " + fixnum(alt, 5, 1) + "°");
+                    if (settings.Az) line.Append(" " + fixnum(az, 6, 1) + "°");
+                    if (settings.EcLon) line.Append("  " + anglestring(eclon, true, true));
+                    if (settings.EcLat) line.Append("  " + anglestring(eclat, false, true));
+                    if (settings.Elongation) line.Append(" " + fixnum(elong, 6, 1) + "°" + (pa >= 180 ? " W" : " E"));
+                    if (settings.HelioDist) line.Append(" " + fixnum(r, 8, 4));
+                    if (settings.GeoDist) line.Append(" " + fixnum(dist, 8, 4));
+                    if (settings.Magnitude) line.Append(" " + fixnum(mag, 4, 1));
+
+                    sb.AppendLine(line.ToString());
+
+                    jday += settings.Interval;
+                    locjday += settings.Interval;
+                }
+            });
+
+            settings.EphemerisResult = sb.ToString();
+
+            return settings;
+        }
+
+        #endregion
+
+        #region Methods
+
+        public static double[] CometAlt(Comet c, double jday, Location location)
         {
             // Alt/Az, hour angle, ra/dec, ecliptic long. and lat, illuminated fraction (=1.0), dist(Sun), dist(Earth), brightness of planet p
             double[] sun_xyz = sunxyz(jday);
@@ -21,14 +122,14 @@ namespace Comets.Helpers
             double[] radec = radecr(cmt_xyz, sun_xyz, jday);
             double ra = radec[0];
             double dec = radec[1];
-            double[] altaz = radec2aa(ra, dec, jday, sett);
+            double[] altaz = radec2aa(ra, dec, jday, location);
             double dist = radec[2];
             double r = cmt_xyz[3];
             double mag = c.g + 5 * log10(dist) + 2.5 * c.k * log10(r);
             return new double[] { altaz[0], altaz[1], altaz[2], ra, dec, lon, lat, 1.0, r, dist, mag };
         }
 
-        public static double[] SunAlt(double jday, Settings sett)
+        public static double[] SunAlt(double jday, Location location)
         {
             // return alt, az, time angle, ra, dec, ecl. long. and lat=0, illum=1, 0, dist, brightness 
             double[] sdat = sunxyz(jday);
@@ -38,7 +139,7 @@ namespace Comets.Helpers
             double ze = sdat[1] * sind(ecl);
             double ra = rev(atan2d(ye, xe));
             double dec = atan2d(ze, Math.Sqrt(xe * xe + ye * ye));
-            double[] topo = radec2aa(ra, dec, jday, sett);
+            double[] topo = radec2aa(ra, dec, jday, location);
             return new double[] { topo[0], topo[1], topo[2], ra, dec, sdat[4], 0, 1, 0, sdat[3], -26.74 };
         }
 
@@ -139,14 +240,14 @@ namespace Comets.Helpers
             return new double[] { ra, dec, dist };
         }
 
-        public static double[] radec2aa(double ra, double dec, double jday, Settings sett)
+        public static double[] radec2aa(double ra, double dec, double jday, Location location)
         {
             // Convert ra/dec to alt/az, also return hour angle, azimut = 0 when north
             // TH0=Greenwich sid. time (eq. 12.4), H=hour angle (chapter 13)
             double TH0 = 280.46061837 + 360.98564736629 * (jday - 2451545.0);
-            double H = rev(TH0 + sett.Longitude - ra);
-            double alt = asind(sind(sett.Latitude) * sind(dec) + cosd(sett.Latitude) * cosd(dec) * cosd(H));
-            double az = atan2d(sind(H), (cosd(H) * sind(sett.Latitude) - tand(dec) * cosd(sett.Latitude)));
+            double H = rev(TH0 + location.Longitude - ra);
+            double alt = asind(sind(location.Latitude) * sind(dec) + cosd(location.Latitude) * cosd(dec) * cosd(H));
+            double az = atan2d(sind(H), (cosd(H) * sind(location.Latitude) - tand(dec) * cosd(location.Latitude)));
             return new double[] { alt, rev(az + 180.0), H };
         }
 
@@ -321,5 +422,7 @@ namespace Comets.Helpers
         public static double log10(double x) { return 0.43429448190325182765112891891661 * Math.Log(x); }
         public static double sqr(double x) { return x * x; }
         public static double cbrt(double x) { return Math.Pow(x, 1 / 3.0); }
+
+        #endregion
     }
 }

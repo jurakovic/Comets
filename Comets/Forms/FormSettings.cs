@@ -29,14 +29,14 @@ namespace Comets.Forms
             txtProxy.Text = FormMain.Settings.Proxy;
             txtPort.Text = FormMain.Settings.Port > 0 ? FormMain.Settings.Port.ToString() : string.Empty;
 
-            txtName.Text = FormMain.Settings.Name;
-            txtLatitude.Text = (Math.Abs(FormMain.Settings.Latitude)).ToString("0.000000");
-            cbxNorthSouth.SelectedIndex = FormMain.Settings.Latitude >= 0.0 ? 0 : 1;
-            txtLongitude.Text = (Math.Abs(FormMain.Settings.Longitude)).ToString("0.000000");
-            cbxEastWest.SelectedIndex = FormMain.Settings.Longitude >= 0.0 ? 0 : 1;
-            txtAltitude.Text = FormMain.Settings.Altitude.ToString();
-            numTimezone.Value = FormMain.Settings.Timezone;
-            chDST.Checked = FormMain.Settings.DST;
+            txtName.Text = FormMain.Settings.Location.Name;
+            txtLatitude.Text = (Math.Abs(FormMain.Settings.Location.Latitude)).ToString("0.000000");
+            cbxNorthSouth.SelectedIndex = FormMain.Settings.Location.Latitude >= 0.0 ? 0 : 1;
+            txtLongitude.Text = (Math.Abs(FormMain.Settings.Location.Longitude)).ToString("0.000000");
+            cbxEastWest.SelectedIndex = FormMain.Settings.Location.Longitude >= 0.0 ? 0 : 1;
+            txtAltitude.Text = FormMain.Settings.Location.Altitude.ToString();
+            numTimezone.Value = FormMain.Settings.Location.Timezone;
+            chDST.Checked = FormMain.Settings.Location.DST;
         }
 
         private void btnClose_Click(object sender, EventArgs e)
@@ -62,14 +62,14 @@ namespace Comets.Forms
             FormMain.Settings.Proxy = txtProxy.Text.Trim();
             FormMain.Settings.Port = txtPort.Text.Trim().Length == 0 ? 0 : Convert.ToInt32(txtPort.Text.Trim());
 
-            FormMain.Settings.Name = txtName.Text.Trim();
-            FormMain.Settings.Latitude = Convert.ToDouble(txtLatitude.Text.Trim());
-            if (cbxNorthSouth.SelectedIndex == 1) FormMain.Settings.Latitude *= -1;
-            FormMain.Settings.Longitude = Convert.ToDouble(txtLongitude.Text.Trim());
-            if (cbxEastWest.SelectedIndex == 1) FormMain.Settings.Longitude *= -1;
-            FormMain.Settings.Altitude = Convert.ToInt32(txtAltitude.Text.Trim());
-            FormMain.Settings.Timezone = Convert.ToInt32(numTimezone.Text.Trim());
-            FormMain.Settings.DST = chDST.Checked;
+            FormMain.Settings.Location.Name = txtName.Text.Trim();
+            FormMain.Settings.Location.Latitude = Convert.ToDouble(txtLatitude.Text.Trim());
+            if (cbxNorthSouth.SelectedIndex == 1) FormMain.Settings.Location.Latitude *= -1;
+            FormMain.Settings.Location.Longitude = Convert.ToDouble(txtLongitude.Text.Trim());
+            if (cbxEastWest.SelectedIndex == 1) FormMain.Settings.Location.Longitude *= -1;
+            FormMain.Settings.Location.Altitude = Convert.ToInt32(txtAltitude.Text.Trim());
+            FormMain.Settings.Location.Timezone = Convert.ToInt32(numTimezone.Text.Trim());
+            FormMain.Settings.Location.DST = chDST.Checked;
 
             FormMain.Settings.IsSettingsChanged = true;
 

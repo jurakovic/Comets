@@ -12,25 +12,32 @@ namespace Comets.Forms
 {
     public partial class FormMain : Form
     {
+        #region Fields
+
         public static List<Comet> mainList = new List<Comet>();
         public static List<Comet> userList = new List<Comet>();
 
         public bool isDataChanged = false;
 
         private FormDatabase fdb;
-        private FormEphemerisSettings fes;
 
         public OpenFileDialog ofd;
 
         public static Settings Settings;
 
+        public static int ChildCount;
+
+        #endregion
+
+        #region Constructor
+
         public FormMain()
         {
+            InitializeComponent();
+
             CultureInfo customCulture = (CultureInfo)Thread.CurrentThread.CurrentCulture.Clone();
             customCulture.NumberFormat.NumberDecimalSeparator = ".";
             Thread.CurrentThread.CurrentCulture = customCulture;
-
-            InitializeComponent();
 
             Settings = Settings.LoadSettings();
 
@@ -61,6 +68,10 @@ namespace Comets.Forms
             this.statusStrip.Visible = Settings.ShowStatusBar;
         }
 
+        #endregion
+
+        #region Form events
+
         private void FormMain_Load(object sender, EventArgs e)
         {
             if (Settings.RememberWindowPosition && (Settings.Left > 0 || Settings.Top > 0 || Settings.Width > 0 || Settings.Height > 0))
@@ -73,7 +84,6 @@ namespace Comets.Forms
             }
 
             fdb = new FormDatabase();
-            fes = new FormEphemerisSettings(this);
 
             ofd = new OpenFileDialog();
             ofd.InitialDirectory = Settings.AppData;
@@ -122,11 +132,47 @@ namespace Comets.Forms
                 Settings.SaveSettings(Settings);
         }
 
-        private void menuItemStatusBar_Click(object sender, EventArgs e)
+        private void FormMain_MdiChildActivate(object sender, EventArgs e)
         {
-            menuItemStatusBar.Checked = !menuItemStatusBar.Checked;
-            Settings.ShowStatusBar = menuItemStatusBar.Checked;
-            this.statusStrip.Visible = menuItemStatusBar.Checked;
+            if (this.ActiveMdiChild is FormEphemerisResult)
+                this.menuItemEphemeris.Visible = true;
+            else
+                this.menuItemEphemeris.Visible = false;
+        }
+
+        #endregion
+
+        #region File
+
+        private void menuItemEphemerides_Click(object sender, EventArgs e)
+        {
+            FormEphemerisSettings fes = new FormEphemerisSettings() { Owner = this };
+            fes.ShowDialog();
+        }
+
+        private void menuItemExit_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        #endregion
+
+        #region Ephemeris
+
+        private void menuItemEphemSettings_Click(object sender, EventArgs e)
+        {
+            FormEphemerisResult fer = this.ActiveMdiChild as FormEphemerisResult;
+            FormEphemerisSettings fes = new FormEphemerisSettings(fer.EphemerisSettings) { Owner = this };
+            fes.ShowDialog();
+        }
+
+        #endregion
+
+        #region Edit
+
+        private void menuItemDatabase_Click(object sender, EventArgs e)
+        {
+            fdb.ShowDialog();
         }
 
         private void menuItemImport_Click(object sender, EventArgs e)
@@ -135,16 +181,6 @@ namespace Comets.Forms
             {
                 formImport.ShowDialog();
             }
-        }
-
-        private void menuItemDatabase_Click(object sender, EventArgs e)
-        {
-            fdb.ShowDialog();
-        }
-
-        public void SetStatusCometsLabel(int count)
-        {
-            this.statusComets.Text = String.Format("Comets: {0}", count.ToString());
         }
 
         private void menuItemExport_Click(object sender, EventArgs e)
@@ -166,9 +202,90 @@ namespace Comets.Forms
             }
         }
 
-        private void menuItemEphemerides_Click(object sender, EventArgs e)
+        #endregion
+
+        #region View
+
+        private void menuItemStatusBar_Click(object sender, EventArgs e)
         {
-            fes.ShowDialog();
+            menuItemStatusBar.Checked = !menuItemStatusBar.Checked;
+            Settings.ShowStatusBar = menuItemStatusBar.Checked;
+            this.statusStrip.Visible = menuItemStatusBar.Checked;
         }
+
+        #endregion
+
+        #region Window
+
+        private void menuItemCascade_Click(object sender, EventArgs e)
+        {
+            this.LayoutMdi(MdiLayout.Cascade);
+        }
+
+        private void menuItemTileHoriz_Click(object sender, EventArgs e)
+        {
+            this.LayoutMdi(MdiLayout.TileHorizontal);
+        }
+
+        private void menuItemTileVert_Click(object sender, EventArgs e)
+        {
+            this.LayoutMdi(MdiLayout.TileVertical);
+        }
+
+        public void AddWindowItem(string text)
+        {
+            MenuItem menuItem = new MenuItem();
+            menuItem.Tag = ChildCount;
+            menuItem.Text = ChildCount + " " + text;
+            menuItem.Click += new EventHandler(this.menuItemWindow_Click);
+            this.menuItemWindow.MenuItems.Add(menuItem);
+        }
+
+        public void menuItemWindow_Click(object sender, EventArgs e)
+        {
+            foreach (Form child in this.MdiChildren)
+                if (child.Text == (sender as MenuItem).Text)
+                    child.Activate();
+        }
+
+        public void RenameWindowItem(int tag, string text)
+        {
+            foreach (MenuItem mi in menuItemWindow.MenuItems)
+            {
+                if (mi.Tag != null && (int)mi.Tag == tag)
+                {
+                    mi.Text = text;
+                    break;
+                }
+            }        
+        }
+
+        public void RemoveWindowMenuItem(int tag)
+        {
+            foreach (MenuItem mi in menuItemWindow.MenuItems)
+            {
+                if (mi.Tag != null && (int)mi.Tag == tag)
+                {
+                    menuItemWindow.MenuItems.Remove(mi);
+                    break;
+                }
+            }
+        }
+
+        public void SetWindowMenuItemVisible(bool visible)
+        {
+            this.menuItemWindow.Visible = visible;
+        }
+
+        #endregion
+
+        #region Methods
+
+        public void SetStatusCometsLabel(int count)
+        {
+            this.statusComets.Text = String.Format("Comets: {0}", count.ToString());
+        }
+
+        #endregion
     }
 }
