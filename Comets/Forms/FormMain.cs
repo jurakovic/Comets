@@ -146,8 +146,10 @@ namespace Comets.Forms
 
         private void menuItemEphemerides_Click(object sender, EventArgs e)
         {
-            FormEphemerisSettings fes = new FormEphemerisSettings() { Owner = this };
-            fes.ShowDialog();
+            using (FormEphemerisSettings fes = new FormEphemerisSettings() { Owner = this })
+            {
+                fes.ShowDialog();
+            }
         }
 
         private void menuItemExit_Click(object sender, EventArgs e)
@@ -162,8 +164,10 @@ namespace Comets.Forms
         private void menuItemEphemSettings_Click(object sender, EventArgs e)
         {
             FormEphemerisResult fer = this.ActiveMdiChild as FormEphemerisResult;
-            FormEphemerisSettings fes = new FormEphemerisSettings(fer.EphemerisSettings) { Owner = this };
-            fes.ShowDialog();
+            using (FormEphemerisSettings fes = new FormEphemerisSettings(fer.EphemerisSettings) { Owner = this })
+            {
+                fes.ShowDialog();
+            }
         }
 
         #endregion
