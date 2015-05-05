@@ -30,12 +30,15 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabGeneral = new System.Windows.Forms.TabPage();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.gbxGeneral = new System.Windows.Forms.GroupBox();
+            this.chShowStatusBar = new System.Windows.Forms.CheckBox();
             this.chExitWithoutConfirm = new System.Windows.Forms.CheckBox();
             this.chNewVersionOnStartup = new System.Windows.Forms.CheckBox();
             this.chRememberWindowPosition = new System.Windows.Forms.CheckBox();
             this.chDownloadOnStartup = new System.Windows.Forms.CheckBox();
-            this.gbxLocalFile = new System.Windows.Forms.GroupBox();
+            this.gbxAppData = new System.Windows.Forms.GroupBox();
+            this.btnDefaultDownloads = new System.Windows.Forms.Button();
+            this.btnDefaultAppData = new System.Windows.Forms.Button();
             this.lblDownloads = new System.Windows.Forms.Label();
             this.txtDownloads = new System.Windows.Forms.TextBox();
             this.btnDownloads = new System.Windows.Forms.Button();
@@ -43,7 +46,7 @@
             this.txtAppData = new System.Windows.Forms.TextBox();
             this.btnAppData = new System.Windows.Forms.Button();
             this.tabNetwork = new System.Windows.Forms.TabPage();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.gbxNetwork = new System.Windows.Forms.GroupBox();
             this.pnlProxy = new System.Windows.Forms.Panel();
             this.lblPort = new System.Windows.Forms.Label();
             this.txtPort = new System.Windows.Forms.TextBox();
@@ -58,7 +61,7 @@
             this.rbManualProxy = new System.Windows.Forms.RadioButton();
             this.rbNoProxy = new System.Windows.Forms.RadioButton();
             this.tabLocation = new System.Windows.Forms.TabPage();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.gbxLocation = new System.Windows.Forms.GroupBox();
             this.numTimezone = new System.Windows.Forms.NumericUpDown();
             this.lblUtc = new System.Windows.Forms.Label();
             this.lblAltitude = new System.Windows.Forms.Label();
@@ -77,31 +80,38 @@
             this.txtLatitude = new System.Windows.Forms.TextBox();
             this.lblName = new System.Windows.Forms.Label();
             this.tabPrograms = new System.Windows.Forms.TabPage();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.gbxPrograms = new System.Windows.Forms.GroupBox();
+            this.dgvPrograms = new System.Windows.Forms.DataGridView();
+            this.colProgram = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colDirectory = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnClear = new System.Windows.Forms.Button();
             this.btnRemove = new System.Windows.Forms.Button();
             this.btnEdit = new System.Windows.Forms.Button();
-            this.listPrograms = new System.Windows.Forms.ListView();
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.btnAdd = new System.Windows.Forms.Button();
+            this.gbxAddProgram = new System.Windows.Forms.GroupBox();
+            this.txtDirectory = new System.Windows.Forms.TextBox();
+            this.lblDirectory = new System.Windows.Forms.Label();
+            this.btnBrowse = new System.Windows.Forms.Button();
+            this.cbxExternalProgram = new System.Windows.Forms.ComboBox();
+            this.lblSelectProgram = new System.Windows.Forms.Label();
+            this.btnProgramsOk = new System.Windows.Forms.Button();
+            this.btnProgramsCancel = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
-            this.chShowStatusBar = new System.Windows.Forms.CheckBox();
-            this.btnDefaultAppData = new System.Windows.Forms.Button();
-            this.btnDefaultDownloads = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabGeneral.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.gbxLocalFile.SuspendLayout();
+            this.gbxGeneral.SuspendLayout();
+            this.gbxAppData.SuspendLayout();
             this.tabNetwork.SuspendLayout();
-            this.groupBox4.SuspendLayout();
+            this.gbxNetwork.SuspendLayout();
             this.pnlProxy.SuspendLayout();
             this.tabLocation.SuspendLayout();
-            this.groupBox1.SuspendLayout();
+            this.gbxLocation.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numTimezone)).BeginInit();
             this.tabPrograms.SuspendLayout();
-            this.groupBox3.SuspendLayout();
+            this.gbxPrograms.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvPrograms)).BeginInit();
+            this.gbxAddProgram.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -124,8 +134,8 @@
             // tabGeneral
             // 
             this.tabGeneral.BackColor = System.Drawing.SystemColors.Control;
-            this.tabGeneral.Controls.Add(this.groupBox2);
-            this.tabGeneral.Controls.Add(this.gbxLocalFile);
+            this.tabGeneral.Controls.Add(this.gbxGeneral);
+            this.tabGeneral.Controls.Add(this.gbxAppData);
             this.tabGeneral.Location = new System.Drawing.Point(4, 24);
             this.tabGeneral.Name = "tabGeneral";
             this.tabGeneral.Padding = new System.Windows.Forms.Padding(3);
@@ -133,20 +143,30 @@
             this.tabGeneral.TabIndex = 0;
             this.tabGeneral.Text = "General";
             // 
-            // groupBox2
+            // gbxGeneral
             // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.gbxGeneral.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox2.Controls.Add(this.chShowStatusBar);
-            this.groupBox2.Controls.Add(this.chExitWithoutConfirm);
-            this.groupBox2.Controls.Add(this.chNewVersionOnStartup);
-            this.groupBox2.Controls.Add(this.chRememberWindowPosition);
-            this.groupBox2.Controls.Add(this.chDownloadOnStartup);
-            this.groupBox2.Location = new System.Drawing.Point(8, 169);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(668, 119);
-            this.groupBox2.TabIndex = 4;
-            this.groupBox2.TabStop = false;
+            this.gbxGeneral.Controls.Add(this.chShowStatusBar);
+            this.gbxGeneral.Controls.Add(this.chExitWithoutConfirm);
+            this.gbxGeneral.Controls.Add(this.chNewVersionOnStartup);
+            this.gbxGeneral.Controls.Add(this.chRememberWindowPosition);
+            this.gbxGeneral.Controls.Add(this.chDownloadOnStartup);
+            this.gbxGeneral.Location = new System.Drawing.Point(8, 169);
+            this.gbxGeneral.Name = "gbxGeneral";
+            this.gbxGeneral.Size = new System.Drawing.Size(668, 119);
+            this.gbxGeneral.TabIndex = 4;
+            this.gbxGeneral.TabStop = false;
+            // 
+            // chShowStatusBar
+            // 
+            this.chShowStatusBar.AutoSize = true;
+            this.chShowStatusBar.Location = new System.Drawing.Point(9, 90);
+            this.chShowStatusBar.Name = "chShowStatusBar";
+            this.chShowStatusBar.Size = new System.Drawing.Size(104, 17);
+            this.chShowStatusBar.TabIndex = 4;
+            this.chShowStatusBar.Text = "Show status bar";
+            this.chShowStatusBar.UseVisualStyleBackColor = true;
             // 
             // chExitWithoutConfirm
             // 
@@ -190,23 +210,43 @@
             this.chDownloadOnStartup.Text = "Download the latest orbital elements from Internet on startup";
             this.chDownloadOnStartup.UseVisualStyleBackColor = true;
             // 
-            // gbxLocalFile
+            // gbxAppData
             // 
-            this.gbxLocalFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.gbxAppData.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.gbxLocalFile.Controls.Add(this.btnDefaultDownloads);
-            this.gbxLocalFile.Controls.Add(this.btnDefaultAppData);
-            this.gbxLocalFile.Controls.Add(this.lblDownloads);
-            this.gbxLocalFile.Controls.Add(this.txtDownloads);
-            this.gbxLocalFile.Controls.Add(this.btnDownloads);
-            this.gbxLocalFile.Controls.Add(this.lblAppData);
-            this.gbxLocalFile.Controls.Add(this.txtAppData);
-            this.gbxLocalFile.Controls.Add(this.btnAppData);
-            this.gbxLocalFile.Location = new System.Drawing.Point(8, 3);
-            this.gbxLocalFile.Name = "gbxLocalFile";
-            this.gbxLocalFile.Size = new System.Drawing.Size(669, 160);
-            this.gbxLocalFile.TabIndex = 2;
-            this.gbxLocalFile.TabStop = false;
+            this.gbxAppData.Controls.Add(this.btnDefaultDownloads);
+            this.gbxAppData.Controls.Add(this.btnDefaultAppData);
+            this.gbxAppData.Controls.Add(this.lblDownloads);
+            this.gbxAppData.Controls.Add(this.txtDownloads);
+            this.gbxAppData.Controls.Add(this.btnDownloads);
+            this.gbxAppData.Controls.Add(this.lblAppData);
+            this.gbxAppData.Controls.Add(this.txtAppData);
+            this.gbxAppData.Controls.Add(this.btnAppData);
+            this.gbxAppData.Location = new System.Drawing.Point(8, 3);
+            this.gbxAppData.Name = "gbxAppData";
+            this.gbxAppData.Size = new System.Drawing.Size(669, 160);
+            this.gbxAppData.TabIndex = 2;
+            this.gbxAppData.TabStop = false;
+            // 
+            // btnDefaultDownloads
+            // 
+            this.btnDefaultDownloads.Location = new System.Drawing.Point(594, 114);
+            this.btnDefaultDownloads.Name = "btnDefaultDownloads";
+            this.btnDefaultDownloads.Size = new System.Drawing.Size(69, 23);
+            this.btnDefaultDownloads.TabIndex = 42;
+            this.btnDefaultDownloads.Text = "Default";
+            this.btnDefaultDownloads.UseVisualStyleBackColor = true;
+            this.btnDefaultDownloads.Click += new System.EventHandler(this.btnDefaultDownloads_Click);
+            // 
+            // btnDefaultAppData
+            // 
+            this.btnDefaultAppData.Location = new System.Drawing.Point(594, 47);
+            this.btnDefaultAppData.Name = "btnDefaultAppData";
+            this.btnDefaultAppData.Size = new System.Drawing.Size(69, 23);
+            this.btnDefaultAppData.TabIndex = 3;
+            this.btnDefaultAppData.Text = "Default";
+            this.btnDefaultAppData.UseVisualStyleBackColor = true;
+            this.btnDefaultAppData.Click += new System.EventHandler(this.btnDefaultAppData_Click);
             // 
             // lblDownloads
             // 
@@ -271,25 +311,25 @@
             // tabNetwork
             // 
             this.tabNetwork.BackColor = System.Drawing.SystemColors.Control;
-            this.tabNetwork.Controls.Add(this.groupBox4);
+            this.tabNetwork.Controls.Add(this.gbxNetwork);
             this.tabNetwork.Location = new System.Drawing.Point(4, 24);
             this.tabNetwork.Name = "tabNetwork";
             this.tabNetwork.Size = new System.Drawing.Size(685, 296);
             this.tabNetwork.TabIndex = 3;
             this.tabNetwork.Text = "Network";
             // 
-            // groupBox4
+            // gbxNetwork
             // 
-            this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.gbxNetwork.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox4.Controls.Add(this.pnlProxy);
-            this.groupBox4.Controls.Add(this.rbManualProxy);
-            this.groupBox4.Controls.Add(this.rbNoProxy);
-            this.groupBox4.Location = new System.Drawing.Point(8, 3);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(669, 285);
-            this.groupBox4.TabIndex = 4;
-            this.groupBox4.TabStop = false;
+            this.gbxNetwork.Controls.Add(this.pnlProxy);
+            this.gbxNetwork.Controls.Add(this.rbManualProxy);
+            this.gbxNetwork.Controls.Add(this.rbNoProxy);
+            this.gbxNetwork.Location = new System.Drawing.Point(8, 3);
+            this.gbxNetwork.Name = "gbxNetwork";
+            this.gbxNetwork.Size = new System.Drawing.Size(669, 285);
+            this.gbxNetwork.TabIndex = 4;
+            this.gbxNetwork.TabStop = false;
             // 
             // pnlProxy
             // 
@@ -437,7 +477,7 @@
             // tabLocation
             // 
             this.tabLocation.BackColor = System.Drawing.SystemColors.Control;
-            this.tabLocation.Controls.Add(this.groupBox1);
+            this.tabLocation.Controls.Add(this.gbxLocation);
             this.tabLocation.Location = new System.Drawing.Point(4, 24);
             this.tabLocation.Name = "tabLocation";
             this.tabLocation.Padding = new System.Windows.Forms.Padding(3);
@@ -445,32 +485,32 @@
             this.tabLocation.TabIndex = 1;
             this.tabLocation.Text = "Location";
             // 
-            // groupBox1
+            // gbxLocation
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.gbxLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Controls.Add(this.numTimezone);
-            this.groupBox1.Controls.Add(this.lblUtc);
-            this.groupBox1.Controls.Add(this.lblAltitude);
-            this.groupBox1.Controls.Add(this.txtAltitude);
-            this.groupBox1.Controls.Add(this.btnSetDST);
-            this.groupBox1.Controls.Add(this.chDST);
-            this.groupBox1.Controls.Add(this.lblTimezone);
-            this.groupBox1.Controls.Add(this.cbxEastWest);
-            this.groupBox1.Controls.Add(this.cbxNorthSouth);
-            this.groupBox1.Controls.Add(this.lblLonDeg);
-            this.groupBox1.Controls.Add(this.lblLatDeg);
-            this.groupBox1.Controls.Add(this.lblLongitude);
-            this.groupBox1.Controls.Add(this.txtLongitude);
-            this.groupBox1.Controls.Add(this.txtName);
-            this.groupBox1.Controls.Add(this.lblLatitude);
-            this.groupBox1.Controls.Add(this.txtLatitude);
-            this.groupBox1.Controls.Add(this.lblName);
-            this.groupBox1.Location = new System.Drawing.Point(8, 3);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(669, 285);
-            this.groupBox1.TabIndex = 3;
-            this.groupBox1.TabStop = false;
+            this.gbxLocation.Controls.Add(this.numTimezone);
+            this.gbxLocation.Controls.Add(this.lblUtc);
+            this.gbxLocation.Controls.Add(this.lblAltitude);
+            this.gbxLocation.Controls.Add(this.txtAltitude);
+            this.gbxLocation.Controls.Add(this.btnSetDST);
+            this.gbxLocation.Controls.Add(this.chDST);
+            this.gbxLocation.Controls.Add(this.lblTimezone);
+            this.gbxLocation.Controls.Add(this.cbxEastWest);
+            this.gbxLocation.Controls.Add(this.cbxNorthSouth);
+            this.gbxLocation.Controls.Add(this.lblLonDeg);
+            this.gbxLocation.Controls.Add(this.lblLatDeg);
+            this.gbxLocation.Controls.Add(this.lblLongitude);
+            this.gbxLocation.Controls.Add(this.txtLongitude);
+            this.gbxLocation.Controls.Add(this.txtName);
+            this.gbxLocation.Controls.Add(this.lblLatitude);
+            this.gbxLocation.Controls.Add(this.txtLatitude);
+            this.gbxLocation.Controls.Add(this.lblName);
+            this.gbxLocation.Location = new System.Drawing.Point(8, 3);
+            this.gbxLocation.Name = "gbxLocation";
+            this.gbxLocation.Size = new System.Drawing.Size(669, 285);
+            this.gbxLocation.TabIndex = 3;
+            this.gbxLocation.TabStop = false;
             // 
             // numTimezone
             // 
@@ -656,27 +696,65 @@
             // tabPrograms
             // 
             this.tabPrograms.BackColor = System.Drawing.SystemColors.Control;
-            this.tabPrograms.Controls.Add(this.groupBox3);
+            this.tabPrograms.Controls.Add(this.gbxPrograms);
+            this.tabPrograms.Controls.Add(this.gbxAddProgram);
             this.tabPrograms.Location = new System.Drawing.Point(4, 24);
             this.tabPrograms.Name = "tabPrograms";
             this.tabPrograms.Size = new System.Drawing.Size(685, 296);
             this.tabPrograms.TabIndex = 2;
             this.tabPrograms.Text = "Programs";
             // 
-            // groupBox3
+            // gbxPrograms
             // 
-            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.gbxPrograms.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox3.Controls.Add(this.btnClear);
-            this.groupBox3.Controls.Add(this.btnRemove);
-            this.groupBox3.Controls.Add(this.btnEdit);
-            this.groupBox3.Controls.Add(this.listPrograms);
-            this.groupBox3.Controls.Add(this.btnAdd);
-            this.groupBox3.Location = new System.Drawing.Point(8, 3);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(669, 285);
-            this.groupBox3.TabIndex = 4;
-            this.groupBox3.TabStop = false;
+            this.gbxPrograms.Controls.Add(this.dgvPrograms);
+            this.gbxPrograms.Controls.Add(this.btnClear);
+            this.gbxPrograms.Controls.Add(this.btnRemove);
+            this.gbxPrograms.Controls.Add(this.btnEdit);
+            this.gbxPrograms.Controls.Add(this.btnAdd);
+            this.gbxPrograms.Location = new System.Drawing.Point(8, 3);
+            this.gbxPrograms.Name = "gbxPrograms";
+            this.gbxPrograms.Size = new System.Drawing.Size(669, 285);
+            this.gbxPrograms.TabIndex = 4;
+            this.gbxPrograms.TabStop = false;
+            // 
+            // dgvPrograms
+            // 
+            this.dgvPrograms.AllowUserToAddRows = false;
+            this.dgvPrograms.AllowUserToDeleteRows = false;
+            this.dgvPrograms.AllowUserToResizeRows = false;
+            this.dgvPrograms.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
+            this.dgvPrograms.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvPrograms.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colProgram,
+            this.colDirectory});
+            this.dgvPrograms.Location = new System.Drawing.Point(3, 10);
+            this.dgvPrograms.MultiSelect = false;
+            this.dgvPrograms.Name = "dgvPrograms";
+            this.dgvPrograms.ReadOnly = true;
+            this.dgvPrograms.RowHeadersVisible = false;
+            this.dgvPrograms.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            this.dgvPrograms.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.White;
+            this.dgvPrograms.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvPrograms.Size = new System.Drawing.Size(663, 231);
+            this.dgvPrograms.TabIndex = 5;
+            // 
+            // colProgram
+            // 
+            this.colProgram.DataPropertyName = "Name";
+            this.colProgram.HeaderText = "Program";
+            this.colProgram.Name = "colProgram";
+            this.colProgram.ReadOnly = true;
+            this.colProgram.Width = 200;
+            // 
+            // colDirectory
+            // 
+            this.colDirectory.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colDirectory.DataPropertyName = "Directory";
+            this.colDirectory.HeaderText = "Directory";
+            this.colDirectory.Name = "colDirectory";
+            this.colDirectory.ReadOnly = true;
             // 
             // btnClear
             // 
@@ -686,6 +764,7 @@
             this.btnClear.TabIndex = 4;
             this.btnClear.Text = "Clear";
             this.btnClear.UseVisualStyleBackColor = true;
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
             // btnRemove
             // 
@@ -695,6 +774,7 @@
             this.btnRemove.TabIndex = 3;
             this.btnRemove.Text = "Remove";
             this.btnRemove.UseVisualStyleBackColor = true;
+            this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
             // 
             // btnEdit
             // 
@@ -704,31 +784,7 @@
             this.btnEdit.TabIndex = 2;
             this.btnEdit.Text = "Edit";
             this.btnEdit.UseVisualStyleBackColor = true;
-            // 
-            // listPrograms
-            // 
-            this.listPrograms.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1,
-            this.columnHeader2});
-            this.listPrograms.FullRowSelect = true;
-            this.listPrograms.GridLines = true;
-            this.listPrograms.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.listPrograms.Location = new System.Drawing.Point(3, 10);
-            this.listPrograms.Name = "listPrograms";
-            this.listPrograms.Size = new System.Drawing.Size(663, 231);
-            this.listPrograms.TabIndex = 0;
-            this.listPrograms.UseCompatibleStateImageBehavior = false;
-            this.listPrograms.View = System.Windows.Forms.View.Details;
-            // 
-            // columnHeader1
-            // 
-            this.columnHeader1.Text = "Program";
-            this.columnHeader1.Width = 150;
-            // 
-            // columnHeader2
-            // 
-            this.columnHeader2.Text = "Directory";
-            this.columnHeader2.Width = 509;
+            this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
             // 
             // btnAdd
             // 
@@ -738,6 +794,96 @@
             this.btnAdd.TabIndex = 1;
             this.btnAdd.Text = "Add";
             this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
+            // 
+            // gbxAddProgram
+            // 
+            this.gbxAddProgram.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbxAddProgram.Controls.Add(this.txtDirectory);
+            this.gbxAddProgram.Controls.Add(this.lblDirectory);
+            this.gbxAddProgram.Controls.Add(this.btnBrowse);
+            this.gbxAddProgram.Controls.Add(this.cbxExternalProgram);
+            this.gbxAddProgram.Controls.Add(this.lblSelectProgram);
+            this.gbxAddProgram.Controls.Add(this.btnProgramsOk);
+            this.gbxAddProgram.Controls.Add(this.btnProgramsCancel);
+            this.gbxAddProgram.Location = new System.Drawing.Point(8, 3);
+            this.gbxAddProgram.Name = "gbxAddProgram";
+            this.gbxAddProgram.Size = new System.Drawing.Size(669, 285);
+            this.gbxAddProgram.TabIndex = 5;
+            this.gbxAddProgram.TabStop = false;
+            this.gbxAddProgram.Visible = false;
+            // 
+            // txtDirectory
+            // 
+            this.txtDirectory.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtDirectory.Location = new System.Drawing.Point(155, 115);
+            this.txtDirectory.Name = "txtDirectory";
+            this.txtDirectory.Size = new System.Drawing.Size(499, 21);
+            this.txtDirectory.TabIndex = 1;
+            // 
+            // lblDirectory
+            // 
+            this.lblDirectory.AutoSize = true;
+            this.lblDirectory.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.lblDirectory.Location = new System.Drawing.Point(6, 84);
+            this.lblDirectory.Name = "lblDirectory";
+            this.lblDirectory.Size = new System.Drawing.Size(60, 13);
+            this.lblDirectory.TabIndex = 38;
+            this.lblDirectory.Text = "Directory";
+            // 
+            // btnBrowse
+            // 
+            this.btnBrowse.Location = new System.Drawing.Point(31, 114);
+            this.btnBrowse.Name = "btnBrowse";
+            this.btnBrowse.Size = new System.Drawing.Size(118, 23);
+            this.btnBrowse.TabIndex = 0;
+            this.btnBrowse.Text = "Browse";
+            this.btnBrowse.UseVisualStyleBackColor = true;
+            this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
+            // 
+            // cbxExternalProgram
+            // 
+            this.cbxExternalProgram.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxExternalProgram.FormattingEnabled = true;
+            this.cbxExternalProgram.Location = new System.Drawing.Point(31, 47);
+            this.cbxExternalProgram.Name = "cbxExternalProgram";
+            this.cbxExternalProgram.Size = new System.Drawing.Size(280, 21);
+            this.cbxExternalProgram.TabIndex = 28;
+            this.cbxExternalProgram.SelectedIndexChanged += new System.EventHandler(this.cbxProgram_SelectedIndexChanged);
+            // 
+            // lblSelectProgram
+            // 
+            this.lblSelectProgram.AutoSize = true;
+            this.lblSelectProgram.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.lblSelectProgram.Location = new System.Drawing.Point(6, 17);
+            this.lblSelectProgram.Name = "lblSelectProgram";
+            this.lblSelectProgram.Size = new System.Drawing.Size(94, 13);
+            this.lblSelectProgram.TabIndex = 27;
+            this.lblSelectProgram.Text = "Select program";
+            // 
+            // btnProgramsOk
+            // 
+            this.btnProgramsOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnProgramsOk.Location = new System.Drawing.Point(31, 186);
+            this.btnProgramsOk.Name = "btnProgramsOk";
+            this.btnProgramsOk.Size = new System.Drawing.Size(118, 23);
+            this.btnProgramsOk.TabIndex = 9;
+            this.btnProgramsOk.Text = "OK";
+            this.btnProgramsOk.UseVisualStyleBackColor = true;
+            this.btnProgramsOk.Click += new System.EventHandler(this.btnProgramsOk_Click);
+            // 
+            // btnProgramsCancel
+            // 
+            this.btnProgramsCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnProgramsCancel.Location = new System.Drawing.Point(155, 186);
+            this.btnProgramsCancel.Name = "btnProgramsCancel";
+            this.btnProgramsCancel.Size = new System.Drawing.Size(118, 23);
+            this.btnProgramsCancel.TabIndex = 8;
+            this.btnProgramsCancel.Text = "Cancel";
+            this.btnProgramsCancel.UseVisualStyleBackColor = true;
+            this.btnProgramsCancel.Click += new System.EventHandler(this.btnProgramsCancel_Click);
             // 
             // btnClose
             // 
@@ -754,7 +900,7 @@
             // btnOK
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOK.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.btnOK.Location = new System.Drawing.Point(422, 351);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(118, 23);
@@ -762,36 +908,6 @@
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
-            // 
-            // chShowStatusBar
-            // 
-            this.chShowStatusBar.AutoSize = true;
-            this.chShowStatusBar.Location = new System.Drawing.Point(9, 90);
-            this.chShowStatusBar.Name = "chShowStatusBar";
-            this.chShowStatusBar.Size = new System.Drawing.Size(104, 17);
-            this.chShowStatusBar.TabIndex = 4;
-            this.chShowStatusBar.Text = "Show status bar";
-            this.chShowStatusBar.UseVisualStyleBackColor = true;
-            // 
-            // btnDefaultAppData
-            // 
-            this.btnDefaultAppData.Location = new System.Drawing.Point(594, 47);
-            this.btnDefaultAppData.Name = "btnDefaultAppData";
-            this.btnDefaultAppData.Size = new System.Drawing.Size(69, 23);
-            this.btnDefaultAppData.TabIndex = 3;
-            this.btnDefaultAppData.Text = "Default";
-            this.btnDefaultAppData.UseVisualStyleBackColor = true;
-            this.btnDefaultAppData.Click += new System.EventHandler(this.btnDefaultAppData_Click);
-            // 
-            // btnDefaultDownloads
-            // 
-            this.btnDefaultDownloads.Location = new System.Drawing.Point(594, 114);
-            this.btnDefaultDownloads.Name = "btnDefaultDownloads";
-            this.btnDefaultDownloads.Size = new System.Drawing.Size(69, 23);
-            this.btnDefaultDownloads.TabIndex = 42;
-            this.btnDefaultDownloads.Text = "Default";
-            this.btnDefaultDownloads.UseVisualStyleBackColor = true;
-            this.btnDefaultDownloads.Click += new System.EventHandler(this.btnDefaultDownloads_Click);
             // 
             // FormSettings
             // 
@@ -813,21 +929,24 @@
             this.Load += new System.EventHandler(this.FormSettings_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabGeneral.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            this.gbxLocalFile.ResumeLayout(false);
-            this.gbxLocalFile.PerformLayout();
+            this.gbxGeneral.ResumeLayout(false);
+            this.gbxGeneral.PerformLayout();
+            this.gbxAppData.ResumeLayout(false);
+            this.gbxAppData.PerformLayout();
             this.tabNetwork.ResumeLayout(false);
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox4.PerformLayout();
+            this.gbxNetwork.ResumeLayout(false);
+            this.gbxNetwork.PerformLayout();
             this.pnlProxy.ResumeLayout(false);
             this.pnlProxy.PerformLayout();
             this.tabLocation.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.gbxLocation.ResumeLayout(false);
+            this.gbxLocation.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numTimezone)).EndInit();
             this.tabPrograms.ResumeLayout(false);
-            this.groupBox3.ResumeLayout(false);
+            this.gbxPrograms.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvPrograms)).EndInit();
+            this.gbxAddProgram.ResumeLayout(false);
+            this.gbxAddProgram.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -839,8 +958,8 @@
         private System.Windows.Forms.TabPage tabLocation;
         private System.Windows.Forms.TabPage tabPrograms;
         private System.Windows.Forms.Button btnClose;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.GroupBox gbxLocalFile;
+        private System.Windows.Forms.GroupBox gbxGeneral;
+        private System.Windows.Forms.GroupBox gbxAppData;
         private System.Windows.Forms.Label lblDownloads;
         private System.Windows.Forms.TextBox txtDownloads;
         private System.Windows.Forms.Button btnDownloads;
@@ -851,7 +970,7 @@
         private System.Windows.Forms.CheckBox chNewVersionOnStartup;
         private System.Windows.Forms.CheckBox chRememberWindowPosition;
         private System.Windows.Forms.CheckBox chDownloadOnStartup;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox gbxLocation;
         private System.Windows.Forms.Button btnSetDST;
         private System.Windows.Forms.CheckBox chDST;
         private System.Windows.Forms.Label lblTimezone;
@@ -866,16 +985,13 @@
         private System.Windows.Forms.TextBox txtLatitude;
         private System.Windows.Forms.Label lblName;
         private System.Windows.Forms.Button btnOK;
-        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.GroupBox gbxPrograms;
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.Button btnRemove;
         private System.Windows.Forms.Button btnEdit;
-        private System.Windows.Forms.ListView listPrograms;
-        private System.Windows.Forms.ColumnHeader columnHeader1;
-        private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.TabPage tabNetwork;
-        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.GroupBox gbxNetwork;
         private System.Windows.Forms.Panel pnlProxy;
         private System.Windows.Forms.Label lblPort;
         private System.Windows.Forms.TextBox txtPort;
@@ -896,5 +1012,17 @@
         private System.Windows.Forms.CheckBox chShowStatusBar;
         private System.Windows.Forms.Button btnDefaultDownloads;
         private System.Windows.Forms.Button btnDefaultAppData;
+        private System.Windows.Forms.GroupBox gbxAddProgram;
+        private System.Windows.Forms.TextBox txtDirectory;
+        private System.Windows.Forms.Label lblDirectory;
+        private System.Windows.Forms.Button btnBrowse;
+        private System.Windows.Forms.ComboBox cbxExternalProgram;
+        private System.Windows.Forms.Label lblSelectProgram;
+        private System.Windows.Forms.Button btnProgramsOk;
+        private System.Windows.Forms.Button btnProgramsCancel;
+        //private System.Windows.Forms.BindingSource externalProgramBindingSource;
+        private System.Windows.Forms.DataGridView dgvPrograms;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colProgram;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colDirectory;
     }
 }

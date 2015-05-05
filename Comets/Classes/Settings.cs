@@ -9,7 +9,13 @@ namespace Comets.Classes
 {
     public class Settings
     {
+        #region Const
+
         const string settingsini = "settings.ini";
+
+        #endregion
+
+        #region Properties
 
         //General
         public string AppData { get; set; }
@@ -40,11 +46,15 @@ namespace Comets.Classes
         public Location Location { get; set; }
 
         //Programs
-        public Dictionary<int, string> ProgramsDict { get; set; }
+        public List<ExternalProgram> ExternalPrograms { get; set; }
 
         public bool HasErrors { get; set; }
         public bool IsSettingsChanged { get; set; }
-        
+
+        #endregion
+
+        #region Constructor
+
         public Settings()
         {
             AppData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Comets";
@@ -69,11 +79,15 @@ namespace Comets.Classes
 
             Location = new Location();
 
-            ProgramsDict = new Dictionary<int, string>();
+            ExternalPrograms = new List<ExternalProgram>();
 
             HasErrors = false;
             IsSettingsChanged = false;
         }
+
+        #endregion
+
+        #region LoadSettings
 
         public static Settings LoadSettings()
         {
@@ -130,6 +144,14 @@ namespace Comets.Classes
                                 case "Altitude": settings.Location.Altitude = Convert.ToInt32(value); break;
                                 case "Timezone": settings.Location.Timezone = Convert.ToInt32(value); break;
                                 case "DST": settings.Location.DST = Convert.ToBoolean(value); break;
+
+                                default:
+                                    if (ElementTypes.TypeName.Contains(property))
+                                        settings.ExternalPrograms.Add(new ExternalProgram(Array.IndexOf(ElementTypes.TypeName, property), value));
+                                    else
+                                        if (exceptions++ < 3)
+                                            MessageBox.Show("Unknown property \"" + property + "\"\t\t\t\t", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    break;
                             }
                         }
                     }
@@ -137,16 +159,22 @@ namespace Comets.Classes
                     {
                         //samo 3 puta pokazi messagebox
                         if (exceptions++ < 3)
-                            MessageBox.Show("Invalid value at property " + property + "\t\t\t", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show("Invalid value \"" + value + "\" at property \"" + property + "\"\t\t", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-                        settings.HasErrors = true;
                         continue;
                     }
                 }
+
+                if(exceptions > 0)
+                    settings.HasErrors = true;
             }
 
             return settings;
         }
+
+        #endregion
+
+        #region SaveSettings
 
         public static void SaveSettings(Settings settings)
         {
@@ -208,8 +236,19 @@ namespace Comets.Classes
             sb.AppendLine(String.Format(format, "DST", settings.Location.DST));
             sb.AppendLine();
 
+            if (settings.ExternalPrograms.Any())
+            {
+                sb.AppendLine("[ExternalPrograms]");
+                foreach (ExternalProgram ep in settings.ExternalPrograms)
+                {
+                    sb.AppendLine(String.Format(format, ep.Name, ep.Directory));
+                }
+            }
+
 
             File.WriteAllText(settingsini, sb.ToString());
         }
+
+        #endregion
     }
 }

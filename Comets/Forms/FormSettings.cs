@@ -1,11 +1,23 @@
 ﻿using Comets.Classes;
 using System;
+using System.Data;
 using System.Windows.Forms;
+using System.Linq;
+using System.ComponentModel;
+using System.Collections.Generic;
 
 namespace Comets.Forms
 {
     public partial class FormSettings : Form
     {
+        #region Properties
+
+        BindingList<ExternalProgram> Programs { get; set; }
+
+        #endregion
+        
+        #region Form events
+
         public FormSettings()
         {
             InitializeComponent();
@@ -37,11 +49,11 @@ namespace Comets.Forms
             txtAltitude.Text = FormMain.Settings.Location.Altitude.ToString();
             numTimezone.Value = FormMain.Settings.Location.Timezone;
             chDST.Checked = FormMain.Settings.Location.DST;
-        }
 
-        private void btnClose_Click(object sender, EventArgs e)
-        {
-            this.Close();
+            Programs = new BindingList<ExternalProgram>(FormMain.Settings.ExternalPrograms.OrderBy(x => x.Type).ToList());
+
+            dgvPrograms.DataSource = Programs;
+            cbxExternalProgram.DataSource = ElementTypes.TypeName;
         }
 
         private void btnOK_Click(object sender, EventArgs e)
@@ -71,11 +83,22 @@ namespace Comets.Forms
             FormMain.Settings.Location.Timezone = Convert.ToInt32(numTimezone.Text.Trim());
             FormMain.Settings.Location.DST = chDST.Checked;
 
+            FormMain.Settings.ExternalPrograms = Programs.ToList();
+
             FormMain.Settings.IsSettingsChanged = true;
 
             Settings.SaveSettings(FormMain.Settings);
             this.Close();
         }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        #endregion
+
+        #region General
 
         private void btnAppData_Click(object sender, EventArgs e)
         {
@@ -113,10 +136,18 @@ namespace Comets.Forms
             txtDownloads.Text = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Comets\\Downloads";
         }
 
+        #endregion
+
+        #region Network
+
         private void rbCommon_CheckedChanged(object sender, EventArgs e)
         {
             pnlProxy.Enabled = rbManualProxy.Checked;
         }
+
+        #endregion
+
+        #region Location
 
         private void txtLatitude_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -144,5 +175,87 @@ namespace Comets.Forms
 
             return false;
         }
+
+        #endregion
+
+        #region Programs
+
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            gbxPrograms.Visible = false;
+            gbxAddProgram.Visible = true;
+
+            cbxProgram_SelectedIndexChanged(null, null);
+        }
+
+        private void btnEdit_Click(object sender, EventArgs e)
+        {
+            ExternalProgram selectedProgram = (dgvPrograms.SelectedRows[0].DataBoundItem as ExternalProgram);
+
+            gbxPrograms.Visible = false;
+            gbxAddProgram.Visible = true;
+
+            cbxExternalProgram.SelectedIndex = selectedProgram.Type;
+            txtDirectory.Text = selectedProgram.Directory;
+        }
+
+        private void btnRemove_Click(object sender, EventArgs e)
+        {
+            ExternalProgram selectedProgram = (dgvPrograms.SelectedRows[0].DataBoundItem as ExternalProgram);
+            Programs.Remove(selectedProgram);
+        }
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            Programs.Clear();
+        }
+
+        private void cbxProgram_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (Programs.Any(x => x.Type == cbxExternalProgram.SelectedIndex))
+                txtDirectory.Text = Programs.Where(x => x.Type == cbxExternalProgram.SelectedIndex).First().Directory;
+            else
+                txtDirectory.Text = string.Empty;
+        }
+
+        private void btnBrowse_Click(object sender, EventArgs e)
+        {
+            using (FolderBrowserDialog fbd = new FolderBrowserDialog())
+            {
+                fbd.Description = "Select " + ElementTypes.Software[cbxExternalProgram.SelectedIndex] + " directory";
+                fbd.ShowNewFolderButton = true;
+
+                if (fbd.ShowDialog() == DialogResult.OK)
+                    txtDirectory.Text = fbd.SelectedPath;
+            }
+        }
+
+        private void btnProgramsCancel_Click(object sender, EventArgs e)
+        {
+            gbxPrograms.Visible = true;
+            gbxAddProgram.Visible = false;
+        }
+
+        private void btnProgramsOk_Click(object sender, EventArgs e)
+        {
+            if (txtDirectory.Text.Length > 0 && System.IO.Directory.Exists(txtDirectory.Text))
+            {
+                Programs.Add(new ExternalProgram(cbxExternalProgram.SelectedIndex, txtDirectory.Text));
+
+                //var temp = Programs.OrderBy(x => x.Type).ToList();
+                //Programs.Clear();
+                //Programs = new BindingList<ExternalProgram>(temp);
+
+                cbxExternalProgram.SelectedIndex = 0;
+                txtDirectory.Text = string.Empty;
+
+                gbxPrograms.Visible = true;
+                gbxAddProgram.Visible = false;
+
+                dgvPrograms.ClearSelection();
+            }
+        }
+
+        #endregion
     }
 }

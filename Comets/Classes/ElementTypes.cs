@@ -63,5 +63,33 @@ namespace Comets.Classes
         };
 
         #endregion
+
+        #region Software
+
+        public static string[] Software = 
+        {
+            "MPC",
+            "SkyMap",
+            "Guide",
+            "xephem",
+            "Home Planet",
+            "MyStars!",
+            "TheSky",
+            "Starry Night",
+            "Deep Space",
+            "PC-TCS",
+            "Earth Centered Universe",
+            "Dance of the Planets",
+            "MegaStar V4.x",
+            "SkyChart III",
+            "Voyager II",
+            "SkyTools",
+            "Autostar",
+            "Celestia",
+            "Comet for Windows",
+            "NASA"
+        };
+
+        #endregion
     }
 }

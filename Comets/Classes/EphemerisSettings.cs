@@ -4,6 +4,8 @@ namespace Comets.Classes
 {
     public class EphemerisSettings
     {
+        #region Properties
+
         public Location Location { get; set; }
         public Comet Comet { get; set; }
         public DateTime Start { get; set; }
@@ -22,14 +24,24 @@ namespace Comets.Classes
         public bool Magnitude { get; set; }
         public string EphemerisResult { get; set; }
 
+        #endregion
+
+        #region Constructor
+
         public EphemerisSettings()
         {
 
         }
 
+        #endregion
+
+        #region ToString
+
         public override string ToString()
         {
             return "Ephemeris - " + Comet.full;
         }
+
+        #endregion
     }
 }

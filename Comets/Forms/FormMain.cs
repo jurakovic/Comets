@@ -221,11 +221,6 @@ namespace Comets.Forms
 
         #region Window
 
-        private void menuItemCascade_Click(object sender, EventArgs e)
-        {
-            this.LayoutMdi(MdiLayout.Cascade);
-        }
-
         private void menuItemTileHoriz_Click(object sender, EventArgs e)
         {
             this.LayoutMdi(MdiLayout.TileHorizontal);
@@ -234,6 +229,22 @@ namespace Comets.Forms
         private void menuItemTileVert_Click(object sender, EventArgs e)
         {
             this.LayoutMdi(MdiLayout.TileVertical);
+        }
+
+        private void menuItemCascade_Click(object sender, EventArgs e)
+        {
+            this.LayoutMdi(MdiLayout.Cascade);
+        }
+
+        private void menuItemMinimizeAll_Click(object sender, EventArgs e)
+        {
+            foreach (Form child in this.MdiChildren)
+                child.WindowState = FormWindowState.Minimized;
+        }
+
+        private void menuItemClose_Click(object sender, EventArgs e)
+        {
+            this.ActiveMdiChild.Close();
         }
 
         public void AddWindowItem(string text)

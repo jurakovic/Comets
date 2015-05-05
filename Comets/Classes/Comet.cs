@@ -6,6 +6,8 @@ namespace Comets.Classes
 {
     public class Comet
     {
+        #region Properties
+
         public string full { get; set; }
         public string name { get; set; }
         public string id { get; set; }
@@ -28,10 +30,20 @@ namespace Comets.Classes
         public double sortkey { get; set; }
         public string idKey { get; set; }
 
+        #endregion
+
+        #region Constructor
+
         public Comet()
         {
 
         }
+
+        #endregion
+
+        #region Methods
+
+        #region GetSortkey
 
         /// <summary>
         /// Calculates Sortkey
@@ -104,6 +116,10 @@ namespace Comets.Classes
             return sort;
         }
 
+        #endregion
+
+        #region GetIdKey
+
         /// <summary>
         /// Returns IDKey
         /// </summary>
@@ -128,6 +144,10 @@ namespace Comets.Classes
             return key;
         }
 
+        #endregion
+
+        #region GetPeriod
+
         /// <summary>
         /// Calculates Period (P)
         /// </summary>
@@ -144,6 +164,10 @@ namespace Comets.Classes
                 return Math.Pow((q / (1 - 0.999999)), 1.5); //okvirno samo za sortiranje
         }
 
+        #endregion
+
+        #region GetSemimajorAxis
+
         /// <summary>
         /// Calculates Semimajor axis (a)
         /// </summary>
@@ -159,6 +183,10 @@ namespace Comets.Classes
             else //if (e == 1.0)
                 return q / (1 - 0.999999);
         }
+
+        #endregion
+
+        #region GetAphelionDistance
 
         /// <summary>
         /// Calculates Aphelion distance (Q)
@@ -177,6 +205,10 @@ namespace Comets.Classes
                 return a * (1 + 0.999999);
         }
 
+        #endregion
+
+        #region GetMeanMotion
+
         /// <summary>
         /// Calculates Mean motion (n)
         /// </summary>
@@ -190,6 +222,10 @@ namespace Comets.Classes
             else
                 return 0.0;
         }
+
+        #endregion
+
+        #region GetIdNameFromFull
 
         /// <summary>
         /// Sets Comet ID and Name from Full
@@ -230,6 +266,10 @@ namespace Comets.Classes
             return new string[] { id, name };
         }
 
+        #endregion
+
+        #region GetFullFromIdName
+
         /// <summary>
         /// Sets Full from ID and Name
         /// </summary>
@@ -258,6 +298,10 @@ namespace Comets.Classes
             return full;
         }
 
+        #endregion
+
+        #region GregorianToJulian
+
         /// <summary>
         /// Converts Gregorian date to Julian day
         /// </summary>
@@ -268,8 +312,11 @@ namespace Comets.Classes
         /// <returns></returns>
         public static double GregorianToJulian(int y, int m, int d, int h)
         {
-            double hh = (double)h / 10000;
-            return 367 * y - (7 * (y + (m + 9) / 12)) / 4 - ((3 * (y + (m - 9) / 7)) / 100 + 1) / 4 + (275 * m) / 9 + d + 1721029 + hh;
+            return 367 * y - (7 * (y + (m + 9) / 12)) / 4 - ((3 * (y + (m - 9) / 7)) / 100 + 1) / 4 + (275 * m) / 9 + d + 1721029 + ((double)h / 10000);
         }
+
+        #endregion
+
+        #endregion
     }
 }
