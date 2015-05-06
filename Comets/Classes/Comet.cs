@@ -6,6 +6,12 @@ namespace Comets.Classes
 {
     public class Comet
     {
+        #region Const
+        
+        public static string[] Month = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+
+        #endregion
+
         #region Properties
 
         public string full { get; set; }

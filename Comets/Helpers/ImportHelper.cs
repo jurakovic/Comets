@@ -1257,19 +1257,13 @@ namespace Comets.Helpers
                     c.w = Convert.ToDouble(lines[i].Substring(71, 8).Trim());
 
                     c.Ty = Convert.ToInt32(lines[i].Substring(87, 4).Trim());
+                    
                     string mon = lines[i].Substring(91, 3);
-                    if (mon == "Jan") c.Tm = 1;
-                    if (mon == "Feb") c.Tm = 2;
-                    if (mon == "Mar") c.Tm = 3;
-                    if (mon == "Apr") c.Tm = 4;
-                    if (mon == "May") c.Tm = 5;
-                    if (mon == "Jun") c.Tm = 6;
-                    if (mon == "Jul") c.Tm = 7;
-                    if (mon == "Aug") c.Tm = 8;
-                    if (mon == "Sep") c.Tm = 9;
-                    if (mon == "Oct") c.Tm = 10;
-                    if (mon == "Nov") c.Tm = 11;
-                    if (mon == "Dec") c.Tm = 12;
+                    int ind = Array.IndexOf(Comet.Month, mon) + 1;
+                    if (ind > 0)
+                        c.Tm = ind;
+                    else
+                        throw new Exception("Invalid month.");
 
                     string[] dh = lines[i].Substring(94, 7).Trim().Split('.');
                     c.Td = Convert.ToInt32(dh[0]);
@@ -1281,8 +1275,9 @@ namespace Comets.Helpers
                     c.n = Comet.GetMeanMotion(c.e, c.P);
                     c.Q = Comet.GetAphelionDistance(c.e, c.a);
 
-                    c.sortkey = Comet.GetSortkey(c.id);
-                    c.idKey = Comet.GetIdKey(c.id);
+                    //voyager nema id
+                    //c.sortkey = Comet.GetSortkey(c.id);
+                    //c.idKey = Comet.GetIdKey(c.id);
                 }
                 catch
                 {

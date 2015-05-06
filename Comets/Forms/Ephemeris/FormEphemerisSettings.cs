@@ -111,10 +111,9 @@ namespace Comets.Forms.Ephemeris
         {
             if (cbComet.SelectedIndex >= 0)
             {
-                string[] month = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
                 Comet c = FormMain.UserList.ElementAt(cbComet.SelectedIndex);
 
-                lblPerihDate.Text = "Perihelion date:                " + c.Ty.ToString() + " " + month[c.Tm - 1] + " " + c.Td.ToString("00") + "." + c.Th.ToString("0000");
+                lblPerihDate.Text = "Perihelion date:                " + c.Ty.ToString() + " " + Comet.Month[c.Tm - 1] + " " + c.Td.ToString("00") + "." + c.Th.ToString("0000");
                 lblPerihDist.Text = "Perihelion distance:          " + c.q.ToString("0.000000") + " AU";
                 lblPeriod.Text = (c.P < 10000 && c.e < 0.98) ? "Period:                              " + c.P.ToString("0.000000") + " years" : "Period:                              -";
             } 

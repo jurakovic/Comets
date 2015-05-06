@@ -10,12 +10,6 @@ namespace Comets.Helpers
 {
     class ExportHelper
     {
-        #region Const
-
-        public static string[] month = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
-
-        #endregion
-
         #region ExportMain
 
         public static void ExportMain(ExportType exportType, string filename, List<Comet> list)
@@ -409,7 +403,7 @@ namespace Comets.Helpers
 
             foreach (Comet c in list)
             {
-                line = String.Format(format, c.name, c.q, c.e, c.i, c.N, c.w, c.Ty, month[c.Tm - 1]);
+                line = String.Format(format, c.name, c.q, c.e, c.i, c.N, c.w, c.Ty, Comet.Month[c.Tm - 1]);
 
                 if (c.Td < 10)
                     line += String.Format("{0}.{1:0000}  2000.0", c.Td, c.Th);
@@ -461,7 +455,7 @@ namespace Comets.Helpers
                 sb.AppendLine(String.Format("\t\tAscendingNode            {0,8:0.0000}", c.N));
                 sb.AppendLine(String.Format("\t\tArgOfPericenter          {0,8:0.0000}", c.w));
                 sb.AppendLine("\t\tMeanAnomaly                0.0");
-                sb.AppendLine(String.Format("\t\tEpoch                {0,12:0.0000}     # {1,4} {2} {3:00}.{4:0000}", c.T, c.Ty, month[c.Tm - 1], c.Td, c.Th));
+                sb.AppendLine(String.Format("\t\tEpoch                {0,12:0.0000}     # {1,4} {2} {3:00}.{4:0000}", c.T, c.Ty, Comet.Month[c.Tm - 1], c.Td, c.Th));
                 sb.AppendLine("\t}");
                 sb.AppendLine("}");
                 sb.AppendLine();

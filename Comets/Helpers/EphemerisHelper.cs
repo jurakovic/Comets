@@ -33,9 +33,8 @@ namespace Comets.Helpers
 
             StringBuilder sb = new StringBuilder();
 
-            string[] month = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
             sb.AppendLine("Comet:\t\t\t\t" + settings.Comet.full);
-            sb.AppendLine("Perihelion date:\t\t" + settings.Comet.Ty.ToString() + " " + month[settings.Comet.Tm - 1] + " " + settings.Comet.Td.ToString("00") + "." + settings.Comet.Th.ToString("0000"));
+            sb.AppendLine("Perihelion date:\t\t" + settings.Comet.Ty.ToString() + " " + Comet.Month[settings.Comet.Tm - 1] + " " + settings.Comet.Td.ToString("00") + "." + settings.Comet.Th.ToString("0000"));
             sb.AppendLine("Perihelion distance:\t\t" + settings.Comet.q.ToString("0.000000") + " AU");
             sb.AppendLine("Period:\t\t\t" + (settings.Comet.P < 10000 && settings.Comet.e < 0.98 ? settings.Comet.P.ToString("0.000000") + " years" : "-"));
             sb.AppendLine();
