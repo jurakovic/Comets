@@ -10,14 +10,20 @@ namespace Comets.Forms.Ephemeris
 {
     public partial class FormEphemerisSettings : Form
     {
+        #region Properties
+
         private EphemerisSettings EphemerisSettings { get; set; }
         private bool AddNewEphemeris { get; set; }
+
+        #endregion
+
+        #region Constructor
 
         public FormEphemerisSettings(EphemerisSettings settings = null)
         {
             InitializeComponent();
 
-            this.EphemerisSettings = settings;
+            EphemerisSettings = settings;
 
             if (EphemerisSettings == null)
             {
@@ -81,30 +87,42 @@ namespace Comets.Forms.Ephemeris
             }
         }
 
+        #endregion
+
+        #region Form_Load
+
         private void FormEphemerisSettings_Load(object sender, EventArgs e)
         {
             cbComet.DisplayMember = "full";
-            cbComet.DataSource = FormMain.userList;
+            cbComet.DataSource = FormMain.UserList;
 
             if (EphemerisSettings != null)
             {
-                if (FormMain.userList.Contains(EphemerisSettings.Comet))
+                if (FormMain.UserList.Contains(EphemerisSettings.Comet))
                     cbComet.Text = EphemerisSettings.Comet.full;
             }
         }
+
+        #endregion
+
+        #region cbComet_SelectedIndexChanged
 
         private void cbComet_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cbComet.SelectedIndex >= 0)
             {
                 string[] month = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
-                Comet c = FormMain.userList.ElementAt(cbComet.SelectedIndex);
+                Comet c = FormMain.UserList.ElementAt(cbComet.SelectedIndex);
 
                 lblPerihDate.Text = "Perihelion date:                " + c.Ty.ToString() + " " + month[c.Tm - 1] + " " + c.Td.ToString("00") + "." + c.Th.ToString("0000");
                 lblPerihDist.Text = "Perihelion distance:          " + c.q.ToString("0.000000") + " AU";
                 lblPeriod.Text = (c.P < 10000 && c.e < 0.98) ? "Period:                              " + c.P.ToString("0.000000") + " years" : "Period:                              -";
             } 
         }
+
+        #endregion
+
+        #region btnCalcEphem_Click
 
         private async void btnCalcEphem_Click(object sender, EventArgs e)
         {
@@ -137,11 +155,11 @@ namespace Comets.Forms.Ephemeris
                     return;
                 }
 
-                if (this.EphemerisSettings == null)
+                if (EphemerisSettings == null)
                     EphemerisSettings = new EphemerisSettings();
 
                 EphemerisSettings.Location = FormMain.Settings.Location;
-                EphemerisSettings.Comet = FormMain.userList.ElementAt(cbComet.SelectedIndex);
+                EphemerisSettings.Comet = FormMain.UserList.ElementAt(cbComet.SelectedIndex);
 
                 //local start, stop time
                 EphemerisSettings.Start = new DateTime(syr, smo, sdy, shr, smi, 0);
@@ -165,6 +183,10 @@ namespace Comets.Forms.Ephemeris
                 this.Close();
             }
         }
+
+        #endregion
+
+        #region Form_Closing
 
         private void FormEphemerisSettings_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -190,5 +212,7 @@ namespace Comets.Forms.Ephemeris
                 main.RenameWindowItem((int)fer.Tag, fer.Text);
             }
         }
+
+        #endregion
     }
 }

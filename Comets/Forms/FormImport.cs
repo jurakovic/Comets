@@ -12,33 +12,59 @@ namespace Comets.Forms
 {
     public partial class FormImport : Form
     {
+        #region Const
+
         const string url = "http://www.minorplanetcenter.net/iau/Ephemerides/Comets/Soft00Cmt.txt";
 
-        string downloadFilename;
-        string localFilename;
-        string importFilename;
+        #endregion
 
-        ImportType importType = ImportType.Unknown;
+        #region Properties
 
-        FormMain formMain = null;
+        string DownloadFilename { get; set; }
+        string LocalFilename { get; set; }
+        string ImportFilename { get; set; }
 
-        public FormImport(FormMain formMain)
+        ImportType ImportType { get; set; }
+
+        FormMain FormMain { get; set; } // = null;
+
+        #endregion
+
+        #region Constructor
+
+        public FormImport()
         {
             InitializeComponent();
-            this.formMain = formMain;
         }
+
+        #endregion
+
+        #region Form_Load
+
+        private void FormImport_Load(object sender, EventArgs e)
+        {
+            this.FormMain = this.Owner as FormMain;
+        }
+
+        #endregion
+
+        #region btnDownload_Click
 
         private void btnDownload_Click(object sender, EventArgs e)
         {
-            if (downloadFilename != null)
+            if (DownloadFilename != null)
             {
-                File.Delete(downloadFilename);
+                File.Delete(DownloadFilename);
                 progressDownload.Value = 0;
             }
 
-            downloadFilename = FormMain.Settings.Downloads + "\\Soft00Cmt_" + DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".txt";
+            DownloadFilename = FormMain.Settings.Downloads + "\\Soft00Cmt_" + DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".txt";
 
-            bwDownload.RunWorkerAsync();
+            using (BackgroundWorker bwDownload = new BackgroundWorker())
+            {
+                bwDownload.DoWork += new DoWorkEventHandler(bwDownload_DoWork);
+                bwDownload.RunWorkerAsync();
+            }
         }
 
         private void bwDownload_DoWork(object sender, DoWorkEventArgs e)
@@ -69,7 +95,7 @@ namespace Comets.Forms
 
                 try
                 {
-                    Client.DownloadFileAsync(uri, downloadFilename);
+                    Client.DownloadFileAsync(uri, DownloadFilename);
                 }
                 catch
                 {
@@ -85,41 +111,70 @@ namespace Comets.Forms
 
         void Client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
-            if (File.Exists(downloadFilename) && new FileInfo(downloadFilename).Length == 0)
+            if (File.Exists(DownloadFilename) && new FileInfo(DownloadFilename).Length == 0)
             {
                 progressDownload.Visible = false;
-                File.Delete(downloadFilename);
+                File.Delete(DownloadFilename);
                 MessageBox.Show(e.Error.Message, "Comets", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
-                importFilename = downloadFilename;
-                setImportStatus();
+                ImportFilename = DownloadFilename;
+                SetImportStatus();
             }
         }
+
+        #endregion
+
+        #region btnBrowse_Click
 
         private void btnBrowse_Click(object sender, EventArgs e)
         {
-            if (formMain.ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            if (FormMain.ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                txtLocalFile.Text = formMain.ofd.FileName; // txtImportFilename_TextChanged()
+                txtLocalFile.Text = FormMain.ofd.FileName; // txtImportFilename_TextChanged()
             }
         }
 
-        private void setImportStatus()
-        {
-            if (importFilename == null)
-            {
-                if (localFilename == null && downloadFilename != null)
-                    importFilename = downloadFilename;
+        #endregion
 
-                else if (downloadFilename == null && localFilename != null)
-                    importFilename = localFilename;
+        #region txtImportFilename_TextChanged
+
+        private void txtImportFilename_TextChanged(object sender, EventArgs e)
+        {
+            LocalFilename = txtLocalFile.Text.Trim().Trim('"');
+
+            if (LocalFilename.Length == 0)
+            {
+                LocalFilename = null;
+                ImportFilename = null;
+            }
+            else
+            {
+                ImportFilename = LocalFilename;
+            }
+                
+            SetImportStatus();
+        }
+
+        #endregion
+
+        #region SetImportStatus
+
+        private void SetImportStatus()
+        {
+            if (ImportFilename == null)
+            {
+                if (LocalFilename == null && DownloadFilename != null)
+                    ImportFilename = DownloadFilename;
+
+                else if (DownloadFilename == null && LocalFilename != null)
+                    ImportFilename = LocalFilename;
             }
 
-            importType = ImportHelper.GetImportType(importFilename);
+            ImportType = ImportHelper.GetImportType(ImportFilename);
 
-            switch (importType)
+            switch (ImportType)
             {
                 case ImportType.NoFileSelected:
                     lblImportFormat.Text = "(no file selected)";
@@ -142,33 +197,21 @@ namespace Comets.Forms
                     break;
 
                 default:
-                    lblImportFormat.Text = ElementTypes.TypeName[(int)importType];
-                    labelDetectedComets.Text = ImportHelper.GetNumberOfComets(importFilename, importType).ToString();
+                    lblImportFormat.Text = ElementTypes.TypeName[(int)ImportType];
+                    labelDetectedComets.Text = ImportHelper.GetNumberOfComets(ImportFilename, ImportType).ToString();
                     break;
             }
         }
 
-        private void txtImportFilename_TextChanged(object sender, EventArgs e)
-        {
-            localFilename = txtLocalFile.Text.Trim().Trim('"');
+        #endregion
 
-            if (localFilename.Length == 0)
-            {
-                localFilename = null;
-                importFilename = null;
-            }
-
-            else
-                importFilename = localFilename;
-
-            setImportStatus();
-        }
+        #region btnImport_Click
 
         private void btnImport_Click(object sender, EventArgs e)
         {
-            if (importType < ImportType.NoFileSelected)
+            if (ImportType < ImportType.NoFileSelected)
             {
-                List<Comet> list = ImportHelper.ImportMain(importType, importFilename);
+                List<Comet> list = ImportHelper.ImportMain(ImportType, ImportFilename);
 
                 if (list.Count == 0)
                 {
@@ -176,14 +219,16 @@ namespace Comets.Forms
                 }
                 else
                 {
-                    formMain.isDataChanged = true;
-                    FormMain.mainList = list;
-                    FormMain.userList = list;
-                    this.formMain.SetStatusCometsLabel(list.Count);
+                    FormMain.IsDataChanged = true;
+                    FormMain.MainList = list;
+                    FormMain.UserList = list;
+                    this.FormMain.SetStatusCometsLabel(list.Count);
                     MessageBox.Show("Import complete.\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     btnClose.Focus();
                 }
             }
         }
+
+        #endregion
     }
 }

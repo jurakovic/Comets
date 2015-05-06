@@ -51,9 +51,12 @@
             this.menuItemView = new System.Windows.Forms.MenuItem();
             this.menuItemStatusBar = new System.Windows.Forms.MenuItem();
             this.menuItemWindow = new System.Windows.Forms.MenuItem();
-            this.menuItemCascade = new System.Windows.Forms.MenuItem();
-            this.menuItemTileHoriz = new System.Windows.Forms.MenuItem();
             this.menuItemTileVert = new System.Windows.Forms.MenuItem();
+            this.menuItemTileHoriz = new System.Windows.Forms.MenuItem();
+            this.menuItemCascade = new System.Windows.Forms.MenuItem();
+            this.menuItemMinimizeAll = new System.Windows.Forms.MenuItem();
+            this.menuItemRestoreAll = new System.Windows.Forms.MenuItem();
+            this.menuItemClose = new System.Windows.Forms.MenuItem();
             this.menuItemWindowSeparator = new System.Windows.Forms.MenuItem();
             this.menuItemHelp = new System.Windows.Forms.MenuItem();
             this.menuItemAbout = new System.Windows.Forms.MenuItem();
@@ -61,8 +64,6 @@
             this.statusComets = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusSpace = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusProgressBar = new System.Windows.Forms.ToolStripProgressBar();
-            this.menuItemMinimizeAll = new System.Windows.Forms.MenuItem();
-            this.menuItemClose = new System.Windows.Forms.MenuItem();
             this.statusStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -214,22 +215,11 @@
             this.menuItemTileHoriz,
             this.menuItemCascade,
             this.menuItemMinimizeAll,
+            this.menuItemRestoreAll,
             this.menuItemClose,
             this.menuItemWindowSeparator});
             this.menuItemWindow.Text = "Window";
             this.menuItemWindow.Visible = false;
-            // 
-            // menuItemCascade
-            // 
-            this.menuItemCascade.Index = 2;
-            this.menuItemCascade.Text = "Cascade";
-            this.menuItemCascade.Click += new System.EventHandler(this.menuItemCascade_Click);
-            // 
-            // menuItemTileHoriz
-            // 
-            this.menuItemTileHoriz.Index = 1;
-            this.menuItemTileHoriz.Text = "Tile Vertically";
-            this.menuItemTileHoriz.Click += new System.EventHandler(this.menuItemTileHoriz_Click);
             // 
             // menuItemTileVert
             // 
@@ -237,9 +227,39 @@
             this.menuItemTileVert.Text = "Tile Horizontally";
             this.menuItemTileVert.Click += new System.EventHandler(this.menuItemTileVert_Click);
             // 
+            // menuItemTileHoriz
+            // 
+            this.menuItemTileHoriz.Index = 1;
+            this.menuItemTileHoriz.Text = "Tile Vertically";
+            this.menuItemTileHoriz.Click += new System.EventHandler(this.menuItemTileHoriz_Click);
+            // 
+            // menuItemCascade
+            // 
+            this.menuItemCascade.Index = 2;
+            this.menuItemCascade.Text = "Cascade";
+            this.menuItemCascade.Click += new System.EventHandler(this.menuItemCascade_Click);
+            // 
+            // menuItemMinimizeAll
+            // 
+            this.menuItemMinimizeAll.Index = 3;
+            this.menuItemMinimizeAll.Text = "Minimize All";
+            this.menuItemMinimizeAll.Click += new System.EventHandler(this.menuItemMinimizeAll_Click);
+            // 
+            // menuItemRestoreAll
+            // 
+            this.menuItemRestoreAll.Index = 4;
+            this.menuItemRestoreAll.Text = "Restore All";
+            this.menuItemRestoreAll.Click += new System.EventHandler(this.menuItemRestoreAll_Click);
+            // 
+            // menuItemClose
+            // 
+            this.menuItemClose.Index = 5;
+            this.menuItemClose.Text = "Close";
+            this.menuItemClose.Click += new System.EventHandler(this.menuItemClose_Click);
+            // 
             // menuItemWindowSeparator
             // 
-            this.menuItemWindowSeparator.Index = 5;
+            this.menuItemWindowSeparator.Index = 6;
             this.menuItemWindowSeparator.Text = "-";
             // 
             // menuItemHelp
@@ -260,7 +280,7 @@
             this.statusComets,
             this.statusSpace,
             this.statusProgressBar});
-            this.statusStrip.Location = new System.Drawing.Point(0, 539);
+            this.statusStrip.Location = new System.Drawing.Point(0, 540);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Size = new System.Drawing.Size(784, 22);
             this.statusStrip.TabIndex = 1;
@@ -287,23 +307,11 @@
             this.statusProgressBar.Size = new System.Drawing.Size(200, 16);
             this.statusProgressBar.Visible = false;
             // 
-            // menuItemMinimizeAll
-            // 
-            this.menuItemMinimizeAll.Index = 3;
-            this.menuItemMinimizeAll.Text = "Minimize All";
-            this.menuItemMinimizeAll.Click += new System.EventHandler(this.menuItemMinimizeAll_Click);
-            // 
-            // menuItemClose
-            // 
-            this.menuItemClose.Index = 4;
-            this.menuItemClose.Text = "Close";
-            this.menuItemClose.Click += new System.EventHandler(this.menuItemClose_Click);
-            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(784, 561);
+            this.ClientSize = new System.Drawing.Size(784, 562);
             this.Controls.Add(this.statusStrip);
             this.IsMdiContainer = true;
             this.Menu = this.mainMenu;
@@ -357,6 +365,7 @@
         private System.Windows.Forms.MenuItem menuItemEphemSave;
         private System.Windows.Forms.MenuItem menuItemMinimizeAll;
         private System.Windows.Forms.MenuItem menuItemClose;
+        private System.Windows.Forms.MenuItem menuItemRestoreAll;
     }
 }
 

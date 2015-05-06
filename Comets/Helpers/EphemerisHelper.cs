@@ -7,7 +7,7 @@ namespace Comets.Helpers
 {
     public static class EphemerisHelper
     {
-        #region const
+        #region Const
 
         const double DEG2RAD = Math.PI / 180.0;
         const double RAD2DEG = 180.0 / Math.PI;

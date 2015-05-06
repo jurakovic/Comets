@@ -42,6 +42,7 @@
             this.richTextBox.Size = new System.Drawing.Size(784, 561);
             this.richTextBox.TabIndex = 0;
             this.richTextBox.Text = "";
+            this.richTextBox.WordWrap = false;
             // 
             // FormEphemerisResult
             // 

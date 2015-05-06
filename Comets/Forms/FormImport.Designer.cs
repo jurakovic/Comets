@@ -44,7 +44,6 @@
             this.lblImportFormatDescr = new System.Windows.Forms.Label();
             this.btnImport = new System.Windows.Forms.Button();
             this.lblStatus = new System.Windows.Forms.Label();
-            this.bwDownload = new System.ComponentModel.BackgroundWorker();
             this.gbxLocalFile.SuspendLayout();
             this.gbxDownload.SuspendLayout();
             this.gbxStatus.SuspendLayout();
@@ -223,10 +222,6 @@
             this.lblStatus.TabIndex = 25;
             this.lblStatus.Text = "Status";
             // 
-            // bwDownload
-            // 
-            this.bwDownload.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bwDownload_DoWork);
-            // 
             // FormImport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -246,6 +241,7 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Import";
+            this.Load += new System.EventHandler(this.FormImport_Load);
             this.gbxLocalFile.ResumeLayout(false);
             this.gbxLocalFile.PerformLayout();
             this.gbxDownload.ResumeLayout(false);
@@ -274,6 +270,5 @@
         private System.Windows.Forms.Label lblImportFormatDescr;
         private System.Windows.Forms.Button btnImport;
         private System.Windows.Forms.Label lblStatus;
-        private System.ComponentModel.BackgroundWorker bwDownload;
     }
 }

@@ -10,7 +10,7 @@ namespace Comets.Helpers
 {
     class ExportHelper
     {
-        #region month const
+        #region Const
 
         public static string[] month = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
 
@@ -103,7 +103,7 @@ namespace Comets.Helpers
                     break;
 
                 case ExportType.MyStars:
-                    sb.Append("RDPC\t").AppendLine(FormMain.userList.Count.ToString());
+                    sb.Append("RDPC\t").AppendLine(FormMain.UserList.Count.ToString());
                     break;
 
                 case ExportType.StarryNight:

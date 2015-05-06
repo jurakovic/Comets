@@ -148,9 +148,8 @@ namespace Comets.Classes
                                 default:
                                     if (ElementTypes.TypeName.Contains(property))
                                         settings.ExternalPrograms.Add(new ExternalProgram(Array.IndexOf(ElementTypes.TypeName, property), value));
-                                    else
-                                        if (exceptions++ < 3)
-                                            MessageBox.Show("Unknown property \"" + property + "\"\t\t\t\t", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    else if (exceptions++ < 3)
+                                        MessageBox.Show("Unknown property \"" + property + "\"\t\t\t\t", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                     break;
                             }
                         }
@@ -244,7 +243,6 @@ namespace Comets.Classes
                     sb.AppendLine(String.Format(format, ep.Name, ep.Directory));
                 }
             }
-
 
             File.WriteAllText(settingsini, sb.ToString());
         }

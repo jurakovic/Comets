@@ -15,13 +15,17 @@ namespace Comets.Forms
         BindingList<ExternalProgram> Programs { get; set; }
 
         #endregion
-        
-        #region Form events
+
+        #region Constructor
 
         public FormSettings()
         {
             InitializeComponent();
         }
+
+        #endregion
+
+        #region Form_Load
 
         private void FormSettings_Load(object sender, EventArgs e)
         {
@@ -55,6 +59,10 @@ namespace Comets.Forms
             dgvPrograms.DataSource = Programs;
             cbxExternalProgram.DataSource = ElementTypes.TypeName;
         }
+
+        #endregion
+
+        #region btnOK_Click
 
         private void btnOK_Click(object sender, EventArgs e)
         {
@@ -91,6 +99,10 @@ namespace Comets.Forms
             this.Close();
         }
 
+        #endregion
+
+        #region btnClose_Click
+
         private void btnClose_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -98,7 +110,7 @@ namespace Comets.Forms
 
         #endregion
 
-        #region General
+        #region Tab General
 
         private void btnAppData_Click(object sender, EventArgs e)
         {
@@ -138,7 +150,7 @@ namespace Comets.Forms
 
         #endregion
 
-        #region Network
+        #region Tab Network
 
         private void rbCommon_CheckedChanged(object sender, EventArgs e)
         {
@@ -147,7 +159,7 @@ namespace Comets.Forms
 
         #endregion
 
-        #region Location
+        #region Tab Location
 
         private void txtLatitude_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -178,7 +190,7 @@ namespace Comets.Forms
 
         #endregion
 
-        #region Programs
+        #region Tab Programs
 
         private void btnAdd_Click(object sender, EventArgs e)
         {

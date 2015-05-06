@@ -12,20 +12,20 @@ namespace Comets.Forms
 {
     public partial class FormMain : Form
     {
-        #region Fields
+        #region Properties
 
-        public static List<Comet> mainList = new List<Comet>();
-        public static List<Comet> userList = new List<Comet>();
+        public static List<Comet> MainList { get; set; }
+        public static List<Comet> UserList { get; set; }
 
-        public bool isDataChanged = false;
+        public bool IsDataChanged { get; set; }
 
-        private FormDatabase fdb;
+        private FormDatabase fdb { get; set; }
 
-        public OpenFileDialog ofd;
+        public OpenFileDialog ofd { get; set; }
 
-        public static Settings Settings;
+        public static Settings Settings { get; set; }
 
-        public static int ChildCount;
+        public static int ChildCount { get; set; }
 
         #endregion
 
@@ -35,11 +35,24 @@ namespace Comets.Forms
         {
             InitializeComponent();
 
+            MainList = new List<Comet>();
+            UserList = new List<Comet>();
+
+            Settings = Settings.LoadSettings();
+
+            fdb = new FormDatabase();
+
+            ofd = new OpenFileDialog();
+            ofd.InitialDirectory = Settings.AppData;
+            ofd.Filter = "Orbital elements files (*.txt, *.dat, *.comet)|*.txt;*.dat;*.comet|" +
+                        "Text documents (*.txt)|*.txt|" +
+                        "DAT files (*.dat)|*.dat|" +
+                        "COMET files (*.comet)|*.comet|" +
+                        "All files (*.*)|*.*";
+
             CultureInfo customCulture = (CultureInfo)Thread.CurrentThread.CurrentCulture.Clone();
             customCulture.NumberFormat.NumberDecimalSeparator = ".";
             Thread.CurrentThread.CurrentCulture = customCulture;
-
-            Settings = Settings.LoadSettings();
 
             int margin = 250;
             if (Settings.RememberWindowPosition)
@@ -70,7 +83,7 @@ namespace Comets.Forms
 
         #endregion
 
-        #region Form events
+        #region Form_Load
 
         private void FormMain_Load(object sender, EventArgs e)
         {
@@ -83,21 +96,11 @@ namespace Comets.Forms
                 this.StartPosition = FormStartPosition.Manual;
             }
 
-            fdb = new FormDatabase();
-
-            ofd = new OpenFileDialog();
-            ofd.InitialDirectory = Settings.AppData;
-            ofd.Filter = "Orbital elements files (*.txt, *.dat, *.comet)|*.txt;*.dat;*.comet|" +
-                        "Text documents (*.txt)|*.txt|" +
-                        "DAT files (*.dat)|*.dat|" +
-                        "COMET files (*.comet)|*.comet|" +
-                        "All files (*.*)|*.*";
-
             if (File.Exists(Settings.Database))
             {
-                mainList = ImportHelper.ImportMain((int)ElementTypes.Type.MPC, Settings.Database);
-                userList = mainList;
-                SetStatusCometsLabel(mainList.Count);
+                MainList = ImportHelper.ImportMain((int)ElementTypes.Type.MPC, Settings.Database);
+                UserList = MainList;
+                SetStatusCometsLabel(MainList.Count);
             }
 
             if (Settings.DownloadOnStartup)
@@ -109,11 +112,15 @@ namespace Comets.Forms
                 Directory.CreateDirectory(Settings.Downloads);
         }
 
+        #endregion
+
+        #region Form_Closing
+
         private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if ((isDataChanged || !File.Exists(Settings.Database) || Settings.IsSettingsChanged) && mainList.Count > 0)
+            if ((IsDataChanged || !File.Exists(Settings.Database) || Settings.IsSettingsChanged) && MainList.Count > 0)
             {
-                ExportHelper.ExportMain(ElementTypes.Type.MPC, Settings.Database, mainList);
+                ExportHelper.ExportMain(ElementTypes.Type.MPC, Settings.Database, MainList);
             }
 
             if (Settings.RememberWindowPosition)
@@ -132,25 +139,18 @@ namespace Comets.Forms
                 Settings.SaveSettings(Settings);
         }
 
+        #endregion
+
+        #region Form_MdiChildActivate
+
         private void FormMain_MdiChildActivate(object sender, EventArgs e)
         {
-            if (this.ActiveMdiChild is FormEphemerisResult)
-                this.menuItemEphemeris.Visible = true;
-            else
-                this.menuItemEphemeris.Visible = false;
+            this.menuItemEphemeris.Visible = this.ActiveMdiChild is FormEphemerisResult ? true : false;
         }
 
         #endregion
 
-        #region File
-
-        private void menuItemEphemerides_Click(object sender, EventArgs e)
-        {
-            using (FormEphemerisSettings fes = new FormEphemerisSettings() { Owner = this })
-            {
-                fes.ShowDialog();
-            }
-        }
+        #region Menu: File
 
         private void menuItemExit_Click(object sender, EventArgs e)
         {
@@ -159,7 +159,15 @@ namespace Comets.Forms
 
         #endregion
 
-        #region Ephemeris
+        #region Menu: Ephemeris
+
+        private void menuItemEphemerides_Click(object sender, EventArgs e)
+        {
+            using (FormEphemerisSettings fes = new FormEphemerisSettings() { Owner = this })
+            {
+                fes.ShowDialog();
+            }
+        }
 
         private void menuItemEphemSettings_Click(object sender, EventArgs e)
         {
@@ -172,7 +180,7 @@ namespace Comets.Forms
 
         #endregion
 
-        #region Edit
+        #region Menu: Edit
 
         private void menuItemDatabase_Click(object sender, EventArgs e)
         {
@@ -181,7 +189,7 @@ namespace Comets.Forms
 
         private void menuItemImport_Click(object sender, EventArgs e)
         {
-            using (FormImport formImport = new FormImport(this))
+            using (FormImport formImport = new FormImport() { Owner = this })
             {
                 formImport.ShowDialog();
             }
@@ -189,7 +197,7 @@ namespace Comets.Forms
 
         private void menuItemExport_Click(object sender, EventArgs e)
         {
-            using (FormExport formExport = new FormExport())
+            using (FormExport formExport = new FormExport() { Owner = this })
             {
                 formExport.ShowDialog();
             }
@@ -208,7 +216,7 @@ namespace Comets.Forms
 
         #endregion
 
-        #region View
+        #region Menu: View
 
         private void menuItemStatusBar_Click(object sender, EventArgs e)
         {
@@ -219,7 +227,7 @@ namespace Comets.Forms
 
         #endregion
 
-        #region Window
+        #region Menu: Window
 
         private void menuItemTileHoriz_Click(object sender, EventArgs e)
         {
@@ -240,6 +248,12 @@ namespace Comets.Forms
         {
             foreach (Form child in this.MdiChildren)
                 child.WindowState = FormWindowState.Minimized;
+        }
+
+        private void menuItemRestoreAll_Click(object sender, EventArgs e)
+        {
+            foreach (Form child in this.MdiChildren)
+                child.WindowState = FormWindowState.Normal;
         }
 
         private void menuItemClose_Click(object sender, EventArgs e)

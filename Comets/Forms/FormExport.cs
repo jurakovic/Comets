@@ -8,17 +8,27 @@ namespace Comets.Forms
 {
     public partial class FormExport : Form
     {
-        SaveFileDialog sfd;
+        #region Properties
+
+        SaveFileDialog sfd { get; set; }
+
+        #endregion
+
+        #region Constructor
 
         public FormExport()
         {
             InitializeComponent();
         }
 
+        #endregion
+
+        #region Form_Load
+
         private void FormExport_Load(object sender, EventArgs e)
         {
             this.cbxExportFormat.DataSource = ElementTypes.TypeName;
-            this.lblTotalComets.Text = FormMain.userList.Count.ToString();
+            this.lblTotalComets.Text = FormMain.UserList.Count.ToString();
 
             sfd = new SaveFileDialog();
             //sfd.InitialDirectory = FormMain.localDataDir;
@@ -28,10 +38,18 @@ namespace Comets.Forms
                         "All files (*.*)|*.*";
         }
 
+        #endregion
+
+        #region cbxExportFormat_SelectedIndexChanged
+
         private void cbxExportFormat_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.lblExportFormat.Text = cbxExportFormat.Text;
         }
+
+        #endregion
+
+        #region btnBrowse_Click
 
         private void btnBrowse_Click(object sender, EventArgs e)
         {
@@ -41,16 +59,22 @@ namespace Comets.Forms
             }
         }
 
+        #endregion
+
+        #region btnExport_Click
+
         private void btnExport_Click(object sender, EventArgs e)
         {
             string filename = txtSaveAs.Text.Trim();
 
-            if (filename.Length > 0 && FormMain.userList.Count > 0)
+            if (filename.Length > 0 && FormMain.UserList.Count > 0)
             {
                 ExportType exportType = (ExportType)cbxExportFormat.SelectedIndex;
-                ExportHelper.ExportMain(exportType, filename, FormMain.userList);
+                ExportHelper.ExportMain(exportType, filename, FormMain.UserList);
                 MessageBox.Show("Export complete.\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
+
+        #endregion
     }
 }
