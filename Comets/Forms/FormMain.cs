@@ -35,6 +35,10 @@ namespace Comets.Forms
         {
             InitializeComponent();
 
+            CultureInfo customCulture = (CultureInfo)Thread.CurrentThread.CurrentCulture.Clone();
+            customCulture.NumberFormat.NumberDecimalSeparator = ".";
+            Thread.CurrentThread.CurrentCulture = customCulture;
+
             MainList = new List<Comet>();
             UserList = new List<Comet>();
 
@@ -49,10 +53,6 @@ namespace Comets.Forms
                         "DAT files (*.dat)|*.dat|" +
                         "COMET files (*.comet)|*.comet|" +
                         "All files (*.*)|*.*";
-
-            CultureInfo customCulture = (CultureInfo)Thread.CurrentThread.CurrentCulture.Clone();
-            customCulture.NumberFormat.NumberDecimalSeparator = ".";
-            Thread.CurrentThread.CurrentCulture = customCulture;
 
             int margin = 250;
             if (Settings.RememberWindowPosition)

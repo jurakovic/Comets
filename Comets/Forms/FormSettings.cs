@@ -110,7 +110,7 @@ namespace Comets.Forms
 
         #endregion
 
-        #region Tab General
+        #region Tab: General
 
         private void btnAppData_Click(object sender, EventArgs e)
         {
@@ -150,7 +150,7 @@ namespace Comets.Forms
 
         #endregion
 
-        #region Tab Network
+        #region Tab: Network
 
         private void rbCommon_CheckedChanged(object sender, EventArgs e)
         {
@@ -159,7 +159,7 @@ namespace Comets.Forms
 
         #endregion
 
-        #region Tab Location
+        #region Tab: Location
 
         private void txtLatitude_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -190,7 +190,7 @@ namespace Comets.Forms
 
         #endregion
 
-        #region Tab Programs
+        #region Tab: Programs
 
         private void btnAdd_Click(object sender, EventArgs e)
         {

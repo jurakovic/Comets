@@ -98,6 +98,8 @@ namespace Comets.Forms.Ephemeris
 
             if (EphemerisSettings != null)
             {
+                EphemerisSettings.EphemerisResult = string.Empty;
+
                 if (FormMain.UserList.Contains(EphemerisSettings.Comet))
                     cbComet.Text = EphemerisSettings.Comet.full;
             }
@@ -201,7 +203,7 @@ namespace Comets.Forms.Ephemeris
                 fer.Show();
                 fer.WindowState = FormWindowState.Maximized;
             }
-            else if (EphemerisSettings != null)
+            else if (EphemerisSettings != null && !String.IsNullOrEmpty(EphemerisSettings.EphemerisResult))
             {
                 FormMain main = this.Owner as FormMain;
                 FormEphemerisResult fer = main.ActiveMdiChild as FormEphemerisResult;
