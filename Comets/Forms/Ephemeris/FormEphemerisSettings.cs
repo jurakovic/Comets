@@ -2,8 +2,6 @@
 using Comets.Helpers;
 using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Comets.Forms.Ephemeris
@@ -200,8 +198,8 @@ namespace Comets.Forms.Ephemeris
 
                 FormEphemerisResult fer = new FormEphemerisResult(EphemerisSettings, FormMain.ChildCount);
                 fer.MdiParent = main;
-                fer.Show();
                 fer.WindowState = FormWindowState.Maximized;
+                fer.Show();
             }
             else if (EphemerisSettings != null && !String.IsNullOrEmpty(EphemerisSettings.EphemerisResult))
             {

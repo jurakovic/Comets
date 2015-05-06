@@ -1,34 +1,34 @@
 ﻿using System.Windows.Forms;
 using Comets.Classes;
 
-namespace Comets.Forms.Ephemeris
+namespace Comets.Forms.Magnitude
 {
-    public partial class FormEphemerisResult : Form
+    public partial class FormMagnitudeGraph : Form
     {
         #region Properties
 
-        public EphemerisSettings EphemerisSettings { get; set; }
+        public GraphSettings GraphSettings { get; set; }
 
         #endregion
 
         #region Constructor
 
-        public FormEphemerisResult(EphemerisSettings settings, int tag)
+        public FormMagnitudeGraph(GraphSettings settings, int tag)
         {
             InitializeComponent();
 
             this.DoubleBuffered = true;
 
-            this.EphemerisSettings = settings;
+            this.GraphSettings = settings;
             this.Tag = tag;
-            LoadResults();
+            LoadGraph();
         }
 
         #endregion
 
         #region Form_Load
 
-        private void FormEphemerisResult_Load(object sender, System.EventArgs e)
+        private void FormMagnitude_Load(object sender, System.EventArgs e)
         {
             FormMain main = this.MdiParent as FormMain;
             main.SetWindowMenuItemVisible(true);
@@ -38,7 +38,7 @@ namespace Comets.Forms.Ephemeris
 
         #region Form_Closing
 
-        private void FormEphemerisResult_FormClosing(object sender, FormClosingEventArgs e)
+        private void FormMagnitudeGraph_FormClosing(object sender, FormClosingEventArgs e)
         {
             FormMain main = this.MdiParent as FormMain;
             main.RemoveWindowMenuItem((int)this.Tag);
@@ -47,12 +47,12 @@ namespace Comets.Forms.Ephemeris
 
         #endregion
 
-        #region LoadResults
+        #region LoadGraph
 
-        public void LoadResults()
+        public void LoadGraph()
         {
-            this.Text = this.Tag + " " + EphemerisSettings.ToString();
-            richTextBox.Text = EphemerisSettings.EphemerisResult;
+            this.Text = this.Tag + " " + "bla bla";
+            // TO DO
         }
 
         #endregion

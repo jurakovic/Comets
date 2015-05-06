@@ -40,7 +40,8 @@
             this.menuItemExit = new System.Windows.Forms.MenuItem();
             this.menuItemEphemeris = new System.Windows.Forms.MenuItem();
             this.menuItemEphemSettings = new System.Windows.Forms.MenuItem();
-            this.menuItemEphemSave = new System.Windows.Forms.MenuItem();
+            this.menuItemEphemSaveAs = new System.Windows.Forms.MenuItem();
+            this.menuItemMagnitude = new System.Windows.Forms.MenuItem();
             this.menuItemEdit = new System.Windows.Forms.MenuItem();
             this.menuItemDatabase = new System.Windows.Forms.MenuItem();
             this.menuItemSeparatorEdit1 = new System.Windows.Forms.MenuItem();
@@ -64,6 +65,8 @@
             this.statusComets = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusSpace = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusProgressBar = new System.Windows.Forms.ToolStripProgressBar();
+            this.menuItemMagSettings = new System.Windows.Forms.MenuItem();
+            this.menuItemMagSaveAs = new System.Windows.Forms.MenuItem();
             this.statusStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -72,6 +75,7 @@
             this.mainMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.menuItemFile,
             this.menuItemEphemeris,
+            this.menuItemMagnitude,
             this.menuItemEdit,
             this.menuItemView,
             this.menuItemWindow,
@@ -99,7 +103,8 @@
             // menuItemMagnitudeGraph
             // 
             this.menuItemMagnitudeGraph.Index = 1;
-            this.menuItemMagnitudeGraph.Text = "Magnitude graph";
+            this.menuItemMagnitudeGraph.Text = "Magnitude Graph";
+            this.menuItemMagnitudeGraph.Click += new System.EventHandler(this.menuItemMagnitudeGraph_Click);
             // 
             // menuItemOrbitViewer
             // 
@@ -132,7 +137,7 @@
             this.menuItemEphemeris.Index = 1;
             this.menuItemEphemeris.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.menuItemEphemSettings,
-            this.menuItemEphemSave});
+            this.menuItemEphemSaveAs});
             this.menuItemEphemeris.Text = "Ephemeris";
             this.menuItemEphemeris.Visible = false;
             // 
@@ -142,14 +147,23 @@
             this.menuItemEphemSettings.Text = "Settings";
             this.menuItemEphemSettings.Click += new System.EventHandler(this.menuItemEphemSettings_Click);
             // 
-            // menuItemEphemSave
+            // menuItemEphemSaveAs
             // 
-            this.menuItemEphemSave.Index = 1;
-            this.menuItemEphemSave.Text = "Save As";
+            this.menuItemEphemSaveAs.Index = 1;
+            this.menuItemEphemSaveAs.Text = "Save As";
+            // 
+            // menuItemMagnitude
+            // 
+            this.menuItemMagnitude.Index = 2;
+            this.menuItemMagnitude.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.menuItemMagSettings,
+            this.menuItemMagSaveAs});
+            this.menuItemMagnitude.Text = "Magnitude";
+            this.menuItemMagnitude.Visible = false;
             // 
             // menuItemEdit
             // 
-            this.menuItemEdit.Index = 2;
+            this.menuItemEdit.Index = 3;
             this.menuItemEdit.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.menuItemDatabase,
             this.menuItemSeparatorEdit1,
@@ -195,7 +209,7 @@
             // 
             // menuItemView
             // 
-            this.menuItemView.Index = 3;
+            this.menuItemView.Index = 4;
             this.menuItemView.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.menuItemStatusBar});
             this.menuItemView.Text = "View";
@@ -209,7 +223,7 @@
             // 
             // menuItemWindow
             // 
-            this.menuItemWindow.Index = 4;
+            this.menuItemWindow.Index = 5;
             this.menuItemWindow.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.menuItemTileVert,
             this.menuItemTileHoriz,
@@ -264,7 +278,7 @@
             // 
             // menuItemHelp
             // 
-            this.menuItemHelp.Index = 5;
+            this.menuItemHelp.Index = 6;
             this.menuItemHelp.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.menuItemAbout});
             this.menuItemHelp.Text = "Help";
@@ -306,6 +320,17 @@
             this.statusProgressBar.Name = "statusProgressBar";
             this.statusProgressBar.Size = new System.Drawing.Size(200, 16);
             this.statusProgressBar.Visible = false;
+            // 
+            // menuItemMagSettings
+            // 
+            this.menuItemMagSettings.Index = 0;
+            this.menuItemMagSettings.Text = "Settings";
+            this.menuItemMagSettings.Click += new System.EventHandler(this.menuItemMagSettings_Click);
+            // 
+            // menuItemMagSaveAs
+            // 
+            this.menuItemMagSaveAs.Index = 1;
+            this.menuItemMagSaveAs.Text = "Save As";
             // 
             // FormMain
             // 
@@ -362,10 +387,13 @@
         private System.Windows.Forms.MenuItem menuItemEphemeris;
         private System.Windows.Forms.MenuItem menuItemEphemSettings;
         private System.Windows.Forms.MenuItem menuItemWindowSeparator;
-        private System.Windows.Forms.MenuItem menuItemEphemSave;
+        private System.Windows.Forms.MenuItem menuItemEphemSaveAs;
         private System.Windows.Forms.MenuItem menuItemMinimizeAll;
         private System.Windows.Forms.MenuItem menuItemClose;
         private System.Windows.Forms.MenuItem menuItemRestoreAll;
+        private System.Windows.Forms.MenuItem menuItemMagnitude;
+        private System.Windows.Forms.MenuItem menuItemMagSettings;
+        private System.Windows.Forms.MenuItem menuItemMagSaveAs;
     }
 }
 

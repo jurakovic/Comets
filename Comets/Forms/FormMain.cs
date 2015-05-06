@@ -1,5 +1,6 @@
 ﻿using Comets.Classes;
 using Comets.Forms.Ephemeris;
+using Comets.Forms.Magnitude;
 using Comets.Helpers;
 using System;
 using System.Collections.Generic;
@@ -146,6 +147,7 @@ namespace Comets.Forms
         private void FormMain_MdiChildActivate(object sender, EventArgs e)
         {
             this.menuItemEphemeris.Visible = this.ActiveMdiChild is FormEphemerisResult ? true : false;
+            this.menuItemMagnitude.Visible = this.ActiveMdiChild is FormMagnitudeGraph ? true : false;
         }
 
         #endregion
@@ -173,6 +175,27 @@ namespace Comets.Forms
         {
             FormEphemerisResult fer = this.ActiveMdiChild as FormEphemerisResult;
             using (FormEphemerisSettings fes = new FormEphemerisSettings(fer.EphemerisSettings) { Owner = this })
+            {
+                fes.ShowDialog();
+            }
+        }
+
+        #endregion
+
+        #region Menu: Magnitude
+
+        private void menuItemMagnitudeGraph_Click(object sender, EventArgs e)
+        {
+            using (FormMagnitudeSettings fms = new FormMagnitudeSettings() { Owner = this })
+            {
+                fms.ShowDialog();
+            }
+        }
+
+        private void menuItemMagSettings_Click(object sender, EventArgs e)
+        {
+            FormMagnitudeGraph fmg = this.ActiveMdiChild as FormMagnitudeGraph;
+            using (FormMagnitudeSettings fes = new FormMagnitudeSettings(fmg.GraphSettings) { Owner = this })
             {
                 fes.ShowDialog();
             }
@@ -253,7 +276,7 @@ namespace Comets.Forms
         private void menuItemRestoreAll_Click(object sender, EventArgs e)
         {
             foreach (Form child in this.MdiChildren)
-                child.WindowState = FormWindowState.Normal;
+               child.WindowState = FormWindowState.Normal;
         }
 
         private void menuItemClose_Click(object sender, EventArgs e)

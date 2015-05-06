@@ -38,6 +38,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -52,6 +53,7 @@
     <Compile Include="Classes\ElementTypes.cs" />
     <Compile Include="Classes\EphemerisSettings.cs" />
     <Compile Include="Classes\ExternalProgram.cs" />
+    <Compile Include="Classes\GraphSettings.cs" />
     <Compile Include="Classes\Location.cs" />
     <Compile Include="Classes\Settings.cs" />
     <Compile Include="Forms\Ephemeris\FormEphemerisResult.cs">
@@ -77,6 +79,18 @@
     </Compile>
     <Compile Include="Forms\FormExport.Designer.cs">
       <DependentUpon>FormExport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Magnitude\FormMagnitudeSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Magnitude\FormMagnitudeSettings.Designer.cs">
+      <DependentUpon>FormMagnitudeSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Magnitude\FormMagnitudeGraph.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Magnitude\FormMagnitudeGraph.Designer.cs">
+      <DependentUpon>FormMagnitudeGraph.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\FormSettings.cs">
       <SubType>Form</SubType>
@@ -115,6 +129,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormImport.resx">
       <DependentUpon>FormImport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Magnitude\FormMagnitudeSettings.resx">
+      <DependentUpon>FormMagnitudeSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Magnitude\FormMagnitudeGraph.resx">
+      <DependentUpon>FormMagnitudeGraph.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
