@@ -42,6 +42,8 @@
             this.menuItemEphemSettings = new System.Windows.Forms.MenuItem();
             this.menuItemEphemSaveAs = new System.Windows.Forms.MenuItem();
             this.menuItemMagnitude = new System.Windows.Forms.MenuItem();
+            this.menuItemMagSettings = new System.Windows.Forms.MenuItem();
+            this.menuItemMagSaveAs = new System.Windows.Forms.MenuItem();
             this.menuItemEdit = new System.Windows.Forms.MenuItem();
             this.menuItemDatabase = new System.Windows.Forms.MenuItem();
             this.menuItemSeparatorEdit1 = new System.Windows.Forms.MenuItem();
@@ -65,8 +67,6 @@
             this.statusComets = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusSpace = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusProgressBar = new System.Windows.Forms.ToolStripProgressBar();
-            this.menuItemMagSettings = new System.Windows.Forms.MenuItem();
-            this.menuItemMagSaveAs = new System.Windows.Forms.MenuItem();
             this.statusStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -160,6 +160,17 @@
             this.menuItemMagSaveAs});
             this.menuItemMagnitude.Text = "Magnitude";
             this.menuItemMagnitude.Visible = false;
+            // 
+            // menuItemMagSettings
+            // 
+            this.menuItemMagSettings.Index = 0;
+            this.menuItemMagSettings.Text = "Settings";
+            this.menuItemMagSettings.Click += new System.EventHandler(this.menuItemMagSettings_Click);
+            // 
+            // menuItemMagSaveAs
+            // 
+            this.menuItemMagSaveAs.Index = 1;
+            this.menuItemMagSaveAs.Text = "Save As";
             // 
             // menuItemEdit
             // 
@@ -320,17 +331,6 @@
             this.statusProgressBar.Name = "statusProgressBar";
             this.statusProgressBar.Size = new System.Drawing.Size(200, 16);
             this.statusProgressBar.Visible = false;
-            // 
-            // menuItemMagSettings
-            // 
-            this.menuItemMagSettings.Index = 0;
-            this.menuItemMagSettings.Text = "Settings";
-            this.menuItemMagSettings.Click += new System.EventHandler(this.menuItemMagSettings_Click);
-            // 
-            // menuItemMagSaveAs
-            // 
-            this.menuItemMagSaveAs.Index = 1;
-            this.menuItemMagSaveAs.Text = "Save As";
             // 
             // FormMain
             // 

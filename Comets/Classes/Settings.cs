@@ -47,6 +47,8 @@ namespace Comets.Classes
 
         //Programs
         public List<ExternalProgram> ExternalPrograms { get; set; }
+        public string LastUsedImportDirectory { get; set; }
+        public string LastUsedExportDirectory { get; set; }
 
         public bool HasErrors { get; set; }
         public bool IsSettingsChanged { get; set; }
@@ -80,6 +82,8 @@ namespace Comets.Classes
             Location = new Location();
 
             ExternalPrograms = new List<ExternalProgram>();
+            LastUsedImportDirectory = AppData;
+            LastUsedExportDirectory = AppData;
 
             HasErrors = false;
             IsSettingsChanged = false;

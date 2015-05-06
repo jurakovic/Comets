@@ -1,6 +1,7 @@
 ﻿using Comets.Classes;
 using Comets.Helpers;
 using System;
+using System.IO;
 using System.Windows.Forms;
 using ExportType = Comets.Classes.ElementTypes.Type;
 
@@ -8,12 +9,6 @@ namespace Comets.Forms
 {
     public partial class FormExport : Form
     {
-        #region Properties
-
-        SaveFileDialog sfd { get; set; }
-
-        #endregion
-
         #region Constructor
 
         public FormExport()
@@ -29,13 +24,6 @@ namespace Comets.Forms
         {
             this.cbxExportFormat.DataSource = ElementTypes.TypeName;
             this.lblTotalComets.Text = FormMain.UserList.Count.ToString();
-
-            sfd = new SaveFileDialog();
-            //sfd.InitialDirectory = FormMain.localDataDir;
-            sfd.Filter = "Text documents (*.txt)|*.txt|" +
-                        "DAT files (*.dat)|*.dat|" +
-                        "COMET files (*.comet)|*.comet|" +
-                        "All files (*.*)|*.*";
         }
 
         #endregion
@@ -53,9 +41,19 @@ namespace Comets.Forms
 
         private void btnBrowse_Click(object sender, EventArgs e)
         {
-            if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            using (SaveFileDialog sfd = new SaveFileDialog())
             {
-                txtSaveAs.Text = sfd.FileName;
+                sfd.InitialDirectory = FormMain.Settings.LastUsedExportDirectory;
+                sfd.Filter = "Text documents (*.txt)|*.txt|" +
+                            "DAT files (*.dat)|*.dat|" +
+                            "COMET files (*.comet)|*.comet|" +
+                            "All files (*.*)|*.*";
+
+                if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    FormMain.Settings.LastUsedExportDirectory = Path.GetDirectoryName(sfd.FileName);
+                    txtSaveAs.Text = sfd.FileName;
+                }
             }
         }
 

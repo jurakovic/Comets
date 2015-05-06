@@ -22,8 +22,6 @@ namespace Comets.Forms
 
         private FormDatabase fdb { get; set; }
 
-        public OpenFileDialog ofd { get; set; }
-
         public static Settings Settings { get; set; }
 
         public static int ChildCount { get; set; }
@@ -46,15 +44,7 @@ namespace Comets.Forms
             Settings = Settings.LoadSettings();
 
             fdb = new FormDatabase();
-
-            ofd = new OpenFileDialog();
-            ofd.InitialDirectory = Settings.AppData;
-            ofd.Filter = "Orbital elements files (*.txt, *.dat, *.comet)|*.txt;*.dat;*.comet|" +
-                        "Text documents (*.txt)|*.txt|" +
-                        "DAT files (*.dat)|*.dat|" +
-                        "COMET files (*.comet)|*.comet|" +
-                        "All files (*.*)|*.*";
-
+                        
             int margin = 250;
             if (Settings.RememberWindowPosition)
             {

@@ -130,9 +130,20 @@ namespace Comets.Forms
 
         private void btnBrowse_Click(object sender, EventArgs e)
         {
-            if (FormMain.ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            using (OpenFileDialog ofd = new OpenFileDialog())
             {
-                txtLocalFile.Text = FormMain.ofd.FileName; // txtImportFilename_TextChanged()
+                ofd.InitialDirectory = FormMain.Settings.LastUsedImportDirectory;
+                ofd.Filter = "Orbital elements files (*.txt, *.dat, *.comet)|*.txt;*.dat;*.comet|" +
+                            "Text documents (*.txt)|*.txt|" +
+                            "DAT files (*.dat)|*.dat|" +
+                            "COMET files (*.comet)|*.comet|" +
+                            "All files (*.*)|*.*";
+
+                if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    FormMain.Settings.LastUsedImportDirectory = Path.GetDirectoryName(ofd.FileName);
+                    txtLocalFile.Text = ofd.FileName; // txtImportFilename_TextChanged()
+                }
             }
         }
 
