@@ -1,6 +1,7 @@
 ﻿using Comets.Classes;
 using Comets.Helpers;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -95,12 +96,8 @@ namespace Comets.Forms.Ephemeris
             cbComet.DataSource = FormMain.UserList;
 
             if (EphemerisSettings != null)
-            {
-                EphemerisSettings.EphemerisResult = string.Empty;
-
                 if (FormMain.UserList.Contains(EphemerisSettings.Comet))
                     cbComet.Text = EphemerisSettings.Comet.full;
-            }
         }
 
         #endregion
@@ -127,9 +124,10 @@ namespace Comets.Forms.Ephemeris
         {
             if (cbComet.SelectedIndex >= 0)
             {
+                DateTime start, stop;
                 int syr, smo, sdy, shr, smi, eyr, emo, edy, ehr, emi;
                 double ind, inm, inh;
-
+                
                 try
                 {
                     syr = Convert.ToInt32(tbStartYear.Text);
@@ -147,6 +145,16 @@ namespace Comets.Forms.Ephemeris
                     ind = Convert.ToDouble(tbIntervalDay.Text);
                     inh = Convert.ToDouble(tbIntervalHour.Text);
                     inm = Convert.ToDouble(tbIntervalMin.Text);
+
+                    start = new DateTime(syr, smo, sdy, shr, smi, 0);
+                    stop = new DateTime(eyr, emo, edy, ehr, emi, 0);
+
+                    if (stop < start)
+                    {
+                        MessageBox.Show("End date is less than start date");
+                        return;
+                    }
+                        
                 }
                 catch
                 {
@@ -161,8 +169,8 @@ namespace Comets.Forms.Ephemeris
                 EphemerisSettings.Comet = FormMain.UserList.ElementAt(cbComet.SelectedIndex);
 
                 //local start, stop time
-                EphemerisSettings.Start = new DateTime(syr, smo, sdy, shr, smi, 0);
-                EphemerisSettings.Stop = new DateTime(eyr, emo, edy, ehr, emi, 0);
+                EphemerisSettings.Start = start;
+                EphemerisSettings.Stop = stop;
                 EphemerisSettings.Interval = ind  + (inh + (inm / 60.0)) / 24;
 
                 EphemerisSettings.LocalTime = radioLocalTime.Checked;
@@ -176,6 +184,8 @@ namespace Comets.Forms.Ephemeris
                 EphemerisSettings.Az = chAz.Checked;
                 EphemerisSettings.Elongation = chElong.Checked;
                 EphemerisSettings.Magnitude = chMag.Checked;
+
+                EphemerisSettings.Results = new List<EphemerisResult>();
 
                 EphemerisSettings = await EphemerisHelper.CalculateEphemeris(EphemerisSettings);
 
@@ -201,7 +211,7 @@ namespace Comets.Forms.Ephemeris
                 fer.WindowState = FormWindowState.Maximized;
                 fer.Show();
             }
-            else if (EphemerisSettings != null && !String.IsNullOrEmpty(EphemerisSettings.EphemerisResult))
+            else if (EphemerisSettings != null && EphemerisSettings.Results.Any())
             {
                 FormMain main = this.Owner as FormMain;
                 FormEphemerisResult fer = main.ActiveMdiChild as FormEphemerisResult;

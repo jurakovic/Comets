@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Comets.Classes
 {
@@ -22,7 +23,7 @@ namespace Comets.Classes
         public bool Az { get; set; }
         public bool Elongation { get; set; }
         public bool Magnitude { get; set; }
-        public string EphemerisResult { get; set; }
+        public List<EphemerisResult> Results { get; set; }
 
         #endregion
 

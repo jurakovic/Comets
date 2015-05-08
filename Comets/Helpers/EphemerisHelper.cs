@@ -1,5 +1,6 @@
 ﻿using Comets.Classes;
 using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -31,6 +32,52 @@ namespace Comets.Helpers
             double jdmax = jd(utcStop.Year, utcStop.Month, utcStop.Day, utcStop.Hour, utcStop.Minute, utcStop.Second);
             double locjday = jd(settings.Start.Year, settings.Start.Month, settings.Start.Day, settings.Start.Hour, settings.Start.Minute, settings.Start.Second);
 
+            await Task.Run(() =>
+            {
+                while (jday <= jdmax)
+                {
+                    EphemerisResult er = new EphemerisResult();
+
+                    double[] dat = CometAlt(settings.Comet, jday, settings.Location);
+                    er.Alt = dat[0];
+                    er.Az  = dat[1];
+                    //double ha = dat[2];
+                    er.RA = dat[3];
+                    er.Dec = dat[4] - (dat[4] > 180.0 ? 360 : 0);
+                    er.EcLon = rev(dat[5]);
+                    er.EcLat = dat[6];
+                    //double ill = dat[7];
+                    er.HelioDist = dat[8];
+                    er.GeoDist = dat[9];
+                    er.Magnitude = dat[10];
+
+                    double[] sundat = SunAlt(jday, settings.Location);
+                    double sunra = sundat[3];
+                    double sundec = sundat[4] - (sundat[4] > 180.0 ? 360 : 0);
+
+                    double[] sep = separation(er.RA, sunra, er.Dec, sundec);
+                    er.Elongation = sep[0];
+                    er.PositionAngle = sep[1];
+
+                    er.UtcJD = jday;
+                    er.LocalJD = locjday;
+
+                    settings.Results.Add(er);
+                    
+                    jday += settings.Interval;
+                    locjday += settings.Interval;
+                }
+            });
+
+            return settings;
+        }
+
+        #endregion
+
+        #region GenerateEphemeris
+
+        public static string GenerateEphemeris(EphemerisSettings settings)
+        {
             StringBuilder sb = new StringBuilder();
 
             sb.AppendLine("Comet:\t\t\t\t" + settings.Comet.full);
@@ -51,57 +98,38 @@ namespace Comets.Helpers
             if (settings.GeoDist) sb.Append("    d    ");
             if (settings.Magnitude) sb.AppendLine(" Mag.");
 
-            await Task.Run(() =>
+            StringBuilder line = new StringBuilder();
+
+            foreach (EphemerisResult er in settings.Results)
             {
-                StringBuilder line = new StringBuilder();
+                line.Clear();
 
-                while (jday <= jdmax)
-                {
-                    double[] dat = CometAlt(settings.Comet, jday, settings.Location);
-                    double alt = dat[0];
-                    double az = dat[1];
-                    //double ha = dat[2];
-                    double ra = dat[3];
-                    double dec = dat[4] - (dat[4] > 180.0 ? 360 : 0);
-                    double eclon = rev(dat[5]);
-                    double eclat = dat[6];
-                    double ill = dat[7];
-                    double r = dat[8];
-                    double dist = dat[9];
-                    double mag = dat[10];
+                line.Append(settings.LocalTime ? dateString(er.LocalJD) : dateString(er.UtcJD));
+                if (settings.RA) line.Append("  " + hmsstring(er.RA / 15.0));
+                if (settings.Dec) line.Append("  " + anglestring(er.Dec, false, true));
+                if (settings.Alt) line.Append("  " + fixnum(er.Alt, 5, 1) + "°");
+                if (settings.Az) line.Append(" " + fixnum(er.Az, 6, 1) + "°");
+                if (settings.EcLon) line.Append("  " + anglestring(er.EcLon, true, true));
+                if (settings.EcLat) line.Append("  " + anglestring(er.EcLat, false, true));
+                if (settings.Elongation) line.Append(" " + fixnum(er.Elongation, 6, 1) + "°" + (er.PositionAngle >= 180 ? " W" : " E"));
+                if (settings.HelioDist) line.Append(" " + fixnum(er.HelioDist, 8, 4));
+                if (settings.GeoDist) line.Append(" " + fixnum(er.GeoDist, 8, 4));
+                if (settings.Magnitude) line.Append(" " + fixnum(er.Magnitude, 4, 1));
 
-                    double[] sundat = SunAlt(jday, settings.Location);
-                    double sunra = sundat[3];
-                    double sundec = sundat[4] - (sundat[4] > 180.0 ? 360 : 0);
+                sb.AppendLine(line.ToString());
+            }
 
-                    double[] sep = separation(ra, sunra, dec, sundec);
-                    double elong = sep[0];
-                    double pa = sep[1];
+            return sb.ToString();
+        }
 
-                    line.Clear();
+        #endregion
 
-                    line.Append(settings.LocalTime ? dateString(locjday) : dateString(jday));
-                    if (settings.RA) line.Append("  " + hmsstring(ra / 15.0));
-                    if (settings.Dec) line.Append("  " + anglestring(dec, false, true));
-                    if (settings.Alt) line.Append("  " + fixnum(alt, 5, 1) + "°");
-                    if (settings.Az) line.Append(" " + fixnum(az, 6, 1) + "°");
-                    if (settings.EcLon) line.Append("  " + anglestring(eclon, true, true));
-                    if (settings.EcLat) line.Append("  " + anglestring(eclat, false, true));
-                    if (settings.Elongation) line.Append(" " + fixnum(elong, 6, 1) + "°" + (pa >= 180 ? " W" : " E"));
-                    if (settings.HelioDist) line.Append(" " + fixnum(r, 8, 4));
-                    if (settings.GeoDist) line.Append(" " + fixnum(dist, 8, 4));
-                    if (settings.Magnitude) line.Append(" " + fixnum(mag, 4, 1));
+        #region GenerateGraph
 
-                    sb.AppendLine(line.ToString());
+        public static string GenerateGraph(EphemerisSettings settings)
+        {
 
-                    jday += settings.Interval;
-                    locjday += settings.Interval;
-                }
-            });
-
-            settings.EphemerisResult = sb.ToString();
-
-            return settings;
+            return null;
         }
 
         #endregion

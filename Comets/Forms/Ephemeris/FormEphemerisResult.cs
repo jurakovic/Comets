@@ -1,5 +1,6 @@
 ﻿using System.Windows.Forms;
 using Comets.Classes;
+using Comets.Helpers;
 
 namespace Comets.Forms.Ephemeris
 {
@@ -52,7 +53,8 @@ namespace Comets.Forms.Ephemeris
         public void LoadResults()
         {
             this.Text = this.Tag + " " + EphemerisSettings.ToString();
-            richTextBox.Text = EphemerisSettings.EphemerisResult;
+            richTextBox.Text = EphemerisHelper.GenerateEphemeris(EphemerisSettings);
+            EphemerisSettings.Results.Clear();
         }
 
         #endregion

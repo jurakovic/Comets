@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Classes\Comet.cs" />
     <Compile Include="Classes\ElementTypes.cs" />
+    <Compile Include="Classes\EphemerisResult.cs" />
     <Compile Include="Classes\EphemerisSettings.cs" />
     <Compile Include="Classes\ExternalProgram.cs" />
     <Compile Include="Classes\GraphSettings.cs" />
