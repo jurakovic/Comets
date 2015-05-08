@@ -164,20 +164,20 @@
             this.tbStartYear.Location = new System.Drawing.Point(122, 20);
             this.tbStartYear.MaxLength = 4;
             this.tbStartYear.Name = "tbStartYear";
-            this.tbStartYear.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.tbStartYear.Size = new System.Drawing.Size(55, 21);
             this.tbStartYear.TabIndex = 294;
             this.tbStartYear.Text = "YYYY";
+            this.tbStartYear.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // tbIntervalMin
             // 
             this.tbIntervalMin.Location = new System.Drawing.Point(366, 74);
             this.tbIntervalMin.MaxLength = 2;
             this.tbIntervalMin.Name = "tbIntervalMin";
-            this.tbIntervalMin.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.tbIntervalMin.Size = new System.Drawing.Size(55, 21);
             this.tbIntervalMin.TabIndex = 305;
             this.tbIntervalMin.Text = "MM";
+            this.tbIntervalMin.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label3
             // 
@@ -193,60 +193,60 @@
             this.tbIntervalHour.Location = new System.Drawing.Point(305, 74);
             this.tbIntervalHour.MaxLength = 2;
             this.tbIntervalHour.Name = "tbIntervalHour";
-            this.tbIntervalHour.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.tbIntervalHour.Size = new System.Drawing.Size(55, 21);
             this.tbIntervalHour.TabIndex = 304;
             this.tbIntervalHour.Text = "HH";
+            this.tbIntervalHour.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // tbStartMonth
             // 
             this.tbStartMonth.Location = new System.Drawing.Point(183, 20);
             this.tbStartMonth.MaxLength = 2;
             this.tbStartMonth.Name = "tbStartMonth";
-            this.tbStartMonth.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.tbStartMonth.Size = new System.Drawing.Size(55, 21);
             this.tbStartMonth.TabIndex = 293;
             this.tbStartMonth.Text = "MM";
+            this.tbStartMonth.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // tbIntervalDay
             // 
             this.tbIntervalDay.Location = new System.Drawing.Point(244, 74);
             this.tbIntervalDay.MaxLength = 2;
             this.tbIntervalDay.Name = "tbIntervalDay";
-            this.tbIntervalDay.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.tbIntervalDay.Size = new System.Drawing.Size(55, 21);
             this.tbIntervalDay.TabIndex = 303;
             this.tbIntervalDay.Text = "DD";
+            this.tbIntervalDay.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // tbStartDay
             // 
             this.tbStartDay.Location = new System.Drawing.Point(244, 20);
             this.tbStartDay.MaxLength = 2;
             this.tbStartDay.Name = "tbStartDay";
-            this.tbStartDay.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.tbStartDay.Size = new System.Drawing.Size(55, 21);
             this.tbStartDay.TabIndex = 292;
             this.tbStartDay.Text = "DD";
+            this.tbStartDay.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // tbStartHour
             // 
             this.tbStartHour.Location = new System.Drawing.Point(305, 20);
             this.tbStartHour.MaxLength = 2;
             this.tbStartHour.Name = "tbStartHour";
-            this.tbStartHour.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.tbStartHour.Size = new System.Drawing.Size(55, 21);
             this.tbStartHour.TabIndex = 295;
             this.tbStartHour.Text = "HH";
+            this.tbStartHour.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // tbStartMin
             // 
             this.tbStartMin.Location = new System.Drawing.Point(366, 20);
             this.tbStartMin.MaxLength = 2;
             this.tbStartMin.Name = "tbStartMin";
-            this.tbStartMin.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.tbStartMin.Size = new System.Drawing.Size(55, 21);
             this.tbStartMin.TabIndex = 296;
             this.tbStartMin.Text = "MM";
+            this.tbStartMin.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label20
             // 
@@ -271,50 +271,50 @@
             this.tbEndMin.Location = new System.Drawing.Point(366, 47);
             this.tbEndMin.MaxLength = 2;
             this.tbEndMin.Name = "tbEndMin";
-            this.tbEndMin.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.tbEndMin.Size = new System.Drawing.Size(55, 21);
             this.tbEndMin.TabIndex = 302;
             this.tbEndMin.Text = "MM";
+            this.tbEndMin.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // tbEndYear
             // 
             this.tbEndYear.Location = new System.Drawing.Point(122, 47);
             this.tbEndYear.MaxLength = 4;
             this.tbEndYear.Name = "tbEndYear";
-            this.tbEndYear.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.tbEndYear.Size = new System.Drawing.Size(55, 21);
             this.tbEndYear.TabIndex = 300;
             this.tbEndYear.Text = "YYYY";
+            this.tbEndYear.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // tbEndHour
             // 
             this.tbEndHour.Location = new System.Drawing.Point(305, 47);
             this.tbEndHour.MaxLength = 2;
             this.tbEndHour.Name = "tbEndHour";
-            this.tbEndHour.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.tbEndHour.Size = new System.Drawing.Size(55, 21);
             this.tbEndHour.TabIndex = 301;
             this.tbEndHour.Text = "HH";
+            this.tbEndHour.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // tbEndMonth
             // 
             this.tbEndMonth.Location = new System.Drawing.Point(183, 47);
             this.tbEndMonth.MaxLength = 2;
             this.tbEndMonth.Name = "tbEndMonth";
-            this.tbEndMonth.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.tbEndMonth.Size = new System.Drawing.Size(55, 21);
             this.tbEndMonth.TabIndex = 299;
             this.tbEndMonth.Text = "MM";
+            this.tbEndMonth.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // tbEndDay
             // 
             this.tbEndDay.Location = new System.Drawing.Point(244, 47);
             this.tbEndDay.MaxLength = 2;
             this.tbEndDay.Name = "tbEndDay";
-            this.tbEndDay.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.tbEndDay.Size = new System.Drawing.Size(55, 21);
             this.tbEndDay.TabIndex = 297;
             this.tbEndDay.Text = "DD";
+            this.tbEndDay.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // gbxOutputData
             // 

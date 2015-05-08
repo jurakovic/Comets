@@ -22,7 +22,6 @@ namespace Comets.Forms.Ephemeris
 
             this.EphemerisSettings = settings;
             this.Tag = tag;
-            LoadResults();
         }
 
         #endregion
@@ -33,6 +32,8 @@ namespace Comets.Forms.Ephemeris
         {
             FormMain main = this.MdiParent as FormMain;
             main.SetWindowMenuItemVisible(true);
+
+            LoadResults();
         }
 
         #endregion
@@ -50,10 +51,10 @@ namespace Comets.Forms.Ephemeris
 
         #region LoadResults
 
-        public void LoadResults()
+        public async void LoadResults()
         {
             this.Text = this.Tag + " " + EphemerisSettings.ToString();
-            richTextBox.Text = EphemerisHelper.GenerateEphemeris(EphemerisSettings);
+            richTextBox.Text = await EphemerisHelper.GenerateEphemeris(EphemerisSettings);
             EphemerisSettings.Results.Clear();
         }
 

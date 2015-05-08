@@ -3,6 +3,8 @@ namespace Comets.Classes
 {
     public class EphemerisResult
     {
+        #region Properties
+
         public double LocalJD { get; set; }
         public double UtcJD { get; set; }
         public double RA { get; set; }
@@ -17,9 +19,15 @@ namespace Comets.Classes
         public double GeoDist { get; set; }
         public double Magnitude { get; set; }
 
+        #endregion
+
+        #region Constructor
+
         public EphemerisResult()
         {
 
         }
+
+        #endregion
     }
 }

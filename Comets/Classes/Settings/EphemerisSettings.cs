@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-
+﻿
 namespace Comets.Classes
 {
-    public class EphemerisSettings
+    public class EphemerisSettings : CommonSettings
     {
         #region Properties
 
-        public Location Location { get; set; }
-        public Comet Comet { get; set; }
-        public DateTime Start { get; set; }
-        public DateTime Stop { get; set; }
-        public double Interval { get; set; }
         public bool LocalTime { get; set; }
         public bool RA { get; set; }
         public bool Dec { get; set; }
@@ -23,7 +16,6 @@ namespace Comets.Classes
         public bool Az { get; set; }
         public bool Elongation { get; set; }
         public bool Magnitude { get; set; }
-        public List<EphemerisResult> Results { get; set; }
 
         #endregion
 

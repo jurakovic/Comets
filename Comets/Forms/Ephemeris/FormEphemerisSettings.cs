@@ -165,10 +165,8 @@ namespace Comets.Forms.Ephemeris
                 if (EphemerisSettings == null)
                     EphemerisSettings = new EphemerisSettings();
 
-                EphemerisSettings.Location = FormMain.Settings.Location;
                 EphemerisSettings.Comet = FormMain.UserList.ElementAt(cbComet.SelectedIndex);
 
-                //local start, stop time
                 EphemerisSettings.Start = start;
                 EphemerisSettings.Stop = stop;
                 EphemerisSettings.Interval = ind  + (inh + (inm / 60.0)) / 24;
@@ -187,7 +185,7 @@ namespace Comets.Forms.Ephemeris
 
                 EphemerisSettings.Results = new List<EphemerisResult>();
 
-                EphemerisSettings = await EphemerisHelper.CalculateEphemeris(EphemerisSettings);
+                await EphemerisHelper.CalculateEphemeris(EphemerisSettings);
 
                 this.Close();
             }

@@ -17,7 +17,7 @@ namespace Comets.Helpers
 
         #region CalculateEphemeris
 
-        public async static Task<EphemerisSettings> CalculateEphemeris(EphemerisSettings settings)
+        public async static Task<CommonSettings> CalculateEphemeris(CommonSettings settings)
         {
             DateTime utcStart = settings.Start.AddHours(-settings.Location.Timezone);
             DateTime utcStop = settings.Stop.AddHours(-settings.Location.Timezone);
@@ -76,7 +76,7 @@ namespace Comets.Helpers
 
         #region GenerateEphemeris
 
-        public static string GenerateEphemeris(EphemerisSettings settings)
+        public async static Task<string> GenerateEphemeris(EphemerisSettings settings)
         {
             StringBuilder sb = new StringBuilder();
 
@@ -100,24 +100,27 @@ namespace Comets.Helpers
 
             StringBuilder line = new StringBuilder();
 
-            foreach (EphemerisResult er in settings.Results)
+            await Task.Run(() =>
             {
-                line.Clear();
+                foreach (EphemerisResult er in settings.Results)
+                {
+                    line.Clear();
 
-                line.Append(settings.LocalTime ? dateString(er.LocalJD) : dateString(er.UtcJD));
-                if (settings.RA) line.Append("  " + hmsstring(er.RA / 15.0));
-                if (settings.Dec) line.Append("  " + anglestring(er.Dec, false, true));
-                if (settings.Alt) line.Append("  " + fixnum(er.Alt, 5, 1) + "°");
-                if (settings.Az) line.Append(" " + fixnum(er.Az, 6, 1) + "°");
-                if (settings.EcLon) line.Append("  " + anglestring(er.EcLon, true, true));
-                if (settings.EcLat) line.Append("  " + anglestring(er.EcLat, false, true));
-                if (settings.Elongation) line.Append(" " + fixnum(er.Elongation, 6, 1) + "°" + (er.PositionAngle >= 180 ? " W" : " E"));
-                if (settings.HelioDist) line.Append(" " + fixnum(er.HelioDist, 8, 4));
-                if (settings.GeoDist) line.Append(" " + fixnum(er.GeoDist, 8, 4));
-                if (settings.Magnitude) line.Append(" " + fixnum(er.Magnitude, 4, 1));
+                    line.Append(settings.LocalTime ? dateString(er.LocalJD) : dateString(er.UtcJD));
+                    if (settings.RA) line.Append("  " + hmsstring(er.RA / 15.0));
+                    if (settings.Dec) line.Append("  " + anglestring(er.Dec, false, true));
+                    if (settings.Alt) line.Append("  " + fixnum(er.Alt, 5, 1) + "°");
+                    if (settings.Az) line.Append(" " + fixnum(er.Az, 6, 1) + "°");
+                    if (settings.EcLon) line.Append("  " + anglestring(er.EcLon, true, true));
+                    if (settings.EcLat) line.Append("  " + anglestring(er.EcLat, false, true));
+                    if (settings.Elongation) line.Append(" " + fixnum(er.Elongation, 6, 1) + "°" + (er.PositionAngle >= 180 ? " W" : " E"));
+                    if (settings.HelioDist) line.Append(" " + fixnum(er.HelioDist, 8, 4));
+                    if (settings.GeoDist) line.Append(" " + fixnum(er.GeoDist, 8, 4));
+                    if (settings.Magnitude) line.Append(" " + fixnum(er.Magnitude, 4, 1));
 
-                sb.AppendLine(line.ToString());
-            }
+                    sb.AppendLine(line.ToString());
+                }
+            });
 
             return sb.ToString();
         }
@@ -126,8 +129,9 @@ namespace Comets.Helpers
 
         #region GenerateGraph
 
-        public static string GenerateGraph(EphemerisSettings settings)
+        public static string GenerateGraph(GraphSettings settings)
         {
+            //TO DO
 
             return null;
         }

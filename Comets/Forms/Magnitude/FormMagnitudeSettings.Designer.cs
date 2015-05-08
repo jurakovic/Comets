@@ -126,6 +126,7 @@
             this.cbComet.Name = "cbComet";
             this.cbComet.Size = new System.Drawing.Size(299, 21);
             this.cbComet.TabIndex = 1;
+            this.cbComet.SelectedIndexChanged += new System.EventHandler(this.cbComet_SelectedIndexChanged);
             // 
             // gbxTimestamp
             // 
@@ -185,20 +186,20 @@
             this.tbStartDaysFromT.Location = new System.Drawing.Point(3, 3);
             this.tbStartDaysFromT.MaxLength = 4;
             this.tbStartDaysFromT.Name = "tbStartDaysFromT";
-            this.tbStartDaysFromT.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.tbStartDaysFromT.Size = new System.Drawing.Size(55, 21);
             this.tbStartDaysFromT.TabIndex = 313;
             this.tbStartDaysFromT.Text = "DDDD";
+            this.tbStartDaysFromT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // tbEndDaysFromT
             // 
             this.tbEndDaysFromT.Location = new System.Drawing.Point(148, 3);
             this.tbEndDaysFromT.MaxLength = 4;
             this.tbEndDaysFromT.Name = "tbEndDaysFromT";
-            this.tbEndDaysFromT.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.tbEndDaysFromT.Size = new System.Drawing.Size(55, 21);
             this.tbEndDaysFromT.TabIndex = 316;
             this.tbEndDaysFromT.Text = "DDDD";
+            this.tbEndDaysFromT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // pnlRangeDate
             // 
@@ -228,60 +229,60 @@
             this.tbStartYear.Location = new System.Drawing.Point(3, 3);
             this.tbStartYear.MaxLength = 4;
             this.tbStartYear.Name = "tbStartYear";
-            this.tbStartYear.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.tbStartYear.Size = new System.Drawing.Size(55, 21);
             this.tbStartYear.TabIndex = 306;
             this.tbStartYear.Text = "YYYY";
+            this.tbStartYear.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // tbStartMonth
             // 
             this.tbStartMonth.Location = new System.Drawing.Point(64, 3);
             this.tbStartMonth.MaxLength = 2;
             this.tbStartMonth.Name = "tbStartMonth";
-            this.tbStartMonth.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.tbStartMonth.Size = new System.Drawing.Size(25, 21);
             this.tbStartMonth.TabIndex = 305;
             this.tbStartMonth.Text = "MM";
+            this.tbStartMonth.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // tbStartDay
             // 
             this.tbStartDay.Location = new System.Drawing.Point(95, 3);
             this.tbStartDay.MaxLength = 2;
             this.tbStartDay.Name = "tbStartDay";
-            this.tbStartDay.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.tbStartDay.Size = new System.Drawing.Size(25, 21);
             this.tbStartDay.TabIndex = 304;
             this.tbStartDay.Text = "DD";
+            this.tbStartDay.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // tbEndYear
             // 
             this.tbEndYear.Location = new System.Drawing.Point(148, 3);
             this.tbEndYear.MaxLength = 4;
             this.tbEndYear.Name = "tbEndYear";
-            this.tbEndYear.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.tbEndYear.Size = new System.Drawing.Size(55, 21);
             this.tbEndYear.TabIndex = 309;
             this.tbEndYear.Text = "YYYY";
+            this.tbEndYear.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // tbEndMonth
             // 
             this.tbEndMonth.Location = new System.Drawing.Point(209, 3);
             this.tbEndMonth.MaxLength = 2;
             this.tbEndMonth.Name = "tbEndMonth";
-            this.tbEndMonth.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.tbEndMonth.Size = new System.Drawing.Size(25, 21);
             this.tbEndMonth.TabIndex = 308;
             this.tbEndMonth.Text = "MM";
+            this.tbEndMonth.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // tbEndDay
             // 
             this.tbEndDay.Location = new System.Drawing.Point(240, 3);
             this.tbEndDay.MaxLength = 2;
             this.tbEndDay.Name = "tbEndDay";
-            this.tbEndDay.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.tbEndDay.Size = new System.Drawing.Size(25, 21);
             this.tbEndDay.TabIndex = 307;
             this.tbEndDay.Text = "DD";
+            this.tbEndDay.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // rbRangeDaysFromT
             // 
