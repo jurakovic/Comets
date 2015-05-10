@@ -178,7 +178,7 @@ namespace Comets.Forms.Magnitude
 
                 GraphSettings.Results = new List<EphemerisResult>();
 
-                await Task.Run(() => EphemerisHelper.CalculateEphemeris(GraphSettings));
+                await EphemerisHelper.CalculateEphemeris(GraphSettings);
 
                 this.Close();
             }

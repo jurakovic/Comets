@@ -32,7 +32,7 @@ namespace Comets.Classes
 
         public override string ToString()
         {
-            return "Ephemeris - " + Comet.full;
+            return "Ephemeris - " + base.Comet.full;
         }
 
         #endregion

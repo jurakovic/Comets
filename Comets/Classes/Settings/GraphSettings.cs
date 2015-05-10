@@ -16,5 +16,23 @@ namespace Comets.Classes
         public double MaximumMagnitude { get; set; }
 
         #endregion
+
+        #region Constructor
+
+        public GraphSettings()
+        {
+
+        }
+
+        #endregion
+
+        #region ToString
+
+        public override string ToString()
+        {
+            return "Graph - " + base.Comet.full;
+        }
+
+        #endregion
     }
 }

@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Net;
 using System.Windows.Forms;
+using System.Linq;
 using ImportType = Comets.Classes.ElementTypes.Type;
 
 namespace Comets.Forms
@@ -23,10 +24,7 @@ namespace Comets.Forms
         string DownloadFilename { get; set; }
         string LocalFilename { get; set; }
         string ImportFilename { get; set; }
-
         ImportType ImportType { get; set; }
-
-        FormMain FormMain { get; set; } // = null;
 
         #endregion
 
@@ -35,15 +33,6 @@ namespace Comets.Forms
         public FormImport()
         {
             InitializeComponent();
-        }
-
-        #endregion
-
-        #region Form_Load
-
-        private void FormImport_Load(object sender, EventArgs e)
-        {
-            this.FormMain = this.Owner as FormMain;
         }
 
         #endregion
@@ -232,8 +221,8 @@ namespace Comets.Forms
                 {
                     FormMain.IsDataChanged = true;
                     FormMain.MainList = list;
-                    FormMain.UserList = list;
-                    this.FormMain.SetStatusCometsLabel(list.Count);
+                    FormMain.UserList = list.ToList();
+                    (this.Owner as FormMain).SetStatusCometsLabel(list.Count, list.Count);
                     MessageBox.Show("Import complete.\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     btnClose.Focus();
                 }

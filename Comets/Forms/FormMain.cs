@@ -8,6 +8,7 @@ using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
+using System.Linq;
 
 namespace Comets.Forms
 {
@@ -18,7 +19,7 @@ namespace Comets.Forms
         public static List<Comet> MainList { get; set; }
         public static List<Comet> UserList { get; set; }
 
-        public bool IsDataChanged { get; set; }
+        public static bool IsDataChanged { get; set; }
 
         private FormDatabase fdb { get; set; }
 
@@ -43,7 +44,7 @@ namespace Comets.Forms
 
             Settings = Settings.LoadSettings();
 
-            fdb = new FormDatabase();
+            fdb = new FormDatabase() { Owner = this };
                         
             int margin = 250;
             if (Settings.RememberWindowPosition)
@@ -90,8 +91,8 @@ namespace Comets.Forms
             if (File.Exists(Settings.Database))
             {
                 MainList = ImportHelper.ImportMain((int)ElementTypes.Type.MPC, Settings.Database);
-                UserList = MainList;
-                SetStatusCometsLabel(MainList.Count);
+                UserList = MainList.ToList();
+                SetStatusCometsLabel(UserList.Count, MainList.Count);
             }
 
             if (Settings.DownloadOnStartup)
@@ -323,9 +324,12 @@ namespace Comets.Forms
 
         #region Methods
 
-        public void SetStatusCometsLabel(int count)
+        public void SetStatusCometsLabel(int count, int total)
         {
-            this.statusComets.Text = String.Format("Comets: {0}", count.ToString());
+            if(count < total)
+                this.statusComets.Text = String.Format("Comets: {0} ({1})", count, total);
+            else
+                this.statusComets.Text = String.Format("Comets: {0}", count);
         }
 
         #endregion

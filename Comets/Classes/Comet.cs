@@ -61,7 +61,7 @@ namespace Comets.Classes
             double sort = 0.0;
             double v = 0.0;
             double offset = 2000.0;
-            string fragm = "";
+            string fragm = string.Empty;
 
             //http://stackoverflow.com/questions/3720012/regular-expression-to-split-string-and-number
             Regex numAlpha = new Regex("(?<letters>[a-zA-Z]*)(?<digits>[0-9]*)");
@@ -82,7 +82,7 @@ namespace Comets.Classes
                     v += (fragmLetters[i] - 64) / (double)divider;
                 }
 
-                if (fragmDigits != "")
+                if (fragmDigits != string.Empty)
                     v += Convert.ToDouble(fragmDigits) / 10000000000000.0;
             }
 
@@ -113,7 +113,7 @@ namespace Comets.Classes
                     v += (codeLetters[i] - 64) / (double)divider;
                 }
 
-                if (codeDigits != "")
+                if (codeDigits != string.Empty)
                     v += Convert.ToDouble(codeDigits) / 10000000.0;
             }
 
@@ -240,7 +240,7 @@ namespace Comets.Classes
         /// <returns></returns>
         public static string[] GetIdNameFromFull(string full)
         {
-            string id = "", name = "";
+            string id = string.Empty, name = string.Empty;
 
             if (char.IsDigit(full[0]))
             {
@@ -288,14 +288,14 @@ namespace Comets.Classes
 
             if (id.Contains('/'))
             {
-                if (name != "")
+                if (name != string.Empty)
                 {
                     full += " (" + name + ")";
                 }
             }
             else
             {
-                if (name != "")
+                if (name != string.Empty)
                 {
                     full += "/" + name;
                 }

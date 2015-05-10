@@ -646,7 +646,7 @@
             this.txtLongitude.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtLongitude.Location = new System.Drawing.Point(31, 182);
-            this.txtLongitude.MaxLength = 15;
+            this.txtLongitude.MaxLength = 100;
             this.txtLongitude.Name = "txtLongitude";
             this.txtLongitude.Size = new System.Drawing.Size(115, 21);
             this.txtLongitude.TabIndex = 5;
@@ -677,7 +677,7 @@
             this.txtLatitude.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtLatitude.Location = new System.Drawing.Point(31, 115);
-            this.txtLatitude.MaxLength = 15;
+            this.txtLatitude.MaxLength = 100;
             this.txtLatitude.Name = "txtLatitude";
             this.txtLatitude.Size = new System.Drawing.Size(115, 21);
             this.txtLatitude.TabIndex = 1;

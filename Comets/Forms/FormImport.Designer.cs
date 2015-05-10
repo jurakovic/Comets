@@ -241,7 +241,6 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Import";
-            this.Load += new System.EventHandler(this.FormImport_Load);
             this.gbxLocalFile.ResumeLayout(false);
             this.gbxLocalFile.PerformLayout();
             this.gbxDownload.ResumeLayout(false);

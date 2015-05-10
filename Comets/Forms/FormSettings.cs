@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using System.Linq;
 using System.ComponentModel;
 using System.Collections.Generic;
+using Comets.Helpers;
 
 namespace Comets.Forms
 {
@@ -163,29 +164,12 @@ namespace Comets.Forms
 
         private void txtLatitude_KeyPress(object sender, KeyPressEventArgs e)
         {
-            e.Handled = ValidateKeyPress(sender, e, 10, true, 6);
+            e.Handled = Utils.ValidateKeyPress(sender, e, 3, 6);
         }
 
         private void txtLongitude_KeyPress(object sender, KeyPressEventArgs e)
         {
-            e.Handled = ValidateKeyPress(sender, e, 10, true, 6);
-        }
-
-        bool ValidateKeyPress(object sender, KeyPressEventArgs e, int length, bool separator, int decimals)
-        {
-            string text = (sender as TextBox).Text;
-
-            if (length > 0 && !char.IsControl(e.KeyChar) && text.Length >= length) return true;
-
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.')) return true;
-
-            if (!separator && (e.KeyChar == '.')) return true;
-
-            if (decimals > 0 && !char.IsControl(e.KeyChar) && (text.IndexOf('.') > -1) && text.Substring(text.IndexOf('.'), text.Length - text.IndexOf('.')).Length > decimals) return true;
-
-            if (separator && (e.KeyChar == '.') && (text.IndexOf('.') > -1)) return true;
-
-            return false;
+            e.Handled = Utils.ValidateKeyPress(sender, e, 3, 6);
         }
 
         #endregion
@@ -253,10 +237,6 @@ namespace Comets.Forms
             if (txtDirectory.Text.Length > 0 && System.IO.Directory.Exists(txtDirectory.Text))
             {
                 Programs.Add(new ExternalProgram(cbxExternalProgram.SelectedIndex, txtDirectory.Text));
-
-                //var temp = Programs.OrderBy(x => x.Type).ToList();
-                //Programs.Clear();
-                //Programs = new BindingList<ExternalProgram>(temp);
 
                 cbxExternalProgram.SelectedIndex = 0;
                 txtDirectory.Text = string.Empty;

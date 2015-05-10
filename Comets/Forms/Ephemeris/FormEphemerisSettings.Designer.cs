@@ -98,7 +98,7 @@
             // lblPeriod
             // 
             this.lblPeriod.AutoSize = true;
-            this.lblPeriod.Location = new System.Drawing.Point(9, 104);
+            this.lblPeriod.Location = new System.Drawing.Point(10, 104);
             this.lblPeriod.Name = "lblPeriod";
             this.lblPeriod.Size = new System.Drawing.Size(41, 13);
             this.lblPeriod.TabIndex = 300;
@@ -107,7 +107,7 @@
             // lblPerihDist
             // 
             this.lblPerihDist.AutoSize = true;
-            this.lblPerihDist.Location = new System.Drawing.Point(9, 77);
+            this.lblPerihDist.Location = new System.Drawing.Point(10, 77);
             this.lblPerihDist.Name = "lblPerihDist";
             this.lblPerihDist.Size = new System.Drawing.Size(100, 13);
             this.lblPerihDist.TabIndex = 299;
@@ -116,7 +116,7 @@
             // lblPerihDate
             // 
             this.lblPerihDate.AutoSize = true;
-            this.lblPerihDate.Location = new System.Drawing.Point(9, 50);
+            this.lblPerihDate.Location = new System.Drawing.Point(10, 50);
             this.lblPerihDate.Name = "lblPerihDate";
             this.lblPerihDate.Size = new System.Drawing.Size(82, 13);
             this.lblPerihDate.TabIndex = 298;

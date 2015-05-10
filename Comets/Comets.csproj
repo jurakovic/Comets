@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Comet.cs" />
+    <Compile Include="Classes\Filter.cs" />
     <Compile Include="Classes\Settings\CommonSettings.cs" />
     <Compile Include="Classes\ElementTypes.cs" />
     <Compile Include="Classes\EphemerisResult.cs" />
@@ -115,19 +116,24 @@
     </Compile>
     <Compile Include="Helpers\ExportHelper.cs" />
     <Compile Include="Helpers\ImportHelper.cs" />
+    <Compile Include="Helpers\Utils.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Forms\Ephemeris\FormEphemerisResult.resx">
       <DependentUpon>FormEphemerisResult.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormDatabase.resx">
       <DependentUpon>FormDatabase.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Ephemeris\FormEphemerisSettings.resx">
       <DependentUpon>FormEphemerisSettings.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormExport.resx">
       <DependentUpon>FormExport.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormImport.resx">
       <DependentUpon>FormImport.cs</DependentUpon>
