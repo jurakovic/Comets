@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using FilterProperty = Comets.Classes.Filter.PropertyNameEnum;
 
 namespace Comets.Forms
 {
@@ -13,7 +12,7 @@ namespace Comets.Forms
     {
         #region Properties
 
-        List<Filter> Filters;
+        FilterCollection Filters;
 
         #endregion
 
@@ -228,27 +227,51 @@ namespace Comets.Forms
 
         #region CollectFilters
 
-        private List<Filter> CollectFilters()
+        private FilterCollection CollectFilters(FilterCollection fc)
         {
-            List<Filter> fs = new List<Filter>();
+            if (fc == null)
+                fc = new FilterCollection();
 
-            fs.Add(new Filter(FilterProperty.Name, cbxName.Checked, txtName.Text.Trim().ToLower(), cboName.SelectedIndex) { Value = 0.0 });
-            fs.Add(new Filter(FilterProperty.PerihelionDate, cbxPerihelionDate.Checked, txtPerihelionDateD.Text.Trim().PadLeft(2, '0') + "." + txtPerihelionDateM.Text.Trim().PadLeft(2, '0') + "." + txtPerihelionDateY.Text.Trim(), cboPerihelionDate.SelectedIndex) { Value = GetPerihDate(cbxPerihelionDate.Checked) });
-            fs.Add(new Filter(FilterProperty.PerihelionDistance, cbxPerihelionDistance.Checked, txtPerihelionDistance.Text.Trim(), cboPerihelionDistance.SelectedIndex));
-            fs.Add(new Filter(FilterProperty.Eccentricity, cbxEccentricity.Checked, txtEccentricity.Text.Trim(), cboEccentricity.SelectedIndex));
-            fs.Add(new Filter(FilterProperty.LongOfAscendingNode, cbxLongOfAscendingNode.Checked, txtLongOfAscendingNode.Text.Trim(), cboLongOfAscendingNode.SelectedIndex));
-            fs.Add(new Filter(FilterProperty.ArgumentOfPericenter, cbxArgumentOfPericenter.Checked, txtArgumentOfPericenter.Text.Trim(), cboArgumentOfPericenter.SelectedIndex));
-            fs.Add(new Filter(FilterProperty.Inclination, cbxInclination.Checked, txtInclination.Text.Trim(), cboInclination.SelectedIndex));
-            fs.Add(new Filter(FilterProperty.Period, cbxPeriod.Checked, txtPeriod.Text.Trim(), cboPeriod.SelectedIndex));
+            fc.Name.Checked = cbxName.Checked;
+            fc.Name.Text = txtName.Text.Trim().ToLower();
+            fc.Name.Index = cboName.SelectedIndex;
 
-            return fs;
+            fc.PerihelionDate.Checked = cbxPerihelionDate.Checked;
+            fc.PerihelionDate.Text = txtPerihelionDateD.Text.Trim().PadLeft(2, '0') + "." + txtPerihelionDateM.Text.Trim().PadLeft(2, '0') + "." + txtPerihelionDateY.Text.Trim();
+            fc.PerihelionDate.Index = cboPerihelionDate.SelectedIndex;
+
+            fc.PerihelionDistance.Checked = cbxPerihelionDistance.Checked;
+            fc.PerihelionDistance.Text = txtPerihelionDistance.Text.Trim().ToLower();
+            fc.PerihelionDistance.Index = cboPerihelionDistance.SelectedIndex;
+
+            fc.Eccentricity.Checked = cbxEccentricity.Checked;
+            fc.Eccentricity.Text = txtEccentricity.Text.Trim().ToLower();
+            fc.Eccentricity.Index = cboEccentricity.SelectedIndex;
+
+            fc.LongOfAscendingNode.Checked = cbxLongOfAscendingNode.Checked;
+            fc.LongOfAscendingNode.Text = txtLongOfAscendingNode.Text.Trim().ToLower();
+            fc.LongOfAscendingNode.Index = cboLongOfAscendingNode.SelectedIndex;
+
+            fc.ArgumentOfPericenter.Checked = cbxArgumentOfPericenter.Checked;
+            fc.ArgumentOfPericenter.Text = txtArgumentOfPericenter.Text.Trim().ToLower();
+            fc.ArgumentOfPericenter.Index = cboArgumentOfPericenter.SelectedIndex;
+
+            fc.Inclination.Checked = cbxInclination.Checked;
+            fc.Inclination.Text = txtInclination.Text.Trim().ToLower();
+            fc.Inclination.Index = cboInclination.SelectedIndex;
+
+            fc.Period.Checked = cbxPeriod.Checked;
+            fc.Period.Text = txtPeriod.Text.Trim().ToLower();
+            fc.Period.Index = cboPeriod.SelectedIndex;
+
+            return fc;
         }
 
         #endregion
 
         #region PopulateFilters
 
-        private void PopulateFilters(List<Filter> Filters)
+        private void PopulateFilters(FilterCollection Filters)
         {
             if (Filters == null)
             {
@@ -288,15 +311,15 @@ namespace Comets.Forms
             }
             else
             {
-                cbxName.Checked = Filters[0].IsChecked;
-                cboName.SelectedIndex = Filter.GetIndexFromValueResolve(Filters[0].ValueResolve);
-                txtName.Text = Filters[0].Text;
+                cbxName.Checked = Filters.Name.Checked;
+                cboName.SelectedIndex = Filter.GetIndexFromValueResolve(Filters.Name.ValueResolve);
+                txtName.Text = Filters.Name.Text;
 
-                cbxPerihelionDate.Checked = Filters[1].IsChecked;
-                cboPerihelionDate.SelectedIndex = Filter.GetIndexFromValueResolve(Filters[1].ValueResolve);
-                if (!string.IsNullOrEmpty(Filters[1].Text))
+                cbxPerihelionDate.Checked = Filters.PerihelionDate.Checked;
+                cboPerihelionDate.SelectedIndex = Filter.GetIndexFromValueResolve(Filters.PerihelionDate.ValueResolve);
+                if (!string.IsNullOrEmpty(Filters.PerihelionDate.Text))
                 {
-                    string[] date = Filters[1].Text.Split('.');
+                    string[] date = Filters.PerihelionDate.Text.Split('.');
                     txtPerihelionDateD.Text = date[0];
                     txtPerihelionDateM.Text = date[1];
                     txtPerihelionDateY.Text = date[2];
@@ -308,29 +331,29 @@ namespace Comets.Forms
                     txtPerihelionDateY.Text = string.Empty;
                 }
 
-                cbxPerihelionDistance.Checked = Filters[2].IsChecked;
-                cboPerihelionDistance.SelectedIndex = Filter.GetIndexFromValueResolve(Filters[2].ValueResolve);
-                txtPerihelionDistance.Text = Filters[2].Text;
+                cbxPerihelionDistance.Checked = Filters.PerihelionDistance.Checked;
+                cboPerihelionDistance.SelectedIndex = Filter.GetIndexFromValueResolve(Filters.PerihelionDistance.ValueResolve);
+                txtPerihelionDistance.Text = Filters.PerihelionDistance.Text;
 
-                cbxEccentricity.Checked = Filters[3].IsChecked;
-                cboEccentricity.SelectedIndex = Filter.GetIndexFromValueResolve(Filters[3].ValueResolve);
-                txtEccentricity.Text = Filters[3].Text;
+                cbxEccentricity.Checked = Filters.Eccentricity.Checked;
+                cboEccentricity.SelectedIndex = Filter.GetIndexFromValueResolve(Filters.Eccentricity.ValueResolve);
+                txtEccentricity.Text = Filters.Eccentricity.Text;
 
-                cbxLongOfAscendingNode.Checked = Filters[4].IsChecked;
-                cboLongOfAscendingNode.SelectedIndex = Filter.GetIndexFromValueResolve(Filters[4].ValueResolve);
-                txtLongOfAscendingNode.Text = Filters[4].Text;
+                cbxLongOfAscendingNode.Checked = Filters.LongOfAscendingNode.Checked;
+                cboLongOfAscendingNode.SelectedIndex = Filter.GetIndexFromValueResolve(Filters.LongOfAscendingNode.ValueResolve);
+                txtLongOfAscendingNode.Text = Filters.LongOfAscendingNode.Text;
 
-                cbxArgumentOfPericenter.Checked = Filters[5].IsChecked;
-                cboArgumentOfPericenter.SelectedIndex = Filter.GetIndexFromValueResolve(Filters[5].ValueResolve);
-                txtArgumentOfPericenter.Text = Filters[5].Text;
+                cbxArgumentOfPericenter.Checked = Filters.ArgumentOfPericenter.Checked;
+                cboArgumentOfPericenter.SelectedIndex = Filter.GetIndexFromValueResolve(Filters.ArgumentOfPericenter.ValueResolve);
+                txtArgumentOfPericenter.Text = Filters.ArgumentOfPericenter.Text;
 
-                cbxInclination.Checked = Filters[6].IsChecked;
-                cboInclination.SelectedIndex = Filter.GetIndexFromValueResolve(Filters[6].ValueResolve);
-                txtInclination.Text = Filters[6].Text;
+                cbxInclination.Checked = Filters.Inclination.Checked;
+                cboInclination.SelectedIndex = Filter.GetIndexFromValueResolve(Filters.Inclination.ValueResolve);
+                txtInclination.Text = Filters.Inclination.Text;
 
-                cbxPeriod.Checked = Filters[7].IsChecked;
-                cboPeriod.SelectedIndex = Filter.GetIndexFromValueResolve(Filters[7].ValueResolve);
-                txtPeriod.Text = Filters[7].Text;
+                cbxPeriod.Checked = Filters.Period.Checked;
+                cboPeriod.SelectedIndex = Filter.GetIndexFromValueResolve(Filters.Period.ValueResolve);
+                txtPeriod.Text = Filters.Period.Text;
             }
         }
 
@@ -340,7 +363,7 @@ namespace Comets.Forms
 
         private void btnFiltersApply_Click(object sender, EventArgs e)
         {
-            Filters = CollectFilters();
+            Filters = CollectFilters(Filters);
 
             if (Filter.ValidateFilters(Filters))
             {
@@ -350,33 +373,6 @@ namespace Comets.Forms
 
                 (this.Owner as FormMain).SetStatusCometsLabel(FormMain.UserList.Count, FormMain.MainList.Count);
             }
-            else
-            {
-                Filters = null;
-            }
-        }
-
-        #endregion
-
-        #region GetPerihDate
-
-        private double GetPerihDate(bool check)
-        {
-            double retval = 0.0;
-
-            if (check)
-            {
-                try
-                {
-                    retval = EphemerisHelper.jd0(Convert.ToInt32(txtPerihelionDateY.Text.Trim()), Convert.ToInt32(txtPerihelionDateM.Text.Trim()), Convert.ToInt32(txtPerihelionDateD.Text.Trim()), 0);
-                }
-                catch
-                {
-                    retval = -1.0;
-                }
-            }
-
-            return retval;
         }
 
         #endregion

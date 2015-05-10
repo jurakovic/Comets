@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Classes\Comet.cs" />
     <Compile Include="Classes\Filter.cs" />
+    <Compile Include="Classes\FilterCollection.cs" />
     <Compile Include="Classes\Settings\CommonSettings.cs" />
     <Compile Include="Classes\ElementTypes.cs" />
     <Compile Include="Classes\EphemerisResult.cs" />

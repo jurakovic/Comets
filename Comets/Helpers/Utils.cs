@@ -64,5 +64,14 @@ namespace Comets.Helpers
         }
 
         #endregion
+
+        public static double ConvertToDouble(string str)
+        {
+            double retval = 0.0;
+
+            double.TryParse(str, out retval);
+
+            return retval;
+        }
     }
 }
