@@ -65,6 +65,8 @@ namespace Comets.Helpers
 
         #endregion
 
+        #region ConvertToDouble
+
         public static double ConvertToDouble(string str)
         {
             double retval = 0.0;
@@ -73,5 +75,7 @@ namespace Comets.Helpers
 
             return retval;
         }
+
+        #endregion
     }
 }

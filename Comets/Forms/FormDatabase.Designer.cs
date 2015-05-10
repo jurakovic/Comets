@@ -82,7 +82,7 @@
             this.btnSort = new System.Windows.Forms.Button();
             this.t_sortKey = new System.Windows.Forms.TextBox();
             this.lblSortKey = new System.Windows.Forms.Label();
-            this.btnClose = new System.Windows.Forms.Button();
+            this.btnOk = new System.Windows.Forms.Button();
             this.contextSort = new System.Windows.Forms.ContextMenu();
             this.menuItemDesig = new System.Windows.Forms.MenuItem();
             this.menuItemName = new System.Windows.Forms.MenuItem();
@@ -99,7 +99,7 @@
             this.btnFiltersApply = new System.Windows.Forms.Button();
             this.pnlDetails = new System.Windows.Forms.Panel();
             this.pnlFilters = new System.Windows.Forms.Panel();
-            this.btnFiltersCancel = new System.Windows.Forms.Button();
+            this.btnFiltersClose = new System.Windows.Forms.Button();
             this.gbFilters = new System.Windows.Forms.GroupBox();
             this.panelPerihDist = new System.Windows.Forms.Panel();
             this.cbxPerihelionDistance = new System.Windows.Forms.CheckBox();
@@ -779,16 +779,16 @@
             this.lblSortKey.Text = "Sortkey";
             this.lblSortKey.Visible = false;
             // 
-            // btnClose
+            // btnOk
             // 
-            this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnClose.Location = new System.Drawing.Point(395, 330);
-            this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(118, 23);
-            this.btnClose.TabIndex = 291;
-            this.btnClose.Text = "Close";
-            this.btnClose.UseVisualStyleBackColor = true;
+            this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.btnOk.Location = new System.Drawing.Point(395, 330);
+            this.btnOk.Name = "btnOk";
+            this.btnOk.Size = new System.Drawing.Size(118, 23);
+            this.btnOk.TabIndex = 291;
+            this.btnOk.Text = "OK";
+            this.btnOk.UseVisualStyleBackColor = true;
             // 
             // contextSort
             // 
@@ -904,7 +904,7 @@
             // pnlDetails
             // 
             this.pnlDetails.Controls.Add(this.gbDetails);
-            this.pnlDetails.Controls.Add(this.btnClose);
+            this.pnlDetails.Controls.Add(this.btnOk);
             this.pnlDetails.Controls.Add(this.t_sortKey);
             this.pnlDetails.Controls.Add(this.lblSortKey);
             this.pnlDetails.Location = new System.Drawing.Point(253, 47);
@@ -914,7 +914,7 @@
             // 
             // pnlFilters
             // 
-            this.pnlFilters.Controls.Add(this.btnFiltersCancel);
+            this.pnlFilters.Controls.Add(this.btnFiltersClose);
             this.pnlFilters.Controls.Add(this.btnFiltersApply);
             this.pnlFilters.Controls.Add(this.gbFilters);
             this.pnlFilters.Location = new System.Drawing.Point(253, 47);
@@ -924,16 +924,16 @@
             this.pnlFilters.Visible = false;
             this.pnlFilters.VisibleChanged += new System.EventHandler(this.pnlFilters_VisibleChanged);
             // 
-            // btnFiltersCancel
+            // btnFiltersClose
             // 
-            this.btnFiltersCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnFiltersCancel.Location = new System.Drawing.Point(395, 330);
-            this.btnFiltersCancel.Name = "btnFiltersCancel";
-            this.btnFiltersCancel.Size = new System.Drawing.Size(118, 23);
-            this.btnFiltersCancel.TabIndex = 294;
-            this.btnFiltersCancel.Text = "Cancel";
-            this.btnFiltersCancel.UseVisualStyleBackColor = true;
-            this.btnFiltersCancel.Click += new System.EventHandler(this.btnFilters_Click);
+            this.btnFiltersClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnFiltersClose.Location = new System.Drawing.Point(395, 330);
+            this.btnFiltersClose.Name = "btnFiltersClose";
+            this.btnFiltersClose.Size = new System.Drawing.Size(118, 23);
+            this.btnFiltersClose.TabIndex = 294;
+            this.btnFiltersClose.Text = "Close";
+            this.btnFiltersClose.UseVisualStyleBackColor = true;
+            this.btnFiltersClose.Click += new System.EventHandler(this.btnFilters_Click);
             // 
             // gbFilters
             // 
@@ -1426,8 +1426,8 @@
             this.Controls.Add(this.btnFilters);
             this.Controls.Add(this.btnSort);
             this.Controls.Add(this.lbxDatabase);
-            this.Controls.Add(this.pnlFilters);
             this.Controls.Add(this.pnlDetails);
+            this.Controls.Add(this.pnlFilters);
             this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
@@ -1519,7 +1519,7 @@
         private System.Windows.Forms.Button btnSort;
         private System.Windows.Forms.TextBox t_sortKey;
         private System.Windows.Forms.Label lblSortKey;
-        private System.Windows.Forms.Button btnClose;
+        private System.Windows.Forms.Button btnOk;
         private System.Windows.Forms.ContextMenu contextSort;
         private System.Windows.Forms.MenuItem menuItemDesig;
         private System.Windows.Forms.MenuItem menuItemName;
@@ -1536,7 +1536,7 @@
         private System.Windows.Forms.Button btnFiltersApply;
         private System.Windows.Forms.Panel pnlDetails;
         private System.Windows.Forms.Panel pnlFilters;
-        private System.Windows.Forms.Button btnFiltersCancel;
+        private System.Windows.Forms.Button btnFiltersClose;
         private System.Windows.Forms.GroupBox gbFilters;
         private System.Windows.Forms.Panel panelPerihDist;
         private System.Windows.Forms.CheckBox cbxPerihelionDistance;

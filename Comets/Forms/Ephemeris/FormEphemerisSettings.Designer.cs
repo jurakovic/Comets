@@ -35,22 +35,22 @@
             this.lblPerihDate = new System.Windows.Forms.Label();
             this.cbComet = new System.Windows.Forms.ComboBox();
             this.gbxTimestamp = new System.Windows.Forms.GroupBox();
-            this.tbStartYear = new System.Windows.Forms.TextBox();
-            this.tbIntervalMin = new System.Windows.Forms.TextBox();
+            this.txtStartYear = new System.Windows.Forms.TextBox();
+            this.txtIntervalMin = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.tbIntervalHour = new System.Windows.Forms.TextBox();
-            this.tbStartMonth = new System.Windows.Forms.TextBox();
-            this.tbIntervalDay = new System.Windows.Forms.TextBox();
-            this.tbStartDay = new System.Windows.Forms.TextBox();
-            this.tbStartHour = new System.Windows.Forms.TextBox();
-            this.tbStartMin = new System.Windows.Forms.TextBox();
+            this.txtIntervalHour = new System.Windows.Forms.TextBox();
+            this.txtStartMonth = new System.Windows.Forms.TextBox();
+            this.txtIntervalDay = new System.Windows.Forms.TextBox();
+            this.txtStartDay = new System.Windows.Forms.TextBox();
+            this.txtStartHour = new System.Windows.Forms.TextBox();
+            this.txtStartMin = new System.Windows.Forms.TextBox();
             this.label20 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.tbEndMin = new System.Windows.Forms.TextBox();
-            this.tbEndYear = new System.Windows.Forms.TextBox();
-            this.tbEndHour = new System.Windows.Forms.TextBox();
-            this.tbEndMonth = new System.Windows.Forms.TextBox();
-            this.tbEndDay = new System.Windows.Forms.TextBox();
+            this.txtEndMin = new System.Windows.Forms.TextBox();
+            this.txtEndYear = new System.Windows.Forms.TextBox();
+            this.txtEndHour = new System.Windows.Forms.TextBox();
+            this.txtEndMonth = new System.Windows.Forms.TextBox();
+            this.txtEndDay = new System.Windows.Forms.TextBox();
             this.gbxOutputData = new System.Windows.Forms.GroupBox();
             this.radioLocalTime = new System.Windows.Forms.RadioButton();
             this.radioUnivTime = new System.Windows.Forms.RadioButton();
@@ -136,22 +136,22 @@
             // 
             // gbxTimestamp
             // 
-            this.gbxTimestamp.Controls.Add(this.tbStartYear);
-            this.gbxTimestamp.Controls.Add(this.tbIntervalMin);
+            this.gbxTimestamp.Controls.Add(this.txtStartYear);
+            this.gbxTimestamp.Controls.Add(this.txtIntervalMin);
             this.gbxTimestamp.Controls.Add(this.label3);
-            this.gbxTimestamp.Controls.Add(this.tbIntervalHour);
-            this.gbxTimestamp.Controls.Add(this.tbStartMonth);
-            this.gbxTimestamp.Controls.Add(this.tbIntervalDay);
-            this.gbxTimestamp.Controls.Add(this.tbStartDay);
-            this.gbxTimestamp.Controls.Add(this.tbStartHour);
-            this.gbxTimestamp.Controls.Add(this.tbStartMin);
+            this.gbxTimestamp.Controls.Add(this.txtIntervalHour);
+            this.gbxTimestamp.Controls.Add(this.txtStartMonth);
+            this.gbxTimestamp.Controls.Add(this.txtIntervalDay);
+            this.gbxTimestamp.Controls.Add(this.txtStartDay);
+            this.gbxTimestamp.Controls.Add(this.txtStartHour);
+            this.gbxTimestamp.Controls.Add(this.txtStartMin);
             this.gbxTimestamp.Controls.Add(this.label20);
             this.gbxTimestamp.Controls.Add(this.label4);
-            this.gbxTimestamp.Controls.Add(this.tbEndMin);
-            this.gbxTimestamp.Controls.Add(this.tbEndYear);
-            this.gbxTimestamp.Controls.Add(this.tbEndHour);
-            this.gbxTimestamp.Controls.Add(this.tbEndMonth);
-            this.gbxTimestamp.Controls.Add(this.tbEndDay);
+            this.gbxTimestamp.Controls.Add(this.txtEndMin);
+            this.gbxTimestamp.Controls.Add(this.txtEndYear);
+            this.gbxTimestamp.Controls.Add(this.txtEndHour);
+            this.gbxTimestamp.Controls.Add(this.txtEndMonth);
+            this.gbxTimestamp.Controls.Add(this.txtEndDay);
             this.gbxTimestamp.Location = new System.Drawing.Point(350, 6);
             this.gbxTimestamp.Name = "gbxTimestamp";
             this.gbxTimestamp.Size = new System.Drawing.Size(436, 135);
@@ -159,25 +159,25 @@
             this.gbxTimestamp.TabStop = false;
             this.gbxTimestamp.Text = "Timespan";
             // 
-            // tbStartYear
+            // txtStartYear
             // 
-            this.tbStartYear.Location = new System.Drawing.Point(122, 20);
-            this.tbStartYear.MaxLength = 4;
-            this.tbStartYear.Name = "tbStartYear";
-            this.tbStartYear.Size = new System.Drawing.Size(55, 21);
-            this.tbStartYear.TabIndex = 294;
-            this.tbStartYear.Text = "YYYY";
-            this.tbStartYear.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtStartYear.Location = new System.Drawing.Point(122, 20);
+            this.txtStartYear.MaxLength = 4;
+            this.txtStartYear.Name = "txtStartYear";
+            this.txtStartYear.Size = new System.Drawing.Size(55, 21);
+            this.txtStartYear.TabIndex = 294;
+            this.txtStartYear.Text = "YYYY";
+            this.txtStartYear.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // tbIntervalMin
+            // txtIntervalMin
             // 
-            this.tbIntervalMin.Location = new System.Drawing.Point(366, 74);
-            this.tbIntervalMin.MaxLength = 2;
-            this.tbIntervalMin.Name = "tbIntervalMin";
-            this.tbIntervalMin.Size = new System.Drawing.Size(55, 21);
-            this.tbIntervalMin.TabIndex = 305;
-            this.tbIntervalMin.Text = "MM";
-            this.tbIntervalMin.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtIntervalMin.Location = new System.Drawing.Point(366, 74);
+            this.txtIntervalMin.MaxLength = 2;
+            this.txtIntervalMin.Name = "txtIntervalMin";
+            this.txtIntervalMin.Size = new System.Drawing.Size(55, 21);
+            this.txtIntervalMin.TabIndex = 305;
+            this.txtIntervalMin.Text = "MM";
+            this.txtIntervalMin.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label3
             // 
@@ -188,65 +188,65 @@
             this.label3.TabIndex = 291;
             this.label3.Text = "Start:";
             // 
-            // tbIntervalHour
+            // txtIntervalHour
             // 
-            this.tbIntervalHour.Location = new System.Drawing.Point(305, 74);
-            this.tbIntervalHour.MaxLength = 2;
-            this.tbIntervalHour.Name = "tbIntervalHour";
-            this.tbIntervalHour.Size = new System.Drawing.Size(55, 21);
-            this.tbIntervalHour.TabIndex = 304;
-            this.tbIntervalHour.Text = "HH";
-            this.tbIntervalHour.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtIntervalHour.Location = new System.Drawing.Point(305, 74);
+            this.txtIntervalHour.MaxLength = 2;
+            this.txtIntervalHour.Name = "txtIntervalHour";
+            this.txtIntervalHour.Size = new System.Drawing.Size(55, 21);
+            this.txtIntervalHour.TabIndex = 304;
+            this.txtIntervalHour.Text = "HH";
+            this.txtIntervalHour.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // tbStartMonth
+            // txtStartMonth
             // 
-            this.tbStartMonth.Location = new System.Drawing.Point(183, 20);
-            this.tbStartMonth.MaxLength = 2;
-            this.tbStartMonth.Name = "tbStartMonth";
-            this.tbStartMonth.Size = new System.Drawing.Size(55, 21);
-            this.tbStartMonth.TabIndex = 293;
-            this.tbStartMonth.Text = "MM";
-            this.tbStartMonth.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtStartMonth.Location = new System.Drawing.Point(183, 20);
+            this.txtStartMonth.MaxLength = 2;
+            this.txtStartMonth.Name = "txtStartMonth";
+            this.txtStartMonth.Size = new System.Drawing.Size(55, 21);
+            this.txtStartMonth.TabIndex = 293;
+            this.txtStartMonth.Text = "MM";
+            this.txtStartMonth.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // tbIntervalDay
+            // txtIntervalDay
             // 
-            this.tbIntervalDay.Location = new System.Drawing.Point(244, 74);
-            this.tbIntervalDay.MaxLength = 2;
-            this.tbIntervalDay.Name = "tbIntervalDay";
-            this.tbIntervalDay.Size = new System.Drawing.Size(55, 21);
-            this.tbIntervalDay.TabIndex = 303;
-            this.tbIntervalDay.Text = "DD";
-            this.tbIntervalDay.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtIntervalDay.Location = new System.Drawing.Point(244, 74);
+            this.txtIntervalDay.MaxLength = 2;
+            this.txtIntervalDay.Name = "txtIntervalDay";
+            this.txtIntervalDay.Size = new System.Drawing.Size(55, 21);
+            this.txtIntervalDay.TabIndex = 303;
+            this.txtIntervalDay.Text = "DD";
+            this.txtIntervalDay.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // tbStartDay
+            // txtStartDay
             // 
-            this.tbStartDay.Location = new System.Drawing.Point(244, 20);
-            this.tbStartDay.MaxLength = 2;
-            this.tbStartDay.Name = "tbStartDay";
-            this.tbStartDay.Size = new System.Drawing.Size(55, 21);
-            this.tbStartDay.TabIndex = 292;
-            this.tbStartDay.Text = "DD";
-            this.tbStartDay.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtStartDay.Location = new System.Drawing.Point(244, 20);
+            this.txtStartDay.MaxLength = 2;
+            this.txtStartDay.Name = "txtStartDay";
+            this.txtStartDay.Size = new System.Drawing.Size(55, 21);
+            this.txtStartDay.TabIndex = 292;
+            this.txtStartDay.Text = "DD";
+            this.txtStartDay.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // tbStartHour
+            // txtStartHour
             // 
-            this.tbStartHour.Location = new System.Drawing.Point(305, 20);
-            this.tbStartHour.MaxLength = 2;
-            this.tbStartHour.Name = "tbStartHour";
-            this.tbStartHour.Size = new System.Drawing.Size(55, 21);
-            this.tbStartHour.TabIndex = 295;
-            this.tbStartHour.Text = "HH";
-            this.tbStartHour.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtStartHour.Location = new System.Drawing.Point(305, 20);
+            this.txtStartHour.MaxLength = 2;
+            this.txtStartHour.Name = "txtStartHour";
+            this.txtStartHour.Size = new System.Drawing.Size(55, 21);
+            this.txtStartHour.TabIndex = 295;
+            this.txtStartHour.Text = "HH";
+            this.txtStartHour.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // tbStartMin
+            // txtStartMin
             // 
-            this.tbStartMin.Location = new System.Drawing.Point(366, 20);
-            this.tbStartMin.MaxLength = 2;
-            this.tbStartMin.Name = "tbStartMin";
-            this.tbStartMin.Size = new System.Drawing.Size(55, 21);
-            this.tbStartMin.TabIndex = 296;
-            this.tbStartMin.Text = "MM";
-            this.tbStartMin.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtStartMin.Location = new System.Drawing.Point(366, 20);
+            this.txtStartMin.MaxLength = 2;
+            this.txtStartMin.Name = "txtStartMin";
+            this.txtStartMin.Size = new System.Drawing.Size(55, 21);
+            this.txtStartMin.TabIndex = 296;
+            this.txtStartMin.Text = "MM";
+            this.txtStartMin.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label20
             // 
@@ -266,55 +266,55 @@
             this.label4.TabIndex = 298;
             this.label4.Text = "End:";
             // 
-            // tbEndMin
+            // txtEndMin
             // 
-            this.tbEndMin.Location = new System.Drawing.Point(366, 47);
-            this.tbEndMin.MaxLength = 2;
-            this.tbEndMin.Name = "tbEndMin";
-            this.tbEndMin.Size = new System.Drawing.Size(55, 21);
-            this.tbEndMin.TabIndex = 302;
-            this.tbEndMin.Text = "MM";
-            this.tbEndMin.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtEndMin.Location = new System.Drawing.Point(366, 47);
+            this.txtEndMin.MaxLength = 2;
+            this.txtEndMin.Name = "txtEndMin";
+            this.txtEndMin.Size = new System.Drawing.Size(55, 21);
+            this.txtEndMin.TabIndex = 302;
+            this.txtEndMin.Text = "MM";
+            this.txtEndMin.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // tbEndYear
+            // txtEndYear
             // 
-            this.tbEndYear.Location = new System.Drawing.Point(122, 47);
-            this.tbEndYear.MaxLength = 4;
-            this.tbEndYear.Name = "tbEndYear";
-            this.tbEndYear.Size = new System.Drawing.Size(55, 21);
-            this.tbEndYear.TabIndex = 300;
-            this.tbEndYear.Text = "YYYY";
-            this.tbEndYear.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtEndYear.Location = new System.Drawing.Point(122, 47);
+            this.txtEndYear.MaxLength = 4;
+            this.txtEndYear.Name = "txtEndYear";
+            this.txtEndYear.Size = new System.Drawing.Size(55, 21);
+            this.txtEndYear.TabIndex = 300;
+            this.txtEndYear.Text = "YYYY";
+            this.txtEndYear.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // tbEndHour
+            // txtEndHour
             // 
-            this.tbEndHour.Location = new System.Drawing.Point(305, 47);
-            this.tbEndHour.MaxLength = 2;
-            this.tbEndHour.Name = "tbEndHour";
-            this.tbEndHour.Size = new System.Drawing.Size(55, 21);
-            this.tbEndHour.TabIndex = 301;
-            this.tbEndHour.Text = "HH";
-            this.tbEndHour.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtEndHour.Location = new System.Drawing.Point(305, 47);
+            this.txtEndHour.MaxLength = 2;
+            this.txtEndHour.Name = "txtEndHour";
+            this.txtEndHour.Size = new System.Drawing.Size(55, 21);
+            this.txtEndHour.TabIndex = 301;
+            this.txtEndHour.Text = "HH";
+            this.txtEndHour.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // tbEndMonth
+            // txtEndMonth
             // 
-            this.tbEndMonth.Location = new System.Drawing.Point(183, 47);
-            this.tbEndMonth.MaxLength = 2;
-            this.tbEndMonth.Name = "tbEndMonth";
-            this.tbEndMonth.Size = new System.Drawing.Size(55, 21);
-            this.tbEndMonth.TabIndex = 299;
-            this.tbEndMonth.Text = "MM";
-            this.tbEndMonth.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtEndMonth.Location = new System.Drawing.Point(183, 47);
+            this.txtEndMonth.MaxLength = 2;
+            this.txtEndMonth.Name = "txtEndMonth";
+            this.txtEndMonth.Size = new System.Drawing.Size(55, 21);
+            this.txtEndMonth.TabIndex = 299;
+            this.txtEndMonth.Text = "MM";
+            this.txtEndMonth.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // tbEndDay
+            // txtEndDay
             // 
-            this.tbEndDay.Location = new System.Drawing.Point(244, 47);
-            this.tbEndDay.MaxLength = 2;
-            this.tbEndDay.Name = "tbEndDay";
-            this.tbEndDay.Size = new System.Drawing.Size(55, 21);
-            this.tbEndDay.TabIndex = 297;
-            this.tbEndDay.Text = "DD";
-            this.tbEndDay.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtEndDay.Location = new System.Drawing.Point(244, 47);
+            this.txtEndDay.MaxLength = 2;
+            this.txtEndDay.Name = "txtEndDay";
+            this.txtEndDay.Size = new System.Drawing.Size(55, 21);
+            this.txtEndDay.TabIndex = 297;
+            this.txtEndDay.Text = "DD";
+            this.txtEndDay.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // gbxOutputData
             // 
@@ -510,22 +510,22 @@
         private System.Windows.Forms.Button btnCalcEphem;
         private System.Windows.Forms.GroupBox gbxSelectComet;
         private System.Windows.Forms.GroupBox gbxTimestamp;
-        private System.Windows.Forms.TextBox tbStartYear;
-        private System.Windows.Forms.TextBox tbIntervalMin;
+        private System.Windows.Forms.TextBox txtStartYear;
+        private System.Windows.Forms.TextBox txtIntervalMin;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox tbIntervalHour;
-        private System.Windows.Forms.TextBox tbStartMonth;
-        private System.Windows.Forms.TextBox tbIntervalDay;
-        private System.Windows.Forms.TextBox tbStartDay;
-        private System.Windows.Forms.TextBox tbStartHour;
-        private System.Windows.Forms.TextBox tbStartMin;
+        private System.Windows.Forms.TextBox txtIntervalHour;
+        private System.Windows.Forms.TextBox txtStartMonth;
+        private System.Windows.Forms.TextBox txtIntervalDay;
+        private System.Windows.Forms.TextBox txtStartDay;
+        private System.Windows.Forms.TextBox txtStartHour;
+        private System.Windows.Forms.TextBox txtStartMin;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox tbEndMin;
-        private System.Windows.Forms.TextBox tbEndYear;
-        private System.Windows.Forms.TextBox tbEndHour;
-        private System.Windows.Forms.TextBox tbEndMonth;
-        private System.Windows.Forms.TextBox tbEndDay;
+        private System.Windows.Forms.TextBox txtEndMin;
+        private System.Windows.Forms.TextBox txtEndYear;
+        private System.Windows.Forms.TextBox txtEndHour;
+        private System.Windows.Forms.TextBox txtEndMonth;
+        private System.Windows.Forms.TextBox txtEndDay;
         private System.Windows.Forms.GroupBox gbxOutputData;
         private System.Windows.Forms.Label lblPeriod;
         private System.Windows.Forms.Label lblPerihDist;

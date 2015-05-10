@@ -39,16 +39,16 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.tbStartDaysFromT = new System.Windows.Forms.TextBox();
-            this.tbEndDaysFromT = new System.Windows.Forms.TextBox();
+            this.txtStartDaysFromT = new System.Windows.Forms.TextBox();
+            this.txtEndDaysFromT = new System.Windows.Forms.TextBox();
             this.pnlRangeDate = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
-            this.tbStartYear = new System.Windows.Forms.TextBox();
-            this.tbStartMonth = new System.Windows.Forms.TextBox();
-            this.tbStartDay = new System.Windows.Forms.TextBox();
-            this.tbEndYear = new System.Windows.Forms.TextBox();
-            this.tbEndMonth = new System.Windows.Forms.TextBox();
-            this.tbEndDay = new System.Windows.Forms.TextBox();
+            this.txtStartYear = new System.Windows.Forms.TextBox();
+            this.txtStartMonth = new System.Windows.Forms.TextBox();
+            this.txtStartDay = new System.Windows.Forms.TextBox();
+            this.txtEndYear = new System.Windows.Forms.TextBox();
+            this.txtEndMonth = new System.Windows.Forms.TextBox();
+            this.txtEndDay = new System.Windows.Forms.TextBox();
             this.rbRangeDaysFromT = new System.Windows.Forms.RadioButton();
             this.rbRangeDate = new System.Windows.Forms.RadioButton();
             this.gbxDateFormat = new System.Windows.Forms.GroupBox();
@@ -71,7 +71,7 @@
             this.btnPlotGraph.Name = "btnPlotGraph";
             this.btnPlotGraph.Size = new System.Drawing.Size(190, 35);
             this.btnPlotGraph.TabIndex = 2;
-            this.btnPlotGraph.Text = "PlotGraph";
+            this.btnPlotGraph.Text = "Plot Graph";
             this.btnPlotGraph.UseVisualStyleBackColor = true;
             this.btnPlotGraph.Click += new System.EventHandler(this.btnPlotGraph_Click);
             // 
@@ -146,8 +146,8 @@
             this.pnlRangeDaysFromT.Controls.Add(this.label4);
             this.pnlRangeDaysFromT.Controls.Add(this.label3);
             this.pnlRangeDaysFromT.Controls.Add(this.label2);
-            this.pnlRangeDaysFromT.Controls.Add(this.tbStartDaysFromT);
-            this.pnlRangeDaysFromT.Controls.Add(this.tbEndDaysFromT);
+            this.pnlRangeDaysFromT.Controls.Add(this.txtStartDaysFromT);
+            this.pnlRangeDaysFromT.Controls.Add(this.txtEndDaysFromT);
             this.pnlRangeDaysFromT.Enabled = false;
             this.pnlRangeDaysFromT.Location = new System.Drawing.Point(149, 43);
             this.pnlRangeDaysFromT.Name = "pnlRangeDaysFromT";
@@ -181,35 +181,35 @@
             this.label2.TabIndex = 317;
             this.label2.Text = "-";
             // 
-            // tbStartDaysFromT
+            // txtStartDaysFromT
             // 
-            this.tbStartDaysFromT.Location = new System.Drawing.Point(3, 3);
-            this.tbStartDaysFromT.MaxLength = 4;
-            this.tbStartDaysFromT.Name = "tbStartDaysFromT";
-            this.tbStartDaysFromT.Size = new System.Drawing.Size(55, 21);
-            this.tbStartDaysFromT.TabIndex = 313;
-            this.tbStartDaysFromT.Text = "DDDD";
-            this.tbStartDaysFromT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtStartDaysFromT.Location = new System.Drawing.Point(3, 3);
+            this.txtStartDaysFromT.MaxLength = 4;
+            this.txtStartDaysFromT.Name = "txtStartDaysFromT";
+            this.txtStartDaysFromT.Size = new System.Drawing.Size(55, 21);
+            this.txtStartDaysFromT.TabIndex = 313;
+            this.txtStartDaysFromT.Text = "DDDD";
+            this.txtStartDaysFromT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // tbEndDaysFromT
+            // txtEndDaysFromT
             // 
-            this.tbEndDaysFromT.Location = new System.Drawing.Point(148, 3);
-            this.tbEndDaysFromT.MaxLength = 4;
-            this.tbEndDaysFromT.Name = "tbEndDaysFromT";
-            this.tbEndDaysFromT.Size = new System.Drawing.Size(55, 21);
-            this.tbEndDaysFromT.TabIndex = 316;
-            this.tbEndDaysFromT.Text = "DDDD";
-            this.tbEndDaysFromT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtEndDaysFromT.Location = new System.Drawing.Point(148, 3);
+            this.txtEndDaysFromT.MaxLength = 4;
+            this.txtEndDaysFromT.Name = "txtEndDaysFromT";
+            this.txtEndDaysFromT.Size = new System.Drawing.Size(55, 21);
+            this.txtEndDaysFromT.TabIndex = 316;
+            this.txtEndDaysFromT.Text = "DDDD";
+            this.txtEndDaysFromT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // pnlRangeDate
             // 
             this.pnlRangeDate.Controls.Add(this.label1);
-            this.pnlRangeDate.Controls.Add(this.tbStartYear);
-            this.pnlRangeDate.Controls.Add(this.tbStartMonth);
-            this.pnlRangeDate.Controls.Add(this.tbStartDay);
-            this.pnlRangeDate.Controls.Add(this.tbEndYear);
-            this.pnlRangeDate.Controls.Add(this.tbEndMonth);
-            this.pnlRangeDate.Controls.Add(this.tbEndDay);
+            this.pnlRangeDate.Controls.Add(this.txtStartYear);
+            this.pnlRangeDate.Controls.Add(this.txtStartMonth);
+            this.pnlRangeDate.Controls.Add(this.txtStartDay);
+            this.pnlRangeDate.Controls.Add(this.txtEndYear);
+            this.pnlRangeDate.Controls.Add(this.txtEndMonth);
+            this.pnlRangeDate.Controls.Add(this.txtEndDay);
             this.pnlRangeDate.Location = new System.Drawing.Point(149, 13);
             this.pnlRangeDate.Name = "pnlRangeDate";
             this.pnlRangeDate.Size = new System.Drawing.Size(337, 27);
@@ -224,65 +224,65 @@
             this.label1.TabIndex = 310;
             this.label1.Text = "-";
             // 
-            // tbStartYear
+            // txtStartYear
             // 
-            this.tbStartYear.Location = new System.Drawing.Point(3, 3);
-            this.tbStartYear.MaxLength = 4;
-            this.tbStartYear.Name = "tbStartYear";
-            this.tbStartYear.Size = new System.Drawing.Size(55, 21);
-            this.tbStartYear.TabIndex = 306;
-            this.tbStartYear.Text = "YYYY";
-            this.tbStartYear.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtStartYear.Location = new System.Drawing.Point(3, 3);
+            this.txtStartYear.MaxLength = 4;
+            this.txtStartYear.Name = "txtStartYear";
+            this.txtStartYear.Size = new System.Drawing.Size(55, 21);
+            this.txtStartYear.TabIndex = 306;
+            this.txtStartYear.Text = "YYYY";
+            this.txtStartYear.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // tbStartMonth
+            // txtStartMonth
             // 
-            this.tbStartMonth.Location = new System.Drawing.Point(64, 3);
-            this.tbStartMonth.MaxLength = 2;
-            this.tbStartMonth.Name = "tbStartMonth";
-            this.tbStartMonth.Size = new System.Drawing.Size(25, 21);
-            this.tbStartMonth.TabIndex = 305;
-            this.tbStartMonth.Text = "MM";
-            this.tbStartMonth.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtStartMonth.Location = new System.Drawing.Point(64, 3);
+            this.txtStartMonth.MaxLength = 2;
+            this.txtStartMonth.Name = "txtStartMonth";
+            this.txtStartMonth.Size = new System.Drawing.Size(25, 21);
+            this.txtStartMonth.TabIndex = 305;
+            this.txtStartMonth.Text = "MM";
+            this.txtStartMonth.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // tbStartDay
+            // txtStartDay
             // 
-            this.tbStartDay.Location = new System.Drawing.Point(95, 3);
-            this.tbStartDay.MaxLength = 2;
-            this.tbStartDay.Name = "tbStartDay";
-            this.tbStartDay.Size = new System.Drawing.Size(25, 21);
-            this.tbStartDay.TabIndex = 304;
-            this.tbStartDay.Text = "DD";
-            this.tbStartDay.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtStartDay.Location = new System.Drawing.Point(95, 3);
+            this.txtStartDay.MaxLength = 2;
+            this.txtStartDay.Name = "txtStartDay";
+            this.txtStartDay.Size = new System.Drawing.Size(25, 21);
+            this.txtStartDay.TabIndex = 304;
+            this.txtStartDay.Text = "DD";
+            this.txtStartDay.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // tbEndYear
+            // txtEndYear
             // 
-            this.tbEndYear.Location = new System.Drawing.Point(148, 3);
-            this.tbEndYear.MaxLength = 4;
-            this.tbEndYear.Name = "tbEndYear";
-            this.tbEndYear.Size = new System.Drawing.Size(55, 21);
-            this.tbEndYear.TabIndex = 309;
-            this.tbEndYear.Text = "YYYY";
-            this.tbEndYear.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtEndYear.Location = new System.Drawing.Point(148, 3);
+            this.txtEndYear.MaxLength = 4;
+            this.txtEndYear.Name = "txtEndYear";
+            this.txtEndYear.Size = new System.Drawing.Size(55, 21);
+            this.txtEndYear.TabIndex = 309;
+            this.txtEndYear.Text = "YYYY";
+            this.txtEndYear.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // tbEndMonth
+            // txtEndMonth
             // 
-            this.tbEndMonth.Location = new System.Drawing.Point(209, 3);
-            this.tbEndMonth.MaxLength = 2;
-            this.tbEndMonth.Name = "tbEndMonth";
-            this.tbEndMonth.Size = new System.Drawing.Size(25, 21);
-            this.tbEndMonth.TabIndex = 308;
-            this.tbEndMonth.Text = "MM";
-            this.tbEndMonth.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtEndMonth.Location = new System.Drawing.Point(209, 3);
+            this.txtEndMonth.MaxLength = 2;
+            this.txtEndMonth.Name = "txtEndMonth";
+            this.txtEndMonth.Size = new System.Drawing.Size(25, 21);
+            this.txtEndMonth.TabIndex = 308;
+            this.txtEndMonth.Text = "MM";
+            this.txtEndMonth.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // tbEndDay
+            // txtEndDay
             // 
-            this.tbEndDay.Location = new System.Drawing.Point(240, 3);
-            this.tbEndDay.MaxLength = 2;
-            this.tbEndDay.Name = "tbEndDay";
-            this.tbEndDay.Size = new System.Drawing.Size(25, 21);
-            this.tbEndDay.TabIndex = 307;
-            this.tbEndDay.Text = "DD";
-            this.tbEndDay.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtEndDay.Location = new System.Drawing.Point(240, 3);
+            this.txtEndDay.MaxLength = 2;
+            this.txtEndDay.Name = "txtEndDay";
+            this.txtEndDay.Size = new System.Drawing.Size(25, 21);
+            this.txtEndDay.TabIndex = 307;
+            this.txtEndDay.Text = "DD";
+            this.txtEndDay.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // rbRangeDaysFromT
             // 
@@ -420,15 +420,15 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox tbStartDaysFromT;
-        private System.Windows.Forms.TextBox tbEndDaysFromT;
+        private System.Windows.Forms.TextBox txtStartDaysFromT;
+        private System.Windows.Forms.TextBox txtEndDaysFromT;
         private System.Windows.Forms.Panel pnlRangeDate;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox tbStartYear;
-        private System.Windows.Forms.TextBox tbStartMonth;
-        private System.Windows.Forms.TextBox tbStartDay;
-        private System.Windows.Forms.TextBox tbEndYear;
-        private System.Windows.Forms.TextBox tbEndMonth;
-        private System.Windows.Forms.TextBox tbEndDay;
+        private System.Windows.Forms.TextBox txtStartYear;
+        private System.Windows.Forms.TextBox txtStartMonth;
+        private System.Windows.Forms.TextBox txtStartDay;
+        private System.Windows.Forms.TextBox txtEndYear;
+        private System.Windows.Forms.TextBox txtEndMonth;
+        private System.Windows.Forms.TextBox txtEndDay;
     }
 }

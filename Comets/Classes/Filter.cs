@@ -67,7 +67,7 @@ namespace Comets.Classes
                     string[] dt = _text.Split('.');
                     try
                     {
-                        _value = EphemerisHelper.jd0(Convert.ToInt32(dt[0]), Convert.ToInt32(dt[1]), Convert.ToInt32(dt[2]), 0);
+                        _value = EphemerisHelper.jd0(Convert.ToInt32(dt[2]), Convert.ToInt32(dt[1]), Convert.ToInt32(dt[0]), 0);
                     }
                     catch
                     {

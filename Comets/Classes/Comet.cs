@@ -47,6 +47,15 @@ namespace Comets.Classes
 
         #endregion
 
+        #region ToString
+
+        public override string ToString()
+        {
+            return full;
+        }
+
+        #endregion
+
         #region Methods
 
         #region GetSortkey

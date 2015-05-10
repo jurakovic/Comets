@@ -28,37 +28,37 @@ namespace Comets.Forms.Ephemeris
             {
                 AddNewEphemeris = true;
 
-                DateTime dt = DateTime.Now.AddHours(1);
-                tbStartYear.Text = dt.Year.ToString();
-                tbStartMonth.Text = dt.Month.ToString("00");
-                tbStartDay.Text = dt.Day.ToString("00");
-                tbStartHour.Text = dt.Hour.ToString("00");
-                tbStartMin.Text = "00";
+                DateTime dt = DateTime.Now.AddDays(-20);
+                txtStartYear.Text = dt.Year.ToString();
+                txtStartMonth.Text = dt.Month.ToString("00");
+                txtStartDay.Text = "01";
+                txtStartHour.Text = "22";
+                txtStartMin.Text = "00";
 
-                dt = dt.AddDays(15);
-                tbEndYear.Text = dt.Year.ToString();
-                tbEndMonth.Text = dt.Month.ToString("00");
-                tbEndDay.Text = dt.Day.ToString("00");
-                tbEndHour.Text = dt.Hour.ToString("00");
-                tbEndMin.Text = "00";
+                dt = dt.AddMonths(1);
+                txtEndYear.Text = dt.Year.ToString();
+                txtEndMonth.Text = dt.Month.ToString("00");
+                txtEndDay.Text = DateTime.DaysInMonth(dt.Year, dt.Month).ToString("00"); 
+                txtEndHour.Text = "22";
+                txtEndMin.Text = "00";
 
-                tbIntervalDay.Text = "1";
-                tbIntervalHour.Text = "00";
-                tbIntervalMin.Text = "00";
+                txtIntervalDay.Text = "1";
+                txtIntervalHour.Text = "00";
+                txtIntervalMin.Text = "00";
             }
             else
             {
-                tbStartYear.Text = EphemerisSettings.Start.Year.ToString();
-                tbStartMonth.Text = EphemerisSettings.Start.Month.ToString("00");
-                tbStartDay.Text = EphemerisSettings.Start.Day.ToString("00");
-                tbStartHour.Text = EphemerisSettings.Start.Hour.ToString("00");
-                tbStartMin.Text = "00";
+                txtStartYear.Text = EphemerisSettings.Start.Year.ToString();
+                txtStartMonth.Text = EphemerisSettings.Start.Month.ToString("00");
+                txtStartDay.Text = EphemerisSettings.Start.Day.ToString("00");
+                txtStartHour.Text = EphemerisSettings.Start.Hour.ToString("00");
+                txtStartMin.Text = "00";
 
-                tbEndYear.Text = EphemerisSettings.Stop.Year.ToString();
-                tbEndMonth.Text = EphemerisSettings.Stop.Month.ToString("00");
-                tbEndDay.Text = EphemerisSettings.Stop.Day.ToString("00");
-                tbEndHour.Text = EphemerisSettings.Stop.Hour.ToString("00");
-                tbEndMin.Text = "00";
+                txtEndYear.Text = EphemerisSettings.Stop.Year.ToString();
+                txtEndMonth.Text = EphemerisSettings.Stop.Month.ToString("00");
+                txtEndDay.Text = EphemerisSettings.Stop.Day.ToString("00");
+                txtEndHour.Text = EphemerisSettings.Stop.Hour.ToString("00");
+                txtEndMin.Text = "00";
 
                 int intD, intH, intM;
                 intD = (int)EphemerisSettings.Interval;
@@ -67,9 +67,9 @@ namespace Comets.Forms.Ephemeris
                 double min = hh - intH;
                 intM = (int)Math.Round(min * 60, 0);
 
-                tbIntervalDay.Text = intD.ToString();
-                tbIntervalHour.Text = intH.ToString("00");
-                tbIntervalMin.Text = intM.ToString("00");
+                txtIntervalDay.Text = intD.ToString();
+                txtIntervalHour.Text = intH.ToString("00");
+                txtIntervalMin.Text = intM.ToString("00");
 
                 radioLocalTime.Checked = EphemerisSettings.LocalTime;
                 radioUnivTime.Checked = !EphemerisSettings.LocalTime;
@@ -130,21 +130,21 @@ namespace Comets.Forms.Ephemeris
                 
                 try
                 {
-                    syr = Convert.ToInt32(tbStartYear.Text);
-                    smo = Convert.ToInt32(tbStartMonth.Text);
-                    sdy = Convert.ToInt32(tbStartDay.Text);
-                    shr = Convert.ToInt32(tbStartHour.Text);
-                    smi = Convert.ToInt32(tbStartMin.Text);
+                    syr = Convert.ToInt32(txtStartYear.Text);
+                    smo = Convert.ToInt32(txtStartMonth.Text);
+                    sdy = Convert.ToInt32(txtStartDay.Text);
+                    shr = Convert.ToInt32(txtStartHour.Text);
+                    smi = Convert.ToInt32(txtStartMin.Text);
 
-                    eyr = Convert.ToInt32(tbEndYear.Text);
-                    emo = Convert.ToInt32(tbEndMonth.Text);
-                    edy = Convert.ToInt32(tbEndDay.Text);
-                    ehr = Convert.ToInt32(tbEndHour.Text);
-                    emi = Convert.ToInt32(tbEndMin.Text);
+                    eyr = Convert.ToInt32(txtEndYear.Text);
+                    emo = Convert.ToInt32(txtEndMonth.Text);
+                    edy = Convert.ToInt32(txtEndDay.Text);
+                    ehr = Convert.ToInt32(txtEndHour.Text);
+                    emi = Convert.ToInt32(txtEndMin.Text);
 
-                    ind = Convert.ToDouble(tbIntervalDay.Text);
-                    inh = Convert.ToDouble(tbIntervalHour.Text);
-                    inm = Convert.ToDouble(tbIntervalMin.Text);
+                    ind = Convert.ToDouble(txtIntervalDay.Text);
+                    inh = Convert.ToDouble(txtIntervalHour.Text);
+                    inm = Convert.ToDouble(txtIntervalMin.Text);
 
                     start = new DateTime(syr, smo, sdy, shr, smi, 0);
                     stop = new DateTime(eyr, emo, edy, ehr, emi, 0);

@@ -29,26 +29,43 @@ namespace Comets.Forms.Magnitude
             {
                 AddNewGraph = true;
 
-                int offset = 45;
+                DateTime dt = DateTime.Now.AddDays(-20);
+                txtStartYear.Text = dt.Year.ToString();
+                txtStartMonth.Text = dt.Month.ToString("00");
+                txtStartDay.Text = "01";
 
-                DateTime dt = DateTime.Now.AddDays(-offset);
-                tbStartYear.Text = dt.Year.ToString();
-                tbStartMonth.Text = dt.Month.ToString("00");
-                tbStartDay.Text = dt.Day.ToString("00");
+                dt = dt.AddMonths(1);
+                txtEndYear.Text = dt.Year.ToString();
+                txtEndMonth.Text = dt.Month.ToString("00");
+                txtEndDay.Text = DateTime.DaysInMonth(dt.Year, dt.Month).ToString("00");
 
-                dt = DateTime.Now.AddDays(offset);
-                tbEndYear.Text = dt.Year.ToString();
-                tbEndMonth.Text = dt.Month.ToString("00");
-                tbEndDay.Text = dt.Day.ToString("00");
+                int offset = 180;
 
-                tbStartDaysFromT.Text = (-offset).ToString();
-                tbEndDaysFromT.Text = offset.ToString();
-
-                //TO DO
+                txtStartDaysFromT.Text = (-offset).ToString();
+                txtEndDaysFromT.Text = offset.ToString();
             }
             else
             {
-                //TO DO
+                if (GraphSettings.DateRange)
+                    rbRangeDate.Checked = true;
+                else
+                    rbRangeDaysFromT.Checked = true;
+
+                string[] dates = GraphSettings.Dates.Split(':');
+                string[] ds = dates[0].Split('.');
+                string[] de = dates[1].Split('.');
+
+                txtStartYear.Text = ds[0];
+                txtStartMonth.Text = ds[1];
+                txtStartDay.Text = ds[2];
+
+                txtEndYear.Text = de[0];
+                txtEndMonth.Text = de[1];
+                txtEndDay.Text = de[2];
+
+                string[] daysfromt = GraphSettings.DaysFromT.Split(':');
+                txtStartDaysFromT.Text = daysfromt[0];
+                txtEndDaysFromT.Text = daysfromt[1];
             }
         }
 
@@ -111,13 +128,13 @@ namespace Comets.Forms.Magnitude
                 {
                     if (rbRangeDate.Checked)
                     {
-                        syr = Convert.ToInt32(tbStartYear.Text);
-                        smo = Convert.ToInt32(tbStartMonth.Text);
-                        sdy = Convert.ToInt32(tbStartDay.Text);
+                        syr = Convert.ToInt32(txtStartYear.Text);
+                        smo = Convert.ToInt32(txtStartMonth.Text);
+                        sdy = Convert.ToInt32(txtStartDay.Text);
 
-                        eyr = Convert.ToInt32(tbEndYear.Text);
-                        emo = Convert.ToInt32(tbEndMonth.Text);
-                        edy = Convert.ToInt32(tbEndDay.Text);
+                        eyr = Convert.ToInt32(txtEndYear.Text);
+                        emo = Convert.ToInt32(txtEndMonth.Text);
+                        edy = Convert.ToInt32(txtEndDay.Text);
 
                         start = new DateTime(syr, smo, sdy, 0, 0, 0);
                         stop = new DateTime(eyr, emo, edy, 0, 0, 0);
@@ -126,8 +143,8 @@ namespace Comets.Forms.Magnitude
                     {
                         Comet c = FormMain.UserList.ElementAt(cbComet.SelectedIndex);
 
-                        before = Convert.ToInt32(tbStartDaysFromT.Text);
-                        after = Convert.ToInt32(tbEndDaysFromT.Text);
+                        before = Convert.ToInt32(txtStartDaysFromT.Text);
+                        after = Convert.ToInt32(txtEndDaysFromT.Text);
 
                         double jdStart = c.T + before; //negativan broj
                         double jdStop = c.T + after;
@@ -165,7 +182,38 @@ namespace Comets.Forms.Magnitude
 
                 GraphSettings.Start = start;
                 GraphSettings.Stop = stop;
-                GraphSettings.Interval = (stop - start).TotalDays / 99.5; //da podijelimo vrijeme na 100 jednakih dijelova
+
+                int interval = 0;
+                double totalDays = (stop - start).TotalDays;
+
+                if ((stop - start).TotalDays < 365)
+                    interval = 1;
+                else if ((stop - start).TotalDays < 10 * 365)
+                    interval = 2;
+                else if ((stop - start).TotalDays < 50 * 365)
+                    interval = 3;
+                else if ((stop - start).TotalDays < 100 * 365)
+                    interval = 10;
+                else if ((stop - start).TotalDays < 500 * 365)
+                    interval = 15;
+                else
+                {
+                    MessageBox.Show("Too large range...");
+                    return;
+                }
+
+                double test = totalDays / 99.5;
+                //GraphSettings.Interval = totalDays / 99.5; //da podijelimo vrijeme na 100 jednakih dijelova
+
+                GraphSettings.Interval = interval;
+
+                GraphSettings.DateRange = rbRangeDate.Checked;
+
+                GraphSettings.Dates =
+                    txtStartYear.Text + "." + txtStartMonth.Text + "." + txtStartDay.Text + ":" +
+                    txtEndYear.Text + "." + txtEndMonth.Text + "." + txtEndDay.Text;
+
+                GraphSettings.DaysFromT = txtStartDaysFromT.Text + ":" + txtEndDaysFromT.Text;
 
                 if (rbDate.Checked)
                     GraphSettings.DateFormat = Classes.GraphSettings.DateFormatEnum.Date;
@@ -195,7 +243,7 @@ namespace Comets.Forms.Magnitude
                 FormMain.ChildCount++;
 
                 FormMain main = this.Owner as FormMain;
-                main.AddWindowItem("bla bla");
+                main.AddWindowItem(GraphSettings.ToString());
 
                 FormMagnitudeGraph fmg = new FormMagnitudeGraph(GraphSettings, FormMain.ChildCount);
                 fmg.MdiParent = main;
@@ -204,7 +252,12 @@ namespace Comets.Forms.Magnitude
             }
             else if (GraphSettings != null && GraphSettings.Results.Any())
             {
-                //TO DO
+                FormMain main = this.Owner as FormMain;
+                FormMagnitudeGraph fmg = main.ActiveMdiChild as FormMagnitudeGraph;
+
+                fmg.GraphSettings = this.GraphSettings;
+                fmg.LoadGraph();
+                main.RenameWindowItem((int)fmg.Tag, fmg.Text);
             }
         }
 
