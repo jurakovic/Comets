@@ -60,11 +60,11 @@
     <Compile Include="Classes\Settings\GraphSettings.cs" />
     <Compile Include="Classes\Location.cs" />
     <Compile Include="Classes\Settings.cs" />
-    <Compile Include="Forms\Ephemeris\FormEphemerisResult.cs">
+    <Compile Include="Forms\Ephemeris\FormEphemeris.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Ephemeris\FormEphemerisResult.Designer.cs">
-      <DependentUpon>FormEphemerisResult.cs</DependentUpon>
+    <Compile Include="Forms\Ephemeris\FormEphemeris.Designer.cs">
+      <DependentUpon>FormEphemeris.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\FormDatabase.cs">
       <SubType>Form</SubType>
@@ -84,17 +84,17 @@
     <Compile Include="Forms\FormExport.Designer.cs">
       <DependentUpon>FormExport.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Magnitude\FormMagnitudeSettings.cs">
+    <Compile Include="Forms\Graph\FormGraphSettings.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Magnitude\FormMagnitudeSettings.Designer.cs">
-      <DependentUpon>FormMagnitudeSettings.cs</DependentUpon>
+    <Compile Include="Forms\Graph\FormGraphSettings.Designer.cs">
+      <DependentUpon>FormGraphSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Magnitude\FormMagnitudeGraph.cs">
+    <Compile Include="Forms\Graph\FormGraph.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Magnitude\FormMagnitudeGraph.Designer.cs">
-      <DependentUpon>FormMagnitudeGraph.cs</DependentUpon>
+    <Compile Include="Forms\Graph\FormGraph.Designer.cs">
+      <DependentUpon>FormGraph.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\FormSettings.cs">
       <SubType>Form</SubType>
@@ -120,8 +120,8 @@
     <Compile Include="Helpers\Utils.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Forms\Ephemeris\FormEphemerisResult.resx">
-      <DependentUpon>FormEphemerisResult.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\Ephemeris\FormEphemeris.resx">
+      <DependentUpon>FormEphemeris.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormDatabase.resx">
@@ -139,11 +139,11 @@
     <EmbeddedResource Include="Forms\FormImport.resx">
       <DependentUpon>FormImport.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Magnitude\FormMagnitudeSettings.resx">
-      <DependentUpon>FormMagnitudeSettings.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\Graph\FormGraphSettings.resx">
+      <DependentUpon>FormGraphSettings.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Magnitude\FormMagnitudeGraph.resx">
-      <DependentUpon>FormMagnitudeGraph.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\Graph\FormGraph.resx">
+      <DependentUpon>FormGraph.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>

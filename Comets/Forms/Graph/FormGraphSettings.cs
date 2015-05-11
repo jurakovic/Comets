@@ -6,9 +6,9 @@ using System.Collections.Generic;
 using Comets.Helpers;
 using System.Threading.Tasks;
 
-namespace Comets.Forms.Magnitude
+namespace Comets.Forms.Graph
 {
-    public partial class FormMagnitudeSettings : Form
+    public partial class FormGraphSettings : Form
     {
         #region Properties
 
@@ -19,7 +19,7 @@ namespace Comets.Forms.Magnitude
 
         #region Constructor
 
-        public FormMagnitudeSettings(GraphSettings settings = null)
+        public FormGraphSettings(GraphSettings settings = null)
         {
             InitializeComponent();
 
@@ -245,19 +245,19 @@ namespace Comets.Forms.Magnitude
                 FormMain main = this.Owner as FormMain;
                 main.AddWindowItem(GraphSettings.ToString());
 
-                FormMagnitudeGraph fmg = new FormMagnitudeGraph(GraphSettings, FormMain.ChildCount);
-                fmg.MdiParent = main;
-                fmg.WindowState = FormWindowState.Maximized;
-                fmg.Show();
+                FormGraph fg = new FormGraph(GraphSettings, FormMain.ChildCount);
+                fg.MdiParent = main;
+                fg.WindowState = FormWindowState.Maximized;
+                fg.Show();
             }
             else if (GraphSettings != null && GraphSettings.Results.Any())
             {
                 FormMain main = this.Owner as FormMain;
-                FormMagnitudeGraph fmg = main.ActiveMdiChild as FormMagnitudeGraph;
+                FormGraph fg = main.ActiveMdiChild as FormGraph;
 
-                fmg.GraphSettings = this.GraphSettings;
-                fmg.LoadGraph();
-                main.RenameWindowItem((int)fmg.Tag, fmg.Text);
+                fg.GraphSettings = this.GraphSettings;
+                fg.LoadGraph();
+                main.RenameWindowItem((int)fg.Tag, fg.Text);
             }
         }
 

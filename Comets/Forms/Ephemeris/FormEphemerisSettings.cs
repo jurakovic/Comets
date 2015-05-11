@@ -204,19 +204,19 @@ namespace Comets.Forms.Ephemeris
                 FormMain main = this.Owner as FormMain;
                 main.AddWindowItem(EphemerisSettings.ToString());
 
-                FormEphemerisResult fer = new FormEphemerisResult(EphemerisSettings, FormMain.ChildCount);
-                fer.MdiParent = main;
-                fer.WindowState = FormWindowState.Maximized;
-                fer.Show();
+                FormEphemeris fe = new FormEphemeris(EphemerisSettings, FormMain.ChildCount);
+                fe.MdiParent = main;
+                fe.WindowState = FormWindowState.Maximized;
+                fe.Show();
             }
             else if (EphemerisSettings != null && EphemerisSettings.Results.Any())
             {
                 FormMain main = this.Owner as FormMain;
-                FormEphemerisResult fer = main.ActiveMdiChild as FormEphemerisResult;
+                FormEphemeris fe = main.ActiveMdiChild as FormEphemeris;
 
-                fer.EphemerisSettings = this.EphemerisSettings;
-                fer.LoadResults();
-                main.RenameWindowItem((int)fer.Tag, fer.Text);
+                fe.EphemerisSettings = this.EphemerisSettings;
+                fe.LoadResults();
+                main.RenameWindowItem((int)fe.Tag, fe.Text);
             }
         }
 

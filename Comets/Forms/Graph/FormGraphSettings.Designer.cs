@@ -1,6 +1,6 @@
-﻿namespace Comets.Forms.Magnitude
+﻿namespace Comets.Forms.Graph
 {
-    partial class FormMagnitudeSettings
+    partial class FormGraphSettings
     {
         /// <summary>
         /// Required designer variable.

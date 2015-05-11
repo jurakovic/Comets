@@ -1,26 +1,31 @@
 ﻿using System.Windows.Forms;
 using Comets.Classes;
+using System.Windows.Forms.DataVisualization.Charting;
+using System.Collections.Generic;
+using System.Linq;
+using System;
 using Comets.Helpers;
+using System.Threading.Tasks;
 
-namespace Comets.Forms.Ephemeris
+namespace Comets.Forms.Graph
 {
-    public partial class FormEphemerisResult : Form
+    public partial class FormGraph : Form
     {
         #region Properties
 
-        public EphemerisSettings EphemerisSettings { get; set; }
+        public GraphSettings GraphSettings { get; set; }
 
         #endregion
 
         #region Constructor
 
-        public FormEphemerisResult(EphemerisSettings settings, int tag)
+        public FormGraph(GraphSettings settings, int tag)
         {
             InitializeComponent();
 
             this.DoubleBuffered = true;
 
-            this.EphemerisSettings = settings;
+            this.GraphSettings = settings;
             this.Tag = tag;
         }
 
@@ -28,19 +33,19 @@ namespace Comets.Forms.Ephemeris
 
         #region Form_Load
 
-        private void FormEphemerisResult_Load(object sender, System.EventArgs e)
+        private void FormMagnitude_Load(object sender, System.EventArgs e)
         {
             FormMain main = this.MdiParent as FormMain;
             main.SetWindowMenuItemVisible(true);
 
-            LoadResults();
+            LoadGraph();
         }
 
         #endregion
 
         #region Form_Closing
 
-        private void FormEphemerisResult_FormClosing(object sender, FormClosingEventArgs e)
+        private void FormMagnitudeGraph_FormClosing(object sender, FormClosingEventArgs e)
         {
             FormMain main = this.MdiParent as FormMain;
             main.RemoveWindowMenuItem((int)this.Tag);
@@ -49,13 +54,13 @@ namespace Comets.Forms.Ephemeris
 
         #endregion
 
-        #region LoadResults
+        #region LoadGraph
 
-        public async void LoadResults()
+        public void LoadGraph()
         {
-            this.Text = this.Tag + " " + EphemerisSettings.ToString();
-            richTextBox.Text = await EphemerisHelper.GenerateEphemeris(EphemerisSettings);
-            EphemerisSettings.Results.Clear();
+            this.Text = this.Tag + " " + GraphSettings.ToString();
+            EphemerisHelper.GenerateGraph(GraphSettings, this.chart1);
+            GraphSettings.Results.Clear();
         }
 
         #endregion

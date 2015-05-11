@@ -1,6 +1,6 @@
 ﻿namespace Comets.Forms.Ephemeris
 {
-    partial class FormEphemerisResult
+    partial class FormEphemeris
     {
         /// <summary>
         /// Required designer variable.

@@ -1,6 +1,6 @@
 ﻿using Comets.Classes;
 using Comets.Forms.Ephemeris;
-using Comets.Forms.Magnitude;
+using Comets.Forms.Graph;
 using Comets.Helpers;
 using System;
 using System.Collections.Generic;
@@ -137,8 +137,8 @@ namespace Comets.Forms
 
         private void FormMain_MdiChildActivate(object sender, EventArgs e)
         {
-            this.menuItemEphemeris.Visible = this.ActiveMdiChild is FormEphemerisResult ? true : false;
-            this.menuItemMagnitude.Visible = this.ActiveMdiChild is FormMagnitudeGraph ? true : false;
+            this.menuItemEphemeris.Visible = this.ActiveMdiChild is FormEphemeris ? true : false;
+            this.menuItemMagnitude.Visible = this.ActiveMdiChild is FormGraph ? true : false;
         }
 
         #endregion
@@ -164,8 +164,8 @@ namespace Comets.Forms
 
         private void menuItemEphemSettings_Click(object sender, EventArgs e)
         {
-            FormEphemerisResult fer = this.ActiveMdiChild as FormEphemerisResult;
-            using (FormEphemerisSettings fes = new FormEphemerisSettings(fer.EphemerisSettings) { Owner = this })
+            FormEphemeris fe = this.ActiveMdiChild as FormEphemeris;
+            using (FormEphemerisSettings fes = new FormEphemerisSettings(fe.EphemerisSettings) { Owner = this })
             {
                 fes.ShowDialog();
             }
@@ -177,16 +177,16 @@ namespace Comets.Forms
 
         private void menuItemMagnitudeGraph_Click(object sender, EventArgs e)
         {
-            using (FormMagnitudeSettings fms = new FormMagnitudeSettings() { Owner = this })
+            using (FormGraphSettings fgs = new FormGraphSettings() { Owner = this })
             {
-                fms.ShowDialog();
+                fgs.ShowDialog();
             }
         }
 
         private void menuItemMagSettings_Click(object sender, EventArgs e)
         {
-            FormMagnitudeGraph fmg = this.ActiveMdiChild as FormMagnitudeGraph;
-            using (FormMagnitudeSettings fes = new FormMagnitudeSettings(fmg.GraphSettings) { Owner = this })
+            FormGraph fg = this.ActiveMdiChild as FormGraph;
+            using (FormGraphSettings fes = new FormGraphSettings(fg.GraphSettings) { Owner = this })
             {
                 fes.ShowDialog();
             }
