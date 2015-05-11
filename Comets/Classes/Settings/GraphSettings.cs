@@ -11,12 +11,13 @@ namespace Comets.Classes
 
         #region Properties
 
+        public string DaysFromTText { get; set; }
+
         public DateFormatEnum DateFormat { get; set; }
         public bool DateRange { get; set; }
-        public string Dates { get; set; }
-        public string DaysFromT { get; set; }
-        public double MinimumMagnitude { get; set; }
-        public double MaximumMagnitude { get; set; }
+
+        public double MinMagnitude { get; set; }
+        public double MaxMagnitude { get; set; }
 
         #endregion
 

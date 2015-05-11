@@ -51,21 +51,20 @@ namespace Comets.Forms.Graph
                 else
                     rbRangeDaysFromT.Checked = true;
 
-                string[] dates = GraphSettings.Dates.Split(':');
-                string[] ds = dates[0].Split('.');
-                string[] de = dates[1].Split('.');
+                string[] tMin = GraphSettings.MinText.Split('.');
+                string[] tMax = GraphSettings.MaxText.Split('.');
+                string[] tFromT = GraphSettings.DaysFromTText.Split(':');
 
-                txtStartYear.Text = ds[0];
-                txtStartMonth.Text = ds[1];
-                txtStartDay.Text = ds[2];
+                txtStartYear.Text = tMin[0];
+                txtStartMonth.Text = tMin[1];
+                txtStartDay.Text = tMin[2];
 
-                txtEndYear.Text = de[0];
-                txtEndMonth.Text = de[1];
-                txtEndDay.Text = de[2];
+                txtEndYear.Text = tMax[0];
+                txtEndMonth.Text = tMax[1];
+                txtEndDay.Text = tMax[2];
 
-                string[] daysfromt = GraphSettings.DaysFromT.Split(':');
-                txtStartDaysFromT.Text = daysfromt[0];
-                txtEndDaysFromT.Text = daysfromt[1];
+                txtStartDaysFromT.Text = tFromT[0];
+                txtEndDaysFromT.Text = tFromT[1];
             }
         }
 
@@ -121,23 +120,23 @@ namespace Comets.Forms.Graph
         {
             if (cbComet.SelectedIndex >= 0)
             {
-                DateTime start, stop;
-                int syr, smo, sdy, eyr, emo, edy, before, after;
+                DateTime min, max;
+                int minYr, minMo, minDy, maxYr, maxMo, maxDy, before, after;
 
                 try
                 {
                     if (rbRangeDate.Checked)
                     {
-                        syr = Convert.ToInt32(txtStartYear.Text);
-                        smo = Convert.ToInt32(txtStartMonth.Text);
-                        sdy = Convert.ToInt32(txtStartDay.Text);
+                        minYr = Convert.ToInt32(txtStartYear.Text);
+                        minMo = Convert.ToInt32(txtStartMonth.Text);
+                        minDy = Convert.ToInt32(txtStartDay.Text);
 
-                        eyr = Convert.ToInt32(txtEndYear.Text);
-                        emo = Convert.ToInt32(txtEndMonth.Text);
-                        edy = Convert.ToInt32(txtEndDay.Text);
+                        maxYr = Convert.ToInt32(txtEndYear.Text);
+                        maxMo = Convert.ToInt32(txtEndMonth.Text);
+                        maxDy = Convert.ToInt32(txtEndDay.Text);
 
-                        start = new DateTime(syr, smo, sdy, 0, 0, 0);
-                        stop = new DateTime(eyr, emo, edy, 0, 0, 0);
+                        min = new DateTime(minYr, minMo, minDy, 0, 0, 0);
+                        max = new DateTime(maxYr, maxMo, maxDy, 0, 0, 0);
                     }
                     else
                     {
@@ -146,24 +145,24 @@ namespace Comets.Forms.Graph
                         before = Convert.ToInt32(txtStartDaysFromT.Text);
                         after = Convert.ToInt32(txtEndDaysFromT.Text);
 
-                        double jdStart = c.T + before; //negativan broj
-                        double jdStop = c.T + after;
+                        double jdMin = c.T + before; //negativan broj
+                        double jdMax = c.T + after;
 
-                        int[] startDate = EphemerisHelper.jdtocd(jdStart);
-                        syr = startDate[0];
-                        smo = startDate[1];
-                        sdy = startDate[2];
+                        int[] minDate = EphemerisHelper.jdtocd(jdMin);
+                        minYr = minDate[0];
+                        minMo = minDate[1];
+                        minDy = minDate[2];
 
-                        int[] stopDate = EphemerisHelper.jdtocd(jdStop);
-                        eyr = stopDate[0];
-                        emo = stopDate[1];
-                        edy = stopDate[2];
+                        int[] maxDate = EphemerisHelper.jdtocd(jdMax);
+                        maxYr = maxDate[0];
+                        maxMo = maxDate[1];
+                        maxDy = maxDate[2];
 
-                        start = new DateTime(syr, smo, sdy, 0, 0, 0);
-                        stop = new DateTime(eyr, emo, edy, 0, 0, 0);
+                        min = new DateTime(minYr, minMo, minDy, 0, 0, 0);
+                        max = new DateTime(maxYr, maxMo, maxDy, 0, 0, 0);
                     }
 
-                    if (stop < start)
+                    if (max < min)
                     {
                         MessageBox.Show("End date is less than start date");
                         return;
@@ -180,40 +179,49 @@ namespace Comets.Forms.Graph
 
                 GraphSettings.Comet = FormMain.UserList.ElementAt(cbComet.SelectedIndex);
 
-                GraphSettings.Start = start;
-                GraphSettings.Stop = stop;
+                GraphSettings.MinLocalJD = EphemerisHelper.jd(min);
+                GraphSettings.MaxLocalJD = EphemerisHelper.jd(max);
+
+                min = min.AddHours(-GraphSettings.Location.Timezone);
+                max = max.AddHours(-GraphSettings.Location.Timezone);
+
+                if (GraphSettings.Location.DST)
+                {
+                    min = min.AddHours(-1);
+                    max = max.AddHours(-1);
+                }
+
+                GraphSettings.MinUtcJD = EphemerisHelper.jd(min);
+                GraphSettings.MaxUtcJD = EphemerisHelper.jd(max);
 
                 int interval = 0;
-                double totalDays = (stop - start).TotalDays;
+                double totalDays = (max - min).TotalDays;
 
-                if ((stop - start).TotalDays < 365)
+                //double interval = totalDays / 99.5;
+
+                if (totalDays < 365)
                     interval = 1;
-                else if ((stop - start).TotalDays < 10 * 365)
+                else if (totalDays < 10 * 365)
                     interval = 2;
-                else if ((stop - start).TotalDays < 50 * 365)
-                    interval = 3;
-                else if ((stop - start).TotalDays < 100 * 365)
-                    interval = 10;
-                else if ((stop - start).TotalDays < 500 * 365)
+                else if (totalDays < 50 * 365)
+                    interval = 5;
+                else if (totalDays < 100 * 365)
                     interval = 15;
+                else if (totalDays < 500 * 365)
+                    interval = 50;
                 else
                 {
                     MessageBox.Show("Too large range...");
                     return;
                 }
 
-                double test = totalDays / 99.5;
-                //GraphSettings.Interval = totalDays / 99.5; //da podijelimo vrijeme na 100 jednakih dijelova
-
                 GraphSettings.Interval = interval;
 
                 GraphSettings.DateRange = rbRangeDate.Checked;
 
-                GraphSettings.Dates =
-                    txtStartYear.Text + "." + txtStartMonth.Text + "." + txtStartDay.Text + ":" +
-                    txtEndYear.Text + "." + txtEndMonth.Text + "." + txtEndDay.Text;
-
-                GraphSettings.DaysFromT = txtStartDaysFromT.Text + ":" + txtEndDaysFromT.Text;
+                GraphSettings.MinText = txtStartYear.Text + "." + txtStartMonth.Text + "." + txtStartDay.Text;
+                GraphSettings.MaxText = txtEndYear.Text + "." + txtEndMonth.Text + "." + txtEndDay.Text;
+                GraphSettings.DaysFromTText = txtStartDaysFromT.Text + ":" + txtEndDaysFromT.Text;
 
                 if (rbDate.Checked)
                     GraphSettings.DateFormat = Classes.GraphSettings.DateFormatEnum.Date;

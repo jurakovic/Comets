@@ -5,6 +5,8 @@ namespace Comets.Classes
     {
         #region Properties
 
+        public string IntervalText { get; set; }
+
         public bool LocalTime { get; set; }
         public bool RA { get; set; }
         public bool Dec { get; set; }

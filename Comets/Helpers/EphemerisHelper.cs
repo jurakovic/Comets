@@ -22,26 +22,17 @@ namespace Comets.Helpers
 
         public async static Task<CommonSettings> CalculateEphemeris(CommonSettings settings)
         {
-            DateTime utcStart = settings.Start.AddHours(-settings.Location.Timezone);
-            DateTime utcStop = settings.Stop.AddHours(-settings.Location.Timezone);
-
-            if (settings.Location.DST)
-            {
-                utcStart = utcStart.AddHours(-1);
-                utcStop = utcStop.AddHours(-1);
-            }
-
-            double jday = jd(utcStart.Year, utcStart.Month, utcStart.Day, utcStart.Hour, utcStart.Minute, utcStart.Second);
-            double jdmax = jd(utcStop.Year, utcStop.Month, utcStop.Day, utcStop.Hour, utcStop.Minute, utcStop.Second);
-            double locjday = jd(settings.Start.Year, settings.Start.Month, settings.Start.Day, settings.Start.Hour, settings.Start.Minute, settings.Start.Second);
+            double jd = settings.MinUtcJD;
+            double jdMax = settings.MaxUtcJD;
+            double jdLoc = settings.MinLocalJD;
 
             await Task.Run(() =>
             {
-                while (jday <= jdmax)
+                while (jd <= jdMax)
                 {
                     EphemerisResult er = new EphemerisResult();
 
-                    double[] dat = CometAlt(settings.Comet, jday, settings.Location);
+                    double[] dat = CometAlt(settings.Comet, jd, settings.Location);
                     er.Alt = dat[0];
                     er.Az  = dat[1];
                     //double ha = dat[2];
@@ -54,7 +45,7 @@ namespace Comets.Helpers
                     er.GeoDist = dat[9];
                     er.Magnitude = dat[10];
 
-                    double[] sundat = SunAlt(jday, settings.Location);
+                    double[] sundat = SunAlt(jd, settings.Location);
                     double sunra = sundat[3];
                     double sundec = sundat[4] - (sundat[4] > 180.0 ? 360 : 0);
 
@@ -62,13 +53,13 @@ namespace Comets.Helpers
                     er.Elongation = sep[0];
                     er.PositionAngle = sep[1];
 
-                    er.UtcJD = jday;
-                    er.LocalJD = locjday;
+                    er.UtcJD = jd;
+                    er.LocalJD = jdLoc;
 
                     settings.Results.Add(er);
                     
-                    jday += settings.Interval;
-                    locjday += settings.Interval;
+                    jd += settings.Interval;
+                    jdLoc += settings.Interval;
                 }
             });
 
@@ -135,52 +126,77 @@ namespace Comets.Helpers
         public static void GenerateGraph(GraphSettings settings, Chart chart1)
         {
             string xDate = "Date";
-            string yMag = "Magnitude";
+            string yMagnitude = "Magnitude";
             string chartAreaName = "ChartAreaGraph";
 
-            double min = settings.Results.Min(x => x.Magnitude);
-            double max = settings.Results.Max(x => x.Magnitude);
+            double minY = settings.Results.Min(x => x.Magnitude);
+            double maxY = settings.Results.Max(x => x.Magnitude);
 
-            min = Math.Floor(min - 0.25);
-            max = Math.Ceiling(max + 0.25);
+            minY = Math.Floor(minY - 0.25);
+            maxY = Math.Ceiling(maxY + 0.25);
 
-            //min = 0; max = 20;
+            //minY = 0; maxY = 20;
 
-            double JDfrom = settings.Results.Min(x => x.UtcJD);
-            double JDto = settings.Results.Max(x => x.UtcJD);
+            double minX = settings.Results.Min(x => x.LocalJD);
+            double maxX = settings.Results.Max(x => x.UtcJD);
+
+            //double minX = settings.MinLocalJD > settings.MinUtcJD ? settings.MinLocalJD : settings.MinUtcJD;
+            //double maxX = settings.MaxLocalJD < settings.MaxUtcJD ? settings.MaxLocalJD : settings.MaxUtcJD;
+
+            //double minX = settings.MinLocalJD;
+            //double maxX = settings.MaxUtcJD;
+
             double T = settings.Comet.T;
 
-            chart1.AntiAliasing = System.Windows.Forms.DataVisualization.Charting.AntiAliasingStyles.Text;
+            chart1.AntiAliasing = AntiAliasingStyles.Text;
 
             ChartArea chartArea = new ChartArea();
+
+            chartArea.AxisX2.Title = xDate;
+            chartArea.AxisX2.TitleAlignment = System.Drawing.StringAlignment.Far;
+            chartArea.AxisX2.TitleFont = new System.Drawing.Font("Tahoma", 8.25F);
             chartArea.AxisX2.MajorGrid.Enabled = false;
             chartArea.AxisX2.IsLabelAutoFit = false;
+            //chartArea.AxisX2.LabelStyle.IsEndLabelVisible = false;
+            chartArea.AxisX2.LabelAutoFitStyle = LabelAutoFitStyles.WordWrap;
             chartArea.AxisX2.IsMarginVisible = false;
             chartArea.AxisX2.LabelStyle.Font = new System.Drawing.Font("Tahoma", 8.25F);
+            chartArea.AxisX2.LabelStyle.Format = "dd MMMM yyyy";                  /////date
+
+            chartArea.AxisY.Title = yMagnitude;
+            chartArea.AxisY.TitleAlignment = System.Drawing.StringAlignment.Far;
+            chartArea.AxisY.TitleFont = new System.Drawing.Font("Tahoma", 8.25F);
+            chartArea.AxisY.TextOrientation = TextOrientation.Rotated270;
             chartArea.AxisY.IsReversed = true;
             chartArea.AxisY.MajorGrid.Enabled = false;
-            chartArea.AxisY.LabelStyle.Font = new System.Drawing.Font("Tahoma", 8.25F);
             chartArea.AxisY.IsLabelAutoFit = false;
+            //chartArea.AxisY.LabelStyle.IsEndLabelVisible = false;
             chartArea.AxisY.IsMarginVisible = false;
             chartArea.AxisY.MajorTickMark.Size = 0.5F;
+            chartArea.AxisY.LabelStyle.Font = new System.Drawing.Font("Tahoma", 8.25F);
             chartArea.Name = chartAreaName;
 
             Double interval = 0D;
-
-            if (max - min <= 1)
+          
+            if (maxY - minY <= 1)
                 interval = 0.1D;
-            else if (max - min <= 2)
+            else if (maxY - minY <= 2)
                 interval = 0.2D;
-            else if (max - min <= 5)
+            else if (maxY - minY <= 5)
                 interval = 0.5D;
-            else if (max - min <= 10)
+            else if (maxY - minY <= 10)
                 interval = 1D;
             else
                 interval = 2D;
 
+            chartArea.AxisX2.Interval = (maxX - minX) / 10;
             chartArea.AxisY.Interval = interval;
 
-            chartArea.AxisX2.Interval = (JDto - JDfrom) / 10;
+            chartArea.Position.Auto = false;
+            chartArea.Position.Height = 90F;
+            chartArea.Position.Width = 96F;
+            chartArea.Position.X = 1F;
+            chartArea.Position.Y = 8F;
 
             chart1.ChartAreas.Clear();
             chart1.ChartAreas.Add(chartArea);
@@ -188,40 +204,51 @@ namespace Comets.Helpers
             Series series = new Series();
             series.ChartArea = chartAreaName;
             series.Color = System.Drawing.Color.Red;
-            series.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series.XAxisType = System.Windows.Forms.DataVisualization.Charting.AxisType.Secondary;
+            series.ChartType = SeriesChartType.Spline;
+            series.XAxisType = AxisType.Secondary;
+            series.XValueType = ChartValueType.DateTime;                                    ///// date
 
             foreach (EphemerisResult er in settings.Results)
-                series.Points.Add(new DataPoint(er.UtcJD, er.Magnitude));
+                series.Points.Add(new DataPoint(Utils.JDToOta(er.LocalJD), er.Magnitude));    ///// date
+                //series.Points.Add(new DataPoint(er.UtcJD, er.Magnitude));                 ///// jd
 
             chart1.Series.Clear();
             chart1.Series.Add(series);
 
-            chart1.ChartAreas[chartAreaName].AxisY.Minimum = min;
-            chart1.ChartAreas[chartAreaName].AxisY.Maximum = max;
+            chart1.ChartAreas[chartAreaName].AxisY.Minimum = minY;
+            chart1.ChartAreas[chartAreaName].AxisY.Maximum = maxY;
 
             //margine
-            //this.chart1.ChartAreas[chartAreaName].AxisX2.Minimum = JDfrom - (JDto - JDfrom) * 0.02;
-            //this.chart1.ChartAreas[chartAreaName].AxisX2.Maximum = JDto + (JDto - JDfrom) * 0.02;
+            //chart1.ChartAreas[chartAreaName].AxisX2.Minimum = JDfrom - (JDto - JDfrom) * 0.02;
+            //chart1.ChartAreas[chartAreaName].AxisX2.Maximum = JDto + (JDto - JDfrom) * 0.02;
+            chart1.ChartAreas[chartAreaName].AxisX2.Minimum = Utils.JDToOta(minX);
+            chart1.ChartAreas[chartAreaName].AxisX2.Maximum = Utils.JDToOta(maxX);
 
+            
             //generate perihelion lines
             double periodDays = settings.Comet.P * 365.25;
 
-            if ((JDto - JDfrom > periodDays) || (JDfrom < T && JDto > T))
-                while (T > JDfrom + periodDays)
+            if ((maxX - minX > periodDays) || (minX < T && maxX > T))
+                while (T > minX + periodDays)
                     T -= periodDays;
             else
                 T += periodDays;
 
-            while (T < JDto)
+            while (T < maxX)
             {
                 Series s = new Series();
                 s.ChartArea = chartAreaName;
                 s.Color = System.Drawing.Color.RoyalBlue;
-                s.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-                s.XAxisType = System.Windows.Forms.DataVisualization.Charting.AxisType.Secondary;
-                s.Points.Add(new DataPoint(T, min));
-                s.Points.Add(new DataPoint(T, max));
+                s.ChartType = SeriesChartType.Line;
+                s.XAxisType = AxisType.Secondary;
+
+                //s.Points.Add(new DataPoint(T, min));                    ///// JD
+                //s.Points.Add(new DataPoint(T, max));                    ///// JD
+
+                s.XValueType = ChartValueType.DateTime;               ///// date
+                s.Points.Add(new DataPoint(Utils.JDToOta(T), minY));   ///// date
+                s.Points.Add(new DataPoint(Utils.JDToOta(T), maxY));   ///// date
+
                 chart1.Series.Add(s);
                 T += periodDays;
             }
@@ -229,23 +256,8 @@ namespace Comets.Helpers
 
             Title title = new Title(settings.Comet.ToString());
             title.Font = new System.Drawing.Font("Tahoma", 11.25F);
-
-            Title title2 = new Title(xDate);
-            title2.Font = new System.Drawing.Font("Tahoma", 8.25F);
-            title2.Position.Auto = false;
-            title2.Position.X = 95F;
-            title2.Position.Y = 91F;
-
-            Title title3 = new Title(yMag);
-            title3.Font = new System.Drawing.Font("Tahoma", 8.25F);
-            title3.Position.Auto = false;
-            title3.Position.X = 5.5F;
-            title3.Position.Y = 7F;
-
             chart1.Titles.Clear();
             chart1.Titles.Add(title);
-            chart1.Titles.Add(title2);
-            chart1.Titles.Add(title3);
         }
 
         #endregion
@@ -452,6 +464,11 @@ namespace Comets.Helpers
             if (arcmin) anglestr += ((min < 10) ? "°0" : "°") + (min) + "'";
             else anglestr += ((min < 10) ? ":0" : ":") + (min);
             return anglestr;
+        }
+
+        public static double jd(DateTime dt)
+        {
+            return jd(dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute, dt.Second);
         }
 
         public static double jd(double year, double month, double day, double hour, double min, double sec)

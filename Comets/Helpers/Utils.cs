@@ -77,5 +77,15 @@ namespace Comets.Helpers
         }
 
         #endregion
+
+        #region JDToOta
+
+        public static Double JDToOta(double jd)
+        {
+            int[] dt = EphemerisHelper.jdtocd(jd);
+            return new DateTime(dt[0], dt[1], dt[2], dt[4], dt[5], dt[6]).ToOADate();
+        }
+
+        #endregion
     }
 }

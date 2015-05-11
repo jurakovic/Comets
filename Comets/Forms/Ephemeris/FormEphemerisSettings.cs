@@ -38,7 +38,7 @@ namespace Comets.Forms.Ephemeris
                 dt = dt.AddMonths(1);
                 txtEndYear.Text = dt.Year.ToString();
                 txtEndMonth.Text = dt.Month.ToString("00");
-                txtEndDay.Text = DateTime.DaysInMonth(dt.Year, dt.Month).ToString("00"); 
+                txtEndDay.Text = DateTime.DaysInMonth(dt.Year, dt.Month).ToString("00");
                 txtEndHour.Text = "22";
                 txtEndMin.Text = "00";
 
@@ -48,28 +48,25 @@ namespace Comets.Forms.Ephemeris
             }
             else
             {
-                txtStartYear.Text = EphemerisSettings.Start.Year.ToString();
-                txtStartMonth.Text = EphemerisSettings.Start.Month.ToString("00");
-                txtStartDay.Text = EphemerisSettings.Start.Day.ToString("00");
-                txtStartHour.Text = EphemerisSettings.Start.Hour.ToString("00");
-                txtStartMin.Text = "00";
+                string[] tMin = EphemerisSettings.MinText.Split('.');
+                string[] tMax = EphemerisSettings.MaxText.Split('.');
+                string[] tInt = EphemerisSettings.IntervalText.Split('.');
 
-                txtEndYear.Text = EphemerisSettings.Stop.Year.ToString();
-                txtEndMonth.Text = EphemerisSettings.Stop.Month.ToString("00");
-                txtEndDay.Text = EphemerisSettings.Stop.Day.ToString("00");
-                txtEndHour.Text = EphemerisSettings.Stop.Hour.ToString("00");
-                txtEndMin.Text = "00";
+                txtStartYear.Text = tMin[0];
+                txtStartMonth.Text = tMin[1];
+                txtStartDay.Text = tMin[2];
+                txtStartHour.Text = tMin[3];
+                txtStartMin.Text = tMin[4];
 
-                int intD, intH, intM;
-                intD = (int)EphemerisSettings.Interval;
-                double hh = (EphemerisSettings.Interval - intD) * 24;
-                intH = (int)hh;
-                double min = hh - intH;
-                intM = (int)Math.Round(min * 60, 0);
+                txtEndYear.Text = tMax[0];
+                txtEndMonth.Text = tMax[1];
+                txtEndDay.Text = tMax[2];
+                txtEndHour.Text = tMax[3];
+                txtEndMin.Text = tMax[4];
 
-                txtIntervalDay.Text = intD.ToString();
-                txtIntervalHour.Text = intH.ToString("00");
-                txtIntervalMin.Text = intM.ToString("00");
+                txtIntervalDay.Text = tInt[0];
+                txtIntervalHour.Text = tInt[1];
+                txtIntervalMin.Text = tInt[2];
 
                 radioLocalTime.Checked = EphemerisSettings.LocalTime;
                 radioUnivTime.Checked = !EphemerisSettings.LocalTime;
@@ -167,9 +164,26 @@ namespace Comets.Forms.Ephemeris
 
                 EphemerisSettings.Comet = FormMain.UserList.ElementAt(cbComet.SelectedIndex);
 
-                EphemerisSettings.Start = start;
-                EphemerisSettings.Stop = stop;
+                EphemerisSettings.MinText = txtStartYear.Text + "." + txtStartMonth.Text + "." + txtStartDay.Text + "." + txtStartHour.Text + "." + txtStartMin.Text;
+                EphemerisSettings.MaxText = txtEndYear.Text + "." + txtEndMonth.Text + "." + txtEndDay.Text + "." + txtEndHour.Text + "." + txtEndMin.Text;
+                EphemerisSettings.IntervalText = txtIntervalDay.Text + "." + txtIntervalHour.Text + "." + txtIntervalMin.Text;
+
+                EphemerisSettings.MinLocalJD = EphemerisHelper.jd(start);
+                EphemerisSettings.MaxLocalJD = EphemerisHelper.jd(stop);
+
                 EphemerisSettings.Interval = ind  + (inh + (inm / 60.0)) / 24;
+
+                start = start.AddHours(-EphemerisSettings.Location.Timezone);
+                stop = stop.AddHours(-EphemerisSettings.Location.Timezone);
+
+                if (EphemerisSettings.Location.DST)
+                {
+                    start = start.AddHours(-1);
+                    stop = stop.AddHours(-1);
+                }
+
+                EphemerisSettings.MinUtcJD = EphemerisHelper.jd(start);
+                EphemerisSettings.MaxUtcJD = EphemerisHelper.jd(stop);
 
                 EphemerisSettings.LocalTime = radioLocalTime.Checked;
                 EphemerisSettings.RA = chRA.Checked;
