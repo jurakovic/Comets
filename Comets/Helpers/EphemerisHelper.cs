@@ -137,11 +137,11 @@ namespace Comets.Helpers
 
             //minY = 0; maxY = 20;
 
-            double minX = settings.Results.Min(x => x.LocalJD);
-            double maxX = settings.Results.Max(x => x.UtcJD);
+            //double minX = settings.Results.Min(x => x.LocalJD);
+            //double maxX = settings.Results.Max(x => x.UtcJD);
 
-            //double minX = settings.MinLocalJD > settings.MinUtcJD ? settings.MinLocalJD : settings.MinUtcJD;
-            //double maxX = settings.MaxLocalJD < settings.MaxUtcJD ? settings.MaxLocalJD : settings.MaxUtcJD;
+            double minX = settings.MinLocalJD > settings.MinUtcJD ? settings.Results.Min(x => x.LocalJD) : settings.Results.Min(x => x.UtcJD);
+            double maxX = settings.MaxLocalJD > settings.MaxUtcJD ? settings.Results.Max(x => x.UtcJD) : settings.Results.Max(x => x.LocalJD);
 
             //double minX = settings.MinLocalJD;
             //double maxX = settings.MaxUtcJD;
