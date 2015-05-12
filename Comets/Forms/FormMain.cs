@@ -138,7 +138,7 @@ namespace Comets.Forms
         private void FormMain_MdiChildActivate(object sender, EventArgs e)
         {
             this.menuItemEphemeris.Visible = this.ActiveMdiChild is FormEphemeris ? true : false;
-            this.menuItemMagnitude.Visible = this.ActiveMdiChild is FormGraph ? true : false;
+            this.menuItemGraph.Visible = this.ActiveMdiChild is FormGraph ? true : false;
         }
 
         #endregion
@@ -173,9 +173,9 @@ namespace Comets.Forms
 
         #endregion
 
-        #region Menu: Magnitude
+        #region Menu: Graph
 
-        private void menuItemMagnitudeGraph_Click(object sender, EventArgs e)
+        private void menuItemGraph_Click(object sender, EventArgs e)
         {
             using (FormGraphSettings fgs = new FormGraphSettings() { Owner = this })
             {
@@ -183,7 +183,7 @@ namespace Comets.Forms
             }
         }
 
-        private void menuItemMagSettings_Click(object sender, EventArgs e)
+        private void menuItemGraphSettings_Click(object sender, EventArgs e)
         {
             FormGraph fg = this.ActiveMdiChild as FormGraph;
             using (FormGraphSettings fes = new FormGraphSettings(fg.GraphSettings) { Owner = this })

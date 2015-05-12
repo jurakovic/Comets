@@ -31,19 +31,19 @@
             this.components = new System.ComponentModel.Container();
             this.mainMenu = new System.Windows.Forms.MainMenu(this.components);
             this.menuItemFile = new System.Windows.Forms.MenuItem();
-            this.menuItemEphemerisFile = new System.Windows.Forms.MenuItem();
-            this.menuItemMagnitudeGraph = new System.Windows.Forms.MenuItem();
-            this.menuItemOrbitViewer = new System.Windows.Forms.MenuItem();
+            this.menuItemFileEphemeris = new System.Windows.Forms.MenuItem();
+            this.menuItemFileGraph = new System.Windows.Forms.MenuItem();
+            this.menuItemFileOrbit = new System.Windows.Forms.MenuItem();
             this.menuItemSeparatorFile1 = new System.Windows.Forms.MenuItem();
             this.menuItemOrbitalElements = new System.Windows.Forms.MenuItem();
             this.menuItemSeparatorFile3 = new System.Windows.Forms.MenuItem();
             this.menuItemExit = new System.Windows.Forms.MenuItem();
             this.menuItemEphemeris = new System.Windows.Forms.MenuItem();
-            this.menuItemEphemSettings = new System.Windows.Forms.MenuItem();
-            this.menuItemEphemSaveAs = new System.Windows.Forms.MenuItem();
-            this.menuItemMagnitude = new System.Windows.Forms.MenuItem();
-            this.menuItemMagSettings = new System.Windows.Forms.MenuItem();
-            this.menuItemMagSaveAs = new System.Windows.Forms.MenuItem();
+            this.menuItemEphemerisSettings = new System.Windows.Forms.MenuItem();
+            this.menuItemEphemerisSaveAs = new System.Windows.Forms.MenuItem();
+            this.menuItemGraph = new System.Windows.Forms.MenuItem();
+            this.menuItemGraphSettings = new System.Windows.Forms.MenuItem();
+            this.menuItemGraphSaveAs = new System.Windows.Forms.MenuItem();
             this.menuItemEdit = new System.Windows.Forms.MenuItem();
             this.menuItemDatabase = new System.Windows.Forms.MenuItem();
             this.menuItemSeparatorEdit1 = new System.Windows.Forms.MenuItem();
@@ -75,7 +75,7 @@
             this.mainMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.menuItemFile,
             this.menuItemEphemeris,
-            this.menuItemMagnitude,
+            this.menuItemGraph,
             this.menuItemEdit,
             this.menuItemView,
             this.menuItemWindow,
@@ -85,31 +85,31 @@
             // 
             this.menuItemFile.Index = 0;
             this.menuItemFile.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.menuItemEphemerisFile,
-            this.menuItemMagnitudeGraph,
-            this.menuItemOrbitViewer,
+            this.menuItemFileEphemeris,
+            this.menuItemFileGraph,
+            this.menuItemFileOrbit,
             this.menuItemSeparatorFile1,
             this.menuItemOrbitalElements,
             this.menuItemSeparatorFile3,
             this.menuItemExit});
             this.menuItemFile.Text = "File";
             // 
-            // menuItemEphemerisFile
+            // menuItemFileEphemeris
             // 
-            this.menuItemEphemerisFile.Index = 0;
-            this.menuItemEphemerisFile.Text = "Ephemeris";
-            this.menuItemEphemerisFile.Click += new System.EventHandler(this.menuItemEphemerides_Click);
+            this.menuItemFileEphemeris.Index = 0;
+            this.menuItemFileEphemeris.Text = "Ephemeris";
+            this.menuItemFileEphemeris.Click += new System.EventHandler(this.menuItemEphemerides_Click);
             // 
-            // menuItemMagnitudeGraph
+            // menuItemFileGraph
             // 
-            this.menuItemMagnitudeGraph.Index = 1;
-            this.menuItemMagnitudeGraph.Text = "Magnitude Graph";
-            this.menuItemMagnitudeGraph.Click += new System.EventHandler(this.menuItemMagnitudeGraph_Click);
+            this.menuItemFileGraph.Index = 1;
+            this.menuItemFileGraph.Text = "Graph";
+            this.menuItemFileGraph.Click += new System.EventHandler(this.menuItemGraph_Click);
             // 
-            // menuItemOrbitViewer
+            // menuItemFileOrbit
             // 
-            this.menuItemOrbitViewer.Index = 2;
-            this.menuItemOrbitViewer.Text = "Orbit viewer";
+            this.menuItemFileOrbit.Index = 2;
+            this.menuItemFileOrbit.Text = "Orbit";
             // 
             // menuItemSeparatorFile1
             // 
@@ -136,41 +136,41 @@
             // 
             this.menuItemEphemeris.Index = 1;
             this.menuItemEphemeris.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.menuItemEphemSettings,
-            this.menuItemEphemSaveAs});
+            this.menuItemEphemerisSettings,
+            this.menuItemEphemerisSaveAs});
             this.menuItemEphemeris.Text = "Ephemeris";
             this.menuItemEphemeris.Visible = false;
             // 
-            // menuItemEphemSettings
+            // menuItemEphemerisSettings
             // 
-            this.menuItemEphemSettings.Index = 0;
-            this.menuItemEphemSettings.Text = "Settings";
-            this.menuItemEphemSettings.Click += new System.EventHandler(this.menuItemEphemSettings_Click);
+            this.menuItemEphemerisSettings.Index = 0;
+            this.menuItemEphemerisSettings.Text = "Settings";
+            this.menuItemEphemerisSettings.Click += new System.EventHandler(this.menuItemEphemSettings_Click);
             // 
-            // menuItemEphemSaveAs
+            // menuItemEphemerisSaveAs
             // 
-            this.menuItemEphemSaveAs.Index = 1;
-            this.menuItemEphemSaveAs.Text = "Save As";
+            this.menuItemEphemerisSaveAs.Index = 1;
+            this.menuItemEphemerisSaveAs.Text = "Save As";
             // 
-            // menuItemMagnitude
+            // menuItemGraph
             // 
-            this.menuItemMagnitude.Index = 2;
-            this.menuItemMagnitude.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.menuItemMagSettings,
-            this.menuItemMagSaveAs});
-            this.menuItemMagnitude.Text = "Magnitude";
-            this.menuItemMagnitude.Visible = false;
+            this.menuItemGraph.Index = 2;
+            this.menuItemGraph.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.menuItemGraphSettings,
+            this.menuItemGraphSaveAs});
+            this.menuItemGraph.Text = "Graph";
+            this.menuItemGraph.Visible = false;
             // 
-            // menuItemMagSettings
+            // menuItemGraphSettings
             // 
-            this.menuItemMagSettings.Index = 0;
-            this.menuItemMagSettings.Text = "Settings";
-            this.menuItemMagSettings.Click += new System.EventHandler(this.menuItemMagSettings_Click);
+            this.menuItemGraphSettings.Index = 0;
+            this.menuItemGraphSettings.Text = "Settings";
+            this.menuItemGraphSettings.Click += new System.EventHandler(this.menuItemGraphSettings_Click);
             // 
-            // menuItemMagSaveAs
+            // menuItemGraphSaveAs
             // 
-            this.menuItemMagSaveAs.Index = 1;
-            this.menuItemMagSaveAs.Text = "Save As";
+            this.menuItemGraphSaveAs.Index = 1;
+            this.menuItemGraphSaveAs.Text = "Save As";
             // 
             // menuItemEdit
             // 
@@ -362,9 +362,9 @@
         private System.Windows.Forms.MenuItem menuItemView;
         private System.Windows.Forms.MenuItem menuItemHelp;
         private System.Windows.Forms.MenuItem menuItemDatabase;
-        private System.Windows.Forms.MenuItem menuItemEphemerisFile;
-        private System.Windows.Forms.MenuItem menuItemMagnitudeGraph;
-        private System.Windows.Forms.MenuItem menuItemOrbitViewer;
+        private System.Windows.Forms.MenuItem menuItemFileEphemeris;
+        private System.Windows.Forms.MenuItem menuItemFileGraph;
+        private System.Windows.Forms.MenuItem menuItemFileOrbit;
         private System.Windows.Forms.MenuItem menuItemSeparatorFile1;
         private System.Windows.Forms.MenuItem menuItemExit;
         private System.Windows.Forms.MenuItem menuItemSeparatorEdit1;
@@ -385,15 +385,15 @@
         private System.Windows.Forms.MenuItem menuItemTileHoriz;
         private System.Windows.Forms.MenuItem menuItemTileVert;
         private System.Windows.Forms.MenuItem menuItemEphemeris;
-        private System.Windows.Forms.MenuItem menuItemEphemSettings;
+        private System.Windows.Forms.MenuItem menuItemEphemerisSettings;
         private System.Windows.Forms.MenuItem menuItemWindowSeparator;
-        private System.Windows.Forms.MenuItem menuItemEphemSaveAs;
+        private System.Windows.Forms.MenuItem menuItemEphemerisSaveAs;
         private System.Windows.Forms.MenuItem menuItemMinimizeAll;
         private System.Windows.Forms.MenuItem menuItemClose;
         private System.Windows.Forms.MenuItem menuItemRestoreAll;
-        private System.Windows.Forms.MenuItem menuItemMagnitude;
-        private System.Windows.Forms.MenuItem menuItemMagSettings;
-        private System.Windows.Forms.MenuItem menuItemMagSaveAs;
+        private System.Windows.Forms.MenuItem menuItemGraph;
+        private System.Windows.Forms.MenuItem menuItemGraphSettings;
+        private System.Windows.Forms.MenuItem menuItemGraphSaveAs;
     }
 }
 
