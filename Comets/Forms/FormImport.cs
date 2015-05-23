@@ -33,6 +33,7 @@ namespace Comets.Forms
         public FormImport()
         {
             InitializeComponent();
+            ImportType = ImportType.NoFileSelected;
         }
 
         #endregion
@@ -211,18 +212,32 @@ namespace Comets.Forms
         {
             if (ImportType < ImportType.NoFileSelected)
             {
-                List<Comet> list = ImportHelper.ImportMain(ImportType, ImportFilename);
+                List<Comet> newList = ImportHelper.ImportMain(ImportType, ImportFilename);
 
-                if (list.Count == 0)
+                if (newList.Count == 0)
                 {
                     MessageBox.Show("Something wrong happened. Zero comets imported.\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else
                 {
+
+                    List<Comet> mergedList = FormMain.MainList.ToList();
+
+                    // n = new, o = old
+                    foreach (Comet n in newList)
+                    {
+                        Comet o = mergedList.Find(x => x.full == n.full);
+
+                        if (o != null)
+                            mergedList.Remove(o);
+
+                        mergedList.Add(n);
+                    }
+
                     FormMain.IsDataChanged = true;
-                    FormMain.MainList = list;
-                    FormMain.UserList = list.ToList();
-                    (this.Owner as FormMain).SetStatusCometsLabel(list.Count, list.Count);
+                    FormMain.MainList = mergedList.ToList();
+                    FormMain.UserList = mergedList.ToList();
+                    (this.Owner as FormMain).SetStatusCometsLabel(mergedList.Count, mergedList.Count);
                     MessageBox.Show("Import complete.\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     btnClose.Focus();
                 }
