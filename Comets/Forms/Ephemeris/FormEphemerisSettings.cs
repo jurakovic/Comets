@@ -171,7 +171,7 @@ namespace Comets.Forms.Ephemeris
                 EphemerisSettings.MinLocalJD = EphemerisHelper.jd(start);
                 EphemerisSettings.MaxLocalJD = EphemerisHelper.jd(stop);
 
-                EphemerisSettings.Interval = ind  + (inh + (inm / 60.0)) / 24;
+                EphemerisSettings.Interval = ind + (inh + (inm / 60.0)) / 24;
 
                 start = start.AddHours(-EphemerisSettings.Location.Timezone);
                 stop = stop.AddHours(-EphemerisSettings.Location.Timezone);
