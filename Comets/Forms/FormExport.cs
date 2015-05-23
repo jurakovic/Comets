@@ -45,9 +45,16 @@ namespace Comets.Forms
             {
                 sfd.InitialDirectory = FormMain.Settings.LastUsedExportDirectory;
                 sfd.Filter = "Text documents (*.txt)|*.txt|" +
+                            "SpaceEngine (*.sc)|*.sc|" +
+                            "Celestia (*.ssc)|*.ssc|" +
                             "DAT files (*.dat)|*.dat|" +
                             "COMET files (*.comet)|*.comet|" +
                             "All files (*.*)|*.*";
+
+                if (cbxExportFormat.SelectedIndex == (int)ExportType.SpaceEngine)
+                    sfd.FilterIndex = 2;
+                else if (cbxExportFormat.SelectedIndex == (int)ExportType.Celestia)
+                    sfd.FilterIndex = 3;
 
                 if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {

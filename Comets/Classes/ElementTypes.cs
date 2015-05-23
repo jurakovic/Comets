@@ -24,9 +24,10 @@ namespace Comets.Classes
             VoyagerII = 14,
             SkyTools = 15,
             Autostar = 16,
-            Celestia = 17,
-            CometForWindows = 18,
-            NASA = 19,
+            SpaceEngine = 17,
+            Celestia = 18,
+            CometForWindows = 19,
+            NASA = 20,
 
             NoFileSelected = 51,
             FileNotFound = 52,
@@ -57,6 +58,7 @@ namespace Comets.Classes
             "Voyager II (Soft14Cmt)",
             "SkyTools (Soft15Cmt)",
             "Autostar (Soft16Cmt)",
+            "SpaceEngine",
             "Celestia",
             "Comet for Windows",
             "NASA (ELEMENTS.COMET)"
@@ -85,6 +87,7 @@ namespace Comets.Classes
             "Voyager II",
             "SkyTools",
             "Autostar",
+            "SpaceEngine",
             "Celestia",
             "Comet for Windows",
             "NASA"

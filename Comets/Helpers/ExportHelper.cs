@@ -71,6 +71,9 @@ namespace Comets.Helpers
                 case ExportType.Autostar:
                     ExportTheSky06(ref sb, list); break;
 
+                case ExportType.SpaceEngine:
+                    ExportSpaceEngine(ref sb, list); break;
+
                 case ExportType.Celestia:
                     ExportCelestia(ref sb, list); break;
 
@@ -421,6 +424,37 @@ namespace Comets.Helpers
             foreach (Comet c in list)
             {
                 sb.AppendLine(String.Format(format, c.full, c.Ty, c.Tm, c.Td, c.Th / 10, c.q, c.e, c.w, c.N, c.i, c.g, c.k));
+            }
+        }
+
+        protected static void ExportSpaceEngine(ref StringBuilder sb, List<Comet> list)
+        {
+            foreach (Comet c in list)
+            {
+
+                string full = char.IsNumber(c.id[0]) ? c.full.Replace('/', ' ') + "\"" : c.full.Replace("/", "") + "\"" ;
+
+                sb.AppendLine("Comet\t\"" + full + "\"");
+                sb.AppendLine("{");
+                sb.AppendLine("\tParentBody \"Sol\"");
+
+                char type = c.id[0] == 'C' ? 'C' : 'P';
+                sb.AppendLine("\tCometType  \"" + type + "\"");
+                sb.AppendLine("\tAbsMagn     " + String.Format("{0:0.##}", c.g));
+                sb.AppendLine("\tSlopeParam  " + String.Format("{0:0.##}", c.k));
+                sb.AppendLine("\tOrbit");
+
+                sb.AppendLine("\t{");
+		        sb.AppendLine(String.Format("\t\tEpoch            {0:0.0000}", c.T));
+		        sb.AppendLine(String.Format("\t\tPericenterDist   {0:0.000000}", c.q));
+		        sb.AppendLine(String.Format("\t\tEccentricity     {0:0.000000}", c.e));
+		        sb.AppendLine(String.Format("\t\tInclination      {0:0.0000}", c.i));
+		        sb.AppendLine(String.Format("\t\tAscendingNode    {0:0.0000}", c.N));
+                sb.AppendLine(String.Format("\t\tArgOfPericenter  {0:0.0000}", c.w));
+		        sb.AppendLine("\t\tMeanAnomaly      0");
+                sb.AppendLine("\t}");
+                sb.AppendLine("}");
+                sb.AppendLine();
             }
         }
 
