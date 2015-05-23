@@ -43,7 +43,6 @@ namespace Comets.Forms
         {
             using (SaveFileDialog sfd = new SaveFileDialog())
             {
-                sfd.InitialDirectory = FormMain.Settings.LastUsedExportDirectory;
                 sfd.Filter = "Text documents (*.txt)|*.txt|" +
                             "SpaceEngine (*.sc)|*.sc|" +
                             "Celestia (*.ssc)|*.ssc|" +
@@ -56,6 +55,13 @@ namespace Comets.Forms
                 else if (cbxExportFormat.SelectedIndex == (int)ExportType.Celestia)
                     sfd.FilterIndex = 3;
 
+                ExternalProgram ep = FormMain.Settings.ExternalPrograms.Find(x => x.Type == cbxExportFormat.SelectedIndex);
+
+                if (ep != null)
+                    sfd.InitialDirectory = ep.Directory;
+                else
+                    sfd.InitialDirectory = FormMain.Settings.LastUsedExportDirectory;
+                
                 if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
                     FormMain.Settings.LastUsedExportDirectory = Path.GetDirectoryName(sfd.FileName);
