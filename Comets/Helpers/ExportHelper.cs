@@ -432,7 +432,7 @@ namespace Comets.Helpers
             foreach (Comet c in list)
             {
 
-                string full = char.IsNumber(c.id[0]) ? c.full.Replace('/', ' ') + "\"" : c.full.Replace("/", "") + "\"" ;
+                string full = char.IsNumber(c.id[0]) ? c.full.Replace('/', ' ') : c.full.Replace("/", "");
 
                 sb.AppendLine("Comet\t\"" + full + "\"");
                 sb.AppendLine("{");
@@ -442,8 +442,8 @@ namespace Comets.Helpers
                 sb.AppendLine("\tCometType  \"" + type + "\"");
                 sb.AppendLine("\tAbsMagn     " + String.Format("{0:0.##}", c.g));
                 sb.AppendLine("\tSlopeParam  " + String.Format("{0:0.##}", c.k));
+                sb.AppendLine();
                 sb.AppendLine("\tOrbit");
-
                 sb.AppendLine("\t{");
 		        sb.AppendLine(String.Format("\t\tEpoch            {0:0.0000}", c.T));
 		        sb.AppendLine(String.Format("\t\tPericenterDist   {0:0.000000}", c.q));
