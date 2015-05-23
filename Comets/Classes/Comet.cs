@@ -7,33 +7,116 @@ namespace Comets.Classes
     public class Comet
     {
         #region Const
-        
+
         public static string[] Month = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
 
         #endregion
 
         #region Properties
 
+        /// <summary>
+        /// Full (e.g. 1P/Halley)
+        /// </summary>
         public string full { get; set; }
+
+        /// <summary>
+        /// Name (e.g. Halley)
+        /// </summary>
         public string name { get; set; }
+
+        /// <summary>
+        /// Id (e.g. 1P)
+        /// </summary>
         public string id { get; set; }
+
+        /// <summary>
+        /// Epoch (Julian day)
+        /// </summary>
         public double T { get; set; }
+
+        /// <summary>
+        /// Epoch year
+        /// </summary>
         public int Ty { get; set; }
+
+        /// <summary>
+        /// Epoch month
+        /// </summary>
         public int Tm { get; set; }
+
+        /// <summary>
+        /// Epoch day
+        /// </summary>
         public int Td { get; set; }
+
+        /// <summary>
+        /// Epoch hour (#### format)
+        /// </summary>
         public int Th { get; set; }
-        public double P { get; set; }    //Period
-        public double q { get; set; }    //Perihelion Distance
-        public double e { get; set; }    //Eccentricity
-        public double i { get; set; }    //Inclination
-        public double N { get; set; }    //Longitude of the Ascending Node
-        public double w { get; set; }    //Argument of Pericenter
-        public double a { get; set; }    //Semimajor Axis
-        public double Q { get; set; }    //Aphelion Distance
-        public double n { get; set; }    //Mean motion
+
+        /// <summary>
+        /// Period
+        /// </summary>
+        public double P { get; set; }
+
+        /// <summary>
+        /// Perihelion distance
+        /// </summary>
+        public double q { get; set; }
+
+        /// <summary>
+        /// Eccentricity
+        /// </summary>
+        public double e { get; set; }
+
+        /// <summary>
+        /// Inclination
+        /// </summary>
+        public double i { get; set; }
+
+        /// <summary>
+        /// Longitude of the Ascending Node
+        /// </summary>
+        public double N { get; set; }
+
+        /// <summary>
+        /// Argument of Pericenter
+        /// </summary>
+        public double w { get; set; }
+
+        /// <summary>
+        /// Semimajor Axis
+        /// </summary>
+        public double a { get; set; }
+
+        /// <summary>
+        /// Aphelion distance
+        /// </summary>
+        public double Q { get; set; }
+
+        /// <summary>
+        /// Mean motion
+        /// </summary>
+        public double n { get; set; }
+
+        /// <summary>
+        /// Absolute magnitude
+        /// </summary>
         public double g { get; set; }
+
+        /// <summary>
+        /// Slope parameter
+        /// </summary>
         public double k { get; set; }
+
+        /// <summary>
+        /// Sortkey
+        /// </summary>
         public double sortkey { get; set; }
+
+        /// <summary>
+        /// IdKey
+        /// </summary>
         public string idKey { get; set; }
 
         #endregion

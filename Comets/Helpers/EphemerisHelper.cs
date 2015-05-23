@@ -55,7 +55,7 @@ namespace Comets.Helpers
                     er.LocalJD = jdLoc;
 
                     settings.Results.Add(er);
-                    
+
                     jd += settings.Interval;
                     jdLoc += settings.Interval;
                 }

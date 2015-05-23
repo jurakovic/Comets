@@ -5,7 +5,7 @@ namespace Comets.Classes
     {
         #region Properties
 
-        public int Type; //{ get; set; }
+        public int Type; // { get; set; } // nije property da se ne binda u gridu u settingsima
         public string Directory { get; set; }
         public string Name
         {

@@ -70,26 +70,27 @@ namespace Comets.Forms
             {
                 progressDownload.Visible = true;
 
-                WebClient Client = new WebClient();
-
-                if (FormMain.Settings.UseProxy)
+                using (WebClient wc = new WebClient())
                 {
-                    WebProxy proxy = new WebProxy(FormMain.Settings.Proxy, FormMain.Settings.Port);
-                    proxy.Credentials = new NetworkCredential(FormMain.Settings.Username, FormMain.Settings.Password, FormMain.Settings.Domain);
-                    Client.Proxy = proxy;
-                }
+                    if (FormMain.Settings.UseProxy)
+                    {
+                        WebProxy proxy = new WebProxy(FormMain.Settings.Proxy, FormMain.Settings.Port);
+                        proxy.Credentials = new NetworkCredential(FormMain.Settings.Username, FormMain.Settings.Password, FormMain.Settings.Domain);
+                        wc.Proxy = proxy;
+                    }
 
-                Client.DownloadProgressChanged += Client_DownloadProgressChanged;
-                Client.DownloadFileCompleted += Client_DownloadFileCompleted;
-                Uri uri = new Uri(url);
+                    wc.DownloadProgressChanged += Client_DownloadProgressChanged;
+                    wc.DownloadFileCompleted += Client_DownloadFileCompleted;
+                    Uri uri = new Uri(url);
 
-                try
-                {
-                    Client.DownloadFileAsync(uri, DownloadFilename);
-                }
-                catch
-                {
-                    //nothing...
+                    try
+                    {
+                        wc.DownloadFileAsync(uri, DownloadFilename);
+                    }
+                    catch
+                    {
+                        //nothing...
+                    }
                 }
             }
         }
@@ -154,7 +155,7 @@ namespace Comets.Forms
             {
                 ImportFilename = LocalFilename;
             }
-                
+
             SetImportStatus();
         }
 
@@ -220,7 +221,6 @@ namespace Comets.Forms
                 }
                 else
                 {
-
                     List<Comet> mergedList = FormMain.MainList.ToList();
 
                     // n = new, o = old

@@ -171,13 +171,12 @@
             // chExitWithoutConfirm
             // 
             this.chExitWithoutConfirm.AutoSize = true;
-            this.chExitWithoutConfirm.Location = new System.Drawing.Point(402, 55);
+            this.chExitWithoutConfirm.Location = new System.Drawing.Point(9, 55);
             this.chExitWithoutConfirm.Name = "chExitWithoutConfirm";
             this.chExitWithoutConfirm.Size = new System.Drawing.Size(121, 17);
             this.chExitWithoutConfirm.TabIndex = 3;
             this.chExitWithoutConfirm.Text = "Exit without confirm";
             this.chExitWithoutConfirm.UseVisualStyleBackColor = true;
-            this.chExitWithoutConfirm.Visible = false;
             // 
             // chNewVersionOnStartup
             // 
@@ -193,7 +192,7 @@
             // chRememberWindowPosition
             // 
             this.chRememberWindowPosition.AutoSize = true;
-            this.chRememberWindowPosition.Location = new System.Drawing.Point(9, 55);
+            this.chRememberWindowPosition.Location = new System.Drawing.Point(9, 20);
             this.chRememberWindowPosition.Name = "chRememberWindowPosition";
             this.chRememberWindowPosition.Size = new System.Drawing.Size(156, 17);
             this.chRememberWindowPosition.TabIndex = 2;
@@ -203,12 +202,13 @@
             // chDownloadOnStartup
             // 
             this.chDownloadOnStartup.AutoSize = true;
-            this.chDownloadOnStartup.Location = new System.Drawing.Point(9, 20);
+            this.chDownloadOnStartup.Location = new System.Drawing.Point(266, 55);
             this.chDownloadOnStartup.Name = "chDownloadOnStartup";
             this.chDownloadOnStartup.Size = new System.Drawing.Size(322, 17);
             this.chDownloadOnStartup.TabIndex = 0;
             this.chDownloadOnStartup.Text = "Download the latest orbital elements from Internet on startup";
             this.chDownloadOnStartup.UseVisualStyleBackColor = true;
+            this.chDownloadOnStartup.Visible = false;
             // 
             // gbxAppData
             // 

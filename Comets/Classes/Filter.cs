@@ -269,11 +269,11 @@ namespace Comets.Classes
             {
                 case ValueResolveEnum.Contains:
                 case ValueResolveEnum.Greather:
-                    retval = 0; 
+                    retval = 0;
                     break;
 
                 case ValueResolveEnum.DoesNotContain:
-                case ValueResolveEnum.Equal: 
+                case ValueResolveEnum.Equal:
                     retval = 1;
                     break;
 

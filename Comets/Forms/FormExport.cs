@@ -61,7 +61,7 @@ namespace Comets.Forms
                     sfd.InitialDirectory = ep.Directory;
                 else
                     sfd.InitialDirectory = FormMain.Settings.LastUsedExportDirectory;
-                
+
                 if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
                     FormMain.Settings.LastUsedExportDirectory = Path.GetDirectoryName(sfd.FileName);

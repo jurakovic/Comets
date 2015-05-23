@@ -6,9 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
-using System.Linq;
 
 namespace Comets.Forms
 {
@@ -45,7 +45,7 @@ namespace Comets.Forms
             Settings = Settings.LoadSettings();
 
             fdb = new FormDatabase() { Owner = this };
-                        
+
             int margin = 250;
             if (Settings.RememberWindowPosition)
             {
@@ -95,10 +95,10 @@ namespace Comets.Forms
                 SetStatusCometsLabel(UserList.Count, MainList.Count);
             }
 
-            if (Settings.DownloadOnStartup)
-            {
-                //TO DO
-            }
+            //if (Settings.DownloadOnStartup)
+            //{
+            //    //TO DO
+            //}
 
             if (!Directory.Exists(Settings.Downloads))
                 Directory.CreateDirectory(Settings.Downloads);
@@ -106,9 +106,27 @@ namespace Comets.Forms
 
         #endregion
 
-        #region Form_Closing
+        #region FormMain_FormClosing
 
         private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!FormMain.Settings.ExitWithoutConfirm)
+            {
+                DialogResult dr = MessageBox.Show("  Do you really want to exit?\t\t\t\t", "Confirm",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+
+                if (dr == System.Windows.Forms.DialogResult.No)
+                {
+                    e.Cancel = true;
+                }
+            }
+        }
+
+        #endregion
+
+        #region FormMain_FormClosed
+
+        private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
         {
             if ((IsDataChanged || !File.Exists(Settings.Database) || Settings.IsSettingsChanged) && MainList.Count > 0)
             {
@@ -127,7 +145,7 @@ namespace Comets.Forms
             }
 
             // da ponovo ispiše postavke
-            if(Settings.HasErrors)
+            if (Settings.HasErrors)
                 Settings.SaveSettings(Settings);
         }
 
@@ -267,7 +285,7 @@ namespace Comets.Forms
         private void menuItemRestoreAll_Click(object sender, EventArgs e)
         {
             foreach (Form child in this.MdiChildren)
-               child.WindowState = FormWindowState.Normal;
+                child.WindowState = FormWindowState.Normal;
         }
 
         private void menuItemClose_Click(object sender, EventArgs e)
@@ -300,7 +318,7 @@ namespace Comets.Forms
                     mi.Text = text;
                     break;
                 }
-            }        
+            }
         }
 
         public void RemoveWindowMenuItem(int tag)
@@ -326,7 +344,7 @@ namespace Comets.Forms
 
         public void SetStatusCometsLabel(int count, int total)
         {
-            if(count < total)
+            if (count < total)
                 this.statusComets.Text = String.Format("Comets: {0} ({1})", count, total);
             else
                 this.statusComets.Text = String.Format("Comets: {0}", count);

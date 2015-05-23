@@ -242,7 +242,7 @@ namespace Comets.Helpers
                 }
                 else if (c.e == 1.0)
                 {
-                    double Td = c.Td + c.Th/10000.0;
+                    double Td = c.Td + c.Th / 10000.0;
                     string format = "{0},p,{1:00}/{2:00.000#}/{3},{4:0.000#},{5:0.000#},{6:0.00000#},{7:0.000#},2000,{8:0.0},{9:0.0}";
                     sb.AppendLine(String.Format(format, tempFull, c.Tm, Td, c.Ty, c.i, c.w, c.q, c.N, c.g, c.k));
                 }
@@ -297,7 +297,7 @@ namespace Comets.Helpers
 
             foreach (Comet c in list)
             {
-                sb.AppendLine(String.Format(format, c.full, c.T - 2400000.5, c.w, c.e, c.q, c.i, c.N, c.g, c.k, JD-2400000.5));
+                sb.AppendLine(String.Format(format, c.full, c.T - 2400000.5, c.w, c.e, c.q, c.i, c.N, c.g, c.k, JD - 2400000.5));
             }
         }
 
@@ -307,7 +307,7 @@ namespace Comets.Helpers
 
             foreach (Comet c in list)
             {
-                sb.AppendLine(String.Format(format, c.full, c.Ty, c.Tm, c.Td, c.Th, c.q, c.e, c.w, c.N, c.i, c.g, c.k*2.5));
+                sb.AppendLine(String.Format(format, c.full, c.Ty, c.Tm, c.Td, c.Th, c.q, c.e, c.w, c.N, c.i, c.g, c.k * 2.5));
             }
         }
 
@@ -347,7 +347,7 @@ namespace Comets.Helpers
                 sb.AppendLine(String.Format("{0,-126}", line));
             }
         }
-        
+
         protected static void ExportEarthCenUniv10(ref StringBuilder sb, List<Comet> list)
         {
             string format = "E C 2000 {0} {1:00} {2:00}.{3:0000} {4:0.000000} {5:0.000000} {6:0.0000} {7:0.0000} {8:0.0000} {9:0.0} {10:0.0}";
@@ -388,7 +388,7 @@ namespace Comets.Helpers
                 sb.AppendLine(String.Format(format, c.name, c.id, c.Ty, c.Tm, c.Td, c.Th, c.q, c.e, c.w, c.N, c.i, c.g, c.k * 2.5));
             }
         }
-        
+
         protected static void ExportSkyChart13(ref StringBuilder sb, List<Comet> list)
         {
             string format = "P11\t2000.0\t-{0:0.000000}\t{1:0.000000}\t{2:0.0000}\t{3:0.0000}\t{4:0.0000}\t0\t{5}/{6:00}/{7:00}.{8:0000}\t{9:0.0}\t{10:0.0}\t0\t0\t{11}; MPC 00000";
@@ -445,13 +445,13 @@ namespace Comets.Helpers
                 sb.AppendLine();
                 sb.AppendLine("\tOrbit");
                 sb.AppendLine("\t{");
-		        sb.AppendLine(String.Format("\t\tEpoch            {0:0.0000}", c.T));
-		        sb.AppendLine(String.Format("\t\tPericenterDist   {0:0.000000}", c.q));
-		        sb.AppendLine(String.Format("\t\tEccentricity     {0:0.000000}", c.e));
-		        sb.AppendLine(String.Format("\t\tInclination      {0:0.0000}", c.i));
-		        sb.AppendLine(String.Format("\t\tAscendingNode    {0:0.0000}", c.N));
+                sb.AppendLine(String.Format("\t\tEpoch            {0:0.0000}", c.T));
+                sb.AppendLine(String.Format("\t\tPericenterDist   {0:0.000000}", c.q));
+                sb.AppendLine(String.Format("\t\tEccentricity     {0:0.000000}", c.e));
+                sb.AppendLine(String.Format("\t\tInclination      {0:0.0000}", c.i));
+                sb.AppendLine(String.Format("\t\tAscendingNode    {0:0.0000}", c.N));
                 sb.AppendLine(String.Format("\t\tArgOfPericenter  {0:0.0000}", c.w));
-		        sb.AppendLine("\t\tMeanAnomaly      0");
+                sb.AppendLine("\t\tMeanAnomaly      0");
                 sb.AppendLine("\t}");
                 sb.AppendLine("}");
                 sb.AppendLine();

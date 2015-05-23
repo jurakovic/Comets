@@ -126,8 +126,8 @@ namespace Comets.Classes
                                 case "DownloadOnStartup": settings.DownloadOnStartup = Convert.ToBoolean(value); break;
                                 case "RememberWindowPosition": settings.RememberWindowPosition = Convert.ToBoolean(value); break;
                                 case "ShowStatusBar": settings.ShowStatusBar = Convert.ToBoolean(value); break;
+                                case "ExitWithoutConfirm": settings.ExitWithoutConfirm = Convert.ToBoolean(value); break;
                                 //case "NewVersionOnStartup": settings.NewVersionOnStartup = Convert.ToBoolean(value); break; 
-                                //case "ExitWithoutConfirm": settings.ExitWithoutConfirm = Convert.ToBoolean(value); break;
 
                                 case "Maximized": settings.Maximized = Convert.ToBoolean(value); break;
                                 case "Left": settings.Left = Convert.ToInt32(value); break;
@@ -168,7 +168,7 @@ namespace Comets.Classes
                     }
                 }
 
-                if(exceptions > 0)
+                if (exceptions > 0)
                     settings.HasErrors = true;
             }
 
@@ -192,8 +192,8 @@ namespace Comets.Classes
             sb.AppendLine(String.Format(format, "DownloadOnStartup", settings.DownloadOnStartup));
             sb.AppendLine(String.Format(format, "RememberWindowPosition", settings.RememberWindowPosition));
             sb.AppendLine(String.Format(format, "ShowStatusBar", settings.ShowStatusBar));
+            sb.AppendLine(String.Format(format, "ExitWithoutConfirm", settings.ExitWithoutConfirm));
             //sb.AppendLine(String.Format(format, "NewVersionOnStartup", settings.NewVersionOnStartup));
-            //sb.AppendLine(String.Format(format, "ExitWithoutConfirm", settings.ExitWithoutConfirm));
             sb.AppendLine();
 
             if (settings.RememberWindowPosition)

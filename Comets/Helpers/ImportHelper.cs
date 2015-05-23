@@ -306,22 +306,22 @@ namespace Comets.Helpers
 
             if (importType == ImportType.xephem || importType == ImportType.DeepSpace || importType == ImportType.EarthCenteredUniverse)
                 lines /= 2;
-            
+
             if (importType == ImportType.DeepSpace || importType == ImportType.HomePlanet || importType == ImportType.MyStars)
                 --lines;
-            
+
             if (importType == ImportType.StarryNight)
                 lines -= 15;
-            
+
             if (importType == ImportType.DanceOfThePlanets)
                 lines -= 5;
-            
+
             if (importType == ImportType.VoyagerII)
                 lines -= 23;
-            
+
             if (importType == ImportType.CometForWindows)
                 lines /= 13;
-            
+
             if (importType == ImportType.NASA)
                 lines -= 2;
 
@@ -629,7 +629,7 @@ namespace Comets.Helpers
                         c.k = Convert.ToDouble(parts[12]);
 
                         c.q = a * (1 - c.e);
-                        
+
                         if (M == 0)
                         {
                             c.Tm = m;
@@ -644,8 +644,8 @@ namespace Comets.Helpers
                             c.T = E - M / n;
 
                             if (M >= 180)
-                                c.T +=  Comet.GetPeriod(c.q, c.e) * 365.25;
-                            
+                                c.T += Comet.GetPeriod(c.q, c.e) * 365.25;
+
                             int[] newdate = EphemerisHelper.jdtocd(c.T);
                             c.Ty = newdate[0];
                             c.Tm = newdate[1];
@@ -1257,7 +1257,7 @@ namespace Comets.Helpers
                     c.w = Convert.ToDouble(lines[i].Substring(71, 8).Trim());
 
                     c.Ty = Convert.ToInt32(lines[i].Substring(87, 4).Trim());
-                    
+
                     string mon = lines[i].Substring(91, 3);
                     int ind = Array.IndexOf(Comet.Month, mon) + 1;
                     if (ind > 0)

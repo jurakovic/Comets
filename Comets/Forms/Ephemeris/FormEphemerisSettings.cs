@@ -110,7 +110,7 @@ namespace Comets.Forms.Ephemeris
                 lblPerihDate.Text = "Perihelion date:                " + c.Ty.ToString() + " " + Comet.Month[c.Tm - 1] + " " + c.Td.ToString("00") + "." + c.Th.ToString("0000");
                 lblPerihDist.Text = "Perihelion distance:          " + c.q.ToString("0.000000") + " AU";
                 lblPeriod.Text = (c.P < 10000 && c.e < 0.98) ? "Period:                              " + c.P.ToString("0.000000") + " years" : "Period:                              -";
-            } 
+            }
         }
 
         #endregion
@@ -124,7 +124,7 @@ namespace Comets.Forms.Ephemeris
                 DateTime start, stop;
                 int syr, smo, sdy, shr, smi, eyr, emo, edy, ehr, emi;
                 double ind, inm, inh;
-                
+
                 try
                 {
                     syr = Convert.ToInt32(txtStartYear.Text);
@@ -151,7 +151,7 @@ namespace Comets.Forms.Ephemeris
                         MessageBox.Show("End date is less than start date");
                         return;
                     }
-                        
+
                 }
                 catch
                 {

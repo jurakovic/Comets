@@ -121,7 +121,7 @@ namespace Comets.Forms.Graph
             if (cbComet.SelectedIndex >= 0)
             {
                 DateTime locMin, locMax, utcMin, utcMax;
-                
+
                 if (GraphSettings == null)
                     GraphSettings = new GraphSettings();
 
@@ -132,7 +132,7 @@ namespace Comets.Forms.Graph
                         int minYr = Convert.ToInt32(txtStartYear.Text);
                         int minMo = Convert.ToInt32(txtStartMonth.Text);
                         int minDy = Convert.ToInt32(txtStartDay.Text);
-                         
+
                         int maxYr = Convert.ToInt32(txtEndYear.Text);
                         int maxMo = Convert.ToInt32(txtEndMonth.Text);
                         int maxDy = Convert.ToInt32(txtEndDay.Text);
