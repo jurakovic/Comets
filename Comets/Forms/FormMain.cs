@@ -35,9 +35,10 @@ namespace Comets.Forms
         {
             InitializeComponent();
 
-            CultureInfo customCulture = (CultureInfo)Thread.CurrentThread.CurrentCulture.Clone();
-            customCulture.NumberFormat.NumberDecimalSeparator = ".";
-            Thread.CurrentThread.CurrentCulture = customCulture;
+            Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
+            //CultureInfo customCulture = (CultureInfo)Thread.CurrentThread.CurrentCulture.Clone();
+            //customCulture.NumberFormat.NumberDecimalSeparator = ".";
+            //Thread.CurrentThread.CurrentCulture = customCulture;
 
             MainList = new List<Comet>();
             UserList = new List<Comet>();
