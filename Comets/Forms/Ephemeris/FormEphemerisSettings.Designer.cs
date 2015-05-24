@@ -125,12 +125,13 @@
             // cbComet
             // 
             this.cbComet.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbComet.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.cbComet.FormattingEnabled = true;
             this.cbComet.IntegralHeight = false;
             this.cbComet.Location = new System.Drawing.Point(12, 20);
-            this.cbComet.MaxDropDownItems = 23;
+            this.cbComet.MaxDropDownItems = 21;
             this.cbComet.Name = "cbComet";
-            this.cbComet.Size = new System.Drawing.Size(299, 21);
+            this.cbComet.Size = new System.Drawing.Size(299, 22);
             this.cbComet.TabIndex = 1;
             this.cbComet.SelectedIndexChanged += new System.EventHandler(this.cbComet_SelectedIndexChanged);
             // 

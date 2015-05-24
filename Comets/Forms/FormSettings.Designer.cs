@@ -230,9 +230,9 @@
             // 
             // btnDefaultDownloads
             // 
-            this.btnDefaultDownloads.Location = new System.Drawing.Point(594, 114);
+            this.btnDefaultDownloads.Location = new System.Drawing.Point(591, 114);
             this.btnDefaultDownloads.Name = "btnDefaultDownloads";
-            this.btnDefaultDownloads.Size = new System.Drawing.Size(69, 23);
+            this.btnDefaultDownloads.Size = new System.Drawing.Size(70, 23);
             this.btnDefaultDownloads.TabIndex = 42;
             this.btnDefaultDownloads.Text = "Default";
             this.btnDefaultDownloads.UseVisualStyleBackColor = true;
@@ -240,9 +240,9 @@
             // 
             // btnDefaultAppData
             // 
-            this.btnDefaultAppData.Location = new System.Drawing.Point(594, 47);
+            this.btnDefaultAppData.Location = new System.Drawing.Point(591, 47);
             this.btnDefaultAppData.Name = "btnDefaultAppData";
-            this.btnDefaultAppData.Size = new System.Drawing.Size(69, 23);
+            this.btnDefaultAppData.Size = new System.Drawing.Size(70, 23);
             this.btnDefaultAppData.TabIndex = 3;
             this.btnDefaultAppData.Text = "Default";
             this.btnDefaultAppData.UseVisualStyleBackColor = true;
@@ -262,10 +262,10 @@
             // 
             this.txtDownloads.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtDownloads.Location = new System.Drawing.Point(155, 115);
+            this.txtDownloads.Location = new System.Drawing.Point(154, 115);
             this.txtDownloads.MaxLength = 512;
             this.txtDownloads.Name = "txtDownloads";
-            this.txtDownloads.Size = new System.Drawing.Size(433, 21);
+            this.txtDownloads.Size = new System.Drawing.Size(431, 21);
             this.txtDownloads.TabIndex = 3;
             // 
             // btnDownloads
@@ -292,10 +292,10 @@
             // 
             this.txtAppData.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtAppData.Location = new System.Drawing.Point(155, 48);
+            this.txtAppData.Location = new System.Drawing.Point(154, 48);
             this.txtAppData.MaxLength = 512;
             this.txtAppData.Name = "txtAppData";
-            this.txtAppData.Size = new System.Drawing.Size(433, 21);
+            this.txtAppData.Size = new System.Drawing.Size(431, 21);
             this.txtAppData.TabIndex = 1;
             // 
             // btnAppData
@@ -453,7 +453,7 @@
             // rbManualProxy
             // 
             this.rbManualProxy.AutoSize = true;
-            this.rbManualProxy.Location = new System.Drawing.Point(6, 48);
+            this.rbManualProxy.Location = new System.Drawing.Point(9, 48);
             this.rbManualProxy.Name = "rbManualProxy";
             this.rbManualProxy.Size = new System.Drawing.Size(156, 17);
             this.rbManualProxy.TabIndex = 50;
@@ -465,7 +465,7 @@
             // 
             this.rbNoProxy.AutoSize = true;
             this.rbNoProxy.Checked = true;
-            this.rbNoProxy.Location = new System.Drawing.Point(6, 17);
+            this.rbNoProxy.Location = new System.Drawing.Point(9, 17);
             this.rbNoProxy.Name = "rbNoProxy";
             this.rbNoProxy.Size = new System.Drawing.Size(69, 17);
             this.rbNoProxy.TabIndex = 49;

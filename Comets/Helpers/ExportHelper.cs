@@ -431,15 +431,13 @@ namespace Comets.Helpers
         {
             foreach (Comet c in list)
             {
-
                 string full = char.IsNumber(c.id[0]) ? c.full.Replace('/', ' ') : c.full.Replace("/", "");
 
                 sb.AppendLine("Comet\t\"" + full + "\"");
                 sb.AppendLine("{");
                 sb.AppendLine("\tParentBody \"Sol\"");
 
-                char type = c.id[0] == 'C' ? 'C' : 'P';
-                sb.AppendLine("\tCometType  \"" + type + "\"");
+                sb.AppendLine("\tCometType  \"" + (c.id[0] == 'C' ? 'C' : 'P') + "\"");
                 sb.AppendLine("\tAbsMagn     " + String.Format("{0:0.##}", c.g));
                 sb.AppendLine("\tSlopeParam  " + String.Format("{0:0.##}", c.k));
                 sb.AppendLine();

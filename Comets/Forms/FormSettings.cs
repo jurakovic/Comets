@@ -186,19 +186,25 @@ namespace Comets.Forms
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
-            ExternalProgram selectedProgram = (dgvPrograms.SelectedRows[0].DataBoundItem as ExternalProgram);
+            if (Programs.Any())
+            {
+                ExternalProgram selectedProgram = (dgvPrograms.SelectedRows[0].DataBoundItem as ExternalProgram);
 
-            gbxPrograms.Visible = false;
-            gbxAddProgram.Visible = true;
+                gbxPrograms.Visible = false;
+                gbxAddProgram.Visible = true;
 
-            cbxExternalProgram.SelectedIndex = selectedProgram.Type;
-            txtDirectory.Text = selectedProgram.Directory;
+                cbxExternalProgram.SelectedIndex = selectedProgram.Type;
+                txtDirectory.Text = selectedProgram.Directory;
+            }
         }
 
         private void btnRemove_Click(object sender, EventArgs e)
         {
-            ExternalProgram selectedProgram = (dgvPrograms.SelectedRows[0].DataBoundItem as ExternalProgram);
-            Programs.Remove(selectedProgram);
+            if (Programs.Any())
+            {
+                ExternalProgram selectedProgram = (dgvPrograms.SelectedRows[0].DataBoundItem as ExternalProgram);
+                Programs.Remove(selectedProgram);
+            }
         }
 
         private void btnClear_Click(object sender, EventArgs e)

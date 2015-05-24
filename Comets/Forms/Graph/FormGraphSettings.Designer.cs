@@ -92,7 +92,7 @@
             // lblPeriod
             // 
             this.lblPeriod.AutoSize = true;
-            this.lblPeriod.Location = new System.Drawing.Point(9, 104);
+            this.lblPeriod.Location = new System.Drawing.Point(10, 104);
             this.lblPeriod.Name = "lblPeriod";
             this.lblPeriod.Size = new System.Drawing.Size(41, 13);
             this.lblPeriod.TabIndex = 300;
@@ -101,7 +101,7 @@
             // lblPerihDist
             // 
             this.lblPerihDist.AutoSize = true;
-            this.lblPerihDist.Location = new System.Drawing.Point(9, 77);
+            this.lblPerihDist.Location = new System.Drawing.Point(10, 77);
             this.lblPerihDist.Name = "lblPerihDist";
             this.lblPerihDist.Size = new System.Drawing.Size(100, 13);
             this.lblPerihDist.TabIndex = 299;
@@ -110,7 +110,7 @@
             // lblPerihDate
             // 
             this.lblPerihDate.AutoSize = true;
-            this.lblPerihDate.Location = new System.Drawing.Point(9, 50);
+            this.lblPerihDate.Location = new System.Drawing.Point(10, 50);
             this.lblPerihDate.Name = "lblPerihDate";
             this.lblPerihDate.Size = new System.Drawing.Size(82, 13);
             this.lblPerihDate.TabIndex = 298;
@@ -119,12 +119,13 @@
             // cbComet
             // 
             this.cbComet.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbComet.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.cbComet.FormattingEnabled = true;
             this.cbComet.IntegralHeight = false;
             this.cbComet.Location = new System.Drawing.Point(12, 20);
-            this.cbComet.MaxDropDownItems = 23;
+            this.cbComet.MaxDropDownItems = 16;
             this.cbComet.Name = "cbComet";
-            this.cbComet.Size = new System.Drawing.Size(299, 21);
+            this.cbComet.Size = new System.Drawing.Size(299, 22);
             this.cbComet.TabIndex = 1;
             this.cbComet.SelectedIndexChanged += new System.EventHandler(this.cbComet_SelectedIndexChanged);
             // 
@@ -366,7 +367,7 @@
             this.rbDate.Text = "Date";
             this.rbDate.UseVisualStyleBackColor = true;
             // 
-            // FormMagnitudeSettings
+            // FormGraphSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -379,7 +380,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "FormMagnitudeSettings";
+            this.Name = "FormGraphSettings";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

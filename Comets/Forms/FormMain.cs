@@ -115,7 +115,7 @@ namespace Comets.Forms
                 DialogResult dr = MessageBox.Show("  Do you really want to exit?\t\t\t\t", "Confirm",
                     MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
 
-                if (dr == System.Windows.Forms.DialogResult.No)
+                if (dr == DialogResult.No)
                 {
                     e.Cancel = true;
                 }
