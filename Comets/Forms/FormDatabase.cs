@@ -55,25 +55,25 @@ namespace Comets.Forms
             t_N1.Text = c.N.ToString("0.0000");
             t_w.Text = c.w.ToString("0.0000");
 
-            if (c.P > 10000 || c.e > 0.98)
-            {
-                t_P.Text = string.Empty;
-                t_Q2.Text = string.Empty;
-                t_a.Text = string.Empty;
-                t_n2.Text = string.Empty;
-            }
-            else
+            if (c.P < 10000)
             {
                 t_P.Text = c.P.ToString("0.000000");
                 t_Q2.Text = c.Q.ToString("0.000000");
                 t_a.Text = c.a.ToString("0.000000");
                 t_n2.Text = c.n.ToString("0.000000");
             }
+            else
+            {
+                t_P.Text = string.Empty;
+                t_Q2.Text = string.Empty;
+                t_a.Text = string.Empty;
+                t_n2.Text = string.Empty;
+            }
 
             t_g.Text = c.g.ToString("0.0");
             t_k.Text = c.k.ToString("0.0");
 
-            t_sortKey.Text = c.sortkey.ToString("0.00000000000");
+            //t_sortKey.Text = c.sortkey.ToString("0.00000000000");
             //t_sortKey.Text = c.idKey;
 
             tEquinox.Text = "2000.0";

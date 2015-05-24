@@ -22,9 +22,9 @@ namespace Comets.Helpers
 
         public async static Task<CommonSettings> CalculateEphemeris(CommonSettings settings)
         {
-            double jd = settings.MinUtcJD;
-            double jdMax = settings.MaxUtcJD;
-            double jdLoc = settings.MinLocalJD;
+            decimal jd = (decimal)settings.MinUtcJD;
+            decimal jdMax = (decimal)settings.MaxUtcJD;
+            decimal jdLoc = (decimal)settings.MinLocalJD;
 
             await Task.Run(() =>
             {
@@ -32,7 +32,7 @@ namespace Comets.Helpers
                 {
                     EphemerisResult er = new EphemerisResult();
 
-                    double[] dat = CometAlt(settings.Comet, jd, settings.Location);
+                    double[] dat = CometAlt(settings.Comet, (double)jd, settings.Location);
                     er.Alt = dat[0];
                     er.Az = dat[1];
                     er.RA = dat[3];
@@ -43,7 +43,7 @@ namespace Comets.Helpers
                     er.GeoDist = dat[9];
                     er.Magnitude = dat[10];
 
-                    double[] sundat = SunAlt(jd, settings.Location);
+                    double[] sundat = SunAlt((double)jd, settings.Location);
                     double sunra = sundat[3];
                     double sundec = sundat[4] - (sundat[4] > 180.0 ? 360 : 0);
 
@@ -51,13 +51,13 @@ namespace Comets.Helpers
                     er.Elongation = sep[0];
                     er.PositionAngle = sep[1];
 
-                    er.UtcJD = jd;
-                    er.LocalJD = jdLoc;
+                    er.UtcJD = (double)jd;
+                    er.LocalJD = (double)jdLoc;
 
                     settings.Results.Add(er);
 
-                    jd += settings.Interval;
-                    jdLoc += settings.Interval;
+                    jd += (decimal)settings.Interval;
+                    jdLoc += (decimal)settings.Interval;
                 }
             });
 
