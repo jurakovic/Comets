@@ -394,9 +394,9 @@ namespace Comets.Helpers
                 double a = 0.75 * (jday - Tj) * k * Math.Sqrt((1 + e) / (q * q * q));
                 double b = Math.Sqrt(1 + a * a);
                 double W = cbrt(b + a) - cbrt(b - a);
-                double c = 1 + 1 / (W * W);
+                double c = (W * W) / (1 + W * W);
                 double f = (1 - e) / (1 + e);
-                double g = f / (c * c);
+                double g = f * c * c;
                 double a1 = (2 / 3) + (2 / 5) * W * W;
                 double a2 = (7 / 5) + (33 / 35) * W * W + (37 / 175) * W * W * W * W;
                 double a3 = W * W * ((432 / 175) + (956 / 1125) * W * W + (84 / 1575) * W * W * W * W);
