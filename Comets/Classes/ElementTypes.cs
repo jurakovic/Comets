@@ -94,5 +94,34 @@ namespace Comets.Classes
         };
 
         #endregion
+
+        #region ExtensionFilters
+
+        public static string[] ExtensionFilters = 
+        {
+            "Text Documents (*.txt)|*.txt|",        //"MPC",
+            "Text Documents (*.txt)|*.txt|",        //"SkyMap",
+            "Text Documents (*.txt)|*.txt|",        //"Guide",
+            "Text Documents (*.txt)|*.txt|",        //"xephem",
+            "CSV files (*.csv)|*.csv|",             //"Home Planet",
+            "Text Documents (*.txt)|*.txt|",        //"MyStars!",
+            "Text Documents (*.txt)|*.txt|",        //"TheSky",
+            "Text Documents (*.txt)|*.txt|",        //"Starry Night",
+            "Text Documents (*.txt)|*.txt|",        //"Deep Space",
+            "Text Documents (*.txt)|*.txt|",        //"PC-TCS",
+            "Text Documents (*.txt)|*.txt|",        //"Earth Centered Universe",
+            "Text Documents (*.txt)|*.txt|",        //"Dance of the Planets",
+            "Text Documents (*.txt)|*.txt|",        //"MegaStar V4.x",
+            "Text Documents (*.txt)|*.txt|",        //"SkyChart III",
+            "Text Documents (*.txt)|*.txt|",        //"Voyager II",
+            "Text Documents (*.txt)|*.txt|",        //"SkyTools",
+            "Text Documents (*.txt)|*.txt|",        //"Autostar",
+            "SpaceEngine (*.sc)|*.sc|",             //"SpaceEngine",
+            "Celestia (*.ssc)|*.ssc|",              //"Celestia",
+            "Dat files (*.dat)|*.dat|",             //"Comet for Windows",
+            "COMET files (*.comet)|*.comet|"        //"NASA"
+        };
+
+        #endregion
     }
 }
