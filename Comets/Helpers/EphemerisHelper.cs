@@ -340,8 +340,8 @@ namespace Comets.Helpers
             double[] altaz = radec2aa(ra, dec, jday, location);
             double dist = radec[2];
             double r = cmt_xyz[3];
-            double mag = c.g + 5 * log10(dist) + 2.5 * c.k * log10(r);
-            return new double[] { altaz[0], altaz[1], altaz[2], ra, dec, lon, lat, 1.0, r, dist, mag };
+            double mag = c.g + 5 * log10(r) + 2.5 * c.k * log10(dist);
+            return new double[] { altaz[0], altaz[1], altaz[2], ra, dec, lon, lat, 1.0, dist, r, mag };
         }
 
         public static double[] SunAlt(double jday, Location location)
