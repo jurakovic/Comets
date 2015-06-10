@@ -102,6 +102,12 @@
     <Compile Include="Forms\FormSettings.Designer.cs">
       <DependentUpon>FormSettings.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Orbit\FormOrbitViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Orbit\FormOrbitViewer.Designer.cs">
+      <DependentUpon>FormOrbitViewer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Helpers\EphemerisHelper.cs" />
     <Compile Include="Forms\FormImport.cs">
       <SubType>Form</SubType>
@@ -118,6 +124,21 @@
     <Compile Include="Helpers\ExportHelper.cs" />
     <Compile Include="Helpers\ImportHelper.cs" />
     <Compile Include="Helpers\Utils.cs" />
+    <Compile Include="OrbitViewer\Astro.cs" />
+    <Compile Include="OrbitViewer\ATime.cs" />
+    <Compile Include="OrbitViewer\ATimeSpan.cs" />
+    <Compile Include="OrbitViewer\Comet.cs" />
+    <Compile Include="OrbitViewer\CometOrbit.cs" />
+    <Compile Include="OrbitViewer\Matrix.cs" />
+    <Compile Include="OrbitViewer\OrbitPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="OrbitViewer\Planet.cs" />
+    <Compile Include="OrbitViewer\PlanetElm.cs" />
+    <Compile Include="OrbitViewer\PlanetExp.cs" />
+    <Compile Include="OrbitViewer\PlanetOrbit.cs" />
+    <Compile Include="OrbitViewer\UdMath.cs" />
+    <Compile Include="OrbitViewer\Xyz.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Forms\Ephemeris\FormEphemeris.resx">
@@ -152,6 +173,9 @@
     <EmbeddedResource Include="Forms\FormSettings.resx">
       <DependentUpon>FormSettings.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Orbit\FormOrbitViewer.resx">
+      <DependentUpon>FormOrbitViewer.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -174,6 +198,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
