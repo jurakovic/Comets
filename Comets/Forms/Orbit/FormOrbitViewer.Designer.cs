@@ -56,8 +56,8 @@
 			this.btnRevPlay = new System.Windows.Forms.Button();
 			this.scrollVert = new System.Windows.Forms.VScrollBar();
 			this.scrollHorz = new System.Windows.Forms.HScrollBar();
-			this.orbitPanel = new Comets.OrbitViewer.OrbitPanel();
 			this.scrollZoom = new System.Windows.Forms.HScrollBar();
+			this.orbitPanel = new Comets.OrbitViewer.OrbitPanel();
 			((System.ComponentModel.ISupportInitialize)(this.numYear)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numDay)).BeginInit();
 			this.SuspendLayout();
@@ -378,6 +378,17 @@
 			this.scrollHorz.Value = 255;
 			this.scrollHorz.ValueChanged += new System.EventHandler(this.scrollHorz_ValueChanged);
 			// 
+			// scrollZoom
+			// 
+			this.scrollZoom.Location = new System.Drawing.Point(397, 625);
+			this.scrollZoom.Maximum = 1000;
+			this.scrollZoom.Minimum = 5;
+			this.scrollZoom.Name = "scrollZoom";
+			this.scrollZoom.Size = new System.Drawing.Size(285, 17);
+			this.scrollZoom.TabIndex = 37;
+			this.scrollZoom.Value = 67;
+			this.scrollZoom.ValueChanged += new System.EventHandler(this.scrollZoom_ValueChanged);
+			// 
 			// orbitPanel
 			// 
 			this.orbitPanel.ATime = null;
@@ -402,17 +413,6 @@
 			this.orbitPanel.MouseLeave += new System.EventHandler(this.orbitPanel_MouseLeave);
 			this.orbitPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.orbitPanel_MouseMove);
 			this.orbitPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.orbitPanel_MouseUp);
-			// 
-			// scrollZoom
-			// 
-			this.scrollZoom.Location = new System.Drawing.Point(397, 625);
-			this.scrollZoom.Maximum = 1000;
-			this.scrollZoom.Minimum = 5;
-			this.scrollZoom.Name = "scrollZoom";
-			this.scrollZoom.Size = new System.Drawing.Size(285, 17);
-			this.scrollZoom.TabIndex = 37;
-			this.scrollZoom.Value = 67;
-			this.scrollZoom.ValueChanged += new System.EventHandler(this.scrollZoom_ValueChanged);
 			// 
 			// FormOrbitViewer
 			// 
@@ -451,12 +451,14 @@
 			this.Controls.Add(this.scrollHorz);
 			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+			this.KeyPreview = true;
 			this.MaximizeBox = false;
 			this.MinimumSize = new System.Drawing.Size(719, 700);
 			this.Name = "FormOrbitViewer";
 			this.Text = "Orbit Viewer";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormOrbitViewer_FormClosing);
 			this.Load += new System.EventHandler(this.FormOrbit_Load);
+			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormOrbitViewer_KeyDown);
 			((System.ComponentModel.ISupportInitialize)(this.numYear)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numDay)).EndInit();
 			this.ResumeLayout(false);

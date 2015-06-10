@@ -407,6 +407,87 @@ namespace Comets.Forms.Orbit
 
 		#endregion
 
+		#region Keyboad shortcuts
+
+		private void FormOrbitViewer_KeyDown(object sender, KeyEventArgs e)
+		{
+			bool control = Control.ModifierKeys == Keys.Control;
+
+			switch (e.KeyCode)
+			{
+				case Keys.D1:
+					if (control)
+						ChangeVisibleOrbit((int)OrbitsEnum.Mercury);
+					else
+						cboCenter.SelectedIndex = (int)CenteredObjectEnum.Mercury;
+					break;
+
+				case Keys.D2:
+					if (control)
+						ChangeVisibleOrbit((int)OrbitsEnum.Venus);
+					else
+						cboCenter.SelectedIndex = (int)CenteredObjectEnum.Venus;
+					break;
+
+				case Keys.D3:
+					if (control)
+						ChangeVisibleOrbit((int)OrbitsEnum.Earth);
+					else
+						cboCenter.SelectedIndex = (int)CenteredObjectEnum.Earth;
+					break;
+
+				case Keys.D4:
+					if (control)
+						ChangeVisibleOrbit((int)OrbitsEnum.Mars);
+					else
+						cboCenter.SelectedIndex = (int)CenteredObjectEnum.Mars;
+					break;
+
+				case Keys.D5:
+					if (control)
+						ChangeVisibleOrbit((int)OrbitsEnum.Jupiter);
+					else
+						cboCenter.SelectedIndex = (int)CenteredObjectEnum.Jupiter;
+					break;
+
+				case Keys.D6:
+					if (control)
+						ChangeVisibleOrbit((int)OrbitsEnum.Saturn);
+					else
+						cboCenter.SelectedIndex = (int)CenteredObjectEnum.Saturn;
+					break;
+
+				case Keys.D7:
+					if (control)
+						ChangeVisibleOrbit((int)OrbitsEnum.Uranus);
+					else
+						cboCenter.SelectedIndex = (int)CenteredObjectEnum.Uranus;
+					break;
+
+				case Keys.D8:
+					if (control)
+						ChangeVisibleOrbit((int)OrbitsEnum.Neptune);
+					else
+						cboCenter.SelectedIndex = (int)CenteredObjectEnum.Neptune;
+					break;
+
+				case Keys.D9:
+				case Keys.C:
+					if (control)
+						ChangeVisibleOrbit((int)OrbitsEnum.CometAsteroid);
+					else
+						cboCenter.SelectedIndex = (int)CenteredObjectEnum.CometAsteroid;
+					break;
+
+				case Keys.D0:
+				case Keys.S:
+					cboCenter.SelectedIndex = (int)CenteredObjectEnum.Sun;
+					break;
+			}
+		}
+
+		#endregion
+
 		#region Date
 
 		private void numDay_ValueChanged(object sender, EventArgs e)
@@ -560,8 +641,11 @@ namespace Comets.Forms.Orbit
 
 		private void cboOrbits_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			int index = cboOrbits.SelectedIndex;
+			ChangeVisibleOrbit(cboOrbits.SelectedIndex);
+		}
 
+		private void ChangeVisibleOrbit(int index)
+		{
 			if (index == (int)OrbitsEnum.Default)
 			{
 				for (int i = 0; i < OrbitDisplay.Length; i++)
@@ -585,7 +669,7 @@ namespace Comets.Forms.Orbit
 			{
 				OrbitDisplay[index - 4] = !OrbitDisplay[index - 4];
 			}
-
+			
 			orbitPanel.SelectOrbits(OrbitDisplay);
 			orbitPanel.Invalidate();
 		}
