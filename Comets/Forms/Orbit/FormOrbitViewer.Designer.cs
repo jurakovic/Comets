@@ -119,7 +119,7 @@
 			this.domMonth.TabIndex = 58;
 			this.domMonth.Text = "May";
 			this.domMonth.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.domMonth.SelectedItemChanged += new System.EventHandler(this.domMonth_SelectedItemChanged);
+			this.domMonth.SelectedItemChanged += new System.EventHandler(this.dateCommon_ValueChanged);
 			// 
 			// lblDate
 			// 
@@ -173,7 +173,7 @@
             0,
             0,
             0});
-			this.numYear.ValueChanged += new System.EventHandler(this.numYear_ValueChanged);
+			this.numYear.ValueChanged += new System.EventHandler(this.dateCommon_ValueChanged);
 			// 
 			// numDay
 			// 
@@ -194,7 +194,7 @@
             0,
             0,
             0});
-			this.numDay.ValueChanged += new System.EventHandler(this.numDay_ValueChanged);
+			this.numDay.ValueChanged += new System.EventHandler(this.dateCommon_ValueChanged);
 			// 
 			// lblZoom
 			// 

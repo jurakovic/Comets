@@ -173,9 +173,6 @@ namespace Comets.Forms.Orbit
 
 		OVComet SelectedComet { get; set; }
 
-		//flag for day change
-		bool valueChangedByUser = true;
-
 		#endregion
 
 		#region Constructor
@@ -490,56 +487,66 @@ namespace Comets.Forms.Orbit
 
 		#region Date
 
-		private void numDay_ValueChanged(object sender, EventArgs e)
+		private void dateCommon_ValueChanged(object sender, EventArgs e)
 		{
-			if (valueChangedByUser)
+			bool monthIsChanged = (sender as Control).Name == domMonth.Name;
+			bool yearIsChanged = (sender as Control).Name == numYear.Name;
+
+			bool dayIsMin = false;
+			bool dayIsMax = false;
+
+			int maximumDays = (int)numDay.Maximum;
+
+			int d = (int)numDay.Value;
+			int m = 13 - domMonth.SelectedIndex;
+			int y = (int)numYear.Value;
+
+			if (d >= numDay.Maximum)
 			{
-				if (numDay.Value <= numDay.Minimum)
+				++m;
+				monthIsChanged = true;
+				dayIsMin = true;
+			}
+			else if (d <= numDay.Minimum)
+			{
+				--m;
+				monthIsChanged = true;
+				dayIsMax = true;
+			}
+
+			if (monthIsChanged || yearIsChanged)
+			{
+				if (m >= 13)
 				{
-					domMonth.SelectedIndex++;
-					numDay.Value = numDay.Maximum - 1;
+					++y;
+					m = 1;
 				}
-				else if (numDay.Value >= numDay.Maximum)
+				else if (m <= 0)
 				{
-					numDay.Value = numDay.Minimum + 1;
-					domMonth.SelectedIndex--;
+					--y;
+					m = 12;
 				}
-			}
-		}
 
-		private void domMonth_SelectedItemChanged(object sender, EventArgs e)
-		{
-			if (domMonth.SelectedIndex == 0)
-			{
-				domMonth.SelectedIndex = 12;
-				numYear.Value++;
-			}
-			else if (domMonth.SelectedIndex == 13)
-			{
-				domMonth.SelectedIndex = 1;
-				numYear.Value--;
+				int daysInMonth = DateTime.DaysInMonth((int)numYear.Value, m);
+				maximumDays = daysInMonth + 1;
+
+				if (!dayIsMin && d >= (int)maximumDays)
+					dayIsMax = true;
+
+				if (dayIsMin)
+					d = 1;
+
+				if (dayIsMax)
+					d = daysInMonth;
 			}
 
-			valueChangedByUser = false;
-			int month = 13 - domMonth.SelectedIndex;
-			int daysInMonth = DateTime.DaysInMonth((int)numYear.Value, month);
-			numDay.Maximum = daysInMonth + 1;
-			valueChangedByUser = true;
-
-			if (numDay.Value >= numDay.Maximum)
-				numDay.Value = numDay.Maximum - 1;
-		}
-
-		private void numYear_ValueChanged(object sender, EventArgs e)
-		{
-			if ((string)domMonth.SelectedItem == "Feb")
+			if (dayIsMin || dayIsMax || monthIsChanged || yearIsChanged)
 			{
-				int month = 13 - domMonth.SelectedIndex;
-				int daysInMonth = DateTime.DaysInMonth((int)numYear.Value, month);
-				numDay.Maximum = daysInMonth + 1;
+				numDay.Maximum = maximumDays;
 
-				if (numDay.Value >= numDay.Maximum)
-					numDay.Value = numDay.Maximum - 1;
+				numDay.Value = d;
+				domMonth.SelectedIndex = 13 - m;
+				numYear.Value = y;
 			}
 		}
 
