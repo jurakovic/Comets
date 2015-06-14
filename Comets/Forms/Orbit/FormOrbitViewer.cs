@@ -169,6 +169,7 @@ namespace Comets.Forms.Orbit
 
 		ATimeSpan TimeStep { get; set; }
 		int SimulationDirection { get; set; }
+		bool SimulationStarted { get; set; }
 
 		List<OVComet> Comets { get; set; }
 
@@ -189,6 +190,8 @@ namespace Comets.Forms.Orbit
 			Timer = new Timer();
 			Timer.Interval = 50;
 			Timer.Tick += new System.EventHandler(this.timer_Tick);
+
+			SimulationDirection = ATime.TIME_INCREMENT;
 		}
 
 		#endregion
@@ -254,6 +257,8 @@ namespace Comets.Forms.Orbit
 
 		private void FormOrbitViewer_FormClosing(object sender, FormClosingEventArgs e)
 		{
+			PauseSimulation();
+
 			FormMain main = this.MdiParent as FormMain;
 			main.RemoveWindowMenuItem((int)this.Tag);
 			main.SetWindowMenuItemVisible(main.MdiChildren.Length > 1 ? true : false);
@@ -484,6 +489,26 @@ namespace Comets.Forms.Orbit
 				case Keys.S:
 					cboCenter.SelectedIndex = (int)CenteredObjectEnum.Sun;
 					break;
+
+				case Keys.Space:
+				case Keys.P:
+					if (SimulationStarted)
+						PauseSimulation();
+					else
+						PlaySimulation(SimulationDirection);
+					break;
+
+				case Keys.J:
+					InvertSimulation();
+					break;
+
+				case Keys.K:
+					SlowerSimulation();
+					break;
+
+				case Keys.L:
+					FasterSimulation();
+					break;
 			}
 		}
 
@@ -539,13 +564,13 @@ namespace Comets.Forms.Orbit
 
 		private void btnRevPlay_Click(object sender, EventArgs e)
 		{
-			SimulationDirection = ATime.TIME_DECREMENT;
-			Timer.Start();
+			PlaySimulation(ATime.TIME_DECREMENT);
 		}
 
 		private void btnRevStep_Click(object sender, EventArgs e)
 		{
-			Timer.Stop();
+			PauseSimulation();
+
 			ATime atime = orbitPanel.ATime;
 			atime.ChangeDate(TimeStep, ATime.TIME_DECREMENT);
 			orbitPanel.ATime = atime;
@@ -554,12 +579,13 @@ namespace Comets.Forms.Orbit
 
 		private void btnStop_Click(object sender, EventArgs e)
 		{
-			Timer.Stop();
+			PauseSimulation();
 		}
 
 		private void btnForStep_Click(object sender, EventArgs e)
 		{
-			Timer.Stop();
+			PauseSimulation();
+
 			ATime atime = orbitPanel.ATime;
 			atime.ChangeDate(TimeStep, ATime.TIME_INCREMENT);
 			orbitPanel.ATime = atime;
@@ -568,8 +594,7 @@ namespace Comets.Forms.Orbit
 
 		private void btnForPlay_Click(object sender, EventArgs e)
 		{
-			SimulationDirection = ATime.TIME_INCREMENT;
-			Timer.Start();
+			PlaySimulation(ATime.TIME_INCREMENT);
 		}
 
 		private void cboTimestep_SelectedIndexChanged(object sender, EventArgs e)
@@ -585,13 +610,62 @@ namespace Comets.Forms.Orbit
 			orbitPanel.Invalidate();
 		}
 
+		private void PlaySimulation(int direction = 1)
+		{
+			SimulationDirection = direction;
+			Timer.Start();
+			SimulationStarted = true;
+		}
+
+		private void PauseSimulation()
+		{
+			Timer.Stop();
+			SimulationStarted = false;
+		}
+
+		private void FasterSimulation()
+		{
+			if (!SimulationStarted)
+			{
+				PlaySimulation();
+			}
+			else
+			{
+				if (cboTimestep.SelectedIndex < cboTimestep.Items.Count - 1)
+				{
+					cboTimestep.SelectedIndex++;
+				}
+			}
+		}
+
+		private void SlowerSimulation()
+		{
+			if (!SimulationStarted)
+			{
+				PlaySimulation();
+			}
+			else
+			{
+				if (cboTimestep.SelectedIndex > 0)
+					cboTimestep.SelectedIndex--;
+				else
+					PauseSimulation();
+			}
+		}
+
+		private void InvertSimulation()
+		{
+			SimulationDirection = SimulationDirection * -1;
+		}
+
 		#endregion
 
 		#region ComboBoxes
 
 		private void cboObject_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			Timer.Stop();
+			PauseSimulation();
+
 			ATime atime = orbitPanel.ATime ?? CollectATime();
 			SelectedComet = Comets.ElementAt(cboObject.SelectedIndex);
 			orbitPanel.LoadPanel(SelectedComet, atime);
