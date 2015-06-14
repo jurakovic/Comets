@@ -333,8 +333,11 @@ namespace Comets.Forms.Orbit
 				double hkoef = 2.0;
 				double vkoef = 3.0;
 
-				double x = (horizontalMax / width) * hkoef;
-				double y = (verticalMax / height) * vkoef;
+				double a = (double)orbitPanel.Size.Width / (double)orbitPanel.MinimumSize.Width;
+				double b = (double)orbitPanel.Size.Height / (double)orbitPanel.MinimumSize.Height;
+
+				double x = (horizontalMax / width) * a * hkoef;
+				double y = (verticalMax / height) * b * vkoef;
 
 				int newHv = (int)(x * deltaX);
 				int newVv = (int)(y * deltaY);
@@ -595,7 +598,7 @@ namespace Comets.Forms.Orbit
 			orbitPanel.Invalidate();
 
 			this.Text = this.Tag + " Orbit Viewer - " + SelectedComet.Name;
-			
+
 			FormMain main = this.MdiParent as FormMain;
 			main.RenameWindowItem((int)this.Tag, this.Text);
 		}
@@ -636,7 +639,7 @@ namespace Comets.Forms.Orbit
 			{
 				OrbitDisplay[index - 4] = !OrbitDisplay[index - 4];
 			}
-			
+
 			orbitPanel.SelectOrbits(OrbitDisplay);
 			orbitPanel.Invalidate();
 		}
@@ -666,6 +669,16 @@ namespace Comets.Forms.Orbit
 		private void cbxDate_CheckedChanged(object sender, EventArgs e)
 		{
 			orbitPanel.ShowDateLabel = cbxDate.Checked;
+			orbitPanel.Invalidate();
+		}
+
+		#endregion
+
+		#region orbitPanel_Resize
+
+		private void orbitPanel_Resize(object sender, EventArgs e)
+		{
+			orbitPanel.Offscreen = new Bitmap(orbitPanel.Width, orbitPanel.Height);
 			orbitPanel.Invalidate();
 		}
 

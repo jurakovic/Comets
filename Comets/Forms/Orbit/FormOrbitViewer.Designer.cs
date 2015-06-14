@@ -57,14 +57,16 @@
 			this.scrollVert = new System.Windows.Forms.VScrollBar();
 			this.scrollHorz = new System.Windows.Forms.HScrollBar();
 			this.scrollZoom = new System.Windows.Forms.HScrollBar();
+			this.pnlToolbox = new System.Windows.Forms.Panel();
 			this.orbitPanel = new Comets.OrbitViewer.OrbitPanel();
 			((System.ComponentModel.ISupportInitialize)(this.numYear)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numDay)).BeginInit();
+			this.pnlToolbox.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// btnSet
 			// 
-			this.btnSet.Location = new System.Drawing.Point(183, 524);
+			this.btnSet.Location = new System.Drawing.Point(186, 41);
 			this.btnSet.Name = "btnSet";
 			this.btnSet.Size = new System.Drawing.Size(79, 23);
 			this.btnSet.TabIndex = 63;
@@ -74,7 +76,7 @@
 			// 
 			// btnNow
 			// 
-			this.btnNow.Location = new System.Drawing.Point(98, 524);
+			this.btnNow.Location = new System.Drawing.Point(101, 41);
 			this.btnNow.Name = "btnNow";
 			this.btnNow.Size = new System.Drawing.Size(79, 23);
 			this.btnNow.TabIndex = 62;
@@ -85,7 +87,7 @@
 			// lblLabels
 			// 
 			this.lblLabels.AutoSize = true;
-			this.lblLabels.Location = new System.Drawing.Point(306, 561);
+			this.lblLabels.Location = new System.Drawing.Point(309, 78);
 			this.lblLabels.Name = "lblLabels";
 			this.lblLabels.Size = new System.Drawing.Size(37, 13);
 			this.lblLabels.TabIndex = 61;
@@ -94,7 +96,7 @@
 			// lblTimestep
 			// 
 			this.lblTimestep.AutoSize = true;
-			this.lblTimestep.Location = new System.Drawing.Point(306, 526);
+			this.lblTimestep.Location = new System.Drawing.Point(309, 43);
 			this.lblTimestep.Name = "lblTimestep";
 			this.lblTimestep.Size = new System.Drawing.Size(50, 13);
 			this.lblTimestep.TabIndex = 60;
@@ -103,7 +105,7 @@
 			// lblSimulation
 			// 
 			this.lblSimulation.AutoSize = true;
-			this.lblSimulation.Location = new System.Drawing.Point(306, 500);
+			this.lblSimulation.Location = new System.Drawing.Point(309, 17);
 			this.lblSimulation.Name = "lblSimulation";
 			this.lblSimulation.Size = new System.Drawing.Size(55, 13);
 			this.lblSimulation.TabIndex = 59;
@@ -112,7 +114,7 @@
 			// domMonth
 			// 
 			this.domMonth.BackColor = System.Drawing.SystemColors.Window;
-			this.domMonth.Location = new System.Drawing.Point(147, 498);
+			this.domMonth.Location = new System.Drawing.Point(150, 15);
 			this.domMonth.Name = "domMonth";
 			this.domMonth.ReadOnly = true;
 			this.domMonth.Size = new System.Drawing.Size(58, 21);
@@ -124,7 +126,7 @@
 			// lblDate
 			// 
 			this.lblDate.AutoSize = true;
-			this.lblDate.Location = new System.Drawing.Point(12, 500);
+			this.lblDate.Location = new System.Drawing.Point(15, 17);
 			this.lblDate.Name = "lblDate";
 			this.lblDate.Size = new System.Drawing.Size(30, 13);
 			this.lblDate.TabIndex = 57;
@@ -133,7 +135,7 @@
 			// lblObject
 			// 
 			this.lblObject.AutoSize = true;
-			this.lblObject.Location = new System.Drawing.Point(12, 561);
+			this.lblObject.Location = new System.Drawing.Point(15, 78);
 			this.lblObject.Name = "lblObject";
 			this.lblObject.Size = new System.Drawing.Size(39, 13);
 			this.lblObject.TabIndex = 56;
@@ -144,7 +146,7 @@
 			this.cboObject.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cboObject.FormattingEnabled = true;
 			this.cboObject.IntegralHeight = false;
-			this.cboObject.Location = new System.Drawing.Point(99, 558);
+			this.cboObject.Location = new System.Drawing.Point(102, 75);
 			this.cboObject.MaxDropDownItems = 15;
 			this.cboObject.Name = "cboObject";
 			this.cboObject.Size = new System.Drawing.Size(162, 21);
@@ -153,7 +155,7 @@
 			// 
 			// numYear
 			// 
-			this.numYear.Location = new System.Drawing.Point(211, 498);
+			this.numYear.Location = new System.Drawing.Point(214, 15);
 			this.numYear.Maximum = new decimal(new int[] {
             9000,
             0,
@@ -178,7 +180,7 @@
 			// numDay
 			// 
 			this.numDay.BackColor = System.Drawing.SystemColors.Window;
-			this.numDay.Location = new System.Drawing.Point(99, 498);
+			this.numDay.Location = new System.Drawing.Point(102, 15);
 			this.numDay.Maximum = new decimal(new int[] {
             32,
             0,
@@ -199,7 +201,7 @@
 			// lblZoom
 			// 
 			this.lblZoom.AutoSize = true;
-			this.lblZoom.Location = new System.Drawing.Point(306, 625);
+			this.lblZoom.Location = new System.Drawing.Point(309, 142);
 			this.lblZoom.Name = "lblZoom";
 			this.lblZoom.Size = new System.Drawing.Size(33, 13);
 			this.lblZoom.TabIndex = 52;
@@ -208,7 +210,7 @@
 			// lblOrbits
 			// 
 			this.lblOrbits.AutoSize = true;
-			this.lblOrbits.Location = new System.Drawing.Point(12, 625);
+			this.lblOrbits.Location = new System.Drawing.Point(15, 142);
 			this.lblOrbits.Name = "lblOrbits";
 			this.lblOrbits.Size = new System.Drawing.Size(36, 13);
 			this.lblOrbits.TabIndex = 51;
@@ -217,7 +219,7 @@
 			// lblCenter
 			// 
 			this.lblCenter.AutoSize = true;
-			this.lblCenter.Location = new System.Drawing.Point(12, 593);
+			this.lblCenter.Location = new System.Drawing.Point(15, 110);
 			this.lblCenter.Name = "lblCenter";
 			this.lblCenter.Size = new System.Drawing.Size(40, 13);
 			this.lblCenter.TabIndex = 50;
@@ -227,7 +229,7 @@
 			// 
 			this.cbxObject.Checked = true;
 			this.cbxObject.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.cbxObject.Location = new System.Drawing.Point(397, 560);
+			this.cbxObject.Location = new System.Drawing.Point(400, 77);
 			this.cbxObject.Name = "cbxObject";
 			this.cbxObject.Size = new System.Drawing.Size(70, 17);
 			this.cbxObject.TabIndex = 49;
@@ -239,7 +241,7 @@
 			// 
 			this.cbxDistance.Checked = true;
 			this.cbxDistance.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.cbxDistance.Location = new System.Drawing.Point(528, 560);
+			this.cbxDistance.Location = new System.Drawing.Point(531, 77);
 			this.cbxDistance.Name = "cbxDistance";
 			this.cbxDistance.Size = new System.Drawing.Size(70, 17);
 			this.cbxDistance.TabIndex = 48;
@@ -251,7 +253,7 @@
 			// 
 			this.cbxPlanet.Checked = true;
 			this.cbxPlanet.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.cbxPlanet.Location = new System.Drawing.Point(397, 592);
+			this.cbxPlanet.Location = new System.Drawing.Point(400, 109);
 			this.cbxPlanet.Name = "cbxPlanet";
 			this.cbxPlanet.Size = new System.Drawing.Size(70, 17);
 			this.cbxPlanet.TabIndex = 47;
@@ -263,7 +265,7 @@
 			// 
 			this.cbxDate.Checked = true;
 			this.cbxDate.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.cbxDate.Location = new System.Drawing.Point(528, 592);
+			this.cbxDate.Location = new System.Drawing.Point(531, 109);
 			this.cbxDate.Name = "cbxDate";
 			this.cbxDate.Size = new System.Drawing.Size(70, 17);
 			this.cbxDate.TabIndex = 46;
@@ -275,7 +277,7 @@
 			// 
 			this.cboOrbits.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cboOrbits.FormattingEnabled = true;
-			this.cboOrbits.Location = new System.Drawing.Point(99, 622);
+			this.cboOrbits.Location = new System.Drawing.Point(102, 139);
 			this.cboOrbits.Name = "cboOrbits";
 			this.cboOrbits.Size = new System.Drawing.Size(162, 21);
 			this.cboOrbits.TabIndex = 45;
@@ -285,7 +287,7 @@
 			// 
 			this.cboCenter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cboCenter.FormattingEnabled = true;
-			this.cboCenter.Location = new System.Drawing.Point(99, 590);
+			this.cboCenter.Location = new System.Drawing.Point(102, 107);
 			this.cboCenter.Name = "cboCenter";
 			this.cboCenter.Size = new System.Drawing.Size(162, 21);
 			this.cboCenter.TabIndex = 44;
@@ -295,7 +297,7 @@
 			// 
 			this.cboTimestep.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cboTimestep.FormattingEnabled = true;
-			this.cboTimestep.Location = new System.Drawing.Point(397, 523);
+			this.cboTimestep.Location = new System.Drawing.Point(400, 40);
 			this.cboTimestep.Name = "cboTimestep";
 			this.cboTimestep.Size = new System.Drawing.Size(161, 21);
 			this.cboTimestep.TabIndex = 43;
@@ -304,7 +306,7 @@
 			// btnForPlay
 			// 
 			this.btnForPlay.Font = new System.Drawing.Font("Tahoma", 6.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.btnForPlay.Location = new System.Drawing.Point(528, 496);
+			this.btnForPlay.Location = new System.Drawing.Point(531, 13);
 			this.btnForPlay.Name = "btnForPlay";
 			this.btnForPlay.Size = new System.Drawing.Size(31, 23);
 			this.btnForPlay.TabIndex = 42;
@@ -315,7 +317,7 @@
 			// btnForStep
 			// 
 			this.btnForStep.Font = new System.Drawing.Font("Tahoma", 6.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.btnForStep.Location = new System.Drawing.Point(495, 496);
+			this.btnForStep.Location = new System.Drawing.Point(498, 13);
 			this.btnForStep.Name = "btnForStep";
 			this.btnForStep.Size = new System.Drawing.Size(31, 23);
 			this.btnForStep.TabIndex = 41;
@@ -326,7 +328,7 @@
 			// btnStop
 			// 
 			this.btnStop.Font = new System.Drawing.Font("Tahoma", 6.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.btnStop.Location = new System.Drawing.Point(462, 496);
+			this.btnStop.Location = new System.Drawing.Point(465, 13);
 			this.btnStop.Name = "btnStop";
 			this.btnStop.Size = new System.Drawing.Size(31, 23);
 			this.btnStop.TabIndex = 40;
@@ -337,7 +339,7 @@
 			// btnRevStep
 			// 
 			this.btnRevStep.Font = new System.Drawing.Font("Tahoma", 6.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.btnRevStep.Location = new System.Drawing.Point(429, 496);
+			this.btnRevStep.Location = new System.Drawing.Point(432, 13);
 			this.btnRevStep.Name = "btnRevStep";
 			this.btnRevStep.Size = new System.Drawing.Size(31, 23);
 			this.btnRevStep.TabIndex = 39;
@@ -348,7 +350,7 @@
 			// btnRevPlay
 			// 
 			this.btnRevPlay.Font = new System.Drawing.Font("Tahoma", 6.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.btnRevPlay.Location = new System.Drawing.Point(396, 496);
+			this.btnRevPlay.Location = new System.Drawing.Point(399, 13);
 			this.btnRevPlay.Name = "btnRevPlay";
 			this.btnRevPlay.Size = new System.Drawing.Size(31, 23);
 			this.btnRevPlay.TabIndex = 38;
@@ -358,6 +360,8 @@
 			// 
 			// scrollVert
 			// 
+			this.scrollVert.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.scrollVert.LargeChange = 1;
 			this.scrollVert.Location = new System.Drawing.Point(684, 0);
 			this.scrollVert.Maximum = 180;
@@ -369,6 +373,8 @@
 			// 
 			// scrollHorz
 			// 
+			this.scrollHorz.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.scrollHorz.LargeChange = 1;
 			this.scrollHorz.Location = new System.Drawing.Point(0, 460);
 			this.scrollHorz.Maximum = 360;
@@ -380,7 +386,7 @@
 			// 
 			// scrollZoom
 			// 
-			this.scrollZoom.Location = new System.Drawing.Point(397, 625);
+			this.scrollZoom.Location = new System.Drawing.Point(400, 142);
 			this.scrollZoom.Maximum = 1000;
 			this.scrollZoom.Minimum = 5;
 			this.scrollZoom.Name = "scrollZoom";
@@ -389,13 +395,52 @@
 			this.scrollZoom.Value = 67;
 			this.scrollZoom.ValueChanged += new System.EventHandler(this.scrollZoom_ValueChanged);
 			// 
+			// pnlToolbox
+			// 
+			this.pnlToolbox.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+			this.pnlToolbox.Controls.Add(this.numDay);
+			this.pnlToolbox.Controls.Add(this.btnSet);
+			this.pnlToolbox.Controls.Add(this.scrollZoom);
+			this.pnlToolbox.Controls.Add(this.btnNow);
+			this.pnlToolbox.Controls.Add(this.btnRevPlay);
+			this.pnlToolbox.Controls.Add(this.lblLabels);
+			this.pnlToolbox.Controls.Add(this.btnRevStep);
+			this.pnlToolbox.Controls.Add(this.lblTimestep);
+			this.pnlToolbox.Controls.Add(this.btnStop);
+			this.pnlToolbox.Controls.Add(this.lblSimulation);
+			this.pnlToolbox.Controls.Add(this.btnForStep);
+			this.pnlToolbox.Controls.Add(this.domMonth);
+			this.pnlToolbox.Controls.Add(this.btnForPlay);
+			this.pnlToolbox.Controls.Add(this.lblDate);
+			this.pnlToolbox.Controls.Add(this.cboTimestep);
+			this.pnlToolbox.Controls.Add(this.lblObject);
+			this.pnlToolbox.Controls.Add(this.cboCenter);
+			this.pnlToolbox.Controls.Add(this.cboObject);
+			this.pnlToolbox.Controls.Add(this.cboOrbits);
+			this.pnlToolbox.Controls.Add(this.numYear);
+			this.pnlToolbox.Controls.Add(this.cbxDate);
+			this.pnlToolbox.Controls.Add(this.cbxPlanet);
+			this.pnlToolbox.Controls.Add(this.lblZoom);
+			this.pnlToolbox.Controls.Add(this.cbxDistance);
+			this.pnlToolbox.Controls.Add(this.lblOrbits);
+			this.pnlToolbox.Controls.Add(this.cbxObject);
+			this.pnlToolbox.Controls.Add(this.lblCenter);
+			this.pnlToolbox.Location = new System.Drawing.Point(8, 484);
+			this.pnlToolbox.Name = "pnlToolbox";
+			this.pnlToolbox.Size = new System.Drawing.Size(687, 169);
+			this.pnlToolbox.TabIndex = 0;
+			// 
 			// orbitPanel
 			// 
+			this.orbitPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.orbitPanel.ATime = null;
 			this.orbitPanel.BackColor = System.Drawing.Color.Black;
 			this.orbitPanel.CenterObjectSelected = 0;
 			this.orbitPanel.Comet = null;
 			this.orbitPanel.Location = new System.Drawing.Point(0, 0);
+			this.orbitPanel.MinimumSize = new System.Drawing.Size(682, 458);
 			this.orbitPanel.Name = "orbitPanel";
 			this.orbitPanel.Offscreen = null;
 			this.orbitPanel.PaintEnabled = false;
@@ -413,46 +458,19 @@
 			this.orbitPanel.MouseLeave += new System.EventHandler(this.orbitPanel_MouseLeave);
 			this.orbitPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.orbitPanel_MouseMove);
 			this.orbitPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.orbitPanel_MouseUp);
+			this.orbitPanel.Resize += new System.EventHandler(this.orbitPanel_Resize);
 			// 
 			// FormOrbitViewer
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(703, 661);
+			this.Controls.Add(this.pnlToolbox);
 			this.Controls.Add(this.orbitPanel);
-			this.Controls.Add(this.btnSet);
-			this.Controls.Add(this.btnNow);
-			this.Controls.Add(this.lblLabels);
-			this.Controls.Add(this.lblTimestep);
-			this.Controls.Add(this.lblSimulation);
-			this.Controls.Add(this.domMonth);
-			this.Controls.Add(this.lblDate);
-			this.Controls.Add(this.lblObject);
-			this.Controls.Add(this.cboObject);
-			this.Controls.Add(this.numYear);
-			this.Controls.Add(this.numDay);
-			this.Controls.Add(this.lblZoom);
-			this.Controls.Add(this.lblOrbits);
-			this.Controls.Add(this.lblCenter);
-			this.Controls.Add(this.cbxObject);
-			this.Controls.Add(this.cbxDistance);
-			this.Controls.Add(this.cbxPlanet);
-			this.Controls.Add(this.cbxDate);
-			this.Controls.Add(this.cboOrbits);
-			this.Controls.Add(this.cboCenter);
-			this.Controls.Add(this.cboTimestep);
-			this.Controls.Add(this.btnForPlay);
-			this.Controls.Add(this.btnForStep);
-			this.Controls.Add(this.btnStop);
-			this.Controls.Add(this.btnRevStep);
-			this.Controls.Add(this.btnRevPlay);
-			this.Controls.Add(this.scrollZoom);
 			this.Controls.Add(this.scrollVert);
 			this.Controls.Add(this.scrollHorz);
 			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.KeyPreview = true;
-			this.MaximizeBox = false;
 			this.MinimumSize = new System.Drawing.Size(719, 700);
 			this.Name = "FormOrbitViewer";
 			this.Text = "Orbit Viewer";
@@ -461,8 +479,9 @@
 			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormOrbitViewer_KeyDown);
 			((System.ComponentModel.ISupportInitialize)(this.numYear)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numDay)).EndInit();
+			this.pnlToolbox.ResumeLayout(false);
+			this.pnlToolbox.PerformLayout();
 			this.ResumeLayout(false);
-			this.PerformLayout();
 
 		}
 
@@ -498,6 +517,7 @@
 		private System.Windows.Forms.VScrollBar scrollVert;
 		private System.Windows.Forms.HScrollBar scrollHorz;
 		private OrbitViewer.OrbitPanel orbitPanel;
+		private System.Windows.Forms.Panel pnlToolbox;
 
 	}
 }

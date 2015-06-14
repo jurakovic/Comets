@@ -173,7 +173,7 @@ namespace Comets.OrbitViewer
 				sb.Color = ColorSun;
 				graphics.SmoothingMode = SmoothingMode.AntiAlias;
 				graphics.FillPie(sb, X0 - 2, Y0 - 2, 5, 5, 0, 360);
-				
+
 				if (OrbitDisplay[(int)OrbitDisplayEnum.CometAsteroid])
 				{
 					DrawCometOrbit(graphics, CometOrbit);
@@ -369,7 +369,7 @@ namespace Comets.OrbitViewer
 
 		private Point GetDrawPoint(Xyz xyz)
 		{
-			double mul = (Zoom * (double)Size.Width) / (1500.0 * (1.0 + xyz.Z / 625.0));
+			double mul = (Zoom * (double)this.MinimumSize.Width) / (1500.0 * (1.0 + xyz.Z / 625.0));
 			int X = X0 + (int)Math.Round(xyz.X * mul);
 			int Y = Y0 - (int)Math.Round(xyz.Y * mul);
 			return new Point(X, Y);
@@ -501,7 +501,7 @@ namespace Comets.OrbitViewer
 			Xyz xyz = planetPos.Rotate(MtxRotate);
 			Point point = GetDrawPoint(xyz);
 			SolidBrush sb = new SolidBrush(ColorPlanet);
-			
+
 			graphics.FillPie(sb, point.X - 2, point.Y - 2, 5, 5, 0, 360);
 
 			if (ShowPlanetName)
@@ -512,8 +512,6 @@ namespace Comets.OrbitViewer
 		}
 
 		#endregion
-
-		
 
 		#region SelectOrbits
 
