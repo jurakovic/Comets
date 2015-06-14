@@ -1,42 +1,41 @@
 ﻿
 namespace Comets.Classes
 {
-    public class GraphSettings : CommonSettings
-    {
-        #region Enum
+	public class GraphSettings : CommonSettings
+	{
+		#region Enum
 
-        public enum DateFormatEnum { Date, JulianDay, JulianDay2, DaysFromT };
+		public enum DateFormatEnum { Date, JulianDay, JulianDay2, DaysFromT };
 
-        #endregion
+		#endregion
 
-        #region Properties
+		#region Properties
 
-        public string DaysFromTText { get; set; }
+		public int DaysFromTStart { get; set; }
+		public int DaysFromTStop { get; set; }
+		public DateFormatEnum DateFormat { get; set; }
+		public bool DateRange { get; set; }
+		public double MinMagnitude { get; set; }
+		public double MaxMagnitude { get; set; }
 
-        public DateFormatEnum DateFormat { get; set; }
-        public bool DateRange { get; set; }
+		#endregion
 
-        public double MinMagnitude { get; set; }
-        public double MaxMagnitude { get; set; }
+		#region Constructor
 
-        #endregion
+		public GraphSettings()
+		{
 
-        #region Constructor
+		}
 
-        public GraphSettings()
-        {
+		#endregion
 
-        }
+		#region ToString
 
-        #endregion
+		public override string ToString()
+		{
+			return "Graph - " + base.Comet.full;
+		}
 
-        #region ToString
-
-        public override string ToString()
-        {
-            return "Graph - " + base.Comet.full;
-        }
-
-        #endregion
-    }
+		#endregion
+	}
 }

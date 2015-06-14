@@ -1,4 +1,5 @@
 ﻿using Comets.Classes;
+using Comets.Helpers;
 using Comets.OrbitViewer;
 using System;
 using System.Collections.Generic;
@@ -112,21 +113,21 @@ namespace Comets.Forms.Orbit
 		};
 
 		static ATimeSpan[] timeStepSpan = {
-			new ATimeSpan(0, 0,  0, 1, 0, 0.0),
-			new ATimeSpan(0, 0,  1, 0, 0, 0.0),
-			new ATimeSpan(0, 0,  3, 0, 0, 0.0),
-			new ATimeSpan(0, 0, 10, 0, 0, 0.0),
-			new ATimeSpan(0, 1,  0, 0, 0, 0.0),
-			new ATimeSpan(0, 3,  0, 0, 0, 0.0),
-			new ATimeSpan(0, 6,  0, 0, 0, 0.0),
-			new ATimeSpan(1, 0,  0, 0, 0, 0.0)
+			new ATimeSpan(0, 0,  0, 1, 0, 0),
+			new ATimeSpan(0, 0,  1, 0, 0, 0),
+			new ATimeSpan(0, 0,  3, 0, 0, 0),
+			new ATimeSpan(0, 0, 10, 0, 0, 0),
+			new ATimeSpan(0, 1,  0, 0, 0, 0),
+			new ATimeSpan(0, 3,  0, 0, 0, 0),
+			new ATimeSpan(0, 6,  0, 0, 0, 0),
+			new ATimeSpan(1, 0,  0, 0, 0, 0)
 		};
 
 		#endregion
 
 		#region Month DomainUpDown Items
 
-		readonly string[] MonthDomainUpDownItems = {
+		public static readonly string[] MonthDomainUpDownItems = {
 			"nextYear", //  0
 			"Dec",	    //  1
 			"Nov",	    //  2
@@ -489,64 +490,23 @@ namespace Comets.Forms.Orbit
 
 		private void dateCommon_ValueChanged(object sender, EventArgs e)
 		{
-			bool monthIsChanged = (sender as Control).Name == domMonth.Name;
-			bool yearIsChanged = (sender as Control).Name == numYear.Name;
+			bool mChanged = (sender as Control).Name == domMonth.Name;
+			bool yChanged = (sender as Control).Name == numYear.Name;
 
-			bool dayIsMin = false;
-			bool dayIsMax = false;
-
-			int maximumDays = (int)numDay.Maximum;
-
-			int d = (int)numDay.Value;
-			int m = 13 - domMonth.SelectedIndex;
 			int y = (int)numYear.Value;
+			int m = 13 - domMonth.SelectedIndex;
+			int d = (int)numDay.Value;
+			int dmax = (int)numDay.Maximum;
 
-			if (d >= numDay.Maximum)
+			int[] newDate = Utils.ControlDateTime(y, m, d, dmax, 0, 0, mChanged, yChanged);
+
+			if (newDate[6] == 1)
 			{
-				++m;
-				monthIsChanged = true;
-				dayIsMin = true;
-			}
-			else if (d <= numDay.Minimum)
-			{
-				--m;
-				monthIsChanged = true;
-				dayIsMax = true;
-			}
+				numDay.Maximum = newDate[3] + 1;
 
-			if (monthIsChanged || yearIsChanged)
-			{
-				if (m >= 13)
-				{
-					++y;
-					m = 1;
-				}
-				else if (m <= 0)
-				{
-					--y;
-					m = 12;
-				}
-
-				int daysInMonth = DateTime.DaysInMonth((int)numYear.Value, m);
-				maximumDays = daysInMonth + 1;
-
-				if (!dayIsMin && d >= (int)maximumDays)
-					dayIsMax = true;
-
-				if (dayIsMin)
-					d = 1;
-
-				if (dayIsMax)
-					d = daysInMonth;
-			}
-
-			if (dayIsMin || dayIsMax || monthIsChanged || yearIsChanged)
-			{
-				numDay.Maximum = maximumDays;
-
-				numDay.Value = d;
-				domMonth.SelectedIndex = 13 - m;
-				numYear.Value = y;
+				numDay.Value = newDate[2];
+				domMonth.SelectedIndex = 13 - newDate[1];
+				numYear.Value = newDate[0];
 			}
 		}
 

@@ -1,5 +1,7 @@
 ﻿using Comets.Classes;
+using Comets.Forms.Orbit;
 using Comets.Helpers;
+using Comets.OrbitViewer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,233 +9,309 @@ using System.Windows.Forms;
 
 namespace Comets.Forms.Ephemeris
 {
-    public partial class FormEphemerisSettings : Form
-    {
-        #region Properties
+	public partial class FormEphemerisSettings : Form
+	{
+		#region Properties
 
-        private EphemerisSettings EphemerisSettings { get; set; }
-        private bool AddNewEphemeris { get; set; }
+		private EphemerisSettings EphemerisSettings { get; set; }
+		private bool AddNewEphemeris { get; set; }
 
-        #endregion
+		#endregion
 
-        #region Constructor
+		#region Constructor
 
-        public FormEphemerisSettings(EphemerisSettings settings = null)
-        {
-            InitializeComponent();
+		public FormEphemerisSettings(EphemerisSettings settings = null)
+		{
+			InitializeComponent();
 
-            EphemerisSettings = settings;
+			domMonthStart.Items.AddRange(FormOrbitViewer.MonthDomainUpDownItems);
+			domMonthEnd.Items.AddRange(FormOrbitViewer.MonthDomainUpDownItems);
 
-            if (EphemerisSettings == null)
-            {
-                AddNewEphemeris = true;
+			EphemerisSettings = settings;
 
-                DateTime dt = DateTime.Now.AddDays(-20);
-                txtStartYear.Text = dt.Year.ToString();
-                txtStartMonth.Text = dt.Month.ToString("00");
-                txtStartDay.Text = "01";
-                txtStartHour.Text = "22";
-                txtStartMin.Text = "00";
+			if (EphemerisSettings == null)
+			{
+				AddNewEphemeris = true;
 
-                dt = dt.AddMonths(1);
-                txtEndYear.Text = dt.Year.ToString();
-                txtEndMonth.Text = dt.Month.ToString("00");
-                txtEndDay.Text = DateTime.DaysInMonth(dt.Year, dt.Month).ToString("00");
-                txtEndHour.Text = "22";
-                txtEndMin.Text = "00";
+				DateTime dt = DateTime.Now.AddDays(-20);
+				numYearStart.Value = dt.Year;
+				domMonthStart.SelectedIndex = 13 - dt.Month;
+				numDayStart.Value = 1;
+				numHourStart.Value = 22;
+				numMinStart.Value = 0;
 
-                txtIntervalDay.Text = "1";
-                txtIntervalHour.Text = "00";
-                txtIntervalMin.Text = "00";
-            }
-            else
-            {
-                string[] tMin = EphemerisSettings.MinText.Split('.');
-                string[] tMax = EphemerisSettings.MaxText.Split('.');
-                string[] tInt = EphemerisSettings.IntervalText.Split('.');
+				dt = dt.AddMonths(1);
+				numYearEnd.Value = dt.Year;
+				domMonthEnd.SelectedIndex = 13 - dt.Month;
+				numDayEnd.Value = DateTime.DaysInMonth(dt.Year, dt.Month);
+				numHourEnd.Value = 22;
+				numMinEnd.Value = 0;
 
-                txtStartYear.Text = tMin[0];
-                txtStartMonth.Text = tMin[1];
-                txtStartDay.Text = tMin[2];
-                txtStartHour.Text = tMin[3];
-                txtStartMin.Text = tMin[4];
+				numDayInterval.Value = 1;
+				numHourInterval.Value = 0;
+				numMinInterval.Value = 0;
+			}
+			else
+			{
+				ATime dt = EphemerisSettings.Start;
+				numYearStart.Value = dt.Year;
+				domMonthStart.SelectedIndex = 13 - dt.Month;
+				numDayStart.Value = dt.Day;
+				numHourStart.Value = dt.Hour;
+				numMinStart.Value = dt.Minute;
 
-                txtEndYear.Text = tMax[0];
-                txtEndMonth.Text = tMax[1];
-                txtEndDay.Text = tMax[2];
-                txtEndHour.Text = tMax[3];
-                txtEndMin.Text = tMax[4];
+				dt = EphemerisSettings.Stop;
+				numYearEnd.Value = dt.Year;
+				domMonthEnd.SelectedIndex = 13 - dt.Month;
+				numDayEnd.Value = dt.Day;
+				numHourEnd.Value = dt.Hour;
+				numMinEnd.Value = dt.Minute;
 
-                txtIntervalDay.Text = tInt[0];
-                txtIntervalHour.Text = tInt[1];
-                txtIntervalMin.Text = tInt[2];
+				numDayInterval.Value = EphemerisSettings.TimeSpan.Day;
+				numHourInterval.Value = EphemerisSettings.TimeSpan.Hour;
+				numMinInterval.Value = EphemerisSettings.TimeSpan.Minute;
 
-                radioLocalTime.Checked = EphemerisSettings.LocalTime;
-                radioUnivTime.Checked = !EphemerisSettings.LocalTime;
-                chRA.Checked = EphemerisSettings.RA;
-                chDec.Checked = EphemerisSettings.Dec;
-                chEcLon.Checked = EphemerisSettings.EcLon;
-                chEcLat.Checked = EphemerisSettings.EcLat;
-                chHelioDist.Checked = EphemerisSettings.HelioDist;
-                chGeoDist.Checked = EphemerisSettings.GeoDist;
-                chAlt.Checked = EphemerisSettings.Alt;
-                chAz.Checked = EphemerisSettings.Az;
-                chElong.Checked = EphemerisSettings.Elongation;
-                chMag.Checked = EphemerisSettings.Magnitude;
-            }
-        }
+				radioLocalTime.Checked = EphemerisSettings.LocalTime;
+				radioUnivTime.Checked = !EphemerisSettings.LocalTime;
+				chRA.Checked = EphemerisSettings.RA;
+				chDec.Checked = EphemerisSettings.Dec;
+				chEcLon.Checked = EphemerisSettings.EcLon;
+				chEcLat.Checked = EphemerisSettings.EcLat;
+				chHelioDist.Checked = EphemerisSettings.HelioDist;
+				chGeoDist.Checked = EphemerisSettings.GeoDist;
+				chAlt.Checked = EphemerisSettings.Alt;
+				chAz.Checked = EphemerisSettings.Az;
+				chElong.Checked = EphemerisSettings.Elongation;
+				chMag.Checked = EphemerisSettings.Magnitude;
+			}
+		}
 
-        #endregion
+		#endregion
 
-        #region Form_Load
+		#region Form_Load
 
-        private void FormEphemerisSettings_Load(object sender, EventArgs e)
-        {
-            cbComet.DisplayMember = "full";
-            cbComet.DataSource = FormMain.UserList;
+		private void FormEphemerisSettings_Load(object sender, EventArgs e)
+		{
+			cbComet.DisplayMember = "full";
+			cbComet.DataSource = FormMain.UserList;
 
-            if (EphemerisSettings != null)
-                if (FormMain.UserList.Contains(EphemerisSettings.Comet))
-                    cbComet.Text = EphemerisSettings.Comet.full;
-        }
+			if (EphemerisSettings != null)
+				if (FormMain.UserList.Contains(EphemerisSettings.Comet))
+					cbComet.Text = EphemerisSettings.Comet.full;
+		}
 
-        #endregion
+		#endregion
 
-        #region cbComet_SelectedIndexChanged
+		#region cbComet_SelectedIndexChanged
 
-        private void cbComet_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (cbComet.SelectedIndex >= 0)
-            {
-                Comet c = FormMain.UserList.ElementAt(cbComet.SelectedIndex);
+		private void cbComet_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			if (cbComet.SelectedIndex >= 0)
+			{
+				Comet c = FormMain.UserList.ElementAt(cbComet.SelectedIndex);
 
-                lblPerihDate.Text = "Perihelion date:                " + c.Ty.ToString() + " " + Comet.Month[c.Tm - 1] + " " + c.Td.ToString("00") + "." + c.Th.ToString("0000");
-                lblPerihDist.Text = "Perihelion distance:          " + c.q.ToString("0.000000") + " AU";
-                lblPeriod.Text = c.P < 10000 ? "Period:                              " + c.P.ToString("0.000000") + " years" : "Period:                              -";
-            }
-        }
+				lblPerihDate.Text = "Perihelion date:                " + c.Ty.ToString() + " " + Comet.Month[c.Tm - 1] + " " + c.Td.ToString("00") + "." + c.Th.ToString("0000");
+				lblPerihDist.Text = "Perihelion distance:          " + c.q.ToString("0.000000") + " AU";
+				lblPeriod.Text = c.P < 10000 ? "Period:                              " + c.P.ToString("0.000000") + " years" : "Period:                              -";
+			}
+		}
 
-        #endregion
+		#endregion
 
-        #region btnCalcEphem_Click
+		#region btnCalcEphem_Click
 
-        private async void btnCalcEphem_Click(object sender, EventArgs e)
-        {
-            if (cbComet.SelectedIndex >= 0)
-            {
-                DateTime start, stop;
-                int syr, smo, sdy, shr, smi, eyr, emo, edy, ehr, emi;
-                double ind, inm, inh;
+		private async void btnCalcEphem_Click(object sender, EventArgs e)
+		{
+			if (cbComet.SelectedIndex >= 0)
+			{
+				ATime start, stop;
+				double interval;
+				double ind, inm, inh;
 
-                try
-                {
-                    syr = Convert.ToInt32(txtStartYear.Text);
-                    smo = Convert.ToInt32(txtStartMonth.Text);
-                    sdy = Convert.ToInt32(txtStartDay.Text);
-                    shr = Convert.ToInt32(txtStartHour.Text);
-                    smi = Convert.ToInt32(txtStartMin.Text);
+				try
+				{
+					int syr = (int)numYearStart.Value;
+					int smo = 13 - domMonthStart.SelectedIndex;
+					int sdy = (int)numDayStart.Value;
+					int shr = (int)numHourStart.Value;
+					int smi = (int)numMinStart.Value;
 
-                    eyr = Convert.ToInt32(txtEndYear.Text);
-                    emo = Convert.ToInt32(txtEndMonth.Text);
-                    edy = Convert.ToInt32(txtEndDay.Text);
-                    ehr = Convert.ToInt32(txtEndHour.Text);
-                    emi = Convert.ToInt32(txtEndMin.Text);
+					int eyr = (int)numYearEnd.Value;
+					int emo = 13 - domMonthEnd.SelectedIndex;
+					int edy = (int)numDayEnd.Value;
+					int ehr = (int)numHourEnd.Value;
+					int emi = (int)numMinEnd.Value;
 
-                    ind = Convert.ToDouble(txtIntervalDay.Text);
-                    inh = Convert.ToDouble(txtIntervalHour.Text);
-                    inm = Convert.ToDouble(txtIntervalMin.Text);
+					ind = (int)numDayInterval.Value;
+					inh = (int)numHourInterval.Value;
+					inm = (int)numMinInterval.Value;
 
-                    start = new DateTime(syr, smo, sdy, shr, smi, 0);
-                    stop = new DateTime(eyr, emo, edy, ehr, emi, 0);
+					start = new ATime(syr, smo, sdy, shr, smi, 0, FormMain.Settings.Location.Timezone);
+					stop = new ATime(eyr, emo, edy, ehr, emi, 0, FormMain.Settings.Location.Timezone);
+					interval = ind + (inh + (inm / 60.0)) / 24;
 
-                    if (stop < start)
-                    {
-                        MessageBox.Show("End date is less than start date");
-                        return;
-                    }
+					if (interval == 0.0)
+						interval = 1.0;
 
-                }
-                catch
-                {
-                    MessageBox.Show("Invalid date");
-                    return;
-                }
+					if (stop < start)
+					{
+						MessageBox.Show("End date is less than start date\t\t");
+						return;
+					}
+				}
+				catch
+				{
+					MessageBox.Show("Invalid date\t\t\t");
+					return;
+				}
 
-                if (EphemerisSettings == null)
-                    EphemerisSettings = new EphemerisSettings();
+				if (EphemerisSettings == null)
+					EphemerisSettings = new EphemerisSettings();
 
-                EphemerisSettings.Comet = FormMain.UserList.ElementAt(cbComet.SelectedIndex);
+				EphemerisSettings.Comet = FormMain.UserList.ElementAt(cbComet.SelectedIndex);
 
-                EphemerisSettings.MinText = txtStartYear.Text + "." + txtStartMonth.Text + "." + txtStartDay.Text + "." + txtStartHour.Text + "." + txtStartMin.Text;
-                EphemerisSettings.MaxText = txtEndYear.Text + "." + txtEndMonth.Text + "." + txtEndDay.Text + "." + txtEndHour.Text + "." + txtEndMin.Text;
-                EphemerisSettings.IntervalText = txtIntervalDay.Text + "." + txtIntervalHour.Text + "." + txtIntervalMin.Text;
+				EphemerisSettings.Start = start;
+				EphemerisSettings.Stop = stop;
+				EphemerisSettings.Interval = interval;
 
-                EphemerisSettings.MinLocalJD = EphemerisHelper.jd(start);
-                EphemerisSettings.MaxLocalJD = EphemerisHelper.jd(stop);
+				EphemerisSettings.TimeSpan = new ATimeSpan(0, 0, (int)ind, (int)inh, (int)inm, 0);
 
-                EphemerisSettings.Interval = ind + (inh + (inm / 60.0)) / 24;
+				EphemerisSettings.LocalTime = radioLocalTime.Checked;
+				EphemerisSettings.RA = chRA.Checked;
+				EphemerisSettings.Dec = chDec.Checked;
+				EphemerisSettings.EcLon = chEcLon.Checked;
+				EphemerisSettings.EcLat = chEcLat.Checked;
+				EphemerisSettings.HelioDist = chHelioDist.Checked;
+				EphemerisSettings.GeoDist = chGeoDist.Checked;
+				EphemerisSettings.Alt = chAlt.Checked;
+				EphemerisSettings.Az = chAz.Checked;
+				EphemerisSettings.Elongation = chElong.Checked;
+				EphemerisSettings.Magnitude = chMag.Checked;
 
-                start = start.AddHours(-EphemerisSettings.Location.Timezone);
-                stop = stop.AddHours(-EphemerisSettings.Location.Timezone);
+				EphemerisSettings.Results = new List<EphemerisResult>();
 
-                if (EphemerisSettings.Location.DST)
-                {
-                    start = start.AddHours(-1);
-                    stop = stop.AddHours(-1);
-                }
+				await EphemerisHelper.CalculateEphemeris(EphemerisSettings);
 
-                EphemerisSettings.MinUtcJD = EphemerisHelper.jd(start);
-                EphemerisSettings.MaxUtcJD = EphemerisHelper.jd(stop);
+				this.Close();
+			}
+		}
 
-                EphemerisSettings.LocalTime = radioLocalTime.Checked;
-                EphemerisSettings.RA = chRA.Checked;
-                EphemerisSettings.Dec = chDec.Checked;
-                EphemerisSettings.EcLon = chEcLon.Checked;
-                EphemerisSettings.EcLat = chEcLat.Checked;
-                EphemerisSettings.HelioDist = chHelioDist.Checked;
-                EphemerisSettings.GeoDist = chGeoDist.Checked;
-                EphemerisSettings.Alt = chAlt.Checked;
-                EphemerisSettings.Az = chAz.Checked;
-                EphemerisSettings.Elongation = chElong.Checked;
-                EphemerisSettings.Magnitude = chMag.Checked;
+		#endregion
 
-                EphemerisSettings.Results = new List<EphemerisResult>();
+		#region Common_ValueChanged
 
-                await EphemerisHelper.CalculateEphemeris(EphemerisSettings);
+		private void timespanStartCommon_ValueChanged(object sender, EventArgs e)
+		{
+			bool mChanged = (sender as Control).Name == domMonthStart.Name;
+			bool yChanged = (sender as Control).Name == numYearStart.Name;
 
-                this.Close();
-            }
-        }
+			int y = (int)numYearStart.Value;
+			int m = 13 - domMonthStart.SelectedIndex;
+			int d = (int)numDayStart.Value;
+			int dmax = (int)numDayStart.Maximum;
+			int hh = (int)numHourStart.Value;
+			int mm = (int)numMinStart.Value;
 
-        #endregion
+			int[] newDate = Utils.ControlDateTime(y, m, d, dmax, hh, mm, mChanged, yChanged);
 
-        #region Form_Closing
+			if (newDate[6] == 1)
+			{
+				numDayStart.Maximum = newDate[3] + 1;
 
-        private void FormEphemerisSettings_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (AddNewEphemeris && EphemerisSettings != null)
-            {
-                FormMain.ChildCount++;
+				numMinStart.Value = newDate[5];
+				numHourStart.Value = newDate[4];
+				numDayStart.Value = newDate[2];
+				domMonthStart.SelectedIndex = 13 - newDate[1];
+				numYearStart.Value = newDate[0];
+			}
+		}
 
-                FormMain main = this.Owner as FormMain;
-                main.AddWindowItem(EphemerisSettings.ToString());
+		private void timespanEndCommon_ValueChanged(object sender, EventArgs e)
+		{
+			bool mChanged = (sender as Control).Name == domMonthEnd.Name;
+			bool yChanged = (sender as Control).Name == numYearEnd.Name;
 
-                FormEphemeris fe = new FormEphemeris(EphemerisSettings, FormMain.ChildCount);
-                fe.MdiParent = main;
-                fe.WindowState = FormWindowState.Maximized;
-                fe.Show();
-            }
-            else if (EphemerisSettings != null && EphemerisSettings.Results.Any())
-            {
-                FormMain main = this.Owner as FormMain;
-                FormEphemeris fe = main.ActiveMdiChild as FormEphemeris;
+			int y = (int)numYearEnd.Value;
+			int m = 13 - domMonthEnd.SelectedIndex;
+			int d = (int)numDayEnd.Value;
+			int dmax = (int)numDayEnd.Maximum;
+			int hh = (int)numHourEnd.Value;
+			int mm = (int)numMinEnd.Value;
 
-                fe.EphemerisSettings = this.EphemerisSettings;
-                fe.LoadResults();
-                main.RenameWindowItem((int)fe.Tag, fe.Text);
-            }
-        }
+			int[] newDate = Utils.ControlDateTime(y, m, d, dmax, hh, mm, mChanged, yChanged);
 
-        #endregion
-    }
+			if (newDate[6] == 1)
+			{
+				numDayEnd.Maximum = newDate[3] + 1;
+
+				numMinEnd.Value = newDate[5];
+				numHourEnd.Value = newDate[4];
+				numDayEnd.Value = newDate[2];
+				domMonthEnd.SelectedIndex = 13 - newDate[1];
+				numYearEnd.Value = newDate[0];
+			}
+		}
+
+		#endregion
+
+		#region btnTimespanDefault
+
+		private void btnTimespanStartDefault_Click(object sender, EventArgs e)
+		{
+			DateTime dt = DateTime.Now.AddDays(-20);
+			numYearStart.Value = dt.Year;
+			domMonthStart.SelectedIndex = 13 - dt.Month;
+			numDayStart.Value = 1;
+			numHourStart.Value = 22;
+			numMinStart.Value = 0;
+		}
+
+		private void btnTimespanEndDefault_Click(object sender, EventArgs e)
+		{
+			DateTime dt = DateTime.Now.AddDays(-20).AddMonths(1);
+			numYearEnd.Value = dt.Year;
+			domMonthEnd.SelectedIndex = 13 - dt.Month;
+			numDayEnd.Value = DateTime.DaysInMonth(dt.Year, dt.Month);
+			numHourEnd.Value = 22;
+			numMinEnd.Value = 0;
+		}
+
+		private void btnTimespanIntervalDefault_Click(object sender, EventArgs e)
+		{
+			numDayInterval.Value = 1;
+			numHourInterval.Value = 0;
+			numMinInterval.Value = 0;
+		}
+
+		#endregion
+
+		#region Form_Closing
+
+		private void FormEphemerisSettings_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			if (AddNewEphemeris && EphemerisSettings != null)
+			{
+				FormMain.ChildCount++;
+
+				FormMain main = this.Owner as FormMain;
+				main.AddWindowItem(EphemerisSettings.ToString());
+
+				FormEphemeris fe = new FormEphemeris(EphemerisSettings, FormMain.ChildCount);
+				fe.MdiParent = main;
+				fe.WindowState = FormWindowState.Maximized;
+				fe.Show();
+			}
+			else if (EphemerisSettings != null && EphemerisSettings.Results.Any())
+			{
+				FormMain main = this.Owner as FormMain;
+				FormEphemeris fe = main.ActiveMdiChild as FormEphemeris;
+
+				fe.EphemerisSettings = this.EphemerisSettings;
+				fe.LoadResults();
+				main.RenameWindowItem((int)fe.Tag, fe.Text);
+			}
+		}
+
+		#endregion
+	}
 }

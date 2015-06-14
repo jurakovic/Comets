@@ -1,42 +1,42 @@
-﻿
+﻿using Comets.OrbitViewer;
+
 namespace Comets.Classes
 {
-    public class EphemerisSettings : CommonSettings
-    {
-        #region Properties
+	public class EphemerisSettings : CommonSettings
+	{
+		#region Properties
 
-        public string IntervalText { get; set; }
+		public ATimeSpan TimeSpan { get; set; }
+		public bool LocalTime { get; set; }
+		public bool RA { get; set; }
+		public bool Dec { get; set; }
+		public bool EcLon { get; set; }
+		public bool EcLat { get; set; }
+		public bool HelioDist { get; set; }
+		public bool GeoDist { get; set; }
+		public bool Alt { get; set; }
+		public bool Az { get; set; }
+		public bool Elongation { get; set; }
+		public bool Magnitude { get; set; }
 
-        public bool LocalTime { get; set; }
-        public bool RA { get; set; }
-        public bool Dec { get; set; }
-        public bool EcLon { get; set; }
-        public bool EcLat { get; set; }
-        public bool HelioDist { get; set; }
-        public bool GeoDist { get; set; }
-        public bool Alt { get; set; }
-        public bool Az { get; set; }
-        public bool Elongation { get; set; }
-        public bool Magnitude { get; set; }
+		#endregion
 
-        #endregion
+		#region Constructor
 
-        #region Constructor
+		public EphemerisSettings()
+		{
 
-        public EphemerisSettings()
-        {
+		}
 
-        }
+		#endregion
 
-        #endregion
+		#region ToString
 
-        #region ToString
+		public override string ToString()
+		{
+			return "Ephemeris - " + base.Comet.full;
+		}
 
-        public override string ToString()
-        {
-            return "Ephemeris - " + base.Comet.full;
-        }
-
-        #endregion
-    }
+		#endregion
+	}
 }

@@ -1,11 +1,9 @@
 ﻿using Comets.Classes;
 using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
-using System.Windows.Forms;
 
 namespace Comets.Helpers
 {
@@ -22,9 +20,8 @@ namespace Comets.Helpers
 
 		public async static Task<CommonSettings> CalculateEphemeris(CommonSettings settings)
 		{
-			decimal jd = (decimal)settings.MinUtcJD;
-			decimal jdMax = (decimal)settings.MaxUtcJD;
-			decimal jdLoc = (decimal)settings.MinLocalJD;
+			decimal jd = (decimal)settings.Start.JD;
+			decimal jdMax = (decimal)settings.Stop.JD;
 
 			await Task.Run(() =>
 			{
@@ -51,13 +48,11 @@ namespace Comets.Helpers
 					er.Elongation = sep[0];
 					er.PositionAngle = sep[1];
 
-					er.UtcJD = (double)jd;
-					er.LocalJD = (double)jdLoc;
+					er.JD = (double)jd;
 
 					settings.Results.Add(er);
 
 					jd += (decimal)settings.Interval;
-					jdLoc += (decimal)settings.Interval;
 				}
 			});
 
@@ -75,7 +70,7 @@ namespace Comets.Helpers
 			sb.AppendLine(String.Format("Comet:               \t{0}", settings.Comet.full));
 			sb.AppendLine(String.Format("Perihelion date:     \t{0} {1} {2:00}.{3:0000}", settings.Comet.Ty, Comet.Month[settings.Comet.Tm - 1], settings.Comet.Td, settings.Comet.Th));
 			sb.AppendLine(String.Format("Perihelion distance: \t{0:0.000000} AU", settings.Comet.q));
-			sb.AppendLine(String.Format("Period:              \t{0}", (settings.Comet.P < 10000 && settings.Comet.e < 0.98 ? settings.Comet.P.ToString("0.000000") + " years" : "-")));
+			sb.AppendLine(String.Format("Period:              \t{0}", (settings.Comet.P < 10000 ? settings.Comet.P.ToString("0.000000") + " years" : "-")));
 			sb.AppendLine();
 
 			sb.Append(settings.LocalTime ? "     Local Time  " : " Universal Time  ");
@@ -98,7 +93,7 @@ namespace Comets.Helpers
 				{
 					line.Clear();
 
-					line.Append(settings.LocalTime ? dateString(er.LocalJD) : dateString(er.UtcJD));
+					line.Append(settings.LocalTime ? dateString(er.JD + settings.Location.Timezone / 24.0) : dateString(er.JD));
 					if (settings.RA) line.Append("  " + hmsstring(er.RA / 15.0));
 					if (settings.Dec) line.Append("  " + anglestring(er.Dec, false, true));
 					if (settings.Alt) line.Append("  " + fixnum(er.Alt, 5, 1) + "°");
@@ -135,8 +130,8 @@ namespace Comets.Helpers
 			//double xMin = settings.Results.Min(x => x.LocalJD);
 			//double xMax = settings.Results.Max(x => x.LocalJD);
 
-			double xMin = settings.MinLocalJD;
-			double xMax = settings.MaxLocalJD;
+			double xMin = settings.Start.JD;
+			double xMax = settings.Stop.JD;
 
 			chart1.AntiAliasing = AntiAliasingStyles.Text;
 
@@ -269,7 +264,7 @@ namespace Comets.Helpers
 			series.XValueType = ChartValueType.DateTime;
 
 			foreach (EphemerisResult er in settings.Results)
-				series.Points.Add(new DataPoint(Utils.JDToOta(er.LocalJD), er.Magnitude));
+				series.Points.Add(new DataPoint(Utils.JDToOta(er.JD + settings.Location.Timezone / 24.0), er.Magnitude)); //local time
 
 			chart1.Series.Clear();
 			chart1.Series.Add(series);
@@ -607,6 +602,19 @@ namespace Comets.Helpers
 				minutes = 0;
 			}
 			double dw = Math.Floor(jd + 1.5) - 7 * Math.Floor((jd + 1.5) / 7);
+
+			//int dmax = DateTime.DaysInMonth((int)year, (int)month);
+			//int[] date = Utils.ControlDateTime((int)year, (int)month, (int)day, dmax, (int)hours, (int)minutes, false, false);
+
+			//if (date[6] == 1)
+			//{
+			//	year = date[0];
+			//	month = date[1];
+			//	day = date[2];
+			//	hours = date[4];
+			//	minutes = date[5];
+			//}
+
 			return new int[] { (int)year, (int)month, (int)day, (int)dw, (int)hours, (int)minutes, (int)seconds };
 		}
 

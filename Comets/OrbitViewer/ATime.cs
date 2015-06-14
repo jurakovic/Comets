@@ -20,7 +20,7 @@ namespace Comets.OrbitViewer
 		public int Day { get; private set; }
 		public int Hour { get; private set; }
 		public int Minute { get; private set; }
-		public double Second { get; private set; }
+		public int Second { get; private set; }
 		public double Timezone { get; private set; }
 		public double JD { get; private set; }
 
@@ -38,7 +38,7 @@ namespace Comets.OrbitViewer
 
 		#region Constructor
 
-		public ATime(int year, int month, int day, int hour, int min, double sec, double timezone)
+		public ATime(int year, int month, int day, int hour, int min, int sec, double timezone)
 		{
 			this.Year = year;
 			this.Month = month;
@@ -61,7 +61,7 @@ namespace Comets.OrbitViewer
 			this.Hour = (int)Math.Floor(hour);
 			double min = (hour - (double)this.Hour) * 60.0;
 			this.Minute = (int)Math.Floor(min);
-			this.Second = (min - (double)this.Minute) * 60.0;
+			this.Second = (int)((min - (double)this.Minute) * 60.0);
 			this.JD = GetJD() - timezone / 24.0;
 			this.Timezone = timezone;
 			this.T = GetT();
@@ -235,7 +235,7 @@ namespace Comets.OrbitViewer
 
 			double min = (hour - this.Hour) * 60.0;
 			this.Minute = (int)Math.Floor(min);
-			this.Second = (min - this.Minute) * 60.0;
+			this.Second = (int)((min - this.Minute) * 60.0);
 		}
 
 		#endregion
@@ -270,12 +270,12 @@ namespace Comets.OrbitViewer
 
 			int newHour = (int)Math.Floor(hms1 / 60.0 / 60.0);
 			int newMin = (int)Math.Floor(hms1 / 60.0) - newHour * 60;
-			double newSec = hms1 - ((double)newHour * 60.0 * 60.0 + (double)newMin * 60.0);
+			int newSec = (int)(hms1 - ((double)newHour * 60.0 * 60.0 + (double)newMin * 60.0));
 
 			//
 			// Next, calculate new Year, Month, Day
 			//
-			ATime newDate = new ATime(this.Year, this.Month, this.Day, 12, 0, 0.0, 0.0);
+			ATime newDate = new ATime(this.Year, this.Month, this.Day, 12, 0, 0, 0.0);
 
 			double jd = newDate.JD;
 			jd += day + span.Day * direction;
@@ -340,6 +340,20 @@ namespace Comets.OrbitViewer
 		public override string ToString()
 		{
 			return this.Year + "/" + this.Month + "/" + this.Day + " " + this.Hour + ":" + this.Minute + ":" + this.Second + " = " + this.JD + " (TZ:" + this.Timezone + ")";
+		}
+
+		#endregion
+
+		#region operators
+
+		public static bool operator <(ATime a1, ATime a2)
+		{
+			return a1.JD < a2.JD;
+		}
+
+		public static bool operator >(ATime a1, ATime a2)
+		{
+			return a1.JD > a2.JD;
 		}
 
 		#endregion

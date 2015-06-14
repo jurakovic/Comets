@@ -1,283 +1,301 @@
 ﻿using Comets.Classes;
-using System;
-using System.Windows.Forms;
-using System.Linq;
-using System.Collections.Generic;
+using Comets.Forms.Orbit;
 using Comets.Helpers;
-using System.Threading.Tasks;
+using Comets.OrbitViewer;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace Comets.Forms.Graph
 {
-    public partial class FormGraphSettings : Form
-    {
-        #region Properties
+	public partial class FormGraphSettings : Form
+	{
+		#region Properties
 
-        public GraphSettings GraphSettings { get; set; }
-        public bool AddNewGraph { get; set; }
+		public GraphSettings GraphSettings { get; set; }
+		public bool AddNewGraph { get; set; }
 
-        #endregion
+		#endregion
 
-        #region Constructor
+		#region Constructor
 
-        public FormGraphSettings(GraphSettings settings = null)
-        {
-            InitializeComponent();
+		public FormGraphSettings(GraphSettings settings = null)
+		{
+			InitializeComponent();
 
-            GraphSettings = settings;
+			domMonthStart.Items.AddRange(FormOrbitViewer.MonthDomainUpDownItems);
+			domMonthEnd.Items.AddRange(FormOrbitViewer.MonthDomainUpDownItems);
 
-            if (GraphSettings == null)
-            {
-                AddNewGraph = true;
+			GraphSettings = settings;
 
-                DateTime dt = DateTime.Now.AddDays(-20);
-                txtStartYear.Text = dt.Year.ToString();
-                txtStartMonth.Text = dt.Month.ToString("00");
-                txtStartDay.Text = "01";
+			if (GraphSettings == null)
+			{
+				AddNewGraph = true;
 
-                dt = dt.AddMonths(1);
-                txtEndYear.Text = dt.Year.ToString();
-                txtEndMonth.Text = dt.Month.ToString("00");
-                txtEndDay.Text = DateTime.DaysInMonth(dt.Year, dt.Month).ToString("00");
+				DateTime dt = DateTime.Now.AddDays(-20);
+				numYearStart.Value = dt.Year;
+				domMonthStart.SelectedIndex = 13 - dt.Month;
+				numDayStart.Value = 1;
 
-                int offset = 180;
+				dt = dt.AddMonths(1);
+				numYearEnd.Value = dt.Year;
+				domMonthEnd.SelectedIndex = 13 - dt.Month;
+				numDayEnd.Value = DateTime.DaysInMonth(dt.Year, dt.Month);
 
-                txtStartDaysFromT.Text = (-offset).ToString();
-                txtEndDaysFromT.Text = offset.ToString();
-            }
-            else
-            {
-                if (GraphSettings.DateRange)
-                    rbRangeDate.Checked = true;
-                else
-                    rbRangeDaysFromT.Checked = true;
+				int offset = 180;
 
-                string[] tMin = GraphSettings.MinText.Split('.');
-                string[] tMax = GraphSettings.MaxText.Split('.');
-                string[] tFromT = GraphSettings.DaysFromTText.Split(':');
+				numDaysFromTStart.Value = -offset;
+				numDaysFromTStop.Value = offset;
+			}
+			else
+			{
+				if (GraphSettings.DateRange)
+					rbRangeDate.Checked = true;
+				else
+					rbRangeDaysFromT.Checked = true;
 
-                txtStartYear.Text = tMin[0];
-                txtStartMonth.Text = tMin[1];
-                txtStartDay.Text = tMin[2];
-
-                txtEndYear.Text = tMax[0];
-                txtEndMonth.Text = tMax[1];
-                txtEndDay.Text = tMax[2];
+				ATime dt = GraphSettings.Start;
+				numYearStart.Value = dt.Year;
+				domMonthStart.SelectedIndex = 13 - dt.Month;
+				numDayStart.Value = dt.Day;
 
-                txtStartDaysFromT.Text = tFromT[0];
-                txtEndDaysFromT.Text = tFromT[1];
-            }
-        }
+				dt = GraphSettings.Stop;
+				numYearEnd.Value = dt.Year;
+				domMonthEnd.SelectedIndex = 13 - dt.Month;
+				numDayEnd.Value = dt.Day;
 
-        #endregion
+				numDaysFromTStart.Value = GraphSettings.DaysFromTStart;
+				numDaysFromTStop.Value = GraphSettings.DaysFromTStop;
+			}
+		}
 
-        #region Form_Load
+		#endregion
 
-        private void FormMagnitudeSettings_Load(object sender, EventArgs e)
-        {
-            cbComet.DisplayMember = "full";
-            cbComet.DataSource = FormMain.UserList;
+		#region Form_Load
 
-            if (GraphSettings != null)
-                if (FormMain.UserList.Contains(GraphSettings.Comet))
-                    cbComet.Text = GraphSettings.Comet.full;
-        }
+		private void FormMagnitudeSettings_Load(object sender, EventArgs e)
+		{
+			cbComet.DisplayMember = "full";
+			cbComet.DataSource = FormMain.UserList;
 
-        #endregion
+			if (GraphSettings != null)
+				if (FormMain.UserList.Contains(GraphSettings.Comet))
+					cbComet.Text = GraphSettings.Comet.full;
+		}
 
-        #region cbComet_SelectedIndexChanged
+		#endregion
 
-        private void cbComet_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (cbComet.SelectedIndex >= 0)
-            {
-                Comet c = FormMain.UserList.ElementAt(cbComet.SelectedIndex);
+		#region cbComet_SelectedIndexChanged
 
-                lblPerihDate.Text = "Perihelion date:                " + c.Ty.ToString() + " " + Comet.Month[c.Tm - 1] + " " + c.Td.ToString("00") + "." + c.Th.ToString("0000");
-                lblPerihDist.Text = "Perihelion distance:          " + c.q.ToString("0.000000") + " AU";
-                lblPeriod.Text = c.P < 10000 ? "Period:                              " + c.P.ToString("0.000000") + " years" : "Period:                              -";
-            }
-        }
-
-        #endregion
-
-        #region RadioButton_CheckedChanged
-
-        private void rbRangeDate_CheckedChanged(object sender, EventArgs e)
-        {
-            pnlRangeDate.Enabled = rbRangeDate.Checked;
-        }
+		private void cbComet_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			if (cbComet.SelectedIndex >= 0)
+			{
+				Comet c = FormMain.UserList.ElementAt(cbComet.SelectedIndex);
+
+				lblPerihDate.Text = "Perihelion date:                " + c.Ty.ToString() + " " + Comet.Month[c.Tm - 1] + " " + c.Td.ToString("00") + "." + c.Th.ToString("0000");
+				lblPerihDist.Text = "Perihelion distance:          " + c.q.ToString("0.000000") + " AU";
+				lblPeriod.Text = c.P < 10000 ? "Period:                              " + c.P.ToString("0.000000") + " years" : "Period:                              -";
+			}
+		}
+
+		#endregion
 
-        private void rbRangeDaysFromT_CheckedChanged(object sender, EventArgs e)
-        {
-            pnlRangeDaysFromT.Enabled = rbRangeDaysFromT.Checked;
-        }
-
-        #endregion
-
-        #region btnPlotGraph_Click
-
-        private async void btnPlotGraph_Click(object sender, EventArgs e)
-        {
-            if (cbComet.SelectedIndex >= 0)
-            {
-                DateTime locMin, locMax, utcMin, utcMax;
-
-                if (GraphSettings == null)
-                    GraphSettings = new GraphSettings();
-
-                try
-                {
-                    if (rbRangeDate.Checked)
-                    {
-                        int minYr = Convert.ToInt32(txtStartYear.Text);
-                        int minMo = Convert.ToInt32(txtStartMonth.Text);
-                        int minDy = Convert.ToInt32(txtStartDay.Text);
-
-                        int maxYr = Convert.ToInt32(txtEndYear.Text);
-                        int maxMo = Convert.ToInt32(txtEndMonth.Text);
-                        int maxDy = Convert.ToInt32(txtEndDay.Text);
-
-                        locMin = new DateTime(minYr, minMo, minDy, 0, 0, 0);
-                        locMax = new DateTime(maxYr, maxMo, maxDy, 0, 0, 0);
-
-                        GraphSettings.MinLocalJD = EphemerisHelper.jd(locMin);
-                        GraphSettings.MaxLocalJD = EphemerisHelper.jd(locMax);
-
-                        utcMin = locMin.AddHours(-GraphSettings.Location.Timezone);
-                        utcMax = locMax.AddHours(-GraphSettings.Location.Timezone);
-
-                        if (GraphSettings.Location.DST)
-                        {
-                            utcMin = utcMin.AddHours(-1);
-                            utcMax = utcMax.AddHours(-1);
-                        }
-
-                        GraphSettings.MinUtcJD = EphemerisHelper.jd(utcMin);
-                        GraphSettings.MaxUtcJD = EphemerisHelper.jd(utcMax);
-                    }
-                    else
-                    {
-                        Comet c = FormMain.UserList.ElementAt(cbComet.SelectedIndex);
-
-                        int before = Convert.ToInt32(txtStartDaysFromT.Text);
-                        int after = Convert.ToInt32(txtEndDaysFromT.Text);
-
-                        double utcJdMin = c.T + before; //negativan broj
-                        double utcJdMax = c.T + after;
-
-                        int[] minDate = EphemerisHelper.jdtocd(utcJdMin);
-                        int[] maxDate = EphemerisHelper.jdtocd(utcJdMax);
-
-                        utcMin = new DateTime(minDate[0], minDate[1], minDate[2], minDate[4], minDate[5], minDate[6]);
-                        utcMax = new DateTime(maxDate[0], maxDate[1], maxDate[2], maxDate[4], maxDate[5], maxDate[6]);
-
-                        GraphSettings.MinUtcJD = EphemerisHelper.jd(utcMin);
-                        GraphSettings.MaxUtcJD = EphemerisHelper.jd(utcMax);
-
-                        locMin = utcMin.AddHours(GraphSettings.Location.Timezone);
-                        locMax = utcMax.AddHours(GraphSettings.Location.Timezone);
-
-                        if (GraphSettings.Location.DST)
-                        {
-                            locMin = locMin.AddHours(1);
-                            locMax = locMax.AddHours(1);
-                        }
-
-                        GraphSettings.MinLocalJD = EphemerisHelper.jd(locMin);
-                        GraphSettings.MaxLocalJD = EphemerisHelper.jd(locMax);
-                    }
-
-                    if (locMax < locMin)
-                    {
-                        MessageBox.Show("End date is less than start date");
-                        return;
-                    }
-                }
-                catch
-                {
-                    MessageBox.Show("Invalid date");
-                    return;
-                }
-
-                GraphSettings.Comet = FormMain.UserList.ElementAt(cbComet.SelectedIndex);
-
-                double interval = 0.0;
-                double totalDays = (locMax - locMin).TotalDays;
-
-                //double interval = totalDays / 99.5;
-
-                if (totalDays <= 100)
-                    interval = totalDays / 100.0;
-                else if (totalDays < 365)
-                    interval = 1;
-                else if (totalDays < 10 * 365.25)
-                    interval = 2;
-                else if (totalDays < 50 * 365.25)
-                    interval = 5;
-                else if (totalDays < 100 * 365.25)
-                    interval = 15;
-                else if (totalDays < 500 * 365.25)
-                    interval = 50;
-                else
-                {
-                    MessageBox.Show("Too large range...");
-                    return;
-                }
-
-                GraphSettings.Interval = interval;
-
-                GraphSettings.DateRange = rbRangeDate.Checked;
-
-                GraphSettings.MinText = txtStartYear.Text + "." + txtStartMonth.Text + "." + txtStartDay.Text;
-                GraphSettings.MaxText = txtEndYear.Text + "." + txtEndMonth.Text + "." + txtEndDay.Text;
-                GraphSettings.DaysFromTText = txtStartDaysFromT.Text + ":" + txtEndDaysFromT.Text;
-
-                if (rbDate.Checked)
-                    GraphSettings.DateFormat = Classes.GraphSettings.DateFormatEnum.Date;
-                if (rbJulianDay.Checked)
-                    GraphSettings.DateFormat = Classes.GraphSettings.DateFormatEnum.JulianDay;
-                if (rbJulianDay2.Checked)
-                    GraphSettings.DateFormat = Classes.GraphSettings.DateFormatEnum.JulianDay2;
-                if (rbDaysFromT.Checked)
-                    GraphSettings.DateFormat = Classes.GraphSettings.DateFormatEnum.DaysFromT;
-
-                GraphSettings.Results = new List<EphemerisResult>();
-
-                await EphemerisHelper.CalculateEphemeris(GraphSettings);
-
-                this.Close();
-            }
-        }
-
-        #endregion
-
-        #region Form_Closing
-
-        private void FormMagnitudeSettings_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (AddNewGraph && GraphSettings != null)
-            {
-                FormMain.ChildCount++;
-
-                FormMain main = this.Owner as FormMain;
-                main.AddWindowItem(GraphSettings.ToString());
-
-                FormGraph fg = new FormGraph(GraphSettings, FormMain.ChildCount);
-                fg.MdiParent = main;
-                fg.WindowState = FormWindowState.Maximized;
-                fg.Show();
-            }
-            else if (GraphSettings != null && GraphSettings.Results.Any())
-            {
-                FormMain main = this.Owner as FormMain;
-                FormGraph fg = main.ActiveMdiChild as FormGraph;
-
-                fg.GraphSettings = this.GraphSettings;
-                fg.LoadGraph();
-                main.RenameWindowItem((int)fg.Tag, fg.Text);
-            }
-        }
-
-        #endregion
-    }
+		#region RadioButton_CheckedChanged
+
+		private void rbRangeDate_CheckedChanged(object sender, EventArgs e)
+		{
+			pnlRangeDate.Enabled = rbRangeDate.Checked;
+		}
+
+		private void rbRangeDaysFromT_CheckedChanged(object sender, EventArgs e)
+		{
+			pnlRangeDaysFromT.Enabled = rbRangeDaysFromT.Checked;
+		}
+
+		#endregion
+
+		#region Date control
+
+		private void timespanStartCommon_ValueChanged(object sender, EventArgs e)
+		{
+			bool mChanged = (sender as Control).Name == domMonthStart.Name;
+			bool yChanged = (sender as Control).Name == numYearStart.Name;
+
+			int y = (int)numYearStart.Value;
+			int m = 13 - domMonthStart.SelectedIndex;
+			int d = (int)numDayStart.Value;
+			int dmax = (int)numDayStart.Maximum;
+
+			int[] newDate = Utils.ControlDateTime(y, m, d, dmax, 0, 0, mChanged, yChanged);
+
+			if (newDate[6] == 1)
+			{
+				numDayStart.Maximum = newDate[3] + 1;
+
+				numDayStart.Value = newDate[2];
+				domMonthStart.SelectedIndex = 13 - newDate[1];
+				numYearStart.Value = newDate[0];
+			}
+		}
+
+		private void timespanEndCommon_ValueChanged(object sender, EventArgs e)
+		{
+			bool mChanged = (sender as Control).Name == domMonthEnd.Name;
+			bool yChanged = (sender as Control).Name == numYearEnd.Name;
+
+			int y = (int)numYearEnd.Value;
+			int m = 13 - domMonthEnd.SelectedIndex;
+			int d = (int)numDayEnd.Value;
+			int dmax = (int)numDayEnd.Maximum;
+
+			int[] newDate = Utils.ControlDateTime(y, m, d, dmax, 0, 0, mChanged, yChanged);
+
+			if (newDate[6] == 1)
+			{
+				numDayEnd.Maximum = newDate[3] + 1;
+
+				numDayEnd.Value = newDate[2];
+				domMonthEnd.SelectedIndex = 13 - newDate[1];
+				numYearEnd.Value = newDate[0];
+			}
+		}
+
+		#endregion
+
+		#region btnPlotGraph_Click
+
+		private async void btnPlotGraph_Click(object sender, EventArgs e)
+		{
+			if (cbComet.SelectedIndex >= 0)
+			{
+				ATime start, stop;
+
+				if (GraphSettings == null)
+					GraphSettings = new GraphSettings();
+
+				try
+				{
+					if (rbRangeDate.Checked)
+					{
+						int syr = (int)numYearStart.Value;
+						int smo = 13 - domMonthStart.SelectedIndex;
+						int sdy = (int)numDayStart.Value;
+
+						int eyr = (int)numYearEnd.Value;
+						int emo = 13 - domMonthEnd.SelectedIndex;
+						int edy = (int)numDayEnd.Value;
+
+						start = new ATime(syr, smo, sdy, 0, 0, 0, GraphSettings.Location.Timezone);
+						stop = new ATime(eyr, emo, edy, 0, 0, 0, GraphSettings.Location.Timezone);
+					}
+					else
+					{
+						Comet c = FormMain.UserList.ElementAt(cbComet.SelectedIndex);
+
+						int before = (int)numDaysFromTStart.Value;
+						int after = (int)numDaysFromTStop.Value;
+
+						double startJd = c.T + before; //negativan broj
+						double stopJd = c.T + after;
+
+						start = new ATime(startJd, GraphSettings.Location.Timezone);
+						stop = new ATime(stopJd, GraphSettings.Location.Timezone);
+					}
+
+					if (stop < start)
+					{
+						MessageBox.Show("End date is less than start date");
+						return;
+					}
+				}
+				catch
+				{
+					MessageBox.Show("Invalid date");
+					return;
+				}
+
+				GraphSettings.Comet = FormMain.UserList.ElementAt(cbComet.SelectedIndex);
+
+				double interval = 0.0;
+				double totalDays = stop.JD - start.JD;
+
+				//double interval = totalDays / 99.5;
+
+				if (totalDays <= 100)
+					interval = totalDays / 100.0;
+				else if (totalDays < 365)
+					interval = 1;
+				else if (totalDays < 10 * 365.25)
+					interval = 2;
+				else if (totalDays < 50 * 365.25)
+					interval = 5;
+				else if (totalDays < 100 * 365.25)
+					interval = 15;
+				else if (totalDays < 500 * 365.25)
+					interval = 50;
+				else
+				{
+					MessageBox.Show("Too large range...");
+					return;
+				}
+
+				GraphSettings.DateRange = rbRangeDate.Checked;
+
+				GraphSettings.Start = start;
+				GraphSettings.Stop = stop;
+				GraphSettings.Interval = interval;
+
+				GraphSettings.DaysFromTStart = (int)numDaysFromTStart.Value;
+				GraphSettings.DaysFromTStop = (int)numDaysFromTStop.Value;
+
+				if (rbDate.Checked)
+					GraphSettings.DateFormat = Classes.GraphSettings.DateFormatEnum.Date;
+				if (rbJulianDay.Checked)
+					GraphSettings.DateFormat = Classes.GraphSettings.DateFormatEnum.JulianDay;
+				if (rbJulianDay2.Checked)
+					GraphSettings.DateFormat = Classes.GraphSettings.DateFormatEnum.JulianDay2;
+				if (rbDaysFromT.Checked)
+					GraphSettings.DateFormat = Classes.GraphSettings.DateFormatEnum.DaysFromT;
+
+				GraphSettings.Results = new List<EphemerisResult>();
+
+				await EphemerisHelper.CalculateEphemeris(GraphSettings);
+
+				this.Close();
+			}
+		}
+
+		#endregion
+
+		#region Form_Closing
+
+		private void FormMagnitudeSettings_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			if (AddNewGraph && GraphSettings != null)
+			{
+				FormMain.ChildCount++;
+
+				FormMain main = this.Owner as FormMain;
+				main.AddWindowItem(GraphSettings.ToString());
+
+				FormGraph fg = new FormGraph(GraphSettings, FormMain.ChildCount);
+				fg.MdiParent = main;
+				fg.WindowState = FormWindowState.Maximized;
+				fg.Show();
+			}
+			else if (GraphSettings != null && GraphSettings.Results.Any())
+			{
+				FormMain main = this.Owner as FormMain;
+				FormGraph fg = main.ActiveMdiChild as FormGraph;
+
+				fg.GraphSettings = this.GraphSettings;
+				fg.LoadGraph();
+				main.RenameWindowItem((int)fg.Tag, fg.Text);
+			}
+		}
+
+		#endregion
+	}
 }
