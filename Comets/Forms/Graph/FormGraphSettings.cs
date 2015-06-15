@@ -55,18 +55,16 @@ namespace Comets.Forms.Graph
 				else
 					rbRangeDaysFromT.Checked = true;
 
-				ATime dt = GraphSettings.Start;
-				numYearStart.Value = dt.Year;
-				domMonthStart.SelectedIndex = 13 - dt.Month;
-				numDayStart.Value = dt.Day;
+				numYearStart.Value = GraphSettings.DateStart.Year;
+				domMonthStart.SelectedIndex = 13 - GraphSettings.DateStart.Month;
+				numDayStart.Value = GraphSettings.DateStart.Day;
 
-				dt = GraphSettings.Stop;
-				numYearEnd.Value = dt.Year;
-				domMonthEnd.SelectedIndex = 13 - dt.Month;
-				numDayEnd.Value = dt.Day;
+				numYearEnd.Value = GraphSettings.DateStop.Year;
+				domMonthEnd.SelectedIndex = 13 - GraphSettings.DateStop.Month;
+				numDayEnd.Value = GraphSettings.DateStop.Day;
 
-				numDaysFromTStart.Value = GraphSettings.DaysFromTStart;
-				numDaysFromTStop.Value = GraphSettings.DaysFromTStop;
+				numDaysFromTStart.Value = GraphSettings.DaysFromTStartValue;
+				numDaysFromTStop.Value = GraphSettings.DaysFromTStopValue;
 			}
 		}
 
@@ -170,39 +168,38 @@ namespace Comets.Forms.Graph
 		{
 			if (cbComet.SelectedIndex >= 0)
 			{
-				ATime start, stop;
+				ATime start, stop, dateStart, dateStop, daysFromTStart, daysFromTStop;
+				Comet comet;
 
 				if (GraphSettings == null)
 					GraphSettings = new GraphSettings();
 
 				try
 				{
-					if (rbRangeDate.Checked)
-					{
-						int syr = (int)numYearStart.Value;
-						int smo = 13 - domMonthStart.SelectedIndex;
-						int sdy = (int)numDayStart.Value;
+					int syr = (int)numYearStart.Value;
+					int smo = 13 - domMonthStart.SelectedIndex;
+					int sdy = (int)numDayStart.Value;
 
-						int eyr = (int)numYearEnd.Value;
-						int emo = 13 - domMonthEnd.SelectedIndex;
-						int edy = (int)numDayEnd.Value;
+					int eyr = (int)numYearEnd.Value;
+					int emo = 13 - domMonthEnd.SelectedIndex;
+					int edy = (int)numDayEnd.Value;
 
-						start = new ATime(syr, smo, sdy, 0, 0, 0, GraphSettings.Location.Timezone);
-						stop = new ATime(eyr, emo, edy, 0, 0, 0, GraphSettings.Location.Timezone);
-					}
-					else
-					{
-						Comet c = FormMain.UserList.ElementAt(cbComet.SelectedIndex);
+					dateStart = new ATime(syr, smo, sdy, 0, 0, 0, GraphSettings.Location.Timezone);
+					dateStop = new ATime(eyr, emo, edy, 0, 0, 0, GraphSettings.Location.Timezone);
 
-						int before = (int)numDaysFromTStart.Value;
-						int after = (int)numDaysFromTStop.Value;
+					comet = FormMain.UserList.ElementAt(cbComet.SelectedIndex);
 
-						double startJd = c.T + before; //negativan broj
-						double stopJd = c.T + after;
+					int before = (int)numDaysFromTStart.Value;
+					int after = (int)numDaysFromTStop.Value;
 
-						start = new ATime(startJd, GraphSettings.Location.Timezone);
-						stop = new ATime(stopJd, GraphSettings.Location.Timezone);
-					}
+					double startJd = comet.T + before; //negativan broj
+					double stopJd = comet.T + after;
+
+					daysFromTStart = new ATime(startJd, GraphSettings.Location.Timezone);
+					daysFromTStop = new ATime(stopJd, GraphSettings.Location.Timezone);
+
+					start = rbRangeDate.Checked ? dateStart : daysFromTStart;
+					stop = rbRangeDate.Checked ? dateStop : daysFromTStop;
 
 					if (stop < start)
 					{
@@ -216,7 +213,7 @@ namespace Comets.Forms.Graph
 					return;
 				}
 
-				GraphSettings.Comet = FormMain.UserList.ElementAt(cbComet.SelectedIndex);
+				GraphSettings.Comet = comet;
 
 				double interval = 0.0;
 				double totalDays = stop.JD - start.JD;
@@ -247,8 +244,11 @@ namespace Comets.Forms.Graph
 				GraphSettings.Stop = stop;
 				GraphSettings.Interval = interval;
 
-				GraphSettings.DaysFromTStart = (int)numDaysFromTStart.Value;
-				GraphSettings.DaysFromTStop = (int)numDaysFromTStop.Value;
+				GraphSettings.DateStart = dateStart;
+				GraphSettings.DateStop = dateStop;
+
+				GraphSettings.DaysFromTStartValue = (int)numDaysFromTStart.Value;
+				GraphSettings.DaysFromTStopValue = (int)numDaysFromTStop.Value;
 
 				if (rbDate.Checked)
 					GraphSettings.DateFormat = Classes.GraphSettings.DateFormatEnum.Date;

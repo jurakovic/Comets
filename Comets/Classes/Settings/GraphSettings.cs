@@ -1,4 +1,5 @@
-﻿
+﻿using Comets.OrbitViewer;
+
 namespace Comets.Classes
 {
 	public class GraphSettings : CommonSettings
@@ -11,8 +12,10 @@ namespace Comets.Classes
 
 		#region Properties
 
-		public int DaysFromTStart { get; set; }
-		public int DaysFromTStop { get; set; }
+		public ATime DateStart { get; set; }
+		public ATime DateStop { get; set; }
+		public int DaysFromTStartValue { get; set; }
+		public int DaysFromTStopValue { get; set; }
 		public DateFormatEnum DateFormat { get; set; }
 		public bool DateRange { get; set; }
 		public double MinMagnitude { get; set; }
