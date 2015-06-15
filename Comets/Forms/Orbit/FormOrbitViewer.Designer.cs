@@ -440,7 +440,6 @@
 			this.orbitPanel.MinimumSize = new System.Drawing.Size(682, 458);
 			this.orbitPanel.Name = "orbitPanel";
 			this.orbitPanel.Offscreen = null;
-			this.orbitPanel.PaintEnabled = false;
 			this.orbitPanel.RotateHorz = 0D;
 			this.orbitPanel.RotateVert = 0D;
 			this.orbitPanel.ShowDateLabel = false;

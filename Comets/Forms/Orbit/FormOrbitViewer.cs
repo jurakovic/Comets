@@ -242,8 +242,6 @@ namespace Comets.Forms.Orbit
 			orbitPanel.ShowDistanceLabel = cbxDistance.Checked;
 			orbitPanel.ShowDateLabel = cbxDate.Checked;
 
-			orbitPanel.PaintEnabled = true;
-
 			orbitPanel.LoadPanel(SelectedComet, atime);
 			//orbitPanel.LoadPanel(Comets, cboObject.SelectedIndex, atime);
 			orbitPanel.Invalidate();
@@ -682,14 +680,9 @@ namespace Comets.Forms.Orbit
 			if (orbitPanel.PaintEnabled)
 			{
 				if (orbitPanel.Multiple)
-				{
 					orbitPanel.SelectedIndex = cboObject.SelectedIndex;
-				}
 				else
-				{
-					ATime atime = orbitPanel.ATime ?? CollectATime();
-					orbitPanel.LoadPanel(SelectedComet, atime);
-				}
+					orbitPanel.Comet = SelectedComet;
 
 				orbitPanel.Invalidate();
 			}

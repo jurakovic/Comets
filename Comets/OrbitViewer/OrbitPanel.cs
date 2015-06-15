@@ -12,7 +12,20 @@ namespace Comets.OrbitViewer
 	{
 		#region Properties
 
-		private OVComet Comet { get; set; }
+		private OVComet comet;
+		public OVComet Comet
+		{
+			get
+			{
+				return this.comet;
+			}
+			set
+			{
+				this.comet = value;
+				CometOrbit = new CometOrbit(this.comet, 1000);
+				UpdatePositions(atime);
+			}
+		}
 		private CometOrbit CometOrbit { get; set; }
 		private Xyz CometPos { get; set; }
 
@@ -37,10 +50,9 @@ namespace Comets.OrbitViewer
 			}
 		}
 
-
 		private PlanetOrbit[] PlanetOrbit { get; set; }
 		public Image Offscreen { get; set; }
-		public bool PaintEnabled { get; set; }
+		public bool PaintEnabled { get; private set; }
 		private double EpochPlanetOrbit { get; set; }
 
 		private Xyz[] PlanetPos { get; set; }
@@ -107,9 +119,10 @@ namespace Comets.OrbitViewer
 		public void LoadPanel(OVComet comet, ATime atime)
 		{
 			Multiple = false;
+			PaintEnabled = true;
 
-			Comet = comet;
-			ATime = atime;
+			this.comet = comet;
+			this.atime = atime;
 
 			CometOrbit = new CometOrbit(Comet, 1000);
 
@@ -121,13 +134,14 @@ namespace Comets.OrbitViewer
 		public void LoadPanel(List<OVComet> comets, int index, ATime atime)
 		{
 			Multiple = true;
+			PaintEnabled = true;
 
 			CometOrbits = new List<CometOrbit>();
 			CometPoses = new List<Xyz>();
 
 			SelectedIndex = index;
 			Comets = comets;
-			ATime = atime;
+			this.atime = atime;
 
 			foreach (OVComet c in comets)
 				CometOrbits.Add(new CometOrbit(c, 1000));
