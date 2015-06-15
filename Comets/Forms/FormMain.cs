@@ -135,7 +135,7 @@ namespace Comets.Forms
 				ExportHelper.ExportMain(ElementTypes.Type.MPC, Settings.Database, MainList);
 			}
 
-			if (Settings.RememberWindowPosition)
+			if (Settings.RememberWindowPosition && this.WindowState != FormWindowState.Minimized)
 			{
 				Settings.Maximized = this.WindowState == FormWindowState.Maximized;
 				Settings.Left = this.Left;
