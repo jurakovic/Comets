@@ -156,7 +156,7 @@ namespace Comets.Forms.Orbit
 
 		Timer Timer { get; set; }
 
-		const int InitialScrollVert = 130;
+		const int InitialScrollVert = 320;
 		const int InitialScrollHorz = 255;
 		const int InitialScrollZoom = 200;
 
@@ -228,9 +228,9 @@ namespace Comets.Forms.Orbit
 			scrollHorz.Value = InitialScrollHorz;
 			scrollZoom.Value = InitialScrollZoom;
 
-			orbitPanel.RotateVert = (double)(180 - scrollVert.Value);
-			orbitPanel.RotateHorz = (double)(270 - scrollHorz.Value);
-			orbitPanel.Zoom = (double)scrollZoom.Value;
+			//orbitPanel.RotateVert = (double)(360 - scrollVert.Value);
+			//orbitPanel.RotateHorz = (double)(270 - scrollHorz.Value);
+			//orbitPanel.Zoom = (double)scrollZoom.Value;
 
 			cboCenter.DataSource = CenterObjectItems;
 			cboCenter.SelectedIndex = (int)CenteredObjectEnum.Sun;
@@ -270,7 +270,7 @@ namespace Comets.Forms.Orbit
 
 		private void scrollVert_ValueChanged(object sender, EventArgs e)
 		{
-			orbitPanel.RotateVert = (double)(180 - scrollVert.Value);
+			orbitPanel.RotateVert = (double)(360 - scrollVert.Value);
 			orbitPanel.Invalidate();
 		}
 
@@ -350,21 +350,36 @@ namespace Comets.Forms.Orbit
 				int newHorizValue = scrollHorz.Value + newHv;
 				int newVertValue = scrollVert.Value + newVv;
 
-				if (newHorizValue == scrollHorz.Minimum)
-					scrollHorz.Value = newHorizValue;
-				else if (newHorizValue < scrollHorz.Minimum)
-					scrollHorz.Value = scrollHorz.Maximum + newHorizValue;
-				else if (newHorizValue > scrollHorz.Maximum)
-					scrollHorz.Value = newHorizValue % scrollHorz.Maximum;
-				else
-					scrollHorz.Value = newHorizValue;
+				while (newHorizValue >= scrollHorz.Maximum)
+					newHorizValue -= scrollHorz.Maximum;
 
-				if (newVertValue < scrollVert.Minimum)
-					scrollVert.Value = scrollVert.Minimum;
-				else if (newVertValue > scrollVert.Maximum)
-					scrollVert.Value = scrollVert.Maximum;
-				else
-					scrollVert.Value = newVertValue;
+				while (newHorizValue < scrollHorz.Minimum)
+					newHorizValue += scrollHorz.Maximum;
+
+				while (newVertValue >= scrollVert.Maximum)
+					newVertValue -= scrollVert.Maximum;
+
+				while (newVertValue < scrollVert.Minimum)
+					newVertValue += scrollVert.Maximum;
+
+				scrollVert.Value = newVertValue;
+				scrollHorz.Value = newHorizValue;
+
+				//if (newHorizValue == scrollHorz.Minimum)
+				//	scrollHorz.Value = newHorizValue;
+				//else if (newHorizValue < scrollHorz.Minimum)
+				//	scrollHorz.Value = scrollHorz.Maximum + newHorizValue;
+				//else if (newHorizValue > scrollHorz.Maximum)
+				//	scrollHorz.Value = newHorizValue % scrollHorz.Maximum;
+				//else
+				//	scrollHorz.Value = newHorizValue;
+
+				//if (newVertValue < scrollVert.Minimum)
+				//	scrollVert.Value = scrollVert.Minimum;
+				//else if (newVertValue > scrollVert.Maximum)
+				//	scrollVert.Value = scrollVert.Maximum;
+				//else
+				//	scrollVert.Value = newVertValue;
 
 				StartDrag = e.Location;
 			}

@@ -364,11 +364,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.scrollVert.LargeChange = 1;
 			this.scrollVert.Location = new System.Drawing.Point(684, 0);
-			this.scrollVert.Maximum = 180;
+			this.scrollVert.Maximum = 360;
 			this.scrollVert.Name = "scrollVert";
 			this.scrollVert.Size = new System.Drawing.Size(17, 458);
 			this.scrollVert.TabIndex = 36;
-			this.scrollVert.Value = 130;
 			this.scrollVert.ValueChanged += new System.EventHandler(this.scrollVert_ValueChanged);
 			// 
 			// scrollHorz
@@ -381,7 +380,6 @@
 			this.scrollHorz.Name = "scrollHorz";
 			this.scrollHorz.Size = new System.Drawing.Size(682, 17);
 			this.scrollHorz.TabIndex = 35;
-			this.scrollHorz.Value = 255;
 			this.scrollHorz.ValueChanged += new System.EventHandler(this.scrollHorz_ValueChanged);
 			// 
 			// scrollZoom
@@ -392,7 +390,7 @@
 			this.scrollZoom.Name = "scrollZoom";
 			this.scrollZoom.Size = new System.Drawing.Size(285, 17);
 			this.scrollZoom.TabIndex = 37;
-			this.scrollZoom.Value = 67;
+			this.scrollZoom.Value = 5;
 			this.scrollZoom.ValueChanged += new System.EventHandler(this.scrollZoom_ValueChanged);
 			// 
 			// pnlToolbox
