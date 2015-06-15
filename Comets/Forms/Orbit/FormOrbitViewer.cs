@@ -228,10 +228,6 @@ namespace Comets.Forms.Orbit
 			scrollHorz.Value = InitialScrollHorz;
 			scrollZoom.Value = InitialScrollZoom;
 
-			//orbitPanel.RotateVert = (double)(360 - scrollVert.Value);
-			//orbitPanel.RotateHorz = (double)(270 - scrollHorz.Value);
-			//orbitPanel.Zoom = (double)scrollZoom.Value;
-
 			cboCenter.DataSource = CenterObjectItems;
 			cboCenter.SelectedIndex = (int)CenteredObjectEnum.Sun;
 
@@ -247,7 +243,9 @@ namespace Comets.Forms.Orbit
 			orbitPanel.ShowDateLabel = cbxDate.Checked;
 
 			orbitPanel.PaintEnabled = true;
+
 			orbitPanel.LoadPanel(SelectedComet, atime);
+			//orbitPanel.LoadPanel(Comets, cboObject.SelectedIndex, atime);
 			orbitPanel.Invalidate();
 		}
 
@@ -679,12 +677,22 @@ namespace Comets.Forms.Orbit
 
 		private void cboObject_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			PauseSimulation();
-
-			ATime atime = orbitPanel.ATime ?? CollectATime();
 			SelectedComet = Comets.ElementAt(cboObject.SelectedIndex);
-			orbitPanel.LoadPanel(SelectedComet, atime);
-			orbitPanel.Invalidate();
+
+			if (orbitPanel.PaintEnabled)
+			{
+				if (orbitPanel.Multiple)
+				{
+					orbitPanel.SelectedIndex = cboObject.SelectedIndex;
+				}
+				else
+				{
+					ATime atime = orbitPanel.ATime ?? CollectATime();
+					orbitPanel.LoadPanel(SelectedComet, atime);
+				}
+
+				orbitPanel.Invalidate();
+			}
 
 			this.Text = this.Tag + " Orbit Viewer - " + SelectedComet.Name;
 
