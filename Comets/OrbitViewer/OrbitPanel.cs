@@ -22,8 +22,12 @@ namespace Comets.OrbitViewer
 			set
 			{
 				this.comet = value;
-				CometOrbit = new CometOrbit(this.comet, 1000);
-				UpdatePositions(atime);
+
+				if (PaintEnabled)
+				{
+					CometOrbit = new CometOrbit(this.comet, 1000);
+					UpdatePositions(atime);
+				}
 			}
 		}
 		private CometOrbit CometOrbit { get; set; }

@@ -244,6 +244,62 @@ namespace Comets.OrbitViewer
 
 		public void ChangeDate(ATimeSpan span, int direction)
 		{
+			DateTime dt;
+
+			try
+			{
+				dt = new DateTime(this.Year, this.Month, this.Day, this.Hour, this.Minute, this.Second);
+				dt = dt.AddYears(direction * span.Year);
+				dt = dt.AddMonths(direction * span.Month);
+				dt = dt.AddDays(direction * span.Day);
+				dt = dt.AddHours(direction * span.Hour);
+				dt = dt.AddMinutes(direction * span.Minute);
+				dt = dt.AddSeconds(direction * span.Second);
+			}
+			catch
+			{
+				if (direction == TIME_INCREMENT)
+					dt = DateTime.MaxValue;
+				else
+					dt = DateTime.MinValue;
+			}
+
+			this.Year = dt.Year;
+			this.Month = dt.Month;
+			this.Day = dt.Day;
+			this.Hour = dt.Hour;
+			this.Minute = dt.Minute;
+			this.Second = dt.Second;
+
+			// check bound between julian and gregorian
+			if (this.Year == 1582 && this.Month == 10)
+			{
+				if (5 <= this.Day && this.Day < 10)
+				{
+					if (direction == TIME_INCREMENT)
+						this.Day = 15;
+					else
+						this.Day = 4;
+				}
+				else if (10 <= this.Day && this.Day < 15)
+				{
+					if (direction == TIME_INCREMENT)
+						this.Day = 15;
+					else
+						this.Day = 4;
+				}
+			}
+
+			this.JD = GetJD() - this.Timezone / 24.0;
+			this.T = GetT();
+			this.T2 = GetT2();
+		}
+
+		#region oldversion
+
+		/*
+		public void ChangeDate(ATimeSpan span, int direction)
+		{
 			//
 			// First, calculate new Hour,Minute,Second
 			//
@@ -326,6 +382,9 @@ namespace Comets.OrbitViewer
 			this.T = GetT();
 			this.T2 = GetT2();
 		}
+		*/
+
+		#endregion
 
 		#endregion
 

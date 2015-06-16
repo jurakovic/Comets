@@ -170,6 +170,20 @@ namespace Comets.Helpers
 					d = daysInMonth;
 			}
 
+			if (y == 1582 && m == 10)
+			{
+				if (5 <= d && d < 10)
+				{
+					d = 15;
+					dChanged = true;
+				}
+				else if (10 <= d && d < 15)
+				{
+					d = 4;
+					dChanged = true;
+				}
+			}
+
 			if (hhChanged || dChanged || dayIsMin || dayIsMax || mChanged || yChanged)
 			{
 				changed = 1;

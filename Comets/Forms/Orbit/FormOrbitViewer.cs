@@ -103,24 +103,32 @@ namespace Comets.Forms.Orbit
 
 		readonly string[] TimeStepItems = {
 			"1 Hour",
+			"6 Hours",
+			"12 Hours",
 			"1 Day",
 			"3 Days",
 			"10 Days",
 			"1 Month",
 			"3 Months",
 			"6 Months",
-			"1 Year"
+			"1 Year",
+			"3 Years",
+			"10 Years"
 		};
 
 		static ATimeSpan[] timeStepSpan = {
-			new ATimeSpan(0, 0,  0, 1, 0, 0),
-			new ATimeSpan(0, 0,  1, 0, 0, 0),
-			new ATimeSpan(0, 0,  3, 0, 0, 0),
-			new ATimeSpan(0, 0, 10, 0, 0, 0),
-			new ATimeSpan(0, 1,  0, 0, 0, 0),
-			new ATimeSpan(0, 3,  0, 0, 0, 0),
-			new ATimeSpan(0, 6,  0, 0, 0, 0),
-			new ATimeSpan(1, 0,  0, 0, 0, 0)
+			new ATimeSpan( 0, 0, 0, 1, 0, 0),
+			new ATimeSpan( 0, 0, 0, 6, 0, 0),
+			new ATimeSpan( 0, 0, 0,12, 0, 0),
+			new ATimeSpan( 0, 0, 1, 0, 0, 0),
+			new ATimeSpan( 0, 0, 3, 0, 0, 0),
+			new ATimeSpan( 0, 0,10, 0, 0, 0),
+			new ATimeSpan( 0, 1, 0, 0, 0, 0),
+			new ATimeSpan( 0, 3, 0, 0, 0, 0),
+			new ATimeSpan( 0, 6, 0, 0, 0, 0),
+			new ATimeSpan( 1, 0, 0, 0, 0, 0),
+			new ATimeSpan( 3, 0, 0, 0, 0, 0),
+			new ATimeSpan(10, 0, 0, 0, 0, 0)
 		};
 
 		#endregion
@@ -235,7 +243,7 @@ namespace Comets.Forms.Orbit
 			cboOrbits.SelectedIndex = (int)OrbitsEnum.Default;
 
 			cboTimestep.DataSource = TimeStepItems;
-			cboTimestep.SelectedIndex = 1;
+			cboTimestep.SelectedIndex = 3;
 
 			orbitPanel.ShowPlanetName = cbxPlanet.Checked;
 			orbitPanel.ShowObjectName = cbxObject.Checked;
@@ -615,8 +623,15 @@ namespace Comets.Forms.Orbit
 
 		private void timer_Tick(object sender, EventArgs e)
 		{
+			double oldJD = 0.0;
+
 			ATime atime = orbitPanel.ATime;
+			oldJD = atime.JD;
 			atime.ChangeDate(TimeStep, SimulationDirection);
+
+			if (oldJD == atime.JD)
+				PauseSimulation(); //reached min or max datetime value
+
 			orbitPanel.ATime = atime;
 			orbitPanel.Invalidate();
 		}

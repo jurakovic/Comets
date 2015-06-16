@@ -157,12 +157,12 @@
 			// 
 			this.numYear.Location = new System.Drawing.Point(214, 15);
 			this.numYear.Maximum = new decimal(new int[] {
-            9000,
+            9999,
             0,
             0,
             0});
 			this.numYear.Minimum = new decimal(new int[] {
-            1000,
+            1,
             0,
             0,
             0});
@@ -436,12 +436,14 @@
 			this.orbitPanel.ATime = null;
 			this.orbitPanel.BackColor = System.Drawing.Color.Black;
 			this.orbitPanel.CenterObjectSelected = 0;
+			this.orbitPanel.Comet = null;
 			this.orbitPanel.Location = new System.Drawing.Point(0, 0);
 			this.orbitPanel.MinimumSize = new System.Drawing.Size(682, 458);
 			this.orbitPanel.Name = "orbitPanel";
 			this.orbitPanel.Offscreen = null;
 			this.orbitPanel.RotateHorz = 0D;
 			this.orbitPanel.RotateVert = 0D;
+			this.orbitPanel.SelectedIndex = 0;
 			this.orbitPanel.ShowDateLabel = false;
 			this.orbitPanel.ShowDistanceLabel = false;
 			this.orbitPanel.ShowObjectName = false;
