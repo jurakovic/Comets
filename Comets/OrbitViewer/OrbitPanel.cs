@@ -318,7 +318,7 @@ namespace Comets.OrbitViewer
 				if (Zoom * 1.0 >= zoom)
 				{
 					if (OrbitDisplay[(int)OrbitDisplayEnum.Earth])
-						DrawPlanetOrbit(graphics, PlanetOrbit[Planet.EARTH - 1]);
+						DrawEarthOrbit(graphics, PlanetOrbit[Planet.EARTH - 1]);
 
 					DrawPlanetBody(graphics, FontPlanetName, PlanetPos[2], "Earth");
 				}
@@ -622,6 +622,30 @@ namespace Comets.OrbitViewer
 
 				pen.Color = xyz.Z >= 0.0 ? ColorPlanetOrbitUpper : ColorPlanetOrbitLower;
 
+				xyz = xyz.Rotate(MtxRotate);
+				point2 = GetDrawPoint(xyz);
+				graphics.DrawLine(pen, point1.X, point1.Y, point2.X, point2.Y);
+				point1 = point2;
+			}
+		}
+
+		#endregion
+
+		#region DrawEarthOrbit
+
+		private void DrawEarthOrbit(Graphics graphics, PlanetOrbit planetOrbit)
+		{
+			graphics.SmoothingMode = SmoothingMode.None;
+
+			Pen pen = new Pen(ColorPlanetOrbitUpper);
+			Point point1, point2;
+			Xyz xyz = planetOrbit.GetAt(0).Rotate(MtxToEcl).Rotate(MtxRotate);
+
+			point1 = GetDrawPoint(xyz);
+
+			for (int i = 1; i <= planetOrbit.Division; i++)
+			{
+				xyz = planetOrbit.GetAt(i).Rotate(MtxToEcl);
 				xyz = xyz.Rotate(MtxRotate);
 				point2 = GetDrawPoint(xyz);
 				graphics.DrawLine(pen, point1.X, point1.Y, point2.X, point2.Y);
