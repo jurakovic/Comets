@@ -62,6 +62,16 @@ namespace Comets.Forms.Graph
 
 				numDaysFromTStart.Value = GraphSettings.DaysFromTStartValue;
 				numDaysFromTStop.Value = GraphSettings.DaysFromTStopValue;
+
+				cbxPerihelionLine.Checked = GraphSettings.PerihelionLine;
+				cbxNowLine.Checked = GraphSettings.NowLine;
+				cbxAntialiasing.Checked = GraphSettings.Antialiasing;
+
+				cbxMinMag.Checked = GraphSettings.MinMagnitudeChecked;
+				txtMinMag.Text = GraphSettings.MinMagnitudeValue.ToString();
+
+				cbxMaxMag.Checked = GraphSettings.MaxMagnitudeChecked;
+				txtMaxMag.Text = GraphSettings.MaxMagnitudeValue.ToString();
 			}
 		}
 
@@ -107,6 +117,16 @@ namespace Comets.Forms.Graph
 		private void rbRangeDaysFromT_CheckedChanged(object sender, EventArgs e)
 		{
 			pnlRangeDaysFromT.Enabled = rbRangeDaysFromT.Checked;
+		}
+
+		#endregion
+
+		#region txtMagCommon_KeyPress
+
+		private void txtMagCommon_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			// TO DO
+			//e.Handled = Utils.ValidateKeyPress(sender, e, 2, 2);
 		}
 
 		#endregion
@@ -255,6 +275,16 @@ namespace Comets.Forms.Graph
 					GraphSettings.DateFormat = Classes.GraphSettings.DateFormatEnum.JulianDay2;
 				if (rbDaysFromT.Checked)
 					GraphSettings.DateFormat = Classes.GraphSettings.DateFormatEnum.DaysFromT;
+
+				GraphSettings.PerihelionLine = cbxPerihelionLine.Checked;
+				GraphSettings.NowLine = cbxNowLine.Checked;
+				GraphSettings.Antialiasing = cbxAntialiasing.Checked;
+
+				GraphSettings.MinMagnitudeChecked = cbxMinMag.Checked;
+				GraphSettings.MinMagnitudeValue = Convert.ToDouble(txtMinMag.Text.Trim());
+
+				GraphSettings.MaxMagnitudeChecked = cbxMaxMag.Checked;
+				GraphSettings.MaxMagnitudeValue = Convert.ToDouble(txtMaxMag.Text.Trim());
 
 				GraphSettings.Results = new List<EphemerisResult>();
 

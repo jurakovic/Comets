@@ -18,8 +18,13 @@ namespace Comets.Classes
 		public int DaysFromTStopValue { get; set; }
 		public DateFormatEnum DateFormat { get; set; }
 		public bool DateRange { get; set; }
-		public double MinMagnitude { get; set; }
-		public double MaxMagnitude { get; set; }
+		public bool MinMagnitudeChecked { get; set; }
+		public bool MaxMagnitudeChecked { get; set; }
+		public double MinMagnitudeValue { get; set; }
+		public double MaxMagnitudeValue { get; set; }
+		public bool PerihelionLine { get; set; }
+		public bool NowLine { get; set; }
+		public bool Antialiasing { get; set; }
 
 		#endregion
 

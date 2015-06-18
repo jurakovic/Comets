@@ -122,8 +122,8 @@ namespace Comets.Helpers
 			string yMagnitude = "Magnitude";
 			string chartAreaName = "ChartAreaGraph";
 
-			double yMin = Math.Floor(settings.Results.Min(x => x.Magnitude) - 0.20);
-			double yMax = Math.Ceiling(settings.Results.Max(x => x.Magnitude) + 0.20);
+			double yMin = settings.MinMagnitudeChecked ? settings.MinMagnitudeValue : Math.Floor(settings.Results.Min(x => x.Magnitude) - 0.20);
+			double yMax = settings.MaxMagnitudeChecked ? settings.MaxMagnitudeValue : Math.Ceiling(settings.Results.Max(x => x.Magnitude) + 0.20);
 
 			//minY = 0; maxY = 20;
 
@@ -133,7 +133,7 @@ namespace Comets.Helpers
 			double xMin = settings.Start.JD;
 			double xMax = settings.Stop.JD;
 
-			chart1.AntiAliasing = AntiAliasingStyles.Text;
+			chart1.AntiAliasing = settings.Antialiasing ? AntiAliasingStyles.All : AntiAliasingStyles.Text;
 
 			ChartArea chartArea = new ChartArea();
 			chartArea.Name = chartAreaName;
@@ -269,44 +269,48 @@ namespace Comets.Helpers
 			chart1.Series.Clear();
 			chart1.Series.Add(series);
 
-			//generate perihelion lines
-			double T = settings.Comet.T;
-			double periodDays = settings.Comet.P * 365.25;
-
-			if ((xMax - xMin > periodDays) || (xMin < T && xMax > T))
-				while (T > xMin + periodDays)
-					T -= periodDays;
-			else
-				T += periodDays;
-
-			while (T < xMax)
+			if (settings.PerihelionLine)
 			{
-				Series s = new Series();
-				s.ChartArea = chartAreaName;
-				s.Color = System.Drawing.Color.RoyalBlue;
-				s.ChartType = SeriesChartType.Line;
-				s.XAxisType = AxisType.Secondary;
-				s.XValueType = ChartValueType.DateTime;
-				s.Points.Add(new DataPoint(Utils.JDToOta(T), yMin));
-				s.Points.Add(new DataPoint(Utils.JDToOta(T), yMax));
+				double T = settings.Comet.T;
+				double periodDays = settings.Comet.P * 365.25;
 
-				chart1.Series.Add(s);
-				T += periodDays;
+				if ((xMax - xMin > periodDays) || (xMin < T && xMax > T))
+					while (T > xMin + periodDays)
+						T -= periodDays;
+				else
+					T += periodDays;
+
+				while (T < xMax)
+				{
+					Series s = new Series();
+					s.ChartArea = chartAreaName;
+					s.Color = System.Drawing.Color.RoyalBlue;
+					s.ChartType = SeriesChartType.Line;
+					s.XAxisType = AxisType.Secondary;
+					s.XValueType = ChartValueType.DateTime;
+					s.Points.Add(new DataPoint(Utils.JDToOta(T), yMin));
+					s.Points.Add(new DataPoint(Utils.JDToOta(T), yMax));
+
+					chart1.Series.Add(s);
+					T += periodDays;
+				}
 			}
-			//end
 
-			double JDnow = EphemerisHelper.jd(DateTime.Now);
-			if (xMin < JDnow && xMax > JDnow)
+			if (settings.NowLine)
 			{
-				Series s = new Series();
-				s.ChartArea = chartAreaName;
-				s.Color = System.Drawing.Color.LimeGreen;
-				s.ChartType = SeriesChartType.Line;
-				s.XAxisType = AxisType.Secondary;
-				s.XValueType = ChartValueType.DateTime;
-				s.Points.Add(new DataPoint(Utils.JDToOta(JDnow), yMin));
-				s.Points.Add(new DataPoint(Utils.JDToOta(JDnow), yMax));
-				chart1.Series.Add(s);
+				double JDnow = EphemerisHelper.jd(DateTime.Now);
+				if (xMin < JDnow && xMax > JDnow)
+				{
+					Series s = new Series();
+					s.ChartArea = chartAreaName;
+					s.Color = System.Drawing.Color.LimeGreen;
+					s.ChartType = SeriesChartType.Line;
+					s.XAxisType = AxisType.Secondary;
+					s.XValueType = ChartValueType.DateTime;
+					s.Points.Add(new DataPoint(Utils.JDToOta(JDnow), yMin));
+					s.Points.Add(new DataPoint(Utils.JDToOta(JDnow), yMax));
+					chart1.Series.Add(s);
+				}
 			}
 
 			Title title = new Title(settings.Comet.ToString());

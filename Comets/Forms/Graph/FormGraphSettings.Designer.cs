@@ -56,6 +56,15 @@
 			this.rbJulianDay2 = new System.Windows.Forms.RadioButton();
 			this.rbJulianDay = new System.Windows.Forms.RadioButton();
 			this.rbDate = new System.Windows.Forms.RadioButton();
+			this.gbxChartOptions = new System.Windows.Forms.GroupBox();
+			this.cbxAntialiasing = new System.Windows.Forms.CheckBox();
+			this.cbxNowLine = new System.Windows.Forms.CheckBox();
+			this.cbxPerihelionLine = new System.Windows.Forms.CheckBox();
+			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.txtMaxMag = new System.Windows.Forms.TextBox();
+			this.txtMinMag = new System.Windows.Forms.TextBox();
+			this.cbxMaxMag = new System.Windows.Forms.CheckBox();
+			this.cbxMinMag = new System.Windows.Forms.CheckBox();
 			this.gbxSelectComet.SuspendLayout();
 			this.gbxTimespan.SuspendLayout();
 			this.pnlRangeDaysFromT.SuspendLayout();
@@ -69,13 +78,16 @@
 			((System.ComponentModel.ISupportInitialize)(this.numYearStart)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numDayStart)).BeginInit();
 			this.gbxDateFormat.SuspendLayout();
+			this.gbxChartOptions.SuspendLayout();
+			this.groupBox1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// btnPlotGraph
 			// 
 			this.btnPlotGraph.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
+			this.btnPlotGraph.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
 			this.btnPlotGraph.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.btnPlotGraph.Location = new System.Drawing.Point(167, 243);
+			this.btnPlotGraph.Location = new System.Drawing.Point(233, 243);
 			this.btnPlotGraph.Name = "btnPlotGraph";
 			this.btnPlotGraph.Size = new System.Drawing.Size(190, 35);
 			this.btnPlotGraph.TabIndex = 2;
@@ -145,20 +157,21 @@
 			this.gbxTimespan.Controls.Add(this.rbRangeDate);
 			this.gbxTimespan.Location = new System.Drawing.Point(12, 147);
 			this.gbxTimespan.Name = "gbxTimespan";
-			this.gbxTimespan.Size = new System.Drawing.Size(499, 83);
+			this.gbxTimespan.Size = new System.Drawing.Size(480, 83);
 			this.gbxTimespan.TabIndex = 295;
 			this.gbxTimespan.TabStop = false;
 			this.gbxTimespan.Text = "Timespan";
 			// 
 			// pnlRangeDaysFromT
 			// 
+			this.pnlRangeDaysFromT.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
 			this.pnlRangeDaysFromT.Controls.Add(this.numDaysFromTStart);
 			this.pnlRangeDaysFromT.Controls.Add(this.numDaysFromTStop);
 			this.pnlRangeDaysFromT.Controls.Add(this.label4);
 			this.pnlRangeDaysFromT.Controls.Add(this.label3);
 			this.pnlRangeDaysFromT.Controls.Add(this.label2);
 			this.pnlRangeDaysFromT.Enabled = false;
-			this.pnlRangeDaysFromT.Location = new System.Drawing.Point(102, 46);
+			this.pnlRangeDaysFromT.Location = new System.Drawing.Point(128, 45);
 			this.pnlRangeDaysFromT.Name = "pnlRangeDaysFromT";
 			this.pnlRangeDaysFromT.Size = new System.Drawing.Size(344, 27);
 			this.pnlRangeDaysFromT.TabIndex = 312;
@@ -238,6 +251,7 @@
 			// 
 			// pnlRangeDate
 			// 
+			this.pnlRangeDate.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
 			this.pnlRangeDate.Controls.Add(this.numMonthEnd);
 			this.pnlRangeDate.Controls.Add(this.numMonthStart);
 			this.pnlRangeDate.Controls.Add(this.numYearEnd);
@@ -245,7 +259,7 @@
 			this.pnlRangeDate.Controls.Add(this.numYearStart);
 			this.pnlRangeDate.Controls.Add(this.numDayStart);
 			this.pnlRangeDate.Controls.Add(this.label1);
-			this.pnlRangeDate.Location = new System.Drawing.Point(102, 16);
+			this.pnlRangeDate.Location = new System.Drawing.Point(128, 15);
 			this.pnlRangeDate.Name = "pnlRangeDate";
 			this.pnlRangeDate.Size = new System.Drawing.Size(344, 27);
 			this.pnlRangeDate.TabIndex = 311;
@@ -423,7 +437,7 @@
 			this.gbxDateFormat.Controls.Add(this.rbDate);
 			this.gbxDateFormat.Location = new System.Drawing.Point(343, 6);
 			this.gbxDateFormat.Name = "gbxDateFormat";
-			this.gbxDateFormat.Size = new System.Drawing.Size(168, 135);
+			this.gbxDateFormat.Size = new System.Drawing.Size(149, 135);
 			this.gbxDateFormat.TabIndex = 296;
 			this.gbxDateFormat.TabStop = false;
 			this.gbxDateFormat.Text = "Date Format";
@@ -431,7 +445,7 @@
 			// rbDaysFromT
 			// 
 			this.rbDaysFromT.AutoSize = true;
-			this.rbDaysFromT.Location = new System.Drawing.Point(20, 102);
+			this.rbDaysFromT.Location = new System.Drawing.Point(15, 102);
 			this.rbDaysFromT.Name = "rbDaysFromT";
 			this.rbDaysFromT.Size = new System.Drawing.Size(83, 17);
 			this.rbDaysFromT.TabIndex = 3;
@@ -442,7 +456,7 @@
 			// rbJulianDay2
 			// 
 			this.rbJulianDay2.AutoSize = true;
-			this.rbJulianDay2.Location = new System.Drawing.Point(20, 75);
+			this.rbJulianDay2.Location = new System.Drawing.Point(15, 75);
 			this.rbJulianDay2.Name = "rbJulianDay2";
 			this.rbJulianDay2.Size = new System.Drawing.Size(126, 17);
 			this.rbJulianDay2.TabIndex = 2;
@@ -453,7 +467,7 @@
 			// rbJulianDay
 			// 
 			this.rbJulianDay.AutoSize = true;
-			this.rbJulianDay.Location = new System.Drawing.Point(20, 48);
+			this.rbJulianDay.Location = new System.Drawing.Point(15, 48);
 			this.rbJulianDay.Name = "rbJulianDay";
 			this.rbJulianDay.Size = new System.Drawing.Size(74, 17);
 			this.rbJulianDay.TabIndex = 1;
@@ -465,7 +479,7 @@
 			// 
 			this.rbDate.AutoSize = true;
 			this.rbDate.Checked = true;
-			this.rbDate.Location = new System.Drawing.Point(20, 21);
+			this.rbDate.Location = new System.Drawing.Point(15, 21);
 			this.rbDate.Name = "rbDate";
 			this.rbDate.Size = new System.Drawing.Size(48, 17);
 			this.rbDate.TabIndex = 0;
@@ -473,11 +487,112 @@
 			this.rbDate.Text = "Date";
 			this.rbDate.UseVisualStyleBackColor = true;
 			// 
+			// gbxChartOptions
+			// 
+			this.gbxChartOptions.Controls.Add(this.cbxAntialiasing);
+			this.gbxChartOptions.Controls.Add(this.cbxNowLine);
+			this.gbxChartOptions.Controls.Add(this.cbxPerihelionLine);
+			this.gbxChartOptions.Location = new System.Drawing.Point(498, 6);
+			this.gbxChartOptions.Name = "gbxChartOptions";
+			this.gbxChartOptions.Size = new System.Drawing.Size(149, 135);
+			this.gbxChartOptions.TabIndex = 297;
+			this.gbxChartOptions.TabStop = false;
+			this.gbxChartOptions.Text = "Chart options";
+			// 
+			// cbxAntialiasing
+			// 
+			this.cbxAntialiasing.AutoSize = true;
+			this.cbxAntialiasing.Location = new System.Drawing.Point(15, 102);
+			this.cbxAntialiasing.Name = "cbxAntialiasing";
+			this.cbxAntialiasing.Size = new System.Drawing.Size(80, 17);
+			this.cbxAntialiasing.TabIndex = 2;
+			this.cbxAntialiasing.Text = "Antialiasing";
+			this.cbxAntialiasing.UseVisualStyleBackColor = true;
+			// 
+			// cbxNowLine
+			// 
+			this.cbxNowLine.AutoSize = true;
+			this.cbxNowLine.Checked = true;
+			this.cbxNowLine.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.cbxNowLine.Location = new System.Drawing.Point(15, 48);
+			this.cbxNowLine.Name = "cbxNowLine";
+			this.cbxNowLine.Size = new System.Drawing.Size(66, 17);
+			this.cbxNowLine.TabIndex = 1;
+			this.cbxNowLine.Text = "Now line";
+			this.cbxNowLine.UseVisualStyleBackColor = true;
+			// 
+			// cbxPerihelionLine
+			// 
+			this.cbxPerihelionLine.AutoSize = true;
+			this.cbxPerihelionLine.Checked = true;
+			this.cbxPerihelionLine.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.cbxPerihelionLine.Location = new System.Drawing.Point(15, 21);
+			this.cbxPerihelionLine.Name = "cbxPerihelionLine";
+			this.cbxPerihelionLine.Size = new System.Drawing.Size(91, 17);
+			this.cbxPerihelionLine.TabIndex = 0;
+			this.cbxPerihelionLine.Text = "Perihelion line";
+			this.cbxPerihelionLine.UseVisualStyleBackColor = true;
+			// 
+			// groupBox1
+			// 
+			this.groupBox1.Controls.Add(this.txtMaxMag);
+			this.groupBox1.Controls.Add(this.txtMinMag);
+			this.groupBox1.Controls.Add(this.cbxMaxMag);
+			this.groupBox1.Controls.Add(this.cbxMinMag);
+			this.groupBox1.Location = new System.Drawing.Point(498, 147);
+			this.groupBox1.Name = "groupBox1";
+			this.groupBox1.Size = new System.Drawing.Size(149, 83);
+			this.groupBox1.TabIndex = 298;
+			this.groupBox1.TabStop = false;
+			this.groupBox1.Text = "Magnitude";
+			// 
+			// txtMaxMag
+			// 
+			this.txtMaxMag.Location = new System.Drawing.Point(94, 47);
+			this.txtMaxMag.Name = "txtMaxMag";
+			this.txtMaxMag.Size = new System.Drawing.Size(49, 21);
+			this.txtMaxMag.TabIndex = 299;
+			this.txtMaxMag.Text = "0";
+			this.txtMaxMag.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.txtMaxMag.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMagCommon_KeyPress);
+			// 
+			// txtMinMag
+			// 
+			this.txtMinMag.Location = new System.Drawing.Point(94, 20);
+			this.txtMinMag.Name = "txtMinMag";
+			this.txtMinMag.Size = new System.Drawing.Size(49, 21);
+			this.txtMinMag.TabIndex = 2;
+			this.txtMinMag.Text = "0";
+			this.txtMinMag.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.txtMinMag.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMagCommon_KeyPress);
+			// 
+			// cbxMaxMag
+			// 
+			this.cbxMaxMag.AutoSize = true;
+			this.cbxMaxMag.Location = new System.Drawing.Point(15, 48);
+			this.cbxMaxMag.Name = "cbxMaxMag";
+			this.cbxMaxMag.Size = new System.Drawing.Size(70, 17);
+			this.cbxMaxMag.TabIndex = 1;
+			this.cbxMaxMag.Text = "Maximum";
+			this.cbxMaxMag.UseVisualStyleBackColor = true;
+			// 
+			// cbxMinMag
+			// 
+			this.cbxMinMag.AutoSize = true;
+			this.cbxMinMag.Location = new System.Drawing.Point(15, 21);
+			this.cbxMinMag.Name = "cbxMinMag";
+			this.cbxMinMag.Size = new System.Drawing.Size(66, 17);
+			this.cbxMinMag.TabIndex = 0;
+			this.cbxMinMag.Text = "Minimum";
+			this.cbxMinMag.UseVisualStyleBackColor = true;
+			// 
 			// FormGraphSettings
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(525, 295);
+			this.ClientSize = new System.Drawing.Size(659, 295);
+			this.Controls.Add(this.groupBox1);
+			this.Controls.Add(this.gbxChartOptions);
 			this.Controls.Add(this.gbxDateFormat);
 			this.Controls.Add(this.gbxTimespan);
 			this.Controls.Add(this.gbxSelectComet);
@@ -511,6 +626,10 @@
 			((System.ComponentModel.ISupportInitialize)(this.numDayStart)).EndInit();
 			this.gbxDateFormat.ResumeLayout(false);
 			this.gbxDateFormat.PerformLayout();
+			this.gbxChartOptions.ResumeLayout(false);
+			this.gbxChartOptions.PerformLayout();
+			this.groupBox1.ResumeLayout(false);
+			this.groupBox1.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -545,5 +664,14 @@
 		private System.Windows.Forms.NumericUpDown numDaysFromTStop;
 		private System.Windows.Forms.NumericUpDown numMonthEnd;
 		private System.Windows.Forms.NumericUpDown numMonthStart;
+		private System.Windows.Forms.GroupBox gbxChartOptions;
+		private System.Windows.Forms.CheckBox cbxAntialiasing;
+		private System.Windows.Forms.CheckBox cbxNowLine;
+		private System.Windows.Forms.CheckBox cbxPerihelionLine;
+		private System.Windows.Forms.GroupBox groupBox1;
+		private System.Windows.Forms.TextBox txtMaxMag;
+		private System.Windows.Forms.TextBox txtMinMag;
+		private System.Windows.Forms.CheckBox cbxMaxMag;
+		private System.Windows.Forms.CheckBox cbxMinMag;
 	}
 }
