@@ -133,27 +133,6 @@ namespace Comets.Forms.Orbit
 
 		#endregion
 
-		#region Month DomainUpDown Items
-
-		public static readonly string[] MonthDomainUpDownItems = {
-			"nextYear", //  0
-			"Dec",	    //  1
-			"Nov",	    //  2
-			"Oct",	    //  3
-			"Sep",	    //  4
-			"Aug",	    //  5
-			"Jul",	    //  6
-			"Jun",	    //  7
-			"May",	    //  8
-			"Apr",	    //  9
-			"Mar",	    // 10
-			"Feb",	    // 11
-			"Jan",	    // 12
-			"prevYear"  // 13
-		};
-
-		#endregion
-
 		#endregion
 
 		#region Properties
@@ -225,9 +204,8 @@ namespace Comets.Forms.Orbit
 			cboObject.DisplayMember = "Name";
 			cboObject.DataSource = Comets;
 
-			domMonth.Items.AddRange(MonthDomainUpDownItems.ToList());
-			domMonth.SelectedIndex = 13 - DateTime.Now.Month;
 			numDay.Value = DateTime.Now.Day;
+			numMonth.Value = DateTime.Now.Month;
 			numYear.Value = DateTime.Now.Year;
 
 			ATime atime = CollectATime();
@@ -537,11 +515,11 @@ namespace Comets.Forms.Orbit
 
 		private void dateCommon_ValueChanged(object sender, EventArgs e)
 		{
-			bool mChanged = (sender as Control).Name == domMonth.Name;
+			bool mChanged = (sender as Control).Name == numMonth.Name;
 			bool yChanged = (sender as Control).Name == numYear.Name;
 
 			int y = (int)numYear.Value;
-			int m = 13 - domMonth.SelectedIndex;
+			int m = (int)numMonth.Value;
 			int d = (int)numDay.Value;
 			int dmax = (int)numDay.Maximum;
 
@@ -552,14 +530,14 @@ namespace Comets.Forms.Orbit
 				numDay.Maximum = newDate[3] + 1;
 
 				numDay.Value = newDate[2];
-				domMonth.SelectedIndex = 13 - newDate[1];
+				numMonth.Value = newDate[1];
 				numYear.Value = newDate[0];
 			}
 		}
 
 		private void btnNow_Click(object sender, EventArgs e)
 		{
-			domMonth.SelectedIndex = 13 - DateTime.Now.Month;
+			numMonth.Value = DateTime.Now.Month;
 			numDay.Value = DateTime.Now.Day;
 			numYear.Value = DateTime.Now.Year;
 		}
@@ -573,7 +551,7 @@ namespace Comets.Forms.Orbit
 
 		private ATime CollectATime()
 		{
-			ATime atime = new ATime((int)numYear.Value, 13 - (int)domMonth.SelectedIndex, (double)numDay.Value, 0.0);
+			ATime atime = new ATime((int)numYear.Value, (int)numMonth.Value, (double)numDay.Value, 0.0);
 			return atime;
 		}
 

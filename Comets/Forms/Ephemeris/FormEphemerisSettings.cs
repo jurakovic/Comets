@@ -24,9 +24,6 @@ namespace Comets.Forms.Ephemeris
 		{
 			InitializeComponent();
 
-			domMonthStart.Items.AddRange(FormOrbitViewer.MonthDomainUpDownItems);
-			domMonthEnd.Items.AddRange(FormOrbitViewer.MonthDomainUpDownItems);
-
 			EphemerisSettings = settings;
 
 			if (EphemerisSettings == null)
@@ -35,14 +32,14 @@ namespace Comets.Forms.Ephemeris
 
 				DateTime dt = DateTime.Now.AddDays(-20);
 				numYearStart.Value = dt.Year;
-				domMonthStart.SelectedIndex = 13 - dt.Month;
+				numMonthStart.Value = dt.Month;
 				numDayStart.Value = 1;
 				numHourStart.Value = 22;
 				numMinStart.Value = 0;
 
 				dt = dt.AddMonths(1);
 				numYearEnd.Value = dt.Year;
-				domMonthEnd.SelectedIndex = 13 - dt.Month;
+				numMonthEnd.Value = dt.Month;
 				numDayEnd.Value = DateTime.DaysInMonth(dt.Year, dt.Month);
 				numHourEnd.Value = 22;
 				numMinEnd.Value = 0;
@@ -55,14 +52,14 @@ namespace Comets.Forms.Ephemeris
 			{
 				ATime dt = EphemerisSettings.Start;
 				numYearStart.Value = dt.Year;
-				domMonthStart.SelectedIndex = 13 - dt.Month;
+				numMonthStart.Value = dt.Month;
 				numDayStart.Value = dt.Day;
 				numHourStart.Value = dt.Hour;
 				numMinStart.Value = dt.Minute;
 
 				dt = EphemerisSettings.Stop;
 				numYearEnd.Value = dt.Year;
-				domMonthEnd.SelectedIndex = 13 - dt.Month;
+				numMonthEnd.Value = dt.Month;
 				numDayEnd.Value = dt.Day;
 				numHourEnd.Value = dt.Hour;
 				numMinEnd.Value = dt.Minute;
@@ -131,13 +128,13 @@ namespace Comets.Forms.Ephemeris
 				try
 				{
 					int syr = (int)numYearStart.Value;
-					int smo = 13 - domMonthStart.SelectedIndex;
+					int smo = (int)numMonthStart.Value;
 					int sdy = (int)numDayStart.Value;
 					int shr = (int)numHourStart.Value;
 					int smi = (int)numMinStart.Value;
 
 					int eyr = (int)numYearEnd.Value;
-					int emo = 13 - domMonthEnd.SelectedIndex;
+					int emo = (int)numMonthEnd.Value;
 					int edy = (int)numDayEnd.Value;
 					int ehr = (int)numHourEnd.Value;
 					int emi = (int)numMinEnd.Value;
@@ -202,11 +199,11 @@ namespace Comets.Forms.Ephemeris
 
 		private void timespanStartCommon_ValueChanged(object sender, EventArgs e)
 		{
-			bool mChanged = (sender as Control).Name == domMonthStart.Name;
+			bool mChanged = (sender as Control).Name == numMonthStart.Name;
 			bool yChanged = (sender as Control).Name == numYearStart.Name;
 
 			int y = (int)numYearStart.Value;
-			int m = 13 - domMonthStart.SelectedIndex;
+			int m = (int)numMonthStart.Value;
 			int d = (int)numDayStart.Value;
 			int dmax = (int)numDayStart.Maximum;
 			int hh = (int)numHourStart.Value;
@@ -221,18 +218,18 @@ namespace Comets.Forms.Ephemeris
 				numMinStart.Value = newDate[5];
 				numHourStart.Value = newDate[4];
 				numDayStart.Value = newDate[2];
-				domMonthStart.SelectedIndex = 13 - newDate[1];
+				numMonthStart.Value = newDate[1];
 				numYearStart.Value = newDate[0];
 			}
 		}
 
 		private void timespanEndCommon_ValueChanged(object sender, EventArgs e)
 		{
-			bool mChanged = (sender as Control).Name == domMonthEnd.Name;
+			bool mChanged = (sender as Control).Name == numMonthEnd.Name;
 			bool yChanged = (sender as Control).Name == numYearEnd.Name;
 
 			int y = (int)numYearEnd.Value;
-			int m = 13 - domMonthEnd.SelectedIndex;
+			int m = (int)numMonthEnd.Value;
 			int d = (int)numDayEnd.Value;
 			int dmax = (int)numDayEnd.Maximum;
 			int hh = (int)numHourEnd.Value;
@@ -247,7 +244,7 @@ namespace Comets.Forms.Ephemeris
 				numMinEnd.Value = newDate[5];
 				numHourEnd.Value = newDate[4];
 				numDayEnd.Value = newDate[2];
-				domMonthEnd.SelectedIndex = 13 - newDate[1];
+				numMonthEnd.Value = newDate[1];
 				numYearEnd.Value = newDate[0];
 			}
 		}
@@ -260,7 +257,7 @@ namespace Comets.Forms.Ephemeris
 		{
 			DateTime dt = DateTime.Now.AddDays(-20);
 			numYearStart.Value = dt.Year;
-			domMonthStart.SelectedIndex = 13 - dt.Month;
+			numMonthStart.Value = dt.Month;
 			numDayStart.Value = 1;
 			numHourStart.Value = 22;
 			numMinStart.Value = 0;
@@ -270,7 +267,7 @@ namespace Comets.Forms.Ephemeris
 		{
 			DateTime dt = DateTime.Now.AddDays(-20).AddMonths(1);
 			numYearEnd.Value = dt.Year;
-			domMonthEnd.SelectedIndex = 13 - dt.Month;
+			numMonthEnd.Value = dt.Month;
 			numDayEnd.Value = DateTime.DaysInMonth(dt.Year, dt.Month);
 			numHourEnd.Value = 22;
 			numMinEnd.Value = 0;

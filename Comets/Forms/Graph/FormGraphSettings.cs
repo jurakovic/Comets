@@ -24,9 +24,6 @@ namespace Comets.Forms.Graph
 		{
 			InitializeComponent();
 
-			domMonthStart.Items.AddRange(FormOrbitViewer.MonthDomainUpDownItems);
-			domMonthEnd.Items.AddRange(FormOrbitViewer.MonthDomainUpDownItems);
-
 			GraphSettings = settings;
 
 			if (GraphSettings == null)
@@ -35,12 +32,12 @@ namespace Comets.Forms.Graph
 
 				DateTime dt = DateTime.Now.AddDays(-20);
 				numYearStart.Value = dt.Year;
-				domMonthStart.SelectedIndex = 13 - dt.Month;
+				numMonthStart.Value = dt.Month;
 				numDayStart.Value = 1;
 
 				dt = dt.AddMonths(1);
 				numYearEnd.Value = dt.Year;
-				domMonthEnd.SelectedIndex = 13 - dt.Month;
+				numMonthEnd.Value = dt.Month;
 				numDayEnd.Value = DateTime.DaysInMonth(dt.Year, dt.Month);
 
 				int offset = 180;
@@ -56,11 +53,11 @@ namespace Comets.Forms.Graph
 					rbRangeDaysFromT.Checked = true;
 
 				numYearStart.Value = GraphSettings.DateStart.Year;
-				domMonthStart.SelectedIndex = 13 - GraphSettings.DateStart.Month;
+				numMonthStart.Value = GraphSettings.DateStart.Month;
 				numDayStart.Value = GraphSettings.DateStart.Day;
 
 				numYearEnd.Value = GraphSettings.DateStop.Year;
-				domMonthEnd.SelectedIndex = 13 - GraphSettings.DateStop.Month;
+				numMonthEnd.Value = GraphSettings.DateStop.Month;
 				numDayEnd.Value = GraphSettings.DateStop.Day;
 
 				numDaysFromTStart.Value = GraphSettings.DaysFromTStartValue;
@@ -118,11 +115,11 @@ namespace Comets.Forms.Graph
 
 		private void timespanStartCommon_ValueChanged(object sender, EventArgs e)
 		{
-			bool mChanged = (sender as Control).Name == domMonthStart.Name;
+			bool mChanged = (sender as Control).Name == numMonthStart.Name;
 			bool yChanged = (sender as Control).Name == numYearStart.Name;
 
 			int y = (int)numYearStart.Value;
-			int m = 13 - domMonthStart.SelectedIndex;
+			int m = (int)numMonthStart.Value;
 			int d = (int)numDayStart.Value;
 			int dmax = (int)numDayStart.Maximum;
 
@@ -133,18 +130,18 @@ namespace Comets.Forms.Graph
 				numDayStart.Maximum = newDate[3] + 1;
 
 				numDayStart.Value = newDate[2];
-				domMonthStart.SelectedIndex = 13 - newDate[1];
+				numMonthStart.Value = newDate[1];
 				numYearStart.Value = newDate[0];
 			}
 		}
 
 		private void timespanEndCommon_ValueChanged(object sender, EventArgs e)
 		{
-			bool mChanged = (sender as Control).Name == domMonthEnd.Name;
+			bool mChanged = (sender as Control).Name == numMonthEnd.Name;
 			bool yChanged = (sender as Control).Name == numYearEnd.Name;
 
 			int y = (int)numYearEnd.Value;
-			int m = 13 - domMonthEnd.SelectedIndex;
+			int m = (int)numMonthEnd.Value;
 			int d = (int)numDayEnd.Value;
 			int dmax = (int)numDayEnd.Maximum;
 
@@ -155,7 +152,7 @@ namespace Comets.Forms.Graph
 				numDayEnd.Maximum = newDate[3] + 1;
 
 				numDayEnd.Value = newDate[2];
-				domMonthEnd.SelectedIndex = 13 - newDate[1];
+				numMonthEnd.Value = newDate[1];
 				numYearEnd.Value = newDate[0];
 			}
 		}
@@ -177,11 +174,11 @@ namespace Comets.Forms.Graph
 				try
 				{
 					int syr = (int)numYearStart.Value;
-					int smo = 13 - domMonthStart.SelectedIndex;
+					int smo = (int)numMonthStart.Value;
 					int sdy = (int)numDayStart.Value;
 
 					int eyr = (int)numYearEnd.Value;
-					int emo = 13 - domMonthEnd.SelectedIndex;
+					int emo = (int)numMonthEnd.Value;
 					int edy = (int)numDayEnd.Value;
 
 					dateStart = new ATime(syr, smo, sdy, 0, 0, 0, GraphSettings.Location.Timezone);

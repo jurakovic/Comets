@@ -33,7 +33,6 @@
 			this.lblLabels = new System.Windows.Forms.Label();
 			this.lblTimestep = new System.Windows.Forms.Label();
 			this.lblSimulation = new System.Windows.Forms.Label();
-			this.domMonth = new System.Windows.Forms.DomainUpDown();
 			this.lblDate = new System.Windows.Forms.Label();
 			this.lblObject = new System.Windows.Forms.Label();
 			this.cboObject = new System.Windows.Forms.ComboBox();
@@ -58,10 +57,12 @@
 			this.scrollHorz = new System.Windows.Forms.HScrollBar();
 			this.scrollZoom = new System.Windows.Forms.HScrollBar();
 			this.pnlToolbox = new System.Windows.Forms.Panel();
+			this.numMonth = new System.Windows.Forms.NumericUpDown();
 			this.orbitPanel = new Comets.OrbitViewer.OrbitPanel();
 			((System.ComponentModel.ISupportInitialize)(this.numYear)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numDay)).BeginInit();
 			this.pnlToolbox.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.numMonth)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// btnSet
@@ -110,18 +111,6 @@
 			this.lblSimulation.Size = new System.Drawing.Size(55, 13);
 			this.lblSimulation.TabIndex = 59;
 			this.lblSimulation.Text = "Simulation";
-			// 
-			// domMonth
-			// 
-			this.domMonth.BackColor = System.Drawing.SystemColors.Window;
-			this.domMonth.Location = new System.Drawing.Point(150, 15);
-			this.domMonth.Name = "domMonth";
-			this.domMonth.ReadOnly = true;
-			this.domMonth.Size = new System.Drawing.Size(58, 21);
-			this.domMonth.TabIndex = 58;
-			this.domMonth.Text = "May";
-			this.domMonth.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.domMonth.SelectedItemChanged += new System.EventHandler(this.dateCommon_ValueChanged);
 			// 
 			// lblDate
 			// 
@@ -360,8 +349,8 @@
 			// 
 			// scrollVert
 			// 
-			this.scrollVert.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.scrollVert.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.scrollVert.LargeChange = 1;
 			this.scrollVert.Location = new System.Drawing.Point(684, 0);
 			this.scrollVert.Maximum = 360;
@@ -372,8 +361,8 @@
 			// 
 			// scrollHorz
 			// 
-			this.scrollHorz.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.scrollHorz.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.scrollHorz.LargeChange = 1;
 			this.scrollHorz.Location = new System.Drawing.Point(0, 460);
 			this.scrollHorz.Maximum = 360;
@@ -396,6 +385,7 @@
 			// pnlToolbox
 			// 
 			this.pnlToolbox.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+			this.pnlToolbox.Controls.Add(this.numMonth);
 			this.pnlToolbox.Controls.Add(this.numDay);
 			this.pnlToolbox.Controls.Add(this.btnSet);
 			this.pnlToolbox.Controls.Add(this.scrollZoom);
@@ -407,7 +397,6 @@
 			this.pnlToolbox.Controls.Add(this.btnStop);
 			this.pnlToolbox.Controls.Add(this.lblSimulation);
 			this.pnlToolbox.Controls.Add(this.btnForStep);
-			this.pnlToolbox.Controls.Add(this.domMonth);
 			this.pnlToolbox.Controls.Add(this.btnForPlay);
 			this.pnlToolbox.Controls.Add(this.lblDate);
 			this.pnlToolbox.Controls.Add(this.cboTimestep);
@@ -428,11 +417,32 @@
 			this.pnlToolbox.Size = new System.Drawing.Size(687, 169);
 			this.pnlToolbox.TabIndex = 0;
 			// 
+			// numMonth
+			// 
+			this.numMonth.BackColor = System.Drawing.SystemColors.Window;
+			this.numMonth.Location = new System.Drawing.Point(158, 15);
+			this.numMonth.Maximum = new decimal(new int[] {
+            13,
+            0,
+            0,
+            0});
+			this.numMonth.Name = "numMonth";
+			this.numMonth.ReadOnly = true;
+			this.numMonth.Size = new System.Drawing.Size(42, 21);
+			this.numMonth.TabIndex = 64;
+			this.numMonth.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.numMonth.Value = new decimal(new int[] {
+            12,
+            0,
+            0,
+            0});
+			this.numMonth.ValueChanged += new System.EventHandler(this.dateCommon_ValueChanged);
+			// 
 			// orbitPanel
 			// 
-			this.orbitPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.orbitPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+			| System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.orbitPanel.ATime = null;
 			this.orbitPanel.BackColor = System.Drawing.Color.Black;
 			this.orbitPanel.CenterObjectSelected = 0;
@@ -479,6 +489,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.numDay)).EndInit();
 			this.pnlToolbox.ResumeLayout(false);
 			this.pnlToolbox.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.numMonth)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -490,7 +501,6 @@
 		private System.Windows.Forms.Label lblLabels;
 		private System.Windows.Forms.Label lblTimestep;
 		private System.Windows.Forms.Label lblSimulation;
-		private System.Windows.Forms.DomainUpDown domMonth;
 		private System.Windows.Forms.Label lblDate;
 		private System.Windows.Forms.Label lblObject;
 		private System.Windows.Forms.ComboBox cboObject;
@@ -516,6 +526,7 @@
 		private System.Windows.Forms.HScrollBar scrollHorz;
 		private OrbitViewer.OrbitPanel orbitPanel;
 		private System.Windows.Forms.Panel pnlToolbox;
+		private System.Windows.Forms.NumericUpDown numMonth;
 
 	}
 }

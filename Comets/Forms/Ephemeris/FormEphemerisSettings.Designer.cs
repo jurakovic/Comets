@@ -35,17 +35,20 @@
 			this.lblPerihDate = new System.Windows.Forms.Label();
 			this.cbComet = new System.Windows.Forms.ComboBox();
 			this.gbxTimestamp = new System.Windows.Forms.GroupBox();
+			this.numMonthEnd = new System.Windows.Forms.NumericUpDown();
+			this.numMonthStart = new System.Windows.Forms.NumericUpDown();
+			this.btnTimespanIntervalDefault = new System.Windows.Forms.Button();
+			this.btnTimespanEndDefault = new System.Windows.Forms.Button();
+			this.btnTimespanStartDefault = new System.Windows.Forms.Button();
 			this.numMinInterval = new System.Windows.Forms.NumericUpDown();
 			this.numHourInterval = new System.Windows.Forms.NumericUpDown();
 			this.numDayInterval = new System.Windows.Forms.NumericUpDown();
 			this.numMinEnd = new System.Windows.Forms.NumericUpDown();
 			this.numHourEnd = new System.Windows.Forms.NumericUpDown();
-			this.domMonthEnd = new System.Windows.Forms.DomainUpDown();
 			this.numYearEnd = new System.Windows.Forms.NumericUpDown();
 			this.numDayEnd = new System.Windows.Forms.NumericUpDown();
 			this.numMinStart = new System.Windows.Forms.NumericUpDown();
 			this.numHourStart = new System.Windows.Forms.NumericUpDown();
-			this.domMonthStart = new System.Windows.Forms.DomainUpDown();
 			this.numYearStart = new System.Windows.Forms.NumericUpDown();
 			this.numDayStart = new System.Windows.Forms.NumericUpDown();
 			this.label3 = new System.Windows.Forms.Label();
@@ -64,11 +67,10 @@
 			this.chAlt = new System.Windows.Forms.CheckBox();
 			this.chDec = new System.Windows.Forms.CheckBox();
 			this.chRA = new System.Windows.Forms.CheckBox();
-			this.btnTimespanStartDefault = new System.Windows.Forms.Button();
-			this.btnTimespanEndDefault = new System.Windows.Forms.Button();
-			this.btnTimespanIntervalDefault = new System.Windows.Forms.Button();
 			this.gbxSelectComet.SuspendLayout();
 			this.gbxTimestamp.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.numMonthEnd)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numMonthStart)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numMinInterval)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numHourInterval)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numDayInterval)).BeginInit();
@@ -151,6 +153,8 @@
 			// 
 			// gbxTimestamp
 			// 
+			this.gbxTimestamp.Controls.Add(this.numMonthEnd);
+			this.gbxTimestamp.Controls.Add(this.numMonthStart);
 			this.gbxTimestamp.Controls.Add(this.btnTimespanIntervalDefault);
 			this.gbxTimestamp.Controls.Add(this.btnTimespanEndDefault);
 			this.gbxTimestamp.Controls.Add(this.btnTimespanStartDefault);
@@ -159,12 +163,10 @@
 			this.gbxTimestamp.Controls.Add(this.numDayInterval);
 			this.gbxTimestamp.Controls.Add(this.numMinEnd);
 			this.gbxTimestamp.Controls.Add(this.numHourEnd);
-			this.gbxTimestamp.Controls.Add(this.domMonthEnd);
 			this.gbxTimestamp.Controls.Add(this.numYearEnd);
 			this.gbxTimestamp.Controls.Add(this.numDayEnd);
 			this.gbxTimestamp.Controls.Add(this.numMinStart);
 			this.gbxTimestamp.Controls.Add(this.numHourStart);
-			this.gbxTimestamp.Controls.Add(this.domMonthStart);
 			this.gbxTimestamp.Controls.Add(this.numYearStart);
 			this.gbxTimestamp.Controls.Add(this.numDayStart);
 			this.gbxTimestamp.Controls.Add(this.label3);
@@ -176,6 +178,73 @@
 			this.gbxTimestamp.TabIndex = 295;
 			this.gbxTimestamp.TabStop = false;
 			this.gbxTimestamp.Text = "Timespan (Local Time)";
+			// 
+			// numMonthEnd
+			// 
+			this.numMonthEnd.BackColor = System.Drawing.SystemColors.Window;
+			this.numMonthEnd.Location = new System.Drawing.Point(211, 48);
+			this.numMonthEnd.Maximum = new decimal(new int[] {
+            13,
+            0,
+            0,
+            0});
+			this.numMonthEnd.Name = "numMonthEnd";
+			this.numMonthEnd.Size = new System.Drawing.Size(42, 21);
+			this.numMonthEnd.TabIndex = 324;
+			this.numMonthEnd.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.numMonthEnd.Value = new decimal(new int[] {
+            12,
+            0,
+            0,
+            0});
+			this.numMonthEnd.ValueChanged += new System.EventHandler(this.timespanEndCommon_ValueChanged);
+			// 
+			// numMonthStart
+			// 
+			this.numMonthStart.BackColor = System.Drawing.SystemColors.Window;
+			this.numMonthStart.Location = new System.Drawing.Point(211, 21);
+			this.numMonthStart.Maximum = new decimal(new int[] {
+            13,
+            0,
+            0,
+            0});
+			this.numMonthStart.Name = "numMonthStart";
+			this.numMonthStart.Size = new System.Drawing.Size(42, 21);
+			this.numMonthStart.TabIndex = 323;
+			this.numMonthStart.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.numMonthStart.Value = new decimal(new int[] {
+            12,
+            0,
+            0,
+            0});
+			this.numMonthStart.ValueChanged += new System.EventHandler(this.timespanStartCommon_ValueChanged);
+			// 
+			// btnTimespanIntervalDefault
+			// 
+			this.btnTimespanIntervalDefault.Location = new System.Drawing.Point(411, 77);
+			this.btnTimespanIntervalDefault.Name = "btnTimespanIntervalDefault";
+			this.btnTimespanIntervalDefault.Size = new System.Drawing.Size(16, 16);
+			this.btnTimespanIntervalDefault.TabIndex = 322;
+			this.btnTimespanIntervalDefault.UseVisualStyleBackColor = true;
+			this.btnTimespanIntervalDefault.Click += new System.EventHandler(this.btnTimespanIntervalDefault_Click);
+			// 
+			// btnTimespanEndDefault
+			// 
+			this.btnTimespanEndDefault.Location = new System.Drawing.Point(411, 49);
+			this.btnTimespanEndDefault.Name = "btnTimespanEndDefault";
+			this.btnTimespanEndDefault.Size = new System.Drawing.Size(16, 16);
+			this.btnTimespanEndDefault.TabIndex = 321;
+			this.btnTimespanEndDefault.UseVisualStyleBackColor = true;
+			this.btnTimespanEndDefault.Click += new System.EventHandler(this.btnTimespanEndDefault_Click);
+			// 
+			// btnTimespanStartDefault
+			// 
+			this.btnTimespanStartDefault.Location = new System.Drawing.Point(411, 22);
+			this.btnTimespanStartDefault.Name = "btnTimespanStartDefault";
+			this.btnTimespanStartDefault.Size = new System.Drawing.Size(16, 16);
+			this.btnTimespanStartDefault.TabIndex = 320;
+			this.btnTimespanStartDefault.UseVisualStyleBackColor = true;
+			this.btnTimespanStartDefault.Click += new System.EventHandler(this.btnTimespanStartDefault_Click);
 			// 
 			// numMinInterval
 			// 
@@ -274,20 +343,9 @@
             0});
 			this.numHourEnd.ValueChanged += new System.EventHandler(this.timespanEndCommon_ValueChanged);
 			// 
-			// domMonthEnd
-			// 
-			this.domMonthEnd.BackColor = System.Drawing.SystemColors.Window;
-			this.domMonthEnd.Location = new System.Drawing.Point(195, 48);
-			this.domMonthEnd.Name = "domMonthEnd";
-			this.domMonthEnd.Size = new System.Drawing.Size(58, 21);
-			this.domMonthEnd.TabIndex = 314;
-			this.domMonthEnd.Text = "May";
-			this.domMonthEnd.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.domMonthEnd.SelectedItemChanged += new System.EventHandler(this.timespanEndCommon_ValueChanged);
-			// 
 			// numYearEnd
 			// 
-			this.numYearEnd.Location = new System.Drawing.Point(139, 48);
+			this.numYearEnd.Location = new System.Drawing.Point(155, 48);
 			this.numYearEnd.Maximum = new decimal(new int[] {
             9000,
             0,
@@ -379,20 +437,9 @@
             0});
 			this.numHourStart.ValueChanged += new System.EventHandler(this.timespanStartCommon_ValueChanged);
 			// 
-			// domMonthStart
-			// 
-			this.domMonthStart.BackColor = System.Drawing.SystemColors.Window;
-			this.domMonthStart.Location = new System.Drawing.Point(195, 21);
-			this.domMonthStart.Name = "domMonthStart";
-			this.domMonthStart.Size = new System.Drawing.Size(58, 21);
-			this.domMonthStart.TabIndex = 309;
-			this.domMonthStart.Text = "May";
-			this.domMonthStart.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.domMonthStart.SelectedItemChanged += new System.EventHandler(this.timespanStartCommon_ValueChanged);
-			// 
 			// numYearStart
 			// 
-			this.numYearStart.Location = new System.Drawing.Point(139, 21);
+			this.numYearStart.Location = new System.Drawing.Point(155, 21);
 			this.numYearStart.Maximum = new decimal(new int[] {
             9000,
             0,
@@ -620,33 +667,6 @@
 			this.chRA.Text = "Right ascension (RA)";
 			this.chRA.UseVisualStyleBackColor = true;
 			// 
-			// btnTimespanStartDefault
-			// 
-			this.btnTimespanStartDefault.Location = new System.Drawing.Point(411, 22);
-			this.btnTimespanStartDefault.Name = "btnTimespanStartDefault";
-			this.btnTimespanStartDefault.Size = new System.Drawing.Size(16, 16);
-			this.btnTimespanStartDefault.TabIndex = 320;
-			this.btnTimespanStartDefault.UseVisualStyleBackColor = true;
-			this.btnTimespanStartDefault.Click += new System.EventHandler(this.btnTimespanStartDefault_Click);
-			// 
-			// btnTimespanEndDefault
-			// 
-			this.btnTimespanEndDefault.Location = new System.Drawing.Point(411, 49);
-			this.btnTimespanEndDefault.Name = "btnTimespanEndDefault";
-			this.btnTimespanEndDefault.Size = new System.Drawing.Size(16, 16);
-			this.btnTimespanEndDefault.TabIndex = 321;
-			this.btnTimespanEndDefault.UseVisualStyleBackColor = true;
-			this.btnTimespanEndDefault.Click += new System.EventHandler(this.btnTimespanEndDefault_Click);
-			// 
-			// btnTimespanIntervalDefault
-			// 
-			this.btnTimespanIntervalDefault.Location = new System.Drawing.Point(411, 77);
-			this.btnTimespanIntervalDefault.Name = "btnTimespanIntervalDefault";
-			this.btnTimespanIntervalDefault.Size = new System.Drawing.Size(16, 16);
-			this.btnTimespanIntervalDefault.TabIndex = 322;
-			this.btnTimespanIntervalDefault.UseVisualStyleBackColor = true;
-			this.btnTimespanIntervalDefault.Click += new System.EventHandler(this.btnTimespanIntervalDefault_Click);
-			// 
 			// FormEphemerisSettings
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -671,6 +691,8 @@
 			this.gbxSelectComet.PerformLayout();
 			this.gbxTimestamp.ResumeLayout(false);
 			this.gbxTimestamp.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.numMonthEnd)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numMonthStart)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numMinInterval)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numHourInterval)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numDayInterval)).EndInit();
@@ -715,12 +737,10 @@
 		private System.Windows.Forms.CheckBox chRA;
 		private System.Windows.Forms.NumericUpDown numMinStart;
 		private System.Windows.Forms.NumericUpDown numHourStart;
-		private System.Windows.Forms.DomainUpDown domMonthStart;
 		private System.Windows.Forms.NumericUpDown numYearStart;
 		private System.Windows.Forms.NumericUpDown numDayStart;
 		private System.Windows.Forms.NumericUpDown numMinEnd;
 		private System.Windows.Forms.NumericUpDown numHourEnd;
-		private System.Windows.Forms.DomainUpDown domMonthEnd;
 		private System.Windows.Forms.NumericUpDown numYearEnd;
 		private System.Windows.Forms.NumericUpDown numDayEnd;
 		private System.Windows.Forms.NumericUpDown numMinInterval;
@@ -729,5 +749,7 @@
 		private System.Windows.Forms.Button btnTimespanIntervalDefault;
 		private System.Windows.Forms.Button btnTimespanEndDefault;
 		private System.Windows.Forms.Button btnTimespanStartDefault;
+		private System.Windows.Forms.NumericUpDown numMonthEnd;
+		private System.Windows.Forms.NumericUpDown numMonthStart;
 	}
 }
