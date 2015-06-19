@@ -31,30 +31,49 @@ namespace Comets.Helpers
 
 		#region ValidateKeyPress
 
-		public static bool ValidateKeyPress(object sender, KeyPressEventArgs e, int length, int decimals)
+		public static bool ValidateKeyPress(object sender, KeyPressEventArgs e, int length, int decimals, double? minimum = null, double? maximum = null)
 		{
+			TextBox txt = sender as TextBox;
+
 			if (length < 1)
-				throw new Exception("Length must be > 0");
+				throw new Exception("Length must be greather than 0");
 
-			string text = (sender as TextBox).Text;
+			if (minimum.GetValueOrDefault() >= maximum.GetValueOrDefault())
+				throw new Exception("Minimum can not be greather than maximum");
 
+			bool negative = minimum.GetValueOrDefault() < 0;
+			string text;
 			bool handle;
 
-			if (char.IsControl(e.KeyChar) || (sender as TextBox).SelectionLength == text.Length && ((char.IsDigit(e.KeyChar))))
-			{
-				handle = false;
-			}
+			if (txt.SelectionLength > 0)
+				text = txt.Text.Replace(txt.SelectedText, char.IsControl(e.KeyChar) ? string.Empty : e.KeyChar.ToString());
 			else
+				text = txt.Text + (char.IsControl(e.KeyChar) ? string.Empty : e.KeyChar.ToString());
+
+			string pattern = "^";
+
+			if (negative)
+				pattern += "-?";
+
+			pattern += "[0-9]{1," + length + "}[.]?$";
+
+			if (decimals > 0)
 			{
-				string pattern;
+				pattern = "(" + pattern + ")|(^";
 
-				if (decimals > 0)
-					pattern = @"(^[0-9]{1," + length + @"}[.]?$)|(^[0-9]{1," + length + @"}([.][0-9]{1," + decimals + @"})?$)";
-				else
-					pattern = @"^[0-9]{1," + length + @"}?$";
+				if (negative)
+					pattern += "-?";
 
-				handle = !Regex.IsMatch(text + e.KeyChar, pattern);
+				pattern += "[0-9]{0," + length + "}([.][0-9]{0," + decimals + "})?$)";
 			}
+
+			handle = !Regex.IsMatch(text, pattern);
+
+			if (minimum != null && char.IsDigit(e.KeyChar) && !handle)
+				handle = Convert.ToDouble(text) < minimum;
+
+			if (maximum != null && char.IsDigit(e.KeyChar) && !handle)
+				handle = Convert.ToDouble(text) > maximum;
 
 			return handle;
 		}
