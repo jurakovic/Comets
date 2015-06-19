@@ -143,9 +143,9 @@ namespace Comets.Forms.Orbit
 
 		Timer Timer { get; set; }
 
-		const int InitialScrollVert = 320;
+		const int InitialScrollVert = 220;
 		const int InitialScrollHorz = 255;
-		const int InitialScrollZoom = 200;
+		const int InitialScrollZoom = 145;
 
 		//ATime minATime = new ATime(1000, 1, 1, 0, 0, 0.0, 0.0);
 		//ATime maxATime = new ATime(5000, 1, 1, 0, 0, 0.0, 0.0);
@@ -252,7 +252,7 @@ namespace Comets.Forms.Orbit
 
 		private void scrollVert_ValueChanged(object sender, EventArgs e)
 		{
-			orbitPanel.RotateVert = (double)(360 - scrollVert.Value);
+			orbitPanel.RotateVert = (double)(270 - scrollVert.Value);
 			orbitPanel.Invalidate();
 		}
 
