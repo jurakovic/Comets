@@ -38,7 +38,7 @@ namespace Comets.Helpers
 			if (length < 1)
 				throw new Exception("Length must be greather than 0");
 
-			if (minimum.GetValueOrDefault() >= maximum.GetValueOrDefault())
+			if (minimum.GetValueOrDefault() > maximum.GetValueOrDefault())
 				throw new Exception("Minimum can not be greather than maximum");
 
 			bool negative = minimum.GetValueOrDefault() < 0;

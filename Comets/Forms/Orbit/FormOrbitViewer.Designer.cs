@@ -36,8 +36,6 @@
 			this.lblDate = new System.Windows.Forms.Label();
 			this.lblObject = new System.Windows.Forms.Label();
 			this.cboObject = new System.Windows.Forms.ComboBox();
-			this.numYear = new System.Windows.Forms.NumericUpDown();
-			this.numDay = new System.Windows.Forms.NumericUpDown();
 			this.lblZoom = new System.Windows.Forms.Label();
 			this.lblOrbits = new System.Windows.Forms.Label();
 			this.lblCenter = new System.Windows.Forms.Label();
@@ -57,12 +55,11 @@
 			this.scrollHorz = new System.Windows.Forms.HScrollBar();
 			this.scrollZoom = new System.Windows.Forms.HScrollBar();
 			this.pnlToolbox = new System.Windows.Forms.Panel();
-			this.numMonth = new System.Windows.Forms.NumericUpDown();
+			this.txtYear = new System.Windows.Forms.TextBox();
+			this.txtMonth = new System.Windows.Forms.TextBox();
+			this.txtDay = new System.Windows.Forms.TextBox();
 			this.orbitPanel = new Comets.OrbitViewer.OrbitPanel();
-			((System.ComponentModel.ISupportInitialize)(this.numYear)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numDay)).BeginInit();
 			this.pnlToolbox.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numMonth)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// btnSet
@@ -141,51 +138,6 @@
 			this.cboObject.Size = new System.Drawing.Size(162, 21);
 			this.cboObject.TabIndex = 55;
 			this.cboObject.SelectedIndexChanged += new System.EventHandler(this.cboObject_SelectedIndexChanged);
-			// 
-			// numYear
-			// 
-			this.numYear.Location = new System.Drawing.Point(214, 15);
-			this.numYear.Maximum = new decimal(new int[] {
-            9999,
-            0,
-            0,
-            0});
-			this.numYear.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-			this.numYear.Name = "numYear";
-			this.numYear.Size = new System.Drawing.Size(50, 21);
-			this.numYear.TabIndex = 54;
-			this.numYear.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.numYear.Value = new decimal(new int[] {
-            2015,
-            0,
-            0,
-            0});
-			this.numYear.ValueChanged += new System.EventHandler(this.dateCommon_ValueChanged);
-			// 
-			// numDay
-			// 
-			this.numDay.BackColor = System.Drawing.SystemColors.Window;
-			this.numDay.Location = new System.Drawing.Point(102, 15);
-			this.numDay.Maximum = new decimal(new int[] {
-            32,
-            0,
-            0,
-            0});
-			this.numDay.Name = "numDay";
-			this.numDay.ReadOnly = true;
-			this.numDay.Size = new System.Drawing.Size(42, 21);
-			this.numDay.TabIndex = 53;
-			this.numDay.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.numDay.Value = new decimal(new int[] {
-            30,
-            0,
-            0,
-            0});
-			this.numDay.ValueChanged += new System.EventHandler(this.dateCommon_ValueChanged);
 			// 
 			// lblZoom
 			// 
@@ -385,8 +337,9 @@
 			// pnlToolbox
 			// 
 			this.pnlToolbox.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-			this.pnlToolbox.Controls.Add(this.numMonth);
-			this.pnlToolbox.Controls.Add(this.numDay);
+			this.pnlToolbox.Controls.Add(this.txtYear);
+			this.pnlToolbox.Controls.Add(this.txtMonth);
+			this.pnlToolbox.Controls.Add(this.txtDay);
 			this.pnlToolbox.Controls.Add(this.btnSet);
 			this.pnlToolbox.Controls.Add(this.scrollZoom);
 			this.pnlToolbox.Controls.Add(this.btnNow);
@@ -404,7 +357,6 @@
 			this.pnlToolbox.Controls.Add(this.cboCenter);
 			this.pnlToolbox.Controls.Add(this.cboObject);
 			this.pnlToolbox.Controls.Add(this.cboOrbits);
-			this.pnlToolbox.Controls.Add(this.numYear);
 			this.pnlToolbox.Controls.Add(this.cbxDate);
 			this.pnlToolbox.Controls.Add(this.cbxPlanet);
 			this.pnlToolbox.Controls.Add(this.lblZoom);
@@ -417,26 +369,34 @@
 			this.pnlToolbox.Size = new System.Drawing.Size(687, 169);
 			this.pnlToolbox.TabIndex = 0;
 			// 
-			// numMonth
+			// txtYear
 			// 
-			this.numMonth.BackColor = System.Drawing.SystemColors.Window;
-			this.numMonth.Location = new System.Drawing.Point(158, 15);
-			this.numMonth.Maximum = new decimal(new int[] {
-            13,
-            0,
-            0,
-            0});
-			this.numMonth.Name = "numMonth";
-			this.numMonth.ReadOnly = true;
-			this.numMonth.Size = new System.Drawing.Size(42, 21);
-			this.numMonth.TabIndex = 64;
-			this.numMonth.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.numMonth.Value = new decimal(new int[] {
-            12,
-            0,
-            0,
-            0});
-			this.numMonth.ValueChanged += new System.EventHandler(this.dateCommon_ValueChanged);
+			this.txtYear.Location = new System.Drawing.Point(198, 14);
+			this.txtYear.Name = "txtYear";
+			this.txtYear.Size = new System.Drawing.Size(67, 21);
+			this.txtYear.TabIndex = 66;
+			this.txtYear.TextChanged += new System.EventHandler(this.txtMonth_TextChanged);
+			this.txtYear.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtDateCommon_KeyDown);
+			this.txtYear.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDateCommon_KeyPress);
+			// 
+			// txtMonth
+			// 
+			this.txtMonth.Location = new System.Drawing.Point(150, 14);
+			this.txtMonth.Name = "txtMonth";
+			this.txtMonth.Size = new System.Drawing.Size(42, 21);
+			this.txtMonth.TabIndex = 65;
+			this.txtMonth.TextChanged += new System.EventHandler(this.txtMonth_TextChanged);
+			this.txtMonth.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtDateCommon_KeyDown);
+			this.txtMonth.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDateCommon_KeyPress);
+			// 
+			// txtDay
+			// 
+			this.txtDay.Location = new System.Drawing.Point(102, 14);
+			this.txtDay.Name = "txtDay";
+			this.txtDay.Size = new System.Drawing.Size(42, 21);
+			this.txtDay.TabIndex = 64;
+			this.txtDay.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtDateCommon_KeyDown);
+			this.txtDay.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDateCommon_KeyPress);
 			// 
 			// orbitPanel
 			// 
@@ -472,7 +432,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(703, 661);
+			this.ClientSize = new System.Drawing.Size(703, 662);
 			this.Controls.Add(this.pnlToolbox);
 			this.Controls.Add(this.orbitPanel);
 			this.Controls.Add(this.scrollVert);
@@ -485,11 +445,8 @@
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormOrbitViewer_FormClosing);
 			this.Load += new System.EventHandler(this.FormOrbit_Load);
 			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormOrbitViewer_KeyDown);
-			((System.ComponentModel.ISupportInitialize)(this.numYear)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numDay)).EndInit();
 			this.pnlToolbox.ResumeLayout(false);
 			this.pnlToolbox.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numMonth)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -504,8 +461,6 @@
 		private System.Windows.Forms.Label lblDate;
 		private System.Windows.Forms.Label lblObject;
 		private System.Windows.Forms.ComboBox cboObject;
-		private System.Windows.Forms.NumericUpDown numYear;
-		private System.Windows.Forms.NumericUpDown numDay;
 		private System.Windows.Forms.Label lblZoom;
 		private System.Windows.Forms.Label lblOrbits;
 		private System.Windows.Forms.Label lblCenter;
@@ -526,7 +481,9 @@
 		private System.Windows.Forms.HScrollBar scrollHorz;
 		private OrbitViewer.OrbitPanel orbitPanel;
 		private System.Windows.Forms.Panel pnlToolbox;
-		private System.Windows.Forms.NumericUpDown numMonth;
+		private System.Windows.Forms.TextBox txtYear;
+		private System.Windows.Forms.TextBox txtMonth;
+		private System.Windows.Forms.TextBox txtDay;
 
 	}
 }
