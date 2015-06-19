@@ -80,6 +80,35 @@ namespace Comets.Helpers
 
 		#endregion
 
+		#region TextBoxValueUpDown
+
+		public static bool TextBoxValueUpDown(object sender, KeyEventArgs e, double minimum, double maximum)
+		{
+			TextBox txt = sender as TextBox;
+
+			double value = 0;
+			bool hasValue = Double.TryParse(txt.Text, out value);
+			bool suppress = false;
+
+			bool up = e.KeyData == Keys.Up;
+			bool down = e.KeyData == Keys.Down;
+
+			if (hasValue && (up || down))
+			{
+				if (up && value < maximum)
+					++value;
+				else if (down && value > minimum)
+					--value;
+
+				txt.Text = value.ToString();
+				suppress = true;
+			}
+
+			return suppress;
+		}
+
+		#endregion
+
 		#region ConvertToDouble
 
 		public static double ConvertToDouble(string str)
