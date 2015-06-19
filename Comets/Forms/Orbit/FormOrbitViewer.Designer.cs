@@ -222,7 +222,7 @@
 			this.cbxObject.Name = "cbxObject";
 			this.cbxObject.Size = new System.Drawing.Size(70, 17);
 			this.cbxObject.TabIndex = 49;
-			this.cbxObject.Text = "Object";
+			this.cbxObject.Text = "Comet";
 			this.cbxObject.UseVisualStyleBackColor = true;
 			this.cbxObject.CheckedChanged += new System.EventHandler(this.cbxObject_CheckedChanged);
 			// 
@@ -349,8 +349,8 @@
 			// 
 			// scrollVert
 			// 
-			this.scrollVert.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.scrollVert.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.scrollVert.LargeChange = 1;
 			this.scrollVert.Location = new System.Drawing.Point(684, 0);
 			this.scrollVert.Maximum = 360;
@@ -361,8 +361,8 @@
 			// 
 			// scrollHorz
 			// 
-			this.scrollHorz.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.scrollHorz.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.scrollHorz.LargeChange = 1;
 			this.scrollHorz.Location = new System.Drawing.Point(0, 460);
 			this.scrollHorz.Maximum = 360;
@@ -440,9 +440,9 @@
 			// 
 			// orbitPanel
 			// 
-			this.orbitPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-			| System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.orbitPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.orbitPanel.ATime = null;
 			this.orbitPanel.BackColor = System.Drawing.Color.Black;
 			this.orbitPanel.CenterObjectSelected = 0;

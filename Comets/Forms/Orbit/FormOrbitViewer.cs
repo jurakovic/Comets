@@ -17,7 +17,7 @@ namespace Comets.Forms.Orbit
 
 		readonly string[] CenterObjectItems = { 
 			"Sun",
-			"Comet/Asteroid",
+			"Comet",
 			"Mercury",
 			"Venus",
 			"Earth",
@@ -53,7 +53,7 @@ namespace Comets.Forms.Orbit
 			"All Orbits",
 			"No Orbits",
 			"------",
-			"Comet/Asteroid",
+			"Comet",
 			"Mercury",
 			"Venus",
 			"Earth",
