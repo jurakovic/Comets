@@ -86,10 +86,10 @@ namespace Comets.Forms
 			}
 			else
 			{
-				t_P.Text = string.Empty;
-				t_Q2.Text = string.Empty;
-				t_a.Text = string.Empty;
-				t_n2.Text = string.Empty;
+				t_P.Text = String.Empty;
+				t_Q2.Text = String.Empty;
+				t_a.Text = String.Empty;
+				t_n2.Text = String.Empty;
 			}
 
 			t_g.Text = c.g.ToString("0.0");
@@ -225,7 +225,7 @@ namespace Comets.Forms
 			if (!FormMain.UserList.Any())
 				foreach (Control c in gbDetails.Controls)
 					if (c is TextBox)
-						c.Text = string.Empty;
+						c.Text = String.Empty;
 
 			lbxDatabase.DataSource = FormMain.UserList;
 			lbxDatabase.DisplayMember = "full";
@@ -299,37 +299,37 @@ namespace Comets.Forms
 			{
 				cbxName.Checked = false;
 				cboName.SelectedIndex = 0;
-				txtName.Text = string.Empty;
+				txtName.Text = String.Empty;
 
 				cbxPerihelionDate.Checked = false;
 				cboPerihelionDate.SelectedIndex = 0;
-				txtPerihelionDateD.Text = string.Empty;
-				txtPerihelionDateM.Text = string.Empty;
-				txtPerihelionDateY.Text = string.Empty;
+				txtPerihelionDateD.Text = String.Empty;
+				txtPerihelionDateM.Text = String.Empty;
+				txtPerihelionDateY.Text = String.Empty;
 
 				cbxPerihelionDistance.Checked = false;
 				cboPerihelionDistance.SelectedIndex = 2;
-				txtPerihelionDistance.Text = string.Empty;
+				txtPerihelionDistance.Text = String.Empty;
 
 				cbxEccentricity.Checked = false;
 				cboEccentricity.SelectedIndex = 2;
-				txtEccentricity.Text = string.Empty;
+				txtEccentricity.Text = String.Empty;
 
 				cbxLongOfAscendingNode.Checked = false;
 				cboLongOfAscendingNode.SelectedIndex = 2;
-				txtLongOfAscendingNode.Text = string.Empty;
+				txtLongOfAscendingNode.Text = String.Empty;
 
 				cbxArgumentOfPericenter.Checked = false;
 				cboArgumentOfPericenter.SelectedIndex = 2;
-				txtArgumentOfPericenter.Text = string.Empty;
+				txtArgumentOfPericenter.Text = String.Empty;
 
 				cbxInclination.Checked = false;
 				cboInclination.SelectedIndex = 2;
-				txtInclination.Text = string.Empty;
+				txtInclination.Text = String.Empty;
 
 				cbxPeriod.Checked = false;
 				cboPeriod.SelectedIndex = 2;
-				txtPeriod.Text = string.Empty;
+				txtPeriod.Text = String.Empty;
 			}
 			else
 			{
@@ -339,7 +339,7 @@ namespace Comets.Forms
 
 				cbxPerihelionDate.Checked = Filters.PerihelionDate.Checked;
 				cboPerihelionDate.SelectedIndex = Filter.GetIndexFromValueResolve(Filters.PerihelionDate.ValueResolve);
-				if (!string.IsNullOrEmpty(Filters.PerihelionDate.Text))
+				if (!String.IsNullOrEmpty(Filters.PerihelionDate.Text))
 				{
 					string[] date = Filters.PerihelionDate.Text.Split('.');
 					txtPerihelionDateD.Text = date[0];
@@ -348,9 +348,9 @@ namespace Comets.Forms
 				}
 				else
 				{
-					txtPerihelionDateD.Text = string.Empty;
-					txtPerihelionDateM.Text = string.Empty;
-					txtPerihelionDateY.Text = string.Empty;
+					txtPerihelionDateD.Text = String.Empty;
+					txtPerihelionDateM.Text = String.Empty;
+					txtPerihelionDateY.Text = String.Empty;
 				}
 
 				cbxPerihelionDistance.Checked = Filters.PerihelionDistance.Checked;

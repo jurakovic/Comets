@@ -46,9 +46,9 @@ namespace Comets.Helpers
 			bool handle;
 
 			if (txt.SelectionLength > 0)
-				text = txt.Text.Replace(txt.SelectedText, char.IsControl(e.KeyChar) ? string.Empty : e.KeyChar.ToString());
+				text = txt.Text.Replace(txt.SelectedText, Char.IsControl(e.KeyChar) ? String.Empty : e.KeyChar.ToString());
 			else
-				text = txt.Text + (char.IsControl(e.KeyChar) ? string.Empty : e.KeyChar.ToString());
+				text = txt.Text + (Char.IsControl(e.KeyChar) ? String.Empty : e.KeyChar.ToString());
 
 			string pattern = "^";
 
@@ -69,10 +69,10 @@ namespace Comets.Helpers
 
 			handle = !Regex.IsMatch(text, pattern);
 
-			if (minimum != null && char.IsDigit(e.KeyChar) && !handle)
+			if (minimum != null && Char.IsDigit(e.KeyChar) && !handle)
 				handle = Convert.ToDouble(text) < minimum;
 
-			if (maximum != null && char.IsDigit(e.KeyChar) && !handle)
+			if (maximum != null && Char.IsDigit(e.KeyChar) && !handle)
 				handle = Convert.ToDouble(text) > maximum;
 
 			return handle;
@@ -115,7 +115,7 @@ namespace Comets.Helpers
 		{
 			double retval = 0.0;
 
-			double.TryParse(str, out retval);
+			Double.TryParse(str, out retval);
 
 			return retval;
 		}

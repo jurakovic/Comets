@@ -42,7 +42,7 @@ namespace Comets.Forms
 			txtUsername.Text = FormMain.Settings.Username;
 			txtPassword.Text = FormMain.Settings.Password;
 			txtProxy.Text = FormMain.Settings.Proxy;
-			txtPort.Text = FormMain.Settings.Port > 0 ? FormMain.Settings.Port.ToString() : string.Empty;
+			txtPort.Text = FormMain.Settings.Port > 0 ? FormMain.Settings.Port.ToString() : String.Empty;
 
 			txtName.Text = FormMain.Settings.Location.Name;
 			txtLatitude.Text = (Math.Abs(FormMain.Settings.Location.Latitude)).ToString("0.000000");
@@ -215,7 +215,7 @@ namespace Comets.Forms
 			if (Programs.Any(x => x.Type == cbxExternalProgram.SelectedIndex))
 				txtDirectory.Text = Programs.Where(x => x.Type == cbxExternalProgram.SelectedIndex).First().Directory;
 			else
-				txtDirectory.Text = string.Empty;
+				txtDirectory.Text = String.Empty;
 		}
 
 		private void btnBrowse_Click(object sender, EventArgs e)
@@ -243,7 +243,7 @@ namespace Comets.Forms
 				Programs.Add(new ExternalProgram(cbxExternalProgram.SelectedIndex, txtDirectory.Text));
 
 				cbxExternalProgram.SelectedIndex = 0;
-				txtDirectory.Text = string.Empty;
+				txtDirectory.Text = String.Empty;
 
 				gbxPrograms.Visible = true;
 				gbxAddProgram.Visible = false;

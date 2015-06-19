@@ -73,10 +73,10 @@ namespace Comets.Classes
 			Height = 0;
 
 			UseProxy = false;
-			Domain = string.Empty;
-			Username = string.Empty;
-			Password = string.Empty;
-			Proxy = string.Empty;
+			Domain = String.Empty;
+			Username = String.Empty;
+			Password = String.Empty;
+			Proxy = String.Empty;
 			Port = 0;
 
 			Location = new Location();
@@ -99,8 +99,8 @@ namespace Comets.Classes
 
 			if (File.Exists(settingsini))
 			{
-				string property = string.Empty;
-				string value = string.Empty;
+				string property = String.Empty;
+				string value = String.Empty;
 
 				int exceptions = 0;
 
@@ -214,18 +214,18 @@ namespace Comets.Classes
 			}
 
 			if (settings.UseProxy ||
-				!string.IsNullOrEmpty(settings.Domain) ||
-				!string.IsNullOrEmpty(settings.Username) ||
-				!string.IsNullOrEmpty(settings.Password) ||
-				!string.IsNullOrEmpty(settings.Proxy) ||
+				!String.IsNullOrEmpty(settings.Domain) ||
+				!String.IsNullOrEmpty(settings.Username) ||
+				!String.IsNullOrEmpty(settings.Password) ||
+				!String.IsNullOrEmpty(settings.Proxy) ||
 				settings.Port > 0)
 			{
 				sb.AppendLine("[Network]");
 				sb.AppendLine(String.Format(format, "UseProxy", settings.UseProxy));
-				if (!string.IsNullOrEmpty(settings.Domain)) sb.AppendLine(String.Format(format, "Domain", settings.Domain));
-				if (!string.IsNullOrEmpty(settings.Username)) sb.AppendLine(String.Format(format, "Username", settings.Username));
-				if (!string.IsNullOrEmpty(settings.Password)) sb.AppendLine(String.Format(format, "Password", settings.Password));
-				if (!string.IsNullOrEmpty(settings.Proxy)) sb.AppendLine(String.Format(format, "Proxy", settings.Proxy));
+				if (!String.IsNullOrEmpty(settings.Domain)) sb.AppendLine(String.Format(format, "Domain", settings.Domain));
+				if (!String.IsNullOrEmpty(settings.Username)) sb.AppendLine(String.Format(format, "Username", settings.Username));
+				if (!String.IsNullOrEmpty(settings.Password)) sb.AppendLine(String.Format(format, "Password", settings.Password));
+				if (!String.IsNullOrEmpty(settings.Proxy)) sb.AppendLine(String.Format(format, "Proxy", settings.Proxy));
 				if (settings.Port > 0) sb.AppendLine(String.Format(format, "Port", settings.Port));
 				sb.AppendLine();
 			}
