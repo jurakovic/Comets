@@ -980,6 +980,7 @@
 			this.txtPerihelionDistance.Name = "txtPerihelionDistance";
 			this.txtPerihelionDistance.Size = new System.Drawing.Size(113, 21);
 			this.txtPerihelionDistance.TabIndex = 10;
+			this.txtPerihelionDistance.TextChanged += new System.EventHandler(this.txtFiltersCommon_TextChanged);
 			this.txtPerihelionDistance.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPerihelionDistance_KeyPress);
 			// 
 			// cboPerihelionDistance
@@ -1048,6 +1049,7 @@
 			this.txtEccentricity.Name = "txtEccentricity";
 			this.txtEccentricity.Size = new System.Drawing.Size(113, 21);
 			this.txtEccentricity.TabIndex = 16;
+			this.txtEccentricity.TextChanged += new System.EventHandler(this.txtFiltersCommon_TextChanged);
 			this.txtEccentricity.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtEccentricity_KeyPress);
 			// 
 			// panelIncl
@@ -1093,6 +1095,7 @@
 			this.txtInclination.Name = "txtInclination";
 			this.txtInclination.Size = new System.Drawing.Size(113, 21);
 			this.txtInclination.TabIndex = 25;
+			this.txtInclination.TextChanged += new System.EventHandler(this.txtFiltersCommon_TextChanged);
 			this.txtInclination.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtInclination_KeyPress);
 			// 
 			// lblInclination
@@ -1148,6 +1151,7 @@
 			this.txtLongOfAscendingNode.Name = "txtLongOfAscendingNode";
 			this.txtLongOfAscendingNode.Size = new System.Drawing.Size(113, 21);
 			this.txtLongOfAscendingNode.TabIndex = 19;
+			this.txtLongOfAscendingNode.TextChanged += new System.EventHandler(this.txtFiltersCommon_TextChanged);
 			this.txtLongOfAscendingNode.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFiltersNodePeri_KeyPress);
 			// 
 			// lblLongOfAscendingNode
@@ -1203,6 +1207,7 @@
 			this.txtArgumentOfPericenter.Name = "txtArgumentOfPericenter";
 			this.txtArgumentOfPericenter.Size = new System.Drawing.Size(113, 21);
 			this.txtArgumentOfPericenter.TabIndex = 22;
+			this.txtArgumentOfPericenter.TextChanged += new System.EventHandler(this.txtFiltersCommon_TextChanged);
 			this.txtArgumentOfPericenter.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFiltersNodePeri_KeyPress);
 			// 
 			// lblArgumentOfPericenter
@@ -1268,6 +1273,7 @@
 			this.txtPeriod.Name = "txtPeriod";
 			this.txtPeriod.Size = new System.Drawing.Size(113, 21);
 			this.txtPeriod.TabIndex = 28;
+			this.txtPeriod.TextChanged += new System.EventHandler(this.txtFiltersCommon_TextChanged);
 			this.txtPeriod.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFiltersPeriod_KeyPress);
 			// 
 			// panelPerihDate
@@ -1315,6 +1321,7 @@
 			this.txtPerihelionDateD.Name = "txtPerihelionDateD";
 			this.txtPerihelionDateD.Size = new System.Drawing.Size(25, 21);
 			this.txtPerihelionDateD.TabIndex = 4;
+			this.txtPerihelionDateD.TextChanged += new System.EventHandler(this.txtFiltersCommon_TextChanged);
 			this.txtPerihelionDateD.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPerihelionDateD_KeyPress);
 			// 
 			// txtPerihelionDateM
@@ -1390,6 +1397,7 @@
 			this.txtName.Name = "txtName";
 			this.txtName.Size = new System.Drawing.Size(166, 21);
 			this.txtName.TabIndex = 1;
+			this.txtName.TextChanged += new System.EventHandler(this.txtFiltersCommon_TextChanged);
 			// 
 			// FormDatabase
 			// 

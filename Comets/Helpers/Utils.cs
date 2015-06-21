@@ -29,33 +29,33 @@ namespace Comets.Helpers
 
 		#endregion
 
-		#region ValidateKeyPress
+		#region HandleKeyPress
 
-		public static bool ValidateKeyPress(object sender, KeyPressEventArgs e, int length, int decimals, double? minimum = null, double? maximum = null)
+		public static bool HandleKeyPress(object sender, KeyPressEventArgs e, int length, int decimals, double? minimum = null, double? maximum = null)
 		{
-			TextBox txt = sender as TextBox;
-
 			if (length < 1)
 				throw new Exception("Length must be greather than 0");
 
 			if (minimum.GetValueOrDefault() > maximum.GetValueOrDefault())
 				throw new Exception("Minimum can not be greather than maximum");
 
+			TextBox textbox = sender as TextBox;
+
 			bool negative = minimum.GetValueOrDefault() < 0;
 			string text;
 			bool handle;
 
-			if (txt.SelectionLength > 0)
-				text = txt.Text.Replace(txt.SelectedText, Char.IsControl(e.KeyChar) ? String.Empty : e.KeyChar.ToString());
+			if (textbox.SelectionLength > 0)
+				text = textbox.Text.Replace(textbox.SelectedText, Char.IsControl(e.KeyChar) ? String.Empty : e.KeyChar.ToString());
 			else
-				text = txt.Text + (Char.IsControl(e.KeyChar) ? String.Empty : e.KeyChar.ToString());
+				text = textbox.Text + (Char.IsControl(e.KeyChar) ? String.Empty : e.KeyChar.ToString());
 
 			string pattern = "^";
 
 			if (negative)
 				pattern += "-?";
 
-			pattern += "[0-9]{1," + length + "}[.]?$";
+			pattern += "[0-9]{0," + length + "}[.]?$";
 
 			if (decimals > 0)
 			{

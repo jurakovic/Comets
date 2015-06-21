@@ -411,7 +411,21 @@ namespace Comets.Forms
 
 		#endregion
 
-		#region txtPerihelionDateM_TextChanged
+		#region txtFilters_TextChanged
+
+		private void txtFiltersCommon_TextChanged(object sender, EventArgs e)
+		{
+			TextBox txt = sender as TextBox;
+
+			foreach (Control c in txt.Parent.Controls)
+			{
+				if (c is CheckBox)
+				{
+					(c as CheckBox).Checked = txt.Text.Trim().Length > 0;
+					break;
+				}
+			}
+		}
 
 		private void txtPerihelionDateMY_TextChanged(object sender, EventArgs e)
 		{
@@ -422,6 +436,8 @@ namespace Comets.Forms
 				if (txtPerihelionDateD.Text.Length > 0 && Convert.ToInt32(txtPerihelionDateD.Text) > MaxDay)
 					txtPerihelionDateD.Text = MaxDay.ToString();
 			}
+
+			txtFiltersCommon_TextChanged(sender, e);
 		}
 
 		#endregion
@@ -430,42 +446,42 @@ namespace Comets.Forms
 
 		private void txtPerihelionDateD_KeyPress(object sender, KeyPressEventArgs e)
 		{
-			e.Handled = Utils.ValidateKeyPress(sender, e, 2, 0, Minimum, MaxDay);
+			e.Handled = Utils.HandleKeyPress(sender, e, 2, 0, Minimum, MaxDay);
 		}
 
 		private void txtPerihelionDateM_KeyPress(object sender, KeyPressEventArgs e)
 		{
-			e.Handled = Utils.ValidateKeyPress(sender, e, 2, 0, Minimum, MaxMonth);
+			e.Handled = Utils.HandleKeyPress(sender, e, 2, 0, Minimum, MaxMonth);
 		}
 
 		private void txtPerihelionDateY_KeyPress(object sender, KeyPressEventArgs e)
 		{
-			e.Handled = Utils.ValidateKeyPress(sender, e, 4, 0, Minimum, MaxYear);
+			e.Handled = Utils.HandleKeyPress(sender, e, 4, 0, Minimum, MaxYear);
 		}
 
 		private void txtPerihelionDistance_KeyPress(object sender, KeyPressEventArgs e)
 		{
-			e.Handled = Utils.ValidateKeyPress(sender, e, 2, 6, Minimum, MaxPerihDist);
+			e.Handled = Utils.HandleKeyPress(sender, e, 2, 6, Minimum, MaxPerihDist);
 		}
 
 		private void txtEccentricity_KeyPress(object sender, KeyPressEventArgs e)
 		{
-			e.Handled = Utils.ValidateKeyPress(sender, e, 1, 6, Minimum, MaxEcc);
+			e.Handled = Utils.HandleKeyPress(sender, e, 1, 6, Minimum, MaxEcc);
 		}
 
 		private void txtFiltersNodePeri_KeyPress(object sender, KeyPressEventArgs e)
 		{
-			e.Handled = Utils.ValidateKeyPress(sender, e, 3, 4, Minimum, MaxLongNode);
+			e.Handled = Utils.HandleKeyPress(sender, e, 3, 4, Minimum, MaxLongNode);
 		}
 
 		private void txtInclination_KeyPress(object sender, KeyPressEventArgs e)
 		{
-			e.Handled = Utils.ValidateKeyPress(sender, e, 3, 4, Minimum, MaxIncl);
+			e.Handled = Utils.HandleKeyPress(sender, e, 3, 4, Minimum, MaxIncl);
 		}
 
 		private void txtFiltersPeriod_KeyPress(object sender, KeyPressEventArgs e)
 		{
-			e.Handled = Utils.ValidateKeyPress(sender, e, 4, 4, Minimum, MaxYear);
+			e.Handled = Utils.HandleKeyPress(sender, e, 4, 4, Minimum, MaxYear);
 		}
 
 		#endregion

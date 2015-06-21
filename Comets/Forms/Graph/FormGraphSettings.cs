@@ -125,7 +125,7 @@ namespace Comets.Forms.Graph
 
 		private void txtMagCommon_KeyPress(object sender, KeyPressEventArgs e)
 		{
-			e.Handled = Utils.ValidateKeyPress(sender, e, 2, 2, -20, 40);
+			e.Handled = Utils.HandleKeyPress(sender, e, 2, 2, -20, 40);
 		}
 
 		#endregion

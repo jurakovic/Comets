@@ -521,26 +521,57 @@ namespace Comets.Forms.Orbit
 
 		#region Date
 
-		private void dateCommon_ValueChanged(object sender, EventArgs e)
+		private void txtDateCommon_KeyDown(object sender, KeyEventArgs e)
 		{
-			//bool mChanged = (sender as Control).Name == numMonth.Name;
-			//bool yChanged = (sender as Control).Name == numYear.Name;
+			e.SuppressKeyPress = Utils.TextBoxValueUpDown(sender, e, 1, GetMaximumValueForControl(((TextBox)sender).Name));
+		}
 
-			//int y = (int)numYear.Value;
-			//int m = (int)numMonth.Value;
-			//int d = (int)numDay.Value;
-			//int dmax = (int)numDay.Maximum;
+		private void txtDateCommon_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			string name = ((TextBox)sender).Name;
+			e.Handled = Utils.HandleKeyPress(sender, e, GetLengthValueForControl(name), GetMaximumValueForControl(name));
+		}
 
-			//int[] newDate = Utils.ControlDateTime(y, m, d, dmax, 0, 0, mChanged, yChanged);
+		private int GetLengthValueForControl(string controlName)
+		{
+			int length = 0;
 
-			//if (newDate[6] == 1)
-			//{
-			//	numDay.Maximum = newDate[3] + 1;
+			if (controlName.ToLower().Contains("day"))
+				length = 2;
+			else if (controlName.ToLower().Contains("month"))
+				length = 2;
+			else if (controlName.ToLower().Contains("year"))
+				length = 4;
+			else
+				throw new Exception("Unknown textbox name");
 
-			//	numDay.Value = newDate[2];
-			//	numMonth.Value = newDate[1];
-			//	numYear.Value = newDate[0];
-			//}
+			return length;
+		}
+
+		private int GetMaximumValueForControl(string controlName)
+		{
+			int maximum = 0;
+
+			if (controlName.ToLower().Contains("day"))
+				maximum = MaxDay;
+			else if (controlName.ToLower().Contains("month"))
+				maximum = MaxMonth;
+			else if (controlName.ToLower().Contains("year"))
+				maximum = MaxYear;
+			else
+				throw new Exception("Unknown textbox name");
+
+			return maximum;
+		}
+
+		private void txtMonthYear_TextChanged(object sender, EventArgs e)
+		{
+			if (txtMonth.Text.Length > 0 && txtYear.Text.Length > 0)
+			{
+				MaxDay = DateTime.DaysInMonth(Convert.ToInt32(txtYear.Text), Convert.ToInt32(txtMonth.Text));
+				if (txtDay.Text.Length > 0 && Convert.ToInt32(txtDay.Text) > MaxDay)
+					txtDay.Text = MaxDay.ToString();
+			}
 		}
 
 		private void btnNow_Click(object sender, EventArgs e)
@@ -559,9 +590,9 @@ namespace Comets.Forms.Orbit
 
 		private ATime CollectATime()
 		{
-			int day = Convert.ToInt32(DateTime.Now.Day);
-			int month = Convert.ToInt32(DateTime.Now.Month);
-			int year = Convert.ToInt32(DateTime.Now.Year);
+			int day = Convert.ToInt32(txtDay.Text);
+			int month = Convert.ToInt32(txtMonth.Text);
+			int year = Convert.ToInt32(txtYear.Text);
 
 			ATime atime = new ATime(year, month, day, 0.0);
 			return atime;
@@ -794,73 +825,5 @@ namespace Comets.Forms.Orbit
 		}
 
 		#endregion
-
-		private void txtDateCommon_KeyDown(object sender, KeyEventArgs e)
-		{
-			e.SuppressKeyPress = Utils.TextBoxValueUpDown(sender, e, 1, GetMaximumValueForControl(((TextBox)sender).Name));
-		}
-
-		private void txtDateCommon_KeyPress(object sender, KeyPressEventArgs e)
-		{
-			string name = ((TextBox)sender).Name;
-			e.Handled = Utils.ValidateKeyPress(sender, e, GetLengthValueForControl(name), GetMaximumValueForControl(name));
-		}
-
-		private int GetMaximumValueForControl(string controlName)
-		{
-			int retval = 0;
-
-			switch (controlName)
-			{
-				case "txtDay":
-					retval = MaxDay;
-					break;
-
-				case "txtMonth":
-					retval = MaxMonth;
-					break;
-
-				case "txtYear":
-					retval = MaxYear;
-					break;
-
-				default:
-					throw new Exception("Unknown textbox name");
-			}
-
-			return retval;
-		}
-
-		private int GetLengthValueForControl(string controlName)
-		{
-			int retval = 0;
-
-			switch (controlName)
-			{
-				case "txtDay":
-				case "txtMonth":
-					retval = 2;
-					break;
-
-				case "txtYear":
-					retval = 4;
-					break;
-
-				default:
-					throw new Exception("Unknown textbox name");
-			}
-
-			return retval;
-		}
-
-		private void txtMonth_TextChanged(object sender, EventArgs e)
-		{
-			if (txtMonth.Text.Length > 0 && txtYear.Text.Length > 0)
-			{
-				MaxDay = DateTime.DaysInMonth(Convert.ToInt32(txtYear.Text), Convert.ToInt32(txtMonth.Text));
-				if (txtDay.Text.Length > 0 && Convert.ToInt32(txtDay.Text) > MaxDay)
-					txtDay.Text = MaxDay.ToString();
-			}
-		}
 	}
 }

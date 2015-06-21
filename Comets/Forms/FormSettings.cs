@@ -162,12 +162,12 @@ namespace Comets.Forms
 
 		private void txtLatitude_KeyPress(object sender, KeyPressEventArgs e)
 		{
-			e.Handled = Utils.ValidateKeyPress(sender, e, 3, 6);
+			e.Handled = Utils.HandleKeyPress(sender, e, 3, 6, 0, 90);
 		}
 
 		private void txtLongitude_KeyPress(object sender, KeyPressEventArgs e)
 		{
-			e.Handled = Utils.ValidateKeyPress(sender, e, 3, 6);
+			e.Handled = Utils.HandleKeyPress(sender, e, 3, 6, 0, 180);
 		}
 
 		#endregion
