@@ -212,6 +212,13 @@ namespace Comets.Forms.Orbit
 			cboObject.DisplayMember = "Name";
 			cboObject.DataSource = Comets;
 
+			if(FormMain.UserList.Count == FormMain.MainList.Count)
+			{
+				//select comet with nearest perihelion date
+				OVComet c = Comets.Where(x => x.T - EphemerisHelper.jd(DateTime.Now) > 0).OrderBy(y => y.T).First();
+				cboObject.SelectedIndex = Comets.IndexOf(c);
+			}
+
 			txtDay.Text = DateTime.Now.Day.ToString();
 			txtMonth.Text = DateTime.Now.Month.ToString();
 			txtYear.Text = DateTime.Now.Year.ToString();

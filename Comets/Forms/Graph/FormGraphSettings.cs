@@ -84,6 +84,13 @@ namespace Comets.Forms.Graph
 			cbComet.DisplayMember = "full";
 			cbComet.DataSource = FormMain.UserList;
 
+			if (FormMain.UserList.Count == FormMain.MainList.Count)
+			{
+				//select comet with nearest perihelion date
+				Comet c = FormMain.UserList.Where(x => x.T - EphemerisHelper.jd(DateTime.Now) > 0).OrderBy(y => y.T).First();
+				cbComet.SelectedIndex = FormMain.UserList.IndexOf(c);
+			}
+
 			if (GraphSettings != null)
 				if (FormMain.UserList.Contains(GraphSettings.Comet))
 					cbComet.Text = GraphSettings.Comet.full;

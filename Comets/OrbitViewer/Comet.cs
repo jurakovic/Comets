@@ -22,7 +22,7 @@ namespace Comets.OrbitViewer
 		/// <summary>
 		/// Epoch
 		/// </summary>
-		private double T { get; set; }
+		public double T { get; private set; }
 
 		/// <summary>
 		/// Eccentricity
