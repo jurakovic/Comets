@@ -112,15 +112,14 @@ namespace Comets.Forms
 
 		private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			if (!FormMain.Settings.ExitWithoutConfirm)
+			if (!FormMain.Settings.ExitWithoutConfirm && this.MdiChildren.Any())
 			{
-				DialogResult dr = MessageBox.Show("  Do you really want to exit?\t\t\t\t", "Confirm",
-					MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
-
-				if (dr == DialogResult.No)
-				{
-					e.Cancel = true;
-				}
+				e.Cancel = MessageBox.Show(
+					"Do you really want to exit?\t\t\t\t",
+					"Confirm",
+					MessageBoxButtons.YesNo,
+					MessageBoxIcon.Question,
+					MessageBoxDefaultButton.Button2) == DialogResult.No;
 			}
 		}
 
