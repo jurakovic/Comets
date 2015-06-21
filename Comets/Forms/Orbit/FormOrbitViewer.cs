@@ -306,15 +306,6 @@ namespace Comets.Forms.Orbit
 
 		private void orbitPanel_MouseDown(object sender, MouseEventArgs e)
 		{
-			//if (e.Button == MouseButtons.Left)
-			//{
-			//	IsMouseRotate = false;
-			//}
-			//else if (e.Button == MouseButtons.Right)
-			//{
-			//	IsMouseRotate = true;
-			//}
-
 			IsMouseRotate = true;
 			StartDrag = e.Location;
 		}
@@ -323,29 +314,24 @@ namespace Comets.Forms.Orbit
 		{
 			if (IsMouseRotate)
 			{
-				double horizontalMax = scrollHorz.Maximum;
-				double verticalMax = scrollVert.Maximum;
-
-				double width = orbitPanel.Width;
-				double height = orbitPanel.Height;
+				double xRatio = orbitPanel.MinimumSize.Width / scrollHorz.Maximum;
+				double yRatio = orbitPanel.MinimumSize.Height / scrollVert.Maximum;
 
 				int deltaX = e.X - StartDrag.X;
 				int deltaY = e.Y - StartDrag.Y;
 
-				double hkoef = 2.0;
-				double vkoef = 3.0;
+				double koef = 0.3;
 
-				double a = (double)orbitPanel.Size.Width / (double)orbitPanel.MinimumSize.Width;
-				double b = (double)orbitPanel.Size.Height / (double)orbitPanel.MinimumSize.Height;
+				double newHv = xRatio * deltaX * koef;
+				double newVv = yRatio * deltaY * koef;
 
-				double x = (horizontalMax / width) * a * hkoef;
-				double y = (verticalMax / height) * b * vkoef;
+				if (newHv > 0 && newHv < 1) newHv = 1;
+				else if (newHv < 0 && newHv > -1) newHv = -1;
+				else if (newVv > 0 && newVv < 1) newVv = 1;
+				else if (newVv < 0 && newVv > -1) newVv = -1;
 
-				int newHv = (int)(x * deltaX);
-				int newVv = (int)(y * deltaY);
-
-				int newHorizValue = scrollHorz.Value + newHv;
-				int newVertValue = scrollVert.Value + newVv;
+				int newHorizValue = scrollHorz.Value + (int)newHv;
+				int newVertValue = scrollVert.Value +  (int)newVv;
 
 				while (newHorizValue >= scrollHorz.Maximum)
 					newHorizValue -= scrollHorz.Maximum;
@@ -359,51 +345,11 @@ namespace Comets.Forms.Orbit
 				while (newVertValue < scrollVert.Minimum)
 					newVertValue += scrollVert.Maximum;
 
-				scrollVert.Value = newVertValue;
 				scrollHorz.Value = newHorizValue;
-
-				//if (newHorizValue == scrollHorz.Minimum)
-				//	scrollHorz.Value = newHorizValue;
-				//else if (newHorizValue < scrollHorz.Minimum)
-				//	scrollHorz.Value = scrollHorz.Maximum + newHorizValue;
-				//else if (newHorizValue > scrollHorz.Maximum)
-				//	scrollHorz.Value = newHorizValue % scrollHorz.Maximum;
-				//else
-				//	scrollHorz.Value = newHorizValue;
-
-				//if (newVertValue < scrollVert.Minimum)
-				//	scrollVert.Value = scrollVert.Minimum;
-				//else if (newVertValue > scrollVert.Maximum)
-				//	scrollVert.Value = scrollVert.Maximum;
-				//else
-				//	scrollVert.Value = newVertValue;
+				scrollVert.Value = newVertValue;
 
 				StartDrag = e.Location;
 			}
-
-			//else if (IsMouseZoom)
-			//{
-			//	double zoommax = scrollZoom.Maximum;
-			//	double height = orbitPanel.Height;
-			//	double deltaZ = StartDrag.Y - e.Y;
-
-			//	double zkoef = 0.75;
-
-			//	double z = (zoommax / height) * zkoef;
-
-			//	int newZv = (int)(z * deltaZ);
-
-			//	int newZvalue = scrollZoom.Value + newZv;
-
-			//	if (newZvalue < scrollZoom.Minimum)
-			//		scrollZoom.Value = scrollZoom.Minimum;
-			//	else if (newZvalue > scrollZoom.Maximum)
-			//		scrollZoom.Value = scrollZoom.Maximum;
-			//	else
-			//		scrollZoom.Value = newZvalue;
-
-			//	StartDrag = e.Location;
-			//}
 		}
 
 		protected override void OnMouseWheel(MouseEventArgs e)
