@@ -431,9 +431,9 @@ namespace Comets.Forms
 		{
 			if (txtPerihelionDateM.Text.Length > 0 && txtPerihelionDateY.Text.Length > 0)
 			{
-				MaxDay = DateTime.DaysInMonth(Convert.ToInt32(txtPerihelionDateY.Text), Convert.ToInt32(txtPerihelionDateM.Text));
+				MaxDay = DateTime.DaysInMonth(txtPerihelionDateY.Int(), txtPerihelionDateM.Int());
 
-				if (txtPerihelionDateD.Text.Length > 0 && Convert.ToInt32(txtPerihelionDateD.Text) > MaxDay)
+				if (txtPerihelionDateD.Text.Length > 0 && txtPerihelionDateD.Int() > MaxDay)
 					txtPerihelionDateD.Text = MaxDay.ToString();
 			}
 

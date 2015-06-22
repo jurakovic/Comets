@@ -129,14 +129,14 @@ namespace Comets.Forms.Graph
 		{
 			if (txtMonthStart.Text.Length > 0 && txtYearStart.Text.Length > 0)
 			{
-				int max = DateTime.DaysInMonth(Convert.ToInt32(txtYearStart.Text), Convert.ToInt32(txtMonthStart.Text));
+				int max = DateTime.DaysInMonth(txtYearStart.Int(), txtMonthStart.Int());
 
 				LeMiMa o = txtDayStart.Tag as LeMiMa;
 				LeMiMa n = new LeMiMa(o.Len, o.Min, max);
 
 				txtDayStart.Tag = n;
 
-				if (txtDayStart.Text.Length > 0 && Convert.ToInt32(txtDayStart.Text) > n.Max)
+				if (txtDayStart.Text.Length > 0 && txtDayStart.Int() > n.Max)
 					txtDayStart.Text = n.Max.ToString();
 			}
 		}
@@ -145,14 +145,14 @@ namespace Comets.Forms.Graph
 		{
 			if (txtMonthEnd.Text.Length > 0 && txtYearEnd.Text.Length > 0)
 			{
-				int max = DateTime.DaysInMonth(Convert.ToInt32(txtYearEnd.Text), Convert.ToInt32(txtMonthEnd.Text));
+				int max = DateTime.DaysInMonth(txtYearEnd.Int(), txtMonthEnd.Int());
 
 				LeMiMa o = txtDayEnd.Tag as LeMiMa;
 				LeMiMa n = new LeMiMa(o.Len, o.Min, max);
 
 				txtDayEnd.Tag = n;
 
-				if (txtDayEnd.Text.Length > 0 && Convert.ToInt32(txtDayEnd.Text) > n.Max)
+				if (txtDayEnd.Text.Length > 0 && txtDayEnd.Int() > n.Max)
 					txtDayEnd.Text = n.Max.ToString();
 			}
 		}
@@ -203,21 +203,21 @@ namespace Comets.Forms.Graph
 
 				try
 				{
-					int syr = Convert.ToInt32(txtYearStart.Text);
-					int smo = Convert.ToInt32(txtMonthStart.Text);
-					int sdy = Convert.ToInt32(txtDayStart.Text);
-							  
-					int eyr = Convert.ToInt32(txtYearEnd.Text);
-					int emo = Convert.ToInt32(txtMonthEnd.Text);
-					int edy = Convert.ToInt32(txtDayEnd.Text);
+					int syr = txtYearStart.Int();
+					int smo = txtMonthStart.Int();
+					int sdy = txtDayStart.Int();
+
+					int eyr = txtYearEnd.Int();
+					int emo = txtMonthEnd.Int();
+					int edy = txtDayEnd.Int();
 
 					dateStart = new ATime(syr, smo, sdy, 0, 0, 0, FormMain.Settings.Location.Timezone);
 					dateStop = new ATime(eyr, emo, edy, 0, 0, 0, FormMain.Settings.Location.Timezone);
 
 					comet = FormMain.UserList.ElementAt(cbComet.SelectedIndex);
 
-					int before = Convert.ToInt32(txtDaysFromTStart.Text);
-					int after = Convert.ToInt32(txtDaysFromTStop.Text);
+					int before = txtDaysFromTStart.Int();
+					int after = txtDaysFromTStop.Int();
 
 					double startJd = comet.T + before; //negativan broj
 					double stopJd = comet.T + after;
@@ -277,8 +277,8 @@ namespace Comets.Forms.Graph
 				GraphSettings.DateStart = dateStart;
 				GraphSettings.DateStop = dateStop;
 
-				GraphSettings.DaysFromTStartValue = Convert.ToInt32(txtDaysFromTStart.Text);
-				GraphSettings.DaysFromTStopValue = Convert.ToInt32(txtDaysFromTStop.Text);
+				GraphSettings.DaysFromTStartValue = txtDaysFromTStart.Int();
+				GraphSettings.DaysFromTStopValue = txtDaysFromTStop.Int();
 
 				if (rbDate.Checked)
 					GraphSettings.DateFormat = Classes.GraphSettings.DateFormatEnum.Date;
@@ -294,10 +294,10 @@ namespace Comets.Forms.Graph
 				GraphSettings.Antialiasing = cbxAntialiasing.Checked;
 
 				GraphSettings.MinMagnitudeChecked = cbxMinMag.Checked;
-				GraphSettings.MinMagnitudeValue = Convert.ToDouble(txtMinMag.Text.Trim());
+				GraphSettings.MinMagnitudeValue = txtMinMag.Double();
 
 				GraphSettings.MaxMagnitudeChecked = cbxMaxMag.Checked;
-				GraphSettings.MaxMagnitudeValue = Convert.ToDouble(txtMaxMag.Text.Trim());
+				GraphSettings.MaxMagnitudeValue = txtMaxMag.Double();
 
 				GraphSettings.Results = new List<EphemerisResult>();
 

@@ -122,6 +122,7 @@
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
     <Compile Include="Helpers\ExportHelper.cs" />
+    <Compile Include="Helpers\ExtensionMethods.cs" />
     <Compile Include="Helpers\ImportHelper.cs" />
     <Compile Include="Helpers\Utils.cs" />
     <Compile Include="OrbitViewer\Astro.cs" />

@@ -484,14 +484,14 @@ namespace Comets.Forms.Orbit
 		{
 			if (txtMonth.Text.Length > 0 && txtYear.Text.Length > 0)
 			{
-				int max = DateTime.DaysInMonth(Convert.ToInt32(txtYear.Text), Convert.ToInt32(txtMonth.Text));
+				int max = DateTime.DaysInMonth(txtYear.Int(), txtMonth.Int());
 
 				LeMiMa o = txtDay.Tag as LeMiMa;
 				LeMiMa n = new LeMiMa(o.Len, o.Min, max);
 
 				txtDay.Tag = n;
 
-				if (txtDay.Text.Length > 0 && Convert.ToInt32(txtDay.Text) > n.Max)
+				if (txtDay.Text.Length > 0 && txtDay.Int() > n.Max)
 					txtDay.Text = n.Max.ToString();
 			}
 		}
@@ -512,9 +512,9 @@ namespace Comets.Forms.Orbit
 
 		private ATime CollectATime()
 		{
-			int day = Convert.ToInt32(txtDay.Text);
-			int month = Convert.ToInt32(txtMonth.Text);
-			int year = Convert.ToInt32(txtYear.Text);
+			int day = txtDay.Int();
+			int month = txtMonth.Int();
+			int year = txtYear.Int();
 
 			ATime atime = new ATime(year, month, day, 0.0);
 			return atime;

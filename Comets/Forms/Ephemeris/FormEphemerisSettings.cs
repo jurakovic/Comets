@@ -136,21 +136,21 @@ namespace Comets.Forms.Ephemeris
 
 				try
 				{
-					int syr = Convert.ToInt32(txtYearStart.Text);
-					int smo = Convert.ToInt32(txtMonthStart.Text);
-					int sdy = Convert.ToInt32(txtDayStart.Text);
-					int shr = Convert.ToInt32(txtHourStart.Text);
-					int smi = Convert.ToInt32(txtMinStart.Text);
+					int syr = txtYearStart.Int();
+					int smo = txtMonthStart.Int();
+					int sdy = txtDayStart.Int();
+					int shr = txtHourStart.Int();
+					int smi = txtMinStart.Int();
 
-					int eyr = Convert.ToInt32(txtYearEnd.Text);
-					int emo = Convert.ToInt32(txtMonthEnd.Text);
-					int edy = Convert.ToInt32(txtDayEnd.Text);
-					int ehr = Convert.ToInt32(txtHourEnd.Text);
-					int emi = Convert.ToInt32(txtMinEnd.Text);
+					int eyr = txtYearEnd.Int();
+					int emo = txtMonthEnd.Int();
+					int edy = txtDayEnd.Int();
+					int ehr = txtHourEnd.Int();
+					int emi = txtMinEnd.Int();
 
-					ind = Convert.ToInt32(txtDayInterval.Text);
-					inh = Convert.ToInt32(txtHourInterval.Text);
-					inm = Convert.ToInt32(txtMinInterval.Text);
+					ind = txtDayInterval.Int();
+					inh = txtHourInterval.Int();
+					inm = txtMinInterval.Int();
 
 					start = new ATime(syr, smo, sdy, shr, smi, 0, FormMain.Settings.Location.Timezone);
 					stop = new ATime(eyr, emo, edy, ehr, emi, 0, FormMain.Settings.Location.Timezone);
@@ -220,14 +220,14 @@ namespace Comets.Forms.Ephemeris
 		{
 			if (txtMonthStart.Text.Length > 0 && txtYearStart.Text.Length > 0)
 			{
-				int max = DateTime.DaysInMonth(Convert.ToInt32(txtYearStart.Text), Convert.ToInt32(txtMonthStart.Text));
+				int max = DateTime.DaysInMonth(txtYearStart.Int(), txtMonthStart.Int());
 
 				LeMiMa o = txtDayStart.Tag as LeMiMa;
 				LeMiMa n = new LeMiMa(o.Len, o.Min, max);
 
 				txtDayStart.Tag = n;
 
-				if (txtDayStart.Text.Length > 0 && Convert.ToInt32(txtDayStart.Text) > n.Max)
+				if (txtDayStart.Text.Length > 0 && (txtDayStart.Int()) > n.Max)
 					txtDayStart.Text = n.Max.ToString();
 			}
 		}
@@ -236,14 +236,14 @@ namespace Comets.Forms.Ephemeris
 		{
 			if (txtMonthEnd.Text.Length > 0 && txtYearEnd.Text.Length > 0)
 			{
-				int max = DateTime.DaysInMonth(Convert.ToInt32(txtYearEnd.Text), Convert.ToInt32(txtMonthEnd.Text));
+				int max = DateTime.DaysInMonth(txtYearEnd.Int(), txtMonthEnd.Int());
 
 				LeMiMa o = txtDayEnd.Tag as LeMiMa;
 				LeMiMa n = new LeMiMa(o.Len, o.Min, max);
 
 				txtDayEnd.Tag = n;
 
-				if (txtDayEnd.Text.Length > 0 && Convert.ToInt32(txtDayEnd.Text) > n.Max)
+				if (txtDayEnd.Text.Length > 0 && txtDayEnd.Int() > n.Max)
 					txtDayEnd.Text = n.Max.ToString();
 			}
 		}

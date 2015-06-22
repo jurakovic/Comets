@@ -79,15 +79,15 @@ namespace Comets.Forms
 			FormMain.Settings.Username = txtUsername.Text.Trim();
 			FormMain.Settings.Password = txtPassword.Text.Trim();
 			FormMain.Settings.Proxy = txtProxy.Text.Trim();
-			FormMain.Settings.Port = txtPort.Text.Trim().Length == 0 ? 0 : Convert.ToInt32(txtPort.Text.Trim());
+			FormMain.Settings.Port = txtPort.Int();
 
 			FormMain.Settings.Location.Name = txtName.Text.Trim();
-			FormMain.Settings.Location.Latitude = Convert.ToDouble(txtLatitude.Text.Trim());
+			FormMain.Settings.Location.Latitude = txtLatitude.Double();
 			if (cbxNorthSouth.SelectedIndex == 1) FormMain.Settings.Location.Latitude *= -1;
-			FormMain.Settings.Location.Longitude = Convert.ToDouble(txtLongitude.Text.Trim());
+			FormMain.Settings.Location.Longitude = txtLongitude.Double();
 			if (cbxEastWest.SelectedIndex == 1) FormMain.Settings.Location.Longitude *= -1;
-			FormMain.Settings.Location.Altitude = Convert.ToInt32(txtAltitude.Text.Trim());
-			FormMain.Settings.Location.Offset = Convert.ToInt32(numTimezone.Text.Trim());
+			FormMain.Settings.Location.Altitude = txtAltitude.Int();
+			FormMain.Settings.Location.Offset = numTimezone.Text.Int();
 			FormMain.Settings.Location.DST = chDST.Checked;
 
 			FormMain.Settings.ExternalPrograms = Programs.ToList();

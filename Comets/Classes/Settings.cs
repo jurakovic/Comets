@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Comets.Helpers;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -130,23 +131,23 @@ namespace Comets.Classes
 								//case "NewVersionOnStartup": settings.NewVersionOnStartup = Convert.ToBoolean(value); break; 
 
 								case "Maximized": settings.Maximized = Convert.ToBoolean(value); break;
-								case "Left": settings.Left = Convert.ToInt32(value); break;
-								case "Top": settings.Top = Convert.ToInt32(value); break;
-								case "Width": settings.Width = Convert.ToInt32(value); break;
-								case "Height": settings.Height = Convert.ToInt32(value); break;
+								case "Left": settings.Left = value.Int(); break;
+								case "Top": settings.Top = value.Int(); break;
+								case "Width": settings.Width = value.Int(); break;
+								case "Height": settings.Height = value.Int(); break;
 
 								case "UseProxy": settings.UseProxy = Convert.ToBoolean(value); break;
 								case "Domain": settings.Domain = value; break;
 								case "Username": settings.Username = value; break;
 								case "Password": settings.Password = value; break;
 								case "Proxy": settings.Proxy = value; break;
-								case "Port": settings.Port = Convert.ToInt32(value); break;
+								case "Port": settings.Port = value.Int(); break;
 
 								case "Name": settings.Location.Name = value; break;
-								case "Latitude": settings.Location.Latitude = Convert.ToDouble(value); break;
-								case "Longitude": settings.Location.Longitude = Convert.ToDouble(value); break;
-								case "Altitude": settings.Location.Altitude = Convert.ToInt32(value); break;
-								case "Timezone": settings.Location.Offset = Convert.ToInt32(value); break;
+								case "Latitude": settings.Location.Latitude = value.Double(); break;
+								case "Longitude": settings.Location.Longitude = value.Double(); break;
+								case "Altitude": settings.Location.Altitude = value.Int(); break;
+								case "Timezone": settings.Location.Offset = value.Int(); break;
 								case "DST": settings.Location.DST = Convert.ToBoolean(value); break;
 
 								default:
