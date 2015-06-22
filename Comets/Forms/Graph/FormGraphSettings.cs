@@ -129,10 +129,9 @@ namespace Comets.Forms.Graph
 		{
 			if (txtMonthStart.Text.Length > 0 && txtYearStart.Text.Length > 0)
 			{
-				LeMiMa o = (txtDayStart as TextBox).Tag as LeMiMa;
-
 				int max = DateTime.DaysInMonth(Convert.ToInt32(txtYearStart.Text), Convert.ToInt32(txtMonthStart.Text));
 
+				LeMiMa o = txtDayStart.Tag as LeMiMa;
 				LeMiMa n = new LeMiMa(o.Len, o.Min, max);
 
 				txtDayStart.Tag = n;
@@ -146,10 +145,9 @@ namespace Comets.Forms.Graph
 		{
 			if (txtMonthEnd.Text.Length > 0 && txtYearEnd.Text.Length > 0)
 			{
-				LeMiMa o = (txtDayEnd as TextBox).Tag as LeMiMa;
-
 				int max = DateTime.DaysInMonth(Convert.ToInt32(txtYearEnd.Text), Convert.ToInt32(txtMonthEnd.Text));
 
+				LeMiMa o = txtDayEnd.Tag as LeMiMa;
 				LeMiMa n = new LeMiMa(o.Len, o.Min, max);
 
 				txtDayEnd.Tag = n;

@@ -133,14 +133,6 @@ namespace Comets.Forms.Orbit
 
 		#endregion
 
-		#region MaxValues
-
-		int MaxDay = 31;
-		int MaxMonth = 12;
-		int MaxYear = 9999;
-
-		#endregion
-
 		#endregion
 
 		#region Properties
@@ -179,6 +171,10 @@ namespace Comets.Forms.Orbit
 			InitializeComponent();
 
 			this.Tag = tag;
+
+			txtDay.Tag = LeMiMa.LDay;
+			txtMonth.Tag = LeMiMa.LMonth;
+			txtYear.Tag = LeMiMa.LYear;
 
 			Comets = TransformComets(comets);
 
@@ -476,54 +472,27 @@ namespace Comets.Forms.Orbit
 
 		private void txtDateCommon_KeyDown(object sender, KeyEventArgs e)
 		{
-			e.SuppressKeyPress = Utils.TextBoxValueUpDown(sender, e, 1, GetMaximumValueForControl(((TextBox)sender).Name));
+			e.SuppressKeyPress = Utils.TextBoxValueUpDown(sender, e);
 		}
 
 		private void txtDateCommon_KeyPress(object sender, KeyPressEventArgs e)
 		{
-			string name = ((TextBox)sender).Name;
-			e.Handled = Utils.HandleKeyPress(sender, e, GetLengthValueForControl(name), GetMaximumValueForControl(name));
-		}
-
-		private int GetLengthValueForControl(string controlName)
-		{
-			int length = 0;
-
-			if (controlName.ToLower().Contains("day"))
-				length = 2;
-			else if (controlName.ToLower().Contains("month"))
-				length = 2;
-			else if (controlName.ToLower().Contains("year"))
-				length = 4;
-			else
-				throw new Exception("Unknown textbox name");
-
-			return length;
-		}
-
-		private int GetMaximumValueForControl(string controlName)
-		{
-			int maximum = 0;
-
-			if (controlName.ToLower().Contains("day"))
-				maximum = MaxDay;
-			else if (controlName.ToLower().Contains("month"))
-				maximum = MaxMonth;
-			else if (controlName.ToLower().Contains("year"))
-				maximum = MaxYear;
-			else
-				throw new Exception("Unknown textbox name");
-
-			return maximum;
+			e.Handled = Utils.HandleKeyPress(sender, e);
 		}
 
 		private void txtMonthYear_TextChanged(object sender, EventArgs e)
 		{
 			if (txtMonth.Text.Length > 0 && txtYear.Text.Length > 0)
 			{
-				MaxDay = DateTime.DaysInMonth(Convert.ToInt32(txtYear.Text), Convert.ToInt32(txtMonth.Text));
-				if (txtDay.Text.Length > 0 && Convert.ToInt32(txtDay.Text) > MaxDay)
-					txtDay.Text = MaxDay.ToString();
+				int max = DateTime.DaysInMonth(Convert.ToInt32(txtYear.Text), Convert.ToInt32(txtMonth.Text));
+
+				LeMiMa o = txtDay.Tag as LeMiMa;
+				LeMiMa n = new LeMiMa(o.Len, o.Min, max);
+
+				txtDay.Tag = n;
+
+				if (txtDay.Text.Length > 0 && Convert.ToInt32(txtDay.Text) > n.Max)
+					txtDay.Text = n.Max.ToString();
 			}
 		}
 

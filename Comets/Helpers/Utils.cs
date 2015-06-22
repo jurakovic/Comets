@@ -94,20 +94,18 @@ namespace Comets.Helpers
 
 		public static bool TextBoxValueUpDown(object sender, KeyEventArgs e)
 		{
-			LeMiMa l = (sender as TextBox).Tag as LeMiMa;
+			TextBox txt = sender as TextBox;
+
+			if (txt == null)
+				throw new NullReferenceException("Textbox is null");
+
+			LeMiMa l = txt.Tag as LeMiMa;
 
 			if (l == null)
 				throw new NullReferenceException("Textbox has no defined LeMiMa Tag");
 
-			return TextBoxValueUpDown(sender, e, l.Min, l.Max);
-		}
-
-		public static bool TextBoxValueUpDown(object sender, KeyEventArgs e, double minimum, double maximum)
-		{
-			TextBox txt = sender as TextBox;
-
-			double value = 0;
-			bool hasValue = Double.TryParse(txt.Text, out value);
+			int value = 0;
+			bool hasValue = Int32.TryParse(txt.Text, out value);
 			bool suppress = false;
 
 			bool up = e.KeyData == Keys.Up;
@@ -115,9 +113,9 @@ namespace Comets.Helpers
 
 			if (hasValue && (up || down))
 			{
-				if (up && value < maximum)
+				if (up && value < l.Max)
 					++value;
-				else if (down && value > minimum)
+				else if (down && value > l.Min)
 					--value;
 
 				txt.Text = value.ToString();
