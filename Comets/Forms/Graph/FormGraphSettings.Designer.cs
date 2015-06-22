@@ -36,18 +36,20 @@
 			this.cbComet = new System.Windows.Forms.ComboBox();
 			this.gbxTimespan = new System.Windows.Forms.GroupBox();
 			this.pnlRangeDaysFromT = new System.Windows.Forms.Panel();
-			this.numDaysFromTStart = new System.Windows.Forms.NumericUpDown();
-			this.numDaysFromTStop = new System.Windows.Forms.NumericUpDown();
+			this.btnTimespanDaysFromTDefault = new System.Windows.Forms.Button();
+			this.txtDaysFromTStop = new System.Windows.Forms.TextBox();
+			this.txtDaysFromTStart = new System.Windows.Forms.TextBox();
 			this.label4 = new System.Windows.Forms.Label();
 			this.label3 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this.pnlRangeDate = new System.Windows.Forms.Panel();
-			this.numMonthEnd = new System.Windows.Forms.NumericUpDown();
-			this.numMonthStart = new System.Windows.Forms.NumericUpDown();
-			this.numYearEnd = new System.Windows.Forms.NumericUpDown();
-			this.numDayEnd = new System.Windows.Forms.NumericUpDown();
-			this.numYearStart = new System.Windows.Forms.NumericUpDown();
-			this.numDayStart = new System.Windows.Forms.NumericUpDown();
+			this.btnTimespanDateDefault = new System.Windows.Forms.Button();
+			this.txtDayEnd = new System.Windows.Forms.TextBox();
+			this.txtDayStart = new System.Windows.Forms.TextBox();
+			this.txtMonthEnd = new System.Windows.Forms.TextBox();
+			this.txtMonthStart = new System.Windows.Forms.TextBox();
+			this.txtYearEnd = new System.Windows.Forms.TextBox();
+			this.txtYearStart = new System.Windows.Forms.TextBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.rbRangeDaysFromT = new System.Windows.Forms.RadioButton();
 			this.rbRangeDate = new System.Windows.Forms.RadioButton();
@@ -68,15 +70,7 @@
 			this.gbxSelectComet.SuspendLayout();
 			this.gbxTimespan.SuspendLayout();
 			this.pnlRangeDaysFromT.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numDaysFromTStart)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numDaysFromTStop)).BeginInit();
 			this.pnlRangeDate.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numMonthEnd)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numMonthStart)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numYearEnd)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numDayEnd)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numYearStart)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numDayStart)).BeginInit();
 			this.gbxDateFormat.SuspendLayout();
 			this.gbxChartOptions.SuspendLayout();
 			this.groupBox1.SuspendLayout();
@@ -165,62 +159,45 @@
 			// pnlRangeDaysFromT
 			// 
 			this.pnlRangeDaysFromT.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-			this.pnlRangeDaysFromT.Controls.Add(this.numDaysFromTStart);
-			this.pnlRangeDaysFromT.Controls.Add(this.numDaysFromTStop);
+			this.pnlRangeDaysFromT.Controls.Add(this.btnTimespanDaysFromTDefault);
+			this.pnlRangeDaysFromT.Controls.Add(this.txtDaysFromTStop);
+			this.pnlRangeDaysFromT.Controls.Add(this.txtDaysFromTStart);
 			this.pnlRangeDaysFromT.Controls.Add(this.label4);
 			this.pnlRangeDaysFromT.Controls.Add(this.label3);
 			this.pnlRangeDaysFromT.Controls.Add(this.label2);
-			this.pnlRangeDaysFromT.Enabled = false;
-			this.pnlRangeDaysFromT.Location = new System.Drawing.Point(128, 45);
+			this.pnlRangeDaysFromT.Location = new System.Drawing.Point(112, 45);
 			this.pnlRangeDaysFromT.Name = "pnlRangeDaysFromT";
-			this.pnlRangeDaysFromT.Size = new System.Drawing.Size(344, 27);
+			this.pnlRangeDaysFromT.Size = new System.Drawing.Size(362, 27);
 			this.pnlRangeDaysFromT.TabIndex = 312;
 			// 
-			// numDaysFromTStart
+			// btnTimespanDaysFromTDefault
 			// 
-			this.numDaysFromTStart.Location = new System.Drawing.Point(59, 3);
-			this.numDaysFromTStart.Maximum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            -2147483648});
-			this.numDaysFromTStart.Minimum = new decimal(new int[] {
-            3653,
-            0,
-            0,
-            -2147483648});
-			this.numDaysFromTStart.Name = "numDaysFromTStart";
-			this.numDaysFromTStart.Size = new System.Drawing.Size(50, 21);
-			this.numDaysFromTStart.TabIndex = 321;
-			this.numDaysFromTStart.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.numDaysFromTStart.Value = new decimal(new int[] {
-            180,
-            0,
-            0,
-            -2147483648});
+			this.btnTimespanDaysFromTDefault.Location = new System.Drawing.Point(339, 6);
+			this.btnTimespanDaysFromTDefault.Name = "btnTimespanDaysFromTDefault";
+			this.btnTimespanDaysFromTDefault.Size = new System.Drawing.Size(16, 16);
+			this.btnTimespanDaysFromTDefault.TabIndex = 323;
+			this.btnTimespanDaysFromTDefault.UseVisualStyleBackColor = true;
+			this.btnTimespanDaysFromTDefault.Click += new System.EventHandler(this.btnTimespanDaysFromTDefault_Click);
 			// 
-			// numDaysFromTStop
+			// txtDaysFromTStop
 			// 
-			this.numDaysFromTStop.Location = new System.Drawing.Point(187, 3);
-			this.numDaysFromTStop.Maximum = new decimal(new int[] {
-            3653,
-            0,
-            0,
-            0});
-			this.numDaysFromTStop.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-			this.numDaysFromTStop.Name = "numDaysFromTStop";
-			this.numDaysFromTStop.Size = new System.Drawing.Size(50, 21);
-			this.numDaysFromTStop.TabIndex = 320;
-			this.numDaysFromTStop.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.numDaysFromTStop.Value = new decimal(new int[] {
-            180,
-            0,
-            0,
-            0});
+			this.txtDaysFromTStop.Location = new System.Drawing.Point(187, 3);
+			this.txtDaysFromTStop.Name = "txtDaysFromTStop";
+			this.txtDaysFromTStop.Size = new System.Drawing.Size(42, 21);
+			this.txtDaysFromTStop.TabIndex = 334;
+			this.txtDaysFromTStop.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.txtDaysFromTStop.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCommon_KeyDown);
+			this.txtDaysFromTStop.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCommon_KeyPress);
+			// 
+			// txtDaysFromTStart
+			// 
+			this.txtDaysFromTStart.Location = new System.Drawing.Point(65, 3);
+			this.txtDaysFromTStart.Name = "txtDaysFromTStart";
+			this.txtDaysFromTStart.Size = new System.Drawing.Size(42, 21);
+			this.txtDaysFromTStart.TabIndex = 333;
+			this.txtDaysFromTStart.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.txtDaysFromTStart.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCommon_KeyDown);
+			this.txtDaysFromTStart.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCommon_KeyPress);
 			// 
 			// label4
 			// 
@@ -252,149 +229,91 @@
 			// pnlRangeDate
 			// 
 			this.pnlRangeDate.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-			this.pnlRangeDate.Controls.Add(this.numMonthEnd);
-			this.pnlRangeDate.Controls.Add(this.numMonthStart);
-			this.pnlRangeDate.Controls.Add(this.numYearEnd);
-			this.pnlRangeDate.Controls.Add(this.numDayEnd);
-			this.pnlRangeDate.Controls.Add(this.numYearStart);
-			this.pnlRangeDate.Controls.Add(this.numDayStart);
+			this.pnlRangeDate.Controls.Add(this.btnTimespanDateDefault);
+			this.pnlRangeDate.Controls.Add(this.txtDayEnd);
+			this.pnlRangeDate.Controls.Add(this.txtDayStart);
+			this.pnlRangeDate.Controls.Add(this.txtMonthEnd);
+			this.pnlRangeDate.Controls.Add(this.txtMonthStart);
+			this.pnlRangeDate.Controls.Add(this.txtYearEnd);
+			this.pnlRangeDate.Controls.Add(this.txtYearStart);
 			this.pnlRangeDate.Controls.Add(this.label1);
-			this.pnlRangeDate.Location = new System.Drawing.Point(128, 15);
+			this.pnlRangeDate.Location = new System.Drawing.Point(112, 15);
 			this.pnlRangeDate.Name = "pnlRangeDate";
-			this.pnlRangeDate.Size = new System.Drawing.Size(344, 27);
+			this.pnlRangeDate.Size = new System.Drawing.Size(362, 27);
 			this.pnlRangeDate.TabIndex = 311;
 			// 
-			// numMonthEnd
+			// btnTimespanDateDefault
 			// 
-			this.numMonthEnd.BackColor = System.Drawing.SystemColors.Window;
-			this.numMonthEnd.Location = new System.Drawing.Point(243, 3);
-			this.numMonthEnd.Maximum = new decimal(new int[] {
-            13,
-            0,
-            0,
-            0});
-			this.numMonthEnd.Name = "numMonthEnd";
-			this.numMonthEnd.ReadOnly = true;
-			this.numMonthEnd.Size = new System.Drawing.Size(42, 21);
-			this.numMonthEnd.TabIndex = 319;
-			this.numMonthEnd.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.numMonthEnd.Value = new decimal(new int[] {
-            12,
-            0,
-            0,
-            0});
-			this.numMonthEnd.ValueChanged += new System.EventHandler(this.timespanEndCommon_ValueChanged);
+			this.btnTimespanDateDefault.Location = new System.Drawing.Point(339, 6);
+			this.btnTimespanDateDefault.Name = "btnTimespanDateDefault";
+			this.btnTimespanDateDefault.Size = new System.Drawing.Size(16, 16);
+			this.btnTimespanDateDefault.TabIndex = 322;
+			this.btnTimespanDateDefault.UseVisualStyleBackColor = true;
+			this.btnTimespanDateDefault.Click += new System.EventHandler(this.btnTimespanDateDefault_Click);
 			// 
-			// numMonthStart
+			// txtDayEnd
 			// 
-			this.numMonthStart.BackColor = System.Drawing.SystemColors.Window;
-			this.numMonthStart.Location = new System.Drawing.Point(67, 3);
-			this.numMonthStart.Maximum = new decimal(new int[] {
-            13,
-            0,
-            0,
-            0});
-			this.numMonthStart.Name = "numMonthStart";
-			this.numMonthStart.ReadOnly = true;
-			this.numMonthStart.Size = new System.Drawing.Size(42, 21);
-			this.numMonthStart.TabIndex = 318;
-			this.numMonthStart.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.numMonthStart.Value = new decimal(new int[] {
-            12,
-            0,
-            0,
-            0});
-			this.numMonthStart.ValueChanged += new System.EventHandler(this.timespanStartCommon_ValueChanged);
+			this.txtDayEnd.Location = new System.Drawing.Point(291, 3);
+			this.txtDayEnd.Name = "txtDayEnd";
+			this.txtDayEnd.Size = new System.Drawing.Size(42, 21);
+			this.txtDayEnd.TabIndex = 333;
+			this.txtDayEnd.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.txtDayEnd.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCommon_KeyDown);
+			this.txtDayEnd.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCommon_KeyPress);
 			// 
-			// numYearEnd
+			// txtDayStart
 			// 
-			this.numYearEnd.Location = new System.Drawing.Point(187, 3);
-			this.numYearEnd.Maximum = new decimal(new int[] {
-            9000,
-            0,
-            0,
-            0});
-			this.numYearEnd.Minimum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-			this.numYearEnd.Name = "numYearEnd";
-			this.numYearEnd.Size = new System.Drawing.Size(50, 21);
-			this.numYearEnd.TabIndex = 316;
-			this.numYearEnd.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.numYearEnd.Value = new decimal(new int[] {
-            2015,
-            0,
-            0,
-            0});
-			this.numYearEnd.ValueChanged += new System.EventHandler(this.timespanEndCommon_ValueChanged);
+			this.txtDayStart.Location = new System.Drawing.Point(115, 3);
+			this.txtDayStart.Name = "txtDayStart";
+			this.txtDayStart.Size = new System.Drawing.Size(42, 21);
+			this.txtDayStart.TabIndex = 330;
+			this.txtDayStart.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.txtDayStart.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCommon_KeyDown);
+			this.txtDayStart.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCommon_KeyPress);
 			// 
-			// numDayEnd
+			// txtMonthEnd
 			// 
-			this.numDayEnd.BackColor = System.Drawing.SystemColors.Window;
-			this.numDayEnd.Location = new System.Drawing.Point(290, 3);
-			this.numDayEnd.Maximum = new decimal(new int[] {
-            32,
-            0,
-            0,
-            0});
-			this.numDayEnd.Name = "numDayEnd";
-			this.numDayEnd.ReadOnly = true;
-			this.numDayEnd.Size = new System.Drawing.Size(42, 21);
-			this.numDayEnd.TabIndex = 315;
-			this.numDayEnd.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.numDayEnd.Value = new decimal(new int[] {
-            30,
-            0,
-            0,
-            0});
-			this.numDayEnd.ValueChanged += new System.EventHandler(this.timespanEndCommon_ValueChanged);
+			this.txtMonthEnd.Location = new System.Drawing.Point(243, 3);
+			this.txtMonthEnd.Name = "txtMonthEnd";
+			this.txtMonthEnd.Size = new System.Drawing.Size(42, 21);
+			this.txtMonthEnd.TabIndex = 332;
+			this.txtMonthEnd.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.txtMonthEnd.TextChanged += new System.EventHandler(this.txtYearMonthEnd_TextChanged);
+			this.txtMonthEnd.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCommon_KeyDown);
+			this.txtMonthEnd.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCommon_KeyPress);
 			// 
-			// numYearStart
+			// txtMonthStart
 			// 
-			this.numYearStart.Location = new System.Drawing.Point(11, 3);
-			this.numYearStart.Maximum = new decimal(new int[] {
-            9000,
-            0,
-            0,
-            0});
-			this.numYearStart.Minimum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-			this.numYearStart.Name = "numYearStart";
-			this.numYearStart.Size = new System.Drawing.Size(50, 21);
-			this.numYearStart.TabIndex = 312;
-			this.numYearStart.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.numYearStart.Value = new decimal(new int[] {
-            2015,
-            0,
-            0,
-            0});
-			this.numYearStart.ValueChanged += new System.EventHandler(this.timespanStartCommon_ValueChanged);
+			this.txtMonthStart.Location = new System.Drawing.Point(67, 3);
+			this.txtMonthStart.Name = "txtMonthStart";
+			this.txtMonthStart.Size = new System.Drawing.Size(42, 21);
+			this.txtMonthStart.TabIndex = 329;
+			this.txtMonthStart.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.txtMonthStart.TextChanged += new System.EventHandler(this.txtYearMonthStart_TextChanged);
+			this.txtMonthStart.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCommon_KeyDown);
+			this.txtMonthStart.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCommon_KeyPress);
 			// 
-			// numDayStart
+			// txtYearEnd
 			// 
-			this.numDayStart.BackColor = System.Drawing.SystemColors.Window;
-			this.numDayStart.Location = new System.Drawing.Point(115, 3);
-			this.numDayStart.Maximum = new decimal(new int[] {
-            32,
-            0,
-            0,
-            0});
-			this.numDayStart.Name = "numDayStart";
-			this.numDayStart.ReadOnly = true;
-			this.numDayStart.Size = new System.Drawing.Size(42, 21);
-			this.numDayStart.TabIndex = 311;
-			this.numDayStart.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.numDayStart.Value = new decimal(new int[] {
-            30,
-            0,
-            0,
-            0});
-			this.numDayStart.ValueChanged += new System.EventHandler(this.timespanStartCommon_ValueChanged);
+			this.txtYearEnd.Location = new System.Drawing.Point(187, 3);
+			this.txtYearEnd.Name = "txtYearEnd";
+			this.txtYearEnd.Size = new System.Drawing.Size(50, 21);
+			this.txtYearEnd.TabIndex = 331;
+			this.txtYearEnd.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.txtYearEnd.TextChanged += new System.EventHandler(this.txtYearMonthEnd_TextChanged);
+			this.txtYearEnd.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCommon_KeyDown);
+			this.txtYearEnd.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCommon_KeyPress);
+			// 
+			// txtYearStart
+			// 
+			this.txtYearStart.Location = new System.Drawing.Point(11, 3);
+			this.txtYearStart.Name = "txtYearStart";
+			this.txtYearStart.Size = new System.Drawing.Size(50, 21);
+			this.txtYearStart.TabIndex = 328;
+			this.txtYearStart.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.txtYearStart.TextChanged += new System.EventHandler(this.txtYearMonthStart_TextChanged);
+			this.txtYearStart.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCommon_KeyDown);
+			this.txtYearStart.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCommon_KeyPress);
 			// 
 			// label1
 			// 
@@ -414,7 +333,6 @@
 			this.rbRangeDaysFromT.TabIndex = 302;
 			this.rbRangeDaysFromT.Text = "Days from T";
 			this.rbRangeDaysFromT.UseVisualStyleBackColor = true;
-			this.rbRangeDaysFromT.CheckedChanged += new System.EventHandler(this.rbRangeDaysFromT_CheckedChanged);
 			// 
 			// rbRangeDate
 			// 
@@ -427,7 +345,6 @@
 			this.rbRangeDate.TabStop = true;
 			this.rbRangeDate.Text = "Date";
 			this.rbRangeDate.UseVisualStyleBackColor = true;
-			this.rbRangeDate.CheckedChanged += new System.EventHandler(this.rbRangeDate_CheckedChanged);
 			// 
 			// gbxDateFormat
 			// 
@@ -614,16 +531,8 @@
 			this.gbxTimespan.PerformLayout();
 			this.pnlRangeDaysFromT.ResumeLayout(false);
 			this.pnlRangeDaysFromT.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numDaysFromTStart)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numDaysFromTStop)).EndInit();
 			this.pnlRangeDate.ResumeLayout(false);
 			this.pnlRangeDate.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numMonthEnd)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numMonthStart)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numYearEnd)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numDayEnd)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numYearStart)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numDayStart)).EndInit();
 			this.gbxDateFormat.ResumeLayout(false);
 			this.gbxDateFormat.PerformLayout();
 			this.gbxChartOptions.ResumeLayout(false);
@@ -656,14 +565,6 @@
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Panel pnlRangeDate;
 		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.NumericUpDown numYearStart;
-		private System.Windows.Forms.NumericUpDown numDayStart;
-		private System.Windows.Forms.NumericUpDown numYearEnd;
-		private System.Windows.Forms.NumericUpDown numDayEnd;
-		private System.Windows.Forms.NumericUpDown numDaysFromTStart;
-		private System.Windows.Forms.NumericUpDown numDaysFromTStop;
-		private System.Windows.Forms.NumericUpDown numMonthEnd;
-		private System.Windows.Forms.NumericUpDown numMonthStart;
 		private System.Windows.Forms.GroupBox gbxChartOptions;
 		private System.Windows.Forms.CheckBox cbxAntialiasing;
 		private System.Windows.Forms.CheckBox cbxNowLine;
@@ -673,5 +574,15 @@
 		private System.Windows.Forms.TextBox txtMinMag;
 		private System.Windows.Forms.CheckBox cbxMaxMag;
 		private System.Windows.Forms.CheckBox cbxMinMag;
+		private System.Windows.Forms.TextBox txtDayStart;
+		private System.Windows.Forms.TextBox txtMonthStart;
+		private System.Windows.Forms.TextBox txtYearStart;
+		private System.Windows.Forms.TextBox txtDaysFromTStop;
+		private System.Windows.Forms.TextBox txtDaysFromTStart;
+		private System.Windows.Forms.TextBox txtDayEnd;
+		private System.Windows.Forms.TextBox txtMonthEnd;
+		private System.Windows.Forms.TextBox txtYearEnd;
+		private System.Windows.Forms.Button btnTimespanDaysFromTDefault;
+		private System.Windows.Forms.Button btnTimespanDateDefault;
 	}
 }
