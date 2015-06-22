@@ -31,6 +31,16 @@ namespace Comets.Helpers
 
 		#region HandleKeyPress
 
+		public static bool HandleKeyPress(object sender, KeyPressEventArgs e)
+		{
+			LeMiMa l = (sender as TextBox).Tag as LeMiMa;
+
+			if (l == null)
+				throw new NullReferenceException("Textbox has no defined LeMiMa Tag");
+
+			return HandleKeyPress(sender, e, l.Len, 0, l.Min, l.Max);
+		}
+
 		public static bool HandleKeyPress(object sender, KeyPressEventArgs e, int length, int decimals, double? minimum = null, double? maximum = null)
 		{
 			if (length < 1)
@@ -81,6 +91,16 @@ namespace Comets.Helpers
 		#endregion
 
 		#region TextBoxValueUpDown
+
+		public static bool TextBoxValueUpDown(object sender, KeyEventArgs e)
+		{
+			LeMiMa l = (sender as TextBox).Tag as LeMiMa;
+
+			if (l == null)
+				throw new NullReferenceException("Textbox has no defined LeMiMa Tag");
+
+			return TextBoxValueUpDown(sender, e, l.Min, l.Max);
+		}
 
 		public static bool TextBoxValueUpDown(object sender, KeyEventArgs e, double minimum, double maximum)
 		{
@@ -241,5 +261,28 @@ namespace Comets.Helpers
 		}
 
 		#endregion
+	}
+}
+
+/// <summary>
+/// Length, Minimum, Maximum
+/// </summary>
+public class LeMiMa
+{
+	public static LeMiMa LDay = new LeMiMa(2, 1, 31);
+	public static LeMiMa LMonth = new LeMiMa(2, 1, 12);
+	public static LeMiMa LYear = new LeMiMa(4, 1, 9999);
+	public static LeMiMa LHour = new LeMiMa(2, 0, 23);
+	public static LeMiMa LMinute = new LeMiMa(2, 0, 59);
+
+	public int Len { get; private set; }
+	public int Min { get; private set; }
+	public int Max { get; private set; }
+
+	public LeMiMa(int len, int min, int max)
+	{
+		Len = len;
+		Min = min;
+		Max = max;
 	}
 }
