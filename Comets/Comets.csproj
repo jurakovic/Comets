@@ -49,132 +49,135 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\Comet.cs" />
-    <Compile Include="Classes\Filter.cs" />
-    <Compile Include="Classes\FilterCollection.cs" />
-    <Compile Include="Classes\Settings\CommonSettings.cs" />
-    <Compile Include="Classes\ElementTypes.cs" />
-    <Compile Include="Classes\EphemerisResult.cs" />
-    <Compile Include="Classes\Settings\EphemerisSettings.cs" />
-    <Compile Include="Classes\ExternalProgram.cs" />
-    <Compile Include="Classes\Settings\GraphSettings.cs" />
-    <Compile Include="Classes\Location.cs" />
-    <Compile Include="Classes\Settings.cs" />
-    <Compile Include="Forms\Ephemeris\FormEphemeris.cs">
+    <Compile Include="BusinessLayer\Business\Comet.cs" />
+    <Compile Include="BusinessLayer\Business\Filter.cs" />
+    <Compile Include="BusinessLayer\Business\FilterCollection.cs" />
+    <Compile Include="BusinessLayer\Business\LeMiMa.cs" />
+    <Compile Include="BusinessLayer\Business\Settings\SettingsBase.cs" />
+    <Compile Include="BusinessLayer\Business\ElementTypes.cs" />
+    <Compile Include="BusinessLayer\Business\EphemerisResult.cs" />
+    <Compile Include="BusinessLayer\Business\Settings\EphemerisSettings.cs" />
+    <Compile Include="BusinessLayer\Business\ExternalProgram.cs" />
+    <Compile Include="BusinessLayer\Business\Settings\GraphSettings.cs" />
+    <Compile Include="BusinessLayer\Business\Location.cs" />
+    <Compile Include="BusinessLayer\Business\Settings.cs" />
+    <Compile Include="Application\ModulEphemeris\FormEphemeris.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Ephemeris\FormEphemeris.Designer.cs">
+    <Compile Include="Application\ModulEphemeris\FormEphemeris.Designer.cs">
       <DependentUpon>FormEphemeris.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FormDatabase.cs">
+    <Compile Include="Application\FormDatabase.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FormDatabase.Designer.cs">
+    <Compile Include="Application\FormDatabase.Designer.cs">
       <DependentUpon>FormDatabase.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Ephemeris\FormEphemerisSettings.cs">
+    <Compile Include="Application\ModulEphemeris\FormEphemerisSettings.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Ephemeris\FormEphemerisSettings.Designer.cs">
+    <Compile Include="Application\ModulEphemeris\FormEphemerisSettings.Designer.cs">
       <DependentUpon>FormEphemerisSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FormExport.cs">
+    <Compile Include="Application\FormExport.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FormExport.Designer.cs">
+    <Compile Include="Application\FormExport.Designer.cs">
       <DependentUpon>FormExport.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Graph\FormGraphSettings.cs">
+    <Compile Include="Application\ModulGraph\FormGraphSettings.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Graph\FormGraphSettings.Designer.cs">
+    <Compile Include="Application\ModulGraph\FormGraphSettings.Designer.cs">
       <DependentUpon>FormGraphSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Graph\FormGraph.cs">
+    <Compile Include="Application\ModulGraph\FormGraph.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Graph\FormGraph.Designer.cs">
+    <Compile Include="Application\ModulGraph\FormGraph.Designer.cs">
       <DependentUpon>FormGraph.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FormSettings.cs">
+    <Compile Include="Application\FormSettings.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FormSettings.Designer.cs">
+    <Compile Include="Application\FormSettings.Designer.cs">
       <DependentUpon>FormSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Orbit\FormOrbitViewer.cs">
+    <Compile Include="Application\ModulOrbit\FormOrbitViewer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Orbit\FormOrbitViewer.Designer.cs">
+    <Compile Include="Application\ModulOrbit\FormOrbitViewer.Designer.cs">
       <DependentUpon>FormOrbitViewer.cs</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\EphemerisHelper.cs" />
-    <Compile Include="Forms\FormImport.cs">
+    <Compile Include="BusinessLayer\Managers\EphemerisManager.cs" />
+    <Compile Include="Application\FormImport.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FormImport.Designer.cs">
+    <Compile Include="Application\FormImport.Designer.cs">
       <DependentUpon>FormImport.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FormMain.cs">
+    <Compile Include="Application\FormMain.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FormMain.Designer.cs">
+    <Compile Include="Application\FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\ExportHelper.cs" />
-    <Compile Include="Helpers\ExtensionMethods.cs" />
-    <Compile Include="Helpers\ImportHelper.cs" />
-    <Compile Include="Helpers\Utils.cs" />
-    <Compile Include="OrbitViewer\Astro.cs" />
-    <Compile Include="OrbitViewer\ATime.cs" />
-    <Compile Include="OrbitViewer\ATimeSpan.cs" />
-    <Compile Include="OrbitViewer\Comet.cs" />
-    <Compile Include="OrbitViewer\CometOrbit.cs" />
-    <Compile Include="OrbitViewer\Matrix.cs" />
-    <Compile Include="OrbitViewer\OrbitPanel.cs">
+    <Compile Include="BusinessLayer\Managers\ExportManager.cs" />
+    <Compile Include="BusinessLayer\Extensions\ExtensionMethods.cs" />
+    <Compile Include="BusinessLayer\Managers\FilterManager.cs" />
+    <Compile Include="BusinessLayer\Managers\ImportHelper.cs" />
+    <Compile Include="BusinessLayer\Managers\SettingsManager.cs" />
+    <Compile Include="BusinessLayer\Managers\Utils.cs" />
+    <Compile Include="BusinessLayer\OrbitViewer\Astro.cs" />
+    <Compile Include="BusinessLayer\OrbitViewer\ATime.cs" />
+    <Compile Include="BusinessLayer\OrbitViewer\ATimeSpan.cs" />
+    <Compile Include="BusinessLayer\OrbitViewer\Comet.cs" />
+    <Compile Include="BusinessLayer\OrbitViewer\CometOrbit.cs" />
+    <Compile Include="BusinessLayer\OrbitViewer\Matrix.cs" />
+    <Compile Include="BusinessLayer\OrbitViewer\OrbitPanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="OrbitViewer\Planet.cs" />
-    <Compile Include="OrbitViewer\PlanetElm.cs" />
-    <Compile Include="OrbitViewer\PlanetExp.cs" />
-    <Compile Include="OrbitViewer\PlanetOrbit.cs" />
-    <Compile Include="OrbitViewer\UdMath.cs" />
-    <Compile Include="OrbitViewer\Xyz.cs" />
+    <Compile Include="BusinessLayer\OrbitViewer\Planet.cs" />
+    <Compile Include="BusinessLayer\OrbitViewer\PlanetElm.cs" />
+    <Compile Include="BusinessLayer\OrbitViewer\PlanetExp.cs" />
+    <Compile Include="BusinessLayer\OrbitViewer\PlanetOrbit.cs" />
+    <Compile Include="BusinessLayer\OrbitViewer\UdMath.cs" />
+    <Compile Include="BusinessLayer\OrbitViewer\Xyz.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Forms\Ephemeris\FormEphemeris.resx">
+    <EmbeddedResource Include="Application\ModulEphemeris\FormEphemeris.resx">
       <DependentUpon>FormEphemeris.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FormDatabase.resx">
+    <EmbeddedResource Include="Application\FormDatabase.resx">
       <DependentUpon>FormDatabase.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Ephemeris\FormEphemerisSettings.resx">
+    <EmbeddedResource Include="Application\ModulEphemeris\FormEphemerisSettings.resx">
       <DependentUpon>FormEphemerisSettings.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FormExport.resx">
+    <EmbeddedResource Include="Application\FormExport.resx">
       <DependentUpon>FormExport.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FormImport.resx">
+    <EmbeddedResource Include="Application\FormImport.resx">
       <DependentUpon>FormImport.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Graph\FormGraphSettings.resx">
+    <EmbeddedResource Include="Application\ModulGraph\FormGraphSettings.resx">
       <DependentUpon>FormGraphSettings.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Graph\FormGraph.resx">
+    <EmbeddedResource Include="Application\ModulGraph\FormGraph.resx">
       <DependentUpon>FormGraph.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FormMain.resx">
+    <EmbeddedResource Include="Application\FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FormSettings.resx">
+    <EmbeddedResource Include="Application\FormSettings.resx">
       <DependentUpon>FormSettings.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Orbit\FormOrbitViewer.resx">
+    <EmbeddedResource Include="Application\ModulOrbit\FormOrbitViewer.resx">
       <DependentUpon>FormOrbitViewer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -199,7 +202,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
