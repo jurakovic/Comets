@@ -3,17 +3,22 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Comets", "Comets\Comets.csproj", "{A92F71ED-BE7E-452C-A542-EDF7655CEEAD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Comets.Application", "Comets.Application\Comets.Application.csproj", "{A92F71ED-BE7E-452C-A542-EDF7655CEEAD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Comets.BusinessLayer", "Comets.BusinessLayer\Comets.BusinessLayer.csproj", "{B7E236A1-45F1-4887-AD81-76947BC31F65}"
 EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 2
+		SccNumberOfProjects = 3
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://jurakovic.visualstudio.com/defaultcollection
 		SccLocalPath0 = .
-		SccProjectUniqueName1 = Comets\\Comets.csproj
-		SccProjectName1 = Comets
-		SccLocalPath1 = Comets
+		SccProjectUniqueName1 = Comets.Application\\Comets.Application.csproj
+		SccProjectName1 = Comets.Application
+		SccLocalPath1 = Comets.Application
+		SccProjectUniqueName2 = Comets.BusinessLayer\\Comets.BusinessLayer.csproj
+		SccProjectName2 = Comets.BusinessLayer
+		SccLocalPath2 = Comets.BusinessLayer
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,6 +29,10 @@ Global
 		{A92F71ED-BE7E-452C-A542-EDF7655CEEAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A92F71ED-BE7E-452C-A542-EDF7655CEEAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A92F71ED-BE7E-452C-A542-EDF7655CEEAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7E236A1-45F1-4887-AD81-76947BC31F65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7E236A1-45F1-4887-AD81-76947BC31F65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7E236A1-45F1-4887-AD81-76947BC31F65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7E236A1-45F1-4887-AD81-76947BC31F65}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
