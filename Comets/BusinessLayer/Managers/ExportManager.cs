@@ -1,5 +1,4 @@
-﻿using Comets.Application;
-using Comets.BusinessLayer.Business;
+﻿using Comets.BusinessLayer.Business;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,7 +15,7 @@ namespace Comets.BusinessLayer.Managers
 		{
 			StringBuilder sb = new StringBuilder();
 
-			WriteHeaderText(exportType, ref sb);
+			WriteHeaderText(exportType, ref sb, list.Count);
 
 			switch (exportType)
 			{
@@ -91,7 +90,7 @@ namespace Comets.BusinessLayer.Managers
 
 		#region WriteHeaderText
 
-		public static void WriteHeaderText(ExportType exportType, ref StringBuilder sb)
+		public static void WriteHeaderText(ExportType exportType, ref StringBuilder sb, int count)
 		{
 			switch (exportType)
 			{
@@ -100,7 +99,7 @@ namespace Comets.BusinessLayer.Managers
 					break;
 
 				case ExportType.MyStars:
-					sb.Append("RDPC\t").AppendLine(FormMain.UserList.Count.ToString());
+					sb.Append("RDPC\t").AppendLine(count.ToString());
 					break;
 
 				case ExportType.StarryNight:

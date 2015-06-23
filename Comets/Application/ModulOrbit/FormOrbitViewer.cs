@@ -30,21 +30,6 @@ namespace Comets.Application.ModulOrbit
 			//"Pluto"
 		};
 
-		public enum CenteredObjectEnum
-		{
-			Sun = 0,
-			CometAsteroid,
-			Mercury,
-			Venus,
-			Earth,
-			Mars,
-			Jupiter,
-			Saturn,
-			Uranus,
-			Neptune
-			//Pluto
-		}
-
 		#endregion
 
 		#region OrbitsDisplay
@@ -65,38 +50,6 @@ namespace Comets.Application.ModulOrbit
 			"Neptune"
 			//"Pluto"
 		};
-
-		public enum OrbitsEnum
-		{
-			Default = 0,
-			AllOrbits,
-			NoOrbits,
-			Space, //------
-			CometAsteroid,
-			Mercury,
-			Venus,
-			Earth,
-			Mars,
-			Jupiter,
-			Saturn,
-			Uranus,
-			Neptune
-			//Pluto
-		}
-
-		public enum OrbitDisplayEnum
-		{
-			CometAsteroid = 0,
-			Mercury,
-			Venus,
-			Earth,
-			Mars,
-			Jupiter,
-			Saturn,
-			Uranus,
-			Neptune
-			//Pluto
-		}
 
 		#endregion
 
@@ -227,10 +180,10 @@ namespace Comets.Application.ModulOrbit
 			scrollZoom.Value = InitialScrollZoom;
 
 			cboCenter.DataSource = CenterObjectItems;
-			cboCenter.SelectedIndex = (int)CenteredObjectEnum.Sun;
+			cboCenter.SelectedIndex = (int)OrbitPanel.CenteredObjectEnum.Sun;
 
 			cboOrbits.DataSource = OrbitsDisplayItems;
-			cboOrbits.SelectedIndex = (int)OrbitsEnum.Default;
+			cboOrbits.SelectedIndex = (int)OrbitPanel.OrbitsEnum.Default;
 
 			cboTimestep.DataSource = TimeStepItems;
 			cboTimestep.SelectedIndex = 3;
@@ -378,71 +331,71 @@ namespace Comets.Application.ModulOrbit
 			{
 				case Keys.D1:
 					if (control)
-						ChangeVisibleOrbit((int)OrbitsEnum.Mercury);
+						ChangeVisibleOrbit((int)OrbitPanel.OrbitsEnum.Mercury);
 					else
-						cboCenter.SelectedIndex = (int)CenteredObjectEnum.Mercury;
+						cboCenter.SelectedIndex = (int)OrbitPanel.CenteredObjectEnum.Mercury;
 					break;
 
 				case Keys.D2:
 					if (control)
-						ChangeVisibleOrbit((int)OrbitsEnum.Venus);
+						ChangeVisibleOrbit((int)OrbitPanel.OrbitsEnum.Venus);
 					else
-						cboCenter.SelectedIndex = (int)CenteredObjectEnum.Venus;
+						cboCenter.SelectedIndex = (int)OrbitPanel.CenteredObjectEnum.Venus;
 					break;
 
 				case Keys.D3:
 					if (control)
-						ChangeVisibleOrbit((int)OrbitsEnum.Earth);
+						ChangeVisibleOrbit((int)OrbitPanel.OrbitsEnum.Earth);
 					else
-						cboCenter.SelectedIndex = (int)CenteredObjectEnum.Earth;
+						cboCenter.SelectedIndex = (int)OrbitPanel.CenteredObjectEnum.Earth;
 					break;
 
 				case Keys.D4:
 					if (control)
-						ChangeVisibleOrbit((int)OrbitsEnum.Mars);
+						ChangeVisibleOrbit((int)OrbitPanel.OrbitsEnum.Mars);
 					else
-						cboCenter.SelectedIndex = (int)CenteredObjectEnum.Mars;
+						cboCenter.SelectedIndex = (int)OrbitPanel.CenteredObjectEnum.Mars;
 					break;
 
 				case Keys.D5:
 					if (control)
-						ChangeVisibleOrbit((int)OrbitsEnum.Jupiter);
+						ChangeVisibleOrbit((int)OrbitPanel.OrbitsEnum.Jupiter);
 					else
-						cboCenter.SelectedIndex = (int)CenteredObjectEnum.Jupiter;
+						cboCenter.SelectedIndex = (int)OrbitPanel.CenteredObjectEnum.Jupiter;
 					break;
 
 				case Keys.D6:
 					if (control)
-						ChangeVisibleOrbit((int)OrbitsEnum.Saturn);
+						ChangeVisibleOrbit((int)OrbitPanel.OrbitsEnum.Saturn);
 					else
-						cboCenter.SelectedIndex = (int)CenteredObjectEnum.Saturn;
+						cboCenter.SelectedIndex = (int)OrbitPanel.CenteredObjectEnum.Saturn;
 					break;
 
 				case Keys.D7:
 					if (control)
-						ChangeVisibleOrbit((int)OrbitsEnum.Uranus);
+						ChangeVisibleOrbit((int)OrbitPanel.OrbitsEnum.Uranus);
 					else
-						cboCenter.SelectedIndex = (int)CenteredObjectEnum.Uranus;
+						cboCenter.SelectedIndex = (int)OrbitPanel.CenteredObjectEnum.Uranus;
 					break;
 
 				case Keys.D8:
 					if (control)
-						ChangeVisibleOrbit((int)OrbitsEnum.Neptune);
+						ChangeVisibleOrbit((int)OrbitPanel.OrbitsEnum.Neptune);
 					else
-						cboCenter.SelectedIndex = (int)CenteredObjectEnum.Neptune;
+						cboCenter.SelectedIndex = (int)OrbitPanel.CenteredObjectEnum.Neptune;
 					break;
 
 				case Keys.D9:
 				case Keys.C:
 					if (control)
-						ChangeVisibleOrbit((int)OrbitsEnum.CometAsteroid);
+						ChangeVisibleOrbit((int)OrbitPanel.OrbitsEnum.CometAsteroid);
 					else
-						cboCenter.SelectedIndex = (int)CenteredObjectEnum.CometAsteroid;
+						cboCenter.SelectedIndex = (int)OrbitPanel.CenteredObjectEnum.CometAsteroid;
 					break;
 
 				case Keys.D0:
 				case Keys.S:
-					cboCenter.SelectedIndex = (int)CenteredObjectEnum.Sun;
+					cboCenter.SelectedIndex = (int)OrbitPanel.CenteredObjectEnum.Sun;
 					break;
 
 				case Keys.Space:
@@ -665,26 +618,26 @@ namespace Comets.Application.ModulOrbit
 
 		private void ChangeVisibleOrbit(int index)
 		{
-			if (index == (int)OrbitsEnum.Default)
+			if (index == (int)OrbitPanel.OrbitsEnum.Default)
 			{
 				for (int i = 0; i < OrbitDisplay.Length; i++)
 					OrbitDisplay[i] = OrbitDisplayDefault[i];
 			}
-			else if (index == (int)OrbitsEnum.AllOrbits)
+			else if (index == (int)OrbitPanel.OrbitsEnum.AllOrbits)
 			{
 				for (int i = 0; i < OrbitDisplay.Length; i++)
 					OrbitDisplay[i] = true;
 			}
-			else if (index == (int)OrbitsEnum.NoOrbits)
+			else if (index == (int)OrbitPanel.OrbitsEnum.NoOrbits)
 			{
 				for (int i = 0; i < OrbitDisplay.Length; i++)
 					OrbitDisplay[i] = false;
 			}
-			else if (index == (int)OrbitsEnum.Space)
+			else if (index == (int)OrbitPanel.OrbitsEnum.Space)
 			{
 				return;
 			}
-			else if (index >= (int)OrbitsEnum.CometAsteroid)
+			else if (index >= (int)OrbitPanel.OrbitsEnum.CometAsteroid)
 			{
 				OrbitDisplay[index - 4] = !OrbitDisplay[index - 4];
 			}

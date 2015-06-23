@@ -3,13 +3,62 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
-using CenteredObjectEnum = Comets.Application.ModulOrbit.FormOrbitViewer.CenteredObjectEnum;
-using OrbitDisplayEnum = Comets.Application.ModulOrbit.FormOrbitViewer.OrbitDisplayEnum;
 
 namespace Comets.OrbitViewer
 {
 	public class OrbitPanel : Panel
 	{
+		#region Enums
+
+		public enum CenteredObjectEnum
+		{
+			Sun = 0,
+			CometAsteroid,
+			Mercury,
+			Venus,
+			Earth,
+			Mars,
+			Jupiter,
+			Saturn,
+			Uranus,
+			Neptune
+			//Pluto
+		}
+
+		public enum OrbitsEnum
+		{
+			Default = 0,
+			AllOrbits,
+			NoOrbits,
+			Space, //------
+			CometAsteroid,
+			Mercury,
+			Venus,
+			Earth,
+			Mars,
+			Jupiter,
+			Saturn,
+			Uranus,
+			Neptune
+			//Pluto
+		}
+
+		public enum OrbitDisplayEnum
+		{
+			CometAsteroid = 0,
+			Mercury,
+			Venus,
+			Earth,
+			Mars,
+			Jupiter,
+			Saturn,
+			Uranus,
+			Neptune
+			//Pluto
+		}
+
+		#endregion
+
 		#region Properties
 
 		private OVComet comet;

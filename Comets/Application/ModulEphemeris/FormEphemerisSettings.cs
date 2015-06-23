@@ -175,6 +175,7 @@ namespace Comets.Application.ModulEphemeris
 					EphemerisSettings = new EphemerisSettings();
 
 				EphemerisSettings.Comet = FormMain.UserList.ElementAt(cbComet.SelectedIndex);
+				EphemerisSettings.Location = FormMain.Settings.Location;
 
 				EphemerisSettings.Start = start;
 				EphemerisSettings.Stop = stop;

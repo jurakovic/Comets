@@ -1,5 +1,4 @@
-﻿using Comets.Application;
-using Comets.OrbitViewer;
+﻿using Comets.OrbitViewer;
 using System.Collections.Generic;
 
 namespace Comets.BusinessLayer.Business
@@ -8,7 +7,7 @@ namespace Comets.BusinessLayer.Business
 	{
 		#region Properties
 
-		public Location Location { get { return FormMain.Settings.Location; } }
+		public Location Location { get; set; }
 		public Comet Comet { get; set; }
 		public ATime Start { get; set; }
 		public ATime Stop { get; set; }

@@ -244,6 +244,7 @@ namespace Comets.Application.ModulGraph
 					GraphSettings = new GraphSettings();
 
 				GraphSettings.Comet = comet;
+				GraphSettings.Location = FormMain.Settings.Location;
 
 				double interval = 0.0;
 				double totalDays = stop.JD - start.JD;
