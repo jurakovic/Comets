@@ -7,7 +7,7 @@ using ImportType = Comets.BusinessLayer.Business.ElementTypes.Type;
 
 namespace Comets.BusinessLayer.Managers
 {
-	public static class ImportHelper
+	public static class ImportManager
 	{
 		#region GetImportType
 

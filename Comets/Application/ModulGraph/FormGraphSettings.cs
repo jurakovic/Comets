@@ -86,7 +86,7 @@ namespace Comets.Application.ModulGraph
 			if (FormMain.UserList.Count == FormMain.MainList.Count)
 			{
 				//select comet with nearest perihelion date
-				Comet c = FormMain.UserList.Where(x => x.T - EphemerisManager.jd(DateTime.Now) > 0).OrderBy(y => y.T).First();
+				Comet c = FormMain.UserList.Where(x => x.T - DateTime.Now.JD() > 0).OrderBy(y => y.T).First();
 				cbComet.SelectedIndex = FormMain.UserList.IndexOf(c);
 			}
 

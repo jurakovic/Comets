@@ -174,7 +174,7 @@ namespace Comets.Application
 					ImportFilename = LocalFilename;
 			}
 
-			ImportType = ImportHelper.GetImportType(ImportFilename);
+			ImportType = ImportManager.GetImportType(ImportFilename);
 
 			switch (ImportType)
 			{
@@ -200,7 +200,7 @@ namespace Comets.Application
 
 				default:
 					lblImportFormat.Text = ElementTypes.TypeName[(int)ImportType];
-					labelDetectedComets.Text = ImportHelper.GetNumberOfComets(ImportFilename, ImportType).ToString();
+					labelDetectedComets.Text = ImportManager.GetNumberOfComets(ImportFilename, ImportType).ToString();
 					break;
 			}
 		}
@@ -213,7 +213,7 @@ namespace Comets.Application
 		{
 			if (ImportType < ImportType.NoFileSelected)
 			{
-				List<Comet> newList = ImportHelper.ImportMain(ImportType, ImportFilename);
+				List<Comet> newList = ImportManager.ImportMain(ImportType, ImportFilename);
 
 				if (newList.Count == 0)
 				{

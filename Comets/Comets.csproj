@@ -125,7 +125,7 @@
     <Compile Include="BusinessLayer\Managers\ExportManager.cs" />
     <Compile Include="BusinessLayer\Extensions\ExtensionMethods.cs" />
     <Compile Include="BusinessLayer\Managers\FilterManager.cs" />
-    <Compile Include="BusinessLayer\Managers\ImportHelper.cs" />
+    <Compile Include="BusinessLayer\Managers\ImportManager.cs" />
     <Compile Include="BusinessLayer\Managers\SettingsManager.cs" />
     <Compile Include="BusinessLayer\Managers\Utils.cs" />
     <Compile Include="BusinessLayer\OrbitViewer\Astro.cs" />

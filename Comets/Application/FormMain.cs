@@ -91,7 +91,7 @@ namespace Comets.Application
 
 			if (File.Exists(Settings.Database))
 			{
-				MainList = ImportHelper.ImportMain((int)ElementTypes.Type.MPC, Settings.Database);
+				MainList = ImportManager.ImportMain((int)ElementTypes.Type.MPC, Settings.Database);
 				UserList = MainList.ToList();
 				SetStatusCometsLabel(UserList.Count, MainList.Count);
 			}

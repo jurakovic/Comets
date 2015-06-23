@@ -1,4 +1,5 @@
 ﻿using Comets.BusinessLayer.Business;
+using Comets.BusinessLayer.Extensions;
 using System;
 using System.Linq;
 using System.Text;
@@ -298,7 +299,7 @@ namespace Comets.BusinessLayer.Managers
 
 			if (settings.NowLine)
 			{
-				double JDnow = EphemerisManager.jd(DateTime.Now);
+				double JDnow = DateTime.Now.JD();
 				if (xMin < JDnow && xMax > JDnow)
 				{
 					Series s = new Series();

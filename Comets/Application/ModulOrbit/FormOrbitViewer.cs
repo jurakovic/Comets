@@ -165,7 +165,7 @@ namespace Comets.Application.ModulOrbit
 			if (FormMain.UserList.Count == FormMain.MainList.Count)
 			{
 				//select comet with nearest perihelion date
-				OVComet c = Comets.Where(x => x.T - EphemerisManager.jd(DateTime.Now) > 0).OrderBy(y => y.T).First();
+				OVComet c = Comets.Where(x => x.T - DateTime.Now.JD() > 0).OrderBy(y => y.T).First();
 				cboObject.SelectedIndex = Comets.IndexOf(c);
 			}
 
