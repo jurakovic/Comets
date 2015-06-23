@@ -301,8 +301,8 @@
 			// 
 			// scrollVert
 			// 
-			this.scrollVert.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.scrollVert.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.scrollVert.LargeChange = 1;
 			this.scrollVert.Location = new System.Drawing.Point(684, 0);
 			this.scrollVert.Maximum = 360;
@@ -313,8 +313,8 @@
 			// 
 			// scrollHorz
 			// 
-			this.scrollHorz.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.scrollHorz.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.scrollHorz.LargeChange = 1;
 			this.scrollHorz.Location = new System.Drawing.Point(0, 460);
 			this.scrollHorz.Maximum = 360;
@@ -403,9 +403,9 @@
 			// 
 			// orbitPanel
 			// 
-			this.orbitPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-			| System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.orbitPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.orbitPanel.ATime = null;
 			this.orbitPanel.BackColor = System.Drawing.Color.Black;
 			this.orbitPanel.CenterObjectSelected = 0;
@@ -416,9 +416,9 @@
 			this.orbitPanel.RotateHorz = 0D;
 			this.orbitPanel.RotateVert = 0D;
 			this.orbitPanel.SelectedIndex = 0;
-			this.orbitPanel.ShowDateLabel = false;
-			this.orbitPanel.ShowDistanceLabel = false;
-			this.orbitPanel.ShowObjectName = false;
+			this.orbitPanel.ShowDate = false;
+			this.orbitPanel.ShowDistance = false;
+			this.orbitPanel.ShowCometName = false;
 			this.orbitPanel.ShowPlanetName = false;
 			this.orbitPanel.Size = new System.Drawing.Size(682, 458);
 			this.orbitPanel.TabIndex = 64;
@@ -444,6 +444,7 @@
 			this.MinimumSize = new System.Drawing.Size(719, 700);
 			this.Name = "FormOrbitViewer";
 			this.Text = "Orbit Viewer";
+			this.Activated += new System.EventHandler(this.FormOrbitViewer_Activated);
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormOrbitViewer_FormClosing);
 			this.Load += new System.EventHandler(this.FormOrbit_Load);
 			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormOrbitViewer_KeyDown);

@@ -116,6 +116,8 @@ namespace Comets.Application.ModulOrbit
 
 		OVComet SelectedComet { get; set; }
 
+		public OrbitViewerSettings Settings { get; set; }
+
 		#endregion
 
 		#region Constructor
@@ -137,6 +139,8 @@ namespace Comets.Application.ModulOrbit
 			Timer.Tick += new System.EventHandler(this.timer_Tick);
 
 			SimulationDirection = ATime.TIME_INCREMENT;
+
+			Settings = new OrbitViewerSettings();
 		}
 
 		#endregion
@@ -188,13 +192,19 @@ namespace Comets.Application.ModulOrbit
 			cboTimestep.DataSource = TimeStepItems;
 			cboTimestep.SelectedIndex = 3;
 
-			orbitPanel.ShowPlanetName = cbxPlanet.Checked;
-			orbitPanel.ShowObjectName = cbxObject.Checked;
-			orbitPanel.ShowDistanceLabel = cbxDistance.Checked;
-			orbitPanel.ShowDateLabel = cbxDate.Checked;
+			ApplySettings(Settings, false);
 
-			orbitPanel.LoadPanel(SelectedComet, atime, true);
+			orbitPanel.LoadPanel(SelectedComet, atime);
 			orbitPanel.Invalidate();
+		}
+
+		#endregion
+
+		#region Form_Activated
+
+		private void FormOrbitViewer_Activated(object sender, EventArgs e)
+		{
+			(this.MdiParent as FormMain).SetOrbitMenuItems(this.Settings);
 		}
 
 		#endregion
@@ -421,7 +431,7 @@ namespace Comets.Application.ModulOrbit
 
 		#endregion
 
-		#region Date
+		#region Date controls
 
 		private void txtDateCommon_KeyDown(object sender, KeyEventArgs e)
 		{
@@ -590,7 +600,7 @@ namespace Comets.Application.ModulOrbit
 
 			if (orbitPanel.PaintEnabled)
 			{
-				orbitPanel.LoadPanel(SelectedComet, orbitPanel.ATime, true);
+				orbitPanel.LoadPanel(SelectedComet, orbitPanel.ATime);
 				orbitPanel.Invalidate();
 			}
 
@@ -647,26 +657,26 @@ namespace Comets.Application.ModulOrbit
 
 		private void cbxObject_CheckedChanged(object sender, EventArgs e)
 		{
-			orbitPanel.ShowObjectName = cbxObject.Checked;
-			orbitPanel.Invalidate();
+			//orbitPanel.ShowObjectName = cbxObject.Checked;
+			//orbitPanel.Invalidate();
 		}
 
 		private void cbxPlanet_CheckedChanged(object sender, EventArgs e)
 		{
-			orbitPanel.ShowPlanetName = cbxPlanet.Checked;
-			orbitPanel.Invalidate();
+			//orbitPanel.ShowPlanetName = cbxPlanet.Checked;
+			//orbitPanel.Invalidate();
 		}
 
 		private void cbxDistance_CheckedChanged(object sender, EventArgs e)
 		{
-			orbitPanel.ShowDistanceLabel = cbxDistance.Checked;
-			orbitPanel.Invalidate();
+			//orbitPanel.ShowDistanceLabel = cbxDistance.Checked;
+			//orbitPanel.Invalidate();
 		}
 
 		private void cbxDate_CheckedChanged(object sender, EventArgs e)
 		{
-			orbitPanel.ShowDateLabel = cbxDate.Checked;
-			orbitPanel.Invalidate();
+			//orbitPanel.ShowDateLabel = cbxDate.Checked;
+			//orbitPanel.Invalidate();
 		}
 
 		#endregion
@@ -693,6 +703,31 @@ namespace Comets.Application.ModulOrbit
 			//}
 
 			return c;
+		}
+
+		#endregion
+
+		#region Methods
+
+		public void ApplySettings(OrbitViewerSettings ovs, bool refresh)
+		{
+			orbitPanel.MultipleMode = ovs.MultipleMode;
+			orbitPanel.EclipticAxis = ovs.EclipticAxis;
+			orbitPanel.Antiliasing = ovs.Antialiasing;
+			orbitPanel.ShowPlanetName = ovs.ShowPlanetName;
+			orbitPanel.ShowCometName = ovs.ShowCometName;
+			orbitPanel.ShowMagnitude = ovs.ShowMagnitute;
+			orbitPanel.ShowDistance = ovs.ShowDistance;
+			orbitPanel.ShowDate = ovs.ShowDate;
+
+			if (refresh)
+				orbitPanel.Invalidate();
+		}
+
+		public void ClearComets()
+		{
+			orbitPanel.ClearComets();
+			orbitPanel.Invalidate();
 		}
 
 		#endregion

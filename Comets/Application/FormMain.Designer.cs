@@ -44,6 +44,20 @@
 			this.menuItemGraph = new System.Windows.Forms.MenuItem();
 			this.menuItemGraphSettings = new System.Windows.Forms.MenuItem();
 			this.menuItemGraphSaveAs = new System.Windows.Forms.MenuItem();
+			this.menuItemOrbit = new System.Windows.Forms.MenuItem();
+			this.menuItemOrbitMultiple = new System.Windows.Forms.MenuItem();
+			this.menuItemOrbitClearComets = new System.Windows.Forms.MenuItem();
+			this.menuItemOrbitSep1 = new System.Windows.Forms.MenuItem();
+			this.menuItemOrbitEclipticAxis = new System.Windows.Forms.MenuItem();
+			this.menuItemOrbitSep2 = new System.Windows.Forms.MenuItem();
+			this.menuItemOrbitAntialiasing = new System.Windows.Forms.MenuItem();
+			this.menuItemOrbitSep3 = new System.Windows.Forms.MenuItem();
+			this.menuItemOrbitLabels = new System.Windows.Forms.MenuItem();
+			this.menuItemOrbitComet = new System.Windows.Forms.MenuItem();
+			this.menuItemOrbitPlanet = new System.Windows.Forms.MenuItem();
+			this.menuItemOrbitMagnitude = new System.Windows.Forms.MenuItem();
+			this.menuItemOrbitDistance = new System.Windows.Forms.MenuItem();
+			this.menuItemOrbitDate = new System.Windows.Forms.MenuItem();
 			this.menuItemEdit = new System.Windows.Forms.MenuItem();
 			this.menuItemDatabase = new System.Windows.Forms.MenuItem();
 			this.menuItemSeparatorEdit1 = new System.Windows.Forms.MenuItem();
@@ -76,6 +90,7 @@
             this.menuItemFile,
             this.menuItemEphemeris,
             this.menuItemGraph,
+            this.menuItemOrbit,
             this.menuItemEdit,
             this.menuItemView,
             this.menuItemWindow,
@@ -98,13 +113,13 @@
 			// 
 			this.menuItemFileEphemeris.Index = 0;
 			this.menuItemFileEphemeris.Text = "Ephemeris";
-			this.menuItemFileEphemeris.Click += new System.EventHandler(this.menuItemEphemerides_Click);
+			this.menuItemFileEphemeris.Click += new System.EventHandler(this.menuItemFileEphemerides_Click);
 			// 
 			// menuItemFileGraph
 			// 
 			this.menuItemFileGraph.Index = 1;
 			this.menuItemFileGraph.Text = "Magnitude Graph";
-			this.menuItemFileGraph.Click += new System.EventHandler(this.menuItemGraph_Click);
+			this.menuItemFileGraph.Click += new System.EventHandler(this.menuItemFileGraph_Click);
 			// 
 			// menuItemFileOrbit
 			// 
@@ -173,9 +188,104 @@
 			this.menuItemGraphSaveAs.Index = 1;
 			this.menuItemGraphSaveAs.Text = "Save As";
 			// 
+			// menuItemOrbit
+			// 
+			this.menuItemOrbit.Index = 3;
+			this.menuItemOrbit.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.menuItemOrbitMultiple,
+            this.menuItemOrbitClearComets,
+            this.menuItemOrbitSep1,
+            this.menuItemOrbitEclipticAxis,
+            this.menuItemOrbitSep2,
+            this.menuItemOrbitAntialiasing,
+            this.menuItemOrbitSep3,
+            this.menuItemOrbitLabels,
+            this.menuItemOrbitComet,
+            this.menuItemOrbitPlanet,
+            this.menuItemOrbitMagnitude,
+            this.menuItemOrbitDistance,
+            this.menuItemOrbitDate});
+			this.menuItemOrbit.Text = "Orbit";
+			this.menuItemOrbit.Visible = false;
+			// 
+			// menuItemOrbitMultiple
+			// 
+			this.menuItemOrbitMultiple.Index = 0;
+			this.menuItemOrbitMultiple.Text = "Multiple mode";
+			this.menuItemOrbitMultiple.Click += new System.EventHandler(this.menuItemOrbitMultiple_Click);
+			// 
+			// menuItemOrbitClearComets
+			// 
+			this.menuItemOrbitClearComets.Index = 1;
+			this.menuItemOrbitClearComets.Text = "Clear comets";
+			this.menuItemOrbitClearComets.Click += new System.EventHandler(this.menuItemOrbitClearComets_Click);
+			// 
+			// menuItemOrbitSep1
+			// 
+			this.menuItemOrbitSep1.Index = 2;
+			this.menuItemOrbitSep1.Text = "-";
+			// 
+			// menuItemOrbitEclipticAxis
+			// 
+			this.menuItemOrbitEclipticAxis.Index = 3;
+			this.menuItemOrbitEclipticAxis.Text = "Ecliptic Axis";
+			this.menuItemOrbitEclipticAxis.Click += new System.EventHandler(this.menuItemOrbitMultiple_Click);
+			// 
+			// menuItemOrbitSep2
+			// 
+			this.menuItemOrbitSep2.Index = 4;
+			this.menuItemOrbitSep2.Text = "-";
+			// 
+			// menuItemOrbitAntialiasing
+			// 
+			this.menuItemOrbitAntialiasing.Index = 5;
+			this.menuItemOrbitAntialiasing.Text = "Antialiasing";
+			this.menuItemOrbitAntialiasing.Click += new System.EventHandler(this.menuItemOrbitMultiple_Click);
+			// 
+			// menuItemOrbitSep3
+			// 
+			this.menuItemOrbitSep3.Index = 6;
+			this.menuItemOrbitSep3.Text = "-";
+			// 
+			// menuItemOrbitLabels
+			// 
+			this.menuItemOrbitLabels.Enabled = false;
+			this.menuItemOrbitLabels.Index = 7;
+			this.menuItemOrbitLabels.Text = "Labels";
+			// 
+			// menuItemOrbitComet
+			// 
+			this.menuItemOrbitComet.Index = 8;
+			this.menuItemOrbitComet.Text = "   Comet";
+			this.menuItemOrbitComet.Click += new System.EventHandler(this.menuItemOrbitMultiple_Click);
+			// 
+			// menuItemOrbitPlanet
+			// 
+			this.menuItemOrbitPlanet.Index = 9;
+			this.menuItemOrbitPlanet.Text = "   Planet";
+			this.menuItemOrbitPlanet.Click += new System.EventHandler(this.menuItemOrbitMultiple_Click);
+			// 
+			// menuItemOrbitMagnitude
+			// 
+			this.menuItemOrbitMagnitude.Index = 10;
+			this.menuItemOrbitMagnitude.Text = "   Magnitude";
+			this.menuItemOrbitMagnitude.Click += new System.EventHandler(this.menuItemOrbitMultiple_Click);
+			// 
+			// menuItemOrbitDistance
+			// 
+			this.menuItemOrbitDistance.Index = 11;
+			this.menuItemOrbitDistance.Text = "   Distance";
+			this.menuItemOrbitDistance.Click += new System.EventHandler(this.menuItemOrbitMultiple_Click);
+			// 
+			// menuItemOrbitDate
+			// 
+			this.menuItemOrbitDate.Index = 12;
+			this.menuItemOrbitDate.Text = "   Date";
+			this.menuItemOrbitDate.Click += new System.EventHandler(this.menuItemOrbitMultiple_Click);
+			// 
 			// menuItemEdit
 			// 
-			this.menuItemEdit.Index = 3;
+			this.menuItemEdit.Index = 4;
 			this.menuItemEdit.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.menuItemDatabase,
             this.menuItemSeparatorEdit1,
@@ -221,7 +331,7 @@
 			// 
 			// menuItemView
 			// 
-			this.menuItemView.Index = 4;
+			this.menuItemView.Index = 5;
 			this.menuItemView.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.menuItemStatusBar});
 			this.menuItemView.Text = "View";
@@ -235,7 +345,7 @@
 			// 
 			// menuItemWindow
 			// 
-			this.menuItemWindow.Index = 5;
+			this.menuItemWindow.Index = 6;
 			this.menuItemWindow.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.menuItemTileVert,
             this.menuItemTileHoriz,
@@ -290,7 +400,7 @@
 			// 
 			// menuItemHelp
 			// 
-			this.menuItemHelp.Index = 6;
+			this.menuItemHelp.Index = 7;
 			this.menuItemHelp.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.menuItemAbout});
 			this.menuItemHelp.Text = "Help";
@@ -396,6 +506,20 @@
 		private System.Windows.Forms.MenuItem menuItemGraph;
 		private System.Windows.Forms.MenuItem menuItemGraphSettings;
 		private System.Windows.Forms.MenuItem menuItemGraphSaveAs;
+		private System.Windows.Forms.MenuItem menuItemOrbit;
+		private System.Windows.Forms.MenuItem menuItemOrbitMultiple;
+		private System.Windows.Forms.MenuItem menuItemOrbitAntialiasing;
+		private System.Windows.Forms.MenuItem menuItemOrbitSep1;
+		private System.Windows.Forms.MenuItem menuItemOrbitSep3;
+		private System.Windows.Forms.MenuItem menuItemOrbitLabels;
+		private System.Windows.Forms.MenuItem menuItemOrbitComet;
+		private System.Windows.Forms.MenuItem menuItemOrbitPlanet;
+		private System.Windows.Forms.MenuItem menuItemOrbitMagnitude;
+		private System.Windows.Forms.MenuItem menuItemOrbitDistance;
+		private System.Windows.Forms.MenuItem menuItemOrbitDate;
+		private System.Windows.Forms.MenuItem menuItemOrbitEclipticAxis;
+		private System.Windows.Forms.MenuItem menuItemOrbitSep2;
+		private System.Windows.Forms.MenuItem menuItemOrbitClearComets;
 	}
 }
 

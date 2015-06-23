@@ -53,6 +53,7 @@
     <Compile Include="BusinessLayer\Business\Filter.cs" />
     <Compile Include="BusinessLayer\Business\FilterCollection.cs" />
     <Compile Include="BusinessLayer\Business\LeMiMa.cs" />
+    <Compile Include="BusinessLayer\Business\Settings\OrbitViewerSettings.cs" />
     <Compile Include="BusinessLayer\Business\Settings\SettingsBase.cs" />
     <Compile Include="BusinessLayer\Business\ElementTypes.cs" />
     <Compile Include="BusinessLayer\Business\EphemerisResult.cs" />

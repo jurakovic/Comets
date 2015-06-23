@@ -157,13 +157,14 @@ namespace Comets.Application
 		{
 			this.menuItemEphemeris.Visible = this.ActiveMdiChild is FormEphemeris ? true : false;
 			this.menuItemGraph.Visible = this.ActiveMdiChild is FormGraph ? true : false;
+			this.menuItemOrbit.Visible = this.ActiveMdiChild is FormOrbitViewer ? true : false;
 		}
 
 		#endregion
 
 		#region Menu: File
 
-		private void menuItemEphemerides_Click(object sender, EventArgs e)
+		private void menuItemFileEphemerides_Click(object sender, EventArgs e)
 		{
 			using (FormEphemerisSettings fes = new FormEphemerisSettings() { Owner = this })
 			{
@@ -171,7 +172,7 @@ namespace Comets.Application
 			}
 		}
 
-		private void menuItemGraph_Click(object sender, EventArgs e)
+		private void menuItemFileGraph_Click(object sender, EventArgs e)
 		{
 			using (FormGraphSettings fgs = new FormGraphSettings() { Owner = this })
 			{
@@ -220,6 +221,37 @@ namespace Comets.Application
 			{
 				fes.ShowDialog();
 			}
+		}
+
+		#endregion
+
+		#region Menu: Orbit
+
+		private void menuItemOrbitMultiple_Click(object sender, EventArgs e)
+		{
+			(sender as MenuItem).Checked = !(sender as MenuItem).Checked;
+			(this.ActiveMdiChild as FormOrbitViewer).ApplySettings(CollectOrbitSettings(), true);
+		}
+
+		private void menuItemOrbitClearComets_Click(object sender, EventArgs e)
+		{
+			(this.ActiveMdiChild as FormOrbitViewer).ClearComets();
+		}
+
+		private OrbitViewerSettings CollectOrbitSettings()
+		{
+			OrbitViewerSettings ovs = new OrbitViewerSettings();
+
+			ovs.MultipleMode = this.menuItemOrbitMultiple.Checked;
+			ovs.EclipticAxis = this.menuItemOrbitEclipticAxis.Checked;
+			ovs.Antialiasing = this.menuItemOrbitAntialiasing.Checked;
+			ovs.ShowCometName = this.menuItemOrbitComet.Checked;
+			ovs.ShowPlanetName = this.menuItemOrbitPlanet.Checked;
+			ovs.ShowMagnitute = this.menuItemOrbitMagnitude.Checked;
+			ovs.ShowDistance = this.menuItemOrbitDistance.Checked;
+			ovs.ShowDate = this.menuItemOrbitDate.Checked;
+
+			return ovs;
 		}
 
 		#endregion
@@ -360,6 +392,18 @@ namespace Comets.Application
 				this.statusComets.Text = String.Format("Comets: {0} ({1})", count, total);
 			else
 				this.statusComets.Text = String.Format("Comets: {0}", count);
+		}
+
+		public void SetOrbitMenuItems(OrbitViewerSettings settings)
+		{
+			this.menuItemOrbitMultiple.Checked = settings.MultipleMode;
+			this.menuItemOrbitEclipticAxis.Checked = settings.EclipticAxis;
+			this.menuItemOrbitAntialiasing.Checked = settings.Antialiasing;
+			this.menuItemOrbitComet.Checked = settings.ShowCometName;
+			this.menuItemOrbitPlanet.Checked = settings.ShowPlanetName;
+			this.menuItemOrbitMagnitude.Checked = settings.ShowMagnitute;
+			this.menuItemOrbitDistance.Checked = settings.ShowDistance;
+			this.menuItemOrbitDate.Checked = settings.ShowDate;
 		}
 
 		#endregion
