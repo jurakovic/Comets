@@ -145,20 +145,6 @@ namespace Comets.Application.ModulOrbit
 
 		#endregion
 
-		#region TransformComets
-
-		private List<OVComet> TransformComets(List<Comet> comets)
-		{
-			List<OVComet> list = new List<OVComet>();
-
-			foreach (Comet c in comets)
-				list.Add(new OVComet(c));
-
-			return list;
-		}
-
-		#endregion
-
 		#region Form_Load
 
 		private void FormOrbit_Load(object sender, System.EventArgs e)
@@ -653,34 +639,6 @@ namespace Comets.Application.ModulOrbit
 
 		#endregion
 
-		#region CheckBoxes
-
-		private void cbxObject_CheckedChanged(object sender, EventArgs e)
-		{
-			//orbitPanel.ShowObjectName = cbxObject.Checked;
-			//orbitPanel.Invalidate();
-		}
-
-		private void cbxPlanet_CheckedChanged(object sender, EventArgs e)
-		{
-			//orbitPanel.ShowPlanetName = cbxPlanet.Checked;
-			//orbitPanel.Invalidate();
-		}
-
-		private void cbxDistance_CheckedChanged(object sender, EventArgs e)
-		{
-			//orbitPanel.ShowDistanceLabel = cbxDistance.Checked;
-			//orbitPanel.Invalidate();
-		}
-
-		private void cbxDate_CheckedChanged(object sender, EventArgs e)
-		{
-			//orbitPanel.ShowDateLabel = cbxDate.Checked;
-			//orbitPanel.Invalidate();
-		}
-
-		#endregion
-
 		#region orbitPanel_Resize
 
 		private void orbitPanel_Resize(object sender, EventArgs e)
@@ -691,23 +649,17 @@ namespace Comets.Application.ModulOrbit
 
 		#endregion
 
-		#region GetControl
-
-		private Control GetControl(string name)
-		{
-			Control c = null;
-
-			//switch (name)
-			//{
-
-			//}
-
-			return c;
-		}
-
-		#endregion
-
 		#region Methods
+
+		private List<OVComet> TransformComets(List<Comet> comets)
+		{
+			List<OVComet> list = new List<OVComet>();
+
+			foreach (Comet c in comets)
+				list.Add(new OVComet(c));
+
+			return list;
+		}
 
 		public void ApplySettings(OrbitViewerSettings ovs, bool refresh)
 		{
