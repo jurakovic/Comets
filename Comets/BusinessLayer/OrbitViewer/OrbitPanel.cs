@@ -61,33 +61,10 @@ namespace Comets.OrbitViewer
 
 		#region Properties
 
-		private OVComet comet;
-		public OVComet Comet
-		{
-			get
-			{
-				return this.comet;
-			}
-			set
-			{
-				this.comet = value;
-
-				if (PaintEnabled)
-				{
-					CometOrbit = new CometOrbit(this.comet, 1000);
-					UpdatePositions(atime);
-				}
-			}
-		}
-		private CometOrbit CometOrbit { get; set; }
-		private Xyz CometPos { get; set; }
-
 		private List<OVComet> Comets { get; set; }
 		private List<CometOrbit> CometOrbits { get; set; }
 		private List<Xyz> CometPoses { get; set; }
 		public int SelectedIndex { get; set; }
-
-		public bool Multiple { get; private set; }
 
 		private ATime atime;
 		public ATime ATime
@@ -161,6 +138,12 @@ namespace Comets.OrbitViewer
 			OrbitDisplay = new bool[11];
 			PlanetOrbit = new PlanetOrbit[9];
 
+			Comets = new List<OVComet>();
+			CometOrbits = new List<CometOrbit>();
+			CometPoses = new List<Xyz>();
+
+			ATime = atime;
+
 			Offscreen = null;
 			PaintEnabled = false;
 		}
@@ -169,37 +152,35 @@ namespace Comets.OrbitViewer
 
 		#region LoadPanel
 
-		public void LoadPanel(OVComet comet, ATime atime)
+		public void LoadPanel(OVComet comet, ATime atime, bool multiple)
 		{
-			Multiple = false;
+			int maxNumberOfComets = 20;
+
 			PaintEnabled = true;
 
-			this.comet = comet;
-			this.atime = atime;
+			if (!multiple)
+			{
+				Comets.Clear();
+				CometOrbits.Clear();
+			}
 
-			CometOrbit = new CometOrbit(Comet, 1000);
+			if (!Comets.Contains(comet))
+			{
+				Comets.Add(comet);
+				CometOrbits.Add(new CometOrbit(comet, 1000));
+			}
 
-			UpdatePositions(atime);
-			UpdatePlanetOrbit(atime);
-			UpdateRotationMatrix(atime);
-		}
+			if (Comets.Count > maxNumberOfComets)
+			{
+				Comets.RemoveAt(0);
+				CometOrbits.RemoveAt(0);
+			}
 
-		public void LoadPanel(List<OVComet> comets, int index, ATime atime)
-		{
-			Multiple = true;
-			PaintEnabled = true;
+			SelectedIndex = Comets.IndexOf(comet);
 
-			CometOrbits = new List<CometOrbit>();
-			CometPoses = new List<Xyz>();
+			ATime = atime;
 
-			SelectedIndex = index;
-			Comets = comets;
-			this.atime = atime;
-
-			foreach (OVComet c in comets)
-				CometOrbits.Add(new CometOrbit(c, 1000));
-
-			UpdatePositions(atime);
+			//UpdatePositions(atime);
 			UpdatePlanetOrbit(atime);
 			UpdateRotationMatrix(atime);
 		}
@@ -261,12 +242,7 @@ namespace Comets.OrbitViewer
 
 			if (CenterObjectSelected == (int)CenteredObjectEnum.CometAsteroid)
 			{
-
-				if (Multiple)
-					xyz = CometPoses[SelectedIndex].Rotate(MtxToEcl).Rotate(MtxRotate);
-				else
-					xyz = CometPos.Rotate(MtxToEcl).Rotate(MtxRotate);
-
+				xyz = CometPoses[SelectedIndex].Rotate(MtxToEcl).Rotate(MtxRotate);
 				point3 = GetDrawPoint(xyz);
 
 				X0 = Size.Width - point3.X;
@@ -296,16 +272,10 @@ namespace Comets.OrbitViewer
 
 				if (OrbitDisplay[(int)OrbitDisplayEnum.CometAsteroid])
 				{
-					if (Multiple)
-						DrawAllCometOrbits(graphics, CometOrbits);
-					else
-						DrawCometOrbit(graphics, CometOrbit);
+					DrawAllCometOrbits(graphics, CometOrbits);
 				}
-
-				if (Multiple)
-					DrawAllCometBodies(graphics);
-				else
-					DrawCometBody(graphics);
+				
+				DrawAllCometBodies(graphics);
 
 				//  Draw Orbit of Planets
 				if (Math.Abs(EpochPlanetOrbit - ATime.JD) > 365.2422 * 5)
@@ -397,10 +367,7 @@ namespace Comets.OrbitViewer
 
 				Point point1 = new Point(labelMargin, labelMargin);
 
-				if (Multiple)
-					graphics.DrawString(Comets[SelectedIndex].Name, FontInformation, sb, point1.X, point1.Y);
-				else
-					graphics.DrawString(Comet.Name, FontInformation, sb, point1.X, point1.Y);
+				graphics.DrawString(Comets[SelectedIndex].Name, FontInformation, sb, point1.X, point1.Y);
 
 				if (ShowDistanceLabel)
 				{
@@ -409,10 +376,7 @@ namespace Comets.OrbitViewer
 					double xdiff, ydiff, zdiff;
 					string dstr, rstr, mstr;
 
-					if (Multiple)
-						xyz = CometPoses[SelectedIndex].Rotate(MtxToEcl).Rotate(MtxRotate);
-					else
-						xyz = CometPos.Rotate(MtxToEcl).Rotate(MtxRotate);
+					xyz = CometPoses[SelectedIndex].Rotate(MtxToEcl).Rotate(MtxRotate);
 
 					xyz1 = PlanetPos[2].Rotate(MtxRotate);
 					r = Math.Sqrt((xyz.X * xyz.X) + (xyz.Y * xyz.Y) + (xyz.Z * xyz.Z)) + .0005;
@@ -421,10 +385,7 @@ namespace Comets.OrbitViewer
 					zdiff = xyz.Z - xyz1.Z;
 					d = Math.Sqrt((xdiff * xdiff) + (ydiff * ydiff) + (zdiff * zdiff)) + .0005;
 
-					if (Multiple)
-						m = Comets[SelectedIndex].g + 5 * Math.Log10(d) + 2.5 * Comets[SelectedIndex].k * Math.Log10(r);
-					else
-						m = Comet.g + 5 * Math.Log10(d) + 2.5 * Comet.k * Math.Log10(r);
+					m = Comets[SelectedIndex].g + 5 * Math.Log10(d) + 2.5 * Comets[SelectedIndex].k * Math.Log10(r);
 
 					mstr = String.Format("Magnitude:       {0:#0.0}", m);
 					dstr = String.Format("Earth Distance: {0:#0.0000} AU", d);
@@ -463,16 +424,9 @@ namespace Comets.OrbitViewer
 		{
 			if (PaintEnabled)
 			{
-				if (Multiple)
-				{
-					CometPoses.Clear();
-					foreach (OVComet c in Comets)
-						CometPoses.Add(c.GetPos(atime.JD));
-				}
-				else
-				{
-					CometPos = Comet.GetPos(atime.JD);
-				}
+				CometPoses.Clear();
+				foreach (OVComet c in Comets)
+					CometPoses.Add(c.GetPos(atime.JD));
 
 				for (int i = 0; i < 9; i++)
 				{
@@ -560,34 +514,34 @@ namespace Comets.OrbitViewer
 
 		#region DrawCometOrbit
 
-		private void DrawCometOrbit(Graphics graphics, CometOrbit cometOrbit)
-		{
-			graphics.SmoothingMode = SmoothingMode.None;
+		//private void DrawCometOrbit(Graphics graphics, CometOrbit cometOrbit)
+		//{
+		//	graphics.SmoothingMode = SmoothingMode.None;
 
-			Xyz xyz = cometOrbit.GetAt(0).Rotate(MtxToEcl).Rotate(MtxRotate);
-			Pen pen = new Pen(Color.White);
-			Point point1, point2;
-			point1 = GetDrawPoint(xyz);
+		//	Xyz xyz = cometOrbit.GetAt(0).Rotate(MtxToEcl).Rotate(MtxRotate);
+		//	Pen pen = new Pen(Color.White);
+		//	Point point1, point2;
+		//	point1 = GetDrawPoint(xyz);
 
-			for (int i = 1; i <= cometOrbit.Division; i++)
-			{
-				xyz = cometOrbit.GetAt(i).Rotate(MtxToEcl);
-				pen.Color = xyz.Z >= 0.0 ? ColorCometOrbitUpper : ColorCometOrbitLower;
-				xyz = xyz.Rotate(MtxRotate);
-				point2 = GetDrawPoint(xyz);
-				graphics.DrawLine(pen, point1.X, point1.Y, point2.X, point2.Y);
+		//	for (int i = 1; i <= cometOrbit.Division; i++)
+		//	{
+		//		xyz = cometOrbit.GetAt(i).Rotate(MtxToEcl);
+		//		pen.Color = xyz.Z >= 0.0 ? ColorCometOrbitUpper : ColorCometOrbitLower;
+		//		xyz = xyz.Rotate(MtxRotate);
+		//		point2 = GetDrawPoint(xyz);
+		//		graphics.DrawLine(pen, point1.X, point1.Y, point2.X, point2.Y);
 
-				//graphics.SmoothingMode = SmoothingMode.None;
-				//if (pen.Color == ColorObjectOrbitUpper)
-				//{
-				//	sb.Color = Color.FromArgb(33, 33, 33);
-				//	graphics.FillPolygon(sb, new Point[] { point1, point2, new Point(NX0, NY0) });
-				//}
-				//graphics.SmoothingMode = SmoothingMode.AntiAlias;
+		//		//graphics.SmoothingMode = SmoothingMode.None;
+		//		//if (pen.Color == ColorObjectOrbitUpper)
+		//		//{
+		//		//	sb.Color = Color.FromArgb(33, 33, 33);
+		//		//	graphics.FillPolygon(sb, new Point[] { point1, point2, new Point(NX0, NY0) });
+		//		//}
+		//		//graphics.SmoothingMode = SmoothingMode.AntiAlias;
 
-				point1 = point2;
-			}
-		}
+		//		point1 = point2;
+		//	}
+		//}
 
 		private void DrawAllCometOrbits(Graphics graphics, List<CometOrbit> cometOrbits)
 		{
@@ -616,21 +570,21 @@ namespace Comets.OrbitViewer
 
 		#region DrawCometBody
 
-		private void DrawCometBody(Graphics graphics)
-		{
-			graphics.SmoothingMode = SmoothingMode.AntiAlias;
-			SolidBrush sb = new SolidBrush(ColorComet);
+		//private void DrawCometBody(Graphics graphics)
+		//{
+		//	graphics.SmoothingMode = SmoothingMode.AntiAlias;
+		//	SolidBrush sb = new SolidBrush(ColorComet);
 
-			Xyz xyz = CometPos.Rotate(MtxToEcl).Rotate(MtxRotate);
-			Point point1 = GetDrawPoint(xyz);
-			graphics.FillPie(sb, point1.X - 2, point1.Y - 2, 5, 5, 0, 360);
+		//	Xyz xyz = CometPos.Rotate(MtxToEcl).Rotate(MtxRotate);
+		//	Point point1 = GetDrawPoint(xyz);
+		//	graphics.FillPie(sb, point1.X - 2, point1.Y - 2, 5, 5, 0, 360);
 
-			if (ShowObjectName)
-			{
-				sb.Color = ColorCometName;
-				graphics.DrawString(Comet.Name, FontObjectName, sb, point1.X + 5, point1.Y);
-			}
-		}
+		//	if (ShowObjectName)
+		//	{
+		//		sb.Color = ColorCometName;
+		//		graphics.DrawString(Comet.Name, FontObjectName, sb, point1.X + 5, point1.Y);
+		//	}
+		//}
 
 		private void DrawAllCometBodies(Graphics graphics)
 		{

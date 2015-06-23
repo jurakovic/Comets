@@ -409,7 +409,6 @@
 			this.orbitPanel.ATime = null;
 			this.orbitPanel.BackColor = System.Drawing.Color.Black;
 			this.orbitPanel.CenterObjectSelected = 0;
-			this.orbitPanel.Comet = null;
 			this.orbitPanel.Location = new System.Drawing.Point(0, 0);
 			this.orbitPanel.MinimumSize = new System.Drawing.Size(682, 458);
 			this.orbitPanel.Name = "orbitPanel";
