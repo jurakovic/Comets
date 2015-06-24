@@ -66,7 +66,8 @@
 			this.menuItemSeparatorEdit2 = new System.Windows.Forms.MenuItem();
 			this.menuItemSettings = new System.Windows.Forms.MenuItem();
 			this.menuItemView = new System.Windows.Forms.MenuItem();
-			this.menuItemStatusBar = new System.Windows.Forms.MenuItem();
+			this.menuItemViewAlwaysOnTop = new System.Windows.Forms.MenuItem();
+			this.menuItemViewStatusBar = new System.Windows.Forms.MenuItem();
 			this.menuItemWindow = new System.Windows.Forms.MenuItem();
 			this.menuItemTileVert = new System.Windows.Forms.MenuItem();
 			this.menuItemTileHoriz = new System.Windows.Forms.MenuItem();
@@ -74,7 +75,6 @@
 			this.menuItemMinimizeAll = new System.Windows.Forms.MenuItem();
 			this.menuItemRestoreAll = new System.Windows.Forms.MenuItem();
 			this.menuItemClose = new System.Windows.Forms.MenuItem();
-			this.menuItemWindowSeparator = new System.Windows.Forms.MenuItem();
 			this.menuItemHelp = new System.Windows.Forms.MenuItem();
 			this.menuItemAbout = new System.Windows.Forms.MenuItem();
 			this.statusStrip = new System.Windows.Forms.StatusStrip();
@@ -333,27 +333,34 @@
 			// 
 			this.menuItemView.Index = 5;
 			this.menuItemView.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.menuItemStatusBar});
+            this.menuItemViewAlwaysOnTop,
+            this.menuItemViewStatusBar});
 			this.menuItemView.Text = "View";
 			// 
-			// menuItemStatusBar
+			// menuItemViewAlwaysOnTop
 			// 
-			this.menuItemStatusBar.Checked = true;
-			this.menuItemStatusBar.Index = 0;
-			this.menuItemStatusBar.Text = "Statur bar";
-			this.menuItemStatusBar.Click += new System.EventHandler(this.menuItemStatusBar_Click);
+			this.menuItemViewAlwaysOnTop.Index = 0;
+			this.menuItemViewAlwaysOnTop.Text = "Always on Top";
+			this.menuItemViewAlwaysOnTop.Click += new System.EventHandler(this.menuItemViewAlwaysOnTop_Click);
+			// 
+			// menuItemViewStatusBar
+			// 
+			this.menuItemViewStatusBar.Checked = true;
+			this.menuItemViewStatusBar.Index = 1;
+			this.menuItemViewStatusBar.Text = "Show status bar";
+			this.menuItemViewStatusBar.Click += new System.EventHandler(this.menuItemViewStatusBar_Click);
 			// 
 			// menuItemWindow
 			// 
 			this.menuItemWindow.Index = 6;
+			this.menuItemWindow.MdiList = true;
 			this.menuItemWindow.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.menuItemTileVert,
             this.menuItemTileHoriz,
             this.menuItemCascade,
             this.menuItemMinimizeAll,
             this.menuItemRestoreAll,
-            this.menuItemClose,
-            this.menuItemWindowSeparator});
+            this.menuItemClose});
 			this.menuItemWindow.Text = "Window";
 			this.menuItemWindow.Visible = false;
 			// 
@@ -392,11 +399,6 @@
 			this.menuItemClose.Index = 5;
 			this.menuItemClose.Text = "Close";
 			this.menuItemClose.Click += new System.EventHandler(this.menuItemClose_Click);
-			// 
-			// menuItemWindowSeparator
-			// 
-			this.menuItemWindowSeparator.Index = 6;
-			this.menuItemWindowSeparator.Text = "-";
 			// 
 			// menuItemHelp
 			// 
@@ -487,7 +489,7 @@
 		private System.Windows.Forms.MenuItem menuItemSeparatorFile3;
 		private System.Windows.Forms.MenuItem menuItemOrbitalElements;
 		private System.Windows.Forms.MenuItem menuItemSeparatorEdit2;
-		private System.Windows.Forms.MenuItem menuItemStatusBar;
+		private System.Windows.Forms.MenuItem menuItemViewStatusBar;
 		private System.Windows.Forms.StatusStrip statusStrip;
 		private System.Windows.Forms.ToolStripStatusLabel statusSpace;
 		private System.Windows.Forms.ToolStripProgressBar statusProgressBar;
@@ -498,7 +500,6 @@
 		private System.Windows.Forms.MenuItem menuItemTileVert;
 		private System.Windows.Forms.MenuItem menuItemEphemeris;
 		private System.Windows.Forms.MenuItem menuItemEphemerisSettings;
-		private System.Windows.Forms.MenuItem menuItemWindowSeparator;
 		private System.Windows.Forms.MenuItem menuItemEphemerisSaveAs;
 		private System.Windows.Forms.MenuItem menuItemMinimizeAll;
 		private System.Windows.Forms.MenuItem menuItemClose;
@@ -520,6 +521,7 @@
 		private System.Windows.Forms.MenuItem menuItemOrbitEclipticAxis;
 		private System.Windows.Forms.MenuItem menuItemOrbitSep2;
 		private System.Windows.Forms.MenuItem menuItemOrbitClearComets;
+		private System.Windows.Forms.MenuItem menuItemViewAlwaysOnTop;
 	}
 }
 

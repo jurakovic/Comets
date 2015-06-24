@@ -133,9 +133,9 @@
 			this.ClientSize = new System.Drawing.Size(1350, 729);
 			this.Controls.Add(this.chart1);
 			this.Name = "FormGraph";
+			this.ShowIcon = false;
 			this.Text = "Magnitude Graph";
-			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMagnitudeGraph_FormClosing);
-			this.Load += new System.EventHandler(this.FormMagnitude_Load);
+			this.Load += new System.EventHandler(this.FormGraph_Load);
 			((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
 			this.ResumeLayout(false);
 

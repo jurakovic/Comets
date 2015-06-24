@@ -44,18 +44,18 @@
 			this.richTextBox.Text = "";
 			this.richTextBox.WordWrap = false;
 			// 
-			// FormEphemerisResult
+			// FormEphemeris
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(784, 561);
 			this.Controls.Add(this.richTextBox);
 			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.Name = "FormEphemerisResult";
+			this.Name = "FormEphemeris";
+			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-			this.Text = "N Ephemeris - Comet";
-			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormEphemerisResult_FormClosing);
+			this.Text = "Ephemeris";
 			this.Load += new System.EventHandler(this.FormEphemerisResult_Load);
 			this.ResumeLayout(false);
 

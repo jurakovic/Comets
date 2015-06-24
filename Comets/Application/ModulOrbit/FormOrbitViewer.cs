@@ -122,11 +122,9 @@ namespace Comets.Application.ModulOrbit
 
 		#region Constructor
 
-		public FormOrbitViewer(List<Comet> comets, int tag)
+		public FormOrbitViewer(List<Comet> comets)
 		{
 			InitializeComponent();
-
-			this.Tag = tag;
 
 			txtDay.Tag = LeMiMa.LDay;
 			txtMonth.Tag = LeMiMa.LMonth;
@@ -200,10 +198,6 @@ namespace Comets.Application.ModulOrbit
 		private void FormOrbitViewer_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			PauseSimulation();
-
-			FormMain main = this.MdiParent as FormMain;
-			main.RemoveWindowMenuItem((int)this.Tag);
-			main.SetWindowMenuItemVisible(main.MdiChildren.Length > 1 ? true : false);
 		}
 
 		#endregion
@@ -590,10 +584,7 @@ namespace Comets.Application.ModulOrbit
 				orbitPanel.Invalidate();
 			}
 
-			this.Text = this.Tag + " Orbit Viewer - " + SelectedComet.Name;
-
-			FormMain main = this.MdiParent as FormMain;
-			main.RenameWindowItem((int)this.Tag, this.Text);
+			this.Text = "Orbit Viewer - " + SelectedComet.Name;
 		}
 
 		private void cboCenter_SelectedIndexChanged(object sender, EventArgs e)

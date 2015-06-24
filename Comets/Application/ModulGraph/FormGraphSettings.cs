@@ -316,24 +316,16 @@ namespace Comets.Application.ModulGraph
 		{
 			if (AddNewGraph && GraphSettings != null)
 			{
-				FormMain.ChildCount++;
-
-				FormMain main = this.Owner as FormMain;
-				main.AddWindowItem(GraphSettings.ToString());
-
-				FormGraph fg = new FormGraph(GraphSettings, FormMain.ChildCount);
-				fg.MdiParent = main;
+				FormGraph fg = new FormGraph(GraphSettings);
+				fg.MdiParent = this.Owner;
 				fg.WindowState = FormWindowState.Maximized;
 				fg.Show();
 			}
 			else if (GraphSettings != null && GraphSettings.Results.Any())
 			{
-				FormMain main = this.Owner as FormMain;
-				FormGraph fg = main.ActiveMdiChild as FormGraph;
-
+				FormGraph fg = this.Owner.ActiveMdiChild as FormGraph;
 				fg.GraphSettings = this.GraphSettings;
 				fg.LoadGraph();
-				main.RenameWindowItem((int)fg.Tag, fg.Text);
 			}
 		}
 

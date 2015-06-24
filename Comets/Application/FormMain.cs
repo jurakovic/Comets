@@ -25,8 +25,6 @@ namespace Comets.Application
 
 		public static Settings Settings { get; set; }
 
-		public static int ChildCount { get; set; }
-
 		#endregion
 
 		#region Constructor
@@ -70,7 +68,7 @@ namespace Comets.Application
 				this.StartPosition = FormStartPosition.CenterScreen;
 			}
 
-			menuItemStatusBar.Checked = Settings.ShowStatusBar;
+			menuItemViewStatusBar.Checked = Settings.ShowStatusBar;
 			this.statusStrip.Visible = Settings.ShowStatusBar;
 		}
 
@@ -155,6 +153,8 @@ namespace Comets.Application
 
 		private void FormMain_MdiChildActivate(object sender, EventArgs e)
 		{
+			this.menuItemWindow.Visible = this.ActiveMdiChild != null ? true : false;
+
 			this.menuItemEphemeris.Visible = this.ActiveMdiChild is FormEphemeris ? true : false;
 			this.menuItemGraph.Visible = this.ActiveMdiChild is FormGraph ? true : false;
 			this.menuItemOrbit.Visible = this.ActiveMdiChild is FormOrbitViewer ? true : false;
@@ -168,6 +168,7 @@ namespace Comets.Application
 		{
 			using (FormEphemerisSettings fes = new FormEphemerisSettings() { Owner = this })
 			{
+				fes.TopMost = this.TopMost;
 				fes.ShowDialog();
 			}
 		}
@@ -176,18 +177,15 @@ namespace Comets.Application
 		{
 			using (FormGraphSettings fgs = new FormGraphSettings() { Owner = this })
 			{
+				fgs.TopMost = this.TopMost;
 				fgs.ShowDialog();
 			}
 		}
 
 		private void menuItemFileOrbit_Click(object sender, EventArgs e)
 		{
-			ChildCount++;
-			this.AddWindowItem("Orbit Viewer");
-			this.SetWindowMenuItemVisible(true);
-
-			FormOrbitViewer fo = new FormOrbitViewer(UserList, ChildCount);
-			fo.WindowState = FormWindowState.Normal;
+			FormOrbitViewer fo = new FormOrbitViewer(UserList);
+			fo.WindowState = FormWindowState.Maximized;
 			fo.MdiParent = this;
 			fo.Show();
 		}
@@ -206,6 +204,7 @@ namespace Comets.Application
 			FormEphemeris fe = this.ActiveMdiChild as FormEphemeris;
 			using (FormEphemerisSettings fes = new FormEphemerisSettings(fe.EphemerisSettings) { Owner = this })
 			{
+				fes.TopMost = this.TopMost;
 				fes.ShowDialog();
 			}
 		}
@@ -217,9 +216,10 @@ namespace Comets.Application
 		private void menuItemGraphSettings_Click(object sender, EventArgs e)
 		{
 			FormGraph fg = this.ActiveMdiChild as FormGraph;
-			using (FormGraphSettings fes = new FormGraphSettings(fg.GraphSettings) { Owner = this })
+			using (FormGraphSettings fgs = new FormGraphSettings(fg.GraphSettings) { Owner = this })
 			{
-				fes.ShowDialog();
+				fgs.TopMost = this.TopMost;
+				fgs.ShowDialog();
 			}
 		}
 
@@ -260,6 +260,7 @@ namespace Comets.Application
 
 		private void menuItemDatabase_Click(object sender, EventArgs e)
 		{
+			fdb.TopMost = this.TopMost;
 			fdb.ShowDialog();
 		}
 
@@ -267,6 +268,7 @@ namespace Comets.Application
 		{
 			using (FormImport formImport = new FormImport() { Owner = this })
 			{
+				formImport.TopMost = this.TopMost;
 				formImport.ShowDialog();
 			}
 		}
@@ -275,17 +277,19 @@ namespace Comets.Application
 		{
 			using (FormExport formExport = new FormExport() { Owner = this })
 			{
+				formExport.TopMost = this.TopMost;
 				formExport.ShowDialog();
 			}
 		}
 
 		private void menuItemSettings_Click(object sender, EventArgs e)
 		{
-			using (FormSettings frs = new FormSettings())
+			using (FormSettings fs = new FormSettings())
 			{
-				frs.ShowDialog();
+				fs.TopMost = this.TopMost;
+				fs.ShowDialog();
 
-				menuItemStatusBar.Checked = Settings.ShowStatusBar;
+				menuItemViewStatusBar.Checked = Settings.ShowStatusBar;
 				this.statusStrip.Visible = Settings.ShowStatusBar;
 			}
 		}
@@ -294,11 +298,17 @@ namespace Comets.Application
 
 		#region Menu: View
 
-		private void menuItemStatusBar_Click(object sender, EventArgs e)
+		private void menuItemViewAlwaysOnTop_Click(object sender, EventArgs e)
 		{
-			menuItemStatusBar.Checked = !menuItemStatusBar.Checked;
-			Settings.ShowStatusBar = menuItemStatusBar.Checked;
-			this.statusStrip.Visible = menuItemStatusBar.Checked;
+			this.menuItemViewAlwaysOnTop.Checked = !this.menuItemViewAlwaysOnTop.Checked;
+			this.TopMost = this.menuItemViewAlwaysOnTop.Checked;
+		}
+
+		private void menuItemViewStatusBar_Click(object sender, EventArgs e)
+		{
+			menuItemViewStatusBar.Checked = !menuItemViewStatusBar.Checked;
+			Settings.ShowStatusBar = menuItemViewStatusBar.Checked;
+			this.statusStrip.Visible = menuItemViewStatusBar.Checked;
 		}
 
 		#endregion
@@ -335,51 +345,6 @@ namespace Comets.Application
 		private void menuItemClose_Click(object sender, EventArgs e)
 		{
 			this.ActiveMdiChild.Close();
-		}
-
-		public void AddWindowItem(string text)
-		{
-			MenuItem menuItem = new MenuItem();
-			menuItem.Tag = ChildCount;
-			menuItem.Text = ChildCount + " " + text;
-			menuItem.Click += new EventHandler(this.menuItemWindow_Click);
-			this.menuItemWindow.MenuItems.Add(menuItem);
-		}
-
-		public void menuItemWindow_Click(object sender, EventArgs e)
-		{
-			foreach (Form child in this.MdiChildren)
-				if (child.Text == (sender as MenuItem).Text)
-					child.Activate();
-		}
-
-		public void RenameWindowItem(int tag, string text)
-		{
-			foreach (MenuItem mi in menuItemWindow.MenuItems)
-			{
-				if (mi.Tag != null && (int)mi.Tag == tag)
-				{
-					mi.Text = text;
-					break;
-				}
-			}
-		}
-
-		public void RemoveWindowMenuItem(int tag)
-		{
-			foreach (MenuItem mi in menuItemWindow.MenuItems)
-			{
-				if (mi.Tag != null && (int)mi.Tag == tag)
-				{
-					menuItemWindow.MenuItems.Remove(mi);
-					break;
-				}
-			}
-		}
-
-		public void SetWindowMenuItemVisible(bool visible)
-		{
-			this.menuItemWindow.Visible = visible;
 		}
 
 		#endregion

@@ -14,14 +14,11 @@ namespace Comets.Application.ModulEphemeris
 
 		#region Constructor
 
-		public FormEphemeris(EphemerisSettings settings, int tag)
+		public FormEphemeris(EphemerisSettings settings)
 		{
 			InitializeComponent();
-
 			this.DoubleBuffered = true;
-
 			this.EphemerisSettings = settings;
-			this.Tag = tag;
 		}
 
 		#endregion
@@ -30,21 +27,7 @@ namespace Comets.Application.ModulEphemeris
 
 		private void FormEphemerisResult_Load(object sender, System.EventArgs e)
 		{
-			FormMain main = this.MdiParent as FormMain;
-			main.SetWindowMenuItemVisible(true);
-
 			LoadResults();
-		}
-
-		#endregion
-
-		#region Form_Closing
-
-		private void FormEphemerisResult_FormClosing(object sender, FormClosingEventArgs e)
-		{
-			FormMain main = this.MdiParent as FormMain;
-			main.RemoveWindowMenuItem((int)this.Tag);
-			main.SetWindowMenuItemVisible(main.MdiChildren.Length > 1 ? true : false);
 		}
 
 		#endregion
@@ -53,7 +36,7 @@ namespace Comets.Application.ModulEphemeris
 
 		public async void LoadResults()
 		{
-			this.Text = this.Tag + " " + EphemerisSettings.ToString();
+			this.Text = EphemerisSettings.ToString();
 			richTextBox.Text = await EphemerisManager.GenerateEphemeris(EphemerisSettings);
 			EphemerisSettings.Results.Clear();
 		}

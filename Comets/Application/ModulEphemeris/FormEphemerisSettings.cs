@@ -288,24 +288,16 @@ namespace Comets.Application.ModulEphemeris
 		{
 			if (AddNewEphemeris && EphemerisSettings != null)
 			{
-				FormMain.ChildCount++;
-
-				FormMain main = this.Owner as FormMain;
-				main.AddWindowItem(EphemerisSettings.ToString());
-
-				FormEphemeris fe = new FormEphemeris(EphemerisSettings, FormMain.ChildCount);
-				fe.MdiParent = main;
+				FormEphemeris fe = new FormEphemeris(EphemerisSettings);
+				fe.MdiParent = this.Owner;
 				fe.WindowState = FormWindowState.Maximized;
 				fe.Show();
 			}
 			else if (EphemerisSettings != null && EphemerisSettings.Results.Any())
 			{
-				FormMain main = this.Owner as FormMain;
-				FormEphemeris fe = main.ActiveMdiChild as FormEphemeris;
-
+				FormEphemeris fe = this.Owner.ActiveMdiChild as FormEphemeris;
 				fe.EphemerisSettings = this.EphemerisSettings;
 				fe.LoadResults();
-				main.RenameWindowItem((int)fe.Tag, fe.Text);
 			}
 		}
 
