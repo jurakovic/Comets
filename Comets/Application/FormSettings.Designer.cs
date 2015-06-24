@@ -45,21 +45,6 @@
 			this.lblAppData = new System.Windows.Forms.Label();
 			this.txtAppData = new System.Windows.Forms.TextBox();
 			this.btnAppData = new System.Windows.Forms.Button();
-			this.tabNetwork = new System.Windows.Forms.TabPage();
-			this.gbxNetwork = new System.Windows.Forms.GroupBox();
-			this.pnlProxy = new System.Windows.Forms.Panel();
-			this.lblPort = new System.Windows.Forms.Label();
-			this.txtPort = new System.Windows.Forms.TextBox();
-			this.lblProxy = new System.Windows.Forms.Label();
-			this.txtProxy = new System.Windows.Forms.TextBox();
-			this.lblUsername = new System.Windows.Forms.Label();
-			this.txtUsername = new System.Windows.Forms.TextBox();
-			this.txtPassword = new System.Windows.Forms.TextBox();
-			this.lblDomain = new System.Windows.Forms.Label();
-			this.txtDomain = new System.Windows.Forms.TextBox();
-			this.lblPassword = new System.Windows.Forms.Label();
-			this.rbManualProxy = new System.Windows.Forms.RadioButton();
-			this.rbNoProxy = new System.Windows.Forms.RadioButton();
 			this.tabLocation = new System.Windows.Forms.TabPage();
 			this.gbxLocation = new System.Windows.Forms.GroupBox();
 			this.numTimezone = new System.Windows.Forms.NumericUpDown();
@@ -96,15 +81,27 @@
 			this.lblSelectProgram = new System.Windows.Forms.Label();
 			this.btnProgramsOk = new System.Windows.Forms.Button();
 			this.btnProgramsCancel = new System.Windows.Forms.Button();
+			this.tabNetwork = new System.Windows.Forms.TabPage();
+			this.gbxNetwork = new System.Windows.Forms.GroupBox();
+			this.pnlProxy = new System.Windows.Forms.Panel();
+			this.lblPort = new System.Windows.Forms.Label();
+			this.txtPort = new System.Windows.Forms.TextBox();
+			this.lblProxy = new System.Windows.Forms.Label();
+			this.txtProxy = new System.Windows.Forms.TextBox();
+			this.lblUsername = new System.Windows.Forms.Label();
+			this.txtUsername = new System.Windows.Forms.TextBox();
+			this.txtPassword = new System.Windows.Forms.TextBox();
+			this.lblDomain = new System.Windows.Forms.Label();
+			this.txtDomain = new System.Windows.Forms.TextBox();
+			this.lblPassword = new System.Windows.Forms.Label();
+			this.rbManualProxy = new System.Windows.Forms.RadioButton();
+			this.rbNoProxy = new System.Windows.Forms.RadioButton();
 			this.btnClose = new System.Windows.Forms.Button();
 			this.btnOK = new System.Windows.Forms.Button();
 			this.tabControl1.SuspendLayout();
 			this.tabGeneral.SuspendLayout();
 			this.gbxGeneral.SuspendLayout();
 			this.gbxAppData.SuspendLayout();
-			this.tabNetwork.SuspendLayout();
-			this.gbxNetwork.SuspendLayout();
-			this.pnlProxy.SuspendLayout();
 			this.tabLocation.SuspendLayout();
 			this.gbxLocation.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numTimezone)).BeginInit();
@@ -112,6 +109,9 @@
 			this.gbxPrograms.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dgvPrograms)).BeginInit();
 			this.gbxAddProgram.SuspendLayout();
+			this.tabNetwork.SuspendLayout();
+			this.gbxNetwork.SuspendLayout();
+			this.pnlProxy.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tabControl1
@@ -307,172 +307,6 @@
 			this.btnAppData.Text = "Browse";
 			this.btnAppData.UseVisualStyleBackColor = true;
 			this.btnAppData.Click += new System.EventHandler(this.btnAppData_Click);
-			// 
-			// tabNetwork
-			// 
-			this.tabNetwork.BackColor = System.Drawing.SystemColors.Control;
-			this.tabNetwork.Controls.Add(this.gbxNetwork);
-			this.tabNetwork.Location = new System.Drawing.Point(4, 24);
-			this.tabNetwork.Name = "tabNetwork";
-			this.tabNetwork.Size = new System.Drawing.Size(685, 296);
-			this.tabNetwork.TabIndex = 3;
-			this.tabNetwork.Text = "Network";
-			// 
-			// gbxNetwork
-			// 
-			this.gbxNetwork.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
-			this.gbxNetwork.Controls.Add(this.pnlProxy);
-			this.gbxNetwork.Controls.Add(this.rbManualProxy);
-			this.gbxNetwork.Controls.Add(this.rbNoProxy);
-			this.gbxNetwork.Location = new System.Drawing.Point(8, 3);
-			this.gbxNetwork.Name = "gbxNetwork";
-			this.gbxNetwork.Size = new System.Drawing.Size(669, 285);
-			this.gbxNetwork.TabIndex = 4;
-			this.gbxNetwork.TabStop = false;
-			// 
-			// pnlProxy
-			// 
-			this.pnlProxy.Controls.Add(this.lblPort);
-			this.pnlProxy.Controls.Add(this.txtPort);
-			this.pnlProxy.Controls.Add(this.lblProxy);
-			this.pnlProxy.Controls.Add(this.txtProxy);
-			this.pnlProxy.Controls.Add(this.lblUsername);
-			this.pnlProxy.Controls.Add(this.txtUsername);
-			this.pnlProxy.Controls.Add(this.txtPassword);
-			this.pnlProxy.Controls.Add(this.lblDomain);
-			this.pnlProxy.Controls.Add(this.txtDomain);
-			this.pnlProxy.Controls.Add(this.lblPassword);
-			this.pnlProxy.Enabled = false;
-			this.pnlProxy.Location = new System.Drawing.Point(3, 73);
-			this.pnlProxy.Name = "pnlProxy";
-			this.pnlProxy.Size = new System.Drawing.Size(663, 209);
-			this.pnlProxy.TabIndex = 51;
-			// 
-			// lblPort
-			// 
-			this.lblPort.AutoSize = true;
-			this.lblPort.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.lblPort.Location = new System.Drawing.Point(374, 78);
-			this.lblPort.Name = "lblPort";
-			this.lblPort.Size = new System.Drawing.Size(31, 13);
-			this.lblPort.TabIndex = 58;
-			this.lblPort.Text = "Port";
-			// 
-			// txtPort
-			// 
-			this.txtPort.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
-			this.txtPort.Location = new System.Drawing.Point(399, 109);
-			this.txtPort.MaxLength = 5;
-			this.txtPort.Name = "txtPort";
-			this.txtPort.Size = new System.Drawing.Size(62, 21);
-			this.txtPort.TabIndex = 56;
-			// 
-			// lblProxy
-			// 
-			this.lblProxy.AutoSize = true;
-			this.lblProxy.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.lblProxy.Location = new System.Drawing.Point(374, 11);
-			this.lblProxy.Name = "lblProxy";
-			this.lblProxy.Size = new System.Drawing.Size(40, 13);
-			this.lblProxy.TabIndex = 57;
-			this.lblProxy.Text = "Proxy";
-			// 
-			// txtProxy
-			// 
-			this.txtProxy.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
-			this.txtProxy.Location = new System.Drawing.Point(399, 42);
-			this.txtProxy.MaxLength = 128;
-			this.txtProxy.Name = "txtProxy";
-			this.txtProxy.Size = new System.Drawing.Size(160, 21);
-			this.txtProxy.TabIndex = 55;
-			// 
-			// lblUsername
-			// 
-			this.lblUsername.AutoSize = true;
-			this.lblUsername.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.lblUsername.Location = new System.Drawing.Point(3, 78);
-			this.lblUsername.Name = "lblUsername";
-			this.lblUsername.Size = new System.Drawing.Size(65, 13);
-			this.lblUsername.TabIndex = 54;
-			this.lblUsername.Text = "Username";
-			// 
-			// txtUsername
-			// 
-			this.txtUsername.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
-			this.txtUsername.Location = new System.Drawing.Point(28, 109);
-			this.txtUsername.MaxLength = 256;
-			this.txtUsername.Name = "txtUsername";
-			this.txtUsername.Size = new System.Drawing.Size(243, 21);
-			this.txtUsername.TabIndex = 51;
-			// 
-			// txtPassword
-			// 
-			this.txtPassword.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
-			this.txtPassword.Location = new System.Drawing.Point(28, 176);
-			this.txtPassword.MaxLength = 256;
-			this.txtPassword.Name = "txtPassword";
-			this.txtPassword.PasswordChar = '•';
-			this.txtPassword.Size = new System.Drawing.Size(243, 21);
-			this.txtPassword.TabIndex = 49;
-			// 
-			// lblDomain
-			// 
-			this.lblDomain.AutoSize = true;
-			this.lblDomain.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.lblDomain.Location = new System.Drawing.Point(3, 11);
-			this.lblDomain.Name = "lblDomain";
-			this.lblDomain.Size = new System.Drawing.Size(50, 13);
-			this.lblDomain.TabIndex = 53;
-			this.lblDomain.Text = "Domain";
-			// 
-			// txtDomain
-			// 
-			this.txtDomain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
-			this.txtDomain.Location = new System.Drawing.Point(28, 42);
-			this.txtDomain.MaxLength = 256;
-			this.txtDomain.Name = "txtDomain";
-			this.txtDomain.Size = new System.Drawing.Size(243, 21);
-			this.txtDomain.TabIndex = 50;
-			// 
-			// lblPassword
-			// 
-			this.lblPassword.AutoSize = true;
-			this.lblPassword.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.lblPassword.Location = new System.Drawing.Point(3, 145);
-			this.lblPassword.Name = "lblPassword";
-			this.lblPassword.Size = new System.Drawing.Size(61, 13);
-			this.lblPassword.TabIndex = 52;
-			this.lblPassword.Text = "Password";
-			// 
-			// rbManualProxy
-			// 
-			this.rbManualProxy.AutoSize = true;
-			this.rbManualProxy.Location = new System.Drawing.Point(9, 48);
-			this.rbManualProxy.Name = "rbManualProxy";
-			this.rbManualProxy.Size = new System.Drawing.Size(156, 17);
-			this.rbManualProxy.TabIndex = 50;
-			this.rbManualProxy.Text = "Manual proxy configuration";
-			this.rbManualProxy.UseVisualStyleBackColor = true;
-			this.rbManualProxy.CheckedChanged += new System.EventHandler(this.rbCommon_CheckedChanged);
-			// 
-			// rbNoProxy
-			// 
-			this.rbNoProxy.AutoSize = true;
-			this.rbNoProxy.Checked = true;
-			this.rbNoProxy.Location = new System.Drawing.Point(9, 17);
-			this.rbNoProxy.Name = "rbNoProxy";
-			this.rbNoProxy.Size = new System.Drawing.Size(69, 17);
-			this.rbNoProxy.TabIndex = 49;
-			this.rbNoProxy.TabStop = true;
-			this.rbNoProxy.Text = "No proxy";
-			this.rbNoProxy.UseVisualStyleBackColor = true;
-			this.rbNoProxy.CheckedChanged += new System.EventHandler(this.rbCommon_CheckedChanged);
 			// 
 			// tabLocation
 			// 
@@ -885,6 +719,172 @@
 			this.btnProgramsCancel.UseVisualStyleBackColor = true;
 			this.btnProgramsCancel.Click += new System.EventHandler(this.btnProgramsCancel_Click);
 			// 
+			// tabNetwork
+			// 
+			this.tabNetwork.BackColor = System.Drawing.SystemColors.Control;
+			this.tabNetwork.Controls.Add(this.gbxNetwork);
+			this.tabNetwork.Location = new System.Drawing.Point(4, 24);
+			this.tabNetwork.Name = "tabNetwork";
+			this.tabNetwork.Size = new System.Drawing.Size(685, 296);
+			this.tabNetwork.TabIndex = 3;
+			this.tabNetwork.Text = "Network";
+			// 
+			// gbxNetwork
+			// 
+			this.gbxNetwork.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
+			this.gbxNetwork.Controls.Add(this.pnlProxy);
+			this.gbxNetwork.Controls.Add(this.rbManualProxy);
+			this.gbxNetwork.Controls.Add(this.rbNoProxy);
+			this.gbxNetwork.Location = new System.Drawing.Point(8, 3);
+			this.gbxNetwork.Name = "gbxNetwork";
+			this.gbxNetwork.Size = new System.Drawing.Size(669, 285);
+			this.gbxNetwork.TabIndex = 4;
+			this.gbxNetwork.TabStop = false;
+			// 
+			// pnlProxy
+			// 
+			this.pnlProxy.Controls.Add(this.lblPort);
+			this.pnlProxy.Controls.Add(this.txtPort);
+			this.pnlProxy.Controls.Add(this.lblProxy);
+			this.pnlProxy.Controls.Add(this.txtProxy);
+			this.pnlProxy.Controls.Add(this.lblUsername);
+			this.pnlProxy.Controls.Add(this.txtUsername);
+			this.pnlProxy.Controls.Add(this.txtPassword);
+			this.pnlProxy.Controls.Add(this.lblDomain);
+			this.pnlProxy.Controls.Add(this.txtDomain);
+			this.pnlProxy.Controls.Add(this.lblPassword);
+			this.pnlProxy.Enabled = false;
+			this.pnlProxy.Location = new System.Drawing.Point(3, 73);
+			this.pnlProxy.Name = "pnlProxy";
+			this.pnlProxy.Size = new System.Drawing.Size(663, 209);
+			this.pnlProxy.TabIndex = 51;
+			// 
+			// lblPort
+			// 
+			this.lblPort.AutoSize = true;
+			this.lblPort.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblPort.Location = new System.Drawing.Point(3, 78);
+			this.lblPort.Name = "lblPort";
+			this.lblPort.Size = new System.Drawing.Size(31, 13);
+			this.lblPort.TabIndex = 58;
+			this.lblPort.Text = "Port";
+			// 
+			// txtPort
+			// 
+			this.txtPort.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
+			this.txtPort.Location = new System.Drawing.Point(28, 109);
+			this.txtPort.MaxLength = 5;
+			this.txtPort.Name = "txtPort";
+			this.txtPort.Size = new System.Drawing.Size(62, 21);
+			this.txtPort.TabIndex = 56;
+			// 
+			// lblProxy
+			// 
+			this.lblProxy.AutoSize = true;
+			this.lblProxy.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblProxy.Location = new System.Drawing.Point(3, 11);
+			this.lblProxy.Name = "lblProxy";
+			this.lblProxy.Size = new System.Drawing.Size(40, 13);
+			this.lblProxy.TabIndex = 57;
+			this.lblProxy.Text = "Proxy";
+			// 
+			// txtProxy
+			// 
+			this.txtProxy.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
+			this.txtProxy.Location = new System.Drawing.Point(28, 42);
+			this.txtProxy.MaxLength = 128;
+			this.txtProxy.Name = "txtProxy";
+			this.txtProxy.Size = new System.Drawing.Size(160, 21);
+			this.txtProxy.TabIndex = 55;
+			// 
+			// lblUsername
+			// 
+			this.lblUsername.AutoSize = true;
+			this.lblUsername.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblUsername.Location = new System.Drawing.Point(248, 78);
+			this.lblUsername.Name = "lblUsername";
+			this.lblUsername.Size = new System.Drawing.Size(65, 13);
+			this.lblUsername.TabIndex = 54;
+			this.lblUsername.Text = "Username";
+			// 
+			// txtUsername
+			// 
+			this.txtUsername.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
+			this.txtUsername.Location = new System.Drawing.Point(273, 109);
+			this.txtUsername.MaxLength = 256;
+			this.txtUsername.Name = "txtUsername";
+			this.txtUsername.Size = new System.Drawing.Size(243, 21);
+			this.txtUsername.TabIndex = 51;
+			// 
+			// txtPassword
+			// 
+			this.txtPassword.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
+			this.txtPassword.Location = new System.Drawing.Point(273, 176);
+			this.txtPassword.MaxLength = 256;
+			this.txtPassword.Name = "txtPassword";
+			this.txtPassword.PasswordChar = '•';
+			this.txtPassword.Size = new System.Drawing.Size(243, 21);
+			this.txtPassword.TabIndex = 49;
+			// 
+			// lblDomain
+			// 
+			this.lblDomain.AutoSize = true;
+			this.lblDomain.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblDomain.Location = new System.Drawing.Point(248, 11);
+			this.lblDomain.Name = "lblDomain";
+			this.lblDomain.Size = new System.Drawing.Size(50, 13);
+			this.lblDomain.TabIndex = 53;
+			this.lblDomain.Text = "Domain";
+			// 
+			// txtDomain
+			// 
+			this.txtDomain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
+			this.txtDomain.Location = new System.Drawing.Point(273, 42);
+			this.txtDomain.MaxLength = 256;
+			this.txtDomain.Name = "txtDomain";
+			this.txtDomain.Size = new System.Drawing.Size(243, 21);
+			this.txtDomain.TabIndex = 50;
+			// 
+			// lblPassword
+			// 
+			this.lblPassword.AutoSize = true;
+			this.lblPassword.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblPassword.Location = new System.Drawing.Point(248, 145);
+			this.lblPassword.Name = "lblPassword";
+			this.lblPassword.Size = new System.Drawing.Size(61, 13);
+			this.lblPassword.TabIndex = 52;
+			this.lblPassword.Text = "Password";
+			// 
+			// rbManualProxy
+			// 
+			this.rbManualProxy.AutoSize = true;
+			this.rbManualProxy.Location = new System.Drawing.Point(9, 48);
+			this.rbManualProxy.Name = "rbManualProxy";
+			this.rbManualProxy.Size = new System.Drawing.Size(156, 17);
+			this.rbManualProxy.TabIndex = 50;
+			this.rbManualProxy.Text = "Manual proxy configuration";
+			this.rbManualProxy.UseVisualStyleBackColor = true;
+			this.rbManualProxy.CheckedChanged += new System.EventHandler(this.rbCommon_CheckedChanged);
+			// 
+			// rbNoProxy
+			// 
+			this.rbNoProxy.AutoSize = true;
+			this.rbNoProxy.Checked = true;
+			this.rbNoProxy.Location = new System.Drawing.Point(9, 17);
+			this.rbNoProxy.Name = "rbNoProxy";
+			this.rbNoProxy.Size = new System.Drawing.Size(69, 17);
+			this.rbNoProxy.TabIndex = 49;
+			this.rbNoProxy.TabStop = true;
+			this.rbNoProxy.Text = "No proxy";
+			this.rbNoProxy.UseVisualStyleBackColor = true;
+			this.rbNoProxy.CheckedChanged += new System.EventHandler(this.rbCommon_CheckedChanged);
+			// 
 			// btnClose
 			// 
 			this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -900,7 +900,6 @@
 			// btnOK
 			// 
 			this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
 			this.btnOK.Location = new System.Drawing.Point(422, 351);
 			this.btnOK.Name = "btnOK";
 			this.btnOK.Size = new System.Drawing.Size(118, 23);
@@ -933,11 +932,6 @@
 			this.gbxGeneral.PerformLayout();
 			this.gbxAppData.ResumeLayout(false);
 			this.gbxAppData.PerformLayout();
-			this.tabNetwork.ResumeLayout(false);
-			this.gbxNetwork.ResumeLayout(false);
-			this.gbxNetwork.PerformLayout();
-			this.pnlProxy.ResumeLayout(false);
-			this.pnlProxy.PerformLayout();
 			this.tabLocation.ResumeLayout(false);
 			this.gbxLocation.ResumeLayout(false);
 			this.gbxLocation.PerformLayout();
@@ -947,6 +941,11 @@
 			((System.ComponentModel.ISupportInitialize)(this.dgvPrograms)).EndInit();
 			this.gbxAddProgram.ResumeLayout(false);
 			this.gbxAddProgram.PerformLayout();
+			this.tabNetwork.ResumeLayout(false);
+			this.gbxNetwork.ResumeLayout(false);
+			this.gbxNetwork.PerformLayout();
+			this.pnlProxy.ResumeLayout(false);
+			this.pnlProxy.PerformLayout();
 			this.ResumeLayout(false);
 
 		}

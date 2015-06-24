@@ -69,6 +69,7 @@ namespace Comets.Application
 			else
 			{
 				progressDownload.Visible = true;
+				progressDownload.Style = ProgressBarStyle.Marquee;
 
 				using (WebClient wc = new WebClient())
 				{
@@ -97,6 +98,7 @@ namespace Comets.Application
 
 		void Client_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
 		{
+			progressDownload.Style = ProgressBarStyle.Blocks;
 			progressDownload.Value = e.ProgressPercentage;
 		}
 

@@ -66,6 +66,12 @@ namespace Comets.Application
 
 		private void btnOK_Click(object sender, EventArgs e)
 		{
+			if (rbManualProxy.Checked && (String.IsNullOrEmpty(txtProxy.Text.Trim()) || txtPort.Int() == 0))
+			{
+				MessageBox.Show("Please enter Proxy and Port\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
 			FormMain.Settings.AppData = txtAppData.Text.Trim();
 			FormMain.Settings.Database = FormMain.Settings.AppData + "\\Comets.db";
 			FormMain.Settings.Downloads = txtDownloads.Text.Trim();
