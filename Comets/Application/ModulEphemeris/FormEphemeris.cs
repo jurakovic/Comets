@@ -1,5 +1,7 @@
 ﻿using Comets.BusinessLayer.Business;
 using Comets.BusinessLayer.Managers;
+using System;
+using System.IO;
 using System.Windows.Forms;
 
 namespace Comets.Application.ModulEphemeris
@@ -39,6 +41,25 @@ namespace Comets.Application.ModulEphemeris
 			this.Text = EphemerisSettings.ToString();
 			richTextBox.Text = await EphemerisManager.GenerateEphemeris(EphemerisSettings);
 			EphemerisSettings.Results.Clear();
+		}
+
+		#endregion
+
+		#region SaveEphemeris
+
+		public void SaveEphemeris()
+		{
+			using (SaveFileDialog sfd = new SaveFileDialog())
+			{
+				sfd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+				sfd.Filter = "Text documents (*.txt)|*.txt|All files (*.*)|*.*";
+
+				if (sfd.ShowDialog() == DialogResult.OK)
+				{
+					File.WriteAllText(sfd.FileName, richTextBox.Text);
+					MessageBox.Show(String.Format("Ephemeris saved as {0}\t\t\t", sfd.FileName), "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				}
+			}
 		}
 
 		#endregion

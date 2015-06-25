@@ -81,6 +81,8 @@
 			this.statusComets = new System.Windows.Forms.ToolStripStatusLabel();
 			this.statusSpace = new System.Windows.Forms.ToolStripStatusLabel();
 			this.statusProgressBar = new System.Windows.Forms.ToolStripProgressBar();
+			this.menuItemOrbitSep4 = new System.Windows.Forms.MenuItem();
+			this.menuItemOrbitSaveImage = new System.Windows.Forms.MenuItem();
 			this.statusStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -167,6 +169,7 @@
 			// 
 			this.menuItemEphemerisSaveAs.Index = 1;
 			this.menuItemEphemerisSaveAs.Text = "Save As";
+			this.menuItemEphemerisSaveAs.Click += new System.EventHandler(this.menuItemEphemerisSaveAs_Click);
 			// 
 			// menuItemGraph
 			// 
@@ -187,6 +190,7 @@
 			// 
 			this.menuItemGraphSaveAs.Index = 1;
 			this.menuItemGraphSaveAs.Text = "Save As";
+			this.menuItemGraphSaveAs.Click += new System.EventHandler(this.menuItemGraphSaveAs_Click);
 			// 
 			// menuItemOrbit
 			// 
@@ -204,7 +208,9 @@
             this.menuItemOrbitPlanet,
             this.menuItemOrbitMagnitude,
             this.menuItemOrbitDistance,
-            this.menuItemOrbitDate});
+            this.menuItemOrbitDate,
+            this.menuItemOrbitSep4,
+            this.menuItemOrbitSaveImage});
 			this.menuItemOrbit.Text = "Orbit";
 			this.menuItemOrbit.Visible = false;
 			// 
@@ -445,6 +451,17 @@
 			this.statusProgressBar.Size = new System.Drawing.Size(200, 16);
 			this.statusProgressBar.Visible = false;
 			// 
+			// menuItemOrbitSep4
+			// 
+			this.menuItemOrbitSep4.Index = 13;
+			this.menuItemOrbitSep4.Text = "-";
+			// 
+			// menuItemOrbitSaveImage
+			// 
+			this.menuItemOrbitSaveImage.Index = 14;
+			this.menuItemOrbitSaveImage.Text = "Save Image As";
+			this.menuItemOrbitSaveImage.Click += new System.EventHandler(this.menuItemOrbitSaveImage_Click);
+			// 
 			// FormMain
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -522,6 +539,8 @@
 		private System.Windows.Forms.MenuItem menuItemOrbitSep2;
 		private System.Windows.Forms.MenuItem menuItemOrbitClearComets;
 		private System.Windows.Forms.MenuItem menuItemViewAlwaysOnTop;
+		private System.Windows.Forms.MenuItem menuItemOrbitSep4;
+		private System.Windows.Forms.MenuItem menuItemOrbitSaveImage;
 	}
 }
 

@@ -209,6 +209,11 @@ namespace Comets.Application
 			}
 		}
 
+		private void menuItemEphemerisSaveAs_Click(object sender, EventArgs e)
+		{
+			(this.ActiveMdiChild as FormEphemeris).SaveEphemeris();
+		}
+
 		#endregion
 
 		#region Menu: Graph
@@ -221,6 +226,11 @@ namespace Comets.Application
 				fgs.TopMost = this.TopMost;
 				fgs.ShowDialog();
 			}
+		}
+
+		private void menuItemGraphSaveAs_Click(object sender, EventArgs e)
+		{
+			(this.ActiveMdiChild as FormGraph).SaveGraph();
 		}
 
 		#endregion
@@ -252,6 +262,11 @@ namespace Comets.Application
 			ovs.ShowDate = this.menuItemOrbitDate.Checked;
 
 			return ovs;
+		}
+
+		private void menuItemOrbitSaveImage_Click(object sender, EventArgs e)
+		{
+			(this.ActiveMdiChild as FormOrbitViewer).SaveImage();
 		}
 
 		#endregion

@@ -5,6 +5,7 @@ using Comets.OrbitViewer;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -671,6 +672,45 @@ namespace Comets.Application.ModulOrbit
 		{
 			orbitPanel.ClearComets();
 			orbitPanel.Invalidate();
+		}
+
+		public void SaveImage()
+		{
+			using (SaveFileDialog sfd = new SaveFileDialog())
+			{
+				sfd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+				sfd.Filter = "BMP (*.bmp)|*.bmp|" +
+							"GIF (*.gif)|*.gif|" +
+							"JPEG (*.jpg, *.jpeg, *.jpe, *.jfif)|*.jpg;*.jpeg;*.jpe;*.jfif|" +
+							"PNG (*.png)|*.png";
+				sfd.FilterIndex = 4;
+
+				if (sfd.ShowDialog() == DialogResult.OK)
+				{
+					ImageFormat format;
+
+					switch (sfd.FilterIndex)
+					{
+						case 1:
+							format = ImageFormat.Bmp;
+							break;
+						case 2:
+							format = ImageFormat.Gif;
+							break;
+						case 3:
+							format = ImageFormat.Jpeg;
+							break;
+						default:
+							format = ImageFormat.Png;
+							break;
+					}
+
+					Bitmap bmp = new Bitmap(this.orbitPanel.Width, this.orbitPanel.Height);
+					this.orbitPanel.DrawToBitmap(bmp, this.orbitPanel.DisplayRectangle);
+					bmp.Save(sfd.FileName, format);
+					MessageBox.Show(String.Format("Orbit saved as {0}\t\t\t", sfd.FileName), "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				}
+			}
 		}
 
 		#endregion
