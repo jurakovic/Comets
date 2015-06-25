@@ -8,7 +8,8 @@ namespace Comets.BusinessLayer.Business
 		#region Properties
 
 		public Location Location { get; set; }
-		public Comet Comet { get; set; }
+		public List<Comet> Comets { get; set; }
+		public Comet SelectedComet { get; set; }
 		public ATime Start { get; set; }
 		public ATime Stop { get; set; }
 		public double Interval { get; set; }

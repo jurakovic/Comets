@@ -34,7 +34,7 @@ namespace Comets.BusinessLayer.Business
 
 		public override string ToString()
 		{
-			return "Ephemeris - " + base.Comet.full;
+			return "Ephemeris - " + base.SelectedComet.full;
 		}
 
 		#endregion

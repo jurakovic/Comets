@@ -41,7 +41,7 @@ namespace Comets.BusinessLayer.Business
 
 		public override string ToString()
 		{
-			return "Graph - " + base.Comet.full;
+			return "Graph - " + base.SelectedComet.full;
 		}
 
 		#endregion

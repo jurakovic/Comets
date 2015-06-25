@@ -30,6 +30,7 @@
 		{
 			this.btnPlotGraph = new System.Windows.Forms.Button();
 			this.gbxSelectComet = new System.Windows.Forms.GroupBox();
+			this.btnSelectComets = new System.Windows.Forms.Button();
 			this.lblPeriod = new System.Windows.Forms.Label();
 			this.lblPerihDist = new System.Windows.Forms.Label();
 			this.lblPerihDate = new System.Windows.Forms.Label();
@@ -91,6 +92,7 @@
 			// 
 			// gbxSelectComet
 			// 
+			this.gbxSelectComet.Controls.Add(this.btnSelectComets);
 			this.gbxSelectComet.Controls.Add(this.lblPeriod);
 			this.gbxSelectComet.Controls.Add(this.lblPerihDist);
 			this.gbxSelectComet.Controls.Add(this.lblPerihDate);
@@ -101,7 +103,17 @@
 			this.gbxSelectComet.Size = new System.Drawing.Size(325, 135);
 			this.gbxSelectComet.TabIndex = 294;
 			this.gbxSelectComet.TabStop = false;
-			this.gbxSelectComet.Text = "Select comet";
+			this.gbxSelectComet.Text = "Comet";
+			// 
+			// btnSelectComets
+			// 
+			this.btnSelectComets.Location = new System.Drawing.Point(244, 19);
+			this.btnSelectComets.Name = "btnSelectComets";
+			this.btnSelectComets.Size = new System.Drawing.Size(75, 24);
+			this.btnSelectComets.TabIndex = 301;
+			this.btnSelectComets.Text = "Select";
+			this.btnSelectComets.UseVisualStyleBackColor = true;
+			this.btnSelectComets.Click += new System.EventHandler(this.btnSelectComets_Click);
 			// 
 			// lblPeriod
 			// 
@@ -139,7 +151,7 @@
 			this.cbComet.Location = new System.Drawing.Point(12, 20);
 			this.cbComet.MaxDropDownItems = 16;
 			this.cbComet.Name = "cbComet";
-			this.cbComet.Size = new System.Drawing.Size(299, 22);
+			this.cbComet.Size = new System.Drawing.Size(226, 22);
 			this.cbComet.TabIndex = 1;
 			this.cbComet.SelectedIndexChanged += new System.EventHandler(this.cbComet_SelectedIndexChanged);
 			// 
@@ -584,5 +596,6 @@
 		private System.Windows.Forms.TextBox txtYearEnd;
 		private System.Windows.Forms.Button btnTimespanDaysFromTDefault;
 		private System.Windows.Forms.Button btnTimespanDateDefault;
+		private System.Windows.Forms.Button btnSelectComets;
 	}
 }

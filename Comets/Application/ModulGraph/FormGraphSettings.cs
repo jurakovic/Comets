@@ -80,19 +80,13 @@ namespace Comets.Application.ModulGraph
 
 		private void FormMagnitudeSettings_Load(object sender, EventArgs e)
 		{
-			cbComet.DisplayMember = "full";
-			cbComet.DataSource = FormMain.UserList;
-
-			if (FormMain.UserList.Count == FormMain.MainList.Count)
+			if (GraphSettings == null)
 			{
-				//select comet with nearest perihelion date
-				Comet c = FormMain.UserList.Where(x => x.T - DateTime.Now.JD() > 0).OrderBy(y => y.T).First();
-				cbComet.SelectedIndex = FormMain.UserList.IndexOf(c);
+				GraphSettings = new GraphSettings();
+				GraphSettings.Comets = FormMain.UserList.ToList();
 			}
 
-			if (GraphSettings != null)
-				if (FormMain.UserList.Contains(GraphSettings.Comet))
-					cbComet.Text = GraphSettings.Comet.full;
+			BindList();
 		}
 
 		#endregion
@@ -103,11 +97,26 @@ namespace Comets.Application.ModulGraph
 		{
 			if (cbComet.SelectedIndex >= 0)
 			{
-				Comet c = FormMain.UserList.ElementAt(cbComet.SelectedIndex);
+				Comet c = GraphSettings.Comets.ElementAt(cbComet.SelectedIndex);
 
 				lblPerihDate.Text = "Perihelion date:                " + c.Ty.ToString() + " " + Comet.Month[c.Tm - 1] + " " + c.Td.ToString("00") + "." + c.Th.ToString("0000");
 				lblPerihDist.Text = "Perihelion distance:          " + c.q.ToString("0.000000") + " AU";
 				lblPeriod.Text = c.P < 10000 ? "Period:                              " + c.P.ToString("0.000000") + " years" : "Period:                              -";
+			}
+		}
+
+		#endregion
+
+		#region btnSelectComets_Click
+
+		private void btnSelectComets_Click(object sender, EventArgs e)
+		{
+			using (FormSelectComets fsc = new FormSelectComets(GraphSettings.Comets) { Owner = this })
+			{
+				fsc.TopMost = this.TopMost;
+
+				if (fsc.ShowDialog() == DialogResult.OK)
+					BindList();
 			}
 		}
 
@@ -214,7 +223,7 @@ namespace Comets.Application.ModulGraph
 					dateStart = new ATime(syr, smo, sdy, 0, 0, 0, FormMain.Settings.Location.Timezone);
 					dateStop = new ATime(eyr, emo, edy, 0, 0, 0, FormMain.Settings.Location.Timezone);
 
-					comet = FormMain.UserList.ElementAt(cbComet.SelectedIndex);
+					comet = GraphSettings.Comets.ElementAt(cbComet.SelectedIndex);
 
 					int before = txtDaysFromTStart.Int();
 					int after = txtDaysFromTStop.Int();
@@ -240,10 +249,7 @@ namespace Comets.Application.ModulGraph
 					return;
 				}
 
-				if (GraphSettings == null)
-					GraphSettings = new GraphSettings();
-
-				GraphSettings.Comet = comet;
+				GraphSettings.SelectedComet = comet;
 				GraphSettings.Location = FormMain.Settings.Location;
 
 				double interval = 0.0;
@@ -314,18 +320,39 @@ namespace Comets.Application.ModulGraph
 
 		private void FormMagnitudeSettings_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			if (AddNewGraph && GraphSettings != null)
+			if (AddNewGraph && GraphSettings.SelectedComet != null)
 			{
 				FormGraph fg = new FormGraph(GraphSettings);
 				fg.MdiParent = this.Owner;
 				fg.WindowState = FormWindowState.Maximized;
 				fg.Show();
 			}
-			else if (GraphSettings != null && GraphSettings.Results.Any())
+			else if (GraphSettings.Results != null && GraphSettings.Results.Any())
 			{
 				FormGraph fg = this.Owner.ActiveMdiChild as FormGraph;
 				fg.GraphSettings = this.GraphSettings;
 				fg.LoadGraph();
+			}
+		}
+
+		#endregion
+
+		#region BindList
+
+		private void BindList()
+		{
+			cbComet.DisplayMember = "full";
+			cbComet.DataSource = GraphSettings.Comets;
+
+			if (GraphSettings.SelectedComet != null && GraphSettings.Comets.Contains(GraphSettings.SelectedComet))
+			{
+				cbComet.SelectedIndex = GraphSettings.Comets.IndexOf(GraphSettings.SelectedComet);
+			}
+			else
+			{
+				//comet with nearest perihelion date
+				Comet c = GraphSettings.Comets.Where(x => x.T - DateTime.Now.JD() > 0).OrderBy(y => y.T).FirstOrDefault();
+				cbComet.SelectedIndex = c != null ? GraphSettings.Comets.IndexOf(c) : 0;
 			}
 		}
 

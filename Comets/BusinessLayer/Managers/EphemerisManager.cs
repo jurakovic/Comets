@@ -30,7 +30,7 @@ namespace Comets.BusinessLayer.Managers
 				{
 					EphemerisResult er = new EphemerisResult();
 
-					double[] dat = CometAlt(settings.Comet, (double)jd, settings.Location);
+					double[] dat = CometAlt(settings.SelectedComet, (double)jd, settings.Location);
 					er.Alt = dat[0];
 					er.Az = dat[1];
 					er.RA = dat[3];
@@ -68,10 +68,10 @@ namespace Comets.BusinessLayer.Managers
 		{
 			StringBuilder sb = new StringBuilder();
 
-			sb.AppendLine(String.Format("Comet:               \t{0}", settings.Comet.full));
-			sb.AppendLine(String.Format("Perihelion date:     \t{0} {1} {2:00}.{3:0000}", settings.Comet.Ty, Comet.Month[settings.Comet.Tm - 1], settings.Comet.Td, settings.Comet.Th));
-			sb.AppendLine(String.Format("Perihelion distance: \t{0:0.000000} AU", settings.Comet.q));
-			sb.AppendLine(String.Format("Period:              \t{0}", (settings.Comet.P < 10000 ? settings.Comet.P.ToString("0.000000") + " years" : "-")));
+			sb.AppendLine(String.Format("Comet:               \t{0}", settings.SelectedComet.full));
+			sb.AppendLine(String.Format("Perihelion date:     \t{0} {1} {2:00}.{3:0000}", settings.SelectedComet.Ty, Comet.Month[settings.SelectedComet.Tm - 1], settings.SelectedComet.Td, settings.SelectedComet.Th));
+			sb.AppendLine(String.Format("Perihelion distance: \t{0:0.000000} AU", settings.SelectedComet.q));
+			sb.AppendLine(String.Format("Period:              \t{0}", (settings.SelectedComet.P < 10000 ? settings.SelectedComet.P.ToString("0.000000") + " years" : "-")));
 			sb.AppendLine();
 
 			sb.Append(settings.LocalTime ? "     Local Time  " : " Universal Time  ");
@@ -272,8 +272,8 @@ namespace Comets.BusinessLayer.Managers
 
 			if (settings.PerihelionLine)
 			{
-				double T = settings.Comet.T;
-				double periodDays = settings.Comet.P * 365.25;
+				double T = settings.SelectedComet.T;
+				double periodDays = settings.SelectedComet.P * 365.25;
 
 				if ((xMax - xMin > periodDays) || (xMin < T && xMax > T))
 					while (T > xMin + periodDays)
@@ -314,7 +314,7 @@ namespace Comets.BusinessLayer.Managers
 				}
 			}
 
-			Title title = new Title(settings.Comet.ToString());
+			Title title = new Title(settings.SelectedComet.ToString());
 			title.Font = new System.Drawing.Font("Tahoma", 11.25F);
 			chart1.Titles.Clear();
 			chart1.Titles.Add(title);

@@ -13,7 +13,7 @@ namespace Comets.Application.ModulEphemeris
 	{
 		#region Properties
 
-		private EphemerisSettings EphemerisSettings { get; set; }
+		public EphemerisSettings EphemerisSettings { get; set; }
 		private bool AddNewEphemeris { get; set; }
 
 		#endregion
@@ -91,19 +91,13 @@ namespace Comets.Application.ModulEphemeris
 
 		private void FormEphemerisSettings_Load(object sender, EventArgs e)
 		{
-			cbComet.DisplayMember = "full";
-			cbComet.DataSource = FormMain.UserList;
-
-			if (FormMain.UserList.Count == FormMain.MainList.Count)
+			if (EphemerisSettings == null)
 			{
-				//select comet with nearest perihelion date
-				Comet c = FormMain.UserList.Where(x => x.T - DateTime.Now.JD() > 0).OrderBy(y => y.T).First();
-				cbComet.SelectedIndex = FormMain.UserList.IndexOf(c);
+				EphemerisSettings = new EphemerisSettings();
+				EphemerisSettings.Comets = FormMain.UserList.ToList();
 			}
 
-			if (EphemerisSettings != null)
-				if (FormMain.UserList.Contains(EphemerisSettings.Comet))
-					cbComet.Text = EphemerisSettings.Comet.full;
+			BindList();
 		}
 
 		#endregion
@@ -114,11 +108,26 @@ namespace Comets.Application.ModulEphemeris
 		{
 			if (cbComet.SelectedIndex >= 0)
 			{
-				Comet c = FormMain.UserList.ElementAt(cbComet.SelectedIndex);
+				Comet c = EphemerisSettings.Comets.ElementAt(cbComet.SelectedIndex);
 
 				lblPerihDate.Text = "Perihelion date:                " + c.Ty.ToString() + " " + Comet.Month[c.Tm - 1] + " " + c.Td.ToString("00") + "." + c.Th.ToString("0000");
 				lblPerihDist.Text = "Perihelion distance:          " + c.q.ToString("0.000000") + " AU";
 				lblPeriod.Text = c.P < 10000 ? "Period:                              " + c.P.ToString("0.000000") + " years" : "Period:                              -";
+			}
+		}
+
+		#endregion
+
+		#region btnSelectComets_Click
+
+		private void btnSelectComets_Click(object sender, EventArgs e)
+		{
+			using (FormSelectComets fsc = new FormSelectComets(EphemerisSettings.Comets) { Owner = this })
+			{
+				fsc.TopMost = this.TopMost;
+
+				if (fsc.ShowDialog() == DialogResult.OK)
+					BindList();
 			}
 		}
 
@@ -171,10 +180,7 @@ namespace Comets.Application.ModulEphemeris
 					return;
 				}
 
-				if (EphemerisSettings == null)
-					EphemerisSettings = new EphemerisSettings();
-
-				EphemerisSettings.Comet = FormMain.UserList.ElementAt(cbComet.SelectedIndex);
+				EphemerisSettings.SelectedComet = EphemerisSettings.Comets.ElementAt(cbComet.SelectedIndex);
 				EphemerisSettings.Location = FormMain.Settings.Location;
 
 				EphemerisSettings.Start = start;
@@ -286,18 +292,39 @@ namespace Comets.Application.ModulEphemeris
 
 		private void FormEphemerisSettings_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			if (AddNewEphemeris && EphemerisSettings != null)
+			if (AddNewEphemeris && EphemerisSettings.SelectedComet != null)
 			{
 				FormEphemeris fe = new FormEphemeris(EphemerisSettings);
 				fe.MdiParent = this.Owner;
 				fe.WindowState = FormWindowState.Maximized;
 				fe.Show();
 			}
-			else if (EphemerisSettings != null && EphemerisSettings.Results.Any())
+			else if (EphemerisSettings.Results != null && EphemerisSettings.Results.Any())
 			{
 				FormEphemeris fe = this.Owner.ActiveMdiChild as FormEphemeris;
 				fe.EphemerisSettings = this.EphemerisSettings;
 				fe.LoadResults();
+			}
+		}
+
+		#endregion
+
+		#region BindList
+
+		private void BindList()
+		{
+			cbComet.DisplayMember = "full";
+			cbComet.DataSource = EphemerisSettings.Comets;
+
+			if (EphemerisSettings.SelectedComet != null && EphemerisSettings.Comets.Contains(EphemerisSettings.SelectedComet))
+			{
+				cbComet.SelectedIndex = EphemerisSettings.Comets.IndexOf(EphemerisSettings.SelectedComet);
+			}
+			else
+			{
+				//comet with nearest perihelion date
+				Comet c = EphemerisSettings.Comets.Where(x => x.T - DateTime.Now.JD() > 0).OrderBy(y => y.T).FirstOrDefault();
+				cbComet.SelectedIndex = c != null ? EphemerisSettings.Comets.IndexOf(c) : 0;
 			}
 		}
 

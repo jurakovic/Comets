@@ -35,6 +35,9 @@
 			this.lblPerihDate = new System.Windows.Forms.Label();
 			this.cbComet = new System.Windows.Forms.ComboBox();
 			this.gbxTimestamp = new System.Windows.Forms.GroupBox();
+			this.txtMinInterval = new System.Windows.Forms.TextBox();
+			this.txtHourInterval = new System.Windows.Forms.TextBox();
+			this.txtDayInterval = new System.Windows.Forms.TextBox();
 			this.txtMinEnd = new System.Windows.Forms.TextBox();
 			this.txtHourEnd = new System.Windows.Forms.TextBox();
 			this.txtDayEnd = new System.Windows.Forms.TextBox();
@@ -64,9 +67,7 @@
 			this.chAlt = new System.Windows.Forms.CheckBox();
 			this.chDec = new System.Windows.Forms.CheckBox();
 			this.chRA = new System.Windows.Forms.CheckBox();
-			this.txtMinInterval = new System.Windows.Forms.TextBox();
-			this.txtHourInterval = new System.Windows.Forms.TextBox();
-			this.txtDayInterval = new System.Windows.Forms.TextBox();
+			this.btnSelectComets = new System.Windows.Forms.Button();
 			this.gbxSelectComet.SuspendLayout();
 			this.gbxTimestamp.SuspendLayout();
 			this.gbxOutputData.SuspendLayout();
@@ -86,6 +87,7 @@
 			// 
 			// gbxSelectComet
 			// 
+			this.gbxSelectComet.Controls.Add(this.btnSelectComets);
 			this.gbxSelectComet.Controls.Add(this.lblPeriod);
 			this.gbxSelectComet.Controls.Add(this.lblPerihDist);
 			this.gbxSelectComet.Controls.Add(this.lblPerihDate);
@@ -134,7 +136,7 @@
 			this.cbComet.Location = new System.Drawing.Point(12, 20);
 			this.cbComet.MaxDropDownItems = 21;
 			this.cbComet.Name = "cbComet";
-			this.cbComet.Size = new System.Drawing.Size(299, 22);
+			this.cbComet.Size = new System.Drawing.Size(226, 22);
 			this.cbComet.TabIndex = 1;
 			this.cbComet.SelectedIndexChanged += new System.EventHandler(this.cbComet_SelectedIndexChanged);
 			// 
@@ -165,6 +167,36 @@
 			this.gbxTimestamp.TabIndex = 295;
 			this.gbxTimestamp.TabStop = false;
 			this.gbxTimestamp.Text = "Timespan (Local Time)";
+			// 
+			// txtMinInterval
+			// 
+			this.txtMinInterval.Location = new System.Drawing.Point(363, 74);
+			this.txtMinInterval.Name = "txtMinInterval";
+			this.txtMinInterval.Size = new System.Drawing.Size(42, 21);
+			this.txtMinInterval.TabIndex = 337;
+			this.txtMinInterval.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.txtMinInterval.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtDateCommon_KeyDown);
+			this.txtMinInterval.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDateCommon_KeyPress);
+			// 
+			// txtHourInterval
+			// 
+			this.txtHourInterval.Location = new System.Drawing.Point(315, 74);
+			this.txtHourInterval.Name = "txtHourInterval";
+			this.txtHourInterval.Size = new System.Drawing.Size(42, 21);
+			this.txtHourInterval.TabIndex = 336;
+			this.txtHourInterval.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.txtHourInterval.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtDateCommon_KeyDown);
+			this.txtHourInterval.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDateCommon_KeyPress);
+			// 
+			// txtDayInterval
+			// 
+			this.txtDayInterval.Location = new System.Drawing.Point(259, 74);
+			this.txtDayInterval.Name = "txtDayInterval";
+			this.txtDayInterval.Size = new System.Drawing.Size(42, 21);
+			this.txtDayInterval.TabIndex = 335;
+			this.txtDayInterval.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.txtDayInterval.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtDateCommon_KeyDown);
+			this.txtDayInterval.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDateCommon_KeyPress);
 			// 
 			// txtMinEnd
 			// 
@@ -483,35 +515,15 @@
 			this.chRA.Text = "Right ascension (RA)";
 			this.chRA.UseVisualStyleBackColor = true;
 			// 
-			// txtMinInterval
+			// btnSelectComets
 			// 
-			this.txtMinInterval.Location = new System.Drawing.Point(363, 74);
-			this.txtMinInterval.Name = "txtMinInterval";
-			this.txtMinInterval.Size = new System.Drawing.Size(42, 21);
-			this.txtMinInterval.TabIndex = 337;
-			this.txtMinInterval.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.txtMinInterval.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtDateCommon_KeyDown);
-			this.txtMinInterval.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDateCommon_KeyPress);
-			// 
-			// txtHourInterval
-			// 
-			this.txtHourInterval.Location = new System.Drawing.Point(315, 74);
-			this.txtHourInterval.Name = "txtHourInterval";
-			this.txtHourInterval.Size = new System.Drawing.Size(42, 21);
-			this.txtHourInterval.TabIndex = 336;
-			this.txtHourInterval.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.txtHourInterval.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtDateCommon_KeyDown);
-			this.txtHourInterval.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDateCommon_KeyPress);
-			// 
-			// txtDayInterval
-			// 
-			this.txtDayInterval.Location = new System.Drawing.Point(259, 74);
-			this.txtDayInterval.Name = "txtDayInterval";
-			this.txtDayInterval.Size = new System.Drawing.Size(42, 21);
-			this.txtDayInterval.TabIndex = 335;
-			this.txtDayInterval.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.txtDayInterval.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtDateCommon_KeyDown);
-			this.txtDayInterval.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDateCommon_KeyPress);
+			this.btnSelectComets.Location = new System.Drawing.Point(244, 19);
+			this.btnSelectComets.Name = "btnSelectComets";
+			this.btnSelectComets.Size = new System.Drawing.Size(75, 24);
+			this.btnSelectComets.TabIndex = 302;
+			this.btnSelectComets.Text = "Select";
+			this.btnSelectComets.UseVisualStyleBackColor = true;
+			this.btnSelectComets.Click += new System.EventHandler(this.btnSelectComets_Click);
 			// 
 			// FormEphemerisSettings
 			// 
@@ -584,5 +596,6 @@
 		private System.Windows.Forms.TextBox txtMinInterval;
 		private System.Windows.Forms.TextBox txtHourInterval;
 		private System.Windows.Forms.TextBox txtDayInterval;
+		private System.Windows.Forms.Button btnSelectComets;
 	}
 }
