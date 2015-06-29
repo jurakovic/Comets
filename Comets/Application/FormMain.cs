@@ -240,7 +240,7 @@ namespace Comets.Application
 		private void menuItemOrbitMultiple_Click(object sender, EventArgs e)
 		{
 			(sender as MenuItem).Checked = !(sender as MenuItem).Checked;
-			(this.ActiveMdiChild as FormOrbitViewer).ApplySettings(CollectOrbitSettings(), true);
+			(this.ActiveMdiChild as FormOrbitViewer).Settings = CollectOrbitSettings();
 		}
 
 		private void menuItemOrbitClearComets_Click(object sender, EventArgs e)

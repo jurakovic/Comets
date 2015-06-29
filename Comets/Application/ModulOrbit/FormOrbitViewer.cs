@@ -117,7 +117,16 @@ namespace Comets.Application.ModulOrbit
 
 		OVComet SelectedComet { get; set; }
 
-		public OrbitViewerSettings Settings { get; set; }
+		OrbitViewerSettings settings;
+		public OrbitViewerSettings Settings
+		{
+			get { return settings; }
+			set
+			{
+				settings = value;
+				ApplySettings(this.Settings, true);
+			}
+		}
 
 		#endregion
 
