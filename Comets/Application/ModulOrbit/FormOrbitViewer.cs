@@ -532,7 +532,7 @@ namespace Comets.Application.ModulOrbit
 			orbitPanel.Invalidate();
 		}
 
-		private void PlaySimulation(int direction = 1)
+		private void PlaySimulation(int direction)
 		{
 			SimulationDirection = direction;
 			Timer.Start();
@@ -549,7 +549,7 @@ namespace Comets.Application.ModulOrbit
 		{
 			if (!SimulationStarted)
 			{
-				PlaySimulation();
+				PlaySimulation(SimulationDirection);
 			}
 			else
 			{
@@ -564,7 +564,7 @@ namespace Comets.Application.ModulOrbit
 		{
 			if (!SimulationStarted)
 			{
-				PlaySimulation();
+				PlaySimulation(SimulationDirection);
 			}
 			else
 			{
