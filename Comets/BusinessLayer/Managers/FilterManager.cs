@@ -18,8 +18,8 @@ namespace Comets.BusinessLayer.Managers
 
 			foreach (Comet c in MainList)
 			{
-				if ((fs.Name.Checked && fs.Name.ValueResolve == ValueResolveEnum.Contains && !c.full.ToLower().Contains(fs.Name.Text))
-				|| (fs.Name.Checked && fs.Name.ValueResolve == ValueResolveEnum.DoesNotContain && c.full.ToLower().Contains(fs.Name.Text))
+				if ((fs.Name.Checked && fs.Name.ValueResolve == ValueResolveEnum.Contains && !c.full.ToLower().Contains(fs.Name.Text.ToLower()))
+				|| (fs.Name.Checked && fs.Name.ValueResolve == ValueResolveEnum.DoesNotContain && c.full.ToLower().Contains(fs.Name.Text.ToLower()))
 
 				|| (fs.PerihelionDate.Checked && fs.PerihelionDate.ValueResolve == ValueResolveEnum.Greather && c.T < fs.PerihelionDate.Value)
 				|| (fs.PerihelionDate.Checked && fs.PerihelionDate.ValueResolve == ValueResolveEnum.Equal && !((c.Td.ToString("00") + "." + c.Tm.ToString("00") + "." + c.Ty) == fs.PerihelionDate.Text))

@@ -256,35 +256,35 @@ namespace Comets.Application
 				fc = new FilterCollection();
 
 			fc.Name.Checked = cbxName.Checked;
-			fc.Name.Text = txtName.Text.Trim().ToLower();
+			fc.Name.Text = txtName.Text.Trim();
 			fc.Name.Index = cboName.SelectedIndex;
 
 			fc.PerihelionDate.Checked = cbxPerihelionDate.Checked;
-			fc.PerihelionDate.Text = txtPerihelionDateD.Text.Trim().PadLeft(2, '0') + "." + txtPerihelionDateM.Text.Trim().PadLeft(2, '0') + "." + txtPerihelionDateY.Text.Trim();
+			fc.PerihelionDate.Text = txtPerihelionDateD.Text + "." + txtPerihelionDateM.Text + "." + txtPerihelionDateY.Text;
 			fc.PerihelionDate.Index = cboPerihelionDate.SelectedIndex;
 
 			fc.PerihelionDistance.Checked = cbxPerihelionDistance.Checked;
-			fc.PerihelionDistance.Text = txtPerihelionDistance.Text.Trim().ToLower();
+			fc.PerihelionDistance.Text = txtPerihelionDistance.Text;
 			fc.PerihelionDistance.Index = cboPerihelionDistance.SelectedIndex;
 
 			fc.Eccentricity.Checked = cbxEccentricity.Checked;
-			fc.Eccentricity.Text = txtEccentricity.Text.Trim().ToLower();
+			fc.Eccentricity.Text = txtEccentricity.Text;
 			fc.Eccentricity.Index = cboEccentricity.SelectedIndex;
 
 			fc.LongOfAscendingNode.Checked = cbxLongOfAscendingNode.Checked;
-			fc.LongOfAscendingNode.Text = txtLongOfAscendingNode.Text.Trim().ToLower();
+			fc.LongOfAscendingNode.Text = txtLongOfAscendingNode.Text;
 			fc.LongOfAscendingNode.Index = cboLongOfAscendingNode.SelectedIndex;
 
 			fc.ArgumentOfPericenter.Checked = cbxArgumentOfPericenter.Checked;
-			fc.ArgumentOfPericenter.Text = txtArgumentOfPericenter.Text.Trim().ToLower();
+			fc.ArgumentOfPericenter.Text = txtArgumentOfPericenter.Text;
 			fc.ArgumentOfPericenter.Index = cboArgumentOfPericenter.SelectedIndex;
 
 			fc.Inclination.Checked = cbxInclination.Checked;
-			fc.Inclination.Text = txtInclination.Text.Trim().ToLower();
+			fc.Inclination.Text = txtInclination.Text;
 			fc.Inclination.Index = cboInclination.SelectedIndex;
 
 			fc.Period.Checked = cbxPeriod.Checked;
-			fc.Period.Text = txtPeriod.Text.Trim().ToLower();
+			fc.Period.Text = txtPeriod.Text;
 			fc.Period.Index = cboPeriod.SelectedIndex;
 
 			return fc;

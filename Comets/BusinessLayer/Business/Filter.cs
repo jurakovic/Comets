@@ -1,4 +1,5 @@
-﻿using Comets.BusinessLayer.Managers;
+﻿using Comets.BusinessLayer.Extensions;
+using Comets.BusinessLayer.Managers;
 using System;
 
 namespace Comets.BusinessLayer.Business
@@ -53,7 +54,7 @@ namespace Comets.BusinessLayer.Business
 
 				if (_checked && _propertyName != PropertyNameEnum.Name && _propertyName != PropertyNameEnum.PerihelionDate)
 				{
-					_value = Utils.ConvertToDouble(_text);
+					_value = _text.Double();
 				}
 				else if (_checked && _propertyName == PropertyNameEnum.PerihelionDate)
 				{
