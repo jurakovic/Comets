@@ -35,16 +35,7 @@
 			this.chExitWithoutConfirm = new System.Windows.Forms.CheckBox();
 			this.chNewVersionOnStartup = new System.Windows.Forms.CheckBox();
 			this.chRememberWindowPosition = new System.Windows.Forms.CheckBox();
-			this.chDownloadOnStartup = new System.Windows.Forms.CheckBox();
-			this.gbxAppData = new System.Windows.Forms.GroupBox();
-			this.btnDefaultDownloads = new System.Windows.Forms.Button();
-			this.btnDefaultAppData = new System.Windows.Forms.Button();
-			this.lblDownloads = new System.Windows.Forms.Label();
-			this.txtDownloads = new System.Windows.Forms.TextBox();
-			this.btnDownloads = new System.Windows.Forms.Button();
-			this.lblAppData = new System.Windows.Forms.Label();
-			this.txtAppData = new System.Windows.Forms.TextBox();
-			this.btnAppData = new System.Windows.Forms.Button();
+			this.chUpdateOnStartup = new System.Windows.Forms.CheckBox();
 			this.tabLocation = new System.Windows.Forms.TabPage();
 			this.gbxLocation = new System.Windows.Forms.GroupBox();
 			this.numTimezone = new System.Windows.Forms.NumericUpDown();
@@ -101,7 +92,6 @@
 			this.tabControl1.SuspendLayout();
 			this.tabGeneral.SuspendLayout();
 			this.gbxGeneral.SuspendLayout();
-			this.gbxAppData.SuspendLayout();
 			this.tabLocation.SuspendLayout();
 			this.gbxLocation.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numTimezone)).BeginInit();
@@ -116,9 +106,9 @@
 			// 
 			// tabControl1
 			// 
-			this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-			| System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.tabControl1.Controls.Add(this.tabGeneral);
 			this.tabControl1.Controls.Add(this.tabLocation);
 			this.tabControl1.Controls.Add(this.tabPrograms);
@@ -135,7 +125,6 @@
 			// 
 			this.tabGeneral.BackColor = System.Drawing.SystemColors.Control;
 			this.tabGeneral.Controls.Add(this.gbxGeneral);
-			this.tabGeneral.Controls.Add(this.gbxAppData);
 			this.tabGeneral.Location = new System.Drawing.Point(4, 24);
 			this.tabGeneral.Name = "tabGeneral";
 			this.tabGeneral.Padding = new System.Windows.Forms.Padding(3);
@@ -145,23 +134,23 @@
 			// 
 			// gbxGeneral
 			// 
-			this.gbxGeneral.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.gbxGeneral.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.gbxGeneral.Controls.Add(this.chShowStatusBar);
 			this.gbxGeneral.Controls.Add(this.chExitWithoutConfirm);
 			this.gbxGeneral.Controls.Add(this.chNewVersionOnStartup);
 			this.gbxGeneral.Controls.Add(this.chRememberWindowPosition);
-			this.gbxGeneral.Controls.Add(this.chDownloadOnStartup);
-			this.gbxGeneral.Location = new System.Drawing.Point(8, 169);
+			this.gbxGeneral.Controls.Add(this.chUpdateOnStartup);
+			this.gbxGeneral.Location = new System.Drawing.Point(8, 3);
 			this.gbxGeneral.Name = "gbxGeneral";
-			this.gbxGeneral.Size = new System.Drawing.Size(668, 119);
+			this.gbxGeneral.Size = new System.Drawing.Size(668, 196);
 			this.gbxGeneral.TabIndex = 4;
 			this.gbxGeneral.TabStop = false;
 			// 
 			// chShowStatusBar
 			// 
 			this.chShowStatusBar.AutoSize = true;
-			this.chShowStatusBar.Location = new System.Drawing.Point(9, 90);
+			this.chShowStatusBar.Location = new System.Drawing.Point(13, 90);
 			this.chShowStatusBar.Name = "chShowStatusBar";
 			this.chShowStatusBar.Size = new System.Drawing.Size(104, 17);
 			this.chShowStatusBar.TabIndex = 4;
@@ -171,7 +160,7 @@
 			// chExitWithoutConfirm
 			// 
 			this.chExitWithoutConfirm.AutoSize = true;
-			this.chExitWithoutConfirm.Location = new System.Drawing.Point(9, 55);
+			this.chExitWithoutConfirm.Location = new System.Drawing.Point(13, 55);
 			this.chExitWithoutConfirm.Name = "chExitWithoutConfirm";
 			this.chExitWithoutConfirm.Size = new System.Drawing.Size(121, 17);
 			this.chExitWithoutConfirm.TabIndex = 3;
@@ -181,7 +170,7 @@
 			// chNewVersionOnStartup
 			// 
 			this.chNewVersionOnStartup.AutoSize = true;
-			this.chNewVersionOnStartup.Location = new System.Drawing.Point(402, 20);
+			this.chNewVersionOnStartup.Location = new System.Drawing.Point(13, 160);
 			this.chNewVersionOnStartup.Name = "chNewVersionOnStartup";
 			this.chNewVersionOnStartup.Size = new System.Drawing.Size(186, 17);
 			this.chNewVersionOnStartup.TabIndex = 1;
@@ -192,121 +181,23 @@
 			// chRememberWindowPosition
 			// 
 			this.chRememberWindowPosition.AutoSize = true;
-			this.chRememberWindowPosition.Location = new System.Drawing.Point(9, 20);
+			this.chRememberWindowPosition.Location = new System.Drawing.Point(13, 20);
 			this.chRememberWindowPosition.Name = "chRememberWindowPosition";
 			this.chRememberWindowPosition.Size = new System.Drawing.Size(156, 17);
 			this.chRememberWindowPosition.TabIndex = 2;
 			this.chRememberWindowPosition.Text = "Remember window position";
 			this.chRememberWindowPosition.UseVisualStyleBackColor = true;
 			// 
-			// chDownloadOnStartup
+			// chUpdateOnStartup
 			// 
-			this.chDownloadOnStartup.AutoSize = true;
-			this.chDownloadOnStartup.Location = new System.Drawing.Point(266, 55);
-			this.chDownloadOnStartup.Name = "chDownloadOnStartup";
-			this.chDownloadOnStartup.Size = new System.Drawing.Size(322, 17);
-			this.chDownloadOnStartup.TabIndex = 0;
-			this.chDownloadOnStartup.Text = "Download the latest orbital elements from Internet on startup";
-			this.chDownloadOnStartup.UseVisualStyleBackColor = true;
-			this.chDownloadOnStartup.Visible = false;
-			// 
-			// gbxAppData
-			// 
-			this.gbxAppData.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
-			this.gbxAppData.Controls.Add(this.btnDefaultDownloads);
-			this.gbxAppData.Controls.Add(this.btnDefaultAppData);
-			this.gbxAppData.Controls.Add(this.lblDownloads);
-			this.gbxAppData.Controls.Add(this.txtDownloads);
-			this.gbxAppData.Controls.Add(this.btnDownloads);
-			this.gbxAppData.Controls.Add(this.lblAppData);
-			this.gbxAppData.Controls.Add(this.txtAppData);
-			this.gbxAppData.Controls.Add(this.btnAppData);
-			this.gbxAppData.Location = new System.Drawing.Point(8, 3);
-			this.gbxAppData.Name = "gbxAppData";
-			this.gbxAppData.Size = new System.Drawing.Size(669, 160);
-			this.gbxAppData.TabIndex = 2;
-			this.gbxAppData.TabStop = false;
-			// 
-			// btnDefaultDownloads
-			// 
-			this.btnDefaultDownloads.Location = new System.Drawing.Point(591, 114);
-			this.btnDefaultDownloads.Name = "btnDefaultDownloads";
-			this.btnDefaultDownloads.Size = new System.Drawing.Size(70, 23);
-			this.btnDefaultDownloads.TabIndex = 42;
-			this.btnDefaultDownloads.Text = "Default";
-			this.btnDefaultDownloads.UseVisualStyleBackColor = true;
-			this.btnDefaultDownloads.Click += new System.EventHandler(this.btnDefaultDownloads_Click);
-			// 
-			// btnDefaultAppData
-			// 
-			this.btnDefaultAppData.Location = new System.Drawing.Point(591, 47);
-			this.btnDefaultAppData.Name = "btnDefaultAppData";
-			this.btnDefaultAppData.Size = new System.Drawing.Size(70, 23);
-			this.btnDefaultAppData.TabIndex = 3;
-			this.btnDefaultAppData.Text = "Default";
-			this.btnDefaultAppData.UseVisualStyleBackColor = true;
-			this.btnDefaultAppData.Click += new System.EventHandler(this.btnDefaultAppData_Click);
-			// 
-			// lblDownloads
-			// 
-			this.lblDownloads.AutoSize = true;
-			this.lblDownloads.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.lblDownloads.Location = new System.Drawing.Point(6, 84);
-			this.lblDownloads.Name = "lblDownloads";
-			this.lblDownloads.Size = new System.Drawing.Size(123, 13);
-			this.lblDownloads.TabIndex = 41;
-			this.lblDownloads.Text = "Downloads directory";
-			// 
-			// txtDownloads
-			// 
-			this.txtDownloads.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
-			this.txtDownloads.Location = new System.Drawing.Point(154, 115);
-			this.txtDownloads.MaxLength = 512;
-			this.txtDownloads.Name = "txtDownloads";
-			this.txtDownloads.Size = new System.Drawing.Size(431, 21);
-			this.txtDownloads.TabIndex = 3;
-			// 
-			// btnDownloads
-			// 
-			this.btnDownloads.Location = new System.Drawing.Point(31, 114);
-			this.btnDownloads.Name = "btnDownloads";
-			this.btnDownloads.Size = new System.Drawing.Size(118, 23);
-			this.btnDownloads.TabIndex = 2;
-			this.btnDownloads.Text = "Browse";
-			this.btnDownloads.UseVisualStyleBackColor = true;
-			this.btnDownloads.Click += new System.EventHandler(this.btnDownloads_Click);
-			// 
-			// lblAppData
-			// 
-			this.lblAppData.AutoSize = true;
-			this.lblAppData.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.lblAppData.Location = new System.Drawing.Point(6, 17);
-			this.lblAppData.Name = "lblAppData";
-			this.lblAppData.Size = new System.Drawing.Size(154, 13);
-			this.lblAppData.TabIndex = 38;
-			this.lblAppData.Text = "Application data directory";
-			// 
-			// txtAppData
-			// 
-			this.txtAppData.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
-			this.txtAppData.Location = new System.Drawing.Point(154, 48);
-			this.txtAppData.MaxLength = 512;
-			this.txtAppData.Name = "txtAppData";
-			this.txtAppData.Size = new System.Drawing.Size(431, 21);
-			this.txtAppData.TabIndex = 1;
-			// 
-			// btnAppData
-			// 
-			this.btnAppData.Location = new System.Drawing.Point(31, 47);
-			this.btnAppData.Name = "btnAppData";
-			this.btnAppData.Size = new System.Drawing.Size(118, 23);
-			this.btnAppData.TabIndex = 0;
-			this.btnAppData.Text = "Browse";
-			this.btnAppData.UseVisualStyleBackColor = true;
-			this.btnAppData.Click += new System.EventHandler(this.btnAppData_Click);
+			this.chUpdateOnStartup.AutoSize = true;
+			this.chUpdateOnStartup.Location = new System.Drawing.Point(13, 125);
+			this.chUpdateOnStartup.Name = "chUpdateOnStartup";
+			this.chUpdateOnStartup.Size = new System.Drawing.Size(114, 17);
+			this.chUpdateOnStartup.TabIndex = 0;
+			this.chUpdateOnStartup.Text = "Update on startup";
+			this.chUpdateOnStartup.UseVisualStyleBackColor = true;
+			this.chUpdateOnStartup.Visible = false;
 			// 
 			// tabLocation
 			// 
@@ -321,8 +212,8 @@
 			// 
 			// gbxLocation
 			// 
-			this.gbxLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.gbxLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.gbxLocation.Controls.Add(this.numTimezone);
 			this.gbxLocation.Controls.Add(this.lblUtc);
 			this.gbxLocation.Controls.Add(this.lblAltitude);
@@ -385,8 +276,8 @@
 			// 
 			// txtAltitude
 			// 
-			this.txtAltitude.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.txtAltitude.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.txtAltitude.Location = new System.Drawing.Point(402, 115);
 			this.txtAltitude.MaxLength = 4;
 			this.txtAltitude.Name = "txtAltitude";
@@ -477,8 +368,8 @@
 			// 
 			// txtLongitude
 			// 
-			this.txtLongitude.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.txtLongitude.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.txtLongitude.Location = new System.Drawing.Point(31, 182);
 			this.txtLongitude.MaxLength = 100;
 			this.txtLongitude.Name = "txtLongitude";
@@ -488,8 +379,8 @@
 			// 
 			// txtName
 			// 
-			this.txtName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.txtName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.txtName.Location = new System.Drawing.Point(31, 48);
 			this.txtName.MaxLength = 128;
 			this.txtName.Name = "txtName";
@@ -508,8 +399,8 @@
 			// 
 			// txtLatitude
 			// 
-			this.txtLatitude.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.txtLatitude.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.txtLatitude.Location = new System.Drawing.Point(31, 115);
 			this.txtLatitude.MaxLength = 100;
 			this.txtLatitude.Name = "txtLatitude";
@@ -540,8 +431,8 @@
 			// 
 			// gbxPrograms
 			// 
-			this.gbxPrograms.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.gbxPrograms.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.gbxPrograms.Controls.Add(this.dgvPrograms);
 			this.gbxPrograms.Controls.Add(this.btnClear);
 			this.gbxPrograms.Controls.Add(this.btnRemove);
@@ -632,8 +523,8 @@
 			// 
 			// gbxAddProgram
 			// 
-			this.gbxAddProgram.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.gbxAddProgram.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.gbxAddProgram.Controls.Add(this.txtDirectory);
 			this.gbxAddProgram.Controls.Add(this.lblDirectory);
 			this.gbxAddProgram.Controls.Add(this.btnBrowse);
@@ -650,8 +541,8 @@
 			// 
 			// txtDirectory
 			// 
-			this.txtDirectory.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.txtDirectory.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.txtDirectory.Location = new System.Drawing.Point(155, 115);
 			this.txtDirectory.Name = "txtDirectory";
 			this.txtDirectory.Size = new System.Drawing.Size(499, 21);
@@ -731,8 +622,8 @@
 			// 
 			// gbxNetwork
 			// 
-			this.gbxNetwork.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.gbxNetwork.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.gbxNetwork.Controls.Add(this.pnlProxy);
 			this.gbxNetwork.Controls.Add(this.rbManualProxy);
 			this.gbxNetwork.Controls.Add(this.rbNoProxy);
@@ -772,8 +663,8 @@
 			// 
 			// txtPort
 			// 
-			this.txtPort.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.txtPort.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.txtPort.Location = new System.Drawing.Point(28, 109);
 			this.txtPort.MaxLength = 5;
 			this.txtPort.Name = "txtPort";
@@ -792,8 +683,8 @@
 			// 
 			// txtProxy
 			// 
-			this.txtProxy.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.txtProxy.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.txtProxy.Location = new System.Drawing.Point(28, 42);
 			this.txtProxy.MaxLength = 128;
 			this.txtProxy.Name = "txtProxy";
@@ -812,8 +703,8 @@
 			// 
 			// txtUsername
 			// 
-			this.txtUsername.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.txtUsername.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.txtUsername.Location = new System.Drawing.Point(273, 109);
 			this.txtUsername.MaxLength = 256;
 			this.txtUsername.Name = "txtUsername";
@@ -822,8 +713,8 @@
 			// 
 			// txtPassword
 			// 
-			this.txtPassword.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.txtPassword.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.txtPassword.Location = new System.Drawing.Point(273, 176);
 			this.txtPassword.MaxLength = 256;
 			this.txtPassword.Name = "txtPassword";
@@ -843,8 +734,8 @@
 			// 
 			// txtDomain
 			// 
-			this.txtDomain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.txtDomain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.txtDomain.Location = new System.Drawing.Point(273, 42);
 			this.txtDomain.MaxLength = 256;
 			this.txtDomain.Name = "txtDomain";
@@ -930,8 +821,6 @@
 			this.tabGeneral.ResumeLayout(false);
 			this.gbxGeneral.ResumeLayout(false);
 			this.gbxGeneral.PerformLayout();
-			this.gbxAppData.ResumeLayout(false);
-			this.gbxAppData.PerformLayout();
 			this.tabLocation.ResumeLayout(false);
 			this.gbxLocation.ResumeLayout(false);
 			this.gbxLocation.PerformLayout();
@@ -958,17 +847,10 @@
 		private System.Windows.Forms.TabPage tabPrograms;
 		private System.Windows.Forms.Button btnClose;
 		private System.Windows.Forms.GroupBox gbxGeneral;
-		private System.Windows.Forms.GroupBox gbxAppData;
-		private System.Windows.Forms.Label lblDownloads;
-		private System.Windows.Forms.TextBox txtDownloads;
-		private System.Windows.Forms.Button btnDownloads;
-		private System.Windows.Forms.Label lblAppData;
-		private System.Windows.Forms.TextBox txtAppData;
-		private System.Windows.Forms.Button btnAppData;
 		private System.Windows.Forms.CheckBox chExitWithoutConfirm;
 		private System.Windows.Forms.CheckBox chNewVersionOnStartup;
 		private System.Windows.Forms.CheckBox chRememberWindowPosition;
-		private System.Windows.Forms.CheckBox chDownloadOnStartup;
+		private System.Windows.Forms.CheckBox chUpdateOnStartup;
 		private System.Windows.Forms.GroupBox gbxLocation;
 		private System.Windows.Forms.Button btnSetDST;
 		private System.Windows.Forms.CheckBox chDST;
@@ -1009,8 +891,6 @@
 		private System.Windows.Forms.Label lblAltitude;
 		private System.Windows.Forms.TextBox txtAltitude;
 		private System.Windows.Forms.CheckBox chShowStatusBar;
-		private System.Windows.Forms.Button btnDefaultDownloads;
-		private System.Windows.Forms.Button btnDefaultAppData;
 		private System.Windows.Forms.GroupBox gbxAddProgram;
 		private System.Windows.Forms.TextBox txtDirectory;
 		private System.Windows.Forms.Label lblDirectory;

@@ -34,9 +34,6 @@ namespace Comets.Application
 			InitializeComponent();
 
 			Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
-			//CultureInfo customCulture = (CultureInfo)Thread.CurrentThread.CurrentCulture.Clone();
-			//customCulture.NumberFormat.NumberDecimalSeparator = ".";
-			//Thread.CurrentThread.CurrentCulture = customCulture;
 
 			MainList = new List<Comet>();
 			UserList = new List<Comet>();
@@ -48,27 +45,12 @@ namespace Comets.Application
 			int margin = 250;
 			if (Settings.RememberWindowPosition)
 			{
-				if (Settings.Maximized)
-				{
-					this.Width = Screen.PrimaryScreen.WorkingArea.Width - margin;
-					this.Height = Screen.PrimaryScreen.WorkingArea.Height - margin;
-					this.WindowState = FormWindowState.Maximized;
-				}
-				else //if (!Settings.Maximized && Settings.Left == 0 && Settings.Top == 0 && Settings.Width == 0 && Settings.Height == 0)
-				{
-					this.Width = Screen.PrimaryScreen.WorkingArea.Width - margin;
-					this.Height = Screen.PrimaryScreen.WorkingArea.Height - margin;
-					this.StartPosition = FormStartPosition.CenterScreen;
-				}
-			}
-			else
-			{
 				this.Width = Screen.PrimaryScreen.WorkingArea.Width - margin;
 				this.Height = Screen.PrimaryScreen.WorkingArea.Height - margin;
-				this.StartPosition = FormStartPosition.CenterScreen;
+				this.WindowState = Settings.Maximized ? FormWindowState.Maximized : FormWindowState.Normal;
 			}
 
-			menuItemViewStatusBar.Checked = Settings.ShowStatusBar;
+			this.menuItemViewStatusBar.Checked = Settings.ShowStatusBar;
 			this.statusStrip.Visible = Settings.ShowStatusBar;
 		}
 
@@ -87,20 +69,17 @@ namespace Comets.Application
 				this.StartPosition = FormStartPosition.Manual;
 			}
 
-			if (File.Exists(Settings.Database))
+			if (File.Exists(SettingsManager.Database))
 			{
-				MainList = ImportManager.ImportMain((int)ElementTypes.Type.MPC, Settings.Database);
+				MainList = ImportManager.ImportMain((int)ElementTypes.Type.MPC, SettingsManager.Database);
 				UserList = MainList.ToList();
 				SetStatusCometsLabel(UserList.Count, MainList.Count);
 			}
 
-			//if (Settings.DownloadOnStartup)
+			//if (Settings.UpdateOnStartup)
 			//{
 			//    //TO DO
 			//}
-
-			if (!Directory.Exists(Settings.Downloads))
-				Directory.CreateDirectory(Settings.Downloads);
 		}
 
 		#endregion
@@ -126,9 +105,9 @@ namespace Comets.Application
 
 		private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
 		{
-			if ((IsDataChanged || !File.Exists(Settings.Database) || Settings.IsSettingsChanged) && MainList.Count > 0)
+			if ((IsDataChanged || !File.Exists(SettingsManager.Database) || Settings.IsSettingsChanged) && MainList.Count > 0)
 			{
-				ExporManager.ExportMain(ElementTypes.Type.MPC, Settings.Database, MainList);
+				ExporManager.ExportMain(ElementTypes.Type.MPC, SettingsManager.Database, MainList);
 			}
 
 			if (Settings.RememberWindowPosition && this.WindowState != FormWindowState.Minimized)

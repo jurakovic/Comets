@@ -52,7 +52,7 @@ namespace Comets.Application
 				else
 					sfd.InitialDirectory = FormMain.Settings.LastUsedExportDirectory;
 
-				if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+				if (sfd.ShowDialog() == DialogResult.OK)
 				{
 					FormMain.Settings.LastUsedExportDirectory = Path.GetDirectoryName(sfd.FileName);
 					txtSaveAs.Text = sfd.FileName;

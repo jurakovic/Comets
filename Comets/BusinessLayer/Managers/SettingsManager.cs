@@ -12,7 +12,9 @@ namespace Comets.BusinessLayer.Managers
 	{
 		#region Const
 
-		const string settingsini = "settings.ini";
+		public const string Downloads = "Downloads";
+		public const string Database = "Comets.db";
+		public const string SettingsIni = "settings.ini";
 
 		#endregion
 
@@ -22,14 +24,14 @@ namespace Comets.BusinessLayer.Managers
 		{
 			Settings settings = new Settings();
 
-			if (File.Exists(settingsini))
+			if (File.Exists(SettingsIni))
 			{
 				string property = String.Empty;
 				string value = String.Empty;
 
-				int exceptions = 0;
+				int NrOfExceptions = 0;
 
-				string[] lines = File.ReadAllLines(settingsini);
+				string[] lines = File.ReadAllLines(SettingsIni);
 				int count = lines.Count();
 
 				for (int i = 0; i < count; i++)
@@ -45,10 +47,7 @@ namespace Comets.BusinessLayer.Managers
 
 							switch (property)
 							{
-								case "AppData": settings.AppData = value; break;
-								case "Database": settings.Database = value; break;
-								case "Downloads": settings.Downloads = value; break;
-								case "DownloadOnStartup": settings.DownloadOnStartup = Convert.ToBoolean(value); break;
+								case "UpdateOnStartup": settings.UpdateOnStartup = Convert.ToBoolean(value); break;
 								case "RememberWindowPosition": settings.RememberWindowPosition = Convert.ToBoolean(value); break;
 								case "ShowStatusBar": settings.ShowStatusBar = Convert.ToBoolean(value); break;
 								case "ExitWithoutConfirm": settings.ExitWithoutConfirm = Convert.ToBoolean(value); break;
@@ -77,8 +76,8 @@ namespace Comets.BusinessLayer.Managers
 								default:
 									if (ElementTypes.TypeName.Contains(property))
 										settings.ExternalPrograms.Add(new ExternalProgram(Array.IndexOf(ElementTypes.TypeName, property), value));
-									else if (exceptions++ < 3)
-										MessageBox.Show("Unknown property \"" + property + "\"\t\t\t\t", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+									else if (NrOfExceptions++ < 3)
+										MessageBox.Show(String.Format("Unknown property \"{0}\"\t\t\t\t", property), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 									break;
 							}
 						}
@@ -86,14 +85,14 @@ namespace Comets.BusinessLayer.Managers
 					catch
 					{
 						//samo 3 puta pokazi messagebox
-						if (exceptions++ < 3)
-							MessageBox.Show("Invalid value \"" + value + "\" at property \"" + property + "\"\t\t", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+						if (NrOfExceptions++ < 3)
+							MessageBox.Show(String.Format("Invalid value \"{0}\" at property \"{1}\"\t\t", value, property), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
 						continue;
 					}
 				}
 
-				if (exceptions > 0)
+				if (NrOfExceptions > 0)
 					settings.HasErrors = true;
 			}
 
@@ -111,10 +110,7 @@ namespace Comets.BusinessLayer.Managers
 			string format = "{0,-38} = {1}";
 
 			sb.AppendLine("[General]");
-			sb.AppendLine(String.Format(format, "AppData", settings.AppData));
-			sb.AppendLine(String.Format(format, "Database", settings.Database));
-			sb.AppendLine(String.Format(format, "Downloads", settings.Downloads));
-			sb.AppendLine(String.Format(format, "DownloadOnStartup", settings.DownloadOnStartup));
+			sb.AppendLine(String.Format(format, "UpdateOnStartup", settings.UpdateOnStartup));
 			sb.AppendLine(String.Format(format, "RememberWindowPosition", settings.RememberWindowPosition));
 			sb.AppendLine(String.Format(format, "ShowStatusBar", settings.ShowStatusBar));
 			sb.AppendLine(String.Format(format, "ExitWithoutConfirm", settings.ExitWithoutConfirm));
@@ -173,7 +169,7 @@ namespace Comets.BusinessLayer.Managers
 				}
 			}
 
-			File.WriteAllText(settingsini, sb.ToString());
+			File.WriteAllText(SettingsIni, sb.ToString());
 		}
 
 		#endregion

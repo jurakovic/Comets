@@ -42,13 +42,16 @@ namespace Comets.Application
 
 		private void btnDownload_Click(object sender, EventArgs e)
 		{
+			if (!Directory.Exists(SettingsManager.Downloads))
+				Directory.CreateDirectory(SettingsManager.Downloads);
+
 			if (DownloadFilename != null)
 			{
 				File.Delete(DownloadFilename);
 				progressDownload.Value = 0;
 			}
 
-			DownloadFilename = FormMain.Settings.Downloads + "\\Soft00Cmt_" + DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".txt";
+			DownloadFilename = SettingsManager.Downloads + "\\Soft00Cmt_" + DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".txt";
 
 			using (BackgroundWorker bwDownload = new BackgroundWorker())
 			{
@@ -132,7 +135,7 @@ namespace Comets.Application
 							"COMET files (*.comet)|*.comet|" +
 							"All files (*.*)|*.*";
 
-				if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+				if (ofd.ShowDialog() == DialogResult.OK)
 				{
 					FormMain.Settings.LastUsedImportDirectory = Path.GetDirectoryName(ofd.FileName);
 					txtLocalFile.Text = ofd.FileName; // txtImportFilename_TextChanged()

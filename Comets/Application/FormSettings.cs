@@ -29,9 +29,7 @@ namespace Comets.Application
 
 		private void FormSettings_Load(object sender, EventArgs e)
 		{
-			txtAppData.Text = FormMain.Settings.AppData;
-			txtDownloads.Text = FormMain.Settings.Downloads;
-			chDownloadOnStartup.Checked = FormMain.Settings.DownloadOnStartup;
+			chUpdateOnStartup.Checked = FormMain.Settings.UpdateOnStartup;
 			chNewVersionOnStartup.Checked = FormMain.Settings.NewVersionOnStartup;
 			chRememberWindowPosition.Checked = FormMain.Settings.RememberWindowPosition;
 			chExitWithoutConfirm.Checked = FormMain.Settings.ExitWithoutConfirm;
@@ -72,10 +70,7 @@ namespace Comets.Application
 				return;
 			}
 
-			FormMain.Settings.AppData = txtAppData.Text.Trim();
-			FormMain.Settings.Database = FormMain.Settings.AppData + "\\Comets.db";
-			FormMain.Settings.Downloads = txtDownloads.Text.Trim();
-			FormMain.Settings.DownloadOnStartup = chDownloadOnStartup.Checked;
+			FormMain.Settings.UpdateOnStartup = chUpdateOnStartup.Checked;
 			FormMain.Settings.NewVersionOnStartup = chNewVersionOnStartup.Checked;
 			FormMain.Settings.ExitWithoutConfirm = chExitWithoutConfirm.Checked;
 			FormMain.Settings.RememberWindowPosition = chRememberWindowPosition.Checked;
@@ -112,46 +107,6 @@ namespace Comets.Application
 		private void btnClose_Click(object sender, EventArgs e)
 		{
 			this.Close();
-		}
-
-		#endregion
-
-		#region Tab: General
-
-		private void btnAppData_Click(object sender, EventArgs e)
-		{
-			using (FolderBrowserDialog fbd = new FolderBrowserDialog())
-			{
-				fbd.SelectedPath = FormMain.Settings.AppData;
-				fbd.Description = "Select Application data directory";
-				fbd.ShowNewFolderButton = true;
-
-				if (fbd.ShowDialog() == DialogResult.OK)
-					txtAppData.Text = fbd.SelectedPath;
-			}
-		}
-
-		private void btnDownloads_Click(object sender, EventArgs e)
-		{
-			using (FolderBrowserDialog fbd = new FolderBrowserDialog())
-			{
-				fbd.SelectedPath = FormMain.Settings.Downloads;
-				fbd.Description = "Select Downloads directory";
-				fbd.ShowNewFolderButton = true;
-
-				if (fbd.ShowDialog() == DialogResult.OK)
-					txtDownloads.Text = fbd.SelectedPath;
-			}
-		}
-
-		private void btnDefaultAppData_Click(object sender, EventArgs e)
-		{
-			txtAppData.Text = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Comets";
-		}
-
-		private void btnDefaultDownloads_Click(object sender, EventArgs e)
-		{
-			txtDownloads.Text = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Comets\\Downloads";
 		}
 
 		#endregion

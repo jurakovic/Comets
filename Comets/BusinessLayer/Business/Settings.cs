@@ -5,19 +5,10 @@ namespace Comets.BusinessLayer.Business
 {
 	public class Settings
 	{
-		#region Const
-
-		const string settingsini = "settings.ini";
-
-		#endregion
-
 		#region Properties
 
 		//General
-		public string AppData { get; set; }
-		public string Database { get; set; }
-		public string Downloads { get; set; }
-		public bool DownloadOnStartup { get; set; }
+		public bool UpdateOnStartup { get; set; }
 		public bool RememberWindowPosition { get; set; }
 		public bool NewVersionOnStartup { get; set; }
 		public bool ExitWithoutConfirm { get; set; }
@@ -55,10 +46,7 @@ namespace Comets.BusinessLayer.Business
 
 		public Settings()
 		{
-			AppData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Comets";
-			Database = AppData + "\\Comets.db";
-			Downloads = AppData + "\\Downloads";
-			DownloadOnStartup = false;
+			UpdateOnStartup = false;
 			NewVersionOnStartup = false;
 			RememberWindowPosition = true;
 			ExitWithoutConfirm = false;
@@ -78,8 +66,8 @@ namespace Comets.BusinessLayer.Business
 			Location = new Location();
 
 			ExternalPrograms = new List<ExternalProgram>();
-			LastUsedImportDirectory = AppData;
-			LastUsedExportDirectory = AppData;
+			LastUsedImportDirectory = String.Empty;
+			LastUsedExportDirectory = String.Empty;
 
 			HasErrors = false;
 			IsSettingsChanged = false;
