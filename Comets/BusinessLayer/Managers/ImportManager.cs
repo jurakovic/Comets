@@ -428,10 +428,6 @@ namespace Comets.BusinessLayer.Managers
 					c.name = idn[1];
 
 					c.T = EphemerisManager.jd0(c.Ty, c.Tm, c.Td, c.Th);
-					c.P = Comet.GetPeriod(c.q, c.e);
-					c.a = Comet.GetSemimajorAxis(c.q, c.e);
-					c.n = Comet.GetMeanMotion(c.e, c.P);
-					c.Q = Comet.GetAphelionDistance(c.e, c.a);
 
 					c.sortkey = Comet.GetSortkey(c.id);
 					c.idKey = Comet.GetIdKey(c.id);
@@ -506,10 +502,6 @@ namespace Comets.BusinessLayer.Managers
 					c.name = tempName;
 
 					c.T = EphemerisManager.jd0(c.Ty, c.Tm, c.Td, c.Th);
-					c.P = Comet.GetPeriod(c.q, c.e);
-					c.a = Comet.GetSemimajorAxis(c.q, c.e);
-					c.n = Comet.GetMeanMotion(c.e, c.P);
-					c.Q = Comet.GetAphelionDistance(c.e, c.a);
 
 					c.sortkey = Comet.GetSortkey(c.id);
 					c.idKey = Comet.GetIdKey(c.id);
@@ -569,10 +561,6 @@ namespace Comets.BusinessLayer.Managers
 					c.name = tempName;
 
 					c.T = EphemerisManager.jd0(c.Ty, c.Tm, c.Td, c.Th);
-					c.P = Comet.GetPeriod(c.q, c.e);
-					c.a = Comet.GetSemimajorAxis(c.q, c.e);
-					c.n = Comet.GetMeanMotion(c.e, c.P);
-					c.Q = Comet.GetAphelionDistance(c.e, c.a);
 
 					c.sortkey = Comet.GetSortkey(c.id);
 					c.idKey = Comet.GetIdKey(c.id);
@@ -644,7 +632,7 @@ namespace Comets.BusinessLayer.Managers
 							c.T = E - M / n;
 
 							if (M >= 180)
-								c.T += Comet.GetPeriod(c.q, c.e) * 365.25;
+								c.T += c.P * 365.25;
 
 							int[] newdate = EphemerisManager.jdtocd(c.T);
 							c.Ty = newdate[0];
@@ -694,11 +682,6 @@ namespace Comets.BusinessLayer.Managers
 						c.T = EphemerisManager.jd0(c.Ty, c.Tm, c.Td, c.Th);
 					}
 
-					c.P = Comet.GetPeriod(c.q, c.e);
-					c.a = Comet.GetSemimajorAxis(c.q, c.e);
-					c.n = Comet.GetMeanMotion(c.e, c.P);
-					c.Q = Comet.GetAphelionDistance(c.e, c.a);
-
 					c.sortkey = Comet.GetSortkey(c.id);
 					c.idKey = Comet.GetIdKey(c.id);
 				}
@@ -743,10 +726,6 @@ namespace Comets.BusinessLayer.Managers
 					c.i = Convert.ToDouble(parts[6]);
 
 					c.T = EphemerisManager.jd0(c.Ty, c.Tm, c.Td, c.Th);
-					c.P = Comet.GetPeriod(c.q, c.e);
-					c.a = Comet.GetSemimajorAxis(c.q, c.e);
-					c.n = Comet.GetMeanMotion(c.e, c.P);
-					c.Q = Comet.GetAphelionDistance(c.e, c.a);
 
 					c.sortkey = Comet.GetSortkey(c.id);
 					c.idKey = Comet.GetIdKey(c.id);
@@ -805,10 +784,6 @@ namespace Comets.BusinessLayer.Managers
 					c.k = Convert.ToDouble(parts[8]);
 
 					c.T = EphemerisManager.jd0(c.Ty, c.Tm, c.Td, c.Th);
-					c.P = Comet.GetPeriod(c.q, c.e);
-					c.a = Comet.GetSemimajorAxis(c.q, c.e);
-					c.n = Comet.GetMeanMotion(c.e, c.P);
-					c.Q = Comet.GetAphelionDistance(c.e, c.a);
 
 					c.sortkey = Comet.GetSortkey(c.id);
 					c.idKey = Comet.GetIdKey(c.id);
@@ -852,10 +827,6 @@ namespace Comets.BusinessLayer.Managers
 					c.k = Convert.ToDouble(parts[9]) / 2.5;
 
 					c.T = EphemerisManager.jd0(c.Ty, c.Tm, c.Td, c.Th);
-					c.P = Comet.GetPeriod(c.q, c.e);
-					c.a = Comet.GetSemimajorAxis(c.q, c.e);
-					c.n = Comet.GetMeanMotion(c.e, c.P);
-					c.Q = Comet.GetAphelionDistance(c.e, c.a);
 
 					c.sortkey = Comet.GetSortkey(c.id);
 					c.idKey = Comet.GetIdKey(c.id);
@@ -899,10 +870,6 @@ namespace Comets.BusinessLayer.Managers
 					c.Th = (int)(((dd[4] + (dd[5] / 60.0) + (dd[6] / 3600.0)) / 24) * 10000);
 
 					c.T = EphemerisManager.jd0(c.Ty, c.Tm, c.Td, c.Th);
-					c.P = Comet.GetPeriod(c.q, c.e);
-					c.a = Comet.GetSemimajorAxis(c.q, c.e);
-					c.n = Comet.GetMeanMotion(c.e, c.P);
-					c.Q = Comet.GetAphelionDistance(c.e, c.a);
 
 					c.sortkey = Comet.GetSortkey(c.id);
 					c.idKey = Comet.GetIdKey(c.id);
@@ -950,10 +917,6 @@ namespace Comets.BusinessLayer.Managers
 					c.k = Convert.ToDouble(parts[11]) / 2.5;
 
 					c.T = EphemerisManager.jd0(c.Ty, c.Tm, c.Td, c.Th);
-					c.P = Comet.GetPeriod(c.q, c.e);
-					c.a = Comet.GetSemimajorAxis(c.q, c.e);
-					c.n = Comet.GetMeanMotion(c.e, c.P);
-					c.Q = Comet.GetAphelionDistance(c.e, c.a);
 
 					c.sortkey = Comet.GetSortkey(c.id);
 					c.idKey = Comet.GetIdKey(c.id);
@@ -1015,10 +978,6 @@ namespace Comets.BusinessLayer.Managers
 					c.id = id;
 
 					c.T = EphemerisManager.jd0(c.Ty, c.Tm, c.Td, c.Th);
-					c.P = Comet.GetPeriod(c.q, c.e);
-					c.a = Comet.GetSemimajorAxis(c.q, c.e);
-					c.n = Comet.GetMeanMotion(c.e, c.P);
-					c.Q = Comet.GetAphelionDistance(c.e, c.a);
 
 					c.sortkey = Comet.GetSortkey(c.id);
 					c.idKey = Comet.GetIdKey(c.id);
@@ -1065,10 +1024,6 @@ namespace Comets.BusinessLayer.Managers
 					c.k = Convert.ToDouble(parts[12]) / 2.5;
 
 					c.T = EphemerisManager.jd0(c.Ty, c.Tm, c.Td, c.Th);
-					c.P = Comet.GetPeriod(c.q, c.e);
-					c.a = Comet.GetSemimajorAxis(c.q, c.e);
-					c.n = Comet.GetMeanMotion(c.e, c.P);
-					c.Q = Comet.GetAphelionDistance(c.e, c.a);
 
 					c.sortkey = Comet.GetSortkey(c.id);
 					c.idKey = Comet.GetIdKey(c.id);
@@ -1125,10 +1080,6 @@ namespace Comets.BusinessLayer.Managers
 					c.id = id;
 
 					c.T = EphemerisManager.jd0(c.Ty, c.Tm, c.Td, c.Th);
-					c.P = Comet.GetPeriod(c.q, c.e);
-					c.a = Comet.GetSemimajorAxis(c.q, c.e);
-					c.n = Comet.GetMeanMotion(c.e, c.P);
-					c.Q = Comet.GetAphelionDistance(c.e, c.a);
 
 					c.sortkey = Comet.GetSortkey(c.id);
 					c.idKey = Comet.GetIdKey(c.id);
@@ -1169,10 +1120,6 @@ namespace Comets.BusinessLayer.Managers
 					c.k = Convert.ToDouble(line.Substring(126, 6).Trim());
 
 					c.T = EphemerisManager.jd0(c.Ty, c.Tm, c.Td, c.Th);
-					c.P = Comet.GetPeriod(c.q, c.e);
-					c.a = Comet.GetSemimajorAxis(c.q, c.e);
-					c.n = Comet.GetMeanMotion(c.e, c.P);
-					c.Q = Comet.GetAphelionDistance(c.e, c.a);
 
 					c.sortkey = Comet.GetSortkey(c.id);
 					c.idKey = Comet.GetIdKey(c.id);
@@ -1219,10 +1166,6 @@ namespace Comets.BusinessLayer.Managers
 					c.name = idn[1];
 
 					c.T = EphemerisManager.jd0(c.Ty, c.Tm, c.Td, c.Th);
-					c.P = Comet.GetPeriod(c.q, c.e);
-					c.a = Comet.GetSemimajorAxis(c.q, c.e);
-					c.n = Comet.GetMeanMotion(c.e, c.P);
-					c.Q = Comet.GetAphelionDistance(c.e, c.a);
 
 					c.sortkey = Comet.GetSortkey(c.id);
 					c.idKey = Comet.GetIdKey(c.id);
@@ -1270,10 +1213,6 @@ namespace Comets.BusinessLayer.Managers
 					c.Th = Convert.ToInt32(dh[1].Trim().PadRight(4, '0'));
 
 					c.T = EphemerisManager.jd0(c.Ty, c.Tm, c.Td, c.Th);
-					c.P = Comet.GetPeriod(c.q, c.e);
-					c.a = Comet.GetSemimajorAxis(c.q, c.e);
-					c.n = Comet.GetMeanMotion(c.e, c.P);
-					c.Q = Comet.GetAphelionDistance(c.e, c.a);
 
 					//voyager nema id
 					//c.sortkey = Comet.GetSortkey(c.id);
@@ -1344,10 +1283,6 @@ namespace Comets.BusinessLayer.Managers
 					c.k = Convert.ToDouble(line.Substring(122, 4).Trim());
 
 					c.T = EphemerisManager.jd0(c.Ty, c.Tm, c.Td, c.Th);
-					c.P = Comet.GetPeriod(c.q, c.e);
-					c.a = Comet.GetSemimajorAxis(c.q, c.e);
-					c.n = Comet.GetMeanMotion(c.e, c.P);
-					c.Q = Comet.GetAphelionDistance(c.e, c.a);
 
 					c.sortkey = Comet.GetSortkey(c.id);
 					c.idKey = Comet.GetIdKey(c.id);
@@ -1394,10 +1329,6 @@ namespace Comets.BusinessLayer.Managers
 					c.k = Convert.ToDouble(gk[1]) / 2.5;
 
 					c.T = EphemerisManager.jd0(c.Ty, c.Tm, c.Td, c.Th);
-					c.P = Comet.GetPeriod(c.q, c.e);
-					c.a = Comet.GetSemimajorAxis(c.q, c.e);
-					c.n = Comet.GetMeanMotion(c.e, c.P);
-					c.Q = Comet.GetAphelionDistance(c.e, c.a);
 
 					c.sortkey = Comet.GetSortkey(c.id);
 					c.idKey = Comet.GetIdKey(c.id);
@@ -1445,10 +1376,6 @@ namespace Comets.BusinessLayer.Managers
 					c.Th = Convert.ToInt32(Convert.ToDouble(lines[i].Substring(114, 5).Trim().PadRight(5, '0')) / 10.0);
 
 					c.T = EphemerisManager.jd0(c.Ty, c.Tm, c.Td, c.Th);
-					c.P = Comet.GetPeriod(c.q, c.e);
-					c.a = Comet.GetSemimajorAxis(c.q, c.e);
-					c.n = Comet.GetMeanMotion(c.e, c.P);
-					c.Q = Comet.GetAphelionDistance(c.e, c.a);
 
 					c.sortkey = Comet.GetSortkey(c.id);
 					c.idKey = Comet.GetIdKey(c.id);

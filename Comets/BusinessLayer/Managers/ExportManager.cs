@@ -233,11 +233,8 @@ namespace Comets.BusinessLayer.Managers
 
 				if (c.e < 1.0)
 				{
-					double smAxis = Comet.GetSemimajorAxis(c.q, c.e);
-					double mdMotion = Comet.GetMeanMotion(c.e, c.P);
-
 					string format = "{0},e,{1:0.0000},{2:0.0000},{3:0.0000##},{4:0.0000##},{5:0.0000000},{6:0.00000000},0.0000,{7:00}/{8:00}.{9}/{10},2000,g {11,4:0.0},{12:0.0}";
-					sb.AppendLine(String.Format(format, tempFull, c.i, c.N, c.w, smAxis, mdMotion, c.e, c.Tm, c.Td, c.Th, c.Ty, c.g, c.k));
+					sb.AppendLine(String.Format(format, tempFull, c.i, c.N, c.w, c.a, c.n, c.e, c.Tm, c.Td, c.Th, c.Ty, c.g, c.k));
 				}
 				else if (c.e == 1.0)
 				{
@@ -270,8 +267,7 @@ namespace Comets.BusinessLayer.Managers
 				if (c.P < 30000)
 				{
 					format = "{0},{1}-{2}-{3}.{4:0000},{5:0.000000},{6:0.000000},{7:0.0000},{8:0.0000},{9:0.0000},{10:0.00000},{11:0.00} years, MPC 00000";
-					double smAxis = Comet.GetSemimajorAxis(c.q, c.e);
-					sb.AppendLine(String.Format(format, tempFull, c.Ty, c.Tm, c.Td, c.Th, c.q, c.e, c.w, c.N, c.i, smAxis, c.P));
+					sb.AppendLine(String.Format(format, tempFull, c.Ty, c.Tm, c.Td, c.Th, c.q, c.e, c.w, c.N, c.i, c.a, c.P));
 				}
 				else
 				{

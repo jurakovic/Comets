@@ -12,112 +12,269 @@ namespace Comets.BusinessLayer.Business
 
 		#endregion
 
+		#region Fields
+
+		private string _full;
+		private string _name;
+		private string _id;
+		private double _T;
+		private int _Ty;
+		private int _Tm;
+		private int _Td;
+		private int _Th;
+		private double _q;
+		private double _e;
+		private double _i;
+		private double _N;
+		private double _w;
+		private double _g;
+		private double _k;
+		private double _sortkey;
+		private string _idKey;
+
+		#endregion
+
 		#region Properties
 
 		/// <summary>
 		/// Full (e.g. 1P/Halley)
 		/// </summary>
-		public string full { get; set; }
+		public string full
+		{
+			get { return _full; }
+			set { _full = value; }
+		}
 
 		/// <summary>
 		/// Name (e.g. Halley)
 		/// </summary>
-		public string name { get; set; }
+		public string name
+		{
+			get { return _name; }
+			set { _name = value; }
+		}
 
 		/// <summary>
 		/// Id (e.g. 1P)
 		/// </summary>
-		public string id { get; set; }
+		public string id
+		{
+			get { return _id; }
+			set { _id = value; }
+		}
 
 		/// <summary>
 		/// Epoch (Julian day)
 		/// </summary>
-		public double T { get; set; }
+		public double T
+		{
+			get { return _T; }
+			set { _T = value; }
+		}
 
 		/// <summary>
 		/// Epoch year
 		/// </summary>
-		public int Ty { get; set; }
+		public int Ty
+		{
+			get { return _Ty; }
+			set { _Ty = value; }
+		}
 
 		/// <summary>
 		/// Epoch month
 		/// </summary>
-		public int Tm { get; set; }
+		public int Tm
+		{
+			get { return _Tm; }
+			set { _Tm = value; }
+		}
 
 		/// <summary>
 		/// Epoch day
 		/// </summary>
-		public int Td { get; set; }
+		public int Td
+		{
+			get { return _Td; }
+			set { _Td = value; }
+		}
 
 		/// <summary>
 		/// Epoch hour (#### format)
 		/// </summary>
-		public int Th { get; set; }
+		public int Th
+		{
+			get { return _Th; }
+			set { _Th = value; }
+		}
+
+		/// <summary>
+		/// Is comet periodic
+		/// </summary>
+		public bool IsPeriodic
+		{
+			get
+			{
+				return ((Char.IsDigit(id[0]) && id.EndsWith("P")) || id.StartsWith("P/"));
+			}
+		}
 
 		/// <summary>
 		/// Period
 		/// </summary>
-		public double P { get; set; }
+		public double P
+		{
+			get
+			{
+				double retval = 0.0;
+
+				if (e < 1.0)
+					retval = Math.Pow((q / (1.0 - e)), 1.5);
+				else if (e > 1.0)
+					retval = Math.Pow((q / (e - 1.0)), 1.5);
+				else
+					retval = Double.PositiveInfinity; //retval = Math.Pow((q / (1 - 0.999999)), 1.5); //okvirno samo za sortiranje
+
+				return retval;
+			}
+		}
 
 		/// <summary>
 		/// Perihelion distance
 		/// </summary>
-		public double q { get; set; }
+		public double q
+		{
+			get { return _q; }
+			set { _q = value; }
+		}
 
 		/// <summary>
 		/// Eccentricity
 		/// </summary>
-		public double e { get; set; }
+		public double e
+		{
+			get { return _e; }
+			set { _e = value; }
+		}
 
 		/// <summary>
 		/// Inclination
 		/// </summary>
-		public double i { get; set; }
+		public double i
+		{
+			get { return _i; }
+			set { _i = value; }
+		}
 
 		/// <summary>
 		/// Longitude of the Ascending Node
 		/// </summary>
-		public double N { get; set; }
+		public double N
+		{
+			get { return _N; }
+			set { _N = value; }
+		}
 
 		/// <summary>
 		/// Argument of Pericenter
 		/// </summary>
-		public double w { get; set; }
+		public double w
+		{
+			get { return _w; }
+			set { _w = value; }
+		}
 
 		/// <summary>
 		/// Semimajor Axis
 		/// </summary>
-		public double a { get; set; }
+		public double a
+		{
+			get
+			{
+				double retval = 0.0;
+
+				if (e < 1.0)
+					retval = q / (1 - e);
+				else if (e > 1.0)
+					retval = -(q / (1 - e));
+				else
+					retval = Double.PositiveInfinity; //retval = q / (1 - 0.999999);
+
+				return retval;
+			}
+		}
 
 		/// <summary>
 		/// Aphelion distance
 		/// </summary>
-		public double Q { get; set; }
+		public double Q
+		{
+			get
+			{
+				double retval = 0.0;
+
+				if (e < 1.0)
+					retval = a * (1 + e);
+				else if (e > 1.0)
+					retval = a * (1 + (2 - e));
+				else
+					retval = Double.PositiveInfinity; //retval = a * (1 + 0.999999);
+
+				return retval;
+			}
+		}
 
 		/// <summary>
 		/// Mean motion
 		/// </summary>
-		public double n { get; set; }
+		public double n
+		{
+			get
+			{
+				double retval = 0.0;
+
+				if (e < 1.0)
+					retval = 0.9856076686 / P; // Gaussian gravitational constant (degrees)
+
+				return retval;
+			}
+		}
 
 		/// <summary>
 		/// Absolute magnitude
 		/// </summary>
-		public double g { get; set; }
+		public double g
+		{
+			get { return _g; }
+			set { _g = value; }
+		}
 
 		/// <summary>
 		/// Slope parameter
 		/// </summary>
-		public double k { get; set; }
+		public double k
+		{
+			get { return _k; }
+			set { _k = value; }
+		}
 
 		/// <summary>
 		/// Sortkey
 		/// </summary>
-		public double sortkey { get; set; }
+		public double sortkey
+		{
+			get { return _sortkey; }
+			set { _sortkey = value; }
+		}
 
 		/// <summary>
 		/// IdKey
 		/// </summary>
-		public string idKey { get; set; }
+		public string idKey
+		{
+			get { return _idKey; }
+			set { _idKey = value; }
+		}
 
 		#endregion
 
@@ -240,85 +397,6 @@ namespace Comets.BusinessLayer.Business
 			}
 
 			return key;
-		}
-
-		#endregion
-
-		#region GetPeriod
-
-		/// <summary>
-		/// Calculates Period (P)
-		/// </summary>
-		/// <param name="q">Perihelion distance (q)</param>
-		/// <param name="e">Eccentricity (e)</param>
-		/// <returns></returns>
-		public static double GetPeriod(double q, double e)
-		{
-			if (e < 1.0)
-				return Math.Pow((q / (1.0 - e)), 1.5);
-			else if (e > 1.0)
-				return Math.Pow((q / (e - 1.0)), 1.5);
-			else //if (e == 1.0)
-				return Math.Pow((q / (1 - 0.999999)), 1.5); //okvirno samo za sortiranje
-		}
-
-		#endregion
-
-		#region GetSemimajorAxis
-
-		/// <summary>
-		/// Calculates Semimajor axis (a)
-		/// </summary>
-		/// <param name="q">Perihelion distance (q)</param>
-		/// <param name="e">Eccentricity (e)</param>
-		/// <returns></returns>
-		public static double GetSemimajorAxis(double q, double e)
-		{
-			if (e < 1.0)
-				return q / (1 - e);
-			else if (e > 1.0)
-				return -(q / (1 - e));
-			else //if (e == 1.0)
-				return q / (1 - 0.999999);
-		}
-
-		#endregion
-
-		#region GetAphelionDistance
-
-		/// <summary>
-		/// Calculates Aphelion distance (Q)
-		/// </summary>
-		/// <param name="e">Eccentricity (e)</param>
-		/// <param name="a">Semimajor axis (a)</param>
-		/// <returns></returns>
-		public static double GetAphelionDistance(double e, double a)
-		{
-
-			if (e < 1.0)
-				return a * (1 + e);
-			else if (e > 1.0)
-				return a * (1 + (2 - e));
-			else //if (e == 1.0) //koristi se zamo za sortiranje
-				return a * (1 + 0.999999);
-		}
-
-		#endregion
-
-		#region GetMeanMotion
-
-		/// <summary>
-		/// Calculates Mean motion (n)
-		/// </summary>
-		/// <param name="e">Eccentricity (e)</param>
-		/// <param name="P">Period (P)</param>
-		/// <returns></returns>
-		public static double GetMeanMotion(double e, double P)
-		{
-			if (e < 1.0)
-				return 0.9856076686 / P; // Gaussian gravitational constant (degrees)
-			else
-				return 0.0;
 		}
 
 		#endregion
