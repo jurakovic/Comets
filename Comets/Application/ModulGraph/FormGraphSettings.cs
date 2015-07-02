@@ -99,9 +99,9 @@ namespace Comets.Application.ModulGraph
 			{
 				Comet c = GraphSettings.Comets.ElementAt(cbComet.SelectedIndex);
 
-				lblPerihDate.Text = "Perihelion date:                " + c.Ty.ToString() + " " + Comet.Month[c.Tm - 1] + " " + c.Td.ToString("00") + "." + c.Th.ToString("0000");
-				lblPerihDist.Text = "Perihelion distance:          " + c.q.ToString("0.000000") + " AU";
-				lblPeriod.Text = c.P < 10000 ? "Period:                              " + c.P.ToString("0.000000") + " years" : "Period:                              -";
+				lblPerihDate.Text = String.Format("Perihelion date:                {0} {1} {2:00}.{3:0000}", c.Ty, Comet.Month[c.Tm - 1], c.Td, c.Th);
+				lblPerihDist.Text = String.Format("Perihelion distance:          {0:0.000000} AU", c.q);
+				lblPeriod.Text = String.Format("Period:                              {0}", c.P < 10000 ? c.P.ToString("0.000000") + " years" : "-");
 			}
 		}
 
