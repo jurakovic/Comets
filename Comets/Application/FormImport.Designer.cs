@@ -51,8 +51,8 @@
 			// 
 			// gbxLocalFile
 			// 
-			this.gbxLocalFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.gbxLocalFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.gbxLocalFile.Controls.Add(this.lblLocalFile);
 			this.gbxLocalFile.Controls.Add(this.txtLocalFile);
 			this.gbxLocalFile.Controls.Add(this.btnBrowse);
@@ -74,8 +74,8 @@
 			// 
 			// txtLocalFile
 			// 
-			this.txtLocalFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.txtLocalFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.txtLocalFile.Location = new System.Drawing.Point(155, 48);
 			this.txtLocalFile.Name = "txtLocalFile";
 			this.txtLocalFile.Size = new System.Drawing.Size(499, 21);
@@ -94,8 +94,8 @@
 			// 
 			// gbxDownload
 			// 
-			this.gbxDownload.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.gbxDownload.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.gbxDownload.Controls.Add(this.btnDownload);
 			this.gbxDownload.Controls.Add(this.lblDownload);
 			this.gbxDownload.Controls.Add(this.progressDownload);
@@ -128,8 +128,8 @@
 			// 
 			// progressDownload
 			// 
-			this.progressDownload.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.progressDownload.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.progressDownload.Location = new System.Drawing.Point(155, 48);
 			this.progressDownload.Name = "progressDownload";
 			this.progressDownload.Size = new System.Drawing.Size(499, 21);
@@ -149,8 +149,8 @@
 			// 
 			// gbxStatus
 			// 
-			this.gbxStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.gbxStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.gbxStatus.Controls.Add(this.labelDetectedComets);
 			this.gbxStatus.Controls.Add(this.lblImportFormat);
 			this.gbxStatus.Controls.Add(this.labelTotalCometsDescr);

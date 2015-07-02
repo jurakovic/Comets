@@ -29,8 +29,8 @@
 		private void InitializeComponent()
 		{
 			this.gbxExportFormat = new System.Windows.Forms.GroupBox();
-			this.lblDownload = new System.Windows.Forms.Label();
 			this.cbxExportFormat = new System.Windows.Forms.ComboBox();
+			this.lblDownload = new System.Windows.Forms.Label();
 			this.gbxSaveAs = new System.Windows.Forms.GroupBox();
 			this.lblLocalFile = new System.Windows.Forms.Label();
 			this.txtSaveAs = new System.Windows.Forms.TextBox();
@@ -50,15 +50,25 @@
 			// 
 			// gbxExportFormat
 			// 
-			this.gbxExportFormat.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.gbxExportFormat.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.gbxExportFormat.Controls.Add(this.cbxExportFormat);
 			this.gbxExportFormat.Controls.Add(this.lblDownload);
 			this.gbxExportFormat.Location = new System.Drawing.Point(10, 4);
 			this.gbxExportFormat.Name = "gbxExportFormat";
 			this.gbxExportFormat.Size = new System.Drawing.Size(689, 94);
-			this.gbxExportFormat.TabIndex = 1;
+			this.gbxExportFormat.TabIndex = 0;
 			this.gbxExportFormat.TabStop = false;
+			// 
+			// cbxExportFormat
+			// 
+			this.cbxExportFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cbxExportFormat.FormattingEnabled = true;
+			this.cbxExportFormat.Location = new System.Drawing.Point(32, 48);
+			this.cbxExportFormat.Name = "cbxExportFormat";
+			this.cbxExportFormat.Size = new System.Drawing.Size(280, 21);
+			this.cbxExportFormat.TabIndex = 0;
+			this.cbxExportFormat.SelectedIndexChanged += new System.EventHandler(this.cbxExportFormat_SelectedIndexChanged);
 			// 
 			// lblDownload
 			// 
@@ -70,27 +80,17 @@
 			this.lblDownload.TabIndex = 25;
 			this.lblDownload.Text = "Select export format";
 			// 
-			// cbxExportFormat
-			// 
-			this.cbxExportFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cbxExportFormat.FormattingEnabled = true;
-			this.cbxExportFormat.Location = new System.Drawing.Point(32, 48);
-			this.cbxExportFormat.Name = "cbxExportFormat";
-			this.cbxExportFormat.Size = new System.Drawing.Size(280, 21);
-			this.cbxExportFormat.TabIndex = 26;
-			this.cbxExportFormat.SelectedIndexChanged += new System.EventHandler(this.cbxExportFormat_SelectedIndexChanged);
-			// 
 			// gbxSaveAs
 			// 
-			this.gbxSaveAs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.gbxSaveAs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.gbxSaveAs.Controls.Add(this.lblLocalFile);
 			this.gbxSaveAs.Controls.Add(this.txtSaveAs);
 			this.gbxSaveAs.Controls.Add(this.btnBrowse);
 			this.gbxSaveAs.Location = new System.Drawing.Point(10, 99);
 			this.gbxSaveAs.Name = "gbxSaveAs";
 			this.gbxSaveAs.Size = new System.Drawing.Size(689, 94);
-			this.gbxSaveAs.TabIndex = 2;
+			this.gbxSaveAs.TabIndex = 1;
 			this.gbxSaveAs.TabStop = false;
 			// 
 			// lblLocalFile
@@ -105,8 +105,8 @@
 			// 
 			// txtSaveAs
 			// 
-			this.txtSaveAs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.txtSaveAs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.txtSaveAs.Location = new System.Drawing.Point(155, 48);
 			this.txtSaveAs.Name = "txtSaveAs";
 			this.txtSaveAs.Size = new System.Drawing.Size(499, 21);
@@ -124,8 +124,8 @@
 			// 
 			// gbxStatus
 			// 
-			this.gbxStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.gbxStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.gbxStatus.Controls.Add(this.lblTotalComets);
 			this.gbxStatus.Controls.Add(this.lblExportFormat);
 			this.gbxStatus.Controls.Add(this.labelTotalCometsDescr);
@@ -135,7 +135,7 @@
 			this.gbxStatus.Location = new System.Drawing.Point(10, 193);
 			this.gbxStatus.Name = "gbxStatus";
 			this.gbxStatus.Size = new System.Drawing.Size(689, 140);
-			this.gbxStatus.TabIndex = 3;
+			this.gbxStatus.TabIndex = 2;
 			this.gbxStatus.TabStop = false;
 			// 
 			// lblTotalComets
@@ -204,7 +204,7 @@
 			this.btnClose.Location = new System.Drawing.Point(546, 351);
 			this.btnClose.Name = "btnClose";
 			this.btnClose.Size = new System.Drawing.Size(118, 23);
-			this.btnClose.TabIndex = 4;
+			this.btnClose.TabIndex = 3;
 			this.btnClose.Text = "Close";
 			this.btnClose.UseVisualStyleBackColor = true;
 			// 

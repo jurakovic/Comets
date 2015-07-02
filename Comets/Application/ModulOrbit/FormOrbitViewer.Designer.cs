@@ -49,10 +49,10 @@
 			this.scrollHorz = new System.Windows.Forms.HScrollBar();
 			this.scrollZoom = new System.Windows.Forms.HScrollBar();
 			this.pnlToolbox = new System.Windows.Forms.Panel();
+			this.lblZoom = new System.Windows.Forms.Label();
 			this.txtYear = new System.Windows.Forms.TextBox();
 			this.txtMonth = new System.Windows.Forms.TextBox();
 			this.txtDay = new System.Windows.Forms.TextBox();
-			this.lblZoom = new System.Windows.Forms.Label();
 			this.orbitPanel = new Comets.OrbitViewer.OrbitPanel();
 			this.pnlToolbox.SuspendLayout();
 			this.SuspendLayout();
@@ -63,7 +63,7 @@
 			this.btnSet.Location = new System.Drawing.Point(354, 43);
 			this.btnSet.Name = "btnSet";
 			this.btnSet.Size = new System.Drawing.Size(79, 23);
-			this.btnSet.TabIndex = 63;
+			this.btnSet.TabIndex = 7;
 			this.btnSet.Text = "Set";
 			this.btnSet.UseVisualStyleBackColor = true;
 			this.btnSet.Click += new System.EventHandler(this.btnSet_Click);
@@ -74,7 +74,7 @@
 			this.btnNow.Location = new System.Drawing.Point(268, 43);
 			this.btnNow.Name = "btnNow";
 			this.btnNow.Size = new System.Drawing.Size(79, 23);
-			this.btnNow.TabIndex = 62;
+			this.btnNow.TabIndex = 6;
 			this.btnNow.Text = "Now";
 			this.btnNow.UseVisualStyleBackColor = true;
 			this.btnNow.Click += new System.EventHandler(this.btnNow_Click);
@@ -129,7 +129,7 @@
 			this.cboObject.MaxDropDownItems = 15;
 			this.cboObject.Name = "cboObject";
 			this.cboObject.Size = new System.Drawing.Size(162, 21);
-			this.cboObject.TabIndex = 55;
+			this.cboObject.TabIndex = 0;
 			this.cboObject.SelectedIndexChanged += new System.EventHandler(this.cboObject_SelectedIndexChanged);
 			// 
 			// lblOrbits
@@ -160,7 +160,7 @@
 			this.cboOrbits.Location = new System.Drawing.Point(50, 76);
 			this.cboOrbits.Name = "cboOrbits";
 			this.cboOrbits.Size = new System.Drawing.Size(162, 21);
-			this.cboOrbits.TabIndex = 45;
+			this.cboOrbits.TabIndex = 2;
 			this.cboOrbits.SelectedIndexChanged += new System.EventHandler(this.cboOrbits_SelectedIndexChanged);
 			// 
 			// cboCenter
@@ -171,7 +171,7 @@
 			this.cboCenter.Location = new System.Drawing.Point(50, 44);
 			this.cboCenter.Name = "cboCenter";
 			this.cboCenter.Size = new System.Drawing.Size(162, 21);
-			this.cboCenter.TabIndex = 44;
+			this.cboCenter.TabIndex = 1;
 			this.cboCenter.SelectedIndexChanged += new System.EventHandler(this.cboCenter_SelectedIndexChanged);
 			// 
 			// cboTimestep
@@ -182,7 +182,7 @@
 			this.cboTimestep.Location = new System.Drawing.Point(518, 44);
 			this.cboTimestep.Name = "cboTimestep";
 			this.cboTimestep.Size = new System.Drawing.Size(161, 21);
-			this.cboTimestep.TabIndex = 43;
+			this.cboTimestep.TabIndex = 13;
 			this.cboTimestep.SelectedIndexChanged += new System.EventHandler(this.cboTimestep_SelectedIndexChanged);
 			// 
 			// btnForPlay
@@ -192,7 +192,7 @@
 			this.btnForPlay.Location = new System.Drawing.Point(650, 11);
 			this.btnForPlay.Name = "btnForPlay";
 			this.btnForPlay.Size = new System.Drawing.Size(31, 23);
-			this.btnForPlay.TabIndex = 42;
+			this.btnForPlay.TabIndex = 12;
 			this.btnForPlay.Text = ">>";
 			this.btnForPlay.UseVisualStyleBackColor = true;
 			this.btnForPlay.Click += new System.EventHandler(this.btnForPlay_Click);
@@ -204,7 +204,7 @@
 			this.btnForStep.Location = new System.Drawing.Point(617, 11);
 			this.btnForStep.Name = "btnForStep";
 			this.btnForStep.Size = new System.Drawing.Size(31, 23);
-			this.btnForStep.TabIndex = 41;
+			this.btnForStep.TabIndex = 11;
 			this.btnForStep.Text = ">|";
 			this.btnForStep.UseVisualStyleBackColor = true;
 			this.btnForStep.Click += new System.EventHandler(this.btnForStep_Click);
@@ -216,7 +216,7 @@
 			this.btnStop.Location = new System.Drawing.Point(584, 11);
 			this.btnStop.Name = "btnStop";
 			this.btnStop.Size = new System.Drawing.Size(31, 23);
-			this.btnStop.TabIndex = 40;
+			this.btnStop.TabIndex = 10;
 			this.btnStop.Text = "||";
 			this.btnStop.UseVisualStyleBackColor = true;
 			this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
@@ -228,7 +228,7 @@
 			this.btnRevStep.Location = new System.Drawing.Point(551, 11);
 			this.btnRevStep.Name = "btnRevStep";
 			this.btnRevStep.Size = new System.Drawing.Size(31, 23);
-			this.btnRevStep.TabIndex = 39;
+			this.btnRevStep.TabIndex = 9;
 			this.btnRevStep.Text = "|<";
 			this.btnRevStep.UseVisualStyleBackColor = true;
 			this.btnRevStep.Click += new System.EventHandler(this.btnRevStep_Click);
@@ -240,7 +240,7 @@
 			this.btnRevPlay.Location = new System.Drawing.Point(518, 11);
 			this.btnRevPlay.Name = "btnRevPlay";
 			this.btnRevPlay.Size = new System.Drawing.Size(31, 23);
-			this.btnRevPlay.TabIndex = 38;
+			this.btnRevPlay.TabIndex = 8;
 			this.btnRevPlay.Text = "<<";
 			this.btnRevPlay.UseVisualStyleBackColor = true;
 			this.btnRevPlay.Click += new System.EventHandler(this.btnRevPlay_Click);
@@ -254,7 +254,7 @@
 			this.scrollVert.Maximum = 360;
 			this.scrollVert.Name = "scrollVert";
 			this.scrollVert.Size = new System.Drawing.Size(17, 458);
-			this.scrollVert.TabIndex = 36;
+			this.scrollVert.TabIndex = 1;
 			this.scrollVert.ValueChanged += new System.EventHandler(this.scrollVert_ValueChanged);
 			// 
 			// scrollHorz
@@ -266,7 +266,7 @@
 			this.scrollHorz.Maximum = 360;
 			this.scrollHorz.Name = "scrollHorz";
 			this.scrollHorz.Size = new System.Drawing.Size(682, 17);
-			this.scrollHorz.TabIndex = 35;
+			this.scrollHorz.TabIndex = 2;
 			this.scrollHorz.ValueChanged += new System.EventHandler(this.scrollHorz_ValueChanged);
 			// 
 			// scrollZoom
@@ -277,7 +277,7 @@
 			this.scrollZoom.Minimum = 5;
 			this.scrollZoom.Name = "scrollZoom";
 			this.scrollZoom.Size = new System.Drawing.Size(411, 17);
-			this.scrollZoom.TabIndex = 37;
+			this.scrollZoom.TabIndex = 14;
 			this.scrollZoom.Value = 5;
 			this.scrollZoom.ValueChanged += new System.EventHandler(this.scrollZoom_ValueChanged);
 			// 
@@ -309,7 +309,17 @@
 			this.pnlToolbox.Location = new System.Drawing.Point(0, 486);
 			this.pnlToolbox.Name = "pnlToolbox";
 			this.pnlToolbox.Size = new System.Drawing.Size(703, 111);
-			this.pnlToolbox.TabIndex = 0;
+			this.pnlToolbox.TabIndex = 3;
+			// 
+			// lblZoom
+			// 
+			this.lblZoom.Anchor = System.Windows.Forms.AnchorStyles.None;
+			this.lblZoom.AutoSize = true;
+			this.lblZoom.Location = new System.Drawing.Point(232, 79);
+			this.lblZoom.Name = "lblZoom";
+			this.lblZoom.Size = new System.Drawing.Size(33, 13);
+			this.lblZoom.TabIndex = 67;
+			this.lblZoom.Text = "Zoom";
 			// 
 			// txtYear
 			// 
@@ -317,7 +327,7 @@
 			this.txtYear.Location = new System.Drawing.Point(365, 12);
 			this.txtYear.Name = "txtYear";
 			this.txtYear.Size = new System.Drawing.Size(67, 21);
-			this.txtYear.TabIndex = 66;
+			this.txtYear.TabIndex = 5;
 			this.txtYear.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.txtYear.TextChanged += new System.EventHandler(this.txtMonthYear_TextChanged);
 			this.txtYear.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtDateCommon_KeyDown);
@@ -329,7 +339,7 @@
 			this.txtMonth.Location = new System.Drawing.Point(317, 12);
 			this.txtMonth.Name = "txtMonth";
 			this.txtMonth.Size = new System.Drawing.Size(42, 21);
-			this.txtMonth.TabIndex = 65;
+			this.txtMonth.TabIndex = 4;
 			this.txtMonth.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.txtMonth.TextChanged += new System.EventHandler(this.txtMonthYear_TextChanged);
 			this.txtMonth.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtDateCommon_KeyDown);
@@ -341,20 +351,10 @@
 			this.txtDay.Location = new System.Drawing.Point(269, 12);
 			this.txtDay.Name = "txtDay";
 			this.txtDay.Size = new System.Drawing.Size(42, 21);
-			this.txtDay.TabIndex = 64;
+			this.txtDay.TabIndex = 3;
 			this.txtDay.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.txtDay.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtDateCommon_KeyDown);
 			this.txtDay.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDateCommon_KeyPress);
-			// 
-			// lblZoom
-			// 
-			this.lblZoom.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this.lblZoom.AutoSize = true;
-			this.lblZoom.Location = new System.Drawing.Point(232, 79);
-			this.lblZoom.Name = "lblZoom";
-			this.lblZoom.Size = new System.Drawing.Size(33, 13);
-			this.lblZoom.TabIndex = 67;
-			this.lblZoom.Text = "Zoom";
 			// 
 			// orbitPanel
 			// 
@@ -380,7 +380,7 @@
 			this.orbitPanel.ShowMagnitude = false;
 			this.orbitPanel.ShowPlanetName = false;
 			this.orbitPanel.Size = new System.Drawing.Size(682, 458);
-			this.orbitPanel.TabIndex = 64;
+			this.orbitPanel.TabIndex = 0;
 			this.orbitPanel.Zoom = 0D;
 			this.orbitPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.orbitPanel_MouseDown);
 			this.orbitPanel.MouseEnter += new System.EventHandler(this.orbitPanel_MouseEnter);

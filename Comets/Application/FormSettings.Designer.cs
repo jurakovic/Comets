@@ -144,7 +144,7 @@
 			this.gbxGeneral.Location = new System.Drawing.Point(8, 3);
 			this.gbxGeneral.Name = "gbxGeneral";
 			this.gbxGeneral.Size = new System.Drawing.Size(668, 196);
-			this.gbxGeneral.TabIndex = 4;
+			this.gbxGeneral.TabIndex = 0;
 			this.gbxGeneral.TabStop = false;
 			// 
 			// chShowStatusBar
@@ -153,7 +153,7 @@
 			this.chShowStatusBar.Location = new System.Drawing.Point(13, 90);
 			this.chShowStatusBar.Name = "chShowStatusBar";
 			this.chShowStatusBar.Size = new System.Drawing.Size(104, 17);
-			this.chShowStatusBar.TabIndex = 4;
+			this.chShowStatusBar.TabIndex = 2;
 			this.chShowStatusBar.Text = "Show status bar";
 			this.chShowStatusBar.UseVisualStyleBackColor = true;
 			// 
@@ -163,7 +163,7 @@
 			this.chExitWithoutConfirm.Location = new System.Drawing.Point(13, 55);
 			this.chExitWithoutConfirm.Name = "chExitWithoutConfirm";
 			this.chExitWithoutConfirm.Size = new System.Drawing.Size(121, 17);
-			this.chExitWithoutConfirm.TabIndex = 3;
+			this.chExitWithoutConfirm.TabIndex = 1;
 			this.chExitWithoutConfirm.Text = "Exit without confirm";
 			this.chExitWithoutConfirm.UseVisualStyleBackColor = true;
 			// 
@@ -173,7 +173,7 @@
 			this.chNewVersionOnStartup.Location = new System.Drawing.Point(13, 160);
 			this.chNewVersionOnStartup.Name = "chNewVersionOnStartup";
 			this.chNewVersionOnStartup.Size = new System.Drawing.Size(186, 17);
-			this.chNewVersionOnStartup.TabIndex = 1;
+			this.chNewVersionOnStartup.TabIndex = 4;
 			this.chNewVersionOnStartup.Text = "Check for new version on startup";
 			this.chNewVersionOnStartup.UseVisualStyleBackColor = true;
 			this.chNewVersionOnStartup.Visible = false;
@@ -184,7 +184,7 @@
 			this.chRememberWindowPosition.Location = new System.Drawing.Point(13, 20);
 			this.chRememberWindowPosition.Name = "chRememberWindowPosition";
 			this.chRememberWindowPosition.Size = new System.Drawing.Size(156, 17);
-			this.chRememberWindowPosition.TabIndex = 2;
+			this.chRememberWindowPosition.TabIndex = 0;
 			this.chRememberWindowPosition.Text = "Remember window position";
 			this.chRememberWindowPosition.UseVisualStyleBackColor = true;
 			// 
@@ -194,7 +194,7 @@
 			this.chUpdateOnStartup.Location = new System.Drawing.Point(13, 125);
 			this.chUpdateOnStartup.Name = "chUpdateOnStartup";
 			this.chUpdateOnStartup.Size = new System.Drawing.Size(114, 17);
-			this.chUpdateOnStartup.TabIndex = 0;
+			this.chUpdateOnStartup.TabIndex = 3;
 			this.chUpdateOnStartup.Text = "Update on startup";
 			this.chUpdateOnStartup.UseVisualStyleBackColor = true;
 			this.chUpdateOnStartup.Visible = false;
@@ -234,7 +234,7 @@
 			this.gbxLocation.Location = new System.Drawing.Point(8, 3);
 			this.gbxLocation.Name = "gbxLocation";
 			this.gbxLocation.Size = new System.Drawing.Size(669, 285);
-			this.gbxLocation.TabIndex = 3;
+			this.gbxLocation.TabIndex = 0;
 			this.gbxLocation.TabStop = false;
 			// 
 			// numTimezone
@@ -252,7 +252,7 @@
             -2147483648});
 			this.numTimezone.Name = "numTimezone";
 			this.numTimezone.Size = new System.Drawing.Size(47, 21);
-			this.numTimezone.TabIndex = 62;
+			this.numTimezone.TabIndex = 6;
 			this.numTimezone.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
 			// lblUtc
@@ -261,7 +261,7 @@
 			this.lblUtc.Location = new System.Drawing.Point(399, 185);
 			this.lblUtc.Name = "lblUtc";
 			this.lblUtc.Size = new System.Drawing.Size(38, 13);
-			this.lblUtc.TabIndex = 61;
+			this.lblUtc.TabIndex = 7;
 			this.lblUtc.Text = "UTC +";
 			// 
 			// lblAltitude
@@ -282,14 +282,14 @@
 			this.txtAltitude.MaxLength = 4;
 			this.txtAltitude.Name = "txtAltitude";
 			this.txtAltitude.Size = new System.Drawing.Size(57, 21);
-			this.txtAltitude.TabIndex = 59;
+			this.txtAltitude.TabIndex = 5;
 			// 
 			// btnSetDST
 			// 
 			this.btnSetDST.Location = new System.Drawing.Point(31, 248);
 			this.btnSetDST.Name = "btnSetDST";
 			this.btnSetDST.Size = new System.Drawing.Size(115, 23);
-			this.btnSetDST.TabIndex = 11;
+			this.btnSetDST.TabIndex = 5;
 			this.btnSetDST.Text = "Set from PC";
 			this.btnSetDST.UseVisualStyleBackColor = true;
 			this.btnSetDST.Visible = false;
@@ -300,7 +300,7 @@
 			this.chDST.Location = new System.Drawing.Point(526, 184);
 			this.chDST.Name = "chDST";
 			this.chDST.Size = new System.Drawing.Size(45, 17);
-			this.chDST.TabIndex = 10;
+			this.chDST.TabIndex = 7;
 			this.chDST.Text = "DST";
 			this.chDST.UseVisualStyleBackColor = true;
 			// 
@@ -324,7 +324,7 @@
 			this.cbxEastWest.Location = new System.Drawing.Point(181, 182);
 			this.cbxEastWest.Name = "cbxEastWest";
 			this.cbxEastWest.Size = new System.Drawing.Size(100, 21);
-			this.cbxEastWest.TabIndex = 8;
+			this.cbxEastWest.TabIndex = 4;
 			// 
 			// cbxNorthSouth
 			// 
@@ -336,7 +336,7 @@
 			this.cbxNorthSouth.Location = new System.Drawing.Point(181, 115);
 			this.cbxNorthSouth.Name = "cbxNorthSouth";
 			this.cbxNorthSouth.Size = new System.Drawing.Size(100, 21);
-			this.cbxNorthSouth.TabIndex = 4;
+			this.cbxNorthSouth.TabIndex = 2;
 			// 
 			// lblLonDeg
 			// 
@@ -374,7 +374,7 @@
 			this.txtLongitude.MaxLength = 100;
 			this.txtLongitude.Name = "txtLongitude";
 			this.txtLongitude.Size = new System.Drawing.Size(115, 21);
-			this.txtLongitude.TabIndex = 5;
+			this.txtLongitude.TabIndex = 3;
 			this.txtLongitude.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtLongitude_KeyPress);
 			// 
 			// txtName
@@ -463,7 +463,7 @@
 			this.dgvPrograms.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.White;
 			this.dgvPrograms.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.dgvPrograms.Size = new System.Drawing.Size(663, 231);
-			this.dgvPrograms.TabIndex = 5;
+			this.dgvPrograms.TabIndex = 0;
 			// 
 			// colProgram
 			// 
@@ -546,7 +546,7 @@
 			this.txtDirectory.Location = new System.Drawing.Point(155, 115);
 			this.txtDirectory.Name = "txtDirectory";
 			this.txtDirectory.Size = new System.Drawing.Size(499, 21);
-			this.txtDirectory.TabIndex = 1;
+			this.txtDirectory.TabIndex = 2;
 			// 
 			// lblDirectory
 			// 
@@ -563,7 +563,7 @@
 			this.btnBrowse.Location = new System.Drawing.Point(31, 114);
 			this.btnBrowse.Name = "btnBrowse";
 			this.btnBrowse.Size = new System.Drawing.Size(118, 23);
-			this.btnBrowse.TabIndex = 0;
+			this.btnBrowse.TabIndex = 1;
 			this.btnBrowse.Text = "Browse";
 			this.btnBrowse.UseVisualStyleBackColor = true;
 			this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
@@ -575,7 +575,7 @@
 			this.cbxExternalProgram.Location = new System.Drawing.Point(31, 47);
 			this.cbxExternalProgram.Name = "cbxExternalProgram";
 			this.cbxExternalProgram.Size = new System.Drawing.Size(280, 21);
-			this.cbxExternalProgram.TabIndex = 28;
+			this.cbxExternalProgram.TabIndex = 0;
 			this.cbxExternalProgram.SelectedIndexChanged += new System.EventHandler(this.cbxProgram_SelectedIndexChanged);
 			// 
 			// lblSelectProgram
@@ -594,7 +594,7 @@
 			this.btnProgramsOk.Location = new System.Drawing.Point(31, 186);
 			this.btnProgramsOk.Name = "btnProgramsOk";
 			this.btnProgramsOk.Size = new System.Drawing.Size(118, 23);
-			this.btnProgramsOk.TabIndex = 9;
+			this.btnProgramsOk.TabIndex = 3;
 			this.btnProgramsOk.Text = "OK";
 			this.btnProgramsOk.UseVisualStyleBackColor = true;
 			this.btnProgramsOk.Click += new System.EventHandler(this.btnProgramsOk_Click);
@@ -605,7 +605,7 @@
 			this.btnProgramsCancel.Location = new System.Drawing.Point(155, 186);
 			this.btnProgramsCancel.Name = "btnProgramsCancel";
 			this.btnProgramsCancel.Size = new System.Drawing.Size(118, 23);
-			this.btnProgramsCancel.TabIndex = 8;
+			this.btnProgramsCancel.TabIndex = 4;
 			this.btnProgramsCancel.Text = "Cancel";
 			this.btnProgramsCancel.UseVisualStyleBackColor = true;
 			this.btnProgramsCancel.Click += new System.EventHandler(this.btnProgramsCancel_Click);
@@ -630,7 +630,7 @@
 			this.gbxNetwork.Location = new System.Drawing.Point(8, 3);
 			this.gbxNetwork.Name = "gbxNetwork";
 			this.gbxNetwork.Size = new System.Drawing.Size(669, 285);
-			this.gbxNetwork.TabIndex = 4;
+			this.gbxNetwork.TabIndex = 0;
 			this.gbxNetwork.TabStop = false;
 			// 
 			// pnlProxy
@@ -649,7 +649,7 @@
 			this.pnlProxy.Location = new System.Drawing.Point(3, 73);
 			this.pnlProxy.Name = "pnlProxy";
 			this.pnlProxy.Size = new System.Drawing.Size(663, 209);
-			this.pnlProxy.TabIndex = 51;
+			this.pnlProxy.TabIndex = 2;
 			// 
 			// lblPort
 			// 
@@ -669,7 +669,7 @@
 			this.txtPort.MaxLength = 5;
 			this.txtPort.Name = "txtPort";
 			this.txtPort.Size = new System.Drawing.Size(62, 21);
-			this.txtPort.TabIndex = 56;
+			this.txtPort.TabIndex = 1;
 			// 
 			// lblProxy
 			// 
@@ -689,7 +689,7 @@
 			this.txtProxy.MaxLength = 128;
 			this.txtProxy.Name = "txtProxy";
 			this.txtProxy.Size = new System.Drawing.Size(160, 21);
-			this.txtProxy.TabIndex = 55;
+			this.txtProxy.TabIndex = 0;
 			// 
 			// lblUsername
 			// 
@@ -709,7 +709,7 @@
 			this.txtUsername.MaxLength = 256;
 			this.txtUsername.Name = "txtUsername";
 			this.txtUsername.Size = new System.Drawing.Size(243, 21);
-			this.txtUsername.TabIndex = 51;
+			this.txtUsername.TabIndex = 3;
 			// 
 			// txtPassword
 			// 
@@ -720,7 +720,7 @@
 			this.txtPassword.Name = "txtPassword";
 			this.txtPassword.PasswordChar = '•';
 			this.txtPassword.Size = new System.Drawing.Size(243, 21);
-			this.txtPassword.TabIndex = 49;
+			this.txtPassword.TabIndex = 4;
 			// 
 			// lblDomain
 			// 
@@ -740,7 +740,7 @@
 			this.txtDomain.MaxLength = 256;
 			this.txtDomain.Name = "txtDomain";
 			this.txtDomain.Size = new System.Drawing.Size(243, 21);
-			this.txtDomain.TabIndex = 50;
+			this.txtDomain.TabIndex = 2;
 			// 
 			// lblPassword
 			// 
@@ -758,7 +758,7 @@
 			this.rbManualProxy.Location = new System.Drawing.Point(9, 48);
 			this.rbManualProxy.Name = "rbManualProxy";
 			this.rbManualProxy.Size = new System.Drawing.Size(156, 17);
-			this.rbManualProxy.TabIndex = 50;
+			this.rbManualProxy.TabIndex = 1;
 			this.rbManualProxy.Text = "Manual proxy configuration";
 			this.rbManualProxy.UseVisualStyleBackColor = true;
 			this.rbManualProxy.CheckedChanged += new System.EventHandler(this.rbCommon_CheckedChanged);
@@ -770,7 +770,7 @@
 			this.rbNoProxy.Location = new System.Drawing.Point(9, 17);
 			this.rbNoProxy.Name = "rbNoProxy";
 			this.rbNoProxy.Size = new System.Drawing.Size(69, 17);
-			this.rbNoProxy.TabIndex = 49;
+			this.rbNoProxy.TabIndex = 0;
 			this.rbNoProxy.TabStop = true;
 			this.rbNoProxy.Text = "No proxy";
 			this.rbNoProxy.UseVisualStyleBackColor = true;

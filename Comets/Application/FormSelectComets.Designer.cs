@@ -77,7 +77,7 @@
 			this.btnOk.Location = new System.Drawing.Point(269, 385);
 			this.btnOk.Name = "btnOk";
 			this.btnOk.Size = new System.Drawing.Size(152, 23);
-			this.btnOk.TabIndex = 3;
+			this.btnOk.TabIndex = 7;
 			this.btnOk.Text = "OK";
 			this.btnOk.UseVisualStyleBackColor = true;
 			this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
@@ -87,7 +87,7 @@
 			this.btnAddAll.Location = new System.Drawing.Point(269, 99);
 			this.btnAddAll.Name = "btnAddAll";
 			this.btnAddAll.Size = new System.Drawing.Size(152, 23);
-			this.btnAddAll.TabIndex = 4;
+			this.btnAddAll.TabIndex = 3;
 			this.btnAddAll.Text = "-->>";
 			this.btnAddAll.UseVisualStyleBackColor = true;
 			this.btnAddAll.Click += new System.EventHandler(this.btnAddAll_Click);
@@ -97,7 +97,7 @@
 			this.btnAddSelected.Location = new System.Drawing.Point(269, 128);
 			this.btnAddSelected.Name = "btnAddSelected";
 			this.btnAddSelected.Size = new System.Drawing.Size(152, 23);
-			this.btnAddSelected.TabIndex = 5;
+			this.btnAddSelected.TabIndex = 4;
 			this.btnAddSelected.Text = "->";
 			this.btnAddSelected.UseVisualStyleBackColor = true;
 			this.btnAddSelected.Click += new System.EventHandler(this.btnAddSelected_Click);
@@ -107,7 +107,7 @@
 			this.btnRemoveSelected.Location = new System.Drawing.Point(269, 186);
 			this.btnRemoveSelected.Name = "btnRemoveSelected";
 			this.btnRemoveSelected.Size = new System.Drawing.Size(152, 23);
-			this.btnRemoveSelected.TabIndex = 6;
+			this.btnRemoveSelected.TabIndex = 5;
 			this.btnRemoveSelected.Text = "<-";
 			this.btnRemoveSelected.UseVisualStyleBackColor = true;
 			this.btnRemoveSelected.Click += new System.EventHandler(this.btnRemoveSelected_Click);
@@ -117,7 +117,7 @@
 			this.btnRemoveAll.Location = new System.Drawing.Point(269, 215);
 			this.btnRemoveAll.Name = "btnRemoveAll";
 			this.btnRemoveAll.Size = new System.Drawing.Size(152, 23);
-			this.btnRemoveAll.TabIndex = 7;
+			this.btnRemoveAll.TabIndex = 6;
 			this.btnRemoveAll.Text = "<<--";
 			this.btnRemoveAll.UseVisualStyleBackColor = true;
 			this.btnRemoveAll.Click += new System.EventHandler(this.btnRemoveAll_Click);

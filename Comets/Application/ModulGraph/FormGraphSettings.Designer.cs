@@ -85,7 +85,7 @@
 			this.btnPlotGraph.Location = new System.Drawing.Point(233, 243);
 			this.btnPlotGraph.Name = "btnPlotGraph";
 			this.btnPlotGraph.Size = new System.Drawing.Size(190, 35);
-			this.btnPlotGraph.TabIndex = 2;
+			this.btnPlotGraph.TabIndex = 5;
 			this.btnPlotGraph.Text = "Plot Graph";
 			this.btnPlotGraph.UseVisualStyleBackColor = true;
 			this.btnPlotGraph.Click += new System.EventHandler(this.btnPlotGraph_Click);
@@ -101,7 +101,7 @@
 			this.gbxSelectComet.Location = new System.Drawing.Point(12, 6);
 			this.gbxSelectComet.Name = "gbxSelectComet";
 			this.gbxSelectComet.Size = new System.Drawing.Size(325, 135);
-			this.gbxSelectComet.TabIndex = 294;
+			this.gbxSelectComet.TabIndex = 0;
 			this.gbxSelectComet.TabStop = false;
 			this.gbxSelectComet.Text = "Comet";
 			// 
@@ -110,7 +110,7 @@
 			this.btnSelectComets.Location = new System.Drawing.Point(244, 19);
 			this.btnSelectComets.Name = "btnSelectComets";
 			this.btnSelectComets.Size = new System.Drawing.Size(75, 24);
-			this.btnSelectComets.TabIndex = 301;
+			this.btnSelectComets.TabIndex = 1;
 			this.btnSelectComets.Text = "Select";
 			this.btnSelectComets.UseVisualStyleBackColor = true;
 			this.btnSelectComets.Click += new System.EventHandler(this.btnSelectComets_Click);
@@ -152,7 +152,7 @@
 			this.cbComet.MaxDropDownItems = 16;
 			this.cbComet.Name = "cbComet";
 			this.cbComet.Size = new System.Drawing.Size(226, 22);
-			this.cbComet.TabIndex = 1;
+			this.cbComet.TabIndex = 0;
 			this.cbComet.SelectedIndexChanged += new System.EventHandler(this.cbComet_SelectedIndexChanged);
 			// 
 			// gbxTimespan
@@ -164,7 +164,7 @@
 			this.gbxTimespan.Location = new System.Drawing.Point(12, 147);
 			this.gbxTimespan.Name = "gbxTimespan";
 			this.gbxTimespan.Size = new System.Drawing.Size(480, 83);
-			this.gbxTimespan.TabIndex = 295;
+			this.gbxTimespan.TabIndex = 3;
 			this.gbxTimespan.TabStop = false;
 			this.gbxTimespan.Text = "Timespan";
 			// 
@@ -180,14 +180,14 @@
 			this.pnlRangeDaysFromT.Location = new System.Drawing.Point(112, 45);
 			this.pnlRangeDaysFromT.Name = "pnlRangeDaysFromT";
 			this.pnlRangeDaysFromT.Size = new System.Drawing.Size(362, 27);
-			this.pnlRangeDaysFromT.TabIndex = 312;
+			this.pnlRangeDaysFromT.TabIndex = 3;
 			// 
 			// btnTimespanDaysFromTDefault
 			// 
 			this.btnTimespanDaysFromTDefault.Location = new System.Drawing.Point(339, 6);
 			this.btnTimespanDaysFromTDefault.Name = "btnTimespanDaysFromTDefault";
 			this.btnTimespanDaysFromTDefault.Size = new System.Drawing.Size(16, 16);
-			this.btnTimespanDaysFromTDefault.TabIndex = 323;
+			this.btnTimespanDaysFromTDefault.TabIndex = 2;
 			this.btnTimespanDaysFromTDefault.UseVisualStyleBackColor = true;
 			this.btnTimespanDaysFromTDefault.Click += new System.EventHandler(this.btnTimespanDaysFromTDefault_Click);
 			// 
@@ -196,7 +196,7 @@
 			this.txtDaysFromTStop.Location = new System.Drawing.Point(187, 3);
 			this.txtDaysFromTStop.Name = "txtDaysFromTStop";
 			this.txtDaysFromTStop.Size = new System.Drawing.Size(42, 21);
-			this.txtDaysFromTStop.TabIndex = 334;
+			this.txtDaysFromTStop.TabIndex = 1;
 			this.txtDaysFromTStop.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.txtDaysFromTStop.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCommon_KeyDown);
 			this.txtDaysFromTStop.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCommon_KeyPress);
@@ -206,7 +206,7 @@
 			this.txtDaysFromTStart.Location = new System.Drawing.Point(65, 3);
 			this.txtDaysFromTStart.Name = "txtDaysFromTStart";
 			this.txtDaysFromTStart.Size = new System.Drawing.Size(42, 21);
-			this.txtDaysFromTStart.TabIndex = 333;
+			this.txtDaysFromTStart.TabIndex = 0;
 			this.txtDaysFromTStart.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.txtDaysFromTStart.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCommon_KeyDown);
 			this.txtDaysFromTStart.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCommon_KeyPress);
@@ -252,14 +252,14 @@
 			this.pnlRangeDate.Location = new System.Drawing.Point(112, 15);
 			this.pnlRangeDate.Name = "pnlRangeDate";
 			this.pnlRangeDate.Size = new System.Drawing.Size(362, 27);
-			this.pnlRangeDate.TabIndex = 311;
+			this.pnlRangeDate.TabIndex = 1;
 			// 
 			// btnTimespanDateDefault
 			// 
 			this.btnTimespanDateDefault.Location = new System.Drawing.Point(339, 6);
 			this.btnTimespanDateDefault.Name = "btnTimespanDateDefault";
 			this.btnTimespanDateDefault.Size = new System.Drawing.Size(16, 16);
-			this.btnTimespanDateDefault.TabIndex = 322;
+			this.btnTimespanDateDefault.TabIndex = 6;
 			this.btnTimespanDateDefault.UseVisualStyleBackColor = true;
 			this.btnTimespanDateDefault.Click += new System.EventHandler(this.btnTimespanDateDefault_Click);
 			// 
@@ -268,7 +268,7 @@
 			this.txtDayEnd.Location = new System.Drawing.Point(291, 3);
 			this.txtDayEnd.Name = "txtDayEnd";
 			this.txtDayEnd.Size = new System.Drawing.Size(42, 21);
-			this.txtDayEnd.TabIndex = 333;
+			this.txtDayEnd.TabIndex = 5;
 			this.txtDayEnd.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.txtDayEnd.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCommon_KeyDown);
 			this.txtDayEnd.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCommon_KeyPress);
@@ -278,7 +278,7 @@
 			this.txtDayStart.Location = new System.Drawing.Point(115, 3);
 			this.txtDayStart.Name = "txtDayStart";
 			this.txtDayStart.Size = new System.Drawing.Size(42, 21);
-			this.txtDayStart.TabIndex = 330;
+			this.txtDayStart.TabIndex = 2;
 			this.txtDayStart.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.txtDayStart.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCommon_KeyDown);
 			this.txtDayStart.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCommon_KeyPress);
@@ -288,7 +288,7 @@
 			this.txtMonthEnd.Location = new System.Drawing.Point(243, 3);
 			this.txtMonthEnd.Name = "txtMonthEnd";
 			this.txtMonthEnd.Size = new System.Drawing.Size(42, 21);
-			this.txtMonthEnd.TabIndex = 332;
+			this.txtMonthEnd.TabIndex = 4;
 			this.txtMonthEnd.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.txtMonthEnd.TextChanged += new System.EventHandler(this.txtYearMonthEnd_TextChanged);
 			this.txtMonthEnd.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCommon_KeyDown);
@@ -299,7 +299,7 @@
 			this.txtMonthStart.Location = new System.Drawing.Point(67, 3);
 			this.txtMonthStart.Name = "txtMonthStart";
 			this.txtMonthStart.Size = new System.Drawing.Size(42, 21);
-			this.txtMonthStart.TabIndex = 329;
+			this.txtMonthStart.TabIndex = 1;
 			this.txtMonthStart.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.txtMonthStart.TextChanged += new System.EventHandler(this.txtYearMonthStart_TextChanged);
 			this.txtMonthStart.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCommon_KeyDown);
@@ -310,7 +310,7 @@
 			this.txtYearEnd.Location = new System.Drawing.Point(187, 3);
 			this.txtYearEnd.Name = "txtYearEnd";
 			this.txtYearEnd.Size = new System.Drawing.Size(50, 21);
-			this.txtYearEnd.TabIndex = 331;
+			this.txtYearEnd.TabIndex = 3;
 			this.txtYearEnd.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.txtYearEnd.TextChanged += new System.EventHandler(this.txtYearMonthEnd_TextChanged);
 			this.txtYearEnd.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCommon_KeyDown);
@@ -321,7 +321,7 @@
 			this.txtYearStart.Location = new System.Drawing.Point(11, 3);
 			this.txtYearStart.Name = "txtYearStart";
 			this.txtYearStart.Size = new System.Drawing.Size(50, 21);
-			this.txtYearStart.TabIndex = 328;
+			this.txtYearStart.TabIndex = 0;
 			this.txtYearStart.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.txtYearStart.TextChanged += new System.EventHandler(this.txtYearMonthStart_TextChanged);
 			this.txtYearStart.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCommon_KeyDown);
@@ -342,7 +342,7 @@
 			this.rbRangeDaysFromT.Location = new System.Drawing.Point(12, 48);
 			this.rbRangeDaysFromT.Name = "rbRangeDaysFromT";
 			this.rbRangeDaysFromT.Size = new System.Drawing.Size(83, 17);
-			this.rbRangeDaysFromT.TabIndex = 302;
+			this.rbRangeDaysFromT.TabIndex = 2;
 			this.rbRangeDaysFromT.Text = "Days from T";
 			this.rbRangeDaysFromT.UseVisualStyleBackColor = true;
 			// 
@@ -353,7 +353,7 @@
 			this.rbRangeDate.Location = new System.Drawing.Point(12, 21);
 			this.rbRangeDate.Name = "rbRangeDate";
 			this.rbRangeDate.Size = new System.Drawing.Size(48, 17);
-			this.rbRangeDate.TabIndex = 301;
+			this.rbRangeDate.TabIndex = 0;
 			this.rbRangeDate.TabStop = true;
 			this.rbRangeDate.Text = "Date";
 			this.rbRangeDate.UseVisualStyleBackColor = true;
@@ -367,7 +367,7 @@
 			this.gbxDateFormat.Location = new System.Drawing.Point(343, 6);
 			this.gbxDateFormat.Name = "gbxDateFormat";
 			this.gbxDateFormat.Size = new System.Drawing.Size(149, 135);
-			this.gbxDateFormat.TabIndex = 296;
+			this.gbxDateFormat.TabIndex = 1;
 			this.gbxDateFormat.TabStop = false;
 			this.gbxDateFormat.Text = "Date Format";
 			// 
@@ -424,7 +424,7 @@
 			this.gbxChartOptions.Location = new System.Drawing.Point(498, 6);
 			this.gbxChartOptions.Name = "gbxChartOptions";
 			this.gbxChartOptions.Size = new System.Drawing.Size(149, 135);
-			this.gbxChartOptions.TabIndex = 297;
+			this.gbxChartOptions.TabIndex = 2;
 			this.gbxChartOptions.TabStop = false;
 			this.gbxChartOptions.Text = "Chart options";
 			// 
@@ -471,7 +471,7 @@
 			this.groupBox1.Location = new System.Drawing.Point(498, 147);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(149, 83);
-			this.groupBox1.TabIndex = 298;
+			this.groupBox1.TabIndex = 4;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Magnitude";
 			// 
@@ -480,7 +480,7 @@
 			this.txtMaxMag.Location = new System.Drawing.Point(94, 47);
 			this.txtMaxMag.Name = "txtMaxMag";
 			this.txtMaxMag.Size = new System.Drawing.Size(49, 21);
-			this.txtMaxMag.TabIndex = 299;
+			this.txtMaxMag.TabIndex = 3;
 			this.txtMaxMag.Text = "0";
 			this.txtMaxMag.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.txtMaxMag.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMagCommon_KeyPress);
@@ -490,7 +490,7 @@
 			this.txtMinMag.Location = new System.Drawing.Point(94, 20);
 			this.txtMinMag.Name = "txtMinMag";
 			this.txtMinMag.Size = new System.Drawing.Size(49, 21);
-			this.txtMinMag.TabIndex = 2;
+			this.txtMinMag.TabIndex = 1;
 			this.txtMinMag.Text = "0";
 			this.txtMinMag.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.txtMinMag.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMagCommon_KeyPress);
@@ -501,7 +501,7 @@
 			this.cbxMaxMag.Location = new System.Drawing.Point(15, 48);
 			this.cbxMaxMag.Name = "cbxMaxMag";
 			this.cbxMaxMag.Size = new System.Drawing.Size(70, 17);
-			this.cbxMaxMag.TabIndex = 1;
+			this.cbxMaxMag.TabIndex = 2;
 			this.cbxMaxMag.Text = "Maximum";
 			this.cbxMaxMag.UseVisualStyleBackColor = true;
 			// 

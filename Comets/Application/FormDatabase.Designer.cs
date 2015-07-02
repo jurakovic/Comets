@@ -208,7 +208,7 @@
 			this.gbDetails.Location = new System.Drawing.Point(3, 2);
 			this.gbDetails.Name = "gbDetails";
 			this.gbDetails.Size = new System.Drawing.Size(544, 312);
-			this.gbDetails.TabIndex = 288;
+			this.gbDetails.TabIndex = 0;
 			this.gbDetails.TabStop = false;
 			// 
 			// label21
@@ -230,7 +230,7 @@
 			this.t_n2.Name = "t_n2";
 			this.t_n2.ReadOnly = true;
 			this.t_n2.Size = new System.Drawing.Size(116, 22);
-			this.t_n2.TabIndex = 274;
+			this.t_n2.TabIndex = 10;
 			// 
 			// label18
 			// 
@@ -422,7 +422,7 @@
 			this.t_a.Name = "t_a";
 			this.t_a.ReadOnly = true;
 			this.t_a.Size = new System.Drawing.Size(116, 22);
-			this.t_a.TabIndex = 12;
+			this.t_a.TabIndex = 11;
 			// 
 			// label46
 			// 
@@ -464,7 +464,7 @@
 			this.t_e.Name = "t_e";
 			this.t_e.ReadOnly = true;
 			this.t_e.Size = new System.Drawing.Size(116, 22);
-			this.t_e.TabIndex = 5;
+			this.t_e.TabIndex = 4;
 			// 
 			// label49
 			// 
@@ -485,7 +485,7 @@
 			this.t_i.Name = "t_i";
 			this.t_i.ReadOnly = true;
 			this.t_i.Size = new System.Drawing.Size(116, 22);
-			this.t_i.TabIndex = 4;
+			this.t_i.TabIndex = 5;
 			// 
 			// t_Q2
 			// 
@@ -680,7 +680,7 @@
 			this.t_g.Name = "t_g";
 			this.t_g.ReadOnly = true;
 			this.t_g.Size = new System.Drawing.Size(42, 22);
-			this.t_g.TabIndex = 9;
+			this.t_g.TabIndex = 12;
 			// 
 			// label45
 			// 
@@ -701,7 +701,7 @@
 			this.t_k.Name = "t_k";
 			this.t_k.ReadOnly = true;
 			this.t_k.Size = new System.Drawing.Size(42, 22);
-			this.t_k.TabIndex = 10;
+			this.t_k.TabIndex = 13;
 			// 
 			// label28
 			// 
@@ -722,7 +722,7 @@
 			this.t_w.Name = "t_w";
 			this.t_w.ReadOnly = true;
 			this.t_w.Size = new System.Drawing.Size(116, 22);
-			this.t_w.TabIndex = 13;
+			this.t_w.TabIndex = 9;
 			// 
 			// lbxDatabase
 			// 
@@ -732,7 +732,7 @@
 			this.lbxDatabase.Location = new System.Drawing.Point(10, 11);
 			this.lbxDatabase.Name = "lbxDatabase";
 			this.lbxDatabase.Size = new System.Drawing.Size(238, 396);
-			this.lbxDatabase.TabIndex = 287;
+			this.lbxDatabase.TabIndex = 0;
 			this.lbxDatabase.SelectedIndexChanged += new System.EventHandler(this.lbxDatabase_SelectedIndexChanged);
 			this.lbxDatabase.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lbxDatabase_MouseDoubleClick);
 			// 
@@ -741,7 +741,7 @@
 			this.btnFilters.Location = new System.Drawing.Point(648, 17);
 			this.btnFilters.Name = "btnFilters";
 			this.btnFilters.Size = new System.Drawing.Size(118, 23);
-			this.btnFilters.TabIndex = 290;
+			this.btnFilters.TabIndex = 2;
 			this.btnFilters.Text = "Filters ▼";
 			this.btnFilters.UseVisualStyleBackColor = true;
 			this.btnFilters.Click += new System.EventHandler(this.btnFilters_Click);
@@ -751,7 +751,7 @@
 			this.btnSort.Location = new System.Drawing.Point(291, 17);
 			this.btnSort.Name = "btnSort";
 			this.btnSort.Size = new System.Drawing.Size(118, 23);
-			this.btnSort.TabIndex = 289;
+			this.btnSort.TabIndex = 1;
 			this.btnSort.Text = "Sort";
 			this.btnSort.UseVisualStyleBackColor = true;
 			this.btnSort.Click += new System.EventHandler(this.btnSort_Click);
@@ -786,7 +786,7 @@
 			this.btnOk.Location = new System.Drawing.Point(395, 330);
 			this.btnOk.Name = "btnOk";
 			this.btnOk.Size = new System.Drawing.Size(118, 23);
-			this.btnOk.TabIndex = 291;
+			this.btnOk.TabIndex = 1;
 			this.btnOk.Text = "OK";
 			this.btnOk.UseVisualStyleBackColor = true;
 			// 
@@ -896,7 +896,7 @@
 			this.btnFiltersApply.Location = new System.Drawing.Point(217, 330);
 			this.btnFiltersApply.Name = "btnFiltersApply";
 			this.btnFiltersApply.Size = new System.Drawing.Size(118, 23);
-			this.btnFiltersApply.TabIndex = 293;
+			this.btnFiltersApply.TabIndex = 1;
 			this.btnFiltersApply.Text = "Apply";
 			this.btnFiltersApply.UseVisualStyleBackColor = true;
 			this.btnFiltersApply.Click += new System.EventHandler(this.btnFiltersApply_Click);
@@ -910,7 +910,7 @@
 			this.pnlDetails.Location = new System.Drawing.Point(253, 47);
 			this.pnlDetails.Name = "pnlDetails";
 			this.pnlDetails.Size = new System.Drawing.Size(549, 357);
-			this.pnlDetails.TabIndex = 294;
+			this.pnlDetails.TabIndex = 3;
 			// 
 			// pnlFilters
 			// 
@@ -920,7 +920,7 @@
 			this.pnlFilters.Location = new System.Drawing.Point(253, 47);
 			this.pnlFilters.Name = "pnlFilters";
 			this.pnlFilters.Size = new System.Drawing.Size(549, 357);
-			this.pnlFilters.TabIndex = 295;
+			this.pnlFilters.TabIndex = 4;
 			this.pnlFilters.Visible = false;
 			this.pnlFilters.VisibleChanged += new System.EventHandler(this.pnlFilters_VisibleChanged);
 			// 
@@ -930,7 +930,7 @@
 			this.btnFiltersClose.Location = new System.Drawing.Point(395, 330);
 			this.btnFiltersClose.Name = "btnFiltersClose";
 			this.btnFiltersClose.Size = new System.Drawing.Size(118, 23);
-			this.btnFiltersClose.TabIndex = 294;
+			this.btnFiltersClose.TabIndex = 2;
 			this.btnFiltersClose.Text = "Close";
 			this.btnFiltersClose.UseVisualStyleBackColor = true;
 			this.btnFiltersClose.Click += new System.EventHandler(this.btnFilters_Click);
@@ -948,7 +948,7 @@
 			this.gbFilters.Location = new System.Drawing.Point(3, 2);
 			this.gbFilters.Name = "gbFilters";
 			this.gbFilters.Size = new System.Drawing.Size(544, 312);
-			this.gbFilters.TabIndex = 295;
+			this.gbFilters.TabIndex = 0;
 			this.gbFilters.TabStop = false;
 			// 
 			// panelPerihDist
@@ -968,7 +968,7 @@
 			this.cbxPerihelionDistance.Location = new System.Drawing.Point(8, 4);
 			this.cbxPerihelionDistance.Name = "cbxPerihelionDistance";
 			this.cbxPerihelionDistance.Size = new System.Drawing.Size(115, 17);
-			this.cbxPerihelionDistance.TabIndex = 8;
+			this.cbxPerihelionDistance.TabIndex = 0;
 			this.cbxPerihelionDistance.Text = "Perihelion distance";
 			this.cbxPerihelionDistance.UseVisualStyleBackColor = true;
 			// 
@@ -979,7 +979,7 @@
 			this.txtPerihelionDistance.MaxLength = 100;
 			this.txtPerihelionDistance.Name = "txtPerihelionDistance";
 			this.txtPerihelionDistance.Size = new System.Drawing.Size(113, 21);
-			this.txtPerihelionDistance.TabIndex = 10;
+			this.txtPerihelionDistance.TabIndex = 2;
 			this.txtPerihelionDistance.TextChanged += new System.EventHandler(this.txtFiltersCommon_TextChanged);
 			this.txtPerihelionDistance.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPerihelionDistance_KeyPress);
 			// 
@@ -995,7 +995,7 @@
 			this.cboPerihelionDistance.Location = new System.Drawing.Point(204, 2);
 			this.cboPerihelionDistance.Name = "cboPerihelionDistance";
 			this.cboPerihelionDistance.Size = new System.Drawing.Size(118, 21);
-			this.cboPerihelionDistance.TabIndex = 9;
+			this.cboPerihelionDistance.TabIndex = 1;
 			// 
 			// lblPerihelionDistance
 			// 
@@ -1023,7 +1023,7 @@
 			this.cbxEccentricity.Location = new System.Drawing.Point(8, 4);
 			this.cbxEccentricity.Name = "cbxEccentricity";
 			this.cbxEccentricity.Size = new System.Drawing.Size(81, 17);
-			this.cbxEccentricity.TabIndex = 14;
+			this.cbxEccentricity.TabIndex = 0;
 			this.cbxEccentricity.Text = "Eccentricity";
 			this.cbxEccentricity.UseVisualStyleBackColor = true;
 			// 
@@ -1039,7 +1039,7 @@
 			this.cboEccentricity.Location = new System.Drawing.Point(204, 2);
 			this.cboEccentricity.Name = "cboEccentricity";
 			this.cboEccentricity.Size = new System.Drawing.Size(118, 21);
-			this.cboEccentricity.TabIndex = 15;
+			this.cboEccentricity.TabIndex = 1;
 			// 
 			// txtEccentricity
 			// 
@@ -1048,7 +1048,7 @@
 			this.txtEccentricity.MaxLength = 100;
 			this.txtEccentricity.Name = "txtEccentricity";
 			this.txtEccentricity.Size = new System.Drawing.Size(113, 21);
-			this.txtEccentricity.TabIndex = 16;
+			this.txtEccentricity.TabIndex = 2;
 			this.txtEccentricity.TextChanged += new System.EventHandler(this.txtFiltersCommon_TextChanged);
 			this.txtEccentricity.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtEccentricity_KeyPress);
 			// 
@@ -1069,7 +1069,7 @@
 			this.cbxInclination.Location = new System.Drawing.Point(8, 4);
 			this.cbxInclination.Name = "cbxInclination";
 			this.cbxInclination.Size = new System.Drawing.Size(75, 17);
-			this.cbxInclination.TabIndex = 23;
+			this.cbxInclination.TabIndex = 0;
 			this.cbxInclination.Text = "Inclination";
 			this.cbxInclination.UseVisualStyleBackColor = true;
 			// 
@@ -1085,7 +1085,7 @@
 			this.cboInclination.Location = new System.Drawing.Point(204, 2);
 			this.cboInclination.Name = "cboInclination";
 			this.cboInclination.Size = new System.Drawing.Size(118, 21);
-			this.cboInclination.TabIndex = 24;
+			this.cboInclination.TabIndex = 1;
 			// 
 			// txtInclination
 			// 
@@ -1094,7 +1094,7 @@
 			this.txtInclination.MaxLength = 100;
 			this.txtInclination.Name = "txtInclination";
 			this.txtInclination.Size = new System.Drawing.Size(113, 21);
-			this.txtInclination.TabIndex = 25;
+			this.txtInclination.TabIndex = 2;
 			this.txtInclination.TextChanged += new System.EventHandler(this.txtFiltersCommon_TextChanged);
 			this.txtInclination.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtInclination_KeyPress);
 			// 
@@ -1131,7 +1131,7 @@
 			this.cboLongOfAscendingNode.Location = new System.Drawing.Point(204, 2);
 			this.cboLongOfAscendingNode.Name = "cboLongOfAscendingNode";
 			this.cboLongOfAscendingNode.Size = new System.Drawing.Size(118, 21);
-			this.cboLongOfAscendingNode.TabIndex = 18;
+			this.cboLongOfAscendingNode.TabIndex = 1;
 			// 
 			// cbxLongOfAscendingNode
 			// 
@@ -1139,7 +1139,7 @@
 			this.cbxLongOfAscendingNode.Location = new System.Drawing.Point(8, 4);
 			this.cbxLongOfAscendingNode.Name = "cbxLongOfAscendingNode";
 			this.cbxLongOfAscendingNode.Size = new System.Drawing.Size(165, 17);
-			this.cbxLongOfAscendingNode.TabIndex = 17;
+			this.cbxLongOfAscendingNode.TabIndex = 0;
 			this.cbxLongOfAscendingNode.Text = "Longitude of Ascending node";
 			this.cbxLongOfAscendingNode.UseVisualStyleBackColor = true;
 			// 
@@ -1150,7 +1150,7 @@
 			this.txtLongOfAscendingNode.MaxLength = 100;
 			this.txtLongOfAscendingNode.Name = "txtLongOfAscendingNode";
 			this.txtLongOfAscendingNode.Size = new System.Drawing.Size(113, 21);
-			this.txtLongOfAscendingNode.TabIndex = 19;
+			this.txtLongOfAscendingNode.TabIndex = 2;
 			this.txtLongOfAscendingNode.TextChanged += new System.EventHandler(this.txtFiltersCommon_TextChanged);
 			this.txtLongOfAscendingNode.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFiltersNodePeri_KeyPress);
 			// 
@@ -1181,7 +1181,7 @@
 			this.cbxArgumentOfPericenter.Location = new System.Drawing.Point(8, 4);
 			this.cbxArgumentOfPericenter.Name = "cbxArgumentOfPericenter";
 			this.cbxArgumentOfPericenter.Size = new System.Drawing.Size(138, 17);
-			this.cbxArgumentOfPericenter.TabIndex = 20;
+			this.cbxArgumentOfPericenter.TabIndex = 0;
 			this.cbxArgumentOfPericenter.Text = "Argument of Pericenter";
 			this.cbxArgumentOfPericenter.UseVisualStyleBackColor = true;
 			// 
@@ -1197,7 +1197,7 @@
 			this.cboArgumentOfPericenter.Location = new System.Drawing.Point(204, 2);
 			this.cboArgumentOfPericenter.Name = "cboArgumentOfPericenter";
 			this.cboArgumentOfPericenter.Size = new System.Drawing.Size(118, 21);
-			this.cboArgumentOfPericenter.TabIndex = 21;
+			this.cboArgumentOfPericenter.TabIndex = 1;
 			// 
 			// txtArgumentOfPericenter
 			// 
@@ -1206,7 +1206,7 @@
 			this.txtArgumentOfPericenter.MaxLength = 100;
 			this.txtArgumentOfPericenter.Name = "txtArgumentOfPericenter";
 			this.txtArgumentOfPericenter.Size = new System.Drawing.Size(113, 21);
-			this.txtArgumentOfPericenter.TabIndex = 22;
+			this.txtArgumentOfPericenter.TabIndex = 2;
 			this.txtArgumentOfPericenter.TextChanged += new System.EventHandler(this.txtFiltersCommon_TextChanged);
 			this.txtArgumentOfPericenter.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFiltersNodePeri_KeyPress);
 			// 
@@ -1237,7 +1237,7 @@
 			this.cbxPeriod.Location = new System.Drawing.Point(8, 4);
 			this.cbxPeriod.Name = "cbxPeriod";
 			this.cbxPeriod.Size = new System.Drawing.Size(56, 17);
-			this.cbxPeriod.TabIndex = 26;
+			this.cbxPeriod.TabIndex = 0;
 			this.cbxPeriod.Text = "Period";
 			this.cbxPeriod.UseVisualStyleBackColor = true;
 			// 
@@ -1253,7 +1253,7 @@
 			this.cboPeriod.Location = new System.Drawing.Point(204, 2);
 			this.cboPeriod.Name = "cboPeriod";
 			this.cboPeriod.Size = new System.Drawing.Size(118, 21);
-			this.cboPeriod.TabIndex = 27;
+			this.cboPeriod.TabIndex = 1;
 			// 
 			// lblPeriod
 			// 
@@ -1272,7 +1272,7 @@
 			this.txtPeriod.MaxLength = 100;
 			this.txtPeriod.Name = "txtPeriod";
 			this.txtPeriod.Size = new System.Drawing.Size(113, 21);
-			this.txtPeriod.TabIndex = 28;
+			this.txtPeriod.TabIndex = 2;
 			this.txtPeriod.TextChanged += new System.EventHandler(this.txtFiltersCommon_TextChanged);
 			this.txtPeriod.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFiltersPeriod_KeyPress);
 			// 
@@ -1295,7 +1295,7 @@
 			this.cbxPerihelionDate.Location = new System.Drawing.Point(8, 4);
 			this.cbxPerihelionDate.Name = "cbxPerihelionDate";
 			this.cbxPerihelionDate.Size = new System.Drawing.Size(97, 17);
-			this.cbxPerihelionDate.TabIndex = 2;
+			this.cbxPerihelionDate.TabIndex = 0;
 			this.cbxPerihelionDate.Text = "Perihelion date";
 			this.cbxPerihelionDate.UseVisualStyleBackColor = true;
 			// 
@@ -1311,7 +1311,7 @@
 			this.cboPerihelionDate.Location = new System.Drawing.Point(204, 2);
 			this.cboPerihelionDate.Name = "cboPerihelionDate";
 			this.cboPerihelionDate.Size = new System.Drawing.Size(118, 21);
-			this.cboPerihelionDate.TabIndex = 3;
+			this.cboPerihelionDate.TabIndex = 1;
 			// 
 			// txtPerihelionDateD
 			// 
@@ -1320,7 +1320,7 @@
 			this.txtPerihelionDateD.MaxLength = 2;
 			this.txtPerihelionDateD.Name = "txtPerihelionDateD";
 			this.txtPerihelionDateD.Size = new System.Drawing.Size(25, 21);
-			this.txtPerihelionDateD.TabIndex = 4;
+			this.txtPerihelionDateD.TabIndex = 2;
 			this.txtPerihelionDateD.TextChanged += new System.EventHandler(this.txtFiltersCommon_TextChanged);
 			this.txtPerihelionDateD.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPerihelionDateD_KeyPress);
 			// 
@@ -1331,7 +1331,7 @@
 			this.txtPerihelionDateM.MaxLength = 2;
 			this.txtPerihelionDateM.Name = "txtPerihelionDateM";
 			this.txtPerihelionDateM.Size = new System.Drawing.Size(25, 21);
-			this.txtPerihelionDateM.TabIndex = 5;
+			this.txtPerihelionDateM.TabIndex = 3;
 			this.txtPerihelionDateM.TextChanged += new System.EventHandler(this.txtPerihelionDateMY_TextChanged);
 			this.txtPerihelionDateM.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPerihelionDateM_KeyPress);
 			// 
@@ -1342,7 +1342,7 @@
 			this.txtPerihelionDateY.MaxLength = 4;
 			this.txtPerihelionDateY.Name = "txtPerihelionDateY";
 			this.txtPerihelionDateY.Size = new System.Drawing.Size(51, 21);
-			this.txtPerihelionDateY.TabIndex = 6;
+			this.txtPerihelionDateY.TabIndex = 4;
 			this.txtPerihelionDateY.TextChanged += new System.EventHandler(this.txtPerihelionDateMY_TextChanged);
 			this.txtPerihelionDateY.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPerihelionDateY_KeyPress);
 			// 
@@ -1352,7 +1352,7 @@
 			this.btnPerihelionDateNow.Location = new System.Drawing.Point(448, 4);
 			this.btnPerihelionDateNow.Name = "btnPerihelionDateNow";
 			this.btnPerihelionDateNow.Size = new System.Drawing.Size(16, 16);
-			this.btnPerihelionDateNow.TabIndex = 7;
+			this.btnPerihelionDateNow.TabIndex = 5;
 			this.btnPerihelionDateNow.UseVisualStyleBackColor = true;
 			this.btnPerihelionDateNow.Click += new System.EventHandler(this.btnPerihelionDateNow_Click);
 			// 
@@ -1377,7 +1377,7 @@
 			this.cboName.Location = new System.Drawing.Point(204, 2);
 			this.cboName.Name = "cboName";
 			this.cboName.Size = new System.Drawing.Size(118, 21);
-			this.cboName.TabIndex = 0;
+			this.cboName.TabIndex = 1;
 			// 
 			// cbxName
 			// 
@@ -1396,7 +1396,7 @@
 			this.txtName.MaxLength = 25;
 			this.txtName.Name = "txtName";
 			this.txtName.Size = new System.Drawing.Size(166, 21);
-			this.txtName.TabIndex = 1;
+			this.txtName.TabIndex = 2;
 			this.txtName.TextChanged += new System.EventHandler(this.txtFiltersCommon_TextChanged);
 			// 
 			// FormDatabase
