@@ -32,7 +32,6 @@
 			this.label21 = new System.Windows.Forms.Label();
 			this.t_n2 = new System.Windows.Forms.TextBox();
 			this.label18 = new System.Windows.Forms.Label();
-			this.label62 = new System.Windows.Forms.Label();
 			this.label61 = new System.Windows.Forms.Label();
 			this.label63 = new System.Windows.Forms.Label();
 			this.t_P = new System.Windows.Forms.TextBox();
@@ -41,12 +40,11 @@
 			this.label32 = new System.Windows.Forms.Label();
 			this.label34 = new System.Windows.Forms.Label();
 			this.tEquinox = new System.Windows.Forms.TextBox();
-			this.t_id = new System.Windows.Forms.TextBox();
+			this.t_full = new System.Windows.Forms.TextBox();
 			this.label50 = new System.Windows.Forms.Label();
 			this.label60 = new System.Windows.Forms.Label();
 			this.label38 = new System.Windows.Forms.Label();
 			this.label64 = new System.Windows.Forms.Label();
-			this.t_name = new System.Windows.Forms.TextBox();
 			this.label65 = new System.Windows.Forms.Label();
 			this.t_a = new System.Windows.Forms.TextBox();
 			this.label46 = new System.Windows.Forms.Label();
@@ -159,8 +157,9 @@
 			// 
 			this.gbDetails.Controls.Add(this.label21);
 			this.gbDetails.Controls.Add(this.t_n2);
+			this.gbDetails.Controls.Add(this.lblSortKey);
+			this.gbDetails.Controls.Add(this.t_sortKey);
 			this.gbDetails.Controls.Add(this.label18);
-			this.gbDetails.Controls.Add(this.label62);
 			this.gbDetails.Controls.Add(this.label61);
 			this.gbDetails.Controls.Add(this.label63);
 			this.gbDetails.Controls.Add(this.t_P);
@@ -169,12 +168,11 @@
 			this.gbDetails.Controls.Add(this.label32);
 			this.gbDetails.Controls.Add(this.label34);
 			this.gbDetails.Controls.Add(this.tEquinox);
-			this.gbDetails.Controls.Add(this.t_id);
+			this.gbDetails.Controls.Add(this.t_full);
 			this.gbDetails.Controls.Add(this.label50);
 			this.gbDetails.Controls.Add(this.label60);
 			this.gbDetails.Controls.Add(this.label38);
 			this.gbDetails.Controls.Add(this.label64);
-			this.gbDetails.Controls.Add(this.t_name);
 			this.gbDetails.Controls.Add(this.label65);
 			this.gbDetails.Controls.Add(this.t_a);
 			this.gbDetails.Controls.Add(this.label46);
@@ -243,23 +241,12 @@
 			this.label18.TabIndex = 275;
 			this.label18.Text = "Mean motion";
 			// 
-			// label62
-			// 
-			this.label62.AutoSize = true;
-			this.label62.Font = new System.Drawing.Font("Tahoma", 8F);
-			this.label62.ForeColor = System.Drawing.SystemColors.GrayText;
-			this.label62.Location = new System.Drawing.Point(34, 24);
-			this.label62.Name = "label62";
-			this.label62.Size = new System.Drawing.Size(63, 13);
-			this.label62.TabIndex = 0;
-			this.label62.Text = "Designation";
-			// 
 			// label61
 			// 
 			this.label61.AutoSize = true;
 			this.label61.Font = new System.Drawing.Font("Tahoma", 8F);
 			this.label61.ForeColor = System.Drawing.SystemColors.GrayText;
-			this.label61.Location = new System.Drawing.Point(214, 24);
+			this.label61.Location = new System.Drawing.Point(34, 24);
 			this.label61.Name = "label61";
 			this.label61.Size = new System.Drawing.Size(34, 13);
 			this.label61.TabIndex = 221;
@@ -339,15 +326,15 @@
 			this.tEquinox.Size = new System.Drawing.Size(116, 22);
 			this.tEquinox.TabIndex = 14;
 			// 
-			// t_id
+			// t_full
 			// 
-			this.t_id.BackColor = System.Drawing.SystemColors.Window;
-			this.t_id.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.t_id.Location = new System.Drawing.Point(36, 43);
-			this.t_id.Name = "t_id";
-			this.t_id.ReadOnly = true;
-			this.t_id.Size = new System.Drawing.Size(116, 22);
-			this.t_id.TabIndex = 0;
+			this.t_full.BackColor = System.Drawing.SystemColors.Window;
+			this.t_full.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.t_full.Location = new System.Drawing.Point(36, 43);
+			this.t_full.Name = "t_full";
+			this.t_full.ReadOnly = true;
+			this.t_full.Size = new System.Drawing.Size(296, 22);
+			this.t_full.TabIndex = 0;
 			// 
 			// label50
 			// 
@@ -392,16 +379,6 @@
 			this.label64.Size = new System.Drawing.Size(23, 14);
 			this.label64.TabIndex = 271;
 			this.label64.Text = "AU";
-			// 
-			// t_name
-			// 
-			this.t_name.BackColor = System.Drawing.SystemColors.Window;
-			this.t_name.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.t_name.Location = new System.Drawing.Point(216, 43);
-			this.t_name.Name = "t_name";
-			this.t_name.ReadOnly = true;
-			this.t_name.Size = new System.Drawing.Size(293, 22);
-			this.t_name.TabIndex = 1;
 			// 
 			// label65
 			// 
@@ -760,10 +737,10 @@
 			// 
 			this.t_sortKey.BackColor = System.Drawing.SystemColors.Window;
 			this.t_sortKey.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.t_sortKey.Location = new System.Drawing.Point(38, 331);
+			this.t_sortKey.Location = new System.Drawing.Point(393, 43);
 			this.t_sortKey.Name = "t_sortKey";
 			this.t_sortKey.ReadOnly = true;
-			this.t_sortKey.Size = new System.Drawing.Size(118, 22);
+			this.t_sortKey.Size = new System.Drawing.Size(116, 22);
 			this.t_sortKey.TabIndex = 284;
 			this.t_sortKey.Visible = false;
 			// 
@@ -772,7 +749,7 @@
 			this.lblSortKey.AutoSize = true;
 			this.lblSortKey.Font = new System.Drawing.Font("Tahoma", 8F);
 			this.lblSortKey.ForeColor = System.Drawing.SystemColors.GrayText;
-			this.lblSortKey.Location = new System.Drawing.Point(36, 314);
+			this.lblSortKey.Location = new System.Drawing.Point(392, 24);
 			this.lblSortKey.Name = "lblSortKey";
 			this.lblSortKey.Size = new System.Drawing.Size(44, 13);
 			this.lblSortKey.TabIndex = 285;
@@ -905,8 +882,6 @@
 			// 
 			this.pnlDetails.Controls.Add(this.gbDetails);
 			this.pnlDetails.Controls.Add(this.btnOk);
-			this.pnlDetails.Controls.Add(this.t_sortKey);
-			this.pnlDetails.Controls.Add(this.lblSortKey);
 			this.pnlDetails.Location = new System.Drawing.Point(253, 47);
 			this.pnlDetails.Name = "pnlDetails";
 			this.pnlDetails.Size = new System.Drawing.Size(549, 357);
@@ -1422,7 +1397,6 @@
 			this.gbDetails.ResumeLayout(false);
 			this.gbDetails.PerformLayout();
 			this.pnlDetails.ResumeLayout(false);
-			this.pnlDetails.PerformLayout();
 			this.pnlFilters.ResumeLayout(false);
 			this.gbFilters.ResumeLayout(false);
 			this.panelPerihDist.ResumeLayout(false);
@@ -1451,7 +1425,6 @@
 		private System.Windows.Forms.Label label21;
 		private System.Windows.Forms.TextBox t_n2;
 		private System.Windows.Forms.Label label18;
-		private System.Windows.Forms.Label label62;
 		private System.Windows.Forms.Label label61;
 		private System.Windows.Forms.Label label63;
 		private System.Windows.Forms.TextBox t_P;
@@ -1460,12 +1433,11 @@
 		private System.Windows.Forms.Label label32;
 		private System.Windows.Forms.Label label34;
 		private System.Windows.Forms.TextBox tEquinox;
-		private System.Windows.Forms.TextBox t_id;
+		private System.Windows.Forms.TextBox t_full;
 		private System.Windows.Forms.Label label50;
 		private System.Windows.Forms.Label label60;
 		private System.Windows.Forms.Label label38;
 		private System.Windows.Forms.Label label64;
-		private System.Windows.Forms.TextBox t_name;
 		private System.Windows.Forms.Label label65;
 		private System.Windows.Forms.TextBox t_a;
 		private System.Windows.Forms.Label label46;

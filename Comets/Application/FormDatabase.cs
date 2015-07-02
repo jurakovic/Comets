@@ -69,8 +69,7 @@ namespace Comets.Application
 			int ind = lbxDatabase.SelectedIndex;
 			Comet c = FormMain.UserList.ElementAt(ind);
 
-			t_id.Text = c.id;
-			t_name.Text = c.name;
+			t_full.Text = c.full;
 			t_T.Text = c.Ty.ToString() + "-" + c.Tm.ToString("00") + "-" + c.Td.ToString("00") + "." + c.Th.ToString("0000");
 			t_q1.Text = c.q.ToString("0.000000");
 			t_e.Text = c.e.ToString("0.000000");
