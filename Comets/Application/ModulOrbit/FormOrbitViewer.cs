@@ -160,11 +160,11 @@ namespace Comets.Application.ModulOrbit
 			cboObject.DisplayMember = "Name";
 			cboObject.DataSource = Comets;
 
-			if (FormMain.UserList.Count == FormMain.MainList.Count)
+			if (Comets.Any() && FormMain.UserList.Count == FormMain.MainList.Count)
 			{
-				//select comet with nearest perihelion date
-				OVComet c = Comets.Where(x => x.T - DateTime.Now.JD() > 0).OrderBy(y => y.T).First();
-				cboObject.SelectedIndex = Comets.IndexOf(c);
+				//comet with nearest perihelion date
+				OVComet c = Comets.Where(x => x.T - DateTime.Now.JD() > 0).OrderBy(y => y.T).FirstOrDefault();
+				cboObject.SelectedIndex = c != null ? Comets.IndexOf(c) : 0;
 			}
 
 			txtDay.Text = DateTime.Now.Day.ToString();

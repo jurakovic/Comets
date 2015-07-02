@@ -191,7 +191,7 @@ namespace Comets.OrbitViewer
 				CometOrbits.Clear();
 			}
 
-			if (!Comets.Contains(comet))
+			if (comet != null && !Comets.Contains(comet))
 			{
 				Comets.Add(comet);
 				CometOrbits.Add(new CometOrbit(comet, 1000));
@@ -249,7 +249,7 @@ namespace Comets.OrbitViewer
 				UpdateRotationMatrix(ATime);
 			}
 
-			if (CenterObjectSelected == (int)CenteredObjectEnum.CometAsteroid)
+			if (SelectedIndex >= 0 && CenterObjectSelected == (int)CenteredObjectEnum.CometAsteroid)
 			{
 				xyz = CometsPos[SelectedIndex].Rotate(MtxToEcl).Rotate(MtxRotate);
 				point3 = GetDrawPoint(xyz);
@@ -377,38 +377,41 @@ namespace Comets.OrbitViewer
 
 				Point point1 = new Point(labelMargin, labelMargin);
 
-				graphics.DrawString(Comets[SelectedIndex].Name, FontInformation, sb, point1.X, point1.Y);
-
-				if (ShowDistance)
+				if (SelectedIndex >= 0)
 				{
-					// Earth & Sun Distance, Magnitude
-					double d, r, m;
-					double xdiff, ydiff, zdiff;
-					string dstr, rstr, mstr;
+					graphics.DrawString(Comets[SelectedIndex].Name, FontInformation, sb, point1.X, point1.Y);
 
-					xyz = CometsPos[SelectedIndex].Rotate(MtxToEcl).Rotate(MtxRotate);
+					if (ShowDistance)
+					{
+						// Earth & Sun Distance, Magnitude
+						double d, r, m;
+						double xdiff, ydiff, zdiff;
+						string dstr, rstr, mstr;
 
-					xyz1 = PlanetPos[2].Rotate(MtxRotate);
-					r = Math.Sqrt((xyz.X * xyz.X) + (xyz.Y * xyz.Y) + (xyz.Z * xyz.Z)) + .0005;
-					xdiff = xyz.X - xyz1.X;
-					ydiff = xyz.Y - xyz1.Y;
-					zdiff = xyz.Z - xyz1.Z;
-					d = Math.Sqrt((xdiff * xdiff) + (ydiff * ydiff) + (zdiff * zdiff)) + .0005;
+						xyz = CometsPos[SelectedIndex].Rotate(MtxToEcl).Rotate(MtxRotate);
 
-					m = Comets[SelectedIndex].g + 5 * Math.Log10(d) + 2.5 * Comets[SelectedIndex].k * Math.Log10(r);
+						xyz1 = PlanetPos[2].Rotate(MtxRotate);
+						r = Math.Sqrt((xyz.X * xyz.X) + (xyz.Y * xyz.Y) + (xyz.Z * xyz.Z)) + .0005;
+						xdiff = xyz.X - xyz1.X;
+						ydiff = xyz.Y - xyz1.Y;
+						zdiff = xyz.Z - xyz1.Z;
+						d = Math.Sqrt((xdiff * xdiff) + (ydiff * ydiff) + (zdiff * zdiff)) + .0005;
 
-					mstr = String.Format("Magnitude:       {0:#0.0}", m);
-					dstr = String.Format("Earth Distance: {0:#0.0000} AU", d);
-					rstr = String.Format("Sun Distance:   {0:#0.0000} AU", r);
+						m = Comets[SelectedIndex].g + 5 * Math.Log10(d) + 2.5 * Comets[SelectedIndex].k * Math.Log10(r);
 
-					point1.Y = Size.Height - labelMargin - (int)(fontSize * 5.0);
-					graphics.DrawString(mstr, FontInformation, sb, point1.X, point1.Y);
+						mstr = String.Format("Magnitude:       {0:#0.0}", m);
+						dstr = String.Format("Earth Distance: {0:#0.0000} AU", d);
+						rstr = String.Format("Sun Distance:   {0:#0.0000} AU", r);
 
-					point1.Y = Size.Height - labelMargin - (int)(fontSize * 3.5);
-					graphics.DrawString(dstr, FontInformation, sb, point1.X, point1.Y);
+						point1.Y = Size.Height - labelMargin - (int)(fontSize * 5.0);
+						graphics.DrawString(mstr, FontInformation, sb, point1.X, point1.Y);
 
-					point1.Y = Size.Height - labelMargin - (int)(fontSize * 2.0);
-					graphics.DrawString(rstr, FontInformation, sb, point1.X, point1.Y);
+						point1.Y = Size.Height - labelMargin - (int)(fontSize * 3.5);
+						graphics.DrawString(dstr, FontInformation, sb, point1.X, point1.Y);
+
+						point1.Y = Size.Height - labelMargin - (int)(fontSize * 2.0);
+						graphics.DrawString(rstr, FontInformation, sb, point1.X, point1.Y);
+					}
 				}
 
 				if (ShowDate)

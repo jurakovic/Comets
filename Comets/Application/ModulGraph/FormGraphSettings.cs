@@ -344,15 +344,18 @@ namespace Comets.Application.ModulGraph
 			cbComet.DisplayMember = "full";
 			cbComet.DataSource = GraphSettings.Comets;
 
-			if (GraphSettings.SelectedComet != null && GraphSettings.Comets.Contains(GraphSettings.SelectedComet))
+			if (GraphSettings.Comets.Any())
 			{
-				cbComet.SelectedIndex = GraphSettings.Comets.IndexOf(GraphSettings.SelectedComet);
-			}
-			else
-			{
-				//comet with nearest perihelion date
-				Comet c = GraphSettings.Comets.Where(x => x.T - DateTime.Now.JD() > 0).OrderBy(y => y.T).FirstOrDefault();
-				cbComet.SelectedIndex = c != null ? GraphSettings.Comets.IndexOf(c) : 0;
+				if (GraphSettings.SelectedComet != null && GraphSettings.Comets.Contains(GraphSettings.SelectedComet))
+				{
+					cbComet.SelectedIndex = GraphSettings.Comets.IndexOf(GraphSettings.SelectedComet);
+				}
+				else
+				{
+					//comet with nearest perihelion date
+					Comet c = GraphSettings.Comets.Where(x => x.T - DateTime.Now.JD() > 0).OrderBy(y => y.T).FirstOrDefault();
+					cbComet.SelectedIndex = c != null ? GraphSettings.Comets.IndexOf(c) : 0;
+				}
 			}
 		}
 

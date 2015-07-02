@@ -316,15 +316,18 @@ namespace Comets.Application.ModulEphemeris
 			cbComet.DisplayMember = "full";
 			cbComet.DataSource = EphemerisSettings.Comets;
 
-			if (EphemerisSettings.SelectedComet != null && EphemerisSettings.Comets.Contains(EphemerisSettings.SelectedComet))
+			if (EphemerisSettings.Comets.Any())
 			{
-				cbComet.SelectedIndex = EphemerisSettings.Comets.IndexOf(EphemerisSettings.SelectedComet);
-			}
-			else
-			{
-				//comet with nearest perihelion date
-				Comet c = EphemerisSettings.Comets.Where(x => x.T - DateTime.Now.JD() > 0).OrderBy(y => y.T).FirstOrDefault();
-				cbComet.SelectedIndex = c != null ? EphemerisSettings.Comets.IndexOf(c) : 0;
+				if (EphemerisSettings.SelectedComet != null && EphemerisSettings.Comets.Contains(EphemerisSettings.SelectedComet))
+				{
+					cbComet.SelectedIndex = EphemerisSettings.Comets.IndexOf(EphemerisSettings.SelectedComet);
+				}
+				else
+				{
+					//comet with nearest perihelion date
+					Comet c = EphemerisSettings.Comets.Where(x => x.T - DateTime.Now.JD() > 0).OrderBy(y => y.T).FirstOrDefault();
+					cbComet.SelectedIndex = c != null ? EphemerisSettings.Comets.IndexOf(c) : 0;
+				}
 			}
 		}
 
