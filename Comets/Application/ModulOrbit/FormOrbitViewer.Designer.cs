@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormOrbitViewer));
 			this.btnSet = new System.Windows.Forms.Button();
 			this.btnNow = new System.Windows.Forms.Button();
 			this.lblTimestep = new System.Windows.Forms.Label();
@@ -399,6 +400,7 @@
 			this.Controls.Add(this.scrollVert);
 			this.Controls.Add(this.scrollHorz);
 			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.KeyPreview = true;
 			this.MinimumSize = new System.Drawing.Size(719, 636);
 			this.Name = "FormOrbitViewer";

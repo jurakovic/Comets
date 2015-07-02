@@ -29,21 +29,7 @@
 		private void InitializeComponent()
 		{
 			System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-			System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint1 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(42004D, 0D);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint2 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(42005D, 10D);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint3 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(42006D, 8D);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint4 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(42007D, 6D);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint5 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(42008D, 2D);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint6 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(42009D, 1D);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint7 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(42010D, 3D);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint8 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(42011D, 6D);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint9 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(42012D, 9D);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint10 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(42013D, 11D);
-			System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint11 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(42009D, 0D);
-			System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint12 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(42009D, 11D);
-			System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormGraph));
 			this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
 			((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
 			this.SuspendLayout();
@@ -88,43 +74,9 @@
 			this.chart1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.chart1.Location = new System.Drawing.Point(0, 0);
 			this.chart1.Name = "chart1";
-			series1.ChartArea = "ChartAreaMagnitude";
-			series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-			series1.Color = System.Drawing.Color.Red;
-			series1.Legend = "Legend1";
-			series1.Name = "SeriesMagnitude";
-			dataPoint2.MarkerSize = 5;
-			series1.Points.Add(dataPoint1);
-			series1.Points.Add(dataPoint2);
-			series1.Points.Add(dataPoint3);
-			series1.Points.Add(dataPoint4);
-			series1.Points.Add(dataPoint5);
-			series1.Points.Add(dataPoint6);
-			series1.Points.Add(dataPoint7);
-			series1.Points.Add(dataPoint8);
-			series1.Points.Add(dataPoint9);
-			series1.Points.Add(dataPoint10);
-			series1.XAxisType = System.Windows.Forms.DataVisualization.Charting.AxisType.Secondary;
-			series1.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
-			series2.ChartArea = "ChartAreaMagnitude";
-			series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-			series2.Color = System.Drawing.Color.RoyalBlue;
-			series2.Legend = "Legend1";
-			series2.Name = "Series2";
-			series2.Points.Add(dataPoint11);
-			series2.Points.Add(dataPoint12);
-			series2.ShadowColor = System.Drawing.Color.Transparent;
-			series2.XAxisType = System.Windows.Forms.DataVisualization.Charting.AxisType.Secondary;
-			series2.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
-			this.chart1.Series.Add(series1);
-			this.chart1.Series.Add(series2);
 			this.chart1.Size = new System.Drawing.Size(1350, 729);
 			this.chart1.TabIndex = 1;
 			this.chart1.Text = "chart1";
-			title1.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			title1.Name = "ChartTitle";
-			title1.Text = "Halley";
-			this.chart1.Titles.Add(title1);
 			// 
 			// FormGraph
 			// 
@@ -132,8 +84,8 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1350, 729);
 			this.Controls.Add(this.chart1);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "FormGraph";
-			this.ShowIcon = false;
 			this.Text = "Magnitude Graph";
 			this.Load += new System.EventHandler(this.FormGraph_Load);
 			((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();

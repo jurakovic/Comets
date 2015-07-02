@@ -29,6 +29,7 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
 			this.mainMenu = new System.Windows.Forms.MainMenu(this.components);
 			this.menuItemFile = new System.Windows.Forms.MenuItem();
 			this.menuItemFileEphemeris = new System.Windows.Forms.MenuItem();
@@ -58,6 +59,8 @@
 			this.menuItemOrbitMagnitude = new System.Windows.Forms.MenuItem();
 			this.menuItemOrbitDistance = new System.Windows.Forms.MenuItem();
 			this.menuItemOrbitDate = new System.Windows.Forms.MenuItem();
+			this.menuItemOrbitSep4 = new System.Windows.Forms.MenuItem();
+			this.menuItemOrbitSaveImage = new System.Windows.Forms.MenuItem();
 			this.menuItemEdit = new System.Windows.Forms.MenuItem();
 			this.menuItemDatabase = new System.Windows.Forms.MenuItem();
 			this.menuItemSeparatorEdit1 = new System.Windows.Forms.MenuItem();
@@ -81,8 +84,6 @@
 			this.statusComets = new System.Windows.Forms.ToolStripStatusLabel();
 			this.statusSpace = new System.Windows.Forms.ToolStripStatusLabel();
 			this.statusProgressBar = new System.Windows.Forms.ToolStripProgressBar();
-			this.menuItemOrbitSep4 = new System.Windows.Forms.MenuItem();
-			this.menuItemOrbitSaveImage = new System.Windows.Forms.MenuItem();
 			this.statusStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -289,6 +290,17 @@
 			this.menuItemOrbitDate.Text = "   Date";
 			this.menuItemOrbitDate.Click += new System.EventHandler(this.menuItemOrbitMultiple_Click);
 			// 
+			// menuItemOrbitSep4
+			// 
+			this.menuItemOrbitSep4.Index = 13;
+			this.menuItemOrbitSep4.Text = "-";
+			// 
+			// menuItemOrbitSaveImage
+			// 
+			this.menuItemOrbitSaveImage.Index = 14;
+			this.menuItemOrbitSaveImage.Text = "Save Image As";
+			this.menuItemOrbitSaveImage.Click += new System.EventHandler(this.menuItemOrbitSaveImage_Click);
+			// 
 			// menuItemEdit
 			// 
 			this.menuItemEdit.Index = 4;
@@ -451,23 +463,13 @@
 			this.statusProgressBar.Size = new System.Drawing.Size(200, 16);
 			this.statusProgressBar.Visible = false;
 			// 
-			// menuItemOrbitSep4
-			// 
-			this.menuItemOrbitSep4.Index = 13;
-			this.menuItemOrbitSep4.Text = "-";
-			// 
-			// menuItemOrbitSaveImage
-			// 
-			this.menuItemOrbitSaveImage.Index = 14;
-			this.menuItemOrbitSaveImage.Text = "Save Image As";
-			this.menuItemOrbitSaveImage.Click += new System.EventHandler(this.menuItemOrbitSaveImage_Click);
-			// 
 			// FormMain
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(784, 562);
 			this.Controls.Add(this.statusStrip);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.IsMdiContainer = true;
 			this.Menu = this.mainMenu;
 			this.MinimumSize = new System.Drawing.Size(800, 600);
