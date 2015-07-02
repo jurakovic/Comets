@@ -38,15 +38,21 @@ namespace Comets.Application
 		private void lbxLeft_MouseDoubleClick(object sender, MouseEventArgs e)
 		{
 			int i = lbxLeft.SelectedIndex;
-			RList.Add(LList.ElementAt(i));
-			LList.RemoveAt(i);
+			if (i >= 0)
+			{
+				RList.Add(LList.ElementAt(i));
+				LList.RemoveAt(i);
+			}
 		}
 
 		private void lbxRight_MouseDoubleClick(object sender, MouseEventArgs e)
 		{
 			int i = lbxLeft.SelectedIndex;
-			LList.Add(RList.ElementAt(i));
-			RList.RemoveAt(i);
+			if (i >= 0)
+			{
+				LList.Add(RList.ElementAt(i));
+				RList.RemoveAt(i);
+			}
 		}
 
 		private void btnAddAll_Click(object sender, EventArgs e)
