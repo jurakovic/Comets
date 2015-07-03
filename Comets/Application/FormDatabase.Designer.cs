@@ -31,6 +31,8 @@
 			this.gbDetails = new System.Windows.Forms.GroupBox();
 			this.label21 = new System.Windows.Forms.Label();
 			this.t_n2 = new System.Windows.Forms.TextBox();
+			this.lblSortKey = new System.Windows.Forms.Label();
+			this.t_sortKey = new System.Windows.Forms.TextBox();
 			this.label18 = new System.Windows.Forms.Label();
 			this.label61 = new System.Windows.Forms.Label();
 			this.label63 = new System.Windows.Forms.Label();
@@ -78,8 +80,6 @@
 			this.lbxDatabase = new System.Windows.Forms.ListBox();
 			this.btnFilters = new System.Windows.Forms.Button();
 			this.btnSort = new System.Windows.Forms.Button();
-			this.t_sortKey = new System.Windows.Forms.TextBox();
-			this.lblSortKey = new System.Windows.Forms.Label();
 			this.btnOk = new System.Windows.Forms.Button();
 			this.contextSort = new System.Windows.Forms.ContextMenu();
 			this.menuItemDesig = new System.Windows.Forms.MenuItem();
@@ -229,6 +229,29 @@
 			this.t_n2.ReadOnly = true;
 			this.t_n2.Size = new System.Drawing.Size(116, 22);
 			this.t_n2.TabIndex = 10;
+			// 
+			// lblSortKey
+			// 
+			this.lblSortKey.AutoSize = true;
+			this.lblSortKey.Font = new System.Drawing.Font("Tahoma", 8F);
+			this.lblSortKey.ForeColor = System.Drawing.SystemColors.GrayText;
+			this.lblSortKey.Location = new System.Drawing.Point(392, 24);
+			this.lblSortKey.Name = "lblSortKey";
+			this.lblSortKey.Size = new System.Drawing.Size(44, 13);
+			this.lblSortKey.TabIndex = 285;
+			this.lblSortKey.Text = "Sortkey";
+			this.lblSortKey.Visible = false;
+			// 
+			// t_sortKey
+			// 
+			this.t_sortKey.BackColor = System.Drawing.SystemColors.Window;
+			this.t_sortKey.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.t_sortKey.Location = new System.Drawing.Point(393, 43);
+			this.t_sortKey.Name = "t_sortKey";
+			this.t_sortKey.ReadOnly = true;
+			this.t_sortKey.Size = new System.Drawing.Size(116, 22);
+			this.t_sortKey.TabIndex = 284;
+			this.t_sortKey.Visible = false;
 			// 
 			// label18
 			// 
@@ -732,29 +755,6 @@
 			this.btnSort.Text = "Sort";
 			this.btnSort.UseVisualStyleBackColor = true;
 			this.btnSort.Click += new System.EventHandler(this.btnSort_Click);
-			// 
-			// t_sortKey
-			// 
-			this.t_sortKey.BackColor = System.Drawing.SystemColors.Window;
-			this.t_sortKey.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.t_sortKey.Location = new System.Drawing.Point(393, 43);
-			this.t_sortKey.Name = "t_sortKey";
-			this.t_sortKey.ReadOnly = true;
-			this.t_sortKey.Size = new System.Drawing.Size(116, 22);
-			this.t_sortKey.TabIndex = 284;
-			this.t_sortKey.Visible = false;
-			// 
-			// lblSortKey
-			// 
-			this.lblSortKey.AutoSize = true;
-			this.lblSortKey.Font = new System.Drawing.Font("Tahoma", 8F);
-			this.lblSortKey.ForeColor = System.Drawing.SystemColors.GrayText;
-			this.lblSortKey.Location = new System.Drawing.Point(392, 24);
-			this.lblSortKey.Name = "lblSortKey";
-			this.lblSortKey.Size = new System.Drawing.Size(44, 13);
-			this.lblSortKey.TabIndex = 285;
-			this.lblSortKey.Text = "Sortkey";
-			this.lblSortKey.Visible = false;
 			// 
 			// btnOk
 			// 
@@ -1376,14 +1376,16 @@
 			// 
 			// FormDatabase
 			// 
+			this.AcceptButton = this.btnOk;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.CancelButton = this.btnOk;
 			this.ClientSize = new System.Drawing.Size(813, 417);
 			this.Controls.Add(this.btnFilters);
 			this.Controls.Add(this.btnSort);
 			this.Controls.Add(this.lbxDatabase);
-			this.Controls.Add(this.pnlFilters);
 			this.Controls.Add(this.pnlDetails);
+			this.Controls.Add(this.pnlFilters);
 			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.MaximizeBox = false;

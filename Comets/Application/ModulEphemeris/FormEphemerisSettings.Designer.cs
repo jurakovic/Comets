@@ -68,6 +68,7 @@
 			this.chAlt = new System.Windows.Forms.CheckBox();
 			this.chDec = new System.Windows.Forms.CheckBox();
 			this.chRA = new System.Windows.Forms.CheckBox();
+			this.btnCancelHidden = new System.Windows.Forms.Button();
 			this.gbxSelectComet.SuspendLayout();
 			this.gbxTimestamp.SuspendLayout();
 			this.gbxOutputData.SuspendLayout();
@@ -525,15 +526,29 @@
 			this.chRA.Text = "Right ascension (RA)";
 			this.chRA.UseVisualStyleBackColor = true;
 			// 
+			// btnCancelHidden
+			// 
+			this.btnCancelHidden.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			this.btnCancelHidden.Location = new System.Drawing.Point(419, 329);
+			this.btnCancelHidden.Name = "btnCancelHidden";
+			this.btnCancelHidden.Size = new System.Drawing.Size(75, 23);
+			this.btnCancelHidden.TabIndex = 4;
+			this.btnCancelHidden.TabStop = false;
+			this.btnCancelHidden.Text = "Cancel";
+			this.btnCancelHidden.UseVisualStyleBackColor = true;
+			// 
 			// FormEphemerisSettings
 			// 
+			this.AcceptButton = this.btnCalcEphem;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.CancelButton = this.btnCancelHidden;
 			this.ClientSize = new System.Drawing.Size(798, 367);
 			this.Controls.Add(this.gbxOutputData);
 			this.Controls.Add(this.gbxTimestamp);
 			this.Controls.Add(this.gbxSelectComet);
 			this.Controls.Add(this.btnCalcEphem);
+			this.Controls.Add(this.btnCancelHidden);
 			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.MaximizeBox = false;
@@ -597,5 +612,6 @@
 		private System.Windows.Forms.TextBox txtHourInterval;
 		private System.Windows.Forms.TextBox txtDayInterval;
 		private System.Windows.Forms.Button btnSelectComets;
+		private System.Windows.Forms.Button btnCancelHidden;
 	}
 }

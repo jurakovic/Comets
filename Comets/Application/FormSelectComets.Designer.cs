@@ -36,6 +36,7 @@
 			this.btnAddSelected = new System.Windows.Forms.Button();
 			this.btnRemoveSelected = new System.Windows.Forms.Button();
 			this.btnRemoveAll = new System.Windows.Forms.Button();
+			this.btnCancelHidden = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// lbxLeft
@@ -122,10 +123,23 @@
 			this.btnRemoveAll.UseVisualStyleBackColor = true;
 			this.btnRemoveAll.Click += new System.EventHandler(this.btnRemoveAll_Click);
 			// 
+			// btnCancelHidden
+			// 
+			this.btnCancelHidden.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			this.btnCancelHidden.Location = new System.Drawing.Point(346, 385);
+			this.btnCancelHidden.Name = "btnCancelHidden";
+			this.btnCancelHidden.Size = new System.Drawing.Size(75, 23);
+			this.btnCancelHidden.TabIndex = 8;
+			this.btnCancelHidden.TabStop = false;
+			this.btnCancelHidden.Text = "Cancel";
+			this.btnCancelHidden.UseVisualStyleBackColor = true;
+			// 
 			// FormSelectComets
 			// 
+			this.AcceptButton = this.btnOk;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.CancelButton = this.btnCancelHidden;
 			this.ClientSize = new System.Drawing.Size(689, 422);
 			this.Controls.Add(this.btnRemoveAll);
 			this.Controls.Add(this.btnRemoveSelected);
@@ -135,6 +149,7 @@
 			this.Controls.Add(this.btnFilter);
 			this.Controls.Add(this.lbxRight);
 			this.Controls.Add(this.lbxLeft);
+			this.Controls.Add(this.btnCancelHidden);
 			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.MaximizeBox = false;
@@ -159,5 +174,6 @@
 		private System.Windows.Forms.Button btnAddSelected;
 		private System.Windows.Forms.Button btnRemoveSelected;
 		private System.Windows.Forms.Button btnRemoveAll;
+		private System.Windows.Forms.Button btnCancelHidden;
 	}
 }

@@ -68,6 +68,7 @@
 			this.txtMinMag = new System.Windows.Forms.TextBox();
 			this.cbxMaxMag = new System.Windows.Forms.CheckBox();
 			this.cbxMinMag = new System.Windows.Forms.CheckBox();
+			this.btnCancelHidden = new System.Windows.Forms.Button();
 			this.gbxSelectComet.SuspendLayout();
 			this.gbxTimespan.SuspendLayout();
 			this.pnlRangeDaysFromT.SuspendLayout();
@@ -515,10 +516,23 @@
 			this.cbxMinMag.Text = "Minimum";
 			this.cbxMinMag.UseVisualStyleBackColor = true;
 			// 
+			// btnCancelHidden
+			// 
+			this.btnCancelHidden.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			this.btnCancelHidden.Location = new System.Drawing.Point(348, 255);
+			this.btnCancelHidden.Name = "btnCancelHidden";
+			this.btnCancelHidden.Size = new System.Drawing.Size(75, 23);
+			this.btnCancelHidden.TabIndex = 6;
+			this.btnCancelHidden.TabStop = false;
+			this.btnCancelHidden.Text = "Cancel";
+			this.btnCancelHidden.UseVisualStyleBackColor = true;
+			// 
 			// FormGraphSettings
 			// 
+			this.AcceptButton = this.btnPlotGraph;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.CancelButton = this.btnCancelHidden;
 			this.ClientSize = new System.Drawing.Size(659, 295);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.gbxChartOptions);
@@ -526,6 +540,7 @@
 			this.Controls.Add(this.gbxTimespan);
 			this.Controls.Add(this.gbxSelectComet);
 			this.Controls.Add(this.btnPlotGraph);
+			this.Controls.Add(this.btnCancelHidden);
 			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.MaximizeBox = false;
@@ -597,5 +612,6 @@
 		private System.Windows.Forms.Button btnTimespanDaysFromTDefault;
 		private System.Windows.Forms.Button btnTimespanDateDefault;
 		private System.Windows.Forms.Button btnSelectComets;
+		private System.Windows.Forms.Button btnCancelHidden;
 	}
 }

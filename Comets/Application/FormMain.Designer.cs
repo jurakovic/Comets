@@ -115,18 +115,21 @@
 			// menuItemFileEphemeris
 			// 
 			this.menuItemFileEphemeris.Index = 0;
+			this.menuItemFileEphemeris.Shortcut = System.Windows.Forms.Shortcut.CtrlE;
 			this.menuItemFileEphemeris.Text = "Ephemeris";
 			this.menuItemFileEphemeris.Click += new System.EventHandler(this.menuItemFileEphemerides_Click);
 			// 
 			// menuItemFileGraph
 			// 
 			this.menuItemFileGraph.Index = 1;
+			this.menuItemFileGraph.Shortcut = System.Windows.Forms.Shortcut.CtrlG;
 			this.menuItemFileGraph.Text = "Magnitude Graph";
 			this.menuItemFileGraph.Click += new System.EventHandler(this.menuItemFileGraph_Click);
 			// 
 			// menuItemFileOrbit
 			// 
 			this.menuItemFileOrbit.Index = 2;
+			this.menuItemFileOrbit.Shortcut = System.Windows.Forms.Shortcut.CtrlV;
 			this.menuItemFileOrbit.Text = "Orbit Viewer";
 			this.menuItemFileOrbit.Click += new System.EventHandler(this.menuItemFileOrbit_Click);
 			// 
@@ -148,6 +151,7 @@
 			// menuItemExit
 			// 
 			this.menuItemExit.Index = 6;
+			this.menuItemExit.Shortcut = System.Windows.Forms.Shortcut.AltF4;
 			this.menuItemExit.Text = "Exit";
 			this.menuItemExit.Click += new System.EventHandler(this.menuItemExit_Click);
 			// 
@@ -169,6 +173,8 @@
 			// menuItemEphemerisSaveAs
 			// 
 			this.menuItemEphemerisSaveAs.Index = 1;
+			this.menuItemEphemerisSaveAs.Shortcut = System.Windows.Forms.Shortcut.CtrlS;
+			this.menuItemEphemerisSaveAs.ShowShortcut = false;
 			this.menuItemEphemerisSaveAs.Text = "Save As";
 			this.menuItemEphemerisSaveAs.Click += new System.EventHandler(this.menuItemEphemerisSaveAs_Click);
 			// 
@@ -190,6 +196,8 @@
 			// menuItemGraphSaveAs
 			// 
 			this.menuItemGraphSaveAs.Index = 1;
+			this.menuItemGraphSaveAs.Shortcut = System.Windows.Forms.Shortcut.CtrlS;
+			this.menuItemGraphSaveAs.ShowShortcut = false;
 			this.menuItemGraphSaveAs.Text = "Save As";
 			this.menuItemGraphSaveAs.Click += new System.EventHandler(this.menuItemGraphSaveAs_Click);
 			// 
@@ -298,6 +306,8 @@
 			// menuItemOrbitSaveImage
 			// 
 			this.menuItemOrbitSaveImage.Index = 14;
+			this.menuItemOrbitSaveImage.Shortcut = System.Windows.Forms.Shortcut.CtrlS;
+			this.menuItemOrbitSaveImage.ShowShortcut = false;
 			this.menuItemOrbitSaveImage.Text = "Save Image As";
 			this.menuItemOrbitSaveImage.Click += new System.EventHandler(this.menuItemOrbitSaveImage_Click);
 			// 
@@ -316,6 +326,7 @@
 			// menuItemDatabase
 			// 
 			this.menuItemDatabase.Index = 0;
+			this.menuItemDatabase.Shortcut = System.Windows.Forms.Shortcut.F5;
 			this.menuItemDatabase.Text = "Database";
 			this.menuItemDatabase.Click += new System.EventHandler(this.menuItemDatabase_Click);
 			// 
@@ -327,12 +338,14 @@
 			// menuItemImport
 			// 
 			this.menuItemImport.Index = 2;
+			this.menuItemImport.Shortcut = System.Windows.Forms.Shortcut.F7;
 			this.menuItemImport.Text = "Import";
 			this.menuItemImport.Click += new System.EventHandler(this.menuItemImport_Click);
 			// 
 			// menuItemExport
 			// 
 			this.menuItemExport.Index = 3;
+			this.menuItemExport.Shortcut = System.Windows.Forms.Shortcut.F8;
 			this.menuItemExport.Text = "Export";
 			this.menuItemExport.Click += new System.EventHandler(this.menuItemExport_Click);
 			// 
@@ -415,6 +428,7 @@
 			// menuItemClose
 			// 
 			this.menuItemClose.Index = 5;
+			this.menuItemClose.Shortcut = System.Windows.Forms.Shortcut.CtrlF4;
 			this.menuItemClose.Text = "Close";
 			this.menuItemClose.Click += new System.EventHandler(this.menuItemClose_Click);
 			// 

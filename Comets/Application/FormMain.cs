@@ -190,7 +190,7 @@ namespace Comets.Application
 
 		private void menuItemEphemerisSaveAs_Click(object sender, EventArgs e)
 		{
-			(this.ActiveMdiChild as FormEphemeris).SaveEphemeris();
+			CommonSaveAs_Click();
 		}
 
 		#endregion
@@ -209,7 +209,7 @@ namespace Comets.Application
 
 		private void menuItemGraphSaveAs_Click(object sender, EventArgs e)
 		{
-			(this.ActiveMdiChild as FormGraph).SaveGraph();
+			CommonSaveAs_Click();
 		}
 
 		#endregion
@@ -245,7 +245,7 @@ namespace Comets.Application
 
 		private void menuItemOrbitSaveImage_Click(object sender, EventArgs e)
 		{
-			(this.ActiveMdiChild as FormOrbitViewer).SaveImage();
+			CommonSaveAs_Click();
 		}
 
 		#endregion
@@ -344,6 +344,18 @@ namespace Comets.Application
 		#endregion
 
 		#region Methods
+
+		private void CommonSaveAs_Click()
+		{
+			if (this.ActiveMdiChild is FormEphemeris)
+				(this.ActiveMdiChild as FormEphemeris).SaveEphemeris();
+
+			else if (this.ActiveMdiChild is FormGraph)
+				(this.ActiveMdiChild as FormGraph).SaveGraph();
+
+			else if (this.ActiveMdiChild is FormOrbitViewer)
+				(this.ActiveMdiChild as FormOrbitViewer).SaveImage();
+		}
 
 		public void SetStatusCometsLabel(int count, int total)
 		{
