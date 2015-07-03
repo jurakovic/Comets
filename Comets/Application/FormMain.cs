@@ -338,7 +338,8 @@ namespace Comets.Application
 
 		private void menuItemClose_Click(object sender, EventArgs e)
 		{
-			this.ActiveMdiChild.Close();
+			if (this.ActiveMdiChild != null)
+				this.ActiveMdiChild.Close();
 		}
 
 		#endregion
