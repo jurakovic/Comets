@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 using ImportType = Comets.BusinessLayer.Business.ElementTypes.Type;
 
 namespace Comets.BusinessLayer.Managers
@@ -332,7 +333,63 @@ namespace Comets.BusinessLayer.Managers
 
 		#region ImportMain
 
-		public static List<Comet> ImportMain(ImportType importType, string filename)
+		public static List<Comet> ImportMain(List<Comet> oldList, ImportType importType, string filename, bool quiet = false)
+		{
+			List<Comet> newList = ImportManager.Import(importType, filename);
+
+			if (newList.Any())
+			{
+				int totalOld = 0;
+				int totalNew = 0;
+
+				if (oldList.Any())
+				{
+					foreach (Comet n in newList)
+					{
+						Comet o = oldList.Find(x => x.full == n.full);
+
+						if (o != null)
+						{
+							oldList.Remove(o);
+							totalOld++;
+						}
+						else
+						{
+							totalNew++;
+						}
+
+						oldList.Add(n);
+					}
+				}
+				else
+				{
+					oldList = newList;
+					totalNew = oldList.Count;
+				}
+
+				if (!quiet)
+					MessageBox.Show(
+							String.Format("Import complete\n\n{0} new, {1} updated\t\t\t\t", totalNew, totalOld)
+							, "Comets"
+							, MessageBoxButtons.OK
+							, MessageBoxIcon.Information);
+			}
+			else
+			{
+				if (!quiet)
+					MessageBox.Show("Something wrong happened. Zero comets imported.\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+				oldList = null;
+			}
+
+			return oldList;
+		}
+
+		#endregion
+
+		#region Import
+
+		private static List<Comet> Import(ImportType importType, string filename)
 		{
 			List<Comet> list = new List<Comet>();
 

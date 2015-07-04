@@ -2,6 +2,7 @@
 using Comets.BusinessLayer.Managers;
 using System;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using ExportType = Comets.BusinessLayer.Business.ElementTypes.Type;
 
@@ -68,7 +69,7 @@ namespace Comets.Application
 		{
 			string filename = txtSaveAs.Text.Trim();
 
-			if (filename.Length > 0 && FormMain.UserList.Count > 0)
+			if (filename.Length > 0 && FormMain.UserList.Any())
 			{
 				ExportType exportType = (ExportType)cbxExportFormat.SelectedIndex;
 				ExporManager.ExportMain(exportType, filename, FormMain.UserList);

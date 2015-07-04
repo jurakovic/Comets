@@ -35,7 +35,7 @@
 			this.chExitWithoutConfirm = new System.Windows.Forms.CheckBox();
 			this.chNewVersionOnStartup = new System.Windows.Forms.CheckBox();
 			this.chRememberWindowPosition = new System.Windows.Forms.CheckBox();
-			this.chUpdateOnStartup = new System.Windows.Forms.CheckBox();
+			this.chAutomaticUpdate = new System.Windows.Forms.CheckBox();
 			this.tabLocation = new System.Windows.Forms.TabPage();
 			this.gbxLocation = new System.Windows.Forms.GroupBox();
 			this.numTimezone = new System.Windows.Forms.NumericUpDown();
@@ -89,6 +89,8 @@
 			this.rbNoProxy = new System.Windows.Forms.RadioButton();
 			this.btnClose = new System.Windows.Forms.Button();
 			this.btnOK = new System.Windows.Forms.Button();
+			this.txtUpdateInterval = new System.Windows.Forms.TextBox();
+			this.lblDays = new System.Windows.Forms.Label();
 			this.tabControl1.SuspendLayout();
 			this.tabGeneral.SuspendLayout();
 			this.gbxGeneral.SuspendLayout();
@@ -136,11 +138,13 @@
 			// 
 			this.gbxGeneral.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.gbxGeneral.Controls.Add(this.lblDays);
+			this.gbxGeneral.Controls.Add(this.txtUpdateInterval);
 			this.gbxGeneral.Controls.Add(this.chShowStatusBar);
 			this.gbxGeneral.Controls.Add(this.chExitWithoutConfirm);
 			this.gbxGeneral.Controls.Add(this.chNewVersionOnStartup);
 			this.gbxGeneral.Controls.Add(this.chRememberWindowPosition);
-			this.gbxGeneral.Controls.Add(this.chUpdateOnStartup);
+			this.gbxGeneral.Controls.Add(this.chAutomaticUpdate);
 			this.gbxGeneral.Location = new System.Drawing.Point(8, 3);
 			this.gbxGeneral.Name = "gbxGeneral";
 			this.gbxGeneral.Size = new System.Drawing.Size(668, 196);
@@ -150,7 +154,7 @@
 			// chShowStatusBar
 			// 
 			this.chShowStatusBar.AutoSize = true;
-			this.chShowStatusBar.Location = new System.Drawing.Point(13, 90);
+			this.chShowStatusBar.Location = new System.Drawing.Point(13, 125);
 			this.chShowStatusBar.Name = "chShowStatusBar";
 			this.chShowStatusBar.Size = new System.Drawing.Size(104, 17);
 			this.chShowStatusBar.TabIndex = 2;
@@ -160,7 +164,7 @@
 			// chExitWithoutConfirm
 			// 
 			this.chExitWithoutConfirm.AutoSize = true;
-			this.chExitWithoutConfirm.Location = new System.Drawing.Point(13, 55);
+			this.chExitWithoutConfirm.Location = new System.Drawing.Point(13, 90);
 			this.chExitWithoutConfirm.Name = "chExitWithoutConfirm";
 			this.chExitWithoutConfirm.Size = new System.Drawing.Size(121, 17);
 			this.chExitWithoutConfirm.TabIndex = 1;
@@ -181,23 +185,22 @@
 			// chRememberWindowPosition
 			// 
 			this.chRememberWindowPosition.AutoSize = true;
-			this.chRememberWindowPosition.Location = new System.Drawing.Point(13, 20);
+			this.chRememberWindowPosition.Location = new System.Drawing.Point(13, 55);
 			this.chRememberWindowPosition.Name = "chRememberWindowPosition";
 			this.chRememberWindowPosition.Size = new System.Drawing.Size(156, 17);
 			this.chRememberWindowPosition.TabIndex = 0;
 			this.chRememberWindowPosition.Text = "Remember window position";
 			this.chRememberWindowPosition.UseVisualStyleBackColor = true;
 			// 
-			// chUpdateOnStartup
+			// chAutomaticUpdate
 			// 
-			this.chUpdateOnStartup.AutoSize = true;
-			this.chUpdateOnStartup.Location = new System.Drawing.Point(13, 125);
-			this.chUpdateOnStartup.Name = "chUpdateOnStartup";
-			this.chUpdateOnStartup.Size = new System.Drawing.Size(114, 17);
-			this.chUpdateOnStartup.TabIndex = 3;
-			this.chUpdateOnStartup.Text = "Update on startup";
-			this.chUpdateOnStartup.UseVisualStyleBackColor = true;
-			this.chUpdateOnStartup.Visible = false;
+			this.chAutomaticUpdate.AutoSize = true;
+			this.chAutomaticUpdate.Location = new System.Drawing.Point(13, 20);
+			this.chAutomaticUpdate.Name = "chAutomaticUpdate";
+			this.chAutomaticUpdate.Size = new System.Drawing.Size(211, 17);
+			this.chAutomaticUpdate.TabIndex = 3;
+			this.chAutomaticUpdate.Text = "Automatically update elements every: ";
+			this.chAutomaticUpdate.UseVisualStyleBackColor = true;
 			// 
 			// tabLocation
 			// 
@@ -799,6 +802,26 @@
 			this.btnOK.UseVisualStyleBackColor = true;
 			this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
 			// 
+			// txtUpdateInterval
+			// 
+			this.txtUpdateInterval.Location = new System.Drawing.Point(220, 18);
+			this.txtUpdateInterval.Name = "txtUpdateInterval";
+			this.txtUpdateInterval.Size = new System.Drawing.Size(44, 21);
+			this.txtUpdateInterval.TabIndex = 5;
+			this.txtUpdateInterval.Text = "7";
+			this.txtUpdateInterval.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.txtUpdateInterval.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtUpdateInterval_KeyDown);
+			this.txtUpdateInterval.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtUpdateInterval_KeyPress);
+			// 
+			// lblDays
+			// 
+			this.lblDays.AutoSize = true;
+			this.lblDays.Location = new System.Drawing.Point(270, 21);
+			this.lblDays.Name = "lblDays";
+			this.lblDays.Size = new System.Drawing.Size(30, 13);
+			this.lblDays.TabIndex = 6;
+			this.lblDays.Text = "days";
+			// 
 			// FormSettings
 			// 
 			this.AcceptButton = this.btnOK;
@@ -852,7 +875,7 @@
 		private System.Windows.Forms.CheckBox chExitWithoutConfirm;
 		private System.Windows.Forms.CheckBox chNewVersionOnStartup;
 		private System.Windows.Forms.CheckBox chRememberWindowPosition;
-		private System.Windows.Forms.CheckBox chUpdateOnStartup;
+		private System.Windows.Forms.CheckBox chAutomaticUpdate;
 		private System.Windows.Forms.GroupBox gbxLocation;
 		private System.Windows.Forms.Button btnSetDST;
 		private System.Windows.Forms.CheckBox chDST;
@@ -905,5 +928,7 @@
 		private System.Windows.Forms.DataGridView dgvPrograms;
 		private System.Windows.Forms.DataGridViewTextBoxColumn colProgram;
 		private System.Windows.Forms.DataGridViewTextBoxColumn colDirectory;
+		private System.Windows.Forms.TextBox txtUpdateInterval;
+		private System.Windows.Forms.Label lblDays;
 	}
 }

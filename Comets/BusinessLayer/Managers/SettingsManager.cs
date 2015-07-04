@@ -47,7 +47,9 @@ namespace Comets.BusinessLayer.Managers
 
 							switch (property)
 							{
-								case "UpdateOnStartup": settings.UpdateOnStartup = Convert.ToBoolean(value); break;
+								case "AutomaticUpdate": settings.AutomaticUpdate = Convert.ToBoolean(value); break;
+								case "UpdateInterval": settings.UpdateInterval = value.Int(); break;
+								case "LastUpdateDate": settings.LastUpdateDate = Convert.ToDateTime(value); break;
 								case "RememberWindowPosition": settings.RememberWindowPosition = Convert.ToBoolean(value); break;
 								case "ShowStatusBar": settings.ShowStatusBar = Convert.ToBoolean(value); break;
 								case "ExitWithoutConfirm": settings.ExitWithoutConfirm = Convert.ToBoolean(value); break;
@@ -110,7 +112,12 @@ namespace Comets.BusinessLayer.Managers
 			string format = "{0,-38} = {1}";
 
 			sb.AppendLine("[General]");
-			sb.AppendLine(String.Format(format, "UpdateOnStartup", settings.UpdateOnStartup));
+			sb.AppendLine(String.Format(format, "AutomaticUpdate", settings.AutomaticUpdate));
+			sb.AppendLine(String.Format(format, "UpdateInterval", settings.UpdateInterval));
+			if (settings.LastUpdateDate != null)
+				sb.AppendLine(String.Format(format, "LastUpdateDate", 
+					String.Format("{0}-{1:00}-{2:00}", settings.LastUpdateDate.Value.Year, settings.LastUpdateDate.Value.Month, settings.LastUpdateDate.Value.Day)));
+
 			sb.AppendLine(String.Format(format, "RememberWindowPosition", settings.RememberWindowPosition));
 			sb.AppendLine(String.Format(format, "ShowStatusBar", settings.ShowStatusBar));
 			sb.AppendLine(String.Format(format, "ExitWithoutConfirm", settings.ExitWithoutConfirm));

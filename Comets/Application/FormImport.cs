@@ -25,15 +25,31 @@ namespace Comets.Application
 		string LocalFilename { get; set; }
 		string ImportFilename { get; set; }
 		ImportType ImportType { get; set; }
+		bool IsUsedDownloadedFile { get; set; }
+		bool IsAutomaticUpdate { get; set; }
 
 		#endregion
 
 		#region Constructor
 
-		public FormImport()
+		public FormImport(bool isAutomaticUpdate = false)
 		{
 			InitializeComponent();
 			ImportType = ImportType.NoFileSelected;
+			IsAutomaticUpdate = isAutomaticUpdate;
+		}
+
+		#endregion
+
+		#region FormImport_Load
+
+		private void FormImport_Load(object sender, EventArgs e)
+		{
+			if (IsAutomaticUpdate)
+			{
+				gbxLocalFile.Enabled = false;
+				btnDownload_Click(sender, e);
+			}
 		}
 
 		#endregion
@@ -42,21 +58,19 @@ namespace Comets.Application
 
 		private void btnDownload_Click(object sender, EventArgs e)
 		{
-			if (!Directory.Exists(SettingsManager.Downloads))
-				Directory.CreateDirectory(SettingsManager.Downloads);
-
-			if (DownloadFilename != null)
+			if (DownloadFilename == null)
 			{
-				File.Delete(DownloadFilename);
-				progressDownload.Value = 0;
-			}
+				if (!Directory.Exists(SettingsManager.Downloads))
+					Directory.CreateDirectory(SettingsManager.Downloads);
 
-			DownloadFilename = SettingsManager.Downloads + "\\Soft00Cmt_" + DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".txt";
+				DownloadFilename = SettingsManager.Downloads + "\\Soft00Cmt_" + DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".txt";
+				IsUsedDownloadedFile = true;
 
-			using (BackgroundWorker bwDownload = new BackgroundWorker())
-			{
-				bwDownload.DoWork += new DoWorkEventHandler(bwDownload_DoWork);
-				bwDownload.RunWorkerAsync();
+				using (BackgroundWorker bwDownload = new BackgroundWorker())
+				{
+					bwDownload.DoWork += new DoWorkEventHandler(bwDownload_DoWork);
+					bwDownload.RunWorkerAsync();
+				}
 			}
 		}
 
@@ -112,12 +126,16 @@ namespace Comets.Application
 				progressDownload.Visible = false;
 				File.Delete(DownloadFilename);
 				MessageBox.Show(e.Error.Message, "Comets", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				DownloadFilename = null;
 			}
 			else
 			{
 				ImportFilename = DownloadFilename;
 				SetImportStatus();
 			}
+
+			if (IsAutomaticUpdate)
+				btnImport_Click(null, null);
 		}
 
 		#endregion
@@ -173,10 +191,15 @@ namespace Comets.Application
 			if (ImportFilename == null)
 			{
 				if (LocalFilename == null && DownloadFilename != null)
+				{
 					ImportFilename = DownloadFilename;
-
+					IsUsedDownloadedFile = true;
+				}
 				else if (DownloadFilename == null && LocalFilename != null)
+				{
 					ImportFilename = LocalFilename;
+					IsUsedDownloadedFile = false;
+				}
 			}
 
 			ImportType = ImportManager.GetImportType(ImportFilename);
@@ -218,49 +241,24 @@ namespace Comets.Application
 		{
 			if (ImportType < ImportType.NoFileSelected)
 			{
-				List<Comet> newList = ImportManager.ImportMain(ImportType, ImportFilename);
+				List<Comet> newList = ImportManager.ImportMain(FormMain.MainList, ImportType, ImportFilename);
 
-				if (newList.Count == 0)
+				if (newList != null)
 				{
-					MessageBox.Show("Something wrong happened. Zero comets imported.\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Error);
-				}
-				else
-				{
-					List<Comet> mergedList = FormMain.MainList.ToList();
-
-					int _new = 0, old = 0;
-
-					foreach (Comet n in newList)
-					{
-						Comet o = mergedList.Find(x => x.full == n.full);
-
-						if (o != null)
-						{
-							mergedList.Remove(o);
-							old++;
-						}
-						else
-						{
-							_new++;
-						}
-
-						mergedList.Add(n);
-					}
+					if (IsUsedDownloadedFile)
+						FormMain.Settings.LastUpdateDate = DateTime.Now;
 
 					FormMain.IsDataChanged = true;
-					FormMain.MainList = mergedList.OrderBy(x => x.sortkey).ToList();
-					FormMain.UserList = mergedList.OrderBy(x => x.sortkey).ToList();
-					(this.Owner as FormMain).SetStatusCometsLabel(mergedList.Count, mergedList.Count);
-
-					MessageBox.Show(
-						String.Format("Import complete\n\n{0} new, {1} updated\t\t\t\t", _new, old)
-						, "Comets"
-						, MessageBoxButtons.OK
-						, MessageBoxIcon.Information);
+					FormMain.MainList = newList.OrderBy(x => x.sortkey).ToList();
+					FormMain.UserList = newList.OrderBy(x => x.sortkey).ToList();
+					(this.Owner as FormMain).SetStatusCometsLabel(newList.Count, newList.Count);
 
 					this.Close();
 				}
 			}
+
+			if (IsAutomaticUpdate)
+				this.Close();
 		}
 
 		#endregion

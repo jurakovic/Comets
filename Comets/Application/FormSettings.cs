@@ -21,6 +21,7 @@ namespace Comets.Application
 		public FormSettings()
 		{
 			InitializeComponent();
+			txtUpdateInterval.Tag = new LeMiMa(2, 1, 99);
 		}
 
 		#endregion
@@ -29,7 +30,8 @@ namespace Comets.Application
 
 		private void FormSettings_Load(object sender, EventArgs e)
 		{
-			chUpdateOnStartup.Checked = FormMain.Settings.UpdateOnStartup;
+			chAutomaticUpdate.Checked = FormMain.Settings.AutomaticUpdate;
+			txtUpdateInterval.Text = FormMain.Settings.UpdateInterval.ToString();
 			chNewVersionOnStartup.Checked = FormMain.Settings.NewVersionOnStartup;
 			chRememberWindowPosition.Checked = FormMain.Settings.RememberWindowPosition;
 			chExitWithoutConfirm.Checked = FormMain.Settings.ExitWithoutConfirm;
@@ -66,11 +68,20 @@ namespace Comets.Application
 		{
 			if (rbManualProxy.Checked && (String.IsNullOrEmpty(txtProxy.Text.Trim()) || txtPort.Int() == 0))
 			{
+				tabControl1.SelectedIndex = 3;
 				MessageBox.Show("Please enter Proxy and Port\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				return;
 			}
 
-			FormMain.Settings.UpdateOnStartup = chUpdateOnStartup.Checked;
+			if (chAutomaticUpdate.Checked && String.IsNullOrEmpty(txtUpdateInterval.Text.Trim()))
+			{
+				tabControl1.SelectedIndex = 0;
+				MessageBox.Show("Please enter days interval for automatic update\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			FormMain.Settings.AutomaticUpdate = chAutomaticUpdate.Checked;
+			FormMain.Settings.UpdateInterval = txtUpdateInterval.Int();
 			FormMain.Settings.NewVersionOnStartup = chNewVersionOnStartup.Checked;
 			FormMain.Settings.ExitWithoutConfirm = chExitWithoutConfirm.Checked;
 			FormMain.Settings.RememberWindowPosition = chRememberWindowPosition.Checked;
@@ -107,6 +118,20 @@ namespace Comets.Application
 		private void btnClose_Click(object sender, EventArgs e)
 		{
 			this.Close();
+		}
+
+		#endregion
+
+		#region Tab: General
+
+		private void txtUpdateInterval_KeyDown(object sender, KeyEventArgs e)
+		{
+			e.SuppressKeyPress = Utils.TextBoxValueUpDown(sender, e);
+		}
+
+		private void txtUpdateInterval_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			e.Handled = Utils.HandleKeyPress(sender, e);
 		}
 
 		#endregion

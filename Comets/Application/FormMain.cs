@@ -42,9 +42,9 @@ namespace Comets.Application
 
 			fdb = new FormDatabase() { Owner = this };
 
-			int margin = 250;
 			if (Settings.RememberWindowPosition)
 			{
+				int margin = 250;
 				this.Width = Screen.PrimaryScreen.WorkingArea.Width - margin;
 				this.Height = Screen.PrimaryScreen.WorkingArea.Height - margin;
 				this.WindowState = Settings.Maximized ? FormWindowState.Maximized : FormWindowState.Normal;
@@ -56,7 +56,7 @@ namespace Comets.Application
 
 		#endregion
 
-		#region Form_Load
+		#region FormMain_Load
 
 		private void FormMain_Load(object sender, EventArgs e)
 		{
@@ -71,15 +71,37 @@ namespace Comets.Application
 
 			if (File.Exists(SettingsManager.Database))
 			{
-				MainList = ImportManager.ImportMain((int)ElementTypes.Type.MPC, SettingsManager.Database);
-				UserList = MainList.ToList();
+				List<Comet> list = ImportManager.ImportMain(MainList, ElementTypes.Type.MPC, SettingsManager.Database, true);
+				MainList = list.ToList();
+				UserList = list.ToList();
 				SetStatusCometsLabel(UserList.Count, MainList.Count);
 			}
+		}
 
-			//if (Settings.UpdateOnStartup)
-			//{
-			//    //TO DO
-			//}
+		#endregion
+
+		#region FormMain_Shown
+
+		private void FormMain_Shown(object sender, EventArgs e)
+		{
+			if (Settings.AutomaticUpdate && Settings.LastUpdateDate != null)
+			{
+				int daysLastUpdate = (int)(DateTime.Now - Settings.LastUpdateDate.Value).TotalDays;
+
+				if (daysLastUpdate >= Settings.UpdateInterval)
+				{
+					if (MessageBox.Show("Last update was " + daysLastUpdate + " days ago. Update now?\t\t",
+						"Comets",
+						MessageBoxButtons.YesNo,
+						MessageBoxIcon.Information) == DialogResult.Yes)
+					{
+						using (FormImport fi = new FormImport(true) { Owner = this })
+						{
+							fi.ShowDialog();
+						}
+					}
+				}
+			}
 		}
 
 		#endregion
@@ -105,7 +127,7 @@ namespace Comets.Application
 
 		private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
 		{
-			if ((IsDataChanged || !File.Exists(SettingsManager.Database) || Settings.IsSettingsChanged) && MainList.Count > 0)
+			if ((IsDataChanged || !File.Exists(SettingsManager.Database) || Settings.IsSettingsChanged) && MainList.Any())
 			{
 				ExporManager.ExportMain(ElementTypes.Type.MPC, SettingsManager.Database, MainList);
 			}
@@ -128,7 +150,7 @@ namespace Comets.Application
 
 		#endregion
 
-		#region Form_MdiChildActivate
+		#region FormMain_MdiChildActivate
 
 		private void FormMain_MdiChildActivate(object sender, EventArgs e)
 		{

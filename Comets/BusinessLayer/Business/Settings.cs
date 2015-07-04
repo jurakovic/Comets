@@ -8,7 +8,9 @@ namespace Comets.BusinessLayer.Business
 		#region Properties
 
 		//General
-		public bool UpdateOnStartup { get; set; }
+		public bool AutomaticUpdate { get; set; }
+		public int UpdateInterval { get; set; }
+		public DateTime? LastUpdateDate { get; set; }
 		public bool RememberWindowPosition { get; set; }
 		public bool NewVersionOnStartup { get; set; }
 		public bool ExitWithoutConfirm { get; set; }
@@ -46,7 +48,9 @@ namespace Comets.BusinessLayer.Business
 
 		public Settings()
 		{
-			UpdateOnStartup = false;
+			AutomaticUpdate = true;
+			UpdateInterval = 7;
+			LastUpdateDate = null;
 			NewVersionOnStartup = false;
 			RememberWindowPosition = true;
 			ExitWithoutConfirm = false;
