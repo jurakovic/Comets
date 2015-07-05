@@ -659,7 +659,7 @@ namespace Comets.Application.ModulOrbit
 		public void ApplySettings(OrbitViewerSettings ovs, bool refresh)
 		{
 			orbitPanel.MultipleMode = ovs.MultipleMode;
-			orbitPanel.EclipticAxis = ovs.EclipticAxis;
+			orbitPanel.ShowAxes = ovs.ShowAxes;
 			orbitPanel.Antiliasing = ovs.Antialiasing;
 			orbitPanel.ShowPlanetName = ovs.ShowPlanetName;
 			orbitPanel.ShowCometName = ovs.ShowCometName;

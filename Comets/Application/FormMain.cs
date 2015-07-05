@@ -254,7 +254,7 @@ namespace Comets.Application
 			OrbitViewerSettings ovs = new OrbitViewerSettings();
 
 			ovs.MultipleMode = this.menuItemOrbitMultiple.Checked;
-			ovs.EclipticAxis = this.menuItemOrbitEclipticAxis.Checked;
+			ovs.ShowAxes = this.menuItemOrbitShowAxes.Checked;
 			ovs.Antialiasing = this.menuItemOrbitAntialiasing.Checked;
 			ovs.ShowCometName = this.menuItemOrbitComet.Checked;
 			ovs.ShowPlanetName = this.menuItemOrbitPlanet.Checked;
@@ -391,7 +391,7 @@ namespace Comets.Application
 		public void SetOrbitMenuItems(OrbitViewerSettings settings)
 		{
 			this.menuItemOrbitMultiple.Checked = settings.MultipleMode;
-			this.menuItemOrbitEclipticAxis.Checked = settings.EclipticAxis;
+			this.menuItemOrbitShowAxes.Checked = settings.ShowAxes;
 			this.menuItemOrbitAntialiasing.Checked = settings.Antialiasing;
 			this.menuItemOrbitComet.Checked = settings.ShowCometName;
 			this.menuItemOrbitPlanet.Checked = settings.ShowPlanetName;

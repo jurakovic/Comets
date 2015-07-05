@@ -49,7 +49,7 @@
 			this.menuItemOrbitMultiple = new System.Windows.Forms.MenuItem();
 			this.menuItemOrbitClearComets = new System.Windows.Forms.MenuItem();
 			this.menuItemOrbitSep1 = new System.Windows.Forms.MenuItem();
-			this.menuItemOrbitEclipticAxis = new System.Windows.Forms.MenuItem();
+			this.menuItemOrbitShowAxes = new System.Windows.Forms.MenuItem();
 			this.menuItemOrbitSep2 = new System.Windows.Forms.MenuItem();
 			this.menuItemOrbitAntialiasing = new System.Windows.Forms.MenuItem();
 			this.menuItemOrbitSep3 = new System.Windows.Forms.MenuItem();
@@ -208,7 +208,7 @@
             this.menuItemOrbitMultiple,
             this.menuItemOrbitClearComets,
             this.menuItemOrbitSep1,
-            this.menuItemOrbitEclipticAxis,
+            this.menuItemOrbitShowAxes,
             this.menuItemOrbitSep2,
             this.menuItemOrbitAntialiasing,
             this.menuItemOrbitSep3,
@@ -240,11 +240,11 @@
 			this.menuItemOrbitSep1.Index = 2;
 			this.menuItemOrbitSep1.Text = "-";
 			// 
-			// menuItemOrbitEclipticAxis
+			// menuItemOrbitShowAxes
 			// 
-			this.menuItemOrbitEclipticAxis.Index = 3;
-			this.menuItemOrbitEclipticAxis.Text = "Ecliptic Axis";
-			this.menuItemOrbitEclipticAxis.Click += new System.EventHandler(this.menuItemOrbitMultiple_Click);
+			this.menuItemOrbitShowAxes.Index = 3;
+			this.menuItemOrbitShowAxes.Text = "Show Axes";
+			this.menuItemOrbitShowAxes.Click += new System.EventHandler(this.menuItemOrbitMultiple_Click);
 			// 
 			// menuItemOrbitSep2
 			// 
@@ -552,7 +552,7 @@
 		private System.Windows.Forms.MenuItem menuItemOrbitMagnitude;
 		private System.Windows.Forms.MenuItem menuItemOrbitDistance;
 		private System.Windows.Forms.MenuItem menuItemOrbitDate;
-		private System.Windows.Forms.MenuItem menuItemOrbitEclipticAxis;
+		private System.Windows.Forms.MenuItem menuItemOrbitShowAxes;
 		private System.Windows.Forms.MenuItem menuItemOrbitSep2;
 		private System.Windows.Forms.MenuItem menuItemOrbitClearComets;
 		private System.Windows.Forms.MenuItem menuItemViewAlwaysOnTop;

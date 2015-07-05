@@ -119,7 +119,7 @@ namespace Comets.OrbitViewer
 					ClearComets();
 			}
 		}
-		public bool EclipticAxis { get; set; }
+		public bool ShowAxes { get; set; }
 		public bool Antiliasing { get; set; }
 		public bool ShowCometName { get; set; }
 		public bool ShowPlanetName { get; set; }
@@ -161,6 +161,7 @@ namespace Comets.OrbitViewer
 		protected Font FontObjectName = new Font("Helvetica", 10, FontStyle.Regular);
 		protected Font FontPlanetName = new Font("Helvetica", 10, FontStyle.Regular);
 		protected Font FontInformation = new Font("Helvetica", 10, FontStyle.Bold);
+		protected Font FontAxisLabel = new Font("Tahoma", 9, FontStyle.Regular);
 
 		#endregion
 
@@ -279,8 +280,8 @@ namespace Comets.OrbitViewer
 				SolidBrush sb = new SolidBrush(Color.Black);
 				graphics.FillRectangle(sb, 0, 0, Size.Width, Size.Height);
 
-				if (EclipticAxis)
-					DrawEclipticAxis(graphics);
+				if (ShowAxes)
+					DrawAxes(graphics);
 
 				// Draw Sun
 				sb.Color = ColorSun;
@@ -497,9 +498,9 @@ namespace Comets.OrbitViewer
 
 		#endregion
 
-		#region DrawEclipticAxis
+		#region DrawAxes
 
-		private void DrawEclipticAxis(Graphics graphics)
+		private void DrawAxes(Graphics graphics)
 		{
 			graphics.SmoothingMode = Antiliasing ? SmoothingMode.AntiAlias : SmoothingMode.None;
 
@@ -512,11 +513,19 @@ namespace Comets.OrbitViewer
 			xyz = new Xyz(-sizeAU, 0.0, 0.0).Rotate(MtxRotate);
 			point = GetDrawPoint(xyz);
 			graphics.DrawLine(pen, X0, Y0, point.X, point.Y);
+			graphics.DrawString("Autumnal equinox", FontAxisLabel, new SolidBrush(Color.Gray), point);
+
+			// -Y
+			xyz = new Xyz(0.0, -sizeAU, 0.0).Rotate(MtxRotate);
+			point = GetDrawPoint(xyz);
+			graphics.DrawLine(pen, X0, Y0, point.X, point.Y);
+			graphics.DrawString("Winter solstice", FontAxisLabel, new SolidBrush(Color.Gray), point);
 
 			// -Z
 			xyz = new Xyz(0.0, 0.0, -sizeAU).Rotate(MtxRotate);
 			point = GetDrawPoint(xyz);
 			graphics.DrawLine(pen, X0, Y0, point.X, point.Y);
+			graphics.DrawString("South ecliptic pole", FontAxisLabel, new SolidBrush(Color.Gray), point);
 
 			pen.Color = ColorAxisPlus;
 
@@ -524,10 +533,19 @@ namespace Comets.OrbitViewer
 			xyz = new Xyz(sizeAU, 0.0, 0.0).Rotate(MtxRotate);
 			point = GetDrawPoint(xyz);
 			graphics.DrawLine(pen, X0, Y0, point.X, point.Y);
+			graphics.DrawString("Vernal equinox", FontAxisLabel, new SolidBrush(Color.Gray), point);
+
+			// +Y
+			xyz = new Xyz(0.0, sizeAU, 0.0).Rotate(MtxRotate);
+			point = GetDrawPoint(xyz);
+			graphics.DrawLine(pen, X0, Y0, point.X, point.Y);
+			graphics.DrawString("Summer solstice", FontAxisLabel, new SolidBrush(Color.Gray), point);
+
 			// +Z
 			xyz = new Xyz(0.0, 0.0, sizeAU).Rotate(MtxRotate);
 			point = GetDrawPoint(xyz);
 			graphics.DrawLine(pen, X0, Y0, point.X, point.Y);
+			graphics.DrawString("North ecliptic pole", FontAxisLabel, new SolidBrush(Color.Gray), point);
 		}
 
 		#endregion

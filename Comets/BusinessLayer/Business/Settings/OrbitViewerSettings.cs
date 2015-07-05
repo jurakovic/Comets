@@ -11,7 +11,7 @@ namespace Comets.BusinessLayer.Business
 		#region Properties
 
 		public bool MultipleMode { get; set; }
-		public bool EclipticAxis { get; set; }
+		public bool ShowAxes { get; set; }
 		public bool Antialiasing { get; set; }
 		public bool ShowPlanetName { get; set; }
 		public bool ShowCometName { get; set; }
@@ -26,7 +26,7 @@ namespace Comets.BusinessLayer.Business
 		public OrbitViewerSettings()
 		{
 			MultipleMode = false;
-			EclipticAxis = true;
+			ShowAxes = false;
 			Antialiasing = false;
 			ShowPlanetName = true;
 			ShowCometName = true;
