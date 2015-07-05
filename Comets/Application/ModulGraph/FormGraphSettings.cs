@@ -143,10 +143,10 @@ namespace Comets.Application.ModulGraph
 				LeMiMa o = txtDayStart.Tag as LeMiMa;
 				LeMiMa n = new LeMiMa(o.Len, o.Min, max);
 
-				txtDayStart.Tag = n;
-
 				if (txtDayStart.Text.Length > 0 && txtDayStart.Int() > n.Max)
 					txtDayStart.Text = n.Max.ToString();
+
+				txtDayStart.Tag = n;
 			}
 		}
 
@@ -159,10 +159,10 @@ namespace Comets.Application.ModulGraph
 				LeMiMa o = txtDayEnd.Tag as LeMiMa;
 				LeMiMa n = new LeMiMa(o.Len, o.Min, max);
 
-				txtDayEnd.Tag = n;
-
 				if (txtDayEnd.Text.Length > 0 && txtDayEnd.Int() > n.Max)
 					txtDayEnd.Text = n.Max.ToString();
+
+				txtDayEnd.Tag = n;
 			}
 		}
 

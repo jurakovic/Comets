@@ -8,7 +8,7 @@ namespace Comets.BusinessLayer.Business
 	{
 		public static LeMiMa LDay = new LeMiMa(2, 1, 31);
 		public static LeMiMa LMonth = new LeMiMa(2, 1, 12);
-		public static LeMiMa LYear = new LeMiMa(4, 1, 9999);
+		public static LeMiMa LYear = new LeMiMa(4, 1, 2500);
 		public static LeMiMa LHour = new LeMiMa(2, 0, 23);
 		public static LeMiMa LMinute = new LeMiMa(2, 0, 59);
 

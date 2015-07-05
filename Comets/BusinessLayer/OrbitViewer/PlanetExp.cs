@@ -390,18 +390,18 @@ namespace Comets.OrbitViewer
 		{
 			switch (planetNo)
 			{
-				case Planet.EARTH:
+				case Planet.Earth:
 					return GetPosExp0(atime.T);
-				case Planet.VENUS:
-				case Planet.MARS:
+				case Planet.Venus:
+				case Planet.Mars:
 					return GetPosExp1(planetNo, atime.T);
-				case Planet.JUPITER:
-				case Planet.SATURN:
+				case Planet.Jupiter:
+				case Planet.Saturn:
 					return GetPosExp2(planetNo, atime.T);
-				case Planet.MERCURY:
-				case Planet.URANUS:
-				case Planet.NEPTUNE:
-				case Planet.PLUTO:
+				case Planet.Mercury:
+				case Planet.Uranus:
+				case Planet.Neptune:
+				case Planet.Pluto:
 					return GetPosExp3(planetNo, atime.T2);
 			}
 
@@ -461,13 +461,13 @@ namespace Comets.OrbitViewer
 
 			switch (planetNo)
 			{
-				case Planet.VENUS:
+				case Planet.Venus:
 					ParamL0 = VenusL0;
 					ParamL1 = VenusL1;
 					ParamQ = VenusQ;
 					ParamP = VenusP;
 					break;
-				case Planet.MARS:
+				case Planet.Mars:
 					ParamL0 = MarsL0;
 					ParamL1 = MarsL1;
 					ParamQ = MarsQ;
@@ -525,7 +525,7 @@ namespace Comets.OrbitViewer
 
 			switch (planetNo)
 			{
-				case Planet.JUPITER:
+				case Planet.Jupiter:
 					ParamN = JupiterN;
 					ParamB = JupiterB;
 					ParamQ = JupiterQ;
@@ -535,7 +535,7 @@ namespace Comets.OrbitViewer
 					N -= (0.0019 + 0.00002 * T) * UdMath.udsin(162.78 + 0.38 * T);
 					q = (0.000132 + 0.0000011 * T) * UdMath.udcos(245.93 - 30.349 * T);
 					break;
-				case Planet.SATURN:
+				case Planet.Saturn:
 					ParamN = SaturnN;
 					ParamB = SaturnB;
 					ParamQ = SaturnQ;
@@ -605,7 +605,7 @@ namespace Comets.OrbitViewer
 
 			switch (planetNo)
 			{
-				case Planet.MERCURY:
+				case Planet.Mercury:
 					ParamL = MercuryLambda;
 					ParamB = MercuryBeta;
 					ParamR = MercuryR;
@@ -622,7 +622,7 @@ namespace Comets.OrbitViewer
 					radius += (0.078341 + 0.000008 * T) * UdMath.udcos(149472.515 * T + 354.795);
 					radius += (0.007955 + 0.000002 * T) * UdMath.udcos(298945.03 * T + 169.59);
 					break;
-				case Planet.URANUS:
+				case Planet.Uranus:
 					ParamL = UranusLambda;
 					ParamB = UranusBeta;
 					ParamR = UranusR;
@@ -641,7 +641,7 @@ namespace Comets.OrbitViewer
 					radius += 0.361949 * T * UdMath.udcos(440.702 * T + 19.879);
 					radius += 0.166685 * T * UdMath.udcos(702.024 * T + 307.419);
 					break;
-				case Planet.NEPTUNE:
+				case Planet.Neptune:
 					ParamL = NeptuneLambda;
 					ParamB = NeptuneBeta;
 					ParamR = NeptuneR;
@@ -655,7 +655,7 @@ namespace Comets.OrbitViewer
 					radius = 30.073033;
 					radius += 0.009784 * T * UdMath.udcos(515.2 * T + 195.7);
 					break;
-				case Planet.PLUTO:
+				case Planet.Pluto:
 					ParamL = PlutoLambda;
 					ParamB = PlutoBeta;
 					ParamR = PlutoR;

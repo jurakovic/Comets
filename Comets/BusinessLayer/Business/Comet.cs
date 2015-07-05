@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Comets.BusinessLayer.Extensions;
 
 namespace Comets.BusinessLayer.Business
 {
@@ -332,17 +333,17 @@ namespace Comets.BusinessLayer.Business
 				}
 
 				if (fragmDigits != String.Empty)
-					v += Convert.ToDouble(fragmDigits) / 10000000000000.0;
+					v += fragmDigits.Double() / 10000000000000.0;
 			}
 
 			if (Char.IsDigit(id[0]))
 			{
-				sort = Convert.ToDouble(id.Substring(0, id.Length - 1));
+				sort = id.Substring(0, id.Length - 1).Double();
 			}
 			else
 			{
 				string[] yc = id.Split(' ');
-				sort = Convert.ToDouble(yc[0].Split('/')[1]) + offset; //da npr C/240 V1 ne bude isto kao i 240P/NEAT i slicno...
+				sort = yc[0].Split('/')[1].Double() + offset; //da npr C/240 V1 ne bude isto kao i 240P/NEAT i slicno...
 
 				string code = yc[1];
 
@@ -363,7 +364,7 @@ namespace Comets.BusinessLayer.Business
 				}
 
 				if (codeDigits != String.Empty)
-					v += Convert.ToDouble(codeDigits) / 10000000.0;
+					v += codeDigits.Double() / 10000000.0;
 			}
 
 			sort += v;

@@ -1,4 +1,5 @@
 ﻿using Comets.BusinessLayer.Business;
+using Comets.BusinessLayer.Extensions;
 using System;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -81,10 +82,10 @@ namespace Comets.BusinessLayer.Managers
 			handle = !Regex.IsMatch(text, pattern);
 
 			if (minimum != null && Char.IsDigit(e.KeyChar) && !handle)
-				handle = Convert.ToDouble(text) < minimum;
+				handle = text.Double() < minimum;
 
 			if (maximum != null && Char.IsDigit(e.KeyChar) && !handle)
-				handle = Convert.ToDouble(text) > maximum;
+				handle = text.Double() > maximum;
 
 			return handle;
 		}

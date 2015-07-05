@@ -8,8 +8,11 @@ namespace Comets.OrbitViewer
 
 		public static string[] MonthAbbrConst = { "Jan.", "Feb.", "Mar.", "Apr.", "May ", "June", "July", "Aug.", "Sep.", "Oct.", "Nov.", "Dec." };
 
-		public static int TIME_INCREMENT = 1;
-		public static int TIME_DECREMENT = -1;
+		public static ATime Minimum = new ATime(1500, 1, 1, 0, 0, 0, 0.0);
+		public static ATime Maximum = new ATime(2500, 1, 1, 0, 0, 0, 0.0);
+
+		public static int TimeIncrement = 1;
+		public static int TimeDecrement = -1;
 
 		#endregion
 
@@ -258,7 +261,7 @@ namespace Comets.OrbitViewer
 			}
 			catch
 			{
-				if (direction == TIME_INCREMENT)
+				if (direction == TimeIncrement)
 					dt = DateTime.MaxValue;
 				else
 					dt = DateTime.MinValue;
@@ -276,14 +279,14 @@ namespace Comets.OrbitViewer
 			{
 				if (5 <= this.Day && this.Day < 10)
 				{
-					if (direction == TIME_INCREMENT)
+					if (direction == TimeIncrement)
 						this.Day = 15;
 					else
 						this.Day = 4;
 				}
 				else if (10 <= this.Day && this.Day < 15)
 				{
-					if (direction == TIME_INCREMENT)
+					if (direction == TimeIncrement)
 						this.Day = 15;
 					else
 						this.Day = 4;

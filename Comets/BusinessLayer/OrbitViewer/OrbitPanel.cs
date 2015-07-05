@@ -81,6 +81,13 @@ namespace Comets.OrbitViewer
 			set
 			{
 				this.atime = value;
+
+				if (this.atime != null && this.atime < ATime.Minimum)
+					this.atime = new ATime(ATime.Minimum);
+
+				if (this.atime != null && this.atime > ATime.Maximum)
+					this.atime = new ATime(ATime.Maximum);
+
 				UpdatePositions(atime);
 			}
 		}
@@ -163,9 +170,9 @@ namespace Comets.OrbitViewer
 		{
 			this.DoubleBuffered = true;
 
-			PlanetPos = new Xyz[9];
+			PlanetPos = new Xyz[8];
 			OrbitDisplay = new bool[11];
-			PlanetOrbit = new PlanetOrbit[9];
+			PlanetOrbit = new PlanetOrbit[8];
 
 			Comets = new List<OVComet>();
 			CometOrbits = new List<CometOrbit>();
@@ -306,7 +313,7 @@ namespace Comets.OrbitViewer
 				if (Zoom * 30.1 >= zoom)
 				{
 					if (OrbitDisplay[(int)OrbitDisplayEnum.Neptune])
-						DrawPlanetOrbit(graphics, PlanetOrbit[Planet.NEPTUNE - 1]);
+						DrawPlanetOrbit(graphics, PlanetOrbit[Planet.Neptune - 1]);
 
 					DrawPlanetBody(graphics, FontPlanetName, PlanetPos[7], "Neptune");
 				}
@@ -315,7 +322,7 @@ namespace Comets.OrbitViewer
 				{
 
 					if (OrbitDisplay[(int)OrbitDisplayEnum.Uranus])
-						DrawPlanetOrbit(graphics, PlanetOrbit[Planet.URANUS - 1]);
+						DrawPlanetOrbit(graphics, PlanetOrbit[Planet.Uranus - 1]);
 
 					DrawPlanetBody(graphics, FontPlanetName, PlanetPos[6], "Uranus");
 				}
@@ -323,7 +330,7 @@ namespace Comets.OrbitViewer
 				if (Zoom * 9.58 >= zoom)
 				{
 					if (OrbitDisplay[(int)OrbitDisplayEnum.Saturn])
-						DrawPlanetOrbit(graphics, PlanetOrbit[Planet.SATURN - 1]);
+						DrawPlanetOrbit(graphics, PlanetOrbit[Planet.Saturn - 1]);
 
 					DrawPlanetBody(graphics, FontPlanetName, PlanetPos[5], "Saturn");
 				}
@@ -331,7 +338,7 @@ namespace Comets.OrbitViewer
 				if (Zoom * 5.2 >= zoom)
 				{
 					if (OrbitDisplay[(int)OrbitDisplayEnum.Jupiter])
-						DrawPlanetOrbit(graphics, PlanetOrbit[Planet.JUPITER - 1]);
+						DrawPlanetOrbit(graphics, PlanetOrbit[Planet.Jupiter - 1]);
 
 					DrawPlanetBody(graphics, FontPlanetName, PlanetPos[4], "Jupiter");
 				}
@@ -339,7 +346,7 @@ namespace Comets.OrbitViewer
 				if (Zoom * 1.524 >= zoom)
 				{
 					if (OrbitDisplay[(int)OrbitDisplayEnum.Mars])
-						DrawPlanetOrbit(graphics, PlanetOrbit[Planet.MARS - 1]);
+						DrawPlanetOrbit(graphics, PlanetOrbit[Planet.Mars - 1]);
 
 					DrawPlanetBody(graphics, FontPlanetName, PlanetPos[3], "Mars");
 				}
@@ -347,7 +354,7 @@ namespace Comets.OrbitViewer
 				if (Zoom * 1.0 >= zoom)
 				{
 					if (OrbitDisplay[(int)OrbitDisplayEnum.Earth])
-						DrawEarthOrbit(graphics, PlanetOrbit[Planet.EARTH - 1]);
+						DrawEarthOrbit(graphics, PlanetOrbit[Planet.Earth - 1]);
 
 					DrawPlanetBody(graphics, FontPlanetName, PlanetPos[2], "Earth");
 				}
@@ -355,7 +362,7 @@ namespace Comets.OrbitViewer
 				if (Zoom * 0.723 >= zoom)
 				{
 					if (OrbitDisplay[(int)OrbitDisplayEnum.Venus])
-						DrawPlanetOrbit(graphics, PlanetOrbit[Planet.VENUS - 1]);
+						DrawPlanetOrbit(graphics, PlanetOrbit[Planet.Venus - 1]);
 
 					DrawPlanetBody(graphics, FontPlanetName, PlanetPos[1], "Venus");
 				}
@@ -363,7 +370,7 @@ namespace Comets.OrbitViewer
 				if (Zoom * 0.387 >= zoom)
 				{
 					if (OrbitDisplay[(int)OrbitDisplayEnum.Mercury])
-						DrawPlanetOrbit(graphics, PlanetOrbit[Planet.MERCURY - 1]);
+						DrawPlanetOrbit(graphics, PlanetOrbit[Planet.Mercury - 1]);
 
 					DrawPlanetBody(graphics, FontPlanetName, PlanetPos[0], "Mercury");
 				}
@@ -441,9 +448,9 @@ namespace Comets.OrbitViewer
 				foreach (OVComet c in Comets)
 					CometsPos.Add(c.GetPos(atime.JD));
 
-				for (int i = 0; i < 9; i++)
+				for (int i = 0; i < 8; i++)
 				{
-					PlanetPos[i] = Planet.GetPos(Planet.MERCURY + i, atime);
+					PlanetPos[i] = Planet.GetPos(Planet.Mercury + i, atime);
 				}
 			}
 		}
@@ -456,9 +463,9 @@ namespace Comets.OrbitViewer
 		{
 			int nDivision = 300;
 
-			for (int i = Planet.MERCURY; i <= Planet.PLUTO; i++)
+			for (int i = Planet.Mercury; i <= Planet.Neptune; i++)
 			{
-				PlanetOrbit[i - Planet.MERCURY] = new PlanetOrbit(i, atime, nDivision);
+				PlanetOrbit[i - Planet.Mercury] = new PlanetOrbit(i, atime, nDivision);
 			}
 
 			EpochPlanetOrbit = atime.JD;

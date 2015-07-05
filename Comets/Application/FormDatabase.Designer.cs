@@ -1297,7 +1297,8 @@
 			this.txtPerihelionDateD.Size = new System.Drawing.Size(25, 21);
 			this.txtPerihelionDateD.TabIndex = 2;
 			this.txtPerihelionDateD.TextChanged += new System.EventHandler(this.txtFiltersCommon_TextChanged);
-			this.txtPerihelionDateD.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPerihelionDateD_KeyPress);
+			this.txtPerihelionDateD.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtPerihelionDate_KeyDown);
+			this.txtPerihelionDateD.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPerihelionDate_KeyPress);
 			// 
 			// txtPerihelionDateM
 			// 
@@ -1308,7 +1309,8 @@
 			this.txtPerihelionDateM.Size = new System.Drawing.Size(25, 21);
 			this.txtPerihelionDateM.TabIndex = 3;
 			this.txtPerihelionDateM.TextChanged += new System.EventHandler(this.txtPerihelionDateMY_TextChanged);
-			this.txtPerihelionDateM.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPerihelionDateM_KeyPress);
+			this.txtPerihelionDateM.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtPerihelionDate_KeyDown);
+			this.txtPerihelionDateM.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPerihelionDate_KeyPress);
 			// 
 			// txtPerihelionDateY
 			// 
@@ -1319,7 +1321,8 @@
 			this.txtPerihelionDateY.Size = new System.Drawing.Size(51, 21);
 			this.txtPerihelionDateY.TabIndex = 4;
 			this.txtPerihelionDateY.TextChanged += new System.EventHandler(this.txtPerihelionDateMY_TextChanged);
-			this.txtPerihelionDateY.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPerihelionDateY_KeyPress);
+			this.txtPerihelionDateY.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtPerihelionDate_KeyDown);
+			this.txtPerihelionDateY.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPerihelionDate_KeyPress);
 			// 
 			// btnPerihelionDateNow
 			// 
@@ -1384,8 +1387,8 @@
 			this.Controls.Add(this.btnFilters);
 			this.Controls.Add(this.btnSort);
 			this.Controls.Add(this.lbxDatabase);
-			this.Controls.Add(this.pnlDetails);
 			this.Controls.Add(this.pnlFilters);
+			this.Controls.Add(this.pnlDetails);
 			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.MaximizeBox = false;

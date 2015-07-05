@@ -31,6 +31,8 @@
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabGeneral = new System.Windows.Forms.TabPage();
 			this.gbxGeneral = new System.Windows.Forms.GroupBox();
+			this.lblDays = new System.Windows.Forms.Label();
+			this.txtUpdateInterval = new System.Windows.Forms.TextBox();
 			this.chShowStatusBar = new System.Windows.Forms.CheckBox();
 			this.chExitWithoutConfirm = new System.Windows.Forms.CheckBox();
 			this.chNewVersionOnStartup = new System.Windows.Forms.CheckBox();
@@ -89,8 +91,6 @@
 			this.rbNoProxy = new System.Windows.Forms.RadioButton();
 			this.btnClose = new System.Windows.Forms.Button();
 			this.btnOK = new System.Windows.Forms.Button();
-			this.txtUpdateInterval = new System.Windows.Forms.TextBox();
-			this.lblDays = new System.Windows.Forms.Label();
 			this.tabControl1.SuspendLayout();
 			this.tabGeneral.SuspendLayout();
 			this.gbxGeneral.SuspendLayout();
@@ -150,6 +150,27 @@
 			this.gbxGeneral.Size = new System.Drawing.Size(668, 196);
 			this.gbxGeneral.TabIndex = 0;
 			this.gbxGeneral.TabStop = false;
+			// 
+			// lblDays
+			// 
+			this.lblDays.AutoSize = true;
+			this.lblDays.Location = new System.Drawing.Point(270, 21);
+			this.lblDays.Name = "lblDays";
+			this.lblDays.Size = new System.Drawing.Size(30, 13);
+			this.lblDays.TabIndex = 6;
+			this.lblDays.Text = "days";
+			// 
+			// txtUpdateInterval
+			// 
+			this.txtUpdateInterval.Location = new System.Drawing.Point(220, 18);
+			this.txtUpdateInterval.MaxLength = 2;
+			this.txtUpdateInterval.Name = "txtUpdateInterval";
+			this.txtUpdateInterval.Size = new System.Drawing.Size(44, 21);
+			this.txtUpdateInterval.TabIndex = 5;
+			this.txtUpdateInterval.Text = "7";
+			this.txtUpdateInterval.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.txtUpdateInterval.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtUpdateInterval_KeyDown);
+			this.txtUpdateInterval.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtUpdateInterval_KeyPress);
 			// 
 			// chShowStatusBar
 			// 
@@ -801,26 +822,6 @@
 			this.btnOK.Text = "OK";
 			this.btnOK.UseVisualStyleBackColor = true;
 			this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
-			// 
-			// txtUpdateInterval
-			// 
-			this.txtUpdateInterval.Location = new System.Drawing.Point(220, 18);
-			this.txtUpdateInterval.Name = "txtUpdateInterval";
-			this.txtUpdateInterval.Size = new System.Drawing.Size(44, 21);
-			this.txtUpdateInterval.TabIndex = 5;
-			this.txtUpdateInterval.Text = "7";
-			this.txtUpdateInterval.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.txtUpdateInterval.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtUpdateInterval_KeyDown);
-			this.txtUpdateInterval.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtUpdateInterval_KeyPress);
-			// 
-			// lblDays
-			// 
-			this.lblDays.AutoSize = true;
-			this.lblDays.Location = new System.Drawing.Point(270, 21);
-			this.lblDays.Name = "lblDays";
-			this.lblDays.Size = new System.Drawing.Size(30, 13);
-			this.lblDays.TabIndex = 6;
-			this.lblDays.Text = "days";
 			// 
 			// FormSettings
 			// 

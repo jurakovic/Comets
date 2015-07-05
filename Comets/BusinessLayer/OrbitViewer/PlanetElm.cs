@@ -268,19 +268,19 @@ namespace Comets.OrbitViewer
 		{
 			switch (planetNo)
 			{
-				case Planet.EARTH:
+				case Planet.Earth:
 					GetPlanetElmEarth(atime.JD);
 					break;
-				case Planet.MERCURY:
-				case Planet.VENUS:
-				case Planet.MARS:
-				case Planet.JUPITER:
-				case Planet.SATURN:
+				case Planet.Mercury:
+				case Planet.Venus:
+				case Planet.Mars:
+				case Planet.Jupiter:
+				case Planet.Saturn:
 					GetPlanetElm1(planetNo, atime.JD);
 					break;
-				case Planet.URANUS:
-				case Planet.NEPTUNE:
-				case Planet.PLUTO:
+				case Planet.Uranus:
+				case Planet.Neptune:
+				case Planet.Pluto:
 					GetPlanetElm2(planetNo, atime.JD);
 					break;
 				default:
@@ -325,19 +325,19 @@ namespace Comets.OrbitViewer
 
 			switch (planetNo)
 			{
-				case Planet.MERCURY:
+				case Planet.Mercury:
 					elmCf = MercuryE;
 					break;
-				case Planet.VENUS:
+				case Planet.Venus:
 					elmCf = VenusE;
 					break;
-				case Planet.MARS:
+				case Planet.Mars:
 					elmCf = MarsE;
 					break;
-				case Planet.JUPITER:
+				case Planet.Jupiter:
 					elmCf = JupiterE;
 					break;
-				case Planet.SATURN:
+				case Planet.Saturn:
 					elmCf = SaturnE;
 					break;
 				default:
@@ -358,10 +358,10 @@ namespace Comets.OrbitViewer
 
 			switch (planetNo)
 			{
-				case Planet.JUPITER:
+				case Planet.Jupiter:
 					PerturbationJupiter(jd);
 					break;
-				case Planet.SATURN:
+				case Planet.Saturn:
 					PerturbationSaturn(jd);
 					break;
 			}
@@ -385,13 +385,13 @@ namespace Comets.OrbitViewer
 
 			switch (planetNo)
 			{
-				case Planet.URANUS:
+				case Planet.Uranus:
 					elmCf = UranusE;
 					break;
-				case Planet.NEPTUNE:
+				case Planet.Neptune:
 					elmCf = NeptuneE;
 					break;
-				case Planet.PLUTO:
+				case Planet.Pluto:
 					elmCf = PlutoE;
 					break;
 				default:

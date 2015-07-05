@@ -6,8 +6,8 @@ namespace Comets.OrbitViewer
 	{
 		#region Const
 
-		private const double MAXORBIT = 150.0;
-		private const double TOLERANCE = 1.0E-16;
+		private const double MaxOrbitAU = 150.0;
+		private const double Tolerance = 1.0E-16;
 
 		#endregion
 
@@ -32,11 +32,11 @@ namespace Comets.OrbitViewer
 			this.Division = division;
 			Orbit = new Xyz[division + 1];
 
-			if (comet.e < 1.0 - TOLERANCE)
+			if (comet.e < 1.0 - Tolerance)
 			{
 				GetOrbitEllip(comet);
 			}
-			else if (comet.e > 1.0 + TOLERANCE)
+			else if (comet.e > 1.0 + Tolerance)
 			{
 				GetOrbitHyper(comet);
 			}
@@ -82,9 +82,9 @@ namespace Comets.OrbitViewer
 			double ae2 = -2.0 * axis * comet.e;
 			double t = Math.Sqrt(1.0 - comet.e * comet.e);
 
-			if (axis * (1.0 + comet.e) > MAXORBIT)
+			if (axis * (1.0 + comet.e) > MaxOrbitAU)
 			{
-				double dE = Math.Acos((1.0 - MAXORBIT / axis) / comet.e) / ((this.Division / 2) * (this.Division / 2));
+				double dE = Math.Acos((1.0 - MaxOrbitAU / axis) / comet.e) / ((this.Division / 2) * (this.Division / 2));
 				int idx1, idx2;
 				idx1 = idx2 = this.Division / 2;
 
@@ -131,7 +131,7 @@ namespace Comets.OrbitViewer
 			idx1 = idx2 = this.Division / 2;
 			double t = Math.Sqrt(comet.e * comet.e - 1.0);
 			double axis = comet.q / (comet.e - 1.0);
-			double dF = UdMath.arccosh((MAXORBIT + axis) / (axis * comet.e)) / (this.Division / 2);
+			double dF = UdMath.arccosh((MaxOrbitAU + axis) / (axis * comet.e)) / (this.Division / 2);
 			
 			double F = 0.0;
 			for (int i = 0; i <= (this.Division / 2); i++, F += dF)
@@ -155,7 +155,7 @@ namespace Comets.OrbitViewer
 		{
 			int idx1, idx2;
 			idx1 = idx2 = this.Division / 2;
-			double dV = (Math.Atan(Math.Sqrt(MAXORBIT / comet.q - 1.0)) * 2.0) / (this.Division / 2);
+			double dV = (Math.Atan(Math.Sqrt(MaxOrbitAU / comet.q - 1.0)) * 2.0) / (this.Division / 2);
 			
 			double V = 0.0;
 			for (int i = 0; i <= (this.Division / 2); i++, V += dV)

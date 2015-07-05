@@ -171,7 +171,7 @@ namespace Comets.Application
 
 		private void btnEdit_Click(object sender, EventArgs e)
 		{
-			if (Programs.Any())
+			if (Programs.Any() && dgvPrograms.SelectedRows.Count > 0)
 			{
 				ExternalProgram selectedProgram = (dgvPrograms.SelectedRows[0].DataBoundItem as ExternalProgram);
 
@@ -185,7 +185,7 @@ namespace Comets.Application
 
 		private void btnRemove_Click(object sender, EventArgs e)
 		{
-			if (Programs.Any())
+			if (Programs.Any() && dgvPrograms.SelectedRows.Count > 0)
 			{
 				ExternalProgram selectedProgram = (dgvPrograms.SelectedRows[0].DataBoundItem as ExternalProgram);
 				Programs.Remove(selectedProgram);
@@ -225,9 +225,11 @@ namespace Comets.Application
 
 		private void btnProgramsOk_Click(object sender, EventArgs e)
 		{
-			if (txtDirectory.Text.Length > 0 && System.IO.Directory.Exists(txtDirectory.Text))
+			string text = txtDirectory.Text.Trim();
+
+			if (text.Length > 0 && System.IO.Directory.Exists(text))
 			{
-				Programs.Add(new ExternalProgram(cbxExternalProgram.SelectedIndex, txtDirectory.Text));
+				Programs.Add(new ExternalProgram(cbxExternalProgram.SelectedIndex, text));
 
 				cbxExternalProgram.SelectedIndex = 0;
 				txtDirectory.Text = String.Empty;

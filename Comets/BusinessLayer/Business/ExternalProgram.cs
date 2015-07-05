@@ -1,11 +1,13 @@
-﻿
+﻿using System.ComponentModel;
+
 namespace Comets.BusinessLayer.Business
 {
 	public class ExternalProgram
 	{
 		#region Properties
 
-		public int Type; // { get; set; } // nije property da se ne binda u gridu u settingsima
+		[Browsable(false)]
+		public int Type { get; set; }
 		public string Directory { get; set; }
 		public string Name
 		{

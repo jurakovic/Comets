@@ -102,9 +102,6 @@ namespace Comets.Application.ModulOrbit
 		const int InitialScrollHorz = 255;
 		const int InitialScrollZoom = 145;
 
-		//ATime minATime = new ATime(1000, 1, 1, 0, 0, 0.0, 0.0);
-		//ATime maxATime = new ATime(5000, 1, 1, 0, 0, 0.0, 0.0);
-
 		//OrbitDisplayEnum
 		bool[] OrbitDisplayDefault = { true, true, true, true, true, true, false, false, false, false };
 		bool[] OrbitDisplay = { true, true, true, true, true, true, false, false, false, false };
@@ -146,7 +143,7 @@ namespace Comets.Application.ModulOrbit
 			Timer.Interval = 50;
 			Timer.Tick += new System.EventHandler(this.timer_Tick);
 
-			SimulationDirection = ATime.TIME_INCREMENT;
+			SimulationDirection = ATime.TimeIncrement;
 
 			Settings = new OrbitViewerSettings();
 		}
@@ -442,10 +439,10 @@ namespace Comets.Application.ModulOrbit
 				LeMiMa o = txtDay.Tag as LeMiMa;
 				LeMiMa n = new LeMiMa(o.Len, o.Min, max);
 
-				txtDay.Tag = n;
-
 				if (txtDay.Text.Length > 0 && txtDay.Int() > n.Max)
 					txtDay.Text = n.Max.ToString();
+
+				txtDay.Tag = n;
 			}
 		}
 
@@ -479,7 +476,7 @@ namespace Comets.Application.ModulOrbit
 
 		private void btnRevPlay_Click(object sender, EventArgs e)
 		{
-			PlaySimulation(ATime.TIME_DECREMENT);
+			PlaySimulation(ATime.TimeDecrement);
 		}
 
 		private void btnRevStep_Click(object sender, EventArgs e)
@@ -487,7 +484,7 @@ namespace Comets.Application.ModulOrbit
 			PauseSimulation();
 
 			ATime atime = orbitPanel.ATime;
-			atime.ChangeDate(TimeStep, ATime.TIME_DECREMENT);
+			atime.ChangeDate(TimeStep, ATime.TimeDecrement);
 			orbitPanel.ATime = atime;
 			orbitPanel.Invalidate();
 		}
@@ -502,14 +499,14 @@ namespace Comets.Application.ModulOrbit
 			PauseSimulation();
 
 			ATime atime = orbitPanel.ATime;
-			atime.ChangeDate(TimeStep, ATime.TIME_INCREMENT);
+			atime.ChangeDate(TimeStep, ATime.TimeIncrement);
 			orbitPanel.ATime = atime;
 			orbitPanel.Invalidate();
 		}
 
 		private void btnForPlay_Click(object sender, EventArgs e)
 		{
-			PlaySimulation(ATime.TIME_INCREMENT);
+			PlaySimulation(ATime.TimeIncrement);
 		}
 
 		private void cboTimestep_SelectedIndexChanged(object sender, EventArgs e)
@@ -519,14 +516,11 @@ namespace Comets.Application.ModulOrbit
 
 		private void timer_Tick(object sender, EventArgs e)
 		{
-			double oldJD = 0.0;
-
 			ATime atime = orbitPanel.ATime;
-			oldJD = atime.JD;
 			atime.ChangeDate(TimeStep, SimulationDirection);
 
-			if (oldJD == atime.JD)
-				PauseSimulation(); //reached min or max datetime value
+			if (atime < ATime.Minimum || atime > ATime.Maximum)
+				PauseSimulation();
 
 			orbitPanel.ATime = atime;
 			orbitPanel.Invalidate();

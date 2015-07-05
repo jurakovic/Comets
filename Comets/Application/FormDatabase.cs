@@ -14,13 +14,11 @@ namespace Comets.Application
 		#region Const
 
 		public readonly double Minimum = 0;
-		public /* readonly */ double MaxDay = 31.0;
-		public readonly double MaxMonth = 12.0;
-		public readonly double MaxYear = 9999.0; // MaxPeriod
 		public readonly double MaxPerihDist = 15.0;
 		public readonly double MaxEcc = 1.2;
 		public readonly double MaxLongNode = 359.9999; // i MaxArgPeri
 		public readonly double MaxIncl = 179.9999;
+		public readonly double MaxPeriod = 9999.0;
 
 		#endregion
 
@@ -37,13 +35,17 @@ namespace Comets.Application
 		{
 			InitializeComponent();
 
+			txtPerihelionDateD.Tag = LeMiMa.LDay;
+			txtPerihelionDateM.Tag = LeMiMa.LMonth;
+			txtPerihelionDateY.Tag = LeMiMa.LYear;
+
 			ToolTip = new ToolTip();
 			ToolTip.SetToolTip(this.txtPerihelionDistance, String.Format("Maximum perihelion distance is {0} AU", MaxPerihDist));
 			ToolTip.SetToolTip(this.txtEccentricity, String.Format("Maximum eccentricity value is {0}", MaxEcc));
 			ToolTip.SetToolTip(this.txtLongOfAscendingNode, String.Format("Maximum Longitude of Ascending Node value is {0}°", MaxLongNode));
 			ToolTip.SetToolTip(this.txtArgumentOfPericenter, String.Format("Maximum Argument of Pericenter value is {0}°", MaxLongNode));
 			ToolTip.SetToolTip(this.txtInclination, String.Format("Maximum Inclination value is {0}°", MaxIncl));
-			ToolTip.SetToolTip(this.cboPeriod, String.Format("Maximum Period value is {0} years", MaxYear));
+			ToolTip.SetToolTip(this.cboPeriod, String.Format("Maximum Period value is {0} years", MaxPeriod));
 		}
 
 		#endregion
@@ -431,10 +433,15 @@ namespace Comets.Application
 		{
 			if (txtPerihelionDateM.Text.Length > 0 && txtPerihelionDateY.Text.Length > 0)
 			{
-				MaxDay = DateTime.DaysInMonth(txtPerihelionDateY.Int(), txtPerihelionDateM.Int());
+				int max = DateTime.DaysInMonth(txtPerihelionDateY.Int(), txtPerihelionDateM.Int());
 
-				if (txtPerihelionDateD.Text.Length > 0 && txtPerihelionDateD.Int() > MaxDay)
-					txtPerihelionDateD.Text = MaxDay.ToString();
+				LeMiMa o = txtPerihelionDateD.Tag as LeMiMa;
+				LeMiMa n = new LeMiMa(o.Len, o.Min, max);
+
+				if (txtPerihelionDateD.Text.Length > 0 && txtPerihelionDateD.Int() > n.Max)
+					txtPerihelionDateD.Text = n.Max.ToString();
+
+				txtPerihelionDateD.Tag = n;
 			}
 
 			txtFiltersCommon_TextChanged(sender, e);
@@ -444,19 +451,14 @@ namespace Comets.Application
 
 		#region txtFilters_KeyPress
 
-		private void txtPerihelionDateD_KeyPress(object sender, KeyPressEventArgs e)
+		private void txtPerihelionDate_KeyDown(object sender, KeyEventArgs e)
 		{
-			e.Handled = Utils.HandleKeyPress(sender, e, 2, 0, Minimum, MaxDay);
+			e.SuppressKeyPress = Utils.TextBoxValueUpDown(sender, e);
 		}
 
-		private void txtPerihelionDateM_KeyPress(object sender, KeyPressEventArgs e)
+		private void txtPerihelionDate_KeyPress(object sender, KeyPressEventArgs e)
 		{
-			e.Handled = Utils.HandleKeyPress(sender, e, 2, 0, Minimum, MaxMonth);
-		}
-
-		private void txtPerihelionDateY_KeyPress(object sender, KeyPressEventArgs e)
-		{
-			e.Handled = Utils.HandleKeyPress(sender, e, 4, 0, Minimum, MaxYear);
+			e.Handled = Utils.HandleKeyPress(sender, e);
 		}
 
 		private void txtPerihelionDistance_KeyPress(object sender, KeyPressEventArgs e)
@@ -481,7 +483,7 @@ namespace Comets.Application
 
 		private void txtFiltersPeriod_KeyPress(object sender, KeyPressEventArgs e)
 		{
-			e.Handled = Utils.HandleKeyPress(sender, e, 4, 4, Minimum, MaxYear);
+			e.Handled = Utils.HandleKeyPress(sender, e, 4, 4, Minimum, MaxPeriod);
 		}
 
 		#endregion

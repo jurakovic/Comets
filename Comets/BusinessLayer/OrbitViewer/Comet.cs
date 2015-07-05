@@ -7,8 +7,8 @@ namespace Comets.OrbitViewer
 	{
 		#region Const
 
-		private const int MAXAPPROX = 80;
-		private const double TOLERANCE = 1.0E-12;
+		private const int MaxApproximations = 80;
+		private const double Tolerance = 1.0E-12;
 
 		#endregion
 
@@ -126,9 +126,9 @@ namespace Comets.OrbitViewer
 			}
 
 			double axis = this.q / (1.0 - this.e);
-			double M = Astro.GAUSS * (jd - this.T) / (Math.Sqrt(axis) * axis);
+			double M = Astro.Gauss * (jd - this.T) / (Math.Sqrt(axis) * axis);
 			double E1 = M + this.e * Math.Sin(M);
-			int count = MAXAPPROX;
+			int count = MaxApproximations;
 
 			if (this.e < 0.6)
 			{
@@ -137,7 +137,7 @@ namespace Comets.OrbitViewer
 				{
 					fE2 = E1;
 					E1 = M + this.e * Math.Sin(fE2);
-				} while (Math.Abs(E1 - fE2) > TOLERANCE && --count > 0);
+				} while (Math.Abs(E1 - fE2) > Tolerance && --count > 0);
 			}
 			else
 			{
@@ -146,13 +146,13 @@ namespace Comets.OrbitViewer
 				{
 					double dv1 = (M + this.e * Math.Sin(E1) - E1);
 					double dv2 = (1.0 - this.e * Math.Cos(E1));
-					if (Math.Abs(dv1) < TOLERANCE || Math.Abs(dv2) < TOLERANCE)
+					if (Math.Abs(dv1) < Tolerance || Math.Abs(dv2) < Tolerance)
 					{
 						break;
 					}
 					dv = dv1 / dv2;
 					E1 += dv;
-				} while (Math.Abs(dv) > TOLERANCE && --count > 0);
+				} while (Math.Abs(dv) > Tolerance && --count > 0);
 			}
 
 			if (count == 0)
@@ -182,17 +182,17 @@ namespace Comets.OrbitViewer
 				throw new ArithmeticException();
 			}
 
-			double N = Astro.GAUSS * (jd - this.T) / (Math.Sqrt(2.0) * this.q * Math.Sqrt(this.q));
+			double N = Astro.Gauss * (jd - this.T) / (Math.Sqrt(2.0) * this.q * Math.Sqrt(this.q));
 			double tanV2 = N;
 			double oldTanV2, tan2V2;
-			int count = MAXAPPROX;
+			int count = MaxApproximations;
 
 			do
 			{
 				oldTanV2 = tanV2;
 				tan2V2 = tanV2 * tanV2;
 				tanV2 = (tan2V2 * tanV2 * 2.0 / 3.0 + N) / (1.0 + tan2V2);
-			} while (Math.Abs(tanV2 - oldTanV2) > TOLERANCE && --count > 0);
+			} while (Math.Abs(tanV2 - oldTanV2) > Tolerance && --count > 0);
 
 			if (count == 0)
 			{
@@ -226,27 +226,27 @@ namespace Comets.OrbitViewer
 			double B = 5.0 * (1 - this.e) / (1.0 + 9.0 * this.e);
 			double A1, B1, X1, A0, B0, X0, N;
 			A1 = B1 = X1 = 1.0;
-			int count1 = MAXAPPROX;
+			int count1 = MaxApproximations;
 
 			do
 			{
 				A0 = A1;
 				B0 = B1;
-				N = B0 * A * Astro.GAUSS * (jd - this.T) / (Math.Sqrt(2.0) * this.q * Math.Sqrt(this.q));
-				int count2 = MAXAPPROX;
+				N = B0 * A * Astro.Gauss * (jd - this.T) / (Math.Sqrt(2.0) * this.q * Math.Sqrt(this.q));
+				int count2 = MaxApproximations;
 				do
 				{
 					X0 = X1;
 					double temp = X0 * X0;
 					X1 = (temp * X0 * 2.0 / 3.0 + N) / (1.0 + temp);
-				} while (Math.Abs(X1 - X0) > TOLERANCE && --count2 > 0);
+				} while (Math.Abs(X1 - X0) > Tolerance && --count2 > 0);
 				if (count2 == 0)
 				{
 					throw new ArithmeticException();
 				}
 				A1 = B * X1 * X1;
 				B1 = (-3.809524e-03 * A1 - 0.017142857) * A1 * A1 + 1.0;
-			} while (Math.Abs(A1 - A0) > TOLERANCE && --count1 > 0);
+			} while (Math.Abs(A1 - A0) > Tolerance && --count1 > 0);
 
 			if (count1 == 0)
 			{
@@ -279,7 +279,7 @@ namespace Comets.OrbitViewer
 			{
 				xyz = CometStatusEllip(JD);
 			}
-			else if (Math.Abs(this.e - 1.0) < TOLERANCE)
+			else if (Math.Abs(this.e - 1.0) < Tolerance)
 			{
 				xyz = CometStatusPara(JD);
 			}
