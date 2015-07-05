@@ -272,21 +272,36 @@ namespace Comets.OrbitViewer
 		/// <returns></returns>
 		public Xyz GetPos(double JD)
 		{
-			Xyz xyz;
+			Xyz xyz = null;
 
-			// CometStatus' may be throw ArithmeticException
-			if (this.e < 0.995)
+			bool exception = true;
+			do
 			{
-				xyz = CometStatusEllip(JD);
-			}
-			else if (Math.Abs(this.e - 1.0) < Tolerance)
-			{
-				xyz = CometStatusPara(JD);
-			}
-			else
-			{
-				xyz = CometStatusNearPara(JD);
-			}
+				try
+				{
+					// CometStatus' may be throw ArithmeticException
+					if (this.e < 0.995)
+					{
+						xyz = CometStatusEllip(JD);
+					}
+					else if (Math.Abs(this.e - 1.0) < Tolerance)
+					{
+						xyz = CometStatusPara(JD);
+					}
+					else
+					{
+						xyz = CometStatusNearPara(JD);
+					}
+
+					exception = false;
+				}
+				catch
+				{
+					//Hale-Bopp often throws exception, so instead get position for day earlier
+					--JD;
+					exception = true;
+				}
+			} while (exception);
 
 			xyz = xyz.Rotate(this.VectorConstant);
 			Matrix mtxPrec = Matrix.PrecMatrix(this.ATimeEquinox.JD, Astro.JD2000);
