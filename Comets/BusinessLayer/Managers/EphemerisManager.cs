@@ -17,43 +17,53 @@ namespace Comets.BusinessLayer.Managers
 
 		#endregion
 
-		#region CalculateEphemeris
+		#region GetEphemeris
 
-		public async static Task<SettingsBase> CalculateEphemeris(SettingsBase settings)
+		public static EphemerisResult GetEphemeris(Comet comet, double jd, Location location)
+		{
+			EphemerisResult er = new EphemerisResult();
+
+			double[] dat = CometAlt(comet, jd, location);
+			er.Alt = dat[0];
+			er.Az = dat[1];
+			er.RA = dat[3];
+			er.Dec = dat[4] - (dat[4] > 180.0 ? 360 : 0);
+			er.EcLon = rev(dat[5]);
+			er.EcLat = dat[6];
+			er.HelioDist = dat[8];
+			er.GeoDist = dat[9];
+			er.Magnitude = dat[10];
+
+			double[] sundat = SunAlt((double)jd, location);
+			double sunra = sundat[3];
+			double sundec = sundat[4] - (sundat[4] > 180.0 ? 360 : 0);
+
+			double[] sep = separation(er.RA, sunra, er.Dec, sundec);
+			er.Elongation = sep[0];
+			er.PositionAngle = sep[1];
+
+			er.JD = (double)jd;
+
+			return er;
+		}
+
+		#endregion
+
+		#region CalculateEphemerisAsync
+
+		public async static Task<SettingsBase> CalculateEphemerisAsync(SettingsBase settings)
 		{
 			decimal jd = (decimal)settings.Start.JD;
 			decimal jdMax = (decimal)settings.Stop.JD;
+			decimal interval = (decimal)settings.Interval;
 
 			await Task.Run(() =>
 			{
 				while (jd <= jdMax)
 				{
-					EphemerisResult er = new EphemerisResult();
-
-					double[] dat = CometAlt(settings.SelectedComet, (double)jd, settings.Location);
-					er.Alt = dat[0];
-					er.Az = dat[1];
-					er.RA = dat[3];
-					er.Dec = dat[4] - (dat[4] > 180.0 ? 360 : 0);
-					er.EcLon = rev(dat[5]);
-					er.EcLat = dat[6];
-					er.HelioDist = dat[8];
-					er.GeoDist = dat[9];
-					er.Magnitude = dat[10];
-
-					double[] sundat = SunAlt((double)jd, settings.Location);
-					double sunra = sundat[3];
-					double sundec = sundat[4] - (sundat[4] > 180.0 ? 360 : 0);
-
-					double[] sep = separation(er.RA, sunra, er.Dec, sundec);
-					er.Elongation = sep[0];
-					er.PositionAngle = sep[1];
-
-					er.JD = (double)jd;
-
+					EphemerisResult er = GetEphemeris(settings.SelectedComet, (double)jd, settings.Location);
 					settings.Results.Add(er);
-
-					jd += (decimal)settings.Interval;
+					jd += interval;
 				}
 			});
 
@@ -62,9 +72,9 @@ namespace Comets.BusinessLayer.Managers
 
 		#endregion
 
-		#region GenerateEphemeris
+		#region GenerateEphemerisAsync
 
-		public async static Task<string> GenerateEphemeris(EphemerisSettings settings)
+		public async static Task<string> GenerateEphemerisAsync(EphemerisSettings settings)
 		{
 			StringBuilder sb = new StringBuilder();
 

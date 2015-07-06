@@ -336,7 +336,7 @@ namespace Comets.Application.ModulGraph
 
 				GraphSettings.Results = new List<EphemerisResult>();
 
-				await EphemerisManager.CalculateEphemeris(GraphSettings);
+				await EphemerisManager.CalculateEphemerisAsync(GraphSettings);
 
 				this.Close();
 			}
@@ -360,8 +360,8 @@ namespace Comets.Application.ModulGraph
 				else
 				{
 					//comet with nearest perihelion date
-					Comet c = GraphSettings.Comets.Where(x => x.T - DateTime.Now.JD() > 0).OrderBy(y => y.T).FirstOrDefault();
-					cbComet.SelectedIndex = c != null ? GraphSettings.Comets.IndexOf(c) : 0;
+					Comet c = GraphSettings.Comets.OrderBy(x => Math.Abs(x.T - DateTime.Now.JD())).First();
+					cbComet.SelectedIndex = GraphSettings.Comets.IndexOf(c);
 				}
 			}
 		}

@@ -121,7 +121,7 @@ namespace Comets.Application.ModulEphemeris
 			{
 				FormEphemeris fe = this.Owner.ActiveMdiChild as FormEphemeris;
 				fe.EphemerisSettings = this.EphemerisSettings;
-				fe.LoadResults();
+				fe.LoadResultsAsync();
 			}
 		}
 
@@ -231,7 +231,7 @@ namespace Comets.Application.ModulEphemeris
 
 				EphemerisSettings.Results = new List<EphemerisResult>();
 
-				await EphemerisManager.CalculateEphemeris(EphemerisSettings);
+				await EphemerisManager.CalculateEphemerisAsync(EphemerisSettings);
 
 				this.Close();
 			}
@@ -332,8 +332,8 @@ namespace Comets.Application.ModulEphemeris
 				else
 				{
 					//comet with nearest perihelion date
-					Comet c = EphemerisSettings.Comets.Where(x => x.T - DateTime.Now.JD() > 0).OrderBy(y => y.T).FirstOrDefault();
-					cbComet.SelectedIndex = c != null ? EphemerisSettings.Comets.IndexOf(c) : 0;
+					Comet c = EphemerisSettings.Comets.OrderBy(x => Math.Abs(x.T - DateTime.Now.JD())).First();
+					cbComet.SelectedIndex = EphemerisSettings.Comets.IndexOf(c);
 				}
 			}
 		}
