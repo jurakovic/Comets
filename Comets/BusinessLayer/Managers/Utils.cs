@@ -147,7 +147,7 @@ namespace Comets.BusinessLayer.Managers
 		public static DateTime JDToDateTime(double jd)
 		{
 			int[] dt = EphemerisManager.jdtocd(jd);
-			return new DateTime(dt[0], dt[1], dt[2], dt[4], dt[5], dt[6]);
+			return new DateTime(dt[0], dt[1], dt[2], dt[4], dt[5], dt[6]/*, DateTimeKind.Utc*/);
 		}
 
 		#endregion

@@ -132,15 +132,12 @@
 			this.panelPerihDate = new System.Windows.Forms.Panel();
 			this.cbxPerihelionDate = new System.Windows.Forms.CheckBox();
 			this.cboPerihelionDate = new System.Windows.Forms.ComboBox();
-			this.txtPerihelionDateD = new System.Windows.Forms.TextBox();
-			this.txtPerihelionDateM = new System.Windows.Forms.TextBox();
-			this.txtPerihelionDateY = new System.Windows.Forms.TextBox();
-			this.btnPerihelionDateNow = new System.Windows.Forms.Button();
 			this.panelName = new System.Windows.Forms.Panel();
 			this.cboName = new System.Windows.Forms.ComboBox();
 			this.cbxName = new System.Windows.Forms.CheckBox();
 			this.txtName = new System.Windows.Forms.TextBox();
 			this.lblTotal = new System.Windows.Forms.Label();
+			this.btnDate = new System.Windows.Forms.Button();
 			this.gbDetails.SuspendLayout();
 			this.pnlDetails.SuspendLayout();
 			this.pnlFilters.SuspendLayout();
@@ -1276,12 +1273,9 @@
 			// 
 			// panelPerihDate
 			// 
+			this.panelPerihDate.Controls.Add(this.btnDate);
 			this.panelPerihDate.Controls.Add(this.cbxPerihelionDate);
 			this.panelPerihDate.Controls.Add(this.cboPerihelionDate);
-			this.panelPerihDate.Controls.Add(this.txtPerihelionDateD);
-			this.panelPerihDate.Controls.Add(this.txtPerihelionDateM);
-			this.panelPerihDate.Controls.Add(this.txtPerihelionDateY);
-			this.panelPerihDate.Controls.Add(this.btnPerihelionDateNow);
 			this.panelPerihDate.Location = new System.Drawing.Point(10, 57);
 			this.panelPerihDate.Name = "panelPerihDate";
 			this.panelPerihDate.Size = new System.Drawing.Size(500, 25);
@@ -1310,52 +1304,6 @@
 			this.cboPerihelionDate.Name = "cboPerihelionDate";
 			this.cboPerihelionDate.Size = new System.Drawing.Size(118, 21);
 			this.cboPerihelionDate.TabIndex = 1;
-			// 
-			// txtPerihelionDateD
-			// 
-			this.txtPerihelionDateD.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.txtPerihelionDateD.Location = new System.Drawing.Point(332, 2);
-			this.txtPerihelionDateD.MaxLength = 2;
-			this.txtPerihelionDateD.Name = "txtPerihelionDateD";
-			this.txtPerihelionDateD.Size = new System.Drawing.Size(25, 21);
-			this.txtPerihelionDateD.TabIndex = 2;
-			this.txtPerihelionDateD.TextChanged += new System.EventHandler(this.txtFiltersCommon_TextChanged);
-			this.txtPerihelionDateD.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtPerihelionDate_KeyDown);
-			this.txtPerihelionDateD.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPerihelionDate_KeyPress);
-			// 
-			// txtPerihelionDateM
-			// 
-			this.txtPerihelionDateM.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.txtPerihelionDateM.Location = new System.Drawing.Point(363, 2);
-			this.txtPerihelionDateM.MaxLength = 2;
-			this.txtPerihelionDateM.Name = "txtPerihelionDateM";
-			this.txtPerihelionDateM.Size = new System.Drawing.Size(25, 21);
-			this.txtPerihelionDateM.TabIndex = 3;
-			this.txtPerihelionDateM.TextChanged += new System.EventHandler(this.txtPerihelionDateMY_TextChanged);
-			this.txtPerihelionDateM.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtPerihelionDate_KeyDown);
-			this.txtPerihelionDateM.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPerihelionDate_KeyPress);
-			// 
-			// txtPerihelionDateY
-			// 
-			this.txtPerihelionDateY.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.txtPerihelionDateY.Location = new System.Drawing.Point(394, 2);
-			this.txtPerihelionDateY.MaxLength = 4;
-			this.txtPerihelionDateY.Name = "txtPerihelionDateY";
-			this.txtPerihelionDateY.Size = new System.Drawing.Size(51, 21);
-			this.txtPerihelionDateY.TabIndex = 4;
-			this.txtPerihelionDateY.TextChanged += new System.EventHandler(this.txtPerihelionDateMY_TextChanged);
-			this.txtPerihelionDateY.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtPerihelionDate_KeyDown);
-			this.txtPerihelionDateY.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPerihelionDate_KeyPress);
-			// 
-			// btnPerihelionDateNow
-			// 
-			this.btnPerihelionDateNow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnPerihelionDateNow.Location = new System.Drawing.Point(448, 4);
-			this.btnPerihelionDateNow.Name = "btnPerihelionDateNow";
-			this.btnPerihelionDateNow.Size = new System.Drawing.Size(16, 16);
-			this.btnPerihelionDateNow.TabIndex = 5;
-			this.btnPerihelionDateNow.UseVisualStyleBackColor = true;
-			this.btnPerihelionDateNow.Click += new System.EventHandler(this.btnPerihelionDateNow_Click);
 			// 
 			// panelName
 			// 
@@ -1408,6 +1356,17 @@
 			this.lblTotal.TabIndex = 3;
 			this.lblTotal.Text = "Comets: ";
 			// 
+			// btnDate
+			// 
+			this.btnDate.Anchor = System.Windows.Forms.AnchorStyles.None;
+			this.btnDate.Location = new System.Drawing.Point(332, 1);
+			this.btnDate.Name = "btnDate";
+			this.btnDate.Size = new System.Drawing.Size(166, 23);
+			this.btnDate.TabIndex = 314;
+			this.btnDate.Text = "dd.MM.yyyy HH:mm:ss";
+			this.btnDate.UseVisualStyleBackColor = true;
+			this.btnDate.Click += new System.EventHandler(this.btnDate_Click);
+			// 
 			// FormDatabase
 			// 
 			this.AcceptButton = this.btnOk;
@@ -1418,8 +1377,8 @@
 			this.Controls.Add(this.btnFilters);
 			this.Controls.Add(this.btnSort);
 			this.Controls.Add(this.lbxDatabase);
-			this.Controls.Add(this.pnlDetails);
 			this.Controls.Add(this.pnlFilters);
+			this.Controls.Add(this.pnlDetails);
 			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.MaximizeBox = false;
@@ -1562,15 +1521,12 @@
 		private System.Windows.Forms.Panel panelPerihDate;
 		private System.Windows.Forms.CheckBox cbxPerihelionDate;
 		private System.Windows.Forms.ComboBox cboPerihelionDate;
-		private System.Windows.Forms.TextBox txtPerihelionDateD;
-		private System.Windows.Forms.TextBox txtPerihelionDateM;
-		private System.Windows.Forms.TextBox txtPerihelionDateY;
-		private System.Windows.Forms.Button btnPerihelionDateNow;
 		private System.Windows.Forms.Panel panelName;
 		private System.Windows.Forms.ComboBox cboName;
 		private System.Windows.Forms.CheckBox cbxName;
 		private System.Windows.Forms.TextBox txtName;
 		private System.Windows.Forms.Button btnCancel;
 		private System.Windows.Forms.Label lblTotal;
+		private System.Windows.Forms.Button btnDate;
 	}
 }

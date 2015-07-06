@@ -11,6 +11,7 @@ namespace Comets.BusinessLayer.Business
 		public static LeMiMa LYear = new LeMiMa(4, 1, 2500);
 		public static LeMiMa LHour = new LeMiMa(2, 0, 23);
 		public static LeMiMa LMinute = new LeMiMa(2, 0, 59);
+		public static LeMiMa LSecond = new LeMiMa(2, 0, 59);
 
 		public int Len { get; private set; }
 		public int Min { get; private set; }

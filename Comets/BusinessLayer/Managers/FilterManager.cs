@@ -32,7 +32,7 @@ namespace Comets.BusinessLayer.Managers
 				}
 
 				if (fs.PerihelionDate.Checked && fs.PerihelionDate.ValueResolve == ValueResolveEnum.Greather && c.T < fs.PerihelionDate.Value) continue;
-				if (fs.PerihelionDate.Checked && fs.PerihelionDate.ValueResolve == ValueResolveEnum.Equal && !((c.Td.ToString("00") + "." + c.Tm.ToString("00") + "." + c.Ty) == fs.PerihelionDate.Text)) continue;
+				if (fs.PerihelionDate.Checked && fs.PerihelionDate.ValueResolve == ValueResolveEnum.Equal && !(Math.Round(c.T) == Math.Round(fs.PerihelionDate.Value))) continue;
 				if (fs.PerihelionDate.Checked && fs.PerihelionDate.ValueResolve == ValueResolveEnum.Less && c.T > fs.PerihelionDate.Value) continue;
 
 				if (fs.PerihelionDistance.Checked && fs.PerihelionDistance.ValueResolve == ValueResolveEnum.Greather && c.q < fs.PerihelionDistance.Value) continue;

@@ -53,8 +53,8 @@ namespace Comets.BusinessLayer.Managers
 
 		public async static Task<SettingsBase> CalculateEphemerisAsync(SettingsBase settings)
 		{
-			decimal jd = (decimal)settings.Start.JD;
-			decimal jdMax = (decimal)settings.Stop.JD;
+			decimal jd = (decimal)settings.Start.JD();
+			decimal jdMax = (decimal)settings.Stop.JD();
 			decimal interval = (decimal)settings.Interval;
 
 			await Task.Run(() =>
@@ -141,8 +141,8 @@ namespace Comets.BusinessLayer.Managers
 			//double xMin = settings.Results.Min(x => x.LocalJD);
 			//double xMax = settings.Results.Max(x => x.LocalJD);
 
-			double xMin = settings.Start.JD;
-			double xMax = settings.Stop.JD;
+			double xMin = settings.Start.JD();
+			double xMax = settings.Stop.JD();
 
 			chart1.AntiAliasing = settings.Antialiasing ? AntiAliasingStyles.All : AntiAliasingStyles.Text;
 
@@ -544,7 +544,7 @@ namespace Comets.BusinessLayer.Managers
 		public static double jd(double year, double month, double day, double hour, double min, double sec)
 		{
 			double j = jd0(year, month, day, 0);
-			j += Math.Round((hour + (min / 60.0) + (sec / 3600.0)) / 24, 4);
+			j += Math.Round((hour + (min / 60.0) + (sec / 3600.0)) / 24, 5);
 			return j;
 		}
 

@@ -31,6 +31,17 @@ namespace Comets.Application
 		ToolTip ToolTip { get; set; }
 		private string SortPropertyName { get; set; }
 
+		private DateTime _dateTime;
+		private DateTime DateTime
+		{
+			get { return _dateTime; }
+			set
+			{
+				_dateTime = value;
+				btnDate.Text = _dateTime.ToString(FormMain.DateTimeFormat);
+			}
+		}
+
 		#endregion
 
 		#region Constructor
@@ -42,14 +53,15 @@ namespace Comets.Application
 			Comets = list.ToList();
 			Filters = filters;
 
+			if (Filters == null)
+				DateTime = FormMain.DefaultDateStart;
+			else
+				DateTime = Filters.PerihelionDate.Value == 0.0 ? FormMain.DefaultDateStart : Utils.JDToDateTime(Filters.PerihelionDate.Value).ToLocalTime();
+
 			SortPropertyName = "sortkey";
 
 			pnlDetails.Visible = !isForFiltering;
 			pnlFilters.Visible = isForFiltering;
-
-			txtPerihelionDateD.Tag = LeMiMa.LDay;
-			txtPerihelionDateM.Tag = LeMiMa.LMonth;
-			txtPerihelionDateY.Tag = LeMiMa.LYear;
 
 			ToolTip = new ToolTip();
 			ToolTip.SetToolTip(this.txtPerihelionDistance, String.Format("Maximum perihelion distance is {0} AU", MaxPerihDist));
@@ -227,6 +239,32 @@ namespace Comets.Application
 
 		#endregion
 
+		#region Date control
+
+		private void btnDate_Click(object sender, EventArgs e)
+		{
+			using (FormDateTime fdt = new FormDateTime(FormMain.DefaultDateStart, DateTime, GetT()))
+			{
+				if (fdt.ShowDialog() == DialogResult.OK)
+				{
+					DateTime = fdt.SelectedDateTime;
+					cbxPerihelionDate.Checked = true;
+				}
+			}
+		}
+
+		private double? GetT()
+		{
+			double? T = null;
+
+			if (lbxDatabase.SelectedIndex >= 0)
+				T = Comets.ElementAt(lbxDatabase.SelectedIndex).T;
+
+			return T;
+		}
+
+		#endregion
+
 		#region CollectFilters
 
 		private FilterCollection CollectFilters()
@@ -238,7 +276,7 @@ namespace Comets.Application
 			fc.Name.Index = cboName.SelectedIndex;
 
 			fc.PerihelionDate.Checked = cbxPerihelionDate.Checked;
-			fc.PerihelionDate.Text = txtPerihelionDateD.Text + "." + txtPerihelionDateM.Text + "." + txtPerihelionDateY.Text;
+			fc.PerihelionDate.Text = DateTime.Day + "." + DateTime.Month + "." + DateTime.Year + "." + DateTime.Hour + "." + DateTime.Minute + "." + DateTime.Second;
 			fc.PerihelionDate.Index = cboPerihelionDate.SelectedIndex;
 
 			fc.PerihelionDistance.Checked = cbxPerihelionDistance.Checked;
@@ -284,9 +322,7 @@ namespace Comets.Application
 
 				cbxPerihelionDate.Checked = false;
 				cboPerihelionDate.SelectedIndex = 0;
-				txtPerihelionDateD.Text = String.Empty;
-				txtPerihelionDateM.Text = String.Empty;
-				txtPerihelionDateY.Text = String.Empty;
+				DateTime = FormMain.DefaultDateStart;
 
 				cbxPerihelionDistance.Checked = false;
 				cboPerihelionDistance.SelectedIndex = 2;
@@ -320,19 +356,8 @@ namespace Comets.Application
 
 				cbxPerihelionDate.Checked = Filters.PerihelionDate.Checked;
 				cboPerihelionDate.SelectedIndex = FilterManager.GetIndexFromValueResolve(Filters.PerihelionDate.ValueResolve);
-				if (!String.IsNullOrEmpty(Filters.PerihelionDate.Text))
-				{
-					string[] date = Filters.PerihelionDate.Text.Split('.');
-					txtPerihelionDateD.Text = date[0];
-					txtPerihelionDateM.Text = date[1];
-					txtPerihelionDateY.Text = date[2];
-				}
-				else
-				{
-					txtPerihelionDateD.Text = String.Empty;
-					txtPerihelionDateM.Text = String.Empty;
-					txtPerihelionDateY.Text = String.Empty;
-				}
+				if (Filters.PerihelionDate.Value > 0.0)
+					DateTime = Utils.JDToDateTime(Filters.PerihelionDate.Value).ToLocalTime();
 
 				cbxPerihelionDistance.Checked = Filters.PerihelionDistance.Checked;
 				cboPerihelionDistance.SelectedIndex = FilterManager.GetIndexFromValueResolve(Filters.PerihelionDistance.ValueResolve);
@@ -383,18 +408,6 @@ namespace Comets.Application
 
 		#endregion
 
-		#region btnPerihelionDateNow_Click
-
-		private void btnPerihelionDateNow_Click(object sender, EventArgs e)
-		{
-			DateTime dt = DateTime.Now.AddDays(-20);
-			txtPerihelionDateD.Text = "1";
-			txtPerihelionDateM.Text = dt.Month.ToString();
-			txtPerihelionDateY.Text = dt.Year.ToString();
-		}
-
-		#endregion
-
 		#region txtFilters_TextChanged
 
 		private void txtFiltersCommon_TextChanged(object sender, EventArgs e)
@@ -412,24 +425,6 @@ namespace Comets.Application
 					}
 				}
 			}
-		}
-
-		private void txtPerihelionDateMY_TextChanged(object sender, EventArgs e)
-		{
-			if (txtPerihelionDateM.Text.Length > 0 && txtPerihelionDateY.Text.Length > 0)
-			{
-				int max = DateTime.DaysInMonth(txtPerihelionDateY.Int(), txtPerihelionDateM.Int());
-
-				LeMiMa o = txtPerihelionDateD.Tag as LeMiMa;
-				LeMiMa n = new LeMiMa(o.Len, o.Min, max);
-
-				if (txtPerihelionDateD.Text.Length > 0 && txtPerihelionDateD.Int() > n.Max)
-					txtPerihelionDateD.Text = n.Max.ToString();
-
-				txtPerihelionDateD.Tag = n;
-			}
-
-			txtFiltersCommon_TextChanged(sender, e);
 		}
 
 		#endregion

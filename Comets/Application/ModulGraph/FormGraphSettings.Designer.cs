@@ -44,13 +44,8 @@
 			this.label3 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this.pnlRangeDate = new System.Windows.Forms.Panel();
-			this.btnTimespanDateDefault = new System.Windows.Forms.Button();
-			this.txtDayEnd = new System.Windows.Forms.TextBox();
-			this.txtDayStart = new System.Windows.Forms.TextBox();
-			this.txtMonthEnd = new System.Windows.Forms.TextBox();
-			this.txtMonthStart = new System.Windows.Forms.TextBox();
-			this.txtYearEnd = new System.Windows.Forms.TextBox();
-			this.txtYearStart = new System.Windows.Forms.TextBox();
+			this.btnEndDate = new System.Windows.Forms.Button();
+			this.btnStartDate = new System.Windows.Forms.Button();
 			this.label1 = new System.Windows.Forms.Label();
 			this.rbRangeDaysFromT = new System.Windows.Forms.RadioButton();
 			this.rbRangeDate = new System.Windows.Forms.RadioButton();
@@ -194,13 +189,14 @@
 			// 
 			// txtDaysFromTStop
 			// 
-			this.txtDaysFromTStop.Location = new System.Drawing.Point(187, 3);
+			this.txtDaysFromTStop.Location = new System.Drawing.Point(190, 3);
 			this.txtDaysFromTStop.Name = "txtDaysFromTStop";
 			this.txtDaysFromTStop.Size = new System.Drawing.Size(42, 21);
 			this.txtDaysFromTStop.TabIndex = 1;
 			this.txtDaysFromTStop.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.txtDaysFromTStop.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCommon_KeyDown);
-			this.txtDaysFromTStop.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCommon_KeyPress);
+			this.txtDaysFromTStop.TextChanged += new System.EventHandler(this.txtDaysFromTCommon_TextChanged);
+			this.txtDaysFromTStop.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtDaysFromTCommon_KeyDown);
+			this.txtDaysFromTStop.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDaysFromTCommon_KeyPress);
 			// 
 			// txtDaysFromTStart
 			// 
@@ -209,13 +205,14 @@
 			this.txtDaysFromTStart.Size = new System.Drawing.Size(42, 21);
 			this.txtDaysFromTStart.TabIndex = 0;
 			this.txtDaysFromTStart.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.txtDaysFromTStart.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCommon_KeyDown);
-			this.txtDaysFromTStart.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCommon_KeyPress);
+			this.txtDaysFromTStart.TextChanged += new System.EventHandler(this.txtDaysFromTCommon_TextChanged);
+			this.txtDaysFromTStart.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtDaysFromTCommon_KeyDown);
+			this.txtDaysFromTStart.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDaysFromTCommon_KeyPress);
 			// 
 			// label4
 			// 
 			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(241, 7);
+			this.label4.Location = new System.Drawing.Point(244, 7);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(30, 13);
 			this.label4.TabIndex = 319;
@@ -233,7 +230,7 @@
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(168, 7);
+			this.label2.Location = new System.Drawing.Point(175, 7);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(11, 13);
 			this.label2.TabIndex = 317;
@@ -242,96 +239,38 @@
 			// pnlRangeDate
 			// 
 			this.pnlRangeDate.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-			this.pnlRangeDate.Controls.Add(this.btnTimespanDateDefault);
-			this.pnlRangeDate.Controls.Add(this.txtDayEnd);
-			this.pnlRangeDate.Controls.Add(this.txtDayStart);
-			this.pnlRangeDate.Controls.Add(this.txtMonthEnd);
-			this.pnlRangeDate.Controls.Add(this.txtMonthStart);
-			this.pnlRangeDate.Controls.Add(this.txtYearEnd);
-			this.pnlRangeDate.Controls.Add(this.txtYearStart);
+			this.pnlRangeDate.Controls.Add(this.btnEndDate);
+			this.pnlRangeDate.Controls.Add(this.btnStartDate);
 			this.pnlRangeDate.Controls.Add(this.label1);
 			this.pnlRangeDate.Location = new System.Drawing.Point(112, 15);
 			this.pnlRangeDate.Name = "pnlRangeDate";
 			this.pnlRangeDate.Size = new System.Drawing.Size(362, 27);
 			this.pnlRangeDate.TabIndex = 1;
 			// 
-			// btnTimespanDateDefault
+			// btnEndDate
 			// 
-			this.btnTimespanDateDefault.Location = new System.Drawing.Point(339, 6);
-			this.btnTimespanDateDefault.Name = "btnTimespanDateDefault";
-			this.btnTimespanDateDefault.Size = new System.Drawing.Size(16, 16);
-			this.btnTimespanDateDefault.TabIndex = 6;
-			this.btnTimespanDateDefault.UseVisualStyleBackColor = true;
-			this.btnTimespanDateDefault.Click += new System.EventHandler(this.btnTimespanDateDefault_Click);
+			this.btnEndDate.Location = new System.Drawing.Point(188, 2);
+			this.btnEndDate.Name = "btnEndDate";
+			this.btnEndDate.Size = new System.Drawing.Size(172, 23);
+			this.btnEndDate.TabIndex = 312;
+			this.btnEndDate.Text = "dd.MM.yyyy HH:mm:ss";
+			this.btnEndDate.UseVisualStyleBackColor = true;
+			this.btnEndDate.Click += new System.EventHandler(this.btnEndDate_Click);
 			// 
-			// txtDayEnd
+			// btnStartDate
 			// 
-			this.txtDayEnd.Location = new System.Drawing.Point(291, 3);
-			this.txtDayEnd.Name = "txtDayEnd";
-			this.txtDayEnd.Size = new System.Drawing.Size(42, 21);
-			this.txtDayEnd.TabIndex = 5;
-			this.txtDayEnd.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.txtDayEnd.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCommon_KeyDown);
-			this.txtDayEnd.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCommon_KeyPress);
-			// 
-			// txtDayStart
-			// 
-			this.txtDayStart.Location = new System.Drawing.Point(115, 3);
-			this.txtDayStart.Name = "txtDayStart";
-			this.txtDayStart.Size = new System.Drawing.Size(42, 21);
-			this.txtDayStart.TabIndex = 2;
-			this.txtDayStart.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.txtDayStart.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCommon_KeyDown);
-			this.txtDayStart.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCommon_KeyPress);
-			// 
-			// txtMonthEnd
-			// 
-			this.txtMonthEnd.Location = new System.Drawing.Point(243, 3);
-			this.txtMonthEnd.Name = "txtMonthEnd";
-			this.txtMonthEnd.Size = new System.Drawing.Size(42, 21);
-			this.txtMonthEnd.TabIndex = 4;
-			this.txtMonthEnd.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.txtMonthEnd.TextChanged += new System.EventHandler(this.txtYearMonthEnd_TextChanged);
-			this.txtMonthEnd.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCommon_KeyDown);
-			this.txtMonthEnd.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCommon_KeyPress);
-			// 
-			// txtMonthStart
-			// 
-			this.txtMonthStart.Location = new System.Drawing.Point(67, 3);
-			this.txtMonthStart.Name = "txtMonthStart";
-			this.txtMonthStart.Size = new System.Drawing.Size(42, 21);
-			this.txtMonthStart.TabIndex = 1;
-			this.txtMonthStart.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.txtMonthStart.TextChanged += new System.EventHandler(this.txtYearMonthStart_TextChanged);
-			this.txtMonthStart.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCommon_KeyDown);
-			this.txtMonthStart.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCommon_KeyPress);
-			// 
-			// txtYearEnd
-			// 
-			this.txtYearEnd.Location = new System.Drawing.Point(187, 3);
-			this.txtYearEnd.Name = "txtYearEnd";
-			this.txtYearEnd.Size = new System.Drawing.Size(50, 21);
-			this.txtYearEnd.TabIndex = 3;
-			this.txtYearEnd.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.txtYearEnd.TextChanged += new System.EventHandler(this.txtYearMonthEnd_TextChanged);
-			this.txtYearEnd.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCommon_KeyDown);
-			this.txtYearEnd.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCommon_KeyPress);
-			// 
-			// txtYearStart
-			// 
-			this.txtYearStart.Location = new System.Drawing.Point(11, 3);
-			this.txtYearStart.Name = "txtYearStart";
-			this.txtYearStart.Size = new System.Drawing.Size(50, 21);
-			this.txtYearStart.TabIndex = 0;
-			this.txtYearStart.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.txtYearStart.TextChanged += new System.EventHandler(this.txtYearMonthStart_TextChanged);
-			this.txtYearStart.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCommon_KeyDown);
-			this.txtYearStart.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCommon_KeyPress);
+			this.btnStartDate.Location = new System.Drawing.Point(2, 2);
+			this.btnStartDate.Name = "btnStartDate";
+			this.btnStartDate.Size = new System.Drawing.Size(172, 23);
+			this.btnStartDate.TabIndex = 311;
+			this.btnStartDate.Text = "dd.MM.yyyy HH:mm:ss";
+			this.btnStartDate.UseVisualStyleBackColor = true;
+			this.btnStartDate.Click += new System.EventHandler(this.btnStartDate_Click);
 			// 
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(168, 6);
+			this.label1.Location = new System.Drawing.Point(175, 7);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(11, 13);
 			this.label1.TabIndex = 310;
@@ -600,17 +539,12 @@
 		private System.Windows.Forms.TextBox txtMinMag;
 		private System.Windows.Forms.CheckBox cbxMaxMag;
 		private System.Windows.Forms.CheckBox cbxMinMag;
-		private System.Windows.Forms.TextBox txtDayStart;
-		private System.Windows.Forms.TextBox txtMonthStart;
-		private System.Windows.Forms.TextBox txtYearStart;
 		private System.Windows.Forms.TextBox txtDaysFromTStop;
 		private System.Windows.Forms.TextBox txtDaysFromTStart;
-		private System.Windows.Forms.TextBox txtDayEnd;
-		private System.Windows.Forms.TextBox txtMonthEnd;
-		private System.Windows.Forms.TextBox txtYearEnd;
 		private System.Windows.Forms.Button btnTimespanDaysFromTDefault;
-		private System.Windows.Forms.Button btnTimespanDateDefault;
 		private System.Windows.Forms.Button btnFilter;
 		private System.Windows.Forms.Button btnCancel;
+		private System.Windows.Forms.Button btnEndDate;
+		private System.Windows.Forms.Button btnStartDate;
 	}
 }

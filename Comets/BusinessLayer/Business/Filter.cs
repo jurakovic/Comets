@@ -56,18 +56,10 @@ namespace Comets.BusinessLayer.Business
 				{
 					_value = _text.Double();
 				}
-				else if (_checked && _propertyName == PropertyNameEnum.PerihelionDate)
+				else if (_propertyName == PropertyNameEnum.PerihelionDate)
 				{
-
 					string[] dt = _text.Split('.');
-					try
-					{
-						_value = EphemerisManager.jd0(Convert.ToInt32(dt[2]), Convert.ToInt32(dt[1]), Convert.ToInt32(dt[0]), 0);
-					}
-					catch
-					{
-						_value = 0.0;
-					}
+					_value = Utils.JDToDateTime(EphemerisManager.jd(dt[2].Int(), dt[1].Int(), dt[0].Int(), dt[3].Int(), dt[4].Int(), dt[5].Int())).ToUniversalTime().JD();
 				}
 			}
 		}

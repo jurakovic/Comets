@@ -1,4 +1,4 @@
-﻿using Comets.OrbitViewer;
+﻿using System;
 
 namespace Comets.BusinessLayer.Business
 {
@@ -12,8 +12,8 @@ namespace Comets.BusinessLayer.Business
 
 		#region Properties
 
-		public ATime DateStart { get; set; }
-		public ATime DateStop { get; set; }
+		public DateTime DateStart { get; set; }
+		public DateTime DateStop { get; set; }
 		public int DaysFromTStartValue { get; set; }
 		public int DaysFromTStopValue { get; set; }
 		public DateFormatEnum DateFormat { get; set; }

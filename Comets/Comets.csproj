@@ -53,6 +53,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application\FormDateTime.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Application\FormDateTime.Designer.cs">
+      <DependentUpon>FormDateTime.cs</DependentUpon>
+    </Compile>
     <Compile Include="BusinessLayer\Business\Comet.cs" />
     <Compile Include="BusinessLayer\Business\Filter.cs" />
     <Compile Include="BusinessLayer\Business\FilterCollection.cs" />
@@ -150,6 +156,9 @@
     <Compile Include="BusinessLayer\OrbitViewer\Xyz.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Application\FormDateTime.resx">
+      <DependentUpon>FormDateTime.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Application\ModulEphemeris\FormEphemeris.resx">
       <DependentUpon>FormEphemeris.cs</DependentUpon>
       <SubType>Designer</SubType>

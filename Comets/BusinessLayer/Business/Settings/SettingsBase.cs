@@ -1,4 +1,4 @@
-﻿using Comets.OrbitViewer;
+﻿using System;
 using System.Collections.Generic;
 
 namespace Comets.BusinessLayer.Business
@@ -11,8 +11,8 @@ namespace Comets.BusinessLayer.Business
 		public List<Comet> Comets { get; set; }
 		public FilterCollection Filters { get; set; }
 		public Comet SelectedComet { get; set; }
-		public ATime Start { get; set; }
-		public ATime Stop { get; set; }
+		public DateTime Start { get; set; }
+		public DateTime Stop { get; set; }
 		public double Interval { get; set; }
 		public List<EphemerisResult> Results { get; set; }
 

@@ -108,7 +108,7 @@ namespace Comets.Application.ModulOrbit
 
 		ATimeSpan TimeStep { get; set; }
 		int SimulationDirection { get; set; }
-		bool SimulationStarted { get; set; }
+		bool IsSimulationStarted { get; set; }
 
 		List<OVComet> Comets { get; set; }
 
@@ -125,6 +125,28 @@ namespace Comets.Application.ModulOrbit
 			}
 		}
 
+		private DateTime DefaultDateTime { get; set; }
+
+		private DateTime _dateTime;
+		private DateTime DateTime
+		{
+			get { return _dateTime; }
+			set
+			{
+				_dateTime = value;
+				btnDate.Text = _dateTime.ToString(FormMain.DateTimeFormat);
+
+				if (IsSimulationStarted)
+					Timer.Stop();
+
+				if (orbitPanel.PaintEnabled)
+				{
+					orbitPanel.ATime = new ATime(_dateTime.JD(), FormMain.Settings.Location.Timezone);
+					orbitPanel.Invalidate();
+				}
+			}
+		}
+
 		#endregion
 
 		#region Constructor
@@ -133,9 +155,8 @@ namespace Comets.Application.ModulOrbit
 		{
 			InitializeComponent();
 
-			txtDay.Tag = LeMiMa.LDay;
-			txtMonth.Tag = LeMiMa.LMonth;
-			txtYear.Tag = LeMiMa.LYear;
+			DefaultDateTime = new System.DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, 0, 0, DateTimeKind.Local);
+			DateTime = DefaultDateTime;
 
 			Comets = TransformComets(comets);
 
@@ -164,12 +185,6 @@ namespace Comets.Application.ModulOrbit
 				cboObject.SelectedIndex = Comets.IndexOf(c);
 			}
 
-			txtDay.Text = DateTime.Now.Day.ToString();
-			txtMonth.Text = DateTime.Now.Month.ToString();
-			txtYear.Text = DateTime.Now.Year.ToString();
-
-			ATime atime = CollectATime();
-
 			scrollVert.Value = InitialScrollVert;
 			scrollHorz.Value = InitialScrollHorz;
 			scrollZoom.Value = InitialScrollZoom;
@@ -185,6 +200,7 @@ namespace Comets.Application.ModulOrbit
 
 			ApplySettings(Settings, false);
 
+			ATime atime = new ATime(DateTime.JD(), FormMain.Settings.Location.Timezone);
 			orbitPanel.LoadPanel(SelectedComet, atime);
 			orbitPanel.Invalidate();
 		}
@@ -396,7 +412,7 @@ namespace Comets.Application.ModulOrbit
 
 				case Keys.Space:
 				case Keys.P:
-					if (SimulationStarted)
+					if (IsSimulationStarted)
 						PauseSimulation();
 					else
 						PlaySimulation(SimulationDirection);
@@ -420,54 +436,36 @@ namespace Comets.Application.ModulOrbit
 
 		#region Date controls
 
-		private void txtDateCommon_KeyDown(object sender, KeyEventArgs e)
+		private void btnDate_Click(object sender, EventArgs e)
 		{
-			e.SuppressKeyPress = Utils.TextBoxValueUpDown(sender, e);
-		}
-
-		private void txtDateCommon_KeyPress(object sender, KeyPressEventArgs e)
-		{
-			e.Handled = Utils.HandleKeyPress(sender, e);
-		}
-
-		private void txtMonthYear_TextChanged(object sender, EventArgs e)
-		{
-			if (txtMonth.Text.Length > 0 && txtYear.Text.Length > 0)
+			using (FormDateTime fdt = new FormDateTime(DefaultDateTime, DateTime, GetT()))
 			{
-				int max = DateTime.DaysInMonth(txtYear.Int(), txtMonth.Int());
-
-				LeMiMa o = txtDay.Tag as LeMiMa;
-				LeMiMa n = new LeMiMa(o.Len, o.Min, max);
-
-				if (txtDay.Text.Length > 0 && txtDay.Int() > n.Max)
-					txtDay.Text = n.Max.ToString();
-
-				txtDay.Tag = n;
+				if (fdt.ShowDialog() == DialogResult.OK)
+					DateTime = fdt.SelectedDateTime;
 			}
+		}
+
+		private double? GetT()
+		{
+			double? T = null;
+
+			if (cboObject.SelectedIndex >= 0)
+				T = Comets.ElementAt(cboObject.SelectedIndex).T;
+
+			return T;
 		}
 
 		private void btnNow_Click(object sender, EventArgs e)
 		{
-			txtDay.Text = DateTime.Now.Day.ToString();
-			txtMonth.Text = DateTime.Now.Month.ToString();
-			txtYear.Text = DateTime.Now.Year.ToString();
+			DateTime = DateTime.Now;
 		}
 
-		private void btnSet_Click(object sender, EventArgs e)
+		private void btnPerihDate_Click(object sender, EventArgs e)
 		{
-			Timer.Stop();
-			orbitPanel.ATime = CollectATime();
-			orbitPanel.Invalidate();
-		}
-
-		private ATime CollectATime()
-		{
-			int day = txtDay.Int();
-			int month = txtMonth.Int();
-			int year = txtYear.Int();
-
-			ATime atime = new ATime(year, month, day, 0.0);
-			return atime;
+			if (cboObject.SelectedIndex >= 0)
+			{
+				DateTime = Utils.JDToDateTime(Comets.ElementAt(cboObject.SelectedIndex).T).ToLocalTime();
+			}
 		}
 
 		#endregion
@@ -530,18 +528,18 @@ namespace Comets.Application.ModulOrbit
 		{
 			SimulationDirection = direction;
 			Timer.Start();
-			SimulationStarted = true;
+			IsSimulationStarted = true;
 		}
 
 		private void PauseSimulation()
 		{
 			Timer.Stop();
-			SimulationStarted = false;
+			IsSimulationStarted = false;
 		}
 
 		private void FasterSimulation()
 		{
-			if (!SimulationStarted)
+			if (!IsSimulationStarted)
 			{
 				PlaySimulation(SimulationDirection);
 			}
@@ -556,7 +554,7 @@ namespace Comets.Application.ModulOrbit
 
 		private void SlowerSimulation()
 		{
-			if (!SimulationStarted)
+			if (!IsSimulationStarted)
 			{
 				PlaySimulation(SimulationDirection);
 			}

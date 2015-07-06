@@ -16,6 +16,28 @@ namespace Comets.Application.ModulGraph
 		public GraphSettings GraphSettings { get; set; }
 		public bool AddNewGraph { get; set; }
 
+		private DateTime _start;
+		private DateTime DateStart
+		{
+			get { return _start; }
+			set
+			{
+				_start = value;
+				btnStartDate.Text = _start.ToString(FormMain.DateTimeFormat);
+			}
+		}
+
+		private DateTime _end;
+		private DateTime DateEnd
+		{
+			get { return _end; }
+			set
+			{
+				_end = value;
+				btnEndDate.Text = _end.ToString(FormMain.DateTimeFormat);
+			}
+		}
+
 		#endregion
 
 		#region Constructor
@@ -23,14 +45,6 @@ namespace Comets.Application.ModulGraph
 		public FormGraphSettings(FilterCollection filters, GraphSettings settings = null)
 		{
 			InitializeComponent();
-
-			txtYearStart.Tag = LeMiMa.LYear;
-			txtMonthStart.Tag = LeMiMa.LMonth;
-			txtDayStart.Tag = LeMiMa.LDay;
-
-			txtYearEnd.Tag = LeMiMa.LYear;
-			txtMonthEnd.Tag = LeMiMa.LMonth;
-			txtDayEnd.Tag = LeMiMa.LDay;
 
 			txtDaysFromTStart.Tag = new LeMiMa(4, -3653, -1);
 			txtDaysFromTStop.Tag = new LeMiMa(4, 1, 3653);
@@ -41,29 +55,27 @@ namespace Comets.Application.ModulGraph
 			{
 				AddNewGraph = true;
 
-				btnTimespanDateDefault_Click(null, null);
+				DateStart = FormMain.DefaultDateStart;
+				DateEnd = FormMain.DefaultDateEnd;
+
 				btnTimespanDaysFromTDefault_Click(null, null);
+				rbRangeDate.Checked = true;
 			}
 			else
 			{
 				if (GraphSettings.Filters == null)
 					GraphSettings.Filters = filters;
 
+				DateStart = GraphSettings.DateStart;
+				DateEnd = GraphSettings.DateStop;
+
+				txtDaysFromTStart.Text = GraphSettings.DaysFromTStartValue.ToString();
+				txtDaysFromTStop.Text = GraphSettings.DaysFromTStopValue.ToString();
+
 				if (GraphSettings.DateRange)
 					rbRangeDate.Checked = true;
 				else
 					rbRangeDaysFromT.Checked = true;
-
-				txtYearStart.Text = GraphSettings.DateStart.Year.ToString();
-				txtMonthStart.Text = GraphSettings.DateStart.Month.ToString();
-				txtDayStart.Text = GraphSettings.DateStart.Day.ToString();
-
-				txtYearEnd.Text = GraphSettings.DateStop.Year.ToString();
-				txtMonthEnd.Text = GraphSettings.DateStop.Month.ToString();
-				txtDayEnd.Text = GraphSettings.DateStop.Day.ToString();
-
-				txtDaysFromTStart.Text = GraphSettings.DaysFromTStartValue.ToString();
-				txtDaysFromTStop.Text = GraphSettings.DaysFromTStopValue.ToString();
 
 				cbxPerihelionLine.Checked = GraphSettings.PerihelionLine;
 				cbxNowLine.Checked = GraphSettings.NowLine;
@@ -152,46 +164,58 @@ namespace Comets.Application.ModulGraph
 
 		#region Date control
 
-		private void txtCommon_KeyDown(object sender, KeyEventArgs e)
+		private void btnStartDate_Click(object sender, EventArgs e)
+		{
+			DateStart = ShowFormDateTime(FormMain.DefaultDateStart, DateStart, GetT());
+		}
+
+		private void btnEndDate_Click(object sender, EventArgs e)
+		{
+			DateEnd = ShowFormDateTime(FormMain.DefaultDateEnd, DateEnd, GetT());
+		}
+
+		private DateTime ShowFormDateTime(DateTime def, DateTime current, double? jd)
+		{
+			using (FormDateTime fdt = new FormDateTime(def, current, jd))
+			{
+				if (fdt.ShowDialog() == DialogResult.OK)
+					current = fdt.SelectedDateTime;
+			}
+
+			rbRangeDate.Checked = true;
+			return current;
+		}
+
+		private double? GetT()
+		{
+			double? T = null;
+
+			if (cbComet.SelectedIndex >= 0)
+				T = GraphSettings.Comets.ElementAt(cbComet.SelectedIndex).T;
+
+			return T;
+		}
+
+		private void txtDaysFromTCommon_KeyDown(object sender, KeyEventArgs e)
 		{
 			e.SuppressKeyPress = Utils.TextBoxValueUpDown(sender, e);
 		}
 
-		private void txtCommon_KeyPress(object sender, KeyPressEventArgs e)
+		private void txtDaysFromTCommon_KeyPress(object sender, KeyPressEventArgs e)
 		{
 			e.Handled = Utils.HandleKeyPress(sender, e);
 		}
 
-		private void txtYearMonthStart_TextChanged(object sender, EventArgs e)
+		private void txtDaysFromTCommon_TextChanged(object sender, EventArgs e)
 		{
-			if (txtMonthStart.Text.Length > 0 && txtYearStart.Text.Length > 0)
-			{
-				int max = DateTime.DaysInMonth(txtYearStart.Int(), txtMonthStart.Int());
-
-				LeMiMa o = txtDayStart.Tag as LeMiMa;
-				LeMiMa n = new LeMiMa(o.Len, o.Min, max);
-
-				if (txtDayStart.Text.Length > 0 && txtDayStart.Int() > n.Max)
-					txtDayStart.Text = n.Max.ToString();
-
-				txtDayStart.Tag = n;
-			}
+			rbRangeDaysFromT.Checked = true;
 		}
 
-		private void txtYearMonthEnd_TextChanged(object sender, EventArgs e)
+		private void btnTimespanDaysFromTDefault_Click(object sender, EventArgs e)
 		{
-			if (txtMonthEnd.Text.Length > 0 && txtYearEnd.Text.Length > 0)
-			{
-				int max = DateTime.DaysInMonth(txtYearEnd.Int(), txtMonthEnd.Int());
-
-				LeMiMa o = txtDayEnd.Tag as LeMiMa;
-				LeMiMa n = new LeMiMa(o.Len, o.Min, max);
-
-				if (txtDayEnd.Text.Length > 0 && txtDayEnd.Int() > n.Max)
-					txtDayEnd.Text = n.Max.ToString();
-
-				txtDayEnd.Tag = n;
-			}
+			int offset = 180;
+			txtDaysFromTStart.Text = (-offset).ToString();
+			txtDaysFromTStop.Text = offset.ToString();
 		}
 
 		#endregion
@@ -205,75 +229,28 @@ namespace Comets.Application.ModulGraph
 
 		#endregion
 
-		#region btnTimespanDefault
-
-		private void btnTimespanDateDefault_Click(object sender, EventArgs e)
-		{
-			DateTime dt = DateTime.Now.AddDays(-20);
-			txtYearStart.Text = dt.Year.ToString();
-			txtMonthStart.Text = dt.Month.ToString();
-			txtDayStart.Text = "1";
-
-			dt = dt.AddMonths(1);
-			txtYearEnd.Text = dt.Year.ToString();
-			txtMonthEnd.Text = dt.Month.ToString();
-			txtDayEnd.Text = DateTime.DaysInMonth(dt.Year, dt.Month).ToString();
-		}
-
-		private void btnTimespanDaysFromTDefault_Click(object sender, EventArgs e)
-		{
-			int offset = 180;
-			txtDaysFromTStart.Text = (-offset).ToString();
-			txtDaysFromTStop.Text = offset.ToString();
-		}
-
-		#endregion
-
 		#region btnPlotGraph_Click
 
 		private async void btnPlotGraph_Click(object sender, EventArgs e)
 		{
 			if (cbComet.SelectedIndex >= 0)
 			{
-				ATime start, stop, dateStart, dateStop, daysFromTStart, daysFromTStop;
-				Comet comet;
+				int before = txtDaysFromTStart.Int();
+				int after = txtDaysFromTStop.Int();
 
-				try
+				Comet comet = GraphSettings.Comets.ElementAt(cbComet.SelectedIndex);
+				double startJd = comet.T + before; //negativan broj
+				double stopJd = comet.T + after;
+
+				DateTime daysFromTStart = Utils.JDToDateTime(startJd).ToLocalTime();
+				DateTime daysFromTStop = Utils.JDToDateTime(stopJd).ToLocalTime();
+
+				DateTime start = rbRangeDate.Checked ? DateStart : daysFromTStart;
+				DateTime stop = rbRangeDate.Checked ? DateEnd : daysFromTStop;
+
+				if (stop < start)
 				{
-					int syr = txtYearStart.Int();
-					int smo = txtMonthStart.Int();
-					int sdy = txtDayStart.Int();
-
-					int eyr = txtYearEnd.Int();
-					int emo = txtMonthEnd.Int();
-					int edy = txtDayEnd.Int();
-
-					dateStart = new ATime(syr, smo, sdy, 0, 0, 0, FormMain.Settings.Location.Timezone);
-					dateStop = new ATime(eyr, emo, edy, 0, 0, 0, FormMain.Settings.Location.Timezone);
-
-					comet = GraphSettings.Comets.ElementAt(cbComet.SelectedIndex);
-
-					int before = txtDaysFromTStart.Int();
-					int after = txtDaysFromTStop.Int();
-
-					double startJd = comet.T + before; //negativan broj
-					double stopJd = comet.T + after;
-
-					daysFromTStart = new ATime(startJd, FormMain.Settings.Location.Timezone);
-					daysFromTStop = new ATime(stopJd, FormMain.Settings.Location.Timezone);
-
-					start = rbRangeDate.Checked ? dateStart : daysFromTStart;
-					stop = rbRangeDate.Checked ? dateStop : daysFromTStop;
-
-					if (stop < start)
-					{
-						MessageBox.Show("End date is less than start date\t");
-						return;
-					}
-				}
-				catch
-				{
-					MessageBox.Show("Invalid date\t\t\t");
+					MessageBox.Show("End date is less than start date\t\t");
 					return;
 				}
 
@@ -281,7 +258,7 @@ namespace Comets.Application.ModulGraph
 				GraphSettings.Location = FormMain.Settings.Location;
 
 				double interval = 0.0;
-				double totalDays = stop.JD - start.JD;
+				double totalDays = stop.JD() - start.JD();
 
 				//double interval = totalDays / 99.5;
 
@@ -309,8 +286,8 @@ namespace Comets.Application.ModulGraph
 				GraphSettings.Stop = stop;
 				GraphSettings.Interval = interval;
 
-				GraphSettings.DateStart = dateStart;
-				GraphSettings.DateStop = dateStop;
+				GraphSettings.DateStart = DateStart;
+				GraphSettings.DateStop = DateEnd;
 
 				GraphSettings.DaysFromTStartValue = txtDaysFromTStart.Int();
 				GraphSettings.DaysFromTStopValue = txtDaysFromTStop.Int();

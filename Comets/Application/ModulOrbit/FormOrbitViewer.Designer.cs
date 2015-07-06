@@ -29,7 +29,7 @@
 		private void InitializeComponent()
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormOrbitViewer));
-			this.btnSet = new System.Windows.Forms.Button();
+			this.btnPerihDate = new System.Windows.Forms.Button();
 			this.btnNow = new System.Windows.Forms.Button();
 			this.lblTimestep = new System.Windows.Forms.Label();
 			this.lblSimulation = new System.Windows.Forms.Label();
@@ -50,24 +50,22 @@
 			this.scrollHorz = new System.Windows.Forms.HScrollBar();
 			this.scrollZoom = new System.Windows.Forms.HScrollBar();
 			this.pnlToolbox = new System.Windows.Forms.Panel();
+			this.btnDate = new System.Windows.Forms.Button();
 			this.lblZoom = new System.Windows.Forms.Label();
-			this.txtYear = new System.Windows.Forms.TextBox();
-			this.txtMonth = new System.Windows.Forms.TextBox();
-			this.txtDay = new System.Windows.Forms.TextBox();
 			this.orbitPanel = new Comets.OrbitViewer.OrbitPanel();
 			this.pnlToolbox.SuspendLayout();
 			this.SuspendLayout();
 			// 
-			// btnSet
+			// btnPerihDate
 			// 
-			this.btnSet.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this.btnSet.Location = new System.Drawing.Point(354, 43);
-			this.btnSet.Name = "btnSet";
-			this.btnSet.Size = new System.Drawing.Size(79, 23);
-			this.btnSet.TabIndex = 7;
-			this.btnSet.Text = "Set";
-			this.btnSet.UseVisualStyleBackColor = true;
-			this.btnSet.Click += new System.EventHandler(this.btnSet_Click);
+			this.btnPerihDate.Anchor = System.Windows.Forms.AnchorStyles.None;
+			this.btnPerihDate.Location = new System.Drawing.Point(354, 43);
+			this.btnPerihDate.Name = "btnPerihDate";
+			this.btnPerihDate.Size = new System.Drawing.Size(79, 23);
+			this.btnPerihDate.TabIndex = 7;
+			this.btnPerihDate.Text = "Perih. Date";
+			this.btnPerihDate.UseVisualStyleBackColor = true;
+			this.btnPerihDate.Click += new System.EventHandler(this.btnPerihDate_Click);
 			// 
 			// btnNow
 			// 
@@ -284,12 +282,10 @@
 			// 
 			// pnlToolbox
 			// 
+			this.pnlToolbox.Controls.Add(this.btnDate);
 			this.pnlToolbox.Controls.Add(this.lblZoom);
 			this.pnlToolbox.Controls.Add(this.scrollZoom);
-			this.pnlToolbox.Controls.Add(this.txtYear);
-			this.pnlToolbox.Controls.Add(this.txtMonth);
-			this.pnlToolbox.Controls.Add(this.txtDay);
-			this.pnlToolbox.Controls.Add(this.btnSet);
+			this.pnlToolbox.Controls.Add(this.btnPerihDate);
 			this.pnlToolbox.Controls.Add(this.btnNow);
 			this.pnlToolbox.Controls.Add(this.btnRevPlay);
 			this.pnlToolbox.Controls.Add(this.btnRevStep);
@@ -312,6 +308,17 @@
 			this.pnlToolbox.Size = new System.Drawing.Size(703, 111);
 			this.pnlToolbox.TabIndex = 3;
 			// 
+			// btnDate
+			// 
+			this.btnDate.Anchor = System.Windows.Forms.AnchorStyles.None;
+			this.btnDate.Location = new System.Drawing.Point(268, 11);
+			this.btnDate.Name = "btnDate";
+			this.btnDate.Size = new System.Drawing.Size(165, 23);
+			this.btnDate.TabIndex = 313;
+			this.btnDate.Text = "dd.MM.yyyy HH:mm:ss";
+			this.btnDate.UseVisualStyleBackColor = true;
+			this.btnDate.Click += new System.EventHandler(this.btnDate_Click);
+			// 
 			// lblZoom
 			// 
 			this.lblZoom.Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -322,41 +329,6 @@
 			this.lblZoom.TabIndex = 67;
 			this.lblZoom.Text = "Zoom";
 			// 
-			// txtYear
-			// 
-			this.txtYear.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this.txtYear.Location = new System.Drawing.Point(365, 12);
-			this.txtYear.Name = "txtYear";
-			this.txtYear.Size = new System.Drawing.Size(67, 21);
-			this.txtYear.TabIndex = 5;
-			this.txtYear.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.txtYear.TextChanged += new System.EventHandler(this.txtMonthYear_TextChanged);
-			this.txtYear.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtDateCommon_KeyDown);
-			this.txtYear.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDateCommon_KeyPress);
-			// 
-			// txtMonth
-			// 
-			this.txtMonth.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this.txtMonth.Location = new System.Drawing.Point(317, 12);
-			this.txtMonth.Name = "txtMonth";
-			this.txtMonth.Size = new System.Drawing.Size(42, 21);
-			this.txtMonth.TabIndex = 4;
-			this.txtMonth.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.txtMonth.TextChanged += new System.EventHandler(this.txtMonthYear_TextChanged);
-			this.txtMonth.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtDateCommon_KeyDown);
-			this.txtMonth.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDateCommon_KeyPress);
-			// 
-			// txtDay
-			// 
-			this.txtDay.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this.txtDay.Location = new System.Drawing.Point(269, 12);
-			this.txtDay.Name = "txtDay";
-			this.txtDay.Size = new System.Drawing.Size(42, 21);
-			this.txtDay.TabIndex = 3;
-			this.txtDay.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.txtDay.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtDateCommon_KeyDown);
-			this.txtDay.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDateCommon_KeyPress);
-			// 
 			// orbitPanel
 			// 
 			this.orbitPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -366,7 +338,6 @@
 			this.orbitPanel.ATime = null;
 			this.orbitPanel.BackColor = System.Drawing.Color.Black;
 			this.orbitPanel.CenterObjectSelected = 0;
-			this.orbitPanel.ShowAxes = false;
 			this.orbitPanel.Location = new System.Drawing.Point(0, 0);
 			this.orbitPanel.MinimumSize = new System.Drawing.Size(682, 458);
 			this.orbitPanel.MultipleMode = false;
@@ -375,6 +346,7 @@
 			this.orbitPanel.RotateHorz = 0D;
 			this.orbitPanel.RotateVert = 0D;
 			this.orbitPanel.SelectedIndex = 0;
+			this.orbitPanel.ShowAxes = false;
 			this.orbitPanel.ShowCometName = false;
 			this.orbitPanel.ShowDate = false;
 			this.orbitPanel.ShowDistance = false;
@@ -417,7 +389,7 @@
 
 		#endregion
 
-		private System.Windows.Forms.Button btnSet;
+		private System.Windows.Forms.Button btnPerihDate;
 		private System.Windows.Forms.Button btnNow;
 		private System.Windows.Forms.Label lblTimestep;
 		private System.Windows.Forms.Label lblSimulation;
@@ -439,10 +411,8 @@
 		private System.Windows.Forms.HScrollBar scrollHorz;
 		private OrbitViewer.OrbitPanel orbitPanel;
 		private System.Windows.Forms.Panel pnlToolbox;
-		private System.Windows.Forms.TextBox txtYear;
-		private System.Windows.Forms.TextBox txtMonth;
-		private System.Windows.Forms.TextBox txtDay;
 		private System.Windows.Forms.Label lblZoom;
+		private System.Windows.Forms.Button btnDate;
 
 	}
 }

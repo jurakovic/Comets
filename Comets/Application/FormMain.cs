@@ -24,6 +24,11 @@ namespace Comets.Application
 
 		public static Settings Settings { get; set; }
 
+		public static DateTime DefaultDateStart { get; private set; }
+		public static DateTime DefaultDateEnd { get; private set; }
+
+		public static string DateTimeFormat = "dd.MM.yyyy HH:mm:ss";
+
 		#endregion
 
 		#region Constructor
@@ -38,6 +43,11 @@ namespace Comets.Application
 			UserList = new List<Comet>();
 
 			Settings = SettingsManager.LoadSettings();
+
+			DateTime dt = DateTime.Now.AddDays(-20);
+			DefaultDateStart = new DateTime(dt.Year, dt.Month, 1, 22, 00, 00, DateTimeKind.Local);
+			dt = DateTime.Now.AddDays(-20).AddMonths(1);
+			DefaultDateEnd = new DateTime(dt.Year, dt.Month, DateTime.DaysInMonth(dt.Year, dt.Month), 22, 00, 00, DateTimeKind.Local);
 
 			if (Settings.RememberWindowPosition)
 			{
@@ -279,9 +289,11 @@ namespace Comets.Application
 				fdb.TopMost = this.TopMost;
 
 				if (fdb.ShowDialog() == DialogResult.OK)
+				{
 					UserList = fdb.Comets;
-					
-				Filters = fdb.Filters;
+					Filters = fdb.Filters;
+				}
+
 				SetStatusCometsLabel(UserList.Count, MainList.Count);
 			}
 		}

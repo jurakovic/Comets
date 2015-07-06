@@ -16,6 +16,28 @@ namespace Comets.Application.ModulEphemeris
 		public EphemerisSettings EphemerisSettings { get; set; }
 		private bool AddNewEphemeris { get; set; }
 
+		private DateTime _start;
+		private DateTime DateStart
+		{
+			get { return _start; }
+			set
+			{
+				_start = value;
+				btnStartDate.Text = _start.ToString(FormMain.DateTimeFormat);
+			}
+		}
+
+		private DateTime _end;
+		private DateTime DateEnd
+		{
+			get { return _end; }
+			set
+			{
+				_end = value;
+				btnEndDate.Text = _end.ToString(FormMain.DateTimeFormat);
+			}
+		}
+
 		#endregion
 
 		#region Constructor
@@ -23,18 +45,6 @@ namespace Comets.Application.ModulEphemeris
 		public FormEphemerisSettings(FilterCollection filters, EphemerisSettings settings = null)
 		{
 			InitializeComponent();
-
-			txtYearStart.Tag = LeMiMa.LYear;
-			txtMonthStart.Tag = LeMiMa.LMonth;
-			txtDayStart.Tag = LeMiMa.LDay;
-			txtHourStart.Tag = LeMiMa.LHour;
-			txtMinStart.Tag = LeMiMa.LMinute;
-
-			txtYearEnd.Tag = LeMiMa.LYear;
-			txtMonthEnd.Tag = LeMiMa.LMonth;
-			txtDayEnd.Tag = LeMiMa.LDay;
-			txtHourEnd.Tag = LeMiMa.LHour;
-			txtMinEnd.Tag = LeMiMa.LMinute;
 
 			txtDayInterval.Tag = new LeMiMa(4, 0, 3652);
 			txtHourInterval.Tag = new LeMiMa(2, 0, 23);
@@ -46,8 +56,9 @@ namespace Comets.Application.ModulEphemeris
 			{
 				AddNewEphemeris = true;
 
-				btnTimespanStartDefault_Click(null, null);
-				btnTimespanEndDefault_Click(null, null);
+				DateStart = FormMain.DefaultDateStart;
+				DateEnd = FormMain.DefaultDateEnd;
+
 				btnTimespanIntervalDefault_Click(null, null);
 			}
 			else
@@ -55,19 +66,8 @@ namespace Comets.Application.ModulEphemeris
 				if (EphemerisSettings.Filters == null)
 					EphemerisSettings.Filters = filters;
 
-				ATime dt = EphemerisSettings.Start;
-				txtYearStart.Text = dt.Year.ToString();
-				txtMonthStart.Text = dt.Month.ToString();
-				txtDayStart.Text = dt.Day.ToString();
-				txtHourStart.Text = dt.Hour.ToString();
-				txtMinStart.Text = dt.Minute.ToString();
-
-				dt = EphemerisSettings.Stop;
-				txtYearEnd.Text = dt.Year.ToString();
-				txtMonthEnd.Text = dt.Month.ToString();
-				txtDayEnd.Text = dt.Day.ToString();
-				txtHourEnd.Text = dt.Hour.ToString();
-				txtMinEnd.Text = dt.Minute.ToString();
+				DateStart = EphemerisSettings.Start;
+				DateEnd = EphemerisSettings.Stop;
 
 				txtDayInterval.Text = EphemerisSettings.TimeSpan.Day.ToString();
 				txtHourInterval.Text = EphemerisSettings.TimeSpan.Hour.ToString();
@@ -167,52 +167,26 @@ namespace Comets.Application.ModulEphemeris
 		{
 			if (cbComet.SelectedIndex >= 0)
 			{
-				ATime start, stop;
-				double interval;
-				double ind, inm, inh;
-
-				try
+				if (DateEnd < DateStart)
 				{
-					int syr = txtYearStart.Int();
-					int smo = txtMonthStart.Int();
-					int sdy = txtDayStart.Int();
-					int shr = txtHourStart.Int();
-					int smi = txtMinStart.Int();
-
-					int eyr = txtYearEnd.Int();
-					int emo = txtMonthEnd.Int();
-					int edy = txtDayEnd.Int();
-					int ehr = txtHourEnd.Int();
-					int emi = txtMinEnd.Int();
-
-					ind = txtDayInterval.Int();
-					inh = txtHourInterval.Int();
-					inm = txtMinInterval.Int();
-
-					start = new ATime(syr, smo, sdy, shr, smi, 0, FormMain.Settings.Location.Timezone);
-					stop = new ATime(eyr, emo, edy, ehr, emi, 0, FormMain.Settings.Location.Timezone);
-					interval = ind + (inh + (inm / 60.0)) / 24;
-
-					if (interval == 0.0)
-						interval = 1.0;
-
-					if (stop < start)
-					{
-						MessageBox.Show("End date is less than start date\t\t");
-						return;
-					}
-				}
-				catch
-				{
-					MessageBox.Show("Invalid date\t\t\t");
+					MessageBox.Show("End date is less than start date\t\t");
 					return;
 				}
+
+				double ind = txtDayInterval.Int();
+				double inh = txtHourInterval.Int();
+				double inm = txtMinInterval.Int();
+
+				double interval = ind + (inh + (inm / 60.0)) / 24;
+
+				if (interval == 0.0)
+					interval = 1.0;
 
 				EphemerisSettings.SelectedComet = EphemerisSettings.Comets.ElementAt(cbComet.SelectedIndex);
 				EphemerisSettings.Location = FormMain.Settings.Location;
 
-				EphemerisSettings.Start = start;
-				EphemerisSettings.Stop = stop;
+				EphemerisSettings.Start = DateStart;
+				EphemerisSettings.Stop = DateEnd;
 				EphemerisSettings.Interval = interval;
 
 				EphemerisSettings.TimeSpan = new ATimeSpan(0, 0, (int)ind, (int)inh, (int)inm, 0);
@@ -241,70 +215,45 @@ namespace Comets.Application.ModulEphemeris
 
 		#region Date control
 
-		private void txtDateCommon_KeyDown(object sender, KeyEventArgs e)
+		private void btnStartDate_Click(object sender, EventArgs e)
+		{
+			DateStart = ShowFormDateTime(FormMain.DefaultDateStart, DateStart, GetT());
+		}
+
+		private void btnEndDate_Click(object sender, EventArgs e)
+		{
+			DateEnd = ShowFormDateTime(FormMain.DefaultDateEnd, DateEnd, GetT());
+		}
+
+		private DateTime ShowFormDateTime(DateTime def, DateTime current, double? jd)
+		{
+			using (FormDateTime fdt = new FormDateTime(def, current, jd))
+			{
+				if (fdt.ShowDialog() == DialogResult.OK)
+					current = fdt.SelectedDateTime;
+			}
+
+			return current;
+		}
+
+		private double? GetT()
+		{
+			double? T = null;
+
+			if (cbComet.SelectedIndex >= 0)
+				T = EphemerisSettings.Comets.ElementAt(cbComet.SelectedIndex).T;
+
+			return T;
+		}
+
+		private void txtIntervalCommon_KeyDown(object sender, KeyEventArgs e)
 		{
 			e.SuppressKeyPress = Utils.TextBoxValueUpDown(sender, e);
 		}
 
-		private void txtDateCommon_KeyPress(object sender, KeyPressEventArgs e)
+		private void txtIntervalCommon_KeyPress(object sender, KeyPressEventArgs e)
 		{
 			e.Handled = Utils.HandleKeyPress(sender, e);
-		}
-
-		private void txtYearMonthStart_TextChanged(object sender, EventArgs e)
-		{
-			if (txtMonthStart.Text.Length > 0 && txtYearStart.Text.Length > 0)
-			{
-				int max = DateTime.DaysInMonth(txtYearStart.Int(), txtMonthStart.Int());
-
-				LeMiMa o = txtDayStart.Tag as LeMiMa;
-				LeMiMa n = new LeMiMa(o.Len, o.Min, max);
-
-				if (txtDayStart.Text.Length > 0 && (txtDayStart.Int()) > n.Max)
-					txtDayStart.Text = n.Max.ToString();
-
-				txtDayStart.Tag = n;
-			}
-		}
-
-		private void txtYearMonthEnd_TextChanged(object sender, EventArgs e)
-		{
-			if (txtMonthEnd.Text.Length > 0 && txtYearEnd.Text.Length > 0)
-			{
-				int max = DateTime.DaysInMonth(txtYearEnd.Int(), txtMonthEnd.Int());
-
-				LeMiMa o = txtDayEnd.Tag as LeMiMa;
-				LeMiMa n = new LeMiMa(o.Len, o.Min, max);
-
-				if (txtDayEnd.Text.Length > 0 && txtDayEnd.Int() > n.Max)
-					txtDayEnd.Text = n.Max.ToString();
-
-				txtDayEnd.Tag = n;
-			}
-		}
-
-		#endregion
-
-		#region btnTimespanDefault
-
-		private void btnTimespanStartDefault_Click(object sender, EventArgs e)
-		{
-			DateTime dt = DateTime.Now.AddDays(-20);
-			txtYearStart.Text = dt.Year.ToString();
-			txtMonthStart.Text = dt.Month.ToString();
-			txtDayStart.Text = "1";
-			txtHourStart.Text = "22";
-			txtMinStart.Text = "0";
-		}
-
-		private void btnTimespanEndDefault_Click(object sender, EventArgs e)
-		{
-			DateTime dt = DateTime.Now.AddDays(-20).AddMonths(1);
-			txtYearEnd.Text = dt.Year.ToString();
-			txtMonthEnd.Text = dt.Month.ToString();
-			txtDayEnd.Text = DateTime.DaysInMonth(dt.Year, dt.Month).ToString();
-			txtHourEnd.Text = "22";
-			txtMinEnd.Text = "0";
 		}
 
 		private void btnTimespanIntervalDefault_Click(object sender, EventArgs e)
