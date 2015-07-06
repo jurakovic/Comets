@@ -251,7 +251,6 @@ namespace Comets.Application
 					FormMain.IsDataChanged = true;
 					FormMain.MainList = newList.OrderBy(x => x.sortkey).ToList();
 					FormMain.UserList = newList.OrderBy(x => x.sortkey).ToList();
-					(this.Owner as FormMain).SetStatusCometsLabel(newList.Count, newList.Count);
 
 					this.Close();
 				}

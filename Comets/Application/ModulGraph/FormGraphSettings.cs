@@ -20,7 +20,7 @@ namespace Comets.Application.ModulGraph
 
 		#region Constructor
 
-		public FormGraphSettings(GraphSettings settings = null)
+		public FormGraphSettings(FilterCollection filters, GraphSettings settings = null)
 		{
 			InitializeComponent();
 
@@ -46,6 +46,9 @@ namespace Comets.Application.ModulGraph
 			}
 			else
 			{
+				if (GraphSettings.Filters == null)
+					GraphSettings.Filters = filters;
+
 				if (GraphSettings.DateRange)
 					rbRangeDate.Checked = true;
 				else
@@ -76,17 +79,39 @@ namespace Comets.Application.ModulGraph
 
 		#endregion
 
-		#region Form_Load
+		#region FormGraphSettings_Load
 
-		private void FormMagnitudeSettings_Load(object sender, EventArgs e)
+		private void FormGraphSettings_Load(object sender, EventArgs e)
 		{
 			if (GraphSettings == null)
 			{
 				GraphSettings = new GraphSettings();
 				GraphSettings.Comets = FormMain.UserList.ToList();
+				GraphSettings.Filters = FormMain.Filters;
 			}
 
 			BindList();
+		}
+
+		#endregion
+
+		#region FormGraphSettings_FormClosing
+
+		private void FormGraphSettings_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			if (AddNewGraph && GraphSettings.SelectedComet != null)
+			{
+				FormGraph fg = new FormGraph(GraphSettings);
+				fg.MdiParent = this.Owner;
+				fg.WindowState = FormWindowState.Maximized;
+				fg.Show();
+			}
+			else if (GraphSettings.Results != null && GraphSettings.Results.Any())
+			{
+				FormGraph fg = this.Owner.ActiveMdiChild as FormGraph;
+				fg.GraphSettings = this.GraphSettings;
+				fg.LoadGraph();
+			}
 		}
 
 		#endregion
@@ -107,16 +132,19 @@ namespace Comets.Application.ModulGraph
 
 		#endregion
 
-		#region btnSelectComets_Click
+		#region btnFilter_Click
 
-		private void btnSelectComets_Click(object sender, EventArgs e)
+		private void btnFilter_Click(object sender, EventArgs e)
 		{
-			using (FormSelectComets fsc = new FormSelectComets(GraphSettings.Comets) { Owner = this })
+			using (FormDatabase fdb = new FormDatabase(GraphSettings.Comets, GraphSettings.Filters, true) { Owner = this })
 			{
-				fsc.TopMost = this.TopMost;
+				fdb.TopMost = this.TopMost;
 
-				if (fsc.ShowDialog() == DialogResult.OK)
-					BindList();
+				if (fdb.ShowDialog() == DialogResult.OK)
+					GraphSettings.Comets = fdb.Comets;
+
+				GraphSettings.Filters = fdb.Filters;
+				BindList();
 			}
 		}
 
@@ -311,27 +339,6 @@ namespace Comets.Application.ModulGraph
 				await EphemerisManager.CalculateEphemeris(GraphSettings);
 
 				this.Close();
-			}
-		}
-
-		#endregion
-
-		#region Form_Closing
-
-		private void FormMagnitudeSettings_FormClosing(object sender, FormClosingEventArgs e)
-		{
-			if (AddNewGraph && GraphSettings.SelectedComet != null)
-			{
-				FormGraph fg = new FormGraph(GraphSettings);
-				fg.MdiParent = this.Owner;
-				fg.WindowState = FormWindowState.Maximized;
-				fg.Show();
-			}
-			else if (GraphSettings.Results != null && GraphSettings.Results.Any())
-			{
-				FormGraph fg = this.Owner.ActiveMdiChild as FormGraph;
-				fg.GraphSettings = this.GraphSettings;
-				fg.LoadGraph();
 			}
 		}
 

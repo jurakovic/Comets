@@ -18,10 +18,9 @@ namespace Comets.Application
 
 		public static List<Comet> MainList { get; set; }
 		public static List<Comet> UserList { get; set; }
+		public static FilterCollection Filters { get; set; }
 
 		public static bool IsDataChanged { get; set; }
-
-		private FormDatabase fdb { get; set; }
 
 		public static Settings Settings { get; set; }
 
@@ -39,8 +38,6 @@ namespace Comets.Application
 			UserList = new List<Comet>();
 
 			Settings = SettingsManager.LoadSettings();
-
-			fdb = new FormDatabase() { Owner = this };
 
 			if (Settings.RememberWindowPosition)
 			{
@@ -98,6 +95,7 @@ namespace Comets.Application
 						using (FormImport fi = new FormImport(true) { Owner = this })
 						{
 							fi.ShowDialog();
+							SetStatusCometsLabel(UserList.Count, MainList.Count);
 						}
 					}
 				}
@@ -167,7 +165,7 @@ namespace Comets.Application
 
 		private void menuItemFileEphemerides_Click(object sender, EventArgs e)
 		{
-			using (FormEphemerisSettings fes = new FormEphemerisSettings() { Owner = this })
+			using (FormEphemerisSettings fes = new FormEphemerisSettings(Filters) { Owner = this })
 			{
 				fes.TopMost = this.TopMost;
 				fes.ShowDialog();
@@ -176,7 +174,7 @@ namespace Comets.Application
 
 		private void menuItemFileGraph_Click(object sender, EventArgs e)
 		{
-			using (FormGraphSettings fgs = new FormGraphSettings() { Owner = this })
+			using (FormGraphSettings fgs = new FormGraphSettings(Filters) { Owner = this })
 			{
 				fgs.TopMost = this.TopMost;
 				fgs.ShowDialog();
@@ -203,7 +201,7 @@ namespace Comets.Application
 		private void menuItemEphemSettings_Click(object sender, EventArgs e)
 		{
 			FormEphemeris fe = this.ActiveMdiChild as FormEphemeris;
-			using (FormEphemerisSettings fes = new FormEphemerisSettings(fe.EphemerisSettings) { Owner = this })
+			using (FormEphemerisSettings fes = new FormEphemerisSettings(Filters, fe.EphemerisSettings) { Owner = this })
 			{
 				fes.TopMost = this.TopMost;
 				fes.ShowDialog();
@@ -222,7 +220,7 @@ namespace Comets.Application
 		private void menuItemGraphSettings_Click(object sender, EventArgs e)
 		{
 			FormGraph fg = this.ActiveMdiChild as FormGraph;
-			using (FormGraphSettings fgs = new FormGraphSettings(fg.GraphSettings) { Owner = this })
+			using (FormGraphSettings fgs = new FormGraphSettings(Filters, fg.GraphSettings) { Owner = this })
 			{
 				fgs.TopMost = this.TopMost;
 				fgs.ShowDialog();
@@ -276,8 +274,16 @@ namespace Comets.Application
 
 		private void menuItemDatabase_Click(object sender, EventArgs e)
 		{
-			fdb.TopMost = this.TopMost;
-			fdb.ShowDialog();
+			using (FormDatabase fdb = new FormDatabase(UserList, Filters, false) { Owner = this })
+			{
+				fdb.TopMost = this.TopMost;
+
+				if (fdb.ShowDialog() == DialogResult.OK)
+					UserList = fdb.Comets;
+					
+				Filters = fdb.Filters;
+				SetStatusCometsLabel(UserList.Count, MainList.Count);
+			}
 		}
 
 		private void menuItemImport_Click(object sender, EventArgs e)
@@ -380,7 +386,7 @@ namespace Comets.Application
 				(this.ActiveMdiChild as FormOrbitViewer).SaveImage();
 		}
 
-		public void SetStatusCometsLabel(int count, int total)
+		private void SetStatusCometsLabel(int count, int total)
 		{
 			if (count < total)
 				this.statusComets.Text = String.Format("Comets: {0} ({1})", count, total);

@@ -30,7 +30,7 @@
 		{
 			this.btnPlotGraph = new System.Windows.Forms.Button();
 			this.gbxSelectComet = new System.Windows.Forms.GroupBox();
-			this.btnSelectComets = new System.Windows.Forms.Button();
+			this.btnFilter = new System.Windows.Forms.Button();
 			this.lblPeriod = new System.Windows.Forms.Label();
 			this.lblPerihDist = new System.Windows.Forms.Label();
 			this.lblPerihDate = new System.Windows.Forms.Label();
@@ -68,7 +68,7 @@
 			this.txtMinMag = new System.Windows.Forms.TextBox();
 			this.cbxMaxMag = new System.Windows.Forms.CheckBox();
 			this.cbxMinMag = new System.Windows.Forms.CheckBox();
-			this.btnCancelHidden = new System.Windows.Forms.Button();
+			this.btnCancel = new System.Windows.Forms.Button();
 			this.gbxSelectComet.SuspendLayout();
 			this.gbxTimespan.SuspendLayout();
 			this.pnlRangeDaysFromT.SuspendLayout();
@@ -83,17 +83,17 @@
 			this.btnPlotGraph.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
 			this.btnPlotGraph.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
 			this.btnPlotGraph.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.btnPlotGraph.Location = new System.Drawing.Point(233, 243);
+			this.btnPlotGraph.Location = new System.Drawing.Point(332, 251);
 			this.btnPlotGraph.Name = "btnPlotGraph";
-			this.btnPlotGraph.Size = new System.Drawing.Size(190, 35);
-			this.btnPlotGraph.TabIndex = 5;
+			this.btnPlotGraph.Size = new System.Drawing.Size(100, 24);
+			this.btnPlotGraph.TabIndex = 6;
 			this.btnPlotGraph.Text = "Plot Graph";
 			this.btnPlotGraph.UseVisualStyleBackColor = true;
 			this.btnPlotGraph.Click += new System.EventHandler(this.btnPlotGraph_Click);
 			// 
 			// gbxSelectComet
 			// 
-			this.gbxSelectComet.Controls.Add(this.btnSelectComets);
+			this.gbxSelectComet.Controls.Add(this.btnFilter);
 			this.gbxSelectComet.Controls.Add(this.lblPeriod);
 			this.gbxSelectComet.Controls.Add(this.lblPerihDist);
 			this.gbxSelectComet.Controls.Add(this.lblPerihDate);
@@ -104,17 +104,17 @@
 			this.gbxSelectComet.Size = new System.Drawing.Size(325, 135);
 			this.gbxSelectComet.TabIndex = 0;
 			this.gbxSelectComet.TabStop = false;
-			this.gbxSelectComet.Text = "Comet";
+			this.gbxSelectComet.Text = "Select comet";
 			// 
-			// btnSelectComets
+			// btnFilter
 			// 
-			this.btnSelectComets.Location = new System.Drawing.Point(244, 19);
-			this.btnSelectComets.Name = "btnSelectComets";
-			this.btnSelectComets.Size = new System.Drawing.Size(75, 24);
-			this.btnSelectComets.TabIndex = 1;
-			this.btnSelectComets.Text = "Select";
-			this.btnSelectComets.UseVisualStyleBackColor = true;
-			this.btnSelectComets.Click += new System.EventHandler(this.btnSelectComets_Click);
+			this.btnFilter.Location = new System.Drawing.Point(244, 19);
+			this.btnFilter.Name = "btnFilter";
+			this.btnFilter.Size = new System.Drawing.Size(75, 24);
+			this.btnFilter.TabIndex = 1;
+			this.btnFilter.Text = "Filter";
+			this.btnFilter.UseVisualStyleBackColor = true;
+			this.btnFilter.Click += new System.EventHandler(this.btnFilter_Click);
 			// 
 			// lblPeriod
 			// 
@@ -516,23 +516,22 @@
 			this.cbxMinMag.Text = "Minimum";
 			this.cbxMinMag.UseVisualStyleBackColor = true;
 			// 
-			// btnCancelHidden
+			// btnCancel
 			// 
-			this.btnCancelHidden.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.btnCancelHidden.Location = new System.Drawing.Point(348, 255);
-			this.btnCancelHidden.Name = "btnCancelHidden";
-			this.btnCancelHidden.Size = new System.Drawing.Size(75, 23);
-			this.btnCancelHidden.TabIndex = 6;
-			this.btnCancelHidden.TabStop = false;
-			this.btnCancelHidden.Text = "Cancel";
-			this.btnCancelHidden.UseVisualStyleBackColor = true;
+			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			this.btnCancel.Location = new System.Drawing.Point(226, 251);
+			this.btnCancel.Name = "btnCancel";
+			this.btnCancel.Size = new System.Drawing.Size(100, 24);
+			this.btnCancel.TabIndex = 5;
+			this.btnCancel.Text = "Cancel";
+			this.btnCancel.UseVisualStyleBackColor = true;
 			// 
 			// FormGraphSettings
 			// 
 			this.AcceptButton = this.btnPlotGraph;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.CancelButton = this.btnCancelHidden;
+			this.CancelButton = this.btnCancel;
 			this.ClientSize = new System.Drawing.Size(659, 295);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.gbxChartOptions);
@@ -540,7 +539,7 @@
 			this.Controls.Add(this.gbxTimespan);
 			this.Controls.Add(this.gbxSelectComet);
 			this.Controls.Add(this.btnPlotGraph);
-			this.Controls.Add(this.btnCancelHidden);
+			this.Controls.Add(this.btnCancel);
 			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.MaximizeBox = false;
@@ -550,8 +549,8 @@
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Magnitude graph settings";
-			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMagnitudeSettings_FormClosing);
-			this.Load += new System.EventHandler(this.FormMagnitudeSettings_Load);
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormGraphSettings_FormClosing);
+			this.Load += new System.EventHandler(this.FormGraphSettings_Load);
 			this.gbxSelectComet.ResumeLayout(false);
 			this.gbxSelectComet.PerformLayout();
 			this.gbxTimespan.ResumeLayout(false);
@@ -611,7 +610,7 @@
 		private System.Windows.Forms.TextBox txtYearEnd;
 		private System.Windows.Forms.Button btnTimespanDaysFromTDefault;
 		private System.Windows.Forms.Button btnTimespanDateDefault;
-		private System.Windows.Forms.Button btnSelectComets;
-		private System.Windows.Forms.Button btnCancelHidden;
+		private System.Windows.Forms.Button btnFilter;
+		private System.Windows.Forms.Button btnCancel;
 	}
 }

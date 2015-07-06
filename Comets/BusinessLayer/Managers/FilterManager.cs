@@ -95,6 +95,29 @@ namespace Comets.BusinessLayer.Managers
 
 		#endregion
 
+		#region HasAnythingToFilter
+
+		public static bool HasAnythingToFilter(FilterCollection filters)
+		{
+			bool retval = false;
+
+			Type type = filters.GetType();
+			List<PropertyInfo> props = new List<PropertyInfo>(type.GetProperties());
+
+			foreach (PropertyInfo prop in props)
+			{
+				if ((prop.GetValue(filters, null) as Filter).Checked)
+				{
+					retval = true;
+					break;
+				}
+			}
+
+			return retval;
+		}
+
+		#endregion
+
 		#region GetValueResolveFromIndex
 
 		public static ValueResolveEnum GetValueResolveFromIndex(PropertyNameEnum properyNameEnum, int index)

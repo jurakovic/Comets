@@ -30,7 +30,7 @@
 		{
 			this.btnCalcEphem = new System.Windows.Forms.Button();
 			this.gbxSelectComet = new System.Windows.Forms.GroupBox();
-			this.btnSelectComets = new System.Windows.Forms.Button();
+			this.btnFilter = new System.Windows.Forms.Button();
 			this.lblPeriod = new System.Windows.Forms.Label();
 			this.lblPerihDist = new System.Windows.Forms.Label();
 			this.lblPerihDate = new System.Windows.Forms.Label();
@@ -68,7 +68,7 @@
 			this.chAlt = new System.Windows.Forms.CheckBox();
 			this.chDec = new System.Windows.Forms.CheckBox();
 			this.chRA = new System.Windows.Forms.CheckBox();
-			this.btnCancelHidden = new System.Windows.Forms.Button();
+			this.btnCancel = new System.Windows.Forms.Button();
 			this.gbxSelectComet.SuspendLayout();
 			this.gbxTimestamp.SuspendLayout();
 			this.gbxOutputData.SuspendLayout();
@@ -78,17 +78,17 @@
 			// 
 			this.btnCalcEphem.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
 			this.btnCalcEphem.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.btnCalcEphem.Location = new System.Drawing.Point(304, 317);
+			this.btnCalcEphem.Location = new System.Drawing.Point(403, 324);
 			this.btnCalcEphem.Name = "btnCalcEphem";
-			this.btnCalcEphem.Size = new System.Drawing.Size(190, 35);
-			this.btnCalcEphem.TabIndex = 3;
+			this.btnCalcEphem.Size = new System.Drawing.Size(100, 24);
+			this.btnCalcEphem.TabIndex = 4;
 			this.btnCalcEphem.Text = "Calculate";
 			this.btnCalcEphem.UseVisualStyleBackColor = true;
 			this.btnCalcEphem.Click += new System.EventHandler(this.btnCalcEphem_Click);
 			// 
 			// gbxSelectComet
 			// 
-			this.gbxSelectComet.Controls.Add(this.btnSelectComets);
+			this.gbxSelectComet.Controls.Add(this.btnFilter);
 			this.gbxSelectComet.Controls.Add(this.lblPeriod);
 			this.gbxSelectComet.Controls.Add(this.lblPerihDist);
 			this.gbxSelectComet.Controls.Add(this.lblPerihDate);
@@ -101,15 +101,15 @@
 			this.gbxSelectComet.TabStop = false;
 			this.gbxSelectComet.Text = "Select comet";
 			// 
-			// btnSelectComets
+			// btnFilter
 			// 
-			this.btnSelectComets.Location = new System.Drawing.Point(244, 19);
-			this.btnSelectComets.Name = "btnSelectComets";
-			this.btnSelectComets.Size = new System.Drawing.Size(75, 24);
-			this.btnSelectComets.TabIndex = 1;
-			this.btnSelectComets.Text = "Select";
-			this.btnSelectComets.UseVisualStyleBackColor = true;
-			this.btnSelectComets.Click += new System.EventHandler(this.btnSelectComets_Click);
+			this.btnFilter.Location = new System.Drawing.Point(244, 19);
+			this.btnFilter.Name = "btnFilter";
+			this.btnFilter.Size = new System.Drawing.Size(75, 24);
+			this.btnFilter.TabIndex = 1;
+			this.btnFilter.Text = "Filter";
+			this.btnFilter.UseVisualStyleBackColor = true;
+			this.btnFilter.Click += new System.EventHandler(this.btnFilter_Click);
 			// 
 			// lblPeriod
 			// 
@@ -526,29 +526,28 @@
 			this.chRA.Text = "Right ascension (RA)";
 			this.chRA.UseVisualStyleBackColor = true;
 			// 
-			// btnCancelHidden
+			// btnCancel
 			// 
-			this.btnCancelHidden.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.btnCancelHidden.Location = new System.Drawing.Point(419, 329);
-			this.btnCancelHidden.Name = "btnCancelHidden";
-			this.btnCancelHidden.Size = new System.Drawing.Size(75, 23);
-			this.btnCancelHidden.TabIndex = 4;
-			this.btnCancelHidden.TabStop = false;
-			this.btnCancelHidden.Text = "Cancel";
-			this.btnCancelHidden.UseVisualStyleBackColor = true;
+			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			this.btnCancel.Location = new System.Drawing.Point(297, 324);
+			this.btnCancel.Name = "btnCancel";
+			this.btnCancel.Size = new System.Drawing.Size(100, 24);
+			this.btnCancel.TabIndex = 3;
+			this.btnCancel.Text = "Cancel";
+			this.btnCancel.UseVisualStyleBackColor = true;
 			// 
 			// FormEphemerisSettings
 			// 
 			this.AcceptButton = this.btnCalcEphem;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.CancelButton = this.btnCancelHidden;
+			this.CancelButton = this.btnCancel;
 			this.ClientSize = new System.Drawing.Size(798, 367);
 			this.Controls.Add(this.gbxOutputData);
 			this.Controls.Add(this.gbxTimestamp);
 			this.Controls.Add(this.gbxSelectComet);
 			this.Controls.Add(this.btnCalcEphem);
-			this.Controls.Add(this.btnCancelHidden);
+			this.Controls.Add(this.btnCancel);
 			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.MaximizeBox = false;
@@ -611,7 +610,7 @@
 		private System.Windows.Forms.TextBox txtMinInterval;
 		private System.Windows.Forms.TextBox txtHourInterval;
 		private System.Windows.Forms.TextBox txtDayInterval;
-		private System.Windows.Forms.Button btnSelectComets;
-		private System.Windows.Forms.Button btnCancelHidden;
+		private System.Windows.Forms.Button btnFilter;
+		private System.Windows.Forms.Button btnCancel;
 	}
 }

@@ -96,6 +96,7 @@
 			this.menuItemDesc = new System.Windows.Forms.MenuItem();
 			this.btnFiltersApply = new System.Windows.Forms.Button();
 			this.pnlDetails = new System.Windows.Forms.Panel();
+			this.btnCancel = new System.Windows.Forms.Button();
 			this.pnlFilters = new System.Windows.Forms.Panel();
 			this.btnFiltersClose = new System.Windows.Forms.Button();
 			this.gbFilters = new System.Windows.Forms.GroupBox();
@@ -139,6 +140,7 @@
 			this.cboName = new System.Windows.Forms.ComboBox();
 			this.cbxName = new System.Windows.Forms.CheckBox();
 			this.txtName = new System.Windows.Forms.TextBox();
+			this.lblTotal = new System.Windows.Forms.Label();
 			this.gbDetails.SuspendLayout();
 			this.pnlDetails.SuspendLayout();
 			this.pnlFilters.SuspendLayout();
@@ -880,12 +882,24 @@
 			// 
 			// pnlDetails
 			// 
+			this.pnlDetails.Controls.Add(this.btnCancel);
 			this.pnlDetails.Controls.Add(this.gbDetails);
 			this.pnlDetails.Controls.Add(this.btnOk);
 			this.pnlDetails.Location = new System.Drawing.Point(253, 47);
 			this.pnlDetails.Name = "pnlDetails";
 			this.pnlDetails.Size = new System.Drawing.Size(549, 357);
 			this.pnlDetails.TabIndex = 3;
+			// 
+			// btnCancel
+			// 
+			this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			this.btnCancel.Location = new System.Drawing.Point(217, 330);
+			this.btnCancel.Name = "btnCancel";
+			this.btnCancel.Size = new System.Drawing.Size(118, 23);
+			this.btnCancel.TabIndex = 2;
+			this.btnCancel.Text = "Cancel";
+			this.btnCancel.UseVisualStyleBackColor = true;
 			// 
 			// pnlFilters
 			// 
@@ -1376,18 +1390,27 @@
 			this.txtName.TabIndex = 2;
 			this.txtName.TextChanged += new System.EventHandler(this.txtFiltersCommon_TextChanged);
 			// 
+			// lblTotal
+			// 
+			this.lblTotal.AutoSize = true;
+			this.lblTotal.Location = new System.Drawing.Point(472, 22);
+			this.lblTotal.Name = "lblTotal";
+			this.lblTotal.Size = new System.Drawing.Size(50, 13);
+			this.lblTotal.TabIndex = 3;
+			this.lblTotal.Text = "Comets: ";
+			// 
 			// FormDatabase
 			// 
 			this.AcceptButton = this.btnOk;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.CancelButton = this.btnOk;
 			this.ClientSize = new System.Drawing.Size(813, 417);
+			this.Controls.Add(this.lblTotal);
 			this.Controls.Add(this.btnFilters);
 			this.Controls.Add(this.btnSort);
 			this.Controls.Add(this.lbxDatabase);
-			this.Controls.Add(this.pnlFilters);
 			this.Controls.Add(this.pnlDetails);
+			this.Controls.Add(this.pnlFilters);
 			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.MaximizeBox = false;
@@ -1397,6 +1420,7 @@
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Database";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormDatabase_FormClosing);
 			this.Load += new System.EventHandler(this.FormDatabase_Load);
 			this.gbDetails.ResumeLayout(false);
 			this.gbDetails.PerformLayout();
@@ -1420,6 +1444,7 @@
 			this.panelName.ResumeLayout(false);
 			this.panelName.PerformLayout();
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 
@@ -1536,5 +1561,7 @@
 		private System.Windows.Forms.ComboBox cboName;
 		private System.Windows.Forms.CheckBox cbxName;
 		private System.Windows.Forms.TextBox txtName;
+		private System.Windows.Forms.Button btnCancel;
+		private System.Windows.Forms.Label lblTotal;
 	}
 }

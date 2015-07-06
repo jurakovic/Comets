@@ -24,16 +24,24 @@ namespace Comets.Application
 
 		#region Properties
 
-		FilterCollection Filters;
+		public List<Comet> Comets { get; private set; }
+		public FilterCollection Filters { get; private set; }
+		private bool IsFilterText { get; set; }
 		ToolTip ToolTip { get; set; }
 
 		#endregion
 
 		#region Constructor
 
-		public FormDatabase()
+		public FormDatabase(List<Comet> list, FilterCollection filters, bool isForFiltering)
 		{
 			InitializeComponent();
+
+			Comets = list.ToList();
+			Filters = filters;
+
+			pnlDetails.Visible = !isForFiltering;
+			pnlFilters.Visible = isForFiltering;
 
 			txtPerihelionDateD.Tag = LeMiMa.LDay;
 			txtPerihelionDateM.Tag = LeMiMa.LMonth;
@@ -50,16 +58,21 @@ namespace Comets.Application
 
 		#endregion
 
-		#region Form_Load
+		#region FormDatabase_Load
 
 		private void FormDatabase_Load(object sender, EventArgs e)
 		{
-			SortList(FormMain.UserList);
-
-			pnlDetails.Visible = true;
-			pnlFilters.Visible = false;
-
+			SortList(Comets);
 			PopulateFilters(Filters);
+		}
+
+		#endregion
+
+		#region FormDatabase_FormClosing
+
+		private void FormDatabase_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			Filters = CollectFilters();
 		}
 
 		#endregion
@@ -69,7 +82,7 @@ namespace Comets.Application
 		private void lbxDatabase_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			int ind = lbxDatabase.SelectedIndex;
-			Comet c = FormMain.UserList.ElementAt(ind);
+			Comet c = Comets.ElementAt(ind);
 
 			t_full.Text = c.full;
 			t_T.Text = c.Ty.ToString() + "-" + c.Tm.ToString("00") + "-" + c.Td.ToString("00") + "." + c.Th.ToString("0000");
@@ -142,7 +155,7 @@ namespace Comets.Application
 				menuItemAsc.Checked = order;
 				menuItemDesc.Checked = !order;
 
-				SortList(FormMain.UserList);
+				SortList(Comets);
 			}
 		}
 
@@ -150,14 +163,14 @@ namespace Comets.Application
 		{
 			menuItemAsc.Checked = true;
 			menuItemDesc.Checked = false;
-			SortList(FormMain.UserList);
+			SortList(Comets);
 		}
 
 		private void menuItemDesc_Click(object sender, EventArgs e)
 		{
 			menuItemAsc.Checked = false;
 			menuItemDesc.Checked = true;
-			SortList(FormMain.UserList);
+			SortList(Comets);
 		}
 
 		#endregion
@@ -167,70 +180,72 @@ namespace Comets.Application
 		public void SortList(List<Comet> list)
 		{
 			List<Comet> tempList = list.ToList();
-			FormMain.UserList.Clear();
+			Comets.Clear();
 
 			if (menuItemDesig.Checked && menuItemAsc.Checked)
-				FormMain.UserList = tempList.OrderBy(x => x.sortkey).ToList();
+				Comets = tempList.OrderBy(x => x.sortkey).ToList();
 
 			else if (menuItemDesig.Checked && menuItemDesc.Checked)
-				FormMain.UserList = tempList.OrderByDescending(x => x.sortkey).ToList();
+				Comets = tempList.OrderByDescending(x => x.sortkey).ToList();
 
 			else if (menuItemName.Checked && menuItemAsc.Checked)
-				FormMain.UserList = tempList.OrderBy(x => x.name).ToList();
+				Comets = tempList.OrderBy(x => x.name).ToList();
 
 			else if (menuItemName.Checked && menuItemDesc.Checked)
-				FormMain.UserList = tempList.OrderByDescending(x => x.name).ToList();
+				Comets = tempList.OrderByDescending(x => x.name).ToList();
 
 			else if (menuItemPerihDate.Checked && menuItemAsc.Checked)
-				FormMain.UserList = tempList.OrderBy(x => x.T).ToList();
+				Comets = tempList.OrderBy(x => x.T).ToList();
 
 			else if (menuItemPerihDate.Checked && menuItemDesc.Checked)
-				FormMain.UserList = tempList.OrderByDescending(x => x.T).ToList();
+				Comets = tempList.OrderByDescending(x => x.T).ToList();
 
 			else if (menuItemPerihDist.Checked && menuItemAsc.Checked)
-				FormMain.UserList = tempList.OrderBy(x => x.q).ToList();
+				Comets = tempList.OrderBy(x => x.q).ToList();
 
 			else if (menuItemPerihDist.Checked && menuItemDesc.Checked)
-				FormMain.UserList = tempList.OrderByDescending(x => x.q).ToList();
+				Comets = tempList.OrderByDescending(x => x.q).ToList();
 
 			else if (menuItemIncl.Checked && menuItemAsc.Checked)
-				FormMain.UserList = tempList.OrderBy(x => x.i).ToList();
+				Comets = tempList.OrderBy(x => x.i).ToList();
 
 			else if (menuItemIncl.Checked && menuItemDesc.Checked)
-				FormMain.UserList = tempList.OrderByDescending(x => x.i).ToList();
+				Comets = tempList.OrderByDescending(x => x.i).ToList();
 
 			else if (menuItemEcc.Checked && menuItemAsc.Checked)
-				FormMain.UserList = tempList.OrderBy(x => x.e).ToList();
+				Comets = tempList.OrderBy(x => x.e).ToList();
 
 			else if (menuItemEcc.Checked && menuItemDesc.Checked)
-				FormMain.UserList = tempList.OrderByDescending(x => x.e).ToList();
+				Comets = tempList.OrderByDescending(x => x.e).ToList();
 
 			else if (menuItemAscNode.Checked && menuItemAsc.Checked)
-				FormMain.UserList = tempList.OrderBy(x => x.N).ToList();
+				Comets = tempList.OrderBy(x => x.N).ToList();
 
 			else if (menuItemAscNode.Checked && menuItemDesc.Checked)
-				FormMain.UserList = tempList.OrderByDescending(x => x.N).ToList();
+				Comets = tempList.OrderByDescending(x => x.N).ToList();
 
 			else if (menuItemArgPeri.Checked && menuItemAsc.Checked)
-				FormMain.UserList = tempList.OrderBy(x => x.w).ToList();
+				Comets = tempList.OrderBy(x => x.w).ToList();
 
 			else if (menuItemArgPeri.Checked && menuItemDesc.Checked)
-				FormMain.UserList = tempList.OrderByDescending(x => x.w).ToList();
+				Comets = tempList.OrderByDescending(x => x.w).ToList();
 
 			else if (menuItemPeriod.Checked && menuItemAsc.Checked)
-				FormMain.UserList = tempList.OrderBy(x => x.P).ToList();
+				Comets = tempList.OrderBy(x => x.P).ToList();
 
 			else if (menuItemPeriod.Checked && menuItemDesc.Checked)
-				FormMain.UserList = tempList.OrderByDescending(x => x.P).ToList();
+				Comets = tempList.OrderByDescending(x => x.P).ToList();
 
 			//clear textboxes if no comets
-			if (!FormMain.UserList.Any())
+			if (!Comets.Any())
 				foreach (Control c in gbDetails.Controls)
 					if (c is TextBox)
 						c.Text = String.Empty;
 
-			lbxDatabase.DataSource = FormMain.UserList;
+			lbxDatabase.DataSource = Comets;
 			lbxDatabase.DisplayMember = "full";
+
+			lblTotal.Text = "Comets: " + Comets.Count;
 		}
 
 		#endregion
@@ -251,10 +266,9 @@ namespace Comets.Application
 
 		#region CollectFilters
 
-		private FilterCollection CollectFilters(FilterCollection fc)
+		private FilterCollection CollectFilters()
 		{
-			if (fc == null)
-				fc = new FilterCollection();
+			FilterCollection fc = new FilterCollection();
 
 			fc.Name.Checked = cbxName.Checked;
 			fc.Name.Text = txtName.Text.Trim();
@@ -297,6 +311,8 @@ namespace Comets.Application
 
 		private void PopulateFilters(FilterCollection Filters)
 		{
+			IsFilterText = true;
+
 			if (Filters == null)
 			{
 				cbxName.Checked = false;
@@ -379,6 +395,8 @@ namespace Comets.Application
 				cboPeriod.SelectedIndex = FilterManager.GetIndexFromValueResolve(Filters.Period.ValueResolve);
 				txtPeriod.Text = Filters.Period.Text;
 			}
+
+			IsFilterText = false;
 		}
 
 		#endregion
@@ -387,15 +405,16 @@ namespace Comets.Application
 
 		private void btnFiltersApply_Click(object sender, EventArgs e)
 		{
-			Filters = CollectFilters(Filters);
+			Filters = CollectFilters();
 
 			if (FilterManager.ValidateFilters(Filters))
 			{
-				FormMain.UserList = FilterManager.FilterList(FormMain.MainList, Filters);
+				if (FilterManager.HasAnythingToFilter(Filters))
+					Comets = FilterManager.FilterList(FormMain.MainList, Filters);
+				else
+					Comets = FormMain.MainList.ToList();
 
-				SortList(FormMain.UserList);
-
-				(this.Owner as FormMain).SetStatusCometsLabel(FormMain.UserList.Count, FormMain.MainList.Count);
+				SortList(Comets);
 			}
 		}
 
@@ -417,14 +436,17 @@ namespace Comets.Application
 
 		private void txtFiltersCommon_TextChanged(object sender, EventArgs e)
 		{
-			TextBox txt = sender as TextBox;
-
-			foreach (Control c in txt.Parent.Controls)
+			if (!IsFilterText)
 			{
-				if (c is CheckBox)
+				TextBox txt = sender as TextBox;
+
+				foreach (Control c in txt.Parent.Controls)
 				{
-					(c as CheckBox).Checked = txt.Text.Trim().Length > 0;
-					break;
+					if (c is CheckBox)
+					{
+						(c as CheckBox).Checked = txt.Text.Trim().Length > 0;
+						break;
+					}
 				}
 			}
 		}
@@ -492,7 +514,9 @@ namespace Comets.Application
 
 		private void pnlFilters_VisibleChanged(object sender, EventArgs e)
 		{
-			btnFilters.Text = pnlFilters.Visible ? "Filters ▲" : "Filters ▼";
+			this.btnFilters.Text = pnlFilters.Visible ? "Filters ▲" : "Filters ▼";
+			//this.CancelButton = pnlFilters.Visible ? btnFiltersClose : btnCancel;
+			this.AcceptButton = pnlFilters.Visible ? btnFiltersApply : btnOk;
 		}
 
 		#endregion

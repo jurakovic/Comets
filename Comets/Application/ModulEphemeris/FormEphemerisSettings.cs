@@ -20,7 +20,7 @@ namespace Comets.Application.ModulEphemeris
 
 		#region Constructor
 
-		public FormEphemerisSettings(EphemerisSettings settings = null)
+		public FormEphemerisSettings(FilterCollection filters, EphemerisSettings settings = null)
 		{
 			InitializeComponent();
 
@@ -52,6 +52,9 @@ namespace Comets.Application.ModulEphemeris
 			}
 			else
 			{
+				if (EphemerisSettings.Filters == null)
+					EphemerisSettings.Filters = filters;
+
 				ATime dt = EphemerisSettings.Start;
 				txtYearStart.Text = dt.Year.ToString();
 				txtMonthStart.Text = dt.Month.ToString();
@@ -87,7 +90,7 @@ namespace Comets.Application.ModulEphemeris
 
 		#endregion
 
-		#region Form_Load
+		#region FormEphemerisSettings_Load
 
 		private void FormEphemerisSettings_Load(object sender, EventArgs e)
 		{
@@ -95,9 +98,31 @@ namespace Comets.Application.ModulEphemeris
 			{
 				EphemerisSettings = new EphemerisSettings();
 				EphemerisSettings.Comets = FormMain.UserList.ToList();
+				EphemerisSettings.Filters = FormMain.Filters;
 			}
 
 			BindList();
+		}
+
+		#endregion
+
+		#region FormEphemerisSettings_FormClosing
+
+		private void FormEphemerisSettings_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			if (AddNewEphemeris && EphemerisSettings.SelectedComet != null)
+			{
+				FormEphemeris fe = new FormEphemeris(EphemerisSettings);
+				fe.MdiParent = this.Owner;
+				fe.WindowState = FormWindowState.Maximized;
+				fe.Show();
+			}
+			else if (EphemerisSettings.Results != null && EphemerisSettings.Results.Any())
+			{
+				FormEphemeris fe = this.Owner.ActiveMdiChild as FormEphemeris;
+				fe.EphemerisSettings = this.EphemerisSettings;
+				fe.LoadResults();
+			}
 		}
 
 		#endregion
@@ -118,16 +143,19 @@ namespace Comets.Application.ModulEphemeris
 
 		#endregion
 
-		#region btnSelectComets_Click
+		#region btnFilter_Click
 
-		private void btnSelectComets_Click(object sender, EventArgs e)
+		private void btnFilter_Click(object sender, EventArgs e)
 		{
-			using (FormSelectComets fsc = new FormSelectComets(EphemerisSettings.Comets) { Owner = this })
+			using (FormDatabase fdb = new FormDatabase(EphemerisSettings.Comets, EphemerisSettings.Filters, true) { Owner = this })
 			{
-				fsc.TopMost = this.TopMost;
+				fdb.TopMost = this.TopMost;
 
-				if (fsc.ShowDialog() == DialogResult.OK)
-					BindList();
+				if (fdb.ShowDialog() == DialogResult.OK)
+					EphemerisSettings.Comets = fdb.Comets;
+
+				EphemerisSettings.Filters = fdb.Filters;
+				BindList();
 			}
 		}
 
@@ -284,27 +312,6 @@ namespace Comets.Application.ModulEphemeris
 			txtDayInterval.Text = "1";
 			txtHourInterval.Text = "0";
 			txtMinInterval.Text = "0";
-		}
-
-		#endregion
-
-		#region Form_Closing
-
-		private void FormEphemerisSettings_FormClosing(object sender, FormClosingEventArgs e)
-		{
-			if (AddNewEphemeris && EphemerisSettings.SelectedComet != null)
-			{
-				FormEphemeris fe = new FormEphemeris(EphemerisSettings);
-				fe.MdiParent = this.Owner;
-				fe.WindowState = FormWindowState.Maximized;
-				fe.Show();
-			}
-			else if (EphemerisSettings.Results != null && EphemerisSettings.Results.Any())
-			{
-				FormEphemeris fe = this.Owner.ActiveMdiChild as FormEphemeris;
-				fe.EphemerisSettings = this.EphemerisSettings;
-				fe.LoadResults();
-			}
 		}
 
 		#endregion
