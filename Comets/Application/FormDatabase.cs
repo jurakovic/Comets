@@ -3,6 +3,7 @@ using Comets.BusinessLayer.Extensions;
 using Comets.BusinessLayer.Managers;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -28,6 +29,7 @@ namespace Comets.Application
 		public FilterCollection Filters { get; private set; }
 		private bool IsFilterText { get; set; }
 		ToolTip ToolTip { get; set; }
+		private string SortPropertyName { get; set; }
 
 		#endregion
 
@@ -39,6 +41,8 @@ namespace Comets.Application
 
 			Comets = list.ToList();
 			Filters = filters;
+
+			SortPropertyName = "sortkey";
 
 			pnlDetails.Visible = !isForFiltering;
 			pnlFilters.Visible = isForFiltering;
@@ -143,14 +147,17 @@ namespace Comets.Application
 
 		private void menuItemSort_Click(object sender, EventArgs e)
 		{
-			if (!(sender as MenuItem).Checked)
+			MenuItem mni = sender as MenuItem;
+
+			if (!mni.Checked)
 			{
 				bool order = menuItemAsc.Checked;
 
 				foreach (MenuItem item in contextSort.MenuItems)
 					item.Checked = false;
 
-				(sender as MenuItem).Checked = true;
+				mni.Checked = true;
+				SortPropertyName = mni.Tag as string;
 
 				menuItemAsc.Checked = order;
 				menuItemDesc.Checked = !order;
@@ -182,59 +189,15 @@ namespace Comets.Application
 			List<Comet> tempList = list.ToList();
 			Comets.Clear();
 
-			if (menuItemDesig.Checked && menuItemAsc.Checked)
-				Comets = tempList.OrderBy(x => x.sortkey).ToList();
+			PropertyDescriptor prop = TypeDescriptor.GetProperties(typeof(Comet)).Find(SortPropertyName, false);
 
-			else if (menuItemDesig.Checked && menuItemDesc.Checked)
-				Comets = tempList.OrderByDescending(x => x.sortkey).ToList();
+			if (prop == null)
+				throw new ArgumentException(String.Format("Unknown SortPropertyName: \"{0}\"", SortPropertyName));
 
-			else if (menuItemName.Checked && menuItemAsc.Checked)
-				Comets = tempList.OrderBy(x => x.name).ToList();
-
-			else if (menuItemName.Checked && menuItemDesc.Checked)
-				Comets = tempList.OrderByDescending(x => x.name).ToList();
-
-			else if (menuItemPerihDate.Checked && menuItemAsc.Checked)
-				Comets = tempList.OrderBy(x => x.T).ToList();
-
-			else if (menuItemPerihDate.Checked && menuItemDesc.Checked)
-				Comets = tempList.OrderByDescending(x => x.T).ToList();
-
-			else if (menuItemPerihDist.Checked && menuItemAsc.Checked)
-				Comets = tempList.OrderBy(x => x.q).ToList();
-
-			else if (menuItemPerihDist.Checked && menuItemDesc.Checked)
-				Comets = tempList.OrderByDescending(x => x.q).ToList();
-
-			else if (menuItemIncl.Checked && menuItemAsc.Checked)
-				Comets = tempList.OrderBy(x => x.i).ToList();
-
-			else if (menuItemIncl.Checked && menuItemDesc.Checked)
-				Comets = tempList.OrderByDescending(x => x.i).ToList();
-
-			else if (menuItemEcc.Checked && menuItemAsc.Checked)
-				Comets = tempList.OrderBy(x => x.e).ToList();
-
-			else if (menuItemEcc.Checked && menuItemDesc.Checked)
-				Comets = tempList.OrderByDescending(x => x.e).ToList();
-
-			else if (menuItemAscNode.Checked && menuItemAsc.Checked)
-				Comets = tempList.OrderBy(x => x.N).ToList();
-
-			else if (menuItemAscNode.Checked && menuItemDesc.Checked)
-				Comets = tempList.OrderByDescending(x => x.N).ToList();
-
-			else if (menuItemArgPeri.Checked && menuItemAsc.Checked)
-				Comets = tempList.OrderBy(x => x.w).ToList();
-
-			else if (menuItemArgPeri.Checked && menuItemDesc.Checked)
-				Comets = tempList.OrderByDescending(x => x.w).ToList();
-
-			else if (menuItemPeriod.Checked && menuItemAsc.Checked)
-				Comets = tempList.OrderBy(x => x.P).ToList();
-
-			else if (menuItemPeriod.Checked && menuItemDesc.Checked)
-				Comets = tempList.OrderByDescending(x => x.P).ToList();
+			if (menuItemAsc.Checked)
+				Comets = tempList.OrderBy(x => prop.GetValue(x)).ToList();
+			else
+				Comets = tempList.OrderByDescending(x => prop.GetValue(x)).ToList();
 
 			//clear textboxes if no comets
 			if (!Comets.Any())
