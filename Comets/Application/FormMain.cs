@@ -210,11 +210,14 @@ namespace Comets.Application
 
 		private void menuItemEphemSettings_Click(object sender, EventArgs e)
 		{
-			FormEphemeris fe = this.ActiveMdiChild as FormEphemeris;
-			using (FormEphemerisSettings fes = new FormEphemerisSettings(Filters, fe.EphemerisSettings) { Owner = this })
+			if (this.ActiveMdiChild is FormEphemeris)
 			{
-				fes.TopMost = this.TopMost;
-				fes.ShowDialog();
+				FormEphemeris fe = this.ActiveMdiChild as FormEphemeris;
+				using (FormEphemerisSettings fes = new FormEphemerisSettings(Filters, fe.EphemerisSettings) { Owner = this })
+				{
+					fes.TopMost = this.TopMost;
+					fes.ShowDialog();
+				}
 			}
 		}
 
@@ -229,11 +232,14 @@ namespace Comets.Application
 
 		private void menuItemGraphSettings_Click(object sender, EventArgs e)
 		{
-			FormGraph fg = this.ActiveMdiChild as FormGraph;
-			using (FormGraphSettings fgs = new FormGraphSettings(Filters, fg.GraphSettings) { Owner = this })
+			if (this.ActiveMdiChild is FormGraph)
 			{
-				fgs.TopMost = this.TopMost;
-				fgs.ShowDialog();
+				FormGraph fg = this.ActiveMdiChild as FormGraph;
+				using (FormGraphSettings fgs = new FormGraphSettings(Filters, fg.GraphSettings) { Owner = this })
+				{
+					fgs.TopMost = this.TopMost;
+					fgs.ShowDialog();
+				}
 			}
 		}
 

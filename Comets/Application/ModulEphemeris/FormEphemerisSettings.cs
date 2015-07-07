@@ -161,15 +161,19 @@ namespace Comets.Application.ModulEphemeris
 
 		#endregion
 
-		#region btnCalcEphem_Click
+		#region btnOk_Click
 
-		private async void btnCalcEphem_Click(object sender, EventArgs e)
+		private async void btnOk_Click(object sender, EventArgs e)
 		{
 			if (cbComet.SelectedIndex >= 0)
 			{
 				if (DateEnd < DateStart)
 				{
-					MessageBox.Show("End date is less than start date\t\t");
+					MessageBox.Show(
+						"End date is less than start date\t\t\t",
+						"Comets",
+						MessageBoxButtons.OK,
+						MessageBoxIcon.Information);
 					return;
 				}
 

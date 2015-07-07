@@ -473,7 +473,7 @@ namespace Comets.Application
 		private void pnlFilters_VisibleChanged(object sender, EventArgs e)
 		{
 			this.btnFilters.Text = pnlFilters.Visible ? "Filters ▲" : "Filters ▼";
-			//this.CancelButton = pnlFilters.Visible ? btnFiltersClose : btnCancel;
+			this.btnOk.TabStop = this.btnCancel.TabStop = pnlDetails.Visible;
 			this.AcceptButton = pnlFilters.Visible ? btnFiltersApply : btnOk;
 		}
 

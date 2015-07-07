@@ -28,7 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.btnPlotGraph = new System.Windows.Forms.Button();
+			this.btnOk = new System.Windows.Forms.Button();
 			this.gbxSelectComet = new System.Windows.Forms.GroupBox();
 			this.btnFilter = new System.Windows.Forms.Button();
 			this.lblPeriod = new System.Windows.Forms.Label();
@@ -73,18 +73,17 @@
 			this.groupBox1.SuspendLayout();
 			this.SuspendLayout();
 			// 
-			// btnPlotGraph
+			// btnOk
 			// 
-			this.btnPlotGraph.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
-			this.btnPlotGraph.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-			this.btnPlotGraph.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.btnPlotGraph.Location = new System.Drawing.Point(332, 251);
-			this.btnPlotGraph.Name = "btnPlotGraph";
-			this.btnPlotGraph.Size = new System.Drawing.Size(100, 24);
-			this.btnPlotGraph.TabIndex = 6;
-			this.btnPlotGraph.Text = "Plot Graph";
-			this.btnPlotGraph.UseVisualStyleBackColor = true;
-			this.btnPlotGraph.Click += new System.EventHandler(this.btnPlotGraph_Click);
+			this.btnOk.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
+			this.btnOk.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.btnOk.Location = new System.Drawing.Point(442, 250);
+			this.btnOk.Name = "btnOk";
+			this.btnOk.Size = new System.Drawing.Size(100, 24);
+			this.btnOk.TabIndex = 5;
+			this.btnOk.Text = "OK";
+			this.btnOk.UseVisualStyleBackColor = true;
+			this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
 			// 
 			// gbxSelectComet
 			// 
@@ -176,7 +175,7 @@
 			this.pnlRangeDaysFromT.Location = new System.Drawing.Point(112, 45);
 			this.pnlRangeDaysFromT.Name = "pnlRangeDaysFromT";
 			this.pnlRangeDaysFromT.Size = new System.Drawing.Size(362, 27);
-			this.pnlRangeDaysFromT.TabIndex = 3;
+			this.pnlRangeDaysFromT.TabIndex = 1;
 			// 
 			// btnTimespanDaysFromTDefault
 			// 
@@ -245,14 +244,14 @@
 			this.pnlRangeDate.Location = new System.Drawing.Point(112, 15);
 			this.pnlRangeDate.Name = "pnlRangeDate";
 			this.pnlRangeDate.Size = new System.Drawing.Size(362, 27);
-			this.pnlRangeDate.TabIndex = 1;
+			this.pnlRangeDate.TabIndex = 0;
 			// 
 			// btnEndDate
 			// 
 			this.btnEndDate.Location = new System.Drawing.Point(188, 2);
 			this.btnEndDate.Name = "btnEndDate";
 			this.btnEndDate.Size = new System.Drawing.Size(172, 23);
-			this.btnEndDate.TabIndex = 312;
+			this.btnEndDate.TabIndex = 1;
 			this.btnEndDate.Text = "dd.MM.yyyy HH:mm:ss";
 			this.btnEndDate.UseVisualStyleBackColor = true;
 			this.btnEndDate.Click += new System.EventHandler(this.btnEndDate_Click);
@@ -262,7 +261,7 @@
 			this.btnStartDate.Location = new System.Drawing.Point(2, 2);
 			this.btnStartDate.Name = "btnStartDate";
 			this.btnStartDate.Size = new System.Drawing.Size(172, 23);
-			this.btnStartDate.TabIndex = 311;
+			this.btnStartDate.TabIndex = 0;
 			this.btnStartDate.Text = "dd.MM.yyyy HH:mm:ss";
 			this.btnStartDate.UseVisualStyleBackColor = true;
 			this.btnStartDate.Click += new System.EventHandler(this.btnStartDate_Click);
@@ -458,26 +457,26 @@
 			// btnCancel
 			// 
 			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.btnCancel.Location = new System.Drawing.Point(226, 251);
+			this.btnCancel.Location = new System.Drawing.Point(548, 250);
 			this.btnCancel.Name = "btnCancel";
 			this.btnCancel.Size = new System.Drawing.Size(100, 24);
-			this.btnCancel.TabIndex = 5;
+			this.btnCancel.TabIndex = 6;
 			this.btnCancel.Text = "Cancel";
 			this.btnCancel.UseVisualStyleBackColor = true;
 			// 
 			// FormGraphSettings
 			// 
-			this.AcceptButton = this.btnPlotGraph;
+			this.AcceptButton = this.btnOk;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.btnCancel;
-			this.ClientSize = new System.Drawing.Size(659, 295);
+			this.ClientSize = new System.Drawing.Size(659, 291);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.gbxChartOptions);
 			this.Controls.Add(this.gbxDateFormat);
 			this.Controls.Add(this.gbxTimespan);
 			this.Controls.Add(this.gbxSelectComet);
-			this.Controls.Add(this.btnPlotGraph);
+			this.Controls.Add(this.btnOk);
 			this.Controls.Add(this.btnCancel);
 			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -510,7 +509,7 @@
 
 		#endregion
 
-		private System.Windows.Forms.Button btnPlotGraph;
+		private System.Windows.Forms.Button btnOk;
 		private System.Windows.Forms.GroupBox gbxSelectComet;
 		private System.Windows.Forms.GroupBox gbxTimespan;
 		private System.Windows.Forms.Label lblPeriod;

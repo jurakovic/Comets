@@ -28,7 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.btnCalcEphem = new System.Windows.Forms.Button();
+			this.btnOk = new System.Windows.Forms.Button();
 			this.gbxSelectComet = new System.Windows.Forms.GroupBox();
 			this.btnFilter = new System.Windows.Forms.Button();
 			this.lblPeriod = new System.Windows.Forms.Label();
@@ -64,17 +64,17 @@
 			this.gbxOutputData.SuspendLayout();
 			this.SuspendLayout();
 			// 
-			// btnCalcEphem
+			// btnOk
 			// 
-			this.btnCalcEphem.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
-			this.btnCalcEphem.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.btnCalcEphem.Location = new System.Drawing.Point(326, 316);
-			this.btnCalcEphem.Name = "btnCalcEphem";
-			this.btnCalcEphem.Size = new System.Drawing.Size(100, 24);
-			this.btnCalcEphem.TabIndex = 4;
-			this.btnCalcEphem.Text = "Calculate";
-			this.btnCalcEphem.UseVisualStyleBackColor = true;
-			this.btnCalcEphem.Click += new System.EventHandler(this.btnCalcEphem_Click);
+			this.btnOk.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
+			this.btnOk.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.btnOk.Location = new System.Drawing.Point(427, 314);
+			this.btnOk.Name = "btnOk";
+			this.btnOk.Size = new System.Drawing.Size(100, 24);
+			this.btnOk.TabIndex = 3;
+			this.btnOk.Text = "OK";
+			this.btnOk.UseVisualStyleBackColor = true;
+			this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
 			// 
 			// gbxSelectComet
 			// 
@@ -407,24 +407,24 @@
 			// btnCancel
 			// 
 			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.btnCancel.Location = new System.Drawing.Point(220, 316);
+			this.btnCancel.Location = new System.Drawing.Point(533, 314);
 			this.btnCancel.Name = "btnCancel";
 			this.btnCancel.Size = new System.Drawing.Size(100, 24);
-			this.btnCancel.TabIndex = 3;
+			this.btnCancel.TabIndex = 4;
 			this.btnCancel.Text = "Cancel";
 			this.btnCancel.UseVisualStyleBackColor = true;
 			// 
 			// FormEphemerisSettings
 			// 
-			this.AcceptButton = this.btnCalcEphem;
+			this.AcceptButton = this.btnOk;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.btnCancel;
-			this.ClientSize = new System.Drawing.Size(644, 359);
+			this.ClientSize = new System.Drawing.Size(644, 355);
 			this.Controls.Add(this.gbxOutputData);
 			this.Controls.Add(this.gbxTimestamp);
 			this.Controls.Add(this.gbxSelectComet);
-			this.Controls.Add(this.btnCalcEphem);
+			this.Controls.Add(this.btnOk);
 			this.Controls.Add(this.btnCancel);
 			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -449,7 +449,7 @@
 
 		#endregion
 
-		private System.Windows.Forms.Button btnCalcEphem;
+		private System.Windows.Forms.Button btnOk;
 		private System.Windows.Forms.GroupBox gbxSelectComet;
 		private System.Windows.Forms.GroupBox gbxTimestamp;
 		private System.Windows.Forms.Label label3;

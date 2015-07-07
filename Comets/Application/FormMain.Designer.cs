@@ -167,6 +167,7 @@
 			// menuItemEphemerisSettings
 			// 
 			this.menuItemEphemerisSettings.Index = 0;
+			this.menuItemEphemerisSettings.Shortcut = System.Windows.Forms.Shortcut.CtrlShiftE;
 			this.menuItemEphemerisSettings.Text = "Settings";
 			this.menuItemEphemerisSettings.Click += new System.EventHandler(this.menuItemEphemSettings_Click);
 			// 
@@ -174,7 +175,6 @@
 			// 
 			this.menuItemEphemerisSaveAs.Index = 1;
 			this.menuItemEphemerisSaveAs.Shortcut = System.Windows.Forms.Shortcut.CtrlS;
-			this.menuItemEphemerisSaveAs.ShowShortcut = false;
 			this.menuItemEphemerisSaveAs.Text = "Save As";
 			this.menuItemEphemerisSaveAs.Click += new System.EventHandler(this.menuItemEphemerisSaveAs_Click);
 			// 
@@ -190,6 +190,7 @@
 			// menuItemGraphSettings
 			// 
 			this.menuItemGraphSettings.Index = 0;
+			this.menuItemGraphSettings.Shortcut = System.Windows.Forms.Shortcut.CtrlShiftG;
 			this.menuItemGraphSettings.Text = "Settings";
 			this.menuItemGraphSettings.Click += new System.EventHandler(this.menuItemGraphSettings_Click);
 			// 
@@ -197,7 +198,6 @@
 			// 
 			this.menuItemGraphSaveAs.Index = 1;
 			this.menuItemGraphSaveAs.Shortcut = System.Windows.Forms.Shortcut.CtrlS;
-			this.menuItemGraphSaveAs.ShowShortcut = false;
 			this.menuItemGraphSaveAs.Text = "Save As";
 			this.menuItemGraphSaveAs.Click += new System.EventHandler(this.menuItemGraphSaveAs_Click);
 			// 

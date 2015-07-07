@@ -49,17 +49,18 @@
 			this.separator3 = new System.Windows.Forms.MenuItem();
 			this.mnuPerihelionDate = new System.Windows.Forms.MenuItem();
 			this.gbxDateTime = new System.Windows.Forms.GroupBox();
-			this.label1 = new System.Windows.Forms.Label();
-			this.label2 = new System.Windows.Forms.Label();
-			this.label3 = new System.Windows.Forms.Label();
 			this.label4 = new System.Windows.Forms.Label();
+			this.label3 = new System.Windows.Forms.Label();
+			this.label2 = new System.Windows.Forms.Label();
+			this.label1 = new System.Windows.Forms.Label();
 			this.gbxDateTime.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// lblTime
 			// 
+			this.lblTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.lblTime.AutoSize = true;
-			this.lblTime.Location = new System.Drawing.Point(57, 63);
+			this.lblTime.Location = new System.Drawing.Point(20, 63);
 			this.lblTime.Name = "lblTime";
 			this.lblTime.Size = new System.Drawing.Size(29, 13);
 			this.lblTime.TabIndex = 28;
@@ -67,18 +68,20 @@
 			// 
 			// txtSecond
 			// 
-			this.txtSecond.Location = new System.Drawing.Point(210, 60);
+			this.txtSecond.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.txtSecond.Location = new System.Drawing.Point(173, 60);
 			this.txtSecond.Name = "txtSecond";
 			this.txtSecond.Size = new System.Drawing.Size(42, 21);
-			this.txtSecond.TabIndex = 27;
+			this.txtSecond.TabIndex = 5;
 			this.txtSecond.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.txtSecond.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCommon_KeyDown);
 			this.txtSecond.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCommon_KeyPress);
 			// 
 			// lblDate
 			// 
+			this.lblDate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.lblDate.AutoSize = true;
-			this.lblDate.Location = new System.Drawing.Point(57, 31);
+			this.lblDate.Location = new System.Drawing.Point(20, 31);
 			this.lblDate.Name = "lblDate";
 			this.lblDate.Size = new System.Drawing.Size(30, 13);
 			this.lblDate.TabIndex = 26;
@@ -86,40 +89,44 @@
 			// 
 			// txtMinute
 			// 
-			this.txtMinute.Location = new System.Drawing.Point(157, 60);
+			this.txtMinute.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.txtMinute.Location = new System.Drawing.Point(120, 60);
 			this.txtMinute.Name = "txtMinute";
 			this.txtMinute.Size = new System.Drawing.Size(42, 21);
-			this.txtMinute.TabIndex = 25;
+			this.txtMinute.TabIndex = 4;
 			this.txtMinute.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.txtMinute.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCommon_KeyDown);
 			this.txtMinute.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCommon_KeyPress);
 			// 
 			// txtHour
 			// 
-			this.txtHour.Location = new System.Drawing.Point(104, 60);
+			this.txtHour.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.txtHour.Location = new System.Drawing.Point(67, 60);
 			this.txtHour.Name = "txtHour";
 			this.txtHour.Size = new System.Drawing.Size(42, 21);
-			this.txtHour.TabIndex = 24;
+			this.txtHour.TabIndex = 3;
 			this.txtHour.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.txtHour.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCommon_KeyDown);
 			this.txtHour.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCommon_KeyPress);
 			// 
 			// txtDay
 			// 
-			this.txtDay.Location = new System.Drawing.Point(104, 28);
+			this.txtDay.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.txtDay.Location = new System.Drawing.Point(67, 28);
 			this.txtDay.Name = "txtDay";
 			this.txtDay.Size = new System.Drawing.Size(42, 21);
-			this.txtDay.TabIndex = 23;
+			this.txtDay.TabIndex = 0;
 			this.txtDay.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.txtDay.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCommon_KeyDown);
 			this.txtDay.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCommon_KeyPress);
 			// 
 			// txtMonth
 			// 
-			this.txtMonth.Location = new System.Drawing.Point(157, 28);
+			this.txtMonth.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.txtMonth.Location = new System.Drawing.Point(120, 28);
 			this.txtMonth.Name = "txtMonth";
 			this.txtMonth.Size = new System.Drawing.Size(42, 21);
-			this.txtMonth.TabIndex = 22;
+			this.txtMonth.TabIndex = 1;
 			this.txtMonth.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.txtMonth.TextChanged += new System.EventHandler(this.txtMonthYear_TextChanged);
 			this.txtMonth.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCommon_KeyDown);
@@ -127,10 +134,11 @@
 			// 
 			// txtYear
 			// 
-			this.txtYear.Location = new System.Drawing.Point(210, 28);
+			this.txtYear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.txtYear.Location = new System.Drawing.Point(173, 28);
 			this.txtYear.Name = "txtYear";
 			this.txtYear.Size = new System.Drawing.Size(61, 21);
-			this.txtYear.TabIndex = 21;
+			this.txtYear.TabIndex = 2;
 			this.txtYear.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.txtYear.TextChanged += new System.EventHandler(this.txtMonthYear_TextChanged);
 			this.txtYear.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCommon_KeyDown);
@@ -138,10 +146,11 @@
 			// 
 			// btnSelect
 			// 
-			this.btnSelect.Location = new System.Drawing.Point(314, 26);
+			this.btnSelect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnSelect.Location = new System.Drawing.Point(279, 26);
 			this.btnSelect.Name = "btnSelect";
-			this.btnSelect.Size = new System.Drawing.Size(76, 23);
-			this.btnSelect.TabIndex = 29;
+			this.btnSelect.Size = new System.Drawing.Size(83, 23);
+			this.btnSelect.TabIndex = 6;
 			this.btnSelect.Text = "Select";
 			this.btnSelect.UseVisualStyleBackColor = true;
 			this.btnSelect.Click += new System.EventHandler(this.btnSelect_Click);
@@ -150,10 +159,10 @@
 			// 
 			this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.btnCancel.Location = new System.Drawing.Point(220, 130);
+			this.btnCancel.Location = new System.Drawing.Point(291, 127);
 			this.btnCancel.Name = "btnCancel";
 			this.btnCancel.Size = new System.Drawing.Size(100, 23);
-			this.btnCancel.TabIndex = 36;
+			this.btnCancel.TabIndex = 2;
 			this.btnCancel.Text = "Cancel";
 			this.btnCancel.UseVisualStyleBackColor = true;
 			// 
@@ -161,10 +170,10 @@
 			// 
 			this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-			this.btnOk.Location = new System.Drawing.Point(114, 130);
+			this.btnOk.Location = new System.Drawing.Point(185, 127);
 			this.btnOk.Name = "btnOk";
 			this.btnOk.Size = new System.Drawing.Size(100, 23);
-			this.btnOk.TabIndex = 35;
+			this.btnOk.TabIndex = 1;
 			this.btnOk.Text = "OK";
 			this.btnOk.UseVisualStyleBackColor = true;
 			// 
@@ -227,6 +236,7 @@
 			// 
 			// gbxDateTime
 			// 
+			this.gbxDateTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.gbxDateTime.Controls.Add(this.label4);
 			this.gbxDateTime.Controls.Add(this.label3);
 			this.gbxDateTime.Controls.Add(this.label2);
@@ -242,45 +252,49 @@
 			this.gbxDateTime.Controls.Add(this.label1);
 			this.gbxDateTime.Location = new System.Drawing.Point(12, 6);
 			this.gbxDateTime.Name = "gbxDateTime";
-			this.gbxDateTime.Size = new System.Drawing.Size(409, 106);
-			this.gbxDateTime.TabIndex = 36;
+			this.gbxDateTime.Size = new System.Drawing.Size(379, 106);
+			this.gbxDateTime.TabIndex = 0;
 			this.gbxDateTime.TabStop = false;
 			// 
-			// label1
+			// label4
 			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(146, 34);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(11, 13);
-			this.label1.TabIndex = 30;
-			this.label1.Text = ".";
-			// 
-			// label2
-			// 
-			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(146, 64);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(11, 13);
-			this.label2.TabIndex = 31;
-			this.label2.Text = ":";
+			this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.label4.AutoSize = true;
+			this.label4.Location = new System.Drawing.Point(162, 64);
+			this.label4.Name = "label4";
+			this.label4.Size = new System.Drawing.Size(11, 13);
+			this.label4.TabIndex = 33;
+			this.label4.Text = ":";
 			// 
 			// label3
 			// 
+			this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(199, 34);
+			this.label3.Location = new System.Drawing.Point(162, 34);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(11, 13);
 			this.label3.TabIndex = 32;
 			this.label3.Text = ".";
 			// 
-			// label4
+			// label2
 			// 
-			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(199, 64);
-			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(11, 13);
-			this.label4.TabIndex = 33;
-			this.label4.Text = ":";
+			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.label2.AutoSize = true;
+			this.label2.Location = new System.Drawing.Point(109, 64);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(11, 13);
+			this.label2.TabIndex = 31;
+			this.label2.Text = ":";
+			// 
+			// label1
+			// 
+			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(109, 34);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(11, 13);
+			this.label1.TabIndex = 30;
+			this.label1.Text = ".";
 			// 
 			// FormDateTime
 			// 
@@ -288,7 +302,7 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.btnCancel;
-			this.ClientSize = new System.Drawing.Size(435, 165);
+			this.ClientSize = new System.Drawing.Size(405, 165);
 			this.Controls.Add(this.btnCancel);
 			this.Controls.Add(this.btnOk);
 			this.Controls.Add(this.gbxDateTime);

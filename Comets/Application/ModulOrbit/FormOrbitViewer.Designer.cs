@@ -62,7 +62,7 @@
 			this.btnPerihDate.Location = new System.Drawing.Point(354, 43);
 			this.btnPerihDate.Name = "btnPerihDate";
 			this.btnPerihDate.Size = new System.Drawing.Size(79, 23);
-			this.btnPerihDate.TabIndex = 7;
+			this.btnPerihDate.TabIndex = 5;
 			this.btnPerihDate.Text = "Perih. Date";
 			this.btnPerihDate.UseVisualStyleBackColor = true;
 			this.btnPerihDate.Click += new System.EventHandler(this.btnPerihDate_Click);
@@ -73,7 +73,7 @@
 			this.btnNow.Location = new System.Drawing.Point(268, 43);
 			this.btnNow.Name = "btnNow";
 			this.btnNow.Size = new System.Drawing.Size(79, 23);
-			this.btnNow.TabIndex = 6;
+			this.btnNow.TabIndex = 4;
 			this.btnNow.Text = "Now";
 			this.btnNow.UseVisualStyleBackColor = true;
 			this.btnNow.Click += new System.EventHandler(this.btnNow_Click);
@@ -122,6 +122,7 @@
 			// 
 			this.cboObject.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.cboObject.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cboObject.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
 			this.cboObject.FormattingEnabled = true;
 			this.cboObject.IntegralHeight = false;
 			this.cboObject.Location = new System.Drawing.Point(50, 12);
@@ -155,6 +156,7 @@
 			// 
 			this.cboOrbits.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.cboOrbits.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cboOrbits.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
 			this.cboOrbits.FormattingEnabled = true;
 			this.cboOrbits.Location = new System.Drawing.Point(50, 76);
 			this.cboOrbits.Name = "cboOrbits";
@@ -166,6 +168,7 @@
 			// 
 			this.cboCenter.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.cboCenter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cboCenter.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
 			this.cboCenter.FormattingEnabled = true;
 			this.cboCenter.Location = new System.Drawing.Point(50, 44);
 			this.cboCenter.Name = "cboCenter";
@@ -177,11 +180,12 @@
 			// 
 			this.cboTimestep.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.cboTimestep.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cboTimestep.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
 			this.cboTimestep.FormattingEnabled = true;
 			this.cboTimestep.Location = new System.Drawing.Point(518, 44);
 			this.cboTimestep.Name = "cboTimestep";
 			this.cboTimestep.Size = new System.Drawing.Size(161, 21);
-			this.cboTimestep.TabIndex = 13;
+			this.cboTimestep.TabIndex = 11;
 			this.cboTimestep.SelectedIndexChanged += new System.EventHandler(this.cboTimestep_SelectedIndexChanged);
 			// 
 			// btnForPlay
@@ -191,7 +195,7 @@
 			this.btnForPlay.Location = new System.Drawing.Point(650, 11);
 			this.btnForPlay.Name = "btnForPlay";
 			this.btnForPlay.Size = new System.Drawing.Size(31, 23);
-			this.btnForPlay.TabIndex = 12;
+			this.btnForPlay.TabIndex = 10;
 			this.btnForPlay.Text = ">>";
 			this.btnForPlay.UseVisualStyleBackColor = true;
 			this.btnForPlay.Click += new System.EventHandler(this.btnForPlay_Click);
@@ -203,7 +207,7 @@
 			this.btnForStep.Location = new System.Drawing.Point(617, 11);
 			this.btnForStep.Name = "btnForStep";
 			this.btnForStep.Size = new System.Drawing.Size(31, 23);
-			this.btnForStep.TabIndex = 11;
+			this.btnForStep.TabIndex = 9;
 			this.btnForStep.Text = ">|";
 			this.btnForStep.UseVisualStyleBackColor = true;
 			this.btnForStep.Click += new System.EventHandler(this.btnForStep_Click);
@@ -215,7 +219,7 @@
 			this.btnStop.Location = new System.Drawing.Point(584, 11);
 			this.btnStop.Name = "btnStop";
 			this.btnStop.Size = new System.Drawing.Size(31, 23);
-			this.btnStop.TabIndex = 10;
+			this.btnStop.TabIndex = 8;
 			this.btnStop.Text = "||";
 			this.btnStop.UseVisualStyleBackColor = true;
 			this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
@@ -227,7 +231,7 @@
 			this.btnRevStep.Location = new System.Drawing.Point(551, 11);
 			this.btnRevStep.Name = "btnRevStep";
 			this.btnRevStep.Size = new System.Drawing.Size(31, 23);
-			this.btnRevStep.TabIndex = 9;
+			this.btnRevStep.TabIndex = 7;
 			this.btnRevStep.Text = "|<";
 			this.btnRevStep.UseVisualStyleBackColor = true;
 			this.btnRevStep.Click += new System.EventHandler(this.btnRevStep_Click);
@@ -239,7 +243,7 @@
 			this.btnRevPlay.Location = new System.Drawing.Point(518, 11);
 			this.btnRevPlay.Name = "btnRevPlay";
 			this.btnRevPlay.Size = new System.Drawing.Size(31, 23);
-			this.btnRevPlay.TabIndex = 8;
+			this.btnRevPlay.TabIndex = 6;
 			this.btnRevPlay.Text = "<<";
 			this.btnRevPlay.UseVisualStyleBackColor = true;
 			this.btnRevPlay.Click += new System.EventHandler(this.btnRevPlay_Click);
@@ -276,7 +280,7 @@
 			this.scrollZoom.Minimum = 5;
 			this.scrollZoom.Name = "scrollZoom";
 			this.scrollZoom.Size = new System.Drawing.Size(411, 17);
-			this.scrollZoom.TabIndex = 14;
+			this.scrollZoom.TabIndex = 12;
 			this.scrollZoom.Value = 5;
 			this.scrollZoom.ValueChanged += new System.EventHandler(this.scrollZoom_ValueChanged);
 			// 
@@ -314,7 +318,7 @@
 			this.btnDate.Location = new System.Drawing.Point(268, 11);
 			this.btnDate.Name = "btnDate";
 			this.btnDate.Size = new System.Drawing.Size(165, 23);
-			this.btnDate.TabIndex = 313;
+			this.btnDate.TabIndex = 3;
 			this.btnDate.Text = "dd.MM.yyyy HH:mm:ss";
 			this.btnDate.UseVisualStyleBackColor = true;
 			this.btnDate.Click += new System.EventHandler(this.btnDate_Click);

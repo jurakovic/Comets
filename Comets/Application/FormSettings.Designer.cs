@@ -166,7 +166,7 @@
 			this.txtUpdateInterval.MaxLength = 2;
 			this.txtUpdateInterval.Name = "txtUpdateInterval";
 			this.txtUpdateInterval.Size = new System.Drawing.Size(44, 21);
-			this.txtUpdateInterval.TabIndex = 5;
+			this.txtUpdateInterval.TabIndex = 1;
 			this.txtUpdateInterval.Text = "7";
 			this.txtUpdateInterval.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.txtUpdateInterval.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtUpdateInterval_KeyDown);
@@ -178,7 +178,7 @@
 			this.chShowStatusBar.Location = new System.Drawing.Point(13, 125);
 			this.chShowStatusBar.Name = "chShowStatusBar";
 			this.chShowStatusBar.Size = new System.Drawing.Size(104, 17);
-			this.chShowStatusBar.TabIndex = 2;
+			this.chShowStatusBar.TabIndex = 4;
 			this.chShowStatusBar.Text = "Show status bar";
 			this.chShowStatusBar.UseVisualStyleBackColor = true;
 			// 
@@ -188,7 +188,7 @@
 			this.chExitWithoutConfirm.Location = new System.Drawing.Point(13, 90);
 			this.chExitWithoutConfirm.Name = "chExitWithoutConfirm";
 			this.chExitWithoutConfirm.Size = new System.Drawing.Size(121, 17);
-			this.chExitWithoutConfirm.TabIndex = 1;
+			this.chExitWithoutConfirm.TabIndex = 3;
 			this.chExitWithoutConfirm.Text = "Exit without confirm";
 			this.chExitWithoutConfirm.UseVisualStyleBackColor = true;
 			// 
@@ -198,7 +198,7 @@
 			this.chNewVersionOnStartup.Location = new System.Drawing.Point(13, 160);
 			this.chNewVersionOnStartup.Name = "chNewVersionOnStartup";
 			this.chNewVersionOnStartup.Size = new System.Drawing.Size(186, 17);
-			this.chNewVersionOnStartup.TabIndex = 4;
+			this.chNewVersionOnStartup.TabIndex = 5;
 			this.chNewVersionOnStartup.Text = "Check for new version on startup";
 			this.chNewVersionOnStartup.UseVisualStyleBackColor = true;
 			this.chNewVersionOnStartup.Visible = false;
@@ -209,7 +209,7 @@
 			this.chRememberWindowPosition.Location = new System.Drawing.Point(13, 55);
 			this.chRememberWindowPosition.Name = "chRememberWindowPosition";
 			this.chRememberWindowPosition.Size = new System.Drawing.Size(156, 17);
-			this.chRememberWindowPosition.TabIndex = 0;
+			this.chRememberWindowPosition.TabIndex = 2;
 			this.chRememberWindowPosition.Text = "Remember window position";
 			this.chRememberWindowPosition.UseVisualStyleBackColor = true;
 			// 
@@ -219,7 +219,7 @@
 			this.chAutomaticUpdate.Location = new System.Drawing.Point(13, 20);
 			this.chAutomaticUpdate.Name = "chAutomaticUpdate";
 			this.chAutomaticUpdate.Size = new System.Drawing.Size(211, 17);
-			this.chAutomaticUpdate.TabIndex = 3;
+			this.chAutomaticUpdate.TabIndex = 0;
 			this.chAutomaticUpdate.Text = "Automatically update elements every: ";
 			this.chAutomaticUpdate.UseVisualStyleBackColor = true;
 			// 
@@ -804,9 +804,9 @@
 			// 
 			this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.btnClose.Location = new System.Drawing.Point(546, 351);
+			this.btnClose.Location = new System.Drawing.Point(599, 351);
 			this.btnClose.Name = "btnClose";
-			this.btnClose.Size = new System.Drawing.Size(118, 23);
+			this.btnClose.Size = new System.Drawing.Size(100, 24);
 			this.btnClose.TabIndex = 2;
 			this.btnClose.Text = "Close";
 			this.btnClose.UseVisualStyleBackColor = true;
@@ -815,9 +815,9 @@
 			// btnOK
 			// 
 			this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnOK.Location = new System.Drawing.Point(422, 351);
+			this.btnOK.Location = new System.Drawing.Point(493, 351);
 			this.btnOK.Name = "btnOK";
-			this.btnOK.Size = new System.Drawing.Size(118, 23);
+			this.btnOK.Size = new System.Drawing.Size(100, 24);
 			this.btnOK.TabIndex = 1;
 			this.btnOK.Text = "OK";
 			this.btnOK.UseVisualStyleBackColor = true;

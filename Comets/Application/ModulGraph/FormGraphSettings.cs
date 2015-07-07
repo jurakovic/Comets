@@ -229,9 +229,9 @@ namespace Comets.Application.ModulGraph
 
 		#endregion
 
-		#region btnPlotGraph_Click
+		#region btnOk_Click
 
-		private async void btnPlotGraph_Click(object sender, EventArgs e)
+		private async void btnOk_Click(object sender, EventArgs e)
 		{
 			if (cbComet.SelectedIndex >= 0)
 			{
@@ -250,7 +250,11 @@ namespace Comets.Application.ModulGraph
 
 				if (stop < start)
 				{
-					MessageBox.Show("End date is less than start date\t\t");
+					MessageBox.Show(
+						"End date is less than start date\t\t\t",
+						"Comets",
+						MessageBoxButtons.OK,
+						MessageBoxIcon.Information);
 					return;
 				}
 
