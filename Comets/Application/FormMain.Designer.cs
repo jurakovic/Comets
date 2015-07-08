@@ -495,6 +495,8 @@
 			this.Load += new System.EventHandler(this.FormMain_Load);
 			this.MdiChildActivate += new System.EventHandler(this.FormMain_MdiChildActivate);
 			this.Shown += new System.EventHandler(this.FormMain_Shown);
+			this.Move += new System.EventHandler(this.FormMain_Move);
+			this.Resize += new System.EventHandler(this.FormMain_Resize);
 			this.statusStrip.ResumeLayout(false);
 			this.statusStrip.PerformLayout();
 			this.ResumeLayout(false);

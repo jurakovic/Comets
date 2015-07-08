@@ -5,6 +5,7 @@ using Comets.BusinessLayer.Business;
 using Comets.BusinessLayer.Managers;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -28,6 +29,11 @@ namespace Comets.Application
 		public static DateTime DefaultDateEnd { get; private set; }
 
 		public static string DateTimeFormat = "dd.MM.yyyy HH:mm:ss";
+
+		private Size InitialFormSize { get; set; }
+		private Size CurrentFormSize { get; set; }
+		private Point InitialFormLocation { get; set; }
+		private Point CurrentFormLocation { get; set; }
 
 		#endregion
 
@@ -62,6 +68,8 @@ namespace Comets.Application
 		}
 
 		#endregion
+
+		#region + FormMain Events
 
 		#region FormMain_Load
 
@@ -110,6 +118,29 @@ namespace Comets.Application
 					}
 				}
 			}
+
+			InitialFormSize = this.Size;
+			CurrentFormSize = this.Size;
+			InitialFormLocation = this.Location;
+			CurrentFormLocation = this.Location;
+		}
+
+		#endregion
+
+		#region FormMain_Resize
+
+		private void FormMain_Resize(object sender, EventArgs e)
+		{
+			CurrentFormSize = this.Size;
+		}
+
+		#endregion
+
+		#region FormMain_Move
+
+		private void FormMain_Move(object sender, EventArgs e)
+		{
+			CurrentFormLocation = this.Location;
 		}
 
 		#endregion
@@ -140,7 +171,9 @@ namespace Comets.Application
 				ExporManager.ExportMain(ElementTypes.Type.MPC, SettingsManager.Database, MainList);
 			}
 
-			if (Settings.RememberWindowPosition && this.WindowState != FormWindowState.Minimized)
+			bool isFormSizeLocationChanged = CurrentFormLocation != InitialFormLocation || CurrentFormSize != InitialFormSize;
+
+			if (Settings.RememberWindowPosition && isFormSizeLocationChanged && this.WindowState != FormWindowState.Minimized)
 			{
 				Settings.Maximized = this.WindowState == FormWindowState.Maximized;
 				Settings.Left = this.Left;
@@ -152,7 +185,7 @@ namespace Comets.Application
 			}
 
 			// da ponovo ispiše postavke
-			if (Settings.HasErrors)
+			if (Settings.IsDirty)
 				SettingsManager.SaveSettings(Settings);
 		}
 
@@ -162,12 +195,14 @@ namespace Comets.Application
 
 		private void FormMain_MdiChildActivate(object sender, EventArgs e)
 		{
-			this.menuItemWindow.Visible = this.ActiveMdiChild != null ? true : false;
+			this.menuItemWindow.Visible = this.ActiveMdiChild != null;
 
-			this.menuItemEphemeris.Visible = this.ActiveMdiChild is FormEphemeris ? true : false;
-			this.menuItemGraph.Visible = this.ActiveMdiChild is FormGraph ? true : false;
-			this.menuItemOrbit.Visible = this.ActiveMdiChild is FormOrbitViewer ? true : false;
+			this.menuItemEphemeris.Visible = this.ActiveMdiChild is FormEphemeris;
+			this.menuItemGraph.Visible = this.ActiveMdiChild is FormGraph;
+			this.menuItemOrbit.Visible = this.ActiveMdiChild is FormOrbitViewer;
 		}
+
+		#endregion
 
 		#endregion
 

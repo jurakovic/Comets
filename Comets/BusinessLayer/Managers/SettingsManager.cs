@@ -29,7 +29,7 @@ namespace Comets.BusinessLayer.Managers
 				string property = String.Empty;
 				string value = String.Empty;
 
-				int NrOfExceptions = 0;
+				int exceptionCount = 0;
 
 				string[] lines = File.ReadAllLines(SettingsIni);
 				int count = lines.Count();
@@ -78,7 +78,7 @@ namespace Comets.BusinessLayer.Managers
 								default:
 									if (ElementTypes.TypeName.Contains(property))
 										settings.ExternalPrograms.Add(new ExternalProgram(Array.IndexOf(ElementTypes.TypeName, property), value));
-									else if (NrOfExceptions++ < 3)
+									else if (exceptionCount++ < 3)
 										MessageBox.Show(String.Format("Unknown property \"{0}\"\t\t\t\t", property), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 									break;
 							}
@@ -87,15 +87,14 @@ namespace Comets.BusinessLayer.Managers
 					catch
 					{
 						//samo 3 puta pokazi messagebox
-						if (NrOfExceptions++ < 3)
+						if (exceptionCount++ < 3)
 							MessageBox.Show(String.Format("Invalid value \"{0}\" at property \"{1}\"\t\t", value, property), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
 						continue;
 					}
 				}
 
-				if (NrOfExceptions > 0)
-					settings.HasErrors = true;
+				settings.IsDirty = exceptionCount > 0;
 			}
 
 			return settings;
