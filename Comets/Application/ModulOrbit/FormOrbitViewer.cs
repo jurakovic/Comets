@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -14,6 +15,14 @@ namespace Comets.Application.ModulOrbit
 	public partial class FormOrbitViewer : Form
 	{
 		#region + Consts
+
+		const int InitialScrollVert = 220;
+		const int InitialScrollHorz = 255;
+		const int InitialScrollZoom = 145;
+
+		//OrbitDisplayEnum
+		bool[] OrbitDisplayDefault = { true, true, true, true, true, true, false, false, false, false };
+		bool[] OrbitDisplay = { true, true, true, true, true, true, false, false, false, false };
 
 		#region CenterObject
 
@@ -98,29 +107,20 @@ namespace Comets.Application.ModulOrbit
 
 		Timer Timer { get; set; }
 
-		const int InitialScrollVert = 220;
-		const int InitialScrollHorz = 255;
-		const int InitialScrollZoom = 145;
-
-		//OrbitDisplayEnum
-		bool[] OrbitDisplayDefault = { true, true, true, true, true, true, false, false, false, false };
-		bool[] OrbitDisplay = { true, true, true, true, true, true, false, false, false, false };
-
 		ATimeSpan TimeStep { get; set; }
 		int SimulationDirection { get; set; }
 		bool IsSimulationStarted { get; set; }
 
 		List<OVComet> Comets { get; set; }
-
 		OVComet SelectedComet { get; set; }
 
-		OrbitViewerSettings settings;
+		OrbitViewerSettings _settings;
 		public OrbitViewerSettings Settings
 		{
-			get { return settings; }
+			get { return _settings; }
 			set
 			{
-				settings = value;
+				_settings = value;
 				ApplySettings(this.Settings, true);
 			}
 		}
@@ -139,7 +139,7 @@ namespace Comets.Application.ModulOrbit
 				if (IsSimulationStarted)
 					Timer.Stop();
 
-				if (orbitPanel.PaintEnabled)
+				if (orbitPanel.IsPaintEnabled)
 				{
 					orbitPanel.ATime = new ATime(_dateTime.JD(), FormMain.Settings.Location.Timezone);
 					orbitPanel.Invalidate();
@@ -580,7 +580,7 @@ namespace Comets.Application.ModulOrbit
 		{
 			SelectedComet = Comets.ElementAt(cboObject.SelectedIndex);
 
-			if (orbitPanel.PaintEnabled)
+			if (orbitPanel.IsPaintEnabled)
 			{
 				orbitPanel.LoadPanel(SelectedComet, orbitPanel.ATime);
 				orbitPanel.Invalidate();
@@ -679,7 +679,11 @@ namespace Comets.Application.ModulOrbit
 		{
 			using (SaveFileDialog sfd = new SaveFileDialog())
 			{
-				sfd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+				if (!String.IsNullOrEmpty(FormMain.Settings.LastUsedExportDirectory))
+					sfd.InitialDirectory = FormMain.Settings.LastUsedExportDirectory;
+				else
+					sfd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+
 				sfd.Filter = "BMP (*.bmp)|*.bmp|" +
 							"GIF (*.gif)|*.gif|" +
 							"JPEG (*.jpg, *.jpeg, *.jpe, *.jfif)|*.jpg;*.jpeg;*.jpe;*.jfif|" +
@@ -709,6 +713,7 @@ namespace Comets.Application.ModulOrbit
 					Bitmap bmp = new Bitmap(this.orbitPanel.Width, this.orbitPanel.Height);
 					this.orbitPanel.DrawToBitmap(bmp, this.orbitPanel.DisplayRectangle);
 					bmp.Save(sfd.FileName, format);
+					FormMain.Settings.LastUsedExportDirectory = Path.GetDirectoryName(sfd.FileName);
 					MessageBox.Show(String.Format("Orbit saved as {0}\t\t\t", sfd.FileName), "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				}
 			}

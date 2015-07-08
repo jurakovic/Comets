@@ -13,8 +13,7 @@ namespace Comets.Application.ModulEphemeris
 	{
 		#region Properties
 
-		public EphemerisSettings EphemerisSettings { get; set; }
-		private bool AddNewEphemeris { get; set; }
+		public EphemerisSettings EphemerisSettings { get; private set; }
 
 		private DateTime _start;
 		private DateTime DateStart
@@ -54,8 +53,6 @@ namespace Comets.Application.ModulEphemeris
 
 			if (EphemerisSettings == null)
 			{
-				AddNewEphemeris = true;
-
 				DateStart = FormMain.DefaultDateStart;
 				DateEnd = FormMain.DefaultDateEnd;
 
@@ -99,6 +96,7 @@ namespace Comets.Application.ModulEphemeris
 				EphemerisSettings = new EphemerisSettings();
 				EphemerisSettings.Comets = FormMain.UserList.ToList();
 				EphemerisSettings.Filters = FormMain.Filters;
+				EphemerisSettings.AddNew = true;
 			}
 
 			BindList();
@@ -110,7 +108,7 @@ namespace Comets.Application.ModulEphemeris
 
 		private void FormEphemerisSettings_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			if (AddNewEphemeris && EphemerisSettings.SelectedComet != null)
+			if (EphemerisSettings.AddNew && EphemerisSettings.SelectedComet != null)
 			{
 				FormEphemeris fe = new FormEphemeris(EphemerisSettings);
 				fe.MdiParent = this.Owner;

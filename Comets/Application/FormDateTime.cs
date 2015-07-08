@@ -9,6 +9,13 @@ namespace Comets.Application
 {
 	public partial class FormDateTime : Form
 	{
+		#region Const
+
+		public static DateTime Maximum = new DateTime(2500, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+		public static DateTime Minimum = new DateTime(1500, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+
+		#endregion
+
 		#region Properties
 
 		private DateTime _selected;
@@ -50,7 +57,7 @@ namespace Comets.Application
 			T = t;
 
 			this.separator3.Visible = T != null;
-			this.mnuPerihelionDate.Visible = t != null;
+			this.mnuPerihelionDate.Visible = T != null;
 		}
 
 		#endregion
@@ -122,6 +129,29 @@ namespace Comets.Application
 
 		#endregion
 
+		#region btnOk_Click
+		private void btnOk_Click(object sender, EventArgs e)
+		{
+			int year = txtYear.Int();
+			int mon = txtMonth.Int();
+			int day = txtDay.Int();
+			int hour = txtHour.Int();
+			int min = txtMinute.Int();
+			int sec = txtSecond.Int();
+
+			DateTime dt = new DateTime(year, mon, day, hour, min, sec, DateTimeKind.Local);
+
+			if (dt < Minimum)
+				dt = Minimum;
+
+			if (dt > Maximum)
+				dt = Maximum;
+
+			_selected = dt;
+		}
+
+		#endregion
+
 		#region PopulateTextBoxes
 
 		private void PopulateTextBoxes()
@@ -133,22 +163,6 @@ namespace Comets.Application
 			txtHour.Text = SelectedDateTime.Hour.ToString();
 			txtMinute.Text = SelectedDateTime.Minute.ToString();
 			txtSecond.Text = SelectedDateTime.Second.ToString();
-		}
-
-		#endregion
-
-		#region FormDateTime_FormClosing
-
-		private void FormDateTime_FormClosing(object sender, FormClosingEventArgs e)
-		{
-			int year = txtYear.Int();
-			int mon = txtMonth.Int();
-			int day = txtDay.Int();
-			int hour = txtHour.Int();
-			int min = txtMinute.Int();
-			int sec = txtSecond.Int();
-
-			_selected = new DateTime(year, mon, day, hour, min, sec, DateTimeKind.Local);
 		}
 
 		#endregion

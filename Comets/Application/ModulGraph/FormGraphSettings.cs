@@ -13,8 +13,7 @@ namespace Comets.Application.ModulGraph
 	{
 		#region Properties
 
-		public GraphSettings GraphSettings { get; set; }
-		public bool AddNewGraph { get; set; }
+		public GraphSettings GraphSettings { get; private set; }
 
 		private DateTime _start;
 		private DateTime DateStart
@@ -53,8 +52,6 @@ namespace Comets.Application.ModulGraph
 
 			if (GraphSettings == null)
 			{
-				AddNewGraph = true;
-
 				DateStart = FormMain.DefaultDateStart;
 				DateEnd = FormMain.DefaultDateEnd;
 
@@ -100,6 +97,7 @@ namespace Comets.Application.ModulGraph
 				GraphSettings = new GraphSettings();
 				GraphSettings.Comets = FormMain.UserList.ToList();
 				GraphSettings.Filters = FormMain.Filters;
+				GraphSettings.AddNew = true;
 			}
 
 			BindList();
@@ -111,7 +109,7 @@ namespace Comets.Application.ModulGraph
 
 		private void FormGraphSettings_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			if (AddNewGraph && GraphSettings.SelectedComet != null)
+			if (GraphSettings.AddNew && GraphSettings.SelectedComet != null)
 			{
 				FormGraph fg = new FormGraph(GraphSettings);
 				fg.MdiParent = this.Owner;

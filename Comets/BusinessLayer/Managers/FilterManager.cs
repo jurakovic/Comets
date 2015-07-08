@@ -20,16 +20,8 @@ namespace Comets.BusinessLayer.Managers
 
 			foreach (Comet c in MainList)
 			{
-				if (names.Any())
-				{
-					if (fs.Name.Checked && fs.Name.ValueResolve == ValueResolveEnum.Contains && !names.Any(x => c.full.ToLower().Contains(x.Trim().ToLower()))) continue;
-					if (fs.Name.Checked && fs.Name.ValueResolve == ValueResolveEnum.DoesNotContain && names.Any(x => c.full.ToLower().Contains(x.Trim().ToLower()))) continue;
-				}
-				else
-				{
-					if (fs.Name.Checked && fs.Name.ValueResolve == ValueResolveEnum.Contains && !c.full.ToLower().Contains(fs.Name.Text.ToLower())) continue;
-					if (fs.Name.Checked && fs.Name.ValueResolve == ValueResolveEnum.DoesNotContain && c.full.ToLower().Contains(fs.Name.Text.ToLower())) continue;
-				}
+				if (fs.Name.Checked && fs.Name.ValueResolve == ValueResolveEnum.Contains && !names.Any(x => c.full.ToLower().Contains(x.Trim().ToLower()))) continue;
+				if (fs.Name.Checked && fs.Name.ValueResolve == ValueResolveEnum.DoesNotContain && names.Any(x => c.full.ToLower().Contains(x.Trim().ToLower()))) continue;
 
 				if (fs.PerihelionDate.Checked && fs.PerihelionDate.ValueResolve == ValueResolveEnum.Greather && c.T < fs.PerihelionDate.Value) continue;
 				if (fs.PerihelionDate.Checked && fs.PerihelionDate.ValueResolve == ValueResolveEnum.Equal && !(Math.Round(c.T) == Math.Round(fs.PerihelionDate.Value))) continue;
@@ -104,14 +96,7 @@ namespace Comets.BusinessLayer.Managers
 			Type type = filters.GetType();
 			List<PropertyInfo> props = new List<PropertyInfo>(type.GetProperties());
 
-			foreach (PropertyInfo prop in props)
-			{
-				if ((prop.GetValue(filters, null) as Filter).Checked)
-				{
-					retval = true;
-					break;
-				}
-			}
+			retval = props.Any(x => (x.GetValue(filters, null) as Filter).Checked);
 
 			return retval;
 		}

@@ -41,6 +41,7 @@ namespace Comets.Application.ModulEphemeris
 		{
 			this.Text = EphemerisSettings.ToString();
 			richTextBox.Text = await EphemerisManager.GenerateEphemerisAsync(EphemerisSettings);
+			EphemerisSettings.AddNew = false;
 			EphemerisSettings.Results.Clear();
 		}
 
@@ -52,12 +53,17 @@ namespace Comets.Application.ModulEphemeris
 		{
 			using (SaveFileDialog sfd = new SaveFileDialog())
 			{
-				sfd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+				if (!String.IsNullOrEmpty(FormMain.Settings.LastUsedExportDirectory))
+					sfd.InitialDirectory = FormMain.Settings.LastUsedExportDirectory;
+				else
+					sfd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+
 				sfd.Filter = "Text documents (*.txt)|*.txt|All files (*.*)|*.*";
 
 				if (sfd.ShowDialog() == DialogResult.OK)
 				{
 					File.WriteAllText(sfd.FileName, richTextBox.Text);
+					FormMain.Settings.LastUsedExportDirectory = Path.GetDirectoryName(sfd.FileName);
 					MessageBox.Show(String.Format("Ephemeris saved as {0}\t\t\t", sfd.FileName), "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				}
 			}

@@ -27,8 +27,8 @@ namespace Comets.Application
 
 		public List<Comet> Comets { get; private set; }
 		public FilterCollection Filters { get; private set; }
-		private bool IsFilterText { get; set; }
-		ToolTip ToolTip { get; set; }
+		private bool IsTextChangedByFilters { get; set; }
+		private ToolTip ToolTip { get; set; }
 		private string SortPropertyName { get; set; }
 
 		private DateTime _dateTime;
@@ -97,8 +97,7 @@ namespace Comets.Application
 
 		private void lbxDatabase_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			int ind = lbxDatabase.SelectedIndex;
-			Comet c = Comets.ElementAt(ind);
+			Comet c = Comets.ElementAt(lbxDatabase.SelectedIndex);
 
 			t_full.Text = c.full;
 			t_T.Text = c.Ty.ToString() + "-" + c.Tm.ToString("00") + "-" + c.Td.ToString("00") + "." + c.Th.ToString("0000");
@@ -312,7 +311,7 @@ namespace Comets.Application
 
 		private void PopulateFilters(FilterCollection Filters)
 		{
-			IsFilterText = true;
+			IsTextChangedByFilters = true;
 
 			if (Filters == null)
 			{
@@ -384,7 +383,7 @@ namespace Comets.Application
 				txtPeriod.Text = Filters.Period.Text;
 			}
 
-			IsFilterText = false;
+			IsTextChangedByFilters = false;
 		}
 
 		#endregion
@@ -412,7 +411,7 @@ namespace Comets.Application
 
 		private void txtFiltersCommon_TextChanged(object sender, EventArgs e)
 		{
-			if (!IsFilterText)
+			if (!IsTextChangedByFilters)
 			{
 				TextBox txt = sender as TextBox;
 

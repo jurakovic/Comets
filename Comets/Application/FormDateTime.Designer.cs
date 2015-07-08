@@ -176,6 +176,7 @@
 			this.btnOk.TabIndex = 1;
 			this.btnOk.Text = "OK";
 			this.btnOk.UseVisualStyleBackColor = true;
+			this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
 			// 
 			// contextDateTime
 			// 
@@ -315,7 +316,6 @@
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Local Time";
-			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormDateTime_FormClosing);
 			this.gbxDateTime.ResumeLayout(false);
 			this.gbxDateTime.PerformLayout();
 			this.ResumeLayout(false);

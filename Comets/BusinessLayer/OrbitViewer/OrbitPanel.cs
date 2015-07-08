@@ -74,21 +74,21 @@ namespace Comets.OrbitViewer
 		public int SelectedIndex { get; set; }
 
 
-		private ATime atime;
+		private ATime _atime;
 		public ATime ATime
 		{
-			get { return this.atime; }
+			get { return this._atime; }
 			set
 			{
-				this.atime = value;
+				this._atime = value;
 
-				if (this.atime != null && this.atime < ATime.Minimum)
-					this.atime = new ATime(ATime.Minimum);
+				if (this._atime != null && this._atime < ATime.Minimum)
+					this._atime = new ATime(ATime.Minimum);
 
-				if (this.atime != null && this.atime > ATime.Maximum)
-					this.atime = new ATime(ATime.Maximum);
+				if (this._atime != null && this._atime > ATime.Maximum)
+					this._atime = new ATime(ATime.Maximum);
 
-				UpdatePositions(atime);
+				UpdatePositions(_atime);
 			}
 		}
 
@@ -98,7 +98,7 @@ namespace Comets.OrbitViewer
 		private double EpochPlanetOrbit { get; set; }
 
 
-		public bool PaintEnabled { get; private set; }
+		public bool IsPaintEnabled { get; private set; }
 		public Image Offscreen { get; set; }
 
 
@@ -115,7 +115,7 @@ namespace Comets.OrbitViewer
 			{
 				multipleMode = value;
 
-				if (!multipleMode && PaintEnabled)
+				if (!multipleMode && IsPaintEnabled)
 					ClearComets();
 			}
 		}
@@ -179,10 +179,10 @@ namespace Comets.OrbitViewer
 			CometOrbits = new List<CometOrbit>();
 			CometsPos = new List<Xyz>();
 
-			ATime = atime;
+			ATime = _atime;
 
 			Offscreen = null;
-			PaintEnabled = false;
+			IsPaintEnabled = false;
 		}
 
 		#endregion
@@ -191,7 +191,7 @@ namespace Comets.OrbitViewer
 
 		public void LoadPanel(OVComet comet, ATime atime)
 		{
-			PaintEnabled = true;
+			IsPaintEnabled = true;
 
 			if (!MultipleMode)
 			{
@@ -213,7 +213,7 @@ namespace Comets.OrbitViewer
 
 			SelectedIndex = Comets.IndexOf(comet);
 
-			this.atime = atime;
+			this._atime = atime;
 
 			UpdatePositions(atime);
 			UpdatePlanetOrbit(atime);
@@ -226,7 +226,7 @@ namespace Comets.OrbitViewer
 
 		protected override void OnPaint(PaintEventArgs e)
 		{
-			if (PaintEnabled)
+			if (IsPaintEnabled)
 			{
 				if (Offscreen == null)
 					Offscreen = new Bitmap(Size.Width, Size.Height);
@@ -443,7 +443,7 @@ namespace Comets.OrbitViewer
 
 		private void UpdatePositions(ATime atime)
 		{
-			if (PaintEnabled)
+			if (IsPaintEnabled)
 			{
 				CometsPos.Clear();
 				foreach (OVComet c in Comets)

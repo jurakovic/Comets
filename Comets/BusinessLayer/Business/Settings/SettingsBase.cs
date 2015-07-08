@@ -15,6 +15,7 @@ namespace Comets.BusinessLayer.Business
 		public DateTime Stop { get; set; }
 		public double Interval { get; set; }
 		public List<EphemerisResult> Results { get; set; }
+		public bool AddNew { get; set; }
 
 		#endregion
 	}

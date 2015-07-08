@@ -52,7 +52,7 @@ namespace Comets.BusinessLayer.Business
 			{
 				_text = value;
 
-				if (_checked && _propertyName != PropertyNameEnum.Name && _propertyName != PropertyNameEnum.PerihelionDate)
+				if (_propertyName != PropertyNameEnum.Name && _propertyName != PropertyNameEnum.PerihelionDate)
 				{
 					_value = _text.Double();
 				}
