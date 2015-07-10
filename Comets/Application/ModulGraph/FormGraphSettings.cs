@@ -97,6 +97,8 @@ namespace Comets.Application.ModulGraph
 				GraphSettings = new GraphSettings();
 				GraphSettings.Comets = FormMain.UserList.ToList();
 				GraphSettings.Filters = FormMain.Filters;
+				GraphSettings.SortProperty = FormMain.SortProperty;
+				GraphSettings.SortAscending = FormMain.SortAscending;
 				GraphSettings.AddNew = true;
 			}
 
@@ -146,14 +148,23 @@ namespace Comets.Application.ModulGraph
 
 		private void btnFilter_Click(object sender, EventArgs e)
 		{
-			using (FormDatabase fdb = new FormDatabase(GraphSettings.Comets, GraphSettings.Filters, true) { Owner = this })
+			using (FormDatabase fdb = new FormDatabase(
+				GraphSettings.Comets, 
+				GraphSettings.Filters, 
+				GraphSettings.SortProperty,
+				GraphSettings.SortAscending, 
+				true) { Owner = this })
 			{
 				fdb.TopMost = this.TopMost;
 
 				if (fdb.ShowDialog() == DialogResult.OK)
+				{
 					GraphSettings.Comets = fdb.Comets;
+					GraphSettings.Filters = fdb.Filters;
+					GraphSettings.SortProperty = fdb.SortProperty;
+					GraphSettings.SortAscending = fdb.SortAscending;
+				}
 
-				GraphSettings.Filters = fdb.Filters;
 				BindList();
 			}
 		}

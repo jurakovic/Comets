@@ -9,8 +9,10 @@ namespace Comets.BusinessLayer.Business
 
 		public Location Location { get; set; }
 		public List<Comet> Comets { get; set; }
-		public FilterCollection Filters { get; set; }
 		public Comet SelectedComet { get; set; }
+		public FilterCollection Filters { get; set; }
+		public string SortProperty { get; set; }
+		public bool SortAscending { get; set; }
 		public DateTime Start { get; set; }
 		public DateTime Stop { get; set; }
 		public double Interval { get; set; }

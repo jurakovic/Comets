@@ -784,12 +784,11 @@
 			// 
 			// menuItemDesig
 			// 
-			this.menuItemDesig.Checked = true;
 			this.menuItemDesig.Index = 0;
 			this.menuItemDesig.RadioCheck = true;
 			this.menuItemDesig.Tag = "sortkey";
 			this.menuItemDesig.Text = "Designation";
-			this.menuItemDesig.Click += new System.EventHandler(this.menuItemSort_Click);
+			this.menuItemDesig.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// menuItemName
 			// 
@@ -797,7 +796,7 @@
 			this.menuItemName.RadioCheck = true;
 			this.menuItemName.Tag = "name";
 			this.menuItemName.Text = "Name";
-			this.menuItemName.Click += new System.EventHandler(this.menuItemSort_Click);
+			this.menuItemName.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// menuItemPerihDate
 			// 
@@ -805,7 +804,7 @@
 			this.menuItemPerihDate.RadioCheck = true;
 			this.menuItemPerihDate.Tag = "T";
 			this.menuItemPerihDate.Text = "Perihelion Date";
-			this.menuItemPerihDate.Click += new System.EventHandler(this.menuItemSort_Click);
+			this.menuItemPerihDate.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// menuItemPerihDist
 			// 
@@ -813,7 +812,7 @@
 			this.menuItemPerihDist.RadioCheck = true;
 			this.menuItemPerihDist.Tag = "q";
 			this.menuItemPerihDist.Text = "Perihelion Distance";
-			this.menuItemPerihDist.Click += new System.EventHandler(this.menuItemSort_Click);
+			this.menuItemPerihDist.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// menuItemIncl
 			// 
@@ -821,7 +820,7 @@
 			this.menuItemIncl.RadioCheck = true;
 			this.menuItemIncl.Tag = "i";
 			this.menuItemIncl.Text = "Inclination";
-			this.menuItemIncl.Click += new System.EventHandler(this.menuItemSort_Click);
+			this.menuItemIncl.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// menuItemEcc
 			// 
@@ -829,7 +828,7 @@
 			this.menuItemEcc.RadioCheck = true;
 			this.menuItemEcc.Tag = "e";
 			this.menuItemEcc.Text = "Eccentricity";
-			this.menuItemEcc.Click += new System.EventHandler(this.menuItemSort_Click);
+			this.menuItemEcc.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// menuItemAscNode
 			// 
@@ -837,7 +836,7 @@
 			this.menuItemAscNode.RadioCheck = true;
 			this.menuItemAscNode.Tag = "N";
 			this.menuItemAscNode.Text = "Long. of the Asc. Node";
-			this.menuItemAscNode.Click += new System.EventHandler(this.menuItemSort_Click);
+			this.menuItemAscNode.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// menuItemArgPeri
 			// 
@@ -845,7 +844,7 @@
 			this.menuItemArgPeri.RadioCheck = true;
 			this.menuItemArgPeri.Tag = "w";
 			this.menuItemArgPeri.Text = "Arg. of Pericenter";
-			this.menuItemArgPeri.Click += new System.EventHandler(this.menuItemSort_Click);
+			this.menuItemArgPeri.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// menuItemPeriod
 			// 
@@ -853,7 +852,7 @@
 			this.menuItemPeriod.RadioCheck = true;
 			this.menuItemPeriod.Tag = "P";
 			this.menuItemPeriod.Text = "Period";
-			this.menuItemPeriod.Click += new System.EventHandler(this.menuItemSort_Click);
+			this.menuItemPeriod.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// menuItem9
 			// 
@@ -862,18 +861,17 @@
 			// 
 			// menuItemAsc
 			// 
-			this.menuItemAsc.Checked = true;
 			this.menuItemAsc.Index = 10;
 			this.menuItemAsc.RadioCheck = true;
 			this.menuItemAsc.Text = "Ascending";
-			this.menuItemAsc.Click += new System.EventHandler(this.menuItemAsc_Click);
+			this.menuItemAsc.Click += new System.EventHandler(this.menuItemSortAscDesc_Click);
 			// 
 			// menuItemDesc
 			// 
 			this.menuItemDesc.Index = 11;
 			this.menuItemDesc.RadioCheck = true;
 			this.menuItemDesc.Text = "Descending";
-			this.menuItemDesc.Click += new System.EventHandler(this.menuItemDesc_Click);
+			this.menuItemDesc.Click += new System.EventHandler(this.menuItemSortAscDesc_Click);
 			// 
 			// btnFiltersApply
 			// 

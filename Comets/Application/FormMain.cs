@@ -15,21 +15,29 @@ namespace Comets.Application
 {
 	public partial class FormMain : Form
 	{
+		#region Const
+
+		public static string DateTimeFormat = "dd.MM.yyyy HH:mm:ss";
+		public static string DefaultSortProperty = "sortkey";
+		public static bool DefaultSortAscending = true;
+
+		#endregion
+
 		#region Properties
 
 		public static List<Comet> MainList { get; set; }
 		public static List<Comet> UserList { get; set; }
-		public static FilterCollection Filters { get; set; }
-
 		public static bool IsDataChanged { get; set; }
+
+		public static FilterCollection Filters { get; set; }
+		public static string SortProperty { get; set; }
+		public static bool SortAscending { get; set; }
 
 		public static Settings Settings { get; set; }
 
 		public static DateTime DefaultDateStart { get; private set; }
 		public static DateTime DefaultDateEnd { get; private set; }
-
-		public static string DateTimeFormat = "dd.MM.yyyy HH:mm:ss";
-
+	
 		private Size InitialFormSize { get; set; }
 		private Size CurrentFormSize { get; set; }
 		private Point InitialFormLocation { get; set; }
@@ -47,6 +55,9 @@ namespace Comets.Application
 
 			MainList = new List<Comet>();
 			UserList = new List<Comet>();
+
+			SortProperty = DefaultSortProperty;
+			SortAscending = DefaultSortAscending;
 
 			Settings = SettingsManager.LoadSettings();
 
@@ -325,7 +336,7 @@ namespace Comets.Application
 
 		private void menuItemDatabase_Click(object sender, EventArgs e)
 		{
-			using (FormDatabase fdb = new FormDatabase(UserList, Filters, false) { Owner = this })
+			using (FormDatabase fdb = new FormDatabase(UserList, Filters, SortProperty, SortAscending, false) { Owner = this })
 			{
 				fdb.TopMost = this.TopMost;
 
@@ -333,6 +344,8 @@ namespace Comets.Application
 				{
 					UserList = fdb.Comets;
 					Filters = fdb.Filters;
+					SortProperty = fdb.SortProperty;
+					SortAscending = fdb.SortAscending;
 				}
 
 				SetStatusCometsLabel(UserList.Count, MainList.Count);

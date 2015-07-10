@@ -96,6 +96,8 @@ namespace Comets.Application.ModulEphemeris
 				EphemerisSettings = new EphemerisSettings();
 				EphemerisSettings.Comets = FormMain.UserList.ToList();
 				EphemerisSettings.Filters = FormMain.Filters;
+				EphemerisSettings.SortProperty = FormMain.SortProperty;
+				EphemerisSettings.SortAscending = FormMain.SortAscending;
 				EphemerisSettings.AddNew = true;
 			}
 
@@ -145,14 +147,23 @@ namespace Comets.Application.ModulEphemeris
 
 		private void btnFilter_Click(object sender, EventArgs e)
 		{
-			using (FormDatabase fdb = new FormDatabase(EphemerisSettings.Comets, EphemerisSettings.Filters, true) { Owner = this })
+			using (FormDatabase fdb = new FormDatabase(
+				EphemerisSettings.Comets, 
+				EphemerisSettings.Filters, 
+				EphemerisSettings.SortProperty, 
+				EphemerisSettings.SortAscending, 
+				true) { Owner = this })
 			{
 				fdb.TopMost = this.TopMost;
 
 				if (fdb.ShowDialog() == DialogResult.OK)
+				{
 					EphemerisSettings.Comets = fdb.Comets;
+					EphemerisSettings.Filters = fdb.Filters;
+					EphemerisSettings.SortProperty = fdb.SortProperty;
+					EphemerisSettings.SortAscending = fdb.SortAscending;
+				}
 
-				EphemerisSettings.Filters = fdb.Filters;
 				BindList();
 			}
 		}

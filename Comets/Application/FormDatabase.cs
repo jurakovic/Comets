@@ -26,10 +26,14 @@ namespace Comets.Application
 		#region Properties
 
 		public List<Comet> Comets { get; private set; }
+
 		public FilterCollection Filters { get; private set; }
+		public string SortProperty { get; private set; }
+		public bool SortAscending { get; private set; }
+
 		private bool IsTextChangedByFilters { get; set; }
+
 		private ToolTip ToolTip { get; set; }
-		private string SortPropertyName { get; set; }
 
 		private DateTime _dateTime;
 		private DateTime DateTime
@@ -46,7 +50,7 @@ namespace Comets.Application
 
 		#region Constructor
 
-		public FormDatabase(List<Comet> list, FilterCollection filters, bool isForFiltering)
+		public FormDatabase(List<Comet> list, FilterCollection filters, string sortProperty, bool sortAscending, bool isForFiltering)
 		{
 			InitializeComponent();
 
@@ -58,7 +62,8 @@ namespace Comets.Application
 			else
 				DateTime = Filters.T.Value == 0.0 ? FormMain.DefaultDateStart : Utils.JDToDateTime(Filters.T.Value).ToLocalTime();
 
-			SortPropertyName = "sortkey";
+			SortProperty = sortProperty;
+			SortAscending = sortAscending;
 
 			pnlDetails.Visible = !isForFiltering;
 			pnlFilters.Visible = isForFiltering;
@@ -78,6 +83,7 @@ namespace Comets.Application
 
 		private void FormDatabase_Load(object sender, EventArgs e)
 		{
+			SetSortItems(SortAscending);
 			SortList(Comets);
 			PopulateFilters(Filters);
 		}
@@ -145,6 +151,25 @@ namespace Comets.Application
 
 		#region Sort
 
+		#region SetSortItems
+
+		private void SetSortItems(bool isAscending)
+		{
+			foreach (MenuItem menuitem in contextSort.MenuItems)
+			{
+				if(menuitem.Tag as string == SortProperty)
+				{
+					menuitem.Checked = true;
+					break;
+				}
+			}
+
+			menuItemAsc.Checked = isAscending;
+			menuItemDesc.Checked = !isAscending;
+		}
+
+		#endregion
+
 		#region btnSort_Click
 
 		private void btnSort_Click(object sender, EventArgs e)
@@ -156,38 +181,32 @@ namespace Comets.Application
 
 		#region menuItemSort_Click
 
-		private void menuItemSort_Click(object sender, EventArgs e)
+		private void menuItemSortCommon_Click(object sender, EventArgs e)
 		{
 			MenuItem mni = sender as MenuItem;
 
 			if (!mni.Checked)
 			{
-				bool order = menuItemAsc.Checked;
+				SortAscending = menuItemAsc.Checked;
 
 				foreach (MenuItem item in contextSort.MenuItems)
 					item.Checked = false;
 
 				mni.Checked = true;
-				SortPropertyName = mni.Tag as string;
+				SortProperty = mni.Tag as string;
 
-				menuItemAsc.Checked = order;
-				menuItemDesc.Checked = !order;
+				menuItemAsc.Checked = SortAscending;
+				menuItemDesc.Checked = !SortAscending;
 
 				SortList(Comets);
 			}
 		}
 
-		private void menuItemAsc_Click(object sender, EventArgs e)
+		private void menuItemSortAscDesc_Click(object sender, EventArgs e)
 		{
-			menuItemAsc.Checked = true;
-			menuItemDesc.Checked = false;
-			SortList(Comets);
-		}
-
-		private void menuItemDesc_Click(object sender, EventArgs e)
-		{
-			menuItemAsc.Checked = false;
-			menuItemDesc.Checked = true;
+			menuItemAsc.Checked = !menuItemAsc.Checked;
+			menuItemDesc.Checked = !menuItemDesc.Checked;
+			SortAscending = menuItemAsc.Checked;
 			SortList(Comets);
 		}
 
@@ -200,12 +219,12 @@ namespace Comets.Application
 			List<Comet> tempList = list.ToList();
 			Comets.Clear();
 
-			PropertyDescriptor prop = TypeDescriptor.GetProperties(typeof(Comet)).Find(SortPropertyName, false);
+			PropertyDescriptor prop = TypeDescriptor.GetProperties(typeof(Comet)).Find(SortProperty, false);
 
 			if (prop == null)
-				throw new ArgumentException(String.Format("Unknown SortPropertyName: \"{0}\"", SortPropertyName));
+				throw new ArgumentException(String.Format("Unknown SortPropertyName: \"{0}\"", SortProperty));
 
-			if (menuItemAsc.Checked)
+			if (SortAscending)
 				Comets = tempList.OrderBy(x => prop.GetValue(x)).ToList();
 			else
 				Comets = tempList.OrderByDescending(x => prop.GetValue(x)).ToList();
