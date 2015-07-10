@@ -56,7 +56,7 @@ namespace Comets.Application
 			if (Filters == null)
 				DateTime = FormMain.DefaultDateStart;
 			else
-				DateTime = Filters.PerihelionDate.Value == 0.0 ? FormMain.DefaultDateStart : Utils.JDToDateTime(Filters.PerihelionDate.Value).ToLocalTime();
+				DateTime = Filters.T.Value == 0.0 ? FormMain.DefaultDateStart : Utils.JDToDateTime(Filters.T.Value).ToLocalTime();
 
 			SortPropertyName = "sortkey";
 
@@ -270,37 +270,37 @@ namespace Comets.Application
 		{
 			FilterCollection fc = new FilterCollection();
 
-			fc.Name.Checked = cbxName.Checked;
-			fc.Name.Text = txtName.Text.Trim();
-			fc.Name.Index = cboName.SelectedIndex;
+			fc.full.Checked = cbxName.Checked;
+			fc.full.Text = txtName.Text.Trim();
+			fc.full.Index = cboName.SelectedIndex;
 
-			fc.PerihelionDate.Checked = cbxPerihelionDate.Checked;
-			fc.PerihelionDate.Text = DateTime.Day + "." + DateTime.Month + "." + DateTime.Year + "." + DateTime.Hour + "." + DateTime.Minute + "." + DateTime.Second;
-			fc.PerihelionDate.Index = cboPerihelionDate.SelectedIndex;
+			fc.T.Checked = cbxPerihelionDate.Checked;
+			fc.T.Text = DateTime.Day + "." + DateTime.Month + "." + DateTime.Year + "." + DateTime.Hour + "." + DateTime.Minute + "." + DateTime.Second;
+			fc.T.Index = cboPerihelionDate.SelectedIndex;
 
-			fc.PerihelionDistance.Checked = cbxPerihelionDistance.Checked;
-			fc.PerihelionDistance.Text = txtPerihelionDistance.Text;
-			fc.PerihelionDistance.Index = cboPerihelionDistance.SelectedIndex;
+			fc.q.Checked = cbxPerihelionDistance.Checked;
+			fc.q.Text = txtPerihelionDistance.Text;
+			fc.q.Index = cboPerihelionDistance.SelectedIndex;
 
-			fc.Eccentricity.Checked = cbxEccentricity.Checked;
-			fc.Eccentricity.Text = txtEccentricity.Text;
-			fc.Eccentricity.Index = cboEccentricity.SelectedIndex;
+			fc.e.Checked = cbxEccentricity.Checked;
+			fc.e.Text = txtEccentricity.Text;
+			fc.e.Index = cboEccentricity.SelectedIndex;
 
-			fc.LongOfAscendingNode.Checked = cbxLongOfAscendingNode.Checked;
-			fc.LongOfAscendingNode.Text = txtLongOfAscendingNode.Text;
-			fc.LongOfAscendingNode.Index = cboLongOfAscendingNode.SelectedIndex;
+			fc.N.Checked = cbxLongOfAscendingNode.Checked;
+			fc.N.Text = txtLongOfAscendingNode.Text;
+			fc.N.Index = cboLongOfAscendingNode.SelectedIndex;
 
-			fc.ArgumentOfPericenter.Checked = cbxArgumentOfPericenter.Checked;
-			fc.ArgumentOfPericenter.Text = txtArgumentOfPericenter.Text;
-			fc.ArgumentOfPericenter.Index = cboArgumentOfPericenter.SelectedIndex;
+			fc.w.Checked = cbxArgumentOfPericenter.Checked;
+			fc.w.Text = txtArgumentOfPericenter.Text;
+			fc.w.Index = cboArgumentOfPericenter.SelectedIndex;
 
-			fc.Inclination.Checked = cbxInclination.Checked;
-			fc.Inclination.Text = txtInclination.Text;
-			fc.Inclination.Index = cboInclination.SelectedIndex;
+			fc.i.Checked = cbxInclination.Checked;
+			fc.i.Text = txtInclination.Text;
+			fc.i.Index = cboInclination.SelectedIndex;
 
-			fc.Period.Checked = cbxPeriod.Checked;
-			fc.Period.Text = txtPeriod.Text;
-			fc.Period.Index = cboPeriod.SelectedIndex;
+			fc.P.Checked = cbxPeriod.Checked;
+			fc.P.Text = txtPeriod.Text;
+			fc.P.Index = cboPeriod.SelectedIndex;
 
 			return fc;
 		}
@@ -349,38 +349,38 @@ namespace Comets.Application
 			}
 			else
 			{
-				cbxName.Checked = Filters.Name.Checked;
-				cboName.SelectedIndex = FilterManager.GetIndexFromValueResolve(Filters.Name.ValueResolve);
-				txtName.Text = Filters.Name.Text;
+				cbxName.Checked = Filters.full.Checked;
+				cboName.SelectedIndex = FilterManager.GetIndexFromValueCompare(Filters.full.ValueCompare);
+				txtName.Text = Filters.full.Text;
 
-				cbxPerihelionDate.Checked = Filters.PerihelionDate.Checked;
-				cboPerihelionDate.SelectedIndex = FilterManager.GetIndexFromValueResolve(Filters.PerihelionDate.ValueResolve);
-				if (Filters.PerihelionDate.Value > 0.0)
-					DateTime = Utils.JDToDateTime(Filters.PerihelionDate.Value).ToLocalTime();
+				cbxPerihelionDate.Checked = Filters.T.Checked;
+				cboPerihelionDate.SelectedIndex = FilterManager.GetIndexFromValueCompare(Filters.T.ValueCompare);
+				if (Filters.T.Value > 0.0)
+					DateTime = Utils.JDToDateTime(Filters.T.Value).ToLocalTime();
 
-				cbxPerihelionDistance.Checked = Filters.PerihelionDistance.Checked;
-				cboPerihelionDistance.SelectedIndex = FilterManager.GetIndexFromValueResolve(Filters.PerihelionDistance.ValueResolve);
-				txtPerihelionDistance.Text = Filters.PerihelionDistance.Text;
+				cbxPerihelionDistance.Checked = Filters.q.Checked;
+				cboPerihelionDistance.SelectedIndex = FilterManager.GetIndexFromValueCompare(Filters.q.ValueCompare);
+				txtPerihelionDistance.Text = Filters.q.Text;
 
-				cbxEccentricity.Checked = Filters.Eccentricity.Checked;
-				cboEccentricity.SelectedIndex = FilterManager.GetIndexFromValueResolve(Filters.Eccentricity.ValueResolve);
-				txtEccentricity.Text = Filters.Eccentricity.Text;
+				cbxEccentricity.Checked = Filters.e.Checked;
+				cboEccentricity.SelectedIndex = FilterManager.GetIndexFromValueCompare(Filters.e.ValueCompare);
+				txtEccentricity.Text = Filters.e.Text;
 
-				cbxLongOfAscendingNode.Checked = Filters.LongOfAscendingNode.Checked;
-				cboLongOfAscendingNode.SelectedIndex = FilterManager.GetIndexFromValueResolve(Filters.LongOfAscendingNode.ValueResolve);
-				txtLongOfAscendingNode.Text = Filters.LongOfAscendingNode.Text;
+				cbxLongOfAscendingNode.Checked = Filters.N.Checked;
+				cboLongOfAscendingNode.SelectedIndex = FilterManager.GetIndexFromValueCompare(Filters.N.ValueCompare);
+				txtLongOfAscendingNode.Text = Filters.N.Text;
 
-				cbxArgumentOfPericenter.Checked = Filters.ArgumentOfPericenter.Checked;
-				cboArgumentOfPericenter.SelectedIndex = FilterManager.GetIndexFromValueResolve(Filters.ArgumentOfPericenter.ValueResolve);
-				txtArgumentOfPericenter.Text = Filters.ArgumentOfPericenter.Text;
+				cbxArgumentOfPericenter.Checked = Filters.w.Checked;
+				cboArgumentOfPericenter.SelectedIndex = FilterManager.GetIndexFromValueCompare(Filters.w.ValueCompare);
+				txtArgumentOfPericenter.Text = Filters.w.Text;
 
-				cbxInclination.Checked = Filters.Inclination.Checked;
-				cboInclination.SelectedIndex = FilterManager.GetIndexFromValueResolve(Filters.Inclination.ValueResolve);
-				txtInclination.Text = Filters.Inclination.Text;
+				cbxInclination.Checked = Filters.i.Checked;
+				cboInclination.SelectedIndex = FilterManager.GetIndexFromValueCompare(Filters.i.ValueCompare);
+				txtInclination.Text = Filters.i.Text;
 
-				cbxPeriod.Checked = Filters.Period.Checked;
-				cboPeriod.SelectedIndex = FilterManager.GetIndexFromValueResolve(Filters.Period.ValueResolve);
-				txtPeriod.Text = Filters.Period.Text;
+				cbxPeriod.Checked = Filters.P.Checked;
+				cboPeriod.SelectedIndex = FilterManager.GetIndexFromValueCompare(Filters.P.ValueCompare);
+				txtPeriod.Text = Filters.P.Text;
 			}
 
 			IsTextChangedByFilters = false;

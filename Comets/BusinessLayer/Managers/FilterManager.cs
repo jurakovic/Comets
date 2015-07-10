@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
-using PropertyNameEnum = Comets.BusinessLayer.Business.Filter.PropertyNameEnum;
-using ValueResolveEnum = Comets.BusinessLayer.Business.Filter.ValueResolveEnum;
+using PropertyEnum = Comets.BusinessLayer.Business.Filter.PropertyEnum;
+using ValueCompareEnum = Comets.BusinessLayer.Business.Filter.ValueCompareEnum;
 
 namespace Comets.BusinessLayer.Managers
 {
@@ -13,49 +13,109 @@ namespace Comets.BusinessLayer.Managers
 	{
 		#region FilterList
 
-		public static List<Comet> FilterList(List<Comet> MainList, FilterCollection fs)
+		public static List<Comet> FilterList(List<Comet> mainList, FilterCollection fc)
+		{
+			List<PropertyInfo> filterProps = fc.GetType().GetProperties().Where(x => (x.GetValue(fc, null) as Filter).Checked).ToList();
+
+			List<Comet> list = new List<Comet>();
+			List<bool> checks = new List<bool>();
+
+			foreach (Comet comet in mainList)
+			{
+				checks.Clear();
+
+				foreach (PropertyInfo fp in filterProps)
+				{
+					Filter f = fp.GetValue(fc, null) as Filter;
+					object value = comet.GetType().GetProperty(fp.Name).GetValue(comet, null);
+
+					if (f.Property == PropertyEnum.Name)
+					{
+						string full = value.ToString();
+						string[] names = f.Text.Split(',');
+
+						if (f.ValueCompare == ValueCompareEnum.Contains)
+							checks.Add(names.Any(x => full.ToLower().Contains(x.Trim().ToLower())));
+						else
+							checks.Add(!names.Any(x => full.ToLower().Contains(x.Trim().ToLower())));
+					}
+					else
+					{
+						double d = Convert.ToDouble(value);
+
+						if (f.ValueCompare == ValueCompareEnum.Greather)
+						{
+							checks.Add(d > f.Value);
+						}
+						else if (f.ValueCompare == ValueCompareEnum.Equal)
+						{
+							if (f.Property == PropertyEnum.PerihelionDate)
+								checks.Add(Math.Abs((Utils.JDToDateTime(d) - Utils.JDToDateTime(f.Value)).TotalDays) <= 1.0);
+							else
+								checks.Add((Math.Round(d, 3) == Math.Round(f.Value, 3)));
+						}
+						else
+						{
+							checks.Add(d < f.Value);
+						}
+					}
+				}
+
+				if (!checks.Any(x => x == false))
+					list.Add(comet);
+			}
+
+			return list;
+		}
+
+		#region Obsolete
+
+		[Obsolete]
+		private static List<Comet> FilterList_Obsolete(List<Comet> MainList, FilterCollection fs)
 		{
 			List<Comet> list = new List<Comet>();
-			string[] names = fs.Name.Text.Split(',');
+			string[] names = fs.full.Text.Split(',');
 
 			foreach (Comet c in MainList)
 			{
-				if (fs.Name.Checked && fs.Name.ValueResolve == ValueResolveEnum.Contains && !names.Any(x => c.full.ToLower().Contains(x.Trim().ToLower()))) continue;
-				if (fs.Name.Checked && fs.Name.ValueResolve == ValueResolveEnum.DoesNotContain && names.Any(x => c.full.ToLower().Contains(x.Trim().ToLower()))) continue;
+				if (fs.full.Checked && fs.full.ValueCompare == ValueCompareEnum.Contains && !names.Any(x => c.full.ToLower().Contains(x.Trim().ToLower()))) continue;
+				if (fs.full.Checked && fs.full.ValueCompare == ValueCompareEnum.DoesNotContain && names.Any(x => c.full.ToLower().Contains(x.Trim().ToLower()))) continue;
 
-				if (fs.PerihelionDate.Checked && fs.PerihelionDate.ValueResolve == ValueResolveEnum.Greather && c.T < fs.PerihelionDate.Value) continue;
-				if (fs.PerihelionDate.Checked && fs.PerihelionDate.ValueResolve == ValueResolveEnum.Equal && !(Math.Round(c.T) == Math.Round(fs.PerihelionDate.Value))) continue;
-				if (fs.PerihelionDate.Checked && fs.PerihelionDate.ValueResolve == ValueResolveEnum.Less && c.T > fs.PerihelionDate.Value) continue;
+				if (fs.T.Checked && fs.T.ValueCompare == ValueCompareEnum.Greather && c.T < fs.T.Value) continue;
+				if (fs.T.Checked && fs.T.ValueCompare == ValueCompareEnum.Equal && !(Math.Round(c.T) == Math.Round(fs.T.Value))) continue;
+				if (fs.T.Checked && fs.T.ValueCompare == ValueCompareEnum.Less && c.T > fs.T.Value) continue;
 
-				if (fs.PerihelionDistance.Checked && fs.PerihelionDistance.ValueResolve == ValueResolveEnum.Greather && c.q < fs.PerihelionDistance.Value) continue;
-				if (fs.PerihelionDistance.Checked && fs.PerihelionDistance.ValueResolve == ValueResolveEnum.Equal && !(Math.Round(c.q, 3) == Math.Round(fs.PerihelionDistance.Value, 3))) continue;
-				if (fs.PerihelionDistance.Checked && fs.PerihelionDistance.ValueResolve == ValueResolveEnum.Less && c.q > fs.PerihelionDistance.Value) continue;
+				if (fs.q.Checked && fs.q.ValueCompare == ValueCompareEnum.Greather && c.q < fs.q.Value) continue;
+				if (fs.q.Checked && fs.q.ValueCompare == ValueCompareEnum.Equal && !(Math.Round(c.q, 3) == Math.Round(fs.q.Value, 3))) continue;
+				if (fs.q.Checked && fs.q.ValueCompare == ValueCompareEnum.Less && c.q > fs.q.Value) continue;
 
-				if (fs.Eccentricity.Checked && fs.Eccentricity.ValueResolve == ValueResolveEnum.Greather && c.e < fs.Eccentricity.Value) continue;
-				if (fs.Eccentricity.Checked && fs.Eccentricity.ValueResolve == ValueResolveEnum.Equal && !(Math.Round(c.e, 3) == Math.Round(fs.Eccentricity.Value, 3))) continue;
-				if (fs.Eccentricity.Checked && fs.Eccentricity.ValueResolve == ValueResolveEnum.Less && c.e > fs.Eccentricity.Value) continue;
+				if (fs.e.Checked && fs.e.ValueCompare == ValueCompareEnum.Greather && c.e < fs.e.Value) continue;
+				if (fs.e.Checked && fs.e.ValueCompare == ValueCompareEnum.Equal && !(Math.Round(c.e, 3) == Math.Round(fs.e.Value, 3))) continue;
+				if (fs.e.Checked && fs.e.ValueCompare == ValueCompareEnum.Less && c.e > fs.e.Value) continue;
 
-				if (fs.LongOfAscendingNode.Checked && fs.LongOfAscendingNode.ValueResolve == ValueResolveEnum.Greather && c.N < fs.LongOfAscendingNode.Value) continue;
-				if (fs.LongOfAscendingNode.Checked && fs.LongOfAscendingNode.ValueResolve == ValueResolveEnum.Equal && !(Math.Round(c.N, 3) == Math.Round(fs.LongOfAscendingNode.Value, 3))) continue;
-				if (fs.LongOfAscendingNode.Checked && fs.LongOfAscendingNode.ValueResolve == ValueResolveEnum.Less && c.N > fs.LongOfAscendingNode.Value) continue;
+				if (fs.N.Checked && fs.N.ValueCompare == ValueCompareEnum.Greather && c.N < fs.N.Value) continue;
+				if (fs.N.Checked && fs.N.ValueCompare == ValueCompareEnum.Equal && !(Math.Round(c.N, 3) == Math.Round(fs.N.Value, 3))) continue;
+				if (fs.N.Checked && fs.N.ValueCompare == ValueCompareEnum.Less && c.N > fs.N.Value) continue;
 
-				if (fs.ArgumentOfPericenter.Checked && fs.ArgumentOfPericenter.ValueResolve == ValueResolveEnum.Greather && c.w < fs.ArgumentOfPericenter.Value) continue;
-				if (fs.ArgumentOfPericenter.Checked && fs.ArgumentOfPericenter.ValueResolve == ValueResolveEnum.Equal && !(Math.Round(c.w, 3) == Math.Round(fs.ArgumentOfPericenter.Value, 3))) continue;
-				if (fs.ArgumentOfPericenter.Checked && fs.ArgumentOfPericenter.ValueResolve == ValueResolveEnum.Less && c.w > fs.ArgumentOfPericenter.Value) continue;
+				if (fs.w.Checked && fs.w.ValueCompare == ValueCompareEnum.Greather && c.w < fs.w.Value) continue;
+				if (fs.w.Checked && fs.w.ValueCompare == ValueCompareEnum.Equal && !(Math.Round(c.w, 3) == Math.Round(fs.w.Value, 3))) continue;
+				if (fs.w.Checked && fs.w.ValueCompare == ValueCompareEnum.Less && c.w > fs.w.Value) continue;
 
-				if (fs.Inclination.Checked && fs.Inclination.ValueResolve == ValueResolveEnum.Greather && c.i < fs.Inclination.Value) continue;
-				if (fs.Inclination.Checked && fs.Inclination.ValueResolve == ValueResolveEnum.Equal && !(Math.Round(c.i, 3) == Math.Round(fs.Inclination.Value, 3))) continue;
-				if (fs.Inclination.Checked && fs.Inclination.ValueResolve == ValueResolveEnum.Less && c.i > fs.Inclination.Value) continue;
+				if (fs.i.Checked && fs.i.ValueCompare == ValueCompareEnum.Greather && c.i < fs.i.Value) continue;
+				if (fs.i.Checked && fs.i.ValueCompare == ValueCompareEnum.Equal && !(Math.Round(c.i, 3) == Math.Round(fs.i.Value, 3))) continue;
+				if (fs.i.Checked && fs.i.ValueCompare == ValueCompareEnum.Less && c.i > fs.i.Value) continue;
 
-				if (fs.Period.Checked && fs.Period.ValueResolve == ValueResolveEnum.Greather && c.P < fs.Period.Value) continue;
-				if (fs.Period.Checked && fs.Period.ValueResolve == ValueResolveEnum.Equal && !(Math.Round(c.P, 3) == Math.Round(fs.Period.Value, 3))) continue;
-				if (fs.Period.Checked && fs.Period.ValueResolve == ValueResolveEnum.Less && c.P > fs.Period.Value) continue;
+				if (fs.P.Checked && fs.P.ValueCompare == ValueCompareEnum.Greather && c.P < fs.P.Value) continue;
+				if (fs.P.Checked && fs.P.ValueCompare == ValueCompareEnum.Equal && !(Math.Round(c.P, 3) == Math.Round(fs.P.Value, 3))) continue;
+				if (fs.P.Checked && fs.P.ValueCompare == ValueCompareEnum.Less && c.P > fs.P.Value) continue;
 
 				list.Add(c);
 			}
 
 			return list;
 		}
+
+		#endregion
 
 		#endregion
 
@@ -72,10 +132,10 @@ namespace Comets.BusinessLayer.Managers
 			{
 				Filter f = prop.GetValue(filters, null) as Filter;
 
-				if (f.PropertyName == PropertyNameEnum.Name && f.Checked && String.IsNullOrEmpty(f.Text) ||
-				   (f.PropertyName != PropertyNameEnum.Name && f.Checked && f.Value == 0.0))
+				if (f.Checked && f.Property == PropertyEnum.Name && String.IsNullOrEmpty(f.Text) ||
+				   (f.Checked && f.Property != PropertyEnum.Name && f.Value == 0.0))
 				{
-					string message = String.Format("Please enter value for \"{0}\" \t\t", Filter.PropertyNameString[(int)f.PropertyName]);
+					string message = String.Format("Please enter value for \"{0}\" \t\t", Filter.PropertyNameString[(int)f.Property]);
 					MessageBox.Show(message, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 					retval = false;
 					break;
@@ -91,39 +151,33 @@ namespace Comets.BusinessLayer.Managers
 
 		public static bool HasAnythingToFilter(FilterCollection filters)
 		{
-			bool retval = false;
-
-			Type type = filters.GetType();
-			List<PropertyInfo> props = new List<PropertyInfo>(type.GetProperties());
-
-			retval = props.Any(x => (x.GetValue(filters, null) as Filter).Checked);
-
-			return retval;
+			List<PropertyInfo> props = filters.GetType().GetProperties().ToList();
+			return props.Any(x => (x.GetValue(filters, null) as Filter).Checked);
 		}
 
 		#endregion
 
-		#region GetValueResolveFromIndex
+		#region GetValueCompareFromIndex
 
-		public static ValueResolveEnum GetValueResolveFromIndex(PropertyNameEnum properyNameEnum, int index)
+		public static ValueCompareEnum GetValueCompareFromIndex(PropertyEnum properyNameEnum, int index)
 		{
-			ValueResolveEnum retval = ValueResolveEnum.Undefined;
+			ValueCompareEnum retval = ValueCompareEnum.Undefined;
 
-			if (properyNameEnum == PropertyNameEnum.Name)
+			if (properyNameEnum == PropertyEnum.Name)
 			{
 				switch (index)
 				{
-					case 0: retval = ValueResolveEnum.Contains; break;
-					case 1: retval = ValueResolveEnum.DoesNotContain; break;
+					case 0: retval = ValueCompareEnum.Contains; break;
+					case 1: retval = ValueCompareEnum.DoesNotContain; break;
 				}
 			}
 			else
 			{
 				switch (index)
 				{
-					case 0: retval = ValueResolveEnum.Greather; break;
-					case 1: retval = ValueResolveEnum.Equal; break;
-					case 2: retval = ValueResolveEnum.Less; break;
+					case 0: retval = ValueCompareEnum.Greather; break;
+					case 1: retval = ValueCompareEnum.Equal; break;
+					case 2: retval = ValueCompareEnum.Less; break;
 				}
 			}
 
@@ -132,25 +186,25 @@ namespace Comets.BusinessLayer.Managers
 
 		#endregion
 
-		#region GetIndexFromValueResolve
+		#region GetIndexFromValueCompare
 
-		public static int GetIndexFromValueResolve(ValueResolveEnum valueResolveEnum)
+		public static int GetIndexFromValueCompare(ValueCompareEnum valueResolveEnum)
 		{
 			int retval = -1;
 
 			switch (valueResolveEnum)
 			{
-				case ValueResolveEnum.Contains:
-				case ValueResolveEnum.Greather:
+				case ValueCompareEnum.Contains:
+				case ValueCompareEnum.Greather:
 					retval = 0;
 					break;
 
-				case ValueResolveEnum.DoesNotContain:
-				case ValueResolveEnum.Equal:
+				case ValueCompareEnum.DoesNotContain:
+				case ValueCompareEnum.Equal:
 					retval = 1;
 					break;
 
-				case ValueResolveEnum.Less:
+				case ValueCompareEnum.Less:
 					retval = 2;
 					break;
 			}

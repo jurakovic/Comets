@@ -8,9 +8,9 @@ namespace Comets.BusinessLayer.Business
 	{
 		#region Enum
 
-		public enum PropertyNameEnum { Undefined = 0, Name, PerihelionDate, PerihelionDistance, Eccentricity, LongOfAscendingNode, ArgOfPericenter, Inclination, Period };
+		public enum PropertyEnum { Undefined = 0, Name, PerihelionDate, PerihelionDistance, Eccentricity, LongOfAscendingNode, ArgOfPericenter, Inclination, Period };
 
-		public enum ValueResolveEnum { Undefined = 0, Greather, Equal, Less, Contains, DoesNotContain };
+		public enum ValueCompareEnum { Undefined = 0, Greather, Equal, Less, Contains, DoesNotContain };
 
 		#endregion
 
@@ -22,21 +22,21 @@ namespace Comets.BusinessLayer.Business
 
 		#region Fields
 
-		private PropertyNameEnum _propertyName;
+		private PropertyEnum _property;
 		private bool _checked;
 		private string _text;
 		private double _value;
 		private int _index;
-		private ValueResolveEnum _valueResolve;
+		private ValueCompareEnum _valueCompare;
 
 		#endregion
 
 		#region Properties
 
-		public PropertyNameEnum PropertyName
+		public PropertyEnum Property
 		{
-			get { return _propertyName; }
-			protected set { _propertyName = value; }
+			get { return _property; }
+			protected set { _property = value; }
 		}
 
 		public bool Checked
@@ -52,11 +52,11 @@ namespace Comets.BusinessLayer.Business
 			{
 				_text = value;
 
-				if (_propertyName != PropertyNameEnum.Name && _propertyName != PropertyNameEnum.PerihelionDate)
+				if (_property != PropertyEnum.Name && _property != PropertyEnum.PerihelionDate)
 				{
 					_value = _text.Double();
 				}
-				else if (_propertyName == PropertyNameEnum.PerihelionDate)
+				else if (_property == PropertyEnum.PerihelionDate)
 				{
 					string[] dt = _text.Split('.');
 					_value = Utils.JDToDateTime(EphemerisManager.jd(dt[2].Int(), dt[1].Int(), dt[0].Int(), dt[3].Int(), dt[4].Int(), dt[5].Int())).ToUniversalTime().JD();
@@ -75,22 +75,22 @@ namespace Comets.BusinessLayer.Business
 			set
 			{
 				_index = value;
-				_valueResolve = FilterManager.GetValueResolveFromIndex(_propertyName, _index);
+				_valueCompare = FilterManager.GetValueCompareFromIndex(_property, _index);
 			}
 		}
 
-		public ValueResolveEnum ValueResolve
+		public ValueCompareEnum ValueCompare
 		{
-			get { return _valueResolve; }
+			get { return _valueCompare; }
 		}
 
 		#endregion
 
 		#region Constructor
 
-		public Filter(PropertyNameEnum propertyName)
+		public Filter(PropertyEnum property)
 		{
-			PropertyName = propertyName;
+			Property = property;
 		}
 
 		#endregion
