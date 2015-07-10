@@ -1,6 +1,7 @@
 ﻿using Comets.BusinessLayer.Extensions;
 using Comets.BusinessLayer.Managers;
 using System;
+using System.Globalization;
 
 namespace Comets.BusinessLayer.Business
 {
@@ -10,7 +11,7 @@ namespace Comets.BusinessLayer.Business
 
 		public enum PropertyEnum { Undefined = 0, Name, PerihelionDate, PerihelionDistance, Eccentricity, LongOfAscendingNode, ArgOfPericenter, Inclination, Period };
 
-		public enum ValueCompareEnum { Undefined = 0, Greather, Equal, Less, Contains, DoesNotContain };
+		public enum ValueCompareEnum { Undefined = 0, Greather, Less, Contains, DoesNotContain };
 
 		#endregion
 
@@ -52,14 +53,17 @@ namespace Comets.BusinessLayer.Business
 			{
 				_text = value;
 
-				if (_property != PropertyEnum.Name && _property != PropertyEnum.PerihelionDate)
+				if (_property == PropertyEnum.Name)
 				{
-					_value = _text.Double();
+					_value = String.IsNullOrEmpty(_text) ? 0.0 : 1.0; //just for validation
 				}
 				else if (_property == PropertyEnum.PerihelionDate)
 				{
-					string[] dt = _text.Split('.');
-					_value = Utils.JDToDateTime(EphemerisManager.jd(dt[2].Int(), dt[1].Int(), dt[0].Int(), dt[3].Int(), dt[4].Int(), dt[5].Int())).ToUniversalTime().JD();
+					_value = DateTime.ParseExact(_text, "dd.MM.yyyy HH:mm:ss", CultureInfo.InvariantCulture).ToUniversalTime().JD();
+				}
+				else
+				{
+					_value = _text.Double();
 				}
 			}
 		}

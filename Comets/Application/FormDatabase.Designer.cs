@@ -981,7 +981,6 @@
 			this.cboPerihelionDistance.FormattingEnabled = true;
 			this.cboPerihelionDistance.Items.AddRange(new object[] {
             "Greather than (>)",
-            "Equals (=)",
             "Less than (<)"});
 			this.cboPerihelionDistance.Location = new System.Drawing.Point(204, 2);
 			this.cboPerihelionDistance.Name = "cboPerihelionDistance";
@@ -1025,7 +1024,6 @@
 			this.cboEccentricity.FormattingEnabled = true;
 			this.cboEccentricity.Items.AddRange(new object[] {
             "Greather than (>)",
-            "Equals (=)",
             "Less than (<)"});
 			this.cboEccentricity.Location = new System.Drawing.Point(204, 2);
 			this.cboEccentricity.Name = "cboEccentricity";
@@ -1071,7 +1069,6 @@
 			this.cboInclination.FormattingEnabled = true;
 			this.cboInclination.Items.AddRange(new object[] {
             "Greather than (>)",
-            "Equals (=)",
             "Less than (<)"});
 			this.cboInclination.Location = new System.Drawing.Point(204, 2);
 			this.cboInclination.Name = "cboInclination";
@@ -1117,7 +1114,6 @@
 			this.cboLongOfAscendingNode.FormattingEnabled = true;
 			this.cboLongOfAscendingNode.Items.AddRange(new object[] {
             "Greather than (>)",
-            "Equals (=)",
             "Less than (<)"});
 			this.cboLongOfAscendingNode.Location = new System.Drawing.Point(204, 2);
 			this.cboLongOfAscendingNode.Name = "cboLongOfAscendingNode";
@@ -1183,7 +1179,6 @@
 			this.cboArgumentOfPericenter.FormattingEnabled = true;
 			this.cboArgumentOfPericenter.Items.AddRange(new object[] {
             "Greather than (>)",
-            "Equals (=)",
             "Less than (<)"});
 			this.cboArgumentOfPericenter.Location = new System.Drawing.Point(204, 2);
 			this.cboArgumentOfPericenter.Name = "cboArgumentOfPericenter";
@@ -1239,7 +1234,6 @@
 			this.cboPeriod.FormattingEnabled = true;
 			this.cboPeriod.Items.AddRange(new object[] {
             "Greather than (>)",
-            "Equals (=)",
             "Less than (<)"});
 			this.cboPeriod.Location = new System.Drawing.Point(204, 2);
 			this.cboPeriod.Name = "cboPeriod";
@@ -1305,7 +1299,6 @@
 			this.cboPerihelionDate.FormattingEnabled = true;
 			this.cboPerihelionDate.Items.AddRange(new object[] {
             "Greather than (>)",
-            "Equals (=)",
             "Less than (<)"});
 			this.cboPerihelionDate.Location = new System.Drawing.Point(204, 2);
 			this.cboPerihelionDate.Name = "cboPerihelionDate";

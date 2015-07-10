@@ -157,7 +157,7 @@ namespace Comets.Application
 		{
 			foreach (MenuItem menuitem in contextSort.MenuItems)
 			{
-				if(menuitem.Tag as string == SortProperty)
+				if (menuitem.Tag as string == SortProperty)
 				{
 					menuitem.Checked = true;
 					break;
@@ -294,7 +294,7 @@ namespace Comets.Application
 			fc.full.Index = cboName.SelectedIndex;
 
 			fc.T.Checked = cbxPerihelionDate.Checked;
-			fc.T.Text = DateTime.Day + "." + DateTime.Month + "." + DateTime.Year + "." + DateTime.Hour + "." + DateTime.Minute + "." + DateTime.Second;
+			fc.T.Text = DateTime.ToString(FormMain.DateTimeFormat);
 			fc.T.Index = cboPerihelionDate.SelectedIndex;
 
 			fc.q.Checked = cbxPerihelionDistance.Checked;
@@ -343,27 +343,27 @@ namespace Comets.Application
 				DateTime = FormMain.DefaultDateStart;
 
 				cbxPerihelionDistance.Checked = false;
-				cboPerihelionDistance.SelectedIndex = 2;
+				cboPerihelionDistance.SelectedIndex = 1;
 				txtPerihelionDistance.Text = String.Empty;
 
 				cbxEccentricity.Checked = false;
-				cboEccentricity.SelectedIndex = 2;
+				cboEccentricity.SelectedIndex = 1;
 				txtEccentricity.Text = String.Empty;
 
 				cbxLongOfAscendingNode.Checked = false;
-				cboLongOfAscendingNode.SelectedIndex = 2;
+				cboLongOfAscendingNode.SelectedIndex = 1;
 				txtLongOfAscendingNode.Text = String.Empty;
 
 				cbxArgumentOfPericenter.Checked = false;
-				cboArgumentOfPericenter.SelectedIndex = 2;
+				cboArgumentOfPericenter.SelectedIndex = 1;
 				txtArgumentOfPericenter.Text = String.Empty;
 
 				cbxInclination.Checked = false;
-				cboInclination.SelectedIndex = 2;
+				cboInclination.SelectedIndex = 1;
 				txtInclination.Text = String.Empty;
 
 				cbxPeriod.Checked = false;
-				cboPeriod.SelectedIndex = 2;
+				cboPeriod.SelectedIndex = 1;
 				txtPeriod.Text = String.Empty;
 			}
 			else

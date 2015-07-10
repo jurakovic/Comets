@@ -44,20 +44,9 @@ namespace Comets.BusinessLayer.Managers
 						double d = Convert.ToDouble(value);
 
 						if (f.ValueCompare == ValueCompareEnum.Greather)
-						{
 							checks.Add(d > f.Value);
-						}
-						else if (f.ValueCompare == ValueCompareEnum.Equal)
-						{
-							if (f.Property == PropertyEnum.PerihelionDate)
-								checks.Add(Math.Abs((Utils.JDToDateTime(d) - Utils.JDToDateTime(f.Value)).TotalDays) <= 1.0);
-							else
-								checks.Add((Math.Round(d, 3) == Math.Round(f.Value, 3)));
-						}
 						else
-						{
 							checks.Add(d < f.Value);
-						}
 					}
 				}
 
@@ -68,55 +57,6 @@ namespace Comets.BusinessLayer.Managers
 			return list;
 		}
 
-		#region Obsolete
-
-		[Obsolete]
-		private static List<Comet> FilterList_Obsolete(List<Comet> MainList, FilterCollection fs)
-		{
-			List<Comet> list = new List<Comet>();
-			string[] names = fs.full.Text.Split(',');
-
-			foreach (Comet c in MainList)
-			{
-				if (fs.full.Checked && fs.full.ValueCompare == ValueCompareEnum.Contains && !names.Any(x => c.full.ToLower().Contains(x.Trim().ToLower()))) continue;
-				if (fs.full.Checked && fs.full.ValueCompare == ValueCompareEnum.DoesNotContain && names.Any(x => c.full.ToLower().Contains(x.Trim().ToLower()))) continue;
-
-				if (fs.T.Checked && fs.T.ValueCompare == ValueCompareEnum.Greather && c.T < fs.T.Value) continue;
-				if (fs.T.Checked && fs.T.ValueCompare == ValueCompareEnum.Equal && !(Math.Round(c.T) == Math.Round(fs.T.Value))) continue;
-				if (fs.T.Checked && fs.T.ValueCompare == ValueCompareEnum.Less && c.T > fs.T.Value) continue;
-
-				if (fs.q.Checked && fs.q.ValueCompare == ValueCompareEnum.Greather && c.q < fs.q.Value) continue;
-				if (fs.q.Checked && fs.q.ValueCompare == ValueCompareEnum.Equal && !(Math.Round(c.q, 3) == Math.Round(fs.q.Value, 3))) continue;
-				if (fs.q.Checked && fs.q.ValueCompare == ValueCompareEnum.Less && c.q > fs.q.Value) continue;
-
-				if (fs.e.Checked && fs.e.ValueCompare == ValueCompareEnum.Greather && c.e < fs.e.Value) continue;
-				if (fs.e.Checked && fs.e.ValueCompare == ValueCompareEnum.Equal && !(Math.Round(c.e, 3) == Math.Round(fs.e.Value, 3))) continue;
-				if (fs.e.Checked && fs.e.ValueCompare == ValueCompareEnum.Less && c.e > fs.e.Value) continue;
-
-				if (fs.N.Checked && fs.N.ValueCompare == ValueCompareEnum.Greather && c.N < fs.N.Value) continue;
-				if (fs.N.Checked && fs.N.ValueCompare == ValueCompareEnum.Equal && !(Math.Round(c.N, 3) == Math.Round(fs.N.Value, 3))) continue;
-				if (fs.N.Checked && fs.N.ValueCompare == ValueCompareEnum.Less && c.N > fs.N.Value) continue;
-
-				if (fs.w.Checked && fs.w.ValueCompare == ValueCompareEnum.Greather && c.w < fs.w.Value) continue;
-				if (fs.w.Checked && fs.w.ValueCompare == ValueCompareEnum.Equal && !(Math.Round(c.w, 3) == Math.Round(fs.w.Value, 3))) continue;
-				if (fs.w.Checked && fs.w.ValueCompare == ValueCompareEnum.Less && c.w > fs.w.Value) continue;
-
-				if (fs.i.Checked && fs.i.ValueCompare == ValueCompareEnum.Greather && c.i < fs.i.Value) continue;
-				if (fs.i.Checked && fs.i.ValueCompare == ValueCompareEnum.Equal && !(Math.Round(c.i, 3) == Math.Round(fs.i.Value, 3))) continue;
-				if (fs.i.Checked && fs.i.ValueCompare == ValueCompareEnum.Less && c.i > fs.i.Value) continue;
-
-				if (fs.P.Checked && fs.P.ValueCompare == ValueCompareEnum.Greather && c.P < fs.P.Value) continue;
-				if (fs.P.Checked && fs.P.ValueCompare == ValueCompareEnum.Equal && !(Math.Round(c.P, 3) == Math.Round(fs.P.Value, 3))) continue;
-				if (fs.P.Checked && fs.P.ValueCompare == ValueCompareEnum.Less && c.P > fs.P.Value) continue;
-
-				list.Add(c);
-			}
-
-			return list;
-		}
-
-		#endregion
-
 		#endregion
 
 		#region ValidateFilters
@@ -125,15 +65,13 @@ namespace Comets.BusinessLayer.Managers
 		{
 			bool retval = true;
 
-			Type type = filters.GetType();
-			List<PropertyInfo> props = new List<PropertyInfo>(type.GetProperties());
+			List<PropertyInfo> props = filters.GetType().GetProperties().ToList();
 
 			foreach (PropertyInfo prop in props)
 			{
 				Filter f = prop.GetValue(filters, null) as Filter;
 
-				if (f.Checked && f.Property == PropertyEnum.Name && String.IsNullOrEmpty(f.Text) ||
-				   (f.Checked && f.Property != PropertyEnum.Name && f.Value == 0.0))
+				if (f.Checked && f.Value == 0.0)
 				{
 					string message = String.Format("Please enter value for \"{0}\" \t\t", Filter.PropertyNameString[(int)f.Property]);
 					MessageBox.Show(message, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -176,8 +114,7 @@ namespace Comets.BusinessLayer.Managers
 				switch (index)
 				{
 					case 0: retval = ValueCompareEnum.Greather; break;
-					case 1: retval = ValueCompareEnum.Equal; break;
-					case 2: retval = ValueCompareEnum.Less; break;
+					case 1: retval = ValueCompareEnum.Less; break;
 				}
 			}
 
@@ -200,12 +137,8 @@ namespace Comets.BusinessLayer.Managers
 					break;
 
 				case ValueCompareEnum.DoesNotContain:
-				case ValueCompareEnum.Equal:
-					retval = 1;
-					break;
-
 				case ValueCompareEnum.Less:
-					retval = 2;
+					retval = 1;
 					break;
 			}
 
