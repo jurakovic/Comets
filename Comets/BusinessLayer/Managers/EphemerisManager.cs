@@ -544,7 +544,7 @@ namespace Comets.BusinessLayer.Managers
 		public static double jd(double year, double month, double day, double hour, double min, double sec)
 		{
 			double j = jd0(year, month, day, 0);
-			j += Math.Round((hour + (min / 60.0) + (sec / 3600.0)) / 24, 5);
+			j += (hour + (min / 60.0) + (sec / 3600.0)) / 24;
 			return j;
 		}
 
@@ -564,73 +564,36 @@ namespace Comets.BusinessLayer.Managers
 
 		public static int[] jdtocd(double jd)
 		{
-			// The calendar date from julian date, see Meeus p. 63
-			// Returns year, month, day, day of week, hours, minutes, seconds
-			double Z = Math.Floor(jd + 0.5);
-			double F = jd + 0.5 - Z;
-			double A;
-			if (Z < 2299161)
-			{
-				A = Z;
-			}
-			else
-			{
-				double alpha = Math.Floor((Z - 1867216.25) / 36524.25);
-				A = Z + 1 + alpha - Math.Floor(alpha / 4);
-			}
-			double B = A + 1524;
-			double C = Math.Floor((B - 122.1) / 365.25);
-			double D = Math.Floor(365.25 * C);
-			double E = Math.Floor((B - D) / 30.6001);
-			double d = B - D - Math.Floor(30.6001 * E) + F;
-			double year, month;
-			if (E < 14)
-			{
-				month = E - 1;
-			}
-			else
-			{
-				month = E - 13;
-			}
-			if (month > 2)
-			{
-				year = C - 4716;
-			}
-			else
-			{
-				year = C - 4715;
-			}
-			double day = Math.Floor(d);
-			double h = (d - day) * 24;
-			double hours = Math.Floor(h);
-			double m = (h - hours) * 60;
-			double minutes = Math.Floor(m);
-			double seconds = Math.Round((m - minutes) * 60);
-			if (seconds >= 60)
-			{
-				minutes = minutes + 1;
-				seconds = seconds - 60;
-			}
-			if (minutes >= 60)
-			{
-				hours = hours + 1;
-				minutes = 0;
-			}
-			double dw = Math.Floor(jd + 1.5) - 7 * Math.Floor((jd + 1.5) / 7);
+			jd += 0.5;
+			double a = Math.Floor(jd);
 
-			//int dmax = DateTime.DaysInMonth((int)year, (int)month);
-			//int[] date = Utils.ControlDateTime((int)year, (int)month, (int)day, dmax, (int)hours, (int)minutes, false, false);
+			if (a >= 2299160.5)
+			{
+				double t = Math.Floor((a - 1867216.25) / 36524.25);
+				a += t - Math.Floor(t / 4.0) + 1.0;
+			}
 
-			//if (date[6] == 1)
-			//{
-			//	year = date[0];
-			//	month = date[1];
-			//	day = date[2];
-			//	hours = date[4];
-			//	minutes = date[5];
-			//}
+			double b = Math.Floor(a) + 1524;
+			double c = Math.Floor((b - 122.1) / 365.25);
+			double k = Math.Floor((365.25) * c);
+			double e = Math.Floor((b - k) / 30.6001);
 
-			return new int[] { (int)year, (int)month, (int)day, (int)dw, (int)hours, (int)minutes, (int)seconds };
+			double day0 = b - k - Math.Floor(30.6001 * e) + (jd - Math.Floor(jd));
+
+			int month = (int)Math.Floor(e - ((e >= 13.5) ? 13 : 1) + 0.5);
+			int year = (int)Math.Floor(c - ((month > 2) ? 4716 : 4715) + 0.5);
+			int day = (int)Math.Floor(day0);
+
+			double hour0 = (day0 - day) * 24.0;
+			int hour = (int)Math.Floor(hour0);
+
+			double min = (hour0 - hour) * 60.0;
+			int minute = (int)Math.Floor(min);
+			int second = (int)((min - minute) * 60.0);
+
+			int dw = (int)(Math.Floor(jd + 1.5) - 7 * Math.Floor((jd + 1.5) / 7));
+
+			return new int[] { year, month, day, dw, hour, minute, second };
 		}
 
 		public static string dateString(double jday)

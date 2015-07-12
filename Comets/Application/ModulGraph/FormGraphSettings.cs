@@ -136,7 +136,7 @@ namespace Comets.Application.ModulGraph
 			{
 				Comet c = GraphSettings.Comets.ElementAt(cbComet.SelectedIndex);
 
-				lblPerihDate.Text = String.Format("Perihelion date:                {0} {1} {2:00}.{3:0000}", c.Ty, Comet.Month[c.Tm - 1], c.Td, c.Th);
+				lblPerihDate.Text = String.Format("Perihelion date:                {0}", Utils.JDToDateTime(c.T).ToLocalTime().ToString("dd MMM yyyy HH:mm:ss"));
 				lblPerihDist.Text = String.Format("Perihelion distance:          {0:0.000000} AU", c.q);
 				lblPeriod.Text = String.Format("Period:                              {0}", c.P < 10000 ? c.P.ToString("0.000000") + " years" : "-");
 			}

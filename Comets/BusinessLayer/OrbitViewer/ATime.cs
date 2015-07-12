@@ -6,7 +6,7 @@ namespace Comets.OrbitViewer
 	{
 		#region Const
 
-		public static string[] MonthAbbrConst = { "Jan.", "Feb.", "Mar.", "Apr.", "May ", "June", "July", "Aug.", "Sep.", "Oct.", "Nov.", "Dec." };
+		public static string[] MonthAbbrConst = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
 
 		public static ATime Minimum = new ATime(1500, 1, 1, 0, 0, 0, 0.0);
 		public static ATime Maximum = new ATime(2500, 1, 1, 0, 0, 0, 0.0);

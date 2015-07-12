@@ -425,7 +425,7 @@ namespace Comets.OrbitViewer
 				if (ShowDate)
 				{
 					// Date string
-					string strDate = String.Format("{0:00}.{1:00}.{2} {3:00}:{4:00}:{5:00}", ATime.Day, ATime.Month, ATime.Year, ATime.Hour, ATime.Minute, ATime.Second);
+					string strDate = String.Format("{0:00} {1} {2} {3:00}:{4:00}:{5:00}", ATime.Day, ATime.MonthAbbr(ATime.Month), ATime.Year, ATime.Hour, ATime.Minute, ATime.Second);
 					point1.X = Size.Width - (int)graphics.MeasureString(strDate, FontInformation).Width - labelMargin;
 					point1.Y = Size.Height - labelMargin - (int)(fontSize * 2.0);
 					graphics.DrawString(strDate, FontInformation, sb, point1.X, point1.Y);
