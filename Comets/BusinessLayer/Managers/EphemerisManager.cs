@@ -1,6 +1,7 @@
 ﻿using Comets.BusinessLayer.Business;
 using Comets.BusinessLayer.Extensions;
 using System;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -150,25 +151,25 @@ namespace Comets.BusinessLayer.Managers
 			chartArea.Name = chartAreaName;
 
 			chartArea.AxisX2.Title = xDate;
-			chartArea.AxisX2.TitleAlignment = System.Drawing.StringAlignment.Far;
-			chartArea.AxisX2.TitleFont = new System.Drawing.Font("Tahoma", 8.25F);
+			chartArea.AxisX2.TitleAlignment = StringAlignment.Far;
+			chartArea.AxisX2.TitleFont = new Font("Tahoma", 8.25F);
 			chartArea.AxisX2.MajorGrid.Enabled = false;
 			chartArea.AxisX2.IsLabelAutoFit = false;
 			chartArea.AxisX2.LabelAutoFitStyle = LabelAutoFitStyles.WordWrap;
 			chartArea.AxisX2.IsMarginVisible = false;
-			chartArea.AxisX2.LabelStyle.Font = new System.Drawing.Font("Tahoma", 8.25F);
-			chartArea.AxisX2.LabelStyle.Format = "dd MMMM yyyy";
+			chartArea.AxisX2.LabelStyle.Font = new Font("Tahoma", 8.25F);
+			chartArea.AxisX2.LabelStyle.Format = "dd MMM yyyy";
 
 			chartArea.AxisY.Title = yMagnitude;
-			chartArea.AxisY.TitleAlignment = System.Drawing.StringAlignment.Far;
-			chartArea.AxisY.TitleFont = new System.Drawing.Font("Tahoma", 8.25F);
+			chartArea.AxisY.TitleAlignment = StringAlignment.Far;
+			chartArea.AxisY.TitleFont = new Font("Tahoma", 8.25F);
 			chartArea.AxisY.TextOrientation = TextOrientation.Rotated270;
 			chartArea.AxisY.IsReversed = true;
 			chartArea.AxisY.MajorGrid.Enabled = false;
 			chartArea.AxisY.IsLabelAutoFit = false;
 			chartArea.AxisY.IsMarginVisible = false;
 			chartArea.AxisY.MajorTickMark.Size = 0.5F;
-			chartArea.AxisY.LabelStyle.Font = new System.Drawing.Font("Tahoma", 8.25F);
+			chartArea.AxisY.LabelStyle.Font = new Font("Tahoma", 8.25F);
 
 			double yInterval = 0D;
 
@@ -183,76 +184,10 @@ namespace Comets.BusinessLayer.Managers
 			else
 				yInterval = 2D;
 
-			DateTimeIntervalType xIntervalType = DateTimeIntervalType.Auto;
-			double xInterval = 1.0;
-
-			double totalDays = xMax - xMin;
-			double totalWeeks = totalDays / 7.0;
-			double totalMonths = totalDays / 30.0;
-			double totalYears = totalDays / 365.25;
-
-			double value = 10.0;
-
-			if (totalYears >= 200)
-			{
-				xIntervalType = DateTimeIntervalType.Years;
-				xInterval = 50.0;
-			}
-			else if (totalYears >= 150)
-			{
-				xIntervalType = DateTimeIntervalType.Years;
-				xInterval = 25.0;
-			}
-			else if (totalYears >= 100)
-			{
-				xIntervalType = DateTimeIntervalType.Years;
-				xInterval = 10.0;
-			}
-			else if (totalYears >= value)
-			{
-				xIntervalType = DateTimeIntervalType.Years;
-				xInterval = (double)Math.Floor(totalYears / value);
-			}
-			else if (totalMonths > value)
-			{
-				xIntervalType = DateTimeIntervalType.Months;
-				xInterval = (double)Math.Ceiling(totalMonths / value);
-			}
-			else if (totalMonths <= value)
-			{
-				xIntervalType = DateTimeIntervalType.Months;
-				xInterval = (double)Math.Floor(totalMonths / value);
-			}
-			else if (totalWeeks > value)
-			{
-				xIntervalType = DateTimeIntervalType.Weeks;
-				xInterval = (double)Math.Ceiling(totalWeeks / value);
-			}
-			else if (totalWeeks <= value)
-			{
-				xIntervalType = DateTimeIntervalType.Weeks;
-				xInterval = (double)Math.Floor(totalWeeks / value);
-			}
-			else if (totalDays > value)
-			{
-				xIntervalType = DateTimeIntervalType.Days;
-				xInterval = (double)Math.Ceiling(totalDays / value);
-			}
-			else if (totalDays <= value)
-			{
-				xIntervalType = DateTimeIntervalType.Days;
-				xInterval = (double)Math.Floor(totalDays / value);
-			}
-			else
-			{
-				xIntervalType = DateTimeIntervalType.Days;
-				xInterval = 1;
-			}
-
 			chartArea.AxisX2.Minimum = Utils.JDToOta(xMin);
 			chartArea.AxisX2.Maximum = Utils.JDToOta(xMax);
-			chartArea.AxisX2.IntervalType = xIntervalType;
-			chartArea.AxisX2.Interval = xInterval;
+			chartArea.AxisX2.IntervalType = DateTimeIntervalType.Auto;
+			chartArea.AxisX2.IntervalOffset = 0;
 
 			chartArea.AxisY.Minimum = yMin;
 			chartArea.AxisY.Maximum = yMax;
@@ -269,7 +204,7 @@ namespace Comets.BusinessLayer.Managers
 
 			Series series = new Series();
 			series.ChartArea = chartAreaName;
-			series.Color = System.Drawing.Color.Red;
+			series.Color = Color.Red;
 			series.ChartType = SeriesChartType.Spline;
 			series.XAxisType = AxisType.Secondary;
 			series.XValueType = ChartValueType.DateTime;
@@ -295,7 +230,7 @@ namespace Comets.BusinessLayer.Managers
 				{
 					Series s = new Series();
 					s.ChartArea = chartAreaName;
-					s.Color = System.Drawing.Color.RoyalBlue;
+					s.Color = Color.RoyalBlue;
 					s.ChartType = SeriesChartType.Line;
 					s.XAxisType = AxisType.Secondary;
 					s.XValueType = ChartValueType.DateTime;
@@ -314,7 +249,7 @@ namespace Comets.BusinessLayer.Managers
 				{
 					Series s = new Series();
 					s.ChartArea = chartAreaName;
-					s.Color = System.Drawing.Color.LimeGreen;
+					s.Color = Color.LimeGreen;
 					s.ChartType = SeriesChartType.Line;
 					s.XAxisType = AxisType.Secondary;
 					s.XValueType = ChartValueType.DateTime;
@@ -325,7 +260,7 @@ namespace Comets.BusinessLayer.Managers
 			}
 
 			Title title = new Title(settings.SelectedComet.ToString());
-			title.Font = new System.Drawing.Font("Tahoma", 11.25F);
+			title.Font = new Font("Tahoma", 11.25F);
 			chart1.Titles.Clear();
 			chart1.Titles.Add(title);
 		}
