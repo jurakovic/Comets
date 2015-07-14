@@ -90,6 +90,21 @@ namespace Comets.Application
 
 		#endregion
 
+		#region FormDatabase_KeyDown
+
+		private void FormDatabase_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Escape)
+			{
+				if (pnlFilters.Visible)
+					InvertPanelsVisibility();
+				else
+					this.Close();
+			}
+		}
+
+		#endregion
+
 		#region FormDatabase_FormClosing
 
 		private void FormDatabase_FormClosing(object sender, FormClosingEventArgs e)
@@ -149,7 +164,17 @@ namespace Comets.Application
 
 		#endregion
 
-		#region Sort
+		#region InvertPanelsVisibility
+
+		private void InvertPanelsVisibility()
+		{
+			pnlDetails.Visible = !pnlDetails.Visible;
+			pnlFilters.Visible = !pnlFilters.Visible;
+		}
+
+		#endregion
+
+		#region + Sort
 
 		#region SetSortItems
 
@@ -245,14 +270,13 @@ namespace Comets.Application
 
 		#endregion
 
-		#region Filters
+		#region + Filters
 
 		#region btnFilters_Click
 
 		private void btnFilters_Click(object sender, EventArgs e)
 		{
-			pnlDetails.Visible = !pnlDetails.Visible;
-			pnlFilters.Visible = !pnlFilters.Visible;
+			InvertPanelsVisibility();
 		}
 
 		#endregion

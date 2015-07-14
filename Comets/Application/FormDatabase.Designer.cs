@@ -1361,7 +1361,6 @@
 			this.AcceptButton = this.btnOk;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.CancelButton = this.btnCancel;
 			this.ClientSize = new System.Drawing.Size(813, 417);
 			this.Controls.Add(this.lblTotal);
 			this.Controls.Add(this.btnFilters);
@@ -1373,6 +1372,7 @@
 			this.Controls.Add(this.btnOk);
 			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+			this.KeyPreview = true;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "FormDatabase";
@@ -1382,6 +1382,7 @@
 			this.Text = "Database";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormDatabase_FormClosing);
 			this.Load += new System.EventHandler(this.FormDatabase_Load);
+			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormDatabase_KeyDown);
 			this.gbDetails.ResumeLayout(false);
 			this.gbDetails.PerformLayout();
 			this.pnlDetails.ResumeLayout(false);
