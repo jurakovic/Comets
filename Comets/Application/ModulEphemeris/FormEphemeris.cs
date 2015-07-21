@@ -2,7 +2,6 @@
 using Comets.BusinessLayer.Managers;
 using System;
 using System.IO;
-using System.Text;
 using System.Windows.Forms;
 
 namespace Comets.Application.ModulEphemeris

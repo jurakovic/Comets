@@ -61,9 +61,9 @@ namespace Comets.Application
 
 			Settings = SettingsManager.LoadSettings();
 
-			DateTime dt = DateTime.Now.AddDays(-20);
+			DateTime dt = DateTime.Now.AddMonths(-1);
 			DefaultDateStart = new DateTime(dt.Year, dt.Month, 1, 22, 00, 00, DateTimeKind.Local);
-			dt = DateTime.Now.AddDays(-20).AddMonths(1);
+			dt = DateTime.Now.AddMonths(1);
 			DefaultDateEnd = new DateTime(dt.Year, dt.Month, DateTime.DaysInMonth(dt.Year, dt.Month), 22, 00, 00, DateTimeKind.Local);
 
 			if (Settings.RememberWindowPosition)

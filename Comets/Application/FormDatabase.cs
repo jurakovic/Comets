@@ -1,5 +1,4 @@
 ﻿using Comets.BusinessLayer.Business;
-using Comets.BusinessLayer.Extensions;
 using Comets.BusinessLayer.Managers;
 using System;
 using System.Collections.Generic;

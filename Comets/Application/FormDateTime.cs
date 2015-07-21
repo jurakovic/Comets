@@ -25,13 +25,21 @@ namespace Comets.Application
 			{
 				return _selected;
 			}
-
 			private set
 			{
 				_selected = value;
-				PopulateTextBoxes();
+
+				if (_selected < Minimum)
+					_selected = Minimum;
+
+				if (_selected > Maximum)
+					_selected = Maximum;
+
+				PopulateData();
 			}
 		}
+
+		public bool IsTextChangedByProgram { get; set; }
 
 		private DateTime DefaultDateTime { get; set; }
 		private double? T { get; set; }
@@ -56,8 +64,7 @@ namespace Comets.Application
 			SelectedDateTime = current;
 			T = t;
 
-			this.separator3.Visible = T != null;
-			this.mnuPerihelionDate.Visible = T != null;
+			this.mnuPerihelionDate.Visible = this.separator3.Visible = T != null;
 		}
 
 		#endregion
@@ -66,7 +73,51 @@ namespace Comets.Application
 
 		private void txtCommon_KeyDown(object sender, KeyEventArgs e)
 		{
-			e.SuppressKeyPress = Utils.TextBoxValueUpDown(sender, e);
+			IsTextChangedByProgram = true;
+
+			bool suppress = Utils.TextBoxValueUpDown(sender, e);
+
+			bool up = e.KeyData == Keys.Up;
+			bool down = e.KeyData == Keys.Down;
+
+			if (up || down)
+			{
+				int value = 0;
+
+				if (up)
+					value = 1;
+
+				if (down)
+					value = -1;
+
+				LeMiMa lemima = (sender as TextBox).Tag as LeMiMa;
+
+				switch (lemima.Name)
+				{
+					case LeMiMa.NameEnum.Day:
+						SelectedDateTime = SelectedDateTime.AddDays(value);
+						break;
+					case LeMiMa.NameEnum.Month:
+						SelectedDateTime = SelectedDateTime.AddMonths(value);
+						break;
+					case LeMiMa.NameEnum.Year:
+						SelectedDateTime = SelectedDateTime.AddYears(value);
+						break;
+					case LeMiMa.NameEnum.Hour:
+						SelectedDateTime = SelectedDateTime.AddHours(value);
+						break;
+					case LeMiMa.NameEnum.Minute:
+						SelectedDateTime = SelectedDateTime.AddMinutes(value);
+						break;
+					case LeMiMa.NameEnum.Second:
+						SelectedDateTime = SelectedDateTime.AddSeconds(value);
+						break;
+				}
+			}
+
+			e.SuppressKeyPress = suppress;
+
+			IsTextChangedByProgram = false;
 		}
 
 		private void txtCommon_KeyPress(object sender, KeyPressEventArgs e)
@@ -74,20 +125,10 @@ namespace Comets.Application
 			e.Handled = Utils.HandleKeyPress(sender, e);
 		}
 
-		private void txtMonthYear_TextChanged(object sender, EventArgs e)
+		private void txtCommon_TextChanged(object sender, EventArgs e)
 		{
-			if (txtMonth.Text.Length > 0 && txtYear.Text.Length > 0)
-			{
-				int max = DateTime.DaysInMonth(txtYear.Int(), txtMonth.Int());
-
-				LeMiMa o = txtDay.Tag as LeMiMa;
-				LeMiMa n = new LeMiMa(o.Len, o.Min, max);
-
-				if (txtDay.Text.Length > 0 && (txtDay.Int()) > n.Max)
-					txtDay.Text = n.Max.ToString();
-
-				txtDay.Tag = n;
-			}
+			if (!IsTextChangedByProgram)
+				CollectData();
 		}
 
 		#endregion
@@ -130,7 +171,36 @@ namespace Comets.Application
 		#endregion
 
 		#region btnOk_Click
+
 		private void btnOk_Click(object sender, EventArgs e)
+		{
+			CollectData();
+		}
+
+		#endregion
+
+		#region PopulateData
+
+		private void PopulateData()
+		{
+			IsTextChangedByProgram = true;
+
+			txtDay.Text = SelectedDateTime.Day.ToString("00");
+			txtMonth.Text = SelectedDateTime.Month.ToString("00");
+			txtYear.Text = SelectedDateTime.Year.ToString();
+
+			txtHour.Text = SelectedDateTime.Hour.ToString("00");
+			txtMinute.Text = SelectedDateTime.Minute.ToString("00");
+			txtSecond.Text = SelectedDateTime.Second.ToString("00");
+
+			IsTextChangedByProgram = false;
+		}
+
+		#endregion
+
+		#region CollectData
+
+		private void CollectData()
 		{
 			int year = txtYear.Int();
 			int mon = txtMonth.Int();
@@ -148,21 +218,6 @@ namespace Comets.Application
 				dt = Maximum;
 
 			_selected = dt;
-		}
-
-		#endregion
-
-		#region PopulateTextBoxes
-
-		private void PopulateTextBoxes()
-		{
-			txtDay.Text = SelectedDateTime.Day.ToString();
-			txtMonth.Text = SelectedDateTime.Month.ToString();
-			txtYear.Text = SelectedDateTime.Year.ToString();
-
-			txtHour.Text = SelectedDateTime.Hour.ToString();
-			txtMinute.Text = SelectedDateTime.Minute.ToString();
-			txtSecond.Text = SelectedDateTime.Second.ToString();
 		}
 
 		#endregion

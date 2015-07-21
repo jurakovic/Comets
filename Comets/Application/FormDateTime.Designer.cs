@@ -74,6 +74,7 @@
 			this.txtSecond.Size = new System.Drawing.Size(42, 21);
 			this.txtSecond.TabIndex = 5;
 			this.txtSecond.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.txtSecond.TextChanged += new System.EventHandler(this.txtCommon_TextChanged);
 			this.txtSecond.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCommon_KeyDown);
 			this.txtSecond.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCommon_KeyPress);
 			// 
@@ -95,6 +96,7 @@
 			this.txtMinute.Size = new System.Drawing.Size(42, 21);
 			this.txtMinute.TabIndex = 4;
 			this.txtMinute.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.txtMinute.TextChanged += new System.EventHandler(this.txtCommon_TextChanged);
 			this.txtMinute.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCommon_KeyDown);
 			this.txtMinute.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCommon_KeyPress);
 			// 
@@ -106,6 +108,7 @@
 			this.txtHour.Size = new System.Drawing.Size(42, 21);
 			this.txtHour.TabIndex = 3;
 			this.txtHour.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.txtHour.TextChanged += new System.EventHandler(this.txtCommon_TextChanged);
 			this.txtHour.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCommon_KeyDown);
 			this.txtHour.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCommon_KeyPress);
 			// 
@@ -117,6 +120,7 @@
 			this.txtDay.Size = new System.Drawing.Size(42, 21);
 			this.txtDay.TabIndex = 0;
 			this.txtDay.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.txtDay.TextChanged += new System.EventHandler(this.txtCommon_TextChanged);
 			this.txtDay.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCommon_KeyDown);
 			this.txtDay.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCommon_KeyPress);
 			// 
@@ -128,7 +132,7 @@
 			this.txtMonth.Size = new System.Drawing.Size(42, 21);
 			this.txtMonth.TabIndex = 1;
 			this.txtMonth.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.txtMonth.TextChanged += new System.EventHandler(this.txtMonthYear_TextChanged);
+			this.txtMonth.TextChanged += new System.EventHandler(this.txtCommon_TextChanged);
 			this.txtMonth.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCommon_KeyDown);
 			this.txtMonth.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCommon_KeyPress);
 			// 
@@ -140,7 +144,7 @@
 			this.txtYear.Size = new System.Drawing.Size(61, 21);
 			this.txtYear.TabIndex = 2;
 			this.txtYear.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.txtYear.TextChanged += new System.EventHandler(this.txtMonthYear_TextChanged);
+			this.txtYear.TextChanged += new System.EventHandler(this.txtCommon_TextChanged);
 			this.txtYear.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCommon_KeyDown);
 			this.txtYear.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCommon_KeyPress);
 			// 
