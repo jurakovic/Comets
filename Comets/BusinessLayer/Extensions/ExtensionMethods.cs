@@ -80,7 +80,7 @@ namespace Comets.BusinessLayer.Extensions
 		/// <returns></returns>
 		public static double JD(this DateTime dt)
 		{
-			return EphemerisManager.jd(dt.ToUniversalTime());
+			return EphemerisManager.JD(dt);
 		}
 
 		#endregion

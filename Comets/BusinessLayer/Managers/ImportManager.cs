@@ -484,7 +484,7 @@ namespace Comets.BusinessLayer.Managers
 					c.id = idn[0];
 					c.name = idn[1];
 
-					c.T = EphemerisManager.jd0(c.Ty, c.Tm, c.Td, c.Th);
+					c.T = EphemerisManager.JD0(c.Ty, c.Tm, c.Td, c.Th);
 
 					c.sortkey = Comet.GetSortkey(c.id);
 					c.idKey = Comet.GetIdKey(c.id);
@@ -558,7 +558,7 @@ namespace Comets.BusinessLayer.Managers
 					c.id = tempId;
 					c.name = tempName;
 
-					c.T = EphemerisManager.jd0(c.Ty, c.Tm, c.Td, c.Th);
+					c.T = EphemerisManager.JD0(c.Ty, c.Tm, c.Td, c.Th);
 
 					c.sortkey = Comet.GetSortkey(c.id);
 					c.idKey = Comet.GetIdKey(c.id);
@@ -617,7 +617,7 @@ namespace Comets.BusinessLayer.Managers
 					c.id = tempId;
 					c.name = tempName;
 
-					c.T = EphemerisManager.jd0(c.Ty, c.Tm, c.Td, c.Th);
+					c.T = EphemerisManager.JD0(c.Ty, c.Tm, c.Td, c.Th);
 
 					c.sortkey = Comet.GetSortkey(c.id);
 					c.idKey = Comet.GetIdKey(c.id);
@@ -684,14 +684,14 @@ namespace Comets.BusinessLayer.Managers
 						}
 						else
 						{
-							double E = EphemerisManager.jd0(y, m, d, h); // epoch date, i.e., time of M
+							double E = EphemerisManager.JD0(y, m, d, h); // epoch date, i.e., time of M
 
 							c.T = E - M / n;
 
 							if (M >= 180)
 								c.T += c.P * 365.25;
 
-							int[] newdate = EphemerisManager.jdtocd(c.T);
+							int[] newdate = EphemerisManager.JDToDateTime(c.T);
 							c.Ty = newdate[0];
 							c.Tm = newdate[1];
 							c.Td = newdate[2];
@@ -717,7 +717,7 @@ namespace Comets.BusinessLayer.Managers
 						c.k = Convert.ToDouble(parts[9]);
 
 						c.e = 1.0;
-						c.T = EphemerisManager.jd0(c.Ty, c.Tm, c.Td, c.Th);
+						c.T = EphemerisManager.JD0(c.Ty, c.Tm, c.Td, c.Th);
 					}
 					else if (parts[1] == "h")
 					{
@@ -736,7 +736,7 @@ namespace Comets.BusinessLayer.Managers
 						c.g = Convert.ToDouble(parts[9]);
 						c.k = Convert.ToDouble(parts[10]);
 
-						c.T = EphemerisManager.jd0(c.Ty, c.Tm, c.Td, c.Th);
+						c.T = EphemerisManager.JD0(c.Ty, c.Tm, c.Td, c.Th);
 					}
 
 					c.sortkey = Comet.GetSortkey(c.id);
@@ -782,7 +782,7 @@ namespace Comets.BusinessLayer.Managers
 					c.N = Convert.ToDouble(parts[5]);
 					c.i = Convert.ToDouble(parts[6]);
 
-					c.T = EphemerisManager.jd0(c.Ty, c.Tm, c.Td, c.Th);
+					c.T = EphemerisManager.JD0(c.Ty, c.Tm, c.Td, c.Th);
 
 					c.sortkey = Comet.GetSortkey(c.id);
 					c.idKey = Comet.GetIdKey(c.id);
@@ -826,7 +826,7 @@ namespace Comets.BusinessLayer.Managers
 					h = Convert.ToInt32(Th[1].Trim().PadRight(4, '0'));
 					c.T = T + 2400000.5;
 
-					int[] dd = EphemerisManager.jdtocd(c.T);
+					int[] dd = EphemerisManager.JDToDateTime(c.T);
 					c.Ty = dd[0];
 					c.Tm = dd[1];
 					c.Td = dd[2];
@@ -840,7 +840,7 @@ namespace Comets.BusinessLayer.Managers
 					c.g = Convert.ToDouble(parts[7]);
 					c.k = Convert.ToDouble(parts[8]);
 
-					c.T = EphemerisManager.jd0(c.Ty, c.Tm, c.Td, c.Th);
+					c.T = EphemerisManager.JD0(c.Ty, c.Tm, c.Td, c.Th);
 
 					c.sortkey = Comet.GetSortkey(c.id);
 					c.idKey = Comet.GetIdKey(c.id);
@@ -883,7 +883,7 @@ namespace Comets.BusinessLayer.Managers
 					c.g = Convert.ToDouble(parts[8]);
 					c.k = Convert.ToDouble(parts[9]) / 2.5;
 
-					c.T = EphemerisManager.jd0(c.Ty, c.Tm, c.Td, c.Th);
+					c.T = EphemerisManager.JD0(c.Ty, c.Tm, c.Td, c.Th);
 
 					c.sortkey = Comet.GetSortkey(c.id);
 					c.idKey = Comet.GetIdKey(c.id);
@@ -920,13 +920,13 @@ namespace Comets.BusinessLayer.Managers
 
 					c.full = Comet.GetFullFromIdName(c.id, c.name);
 
-					int[] dd = EphemerisManager.jdtocd(c.T);
+					int[] dd = EphemerisManager.JDToDateTime(c.T);
 					c.Ty = dd[0];
 					c.Tm = dd[1];
 					c.Td = dd[2];
 					c.Th = (int)(((dd[4] + (dd[5] / 60.0) + (dd[6] / 3600.0)) / 24) * 10000);
 
-					c.T = EphemerisManager.jd0(c.Ty, c.Tm, c.Td, c.Th);
+					c.T = EphemerisManager.JD0(c.Ty, c.Tm, c.Td, c.Th);
 
 					c.sortkey = Comet.GetSortkey(c.id);
 					c.idKey = Comet.GetIdKey(c.id);
@@ -973,7 +973,7 @@ namespace Comets.BusinessLayer.Managers
 					c.g = Convert.ToDouble(parts[10]);
 					c.k = Convert.ToDouble(parts[11]) / 2.5;
 
-					c.T = EphemerisManager.jd0(c.Ty, c.Tm, c.Td, c.Th);
+					c.T = EphemerisManager.JD0(c.Ty, c.Tm, c.Td, c.Th);
 
 					c.sortkey = Comet.GetSortkey(c.id);
 					c.idKey = Comet.GetIdKey(c.id);
@@ -1034,7 +1034,7 @@ namespace Comets.BusinessLayer.Managers
 					c.full = Comet.GetFullFromIdName(id, c.name);
 					c.id = id;
 
-					c.T = EphemerisManager.jd0(c.Ty, c.Tm, c.Td, c.Th);
+					c.T = EphemerisManager.JD0(c.Ty, c.Tm, c.Td, c.Th);
 
 					c.sortkey = Comet.GetSortkey(c.id);
 					c.idKey = Comet.GetIdKey(c.id);
@@ -1080,7 +1080,7 @@ namespace Comets.BusinessLayer.Managers
 					c.g = Convert.ToDouble(parts[11]);
 					c.k = Convert.ToDouble(parts[12]) / 2.5;
 
-					c.T = EphemerisManager.jd0(c.Ty, c.Tm, c.Td, c.Th);
+					c.T = EphemerisManager.JD0(c.Ty, c.Tm, c.Td, c.Th);
 
 					c.sortkey = Comet.GetSortkey(c.id);
 					c.idKey = Comet.GetIdKey(c.id);
@@ -1136,7 +1136,7 @@ namespace Comets.BusinessLayer.Managers
 					c.full = Comet.GetFullFromIdName(id, c.name);
 					c.id = id;
 
-					c.T = EphemerisManager.jd0(c.Ty, c.Tm, c.Td, c.Th);
+					c.T = EphemerisManager.JD0(c.Ty, c.Tm, c.Td, c.Th);
 
 					c.sortkey = Comet.GetSortkey(c.id);
 					c.idKey = Comet.GetIdKey(c.id);
@@ -1176,7 +1176,7 @@ namespace Comets.BusinessLayer.Managers
 					c.g = Convert.ToDouble(line.Substring(119, 6).Trim());
 					c.k = Convert.ToDouble(line.Substring(126, 6).Trim());
 
-					c.T = EphemerisManager.jd0(c.Ty, c.Tm, c.Td, c.Th);
+					c.T = EphemerisManager.JD0(c.Ty, c.Tm, c.Td, c.Th);
 
 					c.sortkey = Comet.GetSortkey(c.id);
 					c.idKey = Comet.GetIdKey(c.id);
@@ -1222,7 +1222,7 @@ namespace Comets.BusinessLayer.Managers
 					c.id = idn[0];
 					c.name = idn[1];
 
-					c.T = EphemerisManager.jd0(c.Ty, c.Tm, c.Td, c.Th);
+					c.T = EphemerisManager.JD0(c.Ty, c.Tm, c.Td, c.Th);
 
 					c.sortkey = Comet.GetSortkey(c.id);
 					c.idKey = Comet.GetIdKey(c.id);
@@ -1269,7 +1269,7 @@ namespace Comets.BusinessLayer.Managers
 					c.Td = Convert.ToInt32(dh[0]);
 					c.Th = Convert.ToInt32(dh[1].Trim().PadRight(4, '0'));
 
-					c.T = EphemerisManager.jd0(c.Ty, c.Tm, c.Td, c.Th);
+					c.T = EphemerisManager.JD0(c.Ty, c.Tm, c.Td, c.Th);
 
 					//voyager nema id
 					//c.sortkey = Comet.GetSortkey(c.id);
@@ -1339,7 +1339,7 @@ namespace Comets.BusinessLayer.Managers
 					c.g = Convert.ToDouble(line.Substring(115, 5).Trim());
 					c.k = Convert.ToDouble(line.Substring(122, 4).Trim());
 
-					c.T = EphemerisManager.jd0(c.Ty, c.Tm, c.Td, c.Th);
+					c.T = EphemerisManager.JD0(c.Ty, c.Tm, c.Td, c.Th);
 
 					c.sortkey = Comet.GetSortkey(c.id);
 					c.idKey = Comet.GetIdKey(c.id);
@@ -1385,7 +1385,7 @@ namespace Comets.BusinessLayer.Managers
 					c.g = Convert.ToDouble(gk[0]);
 					c.k = Convert.ToDouble(gk[1]) / 2.5;
 
-					c.T = EphemerisManager.jd0(c.Ty, c.Tm, c.Td, c.Th);
+					c.T = EphemerisManager.JD0(c.Ty, c.Tm, c.Td, c.Th);
 
 					c.sortkey = Comet.GetSortkey(c.id);
 					c.idKey = Comet.GetIdKey(c.id);
@@ -1432,7 +1432,7 @@ namespace Comets.BusinessLayer.Managers
 					c.Td = Convert.ToInt32(lines[i].Substring(111, 2).Trim());
 					c.Th = Convert.ToInt32(Convert.ToDouble(lines[i].Substring(114, 5).Trim().PadRight(5, '0')) / 10.0);
 
-					c.T = EphemerisManager.jd0(c.Ty, c.Tm, c.Td, c.Th);
+					c.T = EphemerisManager.JD0(c.Ty, c.Tm, c.Td, c.Th);
 
 					c.sortkey = Comet.GetSortkey(c.id);
 					c.idKey = Comet.GetIdKey(c.id);
