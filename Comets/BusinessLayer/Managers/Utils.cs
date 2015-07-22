@@ -129,19 +129,6 @@ namespace Comets.BusinessLayer.Managers
 
 		#endregion
 
-		#region ConvertToDouble
-
-		public static double ConvertToDouble(string str)
-		{
-			double retval = 0.0;
-
-			Double.TryParse(str, out retval);
-
-			return retval;
-		}
-
-		#endregion
-
 		#region JDToDateTime
 
 		public static DateTime JDToDateTime(double jd)
@@ -157,107 +144,6 @@ namespace Comets.BusinessLayer.Managers
 		public static double JDToOta(double jd)
 		{
 			return JDToDateTime(jd).ToOADate();
-		}
-
-		#endregion
-
-		#region ControlDateTime
-
-		public static int[] ControlDateTime(int y, int m, int d, int dmax, int hh, int mm, bool mChanged, bool yChanged)
-		{
-			int changed = 0;
-
-			bool hhChanged = false;
-			bool dChanged = false;
-
-			bool dayIsMin = false;
-			bool dayIsMax = false;
-
-			if (mm >= 60)
-			{
-				++hh;
-				mm = 0;
-				hhChanged = true;
-			}
-			else if (mm <= -1)
-			{
-				--hh;
-				mm = 59;
-				hhChanged = true;
-			}
-
-			if (hh >= 24)
-			{
-				++d;
-				hh = 0;
-				dChanged = true;
-			}
-			else if (hh <= -1)
-			{
-				--d;
-				hh = 23;
-				dChanged = true;
-			}
-
-			if (d >= dmax)
-			{
-				++m;
-				mChanged = true;
-				dayIsMin = true;
-			}
-			else if (d <= 0)
-			{
-				--m;
-				mChanged = true;
-				dayIsMax = true;
-			}
-
-			if (mChanged || yChanged)
-			{
-				if (m >= 13)
-				{
-					++y;
-					m = 1;
-				}
-				else if (m <= 0)
-				{
-					--y;
-					m = 12;
-				}
-
-				int daysInMonth = DateTime.DaysInMonth(y, m);
-				dmax = daysInMonth;
-
-				if (!dayIsMin && d >= (int)dmax)
-					dayIsMax = true;
-
-				if (dayIsMin)
-					d = 1;
-
-				if (dayIsMax)
-					d = daysInMonth;
-			}
-
-			if (y == 1582 && m == 10)
-			{
-				if (5 <= d && d < 10)
-				{
-					d = 15;
-					dChanged = true;
-				}
-				else if (10 <= d && d < 15)
-				{
-					d = 4;
-					dChanged = true;
-				}
-			}
-
-			if (hhChanged || dChanged || dayIsMin || dayIsMax || mChanged || yChanged)
-			{
-				changed = 1;
-			}
-
-			return new int[] { y, m, d, dmax, hh, mm, changed };
 		}
 
 		#endregion

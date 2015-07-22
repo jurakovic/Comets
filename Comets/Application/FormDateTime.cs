@@ -28,13 +28,6 @@ namespace Comets.Application
 			private set
 			{
 				_selected = value;
-
-				if (_selected < Minimum)
-					_selected = Minimum;
-
-				if (_selected > Maximum)
-					_selected = Maximum;
-
 				PopulateData();
 			}
 		}
@@ -82,6 +75,8 @@ namespace Comets.Application
 
 			if (up || down)
 			{
+				DateTime dt = SelectedDateTime;
+
 				int value = 0;
 
 				if (up)
@@ -95,28 +90,30 @@ namespace Comets.Application
 				switch (lemima.Name)
 				{
 					case LeMiMa.NameEnum.Day:
-						SelectedDateTime = SelectedDateTime.AddDays(value);
+						dt = dt.AddDays(value);
 						break;
 					case LeMiMa.NameEnum.Month:
-						SelectedDateTime = SelectedDateTime.AddMonths(value);
+						dt = dt.AddMonths(value);
 						break;
 					case LeMiMa.NameEnum.Year:
-						SelectedDateTime = SelectedDateTime.AddYears(value);
+						dt = dt.AddYears(value);
 						break;
 					case LeMiMa.NameEnum.Hour:
-						SelectedDateTime = SelectedDateTime.AddHours(value);
+						dt = dt.AddHours(value);
 						break;
 					case LeMiMa.NameEnum.Minute:
-						SelectedDateTime = SelectedDateTime.AddMinutes(value);
+						dt = dt.AddMinutes(value);
 						break;
 					case LeMiMa.NameEnum.Second:
-						SelectedDateTime = SelectedDateTime.AddSeconds(value);
+						dt = dt.AddSeconds(value);
 						break;
 				}
+
+				dt = RangeDateTime(dt);
+				SelectedDateTime = dt;
 			}
 
 			e.SuppressKeyPress = suppress;
-
 			IsTextChangedByProgram = false;
 		}
 
@@ -179,6 +176,37 @@ namespace Comets.Application
 
 		#endregion
 
+		#region RangeDateTime
+
+		private DateTime RangeDateTime(DateTime dt)
+		{
+			if (dt < Minimum)
+				dt = Minimum;
+
+			if (dt > Maximum)
+				dt = Maximum;
+
+			if (dt.Year == 1582 && dt.Month == 10)
+			{
+				int day = dt.Day;
+
+				if (5 <= dt.Day && dt.Day < 10)
+				{
+					day = 15;
+				}
+				else if (10 <= dt.Day && dt.Day < 15)
+				{
+					day = 4;
+				}
+
+				dt = new DateTime(dt.Year, dt.Month, day, dt.Hour, dt.Minute, dt.Second, dt.Kind);
+			}
+
+			return dt;
+		}
+
+		#endregion
+
 		#region PopulateData
 
 		private void PopulateData()
@@ -211,11 +239,7 @@ namespace Comets.Application
 
 			DateTime dt = new DateTime(year, mon, day, hour, min, sec, DateTimeKind.Local);
 
-			if (dt < Minimum)
-				dt = Minimum;
-
-			if (dt > Maximum)
-				dt = Maximum;
+			dt = RangeDateTime(dt);
 
 			_selected = dt;
 		}
