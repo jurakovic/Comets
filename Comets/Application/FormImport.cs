@@ -239,6 +239,8 @@ namespace Comets.Application
 
 		private void btnImport_Click(object sender, EventArgs e)
 		{
+			bool isImpoted = false;
+
 			if (ImportType < ImportType.NoFileSelected)
 			{
 				List<Comet> newList = ImportManager.ImportMain(FormMain.MainList, ImportType, ImportFilename);
@@ -255,11 +257,11 @@ namespace Comets.Application
 					FormMain.MainList = newList.OrderBy(x => x.sortkey).ToList();
 					FormMain.UserList = newList.OrderBy(x => x.sortkey).ToList();
 
-					this.Close();
+					isImpoted = true;
 				}
 			}
 
-			if (IsAutomaticUpdate)
+			if (isImpoted || IsAutomaticUpdate)
 				this.Close();
 		}
 

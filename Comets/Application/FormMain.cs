@@ -356,6 +356,7 @@ namespace Comets.Application
 			{
 				formImport.TopMost = this.TopMost;
 				formImport.ShowDialog();
+				SetStatusCometsLabel(UserList.Count, MainList.Count);
 			}
 		}
 
