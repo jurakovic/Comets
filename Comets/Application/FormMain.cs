@@ -37,7 +37,7 @@ namespace Comets.Application
 
 		public static DateTime DefaultDateStart { get; private set; }
 		public static DateTime DefaultDateEnd { get; private set; }
-	
+
 		private Size InitialFormSize { get; set; }
 		private Size CurrentFormSize { get; set; }
 		private Point InitialFormLocation { get; set; }
@@ -191,12 +191,10 @@ namespace Comets.Application
 				Settings.Top = this.Top;
 				Settings.Width = this.Width;
 				Settings.Height = this.Height;
-
-				SettingsManager.SaveSettings(Settings);
+				Settings.IsSettingsChanged = true;
 			}
 
-			// da ponovo ispiše postavke
-			if (Settings.IsDirty)
+			if (Settings.IsSettingsChanged || Settings.IsDirty)
 				SettingsManager.SaveSettings(Settings);
 		}
 

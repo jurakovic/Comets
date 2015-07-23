@@ -246,7 +246,10 @@ namespace Comets.Application
 				if (newList != null)
 				{
 					if (IsUsedDownloadedFile)
+					{
 						FormMain.Settings.LastUpdateDate = DateTime.Now;
+						FormMain.Settings.IsSettingsChanged = true;
+					}
 
 					FormMain.IsDataChanged = true;
 					FormMain.MainList = newList.OrderBy(x => x.sortkey).ToList();
