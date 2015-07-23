@@ -26,7 +26,7 @@ namespace Comets.Application.ModulOrbit
 
 		#region CenterObject
 
-		readonly string[] CenterObjectItems = { 
+		readonly string[] CenterObjectItems = {
 			"Sun",
 			"Comet",
 			"Mercury",
@@ -101,6 +101,7 @@ namespace Comets.Application.ModulOrbit
 
 		#region Properties
 
+		bool IsKeyboardScroll { get; set; }
 		bool IsMouseRotate { get; set; }
 		bool IsMouseWheelZoom { get; set; }
 		Point StartDrag { get; set; }
@@ -253,6 +254,7 @@ namespace Comets.Application.ModulOrbit
 		{
 			orbitPanel.Focus();
 			IsMouseWheelZoom = true;
+			IsKeyboardScroll = true;
 		}
 
 		private void orbitPanel_MouseUp(object sender, MouseEventArgs e)
@@ -264,6 +266,7 @@ namespace Comets.Application.ModulOrbit
 		{
 			IsMouseRotate = false;
 			IsMouseWheelZoom = false;
+			IsKeyboardScroll = false;
 		}
 
 		private void orbitPanel_MouseDown(object sender, MouseEventArgs e)
@@ -295,13 +298,13 @@ namespace Comets.Application.ModulOrbit
 				int newHorizValue = scrollHorz.Value + (int)newHv;
 				int newVertValue = scrollVert.Value + (int)newVv;
 
-				while (newHorizValue >= scrollHorz.Maximum)
+				while (newHorizValue > scrollHorz.Maximum)
 					newHorizValue -= scrollHorz.Maximum;
 
 				while (newHorizValue < scrollHorz.Minimum)
 					newHorizValue += scrollHorz.Maximum;
 
-				while (newVertValue >= scrollVert.Maximum)
+				while (newVertValue > scrollVert.Maximum)
 					newVertValue -= scrollVert.Maximum;
 
 				while (newVertValue < scrollVert.Minimum)
@@ -337,77 +340,99 @@ namespace Comets.Application.ModulOrbit
 
 		private void FormOrbitViewer_KeyDown(object sender, KeyEventArgs e)
 		{
+			bool handled = true;
 			bool control = Control.ModifierKeys == Keys.Control;
 
 			switch (e.KeyCode)
 			{
+				case Keys.Left:
+					handled = MoveScroll(scrollHorz, false);
+					break;
+				case Keys.Right:
+					handled = MoveScroll(scrollHorz, true);
+					break;
+
+				case Keys.Up:
+					handled = MoveScroll(scrollVert, false);
+					break;
+				case Keys.Down:
+					handled = MoveScroll(scrollVert, true);
+					break;
+
+				case Keys.Add:
+					handled = MoveScroll(scrollZoom, true, false);
+					break;
+				case Keys.Subtract:
+					handled = MoveScroll(scrollZoom, false, false);
+					break;
+
 				case Keys.D1:
 					if (control)
-						ChangeVisibleOrbit((int)OrbitPanel.OrbitsEnum.Mercury);
+						ChangeVisibleOrbit(OrbitPanel.OrbitsEnum.Mercury);
 					else
-						cboCenter.SelectedIndex = (int)OrbitPanel.CenteredObjectEnum.Mercury;
+						ChangeCenterObject(OrbitPanel.CenteredObjectEnum.Mercury);
 					break;
 
 				case Keys.D2:
 					if (control)
-						ChangeVisibleOrbit((int)OrbitPanel.OrbitsEnum.Venus);
+						ChangeVisibleOrbit(OrbitPanel.OrbitsEnum.Venus);
 					else
-						cboCenter.SelectedIndex = (int)OrbitPanel.CenteredObjectEnum.Venus;
+						ChangeCenterObject(OrbitPanel.CenteredObjectEnum.Venus);
 					break;
 
 				case Keys.D3:
 					if (control)
-						ChangeVisibleOrbit((int)OrbitPanel.OrbitsEnum.Earth);
+						ChangeVisibleOrbit(OrbitPanel.OrbitsEnum.Earth);
 					else
-						cboCenter.SelectedIndex = (int)OrbitPanel.CenteredObjectEnum.Earth;
+						ChangeCenterObject(OrbitPanel.CenteredObjectEnum.Earth);
 					break;
 
 				case Keys.D4:
 					if (control)
-						ChangeVisibleOrbit((int)OrbitPanel.OrbitsEnum.Mars);
+						ChangeVisibleOrbit(OrbitPanel.OrbitsEnum.Mars);
 					else
-						cboCenter.SelectedIndex = (int)OrbitPanel.CenteredObjectEnum.Mars;
+						ChangeCenterObject(OrbitPanel.CenteredObjectEnum.Mars);
 					break;
 
 				case Keys.D5:
 					if (control)
-						ChangeVisibleOrbit((int)OrbitPanel.OrbitsEnum.Jupiter);
+						ChangeVisibleOrbit(OrbitPanel.OrbitsEnum.Jupiter);
 					else
-						cboCenter.SelectedIndex = (int)OrbitPanel.CenteredObjectEnum.Jupiter;
+						ChangeCenterObject(OrbitPanel.CenteredObjectEnum.Jupiter);
 					break;
 
 				case Keys.D6:
 					if (control)
-						ChangeVisibleOrbit((int)OrbitPanel.OrbitsEnum.Saturn);
+						ChangeVisibleOrbit(OrbitPanel.OrbitsEnum.Saturn);
 					else
-						cboCenter.SelectedIndex = (int)OrbitPanel.CenteredObjectEnum.Saturn;
+						ChangeCenterObject(OrbitPanel.CenteredObjectEnum.Saturn);
 					break;
 
 				case Keys.D7:
 					if (control)
-						ChangeVisibleOrbit((int)OrbitPanel.OrbitsEnum.Uranus);
+						ChangeVisibleOrbit(OrbitPanel.OrbitsEnum.Uranus);
 					else
-						cboCenter.SelectedIndex = (int)OrbitPanel.CenteredObjectEnum.Uranus;
+						ChangeCenterObject(OrbitPanel.CenteredObjectEnum.Uranus);
 					break;
 
 				case Keys.D8:
 					if (control)
-						ChangeVisibleOrbit((int)OrbitPanel.OrbitsEnum.Neptune);
+						ChangeVisibleOrbit(OrbitPanel.OrbitsEnum.Neptune);
 					else
-						cboCenter.SelectedIndex = (int)OrbitPanel.CenteredObjectEnum.Neptune;
+						ChangeCenterObject(OrbitPanel.CenteredObjectEnum.Neptune);
 					break;
 
 				case Keys.D9:
 				case Keys.C:
 					if (control)
-						ChangeVisibleOrbit((int)OrbitPanel.OrbitsEnum.CometAsteroid);
+						ChangeVisibleOrbit(OrbitPanel.OrbitsEnum.CometAsteroid);
 					else
-						cboCenter.SelectedIndex = (int)OrbitPanel.CenteredObjectEnum.CometAsteroid;
+						ChangeCenterObject(OrbitPanel.CenteredObjectEnum.CometAsteroid);
 					break;
 
 				case Keys.D0:
 				case Keys.S:
-					cboCenter.SelectedIndex = (int)OrbitPanel.CenteredObjectEnum.Sun;
+					ChangeCenterObject(OrbitPanel.CenteredObjectEnum.Sun);
 					break;
 
 				case Keys.Space:
@@ -429,7 +454,47 @@ namespace Comets.Application.ModulOrbit
 				case Keys.L:
 					FasterSimulation();
 					break;
+
+				default:
+					handled = !(cboObject.Focused || cboCenter.Focused || cboOrbits.Focused || cboTimestep.Focused);
+					break;
 			}
+
+			e.Handled = handled;
+		}
+
+		private bool MoveScroll(ScrollBar scrollbar, bool isIncrement, bool continuous = true)
+		{
+			bool handled = false;
+
+			if (IsKeyboardScroll)
+			{
+				int value = scrollbar.LargeChange * (isIncrement ? 1 : -1);
+				int newValue = scrollbar.Value + value;
+
+				if (continuous)
+				{
+					while (newValue > scrollbar.Maximum)
+						newValue = scrollbar.Minimum;
+
+					while (newValue < scrollbar.Minimum)
+						newValue = scrollbar.Maximum;
+				}
+				else
+				{
+					if (newValue > scrollbar.Maximum)
+						newValue = scrollbar.Maximum;
+
+					if (newValue < scrollbar.Minimum)
+						newValue = scrollbar.Minimum;
+				}
+
+				scrollbar.Value = newValue;
+
+				handled = true;
+			}
+
+			return handled;
 		}
 
 		#endregion
@@ -597,37 +662,47 @@ namespace Comets.Application.ModulOrbit
 
 		private void cboOrbits_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			ChangeVisibleOrbit(cboOrbits.SelectedIndex);
+			ChangeVisibleOrbit((OrbitPanel.OrbitsEnum)cboOrbits.SelectedIndex);
 		}
 
-		private void ChangeVisibleOrbit(int index)
+		private void comboBoxCommon_MouseEnter(object sender, EventArgs e)
 		{
-			if (index == (int)OrbitPanel.OrbitsEnum.Default)
+			(sender as ComboBox).Focus();
+		}
+
+		private void ChangeVisibleOrbit(OrbitPanel.OrbitsEnum orbit)
+		{
+			if (orbit == (int)OrbitPanel.OrbitsEnum.Default)
 			{
 				for (int i = 0; i < OrbitDisplay.Length; i++)
 					OrbitDisplay[i] = OrbitDisplayDefault[i];
 			}
-			else if (index == (int)OrbitPanel.OrbitsEnum.AllOrbits)
+			else if (orbit == OrbitPanel.OrbitsEnum.AllOrbits)
 			{
 				for (int i = 0; i < OrbitDisplay.Length; i++)
 					OrbitDisplay[i] = true;
 			}
-			else if (index == (int)OrbitPanel.OrbitsEnum.NoOrbits)
+			else if (orbit == OrbitPanel.OrbitsEnum.NoOrbits)
 			{
 				for (int i = 0; i < OrbitDisplay.Length; i++)
 					OrbitDisplay[i] = false;
 			}
-			else if (index == (int)OrbitPanel.OrbitsEnum.Space)
+			else if (orbit == OrbitPanel.OrbitsEnum.Space)
 			{
 				return;
 			}
-			else if (index >= (int)OrbitPanel.OrbitsEnum.CometAsteroid)
+			else if (orbit >= OrbitPanel.OrbitsEnum.CometAsteroid)
 			{
-				OrbitDisplay[index - 4] = !OrbitDisplay[index - 4];
+				OrbitDisplay[(int)orbit - 4] = !OrbitDisplay[(int)orbit - 4];
 			}
 
 			orbitPanel.SelectOrbits(OrbitDisplay);
 			orbitPanel.Invalidate();
+		}
+
+		private void ChangeCenterObject(OrbitPanel.CenteredObjectEnum centeredObject)
+		{
+			cboCenter.SelectedIndex = (int)centeredObject;
 		}
 
 		#endregion

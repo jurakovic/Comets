@@ -131,6 +131,7 @@
 			this.cboObject.Size = new System.Drawing.Size(162, 21);
 			this.cboObject.TabIndex = 0;
 			this.cboObject.SelectedIndexChanged += new System.EventHandler(this.cboObject_SelectedIndexChanged);
+			this.cboObject.MouseEnter += new System.EventHandler(this.comboBoxCommon_MouseEnter);
 			// 
 			// lblOrbits
 			// 
@@ -163,6 +164,7 @@
 			this.cboOrbits.Size = new System.Drawing.Size(162, 21);
 			this.cboOrbits.TabIndex = 2;
 			this.cboOrbits.SelectedIndexChanged += new System.EventHandler(this.cboOrbits_SelectedIndexChanged);
+			this.cboOrbits.MouseEnter += new System.EventHandler(this.comboBoxCommon_MouseEnter);
 			// 
 			// cboCenter
 			// 
@@ -175,6 +177,7 @@
 			this.cboCenter.Size = new System.Drawing.Size(162, 21);
 			this.cboCenter.TabIndex = 1;
 			this.cboCenter.SelectedIndexChanged += new System.EventHandler(this.cboCenter_SelectedIndexChanged);
+			this.cboCenter.MouseEnter += new System.EventHandler(this.comboBoxCommon_MouseEnter);
 			// 
 			// cboTimestep
 			// 
@@ -187,6 +190,7 @@
 			this.cboTimestep.Size = new System.Drawing.Size(161, 21);
 			this.cboTimestep.TabIndex = 11;
 			this.cboTimestep.SelectedIndexChanged += new System.EventHandler(this.cboTimestep_SelectedIndexChanged);
+			this.cboTimestep.MouseEnter += new System.EventHandler(this.comboBoxCommon_MouseEnter);
 			// 
 			// btnForPlay
 			// 
