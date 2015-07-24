@@ -178,7 +178,7 @@ namespace Comets.Application
 
 		#region RangeDateTime
 
-		private DateTime RangeDateTime(DateTime dt)
+		public static DateTime RangeDateTime(DateTime dt)
 		{
 			if (dt < Minimum)
 				dt = Minimum;

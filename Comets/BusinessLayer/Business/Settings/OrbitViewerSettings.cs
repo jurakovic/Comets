@@ -1,6 +1,6 @@
 ﻿namespace Comets.BusinessLayer.Business
 {
-	public	class OrbitViewerSettings
+	public class OrbitViewerSettings
 	{
 		#region Properties
 
@@ -12,7 +12,8 @@
 		public bool ShowMagnitute { get; set; }
 		public bool ShowDistance { get; set; }
 		public bool ShowDate { get; set; }
-		
+		public bool PreserveSelected { get; set; }
+
 		#endregion
 
 		#region Constructor
@@ -27,6 +28,7 @@
 			ShowMagnitute = true;
 			ShowDistance = true;
 			ShowDate = true;
+			PreserveSelected = false;
 		}
 
 		#endregion

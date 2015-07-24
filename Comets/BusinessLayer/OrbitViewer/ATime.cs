@@ -80,6 +80,20 @@ namespace Comets.OrbitViewer
 			this.T2 = GetT2();
 		}
 
+		public ATime(DateTime dt, double timezone)
+		{
+			this.Year = dt.Year;
+			this.Month = dt.Month;
+			this.Day = dt.Day;
+			this.Hour = dt.Hour;
+			this.Minute = dt.Minute;
+			this.Second = dt.Second;
+			this.JD = GetJD() - timezone / 24.0;
+			this.Timezone = timezone;
+			this.T = GetT();
+			this.T2 = GetT2();
+		}
+
 		public ATime(ATime atime)
 		{
 			this.Year = atime.Year;

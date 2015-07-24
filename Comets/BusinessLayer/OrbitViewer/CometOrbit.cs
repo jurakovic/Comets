@@ -6,6 +6,7 @@ namespace Comets.OrbitViewer
 	{
 		#region Const
 
+		public const int MaxDivisions = 1000;
 		private const double MaxOrbitAU = 150.0;
 		private const double Tolerance = 1.0E-16;
 
@@ -132,7 +133,7 @@ namespace Comets.OrbitViewer
 			double t = Math.Sqrt(comet.e * comet.e - 1.0);
 			double axis = comet.q / (comet.e - 1.0);
 			double dF = UdMath.arccosh((MaxOrbitAU + axis) / (axis * comet.e)) / (this.Division / 2);
-			
+
 			double F = 0.0;
 			for (int i = 0; i <= (this.Division / 2); i++, F += dF)
 			{
@@ -156,7 +157,7 @@ namespace Comets.OrbitViewer
 			int idx1, idx2;
 			idx1 = idx2 = this.Division / 2;
 			double dV = (Math.Atan(Math.Sqrt(MaxOrbitAU / comet.q - 1.0)) * 2.0) / (this.Division / 2);
-			
+
 			double V = 0.0;
 			for (int i = 0; i <= (this.Division / 2); i++, V += dV)
 			{

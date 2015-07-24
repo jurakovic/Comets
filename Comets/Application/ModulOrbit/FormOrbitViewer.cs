@@ -111,6 +111,7 @@ namespace Comets.Application.ModulOrbit
 		ATimeSpan TimeStep { get; set; }
 		int SimulationDirection { get; set; }
 		bool IsSimulationStarted { get; set; }
+		bool IsTimeChangedByTimer { get; set; }
 
 		List<OVComet> Comets { get; set; }
 		OVComet SelectedComet { get; set; }
@@ -128,21 +129,21 @@ namespace Comets.Application.ModulOrbit
 
 		private DateTime DefaultDateTime { get; set; }
 
-		private DateTime _dateTime;
-		private DateTime DateTime
+		private DateTime _selectedDateTime;
+		private DateTime SelectedDateTime
 		{
-			get { return _dateTime; }
+			get { return _selectedDateTime; }
 			set
 			{
-				_dateTime = value;
-				btnDate.Text = _dateTime.ToString(FormMain.DateTimeFormat);
+				_selectedDateTime = FormDateTime.RangeDateTime(value);
+				btnDate.Text = _selectedDateTime.ToString(FormMain.DateTimeFormat);
 
-				if (IsSimulationStarted)
+				if (IsSimulationStarted && !IsTimeChangedByTimer)
 					Timer.Stop();
 
 				if (orbitPanel.IsPaintEnabled)
 				{
-					orbitPanel.ATime = new ATime(_dateTime.JD(), FormMain.Settings.Location.Timezone);
+					orbitPanel.ATime = new ATime(_selectedDateTime, FormMain.Settings.Location.Timezone);
 					orbitPanel.Invalidate();
 				}
 			}
@@ -157,7 +158,7 @@ namespace Comets.Application.ModulOrbit
 			InitializeComponent();
 
 			DefaultDateTime = new System.DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, 0, 0, DateTimeKind.Local);
-			DateTime = DefaultDateTime;
+			SelectedDateTime = DefaultDateTime;
 
 			Comets = TransformComets(comets);
 
@@ -201,7 +202,7 @@ namespace Comets.Application.ModulOrbit
 
 			ApplySettings(Settings, false);
 
-			ATime atime = new ATime(DateTime.JD(), FormMain.Settings.Location.Timezone);
+			ATime atime = new ATime(SelectedDateTime, FormMain.Settings.Location.Timezone);
 			orbitPanel.LoadPanel(SelectedComet, atime);
 			orbitPanel.Invalidate();
 		}
@@ -503,10 +504,10 @@ namespace Comets.Application.ModulOrbit
 
 		private void btnDate_Click(object sender, EventArgs e)
 		{
-			using (FormDateTime fdt = new FormDateTime(DefaultDateTime, DateTime, GetT()))
+			using (FormDateTime fdt = new FormDateTime(DefaultDateTime, SelectedDateTime, GetT()))
 			{
 				if (fdt.ShowDialog() == DialogResult.OK)
-					DateTime = fdt.SelectedDateTime;
+					SelectedDateTime = fdt.SelectedDateTime;
 			}
 		}
 
@@ -522,14 +523,14 @@ namespace Comets.Application.ModulOrbit
 
 		private void btnNow_Click(object sender, EventArgs e)
 		{
-			DateTime = DateTime.Now;
+			SelectedDateTime = DateTime.Now;
 		}
 
 		private void btnPerihDate_Click(object sender, EventArgs e)
 		{
 			if (cboObject.SelectedIndex >= 0)
 			{
-				DateTime = Utils.JDToDateTime(Comets.ElementAt(cboObject.SelectedIndex).T).ToLocalTime();
+				SelectedDateTime = Utils.JDToDateTime(Comets.ElementAt(cboObject.SelectedIndex).T).ToLocalTime();
 			}
 		}
 
@@ -545,11 +546,7 @@ namespace Comets.Application.ModulOrbit
 		private void btnRevStep_Click(object sender, EventArgs e)
 		{
 			PauseSimulation();
-
-			ATime atime = orbitPanel.ATime;
-			atime.ChangeDate(TimeStep, ATime.TimeDecrement);
-			orbitPanel.ATime = atime;
-			orbitPanel.Invalidate();
+			ChangeDate(ATime.TimeDecrement);
 		}
 
 		private void btnStop_Click(object sender, EventArgs e)
@@ -560,11 +557,7 @@ namespace Comets.Application.ModulOrbit
 		private void btnForStep_Click(object sender, EventArgs e)
 		{
 			PauseSimulation();
-
-			ATime atime = orbitPanel.ATime;
-			atime.ChangeDate(TimeStep, ATime.TimeIncrement);
-			orbitPanel.ATime = atime;
-			orbitPanel.Invalidate();
+			ChangeDate(ATime.TimeIncrement);
 		}
 
 		private void btnForPlay_Click(object sender, EventArgs e)
@@ -579,14 +572,26 @@ namespace Comets.Application.ModulOrbit
 
 		private void timer_Tick(object sender, EventArgs e)
 		{
+			ChangeDate(SimulationDirection);
+		}
+
+		private void ChangeDate(int direction)
+		{
 			ATime atime = orbitPanel.ATime;
-			atime.ChangeDate(TimeStep, SimulationDirection);
+			atime.ChangeDate(TimeStep, direction);
 
 			if (atime < ATime.Minimum || atime > ATime.Maximum)
 				PauseSimulation();
 
-			orbitPanel.ATime = atime;
-			orbitPanel.Invalidate();
+			if (atime < ATime.Minimum)
+				atime = new ATime(ATime.Minimum);
+
+			if (atime > ATime.Maximum)
+				atime = new ATime(ATime.Maximum);
+
+			IsTimeChangedByTimer = true;
+			SelectedDateTime = new DateTime(orbitPanel.ATime.Year, orbitPanel.ATime.Month, orbitPanel.ATime.Day, orbitPanel.ATime.Hour, orbitPanel.ATime.Minute, orbitPanel.ATime.Second, DateTimeKind.Utc);
+			IsTimeChangedByTimer = false;
 		}
 
 		private void PlaySimulation(int direction)
@@ -648,6 +653,7 @@ namespace Comets.Application.ModulOrbit
 			if (orbitPanel.IsPaintEnabled)
 			{
 				orbitPanel.LoadPanel(SelectedComet, orbitPanel.ATime);
+				ValidateCometsCount();
 				orbitPanel.Invalidate();
 			}
 
@@ -739,15 +745,39 @@ namespace Comets.Application.ModulOrbit
 			orbitPanel.ShowMagnitude = ovs.ShowMagnitute;
 			orbitPanel.ShowDistance = ovs.ShowDistance;
 			orbitPanel.ShowDate = ovs.ShowDate;
+			orbitPanel.PreserveSelected = ovs.PreserveSelected;
 
 			if (refresh)
 				orbitPanel.Invalidate();
+		}
+
+		public void ShowAllComets()
+		{
+			if (this.Comets.Any())
+			{
+				orbitPanel.Comets = this.Comets.ToList();
+				ValidateCometsCount();
+				orbitPanel.SelectedIndex = cboObject.SelectedIndex;
+				orbitPanel.Invalidate();
+			}
 		}
 
 		public void ClearComets()
 		{
 			orbitPanel.ClearComets();
 			orbitPanel.Invalidate();
+		}
+
+		private void ValidateCometsCount()
+		{
+			if (orbitPanel.Comets.Count > OrbitPanel.MaxNumberOfComets &&
+				OrbitDisplay[(int)OrbitPanel.OrbitsEnum.CometAsteroid - 4])
+			{
+				//if more comets than max number, then turn off orbit display for comets
+				//user can manually turn it on, but performances could be low
+				OrbitDisplay[(int)OrbitPanel.OrbitsEnum.CometAsteroid - 4] = false;
+				orbitPanel.SelectOrbits(OrbitDisplay);
+			}
 		}
 
 		public void SaveImage()
