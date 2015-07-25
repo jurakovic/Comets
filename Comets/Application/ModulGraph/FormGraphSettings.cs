@@ -77,11 +77,11 @@ namespace Comets.Application.ModulGraph
 				cbxNowLine.Checked = GraphSettings.NowLine;
 				cbxAntialiasing.Checked = GraphSettings.Antialiasing;
 
+				txtMinMag.Text = GraphSettings.MinMagnitudeValue != null ? GraphSettings.MinMagnitudeValue.Value.ToString() : String.Empty;
 				cbxMinMag.Checked = GraphSettings.MinMagnitudeChecked;
-				txtMinMag.Text = GraphSettings.MinMagnitudeValue.ToString();
 
+				txtMaxMag.Text = GraphSettings.MaxMagnitudeValue != null ? GraphSettings.MaxMagnitudeValue.Value.ToString() : String.Empty;
 				cbxMaxMag.Checked = GraphSettings.MaxMagnitudeChecked;
-				txtMaxMag.Text = GraphSettings.MaxMagnitudeValue.ToString();
 			}
 		}
 
@@ -148,10 +148,10 @@ namespace Comets.Application.ModulGraph
 		private void btnFilter_Click(object sender, EventArgs e)
 		{
 			using (FormDatabase fdb = new FormDatabase(
-				GraphSettings.Comets, 
-				GraphSettings.Filters, 
+				GraphSettings.Comets,
+				GraphSettings.Filters,
 				GraphSettings.SortProperty,
-				GraphSettings.SortAscending, 
+				GraphSettings.SortAscending,
 				true) { Owner = this })
 			{
 				fdb.TopMost = this.TopMost;
@@ -170,7 +170,7 @@ namespace Comets.Application.ModulGraph
 
 		#endregion
 
-		#region Date control
+		#region Timespan
 
 		private void btnStartDate_Click(object sender, EventArgs e)
 		{
@@ -228,11 +228,21 @@ namespace Comets.Application.ModulGraph
 
 		#endregion
 
-		#region txtMagCommon_KeyPress
+		#region Magnitude
 
 		private void txtMagCommon_KeyPress(object sender, KeyPressEventArgs e)
 		{
 			e.Handled = Utils.HandleKeyPress(sender, e, 2, 2, -20, 40);
+		}
+
+		private void txtMinMag_TextChanged(object sender, EventArgs e)
+		{
+			cbxMinMag.Checked = txtMinMag.TextLength > 0;
+		}
+
+		private void txtMaxMag_TextChanged(object sender, EventArgs e)
+		{
+			cbxMaxMag.Checked = txtMaxMag.TextLength > 0;
 		}
 
 		#endregion
@@ -243,6 +253,18 @@ namespace Comets.Application.ModulGraph
 		{
 			if (cbComet.SelectedIndex >= 0)
 			{
+				if (cbxMinMag.Checked && txtMinMag.TextLength == 0)
+				{
+					MessageBox.Show("Please enter Minimum magnitude value\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					return;
+				}
+
+				if (cbxMaxMag.Checked && txtMaxMag.TextLength == 0)
+				{
+					MessageBox.Show("Please enter Maximum magnitude value\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					return;
+				}
+
 				int before = txtDaysFromTStart.Int();
 				int after = txtDaysFromTStop.Int();
 
@@ -258,11 +280,7 @@ namespace Comets.Application.ModulGraph
 
 				if (stop < start)
 				{
-					MessageBox.Show(
-						"End date is less than start date\t\t\t",
-						"Comets",
-						MessageBoxButtons.OK,
-						MessageBoxIcon.Information);
+					MessageBox.Show("End date is less than start date\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
 					return;
 				}
 
@@ -318,10 +336,10 @@ namespace Comets.Application.ModulGraph
 				GraphSettings.Antialiasing = cbxAntialiasing.Checked;
 
 				GraphSettings.MinMagnitudeChecked = cbxMinMag.Checked;
-				GraphSettings.MinMagnitudeValue = txtMinMag.Double();
+				GraphSettings.MinMagnitudeValue = txtMinMag.TextLength > 0 ? (double?)txtMinMag.Double() : null;
 
 				GraphSettings.MaxMagnitudeChecked = cbxMaxMag.Checked;
-				GraphSettings.MaxMagnitudeValue = txtMaxMag.Double();
+				GraphSettings.MaxMagnitudeValue = txtMaxMag.TextLength > 0 ? (double?)txtMaxMag.Double() : null;
 
 				GraphSettings.Results = new List<EphemerisResult>();
 

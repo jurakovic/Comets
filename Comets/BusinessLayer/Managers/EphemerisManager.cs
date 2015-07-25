@@ -134,8 +134,8 @@ namespace Comets.BusinessLayer.Managers
 			string yMagnitude = "Magnitude";
 			string chartAreaName = "ChartAreaGraph";
 
-			double yMin = settings.MinMagnitudeChecked ? settings.MinMagnitudeValue : Math.Floor(settings.Results.Min(x => x.Magnitude) - 0.20);
-			double yMax = settings.MaxMagnitudeChecked ? settings.MaxMagnitudeValue : Math.Ceiling(settings.Results.Max(x => x.Magnitude) + 0.20);
+			double yMin = settings.MinMagnitudeChecked ? settings.MinMagnitudeValue.Value : Math.Floor(settings.Results.Min(x => x.Magnitude) - 0.20);
+			double yMax = settings.MaxMagnitudeChecked ? settings.MaxMagnitudeValue.Value : Math.Ceiling(settings.Results.Max(x => x.Magnitude) + 0.20);
 
 			//minY = 0; maxY = 20;
 

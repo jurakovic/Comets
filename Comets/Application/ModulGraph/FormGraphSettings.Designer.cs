@@ -420,8 +420,8 @@
 			this.txtMaxMag.Name = "txtMaxMag";
 			this.txtMaxMag.Size = new System.Drawing.Size(49, 21);
 			this.txtMaxMag.TabIndex = 3;
-			this.txtMaxMag.Text = "0";
 			this.txtMaxMag.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.txtMaxMag.TextChanged += new System.EventHandler(this.txtMaxMag_TextChanged);
 			this.txtMaxMag.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMagCommon_KeyPress);
 			// 
 			// txtMinMag
@@ -430,8 +430,8 @@
 			this.txtMinMag.Name = "txtMinMag";
 			this.txtMinMag.Size = new System.Drawing.Size(49, 21);
 			this.txtMinMag.TabIndex = 1;
-			this.txtMinMag.Text = "0";
 			this.txtMinMag.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.txtMinMag.TextChanged += new System.EventHandler(this.txtMinMag_TextChanged);
 			this.txtMinMag.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMagCommon_KeyPress);
 			// 
 			// cbxMaxMag
