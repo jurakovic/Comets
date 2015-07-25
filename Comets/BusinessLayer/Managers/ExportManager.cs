@@ -462,17 +462,7 @@ namespace Comets.BusinessLayer.Managers
 				sb.AppendLine("\t{");
 				sb.AppendLine(String.Format("\t\tPeriod         {0,20:0.000000}", c.P));
 				sb.AppendLine(String.Format("\t\tPericenterDistance        {0,9:0.000000}", c.q));
-
-				if (c.e < 1.0)
-				{
-					sb.AppendLine(String.Format("\t\tEccentricity               {0,8:0.000000}", c.e)); ;
-				}
-				else
-				{
-					sb.AppendLine("\t\tEccentricity               0.999999");
-					sb.AppendLine(String.Format("\t\t#Eccentricity               {0,8:0.000000}  # Real", c.e));
-				}
-
+				sb.AppendLine(String.Format("\t\tEccentricity               {0,8:0.000000}", c.e == 1.0 ? 1.000001 : c.e)); // parabolic comet gets stuck in sun center
 				sb.AppendLine(String.Format("\t\tInclination              {0,8:0.0000}", c.i));
 				sb.AppendLine(String.Format("\t\tAscendingNode            {0,8:0.0000}", c.N));
 				sb.AppendLine(String.Format("\t\tArgOfPericenter          {0,8:0.0000}", c.w));

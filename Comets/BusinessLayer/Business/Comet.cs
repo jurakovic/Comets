@@ -134,7 +134,7 @@ namespace Comets.BusinessLayer.Business
 				else if (e > 1.0)
 					retval = Math.Pow((q / (e - 1.0)), 1.5);
 				else
-					retval = Double.PositiveInfinity; //retval = Math.Pow((q / (1 - 0.999999)), 1.5); //okvirno samo za sortiranje
+					retval = Math.Pow((q / (1 - 0.999999)), 1.5); //only for sorting and celestia format
 
 				return retval;
 			}
