@@ -74,6 +74,9 @@ namespace Comets.Application
 				ExportType exportType = (ExportType)cbxExportFormat.SelectedIndex;
 				ExporManager.ExportMain(exportType, filename, FormMain.UserList);
 				MessageBox.Show("Export complete.\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+				if (cbxClose.Checked)
+					this.Close();
 			}
 		}
 

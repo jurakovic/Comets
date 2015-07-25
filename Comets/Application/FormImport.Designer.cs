@@ -44,6 +44,7 @@
 			this.lblImportFormatDescr = new System.Windows.Forms.Label();
 			this.btnImport = new System.Windows.Forms.Button();
 			this.lblStatus = new System.Windows.Forms.Label();
+			this.cbxClose = new System.Windows.Forms.CheckBox();
 			this.gbxLocalFile.SuspendLayout();
 			this.gbxDownload.SuspendLayout();
 			this.gbxStatus.SuspendLayout();
@@ -143,7 +144,7 @@
 			this.btnClose.Location = new System.Drawing.Point(546, 351);
 			this.btnClose.Name = "btnClose";
 			this.btnClose.Size = new System.Drawing.Size(118, 23);
-			this.btnClose.TabIndex = 3;
+			this.btnClose.TabIndex = 4;
 			this.btnClose.Text = "Close";
 			this.btnClose.UseVisualStyleBackColor = true;
 			// 
@@ -222,12 +223,25 @@
 			this.lblStatus.TabIndex = 25;
 			this.lblStatus.Text = "Status";
 			// 
+			// cbxClose
+			// 
+			this.cbxClose.AutoSize = true;
+			this.cbxClose.Checked = true;
+			this.cbxClose.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.cbxClose.Location = new System.Drawing.Point(19, 355);
+			this.cbxClose.Name = "cbxClose";
+			this.cbxClose.Size = new System.Drawing.Size(121, 17);
+			this.cbxClose.TabIndex = 3;
+			this.cbxClose.Text = "Close when finished";
+			this.cbxClose.UseVisualStyleBackColor = true;
+			// 
 			// FormImport
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.btnClose;
 			this.ClientSize = new System.Drawing.Size(709, 394);
+			this.Controls.Add(this.cbxClose);
 			this.Controls.Add(this.gbxStatus);
 			this.Controls.Add(this.btnClose);
 			this.Controls.Add(this.gbxLocalFile);
@@ -249,6 +263,7 @@
 			this.gbxStatus.ResumeLayout(false);
 			this.gbxStatus.PerformLayout();
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 
@@ -270,5 +285,6 @@
 		private System.Windows.Forms.Label lblImportFormatDescr;
 		private System.Windows.Forms.Button btnImport;
 		private System.Windows.Forms.Label lblStatus;
+		private System.Windows.Forms.CheckBox cbxClose;
 	}
 }

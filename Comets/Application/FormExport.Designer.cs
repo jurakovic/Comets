@@ -43,6 +43,7 @@
 			this.btnExport = new System.Windows.Forms.Button();
 			this.lblStatus = new System.Windows.Forms.Label();
 			this.btnClose = new System.Windows.Forms.Button();
+			this.cbxClose = new System.Windows.Forms.CheckBox();
 			this.gbxExportFormat.SuspendLayout();
 			this.gbxSaveAs.SuspendLayout();
 			this.gbxStatus.SuspendLayout();
@@ -204,9 +205,21 @@
 			this.btnClose.Location = new System.Drawing.Point(546, 351);
 			this.btnClose.Name = "btnClose";
 			this.btnClose.Size = new System.Drawing.Size(118, 23);
-			this.btnClose.TabIndex = 3;
+			this.btnClose.TabIndex = 4;
 			this.btnClose.Text = "Close";
 			this.btnClose.UseVisualStyleBackColor = true;
+			// 
+			// cbxClose
+			// 
+			this.cbxClose.AutoSize = true;
+			this.cbxClose.Checked = true;
+			this.cbxClose.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.cbxClose.Location = new System.Drawing.Point(19, 355);
+			this.cbxClose.Name = "cbxClose";
+			this.cbxClose.Size = new System.Drawing.Size(121, 17);
+			this.cbxClose.TabIndex = 3;
+			this.cbxClose.Text = "Close when finished";
+			this.cbxClose.UseVisualStyleBackColor = true;
 			// 
 			// FormExport
 			// 
@@ -214,6 +227,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.btnClose;
 			this.ClientSize = new System.Drawing.Size(709, 394);
+			this.Controls.Add(this.cbxClose);
 			this.Controls.Add(this.btnClose);
 			this.Controls.Add(this.gbxStatus);
 			this.Controls.Add(this.gbxSaveAs);
@@ -235,6 +249,7 @@
 			this.gbxStatus.ResumeLayout(false);
 			this.gbxStatus.PerformLayout();
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 
@@ -255,5 +270,6 @@
 		private System.Windows.Forms.Button btnExport;
 		private System.Windows.Forms.Label lblStatus;
 		private System.Windows.Forms.Button btnClose;
+		private System.Windows.Forms.CheckBox cbxClose;
 	}
 }

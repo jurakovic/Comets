@@ -37,6 +37,7 @@ namespace Comets.Application
 			InitializeComponent();
 			ImportType = ImportType.NoFileSelected;
 			IsAutomaticUpdate = isAutomaticUpdate;
+			cbxClose.Visible = !isAutomaticUpdate;
 		}
 
 		#endregion
@@ -239,7 +240,7 @@ namespace Comets.Application
 
 		private void btnImport_Click(object sender, EventArgs e)
 		{
-			bool isImpoted = false;
+			bool isImported = false;
 
 			if (ImportType < ImportType.NoFileSelected)
 			{
@@ -257,11 +258,11 @@ namespace Comets.Application
 					FormMain.MainList = newList.OrderBy(x => x.sortkey).ToList();
 					FormMain.UserList = newList.OrderBy(x => x.sortkey).ToList();
 
-					isImpoted = true;
+					isImported = true;
 				}
 			}
 
-			if (isImpoted || IsAutomaticUpdate)
+			if (IsAutomaticUpdate || (isImported && cbxClose.Checked))
 				this.Close();
 		}
 
