@@ -734,9 +734,9 @@ namespace Comets.OrbitViewer
 
 		#region SelectComet
 
-		public double? SelectComet(Point point)
+		public string SelectComet(Point point)
 		{
-			double? sortkey = null;
+			string name = null;
 
 			if (MultipleMode && Comets.Count > 1)
 			{
@@ -755,10 +755,10 @@ namespace Comets.OrbitViewer
 				OVComet comet = Comets.FirstOrDefault(c => c.PanelLocation == points.FirstOrDefault(p => p == c.PanelLocation));
 
 				if (comet != null)
-					sortkey = comet.SortKey;
+					name = comet.Name;
 			}
 
-			return sortkey;
+			return name;
 		}
 
 		#endregion

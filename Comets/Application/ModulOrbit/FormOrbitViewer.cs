@@ -274,10 +274,10 @@ namespace Comets.Application.ModulOrbit
 		{
 			if (e.Button == MouseButtons.Left)
 			{
-				double? sortKey = orbitPanel.SelectComet(e.Location);
+				string name = orbitPanel.SelectComet(e.Location);
 
-				if (sortKey != null)
-					cboObject.SelectedIndex = Comets.IndexOf(Comets.First(x => x.SortKey == sortKey.Value)); 
+				if (name != null)
+					cboObject.SelectedIndex = Comets.IndexOf(Comets.First(x => x.Name == name)); 
 			}
 			else
 			{
