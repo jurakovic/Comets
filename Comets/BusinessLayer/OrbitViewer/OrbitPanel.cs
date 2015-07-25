@@ -610,6 +610,7 @@ namespace Comets.OrbitViewer
 				else
 					sb.Color = ColorComet;
 
+				Comets[i].PanelLocation = point1;
 				graphics.FillPie(sb, point1.X - 2, point1.Y - 2, 5, 5, 0, 360);
 
 				if (ShowCometName || (MultipleMode && PreserveSelected && i == SelectedIndex))
@@ -727,6 +728,37 @@ namespace Comets.OrbitViewer
 			UpdatePositions(ATime);
 			UpdatePlanetOrbit(ATime);
 			UpdateRotationMatrix(ATime);
+		}
+
+		#endregion
+
+		#region SelectComet
+
+		public double? SelectComet(Point point)
+		{
+			double? sortkey = null;
+
+			if (MultipleMode && Comets.Count > 1)
+			{
+				int offset = 5;
+				int range = 7;
+
+				int x0 = point.X - offset;
+				int y0 = point.Y - offset;
+
+				List<Point> points = new List<Point>();
+
+				for (int x = 0; x < range; x++)
+					for (int y = 0; y < range; y++)
+						points.Add(new Point(x0 + x, y0 + y));
+
+				OVComet comet = Comets.FirstOrDefault(c => c.PanelLocation == points.FirstOrDefault(p => p == c.PanelLocation));
+
+				if (comet != null)
+					sortkey = comet.SortKey;
+			}
+
+			return sortkey;
 		}
 
 		#endregion

@@ -272,8 +272,18 @@ namespace Comets.Application.ModulOrbit
 
 		private void orbitPanel_MouseDown(object sender, MouseEventArgs e)
 		{
-			IsMouseRotate = true;
-			StartDrag = e.Location;
+			if (e.Button == MouseButtons.Left)
+			{
+				double? sortKey = orbitPanel.SelectComet(e.Location);
+
+				if (sortKey != null)
+					cboObject.SelectedIndex = Comets.IndexOf(Comets.First(x => x.SortKey == sortKey.Value)); 
+			}
+			else
+			{
+				IsMouseRotate = true;
+				StartDrag = e.Location;
+			}
 		}
 
 		private void orbitPanel_MouseMove(object sender, MouseEventArgs e)
