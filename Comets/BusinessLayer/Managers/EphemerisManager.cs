@@ -137,11 +137,6 @@ namespace Comets.BusinessLayer.Managers
 			double yMin = settings.MinMagnitudeChecked ? settings.MinMagnitudeValue.Value : Math.Floor(settings.Results.Min(x => x.Magnitude) - 0.20);
 			double yMax = settings.MaxMagnitudeChecked ? settings.MaxMagnitudeValue.Value : Math.Ceiling(settings.Results.Max(x => x.Magnitude) + 0.20);
 
-			//minY = 0; maxY = 20;
-
-			//double xMin = settings.Results.Min(x => x.LocalJD);
-			//double xMax = settings.Results.Max(x => x.LocalJD);
-
 			double xMin = settings.Start.JD();
 			double xMax = settings.Stop.JD();
 
@@ -158,7 +153,15 @@ namespace Comets.BusinessLayer.Managers
 			chartArea.AxisX2.LabelAutoFitStyle = LabelAutoFitStyles.WordWrap;
 			chartArea.AxisX2.IsMarginVisible = false;
 			chartArea.AxisX2.LabelStyle.Font = new Font("Tahoma", 8.25F);
-			chartArea.AxisX2.LabelStyle.Format = "dd MMM yyyy";
+
+			string format;
+
+			if ((xMax - xMin) <= 3.0)
+				format = "dd MMM yyyy HH:mm";
+			else
+				format = "dd MMM yyyy";
+
+			chartArea.AxisX2.LabelStyle.Format = format;
 
 			chartArea.AxisY.Title = yMagnitude;
 			chartArea.AxisY.TitleAlignment = StringAlignment.Far;
@@ -184,8 +187,8 @@ namespace Comets.BusinessLayer.Managers
 			else
 				yInterval = 2D;
 
-			chartArea.AxisX2.Minimum = Utils.JDToOta(xMin);
-			chartArea.AxisX2.Maximum = Utils.JDToOta(xMax);
+			chartArea.AxisX2.Minimum = Utils.JDToDateTime(xMin).ToLocalTime().ToOADate();
+			chartArea.AxisX2.Maximum = Utils.JDToDateTime(xMax).ToLocalTime().ToOADate();
 			chartArea.AxisX2.IntervalType = DateTimeIntervalType.Auto;
 			chartArea.AxisX2.IntervalOffset = 0;
 
@@ -210,7 +213,7 @@ namespace Comets.BusinessLayer.Managers
 			series.XValueType = ChartValueType.DateTime;
 
 			foreach (EphemerisResult er in settings.Results)
-				series.Points.Add(new DataPoint(Utils.JDToOta(er.JD + settings.Location.Timezone / 24.0), er.Magnitude)); //local time
+				series.Points.Add(new DataPoint(Utils.JDToDateTime(er.JD).ToLocalTime().ToOADate(), er.Magnitude)); //local time
 
 			chart1.Series.Clear();
 			chart1.Series.Add(series);
@@ -234,8 +237,8 @@ namespace Comets.BusinessLayer.Managers
 					s.ChartType = SeriesChartType.Line;
 					s.XAxisType = AxisType.Secondary;
 					s.XValueType = ChartValueType.DateTime;
-					s.Points.Add(new DataPoint(Utils.JDToOta(T), yMin));
-					s.Points.Add(new DataPoint(Utils.JDToOta(T), yMax));
+					s.Points.Add(new DataPoint(Utils.JDToDateTime(T).ToLocalTime().ToOADate(), yMin));
+					s.Points.Add(new DataPoint(Utils.JDToDateTime(T).ToLocalTime().ToOADate(), yMax));
 
 					chart1.Series.Add(s);
 					T += periodDays;
@@ -253,8 +256,8 @@ namespace Comets.BusinessLayer.Managers
 					s.ChartType = SeriesChartType.Line;
 					s.XAxisType = AxisType.Secondary;
 					s.XValueType = ChartValueType.DateTime;
-					s.Points.Add(new DataPoint(Utils.JDToOta(JDnow), yMin));
-					s.Points.Add(new DataPoint(Utils.JDToOta(JDnow), yMax));
+					s.Points.Add(new DataPoint(Utils.JDToDateTime(JDnow).ToLocalTime().ToOADate(), yMin));
+					s.Points.Add(new DataPoint(Utils.JDToDateTime(JDnow).ToLocalTime().ToOADate(), yMax));
 					chart1.Series.Add(s);
 				}
 			}
