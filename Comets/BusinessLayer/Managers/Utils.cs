@@ -57,6 +57,9 @@ namespace Comets.BusinessLayer.Managers
 			string text;
 			bool handle;
 
+			if (e.KeyChar == ',')
+				e.KeyChar = '.';
+
 			if (textbox.SelectionLength > 0)
 				text = textbox.Text.Replace(textbox.SelectedText, Char.IsControl(e.KeyChar) ? String.Empty : e.KeyChar.ToString());
 			else
