@@ -46,21 +46,7 @@
 			this.menuItemGraphSettings = new System.Windows.Forms.MenuItem();
 			this.menuItemGraphSaveAs = new System.Windows.Forms.MenuItem();
 			this.menuItemOrbit = new System.Windows.Forms.MenuItem();
-			this.menuItemOrbitMultiple = new System.Windows.Forms.MenuItem();
-			this.menuItemOrbitClearComets = new System.Windows.Forms.MenuItem();
-			this.menuItemOrbitSep1 = new System.Windows.Forms.MenuItem();
-			this.menuItemOrbitShowAxes = new System.Windows.Forms.MenuItem();
-			this.menuItemOrbitSep2 = new System.Windows.Forms.MenuItem();
-			this.menuItemOrbitAntialiasing = new System.Windows.Forms.MenuItem();
-			this.menuItemOrbitSep3 = new System.Windows.Forms.MenuItem();
-			this.menuItemOrbitLabels = new System.Windows.Forms.MenuItem();
-			this.menuItemOrbitComet = new System.Windows.Forms.MenuItem();
-			this.menuItemOrbitPlanet = new System.Windows.Forms.MenuItem();
-			this.menuItemOrbitMagnitude = new System.Windows.Forms.MenuItem();
-			this.menuItemOrbitDistance = new System.Windows.Forms.MenuItem();
-			this.menuItemOrbitDate = new System.Windows.Forms.MenuItem();
-			this.menuItemOrbitSep4 = new System.Windows.Forms.MenuItem();
-			this.menuItemOrbitSaveImage = new System.Windows.Forms.MenuItem();
+			this.mnuShowToolbox = new System.Windows.Forms.MenuItem();
 			this.menuItemEdit = new System.Windows.Forms.MenuItem();
 			this.menuItemDatabase = new System.Windows.Forms.MenuItem();
 			this.menuItemSeparatorEdit1 = new System.Windows.Forms.MenuItem();
@@ -84,9 +70,6 @@
 			this.statusComets = new System.Windows.Forms.ToolStripStatusLabel();
 			this.statusSpace = new System.Windows.Forms.ToolStripStatusLabel();
 			this.statusProgressBar = new System.Windows.Forms.ToolStripProgressBar();
-			this.menuItemOrbitPreserveSelected = new System.Windows.Forms.MenuItem();
-			this.menuItemOrbitSep5 = new System.Windows.Forms.MenuItem();
-			this.menuItemOrbitShowAll = new System.Windows.Forms.MenuItem();
 			this.statusStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -208,114 +191,17 @@
 			// 
 			this.menuItemOrbit.Index = 3;
 			this.menuItemOrbit.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.menuItemOrbitMultiple,
-            this.menuItemOrbitShowAll,
-            this.menuItemOrbitClearComets,
-            this.menuItemOrbitSep5,
-            this.menuItemOrbitPreserveSelected,
-            this.menuItemOrbitSep1,
-            this.menuItemOrbitShowAxes,
-            this.menuItemOrbitSep2,
-            this.menuItemOrbitAntialiasing,
-            this.menuItemOrbitSep3,
-            this.menuItemOrbitLabels,
-            this.menuItemOrbitComet,
-            this.menuItemOrbitPlanet,
-            this.menuItemOrbitMagnitude,
-            this.menuItemOrbitDistance,
-            this.menuItemOrbitDate,
-            this.menuItemOrbitSep4,
-            this.menuItemOrbitSaveImage});
+            this.mnuShowToolbox});
 			this.menuItemOrbit.Text = "Orbit";
 			this.menuItemOrbit.Visible = false;
 			// 
-			// menuItemOrbitMultiple
+			// mnuShowToolbox
 			// 
-			this.menuItemOrbitMultiple.Index = 0;
-			this.menuItemOrbitMultiple.Text = "Multiple mode";
-			this.menuItemOrbitMultiple.Click += new System.EventHandler(this.menuItemOrbitCommon_Click);
-			// 
-			// menuItemOrbitClearComets
-			// 
-			this.menuItemOrbitClearComets.Index = 2;
-			this.menuItemOrbitClearComets.Text = "Clear comets";
-			this.menuItemOrbitClearComets.Click += new System.EventHandler(this.menuItemOrbitClearComets_Click);
-			// 
-			// menuItemOrbitSep1
-			// 
-			this.menuItemOrbitSep1.Index = 5;
-			this.menuItemOrbitSep1.Text = "-";
-			// 
-			// menuItemOrbitShowAxes
-			// 
-			this.menuItemOrbitShowAxes.Index = 6;
-			this.menuItemOrbitShowAxes.Text = "Show Axes";
-			this.menuItemOrbitShowAxes.Click += new System.EventHandler(this.menuItemOrbitCommon_Click);
-			// 
-			// menuItemOrbitSep2
-			// 
-			this.menuItemOrbitSep2.Index = 7;
-			this.menuItemOrbitSep2.Text = "-";
-			// 
-			// menuItemOrbitAntialiasing
-			// 
-			this.menuItemOrbitAntialiasing.Index = 8;
-			this.menuItemOrbitAntialiasing.Text = "Antialiasing";
-			this.menuItemOrbitAntialiasing.Click += new System.EventHandler(this.menuItemOrbitCommon_Click);
-			// 
-			// menuItemOrbitSep3
-			// 
-			this.menuItemOrbitSep3.Index = 9;
-			this.menuItemOrbitSep3.Text = "-";
-			// 
-			// menuItemOrbitLabels
-			// 
-			this.menuItemOrbitLabels.Enabled = false;
-			this.menuItemOrbitLabels.Index = 10;
-			this.menuItemOrbitLabels.Text = "Labels";
-			// 
-			// menuItemOrbitComet
-			// 
-			this.menuItemOrbitComet.Index = 11;
-			this.menuItemOrbitComet.Text = "   Comet";
-			this.menuItemOrbitComet.Click += new System.EventHandler(this.menuItemOrbitCommon_Click);
-			// 
-			// menuItemOrbitPlanet
-			// 
-			this.menuItemOrbitPlanet.Index = 12;
-			this.menuItemOrbitPlanet.Text = "   Planet";
-			this.menuItemOrbitPlanet.Click += new System.EventHandler(this.menuItemOrbitCommon_Click);
-			// 
-			// menuItemOrbitMagnitude
-			// 
-			this.menuItemOrbitMagnitude.Index = 13;
-			this.menuItemOrbitMagnitude.Text = "   Magnitude";
-			this.menuItemOrbitMagnitude.Click += new System.EventHandler(this.menuItemOrbitCommon_Click);
-			// 
-			// menuItemOrbitDistance
-			// 
-			this.menuItemOrbitDistance.Index = 14;
-			this.menuItemOrbitDistance.Text = "   Distance";
-			this.menuItemOrbitDistance.Click += new System.EventHandler(this.menuItemOrbitCommon_Click);
-			// 
-			// menuItemOrbitDate
-			// 
-			this.menuItemOrbitDate.Index = 15;
-			this.menuItemOrbitDate.Text = "   Date";
-			this.menuItemOrbitDate.Click += new System.EventHandler(this.menuItemOrbitCommon_Click);
-			// 
-			// menuItemOrbitSep4
-			// 
-			this.menuItemOrbitSep4.Index = 16;
-			this.menuItemOrbitSep4.Text = "-";
-			// 
-			// menuItemOrbitSaveImage
-			// 
-			this.menuItemOrbitSaveImage.Index = 17;
-			this.menuItemOrbitSaveImage.Shortcut = System.Windows.Forms.Shortcut.CtrlS;
-			this.menuItemOrbitSaveImage.ShowShortcut = false;
-			this.menuItemOrbitSaveImage.Text = "Save Image As";
-			this.menuItemOrbitSaveImage.Click += new System.EventHandler(this.menuItemOrbitSaveImage_Click);
+			this.mnuShowToolbox.Checked = true;
+			this.mnuShowToolbox.Index = 0;
+			this.mnuShowToolbox.Shortcut = System.Windows.Forms.Shortcut.CtrlT;
+			this.mnuShowToolbox.Text = "Show Toolbox";
+			this.mnuShowToolbox.Click += new System.EventHandler(this.mnuShowToolbox_Click);
 			// 
 			// menuItemEdit
 			// 
@@ -483,23 +369,6 @@
 			this.statusProgressBar.Size = new System.Drawing.Size(200, 16);
 			this.statusProgressBar.Visible = false;
 			// 
-			// menuItemOrbitPreserveSelected
-			// 
-			this.menuItemOrbitPreserveSelected.Index = 4;
-			this.menuItemOrbitPreserveSelected.Text = "Preserve selected";
-			this.menuItemOrbitPreserveSelected.Click += new System.EventHandler(this.menuItemOrbitCommon_Click);
-			// 
-			// menuItemOrbitSep5
-			// 
-			this.menuItemOrbitSep5.Index = 3;
-			this.menuItemOrbitSep5.Text = "-";
-			// 
-			// menuItemOrbitShowAll
-			// 
-			this.menuItemOrbitShowAll.Index = 1;
-			this.menuItemOrbitShowAll.Text = "Show all comets";
-			this.menuItemOrbitShowAll.Click += new System.EventHandler(this.menuItemOrbitShowAll_Click);
-			// 
 			// FormMain
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -567,25 +436,8 @@
 		private System.Windows.Forms.MenuItem menuItemGraphSettings;
 		private System.Windows.Forms.MenuItem menuItemGraphSaveAs;
 		private System.Windows.Forms.MenuItem menuItemOrbit;
-		private System.Windows.Forms.MenuItem menuItemOrbitMultiple;
-		private System.Windows.Forms.MenuItem menuItemOrbitAntialiasing;
-		private System.Windows.Forms.MenuItem menuItemOrbitSep1;
-		private System.Windows.Forms.MenuItem menuItemOrbitSep3;
-		private System.Windows.Forms.MenuItem menuItemOrbitLabels;
-		private System.Windows.Forms.MenuItem menuItemOrbitComet;
-		private System.Windows.Forms.MenuItem menuItemOrbitPlanet;
-		private System.Windows.Forms.MenuItem menuItemOrbitMagnitude;
-		private System.Windows.Forms.MenuItem menuItemOrbitDistance;
-		private System.Windows.Forms.MenuItem menuItemOrbitDate;
-		private System.Windows.Forms.MenuItem menuItemOrbitShowAxes;
-		private System.Windows.Forms.MenuItem menuItemOrbitSep2;
-		private System.Windows.Forms.MenuItem menuItemOrbitClearComets;
 		private System.Windows.Forms.MenuItem menuItemViewAlwaysOnTop;
-		private System.Windows.Forms.MenuItem menuItemOrbitSep4;
-		private System.Windows.Forms.MenuItem menuItemOrbitSaveImage;
-		private System.Windows.Forms.MenuItem menuItemOrbitSep5;
-		private System.Windows.Forms.MenuItem menuItemOrbitPreserveSelected;
-		private System.Windows.Forms.MenuItem menuItemOrbitShowAll;
+		private System.Windows.Forms.MenuItem mnuShowToolbox;
 	}
 }
 

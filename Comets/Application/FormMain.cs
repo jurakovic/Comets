@@ -296,29 +296,13 @@ namespace Comets.Application
 
 		#region Menu: Orbit
 
-		private void menuItemOrbitCommon_Click(object sender, EventArgs e)
+		private void mnuShowToolbox_Click(object sender, EventArgs e)
 		{
-			(sender as MenuItem).Checked = !(sender as MenuItem).Checked;
-			(this.ActiveMdiChild as FormOrbitViewer).Settings = CollectOrbitSettings();
-		}
-
-		private void menuItemOrbitShowAll_Click(object sender, EventArgs e)
-		{
-			this.menuItemOrbitMultiple.Checked = true;
-			this.menuItemOrbitPreserveSelected.Checked = true;
-			this.menuItemOrbitComet.Checked = false;
-			(this.ActiveMdiChild as FormOrbitViewer).Settings = CollectOrbitSettings();
-			(this.ActiveMdiChild as FormOrbitViewer).ShowAllComets();
-		}
-
-		private void menuItemOrbitClearComets_Click(object sender, EventArgs e)
-		{
-			(this.ActiveMdiChild as FormOrbitViewer).ClearComets();
-		}
-
-		private void menuItemOrbitSaveImage_Click(object sender, EventArgs e)
-		{
-			CommonSaveAs_Click();
+			if (this.ActiveMdiChild is FormOrbitViewer)
+			{
+				mnuShowToolbox.Checked = !mnuShowToolbox.Checked;
+				(this.ActiveMdiChild as FormOrbitViewer).ShowToolbox(mnuShowToolbox.Checked);
+			}
 		}
 
 		#endregion
@@ -452,34 +436,9 @@ namespace Comets.Application
 				this.statusComets.Text = String.Format("Comets: {0}", count);
 		}
 
-		private OrbitViewerSettings CollectOrbitSettings()
+		public void SetToolBoxMenuItemChecked(bool isChecked)
 		{
-			OrbitViewerSettings ovs = new OrbitViewerSettings();
-
-			ovs.MultipleMode = this.menuItemOrbitMultiple.Checked;
-			ovs.ShowAxes = this.menuItemOrbitShowAxes.Checked;
-			ovs.Antialiasing = this.menuItemOrbitAntialiasing.Checked;
-			ovs.ShowCometName = this.menuItemOrbitComet.Checked;
-			ovs.ShowPlanetName = this.menuItemOrbitPlanet.Checked;
-			ovs.ShowMagnitute = this.menuItemOrbitMagnitude.Checked;
-			ovs.ShowDistance = this.menuItemOrbitDistance.Checked;
-			ovs.ShowDate = this.menuItemOrbitDate.Checked;
-			ovs.PreserveSelected = this.menuItemOrbitPreserveSelected.Checked;
-
-			return ovs;
-		}
-
-		public void SetOrbitMenuItems(OrbitViewerSettings settings)
-		{
-			this.menuItemOrbitMultiple.Checked = settings.MultipleMode;
-			this.menuItemOrbitPreserveSelected.Checked = settings.PreserveSelected;
-			this.menuItemOrbitShowAxes.Checked = settings.ShowAxes;
-			this.menuItemOrbitAntialiasing.Checked = settings.Antialiasing;
-			this.menuItemOrbitComet.Checked = settings.ShowCometName;
-			this.menuItemOrbitPlanet.Checked = settings.ShowPlanetName;
-			this.menuItemOrbitMagnitude.Checked = settings.ShowMagnitute;
-			this.menuItemOrbitDistance.Checked = settings.ShowDistance;
-			this.menuItemOrbitDate.Checked = settings.ShowDate;
+			this.mnuShowToolbox.Checked = isChecked;
 		}
 
 		#endregion
