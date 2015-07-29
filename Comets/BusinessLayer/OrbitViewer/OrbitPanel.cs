@@ -31,7 +31,7 @@ namespace Comets.OrbitViewer
 
 		#region Const
 
-		public const int MaxNumberOfComets = 30;
+		public const int MaximumOrbits = 1;
 		private const bool DefaultShowMarker = true;
 		private const bool DefaultPreserveOrbit = true;
 		private const bool DefaultPreserveLabel = true;
@@ -862,27 +862,32 @@ namespace Comets.OrbitViewer
 
 			double mag = GetMagnutideAndDistances(comet, index)[0];
 
-			if (mag < 2)
+			if (mag < 0)
+			{
+				diameter = 6;
+				color = Color.White;
+			}
+			else if (mag >= 0 && mag < 2)
 			{
 				diameter = 5;
 				color = Color.White;
 			}
-			else if (mag >= 2 && mag < 5)
+			else if (mag >= 2 && mag < 3)
 			{
 				diameter = 4;
 				color = Color.White;
 			}
-			else if (mag >= 5 && mag < 8)
+			else if (mag >= 3 && mag < 5)
 			{
 				diameter = 4;
 				color = Color.Silver;
 			}
-			else if (mag >= 8 && mag < 11)
+			else if (mag >= 5 && mag < 8)
 			{
 				diameter = 3;
 				color = Color.Silver;
 			}
-			else if (mag >= 11 && mag < 15)
+			else if (mag >= 8 && mag < 12)
 			{
 				diameter = 2;
 				color = Color.DarkGray;

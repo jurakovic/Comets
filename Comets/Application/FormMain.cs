@@ -237,7 +237,7 @@ namespace Comets.Application
 
 		private void menuItemFileOrbit_Click(object sender, EventArgs e)
 		{
-			FormOrbitViewer fo = new FormOrbitViewer(UserList);
+			FormOrbitViewer fo = new FormOrbitViewer(UserList, Filters, SortProperty, SortAscending);
 			fo.WindowState = FormWindowState.Maximized;
 			fo.MdiParent = this;
 			fo.Show();

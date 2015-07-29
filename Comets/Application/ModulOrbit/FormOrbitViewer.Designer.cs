@@ -1010,6 +1010,7 @@
 			this.orbitPanel.Size = new System.Drawing.Size(739, 682);
 			this.orbitPanel.TabIndex = 1;
 			this.orbitPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.orbitPanel_MouseClick);
+			this.orbitPanel.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.orbitPanel_MouseDoubleClick);
 			this.orbitPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.orbitPanel_MouseDown);
 			this.orbitPanel.MouseEnter += new System.EventHandler(this.orbitPanel_MouseEnter);
 			this.orbitPanel.MouseLeave += new System.EventHandler(this.orbitPanel_MouseLeave);
@@ -1065,7 +1066,7 @@
 			this.Name = "FormOrbitViewer";
 			this.Text = "Orbit Viewer";
 			this.Activated += new System.EventHandler(this.FormOrbitViewer_Activated);
-			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormOrbitViewer_FormClosing);
+			this.Deactivate += new System.EventHandler(this.FormOrbitViewer_Deactivate);
 			this.Load += new System.EventHandler(this.FormOrbit_Load);
 			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormOrbitViewer_KeyDown);
 			this.pnlToolbox.ResumeLayout(false);
