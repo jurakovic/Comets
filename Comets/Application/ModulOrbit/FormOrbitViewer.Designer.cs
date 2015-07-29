@@ -50,7 +50,10 @@
 			this.gbxDateTime = new System.Windows.Forms.GroupBox();
 			this.btnDate = new System.Windows.Forms.Button();
 			this.gbxOrbitsLabelsCenter = new System.Windows.Forms.GroupBox();
+			this.cbxSelectedLabel = new System.Windows.Forms.CheckBox();
+			this.cbxSelectedOrbit = new System.Windows.Forms.CheckBox();
 			this.btnNoLabels = new System.Windows.Forms.Button();
+			this.cbxMarker = new System.Windows.Forms.CheckBox();
 			this.btnNoOrbits = new System.Windows.Forms.Button();
 			this.btnAllLabels = new System.Windows.Forms.Button();
 			this.btnAllOrbits = new System.Windows.Forms.Button();
@@ -95,7 +98,6 @@
 			this.cbxOrbitVenus = new System.Windows.Forms.CheckBox();
 			this.cbxOrbitMercury = new System.Windows.Forms.CheckBox();
 			this.gbxMode = new System.Windows.Forms.GroupBox();
-			this.cbxPreserveSelected = new System.Windows.Forms.CheckBox();
 			this.rbtnMultipleMode = new System.Windows.Forms.RadioButton();
 			this.rbtnSingleMode = new System.Windows.Forms.RadioButton();
 			this.gbxComet = new System.Windows.Forms.GroupBox();
@@ -231,7 +233,7 @@
 			this.pnlToolbox.Dock = System.Windows.Forms.DockStyle.Left;
 			this.pnlToolbox.Location = new System.Drawing.Point(0, 0);
 			this.pnlToolbox.Name = "pnlToolbox";
-			this.pnlToolbox.Size = new System.Drawing.Size(195, 622);
+			this.pnlToolbox.Size = new System.Drawing.Size(195, 682);
 			this.pnlToolbox.TabIndex = 0;
 			// 
 			// gbxMisc
@@ -239,7 +241,7 @@
 			this.gbxMisc.Controls.Add(this.btnSaveImage);
 			this.gbxMisc.Controls.Add(this.cbxAntialiasing);
 			this.gbxMisc.Controls.Add(this.cbxShowAxes);
-			this.gbxMisc.Location = new System.Drawing.Point(5, 511);
+			this.gbxMisc.Location = new System.Drawing.Point(5, 557);
 			this.gbxMisc.Name = "gbxMisc";
 			this.gbxMisc.Size = new System.Drawing.Size(181, 99);
 			this.gbxMisc.TabIndex = 6;
@@ -259,7 +261,7 @@
 			// cbxAntialiasing
 			// 
 			this.cbxAntialiasing.AutoSize = true;
-			this.cbxAntialiasing.Location = new System.Drawing.Point(22, 42);
+			this.cbxAntialiasing.Location = new System.Drawing.Point(9, 43);
 			this.cbxAntialiasing.Name = "cbxAntialiasing";
 			this.cbxAntialiasing.Size = new System.Drawing.Size(80, 17);
 			this.cbxAntialiasing.TabIndex = 1;
@@ -270,7 +272,7 @@
 			// cbxShowAxes
 			// 
 			this.cbxShowAxes.AutoSize = true;
-			this.cbxShowAxes.Location = new System.Drawing.Point(22, 19);
+			this.cbxShowAxes.Location = new System.Drawing.Point(9, 20);
 			this.cbxShowAxes.Name = "cbxShowAxes";
 			this.cbxShowAxes.Size = new System.Drawing.Size(78, 17);
 			this.cbxShowAxes.TabIndex = 0;
@@ -282,7 +284,7 @@
 			// 
 			this.gbxInfoLabels.Controls.Add(this.cbxDateTime);
 			this.gbxInfoLabels.Controls.Add(this.cbxMagDist);
-			this.gbxInfoLabels.Location = new System.Drawing.Point(5, 440);
+			this.gbxInfoLabels.Location = new System.Drawing.Point(5, 486);
 			this.gbxInfoLabels.Name = "gbxInfoLabels";
 			this.gbxInfoLabels.Size = new System.Drawing.Size(181, 70);
 			this.gbxInfoLabels.TabIndex = 5;
@@ -294,7 +296,7 @@
 			this.cbxDateTime.AutoSize = true;
 			this.cbxDateTime.Checked = true;
 			this.cbxDateTime.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.cbxDateTime.Location = new System.Drawing.Point(22, 42);
+			this.cbxDateTime.Location = new System.Drawing.Point(9, 43);
 			this.cbxDateTime.Name = "cbxDateTime";
 			this.cbxDateTime.Size = new System.Drawing.Size(95, 17);
 			this.cbxDateTime.TabIndex = 1;
@@ -307,7 +309,7 @@
 			this.cbxMagDist.AutoSize = true;
 			this.cbxMagDist.Checked = true;
 			this.cbxMagDist.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.cbxMagDist.Location = new System.Drawing.Point(22, 19);
+			this.cbxMagDist.Location = new System.Drawing.Point(9, 20);
 			this.cbxMagDist.Name = "cbxMagDist";
 			this.cbxMagDist.Size = new System.Drawing.Size(140, 17);
 			this.cbxMagDist.TabIndex = 0;
@@ -323,7 +325,7 @@
 			this.gbxSimulation.Controls.Add(this.btnForStep);
 			this.gbxSimulation.Controls.Add(this.btnStop);
 			this.gbxSimulation.Controls.Add(this.btnRevStep);
-			this.gbxSimulation.Location = new System.Drawing.Point(5, 355);
+			this.gbxSimulation.Location = new System.Drawing.Point(5, 401);
 			this.gbxSimulation.Name = "gbxSimulation";
 			this.gbxSimulation.Size = new System.Drawing.Size(181, 84);
 			this.gbxSimulation.TabIndex = 4;
@@ -335,7 +337,7 @@
 			this.gbxDateTime.Controls.Add(this.btnDate);
 			this.gbxDateTime.Controls.Add(this.btnNow);
 			this.gbxDateTime.Controls.Add(this.btnPerihDate);
-			this.gbxDateTime.Location = new System.Drawing.Point(5, 276);
+			this.gbxDateTime.Location = new System.Drawing.Point(5, 322);
 			this.gbxDateTime.Name = "gbxDateTime";
 			this.gbxDateTime.Size = new System.Drawing.Size(181, 78);
 			this.gbxDateTime.TabIndex = 3;
@@ -354,7 +356,10 @@
 			// 
 			// gbxOrbitsLabelsCenter
 			// 
+			this.gbxOrbitsLabelsCenter.Controls.Add(this.cbxSelectedLabel);
+			this.gbxOrbitsLabelsCenter.Controls.Add(this.cbxSelectedOrbit);
 			this.gbxOrbitsLabelsCenter.Controls.Add(this.btnNoLabels);
+			this.gbxOrbitsLabelsCenter.Controls.Add(this.cbxMarker);
 			this.gbxOrbitsLabelsCenter.Controls.Add(this.btnNoOrbits);
 			this.gbxOrbitsLabelsCenter.Controls.Add(this.btnAllLabels);
 			this.gbxOrbitsLabelsCenter.Controls.Add(this.btnAllOrbits);
@@ -398,25 +403,66 @@
 			this.gbxOrbitsLabelsCenter.Controls.Add(this.rbtnCenterEarth);
 			this.gbxOrbitsLabelsCenter.Controls.Add(this.cbxOrbitVenus);
 			this.gbxOrbitsLabelsCenter.Controls.Add(this.cbxOrbitMercury);
-			this.gbxOrbitsLabelsCenter.Location = new System.Drawing.Point(5, 144);
+			this.gbxOrbitsLabelsCenter.Location = new System.Drawing.Point(5, 123);
 			this.gbxOrbitsLabelsCenter.Name = "gbxOrbitsLabelsCenter";
-			this.gbxOrbitsLabelsCenter.Size = new System.Drawing.Size(181, 131);
+			this.gbxOrbitsLabelsCenter.Size = new System.Drawing.Size(181, 198);
 			this.gbxOrbitsLabelsCenter.TabIndex = 2;
 			this.gbxOrbitsLabelsCenter.TabStop = false;
 			this.gbxOrbitsLabelsCenter.Text = "Orbits - Labels - Center";
 			// 
+			// cbxSelectedLabel
+			// 
+			this.cbxSelectedLabel.AutoSize = true;
+			this.cbxSelectedLabel.Checked = true;
+			this.cbxSelectedLabel.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.cbxSelectedLabel.Enabled = false;
+			this.cbxSelectedLabel.Location = new System.Drawing.Point(8, 150);
+			this.cbxSelectedLabel.Name = "cbxSelectedLabel";
+			this.cbxSelectedLabel.Size = new System.Drawing.Size(124, 17);
+			this.cbxSelectedLabel.TabIndex = 0;
+			this.cbxSelectedLabel.Text = "Selected comet label";
+			this.cbxSelectedLabel.UseVisualStyleBackColor = true;
+			this.cbxSelectedLabel.CheckedChanged += new System.EventHandler(this.cbxLabel_CheckedChanged);
+			// 
+			// cbxSelectedOrbit
+			// 
+			this.cbxSelectedOrbit.AutoSize = true;
+			this.cbxSelectedOrbit.Checked = true;
+			this.cbxSelectedOrbit.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.cbxSelectedOrbit.Enabled = false;
+			this.cbxSelectedOrbit.Location = new System.Drawing.Point(8, 127);
+			this.cbxSelectedOrbit.Name = "cbxSelectedOrbit";
+			this.cbxSelectedOrbit.Size = new System.Drawing.Size(124, 17);
+			this.cbxSelectedOrbit.TabIndex = 3;
+			this.cbxSelectedOrbit.Text = "Selected comet orbit";
+			this.cbxSelectedOrbit.UseVisualStyleBackColor = true;
+			this.cbxSelectedOrbit.CheckedChanged += new System.EventHandler(this.cbxOrbit_CheckedChanged);
+			// 
 			// btnNoLabels
 			// 
-			this.btnNoLabels.Location = new System.Drawing.Point(12, 36);
+			this.btnNoLabels.Location = new System.Drawing.Point(8, 36);
 			this.btnNoLabels.Name = "btnNoLabels";
 			this.btnNoLabels.Size = new System.Drawing.Size(15, 15);
 			this.btnNoLabels.TabIndex = 11;
 			this.btnNoLabels.UseVisualStyleBackColor = true;
 			this.btnNoLabels.Click += new System.EventHandler(this.btnNoLabels_Click);
 			// 
+			// cbxMarker
+			// 
+			this.cbxMarker.AutoSize = true;
+			this.cbxMarker.Checked = true;
+			this.cbxMarker.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.cbxMarker.Location = new System.Drawing.Point(8, 173);
+			this.cbxMarker.Name = "cbxMarker";
+			this.cbxMarker.Size = new System.Drawing.Size(59, 17);
+			this.cbxMarker.TabIndex = 2;
+			this.cbxMarker.Text = "Marker";
+			this.cbxMarker.UseVisualStyleBackColor = true;
+			this.cbxMarker.CheckedChanged += new System.EventHandler(this.cbxMarker_CheckedChanged);
+			// 
 			// btnNoOrbits
 			// 
-			this.btnNoOrbits.Location = new System.Drawing.Point(12, 21);
+			this.btnNoOrbits.Location = new System.Drawing.Point(8, 21);
 			this.btnNoOrbits.Name = "btnNoOrbits";
 			this.btnNoOrbits.Size = new System.Drawing.Size(15, 15);
 			this.btnNoOrbits.TabIndex = 0;
@@ -425,7 +471,7 @@
 			// 
 			// btnAllLabels
 			// 
-			this.btnAllLabels.Location = new System.Drawing.Point(162, 36);
+			this.btnAllLabels.Location = new System.Drawing.Point(158, 36);
 			this.btnAllLabels.Name = "btnAllLabels";
 			this.btnAllLabels.Size = new System.Drawing.Size(15, 15);
 			this.btnAllLabels.TabIndex = 21;
@@ -434,7 +480,7 @@
 			// 
 			// btnAllOrbits
 			// 
-			this.btnAllOrbits.Location = new System.Drawing.Point(162, 21);
+			this.btnAllOrbits.Location = new System.Drawing.Point(158, 21);
 			this.btnAllOrbits.Name = "btnAllOrbits";
 			this.btnAllOrbits.Size = new System.Drawing.Size(15, 15);
 			this.btnAllOrbits.TabIndex = 10;
@@ -445,7 +491,7 @@
 			// 
 			this.lblComet.AutoSize = true;
 			this.lblComet.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.lblComet.Location = new System.Drawing.Point(148, 71);
+			this.lblComet.Location = new System.Drawing.Point(144, 71);
 			this.lblComet.Name = "lblComet";
 			this.lblComet.Size = new System.Drawing.Size(14, 13);
 			this.lblComet.TabIndex = 39;
@@ -455,7 +501,7 @@
 			// 
 			this.lblNeptune.AutoSize = true;
 			this.lblNeptune.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.lblNeptune.Location = new System.Drawing.Point(133, 71);
+			this.lblNeptune.Location = new System.Drawing.Point(129, 71);
 			this.lblNeptune.Name = "lblNeptune";
 			this.lblNeptune.Size = new System.Drawing.Size(14, 13);
 			this.lblNeptune.TabIndex = 38;
@@ -465,7 +511,7 @@
 			// 
 			this.lblUranus.AutoSize = true;
 			this.lblUranus.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.lblUranus.Location = new System.Drawing.Point(118, 71);
+			this.lblUranus.Location = new System.Drawing.Point(114, 71);
 			this.lblUranus.Name = "lblUranus";
 			this.lblUranus.Size = new System.Drawing.Size(15, 13);
 			this.lblUranus.TabIndex = 37;
@@ -475,7 +521,7 @@
 			// 
 			this.lblSaturn.AutoSize = true;
 			this.lblSaturn.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.lblSaturn.Location = new System.Drawing.Point(103, 71);
+			this.lblSaturn.Location = new System.Drawing.Point(99, 71);
 			this.lblSaturn.Name = "lblSaturn";
 			this.lblSaturn.Size = new System.Drawing.Size(14, 13);
 			this.lblSaturn.TabIndex = 36;
@@ -485,7 +531,7 @@
 			// 
 			this.lblJupiter.AutoSize = true;
 			this.lblJupiter.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.lblJupiter.Location = new System.Drawing.Point(89, 71);
+			this.lblJupiter.Location = new System.Drawing.Point(85, 71);
 			this.lblJupiter.Name = "lblJupiter";
 			this.lblJupiter.Size = new System.Drawing.Size(13, 13);
 			this.lblJupiter.TabIndex = 35;
@@ -495,7 +541,7 @@
 			// 
 			this.lblMars.AutoSize = true;
 			this.lblMars.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.lblMars.Location = new System.Drawing.Point(72, 71);
+			this.lblMars.Location = new System.Drawing.Point(68, 71);
 			this.lblMars.Name = "lblMars";
 			this.lblMars.Size = new System.Drawing.Size(17, 13);
 			this.lblMars.TabIndex = 34;
@@ -505,7 +551,7 @@
 			// 
 			this.lblEarth.AutoSize = true;
 			this.lblEarth.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.lblEarth.Location = new System.Drawing.Point(59, 71);
+			this.lblEarth.Location = new System.Drawing.Point(55, 71);
 			this.lblEarth.Name = "lblEarth";
 			this.lblEarth.Size = new System.Drawing.Size(13, 13);
 			this.lblEarth.TabIndex = 33;
@@ -515,7 +561,7 @@
 			// 
 			this.lblVenus.AutoSize = true;
 			this.lblVenus.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.lblVenus.Location = new System.Drawing.Point(44, 71);
+			this.lblVenus.Location = new System.Drawing.Point(40, 71);
 			this.lblVenus.Name = "lblVenus";
 			this.lblVenus.Size = new System.Drawing.Size(14, 13);
 			this.lblVenus.TabIndex = 32;
@@ -525,7 +571,7 @@
 			// 
 			this.lblMercury.AutoSize = true;
 			this.lblMercury.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.lblMercury.Location = new System.Drawing.Point(27, 71);
+			this.lblMercury.Location = new System.Drawing.Point(23, 71);
 			this.lblMercury.Name = "lblMercury";
 			this.lblMercury.Size = new System.Drawing.Size(17, 13);
 			this.lblMercury.TabIndex = 31;
@@ -535,7 +581,7 @@
 			// 
 			this.lblSun.AutoSize = true;
 			this.lblSun.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.lblSun.Location = new System.Drawing.Point(13, 71);
+			this.lblSun.Location = new System.Drawing.Point(9, 71);
 			this.lblSun.Name = "lblSun";
 			this.lblSun.Size = new System.Drawing.Size(14, 13);
 			this.lblSun.TabIndex = 30;
@@ -543,7 +589,7 @@
 			// 
 			// btnAllOrbitsLabels
 			// 
-			this.btnAllOrbitsLabels.Location = new System.Drawing.Point(94, 95);
+			this.btnAllOrbitsLabels.Location = new System.Drawing.Point(94, 93);
 			this.btnAllOrbitsLabels.Name = "btnAllOrbitsLabels";
 			this.btnAllOrbitsLabels.Size = new System.Drawing.Size(79, 23);
 			this.btnAllOrbitsLabels.TabIndex = 33;
@@ -553,7 +599,7 @@
 			// 
 			// btnDefaultOrbitsLabels
 			// 
-			this.btnDefaultOrbitsLabels.Location = new System.Drawing.Point(8, 95);
+			this.btnDefaultOrbitsLabels.Location = new System.Drawing.Point(8, 93);
 			this.btnDefaultOrbitsLabels.Name = "btnDefaultOrbitsLabels";
 			this.btnDefaultOrbitsLabels.Size = new System.Drawing.Size(79, 23);
 			this.btnDefaultOrbitsLabels.TabIndex = 32;
@@ -564,7 +610,7 @@
 			// rbtnCenterMercury
 			// 
 			this.rbtnCenterMercury.AutoSize = true;
-			this.rbtnCenterMercury.Location = new System.Drawing.Point(29, 54);
+			this.rbtnCenterMercury.Location = new System.Drawing.Point(25, 54);
 			this.rbtnCenterMercury.Name = "rbtnCenterMercury";
 			this.rbtnCenterMercury.Size = new System.Drawing.Size(14, 13);
 			this.rbtnCenterMercury.TabIndex = 23;
@@ -576,7 +622,7 @@
 			this.cbxLabelComet.AutoSize = true;
 			this.cbxLabelComet.Checked = true;
 			this.cbxLabelComet.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.cbxLabelComet.Location = new System.Drawing.Point(148, 37);
+			this.cbxLabelComet.Location = new System.Drawing.Point(144, 37);
 			this.cbxLabelComet.Name = "cbxLabelComet";
 			this.cbxLabelComet.Size = new System.Drawing.Size(15, 14);
 			this.cbxLabelComet.TabIndex = 20;
@@ -588,7 +634,7 @@
 			this.cbxOrbitComet.AutoSize = true;
 			this.cbxOrbitComet.Checked = true;
 			this.cbxOrbitComet.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.cbxOrbitComet.Location = new System.Drawing.Point(148, 22);
+			this.cbxOrbitComet.Location = new System.Drawing.Point(144, 22);
 			this.cbxOrbitComet.Name = "cbxOrbitComet";
 			this.cbxOrbitComet.Size = new System.Drawing.Size(15, 14);
 			this.cbxOrbitComet.TabIndex = 9;
@@ -599,7 +645,7 @@
 			// 
 			this.rbtnCenterSun.AutoSize = true;
 			this.rbtnCenterSun.Checked = true;
-			this.rbtnCenterSun.Location = new System.Drawing.Point(14, 54);
+			this.rbtnCenterSun.Location = new System.Drawing.Point(10, 54);
 			this.rbtnCenterSun.Name = "rbtnCenterSun";
 			this.rbtnCenterSun.Size = new System.Drawing.Size(14, 13);
 			this.rbtnCenterSun.TabIndex = 22;
@@ -612,7 +658,7 @@
 			this.cbxLabelNeptune.AutoSize = true;
 			this.cbxLabelNeptune.Checked = true;
 			this.cbxLabelNeptune.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.cbxLabelNeptune.Location = new System.Drawing.Point(133, 37);
+			this.cbxLabelNeptune.Location = new System.Drawing.Point(129, 37);
 			this.cbxLabelNeptune.Name = "cbxLabelNeptune";
 			this.cbxLabelNeptune.Size = new System.Drawing.Size(15, 14);
 			this.cbxLabelNeptune.TabIndex = 19;
@@ -624,7 +670,7 @@
 			this.cbxLabelUranus.AutoSize = true;
 			this.cbxLabelUranus.Checked = true;
 			this.cbxLabelUranus.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.cbxLabelUranus.Location = new System.Drawing.Point(118, 37);
+			this.cbxLabelUranus.Location = new System.Drawing.Point(114, 37);
 			this.cbxLabelUranus.Name = "cbxLabelUranus";
 			this.cbxLabelUranus.Size = new System.Drawing.Size(15, 14);
 			this.cbxLabelUranus.TabIndex = 18;
@@ -634,7 +680,7 @@
 			// rbtnCenterComet
 			// 
 			this.rbtnCenterComet.AutoSize = true;
-			this.rbtnCenterComet.Location = new System.Drawing.Point(149, 54);
+			this.rbtnCenterComet.Location = new System.Drawing.Point(145, 54);
 			this.rbtnCenterComet.Name = "rbtnCenterComet";
 			this.rbtnCenterComet.Size = new System.Drawing.Size(14, 13);
 			this.rbtnCenterComet.TabIndex = 31;
@@ -644,7 +690,7 @@
 			// cbxOrbitNeptune
 			// 
 			this.cbxOrbitNeptune.AutoSize = true;
-			this.cbxOrbitNeptune.Location = new System.Drawing.Point(133, 22);
+			this.cbxOrbitNeptune.Location = new System.Drawing.Point(129, 22);
 			this.cbxOrbitNeptune.Name = "cbxOrbitNeptune";
 			this.cbxOrbitNeptune.Size = new System.Drawing.Size(15, 14);
 			this.cbxOrbitNeptune.TabIndex = 8;
@@ -654,7 +700,7 @@
 			// cbxOrbitUranus
 			// 
 			this.cbxOrbitUranus.AutoSize = true;
-			this.cbxOrbitUranus.Location = new System.Drawing.Point(118, 22);
+			this.cbxOrbitUranus.Location = new System.Drawing.Point(114, 22);
 			this.cbxOrbitUranus.Name = "cbxOrbitUranus";
 			this.cbxOrbitUranus.Size = new System.Drawing.Size(15, 14);
 			this.cbxOrbitUranus.TabIndex = 7;
@@ -664,7 +710,7 @@
 			// rbtnCenterNeptune
 			// 
 			this.rbtnCenterNeptune.AutoSize = true;
-			this.rbtnCenterNeptune.Location = new System.Drawing.Point(134, 54);
+			this.rbtnCenterNeptune.Location = new System.Drawing.Point(130, 54);
 			this.rbtnCenterNeptune.Name = "rbtnCenterNeptune";
 			this.rbtnCenterNeptune.Size = new System.Drawing.Size(14, 13);
 			this.rbtnCenterNeptune.TabIndex = 30;
@@ -676,7 +722,7 @@
 			this.cbxLabelSaturn.AutoSize = true;
 			this.cbxLabelSaturn.Checked = true;
 			this.cbxLabelSaturn.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.cbxLabelSaturn.Location = new System.Drawing.Point(103, 37);
+			this.cbxLabelSaturn.Location = new System.Drawing.Point(99, 37);
 			this.cbxLabelSaturn.Name = "cbxLabelSaturn";
 			this.cbxLabelSaturn.Size = new System.Drawing.Size(15, 14);
 			this.cbxLabelSaturn.TabIndex = 17;
@@ -688,7 +734,7 @@
 			this.cbxLabelJupiter.AutoSize = true;
 			this.cbxLabelJupiter.Checked = true;
 			this.cbxLabelJupiter.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.cbxLabelJupiter.Location = new System.Drawing.Point(88, 37);
+			this.cbxLabelJupiter.Location = new System.Drawing.Point(84, 37);
 			this.cbxLabelJupiter.Name = "cbxLabelJupiter";
 			this.cbxLabelJupiter.Size = new System.Drawing.Size(15, 14);
 			this.cbxLabelJupiter.TabIndex = 16;
@@ -698,7 +744,7 @@
 			// rbtnCenterUranus
 			// 
 			this.rbtnCenterUranus.AutoSize = true;
-			this.rbtnCenterUranus.Location = new System.Drawing.Point(119, 54);
+			this.rbtnCenterUranus.Location = new System.Drawing.Point(115, 54);
 			this.rbtnCenterUranus.Name = "rbtnCenterUranus";
 			this.rbtnCenterUranus.Size = new System.Drawing.Size(14, 13);
 			this.rbtnCenterUranus.TabIndex = 29;
@@ -708,7 +754,7 @@
 			// cbxOrbitSaturn
 			// 
 			this.cbxOrbitSaturn.AutoSize = true;
-			this.cbxOrbitSaturn.Location = new System.Drawing.Point(103, 22);
+			this.cbxOrbitSaturn.Location = new System.Drawing.Point(99, 22);
 			this.cbxOrbitSaturn.Name = "cbxOrbitSaturn";
 			this.cbxOrbitSaturn.Size = new System.Drawing.Size(15, 14);
 			this.cbxOrbitSaturn.TabIndex = 6;
@@ -720,7 +766,7 @@
 			this.cbxOrbitJupiter.AutoSize = true;
 			this.cbxOrbitJupiter.Checked = true;
 			this.cbxOrbitJupiter.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.cbxOrbitJupiter.Location = new System.Drawing.Point(88, 22);
+			this.cbxOrbitJupiter.Location = new System.Drawing.Point(84, 22);
 			this.cbxOrbitJupiter.Name = "cbxOrbitJupiter";
 			this.cbxOrbitJupiter.Size = new System.Drawing.Size(15, 14);
 			this.cbxOrbitJupiter.TabIndex = 5;
@@ -730,7 +776,7 @@
 			// rbtnCenterSaturn
 			// 
 			this.rbtnCenterSaturn.AutoSize = true;
-			this.rbtnCenterSaturn.Location = new System.Drawing.Point(104, 54);
+			this.rbtnCenterSaturn.Location = new System.Drawing.Point(100, 54);
 			this.rbtnCenterSaturn.Name = "rbtnCenterSaturn";
 			this.rbtnCenterSaturn.Size = new System.Drawing.Size(14, 13);
 			this.rbtnCenterSaturn.TabIndex = 28;
@@ -742,7 +788,7 @@
 			this.cbxLabelMars.AutoSize = true;
 			this.cbxLabelMars.Checked = true;
 			this.cbxLabelMars.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.cbxLabelMars.Location = new System.Drawing.Point(73, 37);
+			this.cbxLabelMars.Location = new System.Drawing.Point(69, 37);
 			this.cbxLabelMars.Name = "cbxLabelMars";
 			this.cbxLabelMars.Size = new System.Drawing.Size(15, 14);
 			this.cbxLabelMars.TabIndex = 15;
@@ -754,7 +800,7 @@
 			this.cbxLabelEarth.AutoSize = true;
 			this.cbxLabelEarth.Checked = true;
 			this.cbxLabelEarth.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.cbxLabelEarth.Location = new System.Drawing.Point(58, 37);
+			this.cbxLabelEarth.Location = new System.Drawing.Point(54, 37);
 			this.cbxLabelEarth.Name = "cbxLabelEarth";
 			this.cbxLabelEarth.Size = new System.Drawing.Size(15, 14);
 			this.cbxLabelEarth.TabIndex = 14;
@@ -764,7 +810,7 @@
 			// rbtnCenterJupiter
 			// 
 			this.rbtnCenterJupiter.AutoSize = true;
-			this.rbtnCenterJupiter.Location = new System.Drawing.Point(89, 54);
+			this.rbtnCenterJupiter.Location = new System.Drawing.Point(85, 54);
 			this.rbtnCenterJupiter.Name = "rbtnCenterJupiter";
 			this.rbtnCenterJupiter.Size = new System.Drawing.Size(14, 13);
 			this.rbtnCenterJupiter.TabIndex = 27;
@@ -776,7 +822,7 @@
 			this.cbxOrbitMars.AutoSize = true;
 			this.cbxOrbitMars.Checked = true;
 			this.cbxOrbitMars.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.cbxOrbitMars.Location = new System.Drawing.Point(73, 22);
+			this.cbxOrbitMars.Location = new System.Drawing.Point(69, 22);
 			this.cbxOrbitMars.Name = "cbxOrbitMars";
 			this.cbxOrbitMars.Size = new System.Drawing.Size(15, 14);
 			this.cbxOrbitMars.TabIndex = 4;
@@ -788,7 +834,7 @@
 			this.cbxOrbitEarth.AutoSize = true;
 			this.cbxOrbitEarth.Checked = true;
 			this.cbxOrbitEarth.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.cbxOrbitEarth.Location = new System.Drawing.Point(58, 22);
+			this.cbxOrbitEarth.Location = new System.Drawing.Point(54, 22);
 			this.cbxOrbitEarth.Name = "cbxOrbitEarth";
 			this.cbxOrbitEarth.Size = new System.Drawing.Size(15, 14);
 			this.cbxOrbitEarth.TabIndex = 3;
@@ -798,7 +844,7 @@
 			// rbtnCenterMars
 			// 
 			this.rbtnCenterMars.AutoSize = true;
-			this.rbtnCenterMars.Location = new System.Drawing.Point(74, 54);
+			this.rbtnCenterMars.Location = new System.Drawing.Point(70, 54);
 			this.rbtnCenterMars.Name = "rbtnCenterMars";
 			this.rbtnCenterMars.Size = new System.Drawing.Size(14, 13);
 			this.rbtnCenterMars.TabIndex = 26;
@@ -810,7 +856,7 @@
 			this.cbxLabelVenus.AutoSize = true;
 			this.cbxLabelVenus.Checked = true;
 			this.cbxLabelVenus.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.cbxLabelVenus.Location = new System.Drawing.Point(43, 37);
+			this.cbxLabelVenus.Location = new System.Drawing.Point(39, 37);
 			this.cbxLabelVenus.Name = "cbxLabelVenus";
 			this.cbxLabelVenus.Size = new System.Drawing.Size(15, 14);
 			this.cbxLabelVenus.TabIndex = 13;
@@ -822,7 +868,7 @@
 			this.cbxLabelMercury.AutoSize = true;
 			this.cbxLabelMercury.Checked = true;
 			this.cbxLabelMercury.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.cbxLabelMercury.Location = new System.Drawing.Point(28, 37);
+			this.cbxLabelMercury.Location = new System.Drawing.Point(24, 37);
 			this.cbxLabelMercury.Name = "cbxLabelMercury";
 			this.cbxLabelMercury.Size = new System.Drawing.Size(15, 14);
 			this.cbxLabelMercury.TabIndex = 12;
@@ -832,7 +878,7 @@
 			// rbtnCenterVenus
 			// 
 			this.rbtnCenterVenus.AutoSize = true;
-			this.rbtnCenterVenus.Location = new System.Drawing.Point(44, 54);
+			this.rbtnCenterVenus.Location = new System.Drawing.Point(40, 54);
 			this.rbtnCenterVenus.Name = "rbtnCenterVenus";
 			this.rbtnCenterVenus.Size = new System.Drawing.Size(14, 13);
 			this.rbtnCenterVenus.TabIndex = 24;
@@ -842,7 +888,7 @@
 			// rbtnCenterEarth
 			// 
 			this.rbtnCenterEarth.AutoSize = true;
-			this.rbtnCenterEarth.Location = new System.Drawing.Point(59, 54);
+			this.rbtnCenterEarth.Location = new System.Drawing.Point(55, 54);
 			this.rbtnCenterEarth.Name = "rbtnCenterEarth";
 			this.rbtnCenterEarth.Size = new System.Drawing.Size(14, 13);
 			this.rbtnCenterEarth.TabIndex = 25;
@@ -854,7 +900,7 @@
 			this.cbxOrbitVenus.AutoSize = true;
 			this.cbxOrbitVenus.Checked = true;
 			this.cbxOrbitVenus.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.cbxOrbitVenus.Location = new System.Drawing.Point(43, 22);
+			this.cbxOrbitVenus.Location = new System.Drawing.Point(39, 22);
 			this.cbxOrbitVenus.Name = "cbxOrbitVenus";
 			this.cbxOrbitVenus.Size = new System.Drawing.Size(15, 14);
 			this.cbxOrbitVenus.TabIndex = 2;
@@ -866,7 +912,7 @@
 			this.cbxOrbitMercury.AutoSize = true;
 			this.cbxOrbitMercury.Checked = true;
 			this.cbxOrbitMercury.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.cbxOrbitMercury.Location = new System.Drawing.Point(28, 22);
+			this.cbxOrbitMercury.Location = new System.Drawing.Point(24, 22);
 			this.cbxOrbitMercury.Name = "cbxOrbitMercury";
 			this.cbxOrbitMercury.Size = new System.Drawing.Size(15, 14);
 			this.cbxOrbitMercury.TabIndex = 1;
@@ -875,29 +921,14 @@
 			// 
 			// gbxMode
 			// 
-			this.gbxMode.Controls.Add(this.cbxPreserveSelected);
 			this.gbxMode.Controls.Add(this.rbtnMultipleMode);
 			this.gbxMode.Controls.Add(this.rbtnSingleMode);
 			this.gbxMode.Location = new System.Drawing.Point(5, 80);
 			this.gbxMode.Name = "gbxMode";
-			this.gbxMode.Size = new System.Drawing.Size(181, 63);
+			this.gbxMode.Size = new System.Drawing.Size(181, 42);
 			this.gbxMode.TabIndex = 1;
 			this.gbxMode.TabStop = false;
 			this.gbxMode.Text = "Mode";
-			// 
-			// cbxPreserveSelected
-			// 
-			this.cbxPreserveSelected.AutoSize = true;
-			this.cbxPreserveSelected.Checked = true;
-			this.cbxPreserveSelected.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.cbxPreserveSelected.Enabled = false;
-			this.cbxPreserveSelected.Location = new System.Drawing.Point(28, 39);
-			this.cbxPreserveSelected.Name = "cbxPreserveSelected";
-			this.cbxPreserveSelected.Size = new System.Drawing.Size(144, 17);
-			this.cbxPreserveSelected.TabIndex = 2;
-			this.cbxPreserveSelected.Text = "Preserve selected comet";
-			this.cbxPreserveSelected.UseVisualStyleBackColor = true;
-			this.cbxPreserveSelected.CheckedChanged += new System.EventHandler(this.cbxPreserveSelected_CheckedChanged);
 			// 
 			// rbtnMultipleMode
 			// 
@@ -976,7 +1007,7 @@
 			this.orbitPanel.Location = new System.Drawing.Point(195, 0);
 			this.orbitPanel.MinimumSize = new System.Drawing.Size(682, 458);
 			this.orbitPanel.Name = "orbitPanel";
-			this.orbitPanel.Size = new System.Drawing.Size(714, 622);
+			this.orbitPanel.Size = new System.Drawing.Size(739, 682);
 			this.orbitPanel.TabIndex = 1;
 			this.orbitPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.orbitPanel_MouseClick);
 			this.orbitPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.orbitPanel_MouseDown);
@@ -989,7 +1020,7 @@
 			// scrollVert
 			// 
 			this.scrollVert.LargeChange = 1;
-			this.scrollVert.Location = new System.Drawing.Point(682, 275);
+			this.scrollVert.Location = new System.Drawing.Point(713, 345);
 			this.scrollVert.Maximum = 360;
 			this.scrollVert.Name = "scrollVert";
 			this.scrollVert.Size = new System.Drawing.Size(17, 272);
@@ -1000,7 +1031,7 @@
 			// scrollHorz
 			// 
 			this.scrollHorz.LargeChange = 1;
-			this.scrollHorz.Location = new System.Drawing.Point(406, 559);
+			this.scrollHorz.Location = new System.Drawing.Point(437, 629);
 			this.scrollHorz.Maximum = 360;
 			this.scrollHorz.Name = "scrollHorz";
 			this.scrollHorz.Size = new System.Drawing.Size(293, 17);
@@ -1010,7 +1041,7 @@
 			// 
 			// scrollZoom
 			// 
-			this.scrollZoom.Location = new System.Drawing.Point(406, 586);
+			this.scrollZoom.Location = new System.Drawing.Point(437, 656);
 			this.scrollZoom.Maximum = 1000;
 			this.scrollZoom.Minimum = 5;
 			this.scrollZoom.Name = "scrollZoom";
@@ -1024,7 +1055,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(909, 622);
+			this.ClientSize = new System.Drawing.Size(934, 682);
 			this.Controls.Add(this.orbitPanel);
 			this.Controls.Add(this.pnlToolbox);
 			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
@@ -1128,11 +1159,13 @@
 		private System.Windows.Forms.Button btnSaveImage;
 		private System.Windows.Forms.CheckBox cbxAntialiasing;
 		private System.Windows.Forms.CheckBox cbxShowAxes;
-		private System.Windows.Forms.CheckBox cbxPreserveSelected;
 		private System.Windows.Forms.Button btnNoLabels;
 		private System.Windows.Forms.Button btnNoOrbits;
 		private System.Windows.Forms.Button btnAllLabels;
 		private System.Windows.Forms.Button btnAllOrbits;
+		private System.Windows.Forms.CheckBox cbxSelectedOrbit;
+		private System.Windows.Forms.CheckBox cbxMarker;
+		private System.Windows.Forms.CheckBox cbxSelectedLabel;
 
 	}
 }

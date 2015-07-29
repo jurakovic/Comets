@@ -255,7 +255,8 @@ namespace Comets.Application.ModulOrbit
 			ValueChangedByEvent = true;
 
 			orbitPanel.MultipleMode = rbtnMultipleMode.Checked;
-			cbxPreserveSelected.Enabled = rbtnMultipleMode.Checked;
+			cbxSelectedOrbit.Enabled = rbtnMultipleMode.Checked && !cbxOrbitComet.Checked;
+			cbxSelectedLabel.Enabled = rbtnMultipleMode.Checked && !cbxLabelComet.Checked;
 
 			if (rbtnMultipleMode.Checked && orbitPanel.Comets.Count > OrbitPanel.MaxNumberOfComets)
 			{
@@ -274,10 +275,32 @@ namespace Comets.Application.ModulOrbit
 				orbitPanel.Invalidate();
 		}
 
-		private void cbxPreserveSelected_CheckedChanged(object sender, EventArgs e)
+		#endregion
+
+		#region Selected comet
+
+		private void cbxMarker_CheckedChanged(object sender, EventArgs e)
 		{
-			orbitPanel.PreserveSelected = cbxPreserveSelected.Checked;
-			orbitPanel.Invalidate();
+			orbitPanel.ShowMarker = cbxMarker.Checked;
+
+			if (!ValueChangedByEvent)
+				orbitPanel.Invalidate();
+		}
+
+		private void cbxOrbit_CheckedChanged(object sender, EventArgs e)
+		{
+			orbitPanel.PreserveSelectedOrbit = cbxSelectedOrbit.Checked;
+
+			if (!ValueChangedByEvent)
+				orbitPanel.Invalidate();
+		}
+
+		private void cbxLabel_CheckedChanged(object sender, EventArgs e)
+		{
+			orbitPanel.PreserveSelectedLabel = cbxSelectedLabel.Checked;
+
+			if (!ValueChangedByEvent)
+				orbitPanel.Invalidate();
 		}
 
 		#endregion
@@ -321,6 +344,8 @@ namespace Comets.Application.ModulOrbit
 			cbxOrbitUranus.Checked = false;
 			cbxOrbitNeptune.Checked = false;
 			rbtnCenterSun.Checked = true;
+			cbxSelectedOrbit.Checked = true;
+			cbxSelectedLabel.Checked = true;
 			ValueChangedByEvent = false;
 
 			orbitPanel.Invalidate();
@@ -351,6 +376,9 @@ namespace Comets.Application.ModulOrbit
 			else
 				orbitPanel.OrbitDisplay.Remove(orbit);
 
+			if (orbit == OrbitPanel.Object.Comet)
+				cbxSelectedOrbit.Enabled = rbtnMultipleMode.Checked && !cbx.Checked;
+
 			if (!ValueChangedByEvent)
 				orbitPanel.Invalidate();
 		}
@@ -365,6 +393,9 @@ namespace Comets.Application.ModulOrbit
 				orbitPanel.LabelDisplay.Add(label);
 			else
 				orbitPanel.LabelDisplay.Remove(label);
+
+			if (label == OrbitPanel.Object.Comet)
+				cbxSelectedLabel.Enabled = rbtnMultipleMode.Checked && !cbx.Checked;
 
 			if (!ValueChangedByEvent)
 				orbitPanel.Invalidate();
@@ -983,5 +1014,15 @@ namespace Comets.Application.ModulOrbit
 		}
 
 		#endregion
+
+		private void orbitPanel_Paint(object sender, PaintEventArgs e)
+		{
+
+		}
+
+		private void orbitPanel_MouseDoubleClick(object sender, MouseEventArgs e)
+		{
+
+		}
 	}
 }

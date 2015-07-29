@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -10,7 +11,7 @@ namespace Comets.OrbitViewer
 {
 	public class OrbitPanel : Panel
 	{
-		#region Enums
+		#region Enum
 
 		public enum Object
 		{
@@ -31,7 +32,9 @@ namespace Comets.OrbitViewer
 		#region Const
 
 		public const int MaxNumberOfComets = 30;
-		private const bool DefaultPreserveSelected = true;
+		private const bool DefaultShowMarker = true;
+		private const bool DefaultPreserveOrbit = true;
+		private const bool DefaultPreserveLabel = true;
 		private const bool DefaultShowDistance = true;
 		private const bool DefaultShowDate = true;
 		private const Object DefaultCenterObject = Object.Sun;
@@ -58,6 +61,36 @@ namespace Comets.OrbitViewer
 			Object.Neptune,
 			Object.Comet
 		};
+
+		#endregion
+
+		#region Colors
+
+		//https://msdn.microsoft.com/en-us/library/aa358803%28v=vs.85%29.aspx
+		protected Color ColorCometOrbitUpper = Color.Tomato;
+		protected Color ColorCometOrbitLower = Color.Firebrick;
+		protected Color ColorCometMarker = Color.Red;
+		protected Color ColorCometNameSelected = Color.White;
+		protected Color ColorCometName = Color.Peru;
+		//protected Color ColorPlanetOrbitUpper = Color.White;
+		//protected Color ColorPlanetOrbitLower = Color.DimGray;
+		protected Color ColorPlanetOrbitUpper = Color.SteelBlue;
+		protected Color ColorPlanetOrbitLower = Color.DarkSlateBlue;
+		protected Color ColorPlanet = Color.Lime;
+		protected Color ColorPlanetName = Color.LimeGreen;
+		protected Color ColorSun = Color.Orange;
+		protected Color ColorAxisPlus = Color.Yellow;
+		protected Color ColorAxisMinus = Color.DarkOliveGreen;
+		protected Color ColorInformation = Color.White;
+
+		#endregion
+
+		#region Fonts
+
+		protected Font FontObjectName = new Font("Helvetica", 10, FontStyle.Regular);
+		protected Font FontPlanetName = new Font("Helvetica", 10, FontStyle.Regular);
+		protected Font FontInformation = new Font("Helvetica", 10, FontStyle.Bold);
+		protected Font FontAxisLabel = new Font("Helvetica", 8.5F, FontStyle.Regular);
 
 		#endregion
 
@@ -139,7 +172,15 @@ namespace Comets.OrbitViewer
 
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public bool PreserveSelected { get; set; }
+		public bool ShowMarker { get; set; }
+
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public bool PreserveSelectedOrbit { get; set; }
+
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public bool PreserveSelectedLabel { get; set; }
 
 
 		[Browsable(false)]
@@ -195,34 +236,6 @@ namespace Comets.OrbitViewer
 
 		#endregion
 
-		#region Colors
-
-		protected Color ColorCometOrbitUpper = Color.FromArgb(0x00, 0xF5, 0xFF);
-		protected Color ColorCometOrbitLower = Color.FromArgb(0x00, 0x00, 0xFF);
-		protected Color ColorCometSelected = Color.FromArgb(0xFF, 0xFF, 0x00);
-		protected Color ColorComet = Color.FromArgb(0x00, 0xFF, 0xFF);
-		protected Color ColorCometNameSelected = Color.FromArgb(0xFF, 0xFF, 0xFF);
-		protected Color ColorCometName = Color.FromArgb(0x00, 0xCC, 0xCC);
-		protected Color ColorPlanetOrbitUpper = Color.FromArgb(0xFF, 0xFF, 0xFF);
-		protected Color ColorPlanetOrbitLower = Color.FromArgb(0x80, 0x80, 0x80);
-		protected Color ColorPlanet = Color.FromArgb(0x00, 0xFF, 0x00);
-		protected Color ColorPlanetName = Color.FromArgb(0x00, 0xAA, 0x00);
-		protected Color ColorSun = Color.FromArgb(0xE5, 0x83, 0x17);
-		protected Color ColorAxisPlus = Color.FromArgb(0xFF, 0xFF, 0x00);
-		protected Color ColorAxisMinus = Color.FromArgb(0x55, 0x55, 0x00);
-		protected Color ColorInformation = Color.FromArgb(0xFF, 0xFF, 0xFF);
-
-		#endregion
-
-		#region Fonts
-
-		protected Font FontObjectName = new Font("Helvetica", 10, FontStyle.Regular);
-		protected Font FontPlanetName = new Font("Helvetica", 10, FontStyle.Regular);
-		protected Font FontInformation = new Font("Helvetica", 10, FontStyle.Bold);
-		protected Font FontAxisLabel = new Font("Tahoma", 9, FontStyle.Regular);
-
-		#endregion
-
 		#region Consctructor
 
 		public OrbitPanel()
@@ -239,7 +252,9 @@ namespace Comets.OrbitViewer
 			OrbitDisplay = DefaultOrbitDisplay;
 			LabelDisplay = DefaultLabelDisplay;
 			CenteredObject = DefaultCenterObject;
-			PreserveSelected = DefaultPreserveSelected;
+			ShowMarker = DefaultShowMarker;
+			PreserveSelectedOrbit = DefaultPreserveOrbit;
+			PreserveSelectedLabel = DefaultPreserveLabel;
 
 			ShowDistance = DefaultShowDistance;
 			ShowDate = DefaultShowDate;
@@ -321,7 +336,7 @@ namespace Comets.OrbitViewer
 		public void Update(Graphics g)
 		{
 			Point point3;
-			Xyz xyz, xyz1;
+			Xyz xyz;
 
 			// Calculate Drawing Parameter
 			Matrix mtxRotH = Matrix.RotateZ(RotateHorz * Math.PI / 180.0);
@@ -364,11 +379,10 @@ namespace Comets.OrbitViewer
 
 				// Draw Sun
 				sb.Color = ColorSun;
+				int diameter = 3;
+				int radius = diameter * 2;
 				graphics.SmoothingMode = SmoothingMode.AntiAlias;
-				graphics.FillPie(sb, X0 - 2, Y0 - 2, 5, 5, 0, 360);
-
-				DrawCometOrbit(graphics, CometOrbits);
-				DrawCometBody(graphics);
+				graphics.FillPie(sb, X0 - diameter, Y0 - diameter, radius, radius, 0, 360);
 
 				//  Draw Orbit of Planets
 				if (Math.Abs(EpochPlanetOrbit - ATime.JD) > 365.2422 * 5)
@@ -449,6 +463,9 @@ namespace Comets.OrbitViewer
 					DrawPlanetBody(graphics, FontPlanetName, PlanetPos[0], Object.Mercury);
 				}
 
+				DrawCometOrbit(graphics, CometOrbits);
+				DrawCometBody(graphics);
+
 				// Information
 				sb.Color = ColorInformation;
 
@@ -464,25 +481,11 @@ namespace Comets.OrbitViewer
 
 					if (ShowDistance)
 					{
-						// Earth & Sun Distance, Magnitude
-						double d, r, m;
-						double xdiff, ydiff, zdiff;
-						string dstr, rstr, mstr;
+						double[] mdr = GetMagnutideAndDistances(SelectedComet, SelectedIndex);
 
-						xyz = CometsPos[SelectedIndex].Rotate(MtxToEcl).Rotate(MtxRotate);
-
-						xyz1 = PlanetPos[2].Rotate(MtxRotate);
-						r = Math.Sqrt((xyz.X * xyz.X) + (xyz.Y * xyz.Y) + (xyz.Z * xyz.Z)) + .0005;
-						xdiff = xyz.X - xyz1.X;
-						ydiff = xyz.Y - xyz1.Y;
-						zdiff = xyz.Z - xyz1.Z;
-						d = Math.Sqrt((xdiff * xdiff) + (ydiff * ydiff) + (zdiff * zdiff)) + .0005;
-
-						m = SelectedComet.g + 5 * Math.Log10(d) + 2.5 * SelectedComet.k * Math.Log10(r);
-
-						mstr = String.Format("Magnitude:       {0:#0.0}", m);
-						dstr = String.Format("Earth Distance: {0:#0.0000} AU", d);
-						rstr = String.Format("Sun Distance:   {0:#0.0000} AU", r);
+						string mstr = String.Format("Magnitude:       {0:#0.0}", mdr[0]);
+						string dstr = String.Format("Earth Distance: {0:#0.0000} AU", mdr[1]);
+						string rstr = String.Format("Sun Distance:   {0:#0.0000} AU", mdr[2]);
 
 						point1.Y = Size.Height - labelMargin - (int)(fontSize * 5.0);
 						graphics.DrawString(mstr, FontInformation, sb, point1.X, point1.Y);
@@ -631,7 +634,7 @@ namespace Comets.OrbitViewer
 
 			for (int i = 0; i < Comets.Count; i++)
 			{
-				if (OrbitDisplay.Contains(Object.Comet) || (MultipleMode && PreserveSelected && i == SelectedIndex))
+				if (OrbitDisplay.Contains(Object.Comet) || (MultipleMode && PreserveSelectedOrbit && i == SelectedIndex))
 				{
 					Xyz xyz = cometOrbits[i].GetAt(0).Rotate(MtxToEcl).Rotate(MtxRotate);
 					Pen pen = new Pen(Color.White);
@@ -658,22 +661,35 @@ namespace Comets.OrbitViewer
 		private void DrawCometBody(Graphics graphics)
 		{
 			graphics.SmoothingMode = SmoothingMode.AntiAlias;
-			SolidBrush sb = new SolidBrush(ColorComet);
+
+			int diameter = 2;
 
 			for (int i = 0; i < Comets.Count; i++)
 			{
 				Xyz xyz = CometsPos[i].Rotate(MtxToEcl).Rotate(MtxRotate);
+
 				Point point1 = GetDrawPoint(xyz);
-
-				if (MultipleMode && i == SelectedIndex)
-					sb.Color = ColorCometSelected;
-				else
-					sb.Color = ColorComet;
-
 				Comets[i].PanelLocation = point1;
-				graphics.FillPie(sb, point1.X - 2, point1.Y - 2, 5, 5, 0, 360);
 
-				if ((LabelDisplay.Contains(Object.Comet)) || (MultipleMode && PreserveSelected && i == SelectedIndex))
+				Color color = GetCometColorAndDiameter(Comets[i], i, out diameter);
+				SolidBrush sb = new SolidBrush(color);
+				graphics.FillPie(sb, point1.X - diameter, point1.Y - diameter, diameter * 2, diameter * 2, 0, 360);
+
+				if (ShowMarker && i == SelectedIndex)
+				{
+					int offset = diameter + 4;
+					int length = diameter + 8;
+
+					Pen p = new Pen(ColorCometMarker);
+					p.Width = 3;
+
+					graphics.DrawLine(p, new Point(point1.X, point1.Y - length), new Point(point1.X, point1.Y - offset));
+					graphics.DrawLine(p, new Point(point1.X, point1.Y + length), new Point(point1.X, point1.Y + offset));
+					graphics.DrawLine(p, new Point(point1.X - length, point1.Y), new Point(point1.X - offset, point1.Y));
+					graphics.DrawLine(p, new Point(point1.X + length, point1.Y), new Point(point1.X + offset, point1.Y));
+				}
+
+				if ((LabelDisplay.Contains(Object.Comet)) || (MultipleMode && PreserveSelectedLabel && i == SelectedIndex))
 				{
 					if (MultipleMode && i == SelectedIndex)
 						sb.Color = ColorCometNameSelected;
@@ -811,6 +827,73 @@ namespace Comets.OrbitViewer
 			}
 
 			return name;
+		}
+
+		#endregion
+
+		#region GetMagnutideAndDistances
+
+		private double[] GetMagnutideAndDistances(OVComet comet, int index)
+		{
+			double m, d, r;
+			double xdiff, ydiff, zdiff;
+
+			Xyz xyz = CometsPos[index].Rotate(MtxToEcl).Rotate(MtxRotate);
+
+			Xyz xyz1 = PlanetPos[2].Rotate(MtxRotate);
+			r = Math.Sqrt((xyz.X * xyz.X) + (xyz.Y * xyz.Y) + (xyz.Z * xyz.Z)) + .0005;
+			xdiff = xyz.X - xyz1.X;
+			ydiff = xyz.Y - xyz1.Y;
+			zdiff = xyz.Z - xyz1.Z;
+			d = Math.Sqrt((xdiff * xdiff) + (ydiff * ydiff) + (zdiff * zdiff)) + .0005;
+
+			m = comet.g + 5 * Math.Log10(d) + 2.5 * comet.k * Math.Log10(r);
+
+			return new double[] { m, d, r };
+		}
+
+		#endregion
+
+		#region GetCometColorAndDiameter
+
+		private Color GetCometColorAndDiameter(OVComet comet, int index, out int diameter)
+		{
+			Color color;
+
+			double mag = GetMagnutideAndDistances(comet, index)[0];
+
+			if (mag < 2)
+			{
+				diameter = 5;
+				color = Color.White;
+			}
+			else if (mag >= 2 && mag < 5)
+			{
+				diameter = 4;
+				color = Color.White;
+			}
+			else if (mag >= 5 && mag < 8)
+			{
+				diameter = 4;
+				color = Color.Silver;
+			}
+			else if (mag >= 8 && mag < 11)
+			{
+				diameter = 3;
+				color = Color.Silver;
+			}
+			else if (mag >= 11 && mag < 15)
+			{
+				diameter = 2;
+				color = Color.DarkGray;
+			}
+			else
+			{
+				diameter = 2;
+				color = Color.DimGray;
+			}
+
+			return color;
 		}
 
 		#endregion
