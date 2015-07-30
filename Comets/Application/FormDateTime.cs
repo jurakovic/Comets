@@ -32,7 +32,7 @@ namespace Comets.Application
 			}
 		}
 
-		public bool IsTextChangedByProgram { get; set; }
+		public bool ValueChangedByEvent { get; set; }
 
 		private DateTime DefaultDateTime { get; set; }
 		private double? T { get; set; }
@@ -66,7 +66,7 @@ namespace Comets.Application
 
 		private void txtCommon_KeyDown(object sender, KeyEventArgs e)
 		{
-			IsTextChangedByProgram = true;
+			ValueChangedByEvent = true;
 
 			bool suppress = Utils.TextBoxValueUpDown(sender, e);
 
@@ -77,13 +77,7 @@ namespace Comets.Application
 			{
 				DateTime dt = SelectedDateTime;
 
-				int value = 0;
-
-				if (up)
-					value = 1;
-
-				if (down)
-					value = -1;
+				int value = up ? 1 : -1;
 
 				LeMiMa lemima = (sender as TextBox).Tag as LeMiMa;
 
@@ -107,6 +101,8 @@ namespace Comets.Application
 					case LeMiMa.NameEnum.Second:
 						dt = dt.AddSeconds(value);
 						break;
+					default:
+						throw new ArgumentException("unspecified lemima tag");
 				}
 
 				dt = RangeDateTime(dt);
@@ -114,7 +110,7 @@ namespace Comets.Application
 			}
 
 			e.SuppressKeyPress = suppress;
-			IsTextChangedByProgram = false;
+			ValueChangedByEvent = false;
 		}
 
 		private void txtCommon_KeyPress(object sender, KeyPressEventArgs e)
@@ -122,9 +118,33 @@ namespace Comets.Application
 			e.Handled = Utils.HandleKeyPress(sender, e);
 		}
 
+		private void txtMonthYear_TextChanged(object sender, EventArgs e)
+		{
+			if (txtMonth.Text.Length > 0 && txtYear.Text.Length > 0)
+			{
+				bool tempValueChanged = ValueChangedByEvent;
+				ValueChangedByEvent = true;
+
+				int max = DateTime.DaysInMonth(txtYear.Int(), txtMonth.Int());
+
+				LeMiMa o = txtDay.Tag as LeMiMa;
+				LeMiMa n = new LeMiMa(o.Len, o.Min, max, LeMiMa.NameEnum.Day);
+
+				if (txtDay.Text.Length > 0 && txtDay.Int() > n.Max)
+					txtDay.Text = n.Max.ToString();
+
+				txtDay.Tag = n;
+
+				ValueChangedByEvent = tempValueChanged;
+			}
+
+			if (!ValueChangedByEvent)
+				CollectData();
+		}
+
 		private void txtCommon_TextChanged(object sender, EventArgs e)
 		{
-			if (!IsTextChangedByProgram)
+			if (!ValueChangedByEvent)
 				CollectData();
 		}
 
@@ -211,7 +231,7 @@ namespace Comets.Application
 
 		private void PopulateData()
 		{
-			IsTextChangedByProgram = true;
+			ValueChangedByEvent = true;
 
 			txtDay.Text = SelectedDateTime.Day.ToString("00");
 			txtMonth.Text = SelectedDateTime.Month.ToString("00");
@@ -221,7 +241,7 @@ namespace Comets.Application
 			txtMinute.Text = SelectedDateTime.Minute.ToString("00");
 			txtSecond.Text = SelectedDateTime.Second.ToString("00");
 
-			IsTextChangedByProgram = false;
+			ValueChangedByEvent = false;
 		}
 
 		#endregion

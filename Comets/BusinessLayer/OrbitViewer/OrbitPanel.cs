@@ -809,7 +809,7 @@ namespace Comets.OrbitViewer
 			if (MultipleMode && Comets.Count > 1)
 			{
 				int offset = 5;
-				int range = 7;
+				int range = 6;
 
 				int x0 = point.X - offset;
 				int y0 = point.Y - offset;

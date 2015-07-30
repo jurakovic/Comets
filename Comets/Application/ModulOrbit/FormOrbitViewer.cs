@@ -209,7 +209,7 @@ namespace Comets.Application.ModulOrbit
 			if (orbitPanel.IsPaintEnabled)
 			{
 				orbitPanel.LoadPanel(SelectedComet, orbitPanel.ATime);
-				ValidateCometsCount();
+				ClearOrbits();
 				orbitPanel.Invalidate();
 			}
 
@@ -218,20 +218,28 @@ namespace Comets.Application.ModulOrbit
 
 		private void btnFilter_Click(object sender, EventArgs e)
 		{
-			using (FormDatabase fdb = new FormDatabase(Comets, Filters, SortProperty, SortAscending, true) { Owner = this })
+			if (Comets.Any())
 			{
-				fdb.TopMost = this.TopMost;
+				string lastSelected = SelectedComet.Name;
 
-				if (fdb.ShowDialog() == DialogResult.OK)
+				using (FormDatabase fdb = new FormDatabase(Comets, Filters, SortProperty, SortAscending, true) { Owner = this })
 				{
-					Comets = fdb.Comets;
-					Filters = fdb.Filters;
-					SortProperty = fdb.SortProperty;
-					SortAscending = fdb.SortAscending;
+					fdb.TopMost = this.TopMost;
 
-					OVComets = TransformComets(Comets);
+					if (fdb.ShowDialog() == DialogResult.OK)
+					{
+						Comets = fdb.Comets;
+						Filters = fdb.Filters;
+						SortProperty = fdb.SortProperty;
+						SortAscending = fdb.SortAscending;
 
-					BindList();
+						OVComets = TransformComets(Comets);
+
+						BindList();
+
+						if (OVComets.Any(x => x.Name == lastSelected))
+							cboComet.SelectedIndex = OVComets.IndexOf(OVComets.First(x => x.Name == lastSelected));
+					}
 				}
 			}
 		}
@@ -243,7 +251,7 @@ namespace Comets.Application.ModulOrbit
 				ValueChangedByEvent = true;
 
 				orbitPanel.LoadPanel(OVComets.ToList(), orbitPanel.ATime, cboComet.SelectedIndex);
-				ValidateCometsCount();
+				ClearOrbits();
 				rbtnMultipleMode.Checked = true;
 				orbitPanel.Invalidate();
 
@@ -564,6 +572,8 @@ namespace Comets.Application.ModulOrbit
 
 		private void ChangeDate(int direction)
 		{
+			ClearOrbits();
+
 			ATime atime = orbitPanel.ATime;
 			atime.ChangeDate(TimeStep, direction);
 
@@ -584,6 +594,7 @@ namespace Comets.Application.ModulOrbit
 		private void PlaySimulation(int direction)
 		{
 			SimulationDirection = direction;
+			ClearOrbits();
 			Timer.Start();
 			IsSimulationStarted = true;
 		}
@@ -832,6 +843,7 @@ namespace Comets.Application.ModulOrbit
 		private void orbitPanel_MouseDown(object sender, MouseEventArgs e)
 		{
 			IsMouseRotate = true;
+			ClearOrbits();
 			StartDrag = e.Location;
 		}
 
@@ -1005,20 +1017,17 @@ namespace Comets.Application.ModulOrbit
 			return list;
 		}
 
-		private void ValidateCometsCount()
+		private void ClearOrbits()
 		{
 			//if more comets than max number, then turn off orbit display for comets
-			//user can manually turn it on, but performances could be low
 			if (orbitPanel.Comets.Count > OrbitPanel.MaximumOrbits)
 			{
-				if (orbitPanel.OrbitDisplay.Contains(OrbitPanel.Object.Comet))
-					orbitPanel.OrbitDisplay.Remove(OrbitPanel.Object.Comet);
-
-				if (orbitPanel.LabelDisplay.Contains(OrbitPanel.Object.Comet))
-					orbitPanel.LabelDisplay.Remove(OrbitPanel.Object.Comet);
+				ValueChangedByEvent = true;
 
 				cbxOrbitComet.Checked = false;
 				cbxLabelComet.Checked = false;
+
+				ValueChangedByEvent = false;
 			}
 		}
 
