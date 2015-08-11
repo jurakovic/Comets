@@ -62,6 +62,9 @@ namespace Comets.Application.ModulGraph
 				if (GraphSettings.Filters == null)
 					GraphSettings.Filters = filters;
 
+				rbtnSingle.Checked = !GraphSettings.IsMultipleMode;
+				rbtnMultiple.Checked = GraphSettings.IsMultipleMode;
+
 				DateStart = GraphSettings.DateStart;
 				DateEnd = GraphSettings.DateStop;
 
@@ -265,6 +268,12 @@ namespace Comets.Application.ModulGraph
 					return;
 				}
 
+				if (cbxMinMag.Checked && cbxMaxMag.Checked && txtMinMag.Double() >= txtMaxMag.Double())
+				{
+					MessageBox.Show("Minimum magnitude value must be lower than Maximum magnitude value\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					return;
+				}
+
 				int before = txtDaysFromTStart.Int();
 				int after = txtDaysFromTStop.Int();
 
@@ -284,13 +293,8 @@ namespace Comets.Application.ModulGraph
 					return;
 				}
 
-				GraphSettings.SelectedComet = comet;
-				GraphSettings.Location = FormMain.Settings.Location;
-
 				double interval = 0.0;
 				double totalDays = stop.JD() - start.JD();
-
-				//double interval = totalDays / 99.5;
 
 				if (totalDays <= 100)
 					interval = totalDays / 100.0;
@@ -306,11 +310,16 @@ namespace Comets.Application.ModulGraph
 					interval = 50;
 				else
 				{
-					MessageBox.Show("Too large range...");
+					MessageBox.Show("Interval must be less than 500 years.\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
 					return;
 				}
 
+				GraphSettings.SelectedComet = comet;
+				GraphSettings.Location = FormMain.Settings.Location;
+
 				GraphSettings.DateRange = rbRangeDate.Checked;
+
+				GraphSettings.IsMultipleMode = rbtnMultiple.Checked;
 
 				GraphSettings.Start = start;
 				GraphSettings.Stop = stop;
@@ -341,7 +350,7 @@ namespace Comets.Application.ModulGraph
 				GraphSettings.MaxMagnitudeChecked = cbxMaxMag.Checked;
 				GraphSettings.MaxMagnitudeValue = txtMaxMag.TextLength > 0 ? (double?)txtMaxMag.Double() : null;
 
-				GraphSettings.Results = new List<EphemerisResult>();
+				GraphSettings.Results = new Dictionary<Comet, List<EphemerisResult>>();
 
 				await EphemerisManager.CalculateEphemerisAsync(GraphSettings);
 

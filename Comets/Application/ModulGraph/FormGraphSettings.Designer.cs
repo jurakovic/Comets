@@ -64,6 +64,9 @@
 			this.cbxMaxMag = new System.Windows.Forms.CheckBox();
 			this.cbxMinMag = new System.Windows.Forms.CheckBox();
 			this.btnCancel = new System.Windows.Forms.Button();
+			this.gbxMode = new System.Windows.Forms.GroupBox();
+			this.rbtnMultiple = new System.Windows.Forms.RadioButton();
+			this.rbtnSingle = new System.Windows.Forms.RadioButton();
 			this.gbxSelectComet.SuspendLayout();
 			this.gbxTimespan.SuspendLayout();
 			this.pnlRangeDaysFromT.SuspendLayout();
@@ -71,13 +74,14 @@
 			this.gbxDateFormat.SuspendLayout();
 			this.gbxChartOptions.SuspendLayout();
 			this.groupBox1.SuspendLayout();
+			this.gbxMode.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// btnOk
 			// 
 			this.btnOk.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
 			this.btnOk.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.btnOk.Location = new System.Drawing.Point(442, 250);
+			this.btnOk.Location = new System.Drawing.Point(568, 250);
 			this.btnOk.Name = "btnOk";
 			this.btnOk.Size = new System.Drawing.Size(100, 24);
 			this.btnOk.TabIndex = 5;
@@ -158,7 +162,7 @@
 			this.gbxTimespan.Controls.Add(this.rbRangeDate);
 			this.gbxTimespan.Location = new System.Drawing.Point(12, 147);
 			this.gbxTimespan.Name = "gbxTimespan";
-			this.gbxTimespan.Size = new System.Drawing.Size(480, 83);
+			this.gbxTimespan.Size = new System.Drawing.Size(602, 83);
 			this.gbxTimespan.TabIndex = 3;
 			this.gbxTimespan.TabStop = false;
 			this.gbxTimespan.Text = "Timespan";
@@ -172,7 +176,7 @@
 			this.pnlRangeDaysFromT.Controls.Add(this.label4);
 			this.pnlRangeDaysFromT.Controls.Add(this.label3);
 			this.pnlRangeDaysFromT.Controls.Add(this.label2);
-			this.pnlRangeDaysFromT.Location = new System.Drawing.Point(112, 45);
+			this.pnlRangeDaysFromT.Location = new System.Drawing.Point(148, 45);
 			this.pnlRangeDaysFromT.Name = "pnlRangeDaysFromT";
 			this.pnlRangeDaysFromT.Size = new System.Drawing.Size(362, 27);
 			this.pnlRangeDaysFromT.TabIndex = 1;
@@ -241,7 +245,7 @@
 			this.pnlRangeDate.Controls.Add(this.btnEndDate);
 			this.pnlRangeDate.Controls.Add(this.btnStartDate);
 			this.pnlRangeDate.Controls.Add(this.label1);
-			this.pnlRangeDate.Location = new System.Drawing.Point(112, 15);
+			this.pnlRangeDate.Location = new System.Drawing.Point(148, 15);
 			this.pnlRangeDate.Name = "pnlRangeDate";
 			this.pnlRangeDate.Size = new System.Drawing.Size(362, 27);
 			this.pnlRangeDate.TabIndex = 0;
@@ -303,7 +307,7 @@
 			this.gbxDateFormat.Controls.Add(this.rbJulianDay2);
 			this.gbxDateFormat.Controls.Add(this.rbJulianDay);
 			this.gbxDateFormat.Controls.Add(this.rbDate);
-			this.gbxDateFormat.Location = new System.Drawing.Point(343, 6);
+			this.gbxDateFormat.Location = new System.Drawing.Point(465, 6);
 			this.gbxDateFormat.Name = "gbxDateFormat";
 			this.gbxDateFormat.Size = new System.Drawing.Size(149, 135);
 			this.gbxDateFormat.TabIndex = 1;
@@ -360,7 +364,7 @@
 			this.gbxChartOptions.Controls.Add(this.cbxAntialiasing);
 			this.gbxChartOptions.Controls.Add(this.cbxNowLine);
 			this.gbxChartOptions.Controls.Add(this.cbxPerihelionLine);
-			this.gbxChartOptions.Location = new System.Drawing.Point(498, 6);
+			this.gbxChartOptions.Location = new System.Drawing.Point(625, 6);
 			this.gbxChartOptions.Name = "gbxChartOptions";
 			this.gbxChartOptions.Size = new System.Drawing.Size(149, 135);
 			this.gbxChartOptions.TabIndex = 2;
@@ -407,7 +411,7 @@
 			this.groupBox1.Controls.Add(this.txtMinMag);
 			this.groupBox1.Controls.Add(this.cbxMaxMag);
 			this.groupBox1.Controls.Add(this.cbxMinMag);
-			this.groupBox1.Location = new System.Drawing.Point(498, 147);
+			this.groupBox1.Location = new System.Drawing.Point(625, 147);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(149, 83);
 			this.groupBox1.TabIndex = 4;
@@ -457,12 +461,45 @@
 			// btnCancel
 			// 
 			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.btnCancel.Location = new System.Drawing.Point(548, 250);
+			this.btnCancel.Location = new System.Drawing.Point(674, 250);
 			this.btnCancel.Name = "btnCancel";
 			this.btnCancel.Size = new System.Drawing.Size(100, 24);
 			this.btnCancel.TabIndex = 6;
 			this.btnCancel.Text = "Cancel";
 			this.btnCancel.UseVisualStyleBackColor = true;
+			// 
+			// gbxMode
+			// 
+			this.gbxMode.Controls.Add(this.rbtnMultiple);
+			this.gbxMode.Controls.Add(this.rbtnSingle);
+			this.gbxMode.Location = new System.Drawing.Point(348, 6);
+			this.gbxMode.Name = "gbxMode";
+			this.gbxMode.Size = new System.Drawing.Size(106, 135);
+			this.gbxMode.TabIndex = 7;
+			this.gbxMode.TabStop = false;
+			this.gbxMode.Text = "Mode";
+			// 
+			// rbtnMultiple
+			// 
+			this.rbtnMultiple.AutoSize = true;
+			this.rbtnMultiple.Location = new System.Drawing.Point(14, 52);
+			this.rbtnMultiple.Name = "rbtnMultiple";
+			this.rbtnMultiple.Size = new System.Drawing.Size(61, 17);
+			this.rbtnMultiple.TabIndex = 1;
+			this.rbtnMultiple.Text = "Multiple";
+			this.rbtnMultiple.UseVisualStyleBackColor = true;
+			// 
+			// rbtnSingle
+			// 
+			this.rbtnSingle.AutoSize = true;
+			this.rbtnSingle.Checked = true;
+			this.rbtnSingle.Location = new System.Drawing.Point(14, 23);
+			this.rbtnSingle.Name = "rbtnSingle";
+			this.rbtnSingle.Size = new System.Drawing.Size(53, 17);
+			this.rbtnSingle.TabIndex = 0;
+			this.rbtnSingle.TabStop = true;
+			this.rbtnSingle.Text = "Single";
+			this.rbtnSingle.UseVisualStyleBackColor = true;
 			// 
 			// FormGraphSettings
 			// 
@@ -470,7 +507,8 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.btnCancel;
-			this.ClientSize = new System.Drawing.Size(659, 291);
+			this.ClientSize = new System.Drawing.Size(787, 291);
+			this.Controls.Add(this.gbxMode);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.gbxChartOptions);
 			this.Controls.Add(this.gbxDateFormat);
@@ -503,6 +541,8 @@
 			this.gbxChartOptions.PerformLayout();
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();
+			this.gbxMode.ResumeLayout(false);
+			this.gbxMode.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -545,5 +585,8 @@
 		private System.Windows.Forms.Button btnCancel;
 		private System.Windows.Forms.Button btnEndDate;
 		private System.Windows.Forms.Button btnStartDate;
+		private System.Windows.Forms.GroupBox gbxMode;
+		private System.Windows.Forms.RadioButton rbtnMultiple;
+		private System.Windows.Forms.RadioButton rbtnSingle;
 	}
 }

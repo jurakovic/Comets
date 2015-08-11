@@ -59,16 +59,20 @@
 			this.chDec = new System.Windows.Forms.CheckBox();
 			this.chRA = new System.Windows.Forms.CheckBox();
 			this.btnCancel = new System.Windows.Forms.Button();
+			this.gbxMode = new System.Windows.Forms.GroupBox();
+			this.rbtnSingle = new System.Windows.Forms.RadioButton();
+			this.rbtnMultiple = new System.Windows.Forms.RadioButton();
 			this.gbxSelectComet.SuspendLayout();
 			this.gbxTimestamp.SuspendLayout();
 			this.gbxOutputData.SuspendLayout();
+			this.gbxMode.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// btnOk
 			// 
 			this.btnOk.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
 			this.btnOk.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.btnOk.Location = new System.Drawing.Point(427, 314);
+			this.btnOk.Location = new System.Drawing.Point(540, 314);
 			this.btnOk.Name = "btnOk";
 			this.btnOk.Size = new System.Drawing.Size(100, 24);
 			this.btnOk.TabIndex = 3;
@@ -152,7 +156,7 @@
 			this.gbxTimestamp.Controls.Add(this.label3);
 			this.gbxTimestamp.Controls.Add(this.label20);
 			this.gbxTimestamp.Controls.Add(this.label4);
-			this.gbxTimestamp.Location = new System.Drawing.Point(350, 6);
+			this.gbxTimestamp.Location = new System.Drawing.Point(465, 6);
 			this.gbxTimestamp.Name = "gbxTimestamp";
 			this.gbxTimestamp.Size = new System.Drawing.Size(281, 135);
 			this.gbxTimestamp.TabIndex = 1;
@@ -261,7 +265,7 @@
 			this.gbxOutputData.Controls.Add(this.chRA);
 			this.gbxOutputData.Location = new System.Drawing.Point(12, 147);
 			this.gbxOutputData.Name = "gbxOutputData";
-			this.gbxOutputData.Size = new System.Drawing.Size(619, 149);
+			this.gbxOutputData.Size = new System.Drawing.Size(734, 149);
 			this.gbxOutputData.TabIndex = 2;
 			this.gbxOutputData.TabStop = false;
 			this.gbxOutputData.Text = "Output data";
@@ -293,7 +297,7 @@
 			this.chMag.AutoSize = true;
 			this.chMag.Checked = true;
 			this.chMag.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chMag.Location = new System.Drawing.Point(465, 89);
+			this.chMag.Location = new System.Drawing.Point(525, 89);
 			this.chMag.Name = "chMag";
 			this.chMag.Size = new System.Drawing.Size(76, 17);
 			this.chMag.TabIndex = 11;
@@ -305,7 +309,7 @@
 			this.chGeoDist.AutoSize = true;
 			this.chGeoDist.Checked = true;
 			this.chGeoDist.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chGeoDist.Location = new System.Drawing.Point(465, 47);
+			this.chGeoDist.Location = new System.Drawing.Point(525, 47);
 			this.chGeoDist.Name = "chGeoDist";
 			this.chGeoDist.Size = new System.Drawing.Size(120, 17);
 			this.chGeoDist.TabIndex = 10;
@@ -317,7 +321,7 @@
 			this.chHelioDist.AutoSize = true;
 			this.chHelioDist.Checked = true;
 			this.chHelioDist.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chHelioDist.Location = new System.Drawing.Point(465, 22);
+			this.chHelioDist.Location = new System.Drawing.Point(525, 22);
 			this.chHelioDist.Name = "chHelioDist";
 			this.chHelioDist.Size = new System.Drawing.Size(124, 17);
 			this.chHelioDist.TabIndex = 9;
@@ -329,7 +333,7 @@
 			this.chElong.AutoSize = true;
 			this.chElong.Checked = true;
 			this.chElong.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chElong.Location = new System.Drawing.Point(310, 89);
+			this.chElong.Location = new System.Drawing.Point(350, 89);
 			this.chElong.Name = "chElong";
 			this.chElong.Size = new System.Drawing.Size(76, 17);
 			this.chElong.TabIndex = 8;
@@ -339,7 +343,7 @@
 			// chEcLat
 			// 
 			this.chEcLat.AutoSize = true;
-			this.chEcLat.Location = new System.Drawing.Point(310, 47);
+			this.chEcLat.Location = new System.Drawing.Point(350, 47);
 			this.chEcLat.Name = "chEcLat";
 			this.chEcLat.Size = new System.Drawing.Size(100, 17);
 			this.chEcLat.TabIndex = 7;
@@ -349,7 +353,7 @@
 			// chEcLon
 			// 
 			this.chEcLon.AutoSize = true;
-			this.chEcLon.Location = new System.Drawing.Point(310, 22);
+			this.chEcLon.Location = new System.Drawing.Point(350, 22);
 			this.chEcLon.Name = "chEcLon";
 			this.chEcLon.Size = new System.Drawing.Size(108, 17);
 			this.chEcLon.TabIndex = 6;
@@ -361,7 +365,7 @@
 			this.chAz.AutoSize = true;
 			this.chAz.Checked = true;
 			this.chAz.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chAz.Location = new System.Drawing.Point(152, 113);
+			this.chAz.Location = new System.Drawing.Point(172, 113);
 			this.chAz.Name = "chAz";
 			this.chAz.Size = new System.Drawing.Size(87, 17);
 			this.chAz.TabIndex = 5;
@@ -373,7 +377,7 @@
 			this.chAlt.AutoSize = true;
 			this.chAlt.Checked = true;
 			this.chAlt.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chAlt.Location = new System.Drawing.Point(152, 89);
+			this.chAlt.Location = new System.Drawing.Point(172, 89);
 			this.chAlt.Name = "chAlt";
 			this.chAlt.Size = new System.Drawing.Size(87, 17);
 			this.chAlt.TabIndex = 4;
@@ -385,7 +389,7 @@
 			this.chDec.AutoSize = true;
 			this.chDec.Checked = true;
 			this.chDec.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chDec.Location = new System.Drawing.Point(152, 46);
+			this.chDec.Location = new System.Drawing.Point(172, 46);
 			this.chDec.Name = "chDec";
 			this.chDec.Size = new System.Drawing.Size(107, 17);
 			this.chDec.TabIndex = 3;
@@ -397,7 +401,7 @@
 			this.chRA.AutoSize = true;
 			this.chRA.Checked = true;
 			this.chRA.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chRA.Location = new System.Drawing.Point(152, 22);
+			this.chRA.Location = new System.Drawing.Point(172, 22);
 			this.chRA.Name = "chRA";
 			this.chRA.Size = new System.Drawing.Size(126, 17);
 			this.chRA.TabIndex = 2;
@@ -407,12 +411,45 @@
 			// btnCancel
 			// 
 			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.btnCancel.Location = new System.Drawing.Point(533, 314);
+			this.btnCancel.Location = new System.Drawing.Point(646, 314);
 			this.btnCancel.Name = "btnCancel";
 			this.btnCancel.Size = new System.Drawing.Size(100, 24);
 			this.btnCancel.TabIndex = 4;
 			this.btnCancel.Text = "Cancel";
 			this.btnCancel.UseVisualStyleBackColor = true;
+			// 
+			// gbxMode
+			// 
+			this.gbxMode.Controls.Add(this.rbtnMultiple);
+			this.gbxMode.Controls.Add(this.rbtnSingle);
+			this.gbxMode.Location = new System.Drawing.Point(348, 6);
+			this.gbxMode.Name = "gbxMode";
+			this.gbxMode.Size = new System.Drawing.Size(106, 135);
+			this.gbxMode.TabIndex = 5;
+			this.gbxMode.TabStop = false;
+			this.gbxMode.Text = "Mode";
+			// 
+			// rbtnSingle
+			// 
+			this.rbtnSingle.AutoSize = true;
+			this.rbtnSingle.Checked = true;
+			this.rbtnSingle.Location = new System.Drawing.Point(14, 23);
+			this.rbtnSingle.Name = "rbtnSingle";
+			this.rbtnSingle.Size = new System.Drawing.Size(53, 17);
+			this.rbtnSingle.TabIndex = 0;
+			this.rbtnSingle.TabStop = true;
+			this.rbtnSingle.Text = "Single";
+			this.rbtnSingle.UseVisualStyleBackColor = true;
+			// 
+			// rbtnMultiple
+			// 
+			this.rbtnMultiple.AutoSize = true;
+			this.rbtnMultiple.Location = new System.Drawing.Point(14, 52);
+			this.rbtnMultiple.Name = "rbtnMultiple";
+			this.rbtnMultiple.Size = new System.Drawing.Size(61, 17);
+			this.rbtnMultiple.TabIndex = 1;
+			this.rbtnMultiple.Text = "Multiple";
+			this.rbtnMultiple.UseVisualStyleBackColor = true;
 			// 
 			// FormEphemerisSettings
 			// 
@@ -420,7 +457,8 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.btnCancel;
-			this.ClientSize = new System.Drawing.Size(644, 355);
+			this.ClientSize = new System.Drawing.Size(757, 355);
+			this.Controls.Add(this.gbxMode);
 			this.Controls.Add(this.gbxOutputData);
 			this.Controls.Add(this.gbxTimestamp);
 			this.Controls.Add(this.gbxSelectComet);
@@ -443,6 +481,8 @@
 			this.gbxTimestamp.PerformLayout();
 			this.gbxOutputData.ResumeLayout(false);
 			this.gbxOutputData.PerformLayout();
+			this.gbxMode.ResumeLayout(false);
+			this.gbxMode.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -480,5 +520,8 @@
 		private System.Windows.Forms.TextBox txtDayInterval;
 		private System.Windows.Forms.Button btnTimespanIntervalDefault;
 		private System.Windows.Forms.Button btnEndDate;
+		private System.Windows.Forms.GroupBox gbxMode;
+		private System.Windows.Forms.RadioButton rbtnMultiple;
+		private System.Windows.Forms.RadioButton rbtnSingle;
 	}
 }

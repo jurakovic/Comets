@@ -1,9 +1,11 @@
 ﻿using Comets.BusinessLayer.Business;
 using Comets.BusinessLayer.Extensions;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms.DataVisualization.Charting;
 
@@ -54,17 +56,38 @@ namespace Comets.BusinessLayer.Managers
 
 		public async static Task<SettingsBase> CalculateEphemerisAsync(SettingsBase settings)
 		{
-			decimal jd = (decimal)settings.Start.JD();
+			decimal jd0 = (decimal)settings.Start.JD();
 			decimal jdMax = (decimal)settings.Stop.JD();
 			decimal interval = (decimal)settings.Interval;
 
 			await Task.Run(() =>
 			{
-				while (jd <= jdMax)
+				if (!settings.IsMultipleMode)
 				{
-					EphemerisResult er = GetEphemeris(settings.SelectedComet, (double)jd, settings.Location);
-					settings.Results.Add(er);
-					jd += interval;
+					decimal jd = jd0;
+					List<EphemerisResult> erList = new List<EphemerisResult>();
+					while (jd <= jdMax)
+					{
+						EphemerisResult er = GetEphemeris(settings.SelectedComet, (double)jd, settings.Location);
+						erList.Add(er);
+						jd += interval;
+					}
+					settings.Results.Add(settings.SelectedComet, erList);
+				}
+				else
+				{
+					foreach (Comet comet in settings.Comets)
+					{
+						decimal jd = jd0;
+						List<EphemerisResult> erList = new List<EphemerisResult>();
+						while (jd <= jdMax)
+						{
+							EphemerisResult er = GetEphemeris(comet, (double)jd, settings.Location);
+							erList.Add(er);
+							jd += interval;
+						}
+						settings.Results.Add(comet, erList);
+					}
 				}
 			});
 
@@ -78,46 +101,55 @@ namespace Comets.BusinessLayer.Managers
 		public async static Task<string> GenerateEphemerisAsync(EphemerisSettings settings)
 		{
 			StringBuilder sb = new StringBuilder();
-
-			sb.AppendLine(String.Format("Comet:               \t{0}", settings.SelectedComet.full));
-			sb.AppendLine(String.Format("Perihelion date:     \t{0} {1} {2:00}.{3:0000}", settings.SelectedComet.Ty, Comet.Month[settings.SelectedComet.Tm - 1], settings.SelectedComet.Td, settings.SelectedComet.Th));
-			sb.AppendLine(String.Format("Perihelion distance: \t{0:0.000000} AU", settings.SelectedComet.q));
-			sb.AppendLine(String.Format("Period:              \t{0}", (settings.SelectedComet.P < 10000 ? settings.SelectedComet.P.ToString("0.000000") + " years" : "-")));
-			sb.AppendLine();
-
-			sb.Append(settings.LocalTime ? "     Local Time  " : " Universal Time  ");
-			if (settings.RA) sb.Append("   R.A.   ");
-			if (settings.Dec) sb.Append("   Dec   ");
-			if (settings.Alt) sb.Append("   Alt  ");
-			if (settings.Az) sb.Append("   Az   ");
-			if (settings.EcLon) sb.Append(" Ecl.Lon ");
-			if (settings.EcLat) sb.Append(" Ecl.Lat ");
-			if (settings.Elongation) sb.Append("   Elong. ");
-			if (settings.HelioDist) sb.Append("    r    ");
-			if (settings.GeoDist) sb.Append("    d    ");
-			if (settings.Magnitude) sb.AppendLine(" Mag.");
-
 			StringBuilder line = new StringBuilder();
 
 			await Task.Run(() =>
 			{
-				foreach (EphemerisResult er in settings.Results)
+				Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
+
+				foreach (var keyVal in settings.Results)
 				{
-					line.Clear();
+					Comet comet = keyVal.Key;
+					List<EphemerisResult> list = keyVal.Value;
 
-					line.Append(settings.LocalTime ? DateString(er.JD + settings.Location.Timezone / 24.0) : DateString(er.JD));
-					if (settings.RA) line.Append("  " + HMSString(er.RA / 15.0));
-					if (settings.Dec) line.Append("  " + AngleString(er.Dec, false, true));
-					if (settings.Alt) line.Append("  " + FixNum(er.Alt, 5, 1) + "°");
-					if (settings.Az) line.Append(" " + FixNum(er.Az, 6, 1) + "°");
-					if (settings.EcLon) line.Append("  " + AngleString(er.EcLon, true, true));
-					if (settings.EcLat) line.Append("  " + AngleString(er.EcLat, false, true));
-					if (settings.Elongation) line.Append(" " + FixNum(er.Elongation, 6, 1) + "°" + (er.PositionAngle >= 180 ? " W" : " E"));
-					if (settings.HelioDist) line.Append(" " + FixNum(er.HelioDist, 8, 4));
-					if (settings.GeoDist) line.Append(" " + FixNum(er.GeoDist, 8, 4));
-					if (settings.Magnitude) line.Append(" " + FixNum(er.Magnitude, 4, 1));
+					sb.AppendLine(String.Format("Comet:               \t{0}", comet.full));
+					sb.AppendLine(String.Format("Perihelion date:     \t{0} {1} {2:00}.{3:0000}", comet.Ty, Comet.Month[comet.Tm - 1], comet.Td, comet.Th));
+					sb.AppendLine(String.Format("Perihelion distance: \t{0:0.000000} AU", comet.q));
+					sb.AppendLine(String.Format("Period:              \t{0}", (comet.P < 10000 ? comet.P.ToString("0.000000") + " years" : "-")));
+					sb.AppendLine();
 
-					sb.AppendLine(line.ToString());
+					sb.Append(settings.LocalTime ? "     Local Time  " : " Universal Time  ");
+					if (settings.RA) sb.Append("   R.A.   ");
+					if (settings.Dec) sb.Append("   Dec   ");
+					if (settings.Alt) sb.Append("   Alt  ");
+					if (settings.Az) sb.Append("   Az   ");
+					if (settings.EcLon) sb.Append(" Ecl.Lon ");
+					if (settings.EcLat) sb.Append(" Ecl.Lat ");
+					if (settings.Elongation) sb.Append("   Elong. ");
+					if (settings.HelioDist) sb.Append("    r    ");
+					if (settings.GeoDist) sb.Append("    d    ");
+					if (settings.Magnitude) sb.AppendLine(" Mag.");
+
+					foreach (EphemerisResult er in list)
+					{
+						line.Clear();
+
+						line.Append(settings.LocalTime ? DateString(er.JD + settings.Location.Timezone / 24.0) : DateString(er.JD));
+						if (settings.RA) line.Append("  " + HMSString(er.RA / 15.0));
+						if (settings.Dec) line.Append("  " + AngleString(er.Dec, false, true));
+						if (settings.Alt) line.Append("  " + FixNum(er.Alt, 5, 1) + "°");
+						if (settings.Az) line.Append(" " + FixNum(er.Az, 6, 1) + "°");
+						if (settings.EcLon) line.Append("  " + AngleString(er.EcLon, true, true));
+						if (settings.EcLat) line.Append("  " + AngleString(er.EcLat, false, true));
+						if (settings.Elongation) line.Append(" " + FixNum(er.Elongation, 6, 1) + "°" + (er.PositionAngle >= 180 ? " W" : " E"));
+						if (settings.HelioDist) line.Append(" " + FixNum(er.HelioDist, 8, 4));
+						if (settings.GeoDist) line.Append(" " + FixNum(er.GeoDist, 8, 4));
+						if (settings.Magnitude) line.Append(" " + FixNum(er.Magnitude, 4, 1));
+
+						sb.AppendLine(line.ToString());
+					}
+
+					sb.AppendLine().AppendLine().AppendLine();
 				}
 			});
 
@@ -134,8 +166,26 @@ namespace Comets.BusinessLayer.Managers
 			string yMagnitude = "Magnitude";
 			string chartAreaName = "ChartAreaGraph";
 
-			double yMin = settings.MinMagnitudeChecked ? settings.MinMagnitudeValue.Value : Math.Floor(settings.Results.Min(x => x.Magnitude) - 0.20);
-			double yMax = settings.MaxMagnitudeChecked ? settings.MaxMagnitudeValue.Value : Math.Ceiling(settings.Results.Max(x => x.Magnitude) + 0.20);
+			double yMin;
+			double yMax;
+
+			if (settings.MinMagnitudeChecked)
+				yMin = settings.MinMagnitudeValue.Value;
+			else
+				yMin = Math.Floor(settings.Results.Select(x => x.Value).Select(y => y.Min(z => z.Magnitude)).Min() - 0.20);
+
+			if (settings.MaxMagnitudeChecked)
+				yMax = settings.MaxMagnitudeValue.Value;
+			else if (settings.IsMultipleMode)
+				if (settings.Results.Count == 1)
+					yMax = Math.Ceiling(settings.Results.Select(x => x.Value).Select(y => y.Max(z => z.Magnitude)).Max() + 0.20);
+				else
+					yMax = 20.0;
+			else
+				yMax = Math.Ceiling(settings.Results.Select(x => x.Value).Select(y => y.Max(z => z.Magnitude)).Max() + 0.20);
+
+			if (yMin >= 20.0 && !settings.MaxMagnitudeChecked)
+				yMax = Math.Ceiling(settings.Results.Select(x => x.Value).Select(y => y.Max(z => z.Magnitude)).Max() + 0.20);
 
 			double xMin = settings.Start.JD();
 			double xMax = settings.Stop.JD();
@@ -205,44 +255,30 @@ namespace Comets.BusinessLayer.Managers
 			chart1.ChartAreas.Clear();
 			chart1.ChartAreas.Add(chartArea);
 
-			Series series = new Series();
-			series.ChartArea = chartAreaName;
-			series.Color = Color.Red;
-			series.ChartType = SeriesChartType.Spline;
-			series.XAxisType = AxisType.Secondary;
-			series.XValueType = ChartValueType.DateTime;
-
-			foreach (EphemerisResult er in settings.Results)
-				series.Points.Add(new DataPoint(Utils.JDToDateTime(er.JD).ToLocalTime().ToOADate(), er.Magnitude)); //local time
-
 			chart1.Series.Clear();
-			chart1.Series.Add(series);
+
+			foreach (List<EphemerisResult> erList in settings.Results.Select(x => x.Value))
+			{
+				Series series = new Series();
+				series.ChartArea = chartAreaName;
+				series.Color = Color.Red;
+				series.ChartType = SeriesChartType.Spline;
+				series.XAxisType = AxisType.Secondary;
+				series.XValueType = ChartValueType.DateTime;
+
+				foreach (EphemerisResult er in erList)
+					series.Points.Add(new DataPoint(Utils.JDToDateTime(er.JD).ToLocalTime().ToOADate(), er.Magnitude)); //local time
+
+				chart1.Series.Add(series);
+			}
 
 			if (settings.PerihelionLine)
 			{
-				double T = settings.SelectedComet.T;
-				double periodDays = settings.SelectedComet.P * 365.25;
-
-				if ((xMax - xMin > periodDays) || (xMin < T && xMax > T))
-					while (T > xMin + periodDays)
-						T -= periodDays;
+				if (!settings.IsMultipleMode)
+					AddPerihelionLines(chart1, settings.SelectedComet, xMin, xMax, yMin, yMax, chartAreaName);
 				else
-					T += periodDays;
-
-				while (T < xMax)
-				{
-					Series s = new Series();
-					s.ChartArea = chartAreaName;
-					s.Color = Color.RoyalBlue;
-					s.ChartType = SeriesChartType.Line;
-					s.XAxisType = AxisType.Secondary;
-					s.XValueType = ChartValueType.DateTime;
-					s.Points.Add(new DataPoint(Utils.JDToDateTime(T).ToLocalTime().ToOADate(), yMin));
-					s.Points.Add(new DataPoint(Utils.JDToDateTime(T).ToLocalTime().ToOADate(), yMax));
-
-					chart1.Series.Add(s);
-					T += periodDays;
-				}
+					foreach (Comet c in settings.Comets)
+						AddPerihelionLines(chart1, c, xMin, xMax, yMin, yMax, chartAreaName);
 			}
 
 			if (settings.NowLine)
@@ -266,6 +302,30 @@ namespace Comets.BusinessLayer.Managers
 			title.Font = new Font("Tahoma", 11.25F);
 			chart1.Titles.Clear();
 			chart1.Titles.Add(title);
+		}
+
+		private static void AddPerihelionLines(Chart chart1, Comet comet, double xMin, double xMax, double yMin, double yMax, string chartAreaName)
+		{
+			double T = comet.T;
+			double periodDays = comet.P * 365.25;
+
+			while (T > xMin + periodDays)
+				T -= periodDays;
+
+			while (T < xMax)
+			{
+				Series s = new Series();
+				s.ChartArea = chartAreaName;
+				s.Color = Color.RoyalBlue;
+				s.ChartType = SeriesChartType.Line;
+				s.XAxisType = AxisType.Secondary;
+				s.XValueType = ChartValueType.DateTime;
+				s.Points.Add(new DataPoint(Utils.JDToDateTime(T).ToLocalTime().ToOADate(), yMin));
+				s.Points.Add(new DataPoint(Utils.JDToDateTime(T).ToLocalTime().ToOADate(), yMax));
+
+				chart1.Series.Add(s);
+				T += periodDays;
+			}
 		}
 
 		#endregion

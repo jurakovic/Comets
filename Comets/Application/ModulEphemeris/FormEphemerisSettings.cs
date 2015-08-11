@@ -70,6 +70,9 @@ namespace Comets.Application.ModulEphemeris
 				txtHourInterval.Text = EphemerisSettings.TimeSpan.Hour.ToString();
 				txtMinInterval.Text = EphemerisSettings.TimeSpan.Minute.ToString();
 
+				rbtnSingle.Checked = !EphemerisSettings.IsMultipleMode;
+				rbtnMultiple.Checked = EphemerisSettings.IsMultipleMode;
+
 				radioLocalTime.Checked = EphemerisSettings.LocalTime;
 				radioUnivTime.Checked = !EphemerisSettings.LocalTime;
 				chRA.Checked = EphemerisSettings.RA;
@@ -198,6 +201,8 @@ namespace Comets.Application.ModulEphemeris
 				EphemerisSettings.SelectedComet = EphemerisSettings.Comets.ElementAt(cbComet.SelectedIndex);
 				EphemerisSettings.Location = FormMain.Settings.Location;
 
+				EphemerisSettings.IsMultipleMode = rbtnMultiple.Checked;
+
 				EphemerisSettings.Start = DateStart;
 				EphemerisSettings.Stop = DateEnd;
 				EphemerisSettings.Interval = interval;
@@ -216,7 +221,7 @@ namespace Comets.Application.ModulEphemeris
 				EphemerisSettings.Elongation = chElong.Checked;
 				EphemerisSettings.Magnitude = chMag.Checked;
 
-				EphemerisSettings.Results = new List<EphemerisResult>();
+				EphemerisSettings.Results = new Dictionary<Comet, List<EphemerisResult>>();
 
 				await EphemerisManager.CalculateEphemerisAsync(EphemerisSettings);
 
