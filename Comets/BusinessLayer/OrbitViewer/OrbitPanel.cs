@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -31,7 +30,7 @@ namespace Comets.OrbitViewer
 
 		#region Const
 
-		public const int MaximumOrbits = 1;
+		public const int MaximumOrbits = 50;
 		private const bool DefaultShowMarker = true;
 		private const bool DefaultPreserveOrbit = true;
 		private const bool DefaultPreserveLabel = true;
@@ -809,7 +808,7 @@ namespace Comets.OrbitViewer
 			if (MultipleMode && Comets.Count > 1)
 			{
 				int offset = 5;
-				int range = 6;
+				int range = offset * 2;
 
 				int x0 = point.X - offset;
 				int y0 = point.Y - offset;

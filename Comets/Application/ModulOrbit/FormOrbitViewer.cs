@@ -218,28 +218,25 @@ namespace Comets.Application.ModulOrbit
 
 		private void btnFilter_Click(object sender, EventArgs e)
 		{
-			if (Comets.Any())
+			string lastSelected = SelectedComet.Name;
+
+			using (FormDatabase fdb = new FormDatabase(Comets, Filters, SortProperty, SortAscending, true) { Owner = this })
 			{
-				string lastSelected = SelectedComet.Name;
+				fdb.TopMost = this.TopMost;
 
-				using (FormDatabase fdb = new FormDatabase(Comets, Filters, SortProperty, SortAscending, true) { Owner = this })
+				if (fdb.ShowDialog() == DialogResult.OK)
 				{
-					fdb.TopMost = this.TopMost;
+					Comets = fdb.Comets;
+					Filters = fdb.Filters;
+					SortProperty = fdb.SortProperty;
+					SortAscending = fdb.SortAscending;
 
-					if (fdb.ShowDialog() == DialogResult.OK)
-					{
-						Comets = fdb.Comets;
-						Filters = fdb.Filters;
-						SortProperty = fdb.SortProperty;
-						SortAscending = fdb.SortAscending;
+					OVComets = TransformComets(Comets);
 
-						OVComets = TransformComets(Comets);
+					BindList();
 
-						BindList();
-
-						if (OVComets.Any(x => x.Name == lastSelected))
-							cboComet.SelectedIndex = OVComets.IndexOf(OVComets.First(x => x.Name == lastSelected));
-					}
+					if (OVComets.Any(x => x.Name == lastSelected))
+						cboComet.SelectedIndex = OVComets.IndexOf(OVComets.First(x => x.Name == lastSelected));
 				}
 			}
 		}
@@ -283,16 +280,7 @@ namespace Comets.Application.ModulOrbit
 			cbxSelectedOrbit.Enabled = rbtnMultipleMode.Checked && !cbxOrbitComet.Checked;
 			cbxSelectedLabel.Enabled = rbtnMultipleMode.Checked && !cbxLabelComet.Checked;
 
-			if (rbtnMultipleMode.Checked && orbitPanel.Comets.Count > OrbitPanel.MaximumOrbits)
-			{
-				cbxOrbitComet.Checked = false;
-				cbxLabelComet.Checked = false;
-			}
-			else
-			{
-				cbxOrbitComet.Checked = true;
-				cbxLabelComet.Checked = true;
-			}
+			ClearOrbits();
 
 			ValueChangedByEvent = tempChanged;
 
@@ -842,9 +830,12 @@ namespace Comets.Application.ModulOrbit
 
 		private void orbitPanel_MouseDown(object sender, MouseEventArgs e)
 		{
-			IsMouseRotate = true;
-			ClearOrbits();
-			StartDrag = e.Location;
+			if (e.Button == MouseButtons.Right)
+			{
+				IsMouseRotate = true;
+				ClearOrbits();
+				StartDrag = e.Location;
+			}
 		}
 
 		private void orbitPanel_MouseUp(object sender, MouseEventArgs e)

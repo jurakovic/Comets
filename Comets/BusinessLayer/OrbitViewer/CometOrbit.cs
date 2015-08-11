@@ -6,7 +6,7 @@ namespace Comets.OrbitViewer
 	{
 		#region Const
 
-		public const int MaxDivisions = 1000;
+		public const int MaxDivisions = 500;
 		private const double MaxOrbitAU = 150.0;
 		private const double Tolerance = 1.0E-16;
 
