@@ -54,7 +54,7 @@ namespace Comets.BusinessLayer.Managers
 
 		#region CalculateEphemerisAsync
 
-		public async static Task<SettingsBase> CalculateEphemerisAsync(SettingsBase settings)
+		public async static Task<SettingsBase> CalculateEphemerisAsync(SettingsBase settings, IProgress<int> progress)
 		{
 			decimal jd0 = (decimal)settings.Start.JD();
 			decimal jdMax = (decimal)settings.Stop.JD();
@@ -76,8 +76,11 @@ namespace Comets.BusinessLayer.Managers
 				}
 				else
 				{
+					int i = 1;
 					foreach (Comet comet in settings.Comets)
 					{
+						progress.Report(i++);
+
 						decimal jd = jd0;
 						List<EphemerisResult> erList = new List<EphemerisResult>();
 						while (jd <= jdMax)
@@ -98,7 +101,7 @@ namespace Comets.BusinessLayer.Managers
 
 		#region GenerateEphemerisAsync
 
-		public async static Task<string> GenerateEphemerisAsync(EphemerisSettings settings)
+		public async static Task<string> GenerateEphemerisAsync(EphemerisSettings settings, IProgress<int> progress)
 		{
 			StringBuilder sb = new StringBuilder();
 			StringBuilder line = new StringBuilder();
@@ -107,8 +110,11 @@ namespace Comets.BusinessLayer.Managers
 			{
 				Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
 
+				int i = 1;
 				foreach (var keyVal in settings.Results)
 				{
+					progress.Report(i++);
+
 					Comet comet = keyVal.Key;
 					List<EphemerisResult> list = keyVal.Value;
 
@@ -160,11 +166,14 @@ namespace Comets.BusinessLayer.Managers
 
 		#region GenerateGraph
 
-		public static void GenerateGraph(GraphSettings settings, Chart chart1)
+		public static void GenerateGraph(GraphSettings settings, Chart chart1, IProgress<int> progress)
 		{
 			string xDate = "Date";
 			string yMagnitude = "Magnitude";
 			string chartAreaName = "ChartAreaGraph";
+
+			double minMagnitude = Math.Floor(settings.Results.Select(x => x.Value).Select(y => y.Min(z => z.Magnitude)).Min() - 0.20);
+			double maxMagnitude = Math.Ceiling(settings.Results.Select(x => x.Value).Select(y => y.Max(z => z.Magnitude)).Max() + 0.20);
 
 			double yMin;
 			double yMax;
@@ -172,20 +181,23 @@ namespace Comets.BusinessLayer.Managers
 			if (settings.MinMagnitudeChecked)
 				yMin = settings.MinMagnitudeValue.Value;
 			else
-				yMin = Math.Floor(settings.Results.Select(x => x.Value).Select(y => y.Min(z => z.Magnitude)).Min() - 0.20);
+				yMin = minMagnitude;
 
 			if (settings.MaxMagnitudeChecked)
 				yMax = settings.MaxMagnitudeValue.Value;
 			else if (settings.IsMultipleMode)
 				if (settings.Results.Count == 1)
-					yMax = Math.Ceiling(settings.Results.Select(x => x.Value).Select(y => y.Max(z => z.Magnitude)).Max() + 0.20);
+					yMax = maxMagnitude;
 				else
-					yMax = 20.0;
+					yMax = 15.0;
 			else
-				yMax = Math.Ceiling(settings.Results.Select(x => x.Value).Select(y => y.Max(z => z.Magnitude)).Max() + 0.20);
+				yMax = maxMagnitude;
 
-			if (yMin >= 20.0 && !settings.MaxMagnitudeChecked)
-				yMax = Math.Ceiling(settings.Results.Select(x => x.Value).Select(y => y.Max(z => z.Magnitude)).Max() + 0.20);
+			if (yMin >= yMax)
+			{
+				yMin = minMagnitude;
+				yMax = maxMagnitude;
+			}
 
 			double xMin = settings.Start.JD();
 			double xMax = settings.Stop.JD();
@@ -257,19 +269,25 @@ namespace Comets.BusinessLayer.Managers
 
 			chart1.Series.Clear();
 
+			int i = 1;
 			foreach (List<EphemerisResult> erList in settings.Results.Select(x => x.Value))
 			{
-				Series series = new Series();
-				series.ChartArea = chartAreaName;
-				series.Color = Color.Red;
-				series.ChartType = SeriesChartType.Spline;
-				series.XAxisType = AxisType.Secondary;
-				series.XValueType = ChartValueType.DateTime;
+				progress.Report(i++);
 
-				foreach (EphemerisResult er in erList)
-					series.Points.Add(new DataPoint(Utils.JDToDateTime(er.JD).ToLocalTime().ToOADate(), er.Magnitude)); //local time
+				if (erList.Any(x => x.Magnitude <= yMax))
+				{
+					Series series = new Series();
+					series.ChartArea = chartAreaName;
+					series.Color = Color.Red;
+					series.ChartType = SeriesChartType.Spline;
+					series.XAxisType = AxisType.Secondary;
+					series.XValueType = ChartValueType.DateTime;
 
-				chart1.Series.Add(series);
+					foreach (EphemerisResult er in erList)
+						series.Points.Add(new DataPoint(Utils.JDToDateTime(er.JD).ToLocalTime().ToOADate(), er.Magnitude)); //local time
+
+					chart1.Series.Add(series);
+				}
 			}
 
 			if (settings.PerihelionLine)

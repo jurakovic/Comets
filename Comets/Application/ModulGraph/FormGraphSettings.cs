@@ -109,27 +109,6 @@ namespace Comets.Application.ModulGraph
 
 		#endregion
 
-		#region FormGraphSettings_FormClosing
-
-		private void FormGraphSettings_FormClosing(object sender, FormClosingEventArgs e)
-		{
-			if (GraphSettings.AddNew && GraphSettings.SelectedComet != null)
-			{
-				FormGraph fg = new FormGraph(GraphSettings);
-				fg.MdiParent = this.Owner;
-				fg.WindowState = FormWindowState.Maximized;
-				fg.Show();
-			}
-			else if (GraphSettings.Results != null && GraphSettings.Results.Any())
-			{
-				FormGraph fg = this.Owner.ActiveMdiChild as FormGraph;
-				fg.GraphSettings = this.GraphSettings;
-				fg.LoadGraph();
-			}
-		}
-
-		#endregion
-
 		#region cbComet_SelectedIndexChanged
 
 		private void cbComet_SelectedIndexChanged(object sender, EventArgs e)
@@ -350,9 +329,32 @@ namespace Comets.Application.ModulGraph
 				GraphSettings.MaxMagnitudeChecked = cbxMaxMag.Checked;
 				GraphSettings.MaxMagnitudeValue = txtMaxMag.TextLength > 0 ? (double?)txtMaxMag.Double() : null;
 
-				GraphSettings.Results = new Dictionary<Comet, List<EphemerisResult>>();
+				if (GraphSettings.Results == null)
+					GraphSettings.Results = new Dictionary<Comet, List<EphemerisResult>>();
 
-				await EphemerisManager.CalculateEphemerisAsync(GraphSettings);
+				FormMain main = this.Owner as FormMain;
+
+				if (GraphSettings.IsMultipleMode && GraphSettings.Comets.Count > 1)
+					main.SetProgressMaximumValue(GraphSettings.Comets.Count);
+
+				await EphemerisManager.CalculateEphemerisAsync(GraphSettings, FormMain.Progress);
+
+				if (GraphSettings.AddNew && GraphSettings.SelectedComet != null)
+				{
+					FormGraph fg = new FormGraph(GraphSettings);
+					fg.MdiParent = this.Owner;
+					fg.WindowState = FormWindowState.Maximized;
+					fg.LoadGraph();
+					fg.Show();
+				}
+				else if (GraphSettings.Results != null && GraphSettings.Results.Any())
+				{
+					FormGraph fg = this.Owner.ActiveMdiChild as FormGraph;
+					fg.GraphSettings = this.GraphSettings;
+					fg.LoadGraph();
+				}
+
+				main.HideProgress();
 
 				this.Close();
 			}
@@ -380,6 +382,8 @@ namespace Comets.Application.ModulGraph
 					cbComet.SelectedIndex = GraphSettings.Comets.IndexOf(c);
 				}
 			}
+
+			lblMultipleCount.Text = GraphSettings.Comets.Count + " comets";
 		}
 
 		#endregion

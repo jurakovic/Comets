@@ -2,6 +2,7 @@
 using Comets.BusinessLayer.Managers;
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Comets.Application.ModulEphemeris
@@ -25,23 +26,15 @@ namespace Comets.Application.ModulEphemeris
 
 		#endregion
 
-		#region Form_Load
-
-		private void FormEphemerisResult_Load(object sender, System.EventArgs e)
-		{
-			LoadResultsAsync();
-		}
-
-		#endregion
-
 		#region LoadResultsAsync
 
-		public async void LoadResultsAsync()
+		public async Task LoadResultsAsync()
 		{
 			this.Text = EphemerisSettings.ToString();
-			richTextBox.Text = await EphemerisManager.GenerateEphemerisAsync(EphemerisSettings);
+			richTextBox.Text = await EphemerisManager.GenerateEphemerisAsync(EphemerisSettings, FormMain.Progress);
 			EphemerisSettings.AddNew = false;
 			EphemerisSettings.Results.Clear();
+			GC.Collect();
 		}
 
 		#endregion

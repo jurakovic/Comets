@@ -43,6 +43,8 @@ namespace Comets.Application
 		private Point InitialFormLocation { get; set; }
 		private Point CurrentFormLocation { get; set; }
 
+		public static IProgress<int> Progress { get; set; }
+
 		#endregion
 
 		#region Constructor
@@ -55,6 +57,8 @@ namespace Comets.Application
 
 			MainList = new List<Comet>();
 			UserList = new List<Comet>();
+
+			Progress = new Progress<int>(ReportProgress);
 
 			SortProperty = DefaultSortProperty;
 			SortAscending = DefaultSortAscending;
@@ -439,6 +443,35 @@ namespace Comets.Application
 		public void SetToolBoxMenuItemChecked(bool isChecked)
 		{
 			this.mnuShowToolbox.Checked = isChecked;
+		}
+
+		public void SetProgressMaximumValue(int value)
+		{
+			statusProgressBar.Visible = true;
+			statusProgressBar.Maximum = value;
+		}
+
+		public void ReportProgress(int value)
+		{
+			//http://derekwill.com/2014/06/24/combating-the-lag-of-the-winforms-progressbar/
+
+			if (value == statusProgressBar.Maximum)
+			{
+				statusProgressBar.Maximum = value + 1;
+				statusProgressBar.Value = value + 1;
+				statusProgressBar.Maximum = value;
+			}
+			else
+			{
+				statusProgressBar.Value = value + 1;
+			}
+
+			statusProgressBar.Value = value;
+		}
+
+		public void HideProgress()
+		{
+			statusProgressBar.Visible = false;
 		}
 
 		#endregion

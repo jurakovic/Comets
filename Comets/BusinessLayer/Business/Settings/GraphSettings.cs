@@ -41,7 +41,14 @@ namespace Comets.BusinessLayer.Business
 
 		public override string ToString()
 		{
-			return "Graph - " + base.SelectedComet.full;
+			string retVal = "Graph - ";
+
+			if (IsMultipleMode)
+				retVal += Comets.Count + " comets";
+			else
+				retVal += SelectedComet.full;
+
+			return retVal;
 		}
 
 		#endregion

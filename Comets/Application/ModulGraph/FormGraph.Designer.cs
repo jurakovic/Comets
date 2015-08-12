@@ -87,7 +87,6 @@
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "FormGraph";
 			this.Text = "Magnitude Graph";
-			this.Load += new System.EventHandler(this.FormGraph_Load);
 			((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
 			this.ResumeLayout(false);
 

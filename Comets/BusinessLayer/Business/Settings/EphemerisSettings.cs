@@ -34,7 +34,14 @@ namespace Comets.BusinessLayer.Business
 
 		public override string ToString()
 		{
-			return "Ephemeris - " + base.SelectedComet.full;
+			string retVal = "Ephemeris - ";
+
+			if (IsMultipleMode)
+				retVal += Comets.Count + " comets";
+			else
+				retVal += SelectedComet.full;
+
+			return retVal;
 		}
 
 		#endregion

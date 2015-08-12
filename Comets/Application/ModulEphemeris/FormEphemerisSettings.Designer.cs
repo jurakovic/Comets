@@ -60,8 +60,9 @@
 			this.chRA = new System.Windows.Forms.CheckBox();
 			this.btnCancel = new System.Windows.Forms.Button();
 			this.gbxMode = new System.Windows.Forms.GroupBox();
-			this.rbtnSingle = new System.Windows.Forms.RadioButton();
+			this.lblMultipleCount = new System.Windows.Forms.Label();
 			this.rbtnMultiple = new System.Windows.Forms.RadioButton();
+			this.rbtnSingle = new System.Windows.Forms.RadioButton();
 			this.gbxSelectComet.SuspendLayout();
 			this.gbxTimestamp.SuspendLayout();
 			this.gbxOutputData.SuspendLayout();
@@ -420,6 +421,7 @@
 			// 
 			// gbxMode
 			// 
+			this.gbxMode.Controls.Add(this.lblMultipleCount);
 			this.gbxMode.Controls.Add(this.rbtnMultiple);
 			this.gbxMode.Controls.Add(this.rbtnSingle);
 			this.gbxMode.Location = new System.Drawing.Point(348, 6);
@@ -429,27 +431,36 @@
 			this.gbxMode.TabStop = false;
 			this.gbxMode.Text = "Mode";
 			// 
+			// lblMultipleCount
+			// 
+			this.lblMultipleCount.AutoSize = true;
+			this.lblMultipleCount.Location = new System.Drawing.Point(30, 77);
+			this.lblMultipleCount.Name = "lblMultipleCount";
+			this.lblMultipleCount.Size = new System.Drawing.Size(51, 13);
+			this.lblMultipleCount.TabIndex = 2;
+			this.lblMultipleCount.Text = "N comets";
+			// 
+			// rbtnMultiple
+			// 
+			this.rbtnMultiple.AutoSize = true;
+			this.rbtnMultiple.Location = new System.Drawing.Point(14, 47);
+			this.rbtnMultiple.Name = "rbtnMultiple";
+			this.rbtnMultiple.Size = new System.Drawing.Size(61, 17);
+			this.rbtnMultiple.TabIndex = 1;
+			this.rbtnMultiple.Text = "Multiple";
+			this.rbtnMultiple.UseVisualStyleBackColor = true;
+			// 
 			// rbtnSingle
 			// 
 			this.rbtnSingle.AutoSize = true;
 			this.rbtnSingle.Checked = true;
-			this.rbtnSingle.Location = new System.Drawing.Point(14, 23);
+			this.rbtnSingle.Location = new System.Drawing.Point(14, 21);
 			this.rbtnSingle.Name = "rbtnSingle";
 			this.rbtnSingle.Size = new System.Drawing.Size(53, 17);
 			this.rbtnSingle.TabIndex = 0;
 			this.rbtnSingle.TabStop = true;
 			this.rbtnSingle.Text = "Single";
 			this.rbtnSingle.UseVisualStyleBackColor = true;
-			// 
-			// rbtnMultiple
-			// 
-			this.rbtnMultiple.AutoSize = true;
-			this.rbtnMultiple.Location = new System.Drawing.Point(14, 52);
-			this.rbtnMultiple.Name = "rbtnMultiple";
-			this.rbtnMultiple.Size = new System.Drawing.Size(61, 17);
-			this.rbtnMultiple.TabIndex = 1;
-			this.rbtnMultiple.Text = "Multiple";
-			this.rbtnMultiple.UseVisualStyleBackColor = true;
 			// 
 			// FormEphemerisSettings
 			// 
@@ -473,7 +484,6 @@
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Ephemeris settings";
-			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormEphemerisSettings_FormClosing);
 			this.Load += new System.EventHandler(this.FormEphemerisSettings_Load);
 			this.gbxSelectComet.ResumeLayout(false);
 			this.gbxSelectComet.PerformLayout();
@@ -523,5 +533,6 @@
 		private System.Windows.Forms.GroupBox gbxMode;
 		private System.Windows.Forms.RadioButton rbtnMultiple;
 		private System.Windows.Forms.RadioButton rbtnSingle;
+		private System.Windows.Forms.Label lblMultipleCount;
 	}
 }

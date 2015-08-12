@@ -26,23 +26,15 @@ namespace Comets.Application.ModulGraph
 
 		#endregion
 
-		#region Form_Load
-
-		private void FormGraph_Load(object sender, System.EventArgs e)
-		{
-			LoadGraph();
-		}
-
-		#endregion
-
 		#region LoadGraph
 
 		public void LoadGraph()
 		{
 			this.Text = GraphSettings.ToString();
-			EphemerisManager.GenerateGraph(GraphSettings, this.chart1);
+			EphemerisManager.GenerateGraph(GraphSettings, this.chart1, FormMain.Progress);
 			GraphSettings.AddNew = false;
 			GraphSettings.Results.Clear();
+			GC.Collect();
 		}
 
 		#endregion

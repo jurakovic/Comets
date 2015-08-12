@@ -57,7 +57,6 @@
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Ephemeris";
-			this.Load += new System.EventHandler(this.FormEphemerisResult_Load);
 			this.ResumeLayout(false);
 
 		}

@@ -109,27 +109,6 @@ namespace Comets.Application.ModulEphemeris
 
 		#endregion
 
-		#region FormEphemerisSettings_FormClosing
-
-		private void FormEphemerisSettings_FormClosing(object sender, FormClosingEventArgs e)
-		{
-			if (EphemerisSettings.AddNew && EphemerisSettings.SelectedComet != null)
-			{
-				FormEphemeris fe = new FormEphemeris(EphemerisSettings);
-				fe.MdiParent = this.Owner;
-				fe.WindowState = FormWindowState.Maximized;
-				fe.Show();
-			}
-			else if (EphemerisSettings.Results != null && EphemerisSettings.Results.Any())
-			{
-				FormEphemeris fe = this.Owner.ActiveMdiChild as FormEphemeris;
-				fe.EphemerisSettings = this.EphemerisSettings;
-				fe.LoadResultsAsync();
-			}
-		}
-
-		#endregion
-
 		#region cbComet_SelectedIndexChanged
 
 		private void cbComet_SelectedIndexChanged(object sender, EventArgs e)
@@ -151,10 +130,10 @@ namespace Comets.Application.ModulEphemeris
 		private void btnFilter_Click(object sender, EventArgs e)
 		{
 			using (FormDatabase fdb = new FormDatabase(
-				EphemerisSettings.Comets, 
-				EphemerisSettings.Filters, 
-				EphemerisSettings.SortProperty, 
-				EphemerisSettings.SortAscending, 
+				EphemerisSettings.Comets,
+				EphemerisSettings.Filters,
+				EphemerisSettings.SortProperty,
+				EphemerisSettings.SortAscending,
 				true) { Owner = this })
 			{
 				fdb.TopMost = this.TopMost;
@@ -221,9 +200,32 @@ namespace Comets.Application.ModulEphemeris
 				EphemerisSettings.Elongation = chElong.Checked;
 				EphemerisSettings.Magnitude = chMag.Checked;
 
-				EphemerisSettings.Results = new Dictionary<Comet, List<EphemerisResult>>();
+				if (EphemerisSettings.Results == null)
+					EphemerisSettings.Results = new Dictionary<Comet, List<EphemerisResult>>();
 
-				await EphemerisManager.CalculateEphemerisAsync(EphemerisSettings);
+				FormMain main = this.Owner as FormMain;
+
+				if (EphemerisSettings.IsMultipleMode && EphemerisSettings.Comets.Count > 1)
+					main.SetProgressMaximumValue(EphemerisSettings.Comets.Count);
+
+				await EphemerisManager.CalculateEphemerisAsync(EphemerisSettings, FormMain.Progress);
+
+				if (EphemerisSettings.AddNew && EphemerisSettings.SelectedComet != null)
+				{
+					FormEphemeris fe = new FormEphemeris(EphemerisSettings) { Owner = this.Owner };
+					fe.MdiParent = this.Owner;
+					fe.WindowState = FormWindowState.Maximized;
+					await fe.LoadResultsAsync();
+					fe.Show();
+				}
+				else if (EphemerisSettings.Results != null && EphemerisSettings.Results.Any())
+				{
+					FormEphemeris fe = this.Owner.ActiveMdiChild as FormEphemeris;
+					fe.EphemerisSettings = this.EphemerisSettings;
+					await fe.LoadResultsAsync();
+				}
+
+				main.HideProgress();
 
 				this.Close();
 			}
@@ -303,6 +305,8 @@ namespace Comets.Application.ModulEphemeris
 					cbComet.SelectedIndex = EphemerisSettings.Comets.IndexOf(c);
 				}
 			}
+
+			lblMultipleCount.Text = EphemerisSettings.Comets.Count + " comets";
 		}
 
 		#endregion
