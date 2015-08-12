@@ -286,6 +286,8 @@ namespace Comets.Application
 		{
 			using (FormDateTime fdt = new FormDateTime(FormMain.DefaultDateStart, DateTime, GetT()))
 			{
+				fdt.TopMost = this.TopMost;
+
 				if (fdt.ShowDialog() == DialogResult.OK)
 				{
 					DateTime = fdt.SelectedDateTime;

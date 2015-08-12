@@ -249,6 +249,8 @@ namespace Comets.Application.ModulEphemeris
 		{
 			using (FormDateTime fdt = new FormDateTime(def, current, jd))
 			{
+				fdt.TopMost = this.TopMost;
+
 				if (fdt.ShowDialog() == DialogResult.OK)
 					current = fdt.SelectedDateTime;
 			}

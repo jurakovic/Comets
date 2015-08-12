@@ -491,6 +491,8 @@ namespace Comets.Application.ModulOrbit
 		{
 			using (FormDateTime fdt = new FormDateTime(DefaultDateTime, SelectedDateTime, GetT()))
 			{
+				fdt.TopMost = this.TopMost;
+
 				if (fdt.ShowDialog() == DialogResult.OK)
 					SelectedDateTime = fdt.SelectedDateTime;
 			}
