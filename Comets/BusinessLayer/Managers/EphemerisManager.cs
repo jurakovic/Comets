@@ -140,7 +140,8 @@ namespace Comets.BusinessLayer.Managers
 					{
 						line.Clear();
 
-						line.Append(settings.LocalTime ? DateString(er.JD + settings.Location.Timezone / 24.0) : DateString(er.JD));
+						DateTime dt = settings.LocalTime ? Utils.JDToDateTime(er.JD).ToLocalTime() : Utils.JDToDateTime(er.JD);
+						line.Append(dt.ToString("dd.MM.yyyy HH:mm"));
 						if (settings.RA) line.Append("  " + HMSString(er.RA / 15.0));
 						if (settings.Dec) line.Append("  " + AngleString(er.Dec, false, true));
 						if (settings.Alt) line.Append("  " + FixNum(er.Alt, 5, 1) + "°");
@@ -611,26 +612,6 @@ namespace Comets.BusinessLayer.Managers
 			int dw = (int)(Math.Floor(jd + 1.5) - 7 * Math.Floor((jd + 1.5) / 7));
 
 			return new int[] { year, month, day, dw, hour, minute, second };
-		}
-
-		private static string DateString(double jd)
-		{
-			int[] date = JDToDateTime(jd);
-
-			int year = date[0];
-			int month = date[1];
-			int day = date[2];
-			int hour = date[4];
-			int minute = date[5];
-
-			string datestr = "";
-
-			datestr += ((day < 10) ? "0" : "") + day;
-			datestr += ((month < 10) ? ".0" : ".") + month;
-			datestr += "." + year;
-			datestr += ((hour < 10) ? " 0" : " ") + hour;
-			datestr += ((minute < 10) ? ":0" : ":") + minute;
-			return datestr;
 		}
 
 		private static double rev(double angle) { return angle - Math.Floor(angle / 360.0) * 360.0; }		// 0<=a<360
