@@ -602,7 +602,7 @@ namespace Comets.BusinessLayer.Managers
 			int year = (int)Math.Floor(c - ((month > 2) ? 4716 : 4715) + 0.5);
 			int day = (int)Math.Floor(day0);
 
-			double hour0 = (day0 - day) * 24.0;
+			double hour0 = ((day0 - day) * 24.0) + 0.0000001; // fix for 23:59:59
 			int hour = (int)Math.Floor(hour0);
 
 			double min = (hour0 - hour) * 60.0;
