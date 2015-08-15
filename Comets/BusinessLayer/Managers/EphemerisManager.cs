@@ -67,7 +67,7 @@ namespace Comets.BusinessLayer.Managers
 
 			await Task.Run(() =>
 			{
-				if (!settings.IsMultipleMode)
+				if (!settings.IsMultipleMode || settings.Comets.Count == 1)
 				{
 					decimal jd = jd0;
 					List<EphemerisResult> erList = new List<EphemerisResult>();

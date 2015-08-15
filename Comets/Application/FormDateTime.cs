@@ -11,8 +11,8 @@ namespace Comets.Application
 	{
 		#region Const
 
-		public static DateTime Maximum = new DateTime(2500, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-		public static DateTime Minimum = new DateTime(1500, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+		public static DateTime Maximum = new DateTime(2300, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+		public static DateTime Minimum = new DateTime(1700, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
 		#endregion
 

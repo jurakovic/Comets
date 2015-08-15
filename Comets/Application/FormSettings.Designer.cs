@@ -84,6 +84,7 @@
 			this.rbNoProxy = new System.Windows.Forms.RadioButton();
 			this.btnClose = new System.Windows.Forms.Button();
 			this.btnOK = new System.Windows.Forms.Button();
+			this.cbxIgnoreLongCalculationWarning = new System.Windows.Forms.CheckBox();
 			this.tabControl1.SuspendLayout();
 			this.tabGeneral.SuspendLayout();
 			this.gbxGeneral.SuspendLayout();
@@ -130,6 +131,7 @@
 			// 
 			this.gbxGeneral.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.gbxGeneral.Controls.Add(this.cbxIgnoreLongCalculationWarning);
 			this.gbxGeneral.Controls.Add(this.lblDays);
 			this.gbxGeneral.Controls.Add(this.txtUpdateInterval);
 			this.gbxGeneral.Controls.Add(this.chShowStatusBar);
@@ -139,7 +141,7 @@
 			this.gbxGeneral.Controls.Add(this.chAutomaticUpdate);
 			this.gbxGeneral.Location = new System.Drawing.Point(8, 3);
 			this.gbxGeneral.Name = "gbxGeneral";
-			this.gbxGeneral.Size = new System.Drawing.Size(668, 196);
+			this.gbxGeneral.Size = new System.Drawing.Size(668, 228);
 			this.gbxGeneral.TabIndex = 0;
 			this.gbxGeneral.TabStop = false;
 			// 
@@ -167,7 +169,7 @@
 			// chShowStatusBar
 			// 
 			this.chShowStatusBar.AutoSize = true;
-			this.chShowStatusBar.Location = new System.Drawing.Point(13, 125);
+			this.chShowStatusBar.Location = new System.Drawing.Point(13, 160);
 			this.chShowStatusBar.Name = "chShowStatusBar";
 			this.chShowStatusBar.Size = new System.Drawing.Size(104, 17);
 			this.chShowStatusBar.TabIndex = 4;
@@ -177,7 +179,7 @@
 			// chExitWithoutConfirm
 			// 
 			this.chExitWithoutConfirm.AutoSize = true;
-			this.chExitWithoutConfirm.Location = new System.Drawing.Point(13, 90);
+			this.chExitWithoutConfirm.Location = new System.Drawing.Point(13, 125);
 			this.chExitWithoutConfirm.Name = "chExitWithoutConfirm";
 			this.chExitWithoutConfirm.Size = new System.Drawing.Size(121, 17);
 			this.chExitWithoutConfirm.TabIndex = 3;
@@ -187,7 +189,7 @@
 			// chNewVersionOnStartup
 			// 
 			this.chNewVersionOnStartup.AutoSize = true;
-			this.chNewVersionOnStartup.Location = new System.Drawing.Point(13, 160);
+			this.chNewVersionOnStartup.Location = new System.Drawing.Point(13, 195);
 			this.chNewVersionOnStartup.Name = "chNewVersionOnStartup";
 			this.chNewVersionOnStartup.Size = new System.Drawing.Size(186, 17);
 			this.chNewVersionOnStartup.TabIndex = 5;
@@ -731,6 +733,16 @@
 			this.btnOK.UseVisualStyleBackColor = true;
 			this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
 			// 
+			// cbxIgnoreLongCalculationWarning
+			// 
+			this.cbxIgnoreLongCalculationWarning.AutoSize = true;
+			this.cbxIgnoreLongCalculationWarning.Location = new System.Drawing.Point(13, 90);
+			this.cbxIgnoreLongCalculationWarning.Name = "cbxIgnoreLongCalculationWarning";
+			this.cbxIgnoreLongCalculationWarning.Size = new System.Drawing.Size(175, 17);
+			this.cbxIgnoreLongCalculationWarning.TabIndex = 11;
+			this.cbxIgnoreLongCalculationWarning.Text = "Ignore long calculation warning";
+			this.cbxIgnoreLongCalculationWarning.UseVisualStyleBackColor = true;
+			// 
 			// FormSettings
 			// 
 			this.AcceptButton = this.btnOK;
@@ -831,5 +843,6 @@
 		private System.Windows.Forms.DataGridViewTextBoxColumn colDirectory;
 		private System.Windows.Forms.TextBox txtUpdateInterval;
 		private System.Windows.Forms.Label lblDays;
+		private System.Windows.Forms.CheckBox cbxIgnoreLongCalculationWarning;
 	}
 }

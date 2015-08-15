@@ -287,11 +287,13 @@ namespace Comets.Application.ModulGraph
 					interval = 5;
 				else if (totalDays < 100 * 365.25)
 					interval = 15;
-				else if (totalDays < 500 * 365.25)
-					interval = 50;
+				else if (totalDays < 200 * 365.25)
+					interval = 30;
+				else if (totalDays < 300 * 365.25)
+					interval = 40;
 				else
 				{
-					MessageBox.Show("Interval must be less than 500 years.\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					MessageBox.Show("Timespan must be less than 300 years.\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
 					return;
 				}
 
@@ -330,6 +332,9 @@ namespace Comets.Application.ModulGraph
 
 				GraphSettings.MaxMagnitudeChecked = cbxMaxMag.Checked;
 				GraphSettings.MaxMagnitudeValue = txtMaxMag.TextLength > 0 ? (double?)txtMaxMag.Double() : null;
+
+				if (!FormMain.Settings.IgnoreLongCalculationWarning && !SettingsBase.ValidateCalculationAmount(GraphSettings))
+					return;
 
 				if (GraphSettings.Results == null)
 					GraphSettings.Results = new Dictionary<Comet, List<EphemerisResult>>();

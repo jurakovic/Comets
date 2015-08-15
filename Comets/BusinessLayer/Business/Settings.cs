@@ -14,6 +14,7 @@ namespace Comets.BusinessLayer.Business
 		public bool RememberWindowPosition { get; set; }
 		public bool NewVersionOnStartup { get; set; }
 		public bool ExitWithoutConfirm { get; set; }
+		public bool IgnoreLongCalculationWarning { get; set; }
 		public bool ShowStatusBar { get; set; }
 
 		//Window
@@ -54,6 +55,7 @@ namespace Comets.BusinessLayer.Business
 			NewVersionOnStartup = false;
 			RememberWindowPosition = true;
 			ExitWithoutConfirm = false;
+			IgnoreLongCalculationWarning = false;
 			ShowStatusBar = true;
 
 			Maximized = false;

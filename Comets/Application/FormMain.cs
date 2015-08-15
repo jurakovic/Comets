@@ -455,7 +455,7 @@ namespace Comets.Application
 		{
 			//http://derekwill.com/2014/06/24/combating-the-lag-of-the-winforms-progressbar/
 
-			if (value == statusProgressBar.Maximum)
+			if (value >= statusProgressBar.Maximum)
 			{
 				statusProgressBar.Maximum = value + 1;
 				statusProgressBar.Value = value + 1;

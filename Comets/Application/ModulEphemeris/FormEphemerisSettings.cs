@@ -160,11 +160,13 @@ namespace Comets.Application.ModulEphemeris
 			{
 				if (DateEnd < DateStart)
 				{
-					MessageBox.Show(
-						"End date is less than start date\t\t\t",
-						"Comets",
-						MessageBoxButtons.OK,
-						MessageBoxIcon.Information);
+					MessageBox.Show("End date is less than start date\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					return;
+				}
+
+				if ((DateEnd - DateStart).TotalDays > 300 * 365.25)
+				{
+					MessageBox.Show("Timespan must be less than 300 years.\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
 					return;
 				}
 
@@ -199,6 +201,9 @@ namespace Comets.Application.ModulEphemeris
 				EphemerisSettings.Az = chAz.Checked;
 				EphemerisSettings.Elongation = chElong.Checked;
 				EphemerisSettings.Magnitude = chMag.Checked;
+
+				if (!FormMain.Settings.IgnoreLongCalculationWarning && !SettingsBase.ValidateCalculationAmount(EphemerisSettings))
+					return;
 
 				if (EphemerisSettings.Results == null)
 					EphemerisSettings.Results = new Dictionary<Comet, List<EphemerisResult>>();

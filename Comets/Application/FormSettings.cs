@@ -35,6 +35,7 @@ namespace Comets.Application
 			chNewVersionOnStartup.Checked = FormMain.Settings.NewVersionOnStartup;
 			chRememberWindowPosition.Checked = FormMain.Settings.RememberWindowPosition;
 			chExitWithoutConfirm.Checked = FormMain.Settings.ExitWithoutConfirm;
+			cbxIgnoreLongCalculationWarning.Checked = FormMain.Settings.IgnoreLongCalculationWarning;
 			chShowStatusBar.Checked = FormMain.Settings.ShowStatusBar;
 
 			rbNoProxy.Checked = !FormMain.Settings.UseProxy;
@@ -80,6 +81,7 @@ namespace Comets.Application
 			FormMain.Settings.AutomaticUpdate = chAutomaticUpdate.Checked;
 			FormMain.Settings.UpdateInterval = txtUpdateInterval.Int();
 			FormMain.Settings.NewVersionOnStartup = chNewVersionOnStartup.Checked;
+			FormMain.Settings.IgnoreLongCalculationWarning = cbxIgnoreLongCalculationWarning.Checked;
 			FormMain.Settings.ExitWithoutConfirm = chExitWithoutConfirm.Checked;
 			FormMain.Settings.RememberWindowPosition = chRememberWindowPosition.Checked;
 			FormMain.Settings.ShowStatusBar = chShowStatusBar.Checked;
