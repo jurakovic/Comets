@@ -520,7 +520,7 @@ namespace Comets.BusinessLayer.Managers
 			return str;
 		}
 
-		private static string HMSString(double t)
+		public static string HMSString(double t)
 		{
 			// the caller must add a leading + if required.
 			double hours = Math.Abs(t);
@@ -538,7 +538,7 @@ namespace Comets.BusinessLayer.Managers
 			return hmsstr;
 		}
 
-		private static string AngleString(double a, bool circle, bool arcmin)
+		public static string AngleString(double a, bool circle, bool arcmin)
 		{
 			// Return angle as degrees:minutes. 'circle' is true for range between 0 and 360 
 			// and false for -90 to +90, if 'arcmin' use deg and arcmin symbols

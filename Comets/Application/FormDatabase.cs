@@ -1,4 +1,5 @@
 ﻿using Comets.BusinessLayer.Business;
+using Comets.BusinessLayer.Extensions;
 using Comets.BusinessLayer.Managers;
 using System;
 using System.Collections.Generic;
@@ -33,6 +34,9 @@ namespace Comets.Application
 		private bool IsTextChangedByFilters { get; set; }
 
 		private ToolTip ToolTip { get; set; }
+
+		private Timer Timer { get; set; }
+		private EphemerisResult PreviousEphemeris { get; set; }
 
 		private DateTime _dateTime;
 		private DateTime DateTime
@@ -74,6 +78,10 @@ namespace Comets.Application
 			ToolTip.SetToolTip(this.txtArgumentOfPericenter, String.Format("Maximum Argument of Pericenter value is {0}°", MaxLongNode));
 			ToolTip.SetToolTip(this.txtInclination, String.Format("Maximum Inclination value is {0}°", MaxIncl));
 			ToolTip.SetToolTip(this.cboPeriod, String.Format("Maximum Period value is {0} years", MaxPeriod));
+
+			Timer = new Timer();
+			Timer.Interval = 1000;
+			Timer.Tick += Timer_Tick;
 		}
 
 		#endregion
@@ -118,6 +126,19 @@ namespace Comets.Application
 
 		private void lbxDatabase_SelectedIndexChanged(object sender, EventArgs e)
 		{
+			Timer.Stop();
+			PreviousEphemeris = null;
+
+			lblEphemSunDistIndicator.Text = String.Empty;
+			lblEphemSunDistIndicator.Text = String.Empty;
+			lblEphemEarthDistIndicator.Text = String.Empty;
+			lblEphemMagIndicator.Text = String.Empty;
+			lblEphemRaIndicator.Text = String.Empty;
+			lblEphemDecIndicator.Text = String.Empty;
+			lblEphemAltIndicator.Text = String.Empty;
+			lblEphemAzIndicator.Text = String.Empty;
+			lblEphemElongationIndicator.Text = String.Empty;
+
 			string format6 = "0.000000";
 			string format4 = "0.0000";
 			int minPeriod = 1000;
@@ -129,7 +150,7 @@ namespace Comets.Application
 			string commonPeriod = c.P < minPeriod ? c.P.ToString(format6) : String.Empty;
 			string commonAphDist = c.P < minPeriod ? c.Q.ToString(format6) : String.Empty;
 
-			//info
+			//ephemeris
 			txtInfoName.Text = commonName;
 
 			txtInfoPerihDate.Text = Utils.JDToDateTime(c.T).ToLocalTime().ToString(FormMain.DateTimeFormat);
@@ -140,9 +161,8 @@ namespace Comets.Application
 			txtInfoPerihEarthDist.Text = c.PerihEarthDist.ToString(format6);
 			txtInfoPerihMag.Text = c.PerihMag.ToString("0.00");
 
-			txtInfoCurrSunDist.Text = c.CurrentSunDist.ToString(format6);
-			txtInfoCurrEarthDist.Text = c.CurrentEarthDist.ToString(format6);
-			txtInfoCurrMag.Text = c.CurrentMag.ToString("0.00");
+			CalculateEphemeris();
+			Timer.Start();
 
 			//orbital elements
 			txtElemName.Text = commonName;
@@ -235,6 +255,72 @@ namespace Comets.Application
 
 		#endregion
 
+		#region Timer
+
+		void Timer_Tick(object sender, EventArgs e)
+		{
+			CalculateEphemeris();
+		}
+
+		private void CalculateEphemeris()
+		{
+			if (tbcDetails.SelectedIndex == 0 && lbxDatabase.SelectedIndex >= 0)
+			{
+				Comet c = Comets.ElementAt(lbxDatabase.SelectedIndex);
+				EphemerisResult er = EphemerisManager.GetEphemeris(c, DateTime.Now.JD(), FormMain.Settings.Location);
+
+				txtInfoCurrSunDist.Text = er.SunDist.ToString("0.000000");
+				txtInfoCurrEarthDist.Text = er.EarthDist.ToString("0.000000");
+				txtInfoCurrMag.Text = er.Magnitude.ToString("0.00");
+
+				txtEphemRA.Text = (EphemerisManager.HMSString(er.RA / 15.0)).Trim();
+				txtEphemDec.Text = (EphemerisManager.AngleString(er.Dec, false, true)).Trim();
+				txtEphemAlt.Text = er.Alt.ToString("0.00") + "°";
+				txtEphemAz.Text = er.Az.ToString("0.00") + "°";
+				txtEphemElongation.Text = er.Elongation.ToString("0.00") + "°" + (er.PositionAngle >= 180 ? " W" : " E");
+
+				if (PreviousEphemeris != null)
+				{
+					bool rHigher = er.SunDist >= PreviousEphemeris.SunDist;
+					bool dHigher = er.EarthDist >= PreviousEphemeris.EarthDist;
+					bool mHigher = er.Magnitude >= PreviousEphemeris.Magnitude;
+					bool raHigher = er.RA >= PreviousEphemeris.RA;
+					bool decHigher = er.Dec >= PreviousEphemeris.Dec;
+					bool altHigher = er.Alt >= PreviousEphemeris.Alt;
+					bool azHigher = er.Az >= PreviousEphemeris.Az;
+					bool eloHigher = er.Elongation >= PreviousEphemeris.Elongation;
+
+					lblEphemSunDistIndicator.Text = rHigher ? "▲" : "▼";
+					lblEphemSunDistIndicator.ForeColor = rHigher ? Color.Red : Color.Green;
+
+					lblEphemEarthDistIndicator.Text = dHigher ? "▲" : "▼";
+					lblEphemEarthDistIndicator.ForeColor = dHigher ? Color.Red : Color.Green;
+
+					lblEphemMagIndicator.Text = mHigher ? "▲" : "▼";
+					lblEphemMagIndicator.ForeColor = mHigher ? Color.Red : Color.Green;
+
+					lblEphemRaIndicator.Text = raHigher ? "▲" : "▼";
+					lblEphemRaIndicator.ForeColor = Color.Black;
+
+					lblEphemDecIndicator.Text = decHigher ? "▲" : "▼";
+					lblEphemDecIndicator.ForeColor = decHigher ? Color.Green : Color.Red;
+
+					lblEphemAltIndicator.Text = altHigher ? "▲" : "▼";
+					lblEphemAltIndicator.ForeColor = altHigher ? Color.Green : Color.Red;
+
+					lblEphemAzIndicator.Text = azHigher ? "▲" : "▼";
+					lblEphemAzIndicator.ForeColor = Color.Black;
+
+					lblEphemElongationIndicator.Text = eloHigher ? "▲" : "▼";
+					lblEphemElongationIndicator.ForeColor = eloHigher ? Color.Green : Color.Red;
+				}
+
+				PreviousEphemeris = er;
+			}
+		}
+
+		#endregion
+
 		#region + Sort
 
 		#region SetSortItems
@@ -317,10 +403,15 @@ namespace Comets.Application
 
 			//clear textboxes if no comets
 			if (!Comets.Any())
+			{
 				foreach (TabPage t in tbcDetails.TabPages)
 					foreach (Control c in t.Controls)
 						if (c is TextBox)
 							c.Text = String.Empty;
+
+				Timer.Stop();
+				PreviousEphemeris = null;
+			}
 
 			lbxDatabase.DataSource = Comets;
 			lbxDatabase.DisplayMember = "full";
