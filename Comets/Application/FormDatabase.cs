@@ -85,6 +85,7 @@ namespace Comets.Application
 			SetSortItems(SortAscending);
 			SortList(Comets);
 			PopulateFilters(Filters);
+			ApllyContextMenuVisibility();
 		}
 
 		#endregion
@@ -117,38 +118,54 @@ namespace Comets.Application
 
 		private void lbxDatabase_SelectedIndexChanged(object sender, EventArgs e)
 		{
+			string format6 = "0.000000";
+			string format4 = "0.0000";
+			int minPeriod = 1000;
+
 			Comet c = Comets.ElementAt(lbxDatabase.SelectedIndex);
 
-			t_full.Text = c.full;
-			t_T.Text = c.Ty.ToString() + "-" + c.Tm.ToString("00") + "-" + c.Td.ToString("00") + "." + c.Th.ToString("0000");
-			t_q1.Text = c.q.ToString("0.000000");
-			t_e.Text = c.e.ToString("0.000000");
-			t_i.Text = c.i.ToString("0.0000");
-			t_N1.Text = c.N.ToString("0.0000");
-			t_w.Text = c.w.ToString("0.0000");
+			string commonName = c.full;
+			string commonPerihDist = c.q.ToString(format6);
+			string commonPeriod = c.P < minPeriod ? c.P.ToString(format6) : String.Empty;
+			string commonAphDist = c.P < minPeriod ? c.Q.ToString(format6) : String.Empty;
 
-			if (c.P < 10000)
-			{
-				t_P.Text = c.P.ToString("0.000000");
-				t_Q2.Text = c.Q.ToString("0.000000");
-				t_a.Text = c.a.ToString("0.000000");
-				t_n2.Text = c.n.ToString("0.000000");
-			}
-			else
-			{
-				t_P.Text = String.Empty;
-				t_Q2.Text = String.Empty;
-				t_a.Text = String.Empty;
-				t_n2.Text = String.Empty;
-			}
+			//info
+			txtInfoName.Text = commonName;
 
-			t_g.Text = c.g.ToString("0.0");
-			t_k.Text = c.k.ToString("0.0");
+			txtInfoPerihDate.Text = Utils.JDToDateTime(c.T).ToLocalTime().ToString(FormMain.DateTimeFormat);
+			txtInfoPeriod.Text = commonPeriod;
+			txtInfoAphSunDist.Text = commonAphDist;
+
+			txtInfoPerihDist.Text = commonPerihDist;
+			txtInfoPerihEarthDist.Text = c.PerihEarthDist.ToString(format6);
+			txtInfoPerihMag.Text = c.PerihMag.ToString("0.00");
+
+			txtInfoCurrSunDist.Text = c.CurrentSunDist.ToString(format6);
+			txtInfoCurrEarthDist.Text = c.CurrentEarthDist.ToString(format6);
+			txtInfoCurrMag.Text = c.CurrentMag.ToString("0.00");
+
+			//orbital elements
+			txtElemName.Text = commonName;
+
+			txtElemPerihDate.Text = c.Ty.ToString() + "-" + c.Tm.ToString("00") + "-" + c.Td.ToString("00") + "." + c.Th.ToString("0000");
+			txtElemPeriod.Text = commonPeriod;
+			txtElemMeanMotion.Text = c.P < minPeriod ? c.n.ToString(format6) : String.Empty;
+
+			txtElemPerihDist.Text = commonPerihDist;
+			txtElemAphDist.Text = commonAphDist;
+			txtElemSemiMajorAxis.Text = c.P < minPeriod ? c.a.ToString(format6) : String.Empty;
+
+			txtElemEcc.Text = c.e.ToString(format6);
+			txtElemAscNode.Text = c.N.ToString(format4);
+			txtElemMagG.Text = c.g.ToString("0.0");
+			txtElemMagK.Text = c.k.ToString("0.0");
+
+			txtElemIncl.Text = c.i.ToString(format4);
+			txtElemArgPeri.Text = c.w.ToString(format4);
+			txtElemEquinox.Text = "2000.0";
 
 			//t_sortKey.Text = c.sortkey.ToString("0.00000000000");
 			//t_sortKey.Text = c.idKey;
-
-			tEquinox.Text = "2000.0";
 		}
 
 		#endregion
@@ -157,8 +174,48 @@ namespace Comets.Application
 
 		private void lbxDatabase_MouseDoubleClick(object sender, MouseEventArgs e)
 		{
-			pnlFilters.Visible = false;
-			pnlDetails.Visible = true;
+			if (pnlFilters.Visible)
+				InvertPanelsVisibility();
+			else
+				InvertGroupBoxVisibility();
+		}
+
+		#endregion
+
+		#region btnInfoOrbitalElements_Click
+
+		private void btnInfoOrbitalElements_Click(object sender, EventArgs e)
+		{
+			InvertGroupBoxVisibility();
+		}
+
+		#endregion
+
+		#region ApllyContextMenuVisibility
+
+		private void ApllyContextMenuVisibility()
+		{
+			mnuIncl.Visible = gbxOrbitalElements.Visible;
+			mnuEcc.Visible = gbxOrbitalElements.Visible;
+			mnuAscNode.Visible = gbxOrbitalElements.Visible;
+			mnuArgPeri.Visible = gbxOrbitalElements.Visible;
+
+			mnuPerihEarthDist.Visible = gbxInfo.Visible || pnlFilters.Visible;
+			mnuCurrSunDist.Visible = gbxInfo.Visible || pnlFilters.Visible;
+			mnuCurrEarthDist.Visible = gbxInfo.Visible || pnlFilters.Visible;
+			mnuPerihMag.Visible = gbxInfo.Visible || pnlFilters.Visible;
+			mnuCurrMag.Visible = gbxInfo.Visible || pnlFilters.Visible;
+		}
+
+		#endregion
+
+		#region InvertGroupBoxVisibility
+
+		private void InvertGroupBoxVisibility()
+		{
+			gbxInfo.Visible = !gbxInfo.Visible;
+			gbxOrbitalElements.Visible = !gbxOrbitalElements.Visible;
+			ApllyContextMenuVisibility();
 		}
 
 		#endregion
@@ -188,8 +245,8 @@ namespace Comets.Application
 				}
 			}
 
-			menuItemAsc.Checked = isAscending;
-			menuItemDesc.Checked = !isAscending;
+			mnuAsc.Checked = isAscending;
+			mnuDesc.Checked = !isAscending;
 		}
 
 		#endregion
@@ -211,7 +268,7 @@ namespace Comets.Application
 
 			if (!mni.Checked)
 			{
-				SortAscending = menuItemAsc.Checked;
+				SortAscending = mnuAsc.Checked;
 
 				foreach (MenuItem item in contextSort.MenuItems)
 					item.Checked = false;
@@ -219,8 +276,8 @@ namespace Comets.Application
 				mni.Checked = true;
 				SortProperty = mni.Tag as string;
 
-				menuItemAsc.Checked = SortAscending;
-				menuItemDesc.Checked = !SortAscending;
+				mnuAsc.Checked = SortAscending;
+				mnuDesc.Checked = !SortAscending;
 
 				SortList(Comets);
 			}
@@ -228,9 +285,9 @@ namespace Comets.Application
 
 		private void menuItemSortAscDesc_Click(object sender, EventArgs e)
 		{
-			menuItemAsc.Checked = !menuItemAsc.Checked;
-			menuItemDesc.Checked = !menuItemDesc.Checked;
-			SortAscending = menuItemAsc.Checked;
+			mnuAsc.Checked = !mnuAsc.Checked;
+			mnuDesc.Checked = !mnuDesc.Checked;
+			SortAscending = mnuAsc.Checked;
 			SortList(Comets);
 		}
 
@@ -255,7 +312,7 @@ namespace Comets.Application
 
 			//clear textboxes if no comets
 			if (!Comets.Any())
-				foreach (Control c in gbDetails.Controls)
+				foreach (Control c in gbxOrbitalElements.Controls)
 					if (c is TextBox)
 						c.Text = String.Empty;
 

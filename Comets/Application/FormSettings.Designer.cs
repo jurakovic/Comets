@@ -40,13 +40,6 @@
 			this.chAutomaticUpdate = new System.Windows.Forms.CheckBox();
 			this.tabLocation = new System.Windows.Forms.TabPage();
 			this.gbxLocation = new System.Windows.Forms.GroupBox();
-			this.numTimezone = new System.Windows.Forms.NumericUpDown();
-			this.lblUtc = new System.Windows.Forms.Label();
-			this.lblAltitude = new System.Windows.Forms.Label();
-			this.txtAltitude = new System.Windows.Forms.TextBox();
-			this.btnSetDST = new System.Windows.Forms.Button();
-			this.chDST = new System.Windows.Forms.CheckBox();
-			this.lblTimezone = new System.Windows.Forms.Label();
 			this.cbxEastWest = new System.Windows.Forms.ComboBox();
 			this.cbxNorthSouth = new System.Windows.Forms.ComboBox();
 			this.lblLonDeg = new System.Windows.Forms.Label();
@@ -96,7 +89,6 @@
 			this.gbxGeneral.SuspendLayout();
 			this.tabLocation.SuspendLayout();
 			this.gbxLocation.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numTimezone)).BeginInit();
 			this.tabPrograms.SuspendLayout();
 			this.gbxPrograms.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dgvPrograms)).BeginInit();
@@ -238,13 +230,6 @@
 			// 
 			this.gbxLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gbxLocation.Controls.Add(this.numTimezone);
-			this.gbxLocation.Controls.Add(this.lblUtc);
-			this.gbxLocation.Controls.Add(this.lblAltitude);
-			this.gbxLocation.Controls.Add(this.txtAltitude);
-			this.gbxLocation.Controls.Add(this.btnSetDST);
-			this.gbxLocation.Controls.Add(this.chDST);
-			this.gbxLocation.Controls.Add(this.lblTimezone);
 			this.gbxLocation.Controls.Add(this.cbxEastWest);
 			this.gbxLocation.Controls.Add(this.cbxNorthSouth);
 			this.gbxLocation.Controls.Add(this.lblLonDeg);
@@ -260,83 +245,6 @@
 			this.gbxLocation.Size = new System.Drawing.Size(669, 285);
 			this.gbxLocation.TabIndex = 0;
 			this.gbxLocation.TabStop = false;
-			// 
-			// numTimezone
-			// 
-			this.numTimezone.Location = new System.Drawing.Point(454, 182);
-			this.numTimezone.Maximum = new decimal(new int[] {
-            14,
-            0,
-            0,
-            0});
-			this.numTimezone.Minimum = new decimal(new int[] {
-            11,
-            0,
-            0,
-            -2147483648});
-			this.numTimezone.Name = "numTimezone";
-			this.numTimezone.Size = new System.Drawing.Size(47, 21);
-			this.numTimezone.TabIndex = 6;
-			this.numTimezone.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			// 
-			// lblUtc
-			// 
-			this.lblUtc.AutoSize = true;
-			this.lblUtc.Location = new System.Drawing.Point(399, 185);
-			this.lblUtc.Name = "lblUtc";
-			this.lblUtc.Size = new System.Drawing.Size(38, 13);
-			this.lblUtc.TabIndex = 7;
-			this.lblUtc.Text = "UTC +";
-			// 
-			// lblAltitude
-			// 
-			this.lblAltitude.AutoSize = true;
-			this.lblAltitude.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.lblAltitude.Location = new System.Drawing.Point(377, 84);
-			this.lblAltitude.Name = "lblAltitude";
-			this.lblAltitude.Size = new System.Drawing.Size(52, 13);
-			this.lblAltitude.TabIndex = 60;
-			this.lblAltitude.Text = "Altitude";
-			// 
-			// txtAltitude
-			// 
-			this.txtAltitude.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.txtAltitude.Location = new System.Drawing.Point(402, 115);
-			this.txtAltitude.MaxLength = 4;
-			this.txtAltitude.Name = "txtAltitude";
-			this.txtAltitude.Size = new System.Drawing.Size(57, 21);
-			this.txtAltitude.TabIndex = 5;
-			// 
-			// btnSetDST
-			// 
-			this.btnSetDST.Location = new System.Drawing.Point(31, 248);
-			this.btnSetDST.Name = "btnSetDST";
-			this.btnSetDST.Size = new System.Drawing.Size(115, 23);
-			this.btnSetDST.TabIndex = 5;
-			this.btnSetDST.Text = "Set from PC";
-			this.btnSetDST.UseVisualStyleBackColor = true;
-			this.btnSetDST.Visible = false;
-			// 
-			// chDST
-			// 
-			this.chDST.AutoSize = true;
-			this.chDST.Location = new System.Drawing.Point(526, 184);
-			this.chDST.Name = "chDST";
-			this.chDST.Size = new System.Drawing.Size(45, 17);
-			this.chDST.TabIndex = 7;
-			this.chDST.Text = "DST";
-			this.chDST.UseVisualStyleBackColor = true;
-			// 
-			// lblTimezone
-			// 
-			this.lblTimezone.AutoSize = true;
-			this.lblTimezone.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.lblTimezone.Location = new System.Drawing.Point(377, 151);
-			this.lblTimezone.Name = "lblTimezone";
-			this.lblTimezone.Size = new System.Drawing.Size(62, 13);
-			this.lblTimezone.TabIndex = 58;
-			this.lblTimezone.Text = "Timezone";
 			// 
 			// cbxEastWest
 			// 
@@ -850,7 +758,6 @@
 			this.tabLocation.ResumeLayout(false);
 			this.gbxLocation.ResumeLayout(false);
 			this.gbxLocation.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numTimezone)).EndInit();
 			this.tabPrograms.ResumeLayout(false);
 			this.gbxPrograms.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.dgvPrograms)).EndInit();
@@ -878,9 +785,6 @@
 		private System.Windows.Forms.CheckBox chRememberWindowPosition;
 		private System.Windows.Forms.CheckBox chAutomaticUpdate;
 		private System.Windows.Forms.GroupBox gbxLocation;
-		private System.Windows.Forms.Button btnSetDST;
-		private System.Windows.Forms.CheckBox chDST;
-		private System.Windows.Forms.Label lblTimezone;
 		private System.Windows.Forms.ComboBox cbxEastWest;
 		private System.Windows.Forms.ComboBox cbxNorthSouth;
 		private System.Windows.Forms.Label lblLonDeg;
@@ -912,10 +816,6 @@
 		private System.Windows.Forms.Label lblPassword;
 		private System.Windows.Forms.RadioButton rbManualProxy;
 		private System.Windows.Forms.RadioButton rbNoProxy;
-		private System.Windows.Forms.NumericUpDown numTimezone;
-		private System.Windows.Forms.Label lblUtc;
-		private System.Windows.Forms.Label lblAltitude;
-		private System.Windows.Forms.TextBox txtAltitude;
 		private System.Windows.Forms.CheckBox chShowStatusBar;
 		private System.Windows.Forms.GroupBox gbxAddProgram;
 		private System.Windows.Forms.TextBox txtDirectory;

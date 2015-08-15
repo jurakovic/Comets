@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Comets.BusinessLayer.Business;
+using Comets.BusinessLayer.Managers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -480,11 +482,11 @@ namespace Comets.OrbitViewer
 
 					if (ShowDistance)
 					{
-						double[] mdr = GetMagnutideAndDistances(SelectedComet, SelectedIndex);
+						EphemerisResult er = GetEphemeris(SelectedComet);
 
-						string mstr = String.Format("Magnitude:       {0:#0.0}", mdr[0]);
-						string dstr = String.Format("Earth Distance: {0:#0.0000} AU", mdr[1]);
-						string rstr = String.Format("Sun Distance:   {0:#0.0000} AU", mdr[2]);
+						string mstr = String.Format("Magnitude:       {0:#0.00}", er.Magnitude);
+						string dstr = String.Format("Earth Distance: {0:#0.000000} AU", er.EarthDist);
+						string rstr = String.Format("Sun Distance:   {0:#0.000000} AU", er.SunDist);
 
 						point1.Y = Size.Height - labelMargin - (int)(fontSize * 5.0);
 						graphics.DrawString(mstr, FontInformation, sb, point1.X, point1.Y);
@@ -670,7 +672,7 @@ namespace Comets.OrbitViewer
 				Point point1 = GetDrawPoint(xyz);
 				Comets[i].PanelLocation = point1;
 
-				Color color = GetCometColorAndDiameter(Comets[i], i, out diameter);
+				Color color = GetCometColorAndDiameter(Comets[i], out diameter);
 				SolidBrush sb = new SolidBrush(color);
 				graphics.FillPie(sb, point1.X - diameter, point1.Y - diameter, diameter * 2, diameter * 2, 0, 360);
 
@@ -777,15 +779,16 @@ namespace Comets.OrbitViewer
 
 		#region ClearComets
 
-		public void ClearComets()
+		public void ClearComets(bool clearAll = false)
 		{
-			if (Comets.Count > 1)
+			OVComet comet = SelectedComet;
+
+			Comets.Clear();
+			CometOrbits.Clear();
+			SelectedIndex = -1;
+
+			if (!clearAll)
 			{
-				OVComet comet = SelectedComet;
-
-				Comets.Clear();
-				CometOrbits.Clear();
-
 				Comets.Add(comet);
 				CometOrbits.Add(new CometOrbit(comet, CometOrbit.MaxDivisions));
 
@@ -830,36 +833,31 @@ namespace Comets.OrbitViewer
 
 		#endregion
 
-		#region GetMagnutideAndDistances
+		#region GetEphemeris
 
-		private double[] GetMagnutideAndDistances(OVComet comet, int index)
+		private EphemerisResult GetEphemeris(OVComet comet)
 		{
-			double m, d, r;
-			double xdiff, ydiff, zdiff;
+			double T = comet.T;
+			double e = comet.e;
+			double q = comet.q;
+			double w = comet.w / (Math.PI / 180.0);
+			double N = comet.N / (Math.PI / 180.0);
+			double i = comet.i / (Math.PI / 180.0);
+			double g = comet.g;
+			double k = comet.k;
 
-			Xyz xyz = CometsPos[index].Rotate(MtxToEcl).Rotate(MtxRotate);
-
-			Xyz xyz1 = PlanetPos[2].Rotate(MtxRotate);
-			r = Math.Sqrt((xyz.X * xyz.X) + (xyz.Y * xyz.Y) + (xyz.Z * xyz.Z)) + .0005;
-			xdiff = xyz.X - xyz1.X;
-			ydiff = xyz.Y - xyz1.Y;
-			zdiff = xyz.Z - xyz1.Z;
-			d = Math.Sqrt((xdiff * xdiff) + (ydiff * ydiff) + (zdiff * zdiff)) + .0005;
-
-			m = comet.g + 5 * Math.Log10(d) + 2.5 * comet.k * Math.Log10(r);
-
-			return new double[] { m, d, r };
+			return EphemerisManager.GetEphemeris(T, q, e, w, N, i, g, k, ATime.JD, 0.0, 0.0);
 		}
 
 		#endregion
 
 		#region GetCometColorAndDiameter
 
-		private Color GetCometColorAndDiameter(OVComet comet, int index, out int diameter)
+		private Color GetCometColorAndDiameter(OVComet comet, out int diameter)
 		{
 			Color color;
 
-			double mag = GetMagnutideAndDistances(comet, index)[0];
+			double mag = GetEphemeris(comet).Magnitude;
 
 			if (mag < 0)
 			{

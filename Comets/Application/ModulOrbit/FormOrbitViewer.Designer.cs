@@ -151,7 +151,7 @@
 			this.cboComet.Size = new System.Drawing.Size(165, 21);
 			this.cboComet.TabIndex = 0;
 			this.cboComet.SelectedIndexChanged += new System.EventHandler(this.cboObject_SelectedIndexChanged);
-			this.cboComet.MouseEnter += new System.EventHandler(this.comboBoxCommon_MouseEnter);
+			this.cboComet.MouseHover += new System.EventHandler(this.comboBoxCommon_MouseHover);
 			// 
 			// cboTimestep
 			// 
@@ -163,7 +163,7 @@
 			this.cboTimestep.Size = new System.Drawing.Size(163, 21);
 			this.cboTimestep.TabIndex = 5;
 			this.cboTimestep.SelectedIndexChanged += new System.EventHandler(this.cboTimestep_SelectedIndexChanged);
-			this.cboTimestep.MouseEnter += new System.EventHandler(this.comboBoxCommon_MouseEnter);
+			this.cboTimestep.MouseHover += new System.EventHandler(this.comboBoxCommon_MouseHover);
 			// 
 			// btnForPlay
 			// 

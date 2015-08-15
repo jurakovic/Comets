@@ -24,20 +24,25 @@ namespace Comets.BusinessLayer.Managers
 
 		public static EphemerisResult GetEphemeris(Comet comet, double jd, Location location)
 		{
+			return GetEphemeris(comet.T, comet.q, comet.e, comet.w, comet.N, comet.i, comet.g, comet.k, jd, location.Latitude, location.Longitude);
+		}
+
+		public static EphemerisResult GetEphemeris(double T, double q, double e, double w, double N, double i, double g, double k, double jd, double latitude, double longitude)
+		{
 			EphemerisResult er = new EphemerisResult();
 
-			double[] dat = CometAlt(comet, jd, location);
+			double[] dat = CometAlt(T, q, e, w, N, i, g, k, jd, latitude, longitude);
 			er.Alt = dat[0];
 			er.Az = dat[1];
 			er.RA = dat[3];
 			er.Dec = dat[4] - (dat[4] > 180.0 ? 360 : 0);
 			er.EcLon = rev(dat[5]);
 			er.EcLat = dat[6];
-			er.HelioDist = dat[8];
-			er.GeoDist = dat[9];
+			er.SunDist = dat[8];
+			er.EarthDist = dat[9];
 			er.Magnitude = dat[10];
 
-			double[] sundat = SunAlt((double)jd, location);
+			double[] sundat = SunAlt((double)jd, latitude, longitude);
 			double sunra = sundat[3];
 			double sundec = sundat[4] - (sundat[4] > 180.0 ? 360 : 0);
 
@@ -149,8 +154,8 @@ namespace Comets.BusinessLayer.Managers
 						if (settings.EcLon) line.Append("  " + AngleString(er.EcLon, true, true));
 						if (settings.EcLat) line.Append("  " + AngleString(er.EcLat, false, true));
 						if (settings.Elongation) line.Append(" " + FixNum(er.Elongation, 6, 1) + "°" + (er.PositionAngle >= 180 ? " W" : " E"));
-						if (settings.HelioDist) line.Append(" " + FixNum(er.HelioDist, 8, 4));
-						if (settings.GeoDist) line.Append(" " + FixNum(er.GeoDist, 8, 4));
+						if (settings.HelioDist) line.Append(" " + FixNum(er.SunDist, 8, 4));
+						if (settings.GeoDist) line.Append(" " + FixNum(er.EarthDist, 8, 4));
 						if (settings.Magnitude) line.Append(" " + FixNum(er.Magnitude, 4, 1));
 
 						sb.AppendLine(line.ToString());
@@ -351,11 +356,11 @@ namespace Comets.BusinessLayer.Managers
 
 		#region Methods
 
-		private static double[] CometAlt(Comet comet, double jd, Location location)
+		private static double[] CometAlt(double T, double q, double e, double w, double N, double i, double g, double k, double jd, double latitude, double longitude)
 		{
 			// Alt/Az, hour angle, ra/dec, ecliptic long. and lat, illuminated fraction (=1.0), dist(Sun), dist(Earth), brightness of planet p
 			double[] sun_xyz = SunXyz(jd);
-			double[] cmt_xyz = CometXyz(comet, jd);
+			double[] cmt_xyz = CometXyz(T, q, e, w, N, i, jd);
 			double dx = cmt_xyz[0] + sun_xyz[0];
 			double dy = cmt_xyz[1] + sun_xyz[1];
 			double dz = cmt_xyz[2] + sun_xyz[2];
@@ -364,14 +369,14 @@ namespace Comets.BusinessLayer.Managers
 			double[] radec = RaDecDist(cmt_xyz, sun_xyz, jd);
 			double ra = radec[0];
 			double dec = radec[1];
-			double[] altaz = RaDecToAltAz(ra, dec, jd, location);
+			double[] altaz = RaDecToAltAz(ra, dec, jd, latitude, longitude);
 			double dist = radec[2];
 			double r = cmt_xyz[3];
-			double mag = comet.g + 5 * log10(dist) + 2.5 * comet.k * log10(r);
+			double mag = g + 5 * log10(dist) + 2.5 * k * log10(r);
 			return new double[] { altaz[0], altaz[1], altaz[2], ra, dec, lon, lat, 1.0, r, dist, mag };
 		}
 
-		private static double[] SunAlt(double jd, Location location)
+		private static double[] SunAlt(double jd, double latitude, double longitude)
 		{
 			// return alt, az, time angle, ra, dec, ecl. long. and lat=0, illum=1, 0, dist, brightness 
 			double[] sdat = SunXyz(jd);
@@ -381,7 +386,7 @@ namespace Comets.BusinessLayer.Managers
 			double ze = sdat[1] * sind(ecl);
 			double ra = rev(atan2d(ye, xe));
 			double dec = atan2d(ze, Math.Sqrt(xe * xe + ye * ye));
-			double[] topo = RaDecToAltAz(ra, dec, jd, location);
+			double[] topo = RaDecToAltAz(ra, dec, jd, latitude, longitude);
 			return new double[] { topo[0], topo[1], topo[2], ra, dec, sdat[4], 0, 1, 0, sdat[3], -26.74 };
 		}
 
@@ -404,15 +409,13 @@ namespace Comets.BusinessLayer.Managers
 			return new double[] { xs, ys, 0, r, lonsun, 0 };
 		}
 
-		private static double[] CometXyz(Comet comet, double jd)
+		private static double[] CometXyz(double T, double q, double e, double w, double N, double i, double jd)
 		{
 			// heliocentric xyz for comet (cn is index to comets)
 			// based on Paul Schlyter's page http://www.stjarnhimlen.se/comp/ppcomp.html
 			// returns heliocentric x, y, z, distance, longitude and latitude of object
 			double d = jd - 2451543.5;
-			double Tj = comet.T;	// get julian day of perihelion time
-			double q = comet.q;
-			double e = comet.e;
+			double Tj = T;	// get julian day of perihelion time
 			double v, r;
 			if (e > 0.98)
 			{
@@ -427,9 +430,9 @@ namespace Comets.BusinessLayer.Managers
 				double a1 = (2 / 3) + (2 / 5) * W * W;
 				double a2 = (7 / 5) + (33 / 35) * W * W + (37 / 175) * W * W * W * W;
 				double a3 = W * W * ((432 / 175) + (956 / 1125) * W * W + (84 / 1575) * W * W * W * W);
-				double w = W * (1 + g * c * (a1 + a2 * g + a3 * g * g));
-				v = 2 * atand(w);
-				r = q * (1 + w * w) / (1 + w * w * f);
+				double ww = W * (1 + g * c * (a1 + a2 * g + a3 * g * g));
+				v = 2 * atand(ww);
+				r = q * (1 + ww * ww) / (1 + ww * ww * f);
 			}
 			else
 			{		// treat as elliptic
@@ -449,12 +452,11 @@ namespace Comets.BusinessLayer.Managers
 				v = rev(atan2d(yv, xv));		// true anomaly
 				r = Math.Sqrt(xv * xv + yv * yv);	// distance
 			}	// from here common for all orbits
-			double N = comet.N + 3.82394E-5 * d;
-			double ww = comet.w;	// why not precess this value?
-			double i = comet.i;
-			double xh = r * (cosd(N) * cosd(v + ww) - sind(N) * sind(v + ww) * cosd(i));
-			double yh = r * (sind(N) * cosd(v + ww) + cosd(N) * sind(v + ww) * cosd(i));
-			double zh = r * (sind(v + ww) * sind(i));
+			N = N + 3.82394E-5 * d;
+			//w  ->  why not precess this value?
+			double xh = r * (cosd(N) * cosd(v + w) - sind(N) * sind(v + w) * cosd(i));
+			double yh = r * (sind(N) * cosd(v + w) + cosd(N) * sind(v + w) * cosd(i));
+			double zh = r * (sind(v + w) * sind(i));
 			double lonecl = atan2d(yh, xh);
 			double latecl = atan2d(zh, Math.Sqrt(xh * xh + yh * yh + zh * zh));
 			return new double[] { xh, yh, zh, r, lonecl, latecl };
@@ -482,14 +484,14 @@ namespace Comets.BusinessLayer.Managers
 			return new double[] { ra, dec, dist };
 		}
 
-		private static double[] RaDecToAltAz(double ra, double dec, double jday, Location location)
+		private static double[] RaDecToAltAz(double ra, double dec, double jday, double latitude, double longitude)
 		{
 			// Convert ra/dec to alt/az, also return hour angle, azimut = 0 when north
 			// TH0=Greenwich sid. time (eq. 12.4), H=hour angle (chapter 13)
 			double TH0 = 280.46061837 + 360.98564736629 * (jday - 2451545.0);
-			double H = rev(TH0 + location.Longitude - ra);
-			double alt = asind(sind(location.Latitude) * sind(dec) + cosd(location.Latitude) * cosd(dec) * cosd(H));
-			double az = atan2d(sind(H), (cosd(H) * sind(location.Latitude) - tand(dec) * cosd(location.Latitude)));
+			double H = rev(TH0 + longitude - ra);
+			double alt = asind(sind(latitude) * sind(dec) + cosd(latitude) * cosd(dec) * cosd(H));
+			double az = atan2d(sind(H), (cosd(H) * sind(latitude) - tand(dec) * cosd(latitude)));
 			return new double[] { alt, rev(az + 180.0), H };
 		}
 

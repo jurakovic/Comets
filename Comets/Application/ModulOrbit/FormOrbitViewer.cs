@@ -68,6 +68,7 @@ namespace Comets.Application.ModulOrbit
 		private bool IsSimulationStarted;
 
 		private bool ValueChangedByEvent;
+		private bool AllCometsLoaded;
 
 		List<Comet> Comets;
 		private FilterCollection Filters;
@@ -97,8 +98,8 @@ namespace Comets.Application.ModulOrbit
 
 				if (orbitPanel.IsPaintEnabled)
 				{
-					orbitPanel.ATime = new ATime(_selectedDateTime, FormMain.Settings.Location.Timezone);
-					orbitPanel.Invalidate();
+					orbitPanel.ATime = new ATime(_selectedDateTime, _selectedDateTime.Timezone());
+					RefreshPanel();
 				}
 			}
 		}
@@ -163,9 +164,9 @@ namespace Comets.Application.ModulOrbit
 			cboTimestep.DataSource = TimeStepItems;
 			cboTimestep.SelectedIndex = 3;
 
-			ATime atime = new ATime(SelectedDateTime, FormMain.Settings.Location.Timezone);
+			ATime atime = new ATime(SelectedDateTime, SelectedDateTime.Timezone());
 			orbitPanel.LoadPanel(SelectedComet, atime);
-			orbitPanel.Invalidate();
+			RefreshPanel();
 		}
 
 		#endregion
@@ -193,7 +194,7 @@ namespace Comets.Application.ModulOrbit
 		private void orbitPanel_Resize(object sender, EventArgs e)
 		{
 			orbitPanel.Offscreen = new Bitmap(orbitPanel.Width, orbitPanel.Height);
-			orbitPanel.Invalidate();
+			RefreshPanel();
 		}
 
 		#endregion
@@ -204,16 +205,24 @@ namespace Comets.Application.ModulOrbit
 
 		private void cboObject_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			SelectedComet = OVComets.ElementAt(cboComet.SelectedIndex);
-
-			if (orbitPanel.IsPaintEnabled)
+			if (!ValueChangedByEvent)
 			{
-				orbitPanel.LoadPanel(SelectedComet, orbitPanel.ATime);
-				ClearOrbits();
-				orbitPanel.Invalidate();
-			}
+				SelectedComet = OVComets.ElementAt(cboComet.SelectedIndex);
 
-			this.Text = "Orbit Viewer - " + SelectedComet.Name;
+				if (orbitPanel.IsPaintEnabled)
+				{
+					orbitPanel.LoadPanel(SelectedComet, orbitPanel.ATime);
+					ClearOrbits();
+					RefreshPanel();
+				}
+
+				string text = "Orbit Viewer - " + SelectedComet.Name;
+
+				if (orbitPanel.MultipleMode && orbitPanel.Comets.Count > 1)
+					text += " (" + orbitPanel.Comets.Count + " comets)";
+
+				this.Text = text;
+			}
 		}
 
 		private void btnFilter_Click(object sender, EventArgs e)
@@ -226,6 +235,8 @@ namespace Comets.Application.ModulOrbit
 
 				if (fdb.ShowDialog() == DialogResult.OK)
 				{
+					orbitPanel.ClearComets(true);
+
 					Comets = fdb.Comets;
 					Filters = fdb.Filters;
 					SortProperty = fdb.SortProperty;
@@ -233,10 +244,13 @@ namespace Comets.Application.ModulOrbit
 
 					OVComets = TransformComets(Comets);
 
-					BindList();
+					if (AllCometsLoaded)
+					{
+						orbitPanel.LoadPanel(OVComets.ToList(), orbitPanel.ATime, cboComet.SelectedIndex);
+						ClearOrbits();
+					}
 
-					if (OVComets.Any(x => x.Name == lastSelected))
-						cboComet.SelectedIndex = OVComets.IndexOf(OVComets.First(x => x.Name == lastSelected));
+					BindList(lastSelected);
 				}
 			}
 		}
@@ -245,24 +259,26 @@ namespace Comets.Application.ModulOrbit
 		{
 			if (OVComets.Any() && orbitPanel.Comets.Count != OVComets.Count)
 			{
-				ValueChangedByEvent = true;
-
 				orbitPanel.LoadPanel(OVComets.ToList(), orbitPanel.ATime, cboComet.SelectedIndex);
 				ClearOrbits();
-				rbtnMultipleMode.Checked = true;
-				orbitPanel.Invalidate();
 
+				ValueChangedByEvent = true;
+				rbtnMultipleMode.Checked = true;
 				ValueChangedByEvent = false;
+
+				RefreshPanel();
+				AllCometsLoaded = true;
 			}
 		}
 
 		private void btnClear_Click(object sender, EventArgs e)
 		{
 			orbitPanel.ClearComets();
-			orbitPanel.Invalidate();
+			RefreshPanel();
+			AllCometsLoaded = false;
 		}
 
-		private void comboBoxCommon_MouseEnter(object sender, EventArgs e)
+		private void comboBoxCommon_MouseHover(object sender, EventArgs e)
 		{
 			(sender as ComboBox).Focus();
 		}
@@ -285,7 +301,9 @@ namespace Comets.Application.ModulOrbit
 			ValueChangedByEvent = tempChanged;
 
 			if (!ValueChangedByEvent)
-				orbitPanel.Invalidate();
+				RefreshPanel();
+
+			AllCometsLoaded = false;
 		}
 
 		#endregion
@@ -316,7 +334,7 @@ namespace Comets.Application.ModulOrbit
 		{
 			SetMultipleCheckBoxes("Orbit", true);
 			SetMultipleCheckBoxes("Label", true);
-			orbitPanel.Invalidate();
+			RefreshPanel();
 		}
 
 		private void btnDefaultOrbitsLabels_Click(object sender, EventArgs e)
@@ -333,7 +351,7 @@ namespace Comets.Application.ModulOrbit
 			cbxSelectedLabel.Checked = true;
 			ValueChangedByEvent = false;
 
-			orbitPanel.Invalidate();
+			RefreshPanel();
 		}
 
 		private void SetMultipleCheckBoxes(string name, bool isChecked, bool refresh = false)
@@ -347,7 +365,7 @@ namespace Comets.Application.ModulOrbit
 			ValueChangedByEvent = false;
 
 			if (refresh)
-				orbitPanel.Invalidate();
+				RefreshPanel();
 		}
 
 		private void cbxOrbitCommon_CheckedChanged(object sender, EventArgs e)
@@ -365,7 +383,7 @@ namespace Comets.Application.ModulOrbit
 				cbxSelectedOrbit.Enabled = rbtnMultipleMode.Checked && !cbx.Checked;
 
 			if (!ValueChangedByEvent)
-				orbitPanel.Invalidate();
+				RefreshPanel();
 		}
 
 		private void cbxLabelCommon_CheckedChanged(object sender, EventArgs e)
@@ -383,7 +401,7 @@ namespace Comets.Application.ModulOrbit
 				cbxSelectedLabel.Enabled = rbtnMultipleMode.Checked && !cbx.Checked;
 
 			if (!ValueChangedByEvent)
-				orbitPanel.Invalidate();
+				RefreshPanel();
 		}
 
 		private void rbtnCenterCommon_CheckedChanged(object sender, EventArgs e)
@@ -394,7 +412,7 @@ namespace Comets.Application.ModulOrbit
 			orbitPanel.CenteredObject = centerObject;
 
 			if (!ValueChangedByEvent)
-				orbitPanel.Invalidate();
+				RefreshPanel();
 		}
 
 		private void cbxOrbit_CheckedChanged(object sender, EventArgs e)
@@ -402,7 +420,7 @@ namespace Comets.Application.ModulOrbit
 			orbitPanel.PreserveSelectedOrbit = cbxSelectedOrbit.Checked;
 
 			if (!ValueChangedByEvent)
-				orbitPanel.Invalidate();
+				RefreshPanel();
 		}
 
 		private void cbxLabel_CheckedChanged(object sender, EventArgs e)
@@ -410,7 +428,7 @@ namespace Comets.Application.ModulOrbit
 			orbitPanel.PreserveSelectedLabel = cbxSelectedLabel.Checked;
 
 			if (!ValueChangedByEvent)
-				orbitPanel.Invalidate();
+				RefreshPanel();
 		}
 
 		private void cbxMarker_CheckedChanged(object sender, EventArgs e)
@@ -418,7 +436,7 @@ namespace Comets.Application.ModulOrbit
 			orbitPanel.ShowMarker = cbxMarker.Checked;
 
 			if (!ValueChangedByEvent)
-				orbitPanel.Invalidate();
+				RefreshPanel();
 		}
 
 		private void ChangeObjectDisplay(OrbitPanel.Object obj, bool control, bool shift)
@@ -637,25 +655,25 @@ namespace Comets.Application.ModulOrbit
 		private void cbxShowAxes_CheckedChanged(object sender, EventArgs e)
 		{
 			orbitPanel.ShowAxes = cbxShowAxes.Checked;
-			orbitPanel.Invalidate();
+			RefreshPanel();
 		}
 
 		private void cbxAntialiasing_CheckedChanged(object sender, EventArgs e)
 		{
 			orbitPanel.Antiliasing = cbxAntialiasing.Checked;
-			orbitPanel.Invalidate();
+			RefreshPanel();
 		}
 
 		private void cbxMagDist_CheckedChanged(object sender, EventArgs e)
 		{
 			orbitPanel.ShowDistance = cbxMagDist.Checked;
-			orbitPanel.Invalidate();
+			RefreshPanel();
 		}
 
 		private void cbxDateTime_CheckedChanged(object sender, EventArgs e)
 		{
 			orbitPanel.ShowDate = cbxDateTime.Checked;
-			orbitPanel.Invalidate();
+			RefreshPanel();
 		}
 
 		private void btnSaveImage_Click(object sender, EventArgs e)
@@ -858,7 +876,7 @@ namespace Comets.Application.ModulOrbit
 			{
 				string name = orbitPanel.SelectComet(e.Location);
 
-				if (name != null)
+				if (name != null && OVComets.Any(x => x.Name == name))
 					cboComet.SelectedIndex = OVComets.IndexOf(OVComets.First(x => x.Name == name));
 			}
 		}
@@ -873,6 +891,8 @@ namespace Comets.Application.ModulOrbit
 				{
 					cboComet.SelectedIndex = OVComets.IndexOf(OVComets.First(x => x.Name == name));
 
+					ValueChangedByEvent = true;
+
 					if (cbxSelectedOrbit.Checked && !cbxSelectedLabel.Checked)
 					{
 						cbxSelectedLabel.Checked = true;
@@ -886,6 +906,10 @@ namespace Comets.Application.ModulOrbit
 						cbxSelectedOrbit.Checked = !cbxSelectedOrbit.Checked;
 						cbxSelectedLabel.Checked = !cbxSelectedLabel.Checked;
 					}
+
+					ValueChangedByEvent = false;
+
+					RefreshPanel();
 				}
 			}
 		}
@@ -958,7 +982,7 @@ namespace Comets.Application.ModulOrbit
 			orbitPanel.RotateVert = (double)(270 - scrollVert.Value);
 
 			if (!ValueChangedByEvent)
-				orbitPanel.Invalidate();
+				RefreshPanel();
 		}
 
 		private void scrollHorz_ValueChanged(object sender, EventArgs e)
@@ -966,7 +990,7 @@ namespace Comets.Application.ModulOrbit
 			orbitPanel.RotateHorz = (double)(270 - scrollHorz.Value);
 
 			if (!ValueChangedByEvent)
-				orbitPanel.Invalidate();
+				RefreshPanel();
 		}
 
 		private void scrollZoom_ValueChanged(object sender, EventArgs e)
@@ -974,24 +998,41 @@ namespace Comets.Application.ModulOrbit
 			orbitPanel.Zoom = (double)scrollZoom.Value;
 
 			if (!ValueChangedByEvent)
-				orbitPanel.Invalidate();
+				RefreshPanel();
 		}
 
 		#endregion
 
 		#region Methods
 
-		private void BindList()
+		private void BindList(string name = null)
 		{
+			ValueChangedByEvent = true;
+
 			cboComet.DisplayMember = "Name";
 			cboComet.DataSource = OVComets;
+			cboComet.SelectedIndex = -1; //to force selectedIndexChanged below
 
-			if (OVComets.Any() && FormMain.UserList.Count == FormMain.MainList.Count)
+			ValueChangedByEvent = false;
+
+			if (OVComets.Any())
 			{
-				//comet with nearest perihelion date
-				OVComet c = OVComets.OrderBy(x => Math.Abs(x.T - DateTime.Now.JD())).First();
-				cboComet.SelectedIndex = OVComets.IndexOf(c);
+				if (name != null && OVComets.Any(x => x.Name == name))
+				{
+					cboComet.SelectedIndex = OVComets.IndexOf(OVComets.First(x => x.Name == name));
+				}
+				else if (FormMain.UserList.Count == FormMain.MainList.Count)
+				{
+					//comet with nearest perihelion date
+					OVComet c = OVComets.OrderBy(x => Math.Abs(x.T - DateTime.Now.JD())).First();
+					cboComet.SelectedIndex = OVComets.IndexOf(c);
+				}
 			}
+		}
+
+		private void RefreshPanel()
+		{
+			orbitPanel.Invalidate();
 		}
 
 		public void ShowToolbox(bool visible)
@@ -1015,12 +1056,13 @@ namespace Comets.Application.ModulOrbit
 			//if more comets than max number, then turn off orbit display for comets
 			if (orbitPanel.Comets.Count > OrbitPanel.MaximumOrbits)
 			{
+				bool tempChanged = ValueChangedByEvent;
 				ValueChangedByEvent = true;
 
 				cbxOrbitComet.Checked = false;
 				cbxLabelComet.Checked = false;
 
-				ValueChangedByEvent = false;
+				ValueChangedByEvent = tempChanged;
 			}
 		}
 

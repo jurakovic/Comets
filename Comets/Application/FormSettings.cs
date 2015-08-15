@@ -50,9 +50,6 @@ namespace Comets.Application
 			cbxNorthSouth.SelectedIndex = FormMain.Settings.Location.Latitude >= 0.0 ? 0 : 1;
 			txtLongitude.Text = (Math.Abs(FormMain.Settings.Location.Longitude)).ToString("0.000000");
 			cbxEastWest.SelectedIndex = FormMain.Settings.Location.Longitude >= 0.0 ? 0 : 1;
-			txtAltitude.Text = FormMain.Settings.Location.Altitude.ToString();
-			numTimezone.Value = FormMain.Settings.Location.Offset;
-			chDST.Checked = FormMain.Settings.Location.DST;
 
 			Programs = new BindingList<ExternalProgram>(FormMain.Settings.ExternalPrograms.OrderBy(x => x.Type).ToList());
 
@@ -99,9 +96,6 @@ namespace Comets.Application
 			if (cbxNorthSouth.SelectedIndex == 1) FormMain.Settings.Location.Latitude *= -1;
 			FormMain.Settings.Location.Longitude = txtLongitude.Double();
 			if (cbxEastWest.SelectedIndex == 1) FormMain.Settings.Location.Longitude *= -1;
-			FormMain.Settings.Location.Altitude = txtAltitude.Int();
-			FormMain.Settings.Location.Offset = numTimezone.Text.Int();
-			FormMain.Settings.Location.DST = chDST.Checked;
 
 			FormMain.Settings.ExternalPrograms = Programs.ToList();
 

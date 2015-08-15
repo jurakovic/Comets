@@ -1,7 +1,8 @@
-﻿using System;
+﻿using Comets.BusinessLayer.Extensions;
+using Comets.BusinessLayer.Managers;
+using System;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Comets.BusinessLayer.Extensions;
 
 namespace Comets.BusinessLayer.Business
 {
@@ -10,6 +11,7 @@ namespace Comets.BusinessLayer.Business
 		#region Const
 
 		public static string[] Month = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+		private static double MinimumMinutesForRefresh = 5;
 
 		#endregion
 
@@ -32,6 +34,10 @@ namespace Comets.BusinessLayer.Business
 		private double _k;
 		private double _sortkey;
 		private string _idKey;
+
+		private EphemerisResult _erPerihelion;
+		private EphemerisResult _erCurrent;
+		private DateTime _lastEphemerisUpdate;
 
 		#endregion
 
@@ -275,6 +281,56 @@ namespace Comets.BusinessLayer.Business
 		{
 			get { return _idKey; }
 			set { _idKey = value; }
+		}
+
+		private EphemerisResult PerihelionEphemeris
+		{
+			get
+			{
+				if (_erPerihelion == null)
+					_erPerihelion = EphemerisManager.GetEphemeris(this, T, Comets.Application.FormMain.Settings.Location);
+
+				return _erPerihelion;
+			}
+		}
+
+		private EphemerisResult CurrentEphemeris
+		{
+			get
+			{
+				if (_erCurrent == null || (DateTime.Now - _lastEphemerisUpdate).TotalMinutes > MinimumMinutesForRefresh)
+				{
+					_lastEphemerisUpdate = DateTime.Now;
+					_erCurrent = EphemerisManager.GetEphemeris(this, DateTime.Now.JD(), Comets.Application.FormMain.Settings.Location);
+				}
+
+				return _erCurrent;
+			}
+		}
+
+		public double PerihEarthDist
+		{
+			get { return PerihelionEphemeris.EarthDist; }
+		}
+
+		public double PerihMag
+		{
+			get { return PerihelionEphemeris.Magnitude; }
+		}
+
+		public double CurrentSunDist
+		{
+			get { return CurrentEphemeris.SunDist; }
+		}
+
+		public double CurrentEarthDist
+		{
+			get { return CurrentEphemeris.EarthDist; }
+		}
+
+		public double CurrentMag
+		{
+			get { return CurrentEphemeris.Magnitude; }
 		}
 
 		#endregion

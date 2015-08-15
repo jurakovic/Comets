@@ -83,6 +83,16 @@ namespace Comets.BusinessLayer.Extensions
 			return EphemerisManager.JD(dt);
 		}
 
+		/// <summary>
+		/// Returns UTC offset
+		/// </summary>
+		/// <param name="dt"></param>
+		/// <returns></returns>
+		public static double Timezone(this DateTime dt)
+		{
+			return TimeZone.CurrentTimeZone.GetUtcOffset(dt).Hours;
+		}
+
 		#endregion
 	}
 }

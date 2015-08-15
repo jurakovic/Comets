@@ -38,17 +38,17 @@ namespace Comets.OrbitViewer
 		/// <summary>
 		/// Argument of pericenter
 		/// </summary>
-		private double w { get; set; }
+		public double w { get; private set; }
 
 		/// <summary>
 		/// Ascending node
 		/// </summary>
-		private double N { get; set; }
+		public double N { get; private set; }
 
 		/// <summary>
 		/// Inclination
 		/// </summary>
-		private double i { get; set; }
+		public double i { get; private set; }
 		
 		/// <summary>
 		/// Absolute magnitude

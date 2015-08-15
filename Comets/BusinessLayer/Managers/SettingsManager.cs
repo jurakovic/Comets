@@ -71,15 +71,10 @@ namespace Comets.BusinessLayer.Managers
 								case "Name": settings.Location.Name = value; break;
 								case "Latitude": settings.Location.Latitude = value.Double(); break;
 								case "Longitude": settings.Location.Longitude = value.Double(); break;
-								case "Altitude": settings.Location.Altitude = value.Int(); break;
-								case "Timezone": settings.Location.Offset = value.Int(); break;
-								case "DST": settings.Location.DST = Convert.ToBoolean(value); break;
 
 								default:
 									if (ElementTypes.TypeName.Contains(property))
 										settings.ExternalPrograms.Add(new ExternalProgram(Array.IndexOf(ElementTypes.TypeName, property), value));
-									else if (exceptionCount++ < 3)
-										MessageBox.Show(String.Format("Unknown property \"{0}\"\t\t\t\t", property), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 									break;
 							}
 						}
@@ -161,9 +156,6 @@ namespace Comets.BusinessLayer.Managers
 			sb.AppendLine(String.Format(format, "Name", settings.Location.Name));
 			sb.AppendLine(String.Format(format, "Latitude", settings.Location.Latitude.ToString("0.000000")));
 			sb.AppendLine(String.Format(format, "Longitude", settings.Location.Longitude.ToString("0.000000")));
-			sb.AppendLine(String.Format(format, "Altitude", settings.Location.Altitude));
-			sb.AppendLine(String.Format(format, "Timezone", settings.Location.Offset));
-			sb.AppendLine(String.Format(format, "DST", settings.Location.DST));
 			sb.AppendLine();
 
 			if (settings.ExternalPrograms.Any())
