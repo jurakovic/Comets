@@ -177,16 +177,16 @@ namespace Comets.Application
 			if (pnlFilters.Visible)
 				InvertPanelsVisibility();
 			else
-				InvertGroupBoxVisibility();
+				InvertTabs();
 		}
 
 		#endregion
 
-		#region btnInfoOrbitalElements_Click
+		#region tbcDetails_SelectedIndexChanged
 
-		private void btnInfoOrbitalElements_Click(object sender, EventArgs e)
+		private void tbcDetails_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			InvertGroupBoxVisibility();
+			ApllyContextMenuVisibility();
 		}
 
 		#endregion
@@ -195,26 +195,31 @@ namespace Comets.Application
 
 		private void ApllyContextMenuVisibility()
 		{
-			mnuIncl.Visible = gbxOrbitalElements.Visible;
-			mnuEcc.Visible = gbxOrbitalElements.Visible;
-			mnuAscNode.Visible = gbxOrbitalElements.Visible;
-			mnuArgPeri.Visible = gbxOrbitalElements.Visible;
+			mnuIncl.Visible = tbcDetails.SelectedIndex == 1;
+			mnuEcc.Visible = tbcDetails.SelectedIndex == 1;
+			mnuAscNode.Visible = tbcDetails.SelectedIndex == 1;
+			mnuArgPeri.Visible = tbcDetails.SelectedIndex == 1;
 
-			mnuPerihEarthDist.Visible = gbxInfo.Visible || pnlFilters.Visible;
-			mnuCurrSunDist.Visible = gbxInfo.Visible || pnlFilters.Visible;
-			mnuCurrEarthDist.Visible = gbxInfo.Visible || pnlFilters.Visible;
-			mnuPerihMag.Visible = gbxInfo.Visible || pnlFilters.Visible;
-			mnuCurrMag.Visible = gbxInfo.Visible || pnlFilters.Visible;
+			mnuPerihEarthDist.Visible = tbcDetails.SelectedIndex == 0 || pnlFilters.Visible;
+			mnuCurrSunDist.Visible = tbcDetails.SelectedIndex == 0 || pnlFilters.Visible;
+			mnuCurrEarthDist.Visible = tbcDetails.SelectedIndex == 0 || pnlFilters.Visible;
+			mnuPerihMag.Visible = tbcDetails.SelectedIndex == 0 || pnlFilters.Visible;
+			mnuCurrMag.Visible = tbcDetails.SelectedIndex == 0 || pnlFilters.Visible;
 		}
 
 		#endregion
 
-		#region InvertGroupBoxVisibility
+		#region InvertTabs
 
-		private void InvertGroupBoxVisibility()
+		private void InvertTabs()
 		{
-			gbxInfo.Visible = !gbxInfo.Visible;
-			gbxOrbitalElements.Visible = !gbxOrbitalElements.Visible;
+			if (tbcDetails.SelectedIndex == 0)
+				tbcDetails.SelectedIndex = 1;
+			else
+				tbcDetails.SelectedIndex = 0;
+
+			lbxDatabase.Focus();
+
 			ApllyContextMenuVisibility();
 		}
 
@@ -312,9 +317,10 @@ namespace Comets.Application
 
 			//clear textboxes if no comets
 			if (!Comets.Any())
-				foreach (Control c in gbxOrbitalElements.Controls)
-					if (c is TextBox)
-						c.Text = String.Empty;
+				foreach (TabPage t in tbcDetails.TabPages)
+					foreach (Control c in t.Controls)
+						if (c is TextBox)
+							c.Text = String.Empty;
 
 			lbxDatabase.DataSource = Comets;
 			lbxDatabase.DisplayMember = "full";
