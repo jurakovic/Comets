@@ -61,23 +61,11 @@ namespace Comets.BusinessLayer.Managers
 
 		public async static Task<SettingsBase> CalculateEphemerisAsync(SettingsBase settings, IProgress<int> progress)
 		{
-			decimal jd0 = (decimal)settings.Start.JD();
-			decimal jdMax = (decimal)settings.Stop.JD();
-			decimal interval = (decimal)settings.Interval;
-
 			await Task.Run(() =>
 			{
 				if (!settings.IsMultipleMode || settings.Comets.Count == 1)
 				{
-					decimal jd = jd0;
-					List<EphemerisResult> erList = new List<EphemerisResult>();
-					while (jd <= jdMax)
-					{
-						EphemerisResult er = GetEphemeris(settings.SelectedComet, (double)jd, settings.Location);
-						erList.Add(er);
-						jd += interval;
-					}
-					settings.Results.Add(settings.SelectedComet, erList);
+					CalculateEphemeris(settings, settings.SelectedComet);
 				}
 				else
 				{
@@ -85,21 +73,46 @@ namespace Comets.BusinessLayer.Managers
 					foreach (Comet comet in settings.Comets)
 					{
 						progress.Report(i++);
-
-						decimal jd = jd0;
-						List<EphemerisResult> erList = new List<EphemerisResult>();
-						while (jd <= jdMax)
-						{
-							EphemerisResult er = GetEphemeris(comet, (double)jd, settings.Location);
-							erList.Add(er);
-							jd += interval;
-						}
-						settings.Results.Add(comet, erList);
+						CalculateEphemeris(settings, comet);
 					}
 				}
 			});
 
 			return settings;
+		}
+
+		private static void CalculateEphemeris(SettingsBase settings, Comet comet)
+		{
+			decimal jd = (decimal)settings.Start.JD();
+			decimal jdMax = (decimal)settings.Stop.JD();
+			decimal interval = (decimal)settings.Interval;
+
+			List<EphemerisResult> erList = new List<EphemerisResult>();
+			while (jd <= jdMax)
+			{
+				bool ch1 = true;
+				bool ch2 = true;
+				bool ch3 = true;
+
+				EphemerisResult er = GetEphemeris(comet, (double)jd, settings.Location);
+
+				if (settings.MinMagnitudeChecked)
+					ch1 = er.Magnitude <= settings.MinMagnitudeValue;
+
+				if (settings.MaxSunDistChecked)
+					ch2 = er.SunDist <= settings.MaxSunDistValue;
+
+				if (settings.MaxEarthDistChecked)
+					ch3 = er.EarthDist <= settings.MaxEarthDistValue;
+
+				if (ch1 && ch2 && ch3)
+					erList.Add(er);
+
+				jd += interval;
+			}
+
+			if (erList.Count > 0)
+				settings.Results.Add(comet, erList);
 		}
 
 		#endregion

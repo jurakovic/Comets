@@ -22,6 +22,18 @@ namespace Comets.BusinessLayer.Business
 		public Dictionary<Comet, List<EphemerisResult>> Results { get; set; }
 		public bool AddNew { get; set; }
 
+		public bool MaxSunDistChecked { get; set; }
+		public double? MaxSunDistValue { get; set; }
+
+		public bool MaxEarthDistChecked { get; set; }
+		public double? MaxEarthDistValue { get; set; }
+
+		public bool MinMagnitudeChecked { get; set; }
+		public double? MinMagnitudeValue { get; set; }
+
+		public bool MaxMagnitudeChecked { get; set; }
+		public double? MaxMagnitudeValue { get; set; }
+
 		#endregion
 
 		#region Methods

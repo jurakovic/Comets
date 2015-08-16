@@ -63,17 +63,26 @@
 			this.lblMultipleCount = new System.Windows.Forms.Label();
 			this.rbtnMultiple = new System.Windows.Forms.RadioButton();
 			this.rbtnSingle = new System.Windows.Forms.RadioButton();
+			this.gbxRequirements = new System.Windows.Forms.GroupBox();
+			this.txtMinMag = new System.Windows.Forms.TextBox();
+			this.txtMaxEarthDist = new System.Windows.Forms.TextBox();
+			this.txtMaxSunDist = new System.Windows.Forms.TextBox();
+			this.cbxMinMag = new System.Windows.Forms.CheckBox();
+			this.cbxMaxEarthDist = new System.Windows.Forms.CheckBox();
+			this.cbxMaxSunDist = new System.Windows.Forms.CheckBox();
 			this.gbxSelectComet.SuspendLayout();
 			this.gbxTimestamp.SuspendLayout();
 			this.gbxOutputData.SuspendLayout();
 			this.gbxMode.SuspendLayout();
+			this.gbxRequirements.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// btnOk
 			// 
 			this.btnOk.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
+			this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnOk.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.btnOk.Location = new System.Drawing.Point(540, 314);
+			this.btnOk.Location = new System.Drawing.Point(601, 314);
 			this.btnOk.Name = "btnOk";
 			this.btnOk.Size = new System.Drawing.Size(100, 24);
 			this.btnOk.TabIndex = 3;
@@ -159,14 +168,14 @@
 			this.gbxTimestamp.Controls.Add(this.label4);
 			this.gbxTimestamp.Location = new System.Drawing.Point(465, 6);
 			this.gbxTimestamp.Name = "gbxTimestamp";
-			this.gbxTimestamp.Size = new System.Drawing.Size(281, 135);
+			this.gbxTimestamp.Size = new System.Drawing.Size(341, 135);
 			this.gbxTimestamp.TabIndex = 1;
 			this.gbxTimestamp.TabStop = false;
 			this.gbxTimestamp.Text = "Timespan (Local Time)";
 			// 
 			// btnEndDate
 			// 
-			this.btnEndDate.Location = new System.Drawing.Point(87, 49);
+			this.btnEndDate.Location = new System.Drawing.Point(146, 50);
 			this.btnEndDate.Name = "btnEndDate";
 			this.btnEndDate.Size = new System.Drawing.Size(172, 23);
 			this.btnEndDate.TabIndex = 308;
@@ -176,7 +185,7 @@
 			// 
 			// btnStartDate
 			// 
-			this.btnStartDate.Location = new System.Drawing.Point(87, 20);
+			this.btnStartDate.Location = new System.Drawing.Point(146, 21);
 			this.btnStartDate.Name = "btnStartDate";
 			this.btnStartDate.Size = new System.Drawing.Size(172, 23);
 			this.btnStartDate.TabIndex = 307;
@@ -186,7 +195,7 @@
 			// 
 			// txtMinInterval
 			// 
-			this.txtMinInterval.Location = new System.Drawing.Point(191, 78);
+			this.txtMinInterval.Location = new System.Drawing.Point(250, 79);
 			this.txtMinInterval.Name = "txtMinInterval";
 			this.txtMinInterval.Size = new System.Drawing.Size(42, 21);
 			this.txtMinInterval.TabIndex = 14;
@@ -196,7 +205,7 @@
 			// 
 			// txtHourInterval
 			// 
-			this.txtHourInterval.Location = new System.Drawing.Point(143, 78);
+			this.txtHourInterval.Location = new System.Drawing.Point(202, 79);
 			this.txtHourInterval.Name = "txtHourInterval";
 			this.txtHourInterval.Size = new System.Drawing.Size(42, 21);
 			this.txtHourInterval.TabIndex = 13;
@@ -206,7 +215,7 @@
 			// 
 			// txtDayInterval
 			// 
-			this.txtDayInterval.Location = new System.Drawing.Point(87, 78);
+			this.txtDayInterval.Location = new System.Drawing.Point(146, 79);
 			this.txtDayInterval.Name = "txtDayInterval";
 			this.txtDayInterval.Size = new System.Drawing.Size(42, 21);
 			this.txtDayInterval.TabIndex = 12;
@@ -216,7 +225,7 @@
 			// 
 			// btnTimespanIntervalDefault
 			// 
-			this.btnTimespanIntervalDefault.Location = new System.Drawing.Point(239, 81);
+			this.btnTimespanIntervalDefault.Location = new System.Drawing.Point(298, 82);
 			this.btnTimespanIntervalDefault.Name = "btnTimespanIntervalDefault";
 			this.btnTimespanIntervalDefault.Size = new System.Drawing.Size(16, 16);
 			this.btnTimespanIntervalDefault.TabIndex = 15;
@@ -266,7 +275,7 @@
 			this.gbxOutputData.Controls.Add(this.chRA);
 			this.gbxOutputData.Location = new System.Drawing.Point(12, 147);
 			this.gbxOutputData.Name = "gbxOutputData";
-			this.gbxOutputData.Size = new System.Drawing.Size(734, 149);
+			this.gbxOutputData.Size = new System.Drawing.Size(583, 149);
 			this.gbxOutputData.TabIndex = 2;
 			this.gbxOutputData.TabStop = false;
 			this.gbxOutputData.Text = "Output data";
@@ -298,7 +307,7 @@
 			this.chMag.AutoSize = true;
 			this.chMag.Checked = true;
 			this.chMag.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chMag.Location = new System.Drawing.Point(525, 89);
+			this.chMag.Location = new System.Drawing.Point(451, 89);
 			this.chMag.Name = "chMag";
 			this.chMag.Size = new System.Drawing.Size(76, 17);
 			this.chMag.TabIndex = 11;
@@ -310,7 +319,7 @@
 			this.chGeoDist.AutoSize = true;
 			this.chGeoDist.Checked = true;
 			this.chGeoDist.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chGeoDist.Location = new System.Drawing.Point(525, 47);
+			this.chGeoDist.Location = new System.Drawing.Point(451, 47);
 			this.chGeoDist.Name = "chGeoDist";
 			this.chGeoDist.Size = new System.Drawing.Size(120, 17);
 			this.chGeoDist.TabIndex = 10;
@@ -322,7 +331,7 @@
 			this.chHelioDist.AutoSize = true;
 			this.chHelioDist.Checked = true;
 			this.chHelioDist.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chHelioDist.Location = new System.Drawing.Point(525, 22);
+			this.chHelioDist.Location = new System.Drawing.Point(451, 22);
 			this.chHelioDist.Name = "chHelioDist";
 			this.chHelioDist.Size = new System.Drawing.Size(124, 17);
 			this.chHelioDist.TabIndex = 9;
@@ -334,7 +343,7 @@
 			this.chElong.AutoSize = true;
 			this.chElong.Checked = true;
 			this.chElong.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chElong.Location = new System.Drawing.Point(350, 89);
+			this.chElong.Location = new System.Drawing.Point(300, 89);
 			this.chElong.Name = "chElong";
 			this.chElong.Size = new System.Drawing.Size(76, 17);
 			this.chElong.TabIndex = 8;
@@ -344,7 +353,7 @@
 			// chEcLat
 			// 
 			this.chEcLat.AutoSize = true;
-			this.chEcLat.Location = new System.Drawing.Point(350, 47);
+			this.chEcLat.Location = new System.Drawing.Point(300, 47);
 			this.chEcLat.Name = "chEcLat";
 			this.chEcLat.Size = new System.Drawing.Size(100, 17);
 			this.chEcLat.TabIndex = 7;
@@ -354,7 +363,7 @@
 			// chEcLon
 			// 
 			this.chEcLon.AutoSize = true;
-			this.chEcLon.Location = new System.Drawing.Point(350, 22);
+			this.chEcLon.Location = new System.Drawing.Point(300, 22);
 			this.chEcLon.Name = "chEcLon";
 			this.chEcLon.Size = new System.Drawing.Size(108, 17);
 			this.chEcLon.TabIndex = 6;
@@ -366,7 +375,7 @@
 			this.chAz.AutoSize = true;
 			this.chAz.Checked = true;
 			this.chAz.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chAz.Location = new System.Drawing.Point(172, 113);
+			this.chAz.Location = new System.Drawing.Point(147, 113);
 			this.chAz.Name = "chAz";
 			this.chAz.Size = new System.Drawing.Size(87, 17);
 			this.chAz.TabIndex = 5;
@@ -378,7 +387,7 @@
 			this.chAlt.AutoSize = true;
 			this.chAlt.Checked = true;
 			this.chAlt.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chAlt.Location = new System.Drawing.Point(172, 89);
+			this.chAlt.Location = new System.Drawing.Point(147, 89);
 			this.chAlt.Name = "chAlt";
 			this.chAlt.Size = new System.Drawing.Size(87, 17);
 			this.chAlt.TabIndex = 4;
@@ -390,7 +399,7 @@
 			this.chDec.AutoSize = true;
 			this.chDec.Checked = true;
 			this.chDec.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chDec.Location = new System.Drawing.Point(172, 46);
+			this.chDec.Location = new System.Drawing.Point(147, 47);
 			this.chDec.Name = "chDec";
 			this.chDec.Size = new System.Drawing.Size(107, 17);
 			this.chDec.TabIndex = 3;
@@ -402,7 +411,7 @@
 			this.chRA.AutoSize = true;
 			this.chRA.Checked = true;
 			this.chRA.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chRA.Location = new System.Drawing.Point(172, 22);
+			this.chRA.Location = new System.Drawing.Point(147, 22);
 			this.chRA.Name = "chRA";
 			this.chRA.Size = new System.Drawing.Size(126, 17);
 			this.chRA.TabIndex = 2;
@@ -411,8 +420,9 @@
 			// 
 			// btnCancel
 			// 
+			this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.btnCancel.Location = new System.Drawing.Point(646, 314);
+			this.btnCancel.Location = new System.Drawing.Point(707, 314);
 			this.btnCancel.Name = "btnCancel";
 			this.btnCancel.Size = new System.Drawing.Size(100, 24);
 			this.btnCancel.TabIndex = 4;
@@ -462,13 +472,89 @@
 			this.rbtnSingle.Text = "Single";
 			this.rbtnSingle.UseVisualStyleBackColor = true;
 			// 
+			// gbxRequirements
+			// 
+			this.gbxRequirements.Controls.Add(this.txtMinMag);
+			this.gbxRequirements.Controls.Add(this.txtMaxEarthDist);
+			this.gbxRequirements.Controls.Add(this.txtMaxSunDist);
+			this.gbxRequirements.Controls.Add(this.cbxMinMag);
+			this.gbxRequirements.Controls.Add(this.cbxMaxEarthDist);
+			this.gbxRequirements.Controls.Add(this.cbxMaxSunDist);
+			this.gbxRequirements.Location = new System.Drawing.Point(601, 147);
+			this.gbxRequirements.Name = "gbxRequirements";
+			this.gbxRequirements.Size = new System.Drawing.Size(205, 149);
+			this.gbxRequirements.TabIndex = 6;
+			this.gbxRequirements.TabStop = false;
+			this.gbxRequirements.Text = "Requirements";
+			// 
+			// txtMinMag
+			// 
+			this.txtMinMag.Location = new System.Drawing.Point(140, 87);
+			this.txtMinMag.Name = "txtMinMag";
+			this.txtMinMag.Size = new System.Drawing.Size(59, 21);
+			this.txtMinMag.TabIndex = 15;
+			this.txtMinMag.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.txtMinMag.TextChanged += new System.EventHandler(this.txtMinMag_TextChanged);
+			this.txtMinMag.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMinMag_KeyPress);
+			// 
+			// txtMaxEarthDist
+			// 
+			this.txtMaxEarthDist.Location = new System.Drawing.Point(140, 45);
+			this.txtMaxEarthDist.Name = "txtMaxEarthDist";
+			this.txtMaxEarthDist.Size = new System.Drawing.Size(59, 21);
+			this.txtMaxEarthDist.TabIndex = 14;
+			this.txtMaxEarthDist.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.txtMaxEarthDist.TextChanged += new System.EventHandler(this.txtMaxEarthDist_TextChanged);
+			this.txtMaxEarthDist.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMaxDistCommon_KeyPress);
+			// 
+			// txtMaxSunDist
+			// 
+			this.txtMaxSunDist.Location = new System.Drawing.Point(140, 20);
+			this.txtMaxSunDist.Name = "txtMaxSunDist";
+			this.txtMaxSunDist.Size = new System.Drawing.Size(59, 21);
+			this.txtMaxSunDist.TabIndex = 13;
+			this.txtMaxSunDist.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.txtMaxSunDist.TextChanged += new System.EventHandler(this.txtMaxSunDist_TextChanged);
+			this.txtMaxSunDist.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMaxDistCommon_KeyPress);
+			// 
+			// cbxMinMag
+			// 
+			this.cbxMinMag.AutoSize = true;
+			this.cbxMinMag.Location = new System.Drawing.Point(10, 89);
+			this.cbxMinMag.Name = "cbxMinMag";
+			this.cbxMinMag.Size = new System.Drawing.Size(93, 17);
+			this.cbxMinMag.TabIndex = 2;
+			this.cbxMinMag.Text = "Minimum Mag.";
+			this.cbxMinMag.UseVisualStyleBackColor = true;
+			// 
+			// cbxMaxEarthDist
+			// 
+			this.cbxMaxEarthDist.AutoSize = true;
+			this.cbxMaxEarthDist.Location = new System.Drawing.Point(10, 48);
+			this.cbxMaxEarthDist.Name = "cbxMaxEarthDist";
+			this.cbxMaxEarthDist.Size = new System.Drawing.Size(123, 17);
+			this.cbxMaxEarthDist.TabIndex = 1;
+			this.cbxMaxEarthDist.Text = "Maximum Earth dist.";
+			this.cbxMaxEarthDist.UseVisualStyleBackColor = true;
+			// 
+			// cbxMaxSunDist
+			// 
+			this.cbxMaxSunDist.AutoSize = true;
+			this.cbxMaxSunDist.Location = new System.Drawing.Point(10, 22);
+			this.cbxMaxSunDist.Name = "cbxMaxSunDist";
+			this.cbxMaxSunDist.Size = new System.Drawing.Size(115, 17);
+			this.cbxMaxSunDist.TabIndex = 0;
+			this.cbxMaxSunDist.Text = "Maximum Sun dist.";
+			this.cbxMaxSunDist.UseVisualStyleBackColor = true;
+			// 
 			// FormEphemerisSettings
 			// 
 			this.AcceptButton = this.btnOk;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.btnCancel;
-			this.ClientSize = new System.Drawing.Size(757, 355);
+			this.ClientSize = new System.Drawing.Size(818, 355);
+			this.Controls.Add(this.gbxRequirements);
 			this.Controls.Add(this.gbxMode);
 			this.Controls.Add(this.gbxOutputData);
 			this.Controls.Add(this.gbxTimestamp);
@@ -493,6 +579,8 @@
 			this.gbxOutputData.PerformLayout();
 			this.gbxMode.ResumeLayout(false);
 			this.gbxMode.PerformLayout();
+			this.gbxRequirements.ResumeLayout(false);
+			this.gbxRequirements.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -534,5 +622,12 @@
 		private System.Windows.Forms.RadioButton rbtnMultiple;
 		private System.Windows.Forms.RadioButton rbtnSingle;
 		private System.Windows.Forms.Label lblMultipleCount;
+		private System.Windows.Forms.GroupBox gbxRequirements;
+		private System.Windows.Forms.TextBox txtMinMag;
+		private System.Windows.Forms.TextBox txtMaxEarthDist;
+		private System.Windows.Forms.TextBox txtMaxSunDist;
+		private System.Windows.Forms.CheckBox cbxMinMag;
+		private System.Windows.Forms.CheckBox cbxMaxEarthDist;
+		private System.Windows.Forms.CheckBox cbxMaxSunDist;
 	}
 }

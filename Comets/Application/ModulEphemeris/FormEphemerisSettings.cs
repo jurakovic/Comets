@@ -85,6 +85,15 @@ namespace Comets.Application.ModulEphemeris
 				chAz.Checked = EphemerisSettings.Az;
 				chElong.Checked = EphemerisSettings.Elongation;
 				chMag.Checked = EphemerisSettings.Magnitude;
+
+				txtMaxSunDist.Text = EphemerisSettings.MaxSunDistValue != null ? EphemerisSettings.MaxSunDistValue.Value.ToString() : String.Empty;
+				cbxMaxSunDist.Checked = EphemerisSettings.MaxSunDistChecked;
+
+				txtMaxEarthDist.Text = EphemerisSettings.MaxEarthDistValue != null ? EphemerisSettings.MaxEarthDistValue.Value.ToString() : String.Empty;
+				cbxMaxEarthDist.Checked = EphemerisSettings.MaxEarthDistChecked;
+
+				txtMinMag.Text = EphemerisSettings.MinMagnitudeValue != null ? EphemerisSettings.MinMagnitudeValue.Value.ToString() : String.Empty;
+				cbxMinMag.Checked = EphemerisSettings.MinMagnitudeChecked;
 			}
 		}
 
@@ -158,6 +167,24 @@ namespace Comets.Application.ModulEphemeris
 		{
 			if (cbComet.SelectedIndex >= 0)
 			{
+				if (cbxMaxSunDist.Checked && txtMaxSunDist.TextLength == 0)
+				{
+					MessageBox.Show("Please enter Maximum Sun distance value\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					return;
+				}
+
+				if (cbxMaxEarthDist.Checked && txtMaxEarthDist.TextLength == 0)
+				{
+					MessageBox.Show("Please enter Maximum Earth distance value\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					return;
+				}
+
+				if (cbxMinMag.Checked && txtMinMag.TextLength == 0)
+				{
+					MessageBox.Show("Please enter Minimum magnitude value\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					return;
+				}
+
 				if (DateEnd < DateStart)
 				{
 					MessageBox.Show("End date is less than start date\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -202,6 +229,15 @@ namespace Comets.Application.ModulEphemeris
 				EphemerisSettings.Elongation = chElong.Checked;
 				EphemerisSettings.Magnitude = chMag.Checked;
 
+				EphemerisSettings.MaxSunDistChecked = cbxMaxSunDist.Checked;
+				EphemerisSettings.MaxSunDistValue = txtMaxSunDist.TextLength > 0 ? (double?)txtMaxSunDist.Double() : null;
+
+				EphemerisSettings.MaxEarthDistChecked = cbxMaxEarthDist.Checked;
+				EphemerisSettings.MaxEarthDistValue = txtMaxEarthDist.TextLength > 0 ? (double?)txtMaxEarthDist.Double() : null;
+
+				EphemerisSettings.MinMagnitudeChecked = cbxMinMag.Checked;
+				EphemerisSettings.MinMagnitudeValue = txtMinMag.TextLength > 0 ? (double?)txtMinMag.Double() : null;
+
 				if (!FormMain.Settings.IgnoreLongCalculationWarning && !SettingsBase.ValidateCalculationAmount(EphemerisSettings))
 					return;
 
@@ -215,7 +251,7 @@ namespace Comets.Application.ModulEphemeris
 
 				await EphemerisManager.CalculateEphemerisAsync(EphemerisSettings, FormMain.Progress);
 
-				if (EphemerisSettings.AddNew && EphemerisSettings.SelectedComet != null)
+				if (EphemerisSettings.AddNew)
 				{
 					FormEphemeris fe = new FormEphemeris(EphemerisSettings) { Owner = this.Owner };
 					fe.MdiParent = this.Owner;
@@ -223,7 +259,7 @@ namespace Comets.Application.ModulEphemeris
 					await fe.LoadResultsAsync();
 					fe.Show();
 				}
-				else if (EphemerisSettings.Results != null && EphemerisSettings.Results.Any())
+				else
 				{
 					FormEphemeris fe = this.Owner.ActiveMdiChild as FormEphemeris;
 					fe.EphemerisSettings = this.EphemerisSettings;
@@ -288,6 +324,35 @@ namespace Comets.Application.ModulEphemeris
 			txtDayInterval.Text = "1";
 			txtHourInterval.Text = "0";
 			txtMinInterval.Text = "0";
+		}
+
+		#endregion
+
+		#region Requirements
+
+		private void txtMaxDistCommon_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			e.Handled = Utils.HandleKeyPress(sender, e, 1, 2, 0, 9.99);
+		}
+
+		private void txtMinMag_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			e.Handled = Utils.HandleKeyPress(sender, e, 2, 2, -20, 40);
+		}
+
+		private void txtMaxSunDist_TextChanged(object sender, EventArgs e)
+		{
+			cbxMaxSunDist.Checked = txtMaxSunDist.TextLength > 0;
+		}
+
+		private void txtMaxEarthDist_TextChanged(object sender, EventArgs e)
+		{
+			cbxMaxEarthDist.Checked = txtMaxEarthDist.TextLength > 0;
+		}
+
+		private void txtMinMag_TextChanged(object sender, EventArgs e)
+		{
+			cbxMinMag.Checked = txtMinMag.TextLength > 0;
 		}
 
 		#endregion
