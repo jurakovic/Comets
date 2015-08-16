@@ -59,7 +59,7 @@ namespace Comets.BusinessLayer.Business
 				}
 				else if (_property == PropertyEnum.PerihelionDate)
 				{
-					_value = DateTime.ParseExact(_text, "dd.MM.yyyy HH:mm:ss", CultureInfo.InvariantCulture).ToUniversalTime().JD();
+					_value = DateTime.ParseExact(_text, "dd.MM.yyyy HH:mm:ss", CultureInfo.InvariantCulture).JD();
 				}
 				else
 				{

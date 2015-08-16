@@ -38,6 +38,7 @@ namespace Comets.BusinessLayer.Business
 		private EphemerisResult _erPerihelion;
 		private EphemerisResult _erCurrent;
 		private DateTime _lastEphemerisUpdate;
+		private double? _nextT;
 
 		#endregion
 
@@ -283,18 +284,18 @@ namespace Comets.BusinessLayer.Business
 			set { _idKey = value; }
 		}
 
-		private EphemerisResult PerihelionEphemeris
+		public EphemerisResult PerihelionEphemeris
 		{
 			get
 			{
 				if (_erPerihelion == null)
-					_erPerihelion = EphemerisManager.GetEphemeris(this, T, Comets.Application.FormMain.Settings.Location);
+					_erPerihelion = EphemerisManager.GetEphemeris(this, NextT, Comets.Application.FormMain.Settings.Location);
 
 				return _erPerihelion;
 			}
 		}
 
-		private EphemerisResult CurrentEphemeris
+		public EphemerisResult CurrentEphemeris
 		{
 			get
 			{
@@ -331,6 +332,34 @@ namespace Comets.BusinessLayer.Business
 		public double CurrentMag
 		{
 			get { return CurrentEphemeris.Magnitude; }
+		}
+
+		public double NextT
+		{
+			get
+			{
+				if (_nextT == null)
+				{
+					double nextT = T;
+
+					if (IsPeriodic)
+					{
+						double period = P * 365.25;
+						double now = DateTime.Now.JD();
+
+						while (nextT < now)
+							nextT += period;
+
+						//if actual T is closer to now than nextT, then choose T instead
+						if (nextT - now > now - T)
+							nextT = T;
+					}
+
+					_nextT = nextT;
+				}
+
+				return _nextT.GetValueOrDefault();
+			}
 		}
 
 		#endregion

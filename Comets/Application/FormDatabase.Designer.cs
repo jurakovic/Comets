@@ -83,6 +83,7 @@
 			this.contextSort = new System.Windows.Forms.ContextMenu();
 			this.mnuDesig = new System.Windows.Forms.MenuItem();
 			this.mnuName = new System.Windows.Forms.MenuItem();
+			this.mnuNextPerihDate = new System.Windows.Forms.MenuItem();
 			this.mnuPerihDate = new System.Windows.Forms.MenuItem();
 			this.mnuPeriod = new System.Windows.Forms.MenuItem();
 			this.mnuPerihDist = new System.Windows.Forms.MenuItem();
@@ -100,32 +101,53 @@
 			this.mnuDesc = new System.Windows.Forms.MenuItem();
 			this.btnFiltersApply = new System.Windows.Forms.Button();
 			this.pnlDetails = new System.Windows.Forms.Panel();
-			this.lblInfoPerihEarthDistAU = new System.Windows.Forms.Label();
-			this.lblInfoAphDist = new System.Windows.Forms.Label();
-			this.lblInfoAphSunDistAU = new System.Windows.Forms.Label();
-			this.txtInfoAphSunDist = new System.Windows.Forms.TextBox();
-			this.lblInfoName = new System.Windows.Forms.Label();
-			this.lblInfoPerihMag = new System.Windows.Forms.Label();
-			this.txtInfoPeriod = new System.Windows.Forms.TextBox();
-			this.lblInfoPeriodYears = new System.Windows.Forms.Label();
-			this.txtInfoPerihDate = new System.Windows.Forms.TextBox();
-			this.lblInfoPerihDate = new System.Windows.Forms.Label();
+			this.tbcDetails = new System.Windows.Forms.TabControl();
+			this.tbpEphemeris = new System.Windows.Forms.TabPage();
+			this.lblEphemAzIndicator = new System.Windows.Forms.Label();
+			this.lblEphemDecIndicator = new System.Windows.Forms.Label();
+			this.lblEphemSunDistIndicator = new System.Windows.Forms.Label();
+			this.lblEphemMagIndicator = new System.Windows.Forms.Label();
+			this.lblEphemEarthDistIndicator = new System.Windows.Forms.Label();
+			this.lblEphemElongationIndicator = new System.Windows.Forms.Label();
+			this.lblEphemAltIndicator = new System.Windows.Forms.Label();
+			this.lblEphemRaIndicator = new System.Windows.Forms.Label();
+			this.lblEphemRA = new System.Windows.Forms.Label();
+			this.lblEphemAlt = new System.Windows.Forms.Label();
+			this.lblEphemAz = new System.Windows.Forms.Label();
+			this.lblEphemElongation = new System.Windows.Forms.Label();
+			this.txtEphemAz = new System.Windows.Forms.TextBox();
+			this.txtEphemDec = new System.Windows.Forms.TextBox();
+			this.txtEphemAlt = new System.Windows.Forms.TextBox();
+			this.txtEphemRA = new System.Windows.Forms.TextBox();
+			this.txtEphemElongation = new System.Windows.Forms.TextBox();
+			this.lblEphemDec = new System.Windows.Forms.Label();
 			this.txtInfoName = new System.Windows.Forms.TextBox();
+			this.lblInfoPerihEarthDistAU = new System.Windows.Forms.Label();
+			this.txtInfoCurrMag = new System.Windows.Forms.TextBox();
+			this.lblInfoAphDist = new System.Windows.Forms.Label();
+			this.lblInfoPerihDist = new System.Windows.Forms.Label();
+			this.lblInfoAphSunDistAU = new System.Windows.Forms.Label();
+			this.lblInfoPerihDistAU = new System.Windows.Forms.Label();
+			this.txtInfoAphSunDist = new System.Windows.Forms.TextBox();
+			this.lblInfoPerihEarthDist = new System.Windows.Forms.Label();
+			this.lblInfoName = new System.Windows.Forms.Label();
+			this.lblInfoCurrEarthDist = new System.Windows.Forms.Label();
+			this.lblInfoPerihMag = new System.Windows.Forms.Label();
+			this.lblInfoCurrEarthDistAU = new System.Windows.Forms.Label();
+			this.txtInfoPeriod = new System.Windows.Forms.TextBox();
+			this.lblInfoCurrMagg = new System.Windows.Forms.Label();
+			this.lblInfoPeriodYears = new System.Windows.Forms.Label();
+			this.txtInfoCurrEarthDist = new System.Windows.Forms.TextBox();
+			this.txtInfoNextPerihDate = new System.Windows.Forms.TextBox();
+			this.txtInfoCurrSunDist = new System.Windows.Forms.TextBox();
+			this.lblInfoNextPerihDate = new System.Windows.Forms.Label();
+			this.txtInfoPerihEarthDist = new System.Windows.Forms.TextBox();
+			this.lblInfoCurrSunDistAU = new System.Windows.Forms.Label();
 			this.lblInfoPeriod = new System.Windows.Forms.Label();
+			this.txtInfoPerihDist = new System.Windows.Forms.TextBox();
 			this.txtInfoPerihMag = new System.Windows.Forms.TextBox();
 			this.lblInfoCurrSunDist = new System.Windows.Forms.Label();
-			this.txtInfoPerihDist = new System.Windows.Forms.TextBox();
-			this.lblInfoCurrSunDistAU = new System.Windows.Forms.Label();
-			this.txtInfoPerihEarthDist = new System.Windows.Forms.TextBox();
-			this.txtInfoCurrSunDist = new System.Windows.Forms.TextBox();
-			this.txtInfoCurrEarthDist = new System.Windows.Forms.TextBox();
-			this.lblInfoCurrMagg = new System.Windows.Forms.Label();
-			this.lblInfoCurrEarthDistAU = new System.Windows.Forms.Label();
-			this.lblInfoCurrEarthDist = new System.Windows.Forms.Label();
-			this.lblInfoPerihEarthDist = new System.Windows.Forms.Label();
-			this.lblInfoPerihDistAU = new System.Windows.Forms.Label();
-			this.lblInfoPerihDist = new System.Windows.Forms.Label();
-			this.txtInfoCurrMag = new System.Windows.Forms.TextBox();
+			this.tbpElements = new System.Windows.Forms.TabPage();
 			this.btnCancel = new System.Windows.Forms.Button();
 			this.pnlFilters = new System.Windows.Forms.Panel();
 			this.btnFiltersClose = new System.Windows.Forms.Button();
@@ -168,28 +190,10 @@
 			this.cbxName = new System.Windows.Forms.CheckBox();
 			this.txtName = new System.Windows.Forms.TextBox();
 			this.lblTotal = new System.Windows.Forms.Label();
-			this.tbcDetails = new System.Windows.Forms.TabControl();
-			this.tbpEphemeris = new System.Windows.Forms.TabPage();
-			this.tbpElements = new System.Windows.Forms.TabPage();
-			this.lblEphemRA = new System.Windows.Forms.Label();
-			this.lblEphemAlt = new System.Windows.Forms.Label();
-			this.lblEphemAz = new System.Windows.Forms.Label();
-			this.lblEphemElongation = new System.Windows.Forms.Label();
-			this.txtEphemAz = new System.Windows.Forms.TextBox();
-			this.txtEphemDec = new System.Windows.Forms.TextBox();
-			this.txtEphemAlt = new System.Windows.Forms.TextBox();
-			this.txtEphemRA = new System.Windows.Forms.TextBox();
-			this.txtEphemElongation = new System.Windows.Forms.TextBox();
-			this.lblEphemDec = new System.Windows.Forms.Label();
-			this.lblEphemRaIndicator = new System.Windows.Forms.Label();
-			this.lblEphemAltIndicator = new System.Windows.Forms.Label();
-			this.lblEphemElongationIndicator = new System.Windows.Forms.Label();
-			this.lblEphemEarthDistIndicator = new System.Windows.Forms.Label();
-			this.lblEphemMagIndicator = new System.Windows.Forms.Label();
-			this.lblEphemSunDistIndicator = new System.Windows.Forms.Label();
-			this.lblEphemDecIndicator = new System.Windows.Forms.Label();
-			this.lblEphemAzIndicator = new System.Windows.Forms.Label();
 			this.pnlDetails.SuspendLayout();
+			this.tbcDetails.SuspendLayout();
+			this.tbpEphemeris.SuspendLayout();
+			this.tbpElements.SuspendLayout();
 			this.pnlFilters.SuspendLayout();
 			this.gbFilters.SuspendLayout();
 			this.panelPerihDist.SuspendLayout();
@@ -200,9 +204,6 @@
 			this.panelPeriod.SuspendLayout();
 			this.panelPerihDate.SuspendLayout();
 			this.panelName.SuspendLayout();
-			this.tbcDetails.SuspendLayout();
-			this.tbpEphemeris.SuspendLayout();
-			this.tbpElements.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// lblElemN2
@@ -768,6 +769,7 @@
 			this.contextSort.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.mnuDesig,
             this.mnuName,
+            this.mnuNextPerihDate,
             this.mnuPerihDate,
             this.mnuPeriod,
             this.mnuPerihDist,
@@ -800,9 +802,16 @@
 			this.mnuName.Text = "Name";
 			this.mnuName.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
+			// mnuNextPerihDate
+			// 
+			this.mnuNextPerihDate.Index = 2;
+			this.mnuNextPerihDate.Tag = "NextT";
+			this.mnuNextPerihDate.Text = "Closest perihelion date";
+			this.mnuNextPerihDate.Click += new System.EventHandler(this.menuItemSortCommon_Click);
+			// 
 			// mnuPerihDate
 			// 
-			this.mnuPerihDate.Index = 2;
+			this.mnuPerihDate.Index = 3;
 			this.mnuPerihDate.RadioCheck = true;
 			this.mnuPerihDate.Tag = "T";
 			this.mnuPerihDate.Text = "Perihelion date";
@@ -810,7 +819,7 @@
 			// 
 			// mnuPeriod
 			// 
-			this.mnuPeriod.Index = 3;
+			this.mnuPeriod.Index = 4;
 			this.mnuPeriod.RadioCheck = true;
 			this.mnuPeriod.Tag = "P";
 			this.mnuPeriod.Text = "Period";
@@ -818,49 +827,49 @@
 			// 
 			// mnuPerihDist
 			// 
-			this.mnuPerihDist.Index = 4;
+			this.mnuPerihDist.Index = 5;
 			this.mnuPerihDist.Tag = "q";
 			this.mnuPerihDist.Text = "Perihelion distance";
 			this.mnuPerihDist.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuPerihEarthDist
 			// 
-			this.mnuPerihEarthDist.Index = 5;
+			this.mnuPerihEarthDist.Index = 6;
 			this.mnuPerihEarthDist.Tag = "PerihEarthDist";
 			this.mnuPerihEarthDist.Text = "Perihelion Earth distance";
 			this.mnuPerihEarthDist.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuPerihMag
 			// 
-			this.mnuPerihMag.Index = 6;
+			this.mnuPerihMag.Index = 7;
 			this.mnuPerihMag.Tag = "PerihMag";
 			this.mnuPerihMag.Text = "Perihelion magnitude";
 			this.mnuPerihMag.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuCurrSunDist
 			// 
-			this.mnuCurrSunDist.Index = 7;
+			this.mnuCurrSunDist.Index = 8;
 			this.mnuCurrSunDist.Tag = "CurrentSunDist";
 			this.mnuCurrSunDist.Text = "Current Sun distance";
 			this.mnuCurrSunDist.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuCurrEarthDist
 			// 
-			this.mnuCurrEarthDist.Index = 8;
+			this.mnuCurrEarthDist.Index = 9;
 			this.mnuCurrEarthDist.Tag = "CurrentEarthDist";
 			this.mnuCurrEarthDist.Text = "Current Earth distance";
 			this.mnuCurrEarthDist.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuCurrMag
 			// 
-			this.mnuCurrMag.Index = 9;
+			this.mnuCurrMag.Index = 10;
 			this.mnuCurrMag.Tag = "CurrentMag";
 			this.mnuCurrMag.Text = "Current magnitude";
 			this.mnuCurrMag.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuIncl
 			// 
-			this.mnuIncl.Index = 10;
+			this.mnuIncl.Index = 11;
 			this.mnuIncl.RadioCheck = true;
 			this.mnuIncl.Tag = "i";
 			this.mnuIncl.Text = "Inclination";
@@ -868,7 +877,7 @@
 			// 
 			// mnuEcc
 			// 
-			this.mnuEcc.Index = 11;
+			this.mnuEcc.Index = 12;
 			this.mnuEcc.RadioCheck = true;
 			this.mnuEcc.Tag = "e";
 			this.mnuEcc.Text = "Eccentricity";
@@ -876,7 +885,7 @@
 			// 
 			// mnuAscNode
 			// 
-			this.mnuAscNode.Index = 12;
+			this.mnuAscNode.Index = 13;
 			this.mnuAscNode.RadioCheck = true;
 			this.mnuAscNode.Tag = "N";
 			this.mnuAscNode.Text = "Long. of the Asc. Node";
@@ -884,7 +893,7 @@
 			// 
 			// mnuArgPeri
 			// 
-			this.mnuArgPeri.Index = 13;
+			this.mnuArgPeri.Index = 14;
 			this.mnuArgPeri.RadioCheck = true;
 			this.mnuArgPeri.Tag = "w";
 			this.mnuArgPeri.Text = "Arg. of Pericenter";
@@ -892,19 +901,19 @@
 			// 
 			// mnuSeparator
 			// 
-			this.mnuSeparator.Index = 14;
+			this.mnuSeparator.Index = 15;
 			this.mnuSeparator.Text = "-";
 			// 
 			// mnuAsc
 			// 
-			this.mnuAsc.Index = 15;
+			this.mnuAsc.Index = 16;
 			this.mnuAsc.RadioCheck = true;
 			this.mnuAsc.Text = "Ascending";
 			this.mnuAsc.Click += new System.EventHandler(this.menuItemSortAscDesc_Click);
 			// 
 			// mnuDesc
 			// 
-			this.mnuDesc.Index = 16;
+			this.mnuDesc.Index = 17;
 			this.mnuDesc.RadioCheck = true;
 			this.mnuDesc.Text = "Descending";
 			this.mnuDesc.Click += new System.EventHandler(this.menuItemSortAscDesc_Click);
@@ -928,6 +937,269 @@
 			this.pnlDetails.Size = new System.Drawing.Size(549, 330);
 			this.pnlDetails.TabIndex = 4;
 			// 
+			// tbcDetails
+			// 
+			this.tbcDetails.Appearance = System.Windows.Forms.TabAppearance.FlatButtons;
+			this.tbcDetails.Controls.Add(this.tbpEphemeris);
+			this.tbcDetails.Controls.Add(this.tbpElements);
+			this.tbcDetails.ItemSize = new System.Drawing.Size(121, 21);
+			this.tbcDetails.Location = new System.Drawing.Point(5, 10);
+			this.tbcDetails.Name = "tbcDetails";
+			this.tbcDetails.SelectedIndex = 0;
+			this.tbcDetails.Size = new System.Drawing.Size(539, 312);
+			this.tbcDetails.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
+			this.tbcDetails.TabIndex = 1;
+			this.tbcDetails.SelectedIndexChanged += new System.EventHandler(this.tbcDetails_SelectedIndexChanged);
+			// 
+			// tbpEphemeris
+			// 
+			this.tbpEphemeris.BackColor = System.Drawing.SystemColors.Control;
+			this.tbpEphemeris.Controls.Add(this.lblEphemAzIndicator);
+			this.tbpEphemeris.Controls.Add(this.lblEphemDecIndicator);
+			this.tbpEphemeris.Controls.Add(this.lblEphemSunDistIndicator);
+			this.tbpEphemeris.Controls.Add(this.lblEphemMagIndicator);
+			this.tbpEphemeris.Controls.Add(this.lblEphemEarthDistIndicator);
+			this.tbpEphemeris.Controls.Add(this.lblEphemElongationIndicator);
+			this.tbpEphemeris.Controls.Add(this.lblEphemAltIndicator);
+			this.tbpEphemeris.Controls.Add(this.lblEphemRaIndicator);
+			this.tbpEphemeris.Controls.Add(this.lblEphemRA);
+			this.tbpEphemeris.Controls.Add(this.lblEphemAlt);
+			this.tbpEphemeris.Controls.Add(this.lblEphemAz);
+			this.tbpEphemeris.Controls.Add(this.lblEphemElongation);
+			this.tbpEphemeris.Controls.Add(this.txtEphemAz);
+			this.tbpEphemeris.Controls.Add(this.txtEphemDec);
+			this.tbpEphemeris.Controls.Add(this.txtEphemAlt);
+			this.tbpEphemeris.Controls.Add(this.txtEphemRA);
+			this.tbpEphemeris.Controls.Add(this.txtEphemElongation);
+			this.tbpEphemeris.Controls.Add(this.lblEphemDec);
+			this.tbpEphemeris.Controls.Add(this.txtInfoName);
+			this.tbpEphemeris.Controls.Add(this.lblInfoPerihEarthDistAU);
+			this.tbpEphemeris.Controls.Add(this.txtInfoCurrMag);
+			this.tbpEphemeris.Controls.Add(this.lblInfoAphDist);
+			this.tbpEphemeris.Controls.Add(this.lblInfoPerihDist);
+			this.tbpEphemeris.Controls.Add(this.lblInfoAphSunDistAU);
+			this.tbpEphemeris.Controls.Add(this.lblInfoPerihDistAU);
+			this.tbpEphemeris.Controls.Add(this.txtInfoAphSunDist);
+			this.tbpEphemeris.Controls.Add(this.lblInfoPerihEarthDist);
+			this.tbpEphemeris.Controls.Add(this.lblInfoName);
+			this.tbpEphemeris.Controls.Add(this.lblInfoCurrEarthDist);
+			this.tbpEphemeris.Controls.Add(this.lblInfoPerihMag);
+			this.tbpEphemeris.Controls.Add(this.lblInfoCurrEarthDistAU);
+			this.tbpEphemeris.Controls.Add(this.txtInfoPeriod);
+			this.tbpEphemeris.Controls.Add(this.lblInfoCurrMagg);
+			this.tbpEphemeris.Controls.Add(this.lblInfoPeriodYears);
+			this.tbpEphemeris.Controls.Add(this.txtInfoCurrEarthDist);
+			this.tbpEphemeris.Controls.Add(this.txtInfoNextPerihDate);
+			this.tbpEphemeris.Controls.Add(this.txtInfoCurrSunDist);
+			this.tbpEphemeris.Controls.Add(this.lblInfoNextPerihDate);
+			this.tbpEphemeris.Controls.Add(this.txtInfoPerihEarthDist);
+			this.tbpEphemeris.Controls.Add(this.lblInfoCurrSunDistAU);
+			this.tbpEphemeris.Controls.Add(this.lblInfoPeriod);
+			this.tbpEphemeris.Controls.Add(this.txtInfoPerihDist);
+			this.tbpEphemeris.Controls.Add(this.txtInfoPerihMag);
+			this.tbpEphemeris.Controls.Add(this.lblInfoCurrSunDist);
+			this.tbpEphemeris.Location = new System.Drawing.Point(4, 25);
+			this.tbpEphemeris.Name = "tbpEphemeris";
+			this.tbpEphemeris.Padding = new System.Windows.Forms.Padding(3);
+			this.tbpEphemeris.Size = new System.Drawing.Size(531, 283);
+			this.tbpEphemeris.TabIndex = 0;
+			this.tbpEphemeris.Text = "Ephemeris";
+			// 
+			// lblEphemAzIndicator
+			// 
+			this.lblEphemAzIndicator.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblEphemAzIndicator.ForeColor = System.Drawing.Color.Black;
+			this.lblEphemAzIndicator.Location = new System.Drawing.Point(188, 253);
+			this.lblEphemAzIndicator.Name = "lblEphemAzIndicator";
+			this.lblEphemAzIndicator.Size = new System.Drawing.Size(13, 15);
+			this.lblEphemAzIndicator.TabIndex = 313;
+			this.lblEphemAzIndicator.Text = "▲";
+			// 
+			// lblEphemDecIndicator
+			// 
+			this.lblEphemDecIndicator.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblEphemDecIndicator.ForeColor = System.Drawing.Color.Black;
+			this.lblEphemDecIndicator.Location = new System.Drawing.Point(8, 253);
+			this.lblEphemDecIndicator.Name = "lblEphemDecIndicator";
+			this.lblEphemDecIndicator.Size = new System.Drawing.Size(13, 15);
+			this.lblEphemDecIndicator.TabIndex = 312;
+			this.lblEphemDecIndicator.Text = "▲";
+			// 
+			// lblEphemSunDistIndicator
+			// 
+			this.lblEphemSunDistIndicator.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblEphemSunDistIndicator.ForeColor = System.Drawing.Color.Black;
+			this.lblEphemSunDistIndicator.Location = new System.Drawing.Point(8, 164);
+			this.lblEphemSunDistIndicator.Name = "lblEphemSunDistIndicator";
+			this.lblEphemSunDistIndicator.Size = new System.Drawing.Size(13, 15);
+			this.lblEphemSunDistIndicator.TabIndex = 311;
+			this.lblEphemSunDistIndicator.Text = "▲";
+			// 
+			// lblEphemMagIndicator
+			// 
+			this.lblEphemMagIndicator.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblEphemMagIndicator.ForeColor = System.Drawing.Color.Black;
+			this.lblEphemMagIndicator.Location = new System.Drawing.Point(365, 163);
+			this.lblEphemMagIndicator.Name = "lblEphemMagIndicator";
+			this.lblEphemMagIndicator.Size = new System.Drawing.Size(13, 15);
+			this.lblEphemMagIndicator.TabIndex = 310;
+			this.lblEphemMagIndicator.Text = "▲";
+			// 
+			// lblEphemEarthDistIndicator
+			// 
+			this.lblEphemEarthDistIndicator.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblEphemEarthDistIndicator.ForeColor = System.Drawing.Color.Black;
+			this.lblEphemEarthDistIndicator.Location = new System.Drawing.Point(188, 163);
+			this.lblEphemEarthDistIndicator.Name = "lblEphemEarthDistIndicator";
+			this.lblEphemEarthDistIndicator.Size = new System.Drawing.Size(13, 15);
+			this.lblEphemEarthDistIndicator.TabIndex = 309;
+			this.lblEphemEarthDistIndicator.Text = "▲";
+			// 
+			// lblEphemElongationIndicator
+			// 
+			this.lblEphemElongationIndicator.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblEphemElongationIndicator.ForeColor = System.Drawing.Color.Black;
+			this.lblEphemElongationIndicator.Location = new System.Drawing.Point(365, 208);
+			this.lblEphemElongationIndicator.Name = "lblEphemElongationIndicator";
+			this.lblEphemElongationIndicator.Size = new System.Drawing.Size(13, 15);
+			this.lblEphemElongationIndicator.TabIndex = 308;
+			this.lblEphemElongationIndicator.Text = "▲";
+			// 
+			// lblEphemAltIndicator
+			// 
+			this.lblEphemAltIndicator.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblEphemAltIndicator.ForeColor = System.Drawing.Color.Black;
+			this.lblEphemAltIndicator.Location = new System.Drawing.Point(188, 208);
+			this.lblEphemAltIndicator.Name = "lblEphemAltIndicator";
+			this.lblEphemAltIndicator.Size = new System.Drawing.Size(13, 15);
+			this.lblEphemAltIndicator.TabIndex = 307;
+			this.lblEphemAltIndicator.Text = "▲";
+			// 
+			// lblEphemRaIndicator
+			// 
+			this.lblEphemRaIndicator.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblEphemRaIndicator.ForeColor = System.Drawing.Color.Black;
+			this.lblEphemRaIndicator.Location = new System.Drawing.Point(8, 208);
+			this.lblEphemRaIndicator.Name = "lblEphemRaIndicator";
+			this.lblEphemRaIndicator.Size = new System.Drawing.Size(13, 15);
+			this.lblEphemRaIndicator.TabIndex = 306;
+			this.lblEphemRaIndicator.Text = "▲";
+			// 
+			// lblEphemRA
+			// 
+			this.lblEphemRA.AutoSize = true;
+			this.lblEphemRA.Font = new System.Drawing.Font("Tahoma", 8F);
+			this.lblEphemRA.ForeColor = System.Drawing.SystemColors.GrayText;
+			this.lblEphemRA.Location = new System.Drawing.Point(23, 189);
+			this.lblEphemRA.Name = "lblEphemRA";
+			this.lblEphemRA.Size = new System.Drawing.Size(83, 13);
+			this.lblEphemRA.TabIndex = 300;
+			this.lblEphemRA.Text = "Right Ascension";
+			// 
+			// lblEphemAlt
+			// 
+			this.lblEphemAlt.AutoSize = true;
+			this.lblEphemAlt.Font = new System.Drawing.Font("Tahoma", 8F);
+			this.lblEphemAlt.ForeColor = System.Drawing.SystemColors.GrayText;
+			this.lblEphemAlt.Location = new System.Drawing.Point(201, 189);
+			this.lblEphemAlt.Name = "lblEphemAlt";
+			this.lblEphemAlt.Size = new System.Drawing.Size(44, 13);
+			this.lblEphemAlt.TabIndex = 291;
+			this.lblEphemAlt.Text = "Altitude";
+			// 
+			// lblEphemAz
+			// 
+			this.lblEphemAz.AutoSize = true;
+			this.lblEphemAz.Font = new System.Drawing.Font("Tahoma", 8F);
+			this.lblEphemAz.ForeColor = System.Drawing.SystemColors.GrayText;
+			this.lblEphemAz.Location = new System.Drawing.Point(201, 234);
+			this.lblEphemAz.Name = "lblEphemAz";
+			this.lblEphemAz.Size = new System.Drawing.Size(45, 13);
+			this.lblEphemAz.TabIndex = 301;
+			this.lblEphemAz.Text = "Azimuth";
+			// 
+			// lblEphemElongation
+			// 
+			this.lblEphemElongation.AutoSize = true;
+			this.lblEphemElongation.Font = new System.Drawing.Font("Tahoma", 8F);
+			this.lblEphemElongation.ForeColor = System.Drawing.SystemColors.GrayText;
+			this.lblEphemElongation.Location = new System.Drawing.Point(380, 188);
+			this.lblEphemElongation.Name = "lblEphemElongation";
+			this.lblEphemElongation.Size = new System.Drawing.Size(57, 13);
+			this.lblEphemElongation.TabIndex = 305;
+			this.lblEphemElongation.Text = "Elongation";
+			// 
+			// txtEphemAz
+			// 
+			this.txtEphemAz.BackColor = System.Drawing.SystemColors.Window;
+			this.txtEphemAz.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.txtEphemAz.Location = new System.Drawing.Point(205, 251);
+			this.txtEphemAz.Name = "txtEphemAz";
+			this.txtEphemAz.ReadOnly = true;
+			this.txtEphemAz.Size = new System.Drawing.Size(116, 22);
+			this.txtEphemAz.TabIndex = 295;
+			// 
+			// txtEphemDec
+			// 
+			this.txtEphemDec.BackColor = System.Drawing.SystemColors.Window;
+			this.txtEphemDec.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.txtEphemDec.Location = new System.Drawing.Point(25, 251);
+			this.txtEphemDec.Name = "txtEphemDec";
+			this.txtEphemDec.ReadOnly = true;
+			this.txtEphemDec.Size = new System.Drawing.Size(116, 22);
+			this.txtEphemDec.TabIndex = 294;
+			// 
+			// txtEphemAlt
+			// 
+			this.txtEphemAlt.BackColor = System.Drawing.SystemColors.Window;
+			this.txtEphemAlt.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.txtEphemAlt.Location = new System.Drawing.Point(205, 206);
+			this.txtEphemAlt.Name = "txtEphemAlt";
+			this.txtEphemAlt.ReadOnly = true;
+			this.txtEphemAlt.Size = new System.Drawing.Size(116, 22);
+			this.txtEphemAlt.TabIndex = 293;
+			// 
+			// txtEphemRA
+			// 
+			this.txtEphemRA.BackColor = System.Drawing.SystemColors.Window;
+			this.txtEphemRA.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.txtEphemRA.Location = new System.Drawing.Point(25, 206);
+			this.txtEphemRA.Name = "txtEphemRA";
+			this.txtEphemRA.ReadOnly = true;
+			this.txtEphemRA.Size = new System.Drawing.Size(116, 22);
+			this.txtEphemRA.TabIndex = 292;
+			// 
+			// txtEphemElongation
+			// 
+			this.txtEphemElongation.BackColor = System.Drawing.SystemColors.Window;
+			this.txtEphemElongation.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.txtEphemElongation.Location = new System.Drawing.Point(382, 206);
+			this.txtEphemElongation.Name = "txtEphemElongation";
+			this.txtEphemElongation.ReadOnly = true;
+			this.txtEphemElongation.Size = new System.Drawing.Size(116, 22);
+			this.txtEphemElongation.TabIndex = 296;
+			// 
+			// lblEphemDec
+			// 
+			this.lblEphemDec.AutoSize = true;
+			this.lblEphemDec.Font = new System.Drawing.Font("Tahoma", 8F);
+			this.lblEphemDec.ForeColor = System.Drawing.SystemColors.GrayText;
+			this.lblEphemDec.Location = new System.Drawing.Point(23, 234);
+			this.lblEphemDec.Name = "lblEphemDec";
+			this.lblEphemDec.Size = new System.Drawing.Size(59, 13);
+			this.lblEphemDec.TabIndex = 304;
+			this.lblEphemDec.Text = "Declination";
+			// 
+			// txtInfoName
+			// 
+			this.txtInfoName.BackColor = System.Drawing.SystemColors.Window;
+			this.txtInfoName.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.txtInfoName.Location = new System.Drawing.Point(25, 26);
+			this.txtInfoName.Name = "txtInfoName";
+			this.txtInfoName.ReadOnly = true;
+			this.txtInfoName.Size = new System.Drawing.Size(296, 22);
+			this.txtInfoName.TabIndex = 0;
+			// 
 			// lblInfoPerihEarthDistAU
 			// 
 			this.lblInfoPerihEarthDistAU.AutoSize = true;
@@ -938,6 +1210,16 @@
 			this.lblInfoPerihEarthDistAU.Size = new System.Drawing.Size(23, 14);
 			this.lblInfoPerihEarthDistAU.TabIndex = 290;
 			this.lblInfoPerihEarthDistAU.Text = "AU";
+			// 
+			// txtInfoCurrMag
+			// 
+			this.txtInfoCurrMag.BackColor = System.Drawing.SystemColors.Window;
+			this.txtInfoCurrMag.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.txtInfoCurrMag.Location = new System.Drawing.Point(382, 161);
+			this.txtInfoCurrMag.Name = "txtInfoCurrMag";
+			this.txtInfoCurrMag.ReadOnly = true;
+			this.txtInfoCurrMag.Size = new System.Drawing.Size(116, 22);
+			this.txtInfoCurrMag.TabIndex = 12;
 			// 
 			// lblInfoAphDist
 			// 
@@ -950,6 +1232,17 @@
 			this.lblInfoAphDist.TabIndex = 289;
 			this.lblInfoAphDist.Text = "Aphelion distance";
 			// 
+			// lblInfoPerihDist
+			// 
+			this.lblInfoPerihDist.AutoSize = true;
+			this.lblInfoPerihDist.Font = new System.Drawing.Font("Tahoma", 8F);
+			this.lblInfoPerihDist.ForeColor = System.Drawing.SystemColors.GrayText;
+			this.lblInfoPerihDist.Location = new System.Drawing.Point(23, 99);
+			this.lblInfoPerihDist.Name = "lblInfoPerihDist";
+			this.lblInfoPerihDist.Size = new System.Drawing.Size(96, 13);
+			this.lblInfoPerihDist.TabIndex = 245;
+			this.lblInfoPerihDist.Text = "Perihelion distance";
+			// 
 			// lblInfoAphSunDistAU
 			// 
 			this.lblInfoAphSunDistAU.AutoSize = true;
@@ -961,6 +1254,17 @@
 			this.lblInfoAphSunDistAU.TabIndex = 288;
 			this.lblInfoAphSunDistAU.Text = "AU";
 			// 
+			// lblInfoPerihDistAU
+			// 
+			this.lblInfoPerihDistAU.AutoSize = true;
+			this.lblInfoPerihDistAU.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblInfoPerihDistAU.ForeColor = System.Drawing.SystemColors.WindowText;
+			this.lblInfoPerihDistAU.Location = new System.Drawing.Point(141, 119);
+			this.lblInfoPerihDistAU.Name = "lblInfoPerihDistAU";
+			this.lblInfoPerihDistAU.Size = new System.Drawing.Size(23, 14);
+			this.lblInfoPerihDistAU.TabIndex = 229;
+			this.lblInfoPerihDistAU.Text = "AU";
+			// 
 			// txtInfoAphSunDist
 			// 
 			this.txtInfoAphSunDist.BackColor = System.Drawing.SystemColors.Window;
@@ -970,6 +1274,17 @@
 			this.txtInfoAphSunDist.ReadOnly = true;
 			this.txtInfoAphSunDist.Size = new System.Drawing.Size(116, 22);
 			this.txtInfoAphSunDist.TabIndex = 286;
+			// 
+			// lblInfoPerihEarthDist
+			// 
+			this.lblInfoPerihEarthDist.AutoSize = true;
+			this.lblInfoPerihEarthDist.Font = new System.Drawing.Font("Tahoma", 8F);
+			this.lblInfoPerihEarthDist.ForeColor = System.Drawing.SystemColors.GrayText;
+			this.lblInfoPerihEarthDist.Location = new System.Drawing.Point(203, 99);
+			this.lblInfoPerihEarthDist.Name = "lblInfoPerihEarthDist";
+			this.lblInfoPerihEarthDist.Size = new System.Drawing.Size(125, 13);
+			this.lblInfoPerihEarthDist.TabIndex = 0;
+			this.lblInfoPerihEarthDist.Text = "Perihelion Earth distance";
 			// 
 			// lblInfoName
 			// 
@@ -982,6 +1297,17 @@
 			this.lblInfoName.TabIndex = 221;
 			this.lblInfoName.Text = "Name";
 			// 
+			// lblInfoCurrEarthDist
+			// 
+			this.lblInfoCurrEarthDist.AutoSize = true;
+			this.lblInfoCurrEarthDist.Font = new System.Drawing.Font("Tahoma", 8F);
+			this.lblInfoCurrEarthDist.ForeColor = System.Drawing.SystemColors.GrayText;
+			this.lblInfoCurrEarthDist.Location = new System.Drawing.Point(201, 144);
+			this.lblInfoCurrEarthDist.Name = "lblInfoCurrEarthDist";
+			this.lblInfoCurrEarthDist.Size = new System.Drawing.Size(116, 13);
+			this.lblInfoCurrEarthDist.TabIndex = 251;
+			this.lblInfoCurrEarthDist.Text = "Current Earth distance";
+			// 
 			// lblInfoPerihMag
 			// 
 			this.lblInfoPerihMag.AutoSize = true;
@@ -993,6 +1319,17 @@
 			this.lblInfoPerihMag.TabIndex = 272;
 			this.lblInfoPerihMag.Text = "Perihelion magnitude";
 			// 
+			// lblInfoCurrEarthDistAU
+			// 
+			this.lblInfoCurrEarthDistAU.AutoSize = true;
+			this.lblInfoCurrEarthDistAU.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblInfoCurrEarthDistAU.ForeColor = System.Drawing.SystemColors.WindowText;
+			this.lblInfoCurrEarthDistAU.Location = new System.Drawing.Point(321, 164);
+			this.lblInfoCurrEarthDistAU.Name = "lblInfoCurrEarthDistAU";
+			this.lblInfoCurrEarthDistAU.Size = new System.Drawing.Size(23, 14);
+			this.lblInfoCurrEarthDistAU.TabIndex = 231;
+			this.lblInfoCurrEarthDistAU.Text = "AU";
+			// 
 			// txtInfoPeriod
 			// 
 			this.txtInfoPeriod.BackColor = System.Drawing.SystemColors.Window;
@@ -1002,6 +1339,17 @@
 			this.txtInfoPeriod.ReadOnly = true;
 			this.txtInfoPeriod.Size = new System.Drawing.Size(116, 22);
 			this.txtInfoPeriod.TabIndex = 6;
+			// 
+			// lblInfoCurrMagg
+			// 
+			this.lblInfoCurrMagg.AutoSize = true;
+			this.lblInfoCurrMagg.Font = new System.Drawing.Font("Tahoma", 8F);
+			this.lblInfoCurrMagg.ForeColor = System.Drawing.SystemColors.GrayText;
+			this.lblInfoCurrMagg.Location = new System.Drawing.Point(380, 143);
+			this.lblInfoCurrMagg.Name = "lblInfoCurrMagg";
+			this.lblInfoCurrMagg.Size = new System.Drawing.Size(97, 13);
+			this.lblInfoCurrMagg.TabIndex = 253;
+			this.lblInfoCurrMagg.Text = "Current magnitude";
 			// 
 			// lblInfoPeriodYears
 			// 
@@ -1014,36 +1362,67 @@
 			this.lblInfoPeriodYears.TabIndex = 233;
 			this.lblInfoPeriodYears.Text = "years";
 			// 
-			// txtInfoPerihDate
+			// txtInfoCurrEarthDist
 			// 
-			this.txtInfoPerihDate.BackColor = System.Drawing.SystemColors.Window;
-			this.txtInfoPerihDate.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.txtInfoPerihDate.Location = new System.Drawing.Point(25, 71);
-			this.txtInfoPerihDate.Name = "txtInfoPerihDate";
-			this.txtInfoPerihDate.ReadOnly = true;
-			this.txtInfoPerihDate.Size = new System.Drawing.Size(147, 22);
-			this.txtInfoPerihDate.TabIndex = 2;
+			this.txtInfoCurrEarthDist.BackColor = System.Drawing.SystemColors.Window;
+			this.txtInfoCurrEarthDist.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.txtInfoCurrEarthDist.Location = new System.Drawing.Point(205, 161);
+			this.txtInfoCurrEarthDist.Name = "txtInfoCurrEarthDist";
+			this.txtInfoCurrEarthDist.ReadOnly = true;
+			this.txtInfoCurrEarthDist.Size = new System.Drawing.Size(116, 22);
+			this.txtInfoCurrEarthDist.TabIndex = 8;
 			// 
-			// lblInfoPerihDate
+			// txtInfoNextPerihDate
 			// 
-			this.lblInfoPerihDate.AutoSize = true;
-			this.lblInfoPerihDate.Font = new System.Drawing.Font("Tahoma", 8F);
-			this.lblInfoPerihDate.ForeColor = System.Drawing.SystemColors.GrayText;
-			this.lblInfoPerihDate.Location = new System.Drawing.Point(23, 54);
-			this.lblInfoPerihDate.Name = "lblInfoPerihDate";
-			this.lblInfoPerihDate.Size = new System.Drawing.Size(78, 13);
-			this.lblInfoPerihDate.TabIndex = 244;
-			this.lblInfoPerihDate.Text = "Perihelion date";
+			this.txtInfoNextPerihDate.BackColor = System.Drawing.SystemColors.Window;
+			this.txtInfoNextPerihDate.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.txtInfoNextPerihDate.Location = new System.Drawing.Point(25, 71);
+			this.txtInfoNextPerihDate.Name = "txtInfoNextPerihDate";
+			this.txtInfoNextPerihDate.ReadOnly = true;
+			this.txtInfoNextPerihDate.Size = new System.Drawing.Size(147, 22);
+			this.txtInfoNextPerihDate.TabIndex = 2;
 			// 
-			// txtInfoName
+			// txtInfoCurrSunDist
 			// 
-			this.txtInfoName.BackColor = System.Drawing.SystemColors.Window;
-			this.txtInfoName.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.txtInfoName.Location = new System.Drawing.Point(25, 26);
-			this.txtInfoName.Name = "txtInfoName";
-			this.txtInfoName.ReadOnly = true;
-			this.txtInfoName.Size = new System.Drawing.Size(296, 22);
-			this.txtInfoName.TabIndex = 0;
+			this.txtInfoCurrSunDist.BackColor = System.Drawing.SystemColors.Window;
+			this.txtInfoCurrSunDist.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.txtInfoCurrSunDist.Location = new System.Drawing.Point(25, 161);
+			this.txtInfoCurrSunDist.Name = "txtInfoCurrSunDist";
+			this.txtInfoCurrSunDist.ReadOnly = true;
+			this.txtInfoCurrSunDist.Size = new System.Drawing.Size(116, 22);
+			this.txtInfoCurrSunDist.TabIndex = 7;
+			// 
+			// lblInfoNextPerihDate
+			// 
+			this.lblInfoNextPerihDate.AutoSize = true;
+			this.lblInfoNextPerihDate.Font = new System.Drawing.Font("Tahoma", 8F);
+			this.lblInfoNextPerihDate.ForeColor = System.Drawing.SystemColors.GrayText;
+			this.lblInfoNextPerihDate.Location = new System.Drawing.Point(23, 54);
+			this.lblInfoNextPerihDate.Name = "lblInfoNextPerihDate";
+			this.lblInfoNextPerihDate.Size = new System.Drawing.Size(116, 13);
+			this.lblInfoNextPerihDate.TabIndex = 244;
+			this.lblInfoNextPerihDate.Text = "Closest perihelion date";
+			// 
+			// txtInfoPerihEarthDist
+			// 
+			this.txtInfoPerihEarthDist.BackColor = System.Drawing.SystemColors.Window;
+			this.txtInfoPerihEarthDist.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.txtInfoPerihEarthDist.Location = new System.Drawing.Point(205, 116);
+			this.txtInfoPerihEarthDist.Name = "txtInfoPerihEarthDist";
+			this.txtInfoPerihEarthDist.ReadOnly = true;
+			this.txtInfoPerihEarthDist.Size = new System.Drawing.Size(116, 22);
+			this.txtInfoPerihEarthDist.TabIndex = 4;
+			// 
+			// lblInfoCurrSunDistAU
+			// 
+			this.lblInfoCurrSunDistAU.AutoSize = true;
+			this.lblInfoCurrSunDistAU.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblInfoCurrSunDistAU.ForeColor = System.Drawing.SystemColors.WindowText;
+			this.lblInfoCurrSunDistAU.Location = new System.Drawing.Point(141, 164);
+			this.lblInfoCurrSunDistAU.Name = "lblInfoCurrSunDistAU";
+			this.lblInfoCurrSunDistAU.Size = new System.Drawing.Size(23, 14);
+			this.lblInfoCurrSunDistAU.TabIndex = 267;
+			this.lblInfoCurrSunDistAU.Text = "AU";
 			// 
 			// lblInfoPeriod
 			// 
@@ -1055,6 +1434,16 @@
 			this.lblInfoPeriod.Size = new System.Drawing.Size(37, 13);
 			this.lblInfoPeriod.TabIndex = 249;
 			this.lblInfoPeriod.Text = "Period";
+			// 
+			// txtInfoPerihDist
+			// 
+			this.txtInfoPerihDist.BackColor = System.Drawing.SystemColors.Window;
+			this.txtInfoPerihDist.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.txtInfoPerihDist.Location = new System.Drawing.Point(25, 116);
+			this.txtInfoPerihDist.Name = "txtInfoPerihDist";
+			this.txtInfoPerihDist.ReadOnly = true;
+			this.txtInfoPerihDist.Size = new System.Drawing.Size(116, 22);
+			this.txtInfoPerihDist.TabIndex = 3;
 			// 
 			// txtInfoPerihMag
 			// 
@@ -1077,132 +1466,63 @@
 			this.lblInfoCurrSunDist.TabIndex = 268;
 			this.lblInfoCurrSunDist.Text = "Current Sun distance";
 			// 
-			// txtInfoPerihDist
+			// tbpElements
 			// 
-			this.txtInfoPerihDist.BackColor = System.Drawing.SystemColors.Window;
-			this.txtInfoPerihDist.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.txtInfoPerihDist.Location = new System.Drawing.Point(25, 116);
-			this.txtInfoPerihDist.Name = "txtInfoPerihDist";
-			this.txtInfoPerihDist.ReadOnly = true;
-			this.txtInfoPerihDist.Size = new System.Drawing.Size(116, 22);
-			this.txtInfoPerihDist.TabIndex = 3;
-			// 
-			// lblInfoCurrSunDistAU
-			// 
-			this.lblInfoCurrSunDistAU.AutoSize = true;
-			this.lblInfoCurrSunDistAU.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.lblInfoCurrSunDistAU.ForeColor = System.Drawing.SystemColors.WindowText;
-			this.lblInfoCurrSunDistAU.Location = new System.Drawing.Point(141, 164);
-			this.lblInfoCurrSunDistAU.Name = "lblInfoCurrSunDistAU";
-			this.lblInfoCurrSunDistAU.Size = new System.Drawing.Size(23, 14);
-			this.lblInfoCurrSunDistAU.TabIndex = 267;
-			this.lblInfoCurrSunDistAU.Text = "AU";
-			// 
-			// txtInfoPerihEarthDist
-			// 
-			this.txtInfoPerihEarthDist.BackColor = System.Drawing.SystemColors.Window;
-			this.txtInfoPerihEarthDist.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.txtInfoPerihEarthDist.Location = new System.Drawing.Point(205, 116);
-			this.txtInfoPerihEarthDist.Name = "txtInfoPerihEarthDist";
-			this.txtInfoPerihEarthDist.ReadOnly = true;
-			this.txtInfoPerihEarthDist.Size = new System.Drawing.Size(116, 22);
-			this.txtInfoPerihEarthDist.TabIndex = 4;
-			// 
-			// txtInfoCurrSunDist
-			// 
-			this.txtInfoCurrSunDist.BackColor = System.Drawing.SystemColors.Window;
-			this.txtInfoCurrSunDist.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.txtInfoCurrSunDist.Location = new System.Drawing.Point(25, 161);
-			this.txtInfoCurrSunDist.Name = "txtInfoCurrSunDist";
-			this.txtInfoCurrSunDist.ReadOnly = true;
-			this.txtInfoCurrSunDist.Size = new System.Drawing.Size(116, 22);
-			this.txtInfoCurrSunDist.TabIndex = 7;
-			// 
-			// txtInfoCurrEarthDist
-			// 
-			this.txtInfoCurrEarthDist.BackColor = System.Drawing.SystemColors.Window;
-			this.txtInfoCurrEarthDist.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.txtInfoCurrEarthDist.Location = new System.Drawing.Point(205, 161);
-			this.txtInfoCurrEarthDist.Name = "txtInfoCurrEarthDist";
-			this.txtInfoCurrEarthDist.ReadOnly = true;
-			this.txtInfoCurrEarthDist.Size = new System.Drawing.Size(116, 22);
-			this.txtInfoCurrEarthDist.TabIndex = 8;
-			// 
-			// lblInfoCurrMagg
-			// 
-			this.lblInfoCurrMagg.AutoSize = true;
-			this.lblInfoCurrMagg.Font = new System.Drawing.Font("Tahoma", 8F);
-			this.lblInfoCurrMagg.ForeColor = System.Drawing.SystemColors.GrayText;
-			this.lblInfoCurrMagg.Location = new System.Drawing.Point(380, 143);
-			this.lblInfoCurrMagg.Name = "lblInfoCurrMagg";
-			this.lblInfoCurrMagg.Size = new System.Drawing.Size(97, 13);
-			this.lblInfoCurrMagg.TabIndex = 253;
-			this.lblInfoCurrMagg.Text = "Current magnitude";
-			// 
-			// lblInfoCurrEarthDistAU
-			// 
-			this.lblInfoCurrEarthDistAU.AutoSize = true;
-			this.lblInfoCurrEarthDistAU.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.lblInfoCurrEarthDistAU.ForeColor = System.Drawing.SystemColors.WindowText;
-			this.lblInfoCurrEarthDistAU.Location = new System.Drawing.Point(321, 164);
-			this.lblInfoCurrEarthDistAU.Name = "lblInfoCurrEarthDistAU";
-			this.lblInfoCurrEarthDistAU.Size = new System.Drawing.Size(23, 14);
-			this.lblInfoCurrEarthDistAU.TabIndex = 231;
-			this.lblInfoCurrEarthDistAU.Text = "AU";
-			// 
-			// lblInfoCurrEarthDist
-			// 
-			this.lblInfoCurrEarthDist.AutoSize = true;
-			this.lblInfoCurrEarthDist.Font = new System.Drawing.Font("Tahoma", 8F);
-			this.lblInfoCurrEarthDist.ForeColor = System.Drawing.SystemColors.GrayText;
-			this.lblInfoCurrEarthDist.Location = new System.Drawing.Point(201, 144);
-			this.lblInfoCurrEarthDist.Name = "lblInfoCurrEarthDist";
-			this.lblInfoCurrEarthDist.Size = new System.Drawing.Size(116, 13);
-			this.lblInfoCurrEarthDist.TabIndex = 251;
-			this.lblInfoCurrEarthDist.Text = "Current Earth distance";
-			// 
-			// lblInfoPerihEarthDist
-			// 
-			this.lblInfoPerihEarthDist.AutoSize = true;
-			this.lblInfoPerihEarthDist.Font = new System.Drawing.Font("Tahoma", 8F);
-			this.lblInfoPerihEarthDist.ForeColor = System.Drawing.SystemColors.GrayText;
-			this.lblInfoPerihEarthDist.Location = new System.Drawing.Point(203, 99);
-			this.lblInfoPerihEarthDist.Name = "lblInfoPerihEarthDist";
-			this.lblInfoPerihEarthDist.Size = new System.Drawing.Size(125, 13);
-			this.lblInfoPerihEarthDist.TabIndex = 0;
-			this.lblInfoPerihEarthDist.Text = "Perihelion Earth distance";
-			// 
-			// lblInfoPerihDistAU
-			// 
-			this.lblInfoPerihDistAU.AutoSize = true;
-			this.lblInfoPerihDistAU.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.lblInfoPerihDistAU.ForeColor = System.Drawing.SystemColors.WindowText;
-			this.lblInfoPerihDistAU.Location = new System.Drawing.Point(141, 119);
-			this.lblInfoPerihDistAU.Name = "lblInfoPerihDistAU";
-			this.lblInfoPerihDistAU.Size = new System.Drawing.Size(23, 14);
-			this.lblInfoPerihDistAU.TabIndex = 229;
-			this.lblInfoPerihDistAU.Text = "AU";
-			// 
-			// lblInfoPerihDist
-			// 
-			this.lblInfoPerihDist.AutoSize = true;
-			this.lblInfoPerihDist.Font = new System.Drawing.Font("Tahoma", 8F);
-			this.lblInfoPerihDist.ForeColor = System.Drawing.SystemColors.GrayText;
-			this.lblInfoPerihDist.Location = new System.Drawing.Point(23, 99);
-			this.lblInfoPerihDist.Name = "lblInfoPerihDist";
-			this.lblInfoPerihDist.Size = new System.Drawing.Size(96, 13);
-			this.lblInfoPerihDist.TabIndex = 245;
-			this.lblInfoPerihDist.Text = "Perihelion distance";
-			// 
-			// txtInfoCurrMag
-			// 
-			this.txtInfoCurrMag.BackColor = System.Drawing.SystemColors.Window;
-			this.txtInfoCurrMag.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.txtInfoCurrMag.Location = new System.Drawing.Point(382, 161);
-			this.txtInfoCurrMag.Name = "txtInfoCurrMag";
-			this.txtInfoCurrMag.ReadOnly = true;
-			this.txtInfoCurrMag.Size = new System.Drawing.Size(116, 22);
-			this.txtInfoCurrMag.TabIndex = 12;
+			this.tbpElements.BackColor = System.Drawing.SystemColors.Control;
+			this.tbpElements.Controls.Add(this.txtElemName);
+			this.tbpElements.Controls.Add(this.lblElemN2);
+			this.tbpElements.Controls.Add(this.txtElemSortkey);
+			this.tbpElements.Controls.Add(this.txtElemMeanMotion);
+			this.tbpElements.Controls.Add(this.lblElemSortkey);
+			this.tbpElements.Controls.Add(this.lblElemMeanMotion);
+			this.tbpElements.Controls.Add(this.txtElemArgPeri);
+			this.tbpElements.Controls.Add(this.lblElemName);
+			this.tbpElements.Controls.Add(this.lblElemMagK);
+			this.tbpElements.Controls.Add(this.lblElemSemiMajorAxis);
+			this.tbpElements.Controls.Add(this.txtElemMagK);
+			this.tbpElements.Controls.Add(this.txtElemPeriod);
+			this.tbpElements.Controls.Add(this.lblElemMagG);
+			this.tbpElements.Controls.Add(this.lblElemPYears);
+			this.tbpElements.Controls.Add(this.txtElemMagG);
+			this.tbpElements.Controls.Add(this.txtElemPerihDate);
+			this.tbpElements.Controls.Add(this.lblElemPerihDist);
+			this.tbpElements.Controls.Add(this.lblElemEquinox);
+			this.tbpElements.Controls.Add(this.lblElemQAu);
+			this.tbpElements.Controls.Add(this.lblElemPerihDate);
+			this.tbpElements.Controls.Add(this.lblElemIncl);
+			this.tbpElements.Controls.Add(this.txtElemEquinox);
+			this.tbpElements.Controls.Add(this.lblElemW);
+			this.tbpElements.Controls.Add(this.lblElemEcc);
+			this.tbpElements.Controls.Add(this.lblElemP);
+			this.tbpElements.Controls.Add(this.lblElemWDeg);
+			this.tbpElements.Controls.Add(this.lblElemT);
+			this.tbpElements.Controls.Add(this.lblElemN);
+			this.tbpElements.Controls.Add(this.lblElemPeriod);
+			this.tbpElements.Controls.Add(this.lblElemAscNode);
+			this.tbpElements.Controls.Add(this.lblElemAAu);
+			this.tbpElements.Controls.Add(this.lblElemI);
+			this.tbpElements.Controls.Add(this.lblElemA);
+			this.tbpElements.Controls.Add(this.lblElemArgPeri);
+			this.tbpElements.Controls.Add(this.txtElemSemiMajorAxis);
+			this.tbpElements.Controls.Add(this.lblElemNDeg);
+			this.tbpElements.Controls.Add(this.lblElemAphDist);
+			this.tbpElements.Controls.Add(this.lblElemMag);
+			this.tbpElements.Controls.Add(this.txtElemPerihDist);
+			this.tbpElements.Controls.Add(this.lblElemE);
+			this.tbpElements.Controls.Add(this.lblElemQ2Au);
+			this.tbpElements.Controls.Add(this.lblElemQ);
+			this.tbpElements.Controls.Add(this.txtElemEcc);
+			this.tbpElements.Controls.Add(this.lblElemIDeg);
+			this.tbpElements.Controls.Add(this.lblElemQ2);
+			this.tbpElements.Controls.Add(this.txtElemAscNode);
+			this.tbpElements.Controls.Add(this.txtElemIncl);
+			this.tbpElements.Controls.Add(this.txtElemAphDist);
+			this.tbpElements.Location = new System.Drawing.Point(4, 25);
+			this.tbpElements.Name = "tbpElements";
+			this.tbpElements.Padding = new System.Windows.Forms.Padding(3);
+			this.tbpElements.Size = new System.Drawing.Size(531, 283);
+			this.tbpElements.TabIndex = 1;
+			this.tbpElements.Text = "Orbital Elements";
 			// 
 			// btnCancel
 			// 
@@ -1668,317 +1988,6 @@
 			this.lblTotal.TabIndex = 2;
 			this.lblTotal.Text = "Comets: ";
 			// 
-			// tbcDetails
-			// 
-			this.tbcDetails.Appearance = System.Windows.Forms.TabAppearance.FlatButtons;
-			this.tbcDetails.Controls.Add(this.tbpEphemeris);
-			this.tbcDetails.Controls.Add(this.tbpElements);
-			this.tbcDetails.ItemSize = new System.Drawing.Size(121, 21);
-			this.tbcDetails.Location = new System.Drawing.Point(5, 10);
-			this.tbcDetails.Name = "tbcDetails";
-			this.tbcDetails.SelectedIndex = 0;
-			this.tbcDetails.Size = new System.Drawing.Size(539, 312);
-			this.tbcDetails.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
-			this.tbcDetails.TabIndex = 1;
-			this.tbcDetails.SelectedIndexChanged += new System.EventHandler(this.tbcDetails_SelectedIndexChanged);
-			// 
-			// tbpEphemeris
-			// 
-			this.tbpEphemeris.BackColor = System.Drawing.SystemColors.Control;
-			this.tbpEphemeris.Controls.Add(this.lblEphemAzIndicator);
-			this.tbpEphemeris.Controls.Add(this.lblEphemDecIndicator);
-			this.tbpEphemeris.Controls.Add(this.lblEphemSunDistIndicator);
-			this.tbpEphemeris.Controls.Add(this.lblEphemMagIndicator);
-			this.tbpEphemeris.Controls.Add(this.lblEphemEarthDistIndicator);
-			this.tbpEphemeris.Controls.Add(this.lblEphemElongationIndicator);
-			this.tbpEphemeris.Controls.Add(this.lblEphemAltIndicator);
-			this.tbpEphemeris.Controls.Add(this.lblEphemRaIndicator);
-			this.tbpEphemeris.Controls.Add(this.lblEphemRA);
-			this.tbpEphemeris.Controls.Add(this.lblEphemAlt);
-			this.tbpEphemeris.Controls.Add(this.lblEphemAz);
-			this.tbpEphemeris.Controls.Add(this.lblEphemElongation);
-			this.tbpEphemeris.Controls.Add(this.txtEphemAz);
-			this.tbpEphemeris.Controls.Add(this.txtEphemDec);
-			this.tbpEphemeris.Controls.Add(this.txtEphemAlt);
-			this.tbpEphemeris.Controls.Add(this.txtEphemRA);
-			this.tbpEphemeris.Controls.Add(this.txtEphemElongation);
-			this.tbpEphemeris.Controls.Add(this.lblEphemDec);
-			this.tbpEphemeris.Controls.Add(this.txtInfoName);
-			this.tbpEphemeris.Controls.Add(this.lblInfoPerihEarthDistAU);
-			this.tbpEphemeris.Controls.Add(this.txtInfoCurrMag);
-			this.tbpEphemeris.Controls.Add(this.lblInfoAphDist);
-			this.tbpEphemeris.Controls.Add(this.lblInfoPerihDist);
-			this.tbpEphemeris.Controls.Add(this.lblInfoAphSunDistAU);
-			this.tbpEphemeris.Controls.Add(this.lblInfoPerihDistAU);
-			this.tbpEphemeris.Controls.Add(this.txtInfoAphSunDist);
-			this.tbpEphemeris.Controls.Add(this.lblInfoPerihEarthDist);
-			this.tbpEphemeris.Controls.Add(this.lblInfoName);
-			this.tbpEphemeris.Controls.Add(this.lblInfoCurrEarthDist);
-			this.tbpEphemeris.Controls.Add(this.lblInfoPerihMag);
-			this.tbpEphemeris.Controls.Add(this.lblInfoCurrEarthDistAU);
-			this.tbpEphemeris.Controls.Add(this.txtInfoPeriod);
-			this.tbpEphemeris.Controls.Add(this.lblInfoCurrMagg);
-			this.tbpEphemeris.Controls.Add(this.lblInfoPeriodYears);
-			this.tbpEphemeris.Controls.Add(this.txtInfoCurrEarthDist);
-			this.tbpEphemeris.Controls.Add(this.txtInfoPerihDate);
-			this.tbpEphemeris.Controls.Add(this.txtInfoCurrSunDist);
-			this.tbpEphemeris.Controls.Add(this.lblInfoPerihDate);
-			this.tbpEphemeris.Controls.Add(this.txtInfoPerihEarthDist);
-			this.tbpEphemeris.Controls.Add(this.lblInfoCurrSunDistAU);
-			this.tbpEphemeris.Controls.Add(this.lblInfoPeriod);
-			this.tbpEphemeris.Controls.Add(this.txtInfoPerihDist);
-			this.tbpEphemeris.Controls.Add(this.txtInfoPerihMag);
-			this.tbpEphemeris.Controls.Add(this.lblInfoCurrSunDist);
-			this.tbpEphemeris.Location = new System.Drawing.Point(4, 25);
-			this.tbpEphemeris.Name = "tbpEphemeris";
-			this.tbpEphemeris.Padding = new System.Windows.Forms.Padding(3);
-			this.tbpEphemeris.Size = new System.Drawing.Size(531, 283);
-			this.tbpEphemeris.TabIndex = 0;
-			this.tbpEphemeris.Text = "Ephemeris";
-			// 
-			// tbpElements
-			// 
-			this.tbpElements.BackColor = System.Drawing.SystemColors.Control;
-			this.tbpElements.Controls.Add(this.txtElemName);
-			this.tbpElements.Controls.Add(this.lblElemN2);
-			this.tbpElements.Controls.Add(this.txtElemSortkey);
-			this.tbpElements.Controls.Add(this.txtElemMeanMotion);
-			this.tbpElements.Controls.Add(this.lblElemSortkey);
-			this.tbpElements.Controls.Add(this.lblElemMeanMotion);
-			this.tbpElements.Controls.Add(this.txtElemArgPeri);
-			this.tbpElements.Controls.Add(this.lblElemName);
-			this.tbpElements.Controls.Add(this.lblElemMagK);
-			this.tbpElements.Controls.Add(this.lblElemSemiMajorAxis);
-			this.tbpElements.Controls.Add(this.txtElemMagK);
-			this.tbpElements.Controls.Add(this.txtElemPeriod);
-			this.tbpElements.Controls.Add(this.lblElemMagG);
-			this.tbpElements.Controls.Add(this.lblElemPYears);
-			this.tbpElements.Controls.Add(this.txtElemMagG);
-			this.tbpElements.Controls.Add(this.txtElemPerihDate);
-			this.tbpElements.Controls.Add(this.lblElemPerihDist);
-			this.tbpElements.Controls.Add(this.lblElemEquinox);
-			this.tbpElements.Controls.Add(this.lblElemQAu);
-			this.tbpElements.Controls.Add(this.lblElemPerihDate);
-			this.tbpElements.Controls.Add(this.lblElemIncl);
-			this.tbpElements.Controls.Add(this.txtElemEquinox);
-			this.tbpElements.Controls.Add(this.lblElemW);
-			this.tbpElements.Controls.Add(this.lblElemEcc);
-			this.tbpElements.Controls.Add(this.lblElemP);
-			this.tbpElements.Controls.Add(this.lblElemWDeg);
-			this.tbpElements.Controls.Add(this.lblElemT);
-			this.tbpElements.Controls.Add(this.lblElemN);
-			this.tbpElements.Controls.Add(this.lblElemPeriod);
-			this.tbpElements.Controls.Add(this.lblElemAscNode);
-			this.tbpElements.Controls.Add(this.lblElemAAu);
-			this.tbpElements.Controls.Add(this.lblElemI);
-			this.tbpElements.Controls.Add(this.lblElemA);
-			this.tbpElements.Controls.Add(this.lblElemArgPeri);
-			this.tbpElements.Controls.Add(this.txtElemSemiMajorAxis);
-			this.tbpElements.Controls.Add(this.lblElemNDeg);
-			this.tbpElements.Controls.Add(this.lblElemAphDist);
-			this.tbpElements.Controls.Add(this.lblElemMag);
-			this.tbpElements.Controls.Add(this.txtElemPerihDist);
-			this.tbpElements.Controls.Add(this.lblElemE);
-			this.tbpElements.Controls.Add(this.lblElemQ2Au);
-			this.tbpElements.Controls.Add(this.lblElemQ);
-			this.tbpElements.Controls.Add(this.txtElemEcc);
-			this.tbpElements.Controls.Add(this.lblElemIDeg);
-			this.tbpElements.Controls.Add(this.lblElemQ2);
-			this.tbpElements.Controls.Add(this.txtElemAscNode);
-			this.tbpElements.Controls.Add(this.txtElemIncl);
-			this.tbpElements.Controls.Add(this.txtElemAphDist);
-			this.tbpElements.Location = new System.Drawing.Point(4, 25);
-			this.tbpElements.Name = "tbpElements";
-			this.tbpElements.Padding = new System.Windows.Forms.Padding(3);
-			this.tbpElements.Size = new System.Drawing.Size(531, 283);
-			this.tbpElements.TabIndex = 1;
-			this.tbpElements.Text = "Orbital Elements";
-			// 
-			// lblEphemRA
-			// 
-			this.lblEphemRA.AutoSize = true;
-			this.lblEphemRA.Font = new System.Drawing.Font("Tahoma", 8F);
-			this.lblEphemRA.ForeColor = System.Drawing.SystemColors.GrayText;
-			this.lblEphemRA.Location = new System.Drawing.Point(23, 189);
-			this.lblEphemRA.Name = "lblEphemRA";
-			this.lblEphemRA.Size = new System.Drawing.Size(83, 13);
-			this.lblEphemRA.TabIndex = 300;
-			this.lblEphemRA.Text = "Right Ascension";
-			// 
-			// lblEphemAlt
-			// 
-			this.lblEphemAlt.AutoSize = true;
-			this.lblEphemAlt.Font = new System.Drawing.Font("Tahoma", 8F);
-			this.lblEphemAlt.ForeColor = System.Drawing.SystemColors.GrayText;
-			this.lblEphemAlt.Location = new System.Drawing.Point(201, 189);
-			this.lblEphemAlt.Name = "lblEphemAlt";
-			this.lblEphemAlt.Size = new System.Drawing.Size(44, 13);
-			this.lblEphemAlt.TabIndex = 291;
-			this.lblEphemAlt.Text = "Altitude";
-			// 
-			// lblEphemAz
-			// 
-			this.lblEphemAz.AutoSize = true;
-			this.lblEphemAz.Font = new System.Drawing.Font("Tahoma", 8F);
-			this.lblEphemAz.ForeColor = System.Drawing.SystemColors.GrayText;
-			this.lblEphemAz.Location = new System.Drawing.Point(201, 234);
-			this.lblEphemAz.Name = "lblEphemAz";
-			this.lblEphemAz.Size = new System.Drawing.Size(45, 13);
-			this.lblEphemAz.TabIndex = 301;
-			this.lblEphemAz.Text = "Azimuth";
-			// 
-			// lblEphemElongation
-			// 
-			this.lblEphemElongation.AutoSize = true;
-			this.lblEphemElongation.Font = new System.Drawing.Font("Tahoma", 8F);
-			this.lblEphemElongation.ForeColor = System.Drawing.SystemColors.GrayText;
-			this.lblEphemElongation.Location = new System.Drawing.Point(380, 188);
-			this.lblEphemElongation.Name = "lblEphemElongation";
-			this.lblEphemElongation.Size = new System.Drawing.Size(57, 13);
-			this.lblEphemElongation.TabIndex = 305;
-			this.lblEphemElongation.Text = "Elongation";
-			// 
-			// txtEphemAz
-			// 
-			this.txtEphemAz.BackColor = System.Drawing.SystemColors.Window;
-			this.txtEphemAz.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.txtEphemAz.Location = new System.Drawing.Point(205, 251);
-			this.txtEphemAz.Name = "txtEphemAz";
-			this.txtEphemAz.ReadOnly = true;
-			this.txtEphemAz.Size = new System.Drawing.Size(116, 22);
-			this.txtEphemAz.TabIndex = 295;
-			// 
-			// txtEphemDec
-			// 
-			this.txtEphemDec.BackColor = System.Drawing.SystemColors.Window;
-			this.txtEphemDec.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.txtEphemDec.Location = new System.Drawing.Point(25, 251);
-			this.txtEphemDec.Name = "txtEphemDec";
-			this.txtEphemDec.ReadOnly = true;
-			this.txtEphemDec.Size = new System.Drawing.Size(116, 22);
-			this.txtEphemDec.TabIndex = 294;
-			// 
-			// txtEphemAlt
-			// 
-			this.txtEphemAlt.BackColor = System.Drawing.SystemColors.Window;
-			this.txtEphemAlt.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.txtEphemAlt.Location = new System.Drawing.Point(205, 206);
-			this.txtEphemAlt.Name = "txtEphemAlt";
-			this.txtEphemAlt.ReadOnly = true;
-			this.txtEphemAlt.Size = new System.Drawing.Size(116, 22);
-			this.txtEphemAlt.TabIndex = 293;
-			// 
-			// txtEphemRA
-			// 
-			this.txtEphemRA.BackColor = System.Drawing.SystemColors.Window;
-			this.txtEphemRA.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.txtEphemRA.Location = new System.Drawing.Point(25, 206);
-			this.txtEphemRA.Name = "txtEphemRA";
-			this.txtEphemRA.ReadOnly = true;
-			this.txtEphemRA.Size = new System.Drawing.Size(116, 22);
-			this.txtEphemRA.TabIndex = 292;
-			// 
-			// txtEphemElongation
-			// 
-			this.txtEphemElongation.BackColor = System.Drawing.SystemColors.Window;
-			this.txtEphemElongation.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.txtEphemElongation.Location = new System.Drawing.Point(382, 206);
-			this.txtEphemElongation.Name = "txtEphemElongation";
-			this.txtEphemElongation.ReadOnly = true;
-			this.txtEphemElongation.Size = new System.Drawing.Size(116, 22);
-			this.txtEphemElongation.TabIndex = 296;
-			// 
-			// lblEphemDec
-			// 
-			this.lblEphemDec.AutoSize = true;
-			this.lblEphemDec.Font = new System.Drawing.Font("Tahoma", 8F);
-			this.lblEphemDec.ForeColor = System.Drawing.SystemColors.GrayText;
-			this.lblEphemDec.Location = new System.Drawing.Point(23, 234);
-			this.lblEphemDec.Name = "lblEphemDec";
-			this.lblEphemDec.Size = new System.Drawing.Size(59, 13);
-			this.lblEphemDec.TabIndex = 304;
-			this.lblEphemDec.Text = "Declination";
-			// 
-			// lblEphemRaIndicator
-			// 
-			this.lblEphemRaIndicator.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.lblEphemRaIndicator.ForeColor = System.Drawing.Color.Black;
-			this.lblEphemRaIndicator.Location = new System.Drawing.Point(9, 208);
-			this.lblEphemRaIndicator.Name = "lblEphemRaIndicator";
-			this.lblEphemRaIndicator.Size = new System.Drawing.Size(13, 15);
-			this.lblEphemRaIndicator.TabIndex = 306;
-			this.lblEphemRaIndicator.Text = "▲";
-			// 
-			// lblEphemAltIndicator
-			// 
-			this.lblEphemAltIndicator.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.lblEphemAltIndicator.ForeColor = System.Drawing.Color.Black;
-			this.lblEphemAltIndicator.Location = new System.Drawing.Point(189, 208);
-			this.lblEphemAltIndicator.Name = "lblEphemAltIndicator";
-			this.lblEphemAltIndicator.Size = new System.Drawing.Size(13, 15);
-			this.lblEphemAltIndicator.TabIndex = 307;
-			this.lblEphemAltIndicator.Text = "▲";
-			// 
-			// lblEphemElongationIndicator
-			// 
-			this.lblEphemElongationIndicator.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.lblEphemElongationIndicator.ForeColor = System.Drawing.Color.Black;
-			this.lblEphemElongationIndicator.Location = new System.Drawing.Point(366, 208);
-			this.lblEphemElongationIndicator.Name = "lblEphemElongationIndicator";
-			this.lblEphemElongationIndicator.Size = new System.Drawing.Size(13, 15);
-			this.lblEphemElongationIndicator.TabIndex = 308;
-			this.lblEphemElongationIndicator.Text = "▲";
-			// 
-			// lblEphemEarthDistIndicator
-			// 
-			this.lblEphemEarthDistIndicator.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.lblEphemEarthDistIndicator.ForeColor = System.Drawing.Color.Black;
-			this.lblEphemEarthDistIndicator.Location = new System.Drawing.Point(189, 163);
-			this.lblEphemEarthDistIndicator.Name = "lblEphemEarthDistIndicator";
-			this.lblEphemEarthDistIndicator.Size = new System.Drawing.Size(13, 15);
-			this.lblEphemEarthDistIndicator.TabIndex = 309;
-			this.lblEphemEarthDistIndicator.Text = "▲";
-			// 
-			// lblEphemMagIndicator
-			// 
-			this.lblEphemMagIndicator.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.lblEphemMagIndicator.ForeColor = System.Drawing.Color.Black;
-			this.lblEphemMagIndicator.Location = new System.Drawing.Point(366, 163);
-			this.lblEphemMagIndicator.Name = "lblEphemMagIndicator";
-			this.lblEphemMagIndicator.Size = new System.Drawing.Size(13, 15);
-			this.lblEphemMagIndicator.TabIndex = 310;
-			this.lblEphemMagIndicator.Text = "▲";
-			// 
-			// lblEphemSunDistIndicator
-			// 
-			this.lblEphemSunDistIndicator.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.lblEphemSunDistIndicator.ForeColor = System.Drawing.Color.Black;
-			this.lblEphemSunDistIndicator.Location = new System.Drawing.Point(9, 164);
-			this.lblEphemSunDistIndicator.Name = "lblEphemSunDistIndicator";
-			this.lblEphemSunDistIndicator.Size = new System.Drawing.Size(13, 15);
-			this.lblEphemSunDistIndicator.TabIndex = 311;
-			this.lblEphemSunDistIndicator.Text = "▲";
-			// 
-			// lblEphemDecIndicator
-			// 
-			this.lblEphemDecIndicator.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.lblEphemDecIndicator.ForeColor = System.Drawing.Color.Black;
-			this.lblEphemDecIndicator.Location = new System.Drawing.Point(9, 253);
-			this.lblEphemDecIndicator.Name = "lblEphemDecIndicator";
-			this.lblEphemDecIndicator.Size = new System.Drawing.Size(13, 15);
-			this.lblEphemDecIndicator.TabIndex = 312;
-			this.lblEphemDecIndicator.Text = "▲";
-			// 
-			// lblEphemAzIndicator
-			// 
-			this.lblEphemAzIndicator.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.lblEphemAzIndicator.ForeColor = System.Drawing.Color.Black;
-			this.lblEphemAzIndicator.Location = new System.Drawing.Point(189, 253);
-			this.lblEphemAzIndicator.Name = "lblEphemAzIndicator";
-			this.lblEphemAzIndicator.Size = new System.Drawing.Size(13, 15);
-			this.lblEphemAzIndicator.TabIndex = 313;
-			this.lblEphemAzIndicator.Text = "▲";
-			// 
 			// FormDatabase
 			// 
 			this.AcceptButton = this.btnOk;
@@ -2007,6 +2016,11 @@
 			this.Load += new System.EventHandler(this.FormDatabase_Load);
 			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormDatabase_KeyDown);
 			this.pnlDetails.ResumeLayout(false);
+			this.tbcDetails.ResumeLayout(false);
+			this.tbpEphemeris.ResumeLayout(false);
+			this.tbpEphemeris.PerformLayout();
+			this.tbpElements.ResumeLayout(false);
+			this.tbpElements.PerformLayout();
 			this.pnlFilters.ResumeLayout(false);
 			this.gbFilters.ResumeLayout(false);
 			this.panelPerihDist.ResumeLayout(false);
@@ -2025,11 +2039,6 @@
 			this.panelPerihDate.PerformLayout();
 			this.panelName.ResumeLayout(false);
 			this.panelName.PerformLayout();
-			this.tbcDetails.ResumeLayout(false);
-			this.tbpEphemeris.ResumeLayout(false);
-			this.tbpEphemeris.PerformLayout();
-			this.tbpElements.ResumeLayout(false);
-			this.tbpElements.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -2158,8 +2167,8 @@
 		private System.Windows.Forms.Label lblInfoPerihMag;
 		private System.Windows.Forms.TextBox txtInfoPeriod;
 		private System.Windows.Forms.Label lblInfoPeriodYears;
-		private System.Windows.Forms.TextBox txtInfoPerihDate;
-		private System.Windows.Forms.Label lblInfoPerihDate;
+		private System.Windows.Forms.TextBox txtInfoNextPerihDate;
+		private System.Windows.Forms.Label lblInfoNextPerihDate;
 		private System.Windows.Forms.TextBox txtInfoName;
 		private System.Windows.Forms.Label lblInfoPeriod;
 		private System.Windows.Forms.TextBox txtInfoPerihMag;
@@ -2198,5 +2207,6 @@
 		private System.Windows.Forms.Label lblEphemEarthDistIndicator;
 		private System.Windows.Forms.Label lblEphemElongationIndicator;
 		private System.Windows.Forms.Label lblEphemAltIndicator;
+		private System.Windows.Forms.MenuItem mnuNextPerihDate;
 	}
 }

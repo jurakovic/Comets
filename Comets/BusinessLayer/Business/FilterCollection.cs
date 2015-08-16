@@ -7,7 +7,7 @@ namespace Comets.BusinessLayer.Business
 		#region Properties
 
 		public Filter full { get; set; }
-		public Filter T { get; set; }
+		public Filter NextT { get; set; }
 		public Filter q { get; set; }
 		public Filter e { get; set; }
 		public Filter N { get; set; }
@@ -22,7 +22,7 @@ namespace Comets.BusinessLayer.Business
 		public FilterCollection()
 		{
 			full = new Filter(PropertyName.Name);
-			T = new Filter(PropertyName.PerihelionDate);
+			NextT = new Filter(PropertyName.PerihelionDate);
 			q = new Filter(PropertyName.PerihelionDistance);
 			e = new Filter(PropertyName.Eccentricity);
 			N = new Filter(PropertyName.LongOfAscendingNode);

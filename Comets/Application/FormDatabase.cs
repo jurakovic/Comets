@@ -63,7 +63,7 @@ namespace Comets.Application
 			if (Filters == null)
 				DateTime = FormMain.DefaultDateStart;
 			else
-				DateTime = Filters.T.Value == 0.0 ? FormMain.DefaultDateStart : Utils.JDToDateTime(Filters.T.Value).ToLocalTime();
+				DateTime = Filters.NextT.Value == 0.0 ? FormMain.DefaultDateStart : Utils.JDToDateTime(Filters.NextT.Value).ToLocalTime();
 
 			SortProperty = sortProperty;
 			SortAscending = sortAscending;
@@ -127,7 +127,6 @@ namespace Comets.Application
 		private void lbxDatabase_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			Timer.Stop();
-			PreviousEphemeris = null;
 
 			lblEphemSunDistIndicator.Text = String.Empty;
 			lblEphemSunDistIndicator.Text = String.Empty;
@@ -144,6 +143,7 @@ namespace Comets.Application
 			int minPeriod = 1000;
 
 			Comet c = Comets.ElementAt(lbxDatabase.SelectedIndex);
+			PreviousEphemeris = EphemerisManager.GetEphemeris(c, DateTime.Now.AddMinutes(-1).JD(), FormMain.Settings.Location);
 
 			string commonName = c.full;
 			string commonPerihDist = c.q.ToString(format6);
@@ -153,7 +153,7 @@ namespace Comets.Application
 			//ephemeris
 			txtInfoName.Text = commonName;
 
-			txtInfoPerihDate.Text = Utils.JDToDateTime(c.T).ToLocalTime().ToString(FormMain.DateTimeFormat);
+			txtInfoNextPerihDate.Text = Utils.JDToDateTime(c.NextT).ToLocalTime().ToString(FormMain.DateTimeFormat);
 			txtInfoPeriod.Text = commonPeriod;
 			txtInfoAphSunDist.Text = commonAphDist;
 
@@ -215,11 +215,13 @@ namespace Comets.Application
 
 		private void ApllyContextMenuVisibility()
 		{
+			mnuPerihDate.Visible = tbcDetails.SelectedIndex == 1;
 			mnuIncl.Visible = tbcDetails.SelectedIndex == 1;
 			mnuEcc.Visible = tbcDetails.SelectedIndex == 1;
 			mnuAscNode.Visible = tbcDetails.SelectedIndex == 1;
 			mnuArgPeri.Visible = tbcDetails.SelectedIndex == 1;
 
+			mnuNextPerihDate.Visible = tbcDetails.SelectedIndex == 0 || pnlFilters.Visible;
 			mnuPerihEarthDist.Visible = tbcDetails.SelectedIndex == 0 || pnlFilters.Visible;
 			mnuCurrSunDist.Visible = tbcDetails.SelectedIndex == 0 || pnlFilters.Visible;
 			mnuCurrEarthDist.Visible = tbcDetails.SelectedIndex == 0 || pnlFilters.Visible;
@@ -264,7 +266,7 @@ namespace Comets.Application
 
 		private void CalculateEphemeris()
 		{
-			if (tbcDetails.SelectedIndex == 0 && lbxDatabase.SelectedIndex >= 0)
+			if (lbxDatabase.SelectedIndex >= 0)
 			{
 				Comet c = Comets.ElementAt(lbxDatabase.SelectedIndex);
 				EphemerisResult er = EphemerisManager.GetEphemeris(c, DateTime.Now.JD(), FormMain.Settings.Location);
@@ -279,41 +281,38 @@ namespace Comets.Application
 				txtEphemAz.Text = er.Az.ToString("0.00") + "°";
 				txtEphemElongation.Text = er.Elongation.ToString("0.00") + "°" + (er.PositionAngle >= 180 ? " W" : " E");
 
-				if (PreviousEphemeris != null)
-				{
-					bool rHigher = er.SunDist >= PreviousEphemeris.SunDist;
-					bool dHigher = er.EarthDist >= PreviousEphemeris.EarthDist;
-					bool mHigher = er.Magnitude >= PreviousEphemeris.Magnitude;
-					bool raHigher = er.RA >= PreviousEphemeris.RA;
-					bool decHigher = er.Dec >= PreviousEphemeris.Dec;
-					bool altHigher = er.Alt >= PreviousEphemeris.Alt;
-					bool azHigher = er.Az >= PreviousEphemeris.Az;
-					bool eloHigher = er.Elongation >= PreviousEphemeris.Elongation;
+				bool rHigher = er.SunDist >= PreviousEphemeris.SunDist;
+				bool dHigher = er.EarthDist >= PreviousEphemeris.EarthDist;
+				bool mHigher = er.Magnitude >= PreviousEphemeris.Magnitude;
+				bool raHigher = er.RA >= PreviousEphemeris.RA;
+				bool decHigher = er.Dec >= PreviousEphemeris.Dec;
+				bool altHigher = er.Alt >= PreviousEphemeris.Alt;
+				bool azHigher = er.Az >= PreviousEphemeris.Az;
+				bool eloHigher = er.Elongation >= PreviousEphemeris.Elongation;
 
-					lblEphemSunDistIndicator.Text = rHigher ? "▲" : "▼";
-					lblEphemSunDistIndicator.ForeColor = rHigher ? Color.Red : Color.Green;
+				lblEphemSunDistIndicator.Text = rHigher ? "▲" : "▼";
+				lblEphemSunDistIndicator.ForeColor = rHigher ? Color.Red : Color.Green;
 
-					lblEphemEarthDistIndicator.Text = dHigher ? "▲" : "▼";
-					lblEphemEarthDistIndicator.ForeColor = dHigher ? Color.Red : Color.Green;
+				lblEphemEarthDistIndicator.Text = dHigher ? "▲" : "▼";
+				lblEphemEarthDistIndicator.ForeColor = dHigher ? Color.Red : Color.Green;
 
-					lblEphemMagIndicator.Text = mHigher ? "▲" : "▼";
-					lblEphemMagIndicator.ForeColor = mHigher ? Color.Red : Color.Green;
+				lblEphemMagIndicator.Text = mHigher ? "▲" : "▼";
+				lblEphemMagIndicator.ForeColor = mHigher ? Color.Red : Color.Green;
 
-					lblEphemRaIndicator.Text = raHigher ? "▲" : "▼";
-					lblEphemRaIndicator.ForeColor = Color.Black;
+				lblEphemRaIndicator.Text = raHigher ? "▲" : "▼";
+				lblEphemRaIndicator.ForeColor = Color.Black;
 
-					lblEphemDecIndicator.Text = decHigher ? "▲" : "▼";
-					lblEphemDecIndicator.ForeColor = decHigher ? Color.Green : Color.Red;
+				lblEphemDecIndicator.Text = decHigher ? "▲" : "▼";
+				lblEphemDecIndicator.ForeColor = decHigher ? Color.Green : Color.Red;
 
-					lblEphemAltIndicator.Text = altHigher ? "▲" : "▼";
-					lblEphemAltIndicator.ForeColor = altHigher ? Color.Green : Color.Red;
+				lblEphemAltIndicator.Text = altHigher ? "▲" : "▼";
+				lblEphemAltIndicator.ForeColor = altHigher ? Color.Green : Color.Red;
 
-					lblEphemAzIndicator.Text = azHigher ? "▲" : "▼";
-					lblEphemAzIndicator.ForeColor = Color.Black;
+				lblEphemAzIndicator.Text = azHigher ? "▲" : "▼";
+				lblEphemAzIndicator.ForeColor = Color.Black;
 
-					lblEphemElongationIndicator.Text = eloHigher ? "▲" : "▼";
-					lblEphemElongationIndicator.ForeColor = eloHigher ? Color.Green : Color.Red;
-				}
+				lblEphemElongationIndicator.Text = eloHigher ? "▲" : "▼";
+				lblEphemElongationIndicator.ForeColor = eloHigher ? Color.Green : Color.Red;
 
 				PreviousEphemeris = er;
 			}
@@ -410,7 +409,6 @@ namespace Comets.Application
 							c.Text = String.Empty;
 
 				Timer.Stop();
-				PreviousEphemeris = null;
 			}
 
 			lbxDatabase.DataSource = Comets;
@@ -455,7 +453,7 @@ namespace Comets.Application
 			double? T = null;
 
 			if (lbxDatabase.SelectedIndex >= 0)
-				T = Comets.ElementAt(lbxDatabase.SelectedIndex).T;
+				T = Comets.ElementAt(lbxDatabase.SelectedIndex).NextT;
 
 			return T;
 		}
@@ -472,9 +470,9 @@ namespace Comets.Application
 			fc.full.Text = txtName.Text.Trim();
 			fc.full.Index = cboName.SelectedIndex;
 
-			fc.T.Checked = cbxPerihelionDate.Checked;
-			fc.T.Text = DateTime.ToString(FormMain.DateTimeFormat);
-			fc.T.Index = cboPerihelionDate.SelectedIndex;
+			fc.NextT.Checked = cbxPerihelionDate.Checked;
+			fc.NextT.Text = DateTime.ToString(FormMain.DateTimeFormat);
+			fc.NextT.Index = cboPerihelionDate.SelectedIndex;
 
 			fc.q.Checked = cbxPerihelionDistance.Checked;
 			fc.q.Text = txtPerihelionDistance.Text;
@@ -551,10 +549,10 @@ namespace Comets.Application
 				cboName.SelectedIndex = FilterManager.GetIndexFromValueCompare(Filters.full.ValueCompare);
 				txtName.Text = Filters.full.Text;
 
-				cbxPerihelionDate.Checked = Filters.T.Checked;
-				cboPerihelionDate.SelectedIndex = FilterManager.GetIndexFromValueCompare(Filters.T.ValueCompare);
-				if (Filters.T.Value > 0.0)
-					DateTime = Utils.JDToDateTime(Filters.T.Value).ToLocalTime();
+				cbxPerihelionDate.Checked = Filters.NextT.Checked;
+				cboPerihelionDate.SelectedIndex = FilterManager.GetIndexFromValueCompare(Filters.NextT.ValueCompare);
+				if (Filters.NextT.Value > 0.0)
+					DateTime = Utils.JDToDateTime(Filters.NextT.Value).ToLocalTime();
 
 				cbxPerihelionDistance.Checked = Filters.q.Checked;
 				cboPerihelionDistance.SelectedIndex = FilterManager.GetIndexFromValueCompare(Filters.q.ValueCompare);
