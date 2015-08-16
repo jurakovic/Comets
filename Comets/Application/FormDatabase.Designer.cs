@@ -83,7 +83,6 @@
 			this.contextSort = new System.Windows.Forms.ContextMenu();
 			this.mnuDesig = new System.Windows.Forms.MenuItem();
 			this.mnuName = new System.Windows.Forms.MenuItem();
-			this.mnuNextPerihDate = new System.Windows.Forms.MenuItem();
 			this.mnuPerihDate = new System.Windows.Forms.MenuItem();
 			this.mnuPeriod = new System.Windows.Forms.MenuItem();
 			this.mnuPerihDist = new System.Windows.Forms.MenuItem();
@@ -92,8 +91,10 @@
 			this.mnuCurrSunDist = new System.Windows.Forms.MenuItem();
 			this.mnuCurrEarthDist = new System.Windows.Forms.MenuItem();
 			this.mnuCurrMag = new System.Windows.Forms.MenuItem();
-			this.mnuIncl = new System.Windows.Forms.MenuItem();
+			this.mnuAphDistance = new System.Windows.Forms.MenuItem();
+			this.mnuSemiMajorAxis = new System.Windows.Forms.MenuItem();
 			this.mnuEcc = new System.Windows.Forms.MenuItem();
+			this.mnuIncl = new System.Windows.Forms.MenuItem();
 			this.mnuAscNode = new System.Windows.Forms.MenuItem();
 			this.mnuArgPeri = new System.Windows.Forms.MenuItem();
 			this.mnuSeparator = new System.Windows.Forms.MenuItem();
@@ -151,59 +152,104 @@
 			this.btnCancel = new System.Windows.Forms.Button();
 			this.pnlFilters = new System.Windows.Forms.Panel();
 			this.btnFiltersClose = new System.Windows.Forms.Button();
-			this.gbFilters = new System.Windows.Forms.GroupBox();
-			this.panelPerihDist = new System.Windows.Forms.Panel();
+			this.tbcFilters = new System.Windows.Forms.TabControl();
+			this.tbpFiltersEphemeris = new System.Windows.Forms.TabPage();
+			this.pnlCurrentMagnitude = new System.Windows.Forms.Panel();
+			this.cbxCurrentMagnitude = new System.Windows.Forms.CheckBox();
+			this.txtCurrentMagnitude = new System.Windows.Forms.TextBox();
+			this.cboCurrentMagnitude = new System.Windows.Forms.ComboBox();
+			this.pnlCurrentEarthDist = new System.Windows.Forms.Panel();
+			this.cbxCurrentEarthDist = new System.Windows.Forms.CheckBox();
+			this.txtCurrentEarthDist = new System.Windows.Forms.TextBox();
+			this.cboCurrentEarthDist = new System.Windows.Forms.ComboBox();
+			this.lblCurrentEarthDist = new System.Windows.Forms.Label();
+			this.pnlCurrentSunDist = new System.Windows.Forms.Panel();
+			this.cbxCurrentSunDist = new System.Windows.Forms.CheckBox();
+			this.txtCurrentSunDist = new System.Windows.Forms.TextBox();
+			this.cboCurrentSunDist = new System.Windows.Forms.ComboBox();
+			this.lblCurrentSunDist = new System.Windows.Forms.Label();
+			this.pnlPerihelionMagnitude = new System.Windows.Forms.Panel();
+			this.cbxPerihelionMagnitude = new System.Windows.Forms.CheckBox();
+			this.txtPerihelionMagnitude = new System.Windows.Forms.TextBox();
+			this.cboPerihelionMagnitude = new System.Windows.Forms.ComboBox();
+			this.pnlPerihEarthDistance = new System.Windows.Forms.Panel();
+			this.cbxPerihEarthDistance = new System.Windows.Forms.CheckBox();
+			this.txtPerihEarthDistance = new System.Windows.Forms.TextBox();
+			this.cboPerihEarthDistance = new System.Windows.Forms.ComboBox();
+			this.lblPerihEarthDistance = new System.Windows.Forms.Label();
+			this.pnlName = new System.Windows.Forms.Panel();
+			this.cboName = new System.Windows.Forms.ComboBox();
+			this.cbxName = new System.Windows.Forms.CheckBox();
+			this.txtName = new System.Windows.Forms.TextBox();
+			this.pnlPeriod = new System.Windows.Forms.Panel();
+			this.cbxPeriod = new System.Windows.Forms.CheckBox();
+			this.cboPeriod = new System.Windows.Forms.ComboBox();
+			this.lblPeriod = new System.Windows.Forms.Label();
+			this.txtPeriod = new System.Windows.Forms.TextBox();
+			this.pnlPerihDate = new System.Windows.Forms.Panel();
+			this.btnPerihDate = new System.Windows.Forms.Button();
+			this.cbxPerihDate = new System.Windows.Forms.CheckBox();
+			this.cboPerihDate = new System.Windows.Forms.ComboBox();
+			this.pnlPerihDist = new System.Windows.Forms.Panel();
 			this.cbxPerihelionDistance = new System.Windows.Forms.CheckBox();
 			this.txtPerihelionDistance = new System.Windows.Forms.TextBox();
 			this.cboPerihelionDistance = new System.Windows.Forms.ComboBox();
 			this.lblPerihelionDistance = new System.Windows.Forms.Label();
+			this.tbpFiltersElements = new System.Windows.Forms.TabPage();
+			this.pnlAphelionDist = new System.Windows.Forms.Panel();
+			this.label1 = new System.Windows.Forms.Label();
+			this.cboAphelionDist = new System.Windows.Forms.ComboBox();
+			this.cbxAphelionDist = new System.Windows.Forms.CheckBox();
+			this.txtAphelionDist = new System.Windows.Forms.TextBox();
+			this.panel8 = new System.Windows.Forms.Panel();
+			this.label2 = new System.Windows.Forms.Label();
+			this.checkBox8 = new System.Windows.Forms.CheckBox();
+			this.comboBox8 = new System.Windows.Forms.ComboBox();
+			this.textBox8 = new System.Windows.Forms.TextBox();
 			this.panelEcc = new System.Windows.Forms.Panel();
 			this.cbxEccentricity = new System.Windows.Forms.CheckBox();
 			this.cboEccentricity = new System.Windows.Forms.ComboBox();
 			this.txtEccentricity = new System.Windows.Forms.TextBox();
-			this.panelIncl = new System.Windows.Forms.Panel();
-			this.cbxInclination = new System.Windows.Forms.CheckBox();
-			this.cboInclination = new System.Windows.Forms.ComboBox();
-			this.txtInclination = new System.Windows.Forms.TextBox();
-			this.lblInclination = new System.Windows.Forms.Label();
 			this.panelAscNode = new System.Windows.Forms.Panel();
 			this.cboLongOfAscendingNode = new System.Windows.Forms.ComboBox();
 			this.cbxLongOfAscendingNode = new System.Windows.Forms.CheckBox();
 			this.txtLongOfAscendingNode = new System.Windows.Forms.TextBox();
 			this.lblLongOfAscendingNode = new System.Windows.Forms.Label();
+			this.panelIncl = new System.Windows.Forms.Panel();
+			this.cbxInclination = new System.Windows.Forms.CheckBox();
+			this.cboInclination = new System.Windows.Forms.ComboBox();
+			this.txtInclination = new System.Windows.Forms.TextBox();
+			this.lblInclination = new System.Windows.Forms.Label();
 			this.panelArgPeric = new System.Windows.Forms.Panel();
 			this.cbxArgumentOfPericenter = new System.Windows.Forms.CheckBox();
 			this.cboArgumentOfPericenter = new System.Windows.Forms.ComboBox();
 			this.txtArgumentOfPericenter = new System.Windows.Forms.TextBox();
 			this.lblArgumentOfPericenter = new System.Windows.Forms.Label();
-			this.panelPeriod = new System.Windows.Forms.Panel();
-			this.cbxPeriod = new System.Windows.Forms.CheckBox();
-			this.cboPeriod = new System.Windows.Forms.ComboBox();
-			this.lblPeriod = new System.Windows.Forms.Label();
-			this.txtPeriod = new System.Windows.Forms.TextBox();
-			this.panelPerihDate = new System.Windows.Forms.Panel();
-			this.btnDate = new System.Windows.Forms.Button();
-			this.cbxPerihelionDate = new System.Windows.Forms.CheckBox();
-			this.cboPerihelionDate = new System.Windows.Forms.ComboBox();
-			this.panelName = new System.Windows.Forms.Panel();
-			this.cboName = new System.Windows.Forms.ComboBox();
-			this.cbxName = new System.Windows.Forms.CheckBox();
-			this.txtName = new System.Windows.Forms.TextBox();
+			this.btnResetAllFilters = new System.Windows.Forms.Button();
 			this.lblTotal = new System.Windows.Forms.Label();
 			this.pnlDetails.SuspendLayout();
 			this.tbcDetails.SuspendLayout();
 			this.tbpEphemeris.SuspendLayout();
 			this.tbpElements.SuspendLayout();
 			this.pnlFilters.SuspendLayout();
-			this.gbFilters.SuspendLayout();
-			this.panelPerihDist.SuspendLayout();
+			this.tbcFilters.SuspendLayout();
+			this.tbpFiltersEphemeris.SuspendLayout();
+			this.pnlCurrentMagnitude.SuspendLayout();
+			this.pnlCurrentEarthDist.SuspendLayout();
+			this.pnlCurrentSunDist.SuspendLayout();
+			this.pnlPerihelionMagnitude.SuspendLayout();
+			this.pnlPerihEarthDistance.SuspendLayout();
+			this.pnlName.SuspendLayout();
+			this.pnlPeriod.SuspendLayout();
+			this.pnlPerihDate.SuspendLayout();
+			this.pnlPerihDist.SuspendLayout();
+			this.tbpFiltersElements.SuspendLayout();
+			this.pnlAphelionDist.SuspendLayout();
+			this.panel8.SuspendLayout();
 			this.panelEcc.SuspendLayout();
-			this.panelIncl.SuspendLayout();
 			this.panelAscNode.SuspendLayout();
+			this.panelIncl.SuspendLayout();
 			this.panelArgPeric.SuspendLayout();
-			this.panelPeriod.SuspendLayout();
-			this.panelPerihDate.SuspendLayout();
-			this.panelName.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// lblElemN2
@@ -309,9 +355,9 @@
 			this.lblElemPerihDate.ForeColor = System.Drawing.SystemColors.GrayText;
 			this.lblElemPerihDate.Location = new System.Drawing.Point(23, 54);
 			this.lblElemPerihDate.Name = "lblElemPerihDate";
-			this.lblElemPerihDate.Size = new System.Drawing.Size(78, 13);
+			this.lblElemPerihDate.Size = new System.Drawing.Size(124, 13);
 			this.lblElemPerihDate.TabIndex = 244;
-			this.lblElemPerihDate.Text = "Perihelion date";
+			this.lblElemPerihDate.Text = "Elements perihelion date";
 			// 
 			// txtElemEquinox
 			// 
@@ -735,9 +781,9 @@
 			// 
 			// btnFilters
 			// 
-			this.btnFilters.Location = new System.Drawing.Point(651, 17);
+			this.btnFilters.Location = new System.Drawing.Point(702, 18);
 			this.btnFilters.Name = "btnFilters";
-			this.btnFilters.Size = new System.Drawing.Size(118, 23);
+			this.btnFilters.Size = new System.Drawing.Size(100, 23);
 			this.btnFilters.TabIndex = 3;
 			this.btnFilters.Text = "Filters ▼";
 			this.btnFilters.UseVisualStyleBackColor = true;
@@ -745,9 +791,9 @@
 			// 
 			// btnSort
 			// 
-			this.btnSort.Location = new System.Drawing.Point(261, 17);
+			this.btnSort.Location = new System.Drawing.Point(273, 18);
 			this.btnSort.Name = "btnSort";
-			this.btnSort.Size = new System.Drawing.Size(118, 23);
+			this.btnSort.Size = new System.Drawing.Size(100, 23);
 			this.btnSort.TabIndex = 1;
 			this.btnSort.Text = "Sort";
 			this.btnSort.UseVisualStyleBackColor = true;
@@ -755,9 +801,8 @@
 			// 
 			// btnOk
 			// 
-			this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-			this.btnOk.Location = new System.Drawing.Point(598, 381);
+			this.btnOk.Location = new System.Drawing.Point(598, 384);
 			this.btnOk.Name = "btnOk";
 			this.btnOk.Size = new System.Drawing.Size(100, 23);
 			this.btnOk.TabIndex = 6;
@@ -769,7 +814,6 @@
 			this.contextSort.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.mnuDesig,
             this.mnuName,
-            this.mnuNextPerihDate,
             this.mnuPerihDate,
             this.mnuPeriod,
             this.mnuPerihDist,
@@ -778,8 +822,10 @@
             this.mnuCurrSunDist,
             this.mnuCurrEarthDist,
             this.mnuCurrMag,
-            this.mnuIncl,
+            this.mnuAphDistance,
+            this.mnuSemiMajorAxis,
             this.mnuEcc,
+            this.mnuIncl,
             this.mnuAscNode,
             this.mnuArgPeri,
             this.mnuSeparator,
@@ -802,16 +848,9 @@
 			this.mnuName.Text = "Name";
 			this.mnuName.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
-			// mnuNextPerihDate
-			// 
-			this.mnuNextPerihDate.Index = 2;
-			this.mnuNextPerihDate.Tag = "NextT";
-			this.mnuNextPerihDate.Text = "Closest perihelion date";
-			this.mnuNextPerihDate.Click += new System.EventHandler(this.menuItemSortCommon_Click);
-			// 
 			// mnuPerihDate
 			// 
-			this.mnuPerihDate.Index = 3;
+			this.mnuPerihDate.Index = 2;
 			this.mnuPerihDate.RadioCheck = true;
 			this.mnuPerihDate.Tag = "T";
 			this.mnuPerihDate.Text = "Perihelion date";
@@ -819,7 +858,7 @@
 			// 
 			// mnuPeriod
 			// 
-			this.mnuPeriod.Index = 4;
+			this.mnuPeriod.Index = 3;
 			this.mnuPeriod.RadioCheck = true;
 			this.mnuPeriod.Tag = "P";
 			this.mnuPeriod.Text = "Period";
@@ -827,53 +866,59 @@
 			// 
 			// mnuPerihDist
 			// 
-			this.mnuPerihDist.Index = 5;
+			this.mnuPerihDist.Index = 4;
 			this.mnuPerihDist.Tag = "q";
 			this.mnuPerihDist.Text = "Perihelion distance";
 			this.mnuPerihDist.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuPerihEarthDist
 			// 
-			this.mnuPerihEarthDist.Index = 6;
+			this.mnuPerihEarthDist.Index = 5;
 			this.mnuPerihEarthDist.Tag = "PerihEarthDist";
 			this.mnuPerihEarthDist.Text = "Perihelion Earth distance";
 			this.mnuPerihEarthDist.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuPerihMag
 			// 
-			this.mnuPerihMag.Index = 7;
+			this.mnuPerihMag.Index = 6;
 			this.mnuPerihMag.Tag = "PerihMag";
 			this.mnuPerihMag.Text = "Perihelion magnitude";
 			this.mnuPerihMag.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuCurrSunDist
 			// 
-			this.mnuCurrSunDist.Index = 8;
+			this.mnuCurrSunDist.Index = 7;
 			this.mnuCurrSunDist.Tag = "CurrentSunDist";
 			this.mnuCurrSunDist.Text = "Current Sun distance";
 			this.mnuCurrSunDist.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuCurrEarthDist
 			// 
-			this.mnuCurrEarthDist.Index = 9;
+			this.mnuCurrEarthDist.Index = 8;
 			this.mnuCurrEarthDist.Tag = "CurrentEarthDist";
 			this.mnuCurrEarthDist.Text = "Current Earth distance";
 			this.mnuCurrEarthDist.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuCurrMag
 			// 
-			this.mnuCurrMag.Index = 10;
+			this.mnuCurrMag.Index = 9;
 			this.mnuCurrMag.Tag = "CurrentMag";
 			this.mnuCurrMag.Text = "Current magnitude";
 			this.mnuCurrMag.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
-			// mnuIncl
+			// mnuAphDistance
 			// 
-			this.mnuIncl.Index = 11;
-			this.mnuIncl.RadioCheck = true;
-			this.mnuIncl.Tag = "i";
-			this.mnuIncl.Text = "Inclination";
-			this.mnuIncl.Click += new System.EventHandler(this.menuItemSortCommon_Click);
+			this.mnuAphDistance.Index = 10;
+			this.mnuAphDistance.Tag = "Q";
+			this.mnuAphDistance.Text = "Aphelion distance";
+			this.mnuAphDistance.Click += new System.EventHandler(this.menuItemSortCommon_Click);
+			// 
+			// mnuSemiMajorAxis
+			// 
+			this.mnuSemiMajorAxis.Index = 11;
+			this.mnuSemiMajorAxis.Tag = "a";
+			this.mnuSemiMajorAxis.Text = "Semi-major axis";
+			this.mnuSemiMajorAxis.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuEcc
 			// 
@@ -883,9 +928,17 @@
 			this.mnuEcc.Text = "Eccentricity";
 			this.mnuEcc.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
+			// mnuIncl
+			// 
+			this.mnuIncl.Index = 13;
+			this.mnuIncl.RadioCheck = true;
+			this.mnuIncl.Tag = "i";
+			this.mnuIncl.Text = "Inclination";
+			this.mnuIncl.Click += new System.EventHandler(this.menuItemSortCommon_Click);
+			// 
 			// mnuAscNode
 			// 
-			this.mnuAscNode.Index = 13;
+			this.mnuAscNode.Index = 14;
 			this.mnuAscNode.RadioCheck = true;
 			this.mnuAscNode.Tag = "N";
 			this.mnuAscNode.Text = "Long. of the Asc. Node";
@@ -893,7 +946,7 @@
 			// 
 			// mnuArgPeri
 			// 
-			this.mnuArgPeri.Index = 14;
+			this.mnuArgPeri.Index = 15;
 			this.mnuArgPeri.RadioCheck = true;
 			this.mnuArgPeri.Tag = "w";
 			this.mnuArgPeri.Text = "Arg. of Pericenter";
@@ -901,19 +954,19 @@
 			// 
 			// mnuSeparator
 			// 
-			this.mnuSeparator.Index = 15;
+			this.mnuSeparator.Index = 16;
 			this.mnuSeparator.Text = "-";
 			// 
 			// mnuAsc
 			// 
-			this.mnuAsc.Index = 16;
+			this.mnuAsc.Index = 17;
 			this.mnuAsc.RadioCheck = true;
 			this.mnuAsc.Text = "Ascending";
 			this.mnuAsc.Click += new System.EventHandler(this.menuItemSortAscDesc_Click);
 			// 
 			// mnuDesc
 			// 
-			this.mnuDesc.Index = 17;
+			this.mnuDesc.Index = 18;
 			this.mnuDesc.RadioCheck = true;
 			this.mnuDesc.Text = "Descending";
 			this.mnuDesc.Click += new System.EventHandler(this.menuItemSortAscDesc_Click);
@@ -921,7 +974,7 @@
 			// btnFiltersApply
 			// 
 			this.btnFiltersApply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.btnFiltersApply.Location = new System.Drawing.Point(345, 334);
+			this.btnFiltersApply.Location = new System.Drawing.Point(345, 337);
 			this.btnFiltersApply.Name = "btnFiltersApply";
 			this.btnFiltersApply.Size = new System.Drawing.Size(100, 23);
 			this.btnFiltersApply.TabIndex = 1;
@@ -934,7 +987,7 @@
 			this.pnlDetails.Controls.Add(this.tbcDetails);
 			this.pnlDetails.Location = new System.Drawing.Point(253, 47);
 			this.pnlDetails.Name = "pnlDetails";
-			this.pnlDetails.Size = new System.Drawing.Size(549, 330);
+			this.pnlDetails.Size = new System.Drawing.Size(549, 333);
 			this.pnlDetails.TabIndex = 4;
 			// 
 			// tbcDetails
@@ -942,14 +995,14 @@
 			this.tbcDetails.Appearance = System.Windows.Forms.TabAppearance.FlatButtons;
 			this.tbcDetails.Controls.Add(this.tbpEphemeris);
 			this.tbcDetails.Controls.Add(this.tbpElements);
-			this.tbcDetails.ItemSize = new System.Drawing.Size(121, 21);
+			this.tbcDetails.ItemSize = new System.Drawing.Size(128, 21);
 			this.tbcDetails.Location = new System.Drawing.Point(5, 10);
 			this.tbcDetails.Name = "tbcDetails";
 			this.tbcDetails.SelectedIndex = 0;
-			this.tbcDetails.Size = new System.Drawing.Size(539, 312);
+			this.tbcDetails.Size = new System.Drawing.Size(539, 317);
 			this.tbcDetails.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
 			this.tbcDetails.TabIndex = 1;
-			this.tbcDetails.SelectedIndexChanged += new System.EventHandler(this.tbcDetails_SelectedIndexChanged);
+			this.tbcDetails.SelectedIndexChanged += new System.EventHandler(this.tbcCommon_SelectedIndexChanged);
 			// 
 			// tbpEphemeris
 			// 
@@ -1001,7 +1054,7 @@
 			this.tbpEphemeris.Location = new System.Drawing.Point(4, 25);
 			this.tbpEphemeris.Name = "tbpEphemeris";
 			this.tbpEphemeris.Padding = new System.Windows.Forms.Padding(3);
-			this.tbpEphemeris.Size = new System.Drawing.Size(531, 283);
+			this.tbpEphemeris.Size = new System.Drawing.Size(531, 288);
 			this.tbpEphemeris.TabIndex = 0;
 			this.tbpEphemeris.Text = "Ephemeris";
 			// 
@@ -1399,9 +1452,9 @@
 			this.lblInfoNextPerihDate.ForeColor = System.Drawing.SystemColors.GrayText;
 			this.lblInfoNextPerihDate.Location = new System.Drawing.Point(23, 54);
 			this.lblInfoNextPerihDate.Name = "lblInfoNextPerihDate";
-			this.lblInfoNextPerihDate.Size = new System.Drawing.Size(116, 13);
+			this.lblInfoNextPerihDate.Size = new System.Drawing.Size(78, 13);
 			this.lblInfoNextPerihDate.TabIndex = 244;
-			this.lblInfoNextPerihDate.Text = "Closest perihelion date";
+			this.lblInfoNextPerihDate.Text = "Perihelion date";
 			// 
 			// txtInfoPerihEarthDist
 			// 
@@ -1520,15 +1573,14 @@
 			this.tbpElements.Location = new System.Drawing.Point(4, 25);
 			this.tbpElements.Name = "tbpElements";
 			this.tbpElements.Padding = new System.Windows.Forms.Padding(3);
-			this.tbpElements.Size = new System.Drawing.Size(531, 283);
+			this.tbpElements.Size = new System.Drawing.Size(531, 288);
 			this.tbpElements.TabIndex = 1;
 			this.tbpElements.Text = "Orbital Elements";
 			// 
 			// btnCancel
 			// 
-			this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.btnCancel.Location = new System.Drawing.Point(702, 381);
+			this.btnCancel.Location = new System.Drawing.Point(702, 384);
 			this.btnCancel.Name = "btnCancel";
 			this.btnCancel.Size = new System.Drawing.Size(100, 23);
 			this.btnCancel.TabIndex = 7;
@@ -1539,10 +1591,10 @@
 			// 
 			this.pnlFilters.Controls.Add(this.btnFiltersClose);
 			this.pnlFilters.Controls.Add(this.btnFiltersApply);
-			this.pnlFilters.Controls.Add(this.gbFilters);
+			this.pnlFilters.Controls.Add(this.tbcFilters);
 			this.pnlFilters.Location = new System.Drawing.Point(253, 47);
 			this.pnlFilters.Name = "pnlFilters";
-			this.pnlFilters.Size = new System.Drawing.Size(549, 357);
+			this.pnlFilters.Size = new System.Drawing.Size(549, 360);
 			this.pnlFilters.TabIndex = 5;
 			this.pnlFilters.Visible = false;
 			this.pnlFilters.VisibleChanged += new System.EventHandler(this.pnlFilters_VisibleChanged);
@@ -1550,7 +1602,7 @@
 			// btnFiltersClose
 			// 
 			this.btnFiltersClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.btnFiltersClose.Location = new System.Drawing.Point(449, 334);
+			this.btnFiltersClose.Location = new System.Drawing.Point(449, 337);
 			this.btnFiltersClose.Name = "btnFiltersClose";
 			this.btnFiltersClose.Size = new System.Drawing.Size(100, 23);
 			this.btnFiltersClose.TabIndex = 2;
@@ -1558,32 +1610,460 @@
 			this.btnFiltersClose.UseVisualStyleBackColor = true;
 			this.btnFiltersClose.Click += new System.EventHandler(this.btnFilters_Click);
 			// 
-			// gbFilters
+			// tbcFilters
 			// 
-			this.gbFilters.Controls.Add(this.panelPerihDist);
-			this.gbFilters.Controls.Add(this.panelEcc);
-			this.gbFilters.Controls.Add(this.panelIncl);
-			this.gbFilters.Controls.Add(this.panelAscNode);
-			this.gbFilters.Controls.Add(this.panelArgPeric);
-			this.gbFilters.Controls.Add(this.panelPeriod);
-			this.gbFilters.Controls.Add(this.panelPerihDate);
-			this.gbFilters.Controls.Add(this.panelName);
-			this.gbFilters.Location = new System.Drawing.Point(3, 2);
-			this.gbFilters.Name = "gbFilters";
-			this.gbFilters.Size = new System.Drawing.Size(544, 312);
-			this.gbFilters.TabIndex = 0;
-			this.gbFilters.TabStop = false;
+			this.tbcFilters.Appearance = System.Windows.Forms.TabAppearance.FlatButtons;
+			this.tbcFilters.Controls.Add(this.tbpFiltersEphemeris);
+			this.tbcFilters.Controls.Add(this.tbpFiltersElements);
+			this.tbcFilters.ItemSize = new System.Drawing.Size(128, 21);
+			this.tbcFilters.Location = new System.Drawing.Point(5, 10);
+			this.tbcFilters.Name = "tbcFilters";
+			this.tbcFilters.SelectedIndex = 0;
+			this.tbcFilters.Size = new System.Drawing.Size(539, 317);
+			this.tbcFilters.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
+			this.tbcFilters.TabIndex = 3;
+			this.tbcFilters.SelectedIndexChanged += new System.EventHandler(this.tbcCommon_SelectedIndexChanged);
 			// 
-			// panelPerihDist
+			// tbpFiltersEphemeris
 			// 
-			this.panelPerihDist.Controls.Add(this.cbxPerihelionDistance);
-			this.panelPerihDist.Controls.Add(this.txtPerihelionDistance);
-			this.panelPerihDist.Controls.Add(this.cboPerihelionDistance);
-			this.panelPerihDist.Controls.Add(this.lblPerihelionDistance);
-			this.panelPerihDist.Location = new System.Drawing.Point(13, 92);
-			this.panelPerihDist.Name = "panelPerihDist";
-			this.panelPerihDist.Size = new System.Drawing.Size(500, 25);
-			this.panelPerihDist.TabIndex = 2;
+			this.tbpFiltersEphemeris.BackColor = System.Drawing.SystemColors.Control;
+			this.tbpFiltersEphemeris.Controls.Add(this.pnlCurrentMagnitude);
+			this.tbpFiltersEphemeris.Controls.Add(this.pnlCurrentEarthDist);
+			this.tbpFiltersEphemeris.Controls.Add(this.pnlCurrentSunDist);
+			this.tbpFiltersEphemeris.Controls.Add(this.pnlPerihelionMagnitude);
+			this.tbpFiltersEphemeris.Controls.Add(this.pnlPerihEarthDistance);
+			this.tbpFiltersEphemeris.Controls.Add(this.pnlName);
+			this.tbpFiltersEphemeris.Controls.Add(this.pnlPeriod);
+			this.tbpFiltersEphemeris.Controls.Add(this.pnlPerihDate);
+			this.tbpFiltersEphemeris.Controls.Add(this.pnlPerihDist);
+			this.tbpFiltersEphemeris.Location = new System.Drawing.Point(4, 25);
+			this.tbpFiltersEphemeris.Name = "tbpFiltersEphemeris";
+			this.tbpFiltersEphemeris.Padding = new System.Windows.Forms.Padding(3);
+			this.tbpFiltersEphemeris.Size = new System.Drawing.Size(531, 288);
+			this.tbpFiltersEphemeris.TabIndex = 0;
+			this.tbpFiltersEphemeris.Text = "Ephemeris";
+			// 
+			// pnlCurrentMagnitude
+			// 
+			this.pnlCurrentMagnitude.Controls.Add(this.cbxCurrentMagnitude);
+			this.pnlCurrentMagnitude.Controls.Add(this.txtCurrentMagnitude);
+			this.pnlCurrentMagnitude.Controls.Add(this.cboCurrentMagnitude);
+			this.pnlCurrentMagnitude.Location = new System.Drawing.Point(4, 259);
+			this.pnlCurrentMagnitude.Name = "pnlCurrentMagnitude";
+			this.pnlCurrentMagnitude.Size = new System.Drawing.Size(500, 25);
+			this.pnlCurrentMagnitude.TabIndex = 12;
+			this.pnlCurrentMagnitude.Tag = "CurrentMag";
+			// 
+			// cbxCurrentMagnitude
+			// 
+			this.cbxCurrentMagnitude.AutoSize = true;
+			this.cbxCurrentMagnitude.Location = new System.Drawing.Point(8, 4);
+			this.cbxCurrentMagnitude.Name = "cbxCurrentMagnitude";
+			this.cbxCurrentMagnitude.Size = new System.Drawing.Size(116, 17);
+			this.cbxCurrentMagnitude.TabIndex = 0;
+			this.cbxCurrentMagnitude.Text = "Current magnitude";
+			this.cbxCurrentMagnitude.UseVisualStyleBackColor = true;
+			// 
+			// txtCurrentMagnitude
+			// 
+			this.txtCurrentMagnitude.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.txtCurrentMagnitude.Location = new System.Drawing.Point(332, 2);
+			this.txtCurrentMagnitude.MaxLength = 100;
+			this.txtCurrentMagnitude.Name = "txtCurrentMagnitude";
+			this.txtCurrentMagnitude.Size = new System.Drawing.Size(113, 21);
+			this.txtCurrentMagnitude.TabIndex = 2;
+			this.txtCurrentMagnitude.TextChanged += new System.EventHandler(this.txtFiltersCommon_TextChanged);
+			this.txtCurrentMagnitude.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMagnitudeCommon_KeyPress);
+			// 
+			// cboCurrentMagnitude
+			// 
+			this.cboCurrentMagnitude.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.cboCurrentMagnitude.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cboCurrentMagnitude.FormattingEnabled = true;
+			this.cboCurrentMagnitude.Items.AddRange(new object[] {
+            "Greather than (>)",
+            "Less than (<)"});
+			this.cboCurrentMagnitude.Location = new System.Drawing.Point(204, 2);
+			this.cboCurrentMagnitude.Name = "cboCurrentMagnitude";
+			this.cboCurrentMagnitude.Size = new System.Drawing.Size(118, 21);
+			this.cboCurrentMagnitude.TabIndex = 1;
+			this.cboCurrentMagnitude.Tag = "";
+			// 
+			// pnlCurrentEarthDist
+			// 
+			this.pnlCurrentEarthDist.Controls.Add(this.cbxCurrentEarthDist);
+			this.pnlCurrentEarthDist.Controls.Add(this.txtCurrentEarthDist);
+			this.pnlCurrentEarthDist.Controls.Add(this.cboCurrentEarthDist);
+			this.pnlCurrentEarthDist.Controls.Add(this.lblCurrentEarthDist);
+			this.pnlCurrentEarthDist.Location = new System.Drawing.Point(4, 228);
+			this.pnlCurrentEarthDist.Name = "pnlCurrentEarthDist";
+			this.pnlCurrentEarthDist.Size = new System.Drawing.Size(500, 25);
+			this.pnlCurrentEarthDist.TabIndex = 11;
+			this.pnlCurrentEarthDist.Tag = "CurrentEarthDist";
+			// 
+			// cbxCurrentEarthDist
+			// 
+			this.cbxCurrentEarthDist.AutoSize = true;
+			this.cbxCurrentEarthDist.Location = new System.Drawing.Point(8, 4);
+			this.cbxCurrentEarthDist.Name = "cbxCurrentEarthDist";
+			this.cbxCurrentEarthDist.Size = new System.Drawing.Size(135, 17);
+			this.cbxCurrentEarthDist.TabIndex = 0;
+			this.cbxCurrentEarthDist.Text = "Current Earth distance";
+			this.cbxCurrentEarthDist.UseVisualStyleBackColor = true;
+			// 
+			// txtCurrentEarthDist
+			// 
+			this.txtCurrentEarthDist.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.txtCurrentEarthDist.Location = new System.Drawing.Point(332, 2);
+			this.txtCurrentEarthDist.MaxLength = 100;
+			this.txtCurrentEarthDist.Name = "txtCurrentEarthDist";
+			this.txtCurrentEarthDist.Size = new System.Drawing.Size(113, 21);
+			this.txtCurrentEarthDist.TabIndex = 2;
+			this.txtCurrentEarthDist.TextChanged += new System.EventHandler(this.txtFiltersCommon_TextChanged);
+			this.txtCurrentEarthDist.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPerihelionDistance_KeyPress);
+			// 
+			// cboCurrentEarthDist
+			// 
+			this.cboCurrentEarthDist.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.cboCurrentEarthDist.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cboCurrentEarthDist.FormattingEnabled = true;
+			this.cboCurrentEarthDist.Items.AddRange(new object[] {
+            "Greather than (>)",
+            "Less than (<)"});
+			this.cboCurrentEarthDist.Location = new System.Drawing.Point(204, 2);
+			this.cboCurrentEarthDist.Name = "cboCurrentEarthDist";
+			this.cboCurrentEarthDist.Size = new System.Drawing.Size(118, 21);
+			this.cboCurrentEarthDist.TabIndex = 1;
+			this.cboCurrentEarthDist.Tag = "";
+			// 
+			// lblCurrentEarthDist
+			// 
+			this.lblCurrentEarthDist.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.lblCurrentEarthDist.AutoSize = true;
+			this.lblCurrentEarthDist.Location = new System.Drawing.Point(446, 5);
+			this.lblCurrentEarthDist.Name = "lblCurrentEarthDist";
+			this.lblCurrentEarthDist.Size = new System.Drawing.Size(21, 13);
+			this.lblCurrentEarthDist.TabIndex = 3;
+			this.lblCurrentEarthDist.Text = "AU";
+			// 
+			// pnlCurrentSunDist
+			// 
+			this.pnlCurrentSunDist.Controls.Add(this.cbxCurrentSunDist);
+			this.pnlCurrentSunDist.Controls.Add(this.txtCurrentSunDist);
+			this.pnlCurrentSunDist.Controls.Add(this.cboCurrentSunDist);
+			this.pnlCurrentSunDist.Controls.Add(this.lblCurrentSunDist);
+			this.pnlCurrentSunDist.Location = new System.Drawing.Point(4, 197);
+			this.pnlCurrentSunDist.Name = "pnlCurrentSunDist";
+			this.pnlCurrentSunDist.Size = new System.Drawing.Size(500, 25);
+			this.pnlCurrentSunDist.TabIndex = 10;
+			this.pnlCurrentSunDist.Tag = "CurrentSunDist";
+			// 
+			// cbxCurrentSunDist
+			// 
+			this.cbxCurrentSunDist.AutoSize = true;
+			this.cbxCurrentSunDist.Location = new System.Drawing.Point(8, 4);
+			this.cbxCurrentSunDist.Name = "cbxCurrentSunDist";
+			this.cbxCurrentSunDist.Size = new System.Drawing.Size(127, 17);
+			this.cbxCurrentSunDist.TabIndex = 0;
+			this.cbxCurrentSunDist.Text = "Current Sun distance";
+			this.cbxCurrentSunDist.UseVisualStyleBackColor = true;
+			// 
+			// txtCurrentSunDist
+			// 
+			this.txtCurrentSunDist.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.txtCurrentSunDist.Location = new System.Drawing.Point(332, 2);
+			this.txtCurrentSunDist.MaxLength = 100;
+			this.txtCurrentSunDist.Name = "txtCurrentSunDist";
+			this.txtCurrentSunDist.Size = new System.Drawing.Size(113, 21);
+			this.txtCurrentSunDist.TabIndex = 2;
+			this.txtCurrentSunDist.TextChanged += new System.EventHandler(this.txtFiltersCommon_TextChanged);
+			this.txtCurrentSunDist.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPerihelionDistance_KeyPress);
+			// 
+			// cboCurrentSunDist
+			// 
+			this.cboCurrentSunDist.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.cboCurrentSunDist.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cboCurrentSunDist.FormattingEnabled = true;
+			this.cboCurrentSunDist.Items.AddRange(new object[] {
+            "Greather than (>)",
+            "Less than (<)"});
+			this.cboCurrentSunDist.Location = new System.Drawing.Point(204, 2);
+			this.cboCurrentSunDist.Name = "cboCurrentSunDist";
+			this.cboCurrentSunDist.Size = new System.Drawing.Size(118, 21);
+			this.cboCurrentSunDist.TabIndex = 1;
+			this.cboCurrentSunDist.Tag = "";
+			// 
+			// lblCurrentSunDist
+			// 
+			this.lblCurrentSunDist.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.lblCurrentSunDist.AutoSize = true;
+			this.lblCurrentSunDist.Location = new System.Drawing.Point(446, 5);
+			this.lblCurrentSunDist.Name = "lblCurrentSunDist";
+			this.lblCurrentSunDist.Size = new System.Drawing.Size(21, 13);
+			this.lblCurrentSunDist.TabIndex = 3;
+			this.lblCurrentSunDist.Text = "AU";
+			// 
+			// pnlPerihelionMagnitude
+			// 
+			this.pnlPerihelionMagnitude.Controls.Add(this.cbxPerihelionMagnitude);
+			this.pnlPerihelionMagnitude.Controls.Add(this.txtPerihelionMagnitude);
+			this.pnlPerihelionMagnitude.Controls.Add(this.cboPerihelionMagnitude);
+			this.pnlPerihelionMagnitude.Location = new System.Drawing.Point(4, 166);
+			this.pnlPerihelionMagnitude.Name = "pnlPerihelionMagnitude";
+			this.pnlPerihelionMagnitude.Size = new System.Drawing.Size(500, 25);
+			this.pnlPerihelionMagnitude.TabIndex = 9;
+			this.pnlPerihelionMagnitude.Tag = "PerihMag";
+			// 
+			// cbxPerihelionMagnitude
+			// 
+			this.cbxPerihelionMagnitude.AutoSize = true;
+			this.cbxPerihelionMagnitude.Location = new System.Drawing.Point(8, 4);
+			this.cbxPerihelionMagnitude.Name = "cbxPerihelionMagnitude";
+			this.cbxPerihelionMagnitude.Size = new System.Drawing.Size(125, 17);
+			this.cbxPerihelionMagnitude.TabIndex = 0;
+			this.cbxPerihelionMagnitude.Text = "Perihelion magnitude";
+			this.cbxPerihelionMagnitude.UseVisualStyleBackColor = true;
+			// 
+			// txtPerihelionMagnitude
+			// 
+			this.txtPerihelionMagnitude.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.txtPerihelionMagnitude.Location = new System.Drawing.Point(332, 2);
+			this.txtPerihelionMagnitude.MaxLength = 100;
+			this.txtPerihelionMagnitude.Name = "txtPerihelionMagnitude";
+			this.txtPerihelionMagnitude.Size = new System.Drawing.Size(113, 21);
+			this.txtPerihelionMagnitude.TabIndex = 2;
+			this.txtPerihelionMagnitude.TextChanged += new System.EventHandler(this.txtFiltersCommon_TextChanged);
+			this.txtPerihelionMagnitude.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMagnitudeCommon_KeyPress);
+			// 
+			// cboPerihelionMagnitude
+			// 
+			this.cboPerihelionMagnitude.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.cboPerihelionMagnitude.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cboPerihelionMagnitude.FormattingEnabled = true;
+			this.cboPerihelionMagnitude.Items.AddRange(new object[] {
+            "Greather than (>)",
+            "Less than (<)"});
+			this.cboPerihelionMagnitude.Location = new System.Drawing.Point(204, 2);
+			this.cboPerihelionMagnitude.Name = "cboPerihelionMagnitude";
+			this.cboPerihelionMagnitude.Size = new System.Drawing.Size(118, 21);
+			this.cboPerihelionMagnitude.TabIndex = 1;
+			this.cboPerihelionMagnitude.Tag = "";
+			// 
+			// pnlPerihEarthDistance
+			// 
+			this.pnlPerihEarthDistance.Controls.Add(this.cbxPerihEarthDistance);
+			this.pnlPerihEarthDistance.Controls.Add(this.txtPerihEarthDistance);
+			this.pnlPerihEarthDistance.Controls.Add(this.cboPerihEarthDistance);
+			this.pnlPerihEarthDistance.Controls.Add(this.lblPerihEarthDistance);
+			this.pnlPerihEarthDistance.Location = new System.Drawing.Point(4, 135);
+			this.pnlPerihEarthDistance.Name = "pnlPerihEarthDistance";
+			this.pnlPerihEarthDistance.Size = new System.Drawing.Size(500, 25);
+			this.pnlPerihEarthDistance.TabIndex = 8;
+			this.pnlPerihEarthDistance.Tag = "PerihEarthDist";
+			// 
+			// cbxPerihEarthDistance
+			// 
+			this.cbxPerihEarthDistance.AutoSize = true;
+			this.cbxPerihEarthDistance.Location = new System.Drawing.Point(8, 4);
+			this.cbxPerihEarthDistance.Name = "cbxPerihEarthDistance";
+			this.cbxPerihEarthDistance.Size = new System.Drawing.Size(144, 17);
+			this.cbxPerihEarthDistance.TabIndex = 0;
+			this.cbxPerihEarthDistance.Text = "Perihelion Earth distance";
+			this.cbxPerihEarthDistance.UseVisualStyleBackColor = true;
+			// 
+			// txtPerihEarthDistance
+			// 
+			this.txtPerihEarthDistance.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.txtPerihEarthDistance.Location = new System.Drawing.Point(332, 2);
+			this.txtPerihEarthDistance.MaxLength = 100;
+			this.txtPerihEarthDistance.Name = "txtPerihEarthDistance";
+			this.txtPerihEarthDistance.Size = new System.Drawing.Size(113, 21);
+			this.txtPerihEarthDistance.TabIndex = 2;
+			this.txtPerihEarthDistance.TextChanged += new System.EventHandler(this.txtFiltersCommon_TextChanged);
+			this.txtPerihEarthDistance.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPerihelionDistance_KeyPress);
+			// 
+			// cboPerihEarthDistance
+			// 
+			this.cboPerihEarthDistance.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.cboPerihEarthDistance.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cboPerihEarthDistance.FormattingEnabled = true;
+			this.cboPerihEarthDistance.Items.AddRange(new object[] {
+            "Greather than (>)",
+            "Less than (<)"});
+			this.cboPerihEarthDistance.Location = new System.Drawing.Point(204, 2);
+			this.cboPerihEarthDistance.Name = "cboPerihEarthDistance";
+			this.cboPerihEarthDistance.Size = new System.Drawing.Size(118, 21);
+			this.cboPerihEarthDistance.TabIndex = 1;
+			this.cboPerihEarthDistance.Tag = "";
+			// 
+			// lblPerihEarthDistance
+			// 
+			this.lblPerihEarthDistance.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.lblPerihEarthDistance.AutoSize = true;
+			this.lblPerihEarthDistance.Location = new System.Drawing.Point(446, 5);
+			this.lblPerihEarthDistance.Name = "lblPerihEarthDistance";
+			this.lblPerihEarthDistance.Size = new System.Drawing.Size(21, 13);
+			this.lblPerihEarthDistance.TabIndex = 3;
+			this.lblPerihEarthDistance.Text = "AU";
+			// 
+			// pnlName
+			// 
+			this.pnlName.Controls.Add(this.cboName);
+			this.pnlName.Controls.Add(this.cbxName);
+			this.pnlName.Controls.Add(this.txtName);
+			this.pnlName.Location = new System.Drawing.Point(4, 11);
+			this.pnlName.Name = "pnlName";
+			this.pnlName.Size = new System.Drawing.Size(500, 25);
+			this.pnlName.TabIndex = 0;
+			this.pnlName.Tag = "full";
+			// 
+			// cboName
+			// 
+			this.cboName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.cboName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cboName.FormattingEnabled = true;
+			this.cboName.Items.AddRange(new object[] {
+            "Contains",
+            "Does not contain"});
+			this.cboName.Location = new System.Drawing.Point(204, 2);
+			this.cboName.Name = "cboName";
+			this.cboName.Size = new System.Drawing.Size(118, 21);
+			this.cboName.TabIndex = 1;
+			this.cboName.Tag = "";
+			// 
+			// cbxName
+			// 
+			this.cbxName.AutoSize = true;
+			this.cbxName.Location = new System.Drawing.Point(8, 4);
+			this.cbxName.Name = "cbxName";
+			this.cbxName.Size = new System.Drawing.Size(53, 17);
+			this.cbxName.TabIndex = 0;
+			this.cbxName.Text = "Name";
+			this.cbxName.UseVisualStyleBackColor = true;
+			// 
+			// txtName
+			// 
+			this.txtName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.txtName.Location = new System.Drawing.Point(332, 2);
+			this.txtName.Name = "txtName";
+			this.txtName.Size = new System.Drawing.Size(166, 21);
+			this.txtName.TabIndex = 2;
+			this.txtName.TextChanged += new System.EventHandler(this.txtFiltersCommon_TextChanged);
+			// 
+			// pnlPeriod
+			// 
+			this.pnlPeriod.Controls.Add(this.cbxPeriod);
+			this.pnlPeriod.Controls.Add(this.cboPeriod);
+			this.pnlPeriod.Controls.Add(this.lblPeriod);
+			this.pnlPeriod.Controls.Add(this.txtPeriod);
+			this.pnlPeriod.Location = new System.Drawing.Point(4, 73);
+			this.pnlPeriod.Name = "pnlPeriod";
+			this.pnlPeriod.Size = new System.Drawing.Size(500, 25);
+			this.pnlPeriod.TabIndex = 7;
+			this.pnlPeriod.Tag = "P";
+			// 
+			// cbxPeriod
+			// 
+			this.cbxPeriod.AutoSize = true;
+			this.cbxPeriod.Location = new System.Drawing.Point(8, 4);
+			this.cbxPeriod.Name = "cbxPeriod";
+			this.cbxPeriod.Size = new System.Drawing.Size(56, 17);
+			this.cbxPeriod.TabIndex = 0;
+			this.cbxPeriod.Text = "Period";
+			this.cbxPeriod.UseVisualStyleBackColor = true;
+			// 
+			// cboPeriod
+			// 
+			this.cboPeriod.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.cboPeriod.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cboPeriod.FormattingEnabled = true;
+			this.cboPeriod.Items.AddRange(new object[] {
+            "Greather than (>)",
+            "Less than (<)"});
+			this.cboPeriod.Location = new System.Drawing.Point(204, 2);
+			this.cboPeriod.Name = "cboPeriod";
+			this.cboPeriod.Size = new System.Drawing.Size(118, 21);
+			this.cboPeriod.TabIndex = 1;
+			this.cboPeriod.Tag = "";
+			// 
+			// lblPeriod
+			// 
+			this.lblPeriod.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.lblPeriod.AutoSize = true;
+			this.lblPeriod.Location = new System.Drawing.Point(446, 5);
+			this.lblPeriod.Name = "lblPeriod";
+			this.lblPeriod.Size = new System.Drawing.Size(34, 13);
+			this.lblPeriod.TabIndex = 37;
+			this.lblPeriod.Text = "years";
+			// 
+			// txtPeriod
+			// 
+			this.txtPeriod.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.txtPeriod.Location = new System.Drawing.Point(332, 2);
+			this.txtPeriod.MaxLength = 100;
+			this.txtPeriod.Name = "txtPeriod";
+			this.txtPeriod.Size = new System.Drawing.Size(113, 21);
+			this.txtPeriod.TabIndex = 2;
+			this.txtPeriod.TextChanged += new System.EventHandler(this.txtFiltersCommon_TextChanged);
+			this.txtPeriod.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFiltersPeriod_KeyPress);
+			// 
+			// pnlPerihDate
+			// 
+			this.pnlPerihDate.Controls.Add(this.btnPerihDate);
+			this.pnlPerihDate.Controls.Add(this.cbxPerihDate);
+			this.pnlPerihDate.Controls.Add(this.cboPerihDate);
+			this.pnlPerihDate.Location = new System.Drawing.Point(4, 42);
+			this.pnlPerihDate.Name = "pnlPerihDate";
+			this.pnlPerihDate.Size = new System.Drawing.Size(500, 25);
+			this.pnlPerihDate.TabIndex = 1;
+			this.pnlPerihDate.Tag = "NextT";
+			// 
+			// btnPerihDate
+			// 
+			this.btnPerihDate.Anchor = System.Windows.Forms.AnchorStyles.None;
+			this.btnPerihDate.Location = new System.Drawing.Point(332, 1);
+			this.btnPerihDate.Name = "btnPerihDate";
+			this.btnPerihDate.Size = new System.Drawing.Size(166, 23);
+			this.btnPerihDate.TabIndex = 2;
+			this.btnPerihDate.Text = "dd.MM.yyyy HH:mm:ss";
+			this.btnPerihDate.UseVisualStyleBackColor = true;
+			this.btnPerihDate.Click += new System.EventHandler(this.btnDate_Click);
+			// 
+			// cbxPerihDate
+			// 
+			this.cbxPerihDate.AutoSize = true;
+			this.cbxPerihDate.Location = new System.Drawing.Point(8, 4);
+			this.cbxPerihDate.Name = "cbxPerihDate";
+			this.cbxPerihDate.Size = new System.Drawing.Size(97, 17);
+			this.cbxPerihDate.TabIndex = 0;
+			this.cbxPerihDate.Text = "Perihelion date";
+			this.cbxPerihDate.UseVisualStyleBackColor = true;
+			// 
+			// cboPerihDate
+			// 
+			this.cboPerihDate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.cboPerihDate.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cboPerihDate.FormattingEnabled = true;
+			this.cboPerihDate.Items.AddRange(new object[] {
+            "Greather than (>)",
+            "Less than (<)"});
+			this.cboPerihDate.Location = new System.Drawing.Point(204, 2);
+			this.cboPerihDate.Name = "cboPerihDate";
+			this.cboPerihDate.Size = new System.Drawing.Size(118, 21);
+			this.cboPerihDate.TabIndex = 1;
+			this.cboPerihDate.Tag = "";
+			// 
+			// pnlPerihDist
+			// 
+			this.pnlPerihDist.Controls.Add(this.cbxPerihelionDistance);
+			this.pnlPerihDist.Controls.Add(this.txtPerihelionDistance);
+			this.pnlPerihDist.Controls.Add(this.cboPerihelionDistance);
+			this.pnlPerihDist.Controls.Add(this.lblPerihelionDistance);
+			this.pnlPerihDist.Location = new System.Drawing.Point(4, 104);
+			this.pnlPerihDist.Name = "pnlPerihDist";
+			this.pnlPerihDist.Size = new System.Drawing.Size(500, 25);
+			this.pnlPerihDist.TabIndex = 2;
+			this.pnlPerihDist.Tag = "q";
 			// 
 			// cbxPerihelionDistance
 			// 
@@ -1618,6 +2098,7 @@
 			this.cboPerihelionDistance.Name = "cboPerihelionDistance";
 			this.cboPerihelionDistance.Size = new System.Drawing.Size(118, 21);
 			this.cboPerihelionDistance.TabIndex = 1;
+			this.cboPerihelionDistance.Tag = "";
 			// 
 			// lblPerihelionDistance
 			// 
@@ -1629,15 +2110,146 @@
 			this.lblPerihelionDistance.TabIndex = 3;
 			this.lblPerihelionDistance.Text = "AU";
 			// 
+			// tbpFiltersElements
+			// 
+			this.tbpFiltersElements.BackColor = System.Drawing.SystemColors.Control;
+			this.tbpFiltersElements.Controls.Add(this.pnlAphelionDist);
+			this.tbpFiltersElements.Controls.Add(this.panel8);
+			this.tbpFiltersElements.Controls.Add(this.panelEcc);
+			this.tbpFiltersElements.Controls.Add(this.panelAscNode);
+			this.tbpFiltersElements.Controls.Add(this.panelIncl);
+			this.tbpFiltersElements.Controls.Add(this.panelArgPeric);
+			this.tbpFiltersElements.Location = new System.Drawing.Point(4, 25);
+			this.tbpFiltersElements.Name = "tbpFiltersElements";
+			this.tbpFiltersElements.Padding = new System.Windows.Forms.Padding(3);
+			this.tbpFiltersElements.Size = new System.Drawing.Size(531, 288);
+			this.tbpFiltersElements.TabIndex = 1;
+			this.tbpFiltersElements.Text = "Orbital Elements";
+			// 
+			// pnlAphelionDist
+			// 
+			this.pnlAphelionDist.Controls.Add(this.label1);
+			this.pnlAphelionDist.Controls.Add(this.cboAphelionDist);
+			this.pnlAphelionDist.Controls.Add(this.cbxAphelionDist);
+			this.pnlAphelionDist.Controls.Add(this.txtAphelionDist);
+			this.pnlAphelionDist.Location = new System.Drawing.Point(4, 11);
+			this.pnlAphelionDist.Name = "pnlAphelionDist";
+			this.pnlAphelionDist.Size = new System.Drawing.Size(500, 25);
+			this.pnlAphelionDist.TabIndex = 7;
+			this.pnlAphelionDist.Tag = "Q";
+			// 
+			// label1
+			// 
+			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(446, 5);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(21, 13);
+			this.label1.TabIndex = 4;
+			this.label1.Text = "AU";
+			// 
+			// cboAphelionDist
+			// 
+			this.cboAphelionDist.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.cboAphelionDist.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cboAphelionDist.FormattingEnabled = true;
+			this.cboAphelionDist.Items.AddRange(new object[] {
+            "Greather than (>)",
+            "Less than (<)"});
+			this.cboAphelionDist.Location = new System.Drawing.Point(204, 2);
+			this.cboAphelionDist.Name = "cboAphelionDist";
+			this.cboAphelionDist.Size = new System.Drawing.Size(118, 21);
+			this.cboAphelionDist.TabIndex = 1;
+			this.cboAphelionDist.Tag = "";
+			// 
+			// cbxAphelionDist
+			// 
+			this.cbxAphelionDist.AutoSize = true;
+			this.cbxAphelionDist.Location = new System.Drawing.Point(8, 4);
+			this.cbxAphelionDist.Name = "cbxAphelionDist";
+			this.cbxAphelionDist.Size = new System.Drawing.Size(110, 17);
+			this.cbxAphelionDist.TabIndex = 0;
+			this.cbxAphelionDist.Text = "Aphelion distance";
+			this.cbxAphelionDist.UseVisualStyleBackColor = true;
+			// 
+			// txtAphelionDist
+			// 
+			this.txtAphelionDist.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.txtAphelionDist.Location = new System.Drawing.Point(332, 2);
+			this.txtAphelionDist.MaxLength = 100;
+			this.txtAphelionDist.Name = "txtAphelionDist";
+			this.txtAphelionDist.Size = new System.Drawing.Size(113, 21);
+			this.txtAphelionDist.TabIndex = 2;
+			this.txtAphelionDist.TextChanged += new System.EventHandler(this.txtFiltersCommon_TextChanged);
+			this.txtAphelionDist.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtAphSmaxis_KeyPress);
+			// 
+			// panel8
+			// 
+			this.panel8.Controls.Add(this.label2);
+			this.panel8.Controls.Add(this.checkBox8);
+			this.panel8.Controls.Add(this.comboBox8);
+			this.panel8.Controls.Add(this.textBox8);
+			this.panel8.Location = new System.Drawing.Point(4, 42);
+			this.panel8.Name = "panel8";
+			this.panel8.Size = new System.Drawing.Size(500, 25);
+			this.panel8.TabIndex = 8;
+			this.panel8.Tag = "a";
+			// 
+			// label2
+			// 
+			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.label2.AutoSize = true;
+			this.label2.Location = new System.Drawing.Point(446, 5);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(21, 13);
+			this.label2.TabIndex = 4;
+			this.label2.Text = "AU";
+			// 
+			// checkBox8
+			// 
+			this.checkBox8.AutoSize = true;
+			this.checkBox8.Location = new System.Drawing.Point(8, 4);
+			this.checkBox8.Name = "checkBox8";
+			this.checkBox8.Size = new System.Drawing.Size(101, 17);
+			this.checkBox8.TabIndex = 0;
+			this.checkBox8.Text = "Semi-major axis";
+			this.checkBox8.UseVisualStyleBackColor = true;
+			// 
+			// comboBox8
+			// 
+			this.comboBox8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.comboBox8.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.comboBox8.FormattingEnabled = true;
+			this.comboBox8.Items.AddRange(new object[] {
+            "Greather than (>)",
+            "Less than (<)"});
+			this.comboBox8.Location = new System.Drawing.Point(204, 2);
+			this.comboBox8.Name = "comboBox8";
+			this.comboBox8.Size = new System.Drawing.Size(118, 21);
+			this.comboBox8.TabIndex = 1;
+			this.comboBox8.Tag = "";
+			// 
+			// textBox8
+			// 
+			this.textBox8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.textBox8.Location = new System.Drawing.Point(332, 2);
+			this.textBox8.MaxLength = 100;
+			this.textBox8.Name = "textBox8";
+			this.textBox8.Size = new System.Drawing.Size(113, 21);
+			this.textBox8.TabIndex = 2;
+			this.textBox8.TextChanged += new System.EventHandler(this.txtFiltersCommon_TextChanged);
+			this.textBox8.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtAphSmaxis_KeyPress);
+			// 
 			// panelEcc
 			// 
 			this.panelEcc.Controls.Add(this.cbxEccentricity);
 			this.panelEcc.Controls.Add(this.cboEccentricity);
 			this.panelEcc.Controls.Add(this.txtEccentricity);
-			this.panelEcc.Location = new System.Drawing.Point(13, 128);
+			this.panelEcc.Location = new System.Drawing.Point(4, 104);
 			this.panelEcc.Name = "panelEcc";
 			this.panelEcc.Size = new System.Drawing.Size(500, 25);
 			this.panelEcc.TabIndex = 3;
+			this.panelEcc.Tag = "e";
 			// 
 			// cbxEccentricity
 			// 
@@ -1661,6 +2273,7 @@
 			this.cboEccentricity.Name = "cboEccentricity";
 			this.cboEccentricity.Size = new System.Drawing.Size(118, 21);
 			this.cboEccentricity.TabIndex = 1;
+			this.cboEccentricity.Tag = "";
 			// 
 			// txtEccentricity
 			// 
@@ -1673,71 +2286,17 @@
 			this.txtEccentricity.TextChanged += new System.EventHandler(this.txtFiltersCommon_TextChanged);
 			this.txtEccentricity.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtEccentricity_KeyPress);
 			// 
-			// panelIncl
-			// 
-			this.panelIncl.Controls.Add(this.cbxInclination);
-			this.panelIncl.Controls.Add(this.cboInclination);
-			this.panelIncl.Controls.Add(this.txtInclination);
-			this.panelIncl.Controls.Add(this.lblInclination);
-			this.panelIncl.Location = new System.Drawing.Point(13, 236);
-			this.panelIncl.Name = "panelIncl";
-			this.panelIncl.Size = new System.Drawing.Size(500, 25);
-			this.panelIncl.TabIndex = 6;
-			// 
-			// cbxInclination
-			// 
-			this.cbxInclination.AutoSize = true;
-			this.cbxInclination.Location = new System.Drawing.Point(8, 4);
-			this.cbxInclination.Name = "cbxInclination";
-			this.cbxInclination.Size = new System.Drawing.Size(75, 17);
-			this.cbxInclination.TabIndex = 0;
-			this.cbxInclination.Text = "Inclination";
-			this.cbxInclination.UseVisualStyleBackColor = true;
-			// 
-			// cboInclination
-			// 
-			this.cboInclination.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.cboInclination.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cboInclination.FormattingEnabled = true;
-			this.cboInclination.Items.AddRange(new object[] {
-            "Greather than (>)",
-            "Less than (<)"});
-			this.cboInclination.Location = new System.Drawing.Point(204, 2);
-			this.cboInclination.Name = "cboInclination";
-			this.cboInclination.Size = new System.Drawing.Size(118, 21);
-			this.cboInclination.TabIndex = 1;
-			// 
-			// txtInclination
-			// 
-			this.txtInclination.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.txtInclination.Location = new System.Drawing.Point(332, 2);
-			this.txtInclination.MaxLength = 100;
-			this.txtInclination.Name = "txtInclination";
-			this.txtInclination.Size = new System.Drawing.Size(113, 21);
-			this.txtInclination.TabIndex = 2;
-			this.txtInclination.TextChanged += new System.EventHandler(this.txtFiltersCommon_TextChanged);
-			this.txtInclination.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtInclination_KeyPress);
-			// 
-			// lblInclination
-			// 
-			this.lblInclination.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.lblInclination.AutoSize = true;
-			this.lblInclination.Location = new System.Drawing.Point(446, 5);
-			this.lblInclination.Name = "lblInclination";
-			this.lblInclination.Size = new System.Drawing.Size(12, 13);
-			this.lblInclination.TabIndex = 36;
-			this.lblInclination.Text = "°";
-			// 
 			// panelAscNode
 			// 
 			this.panelAscNode.Controls.Add(this.cboLongOfAscendingNode);
 			this.panelAscNode.Controls.Add(this.cbxLongOfAscendingNode);
 			this.panelAscNode.Controls.Add(this.txtLongOfAscendingNode);
 			this.panelAscNode.Controls.Add(this.lblLongOfAscendingNode);
-			this.panelAscNode.Location = new System.Drawing.Point(13, 164);
+			this.panelAscNode.Location = new System.Drawing.Point(4, 166);
 			this.panelAscNode.Name = "panelAscNode";
 			this.panelAscNode.Size = new System.Drawing.Size(500, 25);
 			this.panelAscNode.TabIndex = 4;
+			this.panelAscNode.Tag = "N";
 			// 
 			// cboLongOfAscendingNode
 			// 
@@ -1751,6 +2310,7 @@
 			this.cboLongOfAscendingNode.Name = "cboLongOfAscendingNode";
 			this.cboLongOfAscendingNode.Size = new System.Drawing.Size(118, 21);
 			this.cboLongOfAscendingNode.TabIndex = 1;
+			this.cboLongOfAscendingNode.Tag = "";
 			// 
 			// cbxLongOfAscendingNode
 			// 
@@ -1783,16 +2343,74 @@
 			this.lblLongOfAscendingNode.TabIndex = 34;
 			this.lblLongOfAscendingNode.Text = "°";
 			// 
+			// panelIncl
+			// 
+			this.panelIncl.Controls.Add(this.cbxInclination);
+			this.panelIncl.Controls.Add(this.cboInclination);
+			this.panelIncl.Controls.Add(this.txtInclination);
+			this.panelIncl.Controls.Add(this.lblInclination);
+			this.panelIncl.Location = new System.Drawing.Point(4, 135);
+			this.panelIncl.Name = "panelIncl";
+			this.panelIncl.Size = new System.Drawing.Size(500, 25);
+			this.panelIncl.TabIndex = 6;
+			this.panelIncl.Tag = "i";
+			// 
+			// cbxInclination
+			// 
+			this.cbxInclination.AutoSize = true;
+			this.cbxInclination.Location = new System.Drawing.Point(8, 4);
+			this.cbxInclination.Name = "cbxInclination";
+			this.cbxInclination.Size = new System.Drawing.Size(75, 17);
+			this.cbxInclination.TabIndex = 0;
+			this.cbxInclination.Text = "Inclination";
+			this.cbxInclination.UseVisualStyleBackColor = true;
+			// 
+			// cboInclination
+			// 
+			this.cboInclination.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.cboInclination.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cboInclination.FormattingEnabled = true;
+			this.cboInclination.Items.AddRange(new object[] {
+            "Greather than (>)",
+            "Less than (<)"});
+			this.cboInclination.Location = new System.Drawing.Point(204, 2);
+			this.cboInclination.Name = "cboInclination";
+			this.cboInclination.Size = new System.Drawing.Size(118, 21);
+			this.cboInclination.TabIndex = 1;
+			this.cboInclination.Tag = "";
+			// 
+			// txtInclination
+			// 
+			this.txtInclination.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.txtInclination.Location = new System.Drawing.Point(332, 2);
+			this.txtInclination.MaxLength = 100;
+			this.txtInclination.Name = "txtInclination";
+			this.txtInclination.Size = new System.Drawing.Size(113, 21);
+			this.txtInclination.TabIndex = 2;
+			this.txtInclination.TextChanged += new System.EventHandler(this.txtFiltersCommon_TextChanged);
+			this.txtInclination.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtInclination_KeyPress);
+			// 
+			// lblInclination
+			// 
+			this.lblInclination.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.lblInclination.AutoSize = true;
+			this.lblInclination.Location = new System.Drawing.Point(446, 5);
+			this.lblInclination.Name = "lblInclination";
+			this.lblInclination.Size = new System.Drawing.Size(12, 13);
+			this.lblInclination.TabIndex = 36;
+			this.lblInclination.Text = "°";
+			// 
 			// panelArgPeric
 			// 
 			this.panelArgPeric.Controls.Add(this.cbxArgumentOfPericenter);
 			this.panelArgPeric.Controls.Add(this.cboArgumentOfPericenter);
 			this.panelArgPeric.Controls.Add(this.txtArgumentOfPericenter);
 			this.panelArgPeric.Controls.Add(this.lblArgumentOfPericenter);
-			this.panelArgPeric.Location = new System.Drawing.Point(13, 200);
+			this.panelArgPeric.Location = new System.Drawing.Point(4, 197);
 			this.panelArgPeric.Name = "panelArgPeric";
 			this.panelArgPeric.Size = new System.Drawing.Size(500, 25);
 			this.panelArgPeric.TabIndex = 5;
+			this.panelArgPeric.Tag = "w";
 			// 
 			// cbxArgumentOfPericenter
 			// 
@@ -1816,6 +2434,7 @@
 			this.cboArgumentOfPericenter.Name = "cboArgumentOfPericenter";
 			this.cboArgumentOfPericenter.Size = new System.Drawing.Size(118, 21);
 			this.cboArgumentOfPericenter.TabIndex = 1;
+			this.cboArgumentOfPericenter.Tag = "";
 			// 
 			// txtArgumentOfPericenter
 			// 
@@ -1838,151 +2457,21 @@
 			this.lblArgumentOfPericenter.TabIndex = 35;
 			this.lblArgumentOfPericenter.Text = "°";
 			// 
-			// panelPeriod
+			// btnResetAllFilters
 			// 
-			this.panelPeriod.Controls.Add(this.cbxPeriod);
-			this.panelPeriod.Controls.Add(this.cboPeriod);
-			this.panelPeriod.Controls.Add(this.lblPeriod);
-			this.panelPeriod.Controls.Add(this.txtPeriod);
-			this.panelPeriod.Location = new System.Drawing.Point(13, 272);
-			this.panelPeriod.Name = "panelPeriod";
-			this.panelPeriod.Size = new System.Drawing.Size(500, 25);
-			this.panelPeriod.TabIndex = 7;
-			// 
-			// cbxPeriod
-			// 
-			this.cbxPeriod.AutoSize = true;
-			this.cbxPeriod.Location = new System.Drawing.Point(8, 4);
-			this.cbxPeriod.Name = "cbxPeriod";
-			this.cbxPeriod.Size = new System.Drawing.Size(56, 17);
-			this.cbxPeriod.TabIndex = 0;
-			this.cbxPeriod.Text = "Period";
-			this.cbxPeriod.UseVisualStyleBackColor = true;
-			// 
-			// cboPeriod
-			// 
-			this.cboPeriod.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.cboPeriod.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cboPeriod.FormattingEnabled = true;
-			this.cboPeriod.Items.AddRange(new object[] {
-            "Greather than (>)",
-            "Less than (<)"});
-			this.cboPeriod.Location = new System.Drawing.Point(204, 2);
-			this.cboPeriod.Name = "cboPeriod";
-			this.cboPeriod.Size = new System.Drawing.Size(118, 21);
-			this.cboPeriod.TabIndex = 1;
-			// 
-			// lblPeriod
-			// 
-			this.lblPeriod.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.lblPeriod.AutoSize = true;
-			this.lblPeriod.Location = new System.Drawing.Point(446, 5);
-			this.lblPeriod.Name = "lblPeriod";
-			this.lblPeriod.Size = new System.Drawing.Size(34, 13);
-			this.lblPeriod.TabIndex = 37;
-			this.lblPeriod.Text = "years";
-			// 
-			// txtPeriod
-			// 
-			this.txtPeriod.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.txtPeriod.Location = new System.Drawing.Point(332, 2);
-			this.txtPeriod.MaxLength = 100;
-			this.txtPeriod.Name = "txtPeriod";
-			this.txtPeriod.Size = new System.Drawing.Size(113, 21);
-			this.txtPeriod.TabIndex = 2;
-			this.txtPeriod.TextChanged += new System.EventHandler(this.txtFiltersCommon_TextChanged);
-			this.txtPeriod.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFiltersPeriod_KeyPress);
-			// 
-			// panelPerihDate
-			// 
-			this.panelPerihDate.Controls.Add(this.btnDate);
-			this.panelPerihDate.Controls.Add(this.cbxPerihelionDate);
-			this.panelPerihDate.Controls.Add(this.cboPerihelionDate);
-			this.panelPerihDate.Location = new System.Drawing.Point(13, 56);
-			this.panelPerihDate.Name = "panelPerihDate";
-			this.panelPerihDate.Size = new System.Drawing.Size(500, 25);
-			this.panelPerihDate.TabIndex = 1;
-			// 
-			// btnDate
-			// 
-			this.btnDate.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this.btnDate.Location = new System.Drawing.Point(332, 1);
-			this.btnDate.Name = "btnDate";
-			this.btnDate.Size = new System.Drawing.Size(166, 23);
-			this.btnDate.TabIndex = 2;
-			this.btnDate.Text = "dd.MM.yyyy HH:mm:ss";
-			this.btnDate.UseVisualStyleBackColor = true;
-			this.btnDate.Click += new System.EventHandler(this.btnDate_Click);
-			// 
-			// cbxPerihelionDate
-			// 
-			this.cbxPerihelionDate.AutoSize = true;
-			this.cbxPerihelionDate.Location = new System.Drawing.Point(8, 4);
-			this.cbxPerihelionDate.Name = "cbxPerihelionDate";
-			this.cbxPerihelionDate.Size = new System.Drawing.Size(97, 17);
-			this.cbxPerihelionDate.TabIndex = 0;
-			this.cbxPerihelionDate.Text = "Perihelion date";
-			this.cbxPerihelionDate.UseVisualStyleBackColor = true;
-			// 
-			// cboPerihelionDate
-			// 
-			this.cboPerihelionDate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.cboPerihelionDate.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cboPerihelionDate.FormattingEnabled = true;
-			this.cboPerihelionDate.Items.AddRange(new object[] {
-            "Greather than (>)",
-            "Less than (<)"});
-			this.cboPerihelionDate.Location = new System.Drawing.Point(204, 2);
-			this.cboPerihelionDate.Name = "cboPerihelionDate";
-			this.cboPerihelionDate.Size = new System.Drawing.Size(118, 21);
-			this.cboPerihelionDate.TabIndex = 1;
-			// 
-			// panelName
-			// 
-			this.panelName.Controls.Add(this.cboName);
-			this.panelName.Controls.Add(this.cbxName);
-			this.panelName.Controls.Add(this.txtName);
-			this.panelName.Location = new System.Drawing.Point(13, 20);
-			this.panelName.Name = "panelName";
-			this.panelName.Size = new System.Drawing.Size(500, 25);
-			this.panelName.TabIndex = 0;
-			// 
-			// cboName
-			// 
-			this.cboName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.cboName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cboName.FormattingEnabled = true;
-			this.cboName.Items.AddRange(new object[] {
-            "Contains",
-            "Does not contain"});
-			this.cboName.Location = new System.Drawing.Point(204, 2);
-			this.cboName.Name = "cboName";
-			this.cboName.Size = new System.Drawing.Size(118, 21);
-			this.cboName.TabIndex = 1;
-			// 
-			// cbxName
-			// 
-			this.cbxName.AutoSize = true;
-			this.cbxName.Location = new System.Drawing.Point(8, 4);
-			this.cbxName.Name = "cbxName";
-			this.cbxName.Size = new System.Drawing.Size(53, 17);
-			this.cbxName.TabIndex = 0;
-			this.cbxName.Text = "Name";
-			this.cbxName.UseVisualStyleBackColor = true;
-			// 
-			// txtName
-			// 
-			this.txtName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.txtName.Location = new System.Drawing.Point(332, 2);
-			this.txtName.Name = "txtName";
-			this.txtName.Size = new System.Drawing.Size(166, 21);
-			this.txtName.TabIndex = 2;
-			this.txtName.TextChanged += new System.EventHandler(this.txtFiltersCommon_TextChanged);
+			this.btnResetAllFilters.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.btnResetAllFilters.Location = new System.Drawing.Point(599, 18);
+			this.btnResetAllFilters.Name = "btnResetAllFilters";
+			this.btnResetAllFilters.Size = new System.Drawing.Size(100, 23);
+			this.btnResetAllFilters.TabIndex = 4;
+			this.btnResetAllFilters.Text = "Reset all";
+			this.btnResetAllFilters.UseVisualStyleBackColor = true;
+			this.btnResetAllFilters.Click += new System.EventHandler(this.btnResetAllFilters_Click);
 			// 
 			// lblTotal
 			// 
 			this.lblTotal.AutoSize = true;
-			this.lblTotal.Location = new System.Drawing.Point(413, 22);
+			this.lblTotal.Location = new System.Drawing.Point(426, 22);
 			this.lblTotal.Name = "lblTotal";
 			this.lblTotal.Size = new System.Drawing.Size(50, 13);
 			this.lblTotal.TabIndex = 2;
@@ -1994,14 +2483,15 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(813, 417);
+			this.Controls.Add(this.btnResetAllFilters);
 			this.Controls.Add(this.lblTotal);
 			this.Controls.Add(this.btnFilters);
 			this.Controls.Add(this.btnSort);
 			this.Controls.Add(this.lbxDatabase);
 			this.Controls.Add(this.pnlDetails);
 			this.Controls.Add(this.pnlFilters);
-			this.Controls.Add(this.btnCancel);
 			this.Controls.Add(this.btnOk);
+			this.Controls.Add(this.btnCancel);
 			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.KeyPreview = true;
@@ -2022,23 +2512,39 @@
 			this.tbpElements.ResumeLayout(false);
 			this.tbpElements.PerformLayout();
 			this.pnlFilters.ResumeLayout(false);
-			this.gbFilters.ResumeLayout(false);
-			this.panelPerihDist.ResumeLayout(false);
-			this.panelPerihDist.PerformLayout();
+			this.tbcFilters.ResumeLayout(false);
+			this.tbpFiltersEphemeris.ResumeLayout(false);
+			this.pnlCurrentMagnitude.ResumeLayout(false);
+			this.pnlCurrentMagnitude.PerformLayout();
+			this.pnlCurrentEarthDist.ResumeLayout(false);
+			this.pnlCurrentEarthDist.PerformLayout();
+			this.pnlCurrentSunDist.ResumeLayout(false);
+			this.pnlCurrentSunDist.PerformLayout();
+			this.pnlPerihelionMagnitude.ResumeLayout(false);
+			this.pnlPerihelionMagnitude.PerformLayout();
+			this.pnlPerihEarthDistance.ResumeLayout(false);
+			this.pnlPerihEarthDistance.PerformLayout();
+			this.pnlName.ResumeLayout(false);
+			this.pnlName.PerformLayout();
+			this.pnlPeriod.ResumeLayout(false);
+			this.pnlPeriod.PerformLayout();
+			this.pnlPerihDate.ResumeLayout(false);
+			this.pnlPerihDate.PerformLayout();
+			this.pnlPerihDist.ResumeLayout(false);
+			this.pnlPerihDist.PerformLayout();
+			this.tbpFiltersElements.ResumeLayout(false);
+			this.pnlAphelionDist.ResumeLayout(false);
+			this.pnlAphelionDist.PerformLayout();
+			this.panel8.ResumeLayout(false);
+			this.panel8.PerformLayout();
 			this.panelEcc.ResumeLayout(false);
 			this.panelEcc.PerformLayout();
-			this.panelIncl.ResumeLayout(false);
-			this.panelIncl.PerformLayout();
 			this.panelAscNode.ResumeLayout(false);
 			this.panelAscNode.PerformLayout();
+			this.panelIncl.ResumeLayout(false);
+			this.panelIncl.PerformLayout();
 			this.panelArgPeric.ResumeLayout(false);
 			this.panelArgPeric.PerformLayout();
-			this.panelPeriod.ResumeLayout(false);
-			this.panelPeriod.PerformLayout();
-			this.panelPerihDate.ResumeLayout(false);
-			this.panelPerihDate.PerformLayout();
-			this.panelName.ResumeLayout(false);
-			this.panelName.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -2113,8 +2619,7 @@
 		private System.Windows.Forms.Panel pnlDetails;
 		private System.Windows.Forms.Panel pnlFilters;
 		private System.Windows.Forms.Button btnFiltersClose;
-		private System.Windows.Forms.GroupBox gbFilters;
-		private System.Windows.Forms.Panel panelPerihDist;
+		private System.Windows.Forms.Panel pnlPerihDist;
 		private System.Windows.Forms.CheckBox cbxPerihelionDistance;
 		private System.Windows.Forms.TextBox txtPerihelionDistance;
 		private System.Windows.Forms.ComboBox cboPerihelionDistance;
@@ -2138,21 +2643,21 @@
 		private System.Windows.Forms.ComboBox cboArgumentOfPericenter;
 		private System.Windows.Forms.TextBox txtArgumentOfPericenter;
 		private System.Windows.Forms.Label lblArgumentOfPericenter;
-		private System.Windows.Forms.Panel panelPeriod;
+		private System.Windows.Forms.Panel pnlPeriod;
 		private System.Windows.Forms.CheckBox cbxPeriod;
 		private System.Windows.Forms.ComboBox cboPeriod;
 		private System.Windows.Forms.Label lblPeriod;
 		private System.Windows.Forms.TextBox txtPeriod;
-		private System.Windows.Forms.Panel panelPerihDate;
-		private System.Windows.Forms.CheckBox cbxPerihelionDate;
-		private System.Windows.Forms.ComboBox cboPerihelionDate;
-		private System.Windows.Forms.Panel panelName;
+		private System.Windows.Forms.Panel pnlPerihDate;
+		private System.Windows.Forms.CheckBox cbxPerihDate;
+		private System.Windows.Forms.ComboBox cboPerihDate;
+		private System.Windows.Forms.Panel pnlName;
 		private System.Windows.Forms.ComboBox cboName;
 		private System.Windows.Forms.CheckBox cbxName;
 		private System.Windows.Forms.TextBox txtName;
 		private System.Windows.Forms.Button btnCancel;
 		private System.Windows.Forms.Label lblTotal;
-		private System.Windows.Forms.Button btnDate;
+		private System.Windows.Forms.Button btnPerihDate;
 		private System.Windows.Forms.MenuItem mnuPerihEarthDist;
 		private System.Windows.Forms.MenuItem mnuIncl;
 		private System.Windows.Forms.MenuItem mnuCurrSunDist;
@@ -2207,6 +2712,44 @@
 		private System.Windows.Forms.Label lblEphemEarthDistIndicator;
 		private System.Windows.Forms.Label lblEphemElongationIndicator;
 		private System.Windows.Forms.Label lblEphemAltIndicator;
-		private System.Windows.Forms.MenuItem mnuNextPerihDate;
+		private System.Windows.Forms.TabControl tbcFilters;
+		private System.Windows.Forms.TabPage tbpFiltersEphemeris;
+		private System.Windows.Forms.TabPage tbpFiltersElements;
+		private System.Windows.Forms.Panel pnlCurrentMagnitude;
+		private System.Windows.Forms.CheckBox cbxCurrentMagnitude;
+		private System.Windows.Forms.TextBox txtCurrentMagnitude;
+		private System.Windows.Forms.ComboBox cboCurrentMagnitude;
+		private System.Windows.Forms.Panel pnlCurrentEarthDist;
+		private System.Windows.Forms.CheckBox cbxCurrentEarthDist;
+		private System.Windows.Forms.TextBox txtCurrentEarthDist;
+		private System.Windows.Forms.ComboBox cboCurrentEarthDist;
+		private System.Windows.Forms.Label lblCurrentEarthDist;
+		private System.Windows.Forms.Panel pnlCurrentSunDist;
+		private System.Windows.Forms.CheckBox cbxCurrentSunDist;
+		private System.Windows.Forms.TextBox txtCurrentSunDist;
+		private System.Windows.Forms.ComboBox cboCurrentSunDist;
+		private System.Windows.Forms.Label lblCurrentSunDist;
+		private System.Windows.Forms.Panel pnlPerihelionMagnitude;
+		private System.Windows.Forms.CheckBox cbxPerihelionMagnitude;
+		private System.Windows.Forms.TextBox txtPerihelionMagnitude;
+		private System.Windows.Forms.ComboBox cboPerihelionMagnitude;
+		private System.Windows.Forms.Panel pnlPerihEarthDistance;
+		private System.Windows.Forms.CheckBox cbxPerihEarthDistance;
+		private System.Windows.Forms.TextBox txtPerihEarthDistance;
+		private System.Windows.Forms.ComboBox cboPerihEarthDistance;
+		private System.Windows.Forms.Label lblPerihEarthDistance;
+		private System.Windows.Forms.Panel pnlAphelionDist;
+		private System.Windows.Forms.ComboBox cboAphelionDist;
+		private System.Windows.Forms.CheckBox cbxAphelionDist;
+		private System.Windows.Forms.TextBox txtAphelionDist;
+		private System.Windows.Forms.Panel panel8;
+		private System.Windows.Forms.CheckBox checkBox8;
+		private System.Windows.Forms.ComboBox comboBox8;
+		private System.Windows.Forms.TextBox textBox8;
+		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.Button btnResetAllFilters;
+		private System.Windows.Forms.MenuItem mnuAphDistance;
+		private System.Windows.Forms.MenuItem mnuSemiMajorAxis;
 	}
 }

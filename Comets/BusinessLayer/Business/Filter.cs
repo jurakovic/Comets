@@ -2,6 +2,7 @@
 using Comets.BusinessLayer.Managers;
 using System;
 using System.Globalization;
+using System.Collections.Generic;
 
 namespace Comets.BusinessLayer.Business
 {
@@ -9,21 +10,38 @@ namespace Comets.BusinessLayer.Business
 	{
 		#region Enum
 
-		public enum PropertyEnum { Undefined = 0, Name, PerihelionDate, PerihelionDistance, Eccentricity, LongOfAscendingNode, ArgOfPericenter, Inclination, Period };
+		public enum DataTypeEnum { String, Double };
 
-		public enum ValueCompareEnum { Undefined = 0, Greather, Less, Contains, DoesNotContain };
+		public enum ValueCompareEnum { Greather_Contains, Less_DoesNotContain };
 
 		#endregion
 
 		#region Const
 
-		public static string[] PropertyNameString = { "Undefined", "Name", "Perihelion date", "Perihelion distance", "Eccentricity", "Longitude of Ascending Node", "Argument of Pericenter", "Inclination", "Period" };
+		public static Dictionary<string, string> PropertyName = new Dictionary<string, string>()
+		{
+			{ "full", "Name" },
+			{ "NextT", "Perihelion date" },
+			{ "P", "Period" },
+			{ "q", "Perihelion distance" },
+			{ "PerihEarthDist", "Perihelion Earth distance" },
+			{ "PerihMag", "Perihelion magnitude" },
+			{ "CurrentSunDist", "Current Sun distance" },
+			{ "CurrentEarthDist", "Current Earth distance" },
+			{ "CurrentMag", "Current magnitude" },
+			{ "Q", "Aphelion distance" },
+			{ "a", "Semi-major axis" },
+			{ "e", "Eccentricity" },
+			{ "i", "Inclination" },
+			{ "N", "Longitude of Ascending Node" },
+			{ "w", "Argument of Pericenter"}
+		};
 
 		#endregion
 
 		#region Fields
 
-		private PropertyEnum _property;
+		private DataTypeEnum _dataType;
 		private bool _checked;
 		private string _text;
 		private double _value;
@@ -34,10 +52,10 @@ namespace Comets.BusinessLayer.Business
 
 		#region Properties
 
-		public PropertyEnum Property
+		public DataTypeEnum DataType
 		{
-			get { return _property; }
-			protected set { _property = value; }
+			get { return _dataType; }
+			protected set { _dataType = value; }
 		}
 
 		public bool Checked
@@ -53,18 +71,10 @@ namespace Comets.BusinessLayer.Business
 			{
 				_text = value;
 
-				if (_property == PropertyEnum.Name)
-				{
-					_value = String.IsNullOrEmpty(_text) ? 0.0 : 1.0; //just for validation
-				}
-				else if (_property == PropertyEnum.PerihelionDate)
-				{
-					_value = DateTime.ParseExact(_text, "dd.MM.yyyy HH:mm:ss", CultureInfo.InvariantCulture).JD();
-				}
-				else
-				{
+				if (_dataType == DataTypeEnum.Double)
 					_value = _text.Double();
-				}
+				else
+					_value = String.IsNullOrEmpty(_text) ? 0.0 : 1.0; //just for validation
 			}
 		}
 
@@ -79,7 +89,7 @@ namespace Comets.BusinessLayer.Business
 			set
 			{
 				_index = value;
-				_valueCompare = FilterManager.GetValueCompareFromIndex(_property, _index);
+				_valueCompare = FilterManager.GetValueCompareFromIndex(_dataType, _index);
 			}
 		}
 
@@ -92,9 +102,9 @@ namespace Comets.BusinessLayer.Business
 
 		#region Constructor
 
-		public Filter(PropertyEnum property)
+		public Filter(DataTypeEnum dataType = DataTypeEnum.Double)
 		{
-			Property = property;
+			DataType = dataType;
 		}
 
 		#endregion

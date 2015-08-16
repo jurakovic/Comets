@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace Comets.Application
@@ -20,6 +21,8 @@ namespace Comets.Application
 		public readonly double MaxLongNode = 359.9999; // i MaxArgPeri
 		public readonly double MaxIncl = 179.9999;
 		public readonly double MaxPeriod = 9999.0;
+		public readonly double MaxMagnitude = 30.0;
+		public readonly double MaxAphSmaxis = 999.0;
 
 		#endregion
 
@@ -45,7 +48,7 @@ namespace Comets.Application
 			set
 			{
 				_dateTime = value;
-				btnDate.Text = _dateTime.ToString(FormMain.DateTimeFormat);
+				btnPerihDate.Text = _dateTime.ToString(FormMain.DateTimeFormat);
 			}
 		}
 
@@ -90,10 +93,11 @@ namespace Comets.Application
 
 		private void FormDatabase_Load(object sender, EventArgs e)
 		{
-			SetSortItems(SortAscending);
-			SortList(Comets);
 			PopulateFilters(Filters);
 			ApllyContextMenuVisibility();
+
+			SetSortItems(SortAscending);
+			SortList(Comets);
 		}
 
 		#endregion
@@ -202,9 +206,25 @@ namespace Comets.Application
 
 		#endregion
 
-		#region tbcDetails_SelectedIndexChanged
+		#region btnResetAllFilters_Click
 
-		private void tbcDetails_SelectedIndexChanged(object sender, EventArgs e)
+		private void btnResetAllFilters_Click(object sender, EventArgs e)
+		{
+			Filters = null;
+			PopulateFilters(Filters);
+
+			SortProperty = FormMain.DefaultSortProperty;
+			SortAscending = FormMain.DefaultSortAscending;
+
+			SetSortItems(SortAscending);
+			ApplyFilters();
+		}
+
+		#endregion
+
+		#region tbcCommon_SelectedIndexChanged
+
+		private void tbcCommon_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			ApllyContextMenuVisibility();
 		}
@@ -215,18 +235,36 @@ namespace Comets.Application
 
 		private void ApllyContextMenuVisibility()
 		{
-			mnuPerihDate.Visible = tbcDetails.SelectedIndex == 1;
-			mnuIncl.Visible = tbcDetails.SelectedIndex == 1;
-			mnuEcc.Visible = tbcDetails.SelectedIndex == 1;
-			mnuAscNode.Visible = tbcDetails.SelectedIndex == 1;
-			mnuArgPeri.Visible = tbcDetails.SelectedIndex == 1;
+			if ((tbcDetails.Visible && tbcDetails.SelectedIndex == 1) || (tbcFilters.Visible && tbcFilters.SelectedIndex == 1))
+			{
+				mnuAphDistance.Visible = true;
+				mnuSemiMajorAxis.Visible = true;
+				mnuEcc.Visible = true;
+				mnuIncl.Visible = true;
+				mnuAscNode.Visible = true;
+				mnuArgPeri.Visible = true;
 
-			mnuNextPerihDate.Visible = tbcDetails.SelectedIndex == 0 || pnlFilters.Visible;
-			mnuPerihEarthDist.Visible = tbcDetails.SelectedIndex == 0 || pnlFilters.Visible;
-			mnuCurrSunDist.Visible = tbcDetails.SelectedIndex == 0 || pnlFilters.Visible;
-			mnuCurrEarthDist.Visible = tbcDetails.SelectedIndex == 0 || pnlFilters.Visible;
-			mnuPerihMag.Visible = tbcDetails.SelectedIndex == 0 || pnlFilters.Visible;
-			mnuCurrMag.Visible = tbcDetails.SelectedIndex == 0 || pnlFilters.Visible;
+				mnuPerihEarthDist.Visible = false;
+				mnuCurrSunDist.Visible = false;
+				mnuCurrEarthDist.Visible = false;
+				mnuPerihMag.Visible = false;
+				mnuCurrMag.Visible = false;
+			}
+			else
+			{
+				mnuAphDistance.Visible = false;
+				mnuSemiMajorAxis.Visible = false;
+				mnuEcc.Visible = false;
+				mnuIncl.Visible = false;
+				mnuAscNode.Visible = false;
+				mnuArgPeri.Visible = false;
+
+				mnuPerihEarthDist.Visible = true;
+				mnuCurrSunDist.Visible = true;
+				mnuCurrEarthDist.Visible = true;
+				mnuPerihMag.Visible = true;
+				mnuCurrMag.Visible = true;
+			}
 		}
 
 		#endregion
@@ -251,8 +289,16 @@ namespace Comets.Application
 
 		private void InvertPanelsVisibility()
 		{
+			if (pnlDetails.Visible)
+				tbcFilters.SelectedIndex = tbcDetails.SelectedIndex;
+			else
+				tbcDetails.SelectedIndex = tbcFilters.SelectedIndex;
+
 			pnlDetails.Visible = !pnlDetails.Visible;
 			pnlFilters.Visible = !pnlFilters.Visible;
+
+			ApllyContextMenuVisibility();
+			lbxDatabase.Focus();
 		}
 
 		#endregion
@@ -329,10 +375,9 @@ namespace Comets.Application
 			foreach (MenuItem menuitem in contextSort.MenuItems)
 			{
 				if (menuitem.Tag as string == SortProperty)
-				{
 					menuitem.Checked = true;
-					break;
-				}
+				else
+					menuitem.Checked = false;
 			}
 
 			mnuAsc.Checked = isAscending;
@@ -443,7 +488,7 @@ namespace Comets.Application
 				if (fdt.ShowDialog() == DialogResult.OK)
 				{
 					DateTime = fdt.SelectedDateTime;
-					cbxPerihelionDate.Checked = true;
+					cbxPerihDate.Checked = true;
 				}
 			}
 		}
@@ -464,119 +509,116 @@ namespace Comets.Application
 
 		private FilterCollection CollectFilters()
 		{
-			FilterCollection fc = new FilterCollection();
+			FilterCollection filters = new FilterCollection();
+			Type type = filters.GetType();
+			List<PropertyInfo> filterProps = type.GetProperties().ToList();
 
-			fc.full.Checked = cbxName.Checked;
-			fc.full.Text = txtName.Text.Trim();
-			fc.full.Index = cboName.SelectedIndex;
+			foreach (TabPage t in tbcFilters.TabPages)
+			{
+				foreach (Control p in t.Controls)
+				{
+					if (p is Panel)
+					{
+						string propertyName = (string)p.Tag;
 
-			fc.NextT.Checked = cbxPerihelionDate.Checked;
-			fc.NextT.Text = DateTime.ToString(FormMain.DateTimeFormat);
-			fc.NextT.Index = cboPerihelionDate.SelectedIndex;
+						PropertyInfo pinfo = filterProps.FirstOrDefault(x => x.Name == propertyName);
 
-			fc.q.Checked = cbxPerihelionDistance.Checked;
-			fc.q.Text = txtPerihelionDistance.Text;
-			fc.q.Index = cboPerihelionDistance.SelectedIndex;
+						if (pinfo != null)
+						{
+							Filter f = pinfo.GetValue(filters, null) as Filter;
 
-			fc.e.Checked = cbxEccentricity.Checked;
-			fc.e.Text = txtEccentricity.Text;
-			fc.e.Index = cboEccentricity.SelectedIndex;
+							if (f != null)
+							{
+								bool isChecked = false;
+								string text = String.Empty;
+								int index = 0;
 
-			fc.N.Checked = cbxLongOfAscendingNode.Checked;
-			fc.N.Text = txtLongOfAscendingNode.Text;
-			fc.N.Index = cboLongOfAscendingNode.SelectedIndex;
+								foreach (Control c in p.Controls)
+								{
+									if (c is CheckBox)
+										isChecked = (c as CheckBox).Checked;
+									else if (c is TextBox)
+										text = (c as TextBox).Text.Trim();
+									else if (c is ComboBox)
+										index = (c as ComboBox).SelectedIndex;
+									else if (c is Button)
+										text = DateTime.JD().ToString();
+								}
 
-			fc.w.Checked = cbxArgumentOfPericenter.Checked;
-			fc.w.Text = txtArgumentOfPericenter.Text;
-			fc.w.Index = cboArgumentOfPericenter.SelectedIndex;
+								f.Checked = isChecked;
+								f.Text = text;
+								f.Index = index;
 
-			fc.i.Checked = cbxInclination.Checked;
-			fc.i.Text = txtInclination.Text;
-			fc.i.Index = cboInclination.SelectedIndex;
+								pinfo.SetValue(filters, f, null);
+							}
+						}
+					}
+				}
+			}
 
-			fc.P.Checked = cbxPeriod.Checked;
-			fc.P.Text = txtPeriod.Text;
-			fc.P.Index = cboPeriod.SelectedIndex;
-
-			return fc;
+			return filters;
 		}
 
 		#endregion
 
 		#region PopulateFilters
 
-		private void PopulateFilters(FilterCollection Filters)
+		private void PopulateFilters(FilterCollection filters)
 		{
 			IsTextChangedByFilters = true;
 
-			if (Filters == null)
+			if (filters == null)
 			{
-				cbxName.Checked = false;
-				cboName.SelectedIndex = 0;
-				txtName.Text = String.Empty;
+				foreach (TabPage t in tbcFilters.TabPages)
+					foreach (Control p in t.Controls)
+						if (p is Panel)
+							foreach (Control c in p.Controls)
+								if (c is CheckBox)
+									(c as CheckBox).Checked = false;
+								else if (c is TextBox)
+									(c as TextBox).Text = String.Empty;
+								else if (c is ComboBox)
+									(c as ComboBox).SelectedIndex = 1;
 
-				cbxPerihelionDate.Checked = false;
-				cboPerihelionDate.SelectedIndex = 0;
-				DateTime = FormMain.DefaultDateStart;
-
-				cbxPerihelionDistance.Checked = false;
-				cboPerihelionDistance.SelectedIndex = 1;
-				txtPerihelionDistance.Text = String.Empty;
-
-				cbxEccentricity.Checked = false;
-				cboEccentricity.SelectedIndex = 1;
-				txtEccentricity.Text = String.Empty;
-
-				cbxLongOfAscendingNode.Checked = false;
-				cboLongOfAscendingNode.SelectedIndex = 1;
-				txtLongOfAscendingNode.Text = String.Empty;
-
-				cbxArgumentOfPericenter.Checked = false;
-				cboArgumentOfPericenter.SelectedIndex = 1;
-				txtArgumentOfPericenter.Text = String.Empty;
-
-				cbxInclination.Checked = false;
-				cboInclination.SelectedIndex = 1;
-				txtInclination.Text = String.Empty;
-
-				cbxPeriod.Checked = false;
-				cboPeriod.SelectedIndex = 1;
-				txtPeriod.Text = String.Empty;
+				cboName.SelectedIndex = 0; //contains
+				cboPerihDate.SelectedIndex = 0; //greather
 			}
 			else
 			{
-				cbxName.Checked = Filters.full.Checked;
-				cboName.SelectedIndex = FilterManager.GetIndexFromValueCompare(Filters.full.ValueCompare);
-				txtName.Text = Filters.full.Text;
+				List<PropertyInfo> filterProps = filters.GetType().GetProperties().ToList();
 
-				cbxPerihelionDate.Checked = Filters.NextT.Checked;
-				cboPerihelionDate.SelectedIndex = FilterManager.GetIndexFromValueCompare(Filters.NextT.ValueCompare);
-				if (Filters.NextT.Value > 0.0)
-					DateTime = Utils.JDToDateTime(Filters.NextT.Value).ToLocalTime();
+				foreach (TabPage t in tbcFilters.TabPages)
+				{
+					foreach (Control p in t.Controls)
+					{
+						if (p is Panel)
+						{
+							string propertyName = (string)p.Tag;
 
-				cbxPerihelionDistance.Checked = Filters.q.Checked;
-				cboPerihelionDistance.SelectedIndex = FilterManager.GetIndexFromValueCompare(Filters.q.ValueCompare);
-				txtPerihelionDistance.Text = Filters.q.Text;
+							PropertyInfo pinfo = filterProps.FirstOrDefault(x => x.Name == propertyName);
 
-				cbxEccentricity.Checked = Filters.e.Checked;
-				cboEccentricity.SelectedIndex = FilterManager.GetIndexFromValueCompare(Filters.e.ValueCompare);
-				txtEccentricity.Text = Filters.e.Text;
+							if (pinfo != null)
+							{
+								Filter f = pinfo.GetValue(filters, null) as Filter;
 
-				cbxLongOfAscendingNode.Checked = Filters.N.Checked;
-				cboLongOfAscendingNode.SelectedIndex = FilterManager.GetIndexFromValueCompare(Filters.N.ValueCompare);
-				txtLongOfAscendingNode.Text = Filters.N.Text;
-
-				cbxArgumentOfPericenter.Checked = Filters.w.Checked;
-				cboArgumentOfPericenter.SelectedIndex = FilterManager.GetIndexFromValueCompare(Filters.w.ValueCompare);
-				txtArgumentOfPericenter.Text = Filters.w.Text;
-
-				cbxInclination.Checked = Filters.i.Checked;
-				cboInclination.SelectedIndex = FilterManager.GetIndexFromValueCompare(Filters.i.ValueCompare);
-				txtInclination.Text = Filters.i.Text;
-
-				cbxPeriod.Checked = Filters.P.Checked;
-				cboPeriod.SelectedIndex = FilterManager.GetIndexFromValueCompare(Filters.P.ValueCompare);
-				txtPeriod.Text = Filters.P.Text;
+								if (f != null)
+								{
+									foreach (Control c in p.Controls)
+									{
+										if (c is CheckBox)
+											(c as CheckBox).Checked = f.Checked;
+										else if (c is TextBox)
+											(c as TextBox).Text = f.Text;
+										else if (c is ComboBox)
+											(c as ComboBox).SelectedIndex = FilterManager.GetIndexFromValueCompare(f.ValueCompare);
+										else if (c is Button && f.Value > 0.0) //button for date
+											DateTime = Utils.JDToDateTime(f.Value).ToLocalTime();
+									}
+								}
+							}
+						}
+					}
+				}
 			}
 
 			IsTextChangedByFilters = false;
@@ -587,6 +629,15 @@ namespace Comets.Application
 		#region btnFiltersApply_Click
 
 		private void btnFiltersApply_Click(object sender, EventArgs e)
+		{
+			ApplyFilters();
+		}
+
+		#endregion
+
+		#region  ApplyFilters
+
+		private void ApplyFilters()
 		{
 			Filters = CollectFilters();
 
@@ -624,16 +675,13 @@ namespace Comets.Application
 
 		#endregion
 
-		#region txtFilters_KeyPress
+		#region + txtFilters_KeyPress
 
-		private void txtPerihelionDate_KeyDown(object sender, KeyEventArgs e)
-		{
-			e.SuppressKeyPress = Utils.TextBoxValueUpDown(sender, e);
-		}
+		#region Ephemeris
 
-		private void txtPerihelionDate_KeyPress(object sender, KeyPressEventArgs e)
+		private void txtFiltersPeriod_KeyPress(object sender, KeyPressEventArgs e)
 		{
-			e.Handled = Utils.HandleKeyPress(sender, e);
+			e.Handled = Utils.HandleKeyPress(sender, e, 4, 4, Minimum, MaxPeriod);
 		}
 
 		private void txtPerihelionDistance_KeyPress(object sender, KeyPressEventArgs e)
@@ -641,14 +689,23 @@ namespace Comets.Application
 			e.Handled = Utils.HandleKeyPress(sender, e, 2, 6, Minimum, MaxPerihDist);
 		}
 
+		private void txtMagnitudeCommon_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			e.Handled = Utils.HandleKeyPress(sender, e, 3, 4, Minimum, MaxMagnitude);
+		}
+
+		#endregion
+
+		#region Elements
+
+		private void txtAphSmaxis_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			e.Handled = Utils.HandleKeyPress(sender, e, 3, 6, Minimum, MaxAphSmaxis);
+		}
+
 		private void txtEccentricity_KeyPress(object sender, KeyPressEventArgs e)
 		{
 			e.Handled = Utils.HandleKeyPress(sender, e, 1, 6, Minimum, MaxEcc);
-		}
-
-		private void txtFiltersNodePeri_KeyPress(object sender, KeyPressEventArgs e)
-		{
-			e.Handled = Utils.HandleKeyPress(sender, e, 3, 4, Minimum, MaxLongNode);
 		}
 
 		private void txtInclination_KeyPress(object sender, KeyPressEventArgs e)
@@ -656,10 +713,12 @@ namespace Comets.Application
 			e.Handled = Utils.HandleKeyPress(sender, e, 3, 4, Minimum, MaxIncl);
 		}
 
-		private void txtFiltersPeriod_KeyPress(object sender, KeyPressEventArgs e)
+		private void txtFiltersNodePeri_KeyPress(object sender, KeyPressEventArgs e)
 		{
-			e.Handled = Utils.HandleKeyPress(sender, e, 4, 4, Minimum, MaxPeriod);
+			e.Handled = Utils.HandleKeyPress(sender, e, 3, 4, Minimum, MaxLongNode);
 		}
+
+		#endregion
 
 		#endregion
 

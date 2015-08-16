@@ -206,7 +206,7 @@ namespace Comets.BusinessLayer.Business
 				else if (e > 1.0)
 					retval = -(q / (1 - e));
 				else
-					retval = Double.PositiveInfinity; //retval = q / (1 - 0.999999);
+					retval = q / (1 - 0.999999); //retval = Double.PositiveInfinity;
 
 				return retval;
 			}
@@ -226,7 +226,7 @@ namespace Comets.BusinessLayer.Business
 				else if (e > 1.0)
 					retval = a * (1 + (2 - e));
 				else
-					retval = Double.PositiveInfinity; //retval = a * (1 + 0.999999);
+					retval = a * (1 + 0.999999); //retval = Double.PositiveInfinity;
 
 				return retval;
 			}

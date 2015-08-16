@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
-using PropertyEnum = Comets.BusinessLayer.Business.Filter.PropertyEnum;
+using DataTypeEnum = Comets.BusinessLayer.Business.Filter.DataTypeEnum;
 using ValueCompareEnum = Comets.BusinessLayer.Business.Filter.ValueCompareEnum;
 
 namespace Comets.BusinessLayer.Managers
@@ -29,12 +29,12 @@ namespace Comets.BusinessLayer.Managers
 					Filter f = fp.GetValue(fc, null) as Filter;
 					object value = comet.GetType().GetProperty(fp.Name).GetValue(comet, null);
 
-					if (f.Property == PropertyEnum.Name)
+					if (f.DataType == DataTypeEnum.String)
 					{
 						string full = value.ToString();
 						string[] names = f.Text.Split(',');
 
-						if (f.ValueCompare == ValueCompareEnum.Contains)
+						if (f.ValueCompare == ValueCompareEnum.Greather_Contains)
 							checks.Add(names.Any(x => full.ToLower().Contains(x.Trim().ToLower())));
 						else
 							checks.Add(!names.Any(x => full.ToLower().Contains(x.Trim().ToLower())));
@@ -43,7 +43,7 @@ namespace Comets.BusinessLayer.Managers
 					{
 						double d = Convert.ToDouble(value);
 
-						if (f.ValueCompare == ValueCompareEnum.Greather)
+						if (f.ValueCompare == ValueCompareEnum.Greather_Contains)
 							checks.Add(d > f.Value);
 						else
 							checks.Add(d < f.Value);
@@ -65,15 +65,15 @@ namespace Comets.BusinessLayer.Managers
 		{
 			bool retval = true;
 
-			List<PropertyInfo> props = filters.GetType().GetProperties().ToList();
+			List<PropertyInfo> props = filters.GetType().GetProperties().Where(x => (x.GetValue(filters, null) as Filter).Checked).ToList();
 
 			foreach (PropertyInfo prop in props)
 			{
 				Filter f = prop.GetValue(filters, null) as Filter;
 
-				if (f.Checked && f.Value == 0.0)
+				if (f.Value == 0.0)
 				{
-					string message = String.Format("Please enter value for \"{0}\" \t\t", Filter.PropertyNameString[(int)f.Property]);
+					string message = String.Format("Please enter value for \"{0}\" \t\t", Filter.PropertyName[prop.Name]);
 					MessageBox.Show(message, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 					retval = false;
 					break;
@@ -97,28 +97,12 @@ namespace Comets.BusinessLayer.Managers
 
 		#region GetValueCompareFromIndex
 
-		public static ValueCompareEnum GetValueCompareFromIndex(PropertyEnum properyNameEnum, int index)
+		public static ValueCompareEnum GetValueCompareFromIndex(DataTypeEnum properyNameEnum, int index)
 		{
-			ValueCompareEnum retval = ValueCompareEnum.Undefined;
-
-			if (properyNameEnum == PropertyEnum.Name)
-			{
-				switch (index)
-				{
-					case 0: retval = ValueCompareEnum.Contains; break;
-					case 1: retval = ValueCompareEnum.DoesNotContain; break;
-				}
-			}
+			if (index == 0)
+				return ValueCompareEnum.Greather_Contains;
 			else
-			{
-				switch (index)
-				{
-					case 0: retval = ValueCompareEnum.Greather; break;
-					case 1: retval = ValueCompareEnum.Less; break;
-				}
-			}
-
-			return retval;
+				return ValueCompareEnum.Less_DoesNotContain;
 		}
 
 		#endregion
@@ -129,18 +113,10 @@ namespace Comets.BusinessLayer.Managers
 		{
 			int retval = -1;
 
-			switch (valueResolveEnum)
-			{
-				case ValueCompareEnum.Contains:
-				case ValueCompareEnum.Greather:
-					retval = 0;
-					break;
-
-				case ValueCompareEnum.DoesNotContain:
-				case ValueCompareEnum.Less:
-					retval = 1;
-					break;
-			}
+			if (valueResolveEnum == ValueCompareEnum.Greather_Contains)
+				retval = 0;
+			else
+				retval = 1;
 
 			return retval;
 		}
