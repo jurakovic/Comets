@@ -102,6 +102,8 @@ namespace Comets.OrbitViewer
 		private List<CometOrbit> CometOrbits;
 		private List<Xyz> CometsPos;
 
+		private List<int> OrbitHistory;
+
 		private PlanetOrbit[] PlanetOrbit;
 		private Xyz[] PlanetPos;
 		private double EpochPlanetOrbit;
@@ -250,6 +252,8 @@ namespace Comets.OrbitViewer
 			CometOrbits = new List<CometOrbit>();
 			CometsPos = new List<Xyz>();
 
+			OrbitHistory = new List<int>();
+
 			OrbitDisplay = DefaultOrbitDisplay;
 			LabelDisplay = DefaultLabelDisplay;
 			CenteredObject = DefaultCenterObject;
@@ -285,6 +289,7 @@ namespace Comets.OrbitViewer
 			}
 
 			SelectedIndex = Comets.IndexOf(comet);
+			OrbitHistoryAdd(SelectedIndex);
 
 			ATime = atime;
 
@@ -300,11 +305,16 @@ namespace Comets.OrbitViewer
 
 			Comets.Clear();
 			CometOrbits.Clear();
+			OrbitHistory.Clear();
 
 			Comets = comets;
 
+			int i = 0;
 			foreach (OVComet c in Comets)
+			{
 				CometOrbits.Add(new CometOrbit(c, CometOrbit.MaxDivisions));
+				OrbitHistoryAdd(i++);
+			}
 
 			SelectedIndex = index;
 
@@ -635,7 +645,9 @@ namespace Comets.OrbitViewer
 
 			for (int i = 0; i < Comets.Count; i++)
 			{
-				if (OrbitDisplay.Contains(Object.Comet) || (MultipleMode && PreserveSelectedOrbit && i == SelectedIndex))
+				if (!MultipleMode && OrbitDisplay.Contains(Object.Comet) ||
+					(MultipleMode && OrbitDisplay.Contains(Object.Comet) && OrbitHistory.Contains(i)) ||
+					(MultipleMode && PreserveSelectedOrbit && i == SelectedIndex))
 				{
 					Xyz xyz = cometOrbits[i].GetAt(0).Rotate(MtxToEcl).Rotate(MtxRotate);
 					Pen pen = new Pen(Color.White);
@@ -785,6 +797,7 @@ namespace Comets.OrbitViewer
 
 			Comets.Clear();
 			CometOrbits.Clear();
+			OrbitHistory.Clear();
 			SelectedIndex = -1;
 
 			if (!clearAll)
@@ -793,6 +806,7 @@ namespace Comets.OrbitViewer
 				CometOrbits.Add(new CometOrbit(comet, CometOrbit.MaxDivisions));
 
 				SelectedIndex = 0;
+				OrbitHistoryAdd(SelectedIndex);
 
 				UpdatePositions(ATime);
 				UpdatePlanetOrbit(ATime);
@@ -896,6 +910,21 @@ namespace Comets.OrbitViewer
 			}
 
 			return color;
+		}
+
+		#endregion
+
+		#region OrbitHistoryAdd
+
+		private void OrbitHistoryAdd(int index)
+		{
+			if (OrbitHistory.Contains(index))
+				OrbitHistory.Remove(index);
+
+			OrbitHistory.Add(index);
+
+			if (OrbitHistory.Count > MaximumOrbits)
+				OrbitHistory.RemoveAt(0);
 		}
 
 		#endregion

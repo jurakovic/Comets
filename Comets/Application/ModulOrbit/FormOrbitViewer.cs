@@ -68,7 +68,6 @@ namespace Comets.Application.ModulOrbit
 		private bool IsSimulationStarted;
 
 		private bool ValueChangedByEvent;
-		private bool AllCometsLoaded;
 
 		List<Comet> Comets;
 		private FilterCollection Filters;
@@ -212,7 +211,6 @@ namespace Comets.Application.ModulOrbit
 				if (orbitPanel.IsPaintEnabled)
 				{
 					orbitPanel.LoadPanel(SelectedComet, orbitPanel.ATime);
-					ClearOrbits();
 					RefreshPanel();
 				}
 
@@ -244,7 +242,7 @@ namespace Comets.Application.ModulOrbit
 
 					OVComets = TransformComets(Comets);
 
-					if (AllCometsLoaded)
+					if (rbtnMultipleMode.Checked)
 					{
 						orbitPanel.LoadPanel(OVComets.ToList(), orbitPanel.ATime, cboComet.SelectedIndex);
 						ClearOrbits();
@@ -267,7 +265,6 @@ namespace Comets.Application.ModulOrbit
 				ValueChangedByEvent = false;
 
 				RefreshPanel();
-				AllCometsLoaded = true;
 			}
 		}
 
@@ -275,7 +272,6 @@ namespace Comets.Application.ModulOrbit
 		{
 			orbitPanel.ClearComets();
 			RefreshPanel();
-			AllCometsLoaded = false;
 		}
 
 		private void comboBoxCommon_MouseHover(object sender, EventArgs e)
@@ -296,14 +292,12 @@ namespace Comets.Application.ModulOrbit
 			cbxSelectedOrbit.Enabled = rbtnMultipleMode.Checked && !cbxOrbitComet.Checked;
 			cbxSelectedLabel.Enabled = rbtnMultipleMode.Checked && !cbxLabelComet.Checked;
 
-			ClearOrbits();
+			cbxOrbitComet.Checked = cbxLabelComet.Checked = !rbtnMultipleMode.Checked;
 
 			ValueChangedByEvent = tempChanged;
 
 			if (!ValueChangedByEvent)
 				RefreshPanel();
-
-			AllCometsLoaded = false;
 		}
 
 		#endregion
@@ -580,8 +574,6 @@ namespace Comets.Application.ModulOrbit
 
 		private void ChangeDate(int direction)
 		{
-			ClearOrbits();
-
 			ATime atime = orbitPanel.ATime;
 			atime.ChangeDate(TimeStep, direction);
 
@@ -602,7 +594,6 @@ namespace Comets.Application.ModulOrbit
 		private void PlaySimulation(int direction)
 		{
 			SimulationDirection = direction;
-			ClearOrbits();
 			Timer.Start();
 			IsSimulationStarted = true;
 		}
@@ -853,7 +844,6 @@ namespace Comets.Application.ModulOrbit
 			if (e.Button == MouseButtons.Right)
 			{
 				IsMouseRotate = true;
-				ClearOrbits();
 				StartDrag = e.Location;
 			}
 		}
@@ -1021,7 +1011,7 @@ namespace Comets.Application.ModulOrbit
 				{
 					cboComet.SelectedIndex = OVComets.IndexOf(OVComets.First(x => x.Name == name));
 				}
-				else if (FormMain.UserList.Count == FormMain.MainList.Count)
+				else
 				{
 					//comet with nearest perihelion date
 					OVComet c = OVComets.OrderBy(x => Math.Abs(x.T - DateTime.Now.JD())).First();
