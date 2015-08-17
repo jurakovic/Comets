@@ -334,6 +334,10 @@ namespace Comets.BusinessLayer.Business
 			get { return CurrentEphemeris.Magnitude; }
 		}
 
+		/// <summary>
+		/// Nearest Perihelion date
+		/// to do: rename to nT
+		/// </summary>
 		public double NextT
 		{
 			get

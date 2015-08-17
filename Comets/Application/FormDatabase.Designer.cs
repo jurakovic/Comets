@@ -83,6 +83,7 @@
 			this.contextSort = new System.Windows.Forms.ContextMenu();
 			this.mnuDesig = new System.Windows.Forms.MenuItem();
 			this.mnuName = new System.Windows.Forms.MenuItem();
+			this.mnuNearestPerihDate = new System.Windows.Forms.MenuItem();
 			this.mnuPerihDate = new System.Windows.Forms.MenuItem();
 			this.mnuPeriod = new System.Windows.Forms.MenuItem();
 			this.mnuPerihDist = new System.Windows.Forms.MenuItem();
@@ -141,7 +142,7 @@
 			this.txtInfoCurrEarthDist = new System.Windows.Forms.TextBox();
 			this.txtInfoNextPerihDate = new System.Windows.Forms.TextBox();
 			this.txtInfoCurrSunDist = new System.Windows.Forms.TextBox();
-			this.lblInfoNextPerihDate = new System.Windows.Forms.Label();
+			this.lblInfoNearestPerihDate = new System.Windows.Forms.Label();
 			this.txtInfoPerihEarthDist = new System.Windows.Forms.TextBox();
 			this.lblInfoCurrSunDistAU = new System.Windows.Forms.Label();
 			this.lblInfoPeriod = new System.Windows.Forms.Label();
@@ -188,7 +189,7 @@
 			this.txtPeriod = new System.Windows.Forms.TextBox();
 			this.pnlPerihDate = new System.Windows.Forms.Panel();
 			this.btnPerihDate = new System.Windows.Forms.Button();
-			this.cbxPerihDate = new System.Windows.Forms.CheckBox();
+			this.cbxNearestPerihDate = new System.Windows.Forms.CheckBox();
 			this.cboPerihDate = new System.Windows.Forms.ComboBox();
 			this.pnlPerihDist = new System.Windows.Forms.Panel();
 			this.cbxPerihelionDistance = new System.Windows.Forms.CheckBox();
@@ -814,6 +815,7 @@
 			this.contextSort.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.mnuDesig,
             this.mnuName,
+            this.mnuNearestPerihDate,
             this.mnuPerihDate,
             this.mnuPeriod,
             this.mnuPerihDist,
@@ -848,9 +850,16 @@
 			this.mnuName.Text = "Name";
 			this.mnuName.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
+			// mnuNearestPerihDate
+			// 
+			this.mnuNearestPerihDate.Index = 2;
+			this.mnuNearestPerihDate.Tag = "NextT";
+			this.mnuNearestPerihDate.Text = "Nearest perihelion date";
+			this.mnuNearestPerihDate.Click += new System.EventHandler(this.menuItemSortCommon_Click);
+			// 
 			// mnuPerihDate
 			// 
-			this.mnuPerihDate.Index = 2;
+			this.mnuPerihDate.Index = 3;
 			this.mnuPerihDate.RadioCheck = true;
 			this.mnuPerihDate.Tag = "T";
 			this.mnuPerihDate.Text = "Perihelion date";
@@ -858,7 +867,7 @@
 			// 
 			// mnuPeriod
 			// 
-			this.mnuPeriod.Index = 3;
+			this.mnuPeriod.Index = 4;
 			this.mnuPeriod.RadioCheck = true;
 			this.mnuPeriod.Tag = "P";
 			this.mnuPeriod.Text = "Period";
@@ -866,63 +875,63 @@
 			// 
 			// mnuPerihDist
 			// 
-			this.mnuPerihDist.Index = 4;
+			this.mnuPerihDist.Index = 5;
 			this.mnuPerihDist.Tag = "q";
 			this.mnuPerihDist.Text = "Perihelion distance";
 			this.mnuPerihDist.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuPerihEarthDist
 			// 
-			this.mnuPerihEarthDist.Index = 5;
+			this.mnuPerihEarthDist.Index = 6;
 			this.mnuPerihEarthDist.Tag = "PerihEarthDist";
 			this.mnuPerihEarthDist.Text = "Perihelion Earth distance";
 			this.mnuPerihEarthDist.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuPerihMag
 			// 
-			this.mnuPerihMag.Index = 6;
+			this.mnuPerihMag.Index = 7;
 			this.mnuPerihMag.Tag = "PerihMag";
 			this.mnuPerihMag.Text = "Perihelion magnitude";
 			this.mnuPerihMag.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuCurrSunDist
 			// 
-			this.mnuCurrSunDist.Index = 7;
+			this.mnuCurrSunDist.Index = 8;
 			this.mnuCurrSunDist.Tag = "CurrentSunDist";
 			this.mnuCurrSunDist.Text = "Current Sun distance";
 			this.mnuCurrSunDist.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuCurrEarthDist
 			// 
-			this.mnuCurrEarthDist.Index = 8;
+			this.mnuCurrEarthDist.Index = 9;
 			this.mnuCurrEarthDist.Tag = "CurrentEarthDist";
 			this.mnuCurrEarthDist.Text = "Current Earth distance";
 			this.mnuCurrEarthDist.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuCurrMag
 			// 
-			this.mnuCurrMag.Index = 9;
+			this.mnuCurrMag.Index = 10;
 			this.mnuCurrMag.Tag = "CurrentMag";
 			this.mnuCurrMag.Text = "Current magnitude";
 			this.mnuCurrMag.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuAphDistance
 			// 
-			this.mnuAphDistance.Index = 10;
+			this.mnuAphDistance.Index = 11;
 			this.mnuAphDistance.Tag = "Q";
 			this.mnuAphDistance.Text = "Aphelion distance";
 			this.mnuAphDistance.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuSemiMajorAxis
 			// 
-			this.mnuSemiMajorAxis.Index = 11;
+			this.mnuSemiMajorAxis.Index = 12;
 			this.mnuSemiMajorAxis.Tag = "a";
 			this.mnuSemiMajorAxis.Text = "Semi-major axis";
 			this.mnuSemiMajorAxis.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuEcc
 			// 
-			this.mnuEcc.Index = 12;
+			this.mnuEcc.Index = 13;
 			this.mnuEcc.RadioCheck = true;
 			this.mnuEcc.Tag = "e";
 			this.mnuEcc.Text = "Eccentricity";
@@ -930,7 +939,7 @@
 			// 
 			// mnuIncl
 			// 
-			this.mnuIncl.Index = 13;
+			this.mnuIncl.Index = 14;
 			this.mnuIncl.RadioCheck = true;
 			this.mnuIncl.Tag = "i";
 			this.mnuIncl.Text = "Inclination";
@@ -938,7 +947,7 @@
 			// 
 			// mnuAscNode
 			// 
-			this.mnuAscNode.Index = 14;
+			this.mnuAscNode.Index = 15;
 			this.mnuAscNode.RadioCheck = true;
 			this.mnuAscNode.Tag = "N";
 			this.mnuAscNode.Text = "Long. of the Asc. Node";
@@ -946,7 +955,7 @@
 			// 
 			// mnuArgPeri
 			// 
-			this.mnuArgPeri.Index = 15;
+			this.mnuArgPeri.Index = 16;
 			this.mnuArgPeri.RadioCheck = true;
 			this.mnuArgPeri.Tag = "w";
 			this.mnuArgPeri.Text = "Arg. of Pericenter";
@@ -954,19 +963,19 @@
 			// 
 			// mnuSeparator
 			// 
-			this.mnuSeparator.Index = 16;
+			this.mnuSeparator.Index = 17;
 			this.mnuSeparator.Text = "-";
 			// 
 			// mnuAsc
 			// 
-			this.mnuAsc.Index = 17;
+			this.mnuAsc.Index = 18;
 			this.mnuAsc.RadioCheck = true;
 			this.mnuAsc.Text = "Ascending";
 			this.mnuAsc.Click += new System.EventHandler(this.menuItemSortAscDesc_Click);
 			// 
 			// mnuDesc
 			// 
-			this.mnuDesc.Index = 18;
+			this.mnuDesc.Index = 19;
 			this.mnuDesc.RadioCheck = true;
 			this.mnuDesc.Text = "Descending";
 			this.mnuDesc.Click += new System.EventHandler(this.menuItemSortAscDesc_Click);
@@ -1044,7 +1053,7 @@
 			this.tbpEphemeris.Controls.Add(this.txtInfoCurrEarthDist);
 			this.tbpEphemeris.Controls.Add(this.txtInfoNextPerihDate);
 			this.tbpEphemeris.Controls.Add(this.txtInfoCurrSunDist);
-			this.tbpEphemeris.Controls.Add(this.lblInfoNextPerihDate);
+			this.tbpEphemeris.Controls.Add(this.lblInfoNearestPerihDate);
 			this.tbpEphemeris.Controls.Add(this.txtInfoPerihEarthDist);
 			this.tbpEphemeris.Controls.Add(this.lblInfoCurrSunDistAU);
 			this.tbpEphemeris.Controls.Add(this.lblInfoPeriod);
@@ -1445,16 +1454,16 @@
 			this.txtInfoCurrSunDist.Size = new System.Drawing.Size(116, 22);
 			this.txtInfoCurrSunDist.TabIndex = 7;
 			// 
-			// lblInfoNextPerihDate
+			// lblInfoNearestPerihDate
 			// 
-			this.lblInfoNextPerihDate.AutoSize = true;
-			this.lblInfoNextPerihDate.Font = new System.Drawing.Font("Tahoma", 8F);
-			this.lblInfoNextPerihDate.ForeColor = System.Drawing.SystemColors.GrayText;
-			this.lblInfoNextPerihDate.Location = new System.Drawing.Point(23, 54);
-			this.lblInfoNextPerihDate.Name = "lblInfoNextPerihDate";
-			this.lblInfoNextPerihDate.Size = new System.Drawing.Size(78, 13);
-			this.lblInfoNextPerihDate.TabIndex = 244;
-			this.lblInfoNextPerihDate.Text = "Perihelion date";
+			this.lblInfoNearestPerihDate.AutoSize = true;
+			this.lblInfoNearestPerihDate.Font = new System.Drawing.Font("Tahoma", 8F);
+			this.lblInfoNearestPerihDate.ForeColor = System.Drawing.SystemColors.GrayText;
+			this.lblInfoNearestPerihDate.Location = new System.Drawing.Point(23, 54);
+			this.lblInfoNearestPerihDate.Name = "lblInfoNearestPerihDate";
+			this.lblInfoNearestPerihDate.Size = new System.Drawing.Size(119, 13);
+			this.lblInfoNearestPerihDate.TabIndex = 244;
+			this.lblInfoNearestPerihDate.Text = "Nearest perihelion date";
 			// 
 			// txtInfoPerihEarthDist
 			// 
@@ -2010,7 +2019,7 @@
 			// pnlPerihDate
 			// 
 			this.pnlPerihDate.Controls.Add(this.btnPerihDate);
-			this.pnlPerihDate.Controls.Add(this.cbxPerihDate);
+			this.pnlPerihDate.Controls.Add(this.cbxNearestPerihDate);
 			this.pnlPerihDate.Controls.Add(this.cboPerihDate);
 			this.pnlPerihDate.Location = new System.Drawing.Point(4, 42);
 			this.pnlPerihDate.Name = "pnlPerihDate";
@@ -2029,15 +2038,15 @@
 			this.btnPerihDate.UseVisualStyleBackColor = true;
 			this.btnPerihDate.Click += new System.EventHandler(this.btnDate_Click);
 			// 
-			// cbxPerihDate
+			// cbxNearestPerihDate
 			// 
-			this.cbxPerihDate.AutoSize = true;
-			this.cbxPerihDate.Location = new System.Drawing.Point(8, 4);
-			this.cbxPerihDate.Name = "cbxPerihDate";
-			this.cbxPerihDate.Size = new System.Drawing.Size(97, 17);
-			this.cbxPerihDate.TabIndex = 0;
-			this.cbxPerihDate.Text = "Perihelion date";
-			this.cbxPerihDate.UseVisualStyleBackColor = true;
+			this.cbxNearestPerihDate.AutoSize = true;
+			this.cbxNearestPerihDate.Location = new System.Drawing.Point(8, 4);
+			this.cbxNearestPerihDate.Name = "cbxNearestPerihDate";
+			this.cbxNearestPerihDate.Size = new System.Drawing.Size(138, 17);
+			this.cbxNearestPerihDate.TabIndex = 0;
+			this.cbxNearestPerihDate.Text = "Nearest perihelion date";
+			this.cbxNearestPerihDate.UseVisualStyleBackColor = true;
 			// 
 			// cboPerihDate
 			// 
@@ -2649,7 +2658,7 @@
 		private System.Windows.Forms.Label lblPeriod;
 		private System.Windows.Forms.TextBox txtPeriod;
 		private System.Windows.Forms.Panel pnlPerihDate;
-		private System.Windows.Forms.CheckBox cbxPerihDate;
+		private System.Windows.Forms.CheckBox cbxNearestPerihDate;
 		private System.Windows.Forms.ComboBox cboPerihDate;
 		private System.Windows.Forms.Panel pnlName;
 		private System.Windows.Forms.ComboBox cboName;
@@ -2673,7 +2682,7 @@
 		private System.Windows.Forms.TextBox txtInfoPeriod;
 		private System.Windows.Forms.Label lblInfoPeriodYears;
 		private System.Windows.Forms.TextBox txtInfoNextPerihDate;
-		private System.Windows.Forms.Label lblInfoNextPerihDate;
+		private System.Windows.Forms.Label lblInfoNearestPerihDate;
 		private System.Windows.Forms.TextBox txtInfoName;
 		private System.Windows.Forms.Label lblInfoPeriod;
 		private System.Windows.Forms.TextBox txtInfoPerihMag;
@@ -2751,5 +2760,6 @@
 		private System.Windows.Forms.Button btnResetAllFilters;
 		private System.Windows.Forms.MenuItem mnuAphDistance;
 		private System.Windows.Forms.MenuItem mnuSemiMajorAxis;
+		private System.Windows.Forms.MenuItem mnuNearestPerihDate;
 	}
 }

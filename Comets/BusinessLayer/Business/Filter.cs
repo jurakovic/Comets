@@ -89,7 +89,11 @@ namespace Comets.BusinessLayer.Business
 			set
 			{
 				_index = value;
-				_valueCompare = FilterManager.GetValueCompareFromIndex(_dataType, _index);
+
+				if (_index == 0)
+					_valueCompare = ValueCompareEnum.Greather_Contains;
+				else
+					_valueCompare = ValueCompareEnum.Less_DoesNotContain;
 			}
 		}
 

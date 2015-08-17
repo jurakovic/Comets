@@ -94,33 +94,5 @@ namespace Comets.BusinessLayer.Managers
 		}
 
 		#endregion
-
-		#region GetValueCompareFromIndex
-
-		public static ValueCompareEnum GetValueCompareFromIndex(DataTypeEnum properyNameEnum, int index)
-		{
-			if (index == 0)
-				return ValueCompareEnum.Greather_Contains;
-			else
-				return ValueCompareEnum.Less_DoesNotContain;
-		}
-
-		#endregion
-
-		#region GetIndexFromValueCompare
-
-		public static int GetIndexFromValueCompare(ValueCompareEnum valueResolveEnum)
-		{
-			int retval = -1;
-
-			if (valueResolveEnum == ValueCompareEnum.Greather_Contains)
-				retval = 0;
-			else
-				retval = 1;
-
-			return retval;
-		}
-
-		#endregion
 	}
 }

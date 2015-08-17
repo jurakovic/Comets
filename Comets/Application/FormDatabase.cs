@@ -235,23 +235,10 @@ namespace Comets.Application
 
 		private void ApllyContextMenuVisibility()
 		{
-			if ((tbcDetails.Visible && tbcDetails.SelectedIndex == 1) || (tbcFilters.Visible && tbcFilters.SelectedIndex == 1))
+			if ((tbcDetails.Visible && tbcDetails.SelectedIndex == 0) || (tbcFilters.Visible && tbcFilters.SelectedIndex == 0))
 			{
-				mnuAphDistance.Visible = true;
-				mnuSemiMajorAxis.Visible = true;
-				mnuEcc.Visible = true;
-				mnuIncl.Visible = true;
-				mnuAscNode.Visible = true;
-				mnuArgPeri.Visible = true;
-
-				mnuPerihEarthDist.Visible = false;
-				mnuCurrSunDist.Visible = false;
-				mnuCurrEarthDist.Visible = false;
-				mnuPerihMag.Visible = false;
-				mnuCurrMag.Visible = false;
-			}
-			else
-			{
+				//ephemeris
+				mnuPerihDate.Visible = false;
 				mnuAphDistance.Visible = false;
 				mnuSemiMajorAxis.Visible = false;
 				mnuEcc.Visible = false;
@@ -259,11 +246,30 @@ namespace Comets.Application
 				mnuAscNode.Visible = false;
 				mnuArgPeri.Visible = false;
 
+				mnuNearestPerihDate.Visible = true;
 				mnuPerihEarthDist.Visible = true;
 				mnuCurrSunDist.Visible = true;
 				mnuCurrEarthDist.Visible = true;
 				mnuPerihMag.Visible = true;
 				mnuCurrMag.Visible = true;
+			}
+			else
+			{
+				//elements
+				mnuPerihDate.Visible = true;
+				mnuAphDistance.Visible = true;
+				mnuSemiMajorAxis.Visible = true;
+				mnuEcc.Visible = true;
+				mnuIncl.Visible = true;
+				mnuAscNode.Visible = true;
+				mnuArgPeri.Visible = true;
+
+				mnuNearestPerihDate.Visible = false;
+				mnuPerihEarthDist.Visible = false;
+				mnuCurrSunDist.Visible = false;
+				mnuCurrEarthDist.Visible = false;
+				mnuPerihMag.Visible = false;
+				mnuCurrMag.Visible = false;
 			}
 		}
 
@@ -488,7 +494,7 @@ namespace Comets.Application
 				if (fdt.ShowDialog() == DialogResult.OK)
 				{
 					DateTime = fdt.SelectedDateTime;
-					cbxPerihDate.Checked = true;
+					cbxNearestPerihDate.Checked = true;
 				}
 			}
 		}
@@ -610,7 +616,7 @@ namespace Comets.Application
 										else if (c is TextBox)
 											(c as TextBox).Text = f.Text;
 										else if (c is ComboBox)
-											(c as ComboBox).SelectedIndex = FilterManager.GetIndexFromValueCompare(f.ValueCompare);
+											(c as ComboBox).SelectedIndex = f.Index;
 										else if (c is Button && f.Value > 0.0) //button for date
 											DateTime = Utils.JDToDateTime(f.Value).ToLocalTime();
 									}
