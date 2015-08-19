@@ -18,7 +18,7 @@ namespace Comets.Application
 		#region Const
 
 		public static string DateTimeFormat = "dd.MM.yyyy HH:mm:ss";
-		public static string DefaultSortProperty = "sortkey";
+		public static string DefaultSortProperty = Comet.PropertyEnum.sortkey.ToString();
 		public static bool DefaultSortAscending = true;
 
 		#endregion

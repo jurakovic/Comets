@@ -15,6 +15,32 @@ namespace Comets.BusinessLayer.Business
 
 		#endregion
 
+		#region Enum
+
+		public enum PropertyEnum
+		{
+			full = 0,
+			name,
+			id,
+			T,
+			q,
+			PerihEarthDist,
+			PerihMag,
+			CurrentSunDist,
+			CurrentEarthDist,
+			CurrentMag,
+			P,
+			Q,
+			a,
+			e,
+			i,
+			N,
+			w,
+			sortkey
+		};
+
+		#endregion
+
 		#region Fields
 
 		private string _full;
@@ -284,7 +310,7 @@ namespace Comets.BusinessLayer.Business
 			set { _idKey = value; }
 		}
 
-		public EphemerisResult PerihelionEphemeris
+		private EphemerisResult PerihelionEphemeris
 		{
 			get
 			{
@@ -295,7 +321,7 @@ namespace Comets.BusinessLayer.Business
 			}
 		}
 
-		public EphemerisResult CurrentEphemeris
+		private EphemerisResult CurrentEphemeris
 		{
 			get
 			{

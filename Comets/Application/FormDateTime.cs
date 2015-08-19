@@ -128,10 +128,10 @@ namespace Comets.Application
 				int max = DateTime.DaysInMonth(txtYear.Int(), txtMonth.Int());
 
 				LeMiMa o = txtDay.Tag as LeMiMa;
-				LeMiMa n = new LeMiMa(o.Len, o.Min, max, LeMiMa.NameEnum.Day);
+				LeMiMa n = new LeMiMa(LeMiMa.NameEnum.Day, o.Len, o.IMin, max);
 
-				if (txtDay.Text.Length > 0 && txtDay.Int() > n.Max)
-					txtDay.Text = n.Max.ToString();
+				if (txtDay.Text.Length > 0 && txtDay.Int() > n.IMax)
+					txtDay.Text = n.IMax.ToString();
 
 				txtDay.Tag = n;
 

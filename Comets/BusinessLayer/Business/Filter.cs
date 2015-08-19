@@ -16,31 +16,9 @@ namespace Comets.BusinessLayer.Business
 
 		#endregion
 
-		#region Const
-
-		public static Dictionary<string, string> PropertyName = new Dictionary<string, string>()
-		{
-			{ "full", "Name" },
-			{ "NextT", "Perihelion date" },
-			{ "P", "Period" },
-			{ "q", "Perihelion distance" },
-			{ "PerihEarthDist", "Perihelion Earth distance" },
-			{ "PerihMag", "Perihelion magnitude" },
-			{ "CurrentSunDist", "Current Sun distance" },
-			{ "CurrentEarthDist", "Current Earth distance" },
-			{ "CurrentMag", "Current magnitude" },
-			{ "Q", "Aphelion distance" },
-			{ "a", "Semi-major axis" },
-			{ "e", "Eccentricity" },
-			{ "i", "Inclination" },
-			{ "N", "Longitude of Ascending Node" },
-			{ "w", "Argument of Pericenter"}
-		};
-
-		#endregion
-
 		#region Fields
 
+		private Comet.PropertyEnum _property;
 		private DataTypeEnum _dataType;
 		private bool _checked;
 		private string _text;
@@ -52,30 +30,24 @@ namespace Comets.BusinessLayer.Business
 
 		#region Properties
 
+		public Comet.PropertyEnum Property
+		{
+			get { return _property; }
+		}
+
 		public DataTypeEnum DataType
 		{
 			get { return _dataType; }
-			protected set { _dataType = value; }
 		}
 
 		public bool Checked
 		{
 			get { return _checked; }
-			set { _checked = value; }
 		}
 
 		public string Text
 		{
 			get { return _text; }
-			set
-			{
-				_text = value;
-
-				if (_dataType == DataTypeEnum.Double)
-					_value = _text.Double();
-				else
-					_value = String.IsNullOrEmpty(_text) ? 0.0 : 1.0; //just for validation
-			}
 		}
 
 		public double Value
@@ -86,15 +58,6 @@ namespace Comets.BusinessLayer.Business
 		public int Index
 		{
 			get { return _index; }
-			set
-			{
-				_index = value;
-
-				if (_index == 0)
-					_valueCompare = ValueCompareEnum.Greather_Contains;
-				else
-					_valueCompare = ValueCompareEnum.Less_DoesNotContain;
-			}
 		}
 
 		public ValueCompareEnum ValueCompare
@@ -106,11 +69,35 @@ namespace Comets.BusinessLayer.Business
 
 		#region Constructor
 
-		public Filter(DataTypeEnum dataType = DataTypeEnum.Double)
+		public Filter(Comet.PropertyEnum property, DataTypeEnum dataType, bool isChecked, string text, int index)
 		{
-			DataType = dataType;
+			_property = property;
+			_dataType = dataType;
+			_checked = isChecked;
+			_text = text;
+
+			if (_dataType == DataTypeEnum.Double)
+				_value = _text.Double();
+			else// if (_dataType == DataTypeEnum.String)
+				_value = String.IsNullOrEmpty(_text) ? 0.0 : 1.0; //only for validation
+
+			_index = index;
+
+			if (_index == 0)
+				_valueCompare = ValueCompareEnum.Greather_Contains;
+			else
+				_valueCompare = ValueCompareEnum.Less_DoesNotContain;
 		}
 
 		#endregion
 	}
+
+	#region FilterCollection
+
+	public class FilterCollection : List<Filter>
+	{
+
+	}
+
+	#endregion
 }

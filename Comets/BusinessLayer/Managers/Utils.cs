@@ -40,7 +40,7 @@ namespace Comets.BusinessLayer.Managers
 			if (l == null)
 				throw new NullReferenceException("Textbox has no defined LeMiMa Tag");
 
-			return HandleKeyPress(sender, e, l.Len, 0, l.Min, l.Max);
+			return HandleKeyPress(sender, e, l.Len, l.Decimals, l.DMin, l.DMax);
 		}
 
 		public static bool HandleKeyPress(object sender, KeyPressEventArgs e, int length, int decimals, double? minimum = null, double? maximum = null)
@@ -118,9 +118,9 @@ namespace Comets.BusinessLayer.Managers
 
 			if (hasValue && (up || down))
 			{
-				if (up && value < l.Max)
+				if (up && value < l.IMax)
 					++value;
-				else if (down && value > l.Min)
+				else if (down && value > l.IMin)
 					--value;
 
 				txt.Text = value.ToString();

@@ -49,11 +49,11 @@ namespace Comets.BusinessLayer.Extensions
 
 			if (l != null)
 			{
-				if (retval < l.Min)
-					retval = l.Min;
+				if (retval < l.DMin)
+					retval = l.DMin;
 
-				if (retval > l.Max)
-					retval = l.Max;
+				if (retval > l.DMax)
+					retval = l.DMax;
 			}
 
 			return retval;
