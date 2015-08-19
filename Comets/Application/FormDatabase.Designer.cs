@@ -265,9 +265,9 @@
 			this.lblElemPerihDate.ForeColor = System.Drawing.SystemColors.GrayText;
 			this.lblElemPerihDate.Location = new System.Drawing.Point(23, 54);
 			this.lblElemPerihDate.Name = "lblElemPerihDate";
-			this.lblElemPerihDate.Size = new System.Drawing.Size(124, 13);
+			this.lblElemPerihDate.Size = new System.Drawing.Size(78, 13);
 			this.lblElemPerihDate.TabIndex = 244;
-			this.lblElemPerihDate.Text = "Elements perihelion date";
+			this.lblElemPerihDate.Text = "Perihelion date";
 			// 
 			// txtElemEquinox
 			// 
@@ -1244,9 +1244,9 @@
 			this.lblInfoPerihEarthDist.ForeColor = System.Drawing.SystemColors.GrayText;
 			this.lblInfoPerihEarthDist.Location = new System.Drawing.Point(203, 99);
 			this.lblInfoPerihEarthDist.Name = "lblInfoPerihEarthDist";
-			this.lblInfoPerihEarthDist.Size = new System.Drawing.Size(125, 13);
+			this.lblInfoPerihEarthDist.Size = new System.Drawing.Size(150, 13);
 			this.lblInfoPerihEarthDist.TabIndex = 0;
-			this.lblInfoPerihEarthDist.Text = "Perihelion Earth distance";
+			this.lblInfoPerihEarthDist.Text = "Perihelion distance from Earth";
 			// 
 			// lblInfoName
 			// 
@@ -1266,9 +1266,9 @@
 			this.lblInfoCurrEarthDist.ForeColor = System.Drawing.SystemColors.GrayText;
 			this.lblInfoCurrEarthDist.Location = new System.Drawing.Point(201, 144);
 			this.lblInfoCurrEarthDist.Name = "lblInfoCurrEarthDist";
-			this.lblInfoCurrEarthDist.Size = new System.Drawing.Size(116, 13);
+			this.lblInfoCurrEarthDist.Size = new System.Drawing.Size(141, 13);
 			this.lblInfoCurrEarthDist.TabIndex = 251;
-			this.lblInfoCurrEarthDist.Text = "Current Earth distance";
+			this.lblInfoCurrEarthDist.Text = "Current distance from Earth";
 			// 
 			// lblInfoPerihMag
 			// 
@@ -1424,9 +1424,9 @@
 			this.lblInfoCurrSunDist.ForeColor = System.Drawing.SystemColors.GrayText;
 			this.lblInfoCurrSunDist.Location = new System.Drawing.Point(23, 144);
 			this.lblInfoCurrSunDist.Name = "lblInfoCurrSunDist";
-			this.lblInfoCurrSunDist.Size = new System.Drawing.Size(108, 13);
+			this.lblInfoCurrSunDist.Size = new System.Drawing.Size(133, 13);
 			this.lblInfoCurrSunDist.TabIndex = 268;
-			this.lblInfoCurrSunDist.Text = "Current Sun distance";
+			this.lblInfoCurrSunDist.Text = "Current distance from Sun";
 			// 
 			// tbpElements
 			// 

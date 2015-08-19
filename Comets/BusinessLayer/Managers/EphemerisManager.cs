@@ -434,7 +434,7 @@ namespace Comets.BusinessLayer.Managers
 			double d = jd - 2451543.5;
 			double Tj = T;	// get julian day of perihelion time
 			double v, r;
-			if (e > 0.98)
+			if (e > 0.99)
 			{
 				// treat as near parabolic (approx. method valid inside orbit of Pluto)
 				double k = 0.01720209895;	// Gaussian gravitational constant

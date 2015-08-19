@@ -259,13 +259,13 @@ namespace Comets.Application.ModulOrbit
 			{
 				orbitPanel.LoadPanel(OVComets.ToList(), orbitPanel.ATime, cboComet.SelectedIndex);
 				ClearOrbits();
-
-				ValueChangedByEvent = true;
-				rbtnMultipleMode.Checked = true;
-				ValueChangedByEvent = false;
-
-				RefreshPanel();
 			}
+
+			ValueChangedByEvent = true;
+			rbtnMultipleMode.Checked = true;
+			ValueChangedByEvent = false;
+
+			RefreshPanel();
 		}
 
 		private void btnClear_Click(object sender, EventArgs e)
@@ -703,9 +703,11 @@ namespace Comets.Application.ModulOrbit
 					break;
 
 				case Keys.Add:
+				case Keys.Q:
 					handled = MoveScroll(scrollZoom, true, false);
 					break;
 				case Keys.Subtract:
+				case Keys.A:
 					handled = MoveScroll(scrollZoom, false, false);
 					break;
 
