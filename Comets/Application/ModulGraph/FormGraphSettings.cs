@@ -4,6 +4,7 @@ using Comets.BusinessLayer.Managers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace Comets.Application.ModulGraph
@@ -35,6 +36,8 @@ namespace Comets.Application.ModulGraph
 				btnEndDate.Text = _end.ToString(FormMain.DateTimeFormat);
 			}
 		}
+
+		private CancellationTokenSource cts;
 
 		#endregion
 
@@ -105,6 +108,16 @@ namespace Comets.Application.ModulGraph
 			}
 
 			BindList();
+		}
+
+		#endregion
+
+		#region FormGraphSettings_FormClosing
+
+		private void FormGraphSettings_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			if (cts != null && cts.IsCancellationRequested)
+				e.Cancel = true;
 		}
 
 		#endregion
@@ -344,7 +357,19 @@ namespace Comets.Application.ModulGraph
 				if (GraphSettings.IsMultipleMode && GraphSettings.Comets.Count > 1)
 					main.SetProgressMaximumValue(GraphSettings.Comets.Count);
 
-				await EphemerisManager.CalculateEphemerisAsync(GraphSettings, FormMain.Progress);
+				cts = new CancellationTokenSource();
+
+				try
+				{
+					await EphemerisManager.CalculateEphemerisAsync(GraphSettings, FormMain.Progress, cts.Token);
+				}
+				catch (OperationCanceledException)
+				{
+					cts = null;
+					GraphSettings.Results.Clear();
+					main.HideProgress();
+					return;
+				}
 
 				if (GraphSettings.AddNew && GraphSettings.SelectedComet != null)
 				{
@@ -365,6 +390,18 @@ namespace Comets.Application.ModulGraph
 
 				this.Close();
 			}
+		}
+
+		#endregion
+
+		#region btnCancel_Click
+
+		private void btnCancel_Click(object sender, EventArgs e)
+		{
+			if (cts != null)
+				cts.Cancel();
+			else
+				this.Close();
 		}
 
 		#endregion

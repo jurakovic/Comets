@@ -5,6 +5,7 @@ using Comets.OrbitViewer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace Comets.Application.ModulEphemeris
@@ -36,6 +37,8 @@ namespace Comets.Application.ModulEphemeris
 				btnEndDate.Text = _end.ToString(FormMain.DateTimeFormat);
 			}
 		}
+
+		private CancellationTokenSource cts;
 
 		#endregion
 
@@ -114,6 +117,16 @@ namespace Comets.Application.ModulEphemeris
 			}
 
 			BindList();
+		}
+
+		#endregion
+
+		#region FormEphemerisSettings_FormClosing
+
+		private void FormEphemerisSettings_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			if (cts != null && cts.IsCancellationRequested)
+				e.Cancel = true;
 		}
 
 		#endregion
@@ -249,27 +262,70 @@ namespace Comets.Application.ModulEphemeris
 				if (EphemerisSettings.IsMultipleMode && EphemerisSettings.Comets.Count > 1)
 					main.SetProgressMaximumValue(EphemerisSettings.Comets.Count);
 
-				await EphemerisManager.CalculateEphemerisAsync(EphemerisSettings, FormMain.Progress);
+				cts = new CancellationTokenSource();
 
-				if (EphemerisSettings.AddNew)
+				try
 				{
-					FormEphemeris fe = new FormEphemeris(EphemerisSettings) { Owner = this.Owner };
-					fe.MdiParent = this.Owner;
-					fe.WindowState = FormWindowState.Maximized;
-					await fe.LoadResultsAsync();
-					fe.Show();
+					await EphemerisManager.CalculateEphemerisAsync(EphemerisSettings, FormMain.Progress, cts.Token);
 				}
-				else
+				catch (OperationCanceledException)
 				{
-					FormEphemeris fe = this.Owner.ActiveMdiChild as FormEphemeris;
-					fe.EphemerisSettings = this.EphemerisSettings;
-					await fe.LoadResultsAsync();
+					cts = null;
+					EphemerisSettings.Results.Clear();
+					main.HideProgress();
+					return;
+				}
+
+				if (EphemerisSettings.IsMultipleMode && EphemerisSettings.Comets.Count > 1)
+					main.SetProgressMaximumValue(EphemerisSettings.Results.Count);
+
+				FormEphemeris fe = null;
+
+				try
+				{
+					if (EphemerisSettings.AddNew)
+					{
+						fe = new FormEphemeris(EphemerisSettings) { Owner = this.Owner };
+						fe.MdiParent = this.Owner;
+						fe.WindowState = FormWindowState.Maximized;
+						await fe.LoadResultsAsync(cts.Token);
+						fe.Show();
+					}
+					else
+					{
+						fe = this.Owner.ActiveMdiChild as FormEphemeris;
+						fe.EphemerisSettings = this.EphemerisSettings;
+						await fe.LoadResultsAsync(cts.Token);
+					}
+				}
+				catch (OperationCanceledException)
+				{
+					cts = null;
+					EphemerisSettings.Results.Clear();
+					main.HideProgress();
+
+					if (EphemerisSettings.AddNew)
+						fe.Dispose();
+
+					return;
 				}
 
 				main.HideProgress();
 
 				this.Close();
 			}
+		}
+
+		#endregion
+
+		#region btnCancel_Click
+
+		private void btnCancel_Click(object sender, EventArgs e)
+		{
+			if (cts != null)
+				cts.Cancel();
+			else
+				this.Close();
 		}
 
 		#endregion

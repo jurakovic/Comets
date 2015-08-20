@@ -59,13 +59,13 @@ namespace Comets.BusinessLayer.Managers
 
 		#region CalculateEphemerisAsync
 
-		public async static Task<SettingsBase> CalculateEphemerisAsync(SettingsBase settings, IProgress<int> progress)
+		public async static Task<SettingsBase> CalculateEphemerisAsync(SettingsBase settings, IProgress<int> progress, CancellationToken ct)
 		{
 			await Task.Run(() =>
 			{
 				if (!settings.IsMultipleMode || settings.Comets.Count == 1)
 				{
-					CalculateEphemeris(settings, settings.SelectedComet);
+					CalculateEphemeris(settings, settings.SelectedComet, ct);
 				}
 				else
 				{
@@ -73,7 +73,7 @@ namespace Comets.BusinessLayer.Managers
 					foreach (Comet comet in settings.Comets)
 					{
 						progress.Report(i++);
-						CalculateEphemeris(settings, comet);
+						CalculateEphemeris(settings, comet, ct);
 					}
 				}
 			});
@@ -81,7 +81,7 @@ namespace Comets.BusinessLayer.Managers
 			return settings;
 		}
 
-		private static void CalculateEphemeris(SettingsBase settings, Comet comet)
+		private static void CalculateEphemeris(SettingsBase settings, Comet comet, CancellationToken ct)
 		{
 			decimal jd = (decimal)settings.Start.JD();
 			decimal jdMax = (decimal)settings.Stop.JD();
@@ -90,6 +90,8 @@ namespace Comets.BusinessLayer.Managers
 			List<EphemerisResult> erList = new List<EphemerisResult>();
 			while (jd <= jdMax)
 			{
+				ct.ThrowIfCancellationRequested();
+
 				bool ch1 = true;
 				bool ch2 = true;
 				bool ch3 = true;
@@ -119,7 +121,7 @@ namespace Comets.BusinessLayer.Managers
 
 		#region GenerateEphemerisAsync
 
-		public async static Task<string> GenerateEphemerisAsync(EphemerisSettings settings, IProgress<int> progress)
+		public async static Task<string> GenerateEphemerisAsync(EphemerisSettings settings, IProgress<int> progress, CancellationToken ct)
 		{
 			StringBuilder sb = new StringBuilder();
 			StringBuilder line = new StringBuilder();
@@ -131,6 +133,7 @@ namespace Comets.BusinessLayer.Managers
 				int i = 1;
 				foreach (var keyVal in settings.Results)
 				{
+					ct.ThrowIfCancellationRequested();
 					progress.Report(i++);
 
 					Comet comet = keyVal.Key;

@@ -471,6 +471,7 @@ namespace Comets.Application
 
 		public void HideProgress()
 		{
+			statusProgressBar.Value = statusProgressBar.Minimum;
 			statusProgressBar.Visible = false;
 		}
 

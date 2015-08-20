@@ -468,6 +468,7 @@
 			this.btnCancel.TabIndex = 6;
 			this.btnCancel.Text = "Cancel";
 			this.btnCancel.UseVisualStyleBackColor = true;
+			this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
 			// 
 			// gbxMode
 			// 
@@ -536,6 +537,7 @@
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Magnitude graph settings";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormGraphSettings_FormClosing);
 			this.Load += new System.EventHandler(this.FormGraphSettings_Load);
 			this.gbxSelectComet.ResumeLayout(false);
 			this.gbxSelectComet.PerformLayout();
