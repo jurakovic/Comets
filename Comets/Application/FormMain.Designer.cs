@@ -335,6 +335,7 @@
 			// 
 			this.menuItemAbout.Index = 0;
 			this.menuItemAbout.Text = "About";
+			this.menuItemAbout.Click += new System.EventHandler(this.menuItemAbout_Click);
 			// 
 			// statusStrip
 			// 

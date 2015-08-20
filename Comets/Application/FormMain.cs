@@ -418,6 +418,18 @@ namespace Comets.Application
 
 		#endregion
 
+		#region Menu: Help
+
+		private void menuItemAbout_Click(object sender, EventArgs e)
+		{
+			using (FormAbout fa = new FormAbout())
+			{
+				fa.ShowDialog();
+			}
+		}
+
+		#endregion
+
 		#region Methods
 
 		private void CommonSaveAs_Click()
