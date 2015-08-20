@@ -22,6 +22,12 @@ namespace Comets.BusinessLayer.Business
 		public bool NowLine { get; set; }
 		public bool Antialiasing { get; set; }
 
+		public bool MinGraphMagnitudeChecked { get; set; }
+		public double? MinGraphMagnitudeValue { get; set; }
+
+		public bool MaxGraphMagnitudeChecked { get; set; }
+		public double? MaxGraphMagnitudeValue { get; set; }
+
 		#endregion
 
 		#region Constructor

@@ -415,7 +415,6 @@
 			this.cbxSelectedLabel.AutoSize = true;
 			this.cbxSelectedLabel.Checked = true;
 			this.cbxSelectedLabel.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.cbxSelectedLabel.Enabled = false;
 			this.cbxSelectedLabel.Location = new System.Drawing.Point(8, 150);
 			this.cbxSelectedLabel.Name = "cbxSelectedLabel";
 			this.cbxSelectedLabel.Size = new System.Drawing.Size(124, 17);
@@ -429,7 +428,6 @@
 			this.cbxSelectedOrbit.AutoSize = true;
 			this.cbxSelectedOrbit.Checked = true;
 			this.cbxSelectedOrbit.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.cbxSelectedOrbit.Enabled = false;
 			this.cbxSelectedOrbit.Location = new System.Drawing.Point(8, 127);
 			this.cbxSelectedOrbit.Name = "cbxSelectedOrbit";
 			this.cbxSelectedOrbit.Size = new System.Drawing.Size(124, 17);
@@ -620,8 +618,6 @@
 			// cbxLabelComet
 			// 
 			this.cbxLabelComet.AutoSize = true;
-			this.cbxLabelComet.Checked = true;
-			this.cbxLabelComet.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.cbxLabelComet.Location = new System.Drawing.Point(144, 37);
 			this.cbxLabelComet.Name = "cbxLabelComet";
 			this.cbxLabelComet.Size = new System.Drawing.Size(15, 14);
@@ -632,8 +628,6 @@
 			// cbxOrbitComet
 			// 
 			this.cbxOrbitComet.AutoSize = true;
-			this.cbxOrbitComet.Checked = true;
-			this.cbxOrbitComet.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.cbxOrbitComet.Location = new System.Drawing.Point(144, 22);
 			this.cbxOrbitComet.Name = "cbxOrbitComet";
 			this.cbxOrbitComet.Size = new System.Drawing.Size(15, 14);

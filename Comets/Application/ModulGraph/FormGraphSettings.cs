@@ -80,11 +80,11 @@ namespace Comets.Application.ModulGraph
 				cbxNowLine.Checked = GraphSettings.NowLine;
 				cbxAntialiasing.Checked = GraphSettings.Antialiasing;
 
-				txtMinMag.Text = GraphSettings.MinMagnitudeValue != null ? GraphSettings.MinMagnitudeValue.Value.ToString() : String.Empty;
-				cbxMinMag.Checked = GraphSettings.MinMagnitudeChecked;
+				txtMinMag.Text = GraphSettings.MinGraphMagnitudeValue != null ? GraphSettings.MinGraphMagnitudeValue.Value.ToString() : String.Empty;
+				cbxMinMag.Checked = GraphSettings.MinGraphMagnitudeChecked;
 
-				txtMaxMag.Text = GraphSettings.MaxMagnitudeValue != null ? GraphSettings.MaxMagnitudeValue.Value.ToString() : String.Empty;
-				cbxMaxMag.Checked = GraphSettings.MaxMagnitudeChecked;
+				txtMaxMag.Text = GraphSettings.MaxGraphMagnitudeValue != null ? GraphSettings.MaxGraphMagnitudeValue.Value.ToString() : String.Empty;
+				cbxMaxMag.Checked = GraphSettings.MaxGraphMagnitudeChecked;
 			}
 		}
 
@@ -327,11 +327,11 @@ namespace Comets.Application.ModulGraph
 				GraphSettings.NowLine = cbxNowLine.Checked;
 				GraphSettings.Antialiasing = cbxAntialiasing.Checked;
 
-				GraphSettings.MinMagnitudeChecked = cbxMinMag.Checked;
-				GraphSettings.MinMagnitudeValue = txtMinMag.TextLength > 0 ? (double?)txtMinMag.Double() : null;
+				GraphSettings.MinGraphMagnitudeChecked = cbxMinMag.Checked;
+				GraphSettings.MinGraphMagnitudeValue = txtMinMag.TextLength > 0 ? (double?)txtMinMag.Double() : null;
 
-				GraphSettings.MaxMagnitudeChecked = cbxMaxMag.Checked;
-				GraphSettings.MaxMagnitudeValue = txtMaxMag.TextLength > 0 ? (double?)txtMaxMag.Double() : null;
+				GraphSettings.MaxGraphMagnitudeChecked = cbxMaxMag.Checked;
+				GraphSettings.MaxGraphMagnitudeValue = txtMaxMag.TextLength > 0 ? (double?)txtMaxMag.Double() : null;
 
 				if (!FormMain.Settings.IgnoreLongCalculationWarning && !SettingsBase.ValidateCalculationAmount(GraphSettings))
 					return;

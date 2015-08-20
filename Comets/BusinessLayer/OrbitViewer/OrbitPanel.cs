@@ -46,8 +46,7 @@ namespace Comets.OrbitViewer
 			Object.Venus,
 			Object.Earth,
 			Object.Mars,
-			Object.Jupiter,
-			Object.Comet
+			Object.Jupiter
 		};
 
 		private readonly List<Object> DefaultLabelDisplay = new List<Object> 
@@ -59,8 +58,7 @@ namespace Comets.OrbitViewer
 			Object.Jupiter, 
 			Object.Saturn,
 			Object.Uranus,
-			Object.Neptune,
-			Object.Comet
+			Object.Neptune
 		};
 
 		#endregion
@@ -73,8 +71,6 @@ namespace Comets.OrbitViewer
 		protected Color ColorCometMarker = Color.Red;
 		protected Color ColorCometNameSelected = Color.White;
 		protected Color ColorCometName = Color.Peru;
-		//protected Color ColorPlanetOrbitUpper = Color.White;
-		//protected Color ColorPlanetOrbitLower = Color.DimGray;
 		protected Color ColorPlanetOrbitUpper = Color.SteelBlue;
 		protected Color ColorPlanetOrbitLower = Color.DarkSlateBlue;
 		protected Color ColorPlanet = Color.Lime;
@@ -131,7 +127,7 @@ namespace Comets.OrbitViewer
 				OVComet comet = null;
 
 				if (SelectedIndex >= 0 && Comets.Any())
-					comet = Comets[SelectedIndex];
+					comet = Comets.ElementAt(SelectedIndex);
 
 				return comet;
 			}
@@ -317,6 +313,7 @@ namespace Comets.OrbitViewer
 			}
 
 			SelectedIndex = index;
+			OrbitHistoryAdd(SelectedIndex);
 
 			ATime = atime;
 
@@ -647,7 +644,7 @@ namespace Comets.OrbitViewer
 			{
 				if (!MultipleMode && OrbitDisplay.Contains(Object.Comet) ||
 					(MultipleMode && OrbitDisplay.Contains(Object.Comet) && OrbitHistory.Contains(i)) ||
-					(MultipleMode && PreserveSelectedOrbit && i == SelectedIndex))
+					(PreserveSelectedOrbit && i == SelectedIndex))
 				{
 					Xyz xyz = cometOrbits[i].GetAt(0).Rotate(MtxToEcl).Rotate(MtxRotate);
 					Pen pen = new Pen(Color.White);
@@ -702,7 +699,7 @@ namespace Comets.OrbitViewer
 					graphics.DrawLine(p, new Point(point1.X + length, point1.Y), new Point(point1.X + offset, point1.Y));
 				}
 
-				if ((LabelDisplay.Contains(Object.Comet)) || (MultipleMode && PreserveSelectedLabel && i == SelectedIndex))
+				if ((LabelDisplay.Contains(Object.Comet)) || (PreserveSelectedLabel && i == SelectedIndex))
 				{
 					if (MultipleMode && i == SelectedIndex)
 						sb.Color = ColorCometNameSelected;
@@ -800,7 +797,7 @@ namespace Comets.OrbitViewer
 			OrbitHistory.Clear();
 			SelectedIndex = -1;
 
-			if (!clearAll)
+			if (!clearAll && comet != null)
 			{
 				Comets.Add(comet);
 				CometOrbits.Add(new CometOrbit(comet, CometOrbit.MaxDivisions));

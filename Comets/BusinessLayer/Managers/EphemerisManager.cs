@@ -201,13 +201,13 @@ namespace Comets.BusinessLayer.Managers
 			double yMin;
 			double yMax;
 
-			if (settings.MinMagnitudeChecked)
-				yMin = settings.MinMagnitudeValue.Value;
+			if (settings.MinGraphMagnitudeChecked)
+				yMin = settings.MinGraphMagnitudeValue.Value;
 			else
 				yMin = minMagnitude;
 
-			if (settings.MaxMagnitudeChecked)
-				yMax = settings.MaxMagnitudeValue.Value;
+			if (settings.MaxGraphMagnitudeChecked)
+				yMax = settings.MaxGraphMagnitudeValue.Value;
 			else if (settings.IsMultipleMode)
 				if (settings.Results.Count == 1)
 					yMax = maxMagnitude;
