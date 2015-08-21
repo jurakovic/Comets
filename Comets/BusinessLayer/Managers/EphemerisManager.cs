@@ -159,7 +159,9 @@ namespace Comets.BusinessLayer.Managers
 					if (settings.Elongation) sb.Append("   Elong. ");
 					if (settings.HelioDist) sb.Append("    r    ");
 					if (settings.GeoDist) sb.Append("    d    ");
-					if (settings.Magnitude) sb.AppendLine(" Mag.");
+					if (settings.Magnitude) sb.Append(" Mag.");
+
+					sb.AppendLine();
 
 					foreach (EphemerisResult er in list)
 					{
@@ -169,14 +171,14 @@ namespace Comets.BusinessLayer.Managers
 						line.Append(dt.ToString("dd.MM.yyyy HH:mm"));
 						if (settings.RA) line.Append("  " + HMSString(er.RA / 15.0));
 						if (settings.Dec) line.Append("  " + AngleString(er.Dec, false, true));
-						if (settings.Alt) line.Append("  " + FixNum(er.Alt, 5, 1) + "°");
-						if (settings.Az) line.Append(" " + FixNum(er.Az, 6, 1) + "°");
+						if (settings.Alt) line.AppendFormat("{0,8:0.0°}", er.Alt);
+						if (settings.Az) line.AppendFormat("{0,8:0.0°}", er.Az);
 						if (settings.EcLon) line.Append("  " + AngleString(er.EcLon, true, true));
 						if (settings.EcLat) line.Append("  " + AngleString(er.EcLat, false, true));
-						if (settings.Elongation) line.Append(" " + FixNum(er.Elongation, 6, 1) + "°" + (er.PositionAngle >= 180 ? " W" : " E"));
-						if (settings.HelioDist) line.Append(" " + FixNum(er.SunDist, 8, 4));
-						if (settings.GeoDist) line.Append(" " + FixNum(er.EarthDist, 8, 4));
-						if (settings.Magnitude) line.Append(" " + FixNum(er.Magnitude, 4, 1));
+						if (settings.Elongation) line.AppendFormat("{0,8:0.0°} {1}", er.Elongation, er.PositionAngle >= 180 ? "W" : "E");
+						if (settings.HelioDist) line.AppendFormat("{0,9:0.0000}", er.SunDist);
+						if (settings.GeoDist) line.AppendFormat("{0,9:0.0000}", er.EarthDist);
+						if (settings.Magnitude) line.AppendFormat("{0,6:0.0}", er.Magnitude);
 
 						sb.AppendLine(line.ToString());
 					}

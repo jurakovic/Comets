@@ -494,6 +494,7 @@
 			this.txtMinMag.Name = "txtMinMag";
 			this.txtMinMag.Size = new System.Drawing.Size(59, 21);
 			this.txtMinMag.TabIndex = 15;
+			this.txtMinMag.Text = "12";
 			this.txtMinMag.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.txtMinMag.TextChanged += new System.EventHandler(this.txtMinMag_TextChanged);
 			this.txtMinMag.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMinMag_KeyPress);
@@ -521,6 +522,8 @@
 			// cbxMinMag
 			// 
 			this.cbxMinMag.AutoSize = true;
+			this.cbxMinMag.Checked = true;
+			this.cbxMinMag.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.cbxMinMag.Location = new System.Drawing.Point(10, 89);
 			this.cbxMinMag.Name = "cbxMinMag";
 			this.cbxMinMag.Size = new System.Drawing.Size(93, 17);

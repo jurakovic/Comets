@@ -305,7 +305,7 @@ namespace Comets.BusinessLayer.Managers
 					compareIndex = filter.Index;
 					isChecked = filter.Checked;
 
-					if (filter.Property == PropertyEnum.full)
+					if (filter.DataType == DataTypeEnum.String)
 					{
 						txtString.Text = filter.Text;
 					}

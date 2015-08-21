@@ -123,11 +123,13 @@
 			// 
 			this.menuItemSeparatorFile1.Index = 3;
 			this.menuItemSeparatorFile1.Text = "-";
+			this.menuItemSeparatorFile1.Visible = false;
 			// 
 			// menuItemOrbitalElements
 			// 
 			this.menuItemOrbitalElements.Index = 4;
 			this.menuItemOrbitalElements.Text = "Orbital elements";
+			this.menuItemOrbitalElements.Visible = false;
 			// 
 			// menuItemSeparatorFile3
 			// 

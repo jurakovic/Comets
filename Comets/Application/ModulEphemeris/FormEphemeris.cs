@@ -33,6 +33,7 @@ namespace Comets.Application.ModulEphemeris
 		{
 			this.Text = EphemerisSettings.ToString();
 			richTextBox.Text = await EphemerisManager.GenerateEphemerisAsync(EphemerisSettings, FormMain.Progress, ct);
+			richTextBox.SelectionStart = 0;
 			EphemerisSettings.AddNew = false;
 			EphemerisSettings.Results.Clear();
 			GC.Collect();
