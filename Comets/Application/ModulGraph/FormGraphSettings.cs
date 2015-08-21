@@ -47,8 +47,10 @@ namespace Comets.Application.ModulGraph
 		{
 			InitializeComponent();
 
-			txtDaysFromTStart.Tag = new LeMiMa(4, -3653, -1);
-			txtDaysFromTStop.Tag = new LeMiMa(4, 1, 3653);
+			txtDaysFromTStart.Tag = new ValNum(-3653, -1);
+			txtDaysFromTStop.Tag = new ValNum(1, 3653);
+			txtMinMag.Tag = new ValNum(-20, 40, 2);
+			txtMaxMag.Tag = new ValNum(-20, 40, 2);
 
 			GraphSettings = settings;
 
@@ -229,7 +231,7 @@ namespace Comets.Application.ModulGraph
 
 		private void txtMagCommon_KeyPress(object sender, KeyPressEventArgs e)
 		{
-			e.Handled = Utils.HandleKeyPress(sender, e, 2, 2, -20, 40);
+			e.Handled = Utils.HandleKeyPress(sender, e);
 		}
 
 		private void txtMinMag_TextChanged(object sender, EventArgs e)

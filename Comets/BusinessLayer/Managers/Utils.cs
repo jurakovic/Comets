@@ -35,25 +35,21 @@ namespace Comets.BusinessLayer.Managers
 
 		public static bool HandleKeyPress(object sender, KeyPressEventArgs e)
 		{
-			LeMiMa l = (sender as TextBox).Tag as LeMiMa;
-
-			if (l == null)
-				throw new NullReferenceException("Textbox has no defined LeMiMa Tag");
-
-			return HandleKeyPress(sender, e, l.Len, l.Decimals, l.DMin, l.DMax);
-		}
-
-		public static bool HandleKeyPress(object sender, KeyPressEventArgs e, int length, int decimals, double? minimum = null, double? maximum = null)
-		{
-			if (length < 1)
-				throw new Exception("Length must be greather than 0");
-
-			if (minimum.GetValueOrDefault() > maximum.GetValueOrDefault())
-				throw new Exception("Minimum can not be greather than maximum");
-
 			TextBox textbox = sender as TextBox;
 
-			bool negative = minimum.GetValueOrDefault() < 0;
+			ValNum v = textbox.Tag as ValNum;
+
+			if (v == null)
+				throw new NullReferenceException("Textbox has no defined ValNum Tag");
+
+			double minimum = v.DMin;
+			double maximum = v.DMax;
+			int decimals = v.Decimals;
+
+			if (minimum > maximum)
+				throw new Exception("Minimum can not be greather than maximum");
+
+			bool negative = minimum < 0;
 			string text;
 			bool handle;
 
@@ -70,7 +66,7 @@ namespace Comets.BusinessLayer.Managers
 			if (negative)
 				pattern += "-?";
 
-			pattern += "[0-9]{0," + length + "}[.]?$";
+			pattern += "[0-9]*$";
 
 			if (decimals > 0)
 			{
@@ -79,15 +75,15 @@ namespace Comets.BusinessLayer.Managers
 				if (negative)
 					pattern += "-?";
 
-				pattern += "[0-9]{0," + length + "}([.][0-9]{0," + decimals + "})?$)";
+				pattern += "[0-9]*([.][0-9]{0," + decimals + "})?$)";
 			}
 
 			handle = !Regex.IsMatch(text, pattern);
 
-			if (minimum != null && Char.IsDigit(e.KeyChar) && !handle)
+			if (Char.IsDigit(e.KeyChar) && !handle)
 				handle = text.Double() < minimum;
 
-			if (maximum != null && Char.IsDigit(e.KeyChar) && !handle)
+			if (Char.IsDigit(e.KeyChar) && !handle)
 				handle = text.Double() > maximum;
 
 			return handle;
@@ -101,13 +97,10 @@ namespace Comets.BusinessLayer.Managers
 		{
 			TextBox txt = sender as TextBox;
 
-			if (txt == null)
-				throw new NullReferenceException("Textbox is null");
+			ValNum v = txt.Tag as ValNum;
 
-			LeMiMa l = txt.Tag as LeMiMa;
-
-			if (l == null)
-				throw new NullReferenceException("Textbox has no defined LeMiMa Tag");
+			if (v == null)
+				throw new NullReferenceException("Textbox has no defined ValNum Tag");
 
 			int value = 0;
 			bool hasValue = Int32.TryParse(txt.Text, out value);
@@ -118,9 +111,9 @@ namespace Comets.BusinessLayer.Managers
 
 			if (hasValue && (up || down))
 			{
-				if (up && value < l.IMax)
+				if (up && value < v.IMax)
 					++value;
-				else if (down && value > l.IMin)
+				else if (down && value > v.IMin)
 					--value;
 
 				txt.Text = value.ToString();

@@ -2,9 +2,9 @@
 namespace Comets.BusinessLayer.Business
 {
 	/// <summary>
-	/// Length, Minimum, Maximum
+	/// TextBox Number validator
 	/// </summary>
-	public class LeMiMa
+	public class ValNum
 	{
 		#region Enum
 
@@ -14,20 +14,19 @@ namespace Comets.BusinessLayer.Business
 
 		#region Const
 
-		private static int DefaultValue = 1000;
+		//private static int DefaultValue = 1000;
 
-		public static LeMiMa LDay = new LeMiMa(NameEnum.Day, 2, 1, 31);
-		public static LeMiMa LMonth = new LeMiMa(NameEnum.Month, 2, 1, 12);
-		public static LeMiMa LYear = new LeMiMa(NameEnum.Year, 4, 1, 9999);
-		public static LeMiMa LHour = new LeMiMa(NameEnum.Hour, 2, 0, 23);
-		public static LeMiMa LMinute = new LeMiMa(NameEnum.Minute, 2, 0, 59);
-		public static LeMiMa LSecond = new LeMiMa(NameEnum.Second, 2, 0, 59);
+		public static ValNum VDay = new ValNum(1, 31, NameEnum.Day);
+		public static ValNum VMonth = new ValNum(1, 12, NameEnum.Month);
+		public static ValNum VYear = new ValNum(1, 9999, NameEnum.Year);
+		public static ValNum VHour = new ValNum(0, 23, NameEnum.Hour);
+		public static ValNum VMinute = new ValNum(0, 59, NameEnum.Minute);
+		public static ValNum VSecond = new ValNum(0, 59, NameEnum.Second);
 
 		#endregion
 
 		#region Fields
 
-		int _len;
 		double _min;
 		double _max;
 		int _dec;
@@ -36,14 +35,6 @@ namespace Comets.BusinessLayer.Business
 		#endregion
 
 		#region Properties
-
-		/// <summary>
-		/// Length
-		/// </summary>
-		public int Len
-		{
-			get { return _len; }
-		}
 
 		/// <summary>
 		/// Integer Minimum
@@ -104,27 +95,25 @@ namespace Comets.BusinessLayer.Business
 		/// <param name="minimum"></param>
 		/// <param name="maximum"></param>
 		/// <param name="name"></param>
-		public LeMiMa(NameEnum name, int length, int minimum, int maximum)
+		public ValNum(int minimum, int maximum, NameEnum name)
 		{
-			_name = name;
-			_len = length;
 			_min = minimum;
 			_max = maximum;
-			_dec = DefaultValue;
+			_dec = 0;
+			_name = name;
 		}
 
 		/// <summary>
-		/// Length, Minimum, Maximum constructor
+		/// Minimum, Maximum constructor
 		/// </summary>
 		/// <param name="length"></param>
 		/// <param name="minimum"></param>
 		/// <param name="maximum"></param>
-		public LeMiMa(int length, int minimum, int maximum)
+		public ValNum(int minimum, int maximum)
 		{
-			_len = length;
 			_min = minimum;
 			_max = maximum;
-			_dec = DefaultValue;
+			_dec = 0;
 			_name = NameEnum.Unspecified;
 		}
 
@@ -134,9 +123,8 @@ namespace Comets.BusinessLayer.Business
 		/// <param name="minimum"></param>
 		/// <param name="maximum"></param>
 		/// <param name="decimals"></param>
-		public LeMiMa(double minimum, double maximum, int decimals)
+		public ValNum(double minimum, double maximum, int decimals)
 		{
-			_len = DefaultValue;
 			_min = minimum;
 			_max = maximum;
 			_dec = decimals;

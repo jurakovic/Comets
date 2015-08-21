@@ -309,7 +309,7 @@
 			this.txtLongitude.Name = "txtLongitude";
 			this.txtLongitude.Size = new System.Drawing.Size(115, 21);
 			this.txtLongitude.TabIndex = 3;
-			this.txtLongitude.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtLongitude_KeyPress);
+			this.txtLongitude.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtLatitudeLongitude_KeyPress);
 			// 
 			// txtName
 			// 
@@ -340,7 +340,7 @@
 			this.txtLatitude.Name = "txtLatitude";
 			this.txtLatitude.Size = new System.Drawing.Size(115, 21);
 			this.txtLatitude.TabIndex = 1;
-			this.txtLatitude.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtLatitude_KeyPress);
+			this.txtLatitude.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtLatitudeLongitude_KeyPress);
 			// 
 			// lblName
 			// 

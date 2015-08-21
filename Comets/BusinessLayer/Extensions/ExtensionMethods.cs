@@ -42,21 +42,7 @@ namespace Comets.BusinessLayer.Extensions
 		/// <returns></returns>
 		public static double Double(this TextBoxBase txt)
 		{
-			double retval = 0;
-			retval = txt.Text.Double();
-
-			LeMiMa l = txt.Tag as LeMiMa;
-
-			if (l != null)
-			{
-				if (retval < l.DMin)
-					retval = l.DMin;
-
-				if (retval > l.DMax)
-					retval = l.DMax;
-			}
-
-			return retval;
+			return txt.Text.Double();
 		}
 
 		/// <summary>
@@ -66,7 +52,7 @@ namespace Comets.BusinessLayer.Extensions
 		/// <returns></returns>
 		public static int Int(this TextBoxBase txt)
 		{
-			return (int)txt.Double();
+			return (int)txt.Text.Double();
 		}
 
 		#endregion

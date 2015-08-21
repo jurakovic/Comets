@@ -125,10 +125,10 @@ namespace Comets.BusinessLayer.Managers
 			public bool DateVisible;
 			public string LabelStr;
 			public Filter.DataTypeEnum DataType;
-			public LeMiMa ValueLemima;
+			public ValNum Validator;
 
 			public PanelDefinition(PropertyEnum property, string text, int compareIx, bool stringVisible,
-				bool valueVisible, bool dateVisible, string labelStr, Filter.DataTypeEnum dataType, LeMiMa valueLemima)
+				bool valueVisible, bool dateVisible, string labelStr, Filter.DataTypeEnum dataType, ValNum validator)
 			{
 				Property = property;
 				Text = text;
@@ -138,7 +138,7 @@ namespace Comets.BusinessLayer.Managers
 				DateVisible = dateVisible;
 				LabelStr = labelStr;
 				DataType = dataType;
-				ValueLemima = valueLemima;
+				Validator = validator;
 			}
 		}
 
@@ -150,19 +150,19 @@ namespace Comets.BusinessLayer.Managers
 			new PanelDefinition(PropertyEnum.name,				"Discoverer",						0, true,	false,	false,	"",		DataTypeEnum.String, null),
 			new PanelDefinition(PropertyEnum.id,				"Designation",						0, true,	false,	false,	"",		DataTypeEnum.String, null),
 			new PanelDefinition(PropertyEnum.Tn,				"Perihelion date",					0, false,	false,	true,	"",		DataTypeEnum.Double, null),
-			new PanelDefinition(PropertyEnum.q,					"Perihelion distance",				1, false,	true,	false,	"AU",	DataTypeEnum.Double, new LeMiMa(0.0, 15.0, 6)),
-			new PanelDefinition(PropertyEnum.PerihEarthDist,	"Perihelion distance from Earth",	1, false,	true,	false,	"AU",	DataTypeEnum.Double, new LeMiMa(0.0, 15.0, 6)),
-			new PanelDefinition(PropertyEnum.PerihMag,			"Perihelion magnitude",				1, false,	true,	false,	"",		DataTypeEnum.Double, new LeMiMa(-20.0, 40.0, 2)),
-			new PanelDefinition(PropertyEnum.CurrentSunDist,	"Current distance from Sun",		1, false,	true,	false,	"AU",	DataTypeEnum.Double, new LeMiMa(0.0, 150.0, 6)),
-			new PanelDefinition(PropertyEnum.CurrentEarthDist,	"Current distance from Earth",		1, false,	true,	false,	"AU",	DataTypeEnum.Double, new LeMiMa(0.0, 150.0, 6)),
-			new PanelDefinition(PropertyEnum.CurrentMag,		"Current magnitude",				1, false,	true,	false,	"",		DataTypeEnum.Double, new LeMiMa(-20.0, 40.0, 2)),
-			new PanelDefinition(PropertyEnum.P,					"Period",							1, false,	true,	false,	"years",DataTypeEnum.Double, new LeMiMa(0.0, 10000.0, 6)),
-			new PanelDefinition(PropertyEnum.Q,					"Aphelion distance",				1, false,	true,	false,	"AU",	DataTypeEnum.Double, new LeMiMa(0.0, 1000.0, 6)),
-			new PanelDefinition(PropertyEnum.a,					"Semi-major axis",					1, false,	true,	false,	"AU",	DataTypeEnum.Double, new LeMiMa(0.0, 1000.0, 6)),
-			new PanelDefinition(PropertyEnum.e,					"Eccentricity",						1, false,	true,	false,	"",		DataTypeEnum.Double, new LeMiMa(0.0, 1.2, 6)),
-			new PanelDefinition(PropertyEnum.i,					"Inclination",						1, false,	true,	false,	"°",	DataTypeEnum.Double, new LeMiMa(0.0, 179.9999, 4)),
-			new PanelDefinition(PropertyEnum.N,					"Longitude of Ascending Node",		1, false,	true,	false,	"°",	DataTypeEnum.Double, new LeMiMa(0.0, 359.9999, 4)),
-			new PanelDefinition(PropertyEnum.w,					"Argument of Pericenter",			1, false,	true,	false,	"°",	DataTypeEnum.Double, new LeMiMa(0.0, 359.9999, 4))
+			new PanelDefinition(PropertyEnum.q,					"Perihelion distance",				1, false,	true,	false,	"AU",	DataTypeEnum.Double, new ValNum(0.0, 15.0, 6)),
+			new PanelDefinition(PropertyEnum.PerihEarthDist,	"Perihelion distance from Earth",	1, false,	true,	false,	"AU",	DataTypeEnum.Double, new ValNum(0.0, 15.0, 6)),
+			new PanelDefinition(PropertyEnum.PerihMag,			"Perihelion magnitude",				1, false,	true,	false,	"",		DataTypeEnum.Double, new ValNum(-20.0, 40.0, 2)),
+			new PanelDefinition(PropertyEnum.CurrentSunDist,	"Current distance from Sun",		1, false,	true,	false,	"AU",	DataTypeEnum.Double, new ValNum(0.0, 150.0, 6)),
+			new PanelDefinition(PropertyEnum.CurrentEarthDist,	"Current distance from Earth",		1, false,	true,	false,	"AU",	DataTypeEnum.Double, new ValNum(0.0, 150.0, 6)),
+			new PanelDefinition(PropertyEnum.CurrentMag,		"Current magnitude",				1, false,	true,	false,	"",		DataTypeEnum.Double, new ValNum(-20.0, 40.0, 2)),
+			new PanelDefinition(PropertyEnum.P,					"Period",							1, false,	true,	false,	"years",DataTypeEnum.Double, new ValNum(0.0, 10000.0, 6)),
+			new PanelDefinition(PropertyEnum.Q,					"Aphelion distance",				1, false,	true,	false,	"AU",	DataTypeEnum.Double, new ValNum(0.0, 1000.0, 6)),
+			new PanelDefinition(PropertyEnum.a,					"Semi-major axis",					1, false,	true,	false,	"AU",	DataTypeEnum.Double, new ValNum(0.0, 1000.0, 6)),
+			new PanelDefinition(PropertyEnum.e,					"Eccentricity",						1, false,	true,	false,	"",		DataTypeEnum.Double, new ValNum(0.0, 1.2, 6)),
+			new PanelDefinition(PropertyEnum.i,					"Inclination",						1, false,	true,	false,	"°",	DataTypeEnum.Double, new ValNum(0.0, 179.9999, 4)),
+			new PanelDefinition(PropertyEnum.N,					"Longitude of Ascending Node",		1, false,	true,	false,	"°",	DataTypeEnum.Double, new ValNum(0.0, 359.9999, 4)),
+			new PanelDefinition(PropertyEnum.w,					"Argument of Pericenter",			1, false,	true,	false,	"°",	DataTypeEnum.Double, new ValNum(0.0, 359.9999, 4))
 		};
 
 		#endregion
@@ -336,8 +336,8 @@ namespace Comets.BusinessLayer.Managers
 				txtString.Visible = definition.StringVisible;
 
 				txtValue.Visible = definition.ValueVisible;
-				if (definition.ValueLemima != null)
-					txtValue.Tag = definition.ValueLemima;
+				if (definition.Validator != null)
+					txtValue.Tag = definition.Validator;
 
 				btnDate.Visible = definition.DateVisible;
 
@@ -427,8 +427,8 @@ namespace Comets.BusinessLayer.Managers
 			value.Visible = definition.ValueVisible;
 			date.Visible = definition.DateVisible;
 
-			if (definition.ValueLemima != null)
-				value.Tag = definition.ValueLemima;
+			if (definition.Validator != null)
+				value.Tag = definition.Validator;
 
 			label.Visible = !String.IsNullOrEmpty(definition.LabelStr);
 			label.Text = definition.LabelStr;

@@ -21,7 +21,9 @@ namespace Comets.Application
 		public FormSettings()
 		{
 			InitializeComponent();
-			txtUpdateInterval.Tag = new LeMiMa(2, 1, 99);
+			txtUpdateInterval.Tag = new ValNum(1, 99);
+			txtLatitude.Tag = new ValNum(0, 90.0, 6);
+			txtLongitude.Tag = new ValNum(0, 180.0, 6);
 		}
 
 		#endregion
@@ -143,14 +145,9 @@ namespace Comets.Application
 
 		#region Tab: Location
 
-		private void txtLatitude_KeyPress(object sender, KeyPressEventArgs e)
+		private void txtLatitudeLongitude_KeyPress(object sender, KeyPressEventArgs e)
 		{
-			e.Handled = Utils.HandleKeyPress(sender, e, 3, 6, 0, 90);
-		}
-
-		private void txtLongitude_KeyPress(object sender, KeyPressEventArgs e)
-		{
-			e.Handled = Utils.HandleKeyPress(sender, e, 3, 6, 0, 180);
+			e.Handled = Utils.HandleKeyPress(sender, e);
 		}
 
 		#endregion

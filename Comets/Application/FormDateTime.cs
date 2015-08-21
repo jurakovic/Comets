@@ -45,13 +45,13 @@ namespace Comets.Application
 		{
 			InitializeComponent();
 
-			txtDay.Tag = LeMiMa.LDay;
-			txtMonth.Tag = LeMiMa.LMonth;
-			txtYear.Tag = LeMiMa.LYear;
+			txtDay.Tag = ValNum.VDay;
+			txtMonth.Tag = ValNum.VMonth;
+			txtYear.Tag = ValNum.VYear;
 
-			txtHour.Tag = LeMiMa.LHour;
-			txtMinute.Tag = LeMiMa.LMinute;
-			txtSecond.Tag = LeMiMa.LSecond;
+			txtHour.Tag = ValNum.VHour;
+			txtMinute.Tag = ValNum.VMinute;
+			txtSecond.Tag = ValNum.VSecond;
 
 			DefaultDateTime = def;
 			SelectedDateTime = current;
@@ -79,30 +79,30 @@ namespace Comets.Application
 
 				int value = up ? 1 : -1;
 
-				LeMiMa lemima = (sender as TextBox).Tag as LeMiMa;
+				ValNum val = (sender as TextBox).Tag as ValNum;
 
-				switch (lemima.Name)
+				switch (val.Name)
 				{
-					case LeMiMa.NameEnum.Day:
+					case ValNum.NameEnum.Day:
 						dt = dt.AddDays(value);
 						break;
-					case LeMiMa.NameEnum.Month:
+					case ValNum.NameEnum.Month:
 						dt = dt.AddMonths(value);
 						break;
-					case LeMiMa.NameEnum.Year:
+					case ValNum.NameEnum.Year:
 						dt = dt.AddYears(value);
 						break;
-					case LeMiMa.NameEnum.Hour:
+					case ValNum.NameEnum.Hour:
 						dt = dt.AddHours(value);
 						break;
-					case LeMiMa.NameEnum.Minute:
+					case ValNum.NameEnum.Minute:
 						dt = dt.AddMinutes(value);
 						break;
-					case LeMiMa.NameEnum.Second:
+					case ValNum.NameEnum.Second:
 						dt = dt.AddSeconds(value);
 						break;
 					default:
-						throw new ArgumentException("unspecified lemima tag");
+						throw new ArgumentException("unspecified validator tag");
 				}
 
 				dt = RangeDateTime(dt);
@@ -127,8 +127,8 @@ namespace Comets.Application
 
 				int max = DateTime.DaysInMonth(txtYear.Int(), txtMonth.Int());
 
-				LeMiMa o = txtDay.Tag as LeMiMa;
-				LeMiMa n = new LeMiMa(LeMiMa.NameEnum.Day, o.Len, o.IMin, max);
+				ValNum o = txtDay.Tag as ValNum;
+				ValNum n = new ValNum(o.IMin, max, ValNum.NameEnum.Day);
 
 				if (txtDay.Text.Length > 0 && txtDay.Int() > n.IMax)
 					txtDay.Text = n.IMax.ToString();

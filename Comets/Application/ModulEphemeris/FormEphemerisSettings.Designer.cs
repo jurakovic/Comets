@@ -497,7 +497,7 @@
 			this.txtMinMag.Text = "12";
 			this.txtMinMag.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.txtMinMag.TextChanged += new System.EventHandler(this.txtMinMag_TextChanged);
-			this.txtMinMag.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMinMag_KeyPress);
+			this.txtMinMag.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMagDistCommon_KeyPress);
 			// 
 			// txtMaxEarthDist
 			// 
@@ -507,7 +507,7 @@
 			this.txtMaxEarthDist.TabIndex = 14;
 			this.txtMaxEarthDist.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.txtMaxEarthDist.TextChanged += new System.EventHandler(this.txtMaxEarthDist_TextChanged);
-			this.txtMaxEarthDist.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMaxDistCommon_KeyPress);
+			this.txtMaxEarthDist.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMagDistCommon_KeyPress);
 			// 
 			// txtMaxSunDist
 			// 
@@ -517,7 +517,7 @@
 			this.txtMaxSunDist.TabIndex = 13;
 			this.txtMaxSunDist.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.txtMaxSunDist.TextChanged += new System.EventHandler(this.txtMaxSunDist_TextChanged);
-			this.txtMaxSunDist.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMaxDistCommon_KeyPress);
+			this.txtMaxSunDist.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMagDistCommon_KeyPress);
 			// 
 			// cbxMinMag
 			// 

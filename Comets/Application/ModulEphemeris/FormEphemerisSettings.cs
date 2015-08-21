@@ -48,9 +48,13 @@ namespace Comets.Application.ModulEphemeris
 		{
 			InitializeComponent();
 
-			txtDayInterval.Tag = new LeMiMa(4, 0, 3652);
-			txtHourInterval.Tag = new LeMiMa(2, 0, 23);
-			txtMinInterval.Tag = new LeMiMa(2, 0, 59);
+			txtDayInterval.Tag = new ValNum(0, 3652);
+			txtHourInterval.Tag = new ValNum(0, 23);
+			txtMinInterval.Tag = new ValNum(0, 59);
+
+			txtMaxEarthDist.Tag = new ValNum(0, 9.99, 2);
+			txtMaxSunDist.Tag = new ValNum(0, 9.99, 2);
+			txtMinMag.Tag = new ValNum(-20, 40, 2);
 
 			EphemerisSettings = settings;
 
@@ -386,14 +390,9 @@ namespace Comets.Application.ModulEphemeris
 
 		#region Requirements
 
-		private void txtMaxDistCommon_KeyPress(object sender, KeyPressEventArgs e)
+		private void txtMagDistCommon_KeyPress(object sender, KeyPressEventArgs e)
 		{
-			e.Handled = Utils.HandleKeyPress(sender, e, 1, 2, 0, 9.99);
-		}
-
-		private void txtMinMag_KeyPress(object sender, KeyPressEventArgs e)
-		{
-			e.Handled = Utils.HandleKeyPress(sender, e, 2, 2, -20, 40);
+			e.Handled = Utils.HandleKeyPress(sender, e);
 		}
 
 		private void txtMaxSunDist_TextChanged(object sender, EventArgs e)
