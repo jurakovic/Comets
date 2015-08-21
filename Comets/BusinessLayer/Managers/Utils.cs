@@ -141,14 +141,5 @@ namespace Comets.BusinessLayer.Managers
 		}
 
 		#endregion
-
-		#region JDToOta
-
-		public static double JDToOta(double jd)
-		{
-			return JDToDateTime(jd).ToOADate();
-		}
-
-		#endregion
 	}
 }

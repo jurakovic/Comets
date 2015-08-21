@@ -244,7 +244,7 @@ namespace Comets.Application
 
 			if (ImportType < ImportType.NoFileSelected)
 			{
-				List<Comet> newList = ImportManager.ImportMain(FormMain.MainList, ImportType, ImportFilename);
+				List<Comet> newList = ImportManager.ImportMain(FormMain.MainList, ImportType, ImportFilename, false);
 
 				if (newList != null)
 				{

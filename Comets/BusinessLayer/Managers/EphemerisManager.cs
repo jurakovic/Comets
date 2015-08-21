@@ -36,7 +36,7 @@ namespace Comets.BusinessLayer.Managers
 			er.Az = dat[1];
 			er.RA = dat[3];
 			er.Dec = dat[4] - (dat[4] > 180.0 ? 360 : 0);
-			er.EcLon = rev(dat[5]);
+			er.EcLon = Rev(dat[5]);
 			er.EcLat = dat[6];
 			er.SunDist = dat[8];
 			er.EarthDist = dat[9];
@@ -373,7 +373,7 @@ namespace Comets.BusinessLayer.Managers
 
 		#endregion
 
-		#region Methods
+		#region Calculate
 
 		private static double[] CometAlt(double T, double q, double e, double w, double N, double i, double g, double k, double jd, double latitude, double longitude)
 		{
@@ -383,15 +383,15 @@ namespace Comets.BusinessLayer.Managers
 			double dx = cmt_xyz[0] + sun_xyz[0];
 			double dy = cmt_xyz[1] + sun_xyz[1];
 			double dz = cmt_xyz[2] + sun_xyz[2];
-			double lon = rev(atan2d(dy, dx));
-			double lat = atan2d(dz, Math.Sqrt(dx * dx + dy * dy));
+			double lon = Rev(Atan2d(dy, dx));
+			double lat = Atan2d(dz, Math.Sqrt(dx * dx + dy * dy));
 			double[] radec = RaDecDist(cmt_xyz, sun_xyz, jd);
 			double ra = radec[0];
 			double dec = radec[1];
 			double[] altaz = RaDecToAltAz(ra, dec, jd, latitude, longitude);
 			double dist = radec[2];
 			double r = cmt_xyz[3];
-			double mag = g + 5 * log10(dist) + 2.5 * k * log10(r);
+			double mag = g + 5 * Log10(dist) + 2.5 * k * Log10(r);
 			return new double[] { altaz[0], altaz[1], altaz[2], ra, dec, lon, lat, 1.0, r, dist, mag };
 		}
 
@@ -401,10 +401,10 @@ namespace Comets.BusinessLayer.Managers
 			double[] sdat = SunXyz(jd);
 			double ecl = 23.439291111 - 3.563E-7 * (jd - 2451543.5);
 			double xe = sdat[0];
-			double ye = sdat[1] * cosd(ecl);
-			double ze = sdat[1] * sind(ecl);
-			double ra = rev(atan2d(ye, xe));
-			double dec = atan2d(ze, Math.Sqrt(xe * xe + ye * ye));
+			double ye = sdat[1] * Cosd(ecl);
+			double ze = sdat[1] * Sind(ecl);
+			double ra = Rev(Atan2d(ye, xe));
+			double dec = Atan2d(ze, Math.Sqrt(xe * xe + ye * ye));
 			double[] topo = RaDecToAltAz(ra, dec, jd, latitude, longitude);
 			return new double[] { topo[0], topo[1], topo[2], ra, dec, sdat[4], 0, 1, 0, sdat[3], -26.74 };
 		}
@@ -416,15 +416,15 @@ namespace Comets.BusinessLayer.Managers
 			double d = jd - 2451543.5;
 			double w = 282.9404 + 4.70935E-5 * d;
 			double e = 0.016709 - 1.151E-9 * d;
-			double M = rev(356.0470 + 0.9856002585 * d);
-			double E = M + e * RAD2DEG * sind(M) * (1.0 + e * cosd(M));
-			double xv = cosd(E) - e;
-			double yv = Math.Sqrt(1.0 - e * e) * sind(E);
-			double v = atan2d(yv, xv);		// true anomaly
+			double M = Rev(356.0470 + 0.9856002585 * d);
+			double E = M + e * RAD2DEG * Sind(M) * (1.0 + e * Cosd(M));
+			double xv = Cosd(E) - e;
+			double yv = Math.Sqrt(1.0 - e * e) * Sind(E);
+			double v = Atan2d(yv, xv);		// true anomaly
 			double r = Math.Sqrt(xv * xv + yv * yv);	// distance
-			double lonsun = rev(v + w);	// true longitude
-			double xs = r * cosd(lonsun);		// rectangular coordinates, zs = 0 for sun 
-			double ys = r * sind(lonsun);
+			double lonsun = Rev(v + w);	// true longitude
+			double xs = r * Cosd(lonsun);		// rectangular coordinates, zs = 0 for sun 
+			double ys = r * Sind(lonsun);
 			return new double[] { xs, ys, 0, r, lonsun, 0 };
 		}
 
@@ -442,7 +442,7 @@ namespace Comets.BusinessLayer.Managers
 				double k = 0.01720209895;	// Gaussian gravitational constant
 				double a = 0.75 * (jd - Tj) * k * Math.Sqrt((1 + e) / (q * q * q));
 				double b = Math.Sqrt(1 + a * a);
-				double W = cbrt(b + a) - cbrt(b - a);
+				double W = Cbrt(b + a) - Cbrt(b - a);
 				double c = (W * W) / (1 + W * W);
 				double f = (1 - e) / (1 + e);
 				double g = f * c * c;
@@ -450,7 +450,7 @@ namespace Comets.BusinessLayer.Managers
 				double a2 = (7 / 5) + (33 / 35) * W * W + (37 / 175) * W * W * W * W;
 				double a3 = W * W * ((432 / 175) + (956 / 1125) * W * W + (84 / 1575) * W * W * W * W);
 				double ww = W * (1 + g * c * (a1 + a2 * g + a3 * g * g));
-				v = 2 * atand(ww);
+				v = 2 * Atand(ww);
 				r = q * (1 + ww * ww) / (1 + ww * ww * f);
 			}
 			else
@@ -459,25 +459,25 @@ namespace Comets.BusinessLayer.Managers
 				double P = 365.2568984 * Math.Sqrt(a * a * a);	// period in days
 				double M = 360.0 * (jd - Tj) / P; 	// mean anomaly
 				// eccentric anomaly E
-				double E0 = M + RAD2DEG * e * sind(M) * (1.0 + e * cosd(M));
-				double E1 = E0 - (E0 - RAD2DEG * e * sind(E0) - M) / (1.0 - e * cosd(E0));
+				double E0 = M + RAD2DEG * e * Sind(M) * (1.0 + e * Cosd(M));
+				double E1 = E0 - (E0 - RAD2DEG * e * Sind(E0) - M) / (1.0 - e * Cosd(E0));
 				while (Math.Abs(E0 - E1) > 0.0005)
 				{
 					E0 = E1;
-					E1 = E0 - (E0 - RAD2DEG * e * sind(E0) - M) / (1.0 - e * cosd(E0));
+					E1 = E0 - (E0 - RAD2DEG * e * Sind(E0) - M) / (1.0 - e * Cosd(E0));
 				}
-				double xv = a * (cosd(E1) - e);
-				double yv = a * Math.Sqrt(1.0 - e * e) * sind(E1);
-				v = rev(atan2d(yv, xv));		// true anomaly
+				double xv = a * (Cosd(E1) - e);
+				double yv = a * Math.Sqrt(1.0 - e * e) * Sind(E1);
+				v = Rev(Atan2d(yv, xv));		// true anomaly
 				r = Math.Sqrt(xv * xv + yv * yv);	// distance
 			}	// from here common for all orbits
 			N = N + 3.82394E-5 * d;
 			//w  ->  why not precess this value?
-			double xh = r * (cosd(N) * cosd(v + w) - sind(N) * sind(v + w) * cosd(i));
-			double yh = r * (sind(N) * cosd(v + w) + cosd(N) * sind(v + w) * cosd(i));
-			double zh = r * (sind(v + w) * sind(i));
-			double lonecl = atan2d(yh, xh);
-			double latecl = atan2d(zh, Math.Sqrt(xh * xh + yh * yh + zh * zh));
+			double xh = r * (Cosd(N) * Cosd(v + w) - Sind(N) * Sind(v + w) * Cosd(i));
+			double yh = r * (Sind(N) * Cosd(v + w) + Cosd(N) * Sind(v + w) * Cosd(i));
+			double zh = r * (Sind(v + w) * Sind(i));
+			double lonecl = Atan2d(yh, xh);
+			double latecl = Atan2d(zh, Math.Sqrt(xh * xh + yh * yh + zh * zh));
 			return new double[] { xh, yh, zh, r, lonecl, latecl };
 		}
 
@@ -494,11 +494,11 @@ namespace Comets.BusinessLayer.Managers
 			double obl = 23.439291111 - 3.563E-7 * (jd - 2451543.5);
 			// Convert to eq. co-ordinates
 			double x1 = xg;
-			double y1 = yg * cosd(obl) - zg * sind(obl);
-			double z1 = yg * sind(obl) + zg * cosd(obl);
+			double y1 = yg * Cosd(obl) - zg * Sind(obl);
+			double z1 = yg * Sind(obl) + zg * Cosd(obl);
 			// RA and dec (33.2)
-			double ra = rev(atan2d(y1, x1));
-			double dec = atan2d(z1, Math.Sqrt(x1 * x1 + y1 * y1));
+			double ra = Rev(Atan2d(y1, x1));
+			double dec = Atan2d(z1, Math.Sqrt(x1 * x1 + y1 * y1));
 			double dist = Math.Sqrt(x1 * x1 + y1 * y1 + z1 * z1);
 			return new double[] { ra, dec, dist };
 		}
@@ -508,35 +508,19 @@ namespace Comets.BusinessLayer.Managers
 			// Convert ra/dec to alt/az, also return hour angle, azimut = 0 when north
 			// TH0=Greenwich sid. time (eq. 12.4), H=hour angle (chapter 13)
 			double TH0 = 280.46061837 + 360.98564736629 * (jday - 2451545.0);
-			double H = rev(TH0 + longitude - ra);
-			double alt = asind(sind(latitude) * sind(dec) + cosd(latitude) * cosd(dec) * cosd(H));
-			double az = atan2d(sind(H), (cosd(H) * sind(latitude) - tand(dec) * cosd(latitude)));
-			return new double[] { alt, rev(az + 180.0), H };
+			double H = Rev(TH0 + longitude - ra);
+			double alt = Asind(Sind(latitude) * Sind(dec) + Cosd(latitude) * Cosd(dec) * Cosd(H));
+			double az = Atan2d(Sind(H), (Cosd(H) * Sind(latitude) - Tand(dec) * Cosd(latitude)));
+			return new double[] { alt, Rev(az + 180.0), H };
 		}
 
 		private static double[] Separation(double ra1, double ra2, double dec1, double dec2)
 		{
 			// ra, dec may also be long, lat, but PA is relative to the chosen coordinate system
-			double d = acosd(sind(dec1) * sind(dec2) + cosd(dec1) * cosd(dec2) * cosd(ra1 - ra2));		// (Meeus 17.1)
-			if (d < 0.1) d = Math.Sqrt(sqr(rev2(ra1 - ra2) * cosd((dec1 + dec2) / 2)) + sqr(dec1 - dec2));	// (17.2)
-			double pa = atan2d(sind(ra1 - ra2), cosd(dec2) * tand(dec1) - sind(dec2) * cosd(ra1 - ra2));		// angle
-			return new double[] { d, rev(pa) };
-		}
-
-		private static string FixNum(double n, int l, int d)
-		{
-			// convert float n to right adjusted string of length l with d digits after decimal point.
-			// the sign always requires one character, allow for that in l!
-			double m = 1;
-			for (int i = 0; i < d; i++) m *= 10;
-			double n1 = Math.Round(Math.Abs(n) * m);
-			double nint = Math.Floor(n1 / m);
-			string nfract = (n1 - m * nint) + ""; // force conversion to string
-			while (nfract.Length < d) nfract = "0" + nfract;
-			string str = (n < 0 ? "-" : " ") + nint;
-			if (d > 0) str = str + "." + nfract;
-			while (str.Length < l) str = " " + str;
-			return str;
+			double d = Acosd(Sind(dec1) * Sind(dec2) + Cosd(dec1) * Cosd(dec2) * Cosd(ra1 - ra2));		// (Meeus 17.1)
+			if (d < 0.1) d = Math.Sqrt(Sqr(Rev2(ra1 - ra2) * Cosd((dec1 + dec2) / 2)) + Sqr(dec1 - dec2));	// (17.2)
+			double pa = Atan2d(Sind(ra1 - ra2), Cosd(dec2) * Tand(dec1) - Sind(dec2) * Cosd(ra1 - ra2));		// angle
+			return new double[] { d, Rev(pa) };
 		}
 
 		public static string HMSString(double t)
@@ -573,6 +557,10 @@ namespace Comets.BusinessLayer.Managers
 			else anglestr += ((min < 10) ? ":0" : ":") + (min);
 			return anglestr;
 		}
+
+		#endregion
+
+		#region Date methods
 
 		public static double JD(DateTime dt)
 		{
@@ -635,18 +623,79 @@ namespace Comets.BusinessLayer.Managers
 			return new int[] { year, month, day, dw, hour, minute, second };
 		}
 
-		private static double rev(double angle) { return angle - Math.Floor(angle / 360.0) * 360.0; }		// 0<=a<360
-		private static double rev2(double angle) { double a = rev(angle); return (a >= 180 ? a - 360.0 : a); }	// -180<=a<180
-		private static double sind(double angle) { return Math.Sin(angle * DEG2RAD); }
-		private static double cosd(double angle) { return Math.Cos(angle * DEG2RAD); }
-		private static double tand(double angle) { return Math.Tan(angle * DEG2RAD); }
-		private static double asind(double c) { return RAD2DEG * Math.Asin(c); }
-		private static double acosd(double c) { return RAD2DEG * Math.Acos(c); }
-		private static double atand(double c) { return RAD2DEG * Math.Atan(c); }
-		private static double atan2d(double y, double x) { return RAD2DEG * Math.Atan2(y, x); }
-		private static double log10(double x) { return 0.43429448190325182765112891891661 * Math.Log(x); }
-		private static double sqr(double x) { return x * x; }
-		private static double cbrt(double x) { return Math.Pow(x, 1 / 3.0); }
+		#endregion
+
+		#region Math functions
+
+		/// <summary>
+		/// 0 <= a < 360
+		/// </summary>
+		/// <param name="angle"></param>
+		/// <returns></returns>
+		private static double Rev(double angle)
+		{
+			return angle - Math.Floor(angle / 360.0) * 360.0;
+		}
+
+		/// <summary>
+		/// -180 <= a < 180
+		/// </summary>
+		/// <param name="angle"></param>
+		/// <returns></returns>
+		private static double Rev2(double angle)
+		{
+			double a = Rev(angle); return (a >= 180 ? a - 360.0 : a);
+		}
+
+		private static double Sind(double angle)
+		{
+			return Math.Sin(angle * DEG2RAD);
+		}
+
+		private static double Cosd(double angle)
+		{
+			return Math.Cos(angle * DEG2RAD);
+		}
+
+		private static double Tand(double angle)
+		{
+			return Math.Tan(angle * DEG2RAD);
+		}
+
+		private static double Asind(double c)
+		{
+			return RAD2DEG * Math.Asin(c);
+		}
+
+		private static double Acosd(double c)
+		{
+			return RAD2DEG * Math.Acos(c);
+		}
+
+		private static double Atand(double c)
+		{
+			return RAD2DEG * Math.Atan(c);
+		}
+
+		private static double Atan2d(double y, double x)
+		{
+			return RAD2DEG * Math.Atan2(y, x);
+		}
+
+		private static double Log10(double x)
+		{
+			return 0.43429448190325182765112891891661 * Math.Log(x);
+		}
+
+		private static double Sqr(double x)
+		{
+			return x * x;
+		}
+
+		private static double Cbrt(double x)
+		{
+			return Math.Pow(x, 1 / 3.0);
+		}
 
 		#endregion
 	}

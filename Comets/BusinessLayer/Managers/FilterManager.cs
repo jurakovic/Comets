@@ -14,74 +14,6 @@ namespace Comets.BusinessLayer.Managers
 {
 	public static class FilterManager
 	{
-		#region PanelDefinition
-
-		private class PanelDefinition
-		{
-			public PropertyEnum Property;
-			public string Text;
-			public int InitialCompareIndex;
-			public bool StringVisible;
-			public bool ValueVisible;
-			public bool DateVisible;
-			public string LabelStr;
-			public Filter.DataTypeEnum DataType;
-			public LeMiMa ValueLemima;
-
-			public PanelDefinition(PropertyEnum property, string text, int compareIx, bool stringVisible, bool valueVisible, bool dateVisible, string labelStr, Filter.DataTypeEnum dataType, LeMiMa valueLemima)
-			{
-				Property = property;
-				Text = text;
-				InitialCompareIndex = compareIx;
-				StringVisible = stringVisible;
-				ValueVisible = valueVisible;
-				DateVisible = dateVisible;
-				LabelStr = labelStr;
-				DataType = dataType;
-				ValueLemima = valueLemima;
-			}
-		}
-
-		#endregion
-
-		#region Const
-
-		public static string CheckedName = "Checked";
-		public static string PropertyName = "Property";
-		public static string CompareName = "Compare";
-		public static string StringName = "String";
-		public static string ValueName = "Value";
-		public static string DateName = "Date";
-		public static string LabelName = "Label";
-		public static string RemoveName = "Remove";
-
-		private const string DateTimeFormat = "dd.MM.yyyy HH:mm:ss";
-		private static string[] StringCompare = new string[] { "Contains", "Does not contain" };
-		private static string[] ValueCompare = new string[] { "Greather than (>)", "Less than (<)" };
-
-		private static List<PanelDefinition> PanelDefinitions = new List<PanelDefinition>
-		{
-			new PanelDefinition(PropertyEnum.full,				"Full name",						0, true,	false,	false,	"",		DataTypeEnum.String, null),
-			new PanelDefinition(PropertyEnum.name,				"Discoverer",						0, true,	false,	false,	"",		DataTypeEnum.String, null),
-			new PanelDefinition(PropertyEnum.id,				"Designation",						0, true,	false,	false,	"",		DataTypeEnum.String, null),
-			new PanelDefinition(PropertyEnum.Tn,				"Perihelion date",					0, false,	false,	true,	"",		DataTypeEnum.Double, null),
-			new PanelDefinition(PropertyEnum.q,					"Perihelion distance",				1, false,	true,	false,	"AU",	DataTypeEnum.Double, new LeMiMa(0.0, 15.0, 6)),
-			new PanelDefinition(PropertyEnum.PerihEarthDist,	"Perihelion distance from Earth",	1, false,	true,	false,	"AU",	DataTypeEnum.Double, new LeMiMa(0.0, 15.0, 6)),
-			new PanelDefinition(PropertyEnum.PerihMag,			"Perihelion magnitude",				1, false,	true,	false,	"",		DataTypeEnum.Double, new LeMiMa(-20.0, 40.0, 2)),
-			new PanelDefinition(PropertyEnum.CurrentSunDist,	"Current distance from Sun",		1, false,	true,	false,	"AU",	DataTypeEnum.Double, new LeMiMa(0.0, 150.0, 6)),
-			new PanelDefinition(PropertyEnum.CurrentEarthDist,	"Current distance from Earth",		1, false,	true,	false,	"AU",	DataTypeEnum.Double, new LeMiMa(0.0, 150.0, 6)),
-			new PanelDefinition(PropertyEnum.CurrentMag,		"Current magnitude",				1, false,	true,	false,	"",		DataTypeEnum.Double, new LeMiMa(-20.0, 40.0, 2)),
-			new PanelDefinition(PropertyEnum.P,					"Period",							1, false,	true,	false,	"years",DataTypeEnum.Double, new LeMiMa(0.0, 10000.0, 6)),
-			new PanelDefinition(PropertyEnum.Q,					"Aphelion distance",				1, false,	true,	false,	"AU",	DataTypeEnum.Double, new LeMiMa(0.0, 1000.0, 6)),
-			new PanelDefinition(PropertyEnum.a,					"Semi-major axis",					1, false,	true,	false,	"AU",	DataTypeEnum.Double, new LeMiMa(0.0, 1000.0, 6)),
-			new PanelDefinition(PropertyEnum.e,					"Eccentricity",						1, false,	true,	false,	"",		DataTypeEnum.Double, new LeMiMa(0.0, 1.2, 6)),
-			new PanelDefinition(PropertyEnum.i,					"Inclination",						1, false,	true,	false,	"°",	DataTypeEnum.Double, new LeMiMa(0.0, 179.9999, 4)),
-			new PanelDefinition(PropertyEnum.N,					"Longitude of Ascending Node",		1, false,	true,	false,	"°",	DataTypeEnum.Double, new LeMiMa(0.0, 359.9999, 4)),
-			new PanelDefinition(PropertyEnum.w,					"Argument of Pericenter",			1, false,	true,	false,	"°",	DataTypeEnum.Double, new LeMiMa(0.0, 359.9999, 4))
-		};
-
-		#endregion
-
 		#region FilterList
 
 		public static List<Comet> FilterList(List<Comet> mainList, FilterCollection filters)
@@ -161,6 +93,79 @@ namespace Comets.BusinessLayer.Managers
 		#endregion
 
 		#region + Filter Panel
+
+		#region Const
+
+		public static string CheckedName = "Checked";
+		public static string PropertyName = "Property";
+		public static string CompareName = "Compare";
+		public static string StringName = "String";
+		public static string ValueName = "Value";
+		public static string DateName = "Date";
+		public static string LabelName = "Label";
+		public static string RemoveName = "Remove";
+
+		private const string DateTimeFormat = "dd.MM.yyyy HH:mm:ss";
+		private static string[] StringCompare = new string[] { "Contains", "Does not contain" };
+		private static string[] ValueCompare = new string[] { "Greather than (>)", "Less than (<)" };
+
+		#endregion
+
+		#region PanelDefinitions
+
+		#region PanelDefinition
+
+		private class PanelDefinition
+		{
+			public PropertyEnum Property;
+			public string Text;
+			public int InitialCompareIndex;
+			public bool StringVisible;
+			public bool ValueVisible;
+			public bool DateVisible;
+			public string LabelStr;
+			public Filter.DataTypeEnum DataType;
+			public LeMiMa ValueLemima;
+
+			public PanelDefinition(PropertyEnum property, string text, int compareIx, bool stringVisible,
+				bool valueVisible, bool dateVisible, string labelStr, Filter.DataTypeEnum dataType, LeMiMa valueLemima)
+			{
+				Property = property;
+				Text = text;
+				InitialCompareIndex = compareIx;
+				StringVisible = stringVisible;
+				ValueVisible = valueVisible;
+				DateVisible = dateVisible;
+				LabelStr = labelStr;
+				DataType = dataType;
+				ValueLemima = valueLemima;
+			}
+		}
+
+		#endregion
+
+		private static List<PanelDefinition> PanelDefinitions = new List<PanelDefinition>
+		{
+			new PanelDefinition(PropertyEnum.full,				"Full name",						0, true,	false,	false,	"",		DataTypeEnum.String, null),
+			new PanelDefinition(PropertyEnum.name,				"Discoverer",						0, true,	false,	false,	"",		DataTypeEnum.String, null),
+			new PanelDefinition(PropertyEnum.id,				"Designation",						0, true,	false,	false,	"",		DataTypeEnum.String, null),
+			new PanelDefinition(PropertyEnum.Tn,				"Perihelion date",					0, false,	false,	true,	"",		DataTypeEnum.Double, null),
+			new PanelDefinition(PropertyEnum.q,					"Perihelion distance",				1, false,	true,	false,	"AU",	DataTypeEnum.Double, new LeMiMa(0.0, 15.0, 6)),
+			new PanelDefinition(PropertyEnum.PerihEarthDist,	"Perihelion distance from Earth",	1, false,	true,	false,	"AU",	DataTypeEnum.Double, new LeMiMa(0.0, 15.0, 6)),
+			new PanelDefinition(PropertyEnum.PerihMag,			"Perihelion magnitude",				1, false,	true,	false,	"",		DataTypeEnum.Double, new LeMiMa(-20.0, 40.0, 2)),
+			new PanelDefinition(PropertyEnum.CurrentSunDist,	"Current distance from Sun",		1, false,	true,	false,	"AU",	DataTypeEnum.Double, new LeMiMa(0.0, 150.0, 6)),
+			new PanelDefinition(PropertyEnum.CurrentEarthDist,	"Current distance from Earth",		1, false,	true,	false,	"AU",	DataTypeEnum.Double, new LeMiMa(0.0, 150.0, 6)),
+			new PanelDefinition(PropertyEnum.CurrentMag,		"Current magnitude",				1, false,	true,	false,	"",		DataTypeEnum.Double, new LeMiMa(-20.0, 40.0, 2)),
+			new PanelDefinition(PropertyEnum.P,					"Period",							1, false,	true,	false,	"years",DataTypeEnum.Double, new LeMiMa(0.0, 10000.0, 6)),
+			new PanelDefinition(PropertyEnum.Q,					"Aphelion distance",				1, false,	true,	false,	"AU",	DataTypeEnum.Double, new LeMiMa(0.0, 1000.0, 6)),
+			new PanelDefinition(PropertyEnum.a,					"Semi-major axis",					1, false,	true,	false,	"AU",	DataTypeEnum.Double, new LeMiMa(0.0, 1000.0, 6)),
+			new PanelDefinition(PropertyEnum.e,					"Eccentricity",						1, false,	true,	false,	"",		DataTypeEnum.Double, new LeMiMa(0.0, 1.2, 6)),
+			new PanelDefinition(PropertyEnum.i,					"Inclination",						1, false,	true,	false,	"°",	DataTypeEnum.Double, new LeMiMa(0.0, 179.9999, 4)),
+			new PanelDefinition(PropertyEnum.N,					"Longitude of Ascending Node",		1, false,	true,	false,	"°",	DataTypeEnum.Double, new LeMiMa(0.0, 359.9999, 4)),
+			new PanelDefinition(PropertyEnum.w,					"Argument of Pericenter",			1, false,	true,	false,	"°",	DataTypeEnum.Double, new LeMiMa(0.0, 359.9999, 4))
+		};
+
+		#endregion
 
 		#region CreateFilterPanel
 
@@ -512,17 +517,14 @@ namespace Comets.BusinessLayer.Managers
 
 			int count = 0;
 			//move other panels up
-			foreach (Control c in container.Controls)
+			foreach (Control c in container.Controls.OfType<Panel>())
 			{
-				if (c is Panel)
-				{
-					count++;
-					if (c.Name.Int() > panelId)
-					{
-						c.Location = new Point(c.Location.X, c.Location.Y - offset);
-					}
-				}
+				count++;
+
+				if (c.Name.Int() > panelId)
+					c.Location = new Point(c.Location.X, c.Location.Y - offset);
 			}
+
 			addNew.Visible = count < 10;
 			addNew.Location = new Point(addNew.Location.X, addNew.Location.Y - offset);
 		}

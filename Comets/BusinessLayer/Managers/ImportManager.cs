@@ -333,7 +333,7 @@ namespace Comets.BusinessLayer.Managers
 
 		#region ImportMain
 
-		public static List<Comet> ImportMain(List<Comet> oldList, ImportType importType, string filename, bool quiet = false)
+		public static List<Comet> ImportMain(List<Comet> oldList, ImportType importType, string filename, bool quiet)
 		{
 			List<Comet> newList = ImportManager.Import(importType, filename);
 
@@ -480,9 +480,10 @@ namespace Comets.BusinessLayer.Managers
 					c.k = Convert.ToDouble(line.Substring(96, 4).Trim());
 					c.full = line.Substring(102, 55).Trim();
 
-					string[] idn = Comet.GetIdNameFromFull(c.full);
-					c.id = idn[0];
-					c.name = idn[1];
+					string id, name;
+					Comet.GetIdNameFromFull(c.full, out id, out name);
+					c.id = id;
+					c.name = name;
 
 					c.T = EphemerisManager.JD0(c.Ty, c.Tm, c.Td, c.Th);
 					c.P = Comet.GetPeriod(c.q, c.e);
@@ -661,9 +662,11 @@ namespace Comets.BusinessLayer.Managers
 
 					c.full = parts[0];
 					if (c.full[c.full.Length - 1] == '/') c.full = c.full.TrimEnd('/');
-					string[] idn = Comet.GetIdNameFromFull(c.full);
-					c.id = idn[0];
-					c.name = idn[1];
+
+					string id, name;
+					Comet.GetIdNameFromFull(c.full, out id, out name);
+					c.id = id;
+					c.name = name;
 
 					if (parts[1] == "e")
 					{
@@ -782,9 +785,11 @@ namespace Comets.BusinessLayer.Managers
 
 					c.full = parts[0];
 					if (c.full[c.full.Length - 1] == '/') c.full = c.full.TrimEnd('/');
-					string[] idn = Comet.GetIdNameFromFull(c.full);
-					c.id = idn[0];
-					c.name = idn[1];
+
+					string id, name;
+					Comet.GetIdNameFromFull(c.full, out id, out name);
+					c.id = id;
+					c.name = name;
 
 					string[] date = parts[1].Split('-');
 					c.Ty = Convert.ToInt32(date[0]);
@@ -838,9 +843,11 @@ namespace Comets.BusinessLayer.Managers
 
 					c.full = parts[0];
 					c.full = c.full.TrimEnd(';');
-					string[] idn = Comet.GetIdNameFromFull(c.full);
-					c.id = idn[0];
-					c.name = idn[1];
+
+					string id, name;
+					Comet.GetIdNameFromFull(c.full, out id, out name);
+					c.id = id;
+					c.name = name;
 
 					Th = parts[1].Split('.');
 					T = Convert.ToDouble(Th[0]);
@@ -890,9 +897,11 @@ namespace Comets.BusinessLayer.Managers
 					string[] parts = line.Split('|');
 
 					c.full = parts[0].Trim();
-					string[] idn = Comet.GetIdNameFromFull(c.full);
-					c.id = idn[0];
-					c.name = idn[1];
+
+					string id, name;
+					Comet.GetIdNameFromFull(c.full, out id, out name);
+					c.id = id;
+					c.name = name;
 
 					string date = parts[2].Trim().PadRight(13, '0');
 					c.Ty = Convert.ToInt32(date.Substring(0, 4));
@@ -1100,9 +1109,11 @@ namespace Comets.BusinessLayer.Managers
 				try
 				{
 					c.full = lines[i];
-					string[] idn = Comet.GetIdNameFromFull(c.full);
-					c.id = idn[0];
-					c.name = idn[1];
+
+					string id, name;
+					Comet.GetIdNameFromFull(c.full, out id, out name);
+					c.id = id;
+					c.name = name;
 
 					string line = lines[i + 1];
 					string[] parts = line.Split(' ');
@@ -1271,9 +1282,11 @@ namespace Comets.BusinessLayer.Managers
 					c.k = Convert.ToDouble(gk[1]);
 
 					c.full = parts[12].Split(';')[0];
-					string[] idn = Comet.GetIdNameFromFull(c.full);
-					c.id = idn[0];
-					c.name = idn[1];
+
+					string id, name;
+					Comet.GetIdNameFromFull(c.full, out id, out name);
+					c.id = id;
+					c.name = name;
 
 					c.T = EphemerisManager.JD0(c.Ty, c.Tm, c.Td, c.Th);
 					c.P = Comet.GetPeriod(c.q, c.e);
@@ -1381,9 +1394,11 @@ namespace Comets.BusinessLayer.Managers
 					else
 					{
 						c.full = tempFull;
-						string[] idn = Comet.GetIdNameFromFull(c.full);
-						c.id = idn[0];
-						c.name = idn[1];
+
+						string id, name;
+						Comet.GetIdNameFromFull(c.full, out id, out name);
+						c.id = id;
+						c.name = name;
 					}
 
 					c.Ty = Convert.ToInt32(line.Substring(54, 4).Trim());
@@ -1429,9 +1444,11 @@ namespace Comets.BusinessLayer.Managers
 				try
 				{
 					c.full = lines[i].Split('=')[1];
-					string[] idn = Comet.GetIdNameFromFull(c.full);
-					c.id = idn[0];
-					c.name = idn[1];
+
+					string id, name;
+					Comet.GetIdNameFromFull(c.full, out id, out name);
+					c.id = id;
+					c.name = name;
 
 					string[] date = lines[i + 3].Split('=')[1].Split(' ');
 					c.Ty = Convert.ToInt32(date[0]);
@@ -1479,9 +1496,11 @@ namespace Comets.BusinessLayer.Managers
 				try
 				{
 					c.full = lines[i].Substring(0, 43).Trim();
-					string[] idn = Comet.GetIdNameFromFull(c.full);
-					c.id = idn[0];
-					c.name = idn[1];
+
+					string id, name;
+					Comet.GetIdNameFromFull(c.full, out id, out name);
+					c.id = id;
+					c.name = name;
 
 					/////////////////////////
 					//pogledat epoch

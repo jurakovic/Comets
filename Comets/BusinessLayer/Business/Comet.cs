@@ -418,9 +418,7 @@ namespace Comets.BusinessLayer.Business
 				string fragmDigits = match.Groups["digits"].Value;
 
 				for (int i = 0, divider = 1000000000; i < fragmLetters.Length; i++, divider *= 100)
-				{
 					v += (fragmLetters[i] - 64) / (double)divider;
-				}
 
 				if (fragmDigits != String.Empty)
 					v += fragmDigits.Double() / 10000000000000.0;
@@ -445,8 +443,7 @@ namespace Comets.BusinessLayer.Business
 				// pretpostavka da mogu doci najvise 2 slova u id-u
 				// 1. slovo dijelim sa 100
 				// 2. slovo dijelim sa 10000
-				// pretpostavka da se moze pojaviti najvise troznamenkasti broj
-				// njega dijelim sa 10000000
+				// broj dijelim sa 10000000; pretpostavka da se moze pojaviti najvise troznamenkasti broj
 
 				for (int i = 0, divider = 100; i < codeLetters.Length; i++, divider *= 100)
 				{
@@ -502,12 +499,16 @@ namespace Comets.BusinessLayer.Business
 		/// <returns></returns>
 		public static double GetPeriod(double q, double e)
 		{
+			double retval = 0.0;
+
 			if (e < 1.0)
-				return Math.Pow((q / (1.0 - e)), 1.5);
+				retval = Math.Pow((q / (1.0 - e)), 1.5);
 			else if (e > 1.0)
-				return Math.Pow((q / (e - 1.0)), 1.5);
+				retval = Math.Pow((q / (e - 1.0)), 1.5);
 			else //if (e == 1.0)
-				return Math.Pow((q / (1 - 0.999999)), 1.5); //okvirno samo za sortiranje
+				retval = Math.Pow((q / (1 - 0.999999)), 1.5); //for sorting only
+
+			return retval;
 		}
 
 		#endregion
@@ -522,12 +523,16 @@ namespace Comets.BusinessLayer.Business
 		/// <returns></returns>
 		public static double GetSemimajorAxis(double q, double e)
 		{
+			double retval = 0.0;
+
 			if (e < 1.0)
-				return q / (1 - e);
+				retval = q / (1 - e);
 			else if (e > 1.0)
-				return -(q / (1 - e));
+				retval = -(q / (1 - e));
 			else //if (e == 1.0)
-				return q / (1 - 0.999999);
+				retval = q / (1 - 0.999999); //for sorting only
+
+			return retval;
 		}
 
 		#endregion
@@ -542,13 +547,16 @@ namespace Comets.BusinessLayer.Business
 		/// <returns></returns>
 		public static double GetAphelionDistance(double e, double a)
 		{
+			double retval = 0.0;
 
 			if (e < 1.0)
-				return a * (1 + e);
+				retval = a * (1 + e);
 			else if (e > 1.0)
-				return a * (1 + (2 - e));
-			else //if (e == 1.0) //koristi se zamo za sortiranje
-				return a * (1 + 0.999999);
+				retval = a * (1 + (2 - e));
+			else //if (e == 1.0)
+				retval = a * (1 + 0.999999); //for sorting only
+
+			return retval;
 		}
 
 		#endregion
@@ -563,10 +571,12 @@ namespace Comets.BusinessLayer.Business
 		/// <returns></returns>
 		public static double GetMeanMotion(double e, double P)
 		{
+			double retval = 0.0;
+
 			if (e < 1.0)
-				return 0.9856076686 / P; // Gaussian gravitational constant (degrees)
-			else
-				return 0.0;
+				retval = 0.9856076686 / P; // Gaussian gravitational constant (degrees)
+
+			return retval;
 		}
 
 		#endregion
@@ -574,13 +584,14 @@ namespace Comets.BusinessLayer.Business
 		#region GetIdNameFromFull
 
 		/// <summary>
-		/// Sets Comet ID and Name from Full
+		/// Gets Comet ID and Name from Full
 		/// </summary>
 		/// <param name="full">Full comet name</param>
 		/// <returns></returns>
-		public static string[] GetIdNameFromFull(string full)
+		public static void GetIdNameFromFull(string full, out string id, out string name)
 		{
-			string id = String.Empty, name = String.Empty;
+			id = String.Empty;
+			name = String.Empty;
 
 			if (Char.IsDigit(full[0]))
 			{
@@ -608,8 +619,6 @@ namespace Comets.BusinessLayer.Business
 					id = full;
 				}
 			}
-
-			return new string[] { id, name };
 		}
 
 		#endregion
@@ -617,7 +626,7 @@ namespace Comets.BusinessLayer.Business
 		#region GetFullFromIdName
 
 		/// <summary>
-		/// Sets Full from ID and Name
+		/// Gets Full from ID and Name
 		/// </summary>
 		/// <param name="id">Comet ID</param>
 		/// <param name="name">Comet Name</param>
@@ -626,39 +635,16 @@ namespace Comets.BusinessLayer.Business
 		{
 			string full = id;
 
-			if (id.Contains('/'))
+			if (id.Contains('/') && name != String.Empty)
 			{
-				if (name != String.Empty)
-				{
-					full += " (" + name + ")";
-				}
+				full += " (" + name + ")";
 			}
-			else
+			else if (name != String.Empty)
 			{
-				if (name != String.Empty)
-				{
-					full += "/" + name;
-				}
+				full += "/" + name;
 			}
 
 			return full;
-		}
-
-		#endregion
-
-		#region GregorianToJulian
-
-		/// <summary>
-		/// Converts Gregorian date to Julian day
-		/// </summary>
-		/// <param name="y">Year</param>
-		/// <param name="m">Month</param>
-		/// <param name="d">Day</param>
-		/// <param name="h">Hour (0000)</param>
-		/// <returns></returns>
-		public static double GregorianToJulian(int y, int m, int d, int h)
-		{
-			return 367 * y - (7 * (y + (m + 9) / 12)) / 4 - ((3 * (y + (m - 9) / 7)) / 100 + 1) / 4 + (275 * m) / 9 + d + 1721029 + ((double)h / 10000);
 		}
 
 		#endregion
