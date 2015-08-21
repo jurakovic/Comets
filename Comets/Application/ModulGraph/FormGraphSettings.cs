@@ -130,7 +130,7 @@ namespace Comets.Application.ModulGraph
 			{
 				Comet c = GraphSettings.Comets.ElementAt(cbComet.SelectedIndex);
 
-				lblPerihDate.Text = String.Format("Perihelion date:                {0}", Utils.JDToDateTime(c.NextT).ToLocalTime().ToString("dd MMM yyyy HH:mm:ss"));
+				lblPerihDate.Text = String.Format("Perihelion date:                {0}", Utils.JDToDateTime(c.Tn).ToLocalTime().ToString("dd MMM yyyy HH:mm:ss"));
 				lblPerihDist.Text = String.Format("Perihelion distance:          {0:0.000000} AU", c.q);
 				lblPeriod.Text = String.Format("Period:                              {0}", c.P < 10000 ? c.P.ToString("0.000000") + " years" : "-");
 			}
@@ -196,7 +196,7 @@ namespace Comets.Application.ModulGraph
 			double? T = null;
 
 			if (cbComet.SelectedIndex >= 0)
-				T = GraphSettings.Comets.ElementAt(cbComet.SelectedIndex).NextT;
+				T = GraphSettings.Comets.ElementAt(cbComet.SelectedIndex).Tn;
 
 			return T;
 		}
@@ -272,8 +272,8 @@ namespace Comets.Application.ModulGraph
 				int after = txtDaysFromTStop.Int();
 
 				Comet comet = GraphSettings.Comets.ElementAt(cbComet.SelectedIndex);
-				double startJd = comet.NextT + before; //negativan broj
-				double stopJd = comet.NextT + after;
+				double startJd = comet.Tn + before; //negativan broj
+				double stopJd = comet.Tn + after;
 
 				DateTime daysFromTStart = Utils.JDToDateTime(startJd).ToLocalTime();
 				DateTime daysFromTStop = Utils.JDToDateTime(stopJd).ToLocalTime();
@@ -422,7 +422,7 @@ namespace Comets.Application.ModulGraph
 				else
 				{
 					//comet with nearest perihelion date
-					Comet c = GraphSettings.Comets.OrderBy(x => Math.Abs(x.NextT - DateTime.Now.JD())).First();
+					Comet c = GraphSettings.Comets.OrderBy(x => Math.Abs(x.Tn - DateTime.Now.JD())).First();
 					cbComet.SelectedIndex = GraphSettings.Comets.IndexOf(c);
 				}
 			}

@@ -1,6 +1,7 @@
 ﻿using Comets.BusinessLayer.Extensions;
 using Comets.BusinessLayer.Managers;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -22,7 +23,7 @@ namespace Comets.BusinessLayer.Business
 			full = 0,
 			name,
 			id,
-			T,
+			Tn, //T,
 			q,
 			PerihEarthDist,
 			PerihMag,
@@ -58,13 +59,17 @@ namespace Comets.BusinessLayer.Business
 		private double _w;
 		private double _g;
 		private double _k;
+		private double _P;
+		private double _a;
+		private double _Q;
+		private double _n;
 		private double _sortkey;
 		private string _idKey;
 
 		private EphemerisResult _erPerihelion;
 		private EphemerisResult _erCurrent;
 		private DateTime _lastEphemerisUpdate;
-		private double? _nextT;
+		private double? _Tn;
 
 		#endregion
 
@@ -158,19 +163,8 @@ namespace Comets.BusinessLayer.Business
 		/// </summary>
 		public double P
 		{
-			get
-			{
-				double retval = 0.0;
-
-				if (e < 1.0)
-					retval = Math.Pow((q / (1.0 - e)), 1.5);
-				else if (e > 1.0)
-					retval = Math.Pow((q / (e - 1.0)), 1.5);
-				else
-					retval = Math.Pow((q / (1 - 0.999999)), 1.5); //only for sorting and celestia format
-
-				return retval;
-			}
+			get { return _P; }
+			set { _P = value; }
 		}
 
 		/// <summary>
@@ -223,19 +217,8 @@ namespace Comets.BusinessLayer.Business
 		/// </summary>
 		public double a
 		{
-			get
-			{
-				double retval = 0.0;
-
-				if (e < 1.0)
-					retval = q / (1 - e);
-				else if (e > 1.0)
-					retval = -(q / (1 - e));
-				else
-					retval = q / (1 - 0.999999); //retval = Double.PositiveInfinity;
-
-				return retval;
-			}
+			get { return _a; }
+			set { _a = value; }
 		}
 
 		/// <summary>
@@ -243,19 +226,8 @@ namespace Comets.BusinessLayer.Business
 		/// </summary>
 		public double Q
 		{
-			get
-			{
-				double retval = 0.0;
-
-				if (e < 1.0)
-					retval = a * (1 + e);
-				else if (e > 1.0)
-					retval = a * (1 + (2 - e));
-				else
-					retval = a * (1 + 0.999999); //retval = Double.PositiveInfinity;
-
-				return retval;
-			}
+			get { return _Q; }
+			set { _Q = value; }
 		}
 
 		/// <summary>
@@ -263,15 +235,8 @@ namespace Comets.BusinessLayer.Business
 		/// </summary>
 		public double n
 		{
-			get
-			{
-				double retval = 0.0;
-
-				if (e < 1.0)
-					retval = 0.9856076686 / P; // Gaussian gravitational constant (degrees)
-
-				return retval;
-			}
+			get { return _n; }
+			set { _n = value; }
 		}
 
 		/// <summary>
@@ -315,7 +280,7 @@ namespace Comets.BusinessLayer.Business
 			get
 			{
 				if (_erPerihelion == null)
-					_erPerihelion = EphemerisManager.GetEphemeris(this, NextT, Comets.Application.FormMain.Settings.Location);
+					_erPerihelion = EphemerisManager.GetEphemeris(this, Tn, Comets.Application.FormMain.Settings.Location);
 
 				return _erPerihelion;
 			}
@@ -361,34 +326,44 @@ namespace Comets.BusinessLayer.Business
 		}
 
 		/// <summary>
-		/// Nearest Perihelion date
-		/// to do: rename to nT
+		/// Nearest perihelion date
 		/// </summary>
-		public double NextT
+		public double Tn
 		{
 			get
 			{
-				if (_nextT == null)
+				if (_Tn == null)
 				{
-					double nextT = T;
-
 					if (IsPeriodic)
 					{
-						double period = P * 365.25;
-						double now = DateTime.Now.JD();
+						List<double> t_all = new List<double>();
 
-						while (nextT < now)
-							nextT += period;
+						double t = T;
+						double periodDays = P * 365.25;
 
-						//if actual T is closer to now than nextT, then choose T instead
-						if (nextT - now > now - T)
-							nextT = T;
+						double min = EphemerisManager.JD(Comets.Application.FormDateTime.Minimum);
+						double max = EphemerisManager.JD(Comets.Application.FormDateTime.Maximum);
+
+						//going to earliest T
+						while (t - periodDays > min)
+							t -= periodDays;
+
+						//from earliest to last T
+						while (t < max)
+						{
+							t_all.Add(t);
+							t += periodDays;
+						}
+
+						_Tn = t_all.OrderBy(x => Math.Abs(x - DateTime.Now.JD())).First();
 					}
-
-					_nextT = nextT;
+					else
+					{
+						_Tn = T;
+					}
 				}
 
-				return _nextT.GetValueOrDefault();
+				return _Tn.GetValueOrDefault();
 			}
 		}
 
@@ -513,6 +488,85 @@ namespace Comets.BusinessLayer.Business
 			}
 
 			return key;
+		}
+
+		#endregion
+
+		#region GetPeriod
+
+		/// <summary>
+		/// Calculates Period (P)
+		/// </summary>
+		/// <param name="q">Perihelion distance (q)</param>
+		/// <param name="e">Eccentricity (e)</param>
+		/// <returns></returns>
+		public static double GetPeriod(double q, double e)
+		{
+			if (e < 1.0)
+				return Math.Pow((q / (1.0 - e)), 1.5);
+			else if (e > 1.0)
+				return Math.Pow((q / (e - 1.0)), 1.5);
+			else //if (e == 1.0)
+				return Math.Pow((q / (1 - 0.999999)), 1.5); //okvirno samo za sortiranje
+		}
+
+		#endregion
+
+		#region GetSemimajorAxis
+
+		/// <summary>
+		/// Calculates Semimajor axis (a)
+		/// </summary>
+		/// <param name="q">Perihelion distance (q)</param>
+		/// <param name="e">Eccentricity (e)</param>
+		/// <returns></returns>
+		public static double GetSemimajorAxis(double q, double e)
+		{
+			if (e < 1.0)
+				return q / (1 - e);
+			else if (e > 1.0)
+				return -(q / (1 - e));
+			else //if (e == 1.0)
+				return q / (1 - 0.999999);
+		}
+
+		#endregion
+
+		#region GetAphelionDistance
+
+		/// <summary>
+		/// Calculates Aphelion distance (Q)
+		/// </summary>
+		/// <param name="e">Eccentricity (e)</param>
+		/// <param name="a">Semimajor axis (a)</param>
+		/// <returns></returns>
+		public static double GetAphelionDistance(double e, double a)
+		{
+
+			if (e < 1.0)
+				return a * (1 + e);
+			else if (e > 1.0)
+				return a * (1 + (2 - e));
+			else //if (e == 1.0) //koristi se zamo za sortiranje
+				return a * (1 + 0.999999);
+		}
+
+		#endregion
+
+		#region GetMeanMotion
+
+		/// <summary>
+		/// Calculates Mean motion (n)
+		/// </summary>
+		/// <param name="e">Eccentricity (e)</param>
+		/// <param name="P">Period (P)</param>
+		/// <returns></returns>
+		public static double GetMeanMotion(double e, double P)
+		{
+			if (e < 1.0)
+				return 0.9856076686 / P; // Gaussian gravitational constant (degrees)
+			else
+				return 0.0;
 		}
 
 		#endregion

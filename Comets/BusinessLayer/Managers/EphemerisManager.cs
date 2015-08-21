@@ -141,10 +141,7 @@ namespace Comets.BusinessLayer.Managers
 
 					sb.AppendLine(String.Format("Comet:               \t{0}", comet.full));
 
-					double nextT = comet.NextT - 0.5;
-					DateTime nt = Utils.JDToDateTime(nextT).ToLocalTime();
-					int h = (int)Math.Round(((nextT - (int)nextT) * 10000));
-					sb.AppendLine(String.Format("Perihelion date:     \t{0} {1} {2:00}.{3:0000}", nt.Year, Comet.Month[nt.Month - 1], nt.Day, h));
+					sb.AppendLine(String.Format("Perihelion date:     \t{0}", Utils.JDToDateTime(comet.Tn).ToLocalTime().ToString("dd MMM yyyy HH:mm:ss")));
 					sb.AppendLine(String.Format("Perihelion distance: \t{0:0.000000} AU", comet.q));
 					sb.AppendLine(String.Format("Period:              \t{0}", (comet.P < 10000 ? comet.P.ToString("0.000000") + " years" : "-")));
 					sb.AppendLine();

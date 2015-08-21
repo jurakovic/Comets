@@ -139,7 +139,7 @@ namespace Comets.Application.ModulEphemeris
 			{
 				Comet c = EphemerisSettings.Comets.ElementAt(cbComet.SelectedIndex);
 
-				lblPerihDate.Text = String.Format("Perihelion date:                {0}", Utils.JDToDateTime(c.NextT).ToLocalTime().ToString("dd MMM yyyy HH:mm:ss"));
+				lblPerihDate.Text = String.Format("Perihelion date:                {0}", Utils.JDToDateTime(c.Tn).ToLocalTime().ToString("dd MMM yyyy HH:mm:ss"));
 				lblPerihDist.Text = String.Format("Perihelion distance:          {0:0.000000} AU", c.q);
 				lblPeriod.Text = String.Format("Period:                              {0}", c.P < 10000 ? c.P.ToString("0.000000") + " years" : "-");
 			}
@@ -360,7 +360,7 @@ namespace Comets.Application.ModulEphemeris
 			double? T = null;
 
 			if (cbComet.SelectedIndex >= 0)
-				T = EphemerisSettings.Comets.ElementAt(cbComet.SelectedIndex).NextT;
+				T = EphemerisSettings.Comets.ElementAt(cbComet.SelectedIndex).Tn;
 
 			return T;
 		}
@@ -429,7 +429,7 @@ namespace Comets.Application.ModulEphemeris
 				else
 				{
 					//comet with nearest perihelion date
-					Comet c = EphemerisSettings.Comets.OrderBy(x => Math.Abs(x.NextT - DateTime.Now.JD())).First();
+					Comet c = EphemerisSettings.Comets.OrderBy(x => Math.Abs(x.Tn - DateTime.Now.JD())).First();
 					cbComet.SelectedIndex = EphemerisSettings.Comets.IndexOf(c);
 				}
 			}

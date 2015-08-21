@@ -47,7 +47,7 @@ namespace Comets.Application
 
 			this.mnuDesig.Tag = PropertyEnum.sortkey.ToString();
 			this.mnuDiscoverer.Tag = PropertyEnum.name.ToString();
-			this.mnuPerihDate.Tag = PropertyEnum.T.ToString();
+			this.mnuPerihDate.Tag = PropertyEnum.Tn.ToString();
 			this.mnuPerihDist.Tag = PropertyEnum.q.ToString();
 			this.mnuPerihEarthDist.Tag = PropertyEnum.PerihEarthDist.ToString();
 			this.mnuPerihMag.Tag = PropertyEnum.PerihMag.ToString();
@@ -144,7 +144,7 @@ namespace Comets.Application
 			//ephemeris
 			txtInfoName.Text = commonName;
 
-			txtInfoNextPerihDate.Text = Utils.JDToDateTime(c.NextT).ToLocalTime().ToString(FormMain.DateTimeFormat);
+			txtInfoNextPerihDate.Text = Utils.JDToDateTime(c.Tn).ToLocalTime().ToString(FormMain.DateTimeFormat);
 			txtInfoPeriod.Text = commonPeriod;
 			txtInfoAphSunDist.Text = commonAphDist;
 
@@ -158,7 +158,7 @@ namespace Comets.Application
 			//orbital elements
 			txtElemName.Text = commonName;
 
-			txtElemPerihDate.Text = c.Ty.ToString() + "-" + c.Tm.ToString("00") + "-" + c.Td.ToString("00") + "." + c.Th.ToString("0000");
+			txtElemPerihDate.Text = String.Format("{0}-{1:00}-{2:00}.{3:0000}", c.Ty, c.Tm, c.Td, c.Th);
 			txtElemPeriod.Text = commonPeriod;
 			txtElemMeanMotion.Text = c.P < minPeriod ? c.n.ToString(format6) : String.Empty;
 
@@ -281,7 +281,11 @@ namespace Comets.Application
 				lblEphemRaIndicator.ForeColor = Color.Black;
 
 				lblEphemDecIndicator.Text = decHigher ? "▲" : "▼";
-				lblEphemDecIndicator.ForeColor = decHigher ? Color.Green : Color.Red;
+
+				if (FormMain.Settings.Location.Latitude >= 0)
+					lblEphemDecIndicator.ForeColor = decHigher ? Color.Green : Color.Red;
+				else //for southern hemisphere it is better if dec is lower -> higher on sky
+					lblEphemDecIndicator.ForeColor = decHigher ? Color.Red : Color.Green;
 
 				lblEphemAltIndicator.Text = altHigher ? "▲" : "▼";
 				lblEphemAltIndicator.ForeColor = altHigher ? Color.Green : Color.Red;
@@ -417,7 +421,7 @@ namespace Comets.Application
 
 			btnNewFilter.Location = new Point(20, 7);
 			AddNewFilterPanel(null, PropertyEnum.full);
-			AddNewFilterPanel(null, PropertyEnum.T);
+			AddNewFilterPanel(null, PropertyEnum.Tn);
 			AddNewFilterPanel(null, PropertyEnum.q);
 			AddNewFilterPanel(null, PropertyEnum.CurrentMag);
 		}
@@ -510,7 +514,7 @@ namespace Comets.Application
 
 					if (dataType == Filter.DataTypeEnum.String)
 						text = txtStr;
-					else if (property == PropertyEnum.T)
+					else if (property == PropertyEnum.Tn)
 						text = dt.JD().ToString();
 					else
 						text = txtVal;

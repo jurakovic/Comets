@@ -265,9 +265,9 @@
 			this.lblElemPerihDate.ForeColor = System.Drawing.SystemColors.GrayText;
 			this.lblElemPerihDate.Location = new System.Drawing.Point(23, 54);
 			this.lblElemPerihDate.Name = "lblElemPerihDate";
-			this.lblElemPerihDate.Size = new System.Drawing.Size(78, 13);
+			this.lblElemPerihDate.Size = new System.Drawing.Size(124, 13);
 			this.lblElemPerihDate.TabIndex = 244;
-			this.lblElemPerihDate.Text = "Perihelion date";
+			this.lblElemPerihDate.Text = "Elements perihelion date";
 			// 
 			// txtElemEquinox
 			// 

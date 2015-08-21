@@ -64,7 +64,7 @@ namespace Comets.BusinessLayer.Managers
 			new PanelDefinition(PropertyEnum.full,				"Full name",						0, true,	false,	false,	"",		DataTypeEnum.String, null),
 			new PanelDefinition(PropertyEnum.name,				"Discoverer",						0, true,	false,	false,	"",		DataTypeEnum.String, null),
 			new PanelDefinition(PropertyEnum.id,				"Designation",						0, true,	false,	false,	"",		DataTypeEnum.String, null),
-			new PanelDefinition(PropertyEnum.T,					"Perihelion date",					0, false,	false,	true,	"",		DataTypeEnum.Double, null),
+			new PanelDefinition(PropertyEnum.Tn,				"Perihelion date",					0, false,	false,	true,	"",		DataTypeEnum.Double, null),
 			new PanelDefinition(PropertyEnum.q,					"Perihelion distance",				1, false,	true,	false,	"AU",	DataTypeEnum.Double, new LeMiMa(0.0, 15.0, 6)),
 			new PanelDefinition(PropertyEnum.PerihEarthDist,	"Perihelion distance from Earth",	1, false,	true,	false,	"AU",	DataTypeEnum.Double, new LeMiMa(0.0, 15.0, 6)),
 			new PanelDefinition(PropertyEnum.PerihMag,			"Perihelion magnitude",				1, false,	true,	false,	"",		DataTypeEnum.Double, new LeMiMa(-20.0, 40.0, 2)),
@@ -309,7 +309,7 @@ namespace Comets.BusinessLayer.Managers
 					{
 						txtString.Text = filter.Text;
 					}
-					else if (filter.Property == PropertyEnum.T)
+					else if (filter.Property == PropertyEnum.Tn)
 					{
 						DateTime date = Utils.JDToDateTime(filter.Value);
 						btnDate.Tag = dt;
@@ -458,7 +458,7 @@ namespace Comets.BusinessLayer.Managers
 			DateTime dt = (DateTime)btn.Tag;
 
 			FormDatabase fdb = btn.FindForm() as FormDatabase;
-			double? T = fdb.SelectedComet != null ? (double?)fdb.SelectedComet.NextT : null;
+			double? T = fdb.SelectedComet != null ? (double?)fdb.SelectedComet.Tn : null;
 
 			using (FormDateTime fdt = new FormDateTime(FormMain.DefaultDateStart, dt, T))
 			{
