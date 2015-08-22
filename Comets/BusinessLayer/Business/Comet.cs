@@ -651,4 +651,22 @@ namespace Comets.BusinessLayer.Business
 
 		#endregion
 	}
+
+	#region CometCollection
+
+	public class CometCollection : List<Comet>
+	{
+		public CometCollection()
+		{
+
+		}
+
+		public CometCollection(IEnumerable<Comet> comets)
+			: base(comets)
+		{
+
+		}
+	}
+
+	#endregion
 }

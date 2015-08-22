@@ -126,7 +126,7 @@ namespace Comets.OrbitViewer
 			{
 				OVComet comet = null;
 
-				if (SelectedIndex >= 0 && Comets.Any())
+				if (SelectedIndex >= 0 && Comets.Count > 0)
 					comet = Comets.ElementAt(SelectedIndex);
 
 				return comet;

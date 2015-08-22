@@ -10,7 +10,7 @@ namespace Comets.BusinessLayer.Business
 		#region Properties
 
 		public Location Location { get; set; }
-		public List<Comet> Comets { get; set; }
+		public CometCollection Comets { get; set; }
 		public Comet SelectedComet { get; set; }
 		public bool IsMultipleMode { get; set; }
 		public FilterCollection Filters { get; set; }

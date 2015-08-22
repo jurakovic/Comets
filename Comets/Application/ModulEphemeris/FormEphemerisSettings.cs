@@ -113,14 +113,14 @@ namespace Comets.Application.ModulEphemeris
 			if (EphemerisSettings == null)
 			{
 				EphemerisSettings = new EphemerisSettings();
-				EphemerisSettings.Comets = FormMain.UserList.ToList();
+				EphemerisSettings.Comets = new CometCollection(FormMain.UserCollection);
 				EphemerisSettings.Filters = FormMain.Filters;
 				EphemerisSettings.SortProperty = FormMain.SortProperty;
 				EphemerisSettings.SortAscending = FormMain.SortAscending;
 				EphemerisSettings.AddNew = true;
 			}
 
-			BindList();
+			BindCollection();
 		}
 
 		#endregion
@@ -172,7 +172,7 @@ namespace Comets.Application.ModulEphemeris
 					EphemerisSettings.SortAscending = fdb.SortAscending;
 				}
 
-				BindList();
+				BindCollection();
 			}
 		}
 
@@ -412,14 +412,14 @@ namespace Comets.Application.ModulEphemeris
 
 		#endregion
 
-		#region BindList
+		#region BindCollection
 
-		private void BindList()
+		private void BindCollection()
 		{
 			cbComet.DisplayMember = "full";
 			cbComet.DataSource = EphemerisSettings.Comets;
 
-			if (EphemerisSettings.Comets.Any())
+			if (EphemerisSettings.Comets.Count > 0)
 			{
 				if (EphemerisSettings.SelectedComet != null && EphemerisSettings.Comets.Contains(EphemerisSettings.SelectedComet))
 				{

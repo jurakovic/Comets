@@ -102,14 +102,14 @@ namespace Comets.Application.ModulGraph
 			if (GraphSettings == null)
 			{
 				GraphSettings = new GraphSettings();
-				GraphSettings.Comets = FormMain.UserList.ToList();
+				GraphSettings.Comets = new CometCollection(FormMain.UserCollection);
 				GraphSettings.Filters = FormMain.Filters;
 				GraphSettings.SortProperty = FormMain.SortProperty;
 				GraphSettings.SortAscending = FormMain.SortAscending;
 				GraphSettings.AddNew = true;
 			}
 
-			BindList();
+			BindCollection();
 		}
 
 		#endregion
@@ -161,7 +161,7 @@ namespace Comets.Application.ModulGraph
 					GraphSettings.SortAscending = fdb.SortAscending;
 				}
 
-				BindList();
+				BindCollection();
 			}
 		}
 
@@ -381,7 +381,7 @@ namespace Comets.Application.ModulGraph
 					fg.LoadGraph();
 					fg.Show();
 				}
-				else if (GraphSettings.Results != null && GraphSettings.Results.Any())
+				else if (GraphSettings.Results != null && GraphSettings.Results.Count > 0)
 				{
 					FormGraph fg = this.Owner.ActiveMdiChild as FormGraph;
 					fg.GraphSettings = this.GraphSettings;
@@ -408,14 +408,14 @@ namespace Comets.Application.ModulGraph
 
 		#endregion
 
-		#region BindList
+		#region BindCollection
 
-		private void BindList()
+		private void BindCollection()
 		{
 			cbComet.DisplayMember = "full";
 			cbComet.DataSource = GraphSettings.Comets;
 
-			if (GraphSettings.Comets.Any())
+			if (GraphSettings.Comets.Count > 0)
 			{
 				if (GraphSettings.SelectedComet != null && GraphSettings.Comets.Contains(GraphSettings.SelectedComet))
 				{

@@ -15,7 +15,7 @@ namespace Comets.Application
 	{
 		#region Properties
 
-		public List<Comet> Comets { get; private set; }
+		public CometCollection Comets { get; private set; }
 
 		public Comet SelectedComet
 		{
@@ -41,7 +41,7 @@ namespace Comets.Application
 
 		#region Constructor
 
-		public FormDatabase(List<Comet> list, FilterCollection filters, string sortProperty, bool sortAscending, bool isForFiltering)
+		public FormDatabase(CometCollection collection, FilterCollection filters, string sortProperty, bool sortAscending, bool isForFiltering)
 		{
 			InitializeComponent();
 
@@ -62,7 +62,7 @@ namespace Comets.Application
 			this.mnuAscNode.Tag = PropertyEnum.N.ToString();
 			this.mnuArgPeri.Tag = PropertyEnum.w.ToString();
 
-			Comets = list.ToList();
+			Comets = new CometCollection(collection);
 			Filters = filters;
 
 			SortProperty = sortProperty;
@@ -84,7 +84,7 @@ namespace Comets.Application
 		{
 			PopulateFilters(Filters);
 			SetSortItems(SortAscending);
-			SortList(Comets);
+			SortCollection(Comets);
 		}
 
 		#endregion
@@ -351,7 +351,7 @@ namespace Comets.Application
 				mnuAsc.Checked = SortAscending;
 				mnuDesc.Checked = !SortAscending;
 
-				SortList(Comets);
+				SortCollection(Comets);
 			}
 		}
 
@@ -360,16 +360,16 @@ namespace Comets.Application
 			mnuAsc.Checked = !mnuAsc.Checked;
 			mnuDesc.Checked = !mnuDesc.Checked;
 			SortAscending = mnuAsc.Checked;
-			SortList(Comets);
+			SortCollection(Comets);
 		}
 
 		#endregion
 
-		#region SortList
+		#region SortCollection
 
-		public void SortList(List<Comet> list)
+		public void SortCollection(CometCollection collection)
 		{
-			List<Comet> tempList = list.ToList();
+			CometCollection temp = new CometCollection(collection);
 			Comets.Clear();
 
 			PropertyDescriptor prop = TypeDescriptor.GetProperties(typeof(Comet)).Find(SortProperty, false);
@@ -378,12 +378,12 @@ namespace Comets.Application
 				throw new ArgumentException(String.Format("Unknown SortPropertyName: \"{0}\"", SortProperty));
 
 			if (SortAscending)
-				Comets = tempList.OrderBy(x => prop.GetValue(x)).ToList();
+				Comets = new CometCollection(temp.OrderBy(x => prop.GetValue(x)));
 			else
-				Comets = tempList.OrderByDescending(x => prop.GetValue(x)).ToList();
+				Comets = new CometCollection(temp.OrderByDescending(x => prop.GetValue(x)));
 
 			//clear textboxes if no comets
-			if (!Comets.Any())
+			if (Comets.Count == 0)
 			{
 				foreach (TabPage t in tbcDetails.TabPages)
 					foreach (Control c in t.Controls)
@@ -566,11 +566,11 @@ namespace Comets.Application
 			if (FilterManager.ValidateFilters(Filters))
 			{
 				if (Filters.Any(x => x.Checked))
-					Comets = FilterManager.FilterList(FormMain.MainList, Filters);
+					Comets = FilterManager.FilterCollection(FormMain.MainCollection, Filters);
 				else
-					Comets = FormMain.MainList.ToList();
+					Comets = new CometCollection(FormMain.MainCollection);
 
-				SortList(Comets);
+				SortCollection(Comets);
 			}
 		}
 

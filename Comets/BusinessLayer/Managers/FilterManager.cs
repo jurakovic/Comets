@@ -14,16 +14,16 @@ namespace Comets.BusinessLayer.Managers
 {
 	public static class FilterManager
 	{
-		#region FilterList
+		#region FilterCollection
 
-		public static List<Comet> FilterList(List<Comet> mainList, FilterCollection filters)
+		public static CometCollection FilterCollection(CometCollection mainCollection, FilterCollection filters)
 		{
-			List<Comet> list = new List<Comet>();
+			CometCollection collection = new CometCollection();
 			List<bool> checks = new List<bool>();
 
 			var fs = filters.Where(x => x.Checked).ToList();
 
-			foreach (Comet comet in mainList)
+			foreach (Comet comet in mainCollection)
 			{
 				checks.Clear();
 
@@ -53,10 +53,10 @@ namespace Comets.BusinessLayer.Managers
 				}
 
 				if (!checks.Any(x => x == false))
-					list.Add(comet);
+					collection.Add(comet);
 			}
 
-			return list;
+			return collection;
 		}
 
 		#endregion

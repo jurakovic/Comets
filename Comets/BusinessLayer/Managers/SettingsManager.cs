@@ -160,7 +160,7 @@ namespace Comets.BusinessLayer.Managers
 			sb.AppendLine(String.Format(format, "Longitude", settings.Location.Longitude.ToString("0.000000")));
 			sb.AppendLine();
 
-			if (settings.ExternalPrograms.Any())
+			if (settings.ExternalPrograms.Count > 0)
 			{
 				sb.AppendLine("[ExternalPrograms]");
 				foreach (ExternalProgram ep in settings.ExternalPrograms)

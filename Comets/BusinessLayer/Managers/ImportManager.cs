@@ -1,6 +1,5 @@
 ﻿using Comets.BusinessLayer.Business;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -27,7 +26,7 @@ namespace Comets.BusinessLayer.Managers
 
 			Comet c = new Comet();
 
-			string lastLine = lines[lines.Count() - 1];
+			string lastLine = lines[lines.Length - 1];
 
 			try //mpc 0
 			{
@@ -98,7 +97,7 @@ namespace Comets.BusinessLayer.Managers
 			try //xephem 3
 			{
 				string[] parts = lastLine.Split(',');
-				if (parts.Count() == 13 && (parts[1] == "e" || parts[1] == "p" || parts[1] == "h")) return ImportType.xephem;
+				if (parts.Length == 13 && (parts[1] == "e" || parts[1] == "p" || parts[1] == "h")) return ImportType.xephem;
 			}
 			catch
 			{
@@ -108,7 +107,7 @@ namespace Comets.BusinessLayer.Managers
 			try //home planet 4
 			{
 				string[] parts = lastLine.Split(',');
-				if (parts.Count() == 10) return ImportType.HomePlanet;
+				if (parts.Length == 10) return ImportType.HomePlanet;
 			}
 			catch
 			{
@@ -118,7 +117,7 @@ namespace Comets.BusinessLayer.Managers
 			try //mystars 5
 			{
 				string[] parts = lastLine.Split('\t');
-				if (parts.Count() == 11) return ImportType.MyStars;
+				if (parts.Length == 11) return ImportType.MyStars;
 			}
 			catch
 			{
@@ -128,7 +127,7 @@ namespace Comets.BusinessLayer.Managers
 			try //thesky 6
 			{
 				string[] parts = lastLine.Split('|');
-				if (parts.Count() == 11 && parts[0].Length == 39 && parts[1].Length == 4) return ImportType.TheSky;
+				if (parts.Length == 11 && parts[0].Length == 39 && parts[1].Length == 4) return ImportType.TheSky;
 			}
 			catch
 			{
@@ -158,7 +157,7 @@ namespace Comets.BusinessLayer.Managers
 			try //deepspace 8
 			{
 				string[] parts = lastLine.Split(' ');
-				if (parts.Count() == 12 && parts[0].Length == 1) return ImportType.DeepSpace;
+				if (parts.Length == 12 && parts[0].Length == 1) return ImportType.DeepSpace;
 			}
 			catch
 			{
@@ -168,7 +167,7 @@ namespace Comets.BusinessLayer.Managers
 			try //pc-tcs 9
 			{
 				string[] parts = lastLine.TrimEnd().Split(' ');
-				if (parts.Count() >= 12 && lastLine.Length == 126) return ImportType.PCTCS;
+				if (parts.Length >= 12 && lastLine.Length == 126) return ImportType.PCTCS;
 			}
 			catch
 			{
@@ -178,7 +177,7 @@ namespace Comets.BusinessLayer.Managers
 			try //ecu 10
 			{
 				string[] parts = lastLine.Split(' ');
-				if (parts.Count() == 13 && parts[0].Length == 1 && parts[1].Length == 1) return ImportType.EarthCenteredUniverse;
+				if (parts.Length == 13 && parts[0].Length == 1 && parts[1].Length == 1) return ImportType.EarthCenteredUniverse;
 			}
 			catch
 			{
@@ -231,7 +230,7 @@ namespace Comets.BusinessLayer.Managers
 			try //skychart 13
 			{
 				string[] parts = lastLine.Split('\t');
-				if (parts.Count() == 14 && parts[0].Length == 3) return ImportType.SkyChartIII;
+				if (parts.Length == 14 && parts[0].Length == 3) return ImportType.SkyChartIII;
 			}
 			catch
 			{
@@ -333,24 +332,24 @@ namespace Comets.BusinessLayer.Managers
 
 		#region ImportMain
 
-		public static List<Comet> ImportMain(List<Comet> oldList, ImportType importType, string filename, bool quiet)
+		public static CometCollection ImportMain(CometCollection oldCollection, ImportType importType, string filename, bool quiet)
 		{
-			List<Comet> newList = ImportManager.Import(importType, filename);
+			CometCollection newCollection = ImportManager.Import(importType, filename);
 
-			if (newList.Any())
+			if (newCollection.Count > 0)
 			{
 				int totalOld = 0;
 				int totalNew = 0;
 
-				if (oldList.Any())
+				if (oldCollection.Count > 0)
 				{
-					foreach (Comet n in newList)
+					foreach (Comet n in newCollection)
 					{
-						Comet o = oldList.Find(x => x.full == n.full);
+						Comet o = oldCollection.FirstOrDefault(x => x.full == n.full);
 
 						if (o != null)
 						{
-							oldList.Remove(o);
+							oldCollection.Remove(o);
 							totalOld++;
 						}
 						else
@@ -358,13 +357,13 @@ namespace Comets.BusinessLayer.Managers
 							totalNew++;
 						}
 
-						oldList.Add(n);
+						oldCollection.Add(n);
 					}
 				}
 				else
 				{
-					oldList = newList;
-					totalNew = oldList.Count;
+					oldCollection = newCollection;
+					totalNew = oldCollection.Count;
 				}
 
 				if (!quiet)
@@ -374,92 +373,89 @@ namespace Comets.BusinessLayer.Managers
 							, MessageBoxButtons.OK
 							, MessageBoxIcon.Information);
 			}
-			else
-			{
-				if (!quiet)
-					MessageBox.Show("Something wrong happened. Zero comets imported.\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			else if (!quiet)
+				MessageBox.Show("Something wrong happened. Zero comets imported.\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-				oldList = null;
-			}
+			oldCollection = new CometCollection(oldCollection.OrderBy(x => x.sortkey));
 
-			return oldList;
+			return oldCollection;
 		}
 
 		#endregion
 
 		#region Import
 
-		private static List<Comet> Import(ImportType importType, string filename)
+		private static CometCollection Import(ImportType importType, string filename)
 		{
-			List<Comet> list = new List<Comet>();
+			CometCollection collection = new CometCollection();
 
 			switch (importType)
 			{
 				case ImportType.MPC:
-					ImportMpc00(filename, ref list); break;
+					ImportMpc00(filename, ref collection); break;
 
 				case ImportType.SkyMap:
-					ImportSkyMap01(filename, ref list); break;
+					ImportSkyMap01(filename, ref collection); break;
 
 				case ImportType.Guide:
-					ImportGuide02(filename, ref list); break;
+					ImportGuide02(filename, ref collection); break;
 
 				case ImportType.xephem:
-					ImportXephem03(filename, ref list); break;
+					ImportXephem03(filename, ref collection); break;
 
 				case ImportType.HomePlanet:
-					ImportHomePlanet04(filename, ref list); break;
+					ImportHomePlanet04(filename, ref collection); break;
 
 				case ImportType.MyStars:
-					ImportMyStars05(filename, ref list); break;
+					ImportMyStars05(filename, ref collection); break;
 
 				case ImportType.TheSky:
-					ImportTheSky06(filename, ref list); break;
+					ImportTheSky06(filename, ref collection); break;
 
 				case ImportType.StarryNight:
-					ImportStarryNight07(filename, ref list); break;
+					ImportStarryNight07(filename, ref collection); break;
 
 				case ImportType.DeepSpace:
-					ImportDeepSpace08(filename, ref list); break;
+					ImportDeepSpace08(filename, ref collection); break;
 
 				case ImportType.PCTCS:
-					ImportPcTcs09(filename, ref list); break;
+					ImportPcTcs09(filename, ref collection); break;
 
 				case ImportType.EarthCenteredUniverse:
-					ImportEarthCenUniv10(filename, ref list); break;
+					ImportEarthCenUniv10(filename, ref collection); break;
 
 				case ImportType.DanceOfThePlanets:
-					ImportDanceOfThePlanets11(filename, ref list); break;
+					ImportDanceOfThePlanets11(filename, ref collection); break;
 
 				case ImportType.MegaStarV4:
-					ImportMegaStar12(filename, ref list); break;
+					ImportMegaStar12(filename, ref collection); break;
 
 				case ImportType.SkyChartIII:
-					ImportSkyChart13(filename, ref list); break;
+					ImportSkyChart13(filename, ref collection); break;
 
 				case ImportType.VoyagerII:
-					ImportVoyager14(filename, ref list); break;
+					ImportVoyager14(filename, ref collection); break;
 
 				case ImportType.SkyTools:
-					ImportSkyTools15(filename, ref list); break;
+					ImportSkyTools15(filename, ref collection); break;
 
 				case ImportType.CometForWindows:
-					ImportCometForWindows(filename, ref list); break;
+					ImportCometForWindows(filename, ref collection); break;
 
 				case ImportType.NASA:
-					ImportNasaComet(filename, ref list); break;
+					ImportNasaComet(filename, ref collection); break;
 			}
 
-			list = list.OrderBy(x => x.sortkey).ToList();
+			//collection = new CometCollection(collection.OrderBy(x => x.sortkey));
 
-			return list;
+			return collection;
 		}
 
 		#endregion
 
 		#region ImportFunctions
 
-		public static void ImportMpc00(string filename, ref List<Comet> list)
+		public static void ImportMpc00(string filename, ref CometCollection collection)
 		{
 			foreach (string line in File.ReadAllLines(filename))
 			{
@@ -499,11 +495,11 @@ namespace Comets.BusinessLayer.Managers
 					continue;
 				}
 
-				list.Add(c);
+				collection.Add(c);
 			}
 		}
 
-		public static void ImportSkyMap01(string filename, ref List<Comet> list)
+		public static void ImportSkyMap01(string filename, ref CometCollection collection)
 		{
 			string tempFull = String.Empty;
 			string tempId = String.Empty;
@@ -577,11 +573,11 @@ namespace Comets.BusinessLayer.Managers
 					continue;
 				}
 
-				list.Add(c);
+				collection.Add(c);
 			}
 		}
 
-		public static void ImportGuide02(string filename, ref List<Comet> list)
+		public static void ImportGuide02(string filename, ref CometCollection collection)
 		{
 			string tempFull = String.Empty;
 			string tempId = String.Empty;
@@ -642,17 +638,17 @@ namespace Comets.BusinessLayer.Managers
 
 
 
-				list.Add(c);
+				collection.Add(c);
 			}
 		}
 
-		public static void ImportXephem03(string filename, ref List<Comet> list)
+		public static void ImportXephem03(string filename, ref CometCollection collection)
 		{
 			// http://www.clearskyinstitute.com/xephem/help/xephem.html#mozTocId215848
 
 			string[] lines = File.ReadAllLines(filename);
 
-			for (int i = 1; i < lines.Count(); i += 2)
+			for (int i = 1; i < lines.Length; i += 2)
 			{
 				Comet c = new Comet();
 
@@ -767,15 +763,15 @@ namespace Comets.BusinessLayer.Managers
 					continue;
 				}
 
-				list.Add(c);
+				collection.Add(c);
 			}
 		}
 
-		public static void ImportHomePlanet04(string filename, ref List<Comet> list)
+		public static void ImportHomePlanet04(string filename, ref CometCollection collection)
 		{
 			string[] lines = File.ReadAllLines(filename);
 
-			for (int i = 1; i < lines.Count(); i++)
+			for (int i = 1; i < lines.Length; i++)
 			{
 				Comet c = new Comet();
 
@@ -818,11 +814,11 @@ namespace Comets.BusinessLayer.Managers
 					continue;
 				}
 
-				list.Add(c);
+				collection.Add(c);
 			}
 		}
 
-		public static void ImportMyStars05(string filename, ref List<Comet> list)
+		public static void ImportMyStars05(string filename, ref CometCollection collection)
 		{
 			//
 			// w zapravo nije w
@@ -830,7 +826,7 @@ namespace Comets.BusinessLayer.Managers
 
 			string[] lines = File.ReadAllLines(filename);
 
-			for (int i = 1; i < lines.Count(); i++)
+			for (int i = 1; i < lines.Length; i++)
 			{
 				Comet c = new Comet();
 				double T;
@@ -882,11 +878,11 @@ namespace Comets.BusinessLayer.Managers
 					continue;
 				}
 
-				list.Add(c);
+				collection.Add(c);
 			}
 		}
 
-		public static void ImportTheSky06(string filename, ref List<Comet> list)
+		public static void ImportTheSky06(string filename, ref CometCollection collection)
 		{
 			foreach (string line in File.ReadAllLines(filename))
 			{
@@ -931,15 +927,15 @@ namespace Comets.BusinessLayer.Managers
 					continue;
 				}
 
-				list.Add(c);
+				collection.Add(c);
 			}
 		}
 
-		public static void ImportStarryNight07(string filename, ref List<Comet> list)
+		public static void ImportStarryNight07(string filename, ref CometCollection collection)
 		{
 			string[] lines = File.ReadAllLines(filename);
 
-			for (int i = 15; i < lines.Count(); i++)
+			for (int i = 15; i < lines.Length; i++)
 			{
 				Comet c = new Comet();
 
@@ -978,15 +974,15 @@ namespace Comets.BusinessLayer.Managers
 					continue;
 				}
 
-				list.Add(c);
+				collection.Add(c);
 			}
 		}
 
-		public static void ImportDeepSpace08(string filename, ref List<Comet> list)
+		public static void ImportDeepSpace08(string filename, ref CometCollection collection)
 		{
 			string[] lines = File.ReadAllLines(filename);
 
-			for (int i = 2; i < lines.Count(); i += 2)
+			for (int i = 2; i < lines.Length; i += 2)
 			{
 				Comet c = new Comet();
 
@@ -1029,11 +1025,11 @@ namespace Comets.BusinessLayer.Managers
 					continue;
 				}
 
-				list.Add(c);
+				collection.Add(c);
 			}
 		}
 
-		public static void ImportPcTcs09(string filename, ref List<Comet> list)
+		public static void ImportPcTcs09(string filename, ref CometCollection collection)
 		{
 			foreach (string line in File.ReadAllLines(filename))
 			{
@@ -1072,7 +1068,7 @@ namespace Comets.BusinessLayer.Managers
 					c.k = Convert.ToDouble(parts[10]) / 2.5;
 
 					string tempName = String.Empty;
-					for (int i = 11; i < parts.Count(); i++)
+					for (int i = 11; i < parts.Length; i++)
 						tempName += parts[i] + " ";
 
 					c.name = tempName.Trim();
@@ -1094,15 +1090,15 @@ namespace Comets.BusinessLayer.Managers
 					continue;
 				}
 
-				list.Add(c);
+				collection.Add(c);
 			}
 		}
 
-		public static void ImportEarthCenUniv10(string filename, ref List<Comet> list)
+		public static void ImportEarthCenUniv10(string filename, ref CometCollection collection)
 		{
 			string[] lines = File.ReadAllLines(filename);
 
-			for (int i = 0; i < lines.Count(); i += 2)
+			for (int i = 0; i < lines.Length; i += 2)
 			{
 				Comet c = new Comet();
 
@@ -1146,15 +1142,15 @@ namespace Comets.BusinessLayer.Managers
 					continue;
 				}
 
-				list.Add(c);
+				collection.Add(c);
 			}
 		}
 
-		public static void ImportDanceOfThePlanets11(string filename, ref List<Comet> list)
+		public static void ImportDanceOfThePlanets11(string filename, ref CometCollection collection)
 		{
 			string[] lines = File.ReadAllLines(filename);
 
-			for (int i = 5; i < lines.Count(); i++)
+			for (int i = 5; i < lines.Length; i++)
 			{
 				Comet c = new Comet();
 
@@ -1206,11 +1202,11 @@ namespace Comets.BusinessLayer.Managers
 					continue;
 				}
 
-				list.Add(c);
+				collection.Add(c);
 			}
 		}
 
-		public static void ImportMegaStar12(string filename, ref List<Comet> list)
+		public static void ImportMegaStar12(string filename, ref CometCollection collection)
 		{
 			foreach (string line in File.ReadAllLines(filename))
 			{
@@ -1250,11 +1246,11 @@ namespace Comets.BusinessLayer.Managers
 					continue;
 				}
 
-				list.Add(c);
+				collection.Add(c);
 			}
 		}
 
-		public static void ImportSkyChart13(string filename, ref List<Comet> list)
+		public static void ImportSkyChart13(string filename, ref CometCollection collection)
 		{
 			foreach (string line in File.ReadAllLines(filename))
 			{
@@ -1302,15 +1298,15 @@ namespace Comets.BusinessLayer.Managers
 					continue;
 				}
 
-				list.Add(c);
+				collection.Add(c);
 			}
 		}
 
-		public static void ImportVoyager14(string filename, ref List<Comet> list)
+		public static void ImportVoyager14(string filename, ref CometCollection collection)
 		{
 			string[] lines = File.ReadAllLines(filename);
 
-			for (int i = 23; i < lines.Count(); i++)
+			for (int i = 23; i < lines.Length; i++)
 			{
 				Comet c = new Comet();
 
@@ -1354,11 +1350,11 @@ namespace Comets.BusinessLayer.Managers
 					continue;
 				}
 
-				list.Add(c);
+				collection.Add(c);
 			}
 		}
 
-		public static void ImportSkyTools15(string filename, ref List<Comet> list)
+		public static void ImportSkyTools15(string filename, ref CometCollection collection)
 		{
 			string tempFull = String.Empty;
 			string tempId = String.Empty;
@@ -1429,15 +1425,15 @@ namespace Comets.BusinessLayer.Managers
 					continue;
 				}
 
-				list.Add(c);
+				collection.Add(c);
 			}
 		}
 
-		public static void ImportCometForWindows(string filename, ref List<Comet> list)
+		public static void ImportCometForWindows(string filename, ref CometCollection collection)
 		{
 			string[] lines = File.ReadAllLines(filename);
 
-			for (int i = 6; i < lines.Count(); i += 13)
+			for (int i = 6; i < lines.Length; i += 13)
 			{
 				Comet c = new Comet();
 
@@ -1481,15 +1477,15 @@ namespace Comets.BusinessLayer.Managers
 					continue;
 				}
 
-				list.Add(c);
+				collection.Add(c);
 			}
 		}
 
-		public static void ImportNasaComet(string filename, ref List<Comet> list)
+		public static void ImportNasaComet(string filename, ref CometCollection collection)
 		{
 			string[] lines = File.ReadAllLines(filename);
 
-			for (int i = 2; i < lines.Count(); i++)
+			for (int i = 2; i < lines.Length; i++)
 			{
 				Comet c = new Comet();
 
@@ -1534,7 +1530,7 @@ namespace Comets.BusinessLayer.Managers
 					continue;
 				}
 
-				list.Add(c);
+				collection.Add(c);
 			}
 		}
 

@@ -4,7 +4,6 @@ using Comets.Application.ModulOrbit;
 using Comets.BusinessLayer.Business;
 using Comets.BusinessLayer.Managers;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -25,8 +24,8 @@ namespace Comets.Application
 
 		#region Properties
 
-		public static List<Comet> MainList { get; set; }
-		public static List<Comet> UserList { get; set; }
+		public static CometCollection MainCollection { get; set; }
+		public static CometCollection UserCollection { get; set; }
 		public static bool IsDataChanged { get; set; }
 
 		public static FilterCollection Filters { get; set; }
@@ -55,8 +54,8 @@ namespace Comets.Application
 
 			Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
 
-			MainList = new List<Comet>();
-			UserList = new List<Comet>();
+			MainCollection = new CometCollection();
+			UserCollection = new CometCollection();
 
 			Progress = new Progress<int>(ReportProgress);
 
@@ -101,10 +100,10 @@ namespace Comets.Application
 
 			if (File.Exists(SettingsManager.Database))
 			{
-				List<Comet> list = ImportManager.ImportMain(MainList, ElementTypes.Type.MPC, SettingsManager.Database, true);
-				MainList = list.ToList();
-				UserList = list.ToList();
-				SetStatusCometsLabel(UserList.Count, MainList.Count);
+				CometCollection collection = ImportManager.ImportMain(MainCollection, ElementTypes.Type.MPC, SettingsManager.Database, true);
+				MainCollection = new CometCollection(collection);
+				UserCollection = new CometCollection(collection);
+				SetStatusCometsLabel(UserCollection.Count, MainCollection.Count);
 			}
 		}
 
@@ -128,7 +127,7 @@ namespace Comets.Application
 						using (FormImport fi = new FormImport(true) { Owner = this })
 						{
 							fi.ShowDialog();
-							SetStatusCometsLabel(UserList.Count, MainList.Count);
+							SetStatusCometsLabel(UserCollection.Count, MainCollection.Count);
 						}
 					}
 				}
@@ -164,7 +163,7 @@ namespace Comets.Application
 
 		private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			if (!FormMain.Settings.ExitWithoutConfirm && this.MdiChildren.Any())
+			if (!FormMain.Settings.ExitWithoutConfirm && this.MdiChildren.Length > 0)
 			{
 				e.Cancel = MessageBox.Show(
 					"Do you really want to exit?\t\t\t\t",
@@ -181,9 +180,9 @@ namespace Comets.Application
 
 		private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
 		{
-			if ((IsDataChanged || !File.Exists(SettingsManager.Database) || Settings.IsSettingsChanged) && MainList.Any())
+			if ((IsDataChanged || !File.Exists(SettingsManager.Database) || Settings.IsSettingsChanged) && MainCollection.Count > 0)
 			{
-				ExporManager.ExportMain(ElementTypes.Type.MPC, SettingsManager.Database, MainList);
+				ExporManager.ExportMain(ElementTypes.Type.MPC, SettingsManager.Database, MainCollection);
 			}
 
 			bool isFormSizeLocationChanged = CurrentFormLocation != InitialFormLocation || CurrentFormSize != InitialFormSize;
@@ -241,7 +240,7 @@ namespace Comets.Application
 
 		private void menuItemFileOrbit_Click(object sender, EventArgs e)
 		{
-			FormOrbitViewer fo = new FormOrbitViewer(UserList, Filters, SortProperty, SortAscending);
+			FormOrbitViewer fo = new FormOrbitViewer(UserCollection, Filters, SortProperty, SortAscending);
 			fo.WindowState = FormWindowState.Maximized;
 			fo.MdiParent = this;
 			fo.Show();
@@ -315,19 +314,19 @@ namespace Comets.Application
 
 		private void menuItemDatabase_Click(object sender, EventArgs e)
 		{
-			using (FormDatabase fdb = new FormDatabase(UserList, Filters, SortProperty, SortAscending, false) { Owner = this })
+			using (FormDatabase fdb = new FormDatabase(UserCollection, Filters, SortProperty, SortAscending, false) { Owner = this })
 			{
 				fdb.TopMost = this.TopMost;
 
 				if (fdb.ShowDialog() == DialogResult.OK)
 				{
-					UserList = fdb.Comets;
+					UserCollection = fdb.Comets;
 					Filters = fdb.Filters;
 					SortProperty = fdb.SortProperty;
 					SortAscending = fdb.SortAscending;
 				}
 
-				SetStatusCometsLabel(UserList.Count, MainList.Count);
+				SetStatusCometsLabel(UserCollection.Count, MainCollection.Count);
 			}
 		}
 
@@ -337,7 +336,7 @@ namespace Comets.Application
 			{
 				formImport.TopMost = this.TopMost;
 				formImport.ShowDialog();
-				SetStatusCometsLabel(UserList.Count, MainList.Count);
+				SetStatusCometsLabel(UserCollection.Count, MainCollection.Count);
 			}
 		}
 

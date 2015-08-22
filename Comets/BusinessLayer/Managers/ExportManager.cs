@@ -12,76 +12,76 @@ namespace Comets.BusinessLayer.Managers
 	{
 		#region ExportMain
 
-		public static void ExportMain(ExportType exportType, string filename, List<Comet> list)
+		public static void ExportMain(ExportType exportType, string filename, CometCollection collection)
 		{
 			StringBuilder sb = new StringBuilder();
 
-			WriteHeaderText(exportType, ref sb, list.Count);
+			WriteHeaderText(exportType, ref sb, collection.Count);
 
 			switch (exportType)
 			{
 				case ExportType.MPC:
-					ExportMpc00(ref sb, list); break;
+					ExportMpc00(ref sb, collection); break;
 
 				case ExportType.SkyMap:
-					ExportSkyMap01(ref sb, list); break;
+					ExportSkyMap01(ref sb, collection); break;
 
 				case ExportType.Guide:
-					ExportGuide02(ref sb, list); break;
+					ExportGuide02(ref sb, collection); break;
 
 				case ExportType.xephem:
-					ExportXephem03(ref sb, list); break;
+					ExportXephem03(ref sb, collection); break;
 
 				case ExportType.HomePlanet:
-					ExportHomePlanet04(ref sb, list); break;
+					ExportHomePlanet04(ref sb, collection); break;
 
 				case ExportType.MyStars:
-					ExportMyStars05(ref sb, list); break;
+					ExportMyStars05(ref sb, collection); break;
 
 				case ExportType.TheSky:
-					ExportTheSky06(ref sb, list); break;
+					ExportTheSky06(ref sb, collection); break;
 
 				case ExportType.StarryNight:
-					ExportStarryNight07(ref sb, list); break;
+					ExportStarryNight07(ref sb, collection); break;
 
 				case ExportType.DeepSpace:
-					ExportDeepSpace08(ref sb, list); break;
+					ExportDeepSpace08(ref sb, collection); break;
 
 				case ExportType.PCTCS:
-					ExportPcTcs09(ref sb, list); break;
+					ExportPcTcs09(ref sb, collection); break;
 
 				case ExportType.EarthCenteredUniverse:
-					ExportEarthCenUniv10(ref sb, list); break;
+					ExportEarthCenUniv10(ref sb, collection); break;
 
 				case ExportType.DanceOfThePlanets:
-					ExportDanceOfThePlanets11(ref sb, list); break;
+					ExportDanceOfThePlanets11(ref sb, collection); break;
 
 				case ExportType.MegaStarV4:
-					ExportMegaStar12(ref sb, list); break;
+					ExportMegaStar12(ref sb, collection); break;
 
 				case ExportType.SkyChartIII:
-					ExportSkyChart13(ref sb, list); break;
+					ExportSkyChart13(ref sb, collection); break;
 
 				case ExportType.VoyagerII:
-					ExportVoyager14(ref sb, list); break;
+					ExportVoyager14(ref sb, collection); break;
 
 				case ExportType.SkyTools:
-					ExportSkyTools15(ref sb, list); break;
+					ExportSkyTools15(ref sb, collection); break;
 
 				case ExportType.Autostar:
-					ExportTheSky06(ref sb, list); break;
+					ExportTheSky06(ref sb, collection); break;
 
 				case ExportType.SpaceEngine:
-					ExportSpaceEngine(ref sb, list); break;
+					ExportSpaceEngine(ref sb, collection); break;
 
 				case ExportType.Celestia:
-					ExportCelestia(ref sb, list); break;
+					ExportCelestia(ref sb, collection); break;
 
 				//case ExportType.CometForWindows:
-				//    ExportCometForWindows(ref sb, list); break;
+				//    ExportCometForWindows(ref sb, collection); break;
 
 				//case ExportType.NASA:
-				//    ExportNasaComet(ref sb, list); break;
+				//    ExportNasaComet(ref sb, collection); break;
 			}
 
 			File.WriteAllText(filename, sb.ToString());
@@ -166,22 +166,22 @@ namespace Comets.BusinessLayer.Managers
 
 		#region EportFunctions
 
-		private static void ExportMpc00(ref StringBuilder sb, List<Comet> list)
+		private static void ExportMpc00(ref StringBuilder sb, CometCollection collection)
 		{
 			DateTime d = DateTime.UtcNow;
 			string format = "              {0,4} {1:00} {2,2}.{3:0000} {4,9:0.000000}  {5:0.000000}  {6,8:0.0000}  {7,8:0.0000}  {8,8:0.0000}  {9}{10:00}{11:00}  {12,4:0.0} {13,4:0.0}  {14,-56} MPC 00000\n";
 
-			foreach (Comet c in list)
+			foreach (Comet c in collection)
 				sb.AppendFormat(format, c.Ty, c.Tm, c.Td, c.Th, c.q, c.e, c.w, c.N, c.i, d.Year, d.Month, d.Day, c.g, c.k, c.full);
 		}
 
-		private static void ExportSkyMap01(ref StringBuilder sb, List<Comet> list)
+		private static void ExportSkyMap01(ref StringBuilder sb, CometCollection collection)
 		{
 			string tempFull = String.Empty;
 
 			string format = "{0,-47}{1,4} {2:00} {3:00}.{4:0000} {5,9:0.000000}       {6:0.000000} {7,8:0.0000} {8,8:0.0000} {9,8:0.0000}  {10,4:0.0}  {11,4:0.0}\n";
 
-			foreach (Comet c in list)
+			foreach (Comet c in collection)
 			{
 				if (Char.IsNumber(c.id[0]))
 					tempFull = c.full.Replace("/", " ");
@@ -192,13 +192,13 @@ namespace Comets.BusinessLayer.Managers
 			}
 		}
 
-		private static void ExportGuide02(ref StringBuilder sb, List<Comet> list)
+		private static void ExportGuide02(ref StringBuilder sb, CometCollection collection)
 		{
 			string tempFull = String.Empty;
 
 			string format = "{0,-43}{1,2}.{2:0000}  {3,2}  {4,4}  0.0        {5,9:0.000000}    {6:0.000000}  {7,8:0.0000}    {8,8:0.0000}    {9,8:0.0000}    2000.0   {10,4:0.0} {11,4:0.0}    MPC 00000\n";
 
-			foreach (Comet c in list)
+			foreach (Comet c in collection)
 			{
 				if (c.name.Length == 0)
 					tempFull = c.id;
@@ -214,13 +214,13 @@ namespace Comets.BusinessLayer.Managers
 			}
 		}
 
-		private static void ExportXephem03(ref StringBuilder sb, List<Comet> list)
+		private static void ExportXephem03(ref StringBuilder sb, CometCollection collection)
 		{
 			//info: http://www.clearskyinstitute.com/xephem/help/xephem.html#mozTocId215848
 
 			string tempFull = String.Empty;
 
-			foreach (Comet c in list)
+			foreach (Comet c in collection)
 			{
 				sb.AppendLine("# From MPC 00000");
 
@@ -250,12 +250,12 @@ namespace Comets.BusinessLayer.Managers
 			}
 		}
 
-		private static void ExportHomePlanet04(ref StringBuilder sb, List<Comet> list)
+		private static void ExportHomePlanet04(ref StringBuilder sb, CometCollection collection)
 		{
 			string tempFull = String.Empty;
 			string format = String.Empty;
 
-			foreach (Comet c in list)
+			foreach (Comet c in collection)
 			{
 				tempFull = c.id;
 
@@ -277,7 +277,7 @@ namespace Comets.BusinessLayer.Managers
 			}
 		}
 
-		private static void ExportMyStars05(ref StringBuilder sb, List<Comet> list)
+		private static void ExportMyStars05(ref StringBuilder sb, CometCollection collection)
 		{
 			//
 			// {2} zapravo nije w, nije ni M
@@ -288,47 +288,47 @@ namespace Comets.BusinessLayer.Managers
 
 			string format = "{0};\t{1:0.0000}\t{2:0.0000}\t{3:0.000000}\t{4:0.000000}\t{5:0.0000}\t{6:0.0000}\t{7:0.0}\t{8:0.0}\tMPC00000\t{9:0.0}\n";
 
-			foreach (Comet c in list)
+			foreach (Comet c in collection)
 				sb.AppendFormat(format, c.full, c.T - jd240, c.w, c.e, c.q, c.i, c.N, c.g, c.k, jd - jd240);
 		}
 
-		private static void ExportTheSky06(ref StringBuilder sb, List<Comet> list)
+		private static void ExportTheSky06(ref StringBuilder sb, CometCollection collection)
 		{
 			string format = "{0,-39}|2000|{1,4}{2:00}{3:00}.{4:0000} |{5,9:0.000000} |{6:0.000000} |{7,8:0.0000} |{8,8:0.0000} |{9,8:0.0000} |{10,4:0.0} |{11,4:0.0} | MPC 00000\n";
 
-			foreach (Comet c in list)
+			foreach (Comet c in collection)
 				sb.AppendFormat(format, c.full, c.Ty, c.Tm, c.Td, c.Th, c.q, c.e, c.w, c.N, c.i, c.g, c.k * 2.5);
 		}
 
-		private static void ExportStarryNight07(ref StringBuilder sb, List<Comet> list)
+		private static void ExportStarryNight07(ref StringBuilder sb, CometCollection collection)
 		{
 			double jd = DateTime.UtcNow.Date.JD();
 
 			string format = "     {0,-29} {1,4:0.0}    0.0   {2:0.000000}   {3,9:0.000000}    {4,8:0.0000}  {5,8:0.0000}  {6,8:0.0000}  {7,12:0.0000}    {8,9:0.0}  {9,4:0.0}  {10,-13} MPC 00000\n";
 
-			foreach (Comet c in list)
+			foreach (Comet c in collection)
 				sb.AppendFormat(format, c.name, c.g, c.e, c.q, c.N, c.w, c.i, c.T, jd, c.k * 2.5, c.id);
 		}
 
-		private static void ExportDeepSpace08(ref StringBuilder sb, List<Comet> list)
+		private static void ExportDeepSpace08(ref StringBuilder sb, CometCollection collection)
 		{
 			string format = "C J2000 {0} {1:00} {2:00}.{3:0000} {4:0.000000} {5:0.000000} {6:0.0000} {7:0.0000} {8:0.0000} {9:0.0} {10:0.0}\n";
 
-			foreach (Comet c in list)
+			foreach (Comet c in collection)
 			{
 				sb.AppendLine(c.name + " (" + c.id + ")");
 				sb.AppendFormat(format, c.Ty, c.Tm, c.Td, c.Th, c.q, c.e, c.w, c.N, c.i, c.g, c.k * 2.5);
 			}
 		}
 
-		private static void ExportPcTcs09(ref StringBuilder sb, List<Comet> list)
+		private static void ExportPcTcs09(ref StringBuilder sb, CometCollection collection)
 		{
 			string tempId = String.Empty;
 			string line = String.Empty;
 
 			string format = "{0} {1:0.000000} {2:0.000000} {3:0.0000} {4:0.0000} {5:0.0000} {6,4} {7:00} {8:00}.{9:0000} {10:0.0} {11:0.0} {12}";
 
-			foreach (Comet c in list)
+			foreach (Comet c in collection)
 			{
 				tempId = c.id.Replace(" ", "");
 				line = String.Format(format, tempId, c.q, c.e, c.i, c.w, c.N, c.Ty, c.Tm, c.Td, c.Th, c.g, c.k * 2.5, c.name);
@@ -337,25 +337,25 @@ namespace Comets.BusinessLayer.Managers
 			}
 		}
 
-		private static void ExportEarthCenUniv10(ref StringBuilder sb, List<Comet> list)
+		private static void ExportEarthCenUniv10(ref StringBuilder sb, CometCollection collection)
 		{
 			string format = "E C 2000 {0} {1:00} {2:00}.{3:0000} {4:0.000000} {5:0.000000} {6:0.0000} {7:0.0000} {8:0.0000} {9:0.0} {10:0.0}\n";
 
-			foreach (Comet c in list)
+			foreach (Comet c in collection)
 			{
 				sb.AppendLine(c.full);
 				sb.AppendFormat(format, c.Ty, c.Tm, c.Td, c.Th, c.q, c.e, c.w, c.N, c.i, c.g, c.k * 2.5);
 			}
 		}
 
-		private static void ExportDanceOfThePlanets11(ref StringBuilder sb, List<Comet> list)
+		private static void ExportDanceOfThePlanets11(ref StringBuilder sb, CometCollection collection)
 		{
 			string tempId = String.Empty;
 			string q = String.Empty;
 
 			string format = "{0,-11}{1} {2:0.000000} {3,8:0.0000} {4,8:0.0000} {5,8:0.0000} {6,4}.{7:00}{8:00}{9:0000} {10}\n";
 
-			foreach (Comet c in list)
+			foreach (Comet c in collection)
 			{
 				tempId = c.id.Replace(" ", "");
 				q = c.q < 10.0 ? String.Format("{0:0.000000}", c.q) : "********";
@@ -364,48 +364,48 @@ namespace Comets.BusinessLayer.Managers
 			}
 		}
 
-		private static void ExportMegaStar12(ref StringBuilder sb, List<Comet> list)
+		private static void ExportMegaStar12(ref StringBuilder sb, CometCollection collection)
 		{
 			string format = "{0,-30}{1,-12}{2,4} {3:00}  {4:00}.{5:0000}   {6,9:0.000000}   {7:0.000000}    {8,8:0.0000}    {9,8:0.0000}    {10,8:0.0000}   {11,4:0.0}   {12,4:0.0}    2000 MPC 00000\n";
 
-			foreach (Comet c in list)
+			foreach (Comet c in collection)
 				sb.AppendFormat(format, c.name, c.id, c.Ty, c.Tm, c.Td, c.Th, c.q, c.e, c.w, c.N, c.i, c.g, c.k * 2.5);
 		}
 
-		private static void ExportSkyChart13(ref StringBuilder sb, List<Comet> list)
+		private static void ExportSkyChart13(ref StringBuilder sb, CometCollection collection)
 		{
 			string format = "P11\t2000.0\t-{0:0.000000}\t{1:0.000000}\t{2:0.0000}\t{3:0.0000}\t{4:0.0000}\t0\t{5}/{6:00}/{7:00}.{8:0000}\t{9:0.0}\t{10:0.0}\t0\t0\t{11}; MPC 00000\n";
 
-			foreach (Comet c in list)
+			foreach (Comet c in collection)
 				sb.AppendFormat(format, c.q, c.e, c.i, c.w, c.N, c.Ty, c.Tm, c.Td, c.Th, c.g, c.k, c.full);
 		}
 
-		private static void ExportVoyager14(ref StringBuilder sb, List<Comet> list)
+		private static void ExportVoyager14(ref StringBuilder sb, CometCollection collection)
 		{
 			string date = String.Empty;
 
 			string format = "{0,-26} {1,9:0.000000}   {2:0.000000}  {3,8:0.0000}   {4,8:0.0000}   {5,8:0.0000}   0.0  {6,-14} 2000.0\n";
 
-			foreach (Comet c in list)
+			foreach (Comet c in collection)
 			{
 				date = String.Format("{0,4}{1}{2}.{3:0000}", c.Ty, Comet.Month[c.Tm - 1], c.Td, c.Th);
 				sb.AppendFormat(format, c.name, c.q, c.e, c.i, c.N, c.w, date);
 			}
 		}
 
-		private static void ExportSkyTools15(ref StringBuilder sb, List<Comet> list)
+		private static void ExportSkyTools15(ref StringBuilder sb, CometCollection collection)
 		{
 			DateTime d = DateTime.UtcNow.Date;
 
 			string format = "C {0,-40} {1} {2:00} {3:00} {4,4} {5:00} {6:00}.{7:000}  {8,9:0.000000}   {9:0.000000} {10,7:0.000} {11,7:0.000} {12,7:0.000}  {13,4:0.0}  {14,4:0.0} 0.002000 MPC 00000\n";
 
-			foreach (Comet c in list)
+			foreach (Comet c in collection)
 				sb.AppendFormat(format, c.full, d.Year, d.Month, d.Day, c.Ty, c.Tm, c.Td, c.Th / 10, c.q, c.e, c.w, c.N, c.i, c.g, c.k);
 		}
 
-		private static void ExportSpaceEngine(ref StringBuilder sb, List<Comet> list)
+		private static void ExportSpaceEngine(ref StringBuilder sb, CometCollection collection)
 		{
-			foreach (Comet c in list)
+			foreach (Comet c in collection)
 			{
 				string full = Char.IsNumber(c.id[0]) ? c.full.Replace('/', ' ') : c.full.Replace("/", "");
 
@@ -432,9 +432,9 @@ namespace Comets.BusinessLayer.Managers
 			}
 		}
 
-		private static void ExportCelestia(ref StringBuilder sb, List<Comet> list)
+		private static void ExportCelestia(ref StringBuilder sb, CometCollection collection)
 		{
-			foreach (Comet c in list)
+			foreach (Comet c in collection)
 			{
 				sb.AppendLine(String.Format("\"{0}\" \"Sol\"", c.full.Replace('/', ' ')));
 				sb.AppendLine("{");

@@ -69,7 +69,7 @@ namespace Comets.Application.ModulOrbit
 
 		private bool ValueChangedByEvent;
 
-		List<Comet> Comets;
+		private CometCollection Comets;
 		private FilterCollection Filters;
 		private string SortProperty;
 		private bool SortAscending;
@@ -132,7 +132,7 @@ namespace Comets.Application.ModulOrbit
 
 		#region Constructor
 
-		public FormOrbitViewer(List<Comet> comets, FilterCollection filters, string sortProperty, bool sortAscending)
+		public FormOrbitViewer(CometCollection comets, FilterCollection filters, string sortProperty, bool sortAscending)
 		{
 			InitializeComponent();
 
@@ -167,7 +167,7 @@ namespace Comets.Application.ModulOrbit
 
 		private void FormOrbit_Load(object sender, System.EventArgs e)
 		{
-			BindList();
+			BindCollection();
 
 			cboTimestep.DataSource = TimeStepItems;
 			cboTimestep.SelectedIndex = 3;
@@ -244,7 +244,7 @@ namespace Comets.Application.ModulOrbit
 
 					OVComets = TransformComets(Comets);
 
-					BindList(lastSelected);
+					BindCollection(lastSelected);
 
 					if (rbtnMultipleMode.Checked)
 						orbitPanel.LoadPanel(OVComets.ToList(), orbitPanel.ATime, cboComet.SelectedIndex);
@@ -257,7 +257,7 @@ namespace Comets.Application.ModulOrbit
 
 		private void btnAll_Click(object sender, EventArgs e)
 		{
-			if (OVComets.Any() && orbitPanel.Comets.Count != OVComets.Count)
+			if (OVComets.Count > 0 && orbitPanel.Comets.Count != OVComets.Count)
 				orbitPanel.LoadPanel(OVComets.ToList(), orbitPanel.ATime, cboComet.SelectedIndex);
 
 			SetFormText();
@@ -767,7 +767,7 @@ namespace Comets.Application.ModulOrbit
 					break;
 
 				case Keys.B:
-					if (ctrl && OVComets.Any())
+					if (ctrl && OVComets.Count > 0)
 						SelectedDateTime = Utils.JDToDateTime(OVComets.ElementAt(cboComet.SelectedIndex).T).ToLocalTime();
 					break;
 
@@ -983,9 +983,9 @@ namespace Comets.Application.ModulOrbit
 
 		#endregion
 
-		#region Methods
+		#region BindCollection
 
-		private void BindList(string name = null)
+		private void BindCollection(string name = null)
 		{
 			ValueChangedByEvent = true;
 
@@ -995,7 +995,7 @@ namespace Comets.Application.ModulOrbit
 
 			ValueChangedByEvent = false;
 
-			if (OVComets.Any())
+			if (OVComets.Count > 0)
 			{
 				if (name != null && OVComets.Any(x => x.Name == name))
 				{
@@ -1021,7 +1021,7 @@ namespace Comets.Application.ModulOrbit
 			pnlToolbox.Visible = visible;
 		}
 
-		private List<OVComet> TransformComets(List<Comet> comets)
+		private List<OVComet> TransformComets(CometCollection comets)
 		{
 			List<OVComet> list = new List<OVComet>();
 

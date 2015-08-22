@@ -24,7 +24,7 @@ namespace Comets.Application
 		private void FormExport_Load(object sender, EventArgs e)
 		{
 			this.cbxExportFormat.DataSource = ElementTypes.TypeName;
-			this.lblTotalComets.Text = FormMain.UserList.Count.ToString();
+			this.lblTotalComets.Text = FormMain.UserCollection.Count.ToString();
 		}
 
 		#endregion
@@ -69,10 +69,10 @@ namespace Comets.Application
 		{
 			string filename = txtSaveAs.Text.Trim();
 
-			if (filename.Length > 0 && FormMain.UserList.Any())
+			if (filename.Length > 0 && FormMain.UserCollection.Count > 0)
 			{
 				ExportType exportType = (ExportType)cbxExportFormat.SelectedIndex;
-				ExporManager.ExportMain(exportType, filename, FormMain.UserList);
+				ExporManager.ExportMain(exportType, filename, FormMain.UserCollection);
 				MessageBox.Show("Export complete.\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 				if (cbxClose.Checked)

@@ -1,7 +1,6 @@
 ﻿using Comets.BusinessLayer.Business;
 using Comets.BusinessLayer.Managers;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -244,9 +243,9 @@ namespace Comets.Application
 
 			if (ImportType < ImportType.NoFileSelected)
 			{
-				List<Comet> newList = ImportManager.ImportMain(FormMain.MainList, ImportType, ImportFilename, false);
+				CometCollection collection = ImportManager.ImportMain(FormMain.MainCollection, ImportType, ImportFilename, false);
 
-				if (newList != null)
+				if (collection.Count > 0)
 				{
 					if (IsUsedDownloadedFile)
 					{
@@ -255,8 +254,8 @@ namespace Comets.Application
 					}
 
 					FormMain.IsDataChanged = true;
-					FormMain.MainList = newList.OrderBy(x => x.sortkey).ToList();
-					FormMain.UserList = newList.OrderBy(x => x.sortkey).ToList();
+					FormMain.MainCollection = new CometCollection(collection);
+					FormMain.UserCollection = new CometCollection(collection);
 
 					isImported = true;
 				}
