@@ -81,24 +81,24 @@ namespace Comets.Application
 
 				ValNum val = (sender as TextBox).Tag as ValNum;
 
-				switch (val.Name)
+				switch (val.DateTimeValue)
 				{
-					case ValNum.NameEnum.Day:
+					case ValNum.DateTimeValueEnum.Day:
 						dt = dt.AddDays(value);
 						break;
-					case ValNum.NameEnum.Month:
+					case ValNum.DateTimeValueEnum.Month:
 						dt = dt.AddMonths(value);
 						break;
-					case ValNum.NameEnum.Year:
+					case ValNum.DateTimeValueEnum.Year:
 						dt = dt.AddYears(value);
 						break;
-					case ValNum.NameEnum.Hour:
+					case ValNum.DateTimeValueEnum.Hour:
 						dt = dt.AddHours(value);
 						break;
-					case ValNum.NameEnum.Minute:
+					case ValNum.DateTimeValueEnum.Minute:
 						dt = dt.AddMinutes(value);
 						break;
-					case ValNum.NameEnum.Second:
+					case ValNum.DateTimeValueEnum.Second:
 						dt = dt.AddSeconds(value);
 						break;
 					default:
@@ -128,7 +128,7 @@ namespace Comets.Application
 				int max = DateTime.DaysInMonth(txtYear.Int(), txtMonth.Int());
 
 				ValNum o = txtDay.Tag as ValNum;
-				ValNum n = new ValNum(o.IMin, max, ValNum.NameEnum.Day);
+				ValNum n = new ValNum(o.IMin, max, ValNum.DateTimeValueEnum.Day);
 
 				if (txtDay.Text.Length > 0 && txtDay.Int() > n.IMax)
 					txtDay.Text = n.IMax.ToString();

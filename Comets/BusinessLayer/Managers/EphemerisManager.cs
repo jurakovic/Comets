@@ -42,7 +42,7 @@ namespace Comets.BusinessLayer.Managers
 			er.EarthDist = dat[9];
 			er.Magnitude = dat[10];
 
-			double[] sundat = SunAlt((double)jd, latitude, longitude);
+			double[] sundat = SunAlt(jd, latitude, longitude);
 			double sunra = sundat[3];
 			double sundec = sundat[4] - (sundat[4] > 180.0 ? 360 : 0);
 
@@ -50,7 +50,7 @@ namespace Comets.BusinessLayer.Managers
 			er.Elongation = sep[0];
 			er.PositionAngle = sep[1];
 
-			er.JD = (double)jd;
+			er.JD = jd;
 
 			return er;
 		}
@@ -227,7 +227,7 @@ namespace Comets.BusinessLayer.Managers
 			double xMin = settings.Start.JD();
 			double xMax = settings.Stop.JD();
 
-			chart1.AntiAliasing = settings.Antialiasing ? AntiAliasingStyles.All : AntiAliasingStyles.Text;
+			chart1.AntiAliasing = settings.AntialiasingChecked ? AntiAliasingStyles.All : AntiAliasingStyles.Text;
 
 			ChartArea chartArea = new ChartArea();
 			chartArea.Name = chartAreaName;
@@ -303,7 +303,7 @@ namespace Comets.BusinessLayer.Managers
 				{
 					Series series = new Series();
 					series.ChartArea = chartAreaName;
-					series.Color = Color.Red;
+					series.Color = settings.MagnitudeColor;
 					series.ChartType = SeriesChartType.Spline;
 					series.XAxisType = AxisType.Secondary;
 					series.XValueType = ChartValueType.DateTime;
@@ -315,23 +315,23 @@ namespace Comets.BusinessLayer.Managers
 				}
 			}
 
-			if (settings.PerihelionLine)
+			if (settings.PerihelionLineChecked)
 			{
 				if (!settings.IsMultipleMode)
-					AddPerihelionLines(chart1, settings.SelectedComet, xMin, xMax, yMin, yMax, chartAreaName);
+					AddPerihelionLines(chart1, settings.SelectedComet, settings.PerihelionLineColor, xMin, xMax, yMin, yMax, chartAreaName);
 				else
 					foreach (Comet c in settings.Comets)
-						AddPerihelionLines(chart1, c, xMin, xMax, yMin, yMax, chartAreaName);
+						AddPerihelionLines(chart1, c, settings.PerihelionLineColor, xMin, xMax, yMin, yMax, chartAreaName);
 			}
 
-			if (settings.NowLine)
+			if (settings.NowLineChecked)
 			{
 				double JDnow = DateTime.Now.JD();
 				if (xMin < JDnow && xMax > JDnow)
 				{
 					Series s = new Series();
 					s.ChartArea = chartAreaName;
-					s.Color = Color.LimeGreen;
+					s.Color = settings.NowLineColor;
 					s.ChartType = SeriesChartType.Line;
 					s.XAxisType = AxisType.Secondary;
 					s.XValueType = ChartValueType.DateTime;
@@ -347,27 +347,27 @@ namespace Comets.BusinessLayer.Managers
 			chart1.Titles.Add(title);
 		}
 
-		private static void AddPerihelionLines(Chart chart1, Comet comet, double xMin, double xMax, double yMin, double yMax, string chartAreaName)
+		private static void AddPerihelionLines(Chart chart1, Comet comet, Color color, double xMin, double xMax, double yMin, double yMax, string chartAreaName)
 		{
-			double T = comet.T;
+			double t = comet.Tn;
 			double periodDays = comet.P * 365.25;
 
-			while (T > xMin + periodDays)
-				T -= periodDays;
+			while (t - periodDays > xMin)
+				t -= periodDays;
 
-			while (T < xMax)
+			while (t < xMax)
 			{
 				Series s = new Series();
 				s.ChartArea = chartAreaName;
-				s.Color = Color.RoyalBlue;
+				s.Color = color;
 				s.ChartType = SeriesChartType.Line;
 				s.XAxisType = AxisType.Secondary;
 				s.XValueType = ChartValueType.DateTime;
-				s.Points.Add(new DataPoint(Utils.JDToDateTime(T).ToLocalTime().ToOADate(), yMin));
-				s.Points.Add(new DataPoint(Utils.JDToDateTime(T).ToLocalTime().ToOADate(), yMax));
+				s.Points.Add(new DataPoint(Utils.JDToDateTime(t).ToLocalTime().ToOADate(), yMin));
+				s.Points.Add(new DataPoint(Utils.JDToDateTime(t).ToLocalTime().ToOADate(), yMax));
 
 				chart1.Series.Add(s);
-				T += periodDays;
+				t += periodDays;
 			}
 		}
 

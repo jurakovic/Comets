@@ -1,26 +1,23 @@
 ﻿using System;
+using System.Drawing;
 
 namespace Comets.BusinessLayer.Business
 {
 	public class GraphSettings : SettingsBase
 	{
-		#region Enum
-
-		public enum DateFormatEnum { Date, JulianDay, JulianDay2, DaysFromT };
-
-		#endregion
-
 		#region Properties
 
 		public DateTime DateStart { get; set; }
 		public DateTime DateStop { get; set; }
 		public int DaysFromTStartValue { get; set; }
 		public int DaysFromTStopValue { get; set; }
-		public DateFormatEnum DateFormat { get; set; }
 		public bool DateRange { get; set; }
-		public bool PerihelionLine { get; set; }
-		public bool NowLine { get; set; }
-		public bool Antialiasing { get; set; }
+		public Color MagnitudeColor { get; set; }
+		public bool PerihelionLineChecked { get; set; }
+		public Color PerihelionLineColor { get; set; }
+		public bool NowLineChecked { get; set; }
+		public Color NowLineColor { get; set; }
+		public bool AntialiasingChecked { get; set; }
 
 		public bool MinGraphMagnitudeChecked { get; set; }
 		public double? MinGraphMagnitudeValue { get; set; }

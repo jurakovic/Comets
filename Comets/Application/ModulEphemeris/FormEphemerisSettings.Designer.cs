@@ -85,7 +85,7 @@
 			this.btnOk.Location = new System.Drawing.Point(601, 314);
 			this.btnOk.Name = "btnOk";
 			this.btnOk.Size = new System.Drawing.Size(100, 24);
-			this.btnOk.TabIndex = 3;
+			this.btnOk.TabIndex = 5;
 			this.btnOk.Text = "OK";
 			this.btnOk.UseVisualStyleBackColor = true;
 			this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
@@ -169,7 +169,7 @@
 			this.gbxTimestamp.Location = new System.Drawing.Point(465, 6);
 			this.gbxTimestamp.Name = "gbxTimestamp";
 			this.gbxTimestamp.Size = new System.Drawing.Size(341, 135);
-			this.gbxTimestamp.TabIndex = 1;
+			this.gbxTimestamp.TabIndex = 2;
 			this.gbxTimestamp.TabStop = false;
 			this.gbxTimestamp.Text = "Timespan (Local Time)";
 			// 
@@ -276,7 +276,7 @@
 			this.gbxOutputData.Location = new System.Drawing.Point(12, 147);
 			this.gbxOutputData.Name = "gbxOutputData";
 			this.gbxOutputData.Size = new System.Drawing.Size(583, 149);
-			this.gbxOutputData.TabIndex = 2;
+			this.gbxOutputData.TabIndex = 3;
 			this.gbxOutputData.TabStop = false;
 			this.gbxOutputData.Text = "Output data";
 			// 
@@ -425,7 +425,7 @@
 			this.btnCancel.Location = new System.Drawing.Point(707, 314);
 			this.btnCancel.Name = "btnCancel";
 			this.btnCancel.Size = new System.Drawing.Size(100, 24);
-			this.btnCancel.TabIndex = 4;
+			this.btnCancel.TabIndex = 6;
 			this.btnCancel.Text = "Cancel";
 			this.btnCancel.UseVisualStyleBackColor = true;
 			this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
@@ -438,7 +438,7 @@
 			this.gbxMode.Location = new System.Drawing.Point(348, 6);
 			this.gbxMode.Name = "gbxMode";
 			this.gbxMode.Size = new System.Drawing.Size(106, 135);
-			this.gbxMode.TabIndex = 5;
+			this.gbxMode.TabIndex = 1;
 			this.gbxMode.TabStop = false;
 			this.gbxMode.Text = "Mode";
 			// 
@@ -484,7 +484,7 @@
 			this.gbxRequirements.Location = new System.Drawing.Point(601, 147);
 			this.gbxRequirements.Name = "gbxRequirements";
 			this.gbxRequirements.Size = new System.Drawing.Size(205, 149);
-			this.gbxRequirements.TabIndex = 6;
+			this.gbxRequirements.TabIndex = 4;
 			this.gbxRequirements.TabStop = false;
 			this.gbxRequirements.Text = "Requirements";
 			// 

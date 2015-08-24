@@ -170,9 +170,9 @@ namespace Comets.Application.ModulEphemeris
 					EphemerisSettings.Filters = fdb.Filters;
 					EphemerisSettings.SortProperty = fdb.SortProperty;
 					EphemerisSettings.SortAscending = fdb.SortAscending;
-				}
 
-				BindCollection();
+					BindCollection();
+				}
 			}
 		}
 

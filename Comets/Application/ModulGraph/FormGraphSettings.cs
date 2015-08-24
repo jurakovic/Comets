@@ -81,9 +81,15 @@ namespace Comets.Application.ModulGraph
 				else
 					rbRangeDaysFromT.Checked = true;
 
-				cbxPerihelionLine.Checked = GraphSettings.PerihelionLine;
-				cbxNowLine.Checked = GraphSettings.NowLine;
-				cbxAntialiasing.Checked = GraphSettings.Antialiasing;
+				pnlMagnitudeColor.BackColor = GraphSettings.MagnitudeColor;
+
+				cbxNowLine.Checked = GraphSettings.NowLineChecked;
+				pnlNowLineColor.BackColor = GraphSettings.NowLineColor;
+
+				cbxPerihelionLine.Checked = GraphSettings.PerihelionLineChecked;
+				pnlPerihLineColor.BackColor = GraphSettings.PerihelionLineColor;
+
+				cbxAntialiasing.Checked = GraphSettings.AntialiasingChecked;
 
 				txtMinMag.Text = GraphSettings.MinGraphMagnitudeValue != null ? GraphSettings.MinGraphMagnitudeValue.Value.ToString() : String.Empty;
 				cbxMinMag.Checked = GraphSettings.MinGraphMagnitudeChecked;
@@ -159,9 +165,29 @@ namespace Comets.Application.ModulGraph
 					GraphSettings.Filters = fdb.Filters;
 					GraphSettings.SortProperty = fdb.SortProperty;
 					GraphSettings.SortAscending = fdb.SortAscending;
-				}
 
-				BindCollection();
+					BindCollection();
+				}
+			}
+		}
+
+		#endregion
+
+		#region Chart options
+
+		private void pnColorCommon_Click(object sender, EventArgs e)
+		{
+			Panel pnl = sender as Panel;
+
+			using (ColorDialog cd = new ColorDialog())
+			{
+				cd.Color = pnl.BackColor;
+				cd.FullOpen = true;
+
+				if (cd.ShowDialog() == DialogResult.OK)
+				{
+					pnl.BackColor = cd.Color;
+				}
 			}
 		}
 
@@ -329,18 +355,15 @@ namespace Comets.Application.ModulGraph
 				GraphSettings.DaysFromTStartValue = txtDaysFromTStart.Int();
 				GraphSettings.DaysFromTStopValue = txtDaysFromTStop.Int();
 
-				if (rbDate.Checked)
-					GraphSettings.DateFormat = GraphSettings.DateFormatEnum.Date;
-				if (rbJulianDay.Checked)
-					GraphSettings.DateFormat = GraphSettings.DateFormatEnum.JulianDay;
-				if (rbJulianDay2.Checked)
-					GraphSettings.DateFormat = GraphSettings.DateFormatEnum.JulianDay2;
-				if (rbDaysFromT.Checked)
-					GraphSettings.DateFormat = GraphSettings.DateFormatEnum.DaysFromT;
+				GraphSettings.MagnitudeColor = pnlMagnitudeColor.BackColor;
 
-				GraphSettings.PerihelionLine = cbxPerihelionLine.Checked;
-				GraphSettings.NowLine = cbxNowLine.Checked;
-				GraphSettings.Antialiasing = cbxAntialiasing.Checked;
+				GraphSettings.NowLineChecked = cbxNowLine.Checked;
+				GraphSettings.NowLineColor = pnlNowLineColor.BackColor;
+
+				GraphSettings.PerihelionLineChecked = cbxPerihelionLine.Checked;
+				GraphSettings.PerihelionLineColor = pnlPerihLineColor.BackColor;
+				
+				GraphSettings.AntialiasingChecked = cbxAntialiasing.Checked;
 
 				GraphSettings.MinGraphMagnitudeChecked = cbxMinMag.Checked;
 				GraphSettings.MinGraphMagnitudeValue = txtMinMag.TextLength > 0 ? (double?)txtMinMag.Double() : null;

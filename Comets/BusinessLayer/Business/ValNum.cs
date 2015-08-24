@@ -8,20 +8,18 @@ namespace Comets.BusinessLayer.Business
 	{
 		#region Enum
 
-		public enum NameEnum { Unspecified = 0, Day, Month, Year, Hour, Minute, Second };
+		public enum DateTimeValueEnum { None = 0, Day, Month, Year, Hour, Minute, Second };
 
 		#endregion
 
 		#region Const
 
-		//private static int DefaultValue = 1000;
-
-		public static ValNum VDay = new ValNum(1, 31, NameEnum.Day);
-		public static ValNum VMonth = new ValNum(1, 12, NameEnum.Month);
-		public static ValNum VYear = new ValNum(1, 9999, NameEnum.Year);
-		public static ValNum VHour = new ValNum(0, 23, NameEnum.Hour);
-		public static ValNum VMinute = new ValNum(0, 59, NameEnum.Minute);
-		public static ValNum VSecond = new ValNum(0, 59, NameEnum.Second);
+		public static ValNum VDay = new ValNum(1, 31, DateTimeValueEnum.Day);
+		public static ValNum VMonth = new ValNum(1, 12, DateTimeValueEnum.Month);
+		public static ValNum VYear = new ValNum(1, 9999, DateTimeValueEnum.Year);
+		public static ValNum VHour = new ValNum(0, 23, DateTimeValueEnum.Hour);
+		public static ValNum VMinute = new ValNum(0, 59, DateTimeValueEnum.Minute);
+		public static ValNum VSecond = new ValNum(0, 59, DateTimeValueEnum.Second);
 
 		#endregion
 
@@ -30,7 +28,7 @@ namespace Comets.BusinessLayer.Business
 		double _min;
 		double _max;
 		int _dec;
-		NameEnum _name;
+		DateTimeValueEnum _dateTimeValue;
 
 		#endregion
 
@@ -79,9 +77,9 @@ namespace Comets.BusinessLayer.Business
 		/// <summary>
 		/// Name
 		/// </summary>
-		public NameEnum Name
+		public DateTimeValueEnum DateTimeValue
 		{
-			get { return _name; }
+			get { return _dateTimeValue; }
 		}
 
 		#endregion
@@ -94,13 +92,13 @@ namespace Comets.BusinessLayer.Business
 		/// <param name="length"></param>
 		/// <param name="minimum"></param>
 		/// <param name="maximum"></param>
-		/// <param name="name"></param>
-		public ValNum(int minimum, int maximum, NameEnum name)
+		/// <param name="dateTimeValue"></param>
+		public ValNum(int minimum, int maximum, DateTimeValueEnum dateTimeValue)
 		{
 			_min = minimum;
 			_max = maximum;
 			_dec = 0;
-			_name = name;
+			_dateTimeValue = dateTimeValue;
 		}
 
 		/// <summary>
@@ -114,7 +112,7 @@ namespace Comets.BusinessLayer.Business
 			_min = minimum;
 			_max = maximum;
 			_dec = 0;
-			_name = NameEnum.Unspecified;
+			_dateTimeValue = DateTimeValueEnum.None;
 		}
 
 		/// <summary>
@@ -128,7 +126,7 @@ namespace Comets.BusinessLayer.Business
 			_min = minimum;
 			_max = maximum;
 			_dec = decimals;
-			_name = NameEnum.Unspecified;
+			_dateTimeValue = DateTimeValueEnum.None;
 		}
 
 		#endregion

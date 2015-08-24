@@ -49,12 +49,11 @@
 			this.label1 = new System.Windows.Forms.Label();
 			this.rbRangeDaysFromT = new System.Windows.Forms.RadioButton();
 			this.rbRangeDate = new System.Windows.Forms.RadioButton();
-			this.gbxDateFormat = new System.Windows.Forms.GroupBox();
-			this.rbDaysFromT = new System.Windows.Forms.RadioButton();
-			this.rbJulianDay2 = new System.Windows.Forms.RadioButton();
-			this.rbJulianDay = new System.Windows.Forms.RadioButton();
-			this.rbDate = new System.Windows.Forms.RadioButton();
 			this.gbxChartOptions = new System.Windows.Forms.GroupBox();
+			this.cbxMagnitude = new System.Windows.Forms.CheckBox();
+			this.pnlPerihLineColor = new System.Windows.Forms.Panel();
+			this.pnlNowLineColor = new System.Windows.Forms.Panel();
+			this.pnlMagnitudeColor = new System.Windows.Forms.Panel();
 			this.cbxAntialiasing = new System.Windows.Forms.CheckBox();
 			this.cbxNowLine = new System.Windows.Forms.CheckBox();
 			this.cbxPerihelionLine = new System.Windows.Forms.CheckBox();
@@ -68,11 +67,11 @@
 			this.lblMultipleCount = new System.Windows.Forms.Label();
 			this.rbtnMultiple = new System.Windows.Forms.RadioButton();
 			this.rbtnSingle = new System.Windows.Forms.RadioButton();
+			this.label5 = new System.Windows.Forms.Label();
 			this.gbxSelectComet.SuspendLayout();
 			this.gbxTimespan.SuspendLayout();
 			this.pnlRangeDaysFromT.SuspendLayout();
 			this.pnlRangeDate.SuspendLayout();
-			this.gbxDateFormat.SuspendLayout();
 			this.gbxChartOptions.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.gbxMode.SuspendLayout();
@@ -81,8 +80,9 @@
 			// btnOk
 			// 
 			this.btnOk.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
+			this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnOk.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.btnOk.Location = new System.Drawing.Point(568, 250);
+			this.btnOk.Location = new System.Drawing.Point(492, 250);
 			this.btnOk.Name = "btnOk";
 			this.btnOk.Size = new System.Drawing.Size(100, 24);
 			this.btnOk.TabIndex = 5;
@@ -121,7 +121,7 @@
 			this.lblPeriod.Location = new System.Drawing.Point(10, 104);
 			this.lblPeriod.Name = "lblPeriod";
 			this.lblPeriod.Size = new System.Drawing.Size(41, 13);
-			this.lblPeriod.TabIndex = 300;
+			this.lblPeriod.TabIndex = 4;
 			this.lblPeriod.Text = "Period:";
 			// 
 			// lblPerihDist
@@ -130,7 +130,7 @@
 			this.lblPerihDist.Location = new System.Drawing.Point(10, 77);
 			this.lblPerihDist.Name = "lblPerihDist";
 			this.lblPerihDist.Size = new System.Drawing.Size(100, 13);
-			this.lblPerihDist.TabIndex = 299;
+			this.lblPerihDist.TabIndex = 3;
 			this.lblPerihDist.Text = "Perihelion distance:";
 			// 
 			// lblPerihDate
@@ -139,7 +139,7 @@
 			this.lblPerihDate.Location = new System.Drawing.Point(10, 50);
 			this.lblPerihDate.Name = "lblPerihDate";
 			this.lblPerihDate.Size = new System.Drawing.Size(82, 13);
-			this.lblPerihDate.TabIndex = 298;
+			this.lblPerihDate.TabIndex = 2;
 			this.lblPerihDate.Text = "Perihelion date:";
 			// 
 			// cbComet
@@ -163,14 +163,13 @@
 			this.gbxTimespan.Controls.Add(this.rbRangeDate);
 			this.gbxTimespan.Location = new System.Drawing.Point(12, 147);
 			this.gbxTimespan.Name = "gbxTimespan";
-			this.gbxTimespan.Size = new System.Drawing.Size(602, 83);
+			this.gbxTimespan.Size = new System.Drawing.Size(524, 83);
 			this.gbxTimespan.TabIndex = 3;
 			this.gbxTimespan.TabStop = false;
 			this.gbxTimespan.Text = "Timespan";
 			// 
 			// pnlRangeDaysFromT
 			// 
-			this.pnlRangeDaysFromT.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
 			this.pnlRangeDaysFromT.Controls.Add(this.btnTimespanDaysFromTDefault);
 			this.pnlRangeDaysFromT.Controls.Add(this.txtDaysFromTStop);
 			this.pnlRangeDaysFromT.Controls.Add(this.txtDaysFromTStart);
@@ -180,7 +179,7 @@
 			this.pnlRangeDaysFromT.Location = new System.Drawing.Point(148, 45);
 			this.pnlRangeDaysFromT.Name = "pnlRangeDaysFromT";
 			this.pnlRangeDaysFromT.Size = new System.Drawing.Size(362, 27);
-			this.pnlRangeDaysFromT.TabIndex = 1;
+			this.pnlRangeDaysFromT.TabIndex = 3;
 			// 
 			// btnTimespanDaysFromTDefault
 			// 
@@ -242,14 +241,13 @@
 			// 
 			// pnlRangeDate
 			// 
-			this.pnlRangeDate.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
 			this.pnlRangeDate.Controls.Add(this.btnEndDate);
 			this.pnlRangeDate.Controls.Add(this.btnStartDate);
 			this.pnlRangeDate.Controls.Add(this.label1);
 			this.pnlRangeDate.Location = new System.Drawing.Point(148, 15);
 			this.pnlRangeDate.Name = "pnlRangeDate";
 			this.pnlRangeDate.Size = new System.Drawing.Size(362, 27);
-			this.pnlRangeDate.TabIndex = 0;
+			this.pnlRangeDate.TabIndex = 1;
 			// 
 			// btnEndDate
 			// 
@@ -302,75 +300,68 @@
 			this.rbRangeDate.Text = "Date";
 			this.rbRangeDate.UseVisualStyleBackColor = true;
 			// 
-			// gbxDateFormat
-			// 
-			this.gbxDateFormat.Controls.Add(this.rbDaysFromT);
-			this.gbxDateFormat.Controls.Add(this.rbJulianDay2);
-			this.gbxDateFormat.Controls.Add(this.rbJulianDay);
-			this.gbxDateFormat.Controls.Add(this.rbDate);
-			this.gbxDateFormat.Location = new System.Drawing.Point(465, 6);
-			this.gbxDateFormat.Name = "gbxDateFormat";
-			this.gbxDateFormat.Size = new System.Drawing.Size(149, 135);
-			this.gbxDateFormat.TabIndex = 1;
-			this.gbxDateFormat.TabStop = false;
-			this.gbxDateFormat.Text = "Date Format";
-			// 
-			// rbDaysFromT
-			// 
-			this.rbDaysFromT.AutoSize = true;
-			this.rbDaysFromT.Location = new System.Drawing.Point(15, 102);
-			this.rbDaysFromT.Name = "rbDaysFromT";
-			this.rbDaysFromT.Size = new System.Drawing.Size(83, 17);
-			this.rbDaysFromT.TabIndex = 3;
-			this.rbDaysFromT.TabStop = true;
-			this.rbDaysFromT.Text = "Days from T";
-			this.rbDaysFromT.UseVisualStyleBackColor = true;
-			// 
-			// rbJulianDay2
-			// 
-			this.rbJulianDay2.AutoSize = true;
-			this.rbJulianDay2.Location = new System.Drawing.Point(15, 75);
-			this.rbJulianDay2.Name = "rbJulianDay2";
-			this.rbJulianDay2.Size = new System.Drawing.Size(126, 17);
-			this.rbJulianDay2.TabIndex = 2;
-			this.rbJulianDay2.TabStop = true;
-			this.rbJulianDay2.Text = "Julian Day - 2450000";
-			this.rbJulianDay2.UseVisualStyleBackColor = true;
-			// 
-			// rbJulianDay
-			// 
-			this.rbJulianDay.AutoSize = true;
-			this.rbJulianDay.Location = new System.Drawing.Point(15, 48);
-			this.rbJulianDay.Name = "rbJulianDay";
-			this.rbJulianDay.Size = new System.Drawing.Size(74, 17);
-			this.rbJulianDay.TabIndex = 1;
-			this.rbJulianDay.TabStop = true;
-			this.rbJulianDay.Text = "Julian Day";
-			this.rbJulianDay.UseVisualStyleBackColor = true;
-			// 
-			// rbDate
-			// 
-			this.rbDate.AutoSize = true;
-			this.rbDate.Checked = true;
-			this.rbDate.Location = new System.Drawing.Point(15, 21);
-			this.rbDate.Name = "rbDate";
-			this.rbDate.Size = new System.Drawing.Size(48, 17);
-			this.rbDate.TabIndex = 0;
-			this.rbDate.TabStop = true;
-			this.rbDate.Text = "Date";
-			this.rbDate.UseVisualStyleBackColor = true;
-			// 
 			// gbxChartOptions
 			// 
+			this.gbxChartOptions.Controls.Add(this.label5);
+			this.gbxChartOptions.Controls.Add(this.cbxMagnitude);
+			this.gbxChartOptions.Controls.Add(this.pnlPerihLineColor);
+			this.gbxChartOptions.Controls.Add(this.pnlNowLineColor);
+			this.gbxChartOptions.Controls.Add(this.pnlMagnitudeColor);
 			this.gbxChartOptions.Controls.Add(this.cbxAntialiasing);
 			this.gbxChartOptions.Controls.Add(this.cbxNowLine);
 			this.gbxChartOptions.Controls.Add(this.cbxPerihelionLine);
-			this.gbxChartOptions.Location = new System.Drawing.Point(625, 6);
+			this.gbxChartOptions.Location = new System.Drawing.Point(465, 6);
 			this.gbxChartOptions.Name = "gbxChartOptions";
-			this.gbxChartOptions.Size = new System.Drawing.Size(149, 135);
+			this.gbxChartOptions.Size = new System.Drawing.Size(232, 135);
 			this.gbxChartOptions.TabIndex = 2;
 			this.gbxChartOptions.TabStop = false;
 			this.gbxChartOptions.Text = "Chart options";
+			// 
+			// cbxMagnitude
+			// 
+			this.cbxMagnitude.AutoSize = true;
+			this.cbxMagnitude.Checked = true;
+			this.cbxMagnitude.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.cbxMagnitude.Enabled = false;
+			this.cbxMagnitude.Location = new System.Drawing.Point(15, 21);
+			this.cbxMagnitude.Name = "cbxMagnitude";
+			this.cbxMagnitude.Size = new System.Drawing.Size(29, 17);
+			this.cbxMagnitude.TabIndex = 6;
+			this.cbxMagnitude.Text = " ";
+			this.cbxMagnitude.UseVisualStyleBackColor = true;
+			// 
+			// pnlPerihLineColor
+			// 
+			this.pnlPerihLineColor.BackColor = System.Drawing.Color.RoyalBlue;
+			this.pnlPerihLineColor.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.pnlPerihLineColor.Location = new System.Drawing.Point(177, 72);
+			this.pnlPerihLineColor.Name = "pnlPerihLineColor";
+			this.pnlPerihLineColor.Size = new System.Drawing.Size(25, 20);
+			this.pnlPerihLineColor.TabIndex = 5;
+			this.pnlPerihLineColor.TabStop = true;
+			this.pnlPerihLineColor.Click += new System.EventHandler(this.pnColorCommon_Click);
+			// 
+			// pnlNowLineColor
+			// 
+			this.pnlNowLineColor.BackColor = System.Drawing.Color.LimeGreen;
+			this.pnlNowLineColor.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.pnlNowLineColor.Location = new System.Drawing.Point(177, 45);
+			this.pnlNowLineColor.Name = "pnlNowLineColor";
+			this.pnlNowLineColor.Size = new System.Drawing.Size(25, 20);
+			this.pnlNowLineColor.TabIndex = 3;
+			this.pnlNowLineColor.TabStop = true;
+			this.pnlNowLineColor.Click += new System.EventHandler(this.pnColorCommon_Click);
+			// 
+			// pnlMagnitudeColor
+			// 
+			this.pnlMagnitudeColor.BackColor = System.Drawing.Color.Red;
+			this.pnlMagnitudeColor.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.pnlMagnitudeColor.Location = new System.Drawing.Point(177, 19);
+			this.pnlMagnitudeColor.Name = "pnlMagnitudeColor";
+			this.pnlMagnitudeColor.Size = new System.Drawing.Size(25, 20);
+			this.pnlMagnitudeColor.TabIndex = 1;
+			this.pnlMagnitudeColor.TabStop = true;
+			this.pnlMagnitudeColor.Click += new System.EventHandler(this.pnColorCommon_Click);
 			// 
 			// cbxAntialiasing
 			// 
@@ -378,7 +369,7 @@
 			this.cbxAntialiasing.Location = new System.Drawing.Point(15, 102);
 			this.cbxAntialiasing.Name = "cbxAntialiasing";
 			this.cbxAntialiasing.Size = new System.Drawing.Size(80, 17);
-			this.cbxAntialiasing.TabIndex = 2;
+			this.cbxAntialiasing.TabIndex = 6;
 			this.cbxAntialiasing.Text = "Antialiasing";
 			this.cbxAntialiasing.UseVisualStyleBackColor = true;
 			// 
@@ -390,7 +381,7 @@
 			this.cbxNowLine.Location = new System.Drawing.Point(15, 48);
 			this.cbxNowLine.Name = "cbxNowLine";
 			this.cbxNowLine.Size = new System.Drawing.Size(66, 17);
-			this.cbxNowLine.TabIndex = 1;
+			this.cbxNowLine.TabIndex = 2;
 			this.cbxNowLine.Text = "Now line";
 			this.cbxNowLine.UseVisualStyleBackColor = true;
 			// 
@@ -399,10 +390,10 @@
 			this.cbxPerihelionLine.AutoSize = true;
 			this.cbxPerihelionLine.Checked = true;
 			this.cbxPerihelionLine.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.cbxPerihelionLine.Location = new System.Drawing.Point(15, 21);
+			this.cbxPerihelionLine.Location = new System.Drawing.Point(15, 75);
 			this.cbxPerihelionLine.Name = "cbxPerihelionLine";
 			this.cbxPerihelionLine.Size = new System.Drawing.Size(91, 17);
-			this.cbxPerihelionLine.TabIndex = 0;
+			this.cbxPerihelionLine.TabIndex = 4;
 			this.cbxPerihelionLine.Text = "Perihelion line";
 			this.cbxPerihelionLine.UseVisualStyleBackColor = true;
 			// 
@@ -412,7 +403,7 @@
 			this.groupBox1.Controls.Add(this.txtMinMag);
 			this.groupBox1.Controls.Add(this.cbxMaxMag);
 			this.groupBox1.Controls.Add(this.cbxMinMag);
-			this.groupBox1.Location = new System.Drawing.Point(625, 147);
+			this.groupBox1.Location = new System.Drawing.Point(548, 147);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(149, 83);
 			this.groupBox1.TabIndex = 4;
@@ -423,7 +414,7 @@
 			// 
 			this.txtMaxMag.Location = new System.Drawing.Point(94, 47);
 			this.txtMaxMag.Name = "txtMaxMag";
-			this.txtMaxMag.Size = new System.Drawing.Size(49, 21);
+			this.txtMaxMag.Size = new System.Drawing.Size(45, 21);
 			this.txtMaxMag.TabIndex = 3;
 			this.txtMaxMag.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.txtMaxMag.TextChanged += new System.EventHandler(this.txtMaxMag_TextChanged);
@@ -433,7 +424,7 @@
 			// 
 			this.txtMinMag.Location = new System.Drawing.Point(94, 20);
 			this.txtMinMag.Name = "txtMinMag";
-			this.txtMinMag.Size = new System.Drawing.Size(49, 21);
+			this.txtMinMag.Size = new System.Drawing.Size(45, 21);
 			this.txtMinMag.TabIndex = 1;
 			this.txtMinMag.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.txtMinMag.TextChanged += new System.EventHandler(this.txtMinMag_TextChanged);
@@ -461,8 +452,9 @@
 			// 
 			// btnCancel
 			// 
+			this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.btnCancel.Location = new System.Drawing.Point(674, 250);
+			this.btnCancel.Location = new System.Drawing.Point(598, 250);
 			this.btnCancel.Name = "btnCancel";
 			this.btnCancel.Size = new System.Drawing.Size(100, 24);
 			this.btnCancel.TabIndex = 6;
@@ -478,7 +470,7 @@
 			this.gbxMode.Location = new System.Drawing.Point(348, 6);
 			this.gbxMode.Name = "gbxMode";
 			this.gbxMode.Size = new System.Drawing.Size(106, 135);
-			this.gbxMode.TabIndex = 7;
+			this.gbxMode.TabIndex = 1;
 			this.gbxMode.TabStop = false;
 			this.gbxMode.Text = "Mode";
 			// 
@@ -488,7 +480,7 @@
 			this.lblMultipleCount.Location = new System.Drawing.Point(30, 77);
 			this.lblMultipleCount.Name = "lblMultipleCount";
 			this.lblMultipleCount.Size = new System.Drawing.Size(51, 13);
-			this.lblMultipleCount.TabIndex = 3;
+			this.lblMultipleCount.TabIndex = 2;
 			this.lblMultipleCount.Text = "N comets";
 			// 
 			// rbtnMultiple
@@ -513,17 +505,25 @@
 			this.rbtnSingle.Text = "Single";
 			this.rbtnSingle.UseVisualStyleBackColor = true;
 			// 
+			// label5
+			// 
+			this.label5.AutoSize = true;
+			this.label5.Location = new System.Drawing.Point(31, 22);
+			this.label5.Name = "label5";
+			this.label5.Size = new System.Drawing.Size(57, 13);
+			this.label5.TabIndex = 0;
+			this.label5.Text = "Magnitude";
+			// 
 			// FormGraphSettings
 			// 
 			this.AcceptButton = this.btnOk;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.btnCancel;
-			this.ClientSize = new System.Drawing.Size(787, 291);
+			this.ClientSize = new System.Drawing.Size(711, 291);
 			this.Controls.Add(this.gbxMode);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.gbxChartOptions);
-			this.Controls.Add(this.gbxDateFormat);
 			this.Controls.Add(this.gbxTimespan);
 			this.Controls.Add(this.gbxSelectComet);
 			this.Controls.Add(this.btnOk);
@@ -547,8 +547,6 @@
 			this.pnlRangeDaysFromT.PerformLayout();
 			this.pnlRangeDate.ResumeLayout(false);
 			this.pnlRangeDate.PerformLayout();
-			this.gbxDateFormat.ResumeLayout(false);
-			this.gbxDateFormat.PerformLayout();
 			this.gbxChartOptions.ResumeLayout(false);
 			this.gbxChartOptions.PerformLayout();
 			this.groupBox1.ResumeLayout(false);
@@ -570,11 +568,6 @@
 		private System.Windows.Forms.ComboBox cbComet;
 		private System.Windows.Forms.RadioButton rbRangeDaysFromT;
 		private System.Windows.Forms.RadioButton rbRangeDate;
-		private System.Windows.Forms.GroupBox gbxDateFormat;
-		private System.Windows.Forms.RadioButton rbDaysFromT;
-		private System.Windows.Forms.RadioButton rbJulianDay2;
-		private System.Windows.Forms.RadioButton rbJulianDay;
-		private System.Windows.Forms.RadioButton rbDate;
 		private System.Windows.Forms.Panel pnlRangeDaysFromT;
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.Label label3;
@@ -601,5 +594,10 @@
 		private System.Windows.Forms.RadioButton rbtnMultiple;
 		private System.Windows.Forms.RadioButton rbtnSingle;
 		private System.Windows.Forms.Label lblMultipleCount;
+		private System.Windows.Forms.Panel pnlNowLineColor;
+		private System.Windows.Forms.Panel pnlMagnitudeColor;
+		private System.Windows.Forms.CheckBox cbxMagnitude;
+		private System.Windows.Forms.Panel pnlPerihLineColor;
+		private System.Windows.Forms.Label label5;
 	}
 }
