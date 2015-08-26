@@ -311,9 +311,9 @@
 			this.cbxMagDist.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.cbxMagDist.Location = new System.Drawing.Point(9, 20);
 			this.cbxMagDist.Name = "cbxMagDist";
-			this.cbxMagDist.Size = new System.Drawing.Size(140, 17);
+			this.cbxMagDist.Size = new System.Drawing.Size(145, 17);
 			this.cbxMagDist.TabIndex = 0;
-			this.cbxMagDist.Text = "Magnutide and distance";
+			this.cbxMagDist.Text = "Magnitude and distances";
 			this.cbxMagDist.UseVisualStyleBackColor = true;
 			this.cbxMagDist.CheckedChanged += new System.EventHandler(this.cbxMagDist_CheckedChanged);
 			// 

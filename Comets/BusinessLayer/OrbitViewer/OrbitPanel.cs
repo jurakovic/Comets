@@ -654,7 +654,12 @@ namespace Comets.OrbitViewer
 					for (int j = 1; j <= cometOrbits[i].Division; j++)
 					{
 						xyz = cometOrbits[i].GetAt(j).Rotate(MtxToEcl);
-						pen.Color = xyz.Z >= 0.0 ? ColorCometOrbitUpper : ColorCometOrbitLower;
+
+						if (MultipleMode && Comets.Count > 1 && OrbitDisplay.Contains(Object.Comet) && PreserveSelectedOrbit && i == SelectedIndex)
+							pen.Color = xyz.Z >= 0.0 ? Color.Gold : Color.DarkOrange;
+						else
+							pen.Color = xyz.Z >= 0.0 ? ColorCometOrbitUpper : ColorCometOrbitLower;
+
 						xyz = xyz.Rotate(MtxRotate);
 						point2 = GetDrawPoint(xyz);
 						graphics.DrawLine(pen, point1.X, point1.Y, point2.X, point2.Y);
@@ -701,7 +706,7 @@ namespace Comets.OrbitViewer
 
 				if ((LabelDisplay.Contains(Object.Comet)) || (PreserveSelectedLabel && i == SelectedIndex))
 				{
-					if (MultipleMode && i == SelectedIndex)
+					if (MultipleMode && Comets.Count > 1 && LabelDisplay.Contains(Object.Comet) && PreserveSelectedLabel && i == SelectedIndex)
 						sb.Color = ColorCometNameSelected;
 					else
 						sb.Color = ColorCometName;

@@ -50,6 +50,7 @@
 			this.rbRangeDaysFromT = new System.Windows.Forms.RadioButton();
 			this.rbRangeDate = new System.Windows.Forms.RadioButton();
 			this.gbxChartOptions = new System.Windows.Forms.GroupBox();
+			this.label5 = new System.Windows.Forms.Label();
 			this.cbxMagnitude = new System.Windows.Forms.CheckBox();
 			this.pnlPerihLineColor = new System.Windows.Forms.Panel();
 			this.pnlNowLineColor = new System.Windows.Forms.Panel();
@@ -67,7 +68,6 @@
 			this.lblMultipleCount = new System.Windows.Forms.Label();
 			this.rbtnMultiple = new System.Windows.Forms.RadioButton();
 			this.rbtnSingle = new System.Windows.Forms.RadioButton();
-			this.label5 = new System.Windows.Forms.Label();
 			this.gbxSelectComet.SuspendLayout();
 			this.gbxTimespan.SuspendLayout();
 			this.pnlRangeDaysFromT.SuspendLayout();
@@ -317,6 +317,15 @@
 			this.gbxChartOptions.TabStop = false;
 			this.gbxChartOptions.Text = "Chart options";
 			// 
+			// label5
+			// 
+			this.label5.AutoSize = true;
+			this.label5.Location = new System.Drawing.Point(31, 22);
+			this.label5.Name = "label5";
+			this.label5.Size = new System.Drawing.Size(57, 13);
+			this.label5.TabIndex = 0;
+			this.label5.Text = "Magnitude";
+			// 
 			// cbxMagnitude
 			// 
 			this.cbxMagnitude.AutoSize = true;
@@ -408,7 +417,7 @@
 			this.groupBox1.Size = new System.Drawing.Size(149, 83);
 			this.groupBox1.TabIndex = 4;
 			this.groupBox1.TabStop = false;
-			this.groupBox1.Text = "Magnitude";
+			this.groupBox1.Text = "Magnitude range";
 			// 
 			// txtMaxMag
 			// 
@@ -504,15 +513,6 @@
 			this.rbtnSingle.TabStop = true;
 			this.rbtnSingle.Text = "Single";
 			this.rbtnSingle.UseVisualStyleBackColor = true;
-			// 
-			// label5
-			// 
-			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(31, 22);
-			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(57, 13);
-			this.label5.TabIndex = 0;
-			this.label5.Text = "Magnitude";
 			// 
 			// FormGraphSettings
 			// 

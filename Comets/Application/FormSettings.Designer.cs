@@ -31,6 +31,7 @@
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabGeneral = new System.Windows.Forms.TabPage();
 			this.gbxGeneral = new System.Windows.Forms.GroupBox();
+			this.cbxIgnoreLongCalculationWarning = new System.Windows.Forms.CheckBox();
 			this.lblDays = new System.Windows.Forms.Label();
 			this.txtUpdateInterval = new System.Windows.Forms.TextBox();
 			this.chShowStatusBar = new System.Windows.Forms.CheckBox();
@@ -82,9 +83,8 @@
 			this.lblPassword = new System.Windows.Forms.Label();
 			this.rbManualProxy = new System.Windows.Forms.RadioButton();
 			this.rbNoProxy = new System.Windows.Forms.RadioButton();
-			this.btnClose = new System.Windows.Forms.Button();
-			this.btnOK = new System.Windows.Forms.Button();
-			this.cbxIgnoreLongCalculationWarning = new System.Windows.Forms.CheckBox();
+			this.btnCancel = new System.Windows.Forms.Button();
+			this.btnOk = new System.Windows.Forms.Button();
 			this.tabControl1.SuspendLayout();
 			this.tabGeneral.SuspendLayout();
 			this.gbxGeneral.SuspendLayout();
@@ -101,8 +101,7 @@
 			// 
 			// tabControl1
 			// 
-			this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+			this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.tabControl1.Controls.Add(this.tabGeneral);
 			this.tabControl1.Controls.Add(this.tabLocation);
@@ -144,6 +143,16 @@
 			this.gbxGeneral.Size = new System.Drawing.Size(668, 228);
 			this.gbxGeneral.TabIndex = 0;
 			this.gbxGeneral.TabStop = false;
+			// 
+			// cbxIgnoreLongCalculationWarning
+			// 
+			this.cbxIgnoreLongCalculationWarning.AutoSize = true;
+			this.cbxIgnoreLongCalculationWarning.Location = new System.Drawing.Point(13, 90);
+			this.cbxIgnoreLongCalculationWarning.Name = "cbxIgnoreLongCalculationWarning";
+			this.cbxIgnoreLongCalculationWarning.Size = new System.Drawing.Size(175, 17);
+			this.cbxIgnoreLongCalculationWarning.TabIndex = 11;
+			this.cbxIgnoreLongCalculationWarning.Text = "Ignore long calculation warning";
+			this.cbxIgnoreLongCalculationWarning.UseVisualStyleBackColor = true;
 			// 
 			// lblDays
 			// 
@@ -710,48 +719,38 @@
 			this.rbNoProxy.UseVisualStyleBackColor = true;
 			this.rbNoProxy.CheckedChanged += new System.EventHandler(this.rbCommon_CheckedChanged);
 			// 
-			// btnClose
+			// btnCancel
 			// 
-			this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.btnClose.Location = new System.Drawing.Point(599, 351);
-			this.btnClose.Name = "btnClose";
-			this.btnClose.Size = new System.Drawing.Size(100, 24);
-			this.btnClose.TabIndex = 2;
-			this.btnClose.Text = "Close";
-			this.btnClose.UseVisualStyleBackColor = true;
-			this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
+			this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			this.btnCancel.Location = new System.Drawing.Point(599, 345);
+			this.btnCancel.Name = "btnCancel";
+			this.btnCancel.Size = new System.Drawing.Size(100, 24);
+			this.btnCancel.TabIndex = 2;
+			this.btnCancel.Text = "Cancel";
+			this.btnCancel.UseVisualStyleBackColor = true;
+			this.btnCancel.Click += new System.EventHandler(this.btnClose_Click);
 			// 
-			// btnOK
+			// btnOk
 			// 
-			this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnOK.Location = new System.Drawing.Point(493, 351);
-			this.btnOK.Name = "btnOK";
-			this.btnOK.Size = new System.Drawing.Size(100, 24);
-			this.btnOK.TabIndex = 1;
-			this.btnOK.Text = "OK";
-			this.btnOK.UseVisualStyleBackColor = true;
-			this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
-			// 
-			// cbxIgnoreLongCalculationWarning
-			// 
-			this.cbxIgnoreLongCalculationWarning.AutoSize = true;
-			this.cbxIgnoreLongCalculationWarning.Location = new System.Drawing.Point(13, 90);
-			this.cbxIgnoreLongCalculationWarning.Name = "cbxIgnoreLongCalculationWarning";
-			this.cbxIgnoreLongCalculationWarning.Size = new System.Drawing.Size(175, 17);
-			this.cbxIgnoreLongCalculationWarning.TabIndex = 11;
-			this.cbxIgnoreLongCalculationWarning.Text = "Ignore long calculation warning";
-			this.cbxIgnoreLongCalculationWarning.UseVisualStyleBackColor = true;
+			this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnOk.Location = new System.Drawing.Point(493, 345);
+			this.btnOk.Name = "btnOk";
+			this.btnOk.Size = new System.Drawing.Size(100, 24);
+			this.btnOk.TabIndex = 1;
+			this.btnOk.Text = "OK";
+			this.btnOk.UseVisualStyleBackColor = true;
+			this.btnOk.Click += new System.EventHandler(this.btnOK_Click);
 			// 
 			// FormSettings
 			// 
-			this.AcceptButton = this.btnOK;
+			this.AcceptButton = this.btnOk;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.CancelButton = this.btnClose;
-			this.ClientSize = new System.Drawing.Size(709, 394);
-			this.Controls.Add(this.btnOK);
-			this.Controls.Add(this.btnClose);
+			this.CancelButton = this.btnCancel;
+			this.ClientSize = new System.Drawing.Size(709, 381);
+			this.Controls.Add(this.btnOk);
+			this.Controls.Add(this.btnCancel);
 			this.Controls.Add(this.tabControl1);
 			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -790,7 +789,7 @@
 		private System.Windows.Forms.TabPage tabGeneral;
 		private System.Windows.Forms.TabPage tabLocation;
 		private System.Windows.Forms.TabPage tabPrograms;
-		private System.Windows.Forms.Button btnClose;
+		private System.Windows.Forms.Button btnCancel;
 		private System.Windows.Forms.GroupBox gbxGeneral;
 		private System.Windows.Forms.CheckBox chExitWithoutConfirm;
 		private System.Windows.Forms.CheckBox chNewVersionOnStartup;
@@ -807,7 +806,7 @@
 		private System.Windows.Forms.Label lblLatitude;
 		private System.Windows.Forms.TextBox txtLatitude;
 		private System.Windows.Forms.Label lblName;
-		private System.Windows.Forms.Button btnOK;
+		private System.Windows.Forms.Button btnOk;
 		private System.Windows.Forms.GroupBox gbxPrograms;
 		private System.Windows.Forms.Button btnClear;
 		private System.Windows.Forms.Button btnRemove;

@@ -97,9 +97,9 @@ namespace Comets.Application
 
 			FormMain.Settings.Location.Name = txtName.Text.Trim();
 			FormMain.Settings.Location.Latitude = txtLatitude.Double();
-			if (cbxNorthSouth.SelectedIndex == 1) FormMain.Settings.Location.Latitude *= -1;
+			if (cbxNorthSouth.SelectedIndex == 1) FormMain.Settings.Location.Latitude *= -1; //south
 			FormMain.Settings.Location.Longitude = txtLongitude.Double();
-			if (cbxEastWest.SelectedIndex == 1) FormMain.Settings.Location.Longitude *= -1;
+			if (cbxEastWest.SelectedIndex == 1) FormMain.Settings.Location.Longitude *= -1; //west
 
 			FormMain.Settings.ExternalPrograms = Programs.ToList();
 
