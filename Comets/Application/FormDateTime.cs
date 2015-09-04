@@ -3,6 +3,7 @@ using Comets.BusinessLayer.Extensions;
 using Comets.BusinessLayer.Managers;
 using System;
 using System.Drawing;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace Comets.Application
@@ -66,51 +67,21 @@ namespace Comets.Application
 
 		private void txtCommon_KeyDown(object sender, KeyEventArgs e)
 		{
-			ValueChangedByEvent = true;
-
-			bool suppress = Utils.TextBoxValueUpDown(sender, e);
-
 			bool up = e.KeyData == Keys.Up;
 			bool down = e.KeyData == Keys.Down;
 
 			if (up || down)
 			{
-				DateTime dt = SelectedDateTime;
-
-				int value = up ? 1 : -1;
+				ValueChangedByEvent = true;
 
 				ValNum val = (sender as TextBox).Tag as ValNum;
+				Type t = typeof(DateTime);
+				MethodInfo minfo = t.GetMethod("Add" + val.DateTimeValue + "s"); //e.g. AddMonths
+				SelectedDateTime = (DateTime)minfo.Invoke(SelectedDateTime, new object[] { up ? 1 : -1 });
 
-				switch (val.DateTimeValue)
-				{
-					case ValNum.DateTimeValueEnum.Day:
-						dt = dt.AddDays(value);
-						break;
-					case ValNum.DateTimeValueEnum.Month:
-						dt = dt.AddMonths(value);
-						break;
-					case ValNum.DateTimeValueEnum.Year:
-						dt = dt.AddYears(value);
-						break;
-					case ValNum.DateTimeValueEnum.Hour:
-						dt = dt.AddHours(value);
-						break;
-					case ValNum.DateTimeValueEnum.Minute:
-						dt = dt.AddMinutes(value);
-						break;
-					case ValNum.DateTimeValueEnum.Second:
-						dt = dt.AddSeconds(value);
-						break;
-					default:
-						throw new ArgumentException("unspecified validator tag");
-				}
-
-				dt = RangeDateTime(dt);
-				SelectedDateTime = dt;
+				e.SuppressKeyPress = true;
+				ValueChangedByEvent = false;
 			}
-
-			e.SuppressKeyPress = suppress;
-			ValueChangedByEvent = false;
 		}
 
 		private void txtCommon_KeyPress(object sender, KeyPressEventArgs e)

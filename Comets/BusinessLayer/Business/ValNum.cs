@@ -75,7 +75,7 @@ namespace Comets.BusinessLayer.Business
 		}
 
 		/// <summary>
-		/// Name
+		/// DateTimeValue
 		/// </summary>
 		public DateTimeValueEnum DateTimeValue
 		{
