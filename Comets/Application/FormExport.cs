@@ -72,11 +72,16 @@ namespace Comets.Application
 			if (filename.Length > 0 && FormMain.UserCollection.Count > 0)
 			{
 				ExportType exportType = (ExportType)cbxExportFormat.SelectedIndex;
-				ExporManager.ExportMain(exportType, filename, FormMain.UserCollection);
-				MessageBox.Show("Export complete.\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-				if (cbxClose.Checked)
-					this.Close();
+				bool isExported = ExporManager.ExportMain(exportType, filename, FormMain.UserCollection);
+
+				if (isExported)
+				{
+					MessageBox.Show("Export complete.\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+					if (cbxClose.Checked)
+						this.Close();
+				}
 			}
 		}
 

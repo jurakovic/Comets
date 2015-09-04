@@ -69,13 +69,10 @@ namespace Comets.Application
 			dt = dt.AddMonths(3);
 			DefaultDateEnd = new DateTime(dt.Year, dt.Month, 1, 0, 0, 0, DateTimeKind.Local);
 
-			if (Settings.RememberWindowPosition)
-			{
-				int margin = 250;
-				this.Width = Screen.PrimaryScreen.WorkingArea.Width - margin;
-				this.Height = Screen.PrimaryScreen.WorkingArea.Height - margin;
-				this.WindowState = Settings.Maximized ? FormWindowState.Maximized : FormWindowState.Normal;
-			}
+			int margin = 250;
+			this.Width = Screen.PrimaryScreen.WorkingArea.Width - margin;
+			this.Height = Screen.PrimaryScreen.WorkingArea.Height - margin;
+			this.WindowState = Settings.Maximized ? FormWindowState.Maximized : FormWindowState.Normal;
 
 			this.menuItemViewStatusBar.Checked = Settings.ShowStatusBar;
 			this.statusStrip.Visible = Settings.ShowStatusBar;
@@ -180,7 +177,7 @@ namespace Comets.Application
 
 		private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
 		{
-			if ((IsDataChanged || !File.Exists(SettingsManager.Database) || Settings.IsSettingsChanged) && MainCollection.Count > 0)
+			if ((IsDataChanged || !File.Exists(SettingsManager.Database)) && MainCollection.Count > 0)
 			{
 				ExporManager.ExportMain(ElementTypes.Type.MPC, SettingsManager.Database, MainCollection);
 			}

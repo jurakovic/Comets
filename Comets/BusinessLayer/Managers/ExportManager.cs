@@ -1,9 +1,9 @@
 ﻿using Comets.BusinessLayer.Business;
 using Comets.BusinessLayer.Extensions;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Windows.Forms;
 using ExportType = Comets.BusinessLayer.Business.ElementTypes.Type;
 
 namespace Comets.BusinessLayer.Managers
@@ -12,8 +12,9 @@ namespace Comets.BusinessLayer.Managers
 	{
 		#region ExportMain
 
-		public static void ExportMain(ExportType exportType, string filename, CometCollection collection)
+		public static bool ExportMain(ExportType exportType, string filename, CometCollection collection)
 		{
+			bool retVal = true;
 			StringBuilder sb = new StringBuilder();
 
 			WriteHeaderText(exportType, ref sb, collection.Count);
@@ -84,7 +85,46 @@ namespace Comets.BusinessLayer.Managers
 				//    ExportNasaComet(ref sb, collection); break;
 			}
 
-			File.WriteAllText(filename, sb.ToString());
+
+			bool tryAgain = false;
+
+			do
+			{
+				try
+				{
+					retVal = true;
+					tryAgain = false;
+
+					File.WriteAllText(filename, sb.ToString());
+				}
+				catch
+				{
+					retVal = false;
+					string file = Path.GetFileName(filename);
+
+					if (MessageBox.Show(
+						"Access to the file " + file + " is denied.\nDo you want to export data to another file?\t\t\t",
+						"Comets",
+						MessageBoxButtons.YesNo,
+						MessageBoxIcon.Warning) == DialogResult.Yes)
+					{
+						using (SaveFileDialog sfd = new SaveFileDialog())
+						{
+							sfd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+							sfd.Filter = "All files (*.*)|*.*";
+
+							if (sfd.ShowDialog() == DialogResult.OK)
+							{
+								filename = sfd.FileName;
+								tryAgain = true;
+							}
+						}
+					}
+				}
+			}
+			while (tryAgain);
+
+			return retVal;
 		}
 
 		#endregion

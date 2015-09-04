@@ -62,9 +62,9 @@
 			this.lblVersion.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
 			this.lblVersion.Location = new System.Drawing.Point(99, 17);
 			this.lblVersion.Name = "lblVersion";
-			this.lblVersion.Size = new System.Drawing.Size(109, 13);
+			this.lblVersion.Size = new System.Drawing.Size(70, 13);
 			this.lblVersion.TabIndex = 2;
-			this.lblVersion.Text = "Comets 0.8 Beta 4";
+			this.lblVersion.Text = "Comets 0.8";
 			// 
 			// lblMore
 			// 

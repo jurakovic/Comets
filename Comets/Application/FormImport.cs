@@ -60,10 +60,21 @@ namespace Comets.Application
 		{
 			if (DownloadFilename == null)
 			{
-				if (!Directory.Exists(SettingsManager.Downloads))
-					Directory.CreateDirectory(SettingsManager.Downloads);
+				string directory = SettingsManager.Downloads;
 
-				DownloadFilename = SettingsManager.Downloads + "\\Soft00Cmt_" + DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".txt";
+				if (!Directory.Exists(SettingsManager.Downloads))
+				{
+					try
+					{
+						Directory.CreateDirectory(SettingsManager.Downloads);
+					}
+					catch
+					{
+						directory = Path.GetTempPath();
+					}
+				}
+
+				DownloadFilename = directory + "\\Soft00Cmt_" + DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".txt";
 				IsUsedDownloadedFile = true;
 
 				using (BackgroundWorker bwDownload = new BackgroundWorker())
@@ -121,18 +132,27 @@ namespace Comets.Application
 
 		void Client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
 		{
-			if (File.Exists(DownloadFilename) && new FileInfo(DownloadFilename).Length == 0)
+			progressDownload.Visible = false;
+
+			if (File.Exists(DownloadFilename))
 			{
-				progressDownload.Visible = false;
-				File.Delete(DownloadFilename);
-				MessageBox.Show(e.Error.Message, "Comets", MessageBoxButtons.OK, MessageBoxIcon.Error);
-				DownloadFilename = null;
+				if (new FileInfo(DownloadFilename).Length == 0)
+				{
+					File.Delete(DownloadFilename);
+					MessageBox.Show(e.Error.Message, "Comets", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					DownloadFilename = null;
+				}
+				else
+				{
+					ImportFilename = DownloadFilename;
+				}
 			}
 			else
 			{
-				ImportFilename = DownloadFilename;
-				SetImportStatus();
+				DownloadFilename = null;
 			}
+
+			SetImportStatus();
 
 			if (IsAutomaticUpdate)
 				btnImport_Click(null, null);
