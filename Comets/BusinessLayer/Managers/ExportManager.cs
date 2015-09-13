@@ -40,6 +40,7 @@ namespace Comets.BusinessLayer.Managers
 					ExportMyStars05(ref sb, collection); break;
 
 				case ExportType.TheSky:
+				//case ExportType.Autostar:
 					ExportTheSky06(ref sb, collection); break;
 
 				case ExportType.StarryNight:
@@ -69,9 +70,6 @@ namespace Comets.BusinessLayer.Managers
 				case ExportType.SkyTools:
 					ExportSkyTools15(ref sb, collection); break;
 
-				case ExportType.Autostar:
-					ExportTheSky06(ref sb, collection); break;
-
 				case ExportType.SpaceEngine:
 					ExportSpaceEngine(ref sb, collection); break;
 
@@ -84,7 +82,6 @@ namespace Comets.BusinessLayer.Managers
 				//case ExportType.NASA:
 				//    ExportNasaComet(ref sb, collection); break;
 			}
-
 
 			bool tryAgain = false;
 
@@ -223,11 +220,7 @@ namespace Comets.BusinessLayer.Managers
 
 			foreach (Comet c in collection)
 			{
-				if (Char.IsNumber(c.id[0]))
-					tempFull = c.full.Replace("/", " ");
-				else
-					tempFull = c.full.Replace("(", "").Replace(")", "");
-
+				tempFull = c.full.Replace("/", " ").Replace("(", "").Replace(")", "");
 				sb.AppendFormat(format, tempFull, c.Ty, c.Tm, c.Td, c.Th, c.q, c.e, c.w, c.N, c.i, c.g, c.k);
 			}
 		}
@@ -243,12 +236,7 @@ namespace Comets.BusinessLayer.Managers
 				if (c.name.Length == 0)
 					tempFull = c.id;
 				else
-				{
-					if (Char.IsNumber(c.id[0]))
-						tempFull = "P/" + c.name + " (" + c.id + ")";
-					else
-						tempFull = c.name + " (" + c.id + ")";
-				}
+					tempFull = Char.IsNumber(c.id[0]) ? "P/" + c.name + " (" + c.id + ")" : c.name + " (" + c.id + ")";
 
 				sb.AppendFormat(format, tempFull, c.Td, c.Th, c.Tm, c.Ty, c.q, c.e, c.i, c.w, c.N, c.g, c.k);
 			}
@@ -264,12 +252,7 @@ namespace Comets.BusinessLayer.Managers
 			{
 				sb.AppendLine("# From MPC 00000");
 
-				tempFull = c.id;
-
-				if (Char.IsNumber(c.id[0]))
-					tempFull += "/" + c.name;
-				else if (c.name.Length > 0)
-					tempFull += " (" + c.name + ")";
+				tempFull = c.id + (Char.IsNumber(c.id[0]) ? "/" + c.name : " (" + c.name + ")");
 
 				if (c.e < 1.0)
 				{
@@ -297,12 +280,7 @@ namespace Comets.BusinessLayer.Managers
 
 			foreach (Comet c in collection)
 			{
-				tempFull = c.id;
-
-				if (Char.IsNumber(c.id[0]))
-					tempFull += "/" + c.name;
-				else if (c.name.Length > 0)
-					tempFull += " (" + c.name + ")";
+				tempFull = c.id + (Char.IsNumber(c.id[0]) ? "/" + c.name : " (" + c.name + ")");
 
 				if (c.P < 30000)
 				{

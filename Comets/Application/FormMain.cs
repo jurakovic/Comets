@@ -194,7 +194,7 @@ namespace Comets.Application
 				Settings.IsSettingsChanged = true;
 			}
 
-			if (Settings.IsSettingsChanged || Settings.IsDirty)
+			if (Settings.IsSettingsChanged)
 				SettingsManager.SaveSettings(Settings);
 		}
 

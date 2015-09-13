@@ -90,7 +90,7 @@ namespace Comets.BusinessLayer.Managers
 					}
 				}
 
-				settings.IsDirty = exceptionCount > 0;
+				settings.IsSettingsChanged = exceptionCount > 0;
 			}
 
 			return settings;

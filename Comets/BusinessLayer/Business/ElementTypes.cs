@@ -23,7 +23,7 @@ namespace Comets.BusinessLayer.Business
 			SkyChartIII = 13,
 			VoyagerII = 14,
 			SkyTools = 15,
-			Autostar = 16,
+			//Autostar = 16, //same as TheSky
 			SpaceEngine = 17,
 			Celestia = 18,
 			CometForWindows = 19,

@@ -132,12 +132,11 @@ namespace Comets.Application
 
 		void Client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
 		{
-			progressDownload.Visible = false;
-
 			if (File.Exists(DownloadFilename))
 			{
 				if (new FileInfo(DownloadFilename).Length == 0)
 				{
+					progressDownload.Visible = false;
 					File.Delete(DownloadFilename);
 					MessageBox.Show(e.Error.Message, "Comets", MessageBoxButtons.OK, MessageBoxIcon.Error);
 					DownloadFilename = null;

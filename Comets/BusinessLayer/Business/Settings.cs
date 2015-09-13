@@ -40,7 +40,6 @@ namespace Comets.BusinessLayer.Business
 		public string LastUsedImportDirectory { get; set; }
 		public string LastUsedExportDirectory { get; set; }
 
-		public bool IsDirty { get; set; }
 		public bool IsSettingsChanged { get; set; }
 
 		#endregion
@@ -75,7 +74,6 @@ namespace Comets.BusinessLayer.Business
 			LastUsedImportDirectory = String.Empty;
 			LastUsedExportDirectory = String.Empty;
 
-			IsDirty = false;
 			IsSettingsChanged = false;
 		}
 

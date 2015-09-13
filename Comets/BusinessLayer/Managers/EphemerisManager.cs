@@ -196,6 +196,7 @@ namespace Comets.BusinessLayer.Managers
 			string xDate = "Date";
 			string yMagnitude = "Magnitude";
 			string chartAreaName = "ChartAreaGraph";
+			double multipleMaxMagnitude = 15.0;
 
 			double minMagnitude = Math.Floor(settings.Results.Select(x => x.Value).Select(y => y.Min(z => z.Magnitude)).Min() - 0.20);
 			double maxMagnitude = Math.Ceiling(settings.Results.Select(x => x.Value).Select(y => y.Max(z => z.Magnitude)).Max() + 0.20);
@@ -210,11 +211,8 @@ namespace Comets.BusinessLayer.Managers
 
 			if (settings.MaxGraphMagnitudeChecked)
 				yMax = settings.MaxGraphMagnitudeValue.Value;
-			else if (settings.IsMultipleMode)
-				if (settings.Results.Count == 1)
-					yMax = maxMagnitude;
-				else
-					yMax = 15.0;
+			else if (settings.IsMultipleMode && settings.Results.Count > 1)
+				yMax = multipleMaxMagnitude;
 			else
 				yMax = maxMagnitude;
 

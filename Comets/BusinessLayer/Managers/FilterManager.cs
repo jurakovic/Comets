@@ -21,25 +21,25 @@ namespace Comets.BusinessLayer.Managers
 			CometCollection collection = new CometCollection();
 			List<bool> checks = new List<bool>();
 
-			var fs = filters.Where(x => x.Checked).ToList();
+			List<Filter> checkedFilters = filters.Where(x => x.Checked).ToList();
 
 			foreach (Comet comet in mainCollection)
 			{
 				checks.Clear();
 
-				foreach (Filter f in fs)
+				foreach (Filter f in checkedFilters)
 				{
 					object value = comet.GetType().GetProperty(f.Property.ToString()).GetValue(comet, null);
 
 					if (f.DataType == DataTypeEnum.String)
 					{
-						string full = value.ToString();
-						string[] names = f.Text.Split(',');
+						string full = value.ToString().ToLower();
+						string[] names = f.Text.ToLower().Split(',');
 
 						if (f.ValueCompare == ValueCompareEnum.Greather_Contains)
-							checks.Add(names.Any(x => full.ToLower().Contains(x.Trim().ToLower())));
+							checks.Add(names.Any(x => full.Contains(x.Trim())));
 						else
-							checks.Add(!names.Any(x => full.ToLower().Contains(x.Trim().ToLower())));
+							checks.Add(!names.Any(x => full.Contains(x.Trim())));
 					}
 					else
 					{
@@ -52,7 +52,7 @@ namespace Comets.BusinessLayer.Managers
 					}
 				}
 
-				if (!checks.Any(x => x == false))
+				if (checks.All(x => x == true))
 					collection.Add(comet);
 			}
 
@@ -123,12 +123,21 @@ namespace Comets.BusinessLayer.Managers
 			public bool StringVisible;
 			public bool ValueVisible;
 			public bool DateVisible;
-			public string LabelStr;
+			public string LabelText;
 			public Filter.DataTypeEnum DataType;
 			public ValNum Validator;
 
-			public PanelDefinition(PropertyEnum property, string text, int compareIx, bool stringVisible,
-				bool valueVisible, bool dateVisible, string labelStr, Filter.DataTypeEnum dataType, ValNum validator)
+			public PanelDefinition(
+				PropertyEnum property,
+				string text,
+				int compareIx,
+				bool stringVisible,
+				bool valueVisible,
+				bool dateVisible,
+				string labelText,
+				Filter.DataTypeEnum
+				dataType,
+				ValNum validator)
 			{
 				Property = property;
 				Text = text;
@@ -136,7 +145,7 @@ namespace Comets.BusinessLayer.Managers
 				StringVisible = stringVisible;
 				ValueVisible = valueVisible;
 				DateVisible = dateVisible;
-				LabelStr = labelStr;
+				LabelText = labelText;
 				DataType = dataType;
 				Validator = validator;
 			}
@@ -280,7 +289,6 @@ namespace Comets.BusinessLayer.Managers
 			lblLabel.Name = LabelName;
 			lblLabel.Size = new Size(22, 13);
 			lblLabel.TabIndex = 6;
-			lblLabel.Visible = false;
 
 			// 
 			// Remove
@@ -316,9 +324,9 @@ namespace Comets.BusinessLayer.Managers
 					}
 					else if (filter.Property == PropertyEnum.Tn)
 					{
-						DateTime date = Utils.JDToDateTime(filter.Value);
-						btnDate.Tag = dt;
-						btnDate.Text = dt.ToString(DateTimeFormat);
+						DateTime date = Utils.JDToDateTime(filter.Value).ToLocalTime();
+						btnDate.Tag = date;
+						btnDate.Text = date.ToString(DateTimeFormat);
 					}
 					else
 					{
@@ -341,8 +349,7 @@ namespace Comets.BusinessLayer.Managers
 
 				btnDate.Visible = definition.DateVisible;
 
-				lblLabel.Visible = !System.String.IsNullOrEmpty(definition.LabelStr);
-				lblLabel.Text = definition.LabelStr;
+				lblLabel.Text = definition.LabelText;
 
 				if (definition.DataType == DataTypeEnum.String)
 					cboCompare.Items.AddRange(StringCompare);
@@ -407,16 +414,12 @@ namespace Comets.BusinessLayer.Managers
 					label = c as Label;
 			}
 
+			compare.Items.Clear();
+
 			if (definition.DataType == DataTypeEnum.String)
-			{
-				compare.Items.Clear();
 				compare.Items.AddRange(StringCompare);
-			}
 			else
-			{
-				compare.Items.Clear();
 				compare.Items.AddRange(ValueCompare);
-			}
 
 			cbx.Visible = true;
 
@@ -430,8 +433,7 @@ namespace Comets.BusinessLayer.Managers
 			if (definition.Validator != null)
 				value.Tag = definition.Validator;
 
-			label.Visible = !String.IsNullOrEmpty(definition.LabelStr);
-			label.Text = definition.LabelStr;
+			label.Text = definition.LabelText;
 		}
 
 		#endregion
