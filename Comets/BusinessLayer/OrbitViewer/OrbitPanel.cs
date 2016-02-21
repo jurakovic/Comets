@@ -40,7 +40,7 @@ namespace Comets.OrbitViewer
 		private const bool DefaultShowDate = true;
 		private const Object DefaultCenterObject = Object.Sun;
 
-		private readonly List<Object> DefaultOrbitDisplay = new List<Object> 
+		private readonly List<Object> DefaultOrbitDisplay = new List<Object>
 		{
 			Object.Mercury,
 			Object.Venus,
@@ -49,13 +49,13 @@ namespace Comets.OrbitViewer
 			Object.Jupiter
 		};
 
-		private readonly List<Object> DefaultLabelDisplay = new List<Object> 
-		{ 
+		private readonly List<Object> DefaultLabelDisplay = new List<Object>
+		{
 			Object.Mercury,
 			Object.Venus,
 			Object.Earth,
 			Object.Mars,
-			Object.Jupiter, 
+			Object.Jupiter,
 			Object.Saturn,
 			Object.Uranus,
 			Object.Neptune
@@ -94,6 +94,7 @@ namespace Comets.OrbitViewer
 		#region Fields
 
 		private int SelectedIndex;
+		private int CenteredIndex;
 
 		private List<CometOrbit> CometOrbits;
 		private List<Xyz> CometsPos;
@@ -313,6 +314,7 @@ namespace Comets.OrbitViewer
 			}
 
 			SelectedIndex = index;
+			CenteredIndex = index;
 			OrbitHistoryAdd(SelectedIndex);
 
 			ATime = atime;
@@ -355,19 +357,26 @@ namespace Comets.OrbitViewer
 			Y0 = Size.Height / 2;
 
 			if (Math.Abs(EpochToEcl - ATime.JD) > 365.2422 * 5)
-			{
 				UpdateRotationMatrix(ATime);
-			}
 
-			if (CenteredObject == Object.Comet && SelectedIndex >= 0)
+			if (CenteredObject != Object.Comet)
+				CenteredIndex = -1;
+
+			if (CenteredObject == Object.Comet)
 			{
-				xyz = CometsPos[SelectedIndex].Rotate(MtxToEcl).Rotate(MtxRotate);
-				point3 = GetDrawPoint(xyz);
+				if (CenteredIndex == -1)
+					CenteredIndex = SelectedIndex;
 
-				X0 = Size.Width - point3.X;
-				Y0 = Size.Height - point3.Y;
+				if (CenteredIndex >= 0)
+				{
+					xyz = CometsPos[CenteredIndex].Rotate(MtxToEcl).Rotate(MtxRotate);
+					point3 = GetDrawPoint(xyz);
+
+					X0 = Size.Width - point3.X;
+					Y0 = Size.Height - point3.Y;
+				}
 			}
-			else if (CenteredObject >= Object.Mercury && CenteredObject != Object.Comet)
+			else if (CenteredObject >= Object.Mercury)
 			{
 				xyz = PlanetPos[(int)CenteredObject - 1].Rotate(MtxRotate);
 				point3 = GetDrawPoint(xyz);
@@ -801,6 +810,7 @@ namespace Comets.OrbitViewer
 			CometOrbits.Clear();
 			OrbitHistory.Clear();
 			SelectedIndex = -1;
+			CenteredIndex = -1;
 
 			if (!clearAll && comet != null)
 			{
@@ -845,6 +855,22 @@ namespace Comets.OrbitViewer
 			}
 
 			return name;
+		}
+
+		#endregion
+
+		#region CenterSelectedComet
+
+		public bool CenterSelectedComet()
+		{
+			bool isCentered = false;
+
+			int index = Comets.IndexOf(SelectedComet);
+
+			isCentered = CenteredIndex != index;
+			CenteredIndex = index;
+
+			return isCentered;
 		}
 
 		#endregion

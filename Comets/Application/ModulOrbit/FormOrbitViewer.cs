@@ -98,7 +98,10 @@ namespace Comets.Application.ModulOrbit
 		private DateTime _selectedDateTime;
 		private DateTime SelectedDateTime
 		{
-			get { return _selectedDateTime; }
+			get
+			{
+				return _selectedDateTime;
+			}
 			set
 			{
 				_selectedDateTime = FormDateTime.RangeDateTime(value);
@@ -118,7 +121,10 @@ namespace Comets.Application.ModulOrbit
 		private bool _toolboxVisible;
 		public bool ToolboxVisible
 		{
-			get { return _toolboxVisible; }
+			get
+			{
+				return _toolboxVisible;
+			}
 			set
 			{
 				_toolboxVisible = value;
@@ -215,12 +221,8 @@ namespace Comets.Application.ModulOrbit
 		{
 			if (!ValueChangedByEvent)
 			{
-				if (orbitPanel.IsPaintEnabled)
-				{
-					orbitPanel.LoadPanel(SelectedComet, orbitPanel.ATime);
-					RefreshPanel();
-				}
-
+				orbitPanel.LoadPanel(SelectedComet, orbitPanel.ATime);
+				RefreshPanel();
 				SetFormText();
 			}
 		}
@@ -355,8 +357,12 @@ namespace Comets.Application.ModulOrbit
 			ValueChangedByEvent = true;
 
 			foreach (Control c in gbxOrbitsLabelsCenter.Controls)
+			{
 				if (c is CheckBox && c.Enabled && c.Name.Contains(name))
+				{
 					(c as CheckBox).Checked = isChecked;
+				}
+			}
 
 			ValueChangedByEvent = false;
 
@@ -397,12 +403,15 @@ namespace Comets.Application.ModulOrbit
 		private void rbtnCenterCommon_CheckedChanged(object sender, EventArgs e)
 		{
 			RadioButton rbtn = sender as RadioButton;
-			string name = rbtn.Name.Replace("rbtnCenter", "");
-			OrbitPanel.Object centerObject = (OrbitPanel.Object)Enum.Parse(typeof(OrbitPanel.Object), name);
-			orbitPanel.CenteredObject = centerObject;
+			if (rbtn.Checked)
+			{
+				string name = rbtn.Name.Replace("rbtnCenter", "");
+				OrbitPanel.Object centerObject = (OrbitPanel.Object)Enum.Parse(typeof(OrbitPanel.Object), name);
+				orbitPanel.CenteredObject = centerObject;
 
-			if (!ValueChangedByEvent)
-				RefreshPanel();
+				if (!ValueChangedByEvent)
+					RefreshPanel();
+			}
 		}
 
 		private void cbxOrbit_CheckedChanged(object sender, EventArgs e)
@@ -869,25 +878,32 @@ namespace Comets.Application.ModulOrbit
 
 				if (name != null)
 				{
-					cboComet.SelectedIndex = OVComets.IndexOf(OVComets.First(x => x.Name == name));
+					bool isCentered = false;
 
-					ValueChangedByEvent = true;
+					//center on comet on double click
+					if (orbitPanel.CenteredObject == OrbitPanel.Object.Comet)
+						isCentered = orbitPanel.CenterSelectedComet();
 
-					if (cbxSelectedOrbit.Checked && !cbxSelectedLabel.Checked)
+					if (!isCentered)
 					{
-						cbxSelectedLabel.Checked = true;
-					}
-					else if (cbxSelectedLabel.Checked && !cbxSelectedOrbit.Checked)
-					{
-						cbxSelectedOrbit.Checked = true;
-					}
-					else
-					{
-						cbxSelectedOrbit.Checked = !cbxSelectedOrbit.Checked;
-						cbxSelectedLabel.Checked = !cbxSelectedLabel.Checked;
-					}
+						ValueChangedByEvent = true;
 
-					ValueChangedByEvent = false;
+						if (cbxSelectedOrbit.Checked && !cbxSelectedLabel.Checked)
+						{
+							cbxSelectedLabel.Checked = true;
+						}
+						else if (cbxSelectedLabel.Checked && !cbxSelectedOrbit.Checked)
+						{
+							cbxSelectedOrbit.Checked = true;
+						}
+						else
+						{
+							cbxSelectedOrbit.Checked = !cbxSelectedOrbit.Checked;
+							cbxSelectedLabel.Checked = !cbxSelectedLabel.Checked;
+						}
+
+						ValueChangedByEvent = false;
+					}
 
 					RefreshPanel();
 				}
@@ -991,9 +1007,6 @@ namespace Comets.Application.ModulOrbit
 
 			cboComet.DisplayMember = "Name";
 			cboComet.DataSource = OVComets;
-			cboComet.SelectedIndex = -1; //to force selectedIndexChanged below
-
-			ValueChangedByEvent = false;
 
 			if (OVComets.Count > 0)
 			{
@@ -1008,6 +1021,8 @@ namespace Comets.Application.ModulOrbit
 					cboComet.SelectedIndex = OVComets.IndexOf(c);
 				}
 			}
+
+			ValueChangedByEvent = false;
 		}
 
 		private void RefreshPanel()
