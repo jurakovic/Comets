@@ -142,6 +142,10 @@ namespace Comets.Application.ModulOrbit
 		{
 			InitializeComponent();
 
+			txtDistFromSun.Tag = new ValNum(0.0, 150.0, 3);
+			txtDistFromEarth.Tag = new ValNum(0.0, 150.0, 3);
+			txtMagnitude.Tag = new ValNum(-20.0, 40.0, 2);
+
 			Timer = new Timer();
 			Timer.Interval = 50;
 			Timer.Tick += new System.EventHandler(this.timer_Tick);
@@ -648,7 +652,7 @@ namespace Comets.Application.ModulOrbit
 
 		private void cbxAntialiasing_CheckedChanged(object sender, EventArgs e)
 		{
-			orbitPanel.Antiliasing = cbxAntialiasing.Checked;
+			orbitPanel.Antialiasing = cbxAntialiasing.Checked;
 			RefreshPanel();
 		}
 
@@ -667,6 +671,47 @@ namespace Comets.Application.ModulOrbit
 		private void btnSaveImage_Click(object sender, EventArgs e)
 		{
 			SaveImage();
+		}
+
+		#endregion
+
+		#region Filter on date
+
+		private void txtFilterOnDateCommon_TextChanged(object sender, EventArgs e)
+		{
+			TextBox txt = sender as TextBox;
+			double? value = null;
+
+			if (!String.IsNullOrEmpty(txt.Text))
+				value = txt.Double();
+
+			switch (txt.Name)
+			{
+				case "txtDistFromSun":
+					orbitPanel.FilterOnDateSunDist = value;
+					break;
+				case "txtDistFromEarth":
+					orbitPanel.FilterOnDateEarthDist = value;
+					break;
+				case "txtMagnitude":
+					orbitPanel.FilterOnDateMagnitude = value;
+					break;
+				default:
+					throw new NotImplementedException(txt.Name);
+			}
+
+			RefreshPanel();
+		}
+
+		private void txtFilterOnDateCommon_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			e.Handled = Utils.HandleKeyPress(sender, e);
+		}
+
+		private void cbxWeakColor_CheckedChanged(object sender, EventArgs e)
+		{
+			orbitPanel.FilterOnDateWeakColor = cbxWeakColor.Checked;
+			RefreshPanel();
 		}
 
 		#endregion

@@ -39,6 +39,13 @@
 			this.btnRevStep = new System.Windows.Forms.Button();
 			this.btnRevPlay = new System.Windows.Forms.Button();
 			this.pnlToolbox = new System.Windows.Forms.Panel();
+			this.gbxFilterOnDate = new System.Windows.Forms.GroupBox();
+			this.txtMagnitude = new System.Windows.Forms.TextBox();
+			this.lblMagnitude = new System.Windows.Forms.Label();
+			this.txtDistFromEarth = new System.Windows.Forms.TextBox();
+			this.lblDistFromEarth = new System.Windows.Forms.Label();
+			this.txtDistFromSun = new System.Windows.Forms.TextBox();
+			this.lblDistFromSun = new System.Windows.Forms.Label();
 			this.gbxMisc = new System.Windows.Forms.GroupBox();
 			this.btnSaveImage = new System.Windows.Forms.Button();
 			this.cbxAntialiasing = new System.Windows.Forms.CheckBox();
@@ -104,11 +111,13 @@
 			this.btnClear = new System.Windows.Forms.Button();
 			this.btnAll = new System.Windows.Forms.Button();
 			this.btnFilter = new System.Windows.Forms.Button();
+			this.cbxWeakColor = new System.Windows.Forms.CheckBox();
 			this.orbitPanel = new Comets.OrbitViewer.OrbitPanel();
 			this.scrollVert = new System.Windows.Forms.VScrollBar();
 			this.scrollHorz = new System.Windows.Forms.HScrollBar();
 			this.scrollZoom = new System.Windows.Forms.HScrollBar();
 			this.pnlToolbox.SuspendLayout();
+			this.gbxFilterOnDate.SuspendLayout();
 			this.gbxMisc.SuspendLayout();
 			this.gbxInfoLabels.SuspendLayout();
 			this.gbxSimulation.SuspendLayout();
@@ -223,6 +232,7 @@
 			// pnlToolbox
 			// 
 			this.pnlToolbox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.pnlToolbox.Controls.Add(this.gbxFilterOnDate);
 			this.pnlToolbox.Controls.Add(this.gbxMisc);
 			this.pnlToolbox.Controls.Add(this.gbxInfoLabels);
 			this.pnlToolbox.Controls.Add(this.gbxSimulation);
@@ -233,8 +243,78 @@
 			this.pnlToolbox.Dock = System.Windows.Forms.DockStyle.Left;
 			this.pnlToolbox.Location = new System.Drawing.Point(0, 0);
 			this.pnlToolbox.Name = "pnlToolbox";
-			this.pnlToolbox.Size = new System.Drawing.Size(195, 682);
+			this.pnlToolbox.Size = new System.Drawing.Size(195, 811);
 			this.pnlToolbox.TabIndex = 0;
+			// 
+			// gbxFilterOnDate
+			// 
+			this.gbxFilterOnDate.Controls.Add(this.cbxWeakColor);
+			this.gbxFilterOnDate.Controls.Add(this.txtMagnitude);
+			this.gbxFilterOnDate.Controls.Add(this.lblMagnitude);
+			this.gbxFilterOnDate.Controls.Add(this.txtDistFromEarth);
+			this.gbxFilterOnDate.Controls.Add(this.lblDistFromEarth);
+			this.gbxFilterOnDate.Controls.Add(this.txtDistFromSun);
+			this.gbxFilterOnDate.Controls.Add(this.lblDistFromSun);
+			this.gbxFilterOnDate.Location = new System.Drawing.Point(5, 657);
+			this.gbxFilterOnDate.Name = "gbxFilterOnDate";
+			this.gbxFilterOnDate.Size = new System.Drawing.Size(181, 116);
+			this.gbxFilterOnDate.TabIndex = 7;
+			this.gbxFilterOnDate.TabStop = false;
+			this.gbxFilterOnDate.Text = "Filter on date";
+			// 
+			// txtMagnitude
+			// 
+			this.txtMagnitude.Location = new System.Drawing.Point(118, 65);
+			this.txtMagnitude.Name = "txtMagnitude";
+			this.txtMagnitude.Size = new System.Drawing.Size(53, 21);
+			this.txtMagnitude.TabIndex = 5;
+			this.txtMagnitude.TextChanged += new System.EventHandler(this.txtFilterOnDateCommon_TextChanged);
+			this.txtMagnitude.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFilterOnDateCommon_KeyPress);
+			// 
+			// lblMagnitude
+			// 
+			this.lblMagnitude.AutoSize = true;
+			this.lblMagnitude.Location = new System.Drawing.Point(9, 68);
+			this.lblMagnitude.Name = "lblMagnitude";
+			this.lblMagnitude.Size = new System.Drawing.Size(57, 13);
+			this.lblMagnitude.TabIndex = 4;
+			this.lblMagnitude.Text = "Magnitude";
+			// 
+			// txtDistFromEarth
+			// 
+			this.txtDistFromEarth.Location = new System.Drawing.Point(118, 41);
+			this.txtDistFromEarth.Name = "txtDistFromEarth";
+			this.txtDistFromEarth.Size = new System.Drawing.Size(53, 21);
+			this.txtDistFromEarth.TabIndex = 3;
+			this.txtDistFromEarth.TextChanged += new System.EventHandler(this.txtFilterOnDateCommon_TextChanged);
+			this.txtDistFromEarth.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFilterOnDateCommon_KeyPress);
+			// 
+			// lblDistFromEarth
+			// 
+			this.lblDistFromEarth.AutoSize = true;
+			this.lblDistFromEarth.Location = new System.Drawing.Point(9, 44);
+			this.lblDistFromEarth.Name = "lblDistFromEarth";
+			this.lblDistFromEarth.Size = new System.Drawing.Size(102, 13);
+			this.lblDistFromEarth.TabIndex = 2;
+			this.lblDistFromEarth.Text = "Distance from Earth";
+			// 
+			// txtDistFromSun
+			// 
+			this.txtDistFromSun.Location = new System.Drawing.Point(118, 17);
+			this.txtDistFromSun.Name = "txtDistFromSun";
+			this.txtDistFromSun.Size = new System.Drawing.Size(53, 21);
+			this.txtDistFromSun.TabIndex = 1;
+			this.txtDistFromSun.TextChanged += new System.EventHandler(this.txtFilterOnDateCommon_TextChanged);
+			this.txtDistFromSun.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFilterOnDateCommon_KeyPress);
+			// 
+			// lblDistFromSun
+			// 
+			this.lblDistFromSun.AutoSize = true;
+			this.lblDistFromSun.Location = new System.Drawing.Point(9, 20);
+			this.lblDistFromSun.Name = "lblDistFromSun";
+			this.lblDistFromSun.Size = new System.Drawing.Size(94, 13);
+			this.lblDistFromSun.TabIndex = 0;
+			this.lblDistFromSun.Text = "Distance from Sun";
 			// 
 			// gbxMisc
 			// 
@@ -991,6 +1071,17 @@
 			this.btnFilter.UseVisualStyleBackColor = true;
 			this.btnFilter.Click += new System.EventHandler(this.btnFilter_Click);
 			// 
+			// cbxWeakColor
+			// 
+			this.cbxWeakColor.AutoSize = true;
+			this.cbxWeakColor.Location = new System.Drawing.Point(9, 92);
+			this.cbxWeakColor.Name = "cbxWeakColor";
+			this.cbxWeakColor.Size = new System.Drawing.Size(79, 17);
+			this.cbxWeakColor.TabIndex = 6;
+			this.cbxWeakColor.Text = "Weak color";
+			this.cbxWeakColor.UseVisualStyleBackColor = true;
+			this.cbxWeakColor.CheckedChanged += new System.EventHandler(this.cbxWeakColor_CheckedChanged);
+			// 
 			// orbitPanel
 			// 
 			this.orbitPanel.BackColor = System.Drawing.Color.Black;
@@ -1001,7 +1092,7 @@
 			this.orbitPanel.Location = new System.Drawing.Point(195, 0);
 			this.orbitPanel.MinimumSize = new System.Drawing.Size(682, 458);
 			this.orbitPanel.Name = "orbitPanel";
-			this.orbitPanel.Size = new System.Drawing.Size(739, 682);
+			this.orbitPanel.Size = new System.Drawing.Size(739, 811);
 			this.orbitPanel.TabIndex = 1;
 			this.orbitPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.orbitPanel_MouseClick);
 			this.orbitPanel.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.orbitPanel_MouseDoubleClick);
@@ -1050,7 +1141,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(934, 682);
+			this.ClientSize = new System.Drawing.Size(934, 811);
 			this.Controls.Add(this.orbitPanel);
 			this.Controls.Add(this.pnlToolbox);
 			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
@@ -1064,6 +1155,8 @@
 			this.Load += new System.EventHandler(this.FormOrbit_Load);
 			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormOrbitViewer_KeyDown);
 			this.pnlToolbox.ResumeLayout(false);
+			this.gbxFilterOnDate.ResumeLayout(false);
+			this.gbxFilterOnDate.PerformLayout();
 			this.gbxMisc.ResumeLayout(false);
 			this.gbxMisc.PerformLayout();
 			this.gbxInfoLabels.ResumeLayout(false);
@@ -1161,6 +1254,13 @@
 		private System.Windows.Forms.CheckBox cbxSelectedOrbit;
 		private System.Windows.Forms.CheckBox cbxMarker;
 		private System.Windows.Forms.CheckBox cbxSelectedLabel;
-
+		private System.Windows.Forms.GroupBox gbxFilterOnDate;
+		private System.Windows.Forms.TextBox txtDistFromSun;
+		private System.Windows.Forms.Label lblDistFromSun;
+		private System.Windows.Forms.TextBox txtMagnitude;
+		private System.Windows.Forms.Label lblMagnitude;
+		private System.Windows.Forms.TextBox txtDistFromEarth;
+		private System.Windows.Forms.Label lblDistFromEarth;
+		private System.Windows.Forms.CheckBox cbxWeakColor;
 	}
 }

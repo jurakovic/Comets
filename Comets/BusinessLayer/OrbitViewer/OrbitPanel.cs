@@ -232,7 +232,23 @@ namespace Comets.OrbitViewer
 
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public bool Antiliasing { get; set; }
+		public bool Antialiasing { get; set; }
+
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public double? FilterOnDateSunDist { get; set; }
+
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public double? FilterOnDateEarthDist { get; set; }
+
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public double? FilterOnDateMagnitude { get; set; }
+
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public bool FilterOnDateWeakColor { get; set; }
 
 		#endregion
 
@@ -480,7 +496,7 @@ namespace Comets.OrbitViewer
 					DrawPlanetBody(graphics, FontPlanetName, PlanetPos[0], Object.Mercury);
 				}
 
-				DrawCometOrbit(graphics, CometOrbits);
+				DrawCometOrbit(graphics);
 				DrawCometBody(graphics);
 
 				// Information
@@ -595,7 +611,7 @@ namespace Comets.OrbitViewer
 
 		private void DrawAxes(Graphics graphics)
 		{
-			graphics.SmoothingMode = Antiliasing ? SmoothingMode.AntiAlias : SmoothingMode.None;
+			graphics.SmoothingMode = Antialiasing ? SmoothingMode.AntiAlias : SmoothingMode.None;
 
 			Pen pen = new Pen(ColorAxisMinus);
 			Xyz xyz;
@@ -645,24 +661,26 @@ namespace Comets.OrbitViewer
 
 		#region DrawCometOrbit
 
-		private void DrawCometOrbit(Graphics graphics, List<CometOrbit> cometOrbits)
+		private void DrawCometOrbit(Graphics graphics)
 		{
-			graphics.SmoothingMode = Antiliasing ? SmoothingMode.AntiAlias : SmoothingMode.None;
+			graphics.SmoothingMode = Antialiasing ? SmoothingMode.AntiAlias : SmoothingMode.None;
 
 			for (int i = 0; i < Comets.Count; i++)
 			{
-				if (!MultipleMode && OrbitDisplay.Contains(Object.Comet) ||
-					(MultipleMode && OrbitDisplay.Contains(Object.Comet) && OrbitHistory.Contains(i)) ||
-					(PreserveSelectedOrbit && i == SelectedIndex))
+				bool visibleOrbit =
+					(OrbitDisplay.Contains(Object.Comet) && OrbitHistory.Contains(i)) ||
+					(PreserveSelectedOrbit && i == SelectedIndex);
+
+				if (visibleOrbit)
 				{
-					Xyz xyz = cometOrbits[i].GetAt(0).Rotate(MtxToEcl).Rotate(MtxRotate);
+					Xyz xyz = CometOrbits[i].GetAt(0).Rotate(MtxToEcl).Rotate(MtxRotate);
 					Pen pen = new Pen(Color.White);
 					Point point1, point2;
 					point1 = GetDrawPoint(xyz);
 
-					for (int j = 1; j <= cometOrbits[i].Division; j++)
+					for (int j = 1; j <= CometOrbits[i].Division; j++)
 					{
-						xyz = cometOrbits[i].GetAt(j).Rotate(MtxToEcl);
+						xyz = CometOrbits[i].GetAt(j).Rotate(MtxToEcl);
 
 						if (MultipleMode && Comets.Count > 1 && OrbitDisplay.Contains(Object.Comet) && PreserveSelectedOrbit && i == SelectedIndex)
 							pen.Color = xyz.Z >= 0.0 ? Color.Gold : Color.DarkOrange;
@@ -686,8 +704,6 @@ namespace Comets.OrbitViewer
 		{
 			graphics.SmoothingMode = SmoothingMode.AntiAlias;
 
-			int diameter = 2;
-
 			for (int i = 0; i < Comets.Count; i++)
 			{
 				Xyz xyz = CometsPos[i].Rotate(MtxToEcl).Rotate(MtxRotate);
@@ -695,32 +711,49 @@ namespace Comets.OrbitViewer
 				Point point1 = GetDrawPoint(xyz);
 				Comets[i].PanelLocation = point1;
 
-				Color color = GetCometColorAndDiameter(Comets[i], out diameter);
-				SolidBrush sb = new SolidBrush(color);
-				graphics.FillPie(sb, point1.X - diameter, point1.Y - diameter, diameter * 2, diameter * 2, 0, 360);
+				int diameter = 2;
+				Color color = Color.Black;
 
-				if (ShowMarker && i == SelectedIndex)
+				bool visibleComet = GetCometVisibility(Comets[i], FilterOnDateSunDist, FilterOnDateEarthDist, FilterOnDateMagnitude);
+				bool visibleLabel = LabelDisplay.Contains(Object.Comet) || (PreserveSelectedLabel && i == SelectedIndex);
+				bool visibleMarker = ShowMarker && i == SelectedIndex;
+
+				GetCometColorAndDiameter(Comets[i], out diameter, out color);
+
+				if (!visibleComet && FilterOnDateWeakColor)
 				{
-					int offset = diameter + 4;
-					int length = diameter + 8;
-
-					Pen p = new Pen(ColorCometMarker);
-					p.Width = 3;
-
-					graphics.DrawLine(p, new Point(point1.X, point1.Y - length), new Point(point1.X, point1.Y - offset));
-					graphics.DrawLine(p, new Point(point1.X, point1.Y + length), new Point(point1.X, point1.Y + offset));
-					graphics.DrawLine(p, new Point(point1.X - length, point1.Y), new Point(point1.X - offset, point1.Y));
-					graphics.DrawLine(p, new Point(point1.X + length, point1.Y), new Point(point1.X + offset, point1.Y));
+					visibleComet = true;
+					color = Color.MidnightBlue;
 				}
 
-				if ((LabelDisplay.Contains(Object.Comet)) || (PreserveSelectedLabel && i == SelectedIndex))
+				if (visibleComet || visibleLabel || visibleMarker)
 				{
-					if (MultipleMode && Comets.Count > 1 && LabelDisplay.Contains(Object.Comet) && PreserveSelectedLabel && i == SelectedIndex)
-						sb.Color = ColorCometNameSelected;
-					else
-						sb.Color = ColorCometName;
+					SolidBrush sb = new SolidBrush(color);
+					graphics.FillPie(sb, point1.X - diameter, point1.Y - diameter, diameter * 2, diameter * 2, 0, 360);
 
-					graphics.DrawString(Comets[i].Name, FontObjectName, sb, point1.X + 5, point1.Y);
+					if (visibleMarker)
+					{
+						int offset = diameter + 4;
+						int length = diameter + 8;
+
+						Pen p = new Pen(ColorCometMarker);
+						p.Width = 3;
+
+						graphics.DrawLine(p, new Point(point1.X, point1.Y - length), new Point(point1.X, point1.Y - offset));
+						graphics.DrawLine(p, new Point(point1.X, point1.Y + length), new Point(point1.X, point1.Y + offset));
+						graphics.DrawLine(p, new Point(point1.X - length, point1.Y), new Point(point1.X - offset, point1.Y));
+						graphics.DrawLine(p, new Point(point1.X + length, point1.Y), new Point(point1.X + offset, point1.Y));
+					}
+
+					if (visibleLabel)
+					{
+						if (MultipleMode && Comets.Count > 1 && LabelDisplay.Contains(Object.Comet) && PreserveSelectedLabel && i == SelectedIndex)
+							sb.Color = ColorCometNameSelected;
+						else
+							sb.Color = ColorCometName;
+
+						graphics.DrawString(Comets[i].Name, FontObjectName, sb, point1.X + 5, point1.Y);
+					}
 				}
 			}
 		}
@@ -731,7 +764,7 @@ namespace Comets.OrbitViewer
 
 		private void DrawPlanetOrbit(Graphics graphics, PlanetOrbit planetOrbit)
 		{
-			graphics.SmoothingMode = Antiliasing ? SmoothingMode.AntiAlias : SmoothingMode.None;
+			graphics.SmoothingMode = Antialiasing ? SmoothingMode.AntiAlias : SmoothingMode.None;
 
 			Pen pen = new Pen(ColorPlanetOrbitUpper);
 			Point point1, point2;
@@ -758,7 +791,7 @@ namespace Comets.OrbitViewer
 
 		private void DrawEarthOrbit(Graphics graphics, PlanetOrbit planetOrbit)
 		{
-			graphics.SmoothingMode = Antiliasing ? SmoothingMode.AntiAlias : SmoothingMode.None;
+			graphics.SmoothingMode = Antialiasing ? SmoothingMode.AntiAlias : SmoothingMode.None;
 
 			Pen pen = new Pen(ColorPlanetOrbitUpper);
 			Point point1, point2;
@@ -895,10 +928,8 @@ namespace Comets.OrbitViewer
 
 		#region GetCometColorAndDiameter
 
-		private Color GetCometColorAndDiameter(OVComet comet, out int diameter)
+		private void GetCometColorAndDiameter(OVComet comet, out int diameter, out Color color)
 		{
-			Color color;
-
 			double mag = GetEphemeris(comet).Magnitude;
 
 			if (mag < 0)
@@ -936,8 +967,37 @@ namespace Comets.OrbitViewer
 				diameter = 2;
 				color = Color.DimGray;
 			}
+		}
 
-			return color;
+		#endregion
+
+		#region GetCometVisibility
+
+		private bool GetCometVisibility(OVComet comet, double? r, double? dist, double? mag)
+		{
+			bool retval = true;
+
+			bool check = r != null || dist != null || mag != null;
+
+			if (check)
+			{
+				EphemerisResult er = GetEphemeris(comet);
+
+				List<bool> checks = new List<bool>();
+
+				if (r != null)
+					checks.Add(er.SunDist <= r.Value);
+
+				if (dist != null)
+					checks.Add(er.EarthDist <= dist.Value);
+
+				if (mag != null)
+					checks.Add(er.Magnitude <= mag.Value);
+
+				retval = checks.All(x => x);
+			}
+
+			return retval;
 		}
 
 		#endregion
