@@ -6,31 +6,8 @@ using System.Windows.Forms;
 
 namespace Comets.BusinessLayer.Managers
 {
-	public static class Utils
+	public static class ValNumManager
 	{
-		#region GetNthIndex
-
-		public static int GetNthIndex(string s, char c, int n)
-		{
-			//http://stackoverflow.com/questions/2571716/find-nth-occurrence-of-a-character-in-a-string
-
-			int count = 0;
-			for (int i = 0; i < s.Length; i++)
-			{
-				if (s[i] == c)
-				{
-					count++;
-					if (count == n)
-					{
-						return i;
-					}
-				}
-			}
-			return -1;
-		}
-
-		#endregion
-
 		#region HandleKeyPress
 
 		public static bool HandleKeyPress(object sender, KeyPressEventArgs e)
@@ -49,19 +26,16 @@ namespace Comets.BusinessLayer.Managers
 			if (minimum > maximum)
 				throw new Exception("Minimum can not be greather than maximum");
 
-			bool negative = minimum < 0;
-			string text;
-			bool handle;
-
 			if (e.KeyChar == ',')
 				e.KeyChar = '.';
 
-			if (textbox.SelectionLength > 0)
-				text = textbox.Text.Replace(textbox.SelectedText, Char.IsControl(e.KeyChar) ? String.Empty : e.KeyChar.ToString());
-			else
-				text = textbox.Text + (Char.IsControl(e.KeyChar) ? String.Empty : e.KeyChar.ToString());
+			string str = Char.IsControl(e.KeyChar) ? String.Empty : e.KeyChar.ToString();
+
+			string text = textbox.SelectionLength > 0 ? textbox.Text.Replace(textbox.SelectedText, str) : textbox.Text + str;
 
 			string pattern = "^";
+
+			bool negative = minimum < 0;
 
 			if (negative)
 				pattern += "-?";
@@ -78,7 +52,7 @@ namespace Comets.BusinessLayer.Managers
 				pattern += "[0-9]*([.][0-9]{0," + decimals + "})?$)";
 			}
 
-			handle = !Regex.IsMatch(text, pattern);
+			bool handle = !Regex.IsMatch(text, pattern);
 
 			if (Char.IsDigit(e.KeyChar) && !handle)
 				handle = text.Double() < minimum;
@@ -121,16 +95,6 @@ namespace Comets.BusinessLayer.Managers
 			}
 
 			return suppress;
-		}
-
-		#endregion
-
-		#region JDToDateTime
-
-		public static DateTime JDToDateTime(double jd)
-		{
-			int[] dt = EphemerisManager.JDToDateTime(jd);
-			return new DateTime(dt[0], dt[1], dt[2], dt[4], dt[5], dt[6]/*, DateTimeKind.Utc*/);
 		}
 
 		#endregion

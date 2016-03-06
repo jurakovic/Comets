@@ -1,9 +1,9 @@
 ﻿using Comets.BusinessLayer.Business;
+using Comets.BusinessLayer.Extensions;
 using System;
 using System.IO;
 using System.Linq;
-using System.Windows.Forms;
-using ImportType = Comets.BusinessLayer.Business.ElementTypes.Type;
+using ImportType = Comets.BusinessLayer.Managers.ElementTypesManager.Type;
 
 namespace Comets.BusinessLayer.Managers
 {
@@ -97,7 +97,8 @@ namespace Comets.BusinessLayer.Managers
 			try //xephem 3
 			{
 				string[] parts = lastLine.Split(',');
-				if (parts.Length == 13 && (parts[1] == "e" || parts[1] == "p" || parts[1] == "h")) return ImportType.xephem;
+				if (parts.Length == 13 && (parts[1].In("e", "p", "h")))
+					return ImportType.xephem;
 			}
 			catch
 			{
@@ -107,7 +108,8 @@ namespace Comets.BusinessLayer.Managers
 			try //home planet 4
 			{
 				string[] parts = lastLine.Split(',');
-				if (parts.Length == 10) return ImportType.HomePlanet;
+				if (parts.Length == 10)
+					return ImportType.HomePlanet;
 			}
 			catch
 			{
@@ -117,7 +119,8 @@ namespace Comets.BusinessLayer.Managers
 			try //mystars 5
 			{
 				string[] parts = lastLine.Split('\t');
-				if (parts.Length == 11) return ImportType.MyStars;
+				if (parts.Length == 11)
+					return ImportType.MyStars;
 			}
 			catch
 			{
@@ -127,7 +130,8 @@ namespace Comets.BusinessLayer.Managers
 			try //thesky 6
 			{
 				string[] parts = lastLine.Split('|');
-				if (parts.Length == 11 && parts[0].Length == 39 && parts[1].Length == 4) return ImportType.TheSky;
+				if (parts.Length == 11 && parts[0].Length == 39 && parts[1].Length == 4)
+					return ImportType.TheSky;
 			}
 			catch
 			{
@@ -157,7 +161,8 @@ namespace Comets.BusinessLayer.Managers
 			try //deepspace 8
 			{
 				string[] parts = lastLine.Split(' ');
-				if (parts.Length == 12 && parts[0].Length == 1) return ImportType.DeepSpace;
+				if (parts.Length == 12 && parts[0].Length == 1)
+					return ImportType.DeepSpace;
 			}
 			catch
 			{
@@ -167,7 +172,8 @@ namespace Comets.BusinessLayer.Managers
 			try //pc-tcs 9
 			{
 				string[] parts = lastLine.TrimEnd().Split(' ');
-				if (parts.Length >= 12 && lastLine.Length == 126) return ImportType.PCTCS;
+				if (parts.Length >= 12 && lastLine.Length == 126)
+					return ImportType.PCTCS;
 			}
 			catch
 			{
@@ -177,7 +183,8 @@ namespace Comets.BusinessLayer.Managers
 			try //ecu 10
 			{
 				string[] parts = lastLine.Split(' ');
-				if (parts.Length == 13 && parts[0].Length == 1 && parts[1].Length == 1) return ImportType.EarthCenteredUniverse;
+				if (parts.Length == 13 && parts[0].Length == 1 && parts[1].Length == 1)
+					return ImportType.EarthCenteredUniverse;
 			}
 			catch
 			{
@@ -197,7 +204,8 @@ namespace Comets.BusinessLayer.Managers
 				c.Td = Convert.ToInt32(lastLine.Substring(61, 2).Trim());
 				c.Th = Convert.ToInt32(lastLine.Substring(65, 4).Trim());
 
-				return ImportType.DanceOfThePlanets;
+				return
+					ImportType.DanceOfThePlanets;
 			}
 			catch
 			{
@@ -230,7 +238,8 @@ namespace Comets.BusinessLayer.Managers
 			try //skychart 13
 			{
 				string[] parts = lastLine.Split('\t');
-				if (parts.Length == 14 && parts[0].Length == 3) return ImportType.SkyChartIII;
+				if (parts.Length == 14 && parts[0].Length == 3)
+					return ImportType.SkyChartIII;
 			}
 			catch
 			{
@@ -238,18 +247,8 @@ namespace Comets.BusinessLayer.Managers
 			}
 
 			//voyager 14
-			if (lastLine.Contains("Jan") ||
-				lastLine.Contains("Feb") ||
-				lastLine.Contains("Mar") ||
-				lastLine.Contains("Apr") ||
-				lastLine.Contains("May") ||
-				lastLine.Contains("Jun") ||
-				lastLine.Contains("Jul") ||
-				lastLine.Contains("Aug") ||
-				lastLine.Contains("Sep") ||
-				lastLine.Contains("Oct") ||
-				lastLine.Contains("Nov") ||
-				lastLine.Contains("Dec")) return ImportType.VoyagerII;
+			if (CometManager.Month.Any(x => lastLine.Contains(x)))
+				return ImportType.VoyagerII;
 
 			try //skytools 15
 			{
@@ -304,10 +303,10 @@ namespace Comets.BusinessLayer.Managers
 		{
 			int lines = File.ReadLines(filename).Count();
 
-			if (importType == ImportType.xephem || importType == ImportType.DeepSpace || importType == ImportType.EarthCenteredUniverse)
+			if (importType.In(ImportType.xephem, ImportType.DeepSpace, ImportType.EarthCenteredUniverse))
 				lines /= 2;
 
-			if (importType == ImportType.DeepSpace || importType == ImportType.HomePlanet || importType == ImportType.MyStars)
+			if (importType.In(ImportType.DeepSpace, ImportType.HomePlanet, ImportType.MyStars))
 				--lines;
 
 			if (importType == ImportType.StarryNight)
@@ -332,15 +331,15 @@ namespace Comets.BusinessLayer.Managers
 
 		#region ImportMain
 
-		public static CometCollection ImportMain(CometCollection oldCollection, ImportType importType, string filename, bool quiet)
+		public static CometCollection ImportMain(CometCollection oldCollection, ImportType importType, string filename, out int newCnt, out int oldCnt)
 		{
-			CometCollection newCollection = ImportManager.Import(importType, filename);
+			CometCollection newCollection = ImportManager.ImportByType(importType, filename);
+
+			oldCnt = 0;
+			newCnt = 0;
 
 			if (newCollection.Count > 0)
 			{
-				int totalOld = 0;
-				int totalNew = 0;
-
 				if (oldCollection.Count > 0)
 				{
 					foreach (Comet n in newCollection)
@@ -350,11 +349,11 @@ namespace Comets.BusinessLayer.Managers
 						if (o != null)
 						{
 							oldCollection.Remove(o);
-							totalOld++;
+							oldCnt++;
 						}
 						else
 						{
-							totalNew++;
+							newCnt++;
 						}
 
 						oldCollection.Add(n);
@@ -363,18 +362,9 @@ namespace Comets.BusinessLayer.Managers
 				else
 				{
 					oldCollection = newCollection;
-					totalNew = oldCollection.Count;
+					newCnt = oldCollection.Count;
 				}
-
-				if (!quiet)
-					MessageBox.Show(
-							String.Format("Import complete\n\n{0} new, {1} updated\t\t\t\t", totalNew, totalOld)
-							, "Comets"
-							, MessageBoxButtons.OK
-							, MessageBoxIcon.Information);
 			}
-			else if (!quiet)
-				MessageBox.Show("Something wrong happened. Zero comets imported.\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
 			oldCollection = new CometCollection(oldCollection.OrderBy(x => x.sortkey));
 
@@ -383,9 +373,9 @@ namespace Comets.BusinessLayer.Managers
 
 		#endregion
 
-		#region Import
+		#region ImportByType
 
-		private static CometCollection Import(ImportType importType, string filename)
+		private static CometCollection ImportByType(ImportType importType, string filename)
 		{
 			CometCollection collection = new CometCollection();
 
@@ -453,7 +443,7 @@ namespace Comets.BusinessLayer.Managers
 
 		#endregion
 
-		#region ImportFunctions
+		#region Import methods
 
 		public static void ImportMpc00(string filename, ref CometCollection collection)
 		{
@@ -477,18 +467,18 @@ namespace Comets.BusinessLayer.Managers
 					c.full = line.Substring(102, 55).Trim();
 
 					string id, name;
-					Comet.GetIdNameFromFull(c.full, out id, out name);
+					CometManager.GetIdNameFromFull(c.full, out id, out name);
 					c.id = id;
 					c.name = name;
 
 					c.T = EphemerisManager.JD0(c.Ty, c.Tm, c.Td, c.Th);
-					c.P = Comet.GetPeriod(c.q, c.e);
-					c.a = Comet.GetSemimajorAxis(c.q, c.e);
-					c.n = Comet.GetMeanMotion(c.e, c.P);
-					c.Q = Comet.GetAphelionDistance(c.e, c.a);
+					c.P = CometManager.GetPeriod(c.q, c.e);
+					c.a = CometManager.GetSemimajorAxis(c.q, c.e);
+					c.n = CometManager.GetMeanMotion(c.e, c.P);
+					c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
-					c.sortkey = Comet.GetSortkey(c.id);
-					c.idKey = Comet.GetIdKey(c.id);
+					c.sortkey = CometManager.GetSortkey(c.id);
+					c.idKey = CometManager.GetIdKey(c.id);
 				}
 				catch
 				{
@@ -525,7 +515,7 @@ namespace Comets.BusinessLayer.Managers
 					c.k = Convert.ToDouble(line.Substring(121, 5).Trim());
 
 
-					if ((tempFull[0] == 'C' || tempFull[0] == 'P' || tempFull[0] == 'D' || tempFull[0] == 'X') && tempFull[1] == '/')
+					if ((tempFull[0].In('C', 'P', 'D', 'X')) && tempFull[1] == '/')
 					{
 						int spaces = tempFull.Count(f => f == ' ');
 
@@ -535,7 +525,7 @@ namespace Comets.BusinessLayer.Managers
 						}
 						else //if (spaces >= 2)
 						{
-							int secondspace = Utils.GetNthIndex(tempFull, ' ', 2);
+							int secondspace = GetNthIndex(tempFull, ' ', 2);
 							tempId = tempFull.Substring(0, secondspace);
 							tempName = tempFull.Substring(secondspace + 1, tempFull.Length - secondspace - 1);
 						}
@@ -555,18 +545,18 @@ namespace Comets.BusinessLayer.Managers
 						}
 					}
 
-					c.full = Comet.GetFullFromIdName(tempId, tempName);
+					c.full = CometManager.GetFullFromIdName(tempId, tempName);
 					c.id = tempId;
 					c.name = tempName;
 
 					c.T = EphemerisManager.JD0(c.Ty, c.Tm, c.Td, c.Th);
-					c.P = Comet.GetPeriod(c.q, c.e);
-					c.a = Comet.GetSemimajorAxis(c.q, c.e);
-					c.n = Comet.GetMeanMotion(c.e, c.P);
-					c.Q = Comet.GetAphelionDistance(c.e, c.a);
+					c.P = CometManager.GetPeriod(c.q, c.e);
+					c.a = CometManager.GetSemimajorAxis(c.q, c.e);
+					c.n = CometManager.GetMeanMotion(c.e, c.P);
+					c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
-					c.sortkey = Comet.GetSortkey(c.id);
-					c.idKey = Comet.GetIdKey(c.id);
+					c.sortkey = CometManager.GetSortkey(c.id);
+					c.idKey = CometManager.GetIdKey(c.id);
 				}
 				catch
 				{
@@ -618,18 +608,18 @@ namespace Comets.BusinessLayer.Managers
 						tempId = tempFull;
 					}
 
-					c.full = Comet.GetFullFromIdName(tempId, tempName);
+					c.full = CometManager.GetFullFromIdName(tempId, tempName);
 					c.id = tempId;
 					c.name = tempName;
 
 					c.T = EphemerisManager.JD0(c.Ty, c.Tm, c.Td, c.Th);
-					c.P = Comet.GetPeriod(c.q, c.e);
-					c.a = Comet.GetSemimajorAxis(c.q, c.e);
-					c.n = Comet.GetMeanMotion(c.e, c.P);
-					c.Q = Comet.GetAphelionDistance(c.e, c.a);
+					c.P = CometManager.GetPeriod(c.q, c.e);
+					c.a = CometManager.GetSemimajorAxis(c.q, c.e);
+					c.n = CometManager.GetMeanMotion(c.e, c.P);
+					c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
-					c.sortkey = Comet.GetSortkey(c.id);
-					c.idKey = Comet.GetIdKey(c.id);
+					c.sortkey = CometManager.GetSortkey(c.id);
+					c.idKey = CometManager.GetIdKey(c.id);
 				}
 				catch
 				{
@@ -660,7 +650,7 @@ namespace Comets.BusinessLayer.Managers
 					if (c.full[c.full.Length - 1] == '/') c.full = c.full.TrimEnd('/');
 
 					string id, name;
-					Comet.GetIdNameFromFull(c.full, out id, out name);
+					CometManager.GetIdNameFromFull(c.full, out id, out name);
 					c.id = id;
 					c.name = name;
 
@@ -700,13 +690,13 @@ namespace Comets.BusinessLayer.Managers
 							c.T = E - M / n;
 
 							if (M >= 180)
-								c.T += Comet.GetPeriod(c.q, c.e) * 365.25;
+								c.T += CometManager.GetPeriod(c.q, c.e) * 365.25;
 
-							int[] newdate = EphemerisManager.JDToDateTime(c.T);
-							c.Ty = newdate[0];
-							c.Tm = newdate[1];
-							c.Td = newdate[2];
-							c.Th = (int)(((newdate[4] + (newdate[5] / 60.0) + (newdate[6] / 3600.0)) / 24) * 10000);
+							DateTime newdate = EphemerisManager.JDToDateTime(c.T);
+							c.Ty = newdate.Year;
+							c.Tm = newdate.Month;
+							c.Td = newdate.Day;
+							c.Th = (int)(((newdate.Hour + (newdate.Minute / 60.0) + (newdate.Second / 3600.0)) / 24) * 10000);
 
 							var bzvz = c.Th + 3;
 						}
@@ -750,13 +740,13 @@ namespace Comets.BusinessLayer.Managers
 						c.T = EphemerisManager.JD0(c.Ty, c.Tm, c.Td, c.Th);
 					}
 
-					c.P = Comet.GetPeriod(c.q, c.e);
-					c.a = Comet.GetSemimajorAxis(c.q, c.e);
-					c.n = Comet.GetMeanMotion(c.e, c.P);
-					c.Q = Comet.GetAphelionDistance(c.e, c.a);
+					c.P = CometManager.GetPeriod(c.q, c.e);
+					c.a = CometManager.GetSemimajorAxis(c.q, c.e);
+					c.n = CometManager.GetMeanMotion(c.e, c.P);
+					c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
-					c.sortkey = Comet.GetSortkey(c.id);
-					c.idKey = Comet.GetIdKey(c.id);
+					c.sortkey = CometManager.GetSortkey(c.id);
+					c.idKey = CometManager.GetIdKey(c.id);
 				}
 				catch
 				{
@@ -783,7 +773,7 @@ namespace Comets.BusinessLayer.Managers
 					if (c.full[c.full.Length - 1] == '/') c.full = c.full.TrimEnd('/');
 
 					string id, name;
-					Comet.GetIdNameFromFull(c.full, out id, out name);
+					CometManager.GetIdNameFromFull(c.full, out id, out name);
 					c.id = id;
 					c.name = name;
 
@@ -801,13 +791,13 @@ namespace Comets.BusinessLayer.Managers
 					c.i = Convert.ToDouble(parts[6]);
 
 					c.T = EphemerisManager.JD0(c.Ty, c.Tm, c.Td, c.Th);
-					c.P = Comet.GetPeriod(c.q, c.e);
-					c.a = Comet.GetSemimajorAxis(c.q, c.e);
-					c.n = Comet.GetMeanMotion(c.e, c.P);
-					c.Q = Comet.GetAphelionDistance(c.e, c.a);
+					c.P = CometManager.GetPeriod(c.q, c.e);
+					c.a = CometManager.GetSemimajorAxis(c.q, c.e);
+					c.n = CometManager.GetMeanMotion(c.e, c.P);
+					c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
-					c.sortkey = Comet.GetSortkey(c.id);
-					c.idKey = Comet.GetIdKey(c.id);
+					c.sortkey = CometManager.GetSortkey(c.id);
+					c.idKey = CometManager.GetIdKey(c.id);
 				}
 				catch
 				{
@@ -841,7 +831,7 @@ namespace Comets.BusinessLayer.Managers
 					c.full = c.full.TrimEnd(';');
 
 					string id, name;
-					Comet.GetIdNameFromFull(c.full, out id, out name);
+					CometManager.GetIdNameFromFull(c.full, out id, out name);
 					c.id = id;
 					c.name = name;
 
@@ -850,10 +840,10 @@ namespace Comets.BusinessLayer.Managers
 					h = Convert.ToInt32(Th[1].Trim().PadRight(4, '0'));
 					c.T = T + 2400000.5;
 
-					int[] dd = EphemerisManager.JDToDateTime(c.T);
-					c.Ty = dd[0];
-					c.Tm = dd[1];
-					c.Td = dd[2];
+					DateTime dd = EphemerisManager.JDToDateTime(c.T);
+					c.Ty = dd.Year;
+					c.Tm = dd.Month;
+					c.Td = dd.Day;
 					c.Th = h;
 
 					c.w = Convert.ToDouble(parts[2]);
@@ -865,13 +855,13 @@ namespace Comets.BusinessLayer.Managers
 					c.k = Convert.ToDouble(parts[8]);
 
 					c.T = EphemerisManager.JD0(c.Ty, c.Tm, c.Td, c.Th);
-					c.P = Comet.GetPeriod(c.q, c.e);
-					c.a = Comet.GetSemimajorAxis(c.q, c.e);
-					c.n = Comet.GetMeanMotion(c.e, c.P);
-					c.Q = Comet.GetAphelionDistance(c.e, c.a);
+					c.P = CometManager.GetPeriod(c.q, c.e);
+					c.a = CometManager.GetSemimajorAxis(c.q, c.e);
+					c.n = CometManager.GetMeanMotion(c.e, c.P);
+					c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
-					c.sortkey = Comet.GetSortkey(c.id);
-					c.idKey = Comet.GetIdKey(c.id);
+					c.sortkey = CometManager.GetSortkey(c.id);
+					c.idKey = CometManager.GetIdKey(c.id);
 				}
 				catch
 				{
@@ -895,7 +885,7 @@ namespace Comets.BusinessLayer.Managers
 					c.full = parts[0].Trim();
 
 					string id, name;
-					Comet.GetIdNameFromFull(c.full, out id, out name);
+					CometManager.GetIdNameFromFull(c.full, out id, out name);
 					c.id = id;
 					c.name = name;
 
@@ -914,13 +904,13 @@ namespace Comets.BusinessLayer.Managers
 					c.k = Convert.ToDouble(parts[9]) / 2.5;
 
 					c.T = EphemerisManager.JD0(c.Ty, c.Tm, c.Td, c.Th);
-					c.P = Comet.GetPeriod(c.q, c.e);
-					c.a = Comet.GetSemimajorAxis(c.q, c.e);
-					c.n = Comet.GetMeanMotion(c.e, c.P);
-					c.Q = Comet.GetAphelionDistance(c.e, c.a);
+					c.P = CometManager.GetPeriod(c.q, c.e);
+					c.a = CometManager.GetSemimajorAxis(c.q, c.e);
+					c.n = CometManager.GetMeanMotion(c.e, c.P);
+					c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
-					c.sortkey = Comet.GetSortkey(c.id);
-					c.idKey = Comet.GetIdKey(c.id);
+					c.sortkey = CometManager.GetSortkey(c.id);
+					c.idKey = CometManager.GetIdKey(c.id);
 				}
 				catch
 				{
@@ -952,22 +942,22 @@ namespace Comets.BusinessLayer.Managers
 					c.k = Convert.ToDouble(lines[i].Substring(129, 6).Trim()) / 2.5;
 					c.id = lines[i].Substring(136, 14).Trim();
 
-					c.full = Comet.GetFullFromIdName(c.id, c.name);
+					c.full = CometManager.GetFullFromIdName(c.id, c.name);
 
-					int[] dd = EphemerisManager.JDToDateTime(c.T);
-					c.Ty = dd[0];
-					c.Tm = dd[1];
-					c.Td = dd[2];
-					c.Th = (int)(((dd[4] + (dd[5] / 60.0) + (dd[6] / 3600.0)) / 24) * 10000);
+					DateTime dd = EphemerisManager.JDToDateTime(c.T);
+					c.Ty = dd.Year;
+					c.Tm = dd.Month;
+					c.Td = dd.Day;
+					c.Th = (int)(((dd.Hour + (dd.Minute / 60.0) + (dd.Second / 3600.0)) / 24) * 10000);
 
 					c.T = EphemerisManager.JD0(c.Ty, c.Tm, c.Td, c.Th);
-					c.P = Comet.GetPeriod(c.q, c.e);
-					c.a = Comet.GetSemimajorAxis(c.q, c.e);
-					c.n = Comet.GetMeanMotion(c.e, c.P);
-					c.Q = Comet.GetAphelionDistance(c.e, c.a);
+					c.P = CometManager.GetPeriod(c.q, c.e);
+					c.a = CometManager.GetSemimajorAxis(c.q, c.e);
+					c.n = CometManager.GetMeanMotion(c.e, c.P);
+					c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
-					c.sortkey = Comet.GetSortkey(c.id);
-					c.idKey = Comet.GetIdKey(c.id);
+					c.sortkey = CometManager.GetSortkey(c.id);
+					c.idKey = CometManager.GetIdKey(c.id);
 				}
 				catch
 				{
@@ -992,7 +982,7 @@ namespace Comets.BusinessLayer.Managers
 					string[] idname = tempfull.Split('(');
 					c.name = idname[0].Trim();
 					c.id = idname[1].TrimEnd(')');
-					c.full = Comet.GetFullFromIdName(c.id, c.name);
+					c.full = CometManager.GetFullFromIdName(c.id, c.name);
 
 					string line = lines[i + 1];
 					string[] parts = line.Split(' ');
@@ -1012,13 +1002,13 @@ namespace Comets.BusinessLayer.Managers
 					c.k = Convert.ToDouble(parts[11]) / 2.5;
 
 					c.T = EphemerisManager.JD0(c.Ty, c.Tm, c.Td, c.Th);
-					c.P = Comet.GetPeriod(c.q, c.e);
-					c.a = Comet.GetSemimajorAxis(c.q, c.e);
-					c.n = Comet.GetMeanMotion(c.e, c.P);
-					c.Q = Comet.GetAphelionDistance(c.e, c.a);
+					c.P = CometManager.GetPeriod(c.q, c.e);
+					c.a = CometManager.GetSemimajorAxis(c.q, c.e);
+					c.n = CometManager.GetMeanMotion(c.e, c.P);
+					c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
-					c.sortkey = Comet.GetSortkey(c.id);
-					c.idKey = Comet.GetIdKey(c.id);
+					c.sortkey = CometManager.GetSortkey(c.id);
+					c.idKey = CometManager.GetIdKey(c.id);
 				}
 				catch
 				{
@@ -1073,17 +1063,17 @@ namespace Comets.BusinessLayer.Managers
 
 					c.name = tempName.Trim();
 
-					c.full = Comet.GetFullFromIdName(id, c.name);
+					c.full = CometManager.GetFullFromIdName(id, c.name);
 					c.id = id;
 
 					c.T = EphemerisManager.JD0(c.Ty, c.Tm, c.Td, c.Th);
-					c.P = Comet.GetPeriod(c.q, c.e);
-					c.a = Comet.GetSemimajorAxis(c.q, c.e);
-					c.n = Comet.GetMeanMotion(c.e, c.P);
-					c.Q = Comet.GetAphelionDistance(c.e, c.a);
+					c.P = CometManager.GetPeriod(c.q, c.e);
+					c.a = CometManager.GetSemimajorAxis(c.q, c.e);
+					c.n = CometManager.GetMeanMotion(c.e, c.P);
+					c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
-					c.sortkey = Comet.GetSortkey(c.id);
-					c.idKey = Comet.GetIdKey(c.id);
+					c.sortkey = CometManager.GetSortkey(c.id);
+					c.idKey = CometManager.GetIdKey(c.id);
 				}
 				catch
 				{
@@ -1107,7 +1097,7 @@ namespace Comets.BusinessLayer.Managers
 					c.full = lines[i];
 
 					string id, name;
-					Comet.GetIdNameFromFull(c.full, out id, out name);
+					CometManager.GetIdNameFromFull(c.full, out id, out name);
 					c.id = id;
 					c.name = name;
 
@@ -1129,13 +1119,13 @@ namespace Comets.BusinessLayer.Managers
 					c.k = Convert.ToDouble(parts[12]) / 2.5;
 
 					c.T = EphemerisManager.JD0(c.Ty, c.Tm, c.Td, c.Th);
-					c.P = Comet.GetPeriod(c.q, c.e);
-					c.a = Comet.GetSemimajorAxis(c.q, c.e);
-					c.n = Comet.GetMeanMotion(c.e, c.P);
-					c.Q = Comet.GetAphelionDistance(c.e, c.a);
+					c.P = CometManager.GetPeriod(c.q, c.e);
+					c.a = CometManager.GetSemimajorAxis(c.q, c.e);
+					c.n = CometManager.GetMeanMotion(c.e, c.P);
+					c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
-					c.sortkey = Comet.GetSortkey(c.id);
-					c.idKey = Comet.GetIdKey(c.id);
+					c.sortkey = CometManager.GetSortkey(c.id);
+					c.idKey = CometManager.GetIdKey(c.id);
 				}
 				catch
 				{
@@ -1185,17 +1175,17 @@ namespace Comets.BusinessLayer.Managers
 					else
 						c.name = lines[i].Substring(70, lines[i].Length - 70).Trim();
 
-					c.full = Comet.GetFullFromIdName(id, c.name);
+					c.full = CometManager.GetFullFromIdName(id, c.name);
 					c.id = id;
 
 					c.T = EphemerisManager.JD0(c.Ty, c.Tm, c.Td, c.Th);
-					c.P = Comet.GetPeriod(c.q, c.e);
-					c.a = Comet.GetSemimajorAxis(c.q, c.e);
-					c.n = Comet.GetMeanMotion(c.e, c.P);
-					c.Q = Comet.GetAphelionDistance(c.e, c.a);
+					c.P = CometManager.GetPeriod(c.q, c.e);
+					c.a = CometManager.GetSemimajorAxis(c.q, c.e);
+					c.n = CometManager.GetMeanMotion(c.e, c.P);
+					c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
-					c.sortkey = Comet.GetSortkey(c.id);
-					c.idKey = Comet.GetIdKey(c.id);
+					c.sortkey = CometManager.GetSortkey(c.id);
+					c.idKey = CometManager.GetIdKey(c.id);
 				}
 				catch
 				{
@@ -1217,7 +1207,7 @@ namespace Comets.BusinessLayer.Managers
 					c.name = line.Substring(0, 30).Trim();
 					c.id = line.Substring(30, 12).Trim();
 
-					c.full = Comet.GetFullFromIdName(c.id, c.name);
+					c.full = CometManager.GetFullFromIdName(c.id, c.name);
 
 					c.Ty = Convert.ToInt32(line.Substring(42, 4).Trim());
 					c.Tm = Convert.ToInt32(line.Substring(47, 2).Trim());
@@ -1233,13 +1223,13 @@ namespace Comets.BusinessLayer.Managers
 					c.k = Convert.ToDouble(line.Substring(126, 6).Trim());
 
 					c.T = EphemerisManager.JD0(c.Ty, c.Tm, c.Td, c.Th);
-					c.P = Comet.GetPeriod(c.q, c.e);
-					c.a = Comet.GetSemimajorAxis(c.q, c.e);
-					c.n = Comet.GetMeanMotion(c.e, c.P);
-					c.Q = Comet.GetAphelionDistance(c.e, c.a);
+					c.P = CometManager.GetPeriod(c.q, c.e);
+					c.a = CometManager.GetSemimajorAxis(c.q, c.e);
+					c.n = CometManager.GetMeanMotion(c.e, c.P);
+					c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
-					c.sortkey = Comet.GetSortkey(c.id);
-					c.idKey = Comet.GetIdKey(c.id);
+					c.sortkey = CometManager.GetSortkey(c.id);
+					c.idKey = CometManager.GetIdKey(c.id);
 				}
 				catch
 				{
@@ -1280,18 +1270,18 @@ namespace Comets.BusinessLayer.Managers
 					c.full = parts[12].Split(';')[0];
 
 					string id, name;
-					Comet.GetIdNameFromFull(c.full, out id, out name);
+					CometManager.GetIdNameFromFull(c.full, out id, out name);
 					c.id = id;
 					c.name = name;
 
 					c.T = EphemerisManager.JD0(c.Ty, c.Tm, c.Td, c.Th);
-					c.P = Comet.GetPeriod(c.q, c.e);
-					c.a = Comet.GetSemimajorAxis(c.q, c.e);
-					c.n = Comet.GetMeanMotion(c.e, c.P);
-					c.Q = Comet.GetAphelionDistance(c.e, c.a);
+					c.P = CometManager.GetPeriod(c.q, c.e);
+					c.a = CometManager.GetSemimajorAxis(c.q, c.e);
+					c.n = CometManager.GetMeanMotion(c.e, c.P);
+					c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
-					c.sortkey = Comet.GetSortkey(c.id);
-					c.idKey = Comet.GetIdKey(c.id);
+					c.sortkey = CometManager.GetSortkey(c.id);
+					c.idKey = CometManager.GetIdKey(c.id);
 				}
 				catch
 				{
@@ -1325,7 +1315,7 @@ namespace Comets.BusinessLayer.Managers
 					c.Ty = Convert.ToInt32(lines[i].Substring(87, 4).Trim());
 
 					string mon = lines[i].Substring(91, 3);
-					int ind = Array.IndexOf(Comet.Month, mon) + 1;
+					int ind = Array.IndexOf(CometManager.Month, mon) + 1;
 					if (ind > 0)
 						c.Tm = ind;
 					else
@@ -1336,14 +1326,14 @@ namespace Comets.BusinessLayer.Managers
 					c.Th = Convert.ToInt32(dh[1].Trim().PadRight(4, '0'));
 
 					c.T = EphemerisManager.JD0(c.Ty, c.Tm, c.Td, c.Th);
-					c.P = Comet.GetPeriod(c.q, c.e);
-					c.a = Comet.GetSemimajorAxis(c.q, c.e);
-					c.n = Comet.GetMeanMotion(c.e, c.P);
-					c.Q = Comet.GetAphelionDistance(c.e, c.a);
+					c.P = CometManager.GetPeriod(c.q, c.e);
+					c.a = CometManager.GetSemimajorAxis(c.q, c.e);
+					c.n = CometManager.GetMeanMotion(c.e, c.P);
+					c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
 					//voyager nema id
-					//c.sortkey = Comet.GetSortkey(c.id);
-					//c.idKey = Comet.GetIdKey(c.id);
+					//c.sortkey = CometManager.GetSortkey(c.id);
+					//c.idKey = CometManager.GetIdKey(c.id);
 				}
 				catch
 				{
@@ -1368,7 +1358,7 @@ namespace Comets.BusinessLayer.Managers
 				{
 					tempFull = line.Substring(2, 41).Trim();
 
-					if ((tempFull[0] == 'C' || tempFull[0] == 'P' || tempFull[0] == 'D' || tempFull[0] == 'X') && tempFull[1] == '/')
+					if ((tempFull[0].In('C', 'P', 'D', 'X')) && tempFull[1] == '/')
 					{
 						int spaces = tempFull.Count(f => f == ' ');
 
@@ -1378,12 +1368,12 @@ namespace Comets.BusinessLayer.Managers
 						}
 						else //if (spaces >= 2)
 						{
-							int secondspace = Utils.GetNthIndex(tempFull, ' ', 2);
+							int secondspace = GetNthIndex(tempFull, ' ', 2);
 							tempId = tempFull.Substring(0, secondspace);
 							tempName = tempFull.Substring(secondspace + 1, tempFull.Length - secondspace - 1);
 						}
 
-						c.full = Comet.GetFullFromIdName(tempId, tempName);
+						c.full = CometManager.GetFullFromIdName(tempId, tempName);
 						c.id = tempId;
 						c.name = tempName;
 					}
@@ -1392,7 +1382,7 @@ namespace Comets.BusinessLayer.Managers
 						c.full = tempFull;
 
 						string id, name;
-						Comet.GetIdNameFromFull(c.full, out id, out name);
+						CometManager.GetIdNameFromFull(c.full, out id, out name);
 						c.id = id;
 						c.name = name;
 					}
@@ -1412,13 +1402,13 @@ namespace Comets.BusinessLayer.Managers
 					c.k = Convert.ToDouble(line.Substring(122, 4).Trim());
 
 					c.T = EphemerisManager.JD0(c.Ty, c.Tm, c.Td, c.Th);
-					c.P = Comet.GetPeriod(c.q, c.e);
-					c.a = Comet.GetSemimajorAxis(c.q, c.e);
-					c.n = Comet.GetMeanMotion(c.e, c.P);
-					c.Q = Comet.GetAphelionDistance(c.e, c.a);
+					c.P = CometManager.GetPeriod(c.q, c.e);
+					c.a = CometManager.GetSemimajorAxis(c.q, c.e);
+					c.n = CometManager.GetMeanMotion(c.e, c.P);
+					c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
-					c.sortkey = Comet.GetSortkey(c.id);
-					c.idKey = Comet.GetIdKey(c.id);
+					c.sortkey = CometManager.GetSortkey(c.id);
+					c.idKey = CometManager.GetIdKey(c.id);
 				}
 				catch
 				{
@@ -1442,7 +1432,7 @@ namespace Comets.BusinessLayer.Managers
 					c.full = lines[i].Split('=')[1];
 
 					string id, name;
-					Comet.GetIdNameFromFull(c.full, out id, out name);
+					CometManager.GetIdNameFromFull(c.full, out id, out name);
 					c.id = id;
 					c.name = name;
 
@@ -1464,13 +1454,13 @@ namespace Comets.BusinessLayer.Managers
 					c.k = Convert.ToDouble(gk[1]) / 2.5;
 
 					c.T = EphemerisManager.JD0(c.Ty, c.Tm, c.Td, c.Th);
-					c.P = Comet.GetPeriod(c.q, c.e);
-					c.a = Comet.GetSemimajorAxis(c.q, c.e);
-					c.n = Comet.GetMeanMotion(c.e, c.P);
-					c.Q = Comet.GetAphelionDistance(c.e, c.a);
+					c.P = CometManager.GetPeriod(c.q, c.e);
+					c.a = CometManager.GetSemimajorAxis(c.q, c.e);
+					c.n = CometManager.GetMeanMotion(c.e, c.P);
+					c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
-					c.sortkey = Comet.GetSortkey(c.id);
-					c.idKey = Comet.GetIdKey(c.id);
+					c.sortkey = CometManager.GetSortkey(c.id);
+					c.idKey = CometManager.GetIdKey(c.id);
 				}
 				catch
 				{
@@ -1494,7 +1484,7 @@ namespace Comets.BusinessLayer.Managers
 					c.full = lines[i].Substring(0, 43).Trim();
 
 					string id, name;
-					Comet.GetIdNameFromFull(c.full, out id, out name);
+					CometManager.GetIdNameFromFull(c.full, out id, out name);
 					c.id = id;
 					c.name = name;
 
@@ -1517,13 +1507,13 @@ namespace Comets.BusinessLayer.Managers
 					c.Th = Convert.ToInt32(Convert.ToDouble(lines[i].Substring(114, 5).Trim().PadRight(5, '0')) / 10.0);
 
 					c.T = EphemerisManager.JD0(c.Ty, c.Tm, c.Td, c.Th);
-					c.P = Comet.GetPeriod(c.q, c.e);
-					c.a = Comet.GetSemimajorAxis(c.q, c.e);
-					c.n = Comet.GetMeanMotion(c.e, c.P);
-					c.Q = Comet.GetAphelionDistance(c.e, c.a);
+					c.P = CometManager.GetPeriod(c.q, c.e);
+					c.a = CometManager.GetSemimajorAxis(c.q, c.e);
+					c.n = CometManager.GetMeanMotion(c.e, c.P);
+					c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
-					c.sortkey = Comet.GetSortkey(c.id);
-					c.idKey = Comet.GetIdKey(c.id);
+					c.sortkey = CometManager.GetSortkey(c.id);
+					c.idKey = CometManager.GetIdKey(c.id);
 				}
 				catch
 				{
@@ -1532,6 +1522,29 @@ namespace Comets.BusinessLayer.Managers
 
 				collection.Add(c);
 			}
+		}
+
+		#endregion
+
+		#region Methods
+
+		public static int GetNthIndex(string s, char c, int n)
+		{
+			//http://stackoverflow.com/questions/2571716/find-nth-occurrence-of-a-character-in-a-string
+
+			int count = 0;
+			for (int i = 0; i < s.Length; i++)
+			{
+				if (s[i] == c)
+				{
+					count++;
+					if (count == n)
+					{
+						return i;
+					}
+				}
+			}
+			return -1;
 		}
 
 		#endregion

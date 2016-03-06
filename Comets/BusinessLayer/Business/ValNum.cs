@@ -14,12 +14,14 @@ namespace Comets.BusinessLayer.Business
 
 		#region Const
 
-		public static ValNum VDay = new ValNum(1, 31, DateTimeValueEnum.Day);
-		public static ValNum VMonth = new ValNum(1, 12, DateTimeValueEnum.Month);
-		public static ValNum VYear = new ValNum(1, 9999, DateTimeValueEnum.Year);
-		public static ValNum VHour = new ValNum(0, 23, DateTimeValueEnum.Hour);
-		public static ValNum VMinute = new ValNum(0, 59, DateTimeValueEnum.Minute);
-		public static ValNum VSecond = new ValNum(0, 59, DateTimeValueEnum.Second);
+		public static readonly ValNum VDay = new ValNum(1, 31, DateTimeValueEnum.Day);
+		public static readonly ValNum VMonth = new ValNum(1, 12, DateTimeValueEnum.Month);
+		public static readonly ValNum VYear = new ValNum(1, 9999, DateTimeValueEnum.Year);
+		public static readonly ValNum VHour = new ValNum(0, 23, DateTimeValueEnum.Hour);
+		public static readonly ValNum VMinute = new ValNum(0, 59, DateTimeValueEnum.Minute);
+		public static readonly ValNum VSecond = new ValNum(0, 59, DateTimeValueEnum.Second);
+
+		public static readonly ValNum VMagnitude = new ValNum(-20.0, 40.0, 2);
 
 		#endregion
 

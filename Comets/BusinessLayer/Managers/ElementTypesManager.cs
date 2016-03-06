@@ -1,7 +1,7 @@
 ﻿
-namespace Comets.BusinessLayer.Business
+namespace Comets.BusinessLayer.Managers
 {
-	public static class ElementTypes
+	public static class ElementTypesManager
 	{
 		#region TypeEnum
 
@@ -39,7 +39,7 @@ namespace Comets.BusinessLayer.Business
 
 		#region TypeName
 
-		public static string[] TypeName = 
+		public static string[] TypeName =
 		{
 			"MPC (Soft00Cmt)",
 			"SkyMap (Soft01Cmt)",
@@ -68,7 +68,7 @@ namespace Comets.BusinessLayer.Business
 
 		#region Software
 
-		public static string[] Software = 
+		public static string[] Software =
 		{
 			"MPC",
 			"SkyMap",
@@ -97,7 +97,7 @@ namespace Comets.BusinessLayer.Business
 
 		#region ExtensionFilters
 
-		public static string[] ExtensionFilters = 
+		public static string[] ExtensionFilters =
 		{
 			"Text Documents (*.txt)|*.txt|",        // MPC
 			"Text Documents (*.txt)|*.txt|",        // SkyMap

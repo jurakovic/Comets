@@ -19,7 +19,7 @@ namespace Comets.BusinessLayer.Business
 		public DateTime Start { get; set; }
 		public DateTime Stop { get; set; }
 		public double Interval { get; set; }
-		public Dictionary<Comet, List<EphemerisResult>> Results { get; set; }
+		public Dictionary<Comet, List<Ephemeris>> Ephemerides { get; set; }
 		public bool AddNew { get; set; }
 
 		public bool MaxSunDistChecked { get; set; }

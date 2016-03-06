@@ -4,7 +4,7 @@ using System;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
-using ExportType = Comets.BusinessLayer.Business.ElementTypes.Type;
+using ExportType = Comets.BusinessLayer.Managers.ElementTypesManager.Type;
 
 namespace Comets.BusinessLayer.Managers
 {
@@ -40,7 +40,7 @@ namespace Comets.BusinessLayer.Managers
 					ExportMyStars05(ref sb, collection); break;
 
 				case ExportType.TheSky:
-				//case ExportType.Autostar:
+					//case ExportType.Autostar:
 					ExportTheSky06(ref sb, collection); break;
 
 				case ExportType.StarryNight:
@@ -76,11 +76,11 @@ namespace Comets.BusinessLayer.Managers
 				case ExportType.Celestia:
 					ExportCelestia(ref sb, collection); break;
 
-				//case ExportType.CometForWindows:
-				//    ExportCometForWindows(ref sb, collection); break;
+					//case ExportType.CometForWindows:
+					//    ExportCometForWindows(ref sb, collection); break;
 
-				//case ExportType.NASA:
-				//    ExportNasaComet(ref sb, collection); break;
+					//case ExportType.NASA:
+					//    ExportNasaComet(ref sb, collection); break;
 			}
 
 			bool tryAgain = false;
@@ -201,7 +201,7 @@ namespace Comets.BusinessLayer.Managers
 
 		#endregion
 
-		#region EportFunctions
+		#region ExportMethods
 
 		private static void ExportMpc00(ref StringBuilder sb, CometCollection collection)
 		{
@@ -406,7 +406,7 @@ namespace Comets.BusinessLayer.Managers
 
 			foreach (Comet c in collection)
 			{
-				date = String.Format("{0,4}{1}{2}.{3:0000}", c.Ty, Comet.Month[c.Tm - 1], c.Td, c.Th);
+				date = String.Format("{0,4}{1}{2}.{3:0000}", c.Ty, CometManager.Month[c.Tm - 1], c.Td, c.Th);
 				sb.AppendFormat(format, c.name, c.q, c.e, c.i, c.N, c.w, date);
 			}
 		}
@@ -471,7 +471,7 @@ namespace Comets.BusinessLayer.Managers
 				sb.AppendLine(String.Format("\t\tAscendingNode            {0,8:0.0000}", c.N));
 				sb.AppendLine(String.Format("\t\tArgOfPericenter          {0,8:0.0000}", c.w));
 				sb.AppendLine("\t\tMeanAnomaly                0.0");
-				sb.AppendLine(String.Format("\t\tEpoch                {0,12:0.0000}     # {1,4} {2} {3:00}.{4:0000}", c.T, c.Ty, Comet.Month[c.Tm - 1], c.Td, c.Th));
+				sb.AppendLine(String.Format("\t\tEpoch                {0,12:0.0000}     # {1,4} {2} {3:00}.{4:0000}", c.T, c.Ty, CometManager.Month[c.Tm - 1], c.Td, c.Th));
 				sb.AppendLine("\t}");
 				sb.AppendLine("}");
 				sb.AppendLine();

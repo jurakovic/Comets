@@ -22,7 +22,8 @@ namespace Comets.Application.ModulOrbit
 
 		const bool DefaultToolBoxVisible = true;
 
-		readonly string[] TimeStepItems = {
+		readonly string[] TimeStepItems =
+		{
 			"1 Hour",
 			"6 Hours",
 			"12 Hours",
@@ -37,7 +38,8 @@ namespace Comets.Application.ModulOrbit
 			"10 Years"
 		};
 
-		readonly ATimeSpan[] TimeStepSpan = {
+		readonly ATimeSpan[] TimeStepSpan =
+		{
 			new ATimeSpan( 0, 0, 0, 1, 0, 0),
 			new ATimeSpan( 0, 0, 0, 6, 0, 0),
 			new ATimeSpan( 0, 0, 0,12, 0, 0),
@@ -144,7 +146,7 @@ namespace Comets.Application.ModulOrbit
 
 			txtDistFromSun.Tag = new ValNum(0.0, 150.0, 3);
 			txtDistFromEarth.Tag = new ValNum(0.0, 150.0, 3);
-			txtMagnitude.Tag = new ValNum(-20.0, 40.0, 2);
+			txtMagnitude.Tag = ValNum.VMagnitude;
 
 			Timer = new Timer();
 			Timer.Interval = 50;
@@ -529,7 +531,7 @@ namespace Comets.Application.ModulOrbit
 		private void btnPerihDate_Click(object sender, EventArgs e)
 		{
 			if (SelectedComet != null)
-				SelectedDateTime = Utils.JDToDateTime(SelectedComet.T).ToLocalTime();
+				SelectedDateTime = EphemerisManager.JDToDateTime(SelectedComet.T).ToLocalTime();
 		}
 
 		#endregion
@@ -705,7 +707,7 @@ namespace Comets.Application.ModulOrbit
 
 		private void txtFilterOnDateCommon_KeyPress(object sender, KeyPressEventArgs e)
 		{
-			e.Handled = Utils.HandleKeyPress(sender, e);
+			e.Handled = ValNumManager.HandleKeyPress(sender, e);
 		}
 
 		private void cbxWeakColor_CheckedChanged(object sender, EventArgs e)
@@ -822,7 +824,7 @@ namespace Comets.Application.ModulOrbit
 
 				case Keys.B:
 					if (ctrl && OVComets.Count > 0)
-						SelectedDateTime = Utils.JDToDateTime(OVComets.ElementAt(cboComet.SelectedIndex).T).ToLocalTime();
+						SelectedDateTime = EphemerisManager.JDToDateTime(OVComets.ElementAt(cboComet.SelectedIndex).T).ToLocalTime();
 					break;
 
 				case Keys.N:
@@ -923,13 +925,13 @@ namespace Comets.Application.ModulOrbit
 
 				if (name != null)
 				{
-					bool isCentered = false;
+					bool isCometCentered = false;
 
 					//center on comet on double click
 					if (orbitPanel.CenteredObject == OrbitPanel.Object.Comet)
-						isCentered = orbitPanel.CenterSelectedComet();
+						isCometCentered = orbitPanel.CenterSelectedComet();
 
-					if (!isCentered)
+					if (!isCometCentered)
 					{
 						ValueChangedByEvent = true;
 

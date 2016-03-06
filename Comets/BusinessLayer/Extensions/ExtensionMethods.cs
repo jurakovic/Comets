@@ -1,12 +1,24 @@
-﻿using Comets.BusinessLayer.Business;
-using Comets.BusinessLayer.Managers;
+﻿using Comets.BusinessLayer.Managers;
 using System;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace Comets.BusinessLayer.Extensions
 {
 	public static class ExtensionMethods
 	{
+		#region Object
+
+		public static bool In<T>(this T source, params T[] values)
+		{
+			if (source == null)
+				throw new ArgumentNullException("source");
+
+			return values.Contains(source);
+		}
+
+		#endregion
+
 		#region String
 
 		/// <summary>

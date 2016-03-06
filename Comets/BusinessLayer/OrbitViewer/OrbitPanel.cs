@@ -514,11 +514,11 @@ namespace Comets.OrbitViewer
 
 					if (ShowDistance)
 					{
-						EphemerisResult er = GetEphemeris(SelectedComet);
+						Ephemeris ep = GetEphemeris(SelectedComet);
 
-						string mstr = String.Format("Magnitude:       {0:#0.00}", er.Magnitude);
-						string dstr = String.Format("Earth Distance: {0:#0.000000} AU", er.EarthDist);
-						string rstr = String.Format("Sun Distance:   {0:#0.000000} AU", er.SunDist);
+						string mstr = String.Format("Magnitude:       {0:#0.00}", ep.Magnitude);
+						string dstr = String.Format("Earth Distance: {0:#0.000000} AU", ep.EarthDist);
+						string rstr = String.Format("Sun Distance:   {0:#0.000000} AU", ep.SunDist);
 
 						point1.Y = Size.Height - labelMargin - (int)(fontSize * 5.0);
 						graphics.DrawString(mstr, FontInformation, sb, point1.X, point1.Y);
@@ -910,7 +910,7 @@ namespace Comets.OrbitViewer
 
 		#region GetEphemeris
 
-		private EphemerisResult GetEphemeris(OVComet comet)
+		private Ephemeris GetEphemeris(OVComet comet)
 		{
 			double T = comet.T;
 			double e = comet.e;
@@ -981,18 +981,18 @@ namespace Comets.OrbitViewer
 
 			if (check)
 			{
-				EphemerisResult er = GetEphemeris(comet);
+				Ephemeris ep = GetEphemeris(comet);
 
 				List<bool> checks = new List<bool>();
 
 				if (r != null)
-					checks.Add(er.SunDist <= r.Value);
+					checks.Add(ep.SunDist <= r.Value);
 
 				if (dist != null)
-					checks.Add(er.EarthDist <= dist.Value);
+					checks.Add(ep.EarthDist <= dist.Value);
 
 				if (mag != null)
-					checks.Add(er.Magnitude <= mag.Value);
+					checks.Add(ep.Magnitude <= mag.Value);
 
 				retval = checks.All(x => x);
 			}

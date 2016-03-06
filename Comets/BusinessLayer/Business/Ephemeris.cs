@@ -1,7 +1,7 @@
 ﻿
 namespace Comets.BusinessLayer.Business
 {
-	public class EphemerisResult
+	public class Ephemeris
 	{
 		#region Properties
 
@@ -69,7 +69,7 @@ namespace Comets.BusinessLayer.Business
 
 		#region Constructor
 
-		public EphemerisResult()
+		public Ephemeris()
 		{
 
 		}

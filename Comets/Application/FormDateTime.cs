@@ -86,7 +86,7 @@ namespace Comets.Application
 
 		private void txtCommon_KeyPress(object sender, KeyPressEventArgs e)
 		{
-			e.Handled = Utils.HandleKeyPress(sender, e);
+			e.Handled = ValNumManager.HandleKeyPress(sender, e);
 		}
 
 		private void txtMonthYear_TextChanged(object sender, EventArgs e)
@@ -152,7 +152,7 @@ namespace Comets.Application
 
 		private void mnuPerihelionDate_Click(object sender, EventArgs e)
 		{
-			DateTime d = Utils.JDToDateTime(T.Value);
+			DateTime d = EphemerisManager.JDToDateTime(T.Value);
 			SelectedDateTime = new DateTime(d.Year, d.Month, d.Day, d.Hour, d.Minute, d.Second, DateTimeKind.Utc).ToLocalTime();
 		}
 

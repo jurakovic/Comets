@@ -12,9 +12,9 @@ namespace Comets.BusinessLayer.Managers
 	{
 		#region Const
 
-		public const string Downloads = "Downloads";
-		public const string Database = "Comets.db";
-		public const string SettingsIni = "settings.ini";
+		public const string DownloadsDirectory = "Downloads";
+		public const string DatabaseFilename = "Comets.db";
+		public const string SettingsIniFilename = "settings.ini";
 
 		#endregion
 
@@ -24,14 +24,14 @@ namespace Comets.BusinessLayer.Managers
 		{
 			Settings settings = new Settings();
 
-			if (File.Exists(SettingsIni))
+			if (File.Exists(SettingsIniFilename))
 			{
 				string property = String.Empty;
 				string value = String.Empty;
 
 				int exceptionCount = 0;
 
-				string[] lines = File.ReadAllLines(SettingsIni);
+				string[] lines = File.ReadAllLines(SettingsIniFilename);
 				int count = lines.Count();
 
 				for (int i = 0; i < count; i++)
@@ -74,8 +74,8 @@ namespace Comets.BusinessLayer.Managers
 								case "Longitude": settings.Location.Longitude = value.Double(); break;
 
 								default:
-									if (ElementTypes.TypeName.Contains(property))
-										settings.ExternalPrograms.Add(new ExternalProgram(Array.IndexOf(ElementTypes.TypeName, property), value));
+									if (ElementTypesManager.TypeName.Contains(property))
+										settings.ExternalPrograms.Add(new ExternalProgram(Array.IndexOf(ElementTypesManager.TypeName, property), value));
 									break;
 							}
 						}
@@ -171,7 +171,7 @@ namespace Comets.BusinessLayer.Managers
 
 			try
 			{
-				File.WriteAllText(SettingsIni, sb.ToString());
+				File.WriteAllText(SettingsIniFilename, sb.ToString());
 			}
 			catch
 			{

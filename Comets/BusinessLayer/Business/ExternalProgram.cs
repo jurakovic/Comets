@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Comets.BusinessLayer.Managers;
+using System.ComponentModel;
 
 namespace Comets.BusinessLayer.Business
 {
@@ -11,10 +12,7 @@ namespace Comets.BusinessLayer.Business
 		public string Directory { get; set; }
 		public string Name
 		{
-			get
-			{
-				return ElementTypes.TypeName[Type];
-			}
+			get { return ElementTypesManager.TypeName[Type]; }
 		}
 
 		#endregion

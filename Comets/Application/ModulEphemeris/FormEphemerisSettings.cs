@@ -54,7 +54,7 @@ namespace Comets.Application.ModulEphemeris
 
 			txtMaxEarthDist.Tag = new ValNum(0, 9.99, 2);
 			txtMaxSunDist.Tag = new ValNum(0, 9.99, 2);
-			txtMinMag.Tag = new ValNum(-20, 40, 2);
+			txtMinMag.Tag = ValNum.VMagnitude;
 
 			EphemerisSettings = settings;
 
@@ -143,7 +143,7 @@ namespace Comets.Application.ModulEphemeris
 			{
 				Comet c = EphemerisSettings.Comets.ElementAt(cbComet.SelectedIndex);
 
-				lblPerihDate.Text = String.Format("Perihelion date:                {0}", Utils.JDToDateTime(c.Tn).ToLocalTime().ToString("dd MMM yyyy HH:mm:ss"));
+				lblPerihDate.Text = String.Format("Perihelion date:                {0}", EphemerisManager.JDToDateTime(c.Tn).ToLocalTime().ToString("dd MMM yyyy HH:mm:ss"));
 				lblPerihDist.Text = String.Format("Perihelion distance:          {0:0.000000} AU", c.q);
 				lblPeriod.Text = String.Format("Period:                              {0}", c.P < 10000 ? c.P.ToString("0.000000") + " years" : "-");
 			}
@@ -258,8 +258,8 @@ namespace Comets.Application.ModulEphemeris
 				if (!FormMain.Settings.IgnoreLongCalculationWarning && !SettingsBase.ValidateCalculationAmount(EphemerisSettings))
 					return;
 
-				if (EphemerisSettings.Results == null)
-					EphemerisSettings.Results = new Dictionary<Comet, List<EphemerisResult>>();
+				if (EphemerisSettings.Ephemerides == null)
+					EphemerisSettings.Ephemerides = new Dictionary<Comet, List<Ephemeris>>();
 
 				FormMain main = this.Owner as FormMain;
 
@@ -275,13 +275,13 @@ namespace Comets.Application.ModulEphemeris
 				catch (OperationCanceledException)
 				{
 					cts = null;
-					EphemerisSettings.Results.Clear();
+					EphemerisSettings.Ephemerides.Clear();
 					main.HideProgress();
 					return;
 				}
 
 				if (EphemerisSettings.IsMultipleMode && EphemerisSettings.Comets.Count > 1)
-					main.SetProgressMaximumValue(EphemerisSettings.Results.Count);
+					main.SetProgressMaximumValue(EphemerisSettings.Ephemerides.Count);
 
 				FormEphemeris fe = null;
 
@@ -305,7 +305,7 @@ namespace Comets.Application.ModulEphemeris
 				catch (OperationCanceledException)
 				{
 					cts = null;
-					EphemerisSettings.Results.Clear();
+					EphemerisSettings.Ephemerides.Clear();
 					main.HideProgress();
 
 					if (EphemerisSettings.AddNew)
@@ -371,12 +371,12 @@ namespace Comets.Application.ModulEphemeris
 
 		private void txtIntervalCommon_KeyDown(object sender, KeyEventArgs e)
 		{
-			e.SuppressKeyPress = Utils.TextBoxValueUpDown(sender, e);
+			e.SuppressKeyPress = ValNumManager.TextBoxValueUpDown(sender, e);
 		}
 
 		private void txtIntervalCommon_KeyPress(object sender, KeyPressEventArgs e)
 		{
-			e.Handled = Utils.HandleKeyPress(sender, e);
+			e.Handled = ValNumManager.HandleKeyPress(sender, e);
 		}
 
 		private void btnTimespanIntervalDefault_Click(object sender, EventArgs e)
@@ -392,7 +392,7 @@ namespace Comets.Application.ModulEphemeris
 
 		private void txtMagDistCommon_KeyPress(object sender, KeyPressEventArgs e)
 		{
-			e.Handled = Utils.HandleKeyPress(sender, e);
+			e.Handled = ValNumManager.HandleKeyPress(sender, e);
 		}
 
 		private void txtMaxSunDist_TextChanged(object sender, EventArgs e)
@@ -416,7 +416,7 @@ namespace Comets.Application.ModulEphemeris
 
 		private void BindCollection()
 		{
-			cbComet.DisplayMember = "full";
+			cbComet.DisplayMember = CometManager.PropertyEnum.full.ToString();
 			cbComet.DataSource = EphemerisSettings.Comets;
 
 			if (EphemerisSettings.Comets.Count > 0)

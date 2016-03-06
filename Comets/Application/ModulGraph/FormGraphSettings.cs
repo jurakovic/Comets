@@ -49,8 +49,8 @@ namespace Comets.Application.ModulGraph
 
 			txtDaysFromTStart.Tag = new ValNum(-3653, -1);
 			txtDaysFromTStop.Tag = new ValNum(1, 3653);
-			txtMinMag.Tag = new ValNum(-20, 40, 2);
-			txtMaxMag.Tag = new ValNum(-20, 40, 2);
+			txtMinMag.Tag = ValNum.VMagnitude;
+			txtMaxMag.Tag = ValNum.VMagnitude;
 
 			GraphSettings = settings;
 
@@ -138,7 +138,7 @@ namespace Comets.Application.ModulGraph
 			{
 				Comet c = GraphSettings.Comets.ElementAt(cbComet.SelectedIndex);
 
-				lblPerihDate.Text = String.Format("Perihelion date:                {0}", Utils.JDToDateTime(c.Tn).ToLocalTime().ToString("dd MMM yyyy HH:mm:ss"));
+				lblPerihDate.Text = String.Format("Perihelion date:                {0}", EphemerisManager.JDToDateTime(c.Tn).ToLocalTime().ToString("dd MMM yyyy HH:mm:ss"));
 				lblPerihDist.Text = String.Format("Perihelion distance:          {0:0.000000} AU", c.q);
 				lblPeriod.Text = String.Format("Period:                              {0}", c.P < 10000 ? c.P.ToString("0.000000") + " years" : "-");
 			}
@@ -155,7 +155,8 @@ namespace Comets.Application.ModulGraph
 				GraphSettings.Filters,
 				GraphSettings.SortProperty,
 				GraphSettings.SortAscending,
-				true) { Owner = this })
+				true)
+			{ Owner = this })
 			{
 				fdb.TopMost = this.TopMost;
 
@@ -231,12 +232,12 @@ namespace Comets.Application.ModulGraph
 
 		private void txtDaysFromTCommon_KeyDown(object sender, KeyEventArgs e)
 		{
-			e.SuppressKeyPress = Utils.TextBoxValueUpDown(sender, e);
+			e.SuppressKeyPress = ValNumManager.TextBoxValueUpDown(sender, e);
 		}
 
 		private void txtDaysFromTCommon_KeyPress(object sender, KeyPressEventArgs e)
 		{
-			e.Handled = Utils.HandleKeyPress(sender, e);
+			e.Handled = ValNumManager.HandleKeyPress(sender, e);
 		}
 
 		private void txtDaysFromTCommon_TextChanged(object sender, EventArgs e)
@@ -257,7 +258,7 @@ namespace Comets.Application.ModulGraph
 
 		private void txtMagCommon_KeyPress(object sender, KeyPressEventArgs e)
 		{
-			e.Handled = Utils.HandleKeyPress(sender, e);
+			e.Handled = ValNumManager.HandleKeyPress(sender, e);
 		}
 
 		private void txtMinMag_TextChanged(object sender, EventArgs e)
@@ -303,8 +304,8 @@ namespace Comets.Application.ModulGraph
 				double startJd = comet.Tn + before; //negativan broj
 				double stopJd = comet.Tn + after;
 
-				DateTime daysFromTStart = Utils.JDToDateTime(startJd).ToLocalTime();
-				DateTime daysFromTStop = Utils.JDToDateTime(stopJd).ToLocalTime();
+				DateTime daysFromTStart = EphemerisManager.JDToDateTime(startJd).ToLocalTime();
+				DateTime daysFromTStop = EphemerisManager.JDToDateTime(stopJd).ToLocalTime();
 
 				DateTime start = rbRangeDate.Checked ? DateStart : daysFromTStart;
 				DateTime stop = rbRangeDate.Checked ? DateEnd : daysFromTStop;
@@ -362,7 +363,7 @@ namespace Comets.Application.ModulGraph
 
 				GraphSettings.PerihelionLineChecked = cbxPerihelionLine.Checked;
 				GraphSettings.PerihelionLineColor = pnlPerihLineColor.BackColor;
-				
+
 				GraphSettings.AntialiasingChecked = cbxAntialiasing.Checked;
 
 				GraphSettings.MinGraphMagnitudeChecked = cbxMinMag.Checked;
@@ -374,8 +375,8 @@ namespace Comets.Application.ModulGraph
 				if (!FormMain.Settings.IgnoreLongCalculationWarning && !SettingsBase.ValidateCalculationAmount(GraphSettings))
 					return;
 
-				if (GraphSettings.Results == null)
-					GraphSettings.Results = new Dictionary<Comet, List<EphemerisResult>>();
+				if (GraphSettings.Ephemerides == null)
+					GraphSettings.Ephemerides = new Dictionary<Comet, List<Ephemeris>>();
 
 				FormMain main = this.Owner as FormMain;
 
@@ -391,7 +392,7 @@ namespace Comets.Application.ModulGraph
 				catch (OperationCanceledException)
 				{
 					cts = null;
-					GraphSettings.Results.Clear();
+					GraphSettings.Ephemerides.Clear();
 					main.HideProgress();
 					return;
 				}
@@ -404,7 +405,7 @@ namespace Comets.Application.ModulGraph
 					fg.LoadGraph();
 					fg.Show();
 				}
-				else if (GraphSettings.Results != null && GraphSettings.Results.Count > 0)
+				else if (GraphSettings.Ephemerides != null && GraphSettings.Ephemerides.Count > 0)
 				{
 					FormGraph fg = this.Owner.ActiveMdiChild as FormGraph;
 					fg.GraphSettings = this.GraphSettings;
@@ -435,7 +436,7 @@ namespace Comets.Application.ModulGraph
 
 		private void BindCollection()
 		{
-			cbComet.DisplayMember = "full";
+			cbComet.DisplayMember = CometManager.PropertyEnum.full.ToString();
 			cbComet.DataSource = GraphSettings.Comets;
 
 			if (GraphSettings.Comets.Count > 0)

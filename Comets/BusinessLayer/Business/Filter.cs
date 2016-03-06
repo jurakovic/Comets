@@ -1,24 +1,17 @@
 ﻿using Comets.BusinessLayer.Extensions;
-using Comets.BusinessLayer.Managers;
 using System;
-using System.Globalization;
 using System.Collections.Generic;
+using PropertyEnum = Comets.BusinessLayer.Managers.CometManager.PropertyEnum;
+using DataTypeEnum = Comets.BusinessLayer.Managers.FilterManager.DataTypeEnum;
+using ValueCompareEnum = Comets.BusinessLayer.Managers.FilterManager.ValueCompareEnum;
 
 namespace Comets.BusinessLayer.Business
 {
 	public class Filter
 	{
-		#region Enum
-
-		public enum DataTypeEnum { String, Double };
-
-		public enum ValueCompareEnum { Greather_Contains, Less_DoesNotContain };
-
-		#endregion
-
 		#region Fields
 
-		private Comet.PropertyEnum _property;
+		private PropertyEnum _property;
 		private DataTypeEnum _dataType;
 		private bool _checked;
 		private string _text;
@@ -30,7 +23,7 @@ namespace Comets.BusinessLayer.Business
 
 		#region Properties
 
-		public Comet.PropertyEnum Property
+		public PropertyEnum Property
 		{
 			get { return _property; }
 		}
@@ -69,7 +62,7 @@ namespace Comets.BusinessLayer.Business
 
 		#region Constructor
 
-		public Filter(Comet.PropertyEnum property, DataTypeEnum dataType, bool isChecked, string text, int index)
+		public Filter(PropertyEnum property, DataTypeEnum dataType, bool isChecked, string text, int index)
 		{
 			_property = property;
 			_dataType = dataType;

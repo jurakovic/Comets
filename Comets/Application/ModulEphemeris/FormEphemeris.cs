@@ -35,7 +35,7 @@ namespace Comets.Application.ModulEphemeris
 			richTextBox.Text = await EphemerisManager.GenerateEphemerisAsync(EphemerisSettings, FormMain.Progress, ct);
 			richTextBox.SelectionStart = 0;
 			EphemerisSettings.AddNew = false;
-			EphemerisSettings.Results.Clear();
+			EphemerisSettings.Ephemerides.Clear();
 			GC.Collect();
 		}
 

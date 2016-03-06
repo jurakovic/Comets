@@ -6,7 +6,6 @@ using Comets.BusinessLayer.Managers;
 using System;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -17,7 +16,7 @@ namespace Comets.Application
 		#region Const
 
 		public static string DateTimeFormat = "dd.MM.yyyy HH:mm:ss";
-		public static string DefaultSortProperty = Comet.PropertyEnum.sortkey.ToString();
+		public static string DefaultSortProperty = CometManager.PropertyEnum.sortkey.ToString();
 		public static bool DefaultSortAscending = true;
 
 		#endregion
@@ -95,9 +94,10 @@ namespace Comets.Application
 				this.StartPosition = FormStartPosition.Manual;
 			}
 
-			if (File.Exists(SettingsManager.Database))
+			if (File.Exists(SettingsManager.DatabaseFilename))
 			{
-				CometCollection collection = ImportManager.ImportMain(MainCollection, ElementTypes.Type.MPC, SettingsManager.Database, true);
+				int n, o; //dummy
+				CometCollection collection = ImportManager.ImportMain(MainCollection, ElementTypesManager.Type.MPC, SettingsManager.DatabaseFilename, out n, out o);
 				MainCollection = new CometCollection(collection);
 				UserCollection = new CometCollection(collection);
 				SetStatusCometsLabel(UserCollection.Count, MainCollection.Count);
@@ -177,9 +177,9 @@ namespace Comets.Application
 
 		private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
 		{
-			if ((IsDataChanged || !File.Exists(SettingsManager.Database)) && MainCollection.Count > 0)
+			if ((IsDataChanged || !File.Exists(SettingsManager.DatabaseFilename)) && MainCollection.Count > 0)
 			{
-				ExporManager.ExportMain(ElementTypes.Type.MPC, SettingsManager.Database, MainCollection);
+				ExporManager.ExportMain(ElementTypesManager.Type.MPC, SettingsManager.DatabaseFilename, MainCollection);
 			}
 
 			bool isFormSizeLocationChanged = CurrentFormLocation != InitialFormLocation || CurrentFormSize != InitialFormSize;

@@ -57,7 +57,7 @@ namespace Comets.Application
 			Programs = new BindingList<ExternalProgram>(FormMain.Settings.ExternalPrograms.OrderBy(x => x.Type).ToList());
 
 			dgvPrograms.DataSource = Programs;
-			cbxExternalProgram.DataSource = ElementTypes.TypeName;
+			cbxExternalProgram.DataSource = ElementTypesManager.TypeName;
 		}
 
 		#endregion
@@ -111,25 +111,16 @@ namespace Comets.Application
 
 		#endregion
 
-		#region btnClose_Click
-
-		private void btnClose_Click(object sender, EventArgs e)
-		{
-			this.Close();
-		}
-
-		#endregion
-
 		#region Tab: General
 
 		private void txtUpdateInterval_KeyDown(object sender, KeyEventArgs e)
 		{
-			e.SuppressKeyPress = Utils.TextBoxValueUpDown(sender, e);
+			e.SuppressKeyPress = ValNumManager.TextBoxValueUpDown(sender, e);
 		}
 
 		private void txtUpdateInterval_KeyPress(object sender, KeyPressEventArgs e)
 		{
-			e.Handled = Utils.HandleKeyPress(sender, e);
+			e.Handled = ValNumManager.HandleKeyPress(sender, e);
 		}
 
 		#endregion
@@ -147,7 +138,7 @@ namespace Comets.Application
 
 		private void txtLatitudeLongitude_KeyPress(object sender, KeyPressEventArgs e)
 		{
-			e.Handled = Utils.HandleKeyPress(sender, e);
+			e.Handled = ValNumManager.HandleKeyPress(sender, e);
 		}
 
 		#endregion
@@ -202,7 +193,7 @@ namespace Comets.Application
 		{
 			using (FolderBrowserDialog fbd = new FolderBrowserDialog())
 			{
-				fbd.Description = "Select " + ElementTypes.Software[cbxExternalProgram.SelectedIndex] + " directory";
+				fbd.Description = "Select " + ElementTypesManager.Software[cbxExternalProgram.SelectedIndex] + " directory";
 				fbd.ShowNewFolderButton = true;
 
 				if (fbd.ShowDialog() == DialogResult.OK)

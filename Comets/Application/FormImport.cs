@@ -3,10 +3,9 @@ using Comets.BusinessLayer.Managers;
 using System;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Windows.Forms;
-using ImportType = Comets.BusinessLayer.Business.ElementTypes.Type;
+using ImportType = Comets.BusinessLayer.Managers.ElementTypesManager.Type;
 
 namespace Comets.Application
 {
@@ -60,13 +59,13 @@ namespace Comets.Application
 		{
 			if (DownloadFilename == null)
 			{
-				string directory = SettingsManager.Downloads;
+				string directory = SettingsManager.DownloadsDirectory;
 
-				if (!Directory.Exists(SettingsManager.Downloads))
+				if (!Directory.Exists(SettingsManager.DownloadsDirectory))
 				{
 					try
 					{
-						Directory.CreateDirectory(SettingsManager.Downloads);
+						Directory.CreateDirectory(SettingsManager.DownloadsDirectory);
 					}
 					catch
 					{
@@ -89,7 +88,7 @@ namespace Comets.Application
 		{
 			if (progressDownload.InvokeRequired)
 			{
-				progressDownload.Invoke((MethodInvoker)delegate()
+				progressDownload.Invoke((MethodInvoker)delegate ()
 				{
 					bwDownload_DoWork(sender, e);
 				});
@@ -246,7 +245,7 @@ namespace Comets.Application
 					break;
 
 				default:
-					lblImportFormat.Text = ElementTypes.TypeName[(int)ImportType];
+					lblImportFormat.Text = ElementTypesManager.TypeName[(int)ImportType];
 					labelDetectedComets.Text = ImportManager.GetNumberOfComets(ImportFilename, ImportType).ToString();
 					break;
 			}
@@ -262,10 +261,19 @@ namespace Comets.Application
 
 			if (ImportType < ImportType.NoFileSelected)
 			{
-				CometCollection collection = ImportManager.ImportMain(FormMain.MainCollection, ImportType, ImportFilename, false);
+				int totalNew = 0;
+				int totalOld = 0;
+
+				string message;
+				MessageBoxIcon icon;
+
+				CometCollection collection = ImportManager.ImportMain(FormMain.MainCollection, ImportType, ImportFilename, out totalNew, out totalOld);
 
 				if (collection.Count > 0)
 				{
+					message = String.Format("Import complete\n\n{0} new, {1} updated\t\t\t\t", totalNew, totalOld);
+					icon = MessageBoxIcon.Information;
+
 					if (IsUsedDownloadedFile)
 					{
 						FormMain.Settings.LastUpdateDate = DateTime.Now;
@@ -278,6 +286,13 @@ namespace Comets.Application
 
 					isImported = true;
 				}
+				else
+				{
+					message = "Something wrong happened. Zero comets imported.\t\t\t";
+					icon = MessageBoxIcon.Error;
+				}
+
+				MessageBox.Show(message, "Comets", MessageBoxButtons.OK, icon);
 			}
 
 			if (IsAutomaticUpdate || (isImported && cbxClose.Checked))

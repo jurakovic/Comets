@@ -2,9 +2,8 @@
 using Comets.BusinessLayer.Managers;
 using System;
 using System.IO;
-using System.Linq;
 using System.Windows.Forms;
-using ExportType = Comets.BusinessLayer.Business.ElementTypes.Type;
+using ExportType = Comets.BusinessLayer.Managers.ElementTypesManager.Type;
 
 namespace Comets.Application
 {
@@ -23,7 +22,7 @@ namespace Comets.Application
 
 		private void FormExport_Load(object sender, EventArgs e)
 		{
-			this.cbxExportFormat.DataSource = ElementTypes.TypeName;
+			this.cbxExportFormat.DataSource = ElementTypesManager.TypeName;
 			this.lblTotalComets.Text = FormMain.UserCollection.Count.ToString();
 		}
 
@@ -44,7 +43,7 @@ namespace Comets.Application
 		{
 			using (SaveFileDialog sfd = new SaveFileDialog())
 			{
-				sfd.Filter = ElementTypes.ExtensionFilters[cbxExportFormat.SelectedIndex] + "All files (*.*)|*.*";
+				sfd.Filter = ElementTypesManager.ExtensionFilters[cbxExportFormat.SelectedIndex] + "All files (*.*)|*.*";
 
 				ExternalProgram ep = FormMain.Settings.ExternalPrograms.Find(x => x.Type == cbxExportFormat.SelectedIndex);
 

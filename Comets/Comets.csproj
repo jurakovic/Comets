@@ -69,8 +69,8 @@
     <Compile Include="BusinessLayer\Business\Filter.cs" />
     <Compile Include="BusinessLayer\Business\ValNum.cs" />
     <Compile Include="BusinessLayer\Business\Settings\SettingsBase.cs" />
-    <Compile Include="BusinessLayer\Business\ElementTypes.cs" />
-    <Compile Include="BusinessLayer\Business\EphemerisResult.cs" />
+    <Compile Include="BusinessLayer\Managers\ElementTypesManager.cs" />
+    <Compile Include="BusinessLayer\Business\Ephemeris.cs" />
     <Compile Include="BusinessLayer\Business\Settings\EphemerisSettings.cs" />
     <Compile Include="BusinessLayer\Business\ExternalProgram.cs" />
     <Compile Include="BusinessLayer\Business\Settings\GraphSettings.cs" />
@@ -124,6 +124,7 @@
     <Compile Include="Application\ModulOrbit\FormOrbitViewer.Designer.cs">
       <DependentUpon>FormOrbitViewer.cs</DependentUpon>
     </Compile>
+    <Compile Include="BusinessLayer\Managers\CometManager.cs" />
     <Compile Include="BusinessLayer\Managers\EphemerisManager.cs" />
     <Compile Include="Application\FormImport.cs">
       <SubType>Form</SubType>
@@ -140,9 +141,10 @@
     <Compile Include="BusinessLayer\Managers\ExportManager.cs" />
     <Compile Include="BusinessLayer\Extensions\ExtensionMethods.cs" />
     <Compile Include="BusinessLayer\Managers\FilterManager.cs" />
+    <Compile Include="BusinessLayer\Managers\FilterPanelManager.cs" />
     <Compile Include="BusinessLayer\Managers\ImportManager.cs" />
     <Compile Include="BusinessLayer\Managers\SettingsManager.cs" />
-    <Compile Include="BusinessLayer\Managers\Utils.cs" />
+    <Compile Include="BusinessLayer\Managers\ValNumManager.cs" />
     <Compile Include="BusinessLayer\OrbitViewer\Astro.cs" />
     <Compile Include="BusinessLayer\OrbitViewer\ATime.cs" />
     <Compile Include="BusinessLayer\OrbitViewer\ATimeSpan.cs" />

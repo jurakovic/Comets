@@ -7,7 +7,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using PropertyEnum = Comets.BusinessLayer.Business.Comet.PropertyEnum;
+using PropertyEnum = Comets.BusinessLayer.Managers.CometManager.PropertyEnum;
 
 namespace Comets.Application
 {
@@ -35,7 +35,7 @@ namespace Comets.Application
 		public bool SortAscending { get; private set; }
 
 		private Timer Timer { get; set; }
-		private EphemerisResult PreviousEphemeris { get; set; }
+		private Ephemeris PreviousEphemeris { get; set; }
 
 		#endregion
 
@@ -144,7 +144,7 @@ namespace Comets.Application
 			//ephemeris
 			txtInfoName.Text = commonName;
 
-			txtInfoNextPerihDate.Text = Utils.JDToDateTime(c.Tn).ToLocalTime().ToString(FormMain.DateTimeFormat);
+			txtInfoNextPerihDate.Text = EphemerisManager.JDToDateTime(c.Tn).ToLocalTime().ToString(FormMain.DateTimeFormat);
 			txtInfoPeriod.Text = commonPeriod;
 			txtInfoAphSunDist.Text = commonAphDist;
 
@@ -213,11 +213,7 @@ namespace Comets.Application
 
 		private void InvertTabs()
 		{
-			if (tbcDetails.SelectedIndex == 0)
-				tbcDetails.SelectedIndex = 1;
-			else
-				tbcDetails.SelectedIndex = 0;
-
+			tbcDetails.SelectedIndex = tbcDetails.SelectedIndex == 0 ? 1 : 0;
 			lbxDatabase.Focus();
 		}
 
@@ -247,26 +243,26 @@ namespace Comets.Application
 			if (SelectedComet != null)
 			{
 				Comet c = SelectedComet;
-				EphemerisResult er = EphemerisManager.GetEphemeris(c, DateTime.Now.JD(), FormMain.Settings.Location);
+				Ephemeris ep = EphemerisManager.GetEphemeris(c, DateTime.Now.JD(), FormMain.Settings.Location);
 
-				txtInfoCurrSunDist.Text = er.SunDist.ToString("0.000000");
-				txtInfoCurrEarthDist.Text = er.EarthDist.ToString("0.000000");
-				txtInfoCurrMag.Text = er.Magnitude.ToString("0.00");
+				txtInfoCurrSunDist.Text = ep.SunDist.ToString("0.000000");
+				txtInfoCurrEarthDist.Text = ep.EarthDist.ToString("0.000000");
+				txtInfoCurrMag.Text = ep.Magnitude.ToString("0.00");
 
-				txtEphemRA.Text = (EphemerisManager.HMSString(er.RA / 15.0)).Trim();
-				txtEphemDec.Text = (EphemerisManager.AngleString(er.Dec, false, true)).Trim();
-				txtEphemAlt.Text = er.Alt.ToString("0.00") + "°";
-				txtEphemAz.Text = er.Az.ToString("0.00") + "°";
-				txtEphemElongation.Text = er.Elongation.ToString("0.00") + "°" + (er.PositionAngle >= 180 ? " W" : " E");
+				txtEphemRA.Text = (EphemerisManager.HMSString(ep.RA / 15.0)).Trim();
+				txtEphemDec.Text = (EphemerisManager.AngleString(ep.Dec, false, true)).Trim();
+				txtEphemAlt.Text = ep.Alt.ToString("0.00") + "°";
+				txtEphemAz.Text = ep.Az.ToString("0.00") + "°";
+				txtEphemElongation.Text = ep.Elongation.ToString("0.00") + "°" + (ep.PositionAngle >= 180 ? " W" : " E");
 
-				bool rHigher = er.SunDist >= PreviousEphemeris.SunDist;
-				bool dHigher = er.EarthDist >= PreviousEphemeris.EarthDist;
-				bool mHigher = er.Magnitude >= PreviousEphemeris.Magnitude;
-				bool raHigher = er.RA >= PreviousEphemeris.RA;
-				bool decHigher = er.Dec >= PreviousEphemeris.Dec;
-				bool altHigher = er.Alt >= PreviousEphemeris.Alt;
-				bool azHigher = er.Az >= PreviousEphemeris.Az;
-				bool eloHigher = er.Elongation >= PreviousEphemeris.Elongation;
+				bool rHigher = ep.SunDist >= PreviousEphemeris.SunDist;
+				bool dHigher = ep.EarthDist >= PreviousEphemeris.EarthDist;
+				bool mHigher = ep.Magnitude >= PreviousEphemeris.Magnitude;
+				bool raHigher = ep.RA >= PreviousEphemeris.RA;
+				bool decHigher = ep.Dec >= PreviousEphemeris.Dec;
+				bool altHigher = ep.Alt >= PreviousEphemeris.Alt;
+				bool azHigher = ep.Az >= PreviousEphemeris.Az;
+				bool eloHigher = ep.Elongation >= PreviousEphemeris.Elongation;
 
 				lblEphemSunDistIndicator.Text = rHigher ? "▲" : "▼";
 				lblEphemSunDistIndicator.ForeColor = rHigher ? Color.Red : Color.Green;
@@ -296,7 +292,7 @@ namespace Comets.Application
 				lblEphemElongationIndicator.Text = eloHigher ? "▲" : "▼";
 				lblEphemElongationIndicator.ForeColor = eloHigher ? Color.Green : Color.Red;
 
-				PreviousEphemeris = er;
+				PreviousEphemeris = ep;
 			}
 		}
 
@@ -386,17 +382,21 @@ namespace Comets.Application
 			if (Comets.Count == 0)
 			{
 				foreach (TabPage t in tbcDetails.TabPages)
+				{
 					foreach (Control c in t.Controls)
+					{
 						if (c is TextBox)
 							c.Text = String.Empty;
 						else if (c is Label && c.Name.EndsWith("Indicator"))
 							c.Text = String.Empty;
+					}
+				}
 
 				Timer.Stop();
 			}
 
 			lbxDatabase.DataSource = Comets;
-			lbxDatabase.DisplayMember = "full";
+			lbxDatabase.DisplayMember = PropertyEnum.full.ToString();
 
 			lblTotal.Text = "Comets: " + Comets.Count;
 		}
@@ -447,7 +447,7 @@ namespace Comets.Application
 				location.Y += offset;
 			}
 
-			FilterManager.CreateFilterPanel(pnlFilters, ++id, location, FormMain.DefaultDateStart, filter, property);
+			FilterPanelManager.CreateFilterPanel(pnlFilters, ++id, location, FormMain.DefaultDateStart, filter, property);
 
 			btnNewFilter.Location = new Point(btnNewFilter.Location.X, btnNewFilter.Location.Y + offset);
 			btnNewFilter.Visible = id < 10;
@@ -492,15 +492,15 @@ namespace Comets.Application
 				{
 					if (c is CheckBox)
 						isChecked = (c as CheckBox).Checked;
-					else if (c is ComboBox && c.Name == FilterManager.PropertyName)
+					else if (c is ComboBox && c.Name == FilterPanelManager.PropertyName)
 						propertyIndex = (c as ComboBox).SelectedIndex;
-					else if (c is ComboBox && c.Name == FilterManager.CompareName)
+					else if (c is ComboBox && c.Name == FilterPanelManager.CompareName)
 						compareIndex = (c as ComboBox).SelectedIndex;
-					else if (c is TextBox && c.Name == FilterManager.StringName)
+					else if (c is TextBox && c.Name == FilterPanelManager.StringName)
 						txtStr = (c as TextBox).Text.Trim();
-					else if (c is TextBox && c.Name == FilterManager.ValueName)
+					else if (c is TextBox && c.Name == FilterPanelManager.ValueName)
 						txtVal = (c as TextBox).Text.Trim();
-					else if (c is Button && c.Name == FilterManager.DateName)
+					else if (c is Button && c.Name == FilterPanelManager.DateName)
 						dt = (DateTime)(c as Button).Tag;
 				}
 
@@ -508,11 +508,11 @@ namespace Comets.Application
 				{
 					PropertyEnum property = (PropertyEnum)propertyIndex;
 
-					Filter.DataTypeEnum dataType = FilterManager.GetDataType(property);
+					FilterManager.DataTypeEnum dataType = FilterPanelManager.GetDataType(property);
 
 					string text;
 
-					if (dataType == Filter.DataTypeEnum.String)
+					if (dataType == FilterManager.DataTypeEnum.String)
 						text = txtStr;
 					else if (property == PropertyEnum.Tn)
 						text = dt.JD().ToString();
@@ -563,10 +563,16 @@ namespace Comets.Application
 		{
 			Filters = CollectFilters();
 
-			if (FilterManager.ValidateFilters(Filters))
+			string message = FilterManager.ValidateFilters(Filters);
+
+			if (message != null)
+			{
+				MessageBox.Show(message, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+			}
+			else
 			{
 				if (Filters.Any(x => x.Checked))
-					Comets = FilterManager.FilterCollection(FormMain.MainCollection, Filters);
+					Comets = FilterManager.ApplyFilters(FormMain.MainCollection, Filters);
 				else
 					Comets = new CometCollection(FormMain.MainCollection);
 

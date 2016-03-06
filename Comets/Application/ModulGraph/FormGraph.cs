@@ -33,7 +33,7 @@ namespace Comets.Application.ModulGraph
 			this.Text = GraphSettings.ToString();
 			EphemerisManager.GenerateGraph(GraphSettings, this.chart1, FormMain.Progress);
 			GraphSettings.AddNew = false;
-			GraphSettings.Results.Clear();
+			GraphSettings.Ephemerides.Clear();
 			GC.Collect();
 		}
 

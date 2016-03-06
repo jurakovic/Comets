@@ -22,37 +22,37 @@ namespace Comets.BusinessLayer.Managers
 
 		#region GetEphemeris
 
-		public static EphemerisResult GetEphemeris(Comet comet, double jd, Location location)
+		public static Ephemeris GetEphemeris(Comet comet, double jd, Location location)
 		{
 			return GetEphemeris(comet.T, comet.q, comet.e, comet.w, comet.N, comet.i, comet.g, comet.k, jd, location.Latitude, location.Longitude);
 		}
 
-		public static EphemerisResult GetEphemeris(double T, double q, double e, double w, double N, double i, double g, double k, double jd, double latitude, double longitude)
+		public static Ephemeris GetEphemeris(double T, double q, double e, double w, double N, double i, double g, double k, double jd, double latitude, double longitude)
 		{
-			EphemerisResult er = new EphemerisResult();
+			Ephemeris ep = new Ephemeris();
 
 			double[] dat = CometAlt(T, q, e, w, N, i, g, k, jd, latitude, longitude);
-			er.Alt = dat[0];
-			er.Az = dat[1];
-			er.RA = dat[3];
-			er.Dec = dat[4] - (dat[4] > 180.0 ? 360 : 0);
-			er.EcLon = Rev(dat[5]);
-			er.EcLat = dat[6];
-			er.SunDist = dat[8];
-			er.EarthDist = dat[9];
-			er.Magnitude = dat[10];
+			ep.Alt = dat[0];
+			ep.Az = dat[1];
+			ep.RA = dat[3];
+			ep.Dec = dat[4] - (dat[4] > 180.0 ? 360 : 0);
+			ep.EcLon = Rev(dat[5]);
+			ep.EcLat = dat[6];
+			ep.SunDist = dat[8];
+			ep.EarthDist = dat[9];
+			ep.Magnitude = dat[10];
 
 			double[] sundat = SunAlt(jd, latitude, longitude);
 			double sunra = sundat[3];
 			double sundec = sundat[4] - (sundat[4] > 180.0 ? 360 : 0);
 
-			double[] sep = Separation(er.RA, sunra, er.Dec, sundec);
-			er.Elongation = sep[0];
-			er.PositionAngle = sep[1];
+			double[] sep = Separation(ep.RA, sunra, ep.Dec, sundec);
+			ep.Elongation = sep[0];
+			ep.PositionAngle = sep[1];
 
-			er.JD = jd;
+			ep.JD = jd;
 
-			return er;
+			return ep;
 		}
 
 		#endregion
@@ -87,7 +87,8 @@ namespace Comets.BusinessLayer.Managers
 			decimal jdMax = (decimal)settings.Stop.JD();
 			decimal interval = (decimal)settings.Interval;
 
-			List<EphemerisResult> erList = new List<EphemerisResult>();
+			List<Ephemeris> epList = new List<Ephemeris>();
+
 			while (jd <= jdMax)
 			{
 				ct.ThrowIfCancellationRequested();
@@ -96,25 +97,25 @@ namespace Comets.BusinessLayer.Managers
 				bool ch2 = true;
 				bool ch3 = true;
 
-				EphemerisResult er = GetEphemeris(comet, (double)jd, settings.Location);
+				Ephemeris ep = GetEphemeris(comet, (double)jd, settings.Location);
 
 				if (settings.MinMagnitudeChecked)
-					ch1 = er.Magnitude <= settings.MinMagnitudeValue;
+					ch1 = ep.Magnitude <= settings.MinMagnitudeValue;
 
 				if (settings.MaxSunDistChecked)
-					ch2 = er.SunDist <= settings.MaxSunDistValue;
+					ch2 = ep.SunDist <= settings.MaxSunDistValue;
 
 				if (settings.MaxEarthDistChecked)
-					ch3 = er.EarthDist <= settings.MaxEarthDistValue;
+					ch3 = ep.EarthDist <= settings.MaxEarthDistValue;
 
 				if (ch1 && ch2 && ch3)
-					erList.Add(er);
+					epList.Add(ep);
 
 				jd += interval;
 			}
 
-			if (erList.Count > 0)
-				settings.Results.Add(comet, erList);
+			if (epList.Count > 0)
+				settings.Ephemerides.Add(comet, epList);
 		}
 
 		#endregion
@@ -131,17 +132,17 @@ namespace Comets.BusinessLayer.Managers
 				Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
 
 				int i = 1;
-				foreach (var keyVal in settings.Results)
+				foreach (var keyVal in settings.Ephemerides)
 				{
 					ct.ThrowIfCancellationRequested();
 					progress.Report(i++);
 
 					Comet comet = keyVal.Key;
-					List<EphemerisResult> list = keyVal.Value;
+					List<Ephemeris> list = keyVal.Value;
 
 					sb.AppendLine(String.Format("Comet:               \t{0}", comet.full));
 
-					sb.AppendLine(String.Format("Perihelion date:     \t{0}", Utils.JDToDateTime(comet.Tn).ToLocalTime().ToString("dd MMM yyyy HH:mm:ss")));
+					sb.AppendLine(String.Format("Perihelion date:     \t{0}", EphemerisManager.JDToDateTime(comet.Tn).ToLocalTime().ToString("dd MMM yyyy HH:mm:ss")));
 					sb.AppendLine(String.Format("Perihelion distance: \t{0:0.000000} AU", comet.q));
 					sb.AppendLine(String.Format("Period:              \t{0}", (comet.P < 10000 ? comet.P.ToString("0.000000") + " years" : "-")));
 					sb.AppendLine();
@@ -160,22 +161,22 @@ namespace Comets.BusinessLayer.Managers
 
 					sb.AppendLine();
 
-					foreach (EphemerisResult er in list)
+					foreach (Ephemeris ep in list)
 					{
 						line.Clear();
 
-						DateTime dt = settings.LocalTime ? Utils.JDToDateTime(er.JD).ToLocalTime() : Utils.JDToDateTime(er.JD);
+						DateTime dt = settings.LocalTime ? EphemerisManager.JDToDateTime(ep.JD).ToLocalTime() : EphemerisManager.JDToDateTime(ep.JD);
 						line.Append(dt.ToString("dd.MM.yyyy HH:mm"));
-						if (settings.RA) line.Append("  " + HMSString(er.RA / 15.0));
-						if (settings.Dec) line.Append("  " + AngleString(er.Dec, false, true));
-						if (settings.Alt) line.AppendFormat("{0,8:0.0°}", er.Alt);
-						if (settings.Az) line.AppendFormat("{0,8:0.0°}", er.Az);
-						if (settings.EcLon) line.Append("  " + AngleString(er.EcLon, true, true));
-						if (settings.EcLat) line.Append("  " + AngleString(er.EcLat, false, true));
-						if (settings.Elongation) line.AppendFormat("{0,8:0.0°} {1}", er.Elongation, er.PositionAngle >= 180 ? "W" : "E");
-						if (settings.HelioDist) line.AppendFormat("{0,9:0.0000}", er.SunDist);
-						if (settings.GeoDist) line.AppendFormat("{0,9:0.0000}", er.EarthDist);
-						if (settings.Magnitude) line.AppendFormat("{0,6:0.0}", er.Magnitude);
+						if (settings.RA) line.Append("  " + HMSString(ep.RA / 15.0));
+						if (settings.Dec) line.Append("  " + AngleString(ep.Dec, false, true));
+						if (settings.Alt) line.AppendFormat("{0,8:0.0°}", ep.Alt);
+						if (settings.Az) line.AppendFormat("{0,8:0.0°}", ep.Az);
+						if (settings.EcLon) line.Append("  " + AngleString(ep.EcLon, true, true));
+						if (settings.EcLat) line.Append("  " + AngleString(ep.EcLat, false, true));
+						if (settings.Elongation) line.AppendFormat("{0,8:0.0°} {1}", ep.Elongation, ep.PositionAngle >= 180 ? "W" : "E");
+						if (settings.HelioDist) line.AppendFormat("{0,9:0.0000}", ep.SunDist);
+						if (settings.GeoDist) line.AppendFormat("{0,9:0.0000}", ep.EarthDist);
+						if (settings.Magnitude) line.AppendFormat("{0,6:0.0}", ep.Magnitude);
 
 						sb.AppendLine(line.ToString());
 					}
@@ -198,8 +199,8 @@ namespace Comets.BusinessLayer.Managers
 			string chartAreaName = "ChartAreaGraph";
 			double multipleMaxMagnitude = 15.0;
 
-			double minMagnitude = Math.Floor(settings.Results.Select(x => x.Value).Select(y => y.Min(z => z.Magnitude)).Min() - 0.20);
-			double maxMagnitude = Math.Ceiling(settings.Results.Select(x => x.Value).Select(y => y.Max(z => z.Magnitude)).Max() + 0.20);
+			double minMagnitude = Math.Floor(settings.Ephemerides.Select(x => x.Value).Select(y => y.Min(z => z.Magnitude)).Min() - 0.20);
+			double maxMagnitude = Math.Ceiling(settings.Ephemerides.Select(x => x.Value).Select(y => y.Max(z => z.Magnitude)).Max() + 0.20);
 
 			double yMin;
 			double yMax;
@@ -211,7 +212,7 @@ namespace Comets.BusinessLayer.Managers
 
 			if (settings.MaxGraphMagnitudeChecked)
 				yMax = settings.MaxGraphMagnitudeValue.Value;
-			else if (settings.IsMultipleMode && settings.Results.Count > 1)
+			else if (settings.IsMultipleMode && settings.Ephemerides.Count > 1)
 				yMax = multipleMaxMagnitude;
 			else
 				yMax = maxMagnitude;
@@ -272,8 +273,8 @@ namespace Comets.BusinessLayer.Managers
 			else
 				yInterval = 2D;
 
-			chartArea.AxisX2.Minimum = Utils.JDToDateTime(xMin).ToLocalTime().ToOADate();
-			chartArea.AxisX2.Maximum = Utils.JDToDateTime(xMax).ToLocalTime().ToOADate();
+			chartArea.AxisX2.Minimum = EphemerisManager.JDToDateTime(xMin).ToLocalTime().ToOADate();
+			chartArea.AxisX2.Maximum = EphemerisManager.JDToDateTime(xMax).ToLocalTime().ToOADate();
 			chartArea.AxisX2.IntervalType = DateTimeIntervalType.Auto;
 			chartArea.AxisX2.IntervalOffset = 0;
 
@@ -293,7 +294,7 @@ namespace Comets.BusinessLayer.Managers
 			chart1.Series.Clear();
 
 			int i = 1;
-			foreach (List<EphemerisResult> erList in settings.Results.Select(x => x.Value))
+			foreach (List<Ephemeris> erList in settings.Ephemerides.Select(x => x.Value))
 			{
 				progress.Report(i++);
 
@@ -306,8 +307,8 @@ namespace Comets.BusinessLayer.Managers
 					series.XAxisType = AxisType.Secondary;
 					series.XValueType = ChartValueType.DateTime;
 
-					foreach (EphemerisResult er in erList)
-						series.Points.Add(new DataPoint(Utils.JDToDateTime(er.JD).ToLocalTime().ToOADate(), er.Magnitude)); //local time
+					foreach (Ephemeris ep in erList)
+						series.Points.Add(new DataPoint(EphemerisManager.JDToDateTime(ep.JD).ToLocalTime().ToOADate(), ep.Magnitude)); //local time
 
 					chart1.Series.Add(series);
 				}
@@ -333,8 +334,8 @@ namespace Comets.BusinessLayer.Managers
 					s.ChartType = SeriesChartType.Line;
 					s.XAxisType = AxisType.Secondary;
 					s.XValueType = ChartValueType.DateTime;
-					s.Points.Add(new DataPoint(Utils.JDToDateTime(JDnow).ToLocalTime().ToOADate(), yMin));
-					s.Points.Add(new DataPoint(Utils.JDToDateTime(JDnow).ToLocalTime().ToOADate(), yMax));
+					s.Points.Add(new DataPoint(EphemerisManager.JDToDateTime(JDnow).ToLocalTime().ToOADate(), yMin));
+					s.Points.Add(new DataPoint(EphemerisManager.JDToDateTime(JDnow).ToLocalTime().ToOADate(), yMax));
 					chart1.Series.Add(s);
 				}
 			}
@@ -361,8 +362,8 @@ namespace Comets.BusinessLayer.Managers
 				s.ChartType = SeriesChartType.Line;
 				s.XAxisType = AxisType.Secondary;
 				s.XValueType = ChartValueType.DateTime;
-				s.Points.Add(new DataPoint(Utils.JDToDateTime(t).ToLocalTime().ToOADate(), yMin));
-				s.Points.Add(new DataPoint(Utils.JDToDateTime(t).ToLocalTime().ToOADate(), yMax));
+				s.Points.Add(new DataPoint(EphemerisManager.JDToDateTime(t).ToLocalTime().ToOADate(), yMin));
+				s.Points.Add(new DataPoint(EphemerisManager.JDToDateTime(t).ToLocalTime().ToOADate(), yMax));
 
 				chart1.Series.Add(s);
 				t += periodDays;
@@ -418,10 +419,10 @@ namespace Comets.BusinessLayer.Managers
 			double E = M + e * RAD2DEG * Sind(M) * (1.0 + e * Cosd(M));
 			double xv = Cosd(E) - e;
 			double yv = Math.Sqrt(1.0 - e * e) * Sind(E);
-			double v = Atan2d(yv, xv);		// true anomaly
-			double r = Math.Sqrt(xv * xv + yv * yv);	// distance
-			double lonsun = Rev(v + w);	// true longitude
-			double xs = r * Cosd(lonsun);		// rectangular coordinates, zs = 0 for sun 
+			double v = Atan2d(yv, xv);      // true anomaly
+			double r = Math.Sqrt(xv * xv + yv * yv);    // distance
+			double lonsun = Rev(v + w); // true longitude
+			double xs = r * Cosd(lonsun);       // rectangular coordinates, zs = 0 for sun 
 			double ys = r * Sind(lonsun);
 			return new double[] { xs, ys, 0, r, lonsun, 0 };
 		}
@@ -432,12 +433,12 @@ namespace Comets.BusinessLayer.Managers
 			// based on Paul Schlyter's page http://www.stjarnhimlen.se/comp/ppcomp.html
 			// returns heliocentric x, y, z, distance, longitude and latitude of object
 			double d = jd - 2451543.5;
-			double Tj = T;	// get julian day of perihelion time
+			double Tj = T;  // get julian day of perihelion time
 			double v, r;
 			if (e > 0.99)
 			{
 				// treat as near parabolic (approx. method valid inside orbit of Pluto)
-				double k = 0.01720209895;	// Gaussian gravitational constant
+				double k = 0.01720209895;   // Gaussian gravitational constant
 				double a = 0.75 * (jd - Tj) * k * Math.Sqrt((1 + e) / (q * q * q));
 				double b = Math.Sqrt(1 + a * a);
 				double W = Cbrt(b + a) - Cbrt(b - a);
@@ -452,11 +453,11 @@ namespace Comets.BusinessLayer.Managers
 				r = q * (1 + ww * ww) / (1 + ww * ww * f);
 			}
 			else
-			{		// treat as elliptic
+			{       // treat as elliptic
 				double a = q / (1.0 - e);
-				double P = 365.2568984 * Math.Sqrt(a * a * a);	// period in days
-				double M = 360.0 * (jd - Tj) / P; 	// mean anomaly
-				// eccentric anomaly E
+				double P = 365.2568984 * Math.Sqrt(a * a * a);  // period in days
+				double M = 360.0 * (jd - Tj) / P;   // mean anomaly
+													// eccentric anomaly E
 				double E0 = M + RAD2DEG * e * Sind(M) * (1.0 + e * Cosd(M));
 				double E1 = E0 - (E0 - RAD2DEG * e * Sind(E0) - M) / (1.0 - e * Cosd(E0));
 				while (Math.Abs(E0 - E1) > 0.0005)
@@ -466,9 +467,9 @@ namespace Comets.BusinessLayer.Managers
 				}
 				double xv = a * (Cosd(E1) - e);
 				double yv = a * Math.Sqrt(1.0 - e * e) * Sind(E1);
-				v = Rev(Atan2d(yv, xv));		// true anomaly
-				r = Math.Sqrt(xv * xv + yv * yv);	// distance
-			}	// from here common for all orbits
+				v = Rev(Atan2d(yv, xv));        // true anomaly
+				r = Math.Sqrt(xv * xv + yv * yv);   // distance
+			}   // from here common for all orbits
 			N = N + 3.82394E-5 * d;
 			//w  ->  why not precess this value?
 			double xh = r * (Cosd(N) * Cosd(v + w) - Sind(N) * Sind(v + w) * Cosd(i));
@@ -515,9 +516,9 @@ namespace Comets.BusinessLayer.Managers
 		private static double[] Separation(double ra1, double ra2, double dec1, double dec2)
 		{
 			// ra, dec may also be long, lat, but PA is relative to the chosen coordinate system
-			double d = Acosd(Sind(dec1) * Sind(dec2) + Cosd(dec1) * Cosd(dec2) * Cosd(ra1 - ra2));		// (Meeus 17.1)
-			if (d < 0.1) d = Math.Sqrt(Sqr(Rev2(ra1 - ra2) * Cosd((dec1 + dec2) / 2)) + Sqr(dec1 - dec2));	// (17.2)
-			double pa = Atan2d(Sind(ra1 - ra2), Cosd(dec2) * Tand(dec1) - Sind(dec2) * Cosd(ra1 - ra2));		// angle
+			double d = Acosd(Sind(dec1) * Sind(dec2) + Cosd(dec1) * Cosd(dec2) * Cosd(ra1 - ra2));      // (Meeus 17.1)
+			if (d < 0.1) d = Math.Sqrt(Sqr(Rev2(ra1 - ra2) * Cosd((dec1 + dec2) / 2)) + Sqr(dec1 - dec2));  // (17.2)
+			double pa = Atan2d(Sind(ra1 - ra2), Cosd(dec2) * Tand(dec1) - Sind(dec2) * Cosd(ra1 - ra2));        // angle
 			return new double[] { d, Rev(pa) };
 		}
 
@@ -587,7 +588,7 @@ namespace Comets.BusinessLayer.Managers
 			return j;
 		}
 
-		public static int[] JDToDateTime(double jd0)
+		public static DateTime JDToDateTime(double jd0)
 		{
 			double jd = jd0 + 0.5;
 			double a = Math.Floor(jd);
@@ -616,9 +617,10 @@ namespace Comets.BusinessLayer.Managers
 			int minute = (int)Math.Floor(min);
 			int second = (int)((min - minute) * 60.0);
 
-			int dw = (int)(Math.Floor(jd + 1.5) - 7 * Math.Floor((jd + 1.5) / 7));
+			//int dw = (int)(Math.Floor(jd + 1.5) - 7 * Math.Floor((jd + 1.5) / 7));
+			//return new int[] { year, month, day, dw, hour, minute, second };
 
-			return new int[] { year, month, day, dw, hour, minute, second };
+			return new DateTime(year, month, day, hour, minute, second);
 		}
 
 		#endregion
