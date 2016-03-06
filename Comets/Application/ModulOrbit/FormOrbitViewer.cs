@@ -712,7 +712,7 @@ namespace Comets.Application.ModulOrbit
 
 		private void cbxWeakColor_CheckedChanged(object sender, EventArgs e)
 		{
-			orbitPanel.FilterOnDateWeakColor = cbxWeakColor.Checked;
+			orbitPanel.FilterOnDateShowInWeakColor = cbxWeakColor.Checked;
 			RefreshPanel();
 		}
 
@@ -724,7 +724,8 @@ namespace Comets.Application.ModulOrbit
 
 		private void FormOrbitViewer_KeyDown(object sender, KeyEventArgs e)
 		{
-			if (cboComet.Focused || cboTimestep.Focused) return;
+			if (cboComet.Focused || cboTimestep.Focused || txtDistFromSun.Focused || txtDistFromEarth.Focused || txtMagnitude.Focused)
+				return;
 
 			bool handled = true;
 			bool ctrl = Control.ModifierKeys == Keys.Control;

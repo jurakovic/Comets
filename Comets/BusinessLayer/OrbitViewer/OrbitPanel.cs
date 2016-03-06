@@ -38,6 +38,7 @@ namespace Comets.OrbitViewer
 		private const bool DefaultPreserveLabel = true;
 		private const bool DefaultShowDistance = true;
 		private const bool DefaultShowDate = true;
+		private const bool DefaultFilterOnDateShowInWeakColor = true;
 		private const Object DefaultCenterObject = Object.Sun;
 
 		private readonly List<Object> DefaultOrbitDisplay = new List<Object>
@@ -79,6 +80,7 @@ namespace Comets.OrbitViewer
 		protected Color ColorAxisPlus = Color.Yellow;
 		protected Color ColorAxisMinus = Color.DarkOliveGreen;
 		protected Color ColorInformation = Color.White;
+		protected Color FilterOnDateWeakColor = Color.MidnightBlue;
 
 		#endregion
 
@@ -248,7 +250,7 @@ namespace Comets.OrbitViewer
 
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public bool FilterOnDateWeakColor { get; set; }
+		public bool FilterOnDateShowInWeakColor { get; set; }
 
 		#endregion
 
@@ -273,6 +275,7 @@ namespace Comets.OrbitViewer
 			ShowMarker = DefaultShowMarker;
 			PreserveSelectedOrbit = DefaultPreserveOrbit;
 			PreserveSelectedLabel = DefaultPreserveLabel;
+			FilterOnDateShowInWeakColor = DefaultFilterOnDateShowInWeakColor;
 
 			ShowDistance = DefaultShowDistance;
 			ShowDate = DefaultShowDate;
@@ -715,45 +718,54 @@ namespace Comets.OrbitViewer
 				Color color = Color.Black;
 
 				bool visibleComet = GetCometVisibility(Comets[i], FilterOnDateSunDist, FilterOnDateEarthDist, FilterOnDateMagnitude);
-				bool visibleLabel = LabelDisplay.Contains(Object.Comet) || (PreserveSelectedLabel && i == SelectedIndex);
+				bool visibleSelected = PreserveSelectedLabel && i == SelectedIndex;
+				bool visibleLabel = LabelDisplay.Contains(Object.Comet);
 				bool visibleMarker = ShowMarker && i == SelectedIndex;
 
 				GetCometColorAndDiameter(Comets[i], out diameter, out color);
 
-				if (!visibleComet && FilterOnDateWeakColor)
+				if (!visibleComet)
 				{
-					visibleComet = true;
-					color = Color.MidnightBlue;
+					color = FilterOnDateWeakColor;
+
+					if (FilterOnDateShowInWeakColor)
+					{
+						visibleComet = true;
+
+						if (!visibleSelected)
+							visibleLabel = false;
+					}
 				}
 
-				if (visibleComet || visibleLabel || visibleMarker)
+				SolidBrush sb = new SolidBrush(color);
+
+				if (visibleComet || visibleSelected)
 				{
-					SolidBrush sb = new SolidBrush(color);
 					graphics.FillPie(sb, point1.X - diameter, point1.Y - diameter, diameter * 2, diameter * 2, 0, 360);
 
-					if (visibleMarker)
+					if (visibleLabel || visibleSelected)
 					{
-						int offset = diameter + 4;
-						int length = diameter + 8;
-
-						Pen p = new Pen(ColorCometMarker);
-						p.Width = 3;
-
-						graphics.DrawLine(p, new Point(point1.X, point1.Y - length), new Point(point1.X, point1.Y - offset));
-						graphics.DrawLine(p, new Point(point1.X, point1.Y + length), new Point(point1.X, point1.Y + offset));
-						graphics.DrawLine(p, new Point(point1.X - length, point1.Y), new Point(point1.X - offset, point1.Y));
-						graphics.DrawLine(p, new Point(point1.X + length, point1.Y), new Point(point1.X + offset, point1.Y));
-					}
-
-					if (visibleLabel)
-					{
-						if (MultipleMode && Comets.Count > 1 && LabelDisplay.Contains(Object.Comet) && PreserveSelectedLabel && i == SelectedIndex)
+						if (MultipleMode && Comets.Count > 1 && visibleLabel && visibleSelected)
 							sb.Color = ColorCometNameSelected;
 						else
 							sb.Color = ColorCometName;
 
 						graphics.DrawString(Comets[i].Name, FontObjectName, sb, point1.X + 5, point1.Y);
 					}
+				}
+
+				if (visibleMarker)
+				{
+					int offset = diameter + 4;
+					int length = diameter + 8;
+
+					Pen p = new Pen(ColorCometMarker);
+					p.Width = 3;
+
+					graphics.DrawLine(p, new Point(point1.X, point1.Y - length), new Point(point1.X, point1.Y - offset));
+					graphics.DrawLine(p, new Point(point1.X, point1.Y + length), new Point(point1.X, point1.Y + offset));
+					graphics.DrawLine(p, new Point(point1.X - length, point1.Y), new Point(point1.X - offset, point1.Y));
+					graphics.DrawLine(p, new Point(point1.X + length, point1.Y), new Point(point1.X + offset, point1.Y));
 				}
 			}
 		}

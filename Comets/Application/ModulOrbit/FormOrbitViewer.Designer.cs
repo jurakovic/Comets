@@ -40,6 +40,7 @@
 			this.btnRevPlay = new System.Windows.Forms.Button();
 			this.pnlToolbox = new System.Windows.Forms.Panel();
 			this.gbxFilterOnDate = new System.Windows.Forms.GroupBox();
+			this.cbxWeakColor = new System.Windows.Forms.CheckBox();
 			this.txtMagnitude = new System.Windows.Forms.TextBox();
 			this.lblMagnitude = new System.Windows.Forms.Label();
 			this.txtDistFromEarth = new System.Windows.Forms.TextBox();
@@ -111,7 +112,6 @@
 			this.btnClear = new System.Windows.Forms.Button();
 			this.btnAll = new System.Windows.Forms.Button();
 			this.btnFilter = new System.Windows.Forms.Button();
-			this.cbxWeakColor = new System.Windows.Forms.CheckBox();
 			this.orbitPanel = new Comets.OrbitViewer.OrbitPanel();
 			this.scrollVert = new System.Windows.Forms.VScrollBar();
 			this.scrollHorz = new System.Windows.Forms.HScrollBar();
@@ -261,6 +261,19 @@
 			this.gbxFilterOnDate.TabIndex = 7;
 			this.gbxFilterOnDate.TabStop = false;
 			this.gbxFilterOnDate.Text = "Filter on date";
+			// 
+			// cbxWeakColor
+			// 
+			this.cbxWeakColor.AutoSize = true;
+			this.cbxWeakColor.Checked = true;
+			this.cbxWeakColor.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.cbxWeakColor.Location = new System.Drawing.Point(9, 92);
+			this.cbxWeakColor.Name = "cbxWeakColor";
+			this.cbxWeakColor.Size = new System.Drawing.Size(117, 17);
+			this.cbxWeakColor.TabIndex = 6;
+			this.cbxWeakColor.Text = "Show in weak color";
+			this.cbxWeakColor.UseVisualStyleBackColor = true;
+			this.cbxWeakColor.CheckedChanged += new System.EventHandler(this.cbxWeakColor_CheckedChanged);
 			// 
 			// txtMagnitude
 			// 
@@ -1070,17 +1083,6 @@
 			this.btnFilter.Text = "Filter";
 			this.btnFilter.UseVisualStyleBackColor = true;
 			this.btnFilter.Click += new System.EventHandler(this.btnFilter_Click);
-			// 
-			// cbxWeakColor
-			// 
-			this.cbxWeakColor.AutoSize = true;
-			this.cbxWeakColor.Location = new System.Drawing.Point(9, 92);
-			this.cbxWeakColor.Name = "cbxWeakColor";
-			this.cbxWeakColor.Size = new System.Drawing.Size(79, 17);
-			this.cbxWeakColor.TabIndex = 6;
-			this.cbxWeakColor.Text = "Weak color";
-			this.cbxWeakColor.UseVisualStyleBackColor = true;
-			this.cbxWeakColor.CheckedChanged += new System.EventHandler(this.cbxWeakColor_CheckedChanged);
 			// 
 			// orbitPanel
 			// 
