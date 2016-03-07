@@ -446,12 +446,12 @@ namespace Comets.Application.ModulOrbit
 
 		private void ChangeObjectDisplay(OrbitPanel.Object obj, bool control, bool shift)
 		{
-			if (control && !shift)
+			if (!control && !shift)
+				ChangeCenterObject(obj);
+			else if (control && !shift)
 				ChangeVisibleOrbit(obj);
 			else if (shift && !control)
 				ChangeVisibleLabel(obj);
-			else if (!control && !shift)
-				ChangeCenterObject(obj);
 		}
 
 		private void ChangeVisibleOrbit(OrbitPanel.Object orbit)
@@ -724,9 +724,6 @@ namespace Comets.Application.ModulOrbit
 
 		private void FormOrbitViewer_KeyDown(object sender, KeyEventArgs e)
 		{
-			if (cboComet.Focused || cboTimestep.Focused || txtDistFromSun.Focused || txtDistFromEarth.Focused || txtMagnitude.Focused)
-				return;
-
 			bool handled = true;
 			bool ctrl = Control.ModifierKeys == Keys.Control;
 			bool shift = Control.ModifierKeys == Keys.Shift;
@@ -734,26 +731,32 @@ namespace Comets.Application.ModulOrbit
 			switch (e.KeyCode)
 			{
 				case Keys.Left:
-					handled = MoveScroll(scrollHorz, false);
+					if (!ctrl && !shift)
+						handled = MoveScroll(scrollHorz, false);
 					break;
 				case Keys.Right:
-					handled = MoveScroll(scrollHorz, true);
+					if (!ctrl && !shift)
+						handled = MoveScroll(scrollHorz, true);
 					break;
 
 				case Keys.Up:
-					handled = MoveScroll(scrollVert, false);
+					if (!ctrl && !shift)
+						handled = MoveScroll(scrollVert, false);
 					break;
 				case Keys.Down:
-					handled = MoveScroll(scrollVert, true);
+					if (!ctrl && !shift)
+						handled = MoveScroll(scrollVert, true);
 					break;
 
 				case Keys.Add:
 				case Keys.Q:
-					handled = MoveScroll(scrollZoom, true, false);
+					if (!ctrl && !shift)
+						handled = MoveScroll(scrollZoom, true, false);
 					break;
 				case Keys.Subtract:
 				case Keys.A:
-					handled = MoveScroll(scrollZoom, false, false);
+					if (!ctrl && !shift)
+						handled = MoveScroll(scrollZoom, false, false);
 					break;
 
 				case Keys.D1:
@@ -795,42 +798,64 @@ namespace Comets.Application.ModulOrbit
 
 				case Keys.D0:
 				case Keys.S:
-					ChangeCenterObject(OrbitPanel.Object.Sun);
+					if (!ctrl && !shift)
+						ChangeCenterObject(OrbitPanel.Object.Sun);
 					break;
 
 				case Keys.Space:
 				case Keys.P:
-					if (IsSimulationStarted)
-						PauseSimulation();
-					else
-						PlaySimulation(SimulationDirection);
+					if (!ctrl && !shift)
+					{
+						if (IsSimulationStarted)
+							PauseSimulation();
+						else
+							PlaySimulation(SimulationDirection);
+					}
 					break;
 
 				case Keys.J:
-					InvertSimulation();
+					if (!ctrl && !shift)
+						InvertSimulation();
 					break;
 
 				case Keys.K:
-					SlowerSimulation();
+					if (!ctrl && !shift)
+						SlowerSimulation();
 					break;
 
 				case Keys.L:
-					FasterSimulation();
+					if (!ctrl && !shift)
+						FasterSimulation();
 					break;
 
 				case Keys.D:
-					if (ctrl)
+					if (ctrl && !shift)
 						ShowDateTimeForm();
 					break;
 
 				case Keys.B:
-					if (ctrl && OVComets.Count > 0)
+					if (ctrl && !shift && OVComets.Count > 0)
 						SelectedDateTime = EphemerisManager.JDToDateTime(OVComets.ElementAt(cboComet.SelectedIndex).T).ToLocalTime();
 					break;
 
 				case Keys.N:
-					if (ctrl)
+					if (ctrl && !shift)
 						SelectedDateTime = DateTime.Now;
+					break;
+
+				case Keys.G:
+					if (!ctrl && !shift)
+						cbxSelectedOrbit.Checked = !cbxSelectedOrbit.Checked;
+					break;
+
+				case Keys.H:
+					if (!ctrl && !shift)
+						cbxSelectedLabel.Checked = !cbxSelectedLabel.Checked;
+					break;
+
+				case Keys.M:
+					if (!ctrl && !shift)
+						cbxMarker.Checked = !cbxMarker.Checked;
 					break;
 
 				default:
@@ -881,7 +906,6 @@ namespace Comets.Application.ModulOrbit
 
 		private void orbitPanel_MouseEnter(object sender, EventArgs e)
 		{
-			orbitPanel.Focus();
 			IsMouseWheelZoom = true;
 			IsKeyboardScroll = true;
 		}
@@ -960,6 +984,9 @@ namespace Comets.Application.ModulOrbit
 
 		private void orbitPanel_MouseMove(object sender, MouseEventArgs e)
 		{
+			if (!orbitPanel.Focused)
+				orbitPanel.Focus();
+
 			if (IsMouseRotate)
 			{
 				double xRatio = orbitPanel.MinimumSize.Width / scrollHorz.Maximum;
