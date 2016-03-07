@@ -69,6 +69,8 @@ namespace Comets.OrbitViewer
 		//https://msdn.microsoft.com/en-us/library/aa358803%28v=vs.85%29.aspx
 		protected Color ColorCometOrbitUpper = Color.Tomato;
 		protected Color ColorCometOrbitLower = Color.Firebrick;
+		protected Color ColorSelectedCometOrbitUpper = Color.Gold;
+		protected Color ColorSelectedCometOrbitLower = Color.DarkOrange;
 		protected Color ColorCometMarker = Color.Red;
 		protected Color ColorCometNameSelected = Color.White;
 		protected Color ColorCometName = Color.Peru;
@@ -670,11 +672,22 @@ namespace Comets.OrbitViewer
 
 			for (int i = 0; i < Comets.Count; i++)
 			{
-				bool visibleOrbit =
-					(OrbitDisplay.Contains(Object.Comet) && OrbitHistory.Contains(i)) ||
-					(PreserveSelectedOrbit && i == SelectedIndex);
+				bool visibleComet = GetCometVisibility(Comets[i], FilterOnDateSunDist, FilterOnDateEarthDist, FilterOnDateMagnitude);
+				bool visibleSelected = PreserveSelectedOrbit && i == SelectedIndex;
+				bool visibleOrbit = OrbitDisplay.Contains(Object.Comet) && OrbitHistory.Contains(i);
 
-				if (visibleOrbit)
+				bool useWeakColor = false;
+				bool useSelectedColor = MultipleMode && Comets.Count > 1 && OrbitDisplay.Contains(Object.Comet) && visibleSelected;
+
+				if (!visibleComet)
+				{
+					useWeakColor = FilterOnDateShowInWeakColor && !visibleSelected;
+
+					if (!FilterOnDateShowInWeakColor)
+						visibleOrbit = visibleSelected;
+				}
+
+				if (visibleOrbit || visibleSelected)
 				{
 					Xyz xyz = CometOrbits[i].GetAt(0).Rotate(MtxToEcl).Rotate(MtxRotate);
 					Pen pen = new Pen(Color.White);
@@ -685,8 +698,10 @@ namespace Comets.OrbitViewer
 					{
 						xyz = CometOrbits[i].GetAt(j).Rotate(MtxToEcl);
 
-						if (MultipleMode && Comets.Count > 1 && OrbitDisplay.Contains(Object.Comet) && PreserveSelectedOrbit && i == SelectedIndex)
-							pen.Color = xyz.Z >= 0.0 ? Color.Gold : Color.DarkOrange;
+						if (useWeakColor)
+							pen.Color = FilterOnDateWeakColor;
+						else if (useSelectedColor)
+							pen.Color = xyz.Z >= 0.0 ? ColorSelectedCometOrbitUpper : ColorSelectedCometOrbitLower;
 						else
 							pen.Color = xyz.Z >= 0.0 ? ColorCometOrbitUpper : ColorCometOrbitLower;
 
