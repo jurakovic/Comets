@@ -304,7 +304,7 @@ namespace Comets.OrbitViewer
 			if (comet != null && !Comets.Contains(comet))
 			{
 				Comets.Add(comet);
-				CometOrbits.Add(new CometOrbit(comet, CometOrbit.MaxDivisions));
+				CometOrbits.Add(new CometOrbit(comet));
 			}
 
 			SelectedIndex = Comets.IndexOf(comet);
@@ -331,7 +331,7 @@ namespace Comets.OrbitViewer
 			int i = 0;
 			foreach (OVComet c in Comets)
 			{
-				CometOrbits.Add(new CometOrbit(c, CometOrbit.MaxDivisions));
+				CometOrbits.Add(new CometOrbit(c));
 				OrbitHistoryAdd(i++);
 			}
 
@@ -695,7 +695,7 @@ namespace Comets.OrbitViewer
 					Point point1, point2;
 					point1 = GetDrawPoint(xyz);
 
-					for (int j = 1; j <= CometOrbits[i].Division; j++)
+					for (int j = 1; j <= CometOrbit.OrbitDivisionCount; j++)
 					{
 						xyz = CometOrbits[i].GetAt(j).Rotate(MtxToEcl);
 
@@ -876,7 +876,7 @@ namespace Comets.OrbitViewer
 			if (!clearAll && comet != null)
 			{
 				Comets.Add(comet);
-				CometOrbits.Add(new CometOrbit(comet, CometOrbit.MaxDivisions));
+				CometOrbits.Add(new CometOrbit(comet));
 
 				SelectedIndex = 0;
 				OrbitHistoryAdd(SelectedIndex);
