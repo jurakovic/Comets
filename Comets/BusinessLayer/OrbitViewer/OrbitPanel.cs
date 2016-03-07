@@ -82,7 +82,8 @@ namespace Comets.OrbitViewer
 		protected Color ColorAxisPlus = Color.Yellow;
 		protected Color ColorAxisMinus = Color.DarkOliveGreen;
 		protected Color ColorInformation = Color.White;
-		protected Color FilterOnDateWeakColor = Color.MidnightBlue;
+		protected Color FilterOnDateWeakColorComet = Color.FromArgb(25, 25, 70);
+		protected Color FilterOnDateWeakColorOrbit = Color.FromArgb(25, 25, 50);
 
 		#endregion
 
@@ -699,7 +700,7 @@ namespace Comets.OrbitViewer
 						xyz = CometOrbits[i].GetAt(j).Rotate(MtxToEcl);
 
 						if (useWeakColor)
-							pen.Color = FilterOnDateWeakColor;
+							pen.Color = FilterOnDateWeakColorOrbit;
 						else if (useSelectedColor)
 							pen.Color = xyz.Z >= 0.0 ? ColorSelectedCometOrbitUpper : ColorSelectedCometOrbitLower;
 						else
@@ -741,7 +742,7 @@ namespace Comets.OrbitViewer
 
 				if (!visibleComet)
 				{
-					color = FilterOnDateWeakColor;
+					color = FilterOnDateWeakColorComet;
 
 					if (FilterOnDateShowInWeakColor)
 					{
@@ -992,7 +993,7 @@ namespace Comets.OrbitViewer
 			else
 			{
 				diameter = 2;
-				color = Color.DimGray;
+				color = Color.FromArgb(70, 70, 70);
 			}
 		}
 
