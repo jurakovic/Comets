@@ -60,8 +60,8 @@ namespace Comets.Application.ModulEphemeris
 
 			if (EphemerisSettings == null)
 			{
-				DateStart = FormMain.DefaultDateStart;
-				DateEnd = FormMain.DefaultDateEnd;
+				DateStart = CommonManager.DefaultDateStart;
+				DateEnd = CommonManager.DefaultDateEnd;
 
 				btnTimespanIntervalDefault_Click(null, null);
 			}
@@ -113,10 +113,10 @@ namespace Comets.Application.ModulEphemeris
 			if (EphemerisSettings == null)
 			{
 				EphemerisSettings = new EphemerisSettings();
-				EphemerisSettings.Comets = new CometCollection(FormMain.UserCollection);
-				EphemerisSettings.Filters = FormMain.Filters;
-				EphemerisSettings.SortProperty = FormMain.SortProperty;
-				EphemerisSettings.SortAscending = FormMain.SortAscending;
+				EphemerisSettings.Comets = new CometCollection(CommonManager.UserCollection);
+				EphemerisSettings.Filters = CommonManager.Filters;
+				EphemerisSettings.SortProperty = CommonManager.SortProperty;
+				EphemerisSettings.SortAscending = CommonManager.SortAscending;
 				EphemerisSettings.AddNew = true;
 			}
 
@@ -224,7 +224,7 @@ namespace Comets.Application.ModulEphemeris
 					interval = 1.0;
 
 				EphemerisSettings.SelectedComet = EphemerisSettings.Comets.ElementAt(cbComet.SelectedIndex);
-				EphemerisSettings.Location = FormMain.Settings.Location;
+				EphemerisSettings.Location = CommonManager.Settings.Location;
 
 				EphemerisSettings.IsMultipleMode = rbtnMultiple.Checked;
 
@@ -255,7 +255,7 @@ namespace Comets.Application.ModulEphemeris
 				EphemerisSettings.MinMagnitudeChecked = cbxMinMag.Checked;
 				EphemerisSettings.MinMagnitudeValue = txtMinMag.TextLength > 0 ? (double?)txtMinMag.Double() : null;
 
-				if (!FormMain.Settings.IgnoreLongCalculationWarning && !SettingsBase.ValidateCalculationAmount(EphemerisSettings))
+				if (!CommonManager.Settings.IgnoreLongCalculationWarning && !SettingsBase.ValidateCalculationAmount(EphemerisSettings))
 					return;
 
 				if (EphemerisSettings.Ephemerides == null)
@@ -338,12 +338,12 @@ namespace Comets.Application.ModulEphemeris
 
 		private void btnStartDate_Click(object sender, EventArgs e)
 		{
-			DateStart = ShowFormDateTime(FormMain.DefaultDateStart, DateStart, GetT());
+			DateStart = ShowFormDateTime(CommonManager.DefaultDateStart, DateStart, GetT());
 		}
 
 		private void btnEndDate_Click(object sender, EventArgs e)
 		{
-			DateEnd = ShowFormDateTime(FormMain.DefaultDateEnd, DateEnd, GetT());
+			DateEnd = ShowFormDateTime(CommonManager.DefaultDateEnd, DateEnd, GetT());
 		}
 
 		private DateTime ShowFormDateTime(DateTime def, DateTime current, double? jd)

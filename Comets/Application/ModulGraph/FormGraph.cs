@@ -45,11 +45,9 @@ namespace Comets.Application.ModulGraph
 		{
 			using (SaveFileDialog sfd = new SaveFileDialog())
 			{
-				if (!String.IsNullOrEmpty(FormMain.Settings.LastUsedExportDirectory))
-					sfd.InitialDirectory = FormMain.Settings.LastUsedExportDirectory;
-				else
-					sfd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+				string lastExportDir = CommonManager.Settings.LastUsedExportDirectory;
 
+				sfd.InitialDirectory = !String.IsNullOrEmpty(lastExportDir) ? lastExportDir : Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
 				sfd.Filter = "BMP (*.bmp)|*.bmp|" +
 							"GIF (*.gif)|*.gif|" +
 							"JPEG (*.jpg, *.jpeg, *.jpe, *.jfif)|*.jpg;*.jpeg;*.jpe;*.jfif|" +
@@ -77,7 +75,7 @@ namespace Comets.Application.ModulGraph
 					}
 
 					this.chart1.SaveImage(sfd.FileName, format);
-					FormMain.Settings.LastUsedExportDirectory = Path.GetDirectoryName(sfd.FileName);
+					CommonManager.Settings.LastUsedExportDirectory = Path.GetDirectoryName(sfd.FileName);
 					MessageBox.Show(String.Format("Graph saved as {0}\t\t\t", sfd.FileName), "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				}
 			}

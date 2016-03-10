@@ -402,7 +402,7 @@ namespace Comets.BusinessLayer.Managers
 			FormDatabase fdb = btn.FindForm() as FormDatabase;
 			double? T = fdb.SelectedComet != null ? (double?)fdb.SelectedComet.Tn : null;
 
-			using (FormDateTime fdt = new FormDateTime(FormMain.DefaultDateStart, dt, T))
+			using (FormDateTime fdt = new FormDateTime(CommonManager.DefaultDateStart, dt, T))
 			{
 				Form form = btn.FindForm();
 				fdt.TopMost = form.TopMost;

@@ -246,7 +246,7 @@ namespace Comets.BusinessLayer.Business
 			get
 			{
 				if (_epPerihelion == null)
-					_epPerihelion = EphemerisManager.GetEphemeris(this, Tn, Comets.Application.FormMain.Settings.Location);
+					_epPerihelion = EphemerisManager.GetEphemeris(this, Tn, CommonManager.Settings.Location);
 
 				return _epPerihelion;
 			}
@@ -256,10 +256,10 @@ namespace Comets.BusinessLayer.Business
 		{
 			get
 			{
-				if (_epCurrent == null || (DateTime.Now - _lastEphemerisUpdate).TotalMinutes > CometManager.MinimumMinutesForRefresh)
+				if (_epCurrent == null || (DateTime.Now - _lastEphemerisUpdate).TotalMinutes > CometManager.MinimumMinutesForRecalculate)
 				{
 					_lastEphemerisUpdate = DateTime.Now;
-					_epCurrent = EphemerisManager.GetEphemeris(this, DateTime.Now.JD(), Comets.Application.FormMain.Settings.Location);
+					_epCurrent = EphemerisManager.GetEphemeris(this, DateTime.Now.JD(), CommonManager.Settings.Location);
 				}
 
 				return _epCurrent;

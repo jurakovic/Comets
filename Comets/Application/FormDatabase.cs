@@ -134,7 +134,7 @@ namespace Comets.Application
 			int minPeriod = 1000;
 
 			Comet c = SelectedComet;
-			PreviousEphemeris = EphemerisManager.GetEphemeris(c, DateTime.Now.AddMinutes(-1).JD(), FormMain.Settings.Location);
+			PreviousEphemeris = EphemerisManager.GetEphemeris(c, DateTime.Now.AddMinutes(-1).JD(), CommonManager.Settings.Location);
 
 			string commonName = c.full;
 			string commonPerihDist = c.q.ToString(format6);
@@ -200,8 +200,8 @@ namespace Comets.Application
 			Filters = null;
 			PopulateFilters(Filters);
 
-			SortProperty = FormMain.DefaultSortProperty;
-			SortAscending = FormMain.DefaultSortAscending;
+			SortProperty = CommonManager.DefaultSortProperty;
+			SortAscending = CommonManager.DefaultSortAscending;
 
 			SetSortItems(SortAscending);
 			ApplyFilters();
@@ -243,7 +243,7 @@ namespace Comets.Application
 			if (SelectedComet != null)
 			{
 				Comet c = SelectedComet;
-				Ephemeris ep = EphemerisManager.GetEphemeris(c, DateTime.Now.JD(), FormMain.Settings.Location);
+				Ephemeris ep = EphemerisManager.GetEphemeris(c, DateTime.Now.JD(), CommonManager.Settings.Location);
 
 				txtInfoCurrSunDist.Text = ep.SunDist.ToString("0.000000");
 				txtInfoCurrEarthDist.Text = ep.EarthDist.ToString("0.000000");
@@ -278,7 +278,7 @@ namespace Comets.Application
 
 				lblEphemDecIndicator.Text = decHigher ? "▲" : "▼";
 
-				if (FormMain.Settings.Location.Latitude >= 0)
+				if (CommonManager.Settings.Location.Latitude >= 0)
 					lblEphemDecIndicator.ForeColor = decHigher ? Color.Green : Color.Red;
 				else //for southern hemisphere it is better if dec is lower -> higher on sky
 					lblEphemDecIndicator.ForeColor = decHigher ? Color.Red : Color.Green;
@@ -447,7 +447,7 @@ namespace Comets.Application
 				location.Y += offset;
 			}
 
-			FilterPanelManager.CreateFilterPanel(pnlFilters, ++id, location, FormMain.DefaultDateStart, filter, property);
+			FilterPanelManager.CreateFilterPanel(pnlFilters, ++id, location, CommonManager.DefaultDateStart, filter, property);
 
 			btnNewFilter.Location = new Point(btnNewFilter.Location.X, btnNewFilter.Location.Y + offset);
 			btnNewFilter.Visible = id < 10;
@@ -572,9 +572,9 @@ namespace Comets.Application
 			else
 			{
 				if (Filters.Any(x => x.Checked))
-					Comets = FilterManager.ApplyFilters(FormMain.MainCollection, Filters);
+					Comets = FilterManager.ApplyFilters(CommonManager.MainCollection, Filters);
 				else
-					Comets = new CometCollection(FormMain.MainCollection);
+					Comets = new CometCollection(CommonManager.MainCollection);
 
 				SortCollection(Comets);
 			}

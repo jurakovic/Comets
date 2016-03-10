@@ -23,7 +23,7 @@ namespace Comets.Application
 		private void FormExport_Load(object sender, EventArgs e)
 		{
 			this.cbxExportFormat.DataSource = ElementTypesManager.TypeName;
-			this.lblTotalComets.Text = FormMain.UserCollection.Count.ToString();
+			this.lblTotalComets.Text = CommonManager.UserCollection.Count.ToString();
 		}
 
 		#endregion
@@ -45,16 +45,16 @@ namespace Comets.Application
 			{
 				sfd.Filter = ElementTypesManager.ExtensionFilters[cbxExportFormat.SelectedIndex] + "All files (*.*)|*.*";
 
-				ExternalProgram ep = FormMain.Settings.ExternalPrograms.Find(x => x.Type == cbxExportFormat.SelectedIndex);
+				ExternalProgram ep = CommonManager.Settings.ExternalPrograms.Find(x => x.Type == cbxExportFormat.SelectedIndex);
 
 				if (ep != null)
 					sfd.InitialDirectory = ep.Directory;
 				else
-					sfd.InitialDirectory = FormMain.Settings.LastUsedExportDirectory;
+					sfd.InitialDirectory = CommonManager.Settings.LastUsedExportDirectory;
 
 				if (sfd.ShowDialog() == DialogResult.OK)
 				{
-					FormMain.Settings.LastUsedExportDirectory = Path.GetDirectoryName(sfd.FileName);
+					CommonManager.Settings.LastUsedExportDirectory = Path.GetDirectoryName(sfd.FileName);
 					txtSaveAs.Text = sfd.FileName;
 				}
 			}
@@ -68,11 +68,11 @@ namespace Comets.Application
 		{
 			string filename = txtSaveAs.Text.Trim();
 
-			if (filename.Length > 0 && FormMain.UserCollection.Count > 0)
+			if (filename.Length > 0 && CommonManager.UserCollection.Count > 0)
 			{
 				ExportType exportType = (ExportType)cbxExportFormat.SelectedIndex;
 
-				bool isExported = ExporManager.ExportMain(exportType, filename, FormMain.UserCollection);
+				bool isExported = ExporManager.ExportMain(exportType, filename, CommonManager.UserCollection);
 
 				if (isExported)
 				{

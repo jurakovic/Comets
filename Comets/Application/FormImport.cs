@@ -13,18 +13,18 @@ namespace Comets.Application
 	{
 		#region Const
 
-		const string url = "http://www.minorplanetcenter.net/iau/Ephemerides/Comets/Soft00Cmt.txt";
+		private const string MpcUrl = "http://www.minorplanetcenter.net/iau/Ephemerides/Comets/Soft00Cmt.txt";
 
 		#endregion
 
 		#region Properties
 
-		string DownloadFilename { get; set; }
-		string LocalFilename { get; set; }
-		string ImportFilename { get; set; }
-		ImportType ImportType { get; set; }
-		bool IsUsedDownloadedFile { get; set; }
-		bool IsAutomaticUpdate { get; set; }
+		private string DownloadFilename { get; set; }
+		private string LocalFilename { get; set; }
+		private string ImportFilename { get; set; }
+		private ImportType ImportType { get; set; }
+		private bool IsUsedDownloadedFile { get; set; }
+		private bool IsAutomaticUpdate { get; set; }
 
 		#endregion
 
@@ -100,16 +100,18 @@ namespace Comets.Application
 
 				using (WebClient wc = new WebClient())
 				{
-					if (FormMain.Settings.UseProxy)
+					Settings settings = CommonManager.Settings;
+
+					if (settings.UseProxy)
 					{
-						WebProxy proxy = new WebProxy(FormMain.Settings.Proxy, FormMain.Settings.Port);
-						proxy.Credentials = new NetworkCredential(FormMain.Settings.Username, FormMain.Settings.Password, FormMain.Settings.Domain);
+						WebProxy proxy = new WebProxy(settings.Proxy, settings.Port);
+						proxy.Credentials = new NetworkCredential(settings.Username, settings.Password, settings.Domain);
 						wc.Proxy = proxy;
 					}
 
 					wc.DownloadProgressChanged += Client_DownloadProgressChanged;
 					wc.DownloadFileCompleted += Client_DownloadFileCompleted;
-					Uri uri = new Uri(url);
+					Uri uri = new Uri(MpcUrl);
 
 					try
 					{
@@ -164,7 +166,7 @@ namespace Comets.Application
 		{
 			using (OpenFileDialog ofd = new OpenFileDialog())
 			{
-				ofd.InitialDirectory = FormMain.Settings.LastUsedImportDirectory;
+				ofd.InitialDirectory = CommonManager.Settings.LastUsedImportDirectory;
 				ofd.Filter = "Orbital elements files (*.txt, *.dat, *.comet)|*.txt;*.dat;*.comet|" +
 							"Text documents (*.txt)|*.txt|" +
 							"DAT files (*.dat)|*.dat|" +
@@ -173,7 +175,7 @@ namespace Comets.Application
 
 				if (ofd.ShowDialog() == DialogResult.OK)
 				{
-					FormMain.Settings.LastUsedImportDirectory = Path.GetDirectoryName(ofd.FileName);
+					CommonManager.Settings.LastUsedImportDirectory = Path.GetDirectoryName(ofd.FileName);
 					txtLocalFile.Text = ofd.FileName; // txtImportFilename_TextChanged()
 				}
 			}
@@ -267,7 +269,7 @@ namespace Comets.Application
 				string message;
 				MessageBoxIcon icon;
 
-				CometCollection collection = ImportManager.ImportMain(FormMain.MainCollection, ImportType, ImportFilename, out totalNew, out totalOld);
+				CometCollection collection = ImportManager.ImportMain(CommonManager.MainCollection, ImportType, ImportFilename, out totalNew, out totalOld);
 
 				if (collection.Count > 0)
 				{
@@ -276,13 +278,13 @@ namespace Comets.Application
 
 					if (IsUsedDownloadedFile)
 					{
-						FormMain.Settings.LastUpdateDate = DateTime.Now;
-						FormMain.Settings.IsSettingsChanged = true;
+						CommonManager.Settings.LastUpdateDate = DateTime.Now;
+						CommonManager.Settings.IsSettingsChanged = true;
 					}
 
-					FormMain.IsDataChanged = true;
-					FormMain.MainCollection = new CometCollection(collection);
-					FormMain.UserCollection = new CometCollection(collection);
+					CommonManager.IsDataChanged = true;
+					CommonManager.MainCollection = new CometCollection(collection);
+					CommonManager.UserCollection = new CometCollection(collection);
 
 					isImported = true;
 				}

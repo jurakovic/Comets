@@ -32,29 +32,31 @@ namespace Comets.Application
 
 		private void FormSettings_Load(object sender, EventArgs e)
 		{
-			chAutomaticUpdate.Checked = FormMain.Settings.AutomaticUpdate;
-			txtUpdateInterval.Text = FormMain.Settings.UpdateInterval.ToString();
-			chNewVersionOnStartup.Checked = FormMain.Settings.NewVersionOnStartup;
-			chRememberWindowPosition.Checked = FormMain.Settings.RememberWindowPosition;
-			chExitWithoutConfirm.Checked = FormMain.Settings.ExitWithoutConfirm;
-			cbxIgnoreLongCalculationWarning.Checked = FormMain.Settings.IgnoreLongCalculationWarning;
-			chShowStatusBar.Checked = FormMain.Settings.ShowStatusBar;
+			Settings settings = CommonManager.Settings;
 
-			rbNoProxy.Checked = !FormMain.Settings.UseProxy;
-			rbManualProxy.Checked = FormMain.Settings.UseProxy;
-			txtDomain.Text = FormMain.Settings.Domain;
-			txtUsername.Text = FormMain.Settings.Username;
-			txtPassword.Text = FormMain.Settings.Password;
-			txtProxy.Text = FormMain.Settings.Proxy;
-			txtPort.Text = FormMain.Settings.Port > 0 ? FormMain.Settings.Port.ToString() : String.Empty;
+			chAutomaticUpdate.Checked = settings.AutomaticUpdate;
+			txtUpdateInterval.Text = settings.UpdateInterval.ToString();
+			chNewVersionOnStartup.Checked = settings.NewVersionOnStartup;
+			chRememberWindowPosition.Checked = settings.RememberWindowPosition;
+			chExitWithoutConfirm.Checked = settings.ExitWithoutConfirm;
+			cbxIgnoreLongCalculationWarning.Checked = settings.IgnoreLongCalculationWarning;
+			chShowStatusBar.Checked = settings.ShowStatusBar;
 
-			txtName.Text = FormMain.Settings.Location.Name;
-			txtLatitude.Text = (Math.Abs(FormMain.Settings.Location.Latitude)).ToString("0.000000");
-			cbxNorthSouth.SelectedIndex = FormMain.Settings.Location.Latitude >= 0.0 ? 0 : 1;
-			txtLongitude.Text = (Math.Abs(FormMain.Settings.Location.Longitude)).ToString("0.000000");
-			cbxEastWest.SelectedIndex = FormMain.Settings.Location.Longitude >= 0.0 ? 0 : 1;
+			rbNoProxy.Checked = !settings.UseProxy;
+			rbManualProxy.Checked = settings.UseProxy;
+			txtDomain.Text = settings.Domain;
+			txtUsername.Text = settings.Username;
+			txtPassword.Text = settings.Password;
+			txtProxy.Text = settings.Proxy;
+			txtPort.Text = settings.Port > 0 ? settings.Port.ToString() : String.Empty;
 
-			Programs = new BindingList<ExternalProgram>(FormMain.Settings.ExternalPrograms.OrderBy(x => x.Type).ToList());
+			txtName.Text = settings.Location.Name;
+			txtLatitude.Text = (Math.Abs(settings.Location.Latitude)).ToString("0.000000");
+			cbxNorthSouth.SelectedIndex = settings.Location.Latitude >= 0.0 ? 0 : 1;
+			txtLongitude.Text = (Math.Abs(settings.Location.Longitude)).ToString("0.000000");
+			cbxEastWest.SelectedIndex = settings.Location.Longitude >= 0.0 ? 0 : 1;
+
+			Programs = new BindingList<ExternalProgram>(settings.ExternalPrograms.OrderBy(x => x.Type).ToList());
 
 			dgvPrograms.DataSource = Programs;
 			cbxExternalProgram.DataSource = ElementTypesManager.TypeName;
@@ -80,32 +82,34 @@ namespace Comets.Application
 				return;
 			}
 
-			FormMain.Settings.AutomaticUpdate = chAutomaticUpdate.Checked;
-			FormMain.Settings.UpdateInterval = txtUpdateInterval.Int();
-			FormMain.Settings.NewVersionOnStartup = chNewVersionOnStartup.Checked;
-			FormMain.Settings.IgnoreLongCalculationWarning = cbxIgnoreLongCalculationWarning.Checked;
-			FormMain.Settings.ExitWithoutConfirm = chExitWithoutConfirm.Checked;
-			FormMain.Settings.RememberWindowPosition = chRememberWindowPosition.Checked;
-			FormMain.Settings.ShowStatusBar = chShowStatusBar.Checked;
+			Settings settings = CommonManager.Settings;
 
-			FormMain.Settings.UseProxy = rbManualProxy.Checked;
-			FormMain.Settings.Domain = txtDomain.Text.Trim();
-			FormMain.Settings.Username = txtUsername.Text.Trim();
-			FormMain.Settings.Password = txtPassword.Text.Trim();
-			FormMain.Settings.Proxy = txtProxy.Text.Trim();
-			FormMain.Settings.Port = txtPort.Int();
+			settings.AutomaticUpdate = chAutomaticUpdate.Checked;
+			settings.UpdateInterval = txtUpdateInterval.Int();
+			settings.NewVersionOnStartup = chNewVersionOnStartup.Checked;
+			settings.IgnoreLongCalculationWarning = cbxIgnoreLongCalculationWarning.Checked;
+			settings.ExitWithoutConfirm = chExitWithoutConfirm.Checked;
+			settings.RememberWindowPosition = chRememberWindowPosition.Checked;
+			settings.ShowStatusBar = chShowStatusBar.Checked;
 
-			FormMain.Settings.Location.Name = txtName.Text.Trim();
-			FormMain.Settings.Location.Latitude = txtLatitude.Double();
-			if (cbxNorthSouth.SelectedIndex == 1) FormMain.Settings.Location.Latitude *= -1; //south
-			FormMain.Settings.Location.Longitude = txtLongitude.Double();
-			if (cbxEastWest.SelectedIndex == 1) FormMain.Settings.Location.Longitude *= -1; //west
+			settings.UseProxy = rbManualProxy.Checked;
+			settings.Domain = txtDomain.Text.Trim();
+			settings.Username = txtUsername.Text.Trim();
+			settings.Password = txtPassword.Text.Trim();
+			settings.Proxy = txtProxy.Text.Trim();
+			settings.Port = txtPort.Int();
 
-			FormMain.Settings.ExternalPrograms = Programs.ToList();
+			settings.Location.Name = txtName.Text.Trim();
+			settings.Location.Latitude = txtLatitude.Double();
+			if (cbxNorthSouth.SelectedIndex == 1) settings.Location.Latitude *= -1; //south
+			settings.Location.Longitude = txtLongitude.Double();
+			if (cbxEastWest.SelectedIndex == 1) settings.Location.Longitude *= -1; //west
 
-			FormMain.Settings.IsSettingsChanged = true;
+			settings.ExternalPrograms = Programs.ToList();
 
-			SettingsManager.SaveSettings(FormMain.Settings);
+			settings.IsSettingsChanged = true;
+
+			SettingsManager.SaveSettings(settings);
 			this.Close();
 		}
 

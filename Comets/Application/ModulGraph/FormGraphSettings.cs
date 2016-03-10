@@ -56,8 +56,8 @@ namespace Comets.Application.ModulGraph
 
 			if (GraphSettings == null)
 			{
-				DateStart = FormMain.DefaultDateStart;
-				DateEnd = FormMain.DefaultDateEnd;
+				DateStart = CommonManager.DefaultDateStart;
+				DateEnd = CommonManager.DefaultDateEnd;
 
 				btnTimespanDaysFromTDefault_Click(null, null);
 				rbRangeDate.Checked = true;
@@ -108,10 +108,10 @@ namespace Comets.Application.ModulGraph
 			if (GraphSettings == null)
 			{
 				GraphSettings = new GraphSettings();
-				GraphSettings.Comets = new CometCollection(FormMain.UserCollection);
-				GraphSettings.Filters = FormMain.Filters;
-				GraphSettings.SortProperty = FormMain.SortProperty;
-				GraphSettings.SortAscending = FormMain.SortAscending;
+				GraphSettings.Comets = new CometCollection(CommonManager.UserCollection);
+				GraphSettings.Filters = CommonManager.Filters;
+				GraphSettings.SortProperty = CommonManager.SortProperty;
+				GraphSettings.SortAscending = CommonManager.SortAscending;
 				GraphSettings.AddNew = true;
 			}
 
@@ -198,12 +198,12 @@ namespace Comets.Application.ModulGraph
 
 		private void btnStartDate_Click(object sender, EventArgs e)
 		{
-			DateStart = ShowFormDateTime(FormMain.DefaultDateStart, DateStart, GetT());
+			DateStart = ShowFormDateTime(CommonManager.DefaultDateStart, DateStart, GetT());
 		}
 
 		private void btnEndDate_Click(object sender, EventArgs e)
 		{
-			DateEnd = ShowFormDateTime(FormMain.DefaultDateEnd, DateEnd, GetT());
+			DateEnd = ShowFormDateTime(CommonManager.DefaultDateEnd, DateEnd, GetT());
 		}
 
 		private DateTime ShowFormDateTime(DateTime def, DateTime current, double? jd)
@@ -340,7 +340,7 @@ namespace Comets.Application.ModulGraph
 				}
 
 				GraphSettings.SelectedComet = comet;
-				GraphSettings.Location = FormMain.Settings.Location;
+				GraphSettings.Location = CommonManager.Settings.Location;
 
 				GraphSettings.DateRange = rbRangeDate.Checked;
 
@@ -372,7 +372,7 @@ namespace Comets.Application.ModulGraph
 				GraphSettings.MaxGraphMagnitudeChecked = cbxMaxMag.Checked;
 				GraphSettings.MaxGraphMagnitudeValue = txtMaxMag.TextLength > 0 ? (double?)txtMaxMag.Double() : null;
 
-				if (!FormMain.Settings.IgnoreLongCalculationWarning && !SettingsBase.ValidateCalculationAmount(GraphSettings))
+				if (!CommonManager.Settings.IgnoreLongCalculationWarning && !SettingsBase.ValidateCalculationAmount(GraphSettings))
 					return;
 
 				if (GraphSettings.Ephemerides == null)

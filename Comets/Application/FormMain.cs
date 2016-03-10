@@ -16,25 +16,10 @@ namespace Comets.Application
 		#region Const
 
 		public static string DateTimeFormat = "dd.MM.yyyy HH:mm:ss";
-		public static string DefaultSortProperty = CometManager.PropertyEnum.sortkey.ToString();
-		public static bool DefaultSortAscending = true;
 
 		#endregion
 
 		#region Properties
-
-		public static CometCollection MainCollection { get; set; }
-		public static CometCollection UserCollection { get; set; }
-		public static bool IsDataChanged { get; set; }
-
-		public static FilterCollection Filters { get; set; }
-		public static string SortProperty { get; set; }
-		public static bool SortAscending { get; set; }
-
-		public static Settings Settings { get; set; }
-
-		public static DateTime DefaultDateStart { get; private set; }
-		public static DateTime DefaultDateEnd { get; private set; }
 
 		private Size InitialFormSize { get; set; }
 		private Size CurrentFormSize { get; set; }
@@ -53,28 +38,15 @@ namespace Comets.Application
 
 			Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
 
-			MainCollection = new CometCollection();
-			UserCollection = new CometCollection();
-
 			Progress = new Progress<int>(ReportProgress);
-
-			SortProperty = DefaultSortProperty;
-			SortAscending = DefaultSortAscending;
-
-			Settings = SettingsManager.LoadSettings();
-
-			DateTime dt = DateTime.Now.AddMonths(-1);
-			DefaultDateStart = new DateTime(dt.Year, dt.Month, 1, 0, 0, 0, DateTimeKind.Local);
-			dt = dt.AddMonths(3);
-			DefaultDateEnd = new DateTime(dt.Year, dt.Month, 1, 0, 0, 0, DateTimeKind.Local);
 
 			int margin = 250;
 			this.Width = Screen.PrimaryScreen.WorkingArea.Width - margin;
 			this.Height = Screen.PrimaryScreen.WorkingArea.Height - margin;
-			this.WindowState = Settings.Maximized ? FormWindowState.Maximized : FormWindowState.Normal;
+			this.WindowState = CommonManager.Settings.Maximized ? FormWindowState.Maximized : FormWindowState.Normal;
 
-			this.menuItemViewStatusBar.Checked = Settings.ShowStatusBar;
-			this.statusStrip.Visible = Settings.ShowStatusBar;
+			this.menuItemViewStatusBar.Checked = CommonManager.Settings.ShowStatusBar;
+			this.statusStrip.Visible = CommonManager.Settings.ShowStatusBar;
 		}
 
 		#endregion
@@ -85,22 +57,24 @@ namespace Comets.Application
 
 		private void FormMain_Load(object sender, EventArgs e)
 		{
-			if (Settings.RememberWindowPosition && (Settings.Left > 0 || Settings.Top > 0 || Settings.Width > 0 || Settings.Height > 0))
+			Settings settings = CommonManager.Settings;
+
+			if (settings.RememberWindowPosition && (settings.Left > 0 || settings.Top > 0 || settings.Width > 0 || settings.Height > 0))
 			{
-				this.Left = Settings.Left;
-				this.Top = Settings.Top;
-				this.Width = Settings.Width;
-				this.Height = Settings.Height;
+				this.Left = settings.Left;
+				this.Top = settings.Top;
+				this.Width = settings.Width;
+				this.Height = settings.Height;
 				this.StartPosition = FormStartPosition.Manual;
 			}
 
 			if (File.Exists(SettingsManager.DatabaseFilename))
 			{
 				int n, o; //dummy
-				CometCollection collection = ImportManager.ImportMain(MainCollection, ElementTypesManager.Type.MPC, SettingsManager.DatabaseFilename, out n, out o);
-				MainCollection = new CometCollection(collection);
-				UserCollection = new CometCollection(collection);
-				SetStatusCometsLabel(UserCollection.Count, MainCollection.Count);
+				CometCollection collection = ImportManager.ImportMain(CommonManager.MainCollection, ElementTypesManager.Type.MPC, SettingsManager.DatabaseFilename, out n, out o);
+				CommonManager.MainCollection = new CometCollection(collection);
+				CommonManager.UserCollection = new CometCollection(collection);
+				SetStatusCometsLabel(CommonManager.UserCollection.Count, CommonManager.MainCollection.Count);
 			}
 		}
 
@@ -110,11 +84,11 @@ namespace Comets.Application
 
 		private void FormMain_Shown(object sender, EventArgs e)
 		{
-			if (Settings.AutomaticUpdate && Settings.LastUpdateDate != null)
+			if (CommonManager.Settings.AutomaticUpdate && CommonManager.Settings.LastUpdateDate != null)
 			{
-				int daysLastUpdate = (int)(DateTime.Now - Settings.LastUpdateDate.Value).TotalDays;
+				int daysLastUpdate = (int)(DateTime.Now - CommonManager.Settings.LastUpdateDate.Value).TotalDays;
 
-				if (daysLastUpdate >= Settings.UpdateInterval)
+				if (daysLastUpdate >= CommonManager.Settings.UpdateInterval)
 				{
 					if (MessageBox.Show("Last update was " + daysLastUpdate + " days ago. Update now?\t\t",
 						"Comets",
@@ -124,16 +98,14 @@ namespace Comets.Application
 						using (FormImport fi = new FormImport(true) { Owner = this })
 						{
 							fi.ShowDialog();
-							SetStatusCometsLabel(UserCollection.Count, MainCollection.Count);
+							SetStatusCometsLabel(CommonManager.UserCollection.Count, CommonManager.MainCollection.Count);
 						}
 					}
 				}
 			}
 
-			InitialFormSize = this.Size;
-			CurrentFormSize = this.Size;
-			InitialFormLocation = this.Location;
-			CurrentFormLocation = this.Location;
+			InitialFormSize = CurrentFormSize = this.Size;
+			InitialFormLocation = CurrentFormLocation = this.Location;
 		}
 
 		#endregion
@@ -160,7 +132,7 @@ namespace Comets.Application
 
 		private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			if (!FormMain.Settings.ExitWithoutConfirm && this.MdiChildren.Length > 0)
+			if (!CommonManager.Settings.ExitWithoutConfirm && this.MdiChildren.Length > 0)
 			{
 				e.Cancel = MessageBox.Show(
 					"Do you really want to exit?\t\t\t\t",
@@ -177,25 +149,27 @@ namespace Comets.Application
 
 		private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
 		{
-			if ((IsDataChanged || !File.Exists(SettingsManager.DatabaseFilename)) && MainCollection.Count > 0)
+			if ((CommonManager.IsDataChanged || !File.Exists(SettingsManager.DatabaseFilename)) && CommonManager.MainCollection.Count > 0)
 			{
-				ExporManager.ExportMain(ElementTypesManager.Type.MPC, SettingsManager.DatabaseFilename, MainCollection);
+				ExporManager.ExportMain(ElementTypesManager.Type.MPC, SettingsManager.DatabaseFilename, CommonManager.MainCollection);
 			}
 
 			bool isFormSizeLocationChanged = CurrentFormLocation != InitialFormLocation || CurrentFormSize != InitialFormSize;
 
-			if (Settings.RememberWindowPosition && isFormSizeLocationChanged && this.WindowState != FormWindowState.Minimized)
+			Settings settings = CommonManager.Settings;
+
+			if (settings.RememberWindowPosition && isFormSizeLocationChanged && this.WindowState != FormWindowState.Minimized)
 			{
-				Settings.Maximized = this.WindowState == FormWindowState.Maximized;
-				Settings.Left = this.Left;
-				Settings.Top = this.Top;
-				Settings.Width = this.Width;
-				Settings.Height = this.Height;
-				Settings.IsSettingsChanged = true;
+				settings.Maximized = this.WindowState == FormWindowState.Maximized;
+				settings.Left = this.Left;
+				settings.Top = this.Top;
+				settings.Width = this.Width;
+				settings.Height = this.Height;
+				settings.IsSettingsChanged = true;
 			}
 
-			if (Settings.IsSettingsChanged)
-				SettingsManager.SaveSettings(Settings);
+			if (settings.IsSettingsChanged)
+				SettingsManager.SaveSettings(settings);
 		}
 
 		#endregion
@@ -219,7 +193,7 @@ namespace Comets.Application
 
 		private void menuItemFileEphemerides_Click(object sender, EventArgs e)
 		{
-			using (FormEphemerisSettings fes = new FormEphemerisSettings(Filters) { Owner = this })
+			using (FormEphemerisSettings fes = new FormEphemerisSettings(CommonManager.Filters) { Owner = this })
 			{
 				fes.TopMost = this.TopMost;
 				fes.ShowDialog();
@@ -228,7 +202,7 @@ namespace Comets.Application
 
 		private void menuItemFileGraph_Click(object sender, EventArgs e)
 		{
-			using (FormGraphSettings fgs = new FormGraphSettings(Filters) { Owner = this })
+			using (FormGraphSettings fgs = new FormGraphSettings(CommonManager.Filters) { Owner = this })
 			{
 				fgs.TopMost = this.TopMost;
 				fgs.ShowDialog();
@@ -237,7 +211,7 @@ namespace Comets.Application
 
 		private void menuItemFileOrbit_Click(object sender, EventArgs e)
 		{
-			FormOrbitViewer fo = new FormOrbitViewer(UserCollection, Filters, SortProperty, SortAscending);
+			FormOrbitViewer fo = new FormOrbitViewer(CommonManager.UserCollection, CommonManager.Filters, CommonManager.SortProperty, CommonManager.SortAscending);
 			fo.WindowState = FormWindowState.Maximized;
 			fo.MdiParent = this;
 			fo.Show();
@@ -257,7 +231,7 @@ namespace Comets.Application
 			if (this.ActiveMdiChild is FormEphemeris)
 			{
 				FormEphemeris fe = this.ActiveMdiChild as FormEphemeris;
-				using (FormEphemerisSettings fes = new FormEphemerisSettings(Filters, fe.EphemerisSettings) { Owner = this })
+				using (FormEphemerisSettings fes = new FormEphemerisSettings(CommonManager.Filters, fe.EphemerisSettings) { Owner = this })
 				{
 					fes.TopMost = this.TopMost;
 					fes.ShowDialog();
@@ -279,7 +253,7 @@ namespace Comets.Application
 			if (this.ActiveMdiChild is FormGraph)
 			{
 				FormGraph fg = this.ActiveMdiChild as FormGraph;
-				using (FormGraphSettings fgs = new FormGraphSettings(Filters, fg.GraphSettings) { Owner = this })
+				using (FormGraphSettings fgs = new FormGraphSettings(CommonManager.Filters, fg.GraphSettings) { Owner = this })
 				{
 					fgs.TopMost = this.TopMost;
 					fgs.ShowDialog();
@@ -311,19 +285,19 @@ namespace Comets.Application
 
 		private void menuItemDatabase_Click(object sender, EventArgs e)
 		{
-			using (FormDatabase fdb = new FormDatabase(UserCollection, Filters, SortProperty, SortAscending, false) { Owner = this })
+			using (FormDatabase fdb = new FormDatabase(CommonManager.UserCollection, CommonManager.Filters, CommonManager.SortProperty, CommonManager.SortAscending, false) { Owner = this })
 			{
 				fdb.TopMost = this.TopMost;
 
 				if (fdb.ShowDialog() == DialogResult.OK)
 				{
-					UserCollection = fdb.Comets;
-					Filters = fdb.Filters;
-					SortProperty = fdb.SortProperty;
-					SortAscending = fdb.SortAscending;
+					CommonManager.UserCollection = fdb.Comets;
+					CommonManager.Filters = fdb.Filters;
+					CommonManager.SortProperty = fdb.SortProperty;
+					CommonManager.SortAscending = fdb.SortAscending;
 				}
 
-				SetStatusCometsLabel(UserCollection.Count, MainCollection.Count);
+				SetStatusCometsLabel(CommonManager.UserCollection.Count, CommonManager.MainCollection.Count);
 			}
 		}
 
@@ -333,7 +307,7 @@ namespace Comets.Application
 			{
 				formImport.TopMost = this.TopMost;
 				formImport.ShowDialog();
-				SetStatusCometsLabel(UserCollection.Count, MainCollection.Count);
+				SetStatusCometsLabel(CommonManager.UserCollection.Count, CommonManager.MainCollection.Count);
 			}
 		}
 
@@ -353,8 +327,8 @@ namespace Comets.Application
 				fs.TopMost = this.TopMost;
 				fs.ShowDialog();
 
-				menuItemViewStatusBar.Checked = Settings.ShowStatusBar;
-				this.statusStrip.Visible = Settings.ShowStatusBar;
+				menuItemViewStatusBar.Checked = CommonManager.Settings.ShowStatusBar;
+				this.statusStrip.Visible = CommonManager.Settings.ShowStatusBar;
 			}
 		}
 
@@ -371,7 +345,7 @@ namespace Comets.Application
 		private void menuItemViewStatusBar_Click(object sender, EventArgs e)
 		{
 			menuItemViewStatusBar.Checked = !menuItemViewStatusBar.Checked;
-			Settings.ShowStatusBar = menuItemViewStatusBar.Checked;
+			CommonManager.Settings.ShowStatusBar = menuItemViewStatusBar.Checked;
 			this.statusStrip.Visible = menuItemViewStatusBar.Checked;
 		}
 

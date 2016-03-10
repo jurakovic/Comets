@@ -10,7 +10,7 @@ namespace Comets.BusinessLayer.Managers
 		#region Const
 
 		public static string[] Month = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
-		public static double MinimumMinutesForRefresh = 5;
+		public static double MinimumMinutesForRecalculate = 5;
 
 		#endregion
 
