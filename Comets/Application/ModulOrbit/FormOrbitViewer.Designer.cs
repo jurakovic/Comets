@@ -1130,7 +1130,7 @@
 			// scrollZoom
 			// 
 			this.scrollZoom.Location = new System.Drawing.Point(437, 656);
-			this.scrollZoom.Maximum = 1000;
+			this.scrollZoom.Maximum = 5000;
 			this.scrollZoom.Minimum = 5;
 			this.scrollZoom.Name = "scrollZoom";
 			this.scrollZoom.Size = new System.Drawing.Size(293, 17);

@@ -69,17 +69,8 @@ namespace Comets.BusinessLayer.Managers
 
 		public static FilterCollection Filters
 		{
-			get
-			{
-				if (_filters == null)
-					_filters = new FilterCollection();
-
-				return _filters;
-			}
-			set
-			{
-				_filters = value;
-			}
+			get { return _filters; }
+			set { _filters = value; }
 		}
 
 		public static string SortProperty
