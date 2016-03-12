@@ -4,31 +4,35 @@ namespace Comets.OrbitViewer
 {
 	public class PlanetOrbit
 	{
+		#region Const
+
+		public const int OrbitDivisionCount = 300;
+
+		#endregion
+
 		#region Properties
 
 		private int PlanetNo { get; set; }
 		private double JD { get; set; }
-		public int Division { get; private set; }
 		private Xyz[] Orbit { get; set; }
 
 		#endregion
 
 		#region Constructor
 
-		public PlanetOrbit(int planetNo, ATime atime, int division)
+		public PlanetOrbit(int planetNo, ATime atime)
 		{
 			this.PlanetNo = planetNo;
 			this.JD = atime.JD;
-			this.Division = division;
 			PlanetElm planetElm = new PlanetElm(planetNo, atime);
-			this.Orbit = new Xyz[division + 1];
+			this.Orbit = new Xyz[OrbitDivisionCount + 1];
 			DoGetPlanetOrbit(planetElm);
 			Matrix vec = Matrix.VectorConstant(planetElm.w * Math.PI / 180.0,
 											   planetElm.N * Math.PI / 180.0,
 											   planetElm.i * Math.PI / 180.0,
 											   atime);
 			Matrix prec = Matrix.PrecMatrix(atime.JD, 2451512.5);
-			for (int i = 0; i <= division; i++)
+			for (int i = 0; i <= OrbitDivisionCount; i++)
 			{
 				this.Orbit[i] = this.Orbit[i].Rotate(vec).Rotate(prec);
 			}
@@ -43,11 +47,11 @@ namespace Comets.OrbitViewer
 			double ae2 = -2.0 * planetElm.a * planetElm.e;
 			double t = Math.Sqrt(1.0 - planetElm.e * planetElm.e);
 			int xp1 = 0;
-			int xp2 = (this.Division / 2);
-			int xp3 = (this.Division / 2);
-			int xp4 = this.Division;
+			int xp2 = OrbitDivisionCount / 2;
+			int xp3 = OrbitDivisionCount / 2;
+			int xp4 = OrbitDivisionCount;
 			double E = 0.0;
-			for (int i = 0; i <= (this.Division / 4); i++, E += (360.0 / this.Division))
+			for (int i = 0; i <= (OrbitDivisionCount / 4); i++, E += (360.0 / OrbitDivisionCount))
 			{
 				double rcosv = planetElm.a * (UdMath.udcos(E) - planetElm.e);
 				double rsinv = planetElm.a * t * UdMath.udsin(E);
