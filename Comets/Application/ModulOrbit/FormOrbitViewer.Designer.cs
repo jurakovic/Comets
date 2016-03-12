@@ -40,13 +40,13 @@
 			this.btnRevPlay = new System.Windows.Forms.Button();
 			this.pnlToolbox = new System.Windows.Forms.Panel();
 			this.gbxFilterOnDate = new System.Windows.Forms.GroupBox();
+			this.cbxFodMagnitude = new System.Windows.Forms.CheckBox();
+			this.cbxFodEarthDist = new System.Windows.Forms.CheckBox();
+			this.cbxFodSunDist = new System.Windows.Forms.CheckBox();
 			this.cbxWeakColor = new System.Windows.Forms.CheckBox();
-			this.txtMagnitude = new System.Windows.Forms.TextBox();
-			this.lblMagnitude = new System.Windows.Forms.Label();
-			this.txtDistFromEarth = new System.Windows.Forms.TextBox();
-			this.lblDistFromEarth = new System.Windows.Forms.Label();
-			this.txtDistFromSun = new System.Windows.Forms.TextBox();
-			this.lblDistFromSun = new System.Windows.Forms.Label();
+			this.txtFodMagnitude = new System.Windows.Forms.TextBox();
+			this.txtFodEarthDist = new System.Windows.Forms.TextBox();
+			this.txtFodSunDist = new System.Windows.Forms.TextBox();
 			this.gbxMisc = new System.Windows.Forms.GroupBox();
 			this.btnSaveImage = new System.Windows.Forms.Button();
 			this.cbxAntialiasing = new System.Windows.Forms.CheckBox();
@@ -248,19 +248,52 @@
 			// 
 			// gbxFilterOnDate
 			// 
+			this.gbxFilterOnDate.Controls.Add(this.cbxFodMagnitude);
+			this.gbxFilterOnDate.Controls.Add(this.cbxFodEarthDist);
+			this.gbxFilterOnDate.Controls.Add(this.cbxFodSunDist);
 			this.gbxFilterOnDate.Controls.Add(this.cbxWeakColor);
-			this.gbxFilterOnDate.Controls.Add(this.txtMagnitude);
-			this.gbxFilterOnDate.Controls.Add(this.lblMagnitude);
-			this.gbxFilterOnDate.Controls.Add(this.txtDistFromEarth);
-			this.gbxFilterOnDate.Controls.Add(this.lblDistFromEarth);
-			this.gbxFilterOnDate.Controls.Add(this.txtDistFromSun);
-			this.gbxFilterOnDate.Controls.Add(this.lblDistFromSun);
+			this.gbxFilterOnDate.Controls.Add(this.txtFodMagnitude);
+			this.gbxFilterOnDate.Controls.Add(this.txtFodEarthDist);
+			this.gbxFilterOnDate.Controls.Add(this.txtFodSunDist);
 			this.gbxFilterOnDate.Location = new System.Drawing.Point(5, 657);
 			this.gbxFilterOnDate.Name = "gbxFilterOnDate";
 			this.gbxFilterOnDate.Size = new System.Drawing.Size(181, 116);
 			this.gbxFilterOnDate.TabIndex = 7;
 			this.gbxFilterOnDate.TabStop = false;
 			this.gbxFilterOnDate.Text = "Filter on date";
+			// 
+			// cbxFodMagnitude
+			// 
+			this.cbxFodMagnitude.AutoSize = true;
+			this.cbxFodMagnitude.Location = new System.Drawing.Point(9, 68);
+			this.cbxFodMagnitude.Name = "cbxFodMagnitude";
+			this.cbxFodMagnitude.Size = new System.Drawing.Size(76, 17);
+			this.cbxFodMagnitude.TabIndex = 4;
+			this.cbxFodMagnitude.Text = "Magnitude";
+			this.cbxFodMagnitude.UseVisualStyleBackColor = true;
+			this.cbxFodMagnitude.CheckedChanged += new System.EventHandler(this.cbxFodSunDist_CheckedChanged);
+			// 
+			// cbxFodEarthDist
+			// 
+			this.cbxFodEarthDist.AutoSize = true;
+			this.cbxFodEarthDist.Location = new System.Drawing.Point(9, 44);
+			this.cbxFodEarthDist.Name = "cbxFodEarthDist";
+			this.cbxFodEarthDist.Size = new System.Drawing.Size(121, 17);
+			this.cbxFodEarthDist.TabIndex = 2;
+			this.cbxFodEarthDist.Text = "Distance from Earth";
+			this.cbxFodEarthDist.UseVisualStyleBackColor = true;
+			this.cbxFodEarthDist.CheckedChanged += new System.EventHandler(this.cbxFodSunDist_CheckedChanged);
+			// 
+			// cbxFodSunDist
+			// 
+			this.cbxFodSunDist.AutoSize = true;
+			this.cbxFodSunDist.Location = new System.Drawing.Point(9, 20);
+			this.cbxFodSunDist.Name = "cbxFodSunDist";
+			this.cbxFodSunDist.Size = new System.Drawing.Size(113, 17);
+			this.cbxFodSunDist.TabIndex = 0;
+			this.cbxFodSunDist.Text = "Distance from Sun";
+			this.cbxFodSunDist.UseVisualStyleBackColor = true;
+			this.cbxFodSunDist.CheckedChanged += new System.EventHandler(this.cbxFodSunDist_CheckedChanged);
 			// 
 			// cbxWeakColor
 			// 
@@ -275,59 +308,32 @@
 			this.cbxWeakColor.UseVisualStyleBackColor = true;
 			this.cbxWeakColor.CheckedChanged += new System.EventHandler(this.cbxWeakColor_CheckedChanged);
 			// 
-			// txtMagnitude
+			// txtFodMagnitude
 			// 
-			this.txtMagnitude.Location = new System.Drawing.Point(118, 65);
-			this.txtMagnitude.Name = "txtMagnitude";
-			this.txtMagnitude.Size = new System.Drawing.Size(53, 21);
-			this.txtMagnitude.TabIndex = 5;
-			this.txtMagnitude.TextChanged += new System.EventHandler(this.txtFilterOnDateCommon_TextChanged);
-			this.txtMagnitude.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFilterOnDateCommon_KeyPress);
+			this.txtFodMagnitude.Location = new System.Drawing.Point(131, 65);
+			this.txtFodMagnitude.Name = "txtFodMagnitude";
+			this.txtFodMagnitude.Size = new System.Drawing.Size(40, 21);
+			this.txtFodMagnitude.TabIndex = 5;
+			this.txtFodMagnitude.TextChanged += new System.EventHandler(this.txtFilterOnDateCommon_TextChanged);
+			this.txtFodMagnitude.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFilterOnDateCommon_KeyPress);
 			// 
-			// lblMagnitude
+			// txtFodEarthDist
 			// 
-			this.lblMagnitude.AutoSize = true;
-			this.lblMagnitude.Location = new System.Drawing.Point(9, 68);
-			this.lblMagnitude.Name = "lblMagnitude";
-			this.lblMagnitude.Size = new System.Drawing.Size(57, 13);
-			this.lblMagnitude.TabIndex = 4;
-			this.lblMagnitude.Text = "Magnitude";
+			this.txtFodEarthDist.Location = new System.Drawing.Point(131, 41);
+			this.txtFodEarthDist.Name = "txtFodEarthDist";
+			this.txtFodEarthDist.Size = new System.Drawing.Size(40, 21);
+			this.txtFodEarthDist.TabIndex = 3;
+			this.txtFodEarthDist.TextChanged += new System.EventHandler(this.txtFilterOnDateCommon_TextChanged);
+			this.txtFodEarthDist.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFilterOnDateCommon_KeyPress);
 			// 
-			// txtDistFromEarth
+			// txtFodSunDist
 			// 
-			this.txtDistFromEarth.Location = new System.Drawing.Point(118, 41);
-			this.txtDistFromEarth.Name = "txtDistFromEarth";
-			this.txtDistFromEarth.Size = new System.Drawing.Size(53, 21);
-			this.txtDistFromEarth.TabIndex = 3;
-			this.txtDistFromEarth.TextChanged += new System.EventHandler(this.txtFilterOnDateCommon_TextChanged);
-			this.txtDistFromEarth.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFilterOnDateCommon_KeyPress);
-			// 
-			// lblDistFromEarth
-			// 
-			this.lblDistFromEarth.AutoSize = true;
-			this.lblDistFromEarth.Location = new System.Drawing.Point(9, 44);
-			this.lblDistFromEarth.Name = "lblDistFromEarth";
-			this.lblDistFromEarth.Size = new System.Drawing.Size(102, 13);
-			this.lblDistFromEarth.TabIndex = 2;
-			this.lblDistFromEarth.Text = "Distance from Earth";
-			// 
-			// txtDistFromSun
-			// 
-			this.txtDistFromSun.Location = new System.Drawing.Point(118, 17);
-			this.txtDistFromSun.Name = "txtDistFromSun";
-			this.txtDistFromSun.Size = new System.Drawing.Size(53, 21);
-			this.txtDistFromSun.TabIndex = 1;
-			this.txtDistFromSun.TextChanged += new System.EventHandler(this.txtFilterOnDateCommon_TextChanged);
-			this.txtDistFromSun.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFilterOnDateCommon_KeyPress);
-			// 
-			// lblDistFromSun
-			// 
-			this.lblDistFromSun.AutoSize = true;
-			this.lblDistFromSun.Location = new System.Drawing.Point(9, 20);
-			this.lblDistFromSun.Name = "lblDistFromSun";
-			this.lblDistFromSun.Size = new System.Drawing.Size(94, 13);
-			this.lblDistFromSun.TabIndex = 0;
-			this.lblDistFromSun.Text = "Distance from Sun";
+			this.txtFodSunDist.Location = new System.Drawing.Point(131, 17);
+			this.txtFodSunDist.Name = "txtFodSunDist";
+			this.txtFodSunDist.Size = new System.Drawing.Size(40, 21);
+			this.txtFodSunDist.TabIndex = 1;
+			this.txtFodSunDist.TextChanged += new System.EventHandler(this.txtFilterOnDateCommon_TextChanged);
+			this.txtFodSunDist.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFilterOnDateCommon_KeyPress);
 			// 
 			// gbxMisc
 			// 
@@ -1257,12 +1263,12 @@
 		private System.Windows.Forms.CheckBox cbxMarker;
 		private System.Windows.Forms.CheckBox cbxSelectedLabel;
 		private System.Windows.Forms.GroupBox gbxFilterOnDate;
-		private System.Windows.Forms.TextBox txtDistFromSun;
-		private System.Windows.Forms.Label lblDistFromSun;
-		private System.Windows.Forms.TextBox txtMagnitude;
-		private System.Windows.Forms.Label lblMagnitude;
-		private System.Windows.Forms.TextBox txtDistFromEarth;
-		private System.Windows.Forms.Label lblDistFromEarth;
+		private System.Windows.Forms.TextBox txtFodSunDist;
+		private System.Windows.Forms.TextBox txtFodMagnitude;
+		private System.Windows.Forms.TextBox txtFodEarthDist;
 		private System.Windows.Forms.CheckBox cbxWeakColor;
+		private System.Windows.Forms.CheckBox cbxFodMagnitude;
+		private System.Windows.Forms.CheckBox cbxFodEarthDist;
+		private System.Windows.Forms.CheckBox cbxFodSunDist;
 	}
 }

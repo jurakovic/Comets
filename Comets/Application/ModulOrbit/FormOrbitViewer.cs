@@ -144,9 +144,9 @@ namespace Comets.Application.ModulOrbit
 		{
 			InitializeComponent();
 
-			txtDistFromSun.Tag = new ValNum(0.0, 150.0, 3);
-			txtDistFromEarth.Tag = new ValNum(0.0, 150.0, 3);
-			txtMagnitude.Tag = ValNum.VMagnitude;
+			txtFodSunDist.Tag = new ValNum(0.0, 99.99, 2);
+			txtFodEarthDist.Tag = new ValNum(0.0, 99.99, 2);
+			txtFodMagnitude.Tag = ValNum.VMagnitude;
 
 			Timer = new Timer();
 			Timer.Interval = 50;
@@ -679,28 +679,61 @@ namespace Comets.Application.ModulOrbit
 
 		#region Filter on date
 
+		private void cbxFodSunDist_CheckedChanged(object sender, EventArgs e)
+		{
+			if (!ValueChangedByEvent)
+			{
+				CheckBox cbx = sender as CheckBox;
+
+				string namePart = cbx.Name.Replace("cbx", String.Empty);
+				TextBox txt = gbxFilterOnDate.Controls.Find("txt" + namePart, false).Single() as TextBox;
+				double? value = cbx.Checked && !String.IsNullOrEmpty(txt.Text) ? txt.Double() : (double?)null;
+
+				switch (cbx.Name)
+				{
+					case "cbxFodSunDist":
+						orbitPanel.FilterOnDateSunDist = value;
+						break;
+					case "cbxFodEarthDist":
+						orbitPanel.FilterOnDateEarthDist = value;
+						break;
+					case "cbxFodMagnitude":
+						orbitPanel.FilterOnDateMagnitude = value;
+						break;
+					default:
+						throw new NotImplementedException(cbx.Name);
+				}
+
+				RefreshPanel();
+			}
+		}
+
 		private void txtFilterOnDateCommon_TextChanged(object sender, EventArgs e)
 		{
 			TextBox txt = sender as TextBox;
-			double? value = null;
 
-			if (!String.IsNullOrEmpty(txt.Text))
-				value = txt.Double();
+			string namePart = txt.Name.Replace("txt", String.Empty);
+			CheckBox cbx = gbxFilterOnDate.Controls.Find("cbx" + namePart, false).Single() as CheckBox;
+			double? value = !String.IsNullOrEmpty(txt.Text) ? txt.Double() : (double?)null;
 
 			switch (txt.Name)
 			{
-				case "txtDistFromSun":
+				case "txtFodSunDist":
 					orbitPanel.FilterOnDateSunDist = value;
 					break;
-				case "txtDistFromEarth":
+				case "txtFodEarthDist":
 					orbitPanel.FilterOnDateEarthDist = value;
 					break;
-				case "txtMagnitude":
+				case "txtFodMagnitude":
 					orbitPanel.FilterOnDateMagnitude = value;
 					break;
 				default:
 					throw new NotImplementedException(txt.Name);
 			}
+
+			ValueChangedByEvent = true;
+			cbx.Checked = value != null;
+			ValueChangedByEvent = false;
 
 			RefreshPanel();
 		}
@@ -937,6 +970,9 @@ namespace Comets.Application.ModulOrbit
 			{
 				string name = orbitPanel.SelectComet(e.Location);
 
+				//if (name == null)
+				//	cboComet.SelectedIndex = -1;
+				//else 
 				if (name != null && OVComets.Any(x => x.Name == name))
 					cboComet.SelectedIndex = OVComets.IndexOf(OVComets.First(x => x.Name == name));
 			}
