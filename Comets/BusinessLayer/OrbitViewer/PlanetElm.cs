@@ -1,4 +1,5 @@
 using System;
+using Object = Comets.OrbitViewer.OrbitPanel.Object;
 
 namespace Comets.OrbitViewer
 {
@@ -268,19 +269,19 @@ namespace Comets.OrbitViewer
 		{
 			switch (planetNo)
 			{
-				case Planet.Earth:
+				case (int)Object.Earth:
 					GetPlanetElmEarth(atime.JD);
 					break;
-				case Planet.Mercury:
-				case Planet.Venus:
-				case Planet.Mars:
-				case Planet.Jupiter:
-				case Planet.Saturn:
+				case (int)Object.Mercury:
+				case (int)Object.Venus:
+				case (int)Object.Mars:
+				case (int)Object.Jupiter:
+				case (int)Object.Saturn:
 					GetPlanetElm1(planetNo, atime.JD);
 					break;
-				case Planet.Uranus:
-				case Planet.Neptune:
-				case Planet.Pluto:
+				case (int)Object.Uranus:
+				case (int)Object.Neptune:
+				case (int)Object.Pluto:
 					GetPlanetElm2(planetNo, atime.JD);
 					break;
 				default:
@@ -302,8 +303,8 @@ namespace Comets.OrbitViewer
 			double c2 = c * c;
 			this.L = 180.0 + UdMath.degmal(280.6824 + 36000.769325 * c + 7.22222e-4 * c2);
 			this.w = 180.0 + UdMath.degmal(281.2206 + 1.717697 * c + 4.83333e-4 * c2 + 2.77777e-6 * c * c2);
-			this.N = 0.0;	/* no ascending node for the Earth */
-			this.i = 0.0;	/* no inclination    for the Earth */
+			this.N = 0.0;   /* no ascending node for the Earth */
+			this.i = 0.0;   /* no inclination    for the Earth */
 			this.e = 0.0167498 - 4.258e-5 * c - 1.37e-7 * c2;
 			this.a = 1.00000129;
 		}
@@ -325,19 +326,19 @@ namespace Comets.OrbitViewer
 
 			switch (planetNo)
 			{
-				case Planet.Mercury:
+				case (int)Object.Mercury:
 					elmCf = MercuryE;
 					break;
-				case Planet.Venus:
+				case (int)Object.Venus:
 					elmCf = VenusE;
 					break;
-				case Planet.Mars:
+				case (int)Object.Mars:
 					elmCf = MarsE;
 					break;
-				case Planet.Jupiter:
+				case (int)Object.Jupiter:
 					elmCf = JupiterE;
 					break;
-				case Planet.Saturn:
+				case (int)Object.Saturn:
 					elmCf = SaturnE;
 					break;
 				default:
@@ -345,23 +346,18 @@ namespace Comets.OrbitViewer
 			}
 
 			this.L = UdMath.degmal(elmCf.L + elmCf.L1 * C1 + elmCf.L2 * C2 + elmCf.L3 * C1 * C2);
-
 			this.N = UdMath.degmal(elmCf.N + elmCf.N1 * C1 + elmCf.N2 * C2 + elmCf.N3 * C1 * C2);
-
 			this.w = UdMath.degmal(elmCf.w + elmCf.w1 * C1 + elmCf.w2 * C2 + elmCf.w3 * C1 * C2 - N);
-
 			this.a = elmCf.a;
-
 			this.e = UdMath.degmal(elmCf.e + elmCf.e1 * C1 + elmCf.e2 * C2 + elmCf.e3 * C1 * C2);
-
 			this.i = UdMath.degmal(elmCf.i + elmCf.i1 * C1 + elmCf.i2 * C2 + elmCf.i3 * C1 * C2);
 
 			switch (planetNo)
 			{
-				case Planet.Jupiter:
+				case (int)Object.Jupiter:
 					PerturbationJupiter(jd);
 					break;
-				case Planet.Saturn:
+				case (int)Object.Saturn:
 					PerturbationSaturn(jd);
 					break;
 			}
@@ -385,13 +381,13 @@ namespace Comets.OrbitViewer
 
 			switch (planetNo)
 			{
-				case Planet.Uranus:
+				case (int)Object.Uranus:
 					elmCf = UranusE;
 					break;
-				case Planet.Neptune:
+				case (int)Object.Neptune:
 					elmCf = NeptuneE;
 					break;
-				case Planet.Pluto:
+				case (int)Object.Pluto:
 					elmCf = PlutoE;
 					break;
 				default:
@@ -399,15 +395,10 @@ namespace Comets.OrbitViewer
 			}
 
 			this.L = UdMath.degmal(elmCf.L + elmCf.L1 * d + elmCf.L2 * T2);
-
 			this.N = UdMath.degmal(elmCf.N + elmCf.N1 * T1 + elmCf.N2 * T2);
-
 			this.w = UdMath.degmal(elmCf.w + elmCf.w1 * T1 + elmCf.w2 * T2 - N);
-
 			this.a = UdMath.degmal(elmCf.a + elmCf.a1 * T1 + elmCf.a2 * T2);
-
 			this.e = UdMath.degmal(elmCf.e + elmCf.e1 * T1 + elmCf.e2 * T2);
-
 			this.i = UdMath.degmal(elmCf.i + elmCf.i1 * T1 + elmCf.i2 * T2);
 		}
 
