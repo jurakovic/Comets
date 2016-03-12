@@ -679,63 +679,62 @@ namespace Comets.Application.ModulOrbit
 
 		#region Filter on date
 
-		private void cbxFodSunDist_CheckedChanged(object sender, EventArgs e)
+		private void filterOnDateTxtCbxCommon_TextChangedCheckedChanged(object sender, EventArgs e)
 		{
 			if (!ValueChangedByEvent)
 			{
-				CheckBox cbx = sender as CheckBox;
+				TextBox txt = null;
+				CheckBox cbx = null;
 
-				string namePart = cbx.Name.Replace("cbx", String.Empty);
-				TextBox txt = gbxFilterOnDate.Controls.Find("txt" + namePart, false).Single() as TextBox;
-				double? value = cbx.Checked && !String.IsNullOrEmpty(txt.Text) ? txt.Double() : (double?)null;
+				bool isTxt = false;
+				bool isCbx = false;
 
-				switch (cbx.Name)
+				string namePart = null;
+				double? value = null;
+
+				if (sender is TextBox)
 				{
-					case "cbxFodSunDist":
+					txt = sender as TextBox;
+					namePart = txt.Name.Replace("txt", String.Empty);
+					cbx = gbxFilterOnDate.Controls.Find("cbx" + namePart, false).Single() as CheckBox;
+					isTxt = true;
+				}
+
+				if (sender is CheckBox)
+				{
+					cbx = sender as CheckBox;
+					namePart = cbx.Name.Replace("cbx", String.Empty);
+					txt = gbxFilterOnDate.Controls.Find("txt" + namePart, false).Single() as TextBox;
+					isCbx = true;
+				}
+
+				if (!String.IsNullOrEmpty(txt.Text) && (isTxt || (isCbx && cbx.Checked)))
+					value = txt.Double();
+
+				switch (namePart)
+				{
+					case "FodSunDist":
 						orbitPanel.FilterOnDateSunDist = value;
 						break;
-					case "cbxFodEarthDist":
+					case "FodEarthDist":
 						orbitPanel.FilterOnDateEarthDist = value;
 						break;
-					case "cbxFodMagnitude":
+					case "FodMagnitude":
 						orbitPanel.FilterOnDateMagnitude = value;
 						break;
 					default:
-						throw new NotImplementedException(cbx.Name);
+						throw new NotImplementedException(txt.Name);
+				}
+
+				if (isTxt)
+				{
+					ValueChangedByEvent = true;
+					cbx.Checked = value != null;
+					ValueChangedByEvent = false;
 				}
 
 				RefreshPanel();
 			}
-		}
-
-		private void txtFilterOnDateCommon_TextChanged(object sender, EventArgs e)
-		{
-			TextBox txt = sender as TextBox;
-
-			string namePart = txt.Name.Replace("txt", String.Empty);
-			CheckBox cbx = gbxFilterOnDate.Controls.Find("cbx" + namePart, false).Single() as CheckBox;
-			double? value = !String.IsNullOrEmpty(txt.Text) ? txt.Double() : (double?)null;
-
-			switch (txt.Name)
-			{
-				case "txtFodSunDist":
-					orbitPanel.FilterOnDateSunDist = value;
-					break;
-				case "txtFodEarthDist":
-					orbitPanel.FilterOnDateEarthDist = value;
-					break;
-				case "txtFodMagnitude":
-					orbitPanel.FilterOnDateMagnitude = value;
-					break;
-				default:
-					throw new NotImplementedException(txt.Name);
-			}
-
-			ValueChangedByEvent = true;
-			cbx.Checked = value != null;
-			ValueChangedByEvent = false;
-
-			RefreshPanel();
 		}
 
 		private void txtFilterOnDateCommon_KeyPress(object sender, KeyPressEventArgs e)

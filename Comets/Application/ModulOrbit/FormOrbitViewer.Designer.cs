@@ -271,7 +271,7 @@
 			this.cbxFodMagnitude.TabIndex = 4;
 			this.cbxFodMagnitude.Text = "Magnitude";
 			this.cbxFodMagnitude.UseVisualStyleBackColor = true;
-			this.cbxFodMagnitude.CheckedChanged += new System.EventHandler(this.cbxFodSunDist_CheckedChanged);
+			this.cbxFodMagnitude.CheckedChanged += new System.EventHandler(this.filterOnDateTxtCbxCommon_TextChangedCheckedChanged);
 			// 
 			// cbxFodEarthDist
 			// 
@@ -282,7 +282,7 @@
 			this.cbxFodEarthDist.TabIndex = 2;
 			this.cbxFodEarthDist.Text = "Distance from Earth";
 			this.cbxFodEarthDist.UseVisualStyleBackColor = true;
-			this.cbxFodEarthDist.CheckedChanged += new System.EventHandler(this.cbxFodSunDist_CheckedChanged);
+			this.cbxFodEarthDist.CheckedChanged += new System.EventHandler(this.filterOnDateTxtCbxCommon_TextChangedCheckedChanged);
 			// 
 			// cbxFodSunDist
 			// 
@@ -293,7 +293,7 @@
 			this.cbxFodSunDist.TabIndex = 0;
 			this.cbxFodSunDist.Text = "Distance from Sun";
 			this.cbxFodSunDist.UseVisualStyleBackColor = true;
-			this.cbxFodSunDist.CheckedChanged += new System.EventHandler(this.cbxFodSunDist_CheckedChanged);
+			this.cbxFodSunDist.CheckedChanged += new System.EventHandler(this.filterOnDateTxtCbxCommon_TextChangedCheckedChanged);
 			// 
 			// cbxWeakColor
 			// 
@@ -314,7 +314,7 @@
 			this.txtFodMagnitude.Name = "txtFodMagnitude";
 			this.txtFodMagnitude.Size = new System.Drawing.Size(40, 21);
 			this.txtFodMagnitude.TabIndex = 5;
-			this.txtFodMagnitude.TextChanged += new System.EventHandler(this.txtFilterOnDateCommon_TextChanged);
+			this.txtFodMagnitude.TextChanged += new System.EventHandler(this.filterOnDateTxtCbxCommon_TextChangedCheckedChanged);
 			this.txtFodMagnitude.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFilterOnDateCommon_KeyPress);
 			// 
 			// txtFodEarthDist
@@ -323,7 +323,7 @@
 			this.txtFodEarthDist.Name = "txtFodEarthDist";
 			this.txtFodEarthDist.Size = new System.Drawing.Size(40, 21);
 			this.txtFodEarthDist.TabIndex = 3;
-			this.txtFodEarthDist.TextChanged += new System.EventHandler(this.txtFilterOnDateCommon_TextChanged);
+			this.txtFodEarthDist.TextChanged += new System.EventHandler(this.filterOnDateTxtCbxCommon_TextChangedCheckedChanged);
 			this.txtFodEarthDist.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFilterOnDateCommon_KeyPress);
 			// 
 			// txtFodSunDist
@@ -332,7 +332,7 @@
 			this.txtFodSunDist.Name = "txtFodSunDist";
 			this.txtFodSunDist.Size = new System.Drawing.Size(40, 21);
 			this.txtFodSunDist.TabIndex = 1;
-			this.txtFodSunDist.TextChanged += new System.EventHandler(this.txtFilterOnDateCommon_TextChanged);
+			this.txtFodSunDist.TextChanged += new System.EventHandler(this.filterOnDateTxtCbxCommon_TextChangedCheckedChanged);
 			this.txtFodSunDist.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFilterOnDateCommon_KeyPress);
 			// 
 			// gbxMisc
