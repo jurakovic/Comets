@@ -58,8 +58,8 @@ namespace Comets.Application.ModulOrbit
 
 		#region Fields
 
+		private bool IsLeftButtonMoving;
 		private bool IsKeyboardScroll;
-		private bool IsMouseRotate;
 		private bool IsMouseWheelZoom;
 		private Point StartDrag;
 
@@ -890,6 +890,29 @@ namespace Comets.Application.ModulOrbit
 						cbxMarker.Checked = !cbxMarker.Checked;
 					break;
 
+				case Keys.Enter:
+					if (!ctrl && !shift && orbitPanel.MultipleMode)
+					{
+						orbitPanel.MarkComet(SelectedComet);
+						if (orbitPanel.IsPaintEnabled && !IsSimulationStarted)
+							RefreshPanel();
+					}
+					break;
+
+				case Keys.Back:
+					if (!ctrl && !shift)
+						cboComet.SelectedIndex = -1;
+					break;
+
+				case Keys.Delete:
+					if (!ctrl && !shift && orbitPanel.MultipleMode)
+					{
+						orbitPanel.ClearMarkedComets();
+						if (orbitPanel.IsPaintEnabled && !IsSimulationStarted)
+							RefreshPanel();
+					}
+					break;
+
 				default:
 					handled = !(cboComet.Focused || cboTimestep.Focused);
 					break;
@@ -945,34 +968,24 @@ namespace Comets.Application.ModulOrbit
 		private void orbitPanel_MouseDown(object sender, MouseEventArgs e)
 		{
 			if (e.Button == MouseButtons.Right)
-			{
-				IsMouseRotate = true;
 				StartDrag = e.Location;
-			}
-		}
-
-		private void orbitPanel_MouseUp(object sender, MouseEventArgs e)
-		{
-			IsMouseRotate = false;
 		}
 
 		private void orbitPanel_MouseLeave(object sender, EventArgs e)
 		{
-			IsMouseRotate = false;
 			IsMouseWheelZoom = false;
 			IsKeyboardScroll = false;
 		}
 
 		private void orbitPanel_MouseClick(object sender, MouseEventArgs e)
 		{
-			if (e.Button == MouseButtons.Left)
+			if (!IsLeftButtonMoving && e.Button == MouseButtons.Left)
 			{
 				string name = orbitPanel.SelectComet(e.Location);
 
-				//if (name == null)
-				//	cboComet.SelectedIndex = -1;
-				//else 
-				if (name != null && OVComets.Any(x => x.Name == name))
+				if (name == null)
+					cboComet.SelectedIndex = -1;
+				else if (name != null && OVComets.Any(x => x.Name == name))
 					cboComet.SelectedIndex = OVComets.IndexOf(OVComets.First(x => x.Name == name));
 			}
 		}
@@ -1022,7 +1035,9 @@ namespace Comets.Application.ModulOrbit
 			if (!orbitPanel.Focused)
 				orbitPanel.Focus();
 
-			if (IsMouseRotate)
+			IsLeftButtonMoving = e.Button == MouseButtons.Left;
+
+			if (e.Button == MouseButtons.Right)
 			{
 				double xRatio = orbitPanel.MinimumSize.Width / scrollHorz.Maximum;
 				double yRatio = orbitPanel.MinimumSize.Height / scrollVert.Maximum;

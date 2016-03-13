@@ -72,7 +72,8 @@ namespace Comets.OrbitViewer
 		protected Color ColorCometOrbitLower = Color.Firebrick;
 		protected Color ColorSelectedCometOrbitUpper = Color.Gold;
 		protected Color ColorSelectedCometOrbitLower = Color.DarkOrange;
-		protected Color ColorCometMarker = Color.Red;
+		protected Color ColorSelectedCometMarker = Color.Red;
+		protected Color ColorMarkedCometMarker = Color.DeepSkyBlue;
 		protected Color ColorCometNameSelected = Color.White;
 		protected Color ColorCometName = Color.Peru;
 		protected Color ColorPlanetOrbitUpper = Color.SteelBlue;
@@ -106,6 +107,7 @@ namespace Comets.OrbitViewer
 		private List<Xyz> CometsPos;
 
 		private List<int> OrbitHistory;
+		private List<int> MarkedComets;
 
 		private PlanetOrbit[] PlanetsOrbit;
 		private Xyz[] PlanetsPos;
@@ -272,6 +274,7 @@ namespace Comets.OrbitViewer
 			CometsPos = new List<Xyz>();
 
 			OrbitHistory = new List<int>();
+			MarkedComets = new List<int>();
 
 			OrbitDisplay = DefaultOrbitDisplay;
 			LabelDisplay = DefaultLabelDisplay;
@@ -320,20 +323,39 @@ namespace Comets.OrbitViewer
 
 		public void LoadPanel(List<OVComet> comets, ATime atime, int index)
 		{
+			List<OVComet> marked = null;
+
+			if (MarkedComets.Count > 0)
+			{
+				marked = new List<OVComet>();
+
+				for (int i = 0; i < Comets.Count; i++)
+				{
+					if (MarkedComets.Contains(i))
+						marked.Add(Comets.ElementAt(i));
+				}
+			}
+
 			IsPaintEnabled = true;
 			MultipleMode = true;
 
 			Comets.Clear();
 			CometOrbits.Clear();
 			OrbitHistory.Clear();
+			MarkedComets.Clear();
 
 			Comets = comets;
 
-			int i = 0;
+			int ix = 0;
 			foreach (OVComet c in Comets)
 			{
 				CometOrbits.Add(new CometOrbit(c));
-				OrbitHistoryAdd(i++);
+				OrbitHistoryAdd(ix);
+
+				if (marked != null && marked.Contains(c))
+					MarkedComets.Add(ix);
+
+				ix++;
 			}
 
 			SelectedIndex = index;
@@ -675,19 +697,22 @@ namespace Comets.OrbitViewer
 				bool visibleComet = GetCometVisibility(Comets[i], FilterOnDateSunDist, FilterOnDateEarthDist, FilterOnDateMagnitude);
 				bool visibleSelected = PreserveSelectedOrbit && i == SelectedIndex;
 				bool visibleOrbit = OrbitDisplay.Contains(Object.Comet) && OrbitHistory.Contains(i);
+				bool isCometMarked = MarkedComets.Contains(i);
 
 				bool useWeakColor = false;
-				bool useSelectedColor = MultipleMode && Comets.Count > 1 && OrbitDisplay.Contains(Object.Comet) && visibleSelected;
+				bool useSelectedColor = visibleSelected &&
+					((OrbitDisplay.Contains(Object.Comet) && MultipleMode && Comets.Count > 1) ||
+					(!OrbitDisplay.Contains(Object.Comet) && (MarkedComets.Count > 0 && !isCometMarked) || (MarkedComets.Count > 1 && isCometMarked)));
 
 				if (!visibleComet)
 				{
-					useWeakColor = FilterOnDateShowInWeakColor && !visibleSelected;
+					useWeakColor = FilterOnDateShowInWeakColor && !visibleSelected && !isCometMarked;
 
 					if (!FilterOnDateShowInWeakColor)
 						visibleOrbit = visibleSelected;
 				}
 
-				if (visibleOrbit || visibleSelected)
+				if (visibleOrbit || visibleSelected || isCometMarked)
 				{
 					Xyz xyz = CometOrbits[i].GetAt(0).Rotate(MtxToEcl).Rotate(MtxRotate);
 					Pen pen = new Pen(Color.White);
@@ -736,6 +761,7 @@ namespace Comets.OrbitViewer
 				bool visibleSelected = PreserveSelectedLabel && i == SelectedIndex;
 				bool visibleLabel = LabelDisplay.Contains(Object.Comet);
 				bool visibleMarker = ShowMarker && i == SelectedIndex;
+				bool isCometMarked = MarkedComets.Contains(i);
 
 				GetCometColorAndDiameter(Comets[i], out diameter, out color);
 
@@ -754,11 +780,11 @@ namespace Comets.OrbitViewer
 
 				SolidBrush sb = new SolidBrush(color);
 
-				if (visibleComet || visibleSelected)
+				if (visibleComet || visibleSelected || isCometMarked)
 				{
 					graphics.FillPie(sb, point1.X - diameter, point1.Y - diameter, diameter * 2, diameter * 2, 0, 360);
 
-					if (visibleLabel || visibleSelected)
+					if (visibleLabel || visibleSelected || isCometMarked)
 					{
 						if (MultipleMode && Comets.Count > 1 && visibleLabel && visibleSelected)
 							sb.Color = ColorCometNameSelected;
@@ -769,12 +795,17 @@ namespace Comets.OrbitViewer
 					}
 				}
 
-				if (visibleMarker)
+				if (visibleMarker || isCometMarked)
 				{
 					int offset = diameter + 4;
 					int length = diameter + 8;
 
-					Pen p = new Pen(ColorCometMarker);
+					Color cmarker = ColorSelectedCometMarker;
+
+					if (isCometMarked)
+						cmarker = ColorMarkedCometMarker;
+
+					Pen p = new Pen(cmarker);
 					p.Width = 3;
 
 					graphics.DrawLine(p, new Point(point1.X, point1.Y - length), new Point(point1.X, point1.Y - offset));
@@ -869,6 +900,7 @@ namespace Comets.OrbitViewer
 			Comets.Clear();
 			CometOrbits.Clear();
 			OrbitHistory.Clear();
+			MarkedComets.Clear();
 			SelectedIndex = -1;
 			CenteredIndex = -1;
 
@@ -915,6 +947,28 @@ namespace Comets.OrbitViewer
 			}
 
 			return name;
+		}
+
+		#endregion
+
+		#region Marked Comets
+
+		public void MarkComet(OVComet comet)
+		{
+			if (comet != null)
+			{
+				int index = Comets.IndexOf(comet);
+
+				if (MarkedComets.Contains(index))
+					MarkedComets.Remove(index);
+				else
+					MarkedComets.Add(index);
+			}
+		}
+
+		public void ClearMarkedComets()
+		{
+			MarkedComets.Clear();
 		}
 
 		#endregion
