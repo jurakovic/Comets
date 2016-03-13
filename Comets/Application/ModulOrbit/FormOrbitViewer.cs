@@ -866,7 +866,7 @@ namespace Comets.Application.ModulOrbit
 					break;
 
 				case Keys.B:
-					if (ctrl && !shift && OVComets.Count > 0)
+					if (ctrl && !shift && OVComets.Count > 0 && cboComet.SelectedIndex >= 0)
 						SelectedDateTime = EphemerisManager.JDToDateTime(OVComets.ElementAt(cboComet.SelectedIndex).T).ToLocalTime();
 					break;
 
