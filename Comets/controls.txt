@@ -1,0 +1,66 @@
+----------------------------------------------------------------------------
+    GENERAL CONTROLS
+----------------------------------------------------------------------------
+ Ctrl + E                           New Ephemeris
+ Ctrl + G                           New Magnitude Graph
+ Ctrl + V                           New Orbit Viewer
+
+ Ctrl + Shift + E                   Ephemeris Settings
+ Ctrl + Shift + G                   Magnitude Graph Settings
+
+ Ctrl + S                           Save current view (text, image)
+
+ F5                                 Database
+ F7                                 Import
+ F8                                 Export
+
+ Ctrl + F4                          Close current window
+ Alt + F4                           Close program
+ 
+----------------------------------------------------------------------------
+    ORBIT VIEWER CONTROLS
+----------------------------------------------------------------------------
+
+    Mouse controls
+-------------------------
+
+ Left click (on comet)              Select comet
+ Left click (on no comet)           Clear selection
+ Left double click (on comet)       If comet not selected, select and center
+                                    comet, otherwise toggle on/off selected
+                                    comet orbit/label
+ Right drag                         Rotate
+ Wheel                              Zoom in/out
+ 
+ 
+    Keyboard shortcuts
+-------------------------
+
+ S / 0                              Center on Sun
+ 1 - 8                              Center on planet
+ C / 9                              Center on comet
+ Ctrl + 1 - 8                       Toggle on/off planet orbit
+ Ctrl + 9 / C                       Toggle on/off comet orbit
+ Shift + 1 - 8                      Toggle on/off planet label
+ Shift + 9 / C                      Toggle on/off comet label
+
+ Ctrl + D                           Select date
+ Ctrl + N                           Set current date
+ Ctrl + B                           Set perihelion date of selected comet
+
+ Left, Right, Up, Down              Rotate
+ + / Q                              Zoom in
+ - / A                              Zoom out
+
+ Spacebar / P                       Start/stop simulation
+ J                                  Reverse/forward time
+ K                                  Faster time rate
+ L                                  Slower time rate
+ 
+ G                                  Toggle on/off selected comet orbit
+ H                                  Toggle on/off selected comet label
+ M                                  Toggle on/off selected comet marker
+ 
+ Backspace                          Clear selection
+ Enter                              Mark/unmark selected comet
+ Delete                             Clear marks

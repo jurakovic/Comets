@@ -754,6 +754,19 @@ namespace Comets.Application.ModulOrbit
 
 		#region Keyboad shortcuts
 
+		private void orbitPanel_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+		{
+			switch (e.KeyCode)
+			{
+				case Keys.Up:
+				case Keys.Down:
+				case Keys.Left:
+				case Keys.Right:
+					e.IsInputKey = true;
+					break;
+			}
+		}
+
 		private void FormOrbitViewer_KeyDown(object sender, KeyEventArgs e)
 		{
 			bool handled = true;
@@ -762,6 +775,9 @@ namespace Comets.Application.ModulOrbit
 
 			switch (e.KeyCode)
 			{
+				case Keys.Menu:
+					handled = false;
+					break;
 				case Keys.Left:
 					if (!ctrl && !shift)
 						handled = MoveScroll(scrollHorz, false);
@@ -998,16 +1014,14 @@ namespace Comets.Application.ModulOrbit
 
 				if (name != null)
 				{
-					bool isCometCentered = false;
+					ValueChangedByEvent = true;
+					rbtnCenterComet.Checked = true;
 
-					//center on comet on double click
-					if (orbitPanel.CenteredObject == OrbitPanel.Object.Comet)
-						isCometCentered = orbitPanel.CenterSelectedComet();
+					bool isCometCentered = false;
+					isCometCentered = orbitPanel.CenterSelectedComet();
 
 					if (!isCometCentered)
 					{
-						ValueChangedByEvent = true;
-
 						if (cbxSelectedOrbit.Checked && !cbxSelectedLabel.Checked)
 						{
 							cbxSelectedLabel.Checked = true;
@@ -1021,10 +1035,9 @@ namespace Comets.Application.ModulOrbit
 							cbxSelectedOrbit.Checked = !cbxSelectedOrbit.Checked;
 							cbxSelectedLabel.Checked = !cbxSelectedLabel.Checked;
 						}
-
-						ValueChangedByEvent = false;
 					}
 
+					ValueChangedByEvent = false;
 					RefreshPanel();
 				}
 			}

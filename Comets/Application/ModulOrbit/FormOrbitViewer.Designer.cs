@@ -1108,6 +1108,7 @@
 			this.orbitPanel.MouseEnter += new System.EventHandler(this.orbitPanel_MouseEnter);
 			this.orbitPanel.MouseLeave += new System.EventHandler(this.orbitPanel_MouseLeave);
 			this.orbitPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.orbitPanel_MouseMove);
+			this.orbitPanel.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.orbitPanel_PreviewKeyDown);
 			this.orbitPanel.Resize += new System.EventHandler(this.orbitPanel_Resize);
 			// 
 			// scrollVert

@@ -65,6 +65,7 @@
 			this.menuItemRestoreAll = new System.Windows.Forms.MenuItem();
 			this.menuItemClose = new System.Windows.Forms.MenuItem();
 			this.menuItemHelp = new System.Windows.Forms.MenuItem();
+			this.menuItemControls = new System.Windows.Forms.MenuItem();
 			this.menuItemAbout = new System.Windows.Forms.MenuItem();
 			this.statusStrip = new System.Windows.Forms.StatusStrip();
 			this.statusComets = new System.Windows.Forms.ToolStripStatusLabel();
@@ -96,27 +97,27 @@
             this.menuItemOrbitalElements,
             this.menuItemSeparatorFile3,
             this.menuItemExit});
-			this.menuItemFile.Text = "File";
+			this.menuItemFile.Text = "&File";
 			// 
 			// menuItemFileEphemeris
 			// 
 			this.menuItemFileEphemeris.Index = 0;
 			this.menuItemFileEphemeris.Shortcut = System.Windows.Forms.Shortcut.CtrlE;
-			this.menuItemFileEphemeris.Text = "Ephemeris";
+			this.menuItemFileEphemeris.Text = "&Ephemeris";
 			this.menuItemFileEphemeris.Click += new System.EventHandler(this.menuItemFileEphemerides_Click);
 			// 
 			// menuItemFileGraph
 			// 
 			this.menuItemFileGraph.Index = 1;
 			this.menuItemFileGraph.Shortcut = System.Windows.Forms.Shortcut.CtrlG;
-			this.menuItemFileGraph.Text = "Magnitude Graph";
+			this.menuItemFileGraph.Text = "Magnitude &Graph";
 			this.menuItemFileGraph.Click += new System.EventHandler(this.menuItemFileGraph_Click);
 			// 
 			// menuItemFileOrbit
 			// 
 			this.menuItemFileOrbit.Index = 2;
 			this.menuItemFileOrbit.Shortcut = System.Windows.Forms.Shortcut.CtrlV;
-			this.menuItemFileOrbit.Text = "Orbit Viewer";
+			this.menuItemFileOrbit.Text = "Orbit &Viewer";
 			this.menuItemFileOrbit.Click += new System.EventHandler(this.menuItemFileOrbit_Click);
 			// 
 			// menuItemSeparatorFile1
@@ -128,7 +129,7 @@
 			// menuItemOrbitalElements
 			// 
 			this.menuItemOrbitalElements.Index = 4;
-			this.menuItemOrbitalElements.Text = "Orbital elements";
+			this.menuItemOrbitalElements.Text = "&Orbital elements";
 			this.menuItemOrbitalElements.Visible = false;
 			// 
 			// menuItemSeparatorFile3
@@ -140,7 +141,7 @@
 			// 
 			this.menuItemExit.Index = 6;
 			this.menuItemExit.Shortcut = System.Windows.Forms.Shortcut.AltF4;
-			this.menuItemExit.Text = "Exit";
+			this.menuItemExit.Text = "E&xit";
 			this.menuItemExit.Click += new System.EventHandler(this.menuItemExit_Click);
 			// 
 			// menuItemEphemeris
@@ -149,21 +150,21 @@
 			this.menuItemEphemeris.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.menuItemEphemerisSettings,
             this.menuItemEphemerisSaveAs});
-			this.menuItemEphemeris.Text = "Ephemeris";
+			this.menuItemEphemeris.Text = "E&phemeris";
 			this.menuItemEphemeris.Visible = false;
 			// 
 			// menuItemEphemerisSettings
 			// 
 			this.menuItemEphemerisSettings.Index = 0;
 			this.menuItemEphemerisSettings.Shortcut = System.Windows.Forms.Shortcut.CtrlShiftE;
-			this.menuItemEphemerisSettings.Text = "Settings";
+			this.menuItemEphemerisSettings.Text = "&Settings";
 			this.menuItemEphemerisSettings.Click += new System.EventHandler(this.menuItemEphemSettings_Click);
 			// 
 			// menuItemEphemerisSaveAs
 			// 
 			this.menuItemEphemerisSaveAs.Index = 1;
 			this.menuItemEphemerisSaveAs.Shortcut = System.Windows.Forms.Shortcut.CtrlS;
-			this.menuItemEphemerisSaveAs.Text = "Save As";
+			this.menuItemEphemerisSaveAs.Text = "Save &As";
 			this.menuItemEphemerisSaveAs.Click += new System.EventHandler(this.menuItemEphemerisSaveAs_Click);
 			// 
 			// menuItemGraph
@@ -172,21 +173,21 @@
 			this.menuItemGraph.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.menuItemGraphSettings,
             this.menuItemGraphSaveAs});
-			this.menuItemGraph.Text = "Graph";
+			this.menuItemGraph.Text = "&Graph";
 			this.menuItemGraph.Visible = false;
 			// 
 			// menuItemGraphSettings
 			// 
 			this.menuItemGraphSettings.Index = 0;
 			this.menuItemGraphSettings.Shortcut = System.Windows.Forms.Shortcut.CtrlShiftG;
-			this.menuItemGraphSettings.Text = "Settings";
+			this.menuItemGraphSettings.Text = "&Settings";
 			this.menuItemGraphSettings.Click += new System.EventHandler(this.menuItemGraphSettings_Click);
 			// 
 			// menuItemGraphSaveAs
 			// 
 			this.menuItemGraphSaveAs.Index = 1;
 			this.menuItemGraphSaveAs.Shortcut = System.Windows.Forms.Shortcut.CtrlS;
-			this.menuItemGraphSaveAs.Text = "Save As";
+			this.menuItemGraphSaveAs.Text = "Save &As";
 			this.menuItemGraphSaveAs.Click += new System.EventHandler(this.menuItemGraphSaveAs_Click);
 			// 
 			// menuItemOrbit
@@ -194,7 +195,7 @@
 			this.menuItemOrbit.Index = 3;
 			this.menuItemOrbit.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.mnuShowToolbox});
-			this.menuItemOrbit.Text = "Orbit";
+			this.menuItemOrbit.Text = "&Orbit";
 			this.menuItemOrbit.Visible = false;
 			// 
 			// mnuShowToolbox
@@ -202,7 +203,7 @@
 			this.mnuShowToolbox.Checked = true;
 			this.mnuShowToolbox.Index = 0;
 			this.mnuShowToolbox.Shortcut = System.Windows.Forms.Shortcut.CtrlT;
-			this.mnuShowToolbox.Text = "Show Toolbox";
+			this.mnuShowToolbox.Text = "Show &Toolbox";
 			this.mnuShowToolbox.Click += new System.EventHandler(this.mnuShowToolbox_Click);
 			// 
 			// menuItemEdit
@@ -215,13 +216,13 @@
             this.menuItemExport,
             this.menuItemSeparatorEdit2,
             this.menuItemSettings});
-			this.menuItemEdit.Text = "Edit";
+			this.menuItemEdit.Text = "&Edit";
 			// 
 			// menuItemDatabase
 			// 
 			this.menuItemDatabase.Index = 0;
 			this.menuItemDatabase.Shortcut = System.Windows.Forms.Shortcut.F5;
-			this.menuItemDatabase.Text = "Database";
+			this.menuItemDatabase.Text = "&Database";
 			this.menuItemDatabase.Click += new System.EventHandler(this.menuItemDatabase_Click);
 			// 
 			// menuItemSeparatorEdit1
@@ -233,14 +234,14 @@
 			// 
 			this.menuItemImport.Index = 2;
 			this.menuItemImport.Shortcut = System.Windows.Forms.Shortcut.F7;
-			this.menuItemImport.Text = "Import";
+			this.menuItemImport.Text = "&Import";
 			this.menuItemImport.Click += new System.EventHandler(this.menuItemImport_Click);
 			// 
 			// menuItemExport
 			// 
 			this.menuItemExport.Index = 3;
 			this.menuItemExport.Shortcut = System.Windows.Forms.Shortcut.F8;
-			this.menuItemExport.Text = "Export";
+			this.menuItemExport.Text = "&Export";
 			this.menuItemExport.Click += new System.EventHandler(this.menuItemExport_Click);
 			// 
 			// menuItemSeparatorEdit2
@@ -251,7 +252,7 @@
 			// menuItemSettings
 			// 
 			this.menuItemSettings.Index = 5;
-			this.menuItemSettings.Text = "Settings";
+			this.menuItemSettings.Text = "&Settings";
 			this.menuItemSettings.Click += new System.EventHandler(this.menuItemSettings_Click);
 			// 
 			// menuItemView
@@ -260,19 +261,19 @@
 			this.menuItemView.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.menuItemViewAlwaysOnTop,
             this.menuItemViewStatusBar});
-			this.menuItemView.Text = "View";
+			this.menuItemView.Text = "&View";
 			// 
 			// menuItemViewAlwaysOnTop
 			// 
 			this.menuItemViewAlwaysOnTop.Index = 0;
-			this.menuItemViewAlwaysOnTop.Text = "Always on Top";
+			this.menuItemViewAlwaysOnTop.Text = "Always on &Top";
 			this.menuItemViewAlwaysOnTop.Click += new System.EventHandler(this.menuItemViewAlwaysOnTop_Click);
 			// 
 			// menuItemViewStatusBar
 			// 
 			this.menuItemViewStatusBar.Checked = true;
 			this.menuItemViewStatusBar.Index = 1;
-			this.menuItemViewStatusBar.Text = "Show status bar";
+			this.menuItemViewStatusBar.Text = "Show &status bar";
 			this.menuItemViewStatusBar.Click += new System.EventHandler(this.menuItemViewStatusBar_Click);
 			// 
 			// menuItemWindow
@@ -286,57 +287,64 @@
             this.menuItemMinimizeAll,
             this.menuItemRestoreAll,
             this.menuItemClose});
-			this.menuItemWindow.Text = "Window";
+			this.menuItemWindow.Text = "&Window";
 			this.menuItemWindow.Visible = false;
 			// 
 			// menuItemTileVert
 			// 
 			this.menuItemTileVert.Index = 0;
-			this.menuItemTileVert.Text = "Tile Horizontally";
+			this.menuItemTileVert.Text = "Tile &Horizontally";
 			this.menuItemTileVert.Click += new System.EventHandler(this.menuItemTileVert_Click);
 			// 
 			// menuItemTileHoriz
 			// 
 			this.menuItemTileHoriz.Index = 1;
-			this.menuItemTileHoriz.Text = "Tile Vertically";
+			this.menuItemTileHoriz.Text = "Tile &Vertically";
 			this.menuItemTileHoriz.Click += new System.EventHandler(this.menuItemTileHoriz_Click);
 			// 
 			// menuItemCascade
 			// 
 			this.menuItemCascade.Index = 2;
-			this.menuItemCascade.Text = "Cascade";
+			this.menuItemCascade.Text = "&Cascade";
 			this.menuItemCascade.Click += new System.EventHandler(this.menuItemCascade_Click);
 			// 
 			// menuItemMinimizeAll
 			// 
 			this.menuItemMinimizeAll.Index = 3;
-			this.menuItemMinimizeAll.Text = "Minimize All";
+			this.menuItemMinimizeAll.Text = "&Minimize All";
 			this.menuItemMinimizeAll.Click += new System.EventHandler(this.menuItemMinimizeAll_Click);
 			// 
 			// menuItemRestoreAll
 			// 
 			this.menuItemRestoreAll.Index = 4;
-			this.menuItemRestoreAll.Text = "Restore All";
+			this.menuItemRestoreAll.Text = "&Restore All";
 			this.menuItemRestoreAll.Click += new System.EventHandler(this.menuItemRestoreAll_Click);
 			// 
 			// menuItemClose
 			// 
 			this.menuItemClose.Index = 5;
 			this.menuItemClose.Shortcut = System.Windows.Forms.Shortcut.CtrlF4;
-			this.menuItemClose.Text = "Close";
+			this.menuItemClose.Text = "&Close";
 			this.menuItemClose.Click += new System.EventHandler(this.menuItemClose_Click);
 			// 
 			// menuItemHelp
 			// 
 			this.menuItemHelp.Index = 7;
 			this.menuItemHelp.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.menuItemControls,
             this.menuItemAbout});
-			this.menuItemHelp.Text = "Help";
+			this.menuItemHelp.Text = "&Help";
+			// 
+			// menuItemControls
+			// 
+			this.menuItemControls.Index = 0;
+			this.menuItemControls.Text = "&Controls";
+			this.menuItemControls.Click += new System.EventHandler(this.menuItemControls_Click);
 			// 
 			// menuItemAbout
 			// 
-			this.menuItemAbout.Index = 0;
-			this.menuItemAbout.Text = "About";
+			this.menuItemAbout.Index = 1;
+			this.menuItemAbout.Text = "&About";
 			this.menuItemAbout.Click += new System.EventHandler(this.menuItemAbout_Click);
 			// 
 			// statusStrip
@@ -441,6 +449,7 @@
 		private System.Windows.Forms.MenuItem menuItemOrbit;
 		private System.Windows.Forms.MenuItem menuItemViewAlwaysOnTop;
 		private System.Windows.Forms.MenuItem mnuShowToolbox;
+		private System.Windows.Forms.MenuItem menuItemControls;
 	}
 }
 

@@ -97,6 +97,7 @@ namespace Comets.Application
 					{
 						using (FormImport fi = new FormImport(true) { Owner = this })
 						{
+							fi.TopMost = this.TopMost;
 							fi.ShowDialog();
 							SetStatusCometsLabel(CommonManager.UserCollection.Count, CommonManager.MainCollection.Count);
 						}
@@ -390,10 +391,20 @@ namespace Comets.Application
 
 		#region Menu: Help
 
+		private void menuItemControls_Click(object sender, EventArgs e)
+		{
+			using (FormControls fc = new FormControls())
+			{
+				fc.TopMost = this.TopMost;
+				fc.ShowDialog();
+			}
+		}
+
 		private void menuItemAbout_Click(object sender, EventArgs e)
 		{
 			using (FormAbout fa = new FormAbout())
 			{
+				fa.TopMost = this.TopMost;
 				fa.ShowDialog();
 			}
 		}
