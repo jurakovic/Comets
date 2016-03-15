@@ -204,7 +204,7 @@ namespace Comets.Application.ModulOrbit
 
 		private void FormOrbitViewer_Deactivate(object sender, EventArgs e)
 		{
-			PauseSimulation();
+			StopSimulation();
 		}
 
 		#endregion
@@ -228,18 +228,22 @@ namespace Comets.Application.ModulOrbit
 			if (!ValueChangedByEvent)
 			{
 				orbitPanel.LoadPanel(SelectedComet, orbitPanel.ATime);
-				RefreshPanel();
 				SetFormText();
+				RefreshPanel();
 			}
 		}
 
 		private void btnFilter_Click(object sender, EventArgs e)
 		{
+			bool simStarted = IsSimulationStarted;
+
 			string lastSelected = SelectedComet != null ? SelectedComet.Name : null;
 
 			using (FormDatabase fdb = new FormDatabase(Comets, Filters, SortProperty, SortAscending, true) { Owner = this })
 			{
 				fdb.TopMost = this.TopMost;
+
+				StopSimulation();
 
 				if (fdb.ShowDialog() == DialogResult.OK)
 				{
@@ -261,6 +265,9 @@ namespace Comets.Application.ModulOrbit
 					RefreshPanel();
 				}
 			}
+
+			if (simStarted)
+				StartSimulation(SimulationDirection);
 		}
 
 		private void btnAll_Click(object sender, EventArgs e)
@@ -446,12 +453,18 @@ namespace Comets.Application.ModulOrbit
 
 		private void ChangeObjectDisplay(OrbitPanel.Object obj, bool control, bool shift)
 		{
+			ValueChangedByEvent = true;
+
 			if (!control && !shift)
 				ChangeCenterObject(obj);
 			else if (control && !shift)
 				ChangeVisibleOrbit(obj);
 			else if (shift && !control)
 				ChangeVisibleLabel(obj);
+
+			ValueChangedByEvent = false;
+
+			RefreshPanel();
 		}
 
 		private void ChangeVisibleOrbit(OrbitPanel.Object orbit)
@@ -540,29 +553,29 @@ namespace Comets.Application.ModulOrbit
 
 		private void btnRevPlay_Click(object sender, EventArgs e)
 		{
-			PlaySimulation(ATime.TimeDecrement);
+			StartSimulation(ATime.TimeDecrement);
 		}
 
 		private void btnRevStep_Click(object sender, EventArgs e)
 		{
-			PauseSimulation();
+			StopSimulation();
 			ChangeDate(ATime.TimeDecrement);
 		}
 
 		private void btnStop_Click(object sender, EventArgs e)
 		{
-			PauseSimulation();
+			StopSimulation();
 		}
 
 		private void btnForStep_Click(object sender, EventArgs e)
 		{
-			PauseSimulation();
+			StopSimulation();
 			ChangeDate(ATime.TimeIncrement);
 		}
 
 		private void btnForPlay_Click(object sender, EventArgs e)
 		{
-			PlaySimulation(ATime.TimeIncrement);
+			StartSimulation(ATime.TimeIncrement);
 		}
 
 		private void cboTimestep_SelectedIndexChanged(object sender, EventArgs e)
@@ -581,7 +594,7 @@ namespace Comets.Application.ModulOrbit
 			atime.ChangeDate(TimeStep, direction);
 
 			if (atime < ATime.Minimum || atime > ATime.Maximum)
-				PauseSimulation();
+				StopSimulation();
 
 			if (atime < ATime.Minimum)
 				atime = new ATime(ATime.Minimum);
@@ -594,14 +607,14 @@ namespace Comets.Application.ModulOrbit
 			ValueChangedByEvent = false;
 		}
 
-		private void PlaySimulation(int direction)
+		private void StartSimulation(int direction)
 		{
 			SimulationDirection = direction;
 			Timer.Start();
 			IsSimulationStarted = true;
 		}
 
-		private void PauseSimulation()
+		private void StopSimulation()
 		{
 			Timer.Stop();
 			IsSimulationStarted = false;
@@ -611,7 +624,7 @@ namespace Comets.Application.ModulOrbit
 		{
 			if (!IsSimulationStarted)
 			{
-				PlaySimulation(SimulationDirection);
+				StartSimulation(SimulationDirection);
 			}
 			else
 			{
@@ -626,14 +639,14 @@ namespace Comets.Application.ModulOrbit
 		{
 			if (!IsSimulationStarted)
 			{
-				PlaySimulation(SimulationDirection);
+				StartSimulation(SimulationDirection);
 			}
 			else
 			{
 				if (cboTimestep.SelectedIndex > 0)
 					cboTimestep.SelectedIndex--;
 				else
-					PauseSimulation();
+					StopSimulation();
 			}
 		}
 
@@ -855,9 +868,9 @@ namespace Comets.Application.ModulOrbit
 					if (!ctrl && !shift)
 					{
 						if (IsSimulationStarted)
-							PauseSimulation();
+							StopSimulation();
 						else
-							PlaySimulation(SimulationDirection);
+							StartSimulation(SimulationDirection);
 					}
 					break;
 
@@ -1017,8 +1030,7 @@ namespace Comets.Application.ModulOrbit
 					ValueChangedByEvent = true;
 					rbtnCenterComet.Checked = true;
 
-					bool isCometCentered = false;
-					isCometCentered = orbitPanel.CenterSelectedComet();
+					bool isCometCentered = orbitPanel.CenterSelectedComet();
 
 					if (!isCometCentered)
 					{
