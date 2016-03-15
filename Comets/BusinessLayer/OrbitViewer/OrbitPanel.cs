@@ -931,16 +931,15 @@ namespace Comets.OrbitViewer
 				int offset = 5;
 				int range = offset * 2;
 
-				int x0 = point.X - offset;
-				int y0 = point.Y - offset;
+				int minX = point.X - offset;
+				int minY = point.Y - offset;
 
-				List<Point> points = new List<Point>();
+				int maxX = minX + range;
+				int maxY = minY + range;
 
-				for (int x = 0; x < range; x++)
-					for (int y = 0; y < range; y++)
-						points.Add(new Point(x0 + x, y0 + y));
-
-				OVComet comet = Comets.FirstOrDefault(c => c.PanelLocation == points.FirstOrDefault(p => p == c.PanelLocation));
+				OVComet comet = Comets.FirstOrDefault(c =>
+					c.PanelLocation.X >= minX && c.PanelLocation.X <= maxX &&
+					c.PanelLocation.Y >= minY && c.PanelLocation.Y <= maxY);
 
 				if (comet != null)
 					name = comet.Name;

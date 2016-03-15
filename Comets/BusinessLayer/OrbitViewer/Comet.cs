@@ -88,7 +88,7 @@ namespace Comets.OrbitViewer
 		/// <summary>
 		/// Comet location on Panel
 		/// </summary>
-		public Point? PanelLocation { get; set; }
+		public Point PanelLocation { get; set; }
 
 		#endregion
 
