@@ -47,34 +47,39 @@
 			this.btnEndDate = new System.Windows.Forms.Button();
 			this.btnStartDate = new System.Windows.Forms.Button();
 			this.label1 = new System.Windows.Forms.Label();
-			this.rbRangeDaysFromT = new System.Windows.Forms.RadioButton();
-			this.rbRangeDate = new System.Windows.Forms.RadioButton();
+			this.rbtnRangeDaysFromT = new System.Windows.Forms.RadioButton();
+			this.rbtnRangeDate = new System.Windows.Forms.RadioButton();
 			this.gbxChartOptions = new System.Windows.Forms.GroupBox();
-			this.label5 = new System.Windows.Forms.Label();
-			this.cbxMagnitude = new System.Windows.Forms.CheckBox();
+			this.lblValue = new System.Windows.Forms.Label();
+			this.cbxValue = new System.Windows.Forms.CheckBox();
 			this.pnlPerihLineColor = new System.Windows.Forms.Panel();
 			this.pnlNowLineColor = new System.Windows.Forms.Panel();
 			this.pnlMagnitudeColor = new System.Windows.Forms.Panel();
 			this.cbxAntialiasing = new System.Windows.Forms.CheckBox();
 			this.cbxNowLine = new System.Windows.Forms.CheckBox();
 			this.cbxPerihelionLine = new System.Windows.Forms.CheckBox();
-			this.groupBox1 = new System.Windows.Forms.GroupBox();
-			this.txtMaxMag = new System.Windows.Forms.TextBox();
-			this.txtMinMag = new System.Windows.Forms.TextBox();
-			this.cbxMaxMag = new System.Windows.Forms.CheckBox();
-			this.cbxMinMag = new System.Windows.Forms.CheckBox();
+			this.gbxValueRange = new System.Windows.Forms.GroupBox();
+			this.txtMaxValue = new System.Windows.Forms.TextBox();
+			this.txtMinValue = new System.Windows.Forms.TextBox();
+			this.cbxMaxValue = new System.Windows.Forms.CheckBox();
+			this.cbxMinValue = new System.Windows.Forms.CheckBox();
 			this.btnCancel = new System.Windows.Forms.Button();
 			this.gbxMode = new System.Windows.Forms.GroupBox();
 			this.lblMultipleCount = new System.Windows.Forms.Label();
 			this.rbtnMultiple = new System.Windows.Forms.RadioButton();
 			this.rbtnSingle = new System.Windows.Forms.RadioButton();
+			this.gbxChartType = new System.Windows.Forms.GroupBox();
+			this.rbtnEarthDistance = new System.Windows.Forms.RadioButton();
+			this.rbtnSunDistance = new System.Windows.Forms.RadioButton();
+			this.rbtnMagnitude = new System.Windows.Forms.RadioButton();
 			this.gbxSelectComet.SuspendLayout();
 			this.gbxTimespan.SuspendLayout();
 			this.pnlRangeDaysFromT.SuspendLayout();
 			this.pnlRangeDate.SuspendLayout();
 			this.gbxChartOptions.SuspendLayout();
-			this.groupBox1.SuspendLayout();
+			this.gbxValueRange.SuspendLayout();
 			this.gbxMode.SuspendLayout();
+			this.gbxChartType.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// btnOk
@@ -82,10 +87,10 @@
 			this.btnOk.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
 			this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnOk.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.btnOk.Location = new System.Drawing.Point(492, 250);
+			this.btnOk.Location = new System.Drawing.Point(524, 242);
 			this.btnOk.Name = "btnOk";
 			this.btnOk.Size = new System.Drawing.Size(100, 24);
-			this.btnOk.TabIndex = 5;
+			this.btnOk.TabIndex = 6;
 			this.btnOk.Text = "OK";
 			this.btnOk.UseVisualStyleBackColor = true;
 			this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
@@ -159,24 +164,25 @@
 			// 
 			this.gbxTimespan.Controls.Add(this.pnlRangeDaysFromT);
 			this.gbxTimespan.Controls.Add(this.pnlRangeDate);
-			this.gbxTimespan.Controls.Add(this.rbRangeDaysFromT);
-			this.gbxTimespan.Controls.Add(this.rbRangeDate);
+			this.gbxTimespan.Controls.Add(this.rbtnRangeDaysFromT);
+			this.gbxTimespan.Controls.Add(this.rbtnRangeDate);
 			this.gbxTimespan.Location = new System.Drawing.Point(12, 147);
 			this.gbxTimespan.Name = "gbxTimespan";
-			this.gbxTimespan.Size = new System.Drawing.Size(524, 83);
-			this.gbxTimespan.TabIndex = 3;
+			this.gbxTimespan.Size = new System.Drawing.Size(558, 83);
+			this.gbxTimespan.TabIndex = 4;
 			this.gbxTimespan.TabStop = false;
-			this.gbxTimespan.Text = "Timespan";
+			this.gbxTimespan.Text = "Timespan (Local time)";
 			// 
 			// pnlRangeDaysFromT
 			// 
+			this.pnlRangeDaysFromT.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.pnlRangeDaysFromT.Controls.Add(this.btnTimespanDaysFromTDefault);
 			this.pnlRangeDaysFromT.Controls.Add(this.txtDaysFromTStop);
 			this.pnlRangeDaysFromT.Controls.Add(this.txtDaysFromTStart);
 			this.pnlRangeDaysFromT.Controls.Add(this.label4);
 			this.pnlRangeDaysFromT.Controls.Add(this.label3);
 			this.pnlRangeDaysFromT.Controls.Add(this.label2);
-			this.pnlRangeDaysFromT.Location = new System.Drawing.Point(148, 45);
+			this.pnlRangeDaysFromT.Location = new System.Drawing.Point(167, 45);
 			this.pnlRangeDaysFromT.Name = "pnlRangeDaysFromT";
 			this.pnlRangeDaysFromT.Size = new System.Drawing.Size(362, 27);
 			this.pnlRangeDaysFromT.TabIndex = 3;
@@ -241,10 +247,11 @@
 			// 
 			// pnlRangeDate
 			// 
+			this.pnlRangeDate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.pnlRangeDate.Controls.Add(this.btnEndDate);
 			this.pnlRangeDate.Controls.Add(this.btnStartDate);
 			this.pnlRangeDate.Controls.Add(this.label1);
-			this.pnlRangeDate.Location = new System.Drawing.Point(148, 15);
+			this.pnlRangeDate.Location = new System.Drawing.Point(167, 15);
 			this.pnlRangeDate.Name = "pnlRangeDate";
 			this.pnlRangeDate.Size = new System.Drawing.Size(362, 27);
 			this.pnlRangeDate.TabIndex = 1;
@@ -278,72 +285,72 @@
 			this.label1.TabIndex = 310;
 			this.label1.Text = "-";
 			// 
-			// rbRangeDaysFromT
+			// rbtnRangeDaysFromT
 			// 
-			this.rbRangeDaysFromT.AutoSize = true;
-			this.rbRangeDaysFromT.Location = new System.Drawing.Point(12, 48);
-			this.rbRangeDaysFromT.Name = "rbRangeDaysFromT";
-			this.rbRangeDaysFromT.Size = new System.Drawing.Size(83, 17);
-			this.rbRangeDaysFromT.TabIndex = 2;
-			this.rbRangeDaysFromT.Text = "Days from T";
-			this.rbRangeDaysFromT.UseVisualStyleBackColor = true;
+			this.rbtnRangeDaysFromT.AutoSize = true;
+			this.rbtnRangeDaysFromT.Location = new System.Drawing.Point(12, 48);
+			this.rbtnRangeDaysFromT.Name = "rbtnRangeDaysFromT";
+			this.rbtnRangeDaysFromT.Size = new System.Drawing.Size(83, 17);
+			this.rbtnRangeDaysFromT.TabIndex = 2;
+			this.rbtnRangeDaysFromT.Text = "Days from T";
+			this.rbtnRangeDaysFromT.UseVisualStyleBackColor = true;
 			// 
-			// rbRangeDate
+			// rbtnRangeDate
 			// 
-			this.rbRangeDate.AutoSize = true;
-			this.rbRangeDate.Checked = true;
-			this.rbRangeDate.Location = new System.Drawing.Point(12, 21);
-			this.rbRangeDate.Name = "rbRangeDate";
-			this.rbRangeDate.Size = new System.Drawing.Size(48, 17);
-			this.rbRangeDate.TabIndex = 0;
-			this.rbRangeDate.TabStop = true;
-			this.rbRangeDate.Text = "Date";
-			this.rbRangeDate.UseVisualStyleBackColor = true;
+			this.rbtnRangeDate.AutoSize = true;
+			this.rbtnRangeDate.Checked = true;
+			this.rbtnRangeDate.Location = new System.Drawing.Point(12, 21);
+			this.rbtnRangeDate.Name = "rbtnRangeDate";
+			this.rbtnRangeDate.Size = new System.Drawing.Size(48, 17);
+			this.rbtnRangeDate.TabIndex = 0;
+			this.rbtnRangeDate.TabStop = true;
+			this.rbtnRangeDate.Text = "Date";
+			this.rbtnRangeDate.UseVisualStyleBackColor = true;
 			// 
 			// gbxChartOptions
 			// 
-			this.gbxChartOptions.Controls.Add(this.label5);
-			this.gbxChartOptions.Controls.Add(this.cbxMagnitude);
+			this.gbxChartOptions.Controls.Add(this.lblValue);
+			this.gbxChartOptions.Controls.Add(this.cbxValue);
 			this.gbxChartOptions.Controls.Add(this.pnlPerihLineColor);
 			this.gbxChartOptions.Controls.Add(this.pnlNowLineColor);
 			this.gbxChartOptions.Controls.Add(this.pnlMagnitudeColor);
 			this.gbxChartOptions.Controls.Add(this.cbxAntialiasing);
 			this.gbxChartOptions.Controls.Add(this.cbxNowLine);
 			this.gbxChartOptions.Controls.Add(this.cbxPerihelionLine);
-			this.gbxChartOptions.Location = new System.Drawing.Point(465, 6);
+			this.gbxChartOptions.Location = new System.Drawing.Point(576, 6);
 			this.gbxChartOptions.Name = "gbxChartOptions";
-			this.gbxChartOptions.Size = new System.Drawing.Size(232, 135);
-			this.gbxChartOptions.TabIndex = 2;
+			this.gbxChartOptions.Size = new System.Drawing.Size(153, 135);
+			this.gbxChartOptions.TabIndex = 3;
 			this.gbxChartOptions.TabStop = false;
 			this.gbxChartOptions.Text = "Chart options";
 			// 
-			// label5
+			// lblValue
 			// 
-			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(31, 22);
-			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(57, 13);
-			this.label5.TabIndex = 0;
-			this.label5.Text = "Magnitude";
+			this.lblValue.AutoSize = true;
+			this.lblValue.Location = new System.Drawing.Point(31, 22);
+			this.lblValue.Name = "lblValue";
+			this.lblValue.Size = new System.Drawing.Size(33, 13);
+			this.lblValue.TabIndex = 0;
+			this.lblValue.Text = "Value";
 			// 
-			// cbxMagnitude
+			// cbxValue
 			// 
-			this.cbxMagnitude.AutoSize = true;
-			this.cbxMagnitude.Checked = true;
-			this.cbxMagnitude.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.cbxMagnitude.Enabled = false;
-			this.cbxMagnitude.Location = new System.Drawing.Point(15, 21);
-			this.cbxMagnitude.Name = "cbxMagnitude";
-			this.cbxMagnitude.Size = new System.Drawing.Size(29, 17);
-			this.cbxMagnitude.TabIndex = 6;
-			this.cbxMagnitude.Text = " ";
-			this.cbxMagnitude.UseVisualStyleBackColor = true;
+			this.cbxValue.AutoSize = true;
+			this.cbxValue.Checked = true;
+			this.cbxValue.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.cbxValue.Enabled = false;
+			this.cbxValue.Location = new System.Drawing.Point(15, 21);
+			this.cbxValue.Name = "cbxValue";
+			this.cbxValue.Size = new System.Drawing.Size(29, 17);
+			this.cbxValue.TabIndex = 6;
+			this.cbxValue.Text = " ";
+			this.cbxValue.UseVisualStyleBackColor = true;
 			// 
 			// pnlPerihLineColor
 			// 
 			this.pnlPerihLineColor.BackColor = System.Drawing.Color.RoyalBlue;
 			this.pnlPerihLineColor.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.pnlPerihLineColor.Location = new System.Drawing.Point(177, 72);
+			this.pnlPerihLineColor.Location = new System.Drawing.Point(120, 72);
 			this.pnlPerihLineColor.Name = "pnlPerihLineColor";
 			this.pnlPerihLineColor.Size = new System.Drawing.Size(25, 20);
 			this.pnlPerihLineColor.TabIndex = 5;
@@ -354,7 +361,7 @@
 			// 
 			this.pnlNowLineColor.BackColor = System.Drawing.Color.LimeGreen;
 			this.pnlNowLineColor.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.pnlNowLineColor.Location = new System.Drawing.Point(177, 45);
+			this.pnlNowLineColor.Location = new System.Drawing.Point(120, 45);
 			this.pnlNowLineColor.Name = "pnlNowLineColor";
 			this.pnlNowLineColor.Size = new System.Drawing.Size(25, 20);
 			this.pnlNowLineColor.TabIndex = 3;
@@ -365,7 +372,7 @@
 			// 
 			this.pnlMagnitudeColor.BackColor = System.Drawing.Color.Red;
 			this.pnlMagnitudeColor.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.pnlMagnitudeColor.Location = new System.Drawing.Point(177, 19);
+			this.pnlMagnitudeColor.Location = new System.Drawing.Point(120, 19);
 			this.pnlMagnitudeColor.Name = "pnlMagnitudeColor";
 			this.pnlMagnitudeColor.Size = new System.Drawing.Size(25, 20);
 			this.pnlMagnitudeColor.TabIndex = 1;
@@ -406,67 +413,67 @@
 			this.cbxPerihelionLine.Text = "Perihelion line";
 			this.cbxPerihelionLine.UseVisualStyleBackColor = true;
 			// 
-			// groupBox1
+			// gbxValueRange
 			// 
-			this.groupBox1.Controls.Add(this.txtMaxMag);
-			this.groupBox1.Controls.Add(this.txtMinMag);
-			this.groupBox1.Controls.Add(this.cbxMaxMag);
-			this.groupBox1.Controls.Add(this.cbxMinMag);
-			this.groupBox1.Location = new System.Drawing.Point(548, 147);
-			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(149, 83);
-			this.groupBox1.TabIndex = 4;
-			this.groupBox1.TabStop = false;
-			this.groupBox1.Text = "Magnitude range";
+			this.gbxValueRange.Controls.Add(this.txtMaxValue);
+			this.gbxValueRange.Controls.Add(this.txtMinValue);
+			this.gbxValueRange.Controls.Add(this.cbxMaxValue);
+			this.gbxValueRange.Controls.Add(this.cbxMinValue);
+			this.gbxValueRange.Location = new System.Drawing.Point(576, 147);
+			this.gbxValueRange.Name = "gbxValueRange";
+			this.gbxValueRange.Size = new System.Drawing.Size(153, 83);
+			this.gbxValueRange.TabIndex = 5;
+			this.gbxValueRange.TabStop = false;
+			this.gbxValueRange.Text = "Value range";
 			// 
-			// txtMaxMag
+			// txtMaxValue
 			// 
-			this.txtMaxMag.Location = new System.Drawing.Point(94, 47);
-			this.txtMaxMag.Name = "txtMaxMag";
-			this.txtMaxMag.Size = new System.Drawing.Size(45, 21);
-			this.txtMaxMag.TabIndex = 3;
-			this.txtMaxMag.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.txtMaxMag.TextChanged += new System.EventHandler(this.txtMaxMag_TextChanged);
-			this.txtMaxMag.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMagCommon_KeyPress);
+			this.txtMaxValue.Location = new System.Drawing.Point(99, 47);
+			this.txtMaxValue.Name = "txtMaxValue";
+			this.txtMaxValue.Size = new System.Drawing.Size(45, 21);
+			this.txtMaxValue.TabIndex = 3;
+			this.txtMaxValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.txtMaxValue.TextChanged += new System.EventHandler(this.txtMaxMag_TextChanged);
+			this.txtMaxValue.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMagCommon_KeyPress);
 			// 
-			// txtMinMag
+			// txtMinValue
 			// 
-			this.txtMinMag.Location = new System.Drawing.Point(94, 20);
-			this.txtMinMag.Name = "txtMinMag";
-			this.txtMinMag.Size = new System.Drawing.Size(45, 21);
-			this.txtMinMag.TabIndex = 1;
-			this.txtMinMag.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.txtMinMag.TextChanged += new System.EventHandler(this.txtMinMag_TextChanged);
-			this.txtMinMag.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMagCommon_KeyPress);
+			this.txtMinValue.Location = new System.Drawing.Point(99, 20);
+			this.txtMinValue.Name = "txtMinValue";
+			this.txtMinValue.Size = new System.Drawing.Size(45, 21);
+			this.txtMinValue.TabIndex = 1;
+			this.txtMinValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.txtMinValue.TextChanged += new System.EventHandler(this.txtMinMag_TextChanged);
+			this.txtMinValue.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMagCommon_KeyPress);
 			// 
-			// cbxMaxMag
+			// cbxMaxValue
 			// 
-			this.cbxMaxMag.AutoSize = true;
-			this.cbxMaxMag.Location = new System.Drawing.Point(15, 48);
-			this.cbxMaxMag.Name = "cbxMaxMag";
-			this.cbxMaxMag.Size = new System.Drawing.Size(70, 17);
-			this.cbxMaxMag.TabIndex = 2;
-			this.cbxMaxMag.Text = "Maximum";
-			this.cbxMaxMag.UseVisualStyleBackColor = true;
+			this.cbxMaxValue.AutoSize = true;
+			this.cbxMaxValue.Location = new System.Drawing.Point(15, 48);
+			this.cbxMaxValue.Name = "cbxMaxValue";
+			this.cbxMaxValue.Size = new System.Drawing.Size(70, 17);
+			this.cbxMaxValue.TabIndex = 2;
+			this.cbxMaxValue.Text = "Maximum";
+			this.cbxMaxValue.UseVisualStyleBackColor = true;
 			// 
-			// cbxMinMag
+			// cbxMinValue
 			// 
-			this.cbxMinMag.AutoSize = true;
-			this.cbxMinMag.Location = new System.Drawing.Point(15, 21);
-			this.cbxMinMag.Name = "cbxMinMag";
-			this.cbxMinMag.Size = new System.Drawing.Size(66, 17);
-			this.cbxMinMag.TabIndex = 0;
-			this.cbxMinMag.Text = "Minimum";
-			this.cbxMinMag.UseVisualStyleBackColor = true;
+			this.cbxMinValue.AutoSize = true;
+			this.cbxMinValue.Location = new System.Drawing.Point(15, 21);
+			this.cbxMinValue.Name = "cbxMinValue";
+			this.cbxMinValue.Size = new System.Drawing.Size(66, 17);
+			this.cbxMinValue.TabIndex = 0;
+			this.cbxMinValue.Text = "Minimum";
+			this.cbxMinValue.UseVisualStyleBackColor = true;
 			// 
 			// btnCancel
 			// 
 			this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.btnCancel.Location = new System.Drawing.Point(598, 250);
+			this.btnCancel.Location = new System.Drawing.Point(630, 242);
 			this.btnCancel.Name = "btnCancel";
 			this.btnCancel.Size = new System.Drawing.Size(100, 24);
-			this.btnCancel.TabIndex = 6;
+			this.btnCancel.TabIndex = 7;
 			this.btnCancel.Text = "Cancel";
 			this.btnCancel.UseVisualStyleBackColor = true;
 			this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
@@ -476,7 +483,7 @@
 			this.gbxMode.Controls.Add(this.lblMultipleCount);
 			this.gbxMode.Controls.Add(this.rbtnMultiple);
 			this.gbxMode.Controls.Add(this.rbtnSingle);
-			this.gbxMode.Location = new System.Drawing.Point(348, 6);
+			this.gbxMode.Location = new System.Drawing.Point(343, 6);
 			this.gbxMode.Name = "gbxMode";
 			this.gbxMode.Size = new System.Drawing.Size(106, 135);
 			this.gbxMode.TabIndex = 1;
@@ -514,15 +521,60 @@
 			this.rbtnSingle.Text = "Single";
 			this.rbtnSingle.UseVisualStyleBackColor = true;
 			// 
+			// gbxChartType
+			// 
+			this.gbxChartType.Controls.Add(this.rbtnEarthDistance);
+			this.gbxChartType.Controls.Add(this.rbtnSunDistance);
+			this.gbxChartType.Controls.Add(this.rbtnMagnitude);
+			this.gbxChartType.Location = new System.Drawing.Point(455, 6);
+			this.gbxChartType.Name = "gbxChartType";
+			this.gbxChartType.Size = new System.Drawing.Size(115, 135);
+			this.gbxChartType.TabIndex = 2;
+			this.gbxChartType.TabStop = false;
+			this.gbxChartType.Text = "Chart Type";
+			// 
+			// rbtnEarthDistance
+			// 
+			this.rbtnEarthDistance.AutoSize = true;
+			this.rbtnEarthDistance.Location = new System.Drawing.Point(14, 75);
+			this.rbtnEarthDistance.Name = "rbtnEarthDistance";
+			this.rbtnEarthDistance.Size = new System.Drawing.Size(94, 17);
+			this.rbtnEarthDistance.TabIndex = 2;
+			this.rbtnEarthDistance.Text = "Earth distance";
+			this.rbtnEarthDistance.UseVisualStyleBackColor = true;
+			// 
+			// rbtnSunDistance
+			// 
+			this.rbtnSunDistance.AutoSize = true;
+			this.rbtnSunDistance.Location = new System.Drawing.Point(14, 47);
+			this.rbtnSunDistance.Name = "rbtnSunDistance";
+			this.rbtnSunDistance.Size = new System.Drawing.Size(86, 17);
+			this.rbtnSunDistance.TabIndex = 1;
+			this.rbtnSunDistance.Text = "Sun distance";
+			this.rbtnSunDistance.UseVisualStyleBackColor = true;
+			// 
+			// rbtnMagnitude
+			// 
+			this.rbtnMagnitude.AutoSize = true;
+			this.rbtnMagnitude.Checked = true;
+			this.rbtnMagnitude.Location = new System.Drawing.Point(14, 21);
+			this.rbtnMagnitude.Name = "rbtnMagnitude";
+			this.rbtnMagnitude.Size = new System.Drawing.Size(75, 17);
+			this.rbtnMagnitude.TabIndex = 0;
+			this.rbtnMagnitude.TabStop = true;
+			this.rbtnMagnitude.Text = "Magnitude";
+			this.rbtnMagnitude.UseVisualStyleBackColor = true;
+			// 
 			// FormGraphSettings
 			// 
 			this.AcceptButton = this.btnOk;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.btnCancel;
-			this.ClientSize = new System.Drawing.Size(711, 291);
+			this.ClientSize = new System.Drawing.Size(742, 278);
+			this.Controls.Add(this.gbxChartType);
 			this.Controls.Add(this.gbxMode);
-			this.Controls.Add(this.groupBox1);
+			this.Controls.Add(this.gbxValueRange);
 			this.Controls.Add(this.gbxChartOptions);
 			this.Controls.Add(this.gbxTimespan);
 			this.Controls.Add(this.gbxSelectComet);
@@ -536,7 +588,7 @@
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-			this.Text = "Magnitude graph settings";
+			this.Text = "Graph settings";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormGraphSettings_FormClosing);
 			this.Load += new System.EventHandler(this.FormGraphSettings_Load);
 			this.gbxSelectComet.ResumeLayout(false);
@@ -549,10 +601,12 @@
 			this.pnlRangeDate.PerformLayout();
 			this.gbxChartOptions.ResumeLayout(false);
 			this.gbxChartOptions.PerformLayout();
-			this.groupBox1.ResumeLayout(false);
-			this.groupBox1.PerformLayout();
+			this.gbxValueRange.ResumeLayout(false);
+			this.gbxValueRange.PerformLayout();
 			this.gbxMode.ResumeLayout(false);
 			this.gbxMode.PerformLayout();
+			this.gbxChartType.ResumeLayout(false);
+			this.gbxChartType.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -566,8 +620,8 @@
 		private System.Windows.Forms.Label lblPerihDist;
 		private System.Windows.Forms.Label lblPerihDate;
 		private System.Windows.Forms.ComboBox cbComet;
-		private System.Windows.Forms.RadioButton rbRangeDaysFromT;
-		private System.Windows.Forms.RadioButton rbRangeDate;
+		private System.Windows.Forms.RadioButton rbtnRangeDaysFromT;
+		private System.Windows.Forms.RadioButton rbtnRangeDate;
 		private System.Windows.Forms.Panel pnlRangeDaysFromT;
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.Label label3;
@@ -578,11 +632,11 @@
 		private System.Windows.Forms.CheckBox cbxAntialiasing;
 		private System.Windows.Forms.CheckBox cbxNowLine;
 		private System.Windows.Forms.CheckBox cbxPerihelionLine;
-		private System.Windows.Forms.GroupBox groupBox1;
-		private System.Windows.Forms.TextBox txtMaxMag;
-		private System.Windows.Forms.TextBox txtMinMag;
-		private System.Windows.Forms.CheckBox cbxMaxMag;
-		private System.Windows.Forms.CheckBox cbxMinMag;
+		private System.Windows.Forms.GroupBox gbxValueRange;
+		private System.Windows.Forms.TextBox txtMaxValue;
+		private System.Windows.Forms.TextBox txtMinValue;
+		private System.Windows.Forms.CheckBox cbxMaxValue;
+		private System.Windows.Forms.CheckBox cbxMinValue;
 		private System.Windows.Forms.TextBox txtDaysFromTStop;
 		private System.Windows.Forms.TextBox txtDaysFromTStart;
 		private System.Windows.Forms.Button btnTimespanDaysFromTDefault;
@@ -596,8 +650,12 @@
 		private System.Windows.Forms.Label lblMultipleCount;
 		private System.Windows.Forms.Panel pnlNowLineColor;
 		private System.Windows.Forms.Panel pnlMagnitudeColor;
-		private System.Windows.Forms.CheckBox cbxMagnitude;
+		private System.Windows.Forms.CheckBox cbxValue;
 		private System.Windows.Forms.Panel pnlPerihLineColor;
-		private System.Windows.Forms.Label label5;
+		private System.Windows.Forms.Label lblValue;
+		private System.Windows.Forms.GroupBox gbxChartType;
+		private System.Windows.Forms.RadioButton rbtnEarthDistance;
+		private System.Windows.Forms.RadioButton rbtnSunDistance;
+		private System.Windows.Forms.RadioButton rbtnMagnitude;
 	}
 }

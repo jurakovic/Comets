@@ -2,11 +2,11 @@
     GENERAL CONTROLS
 -------------------------------------------------------------------------
  Ctrl + E                        New Ephemeris
- Ctrl + G                        New Magnitude Graph
+ Ctrl + G                        New Graph
  Ctrl + V                        New Orbit Viewer
 
  Ctrl + Shift + E                Ephemeris Settings
- Ctrl + Shift + G                Magnitude Graph Settings
+ Ctrl + Shift + G                Graph Settings
 
  Ctrl + S                        Save current view (text, image)
 

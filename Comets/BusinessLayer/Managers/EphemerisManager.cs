@@ -142,7 +142,7 @@ namespace Comets.BusinessLayer.Managers
 
 					sb.AppendLine(String.Format("Comet:               \t{0}", comet.full));
 
-					sb.AppendLine(String.Format("Perihelion date:     \t{0}", EphemerisManager.JDToDateTime(comet.Tn).ToLocalTime().ToString("dd MMM yyyy HH:mm:ss")));
+					sb.AppendLine(String.Format("Perihelion date:     \t{0}", JDToDateTime(comet.Tn).ToLocalTime().ToString("dd MMM yyyy HH:mm:ss")));
 					sb.AppendLine(String.Format("Perihelion distance: \t{0:0.000000} AU", comet.q));
 					sb.AppendLine(String.Format("Period:              \t{0}", (comet.P < 10000 ? comet.P.ToString("0.000000") + " years" : "-")));
 					sb.AppendLine();
@@ -165,7 +165,7 @@ namespace Comets.BusinessLayer.Managers
 					{
 						line.Clear();
 
-						DateTime dt = settings.LocalTime ? EphemerisManager.JDToDateTime(ep.JD).ToLocalTime() : EphemerisManager.JDToDateTime(ep.JD);
+						DateTime dt = settings.LocalTime ? JDToDateTime(ep.JD).ToLocalTime() : JDToDateTime(ep.JD);
 						line.Append(dt.ToString("dd.MM.yyyy HH:mm"));
 						if (settings.RA) line.Append("  " + HMSString(ep.RA / 15.0));
 						if (settings.Dec) line.Append("  " + AngleString(ep.Dec, false, true));
@@ -194,44 +194,70 @@ namespace Comets.BusinessLayer.Managers
 
 		public static void GenerateGraph(GraphSettings settings, Chart chart1, IProgress<int> progress)
 		{
-			string xDate = "Date";
-			string yMagnitude = "Magnitude";
+			string xAxisText = "Date";
+			string yAxisText = String.Empty;
 			string chartAreaName = "ChartAreaGraph";
 			double multipleMaxMagnitude = 15.0;
+			double multipleMaxDistance = 2.0;
 
-			double minMagnitude = Math.Floor(settings.Ephemerides.Select(x => x.Value).Select(y => y.Min(z => z.Magnitude)).Min() - 0.20);
-			double maxMagnitude = Math.Ceiling(settings.Ephemerides.Select(x => x.Value).Select(y => y.Max(z => z.Magnitude)).Max() + 0.20);
+			double minValue = 0;
+			double maxValue = 0;
 
-			double yMin;
-			double yMax;
+			IEnumerable<List<Ephemeris>> ephemerides = settings.Ephemerides.Select(x => x.Value);
 
-			if (settings.MinGraphMagnitudeChecked)
-				yMin = settings.MinGraphMagnitudeValue.Value;
-			else
-				yMin = minMagnitude;
-
-			if (settings.MaxGraphMagnitudeChecked)
-				yMax = settings.MaxGraphMagnitudeValue.Value;
-			else if (settings.IsMultipleMode && settings.Ephemerides.Count > 1)
-				yMax = multipleMaxMagnitude;
-			else
-				yMax = maxMagnitude;
-
-			if (yMin >= yMax)
+			switch (settings.GraphChartType)
 			{
-				yMin = minMagnitude;
-				yMax = maxMagnitude;
+				case GraphSettings.ChartType.Magnitude:
+					yAxisText = "Magnitude";
+					minValue = Math.Floor(ephemerides.Select(y => y.Min(z => z.Magnitude)).Min() - 0.20);
+					maxValue = Math.Ceiling(ephemerides.Select(y => y.Max(z => z.Magnitude)).Max() + 0.20);
+					break;
+				case GraphSettings.ChartType.SunDistance:
+					yAxisText = "Sun distance";
+					minValue = Math.Floor(ephemerides.Select(y => y.Min(z => z.SunDist)).Min());
+					maxValue = Math.Ceiling(ephemerides.Select(y => y.Max(z => z.SunDist)).Max());
+					break;
+				case GraphSettings.ChartType.EarthDistance:
+					yAxisText = "Earth distance";
+					minValue = Math.Floor(ephemerides.Select(y => y.Min(z => z.EarthDist)).Min());
+					maxValue = Math.Ceiling(ephemerides.Select(y => y.Max(z => z.EarthDist)).Max());
+					break;
 			}
 
-			double xMin = settings.Start.JD();
-			double xMax = settings.Stop.JD();
+			double yMinValue = settings.MinGraphValueChecked ? settings.MinGraphValue.Value : minValue;
+			double yMaxValue;
+
+			if (settings.MaxGraphValueChecked)
+			{
+				yMaxValue = settings.MaxGraphValue.Value;
+			}
+			else if (settings.IsMultipleMode && settings.Ephemerides.Count > 1)
+			{
+				if (settings.GraphChartType == GraphSettings.ChartType.Magnitude)
+					yMaxValue = multipleMaxMagnitude;
+				else
+					yMaxValue = multipleMaxDistance;
+			}
+			else
+			{
+				yMaxValue = maxValue;
+			}
+
+			if (yMinValue >= yMaxValue)
+			{
+				yMinValue = minValue;
+				yMaxValue = maxValue;
+			}
+
+			double xMinValue = settings.Start.JD();
+			double xMaxValue = settings.Stop.JD();
 
 			chart1.AntiAliasing = settings.AntialiasingChecked ? AntiAliasingStyles.All : AntiAliasingStyles.Text;
 
 			ChartArea chartArea = new ChartArea();
 			chartArea.Name = chartAreaName;
 
-			chartArea.AxisX2.Title = xDate;
+			chartArea.AxisX2.Title = xAxisText;
 			chartArea.AxisX2.TitleAlignment = StringAlignment.Far;
 			chartArea.AxisX2.TitleFont = new Font("Tahoma", 8.25F);
 			chartArea.AxisX2.MajorGrid.Enabled = false;
@@ -239,17 +265,8 @@ namespace Comets.BusinessLayer.Managers
 			chartArea.AxisX2.LabelAutoFitStyle = LabelAutoFitStyles.WordWrap;
 			chartArea.AxisX2.IsMarginVisible = false;
 			chartArea.AxisX2.LabelStyle.Font = new Font("Tahoma", 8.25F);
-
-			string format;
-
-			if ((xMax - xMin) <= 3.0)
-				format = "dd MMM yyyy HH:mm";
-			else
-				format = "dd MMM yyyy";
-
-			chartArea.AxisX2.LabelStyle.Format = format;
-
-			chartArea.AxisY.Title = yMagnitude;
+			chartArea.AxisX2.LabelStyle.Format = (xMaxValue - xMinValue) <= 3.0 ? "dd MMM yyyy HH:mm" : "dd MMM yyyy";
+			chartArea.AxisY.Title = yAxisText;
 			chartArea.AxisY.TitleAlignment = StringAlignment.Far;
 			chartArea.AxisY.TitleFont = new Font("Tahoma", 8.25F);
 			chartArea.AxisY.TextOrientation = TextOrientation.Rotated270;
@@ -259,27 +276,28 @@ namespace Comets.BusinessLayer.Managers
 			chartArea.AxisY.IsMarginVisible = false;
 			chartArea.AxisY.MajorTickMark.Size = 0.5F;
 			chartArea.AxisY.LabelStyle.Font = new Font("Tahoma", 8.25F);
+			chartArea.AxisY.LabelStyle.Format = "0.00";
 
 			double yInterval = 0D;
 
-			if (yMax - yMin <= 1)
+			if (yMaxValue - yMinValue <= 1)
 				yInterval = 0.1D;
-			else if (yMax - yMin <= 2)
+			else if (yMaxValue - yMinValue <= 2)
 				yInterval = 0.2D;
-			else if (yMax - yMin <= 5)
+			else if (yMaxValue - yMinValue <= 5)
 				yInterval = 0.5D;
-			else if (yMax - yMin <= 10)
+			else if (yMaxValue - yMinValue <= 10)
 				yInterval = 1D;
 			else
 				yInterval = 2D;
 
-			chartArea.AxisX2.Minimum = EphemerisManager.JDToDateTime(xMin).ToLocalTime().ToOADate();
-			chartArea.AxisX2.Maximum = EphemerisManager.JDToDateTime(xMax).ToLocalTime().ToOADate();
+			chartArea.AxisX2.Minimum = JDToDateTime(xMinValue).ToLocalTime().ToOADate();
+			chartArea.AxisX2.Maximum = JDToDateTime(xMaxValue).ToLocalTime().ToOADate();
 			chartArea.AxisX2.IntervalType = DateTimeIntervalType.Auto;
 			chartArea.AxisX2.IntervalOffset = 0;
 
-			chartArea.AxisY.Minimum = yMin;
-			chartArea.AxisY.Maximum = yMax;
+			chartArea.AxisY.Minimum = yMinValue;
+			chartArea.AxisY.Maximum = yMaxValue;
 			chartArea.AxisY.Interval = yInterval;
 
 			chartArea.Position.Auto = false;
@@ -294,11 +312,23 @@ namespace Comets.BusinessLayer.Managers
 			chart1.Series.Clear();
 
 			int i = 1;
-			foreach (List<Ephemeris> erList in settings.Ephemerides.Select(x => x.Value))
+			foreach (List<Ephemeris> erList in ephemerides)
 			{
 				progress.Report(i++);
 
-				if (erList.Any(x => x.Magnitude <= yMax))
+				bool addSeries = false;
+
+				switch (settings.GraphChartType)
+				{
+					case GraphSettings.ChartType.Magnitude:
+						addSeries = erList.Any(x => x.Magnitude <= yMaxValue); break;
+					case GraphSettings.ChartType.SunDistance:
+						addSeries = erList.Any(x => x.SunDist <= yMaxValue); break;
+					case GraphSettings.ChartType.EarthDistance:
+						addSeries = erList.Any(x => x.EarthDist <= yMaxValue); break;
+				}
+
+				if (addSeries)
 				{
 					Series series = new Series();
 					series.ChartArea = chartAreaName;
@@ -307,8 +337,21 @@ namespace Comets.BusinessLayer.Managers
 					series.XAxisType = AxisType.Secondary;
 					series.XValueType = ChartValueType.DateTime;
 
-					foreach (Ephemeris ep in erList)
-						series.Points.Add(new DataPoint(EphemerisManager.JDToDateTime(ep.JD).ToLocalTime().ToOADate(), ep.Magnitude)); //local time
+					switch (settings.GraphChartType)
+					{
+						case GraphSettings.ChartType.Magnitude:
+							foreach (Ephemeris ep in erList)
+								series.Points.Add(new DataPoint(JDToDateTime(ep.JD).ToLocalTime().ToOADate(), ep.Magnitude));
+							break;
+						case GraphSettings.ChartType.SunDistance:
+							foreach (Ephemeris ep in erList)
+								series.Points.Add(new DataPoint(JDToDateTime(ep.JD).ToLocalTime().ToOADate(), ep.SunDist));
+							break;
+						case GraphSettings.ChartType.EarthDistance:
+							foreach (Ephemeris ep in erList)
+								series.Points.Add(new DataPoint(JDToDateTime(ep.JD).ToLocalTime().ToOADate(), ep.EarthDist));
+							break;
+					}
 
 					chart1.Series.Add(series);
 				}
@@ -317,16 +360,16 @@ namespace Comets.BusinessLayer.Managers
 			if (settings.PerihelionLineChecked)
 			{
 				if (!settings.IsMultipleMode)
-					AddPerihelionLines(chart1, settings.SelectedComet, settings.PerihelionLineColor, xMin, xMax, yMin, yMax, chartAreaName);
+					AddPerihelionLine(chart1, settings.SelectedComet, settings.PerihelionLineColor, xMinValue, xMaxValue, yMinValue, yMaxValue, chartAreaName);
 				else
 					foreach (Comet c in settings.Comets)
-						AddPerihelionLines(chart1, c, settings.PerihelionLineColor, xMin, xMax, yMin, yMax, chartAreaName);
+						AddPerihelionLine(chart1, c, settings.PerihelionLineColor, xMinValue, xMaxValue, yMinValue, yMaxValue, chartAreaName);
 			}
 
 			if (settings.NowLineChecked)
 			{
-				double JDnow = DateTime.Now.JD();
-				if (xMin < JDnow && xMax > JDnow)
+				double jdNow = DateTime.Now.JD();
+				if (xMinValue < jdNow && xMaxValue > jdNow)
 				{
 					Series s = new Series();
 					s.ChartArea = chartAreaName;
@@ -334,8 +377,8 @@ namespace Comets.BusinessLayer.Managers
 					s.ChartType = SeriesChartType.Line;
 					s.XAxisType = AxisType.Secondary;
 					s.XValueType = ChartValueType.DateTime;
-					s.Points.Add(new DataPoint(EphemerisManager.JDToDateTime(JDnow).ToLocalTime().ToOADate(), yMin));
-					s.Points.Add(new DataPoint(EphemerisManager.JDToDateTime(JDnow).ToLocalTime().ToOADate(), yMax));
+					s.Points.Add(new DataPoint(JDToDateTime(jdNow).ToLocalTime().ToOADate(), yMinValue));
+					s.Points.Add(new DataPoint(JDToDateTime(jdNow).ToLocalTime().ToOADate(), yMaxValue));
 					chart1.Series.Add(s);
 				}
 			}
@@ -346,7 +389,7 @@ namespace Comets.BusinessLayer.Managers
 			chart1.Titles.Add(title);
 		}
 
-		private static void AddPerihelionLines(Chart chart1, Comet comet, Color color, double xMin, double xMax, double yMin, double yMax, string chartAreaName)
+		private static void AddPerihelionLine(Chart chart1, Comet comet, Color color, double xMin, double xMax, double yMin, double yMax, string chartAreaName)
 		{
 			double t = comet.Tn;
 			double periodDays = comet.P * 365.25;
@@ -362,8 +405,8 @@ namespace Comets.BusinessLayer.Managers
 				s.ChartType = SeriesChartType.Line;
 				s.XAxisType = AxisType.Secondary;
 				s.XValueType = ChartValueType.DateTime;
-				s.Points.Add(new DataPoint(EphemerisManager.JDToDateTime(t).ToLocalTime().ToOADate(), yMin));
-				s.Points.Add(new DataPoint(EphemerisManager.JDToDateTime(t).ToLocalTime().ToOADate(), yMax));
+				s.Points.Add(new DataPoint(JDToDateTime(t).ToLocalTime().ToOADate(), yMin));
+				s.Points.Add(new DataPoint(JDToDateTime(t).ToLocalTime().ToOADate(), yMax));
 
 				chart1.Series.Add(s);
 				t += periodDays;

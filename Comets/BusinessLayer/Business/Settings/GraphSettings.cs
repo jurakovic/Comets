@@ -5,6 +5,12 @@ namespace Comets.BusinessLayer.Business
 {
 	public class GraphSettings : SettingsBase
 	{
+		#region Enum
+
+		public enum ChartType { Magnitude, SunDistance, EarthDistance };
+
+		#endregion
+
 		#region Properties
 
 		public DateTime DateStart { get; set; }
@@ -19,11 +25,13 @@ namespace Comets.BusinessLayer.Business
 		public Color NowLineColor { get; set; }
 		public bool AntialiasingChecked { get; set; }
 
-		public bool MinGraphMagnitudeChecked { get; set; }
-		public double? MinGraphMagnitudeValue { get; set; }
+		public ChartType GraphChartType { get; set; }
 
-		public bool MaxGraphMagnitudeChecked { get; set; }
-		public double? MaxGraphMagnitudeValue { get; set; }
+		public bool MinGraphValueChecked { get; set; }
+		public double? MinGraphValue { get; set; }
+
+		public bool MaxGraphValueChecked { get; set; }
+		public double? MaxGraphValue { get; set; }
 
 		#endregion
 
@@ -40,7 +48,20 @@ namespace Comets.BusinessLayer.Business
 
 		public override string ToString()
 		{
-			string retVal = "Graph - ";
+			string retVal = String.Empty;
+
+			switch (GraphChartType)
+			{
+				case ChartType.Magnitude:
+					retVal = "Magnitude graph - ";
+					break;
+				case ChartType.SunDistance:
+					retVal = "Sun distance graph - ";
+					break;
+				case ChartType.EarthDistance:
+					retVal = "Earth distance graph - ";
+					break;
+			}
 
 			if (IsMultipleMode)
 				retVal += Comets.Count + " comets";

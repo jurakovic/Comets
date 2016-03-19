@@ -110,7 +110,7 @@
 			// 
 			this.menuItemFileGraph.Index = 1;
 			this.menuItemFileGraph.Shortcut = System.Windows.Forms.Shortcut.CtrlG;
-			this.menuItemFileGraph.Text = "Magnitude &Graph";
+			this.menuItemFileGraph.Text = "&Graph";
 			this.menuItemFileGraph.Click += new System.EventHandler(this.menuItemFileGraph_Click);
 			// 
 			// menuItemFileOrbit

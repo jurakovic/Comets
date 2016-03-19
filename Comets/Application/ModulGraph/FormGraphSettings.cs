@@ -49,8 +49,8 @@ namespace Comets.Application.ModulGraph
 
 			txtDaysFromTStart.Tag = new ValNum(-3653, -1);
 			txtDaysFromTStop.Tag = new ValNum(1, 3653);
-			txtMinMag.Tag = ValNum.VMagnitude;
-			txtMaxMag.Tag = ValNum.VMagnitude;
+			txtMinValue.Tag = ValNum.VMagnitude;
+			txtMaxValue.Tag = ValNum.VMagnitude;
 
 			GraphSettings = settings;
 
@@ -60,7 +60,7 @@ namespace Comets.Application.ModulGraph
 				DateEnd = CommonManager.DefaultDateEnd;
 
 				btnTimespanDaysFromTDefault_Click(null, null);
-				rbRangeDate.Checked = true;
+				rbtnRangeDate.Checked = true;
 			}
 			else
 			{
@@ -77,9 +77,22 @@ namespace Comets.Application.ModulGraph
 				txtDaysFromTStop.Text = GraphSettings.DaysFromTStopValue.ToString();
 
 				if (GraphSettings.DateRange)
-					rbRangeDate.Checked = true;
+					rbtnRangeDate.Checked = true;
 				else
-					rbRangeDaysFromT.Checked = true;
+					rbtnRangeDaysFromT.Checked = true;
+
+				switch (GraphSettings.GraphChartType)
+				{
+					case GraphSettings.ChartType.Magnitude:
+						rbtnMagnitude.Checked = true;
+						break;
+					case GraphSettings.ChartType.SunDistance:
+						rbtnSunDistance.Checked = true;
+						break;
+					case GraphSettings.ChartType.EarthDistance:
+						rbtnEarthDistance.Checked = true;
+						break;
+				}
 
 				pnlMagnitudeColor.BackColor = GraphSettings.MagnitudeColor;
 
@@ -91,11 +104,11 @@ namespace Comets.Application.ModulGraph
 
 				cbxAntialiasing.Checked = GraphSettings.AntialiasingChecked;
 
-				txtMinMag.Text = GraphSettings.MinGraphMagnitudeValue != null ? GraphSettings.MinGraphMagnitudeValue.Value.ToString() : String.Empty;
-				cbxMinMag.Checked = GraphSettings.MinGraphMagnitudeChecked;
+				txtMinValue.Text = GraphSettings.MinGraphValue != null ? GraphSettings.MinGraphValue.Value.ToString() : String.Empty;
+				cbxMinValue.Checked = GraphSettings.MinGraphValueChecked;
 
-				txtMaxMag.Text = GraphSettings.MaxGraphMagnitudeValue != null ? GraphSettings.MaxGraphMagnitudeValue.Value.ToString() : String.Empty;
-				cbxMaxMag.Checked = GraphSettings.MaxGraphMagnitudeChecked;
+				txtMaxValue.Text = GraphSettings.MaxGraphValue != null ? GraphSettings.MaxGraphValue.Value.ToString() : String.Empty;
+				cbxMaxValue.Checked = GraphSettings.MaxGraphValueChecked;
 			}
 		}
 
@@ -216,7 +229,7 @@ namespace Comets.Application.ModulGraph
 					current = fdt.SelectedDateTime;
 			}
 
-			rbRangeDate.Checked = true;
+			rbtnRangeDate.Checked = true;
 			return current;
 		}
 
@@ -242,7 +255,7 @@ namespace Comets.Application.ModulGraph
 
 		private void txtDaysFromTCommon_TextChanged(object sender, EventArgs e)
 		{
-			rbRangeDaysFromT.Checked = true;
+			rbtnRangeDaysFromT.Checked = true;
 		}
 
 		private void btnTimespanDaysFromTDefault_Click(object sender, EventArgs e)
@@ -263,12 +276,12 @@ namespace Comets.Application.ModulGraph
 
 		private void txtMinMag_TextChanged(object sender, EventArgs e)
 		{
-			cbxMinMag.Checked = txtMinMag.TextLength > 0;
+			cbxMinValue.Checked = txtMinValue.TextLength > 0;
 		}
 
 		private void txtMaxMag_TextChanged(object sender, EventArgs e)
 		{
-			cbxMaxMag.Checked = txtMaxMag.TextLength > 0;
+			cbxMaxValue.Checked = txtMaxValue.TextLength > 0;
 		}
 
 		#endregion
@@ -279,21 +292,21 @@ namespace Comets.Application.ModulGraph
 		{
 			if (cbComet.SelectedIndex >= 0)
 			{
-				if (cbxMinMag.Checked && txtMinMag.TextLength == 0)
+				if (cbxMinValue.Checked && txtMinValue.TextLength == 0)
 				{
-					MessageBox.Show("Please enter Minimum magnitude value\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					MessageBox.Show("Enter Minimum value\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
 					return;
 				}
 
-				if (cbxMaxMag.Checked && txtMaxMag.TextLength == 0)
+				if (cbxMaxValue.Checked && txtMaxValue.TextLength == 0)
 				{
-					MessageBox.Show("Please enter Maximum magnitude value\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					MessageBox.Show("Enter Maximum value\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
 					return;
 				}
 
-				if (cbxMinMag.Checked && cbxMaxMag.Checked && txtMinMag.Double() >= txtMaxMag.Double())
+				if (cbxMinValue.Checked && cbxMaxValue.Checked && txtMinValue.Double() >= txtMaxValue.Double())
 				{
-					MessageBox.Show("Minimum magnitude value must be lower than Maximum magnitude value\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					MessageBox.Show("Minimum value must be lower than Maximum value\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
 					return;
 				}
 
@@ -307,8 +320,8 @@ namespace Comets.Application.ModulGraph
 				DateTime daysFromTStart = EphemerisManager.JDToDateTime(startJd).ToLocalTime();
 				DateTime daysFromTStop = EphemerisManager.JDToDateTime(stopJd).ToLocalTime();
 
-				DateTime start = rbRangeDate.Checked ? DateStart : daysFromTStart;
-				DateTime stop = rbRangeDate.Checked ? DateEnd : daysFromTStop;
+				DateTime start = rbtnRangeDate.Checked ? DateStart : daysFromTStart;
+				DateTime stop = rbtnRangeDate.Checked ? DateEnd : daysFromTStop;
 
 				if (stop < start)
 				{
@@ -342,7 +355,7 @@ namespace Comets.Application.ModulGraph
 				GraphSettings.SelectedComet = comet;
 				GraphSettings.Location = CommonManager.Settings.Location;
 
-				GraphSettings.DateRange = rbRangeDate.Checked;
+				GraphSettings.DateRange = rbtnRangeDate.Checked;
 
 				GraphSettings.IsMultipleMode = rbtnMultiple.Checked;
 
@@ -356,6 +369,13 @@ namespace Comets.Application.ModulGraph
 				GraphSettings.DaysFromTStartValue = txtDaysFromTStart.Int();
 				GraphSettings.DaysFromTStopValue = txtDaysFromTStop.Int();
 
+				if (rbtnMagnitude.Checked)
+					GraphSettings.GraphChartType = GraphSettings.ChartType.Magnitude;
+				else if (rbtnSunDistance.Checked)
+					GraphSettings.GraphChartType = GraphSettings.ChartType.SunDistance;
+				else// if (rbtnEarthDistance.Checked)
+					GraphSettings.GraphChartType = GraphSettings.ChartType.EarthDistance;
+
 				GraphSettings.MagnitudeColor = pnlMagnitudeColor.BackColor;
 
 				GraphSettings.NowLineChecked = cbxNowLine.Checked;
@@ -366,11 +386,11 @@ namespace Comets.Application.ModulGraph
 
 				GraphSettings.AntialiasingChecked = cbxAntialiasing.Checked;
 
-				GraphSettings.MinGraphMagnitudeChecked = cbxMinMag.Checked;
-				GraphSettings.MinGraphMagnitudeValue = txtMinMag.TextLength > 0 ? (double?)txtMinMag.Double() : null;
+				GraphSettings.MinGraphValueChecked = cbxMinValue.Checked;
+				GraphSettings.MinGraphValue = txtMinValue.TextLength > 0 ? (double?)txtMinValue.Double() : null;
 
-				GraphSettings.MaxGraphMagnitudeChecked = cbxMaxMag.Checked;
-				GraphSettings.MaxGraphMagnitudeValue = txtMaxMag.TextLength > 0 ? (double?)txtMaxMag.Double() : null;
+				GraphSettings.MaxGraphValueChecked = cbxMaxValue.Checked;
+				GraphSettings.MaxGraphValue = txtMaxValue.TextLength > 0 ? (double?)txtMaxValue.Double() : null;
 
 				if (!CommonManager.Settings.IgnoreLongCalculationWarning && !SettingsBase.ValidateCalculationAmount(GraphSettings))
 					return;
