@@ -1115,7 +1115,7 @@
 			// 
 			this.scrollVert.LargeChange = 1;
 			this.scrollVert.Location = new System.Drawing.Point(713, 345);
-			this.scrollVert.Maximum = 360;
+			this.scrollVert.Maximum = 359;
 			this.scrollVert.Name = "scrollVert";
 			this.scrollVert.Size = new System.Drawing.Size(17, 272);
 			this.scrollVert.TabIndex = 1;
@@ -1126,7 +1126,7 @@
 			// 
 			this.scrollHorz.LargeChange = 1;
 			this.scrollHorz.Location = new System.Drawing.Point(437, 629);
-			this.scrollHorz.Maximum = 360;
+			this.scrollHorz.Maximum = 359;
 			this.scrollHorz.Name = "scrollHorz";
 			this.scrollHorz.Size = new System.Drawing.Size(293, 17);
 			this.scrollHorz.TabIndex = 2;

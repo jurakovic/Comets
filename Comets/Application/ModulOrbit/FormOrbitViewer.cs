@@ -16,8 +16,8 @@ namespace Comets.Application.ModulOrbit
 	{
 		#region Consts
 
-		const int DefaultScrollVert = 220;
-		const int DefaultScrollHorz = 255;
+		const int DefaultScrollVert = 40;
+		const int DefaultScrollHorz = 75;
 		const int DefaultScrollZoom = 145;
 
 		const bool DefaultToolBoxVisible = true;
@@ -1125,7 +1125,7 @@ namespace Comets.Application.ModulOrbit
 
 		private void scrollVert_ValueChanged(object sender, EventArgs e)
 		{
-			orbitPanel.RotateVert = (double)(270 - scrollVert.Value);
+			orbitPanel.RotateVert = (double)(90 - scrollVert.Value);
 
 			if (!ValueChangedByEvent)
 				RefreshPanel();
@@ -1133,7 +1133,7 @@ namespace Comets.Application.ModulOrbit
 
 		private void scrollHorz_ValueChanged(object sender, EventArgs e)
 		{
-			orbitPanel.RotateHorz = (double)(270 - scrollHorz.Value);
+			orbitPanel.RotateHorz = (double)(90 - scrollHorz.Value);
 
 			if (!ValueChangedByEvent)
 				RefreshPanel();
