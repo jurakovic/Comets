@@ -76,4 +76,27 @@ namespace Comets.BusinessLayer.Business
 
 		#endregion
 	}
+
+	#region EphemerisChartDataPoint
+
+	public class EphemerisChartDataPoint
+	{
+		/// <summary>
+		/// X-axis
+		/// </summary>
+		public double JD { get; private set; }
+
+		/// <summary>
+		/// Y-axis
+		/// </summary>
+		public double Value { get; private set; }
+
+		public EphemerisChartDataPoint(double jd, double value)
+		{
+			JD = jd;
+			Value = value;
+		}
+	}
+
+	#endregion
 }

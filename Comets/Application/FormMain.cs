@@ -15,7 +15,7 @@ namespace Comets.Application
 	{
 		#region Const
 
-		public static string DateTimeFormat = "dd.MM.yyyy HH:mm:ss";
+		public static string DateTimeFormat = "dd.MM.yyyy. HH:mm:ss";
 
 		#endregion
 
@@ -347,6 +347,7 @@ namespace Comets.Application
 		{
 			menuItemViewStatusBar.Checked = !menuItemViewStatusBar.Checked;
 			CommonManager.Settings.ShowStatusBar = menuItemViewStatusBar.Checked;
+			CommonManager.Settings.IsSettingsChanged = true;
 			this.statusStrip.Visible = menuItemViewStatusBar.Checked;
 		}
 

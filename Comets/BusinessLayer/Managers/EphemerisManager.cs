@@ -18,6 +18,10 @@ namespace Comets.BusinessLayer.Managers
 		const double DEG2RAD = Math.PI / 180.0;
 		const double RAD2DEG = 180.0 / Math.PI;
 
+		public static string SeriesValue = "VALUE:";
+		public static string SeriesNow = "NOW:";
+		public static string SeriesPerihelion = "PERIHELION:";
+
 		#endregion
 
 		#region GetEphemeris
@@ -200,28 +204,30 @@ namespace Comets.BusinessLayer.Managers
 			double multipleMaxMagnitude = 15.0;
 			double multipleMaxDistance = 2.0;
 
-			double minValue = 0;
-			double maxValue = 0;
+			var dataPointDictionary = GetChartDataPointDictionary(settings.Ephemerides, settings.GraphChartType);
 
-			IEnumerable<List<Ephemeris>> ephemerides = settings.Ephemerides.Select(x => x.Value);
+			var dataPointLists = dataPointDictionary.Select(x => x.Value);
+			double min = dataPointLists.Select(x => x.Min(y => y.Value)).Min();
+			double max = dataPointLists.Select(x => x.Max(y => y.Value)).Max();
+
+			if (settings.GraphChartType == GraphSettings.ChartType.Magnitude)
+			{
+				//margin
+				min -= 0.20;
+				max += 0.20;
+			}
+
+			double minValue = Math.Floor(min);
+			double maxValue = Math.Ceiling(max);
 
 			switch (settings.GraphChartType)
 			{
 				case GraphSettings.ChartType.Magnitude:
-					yAxisText = "Magnitude";
-					minValue = Math.Floor(ephemerides.Select(y => y.Min(z => z.Magnitude)).Min() - 0.20);
-					maxValue = Math.Ceiling(ephemerides.Select(y => y.Max(z => z.Magnitude)).Max() + 0.20);
-					break;
+					yAxisText = "Magnitude"; break;
 				case GraphSettings.ChartType.SunDistance:
-					yAxisText = "Sun distance";
-					minValue = Math.Floor(ephemerides.Select(y => y.Min(z => z.SunDist)).Min());
-					maxValue = Math.Ceiling(ephemerides.Select(y => y.Max(z => z.SunDist)).Max());
-					break;
+					yAxisText = "Sun distance (AU)"; break;
 				case GraphSettings.ChartType.EarthDistance:
-					yAxisText = "Earth distance";
-					minValue = Math.Floor(ephemerides.Select(y => y.Min(z => z.EarthDist)).Min());
-					maxValue = Math.Ceiling(ephemerides.Select(y => y.Max(z => z.EarthDist)).Max());
-					break;
+					yAxisText = "Earth distance (AU)"; break;
 			}
 
 			double yMinValue = settings.MinGraphValueChecked ? settings.MinGraphValue.Value : minValue;
@@ -276,7 +282,7 @@ namespace Comets.BusinessLayer.Managers
 			chartArea.AxisY.IsMarginVisible = false;
 			chartArea.AxisY.MajorTickMark.Size = 0.5F;
 			chartArea.AxisY.LabelStyle.Font = new Font("Tahoma", 8.25F);
-			chartArea.AxisY.LabelStyle.Format = "0.00";
+			chartArea.AxisY.LabelStyle.Format = "00.00";
 
 			double yInterval = 0D;
 
@@ -312,46 +318,24 @@ namespace Comets.BusinessLayer.Managers
 			chart1.Series.Clear();
 
 			int i = 1;
-			foreach (List<Ephemeris> erList in ephemerides)
+			foreach (var keyValuePair in dataPointDictionary)
 			{
 				progress.Report(i++);
 
-				bool addSeries = false;
+				var dataPoints = keyValuePair.Value;
 
-				switch (settings.GraphChartType)
-				{
-					case GraphSettings.ChartType.Magnitude:
-						addSeries = erList.Any(x => x.Magnitude <= yMaxValue); break;
-					case GraphSettings.ChartType.SunDistance:
-						addSeries = erList.Any(x => x.SunDist <= yMaxValue); break;
-					case GraphSettings.ChartType.EarthDistance:
-						addSeries = erList.Any(x => x.EarthDist <= yMaxValue); break;
-				}
-
-				if (addSeries)
+				if (dataPoints.Any(x => x.Value <= yMaxValue))
 				{
 					Series series = new Series();
+					series.Tag = SeriesValue + keyValuePair.Key.full;
 					series.ChartArea = chartAreaName;
 					series.Color = settings.MagnitudeColor;
 					series.ChartType = SeriesChartType.Spline;
 					series.XAxisType = AxisType.Secondary;
 					series.XValueType = ChartValueType.DateTime;
 
-					switch (settings.GraphChartType)
-					{
-						case GraphSettings.ChartType.Magnitude:
-							foreach (Ephemeris ep in erList)
-								series.Points.Add(new DataPoint(JDToDateTime(ep.JD).ToLocalTime().ToOADate(), ep.Magnitude));
-							break;
-						case GraphSettings.ChartType.SunDistance:
-							foreach (Ephemeris ep in erList)
-								series.Points.Add(new DataPoint(JDToDateTime(ep.JD).ToLocalTime().ToOADate(), ep.SunDist));
-							break;
-						case GraphSettings.ChartType.EarthDistance:
-							foreach (Ephemeris ep in erList)
-								series.Points.Add(new DataPoint(JDToDateTime(ep.JD).ToLocalTime().ToOADate(), ep.EarthDist));
-							break;
-					}
+					foreach (EphemerisChartDataPoint dp in dataPoints)
+						series.Points.Add(new DataPoint(JDToDateTime(dp.JD).ToLocalTime().ToOADate(), dp.Value));
 
 					chart1.Series.Add(series);
 				}
@@ -360,10 +344,10 @@ namespace Comets.BusinessLayer.Managers
 			if (settings.PerihelionLineChecked)
 			{
 				if (!settings.IsMultipleMode)
-					AddPerihelionLine(chart1, settings.SelectedComet, settings.PerihelionLineColor, xMinValue, xMaxValue, yMinValue, yMaxValue, chartAreaName);
+					AddPerihelionLine(chart1, settings.SelectedComet, settings.PerihelionLineColor, xMinValue, xMaxValue, yMinValue, yMaxValue, chartAreaName, SeriesPerihelion);
 				else
 					foreach (Comet c in settings.Comets)
-						AddPerihelionLine(chart1, c, settings.PerihelionLineColor, xMinValue, xMaxValue, yMinValue, yMaxValue, chartAreaName);
+						AddPerihelionLine(chart1, c, settings.PerihelionLineColor, xMinValue, xMaxValue, yMinValue, yMaxValue, chartAreaName, SeriesPerihelion);
 			}
 
 			if (settings.NowLineChecked)
@@ -372,6 +356,7 @@ namespace Comets.BusinessLayer.Managers
 				if (xMinValue < jdNow && xMaxValue > jdNow)
 				{
 					Series s = new Series();
+					s.Tag = SeriesNow;
 					s.ChartArea = chartAreaName;
 					s.Color = settings.NowLineColor;
 					s.ChartType = SeriesChartType.Line;
@@ -389,7 +374,7 @@ namespace Comets.BusinessLayer.Managers
 			chart1.Titles.Add(title);
 		}
 
-		private static void AddPerihelionLine(Chart chart1, Comet comet, Color color, double xMin, double xMax, double yMin, double yMax, string chartAreaName)
+		private static void AddPerihelionLine(Chart chart1, Comet comet, Color color, double xMin, double xMax, double yMin, double yMax, string chartAreaName, string seriesName)
 		{
 			double t = comet.Tn;
 			double periodDays = comet.P * 365.25;
@@ -400,6 +385,7 @@ namespace Comets.BusinessLayer.Managers
 			while (t < xMax)
 			{
 				Series s = new Series();
+				s.Tag = seriesName + comet.full;
 				s.ChartArea = chartAreaName;
 				s.Color = color;
 				s.ChartType = SeriesChartType.Line;
@@ -411,6 +397,33 @@ namespace Comets.BusinessLayer.Managers
 				chart1.Series.Add(s);
 				t += periodDays;
 			}
+		}
+
+		private static Dictionary<Comet, IEnumerable<EphemerisChartDataPoint>> GetChartDataPointDictionary(Dictionary<Comet, List<Ephemeris>> ephemerisDictinary, GraphSettings.ChartType type)
+		{
+			var retval = new Dictionary<Comet, IEnumerable<EphemerisChartDataPoint>>();
+
+			foreach (var keyValuePair in ephemerisDictinary)
+			{
+				IEnumerable<EphemerisChartDataPoint> values = null;
+
+				switch (type)
+				{
+					case GraphSettings.ChartType.Magnitude:
+						values = from val in keyValuePair.Value select new EphemerisChartDataPoint(val.JD, val.Magnitude);
+						break;
+					case GraphSettings.ChartType.SunDistance:
+						values = from val in keyValuePair.Value select new EphemerisChartDataPoint(val.JD, val.SunDist);
+						break;
+					case GraphSettings.ChartType.EarthDistance:
+						values = from val in keyValuePair.Value select new EphemerisChartDataPoint(val.JD, val.EarthDist);
+						break;
+				}
+
+				retval.Add(keyValuePair.Key, values);
+			}
+
+			return retval;
 		}
 
 		#endregion

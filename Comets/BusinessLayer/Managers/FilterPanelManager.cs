@@ -24,7 +24,7 @@ namespace Comets.BusinessLayer.Managers
 		public static readonly string LabelName = "Label";
 		public static readonly string RemoveName = "Remove";
 
-		private static readonly string DateTimeFormat = "dd.MM.yyyy HH:mm:ss";
+		private static readonly string DateTimeFormat = "dd.MM.yyyy. HH:mm:ss";
 		private static readonly string[] StringCompare = new string[] { "Contains", "Does not contain" };
 		private static readonly string[] ValueCompare = new string[] { "Greather than (>)", "Less than (<)" };
 
