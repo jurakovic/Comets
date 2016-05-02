@@ -926,24 +926,18 @@ namespace Comets.OrbitViewer
 		{
 			string name = null;
 
-			if (MultipleMode && Comets.Count > 1)
-			{
-				int offset = 5;
-				int range = offset * 2;
+			int range = 5;
+			int minX = point.X - range;
+			int minY = point.Y - range;
+			int maxX = point.X + range;
+			int maxY = point.Y + range;
 
-				int minX = point.X - offset;
-				int minY = point.Y - offset;
+			OVComet comet = Comets.FirstOrDefault(c =>
+				c.PanelLocation.X >= minX && c.PanelLocation.X <= maxX &&
+				c.PanelLocation.Y >= minY && c.PanelLocation.Y <= maxY);
 
-				int maxX = minX + range;
-				int maxY = minY + range;
-
-				OVComet comet = Comets.FirstOrDefault(c =>
-					c.PanelLocation.X >= minX && c.PanelLocation.X <= maxX &&
-					c.PanelLocation.Y >= minY && c.PanelLocation.Y <= maxY);
-
-				if (comet != null)
-					name = comet.Name;
-			}
+			if (comet != null)
+				name = comet.Name;
 
 			return name;
 		}

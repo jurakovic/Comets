@@ -1012,7 +1012,7 @@ namespace Comets.Application.ModulOrbit
 
 		private void orbitPanel_MouseClick(object sender, MouseEventArgs e)
 		{
-			if (!IsLeftButtonMoving && e.Button == MouseButtons.Left)
+			if (!IsLeftButtonMoving && e.Button == MouseButtons.Left && orbitPanel.MultipleMode)
 			{
 				string name = orbitPanel.SelectComet(e.Location);
 
