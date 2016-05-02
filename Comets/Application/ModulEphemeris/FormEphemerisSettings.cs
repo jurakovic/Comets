@@ -202,9 +202,9 @@ namespace Comets.Application.ModulEphemeris
 					return;
 				}
 
-				if (DateEnd < DateStart)
+				if (DateEnd <= DateStart)
 				{
-					MessageBox.Show("End date is less than start date\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					MessageBox.Show("End date must be greather than start date\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
 					return;
 				}
 
