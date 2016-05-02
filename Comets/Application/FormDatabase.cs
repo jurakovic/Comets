@@ -559,7 +559,7 @@ namespace Comets.Application
 
 		#region  ApplyFilters
 
-		private void ApplyFilters()
+		public void ApplyFilters()
 		{
 			Filters = CollectFilters();
 
@@ -571,11 +571,7 @@ namespace Comets.Application
 			}
 			else
 			{
-				if (Filters.Any(x => x.Checked))
-					Comets = FilterManager.ApplyFilters(CommonManager.MainCollection, Filters);
-				else
-					Comets = new CometCollection(CommonManager.MainCollection);
-
+				Comets = FilterManager.ApplyFilters(CommonManager.MainCollection, Filters);
 				SortCollection(Comets);
 			}
 		}

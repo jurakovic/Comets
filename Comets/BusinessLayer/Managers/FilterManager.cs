@@ -19,42 +19,51 @@ namespace Comets.BusinessLayer.Managers
 
 		public static CometCollection ApplyFilters(CometCollection mainCollection, FilterCollection filters)
 		{
-			CometCollection collection = new CometCollection();
-			List<bool> checks = new List<bool>();
+			CometCollection collection;
 
-			List<Filter> checkedFilters = filters.Where(x => x.Checked).ToList();
+			IEnumerable<Filter> checkedFilters = filters.Where(x => x.Checked);
 
-			foreach (Comet comet in mainCollection)
+			if (checkedFilters.Any())
 			{
-				checks.Clear();
+				collection = new CometCollection();
+				List<bool> checks = new List<bool>();
 
-				foreach (Filter f in checkedFilters)
+				foreach (Comet comet in mainCollection)
 				{
-					object value = comet.GetType().GetProperty(f.Property.ToString()).GetValue(comet, null);
+					checks.Clear();
 
-					if (f.DataType == DataTypeEnum.String)
+					foreach (Filter f in checkedFilters)
 					{
-						string full = value.ToString().ToLower();
-						string[] names = f.Text.ToLower().Split(',');
+						object value = comet.GetType().GetProperty(f.Property.ToString()).GetValue(comet, null);
 
-						if (f.ValueCompare == ValueCompareEnum.Greather_Contains)
-							checks.Add(names.Any(x => full.Contains(x.Trim())));
-						else
-							checks.Add(!names.Any(x => full.Contains(x.Trim())));
-					}
-					else
-					{
-						double d = Convert.ToDouble(value);
+						if (f.DataType == DataTypeEnum.String)
+						{
+							string full = value.ToString().ToLower();
+							string[] names = f.Text.ToLower().Split(',');
 
-						if (f.ValueCompare == ValueCompareEnum.Greather_Contains)
-							checks.Add(d > f.Value);
+							if (f.ValueCompare == ValueCompareEnum.Greather_Contains)
+								checks.Add(names.Any(x => full.Contains(x.Trim())));
+							else
+								checks.Add(!names.Any(x => full.Contains(x.Trim())));
+						}
 						else
-							checks.Add(d < f.Value);
+						{
+							double d = Convert.ToDouble(value);
+
+							if (f.ValueCompare == ValueCompareEnum.Greather_Contains)
+								checks.Add(d > f.Value);
+							else
+								checks.Add(d < f.Value);
+						}
 					}
+
+					if (checks.All(x => x == true))
+						collection.Add(comet);
 				}
-
-				if (checks.All(x => x == true))
-					collection.Add(comet);
+			}
+			else
+			{
+				collection = new CometCollection(mainCollection);
 			}
 
 			return collection;
@@ -68,14 +77,9 @@ namespace Comets.BusinessLayer.Managers
 		{
 			string retval = null;
 
-			foreach (Filter f in filters.Where(x => x.Checked))
-			{
-				if (f.Value == 0.0)
-				{
-					retval = String.Format("Please enter value for \"{0}\" \t\t", FilterPanelManager.GetText(f.Property));
-					break;
-				}
-			}
+			Filter filter = filters.FirstOrDefault(x => x.Checked && !x.IsValid);
+			if (filter != null)
+				retval = String.Format("Please enter value for \"{0}\" \t\t", FilterPanelManager.GetText(filter.Property));
 
 			return retval;
 		}

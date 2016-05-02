@@ -17,6 +17,7 @@ namespace Comets.BusinessLayer.Business
 		private string _text;
 		private double _value;
 		private int _index;
+		private bool _isValid;
 		private ValueCompareEnum _valueCompare;
 
 		#endregion
@@ -58,6 +59,11 @@ namespace Comets.BusinessLayer.Business
 			get { return _valueCompare; }
 		}
 
+		public bool IsValid
+		{
+			get { return _isValid; }
+		}
+
 		#endregion
 
 		#region Constructor
@@ -68,18 +74,16 @@ namespace Comets.BusinessLayer.Business
 			_dataType = dataType;
 			_checked = isChecked;
 			_text = text;
+			_index = index;
+
+			_isValid = !String.IsNullOrWhiteSpace(text);
 
 			if (_dataType == DataTypeEnum.Double)
 				_value = _text.Double();
-			else// if (_dataType == DataTypeEnum.String)
-				_value = String.IsNullOrEmpty(_text) ? 0.0 : 1.0; //only for validation
 
-			_index = index;
-
-			if (_index == 0)
-				_valueCompare = ValueCompareEnum.Greather_Contains;
-			else
-				_valueCompare = ValueCompareEnum.Less_DoesNotContain;
+			_valueCompare = _index == 0 ?
+				ValueCompareEnum.Greather_Contains :
+				ValueCompareEnum.Less_DoesNotContain;
 		}
 
 		#endregion

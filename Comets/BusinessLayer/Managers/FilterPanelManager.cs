@@ -388,6 +388,10 @@ namespace Comets.BusinessLayer.Managers
 		{
 			TextBox txt = sender as TextBox;
 			txt.Parent.Controls.OfType<CheckBox>().First().Checked = txt.Text.Trim().Length > 0;
+
+			FormDatabase owner = txt.FindForm() as FormDatabase;
+			if (owner != null)
+				owner.ApplyFilters();
 		}
 
 		#endregion
