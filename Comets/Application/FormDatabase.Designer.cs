@@ -104,6 +104,7 @@
 			this.pnlDetails = new System.Windows.Forms.Panel();
 			this.tbcDetails = new System.Windows.Forms.TabControl();
 			this.tbpEphemeris = new System.Windows.Forms.TabPage();
+			this.btnJplInfo = new System.Windows.Forms.Button();
 			this.lblEphemAzIndicator = new System.Windows.Forms.Label();
 			this.lblEphemDecIndicator = new System.Windows.Forms.Label();
 			this.lblEphemSunDistIndicator = new System.Windows.Forms.Label();
@@ -916,6 +917,7 @@
 			// tbpEphemeris
 			// 
 			this.tbpEphemeris.BackColor = System.Drawing.SystemColors.Control;
+			this.tbpEphemeris.Controls.Add(this.btnJplInfo);
 			this.tbpEphemeris.Controls.Add(this.lblEphemAzIndicator);
 			this.tbpEphemeris.Controls.Add(this.lblEphemDecIndicator);
 			this.tbpEphemeris.Controls.Add(this.lblEphemSunDistIndicator);
@@ -966,6 +968,18 @@
 			this.tbpEphemeris.Size = new System.Drawing.Size(531, 288);
 			this.tbpEphemeris.TabIndex = 0;
 			this.tbpEphemeris.Text = "Ephemeris";
+			// 
+			// btnInfo1
+			// 
+			this.btnJplInfo.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.btnJplInfo.ForeColor = System.Drawing.Color.Blue;
+			this.btnJplInfo.Location = new System.Drawing.Point(382, 24);
+			this.btnJplInfo.Name = "btnInfo1";
+			this.btnJplInfo.Size = new System.Drawing.Size(116, 23);
+			this.btnJplInfo.TabIndex = 314;
+			this.btnJplInfo.Text = "JPL Info";
+			this.btnJplInfo.UseVisualStyleBackColor = true;
+			this.btnJplInfo.Click += new System.EventHandler(this.btnJplInfo_Click);
 			// 
 			// lblEphemAzIndicator
 			// 
@@ -1719,5 +1733,6 @@
 		private System.Windows.Forms.MenuItem mnuAphDistance;
 		private System.Windows.Forms.MenuItem mnuSemiMajorAxis;
 		private System.Windows.Forms.Button btnNewFilter;
+		private System.Windows.Forms.Button btnJplInfo;
 	}
 }

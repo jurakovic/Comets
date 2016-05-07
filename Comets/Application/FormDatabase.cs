@@ -193,6 +193,16 @@ namespace Comets.Application
 
 		#endregion
 
+		#region btnJplInfo_Click
+
+		private void btnJplInfo_Click(object sender, EventArgs e)
+		{
+			if (SelectedComet != null)
+				CometManager.OpenJplInfo(SelectedComet.id);
+		}
+
+		#endregion
+
 		#region btnResetAllFilters_Click
 
 		private void btnResetAllFilters_Click(object sender, EventArgs e)

@@ -690,7 +690,7 @@
 			this.btnAllOrbitsLabels.Name = "btnAllOrbitsLabels";
 			this.btnAllOrbitsLabels.Size = new System.Drawing.Size(79, 23);
 			this.btnAllOrbitsLabels.TabIndex = 33;
-			this.btnAllOrbitsLabels.Text = "All";
+			this.btnAllOrbitsLabels.Text = "ALL";
 			this.btnAllOrbitsLabels.UseVisualStyleBackColor = true;
 			this.btnAllOrbitsLabels.Click += new System.EventHandler(this.btnAllOrbitsLabels_Click);
 			// 
@@ -700,7 +700,7 @@
 			this.btnDefaultOrbitsLabels.Name = "btnDefaultOrbitsLabels";
 			this.btnDefaultOrbitsLabels.Size = new System.Drawing.Size(79, 23);
 			this.btnDefaultOrbitsLabels.TabIndex = 32;
-			this.btnDefaultOrbitsLabels.Text = "Default";
+			this.btnDefaultOrbitsLabels.Text = "DEFAULT";
 			this.btnDefaultOrbitsLabels.UseVisualStyleBackColor = true;
 			this.btnDefaultOrbitsLabels.Click += new System.EventHandler(this.btnDefaultOrbitsLabels_Click);
 			// 
@@ -1066,7 +1066,7 @@
 			this.btnClear.Name = "btnClear";
 			this.btnClear.Size = new System.Drawing.Size(53, 23);
 			this.btnClear.TabIndex = 3;
-			this.btnClear.Text = "Clear";
+			this.btnClear.Text = "CLEAR";
 			this.btnClear.UseVisualStyleBackColor = true;
 			this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
 			// 
@@ -1076,7 +1076,7 @@
 			this.btnAll.Name = "btnAll";
 			this.btnAll.Size = new System.Drawing.Size(53, 23);
 			this.btnAll.TabIndex = 2;
-			this.btnAll.Text = "All";
+			this.btnAll.Text = "ALL";
 			this.btnAll.UseVisualStyleBackColor = true;
 			this.btnAll.Click += new System.EventHandler(this.btnAll_Click);
 			// 
@@ -1086,7 +1086,7 @@
 			this.btnFilter.Name = "btnFilter";
 			this.btnFilter.Size = new System.Drawing.Size(53, 23);
 			this.btnFilter.TabIndex = 1;
-			this.btnFilter.Text = "Filter";
+			this.btnFilter.Text = "FILTER";
 			this.btnFilter.UseVisualStyleBackColor = true;
 			this.btnFilter.Click += new System.EventHandler(this.btnFilter_Click);
 			// 

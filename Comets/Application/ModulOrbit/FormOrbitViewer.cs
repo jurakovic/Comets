@@ -235,6 +235,26 @@ namespace Comets.Application.ModulOrbit
 
 		private void btnFilter_Click(object sender, EventArgs e)
 		{
+			FilterComets();
+		}
+
+		private void btnAll_Click(object sender, EventArgs e)
+		{
+			LoadAllComets();
+		}
+
+		private void btnClear_Click(object sender, EventArgs e)
+		{
+			ClearComets();
+		}
+
+		private void comboBoxCommon_MouseHover(object sender, EventArgs e)
+		{
+			(sender as ComboBox).Focus();
+		}
+
+		private void FilterComets()
+		{
 			bool simStarted = IsSimulationStarted;
 
 			string lastSelected = SelectedComet != null ? SelectedComet.Name : null;
@@ -270,30 +290,27 @@ namespace Comets.Application.ModulOrbit
 				StartSimulation(SimulationDirection);
 		}
 
-		private void btnAll_Click(object sender, EventArgs e)
+		private void LoadAllComets()
 		{
 			if (OVComets.Count > 0 && orbitPanel.Comets.Count != OVComets.Count)
+			{
 				orbitPanel.LoadPanel(OVComets.ToList(), orbitPanel.ATime, cboComet.SelectedIndex);
 
-			SetFormText();
+				SetFormText();
 
-			ValueChangedByEvent = true;
-			rbtnMultipleMode.Checked = true;
-			ValueChangedByEvent = false;
+				ValueChangedByEvent = true;
+				rbtnMultipleMode.Checked = true;
+				ValueChangedByEvent = false;
 
-			RefreshPanel();
+				RefreshPanel();
+			}
 		}
 
-		private void btnClear_Click(object sender, EventArgs e)
+		private void ClearComets()
 		{
 			orbitPanel.ClearComets();
 			SetFormText();
 			RefreshPanel();
-		}
-
-		private void comboBoxCommon_MouseHover(object sender, EventArgs e)
-		{
-			(sender as ComboBox).Focus();
 		}
 
 		#endregion
@@ -783,12 +800,12 @@ namespace Comets.Application.ModulOrbit
 		private void FormOrbitViewer_KeyDown(object sender, KeyEventArgs e)
 		{
 			if ((txtFodSunDist.Focused || txtFodEarthDist.Focused || txtFodMagnitude.Focused)
-				&& e.KeyCode.In(Keys.D1, Keys.D2, Keys.D3, Keys.D4, Keys.D5, Keys.D6, Keys.D7, Keys.D8, Keys.D9, Keys.D0))
+				&& e.KeyCode.In(Keys.D1, Keys.D2, Keys.D3, Keys.D4, Keys.D5, Keys.D6, Keys.D7, Keys.D8, Keys.D9, Keys.D0, Keys.Back))
 				return;
 
-			bool handled = true;
-			bool ctrl = Control.ModifierKeys == Keys.Control;
-			bool shift = Control.ModifierKeys == Keys.Shift;
+			bool handled = false;
+			bool ctrl = (Control.ModifierKeys & Keys.Control) == Keys.Control;
+			bool shift = (Control.ModifierKeys & Keys.Shift) == Keys.Shift;
 
 			switch (e.KeyCode)
 			{
@@ -819,52 +836,84 @@ namespace Comets.Application.ModulOrbit
 						handled = MoveScroll(scrollZoom, true, false);
 					break;
 				case Keys.Subtract:
+					if (!ctrl && !shift)
+						handled = MoveScroll(scrollZoom, false, false);
+					break;
 				case Keys.A:
 					if (!ctrl && !shift)
 						handled = MoveScroll(scrollZoom, false, false);
+					else if (ctrl && shift)
+						LoadAllComets();
 					break;
 
 				case Keys.D1:
 					ChangeObjectDisplay(OrbitPanel.Object.Mercury, ctrl, shift);
+					handled = true;
 					break;
 
 				case Keys.D2:
 					ChangeObjectDisplay(OrbitPanel.Object.Venus, ctrl, shift);
+					handled = true;
 					break;
 
 				case Keys.D3:
 					ChangeObjectDisplay(OrbitPanel.Object.Earth, ctrl, shift);
+					handled = true;
 					break;
 
 				case Keys.D4:
 					ChangeObjectDisplay(OrbitPanel.Object.Mars, ctrl, shift);
+					handled = true;
 					break;
 
 				case Keys.D5:
 					ChangeObjectDisplay(OrbitPanel.Object.Jupiter, ctrl, shift);
+					handled = true;
 					break;
 
 				case Keys.D6:
 					ChangeObjectDisplay(OrbitPanel.Object.Saturn, ctrl, shift);
+					handled = true;
 					break;
 
 				case Keys.D7:
 					ChangeObjectDisplay(OrbitPanel.Object.Uranus, ctrl, shift);
+					handled = true;
 					break;
 
 				case Keys.D8:
 					ChangeObjectDisplay(OrbitPanel.Object.Neptune, ctrl, shift);
+					handled = true;
 					break;
 
 				case Keys.D9:
+					if (!ctrl && !shift)
+					{
+						ChangeObjectDisplay(OrbitPanel.Object.Comet, ctrl, shift);
+						handled = true;
+					}
+					break;
+
 				case Keys.C:
-					ChangeObjectDisplay(OrbitPanel.Object.Comet, ctrl, shift);
+					if (!ctrl && !shift)
+					{
+						ChangeObjectDisplay(OrbitPanel.Object.Comet, ctrl, shift);
+						handled = true;
+					}
+					else if (ctrl && shift)
+					{
+						ClearComets();
+						handled = true;
+					}
 					break;
 
 				case Keys.D0:
 				case Keys.S:
 					if (!ctrl && !shift)
+					{
 						ChangeCenterObject(OrbitPanel.Object.Sun);
+						handled = true;
+					}
 					break;
 
 				case Keys.Space:
@@ -875,52 +924,81 @@ namespace Comets.Application.ModulOrbit
 							StopSimulation();
 						else
 							StartSimulation(SimulationDirection);
+
+						handled = true;
 					}
 					break;
 
 				case Keys.J:
 					if (!ctrl && !shift)
+					{
 						InvertSimulation();
+						handled = true;
+					}
 					break;
 
 				case Keys.K:
 					if (!ctrl && !shift)
+					{
 						SlowerSimulation();
+						handled = true;
+					}
 					break;
 
 				case Keys.L:
 					if (!ctrl && !shift)
+					{
 						FasterSimulation();
+						handled = true;
+					}
 					break;
 
 				case Keys.D:
 					if (ctrl && !shift)
+					{
 						ShowDateTimeForm();
+						handled = true;
+					}
 					break;
 
 				case Keys.B:
 					if (ctrl && !shift && OVComets.Count > 0 && cboComet.SelectedIndex >= 0)
+					{
 						SelectedDateTime = EphemerisManager.JDToDateTime(OVComets.ElementAt(cboComet.SelectedIndex).T).ToLocalTime();
+						handled = true;
+					}
 					break;
 
 				case Keys.N:
 					if (ctrl && !shift)
+					{
 						SelectedDateTime = DateTime.Now;
+						handled = true;
+					}
 					break;
 
 				case Keys.G:
 					if (!ctrl && !shift)
+					{
 						cbxSelectedOrbit.Checked = !cbxSelectedOrbit.Checked;
+						handled = true;
+					}
 					break;
 
 				case Keys.H:
 					if (!ctrl && !shift)
+					{
 						cbxSelectedLabel.Checked = !cbxSelectedLabel.Checked;
+						handled = true;
+					}
 					break;
 
 				case Keys.M:
 					if (!ctrl && !shift)
+					{
 						cbxMarker.Checked = !cbxMarker.Checked;
+						handled = true;
+					}
 					break;
 
 				case Keys.Enter:
@@ -929,12 +1007,17 @@ namespace Comets.Application.ModulOrbit
 						orbitPanel.MarkComet(SelectedComet);
 						if (orbitPanel.IsPaintEnabled && !IsSimulationStarted)
 							RefreshPanel();
+
+						handled = true;
 					}
 					break;
 
 				case Keys.Back:
 					if (!ctrl && !shift)
+					{
 						cboComet.SelectedIndex = -1;
+						handled = true;
+					}
 					break;
 
 				case Keys.Delete:
@@ -943,9 +1026,27 @@ namespace Comets.Application.ModulOrbit
 						orbitPanel.ClearMarkedComets();
 						if (orbitPanel.IsPaintEnabled && !IsSimulationStarted)
 							RefreshPanel();
+
+						handled = true;
 					}
 					break;
 
+				case Keys.F:
+					if (ctrl && shift)
+					{
+						FilterComets();
+						handled = true;
+					}
+					break;
+
+				case Keys.I:
+					if (ctrl && !shift && SelectedComet != null)
+					{
+						Comet c = Comets.ElementAt(cboComet.SelectedIndex);
+						CometManager.OpenJplInfo(c.id);
+						handled = true;
+					}
+					break;
 				default:
 					handled = !(cboComet.Focused || cboTimestep.Focused);
 					break;
@@ -956,8 +1057,6 @@ namespace Comets.Application.ModulOrbit
 
 		private bool MoveScroll(ScrollBar scrollbar, bool isIncrement, bool continuous = true)
 		{
-			bool handled = false;
-
 			if (IsKeyboardScroll)
 			{
 				int value = scrollbar.LargeChange * (isIncrement ? 1 : -1);
@@ -981,11 +1080,9 @@ namespace Comets.Application.ModulOrbit
 				}
 
 				scrollbar.Value = newValue;
-
-				handled = true;
 			}
 
-			return handled;
+			return IsKeyboardScroll;
 		}
 
 		#endregion
