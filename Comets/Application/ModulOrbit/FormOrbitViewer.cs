@@ -253,6 +253,21 @@ namespace Comets.Application.ModulOrbit
 			(sender as ComboBox).Focus();
 		}
 
+		private void FindComet()
+		{
+			using (FormFind ff = new FormFind(Comets))
+			{
+				ff.TopMost = this.TopMost;
+
+				Point panelLocation = this.orbitPanel.PointToScreen(Point.Empty);
+				Size margin = new Size(7, 7);
+				ff.Location = panelLocation + margin;
+
+				if (ff.ShowDialog() == DialogResult.OK && ff.SelectedComet != null)
+					cboComet.SelectedIndex = OVComets.IndexOf(OVComets.First(x => x.Name == ff.SelectedComet.full));
+			}
+		}
+
 		private void FilterComets()
 		{
 			bool simStarted = IsSimulationStarted;
@@ -1032,7 +1047,12 @@ namespace Comets.Application.ModulOrbit
 					break;
 
 				case Keys.F:
-					if (ctrl && shift)
+					if (ctrl && !shift)
+					{
+						FindComet();
+						handled = true;
+					}
+					else if (ctrl && shift)
 					{
 						FilterComets();
 						handled = true;

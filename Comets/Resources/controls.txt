@@ -49,6 +49,7 @@
  Shift + 9 / C                   Toggle on/off comet label
 
  Ctrl + I                        JPL Info
+ Ctrl + F                        Find comet
  Ctrl + D                        Select date
  Ctrl + N                        Set current date
  Ctrl + B                        Set perihelion date of selected comet
