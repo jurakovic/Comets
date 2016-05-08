@@ -86,15 +86,8 @@ namespace Comets.Application.ModulOrbit
 
 		private OVComet SelectedComet
 		{
-			get
-			{
-				OVComet comet = null;
-
-				if (cboComet.SelectedIndex >= 0)
-					comet = OVComets.ElementAt(cboComet.SelectedIndex);
-
-				return comet;
-			}
+			get { return OVComets.ElementAtOrDefault(cboComet.SelectedIndex); }
+			set { cboComet.SelectedIndex = OVComets.IndexOf(value); }
 		}
 
 		private DateTime _selectedDateTime;
@@ -264,7 +257,7 @@ namespace Comets.Application.ModulOrbit
 				ff.Location = panelLocation + margin;
 
 				if (ff.ShowDialog() == DialogResult.OK && ff.SelectedComet != null)
-					cboComet.SelectedIndex = OVComets.IndexOf(OVComets.First(x => x.Name == ff.SelectedComet.full));
+					SelectedComet = OVComets.First(x => x.Name == ff.SelectedComet.full);
 			}
 		}
 
@@ -977,9 +970,9 @@ namespace Comets.Application.ModulOrbit
 					break;
 
 				case Keys.B:
-					if (ctrl && !shift && OVComets.Count > 0 && cboComet.SelectedIndex >= 0)
+					if (ctrl && !shift && SelectedComet != null)
 					{
-						SelectedDateTime = EphemerisManager.JDToDateTime(OVComets.ElementAt(cboComet.SelectedIndex).T).ToLocalTime();
+						SelectedDateTime = EphemerisManager.JDToDateTime(SelectedComet.T).ToLocalTime();
 						handled = true;
 					}
 					break;
@@ -1030,7 +1023,7 @@ namespace Comets.Application.ModulOrbit
 				case Keys.Back:
 					if (!ctrl && !shift)
 					{
-						cboComet.SelectedIndex = -1;
+						SelectedComet = null;
 						handled = true;
 					}
 					break;
@@ -1132,11 +1125,7 @@ namespace Comets.Application.ModulOrbit
 			if (!IsLeftButtonMoving && e.Button == MouseButtons.Left && orbitPanel.MultipleMode)
 			{
 				string name = orbitPanel.SelectComet(e.Location);
-
-				if (name == null)
-					cboComet.SelectedIndex = -1;
-				else if (name != null && OVComets.Any(x => x.Name == name))
-					cboComet.SelectedIndex = OVComets.IndexOf(OVComets.First(x => x.Name == name));
+				SelectedComet = OVComets.FirstOrDefault(x => x.Name == name);
 			}
 		}
 
@@ -1282,15 +1271,9 @@ namespace Comets.Application.ModulOrbit
 			if (OVComets.Count > 0)
 			{
 				if (name != null && OVComets.Any(x => x.Name == name))
-				{
-					cboComet.SelectedIndex = OVComets.IndexOf(OVComets.First(x => x.Name == name));
-				}
+					SelectedComet = OVComets.First(x => x.Name == name);
 				else
-				{
-					//comet with nearest perihelion date
-					OVComet c = OVComets.OrderBy(x => Math.Abs(x.T - DateTime.Now.JD())).First();
-					cboComet.SelectedIndex = OVComets.IndexOf(c);
-				}
+					SelectedComet = OVComets.OrderBy(x => Math.Abs(x.T - DateTime.Now.JD())).First(); //comet with nearest perihelion date
 			}
 
 			ValueChangedByEvent = false;

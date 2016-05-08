@@ -19,15 +19,7 @@ namespace Comets.Application
 
 		public Comet SelectedComet
 		{
-			get
-			{
-				Comet comet = null;
-
-				if (lbxDatabase.SelectedIndex >= 0)
-					comet = Comets.ElementAt(lbxDatabase.SelectedIndex);
-
-				return comet;
-			}
+			get { return Comets.ElementAtOrDefault(lbxDatabase.SelectedIndex); }
 		}
 
 		public FilterCollection Filters { get; private set; }
