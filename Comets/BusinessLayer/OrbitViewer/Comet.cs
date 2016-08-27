@@ -90,6 +90,11 @@ namespace Comets.OrbitViewer
 		/// </summary>
 		public Point PanelLocation { get; set; }
 
+		/// <summary>
+		/// Is Comet marked
+		/// </summary>
+		public bool IsMarked { get; set; }
+
 		#endregion
 
 		#region Constructor

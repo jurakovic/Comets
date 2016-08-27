@@ -20,8 +20,6 @@ namespace Comets.Application.ModulOrbit
 		const int DefaultScrollHorz = 255;
 		const int DefaultScrollZoom = 145;
 
-		const bool DefaultToolBoxVisible = true;
-
 		readonly string[] TimeStepItems =
 		{
 			"1 Hour",
@@ -64,10 +62,7 @@ namespace Comets.Application.ModulOrbit
 		private Point StartDrag;
 
 		private Timer Timer;
-
 		private ATimeSpan TimeStep;
-		private int SimulationDirection;
-		private bool IsSimulationStarted;
 
 		private bool ValueChangedByEvent;
 
@@ -93,17 +88,14 @@ namespace Comets.Application.ModulOrbit
 		private DateTime _selectedDateTime;
 		private DateTime SelectedDateTime
 		{
-			get
-			{
-				return _selectedDateTime;
-			}
+			get { return _selectedDateTime; }
 			set
 			{
-				_selectedDateTime = FormDateTime.RangeDateTime(value);
+				bool isOutOfRange = FormDateTime.RangeDateTime(value, out _selectedDateTime);
 				btnDate.Text = _selectedDateTime.ToString(FormMain.DateTimeFormat);
 
-				if (IsSimulationStarted && !ValueChangedByEvent)
-					Timer.Stop();
+				if (isOutOfRange || (IsSimulationStarted && !ValueChangedByEvent))
+					StopSimulation();
 
 				if (orbitPanel.IsPaintEnabled)
 				{
@@ -113,13 +105,10 @@ namespace Comets.Application.ModulOrbit
 			}
 		}
 
-		private bool _toolboxVisible;
+		private bool _toolboxVisible = true;
 		public bool ToolboxVisible
 		{
-			get
-			{
-				return _toolboxVisible;
-			}
+			get { return _toolboxVisible; }
 			set
 			{
 				_toolboxVisible = value;
@@ -127,6 +116,18 @@ namespace Comets.Application.ModulOrbit
 				if (!ValueChangedByEvent)
 					(this.MdiParent as FormMain).SetToolBoxMenuItemChecked(value);
 			}
+		}
+
+		private bool _isSimulationForward = true;
+		public bool IsSimulationForward
+		{
+			get { return _isSimulationForward; }
+			set { _isSimulationForward = value; }
+		}
+
+		private bool IsSimulationStarted
+		{
+			get { return Timer != null && Timer.Enabled; }
 		}
 
 		#endregion
@@ -160,13 +161,13 @@ namespace Comets.Application.ModulOrbit
 			scrollZoom.Value = DefaultScrollZoom;
 
 			SelectedDateTime = DefaultDateTime;
-			ToolboxVisible = DefaultToolBoxVisible;
-			SimulationDirection = ATime.TimeIncrement;
 
 			ValueChangedByEvent = false;
 		}
 
 		#endregion
+
+		#region + Form
 
 		#region Form_Load
 
@@ -202,7 +203,9 @@ namespace Comets.Application.ModulOrbit
 
 		#endregion
 
-		#region orbitPanel_Resize
+		#endregion
+
+		#region OrbitPanel
 
 		private void orbitPanel_Resize(object sender, EventArgs e)
 		{
@@ -295,7 +298,7 @@ namespace Comets.Application.ModulOrbit
 			}
 
 			if (simStarted)
-				StartSimulation(SimulationDirection);
+				StartSimulation();
 		}
 
 		private void LoadAllComets()
@@ -578,13 +581,13 @@ namespace Comets.Application.ModulOrbit
 
 		private void btnRevPlay_Click(object sender, EventArgs e)
 		{
-			StartSimulation(ATime.TimeDecrement);
+			StartSimulation(false);
 		}
 
 		private void btnRevStep_Click(object sender, EventArgs e)
 		{
 			StopSimulation();
-			ChangeDate(ATime.TimeDecrement);
+			ChangeDate(false);
 		}
 
 		private void btnStop_Click(object sender, EventArgs e)
@@ -595,12 +598,12 @@ namespace Comets.Application.ModulOrbit
 		private void btnForStep_Click(object sender, EventArgs e)
 		{
 			StopSimulation();
-			ChangeDate(ATime.TimeIncrement);
+			ChangeDate(true);
 		}
 
 		private void btnForPlay_Click(object sender, EventArgs e)
 		{
-			StartSimulation(ATime.TimeIncrement);
+			StartSimulation(true);
 		}
 
 		private void cboTimestep_SelectedIndexChanged(object sender, EventArgs e)
@@ -610,46 +613,37 @@ namespace Comets.Application.ModulOrbit
 
 		private void timer_Tick(object sender, EventArgs e)
 		{
-			ChangeDate(SimulationDirection);
+			ChangeDate(IsSimulationForward);
 		}
 
-		private void ChangeDate(int direction)
+		private void ChangeDate(bool isForward)
 		{
 			ATime atime = orbitPanel.ATime;
-			atime.ChangeDate(TimeStep, direction);
-
-			if (atime < ATime.Minimum || atime > ATime.Maximum)
-				StopSimulation();
-
-			if (atime < ATime.Minimum)
-				atime = new ATime(ATime.Minimum);
-
-			if (atime > ATime.Maximum)
-				atime = new ATime(ATime.Maximum);
+			atime.ChangeDate(TimeStep, isForward);
 
 			ValueChangedByEvent = true;
-			SelectedDateTime = new DateTime(orbitPanel.ATime.Year, orbitPanel.ATime.Month, orbitPanel.ATime.Day, orbitPanel.ATime.Hour, orbitPanel.ATime.Minute, orbitPanel.ATime.Second, DateTimeKind.Utc);
+			SelectedDateTime = new DateTime(atime.Year, atime.Month, atime.Day, atime.Hour, atime.Minute, atime.Second, DateTimeKind.Utc);
 			ValueChangedByEvent = false;
 		}
 
-		private void StartSimulation(int direction)
+		private void StartSimulation(bool? isForward = null)
 		{
-			SimulationDirection = direction;
+			if (isForward != null)
+				IsSimulationForward = isForward.Value;
+
 			Timer.Start();
-			IsSimulationStarted = true;
 		}
 
 		private void StopSimulation()
 		{
 			Timer.Stop();
-			IsSimulationStarted = false;
 		}
 
 		private void FasterSimulation()
 		{
 			if (!IsSimulationStarted)
 			{
-				StartSimulation(SimulationDirection);
+				StartSimulation();
 			}
 			else
 			{
@@ -664,7 +658,7 @@ namespace Comets.Application.ModulOrbit
 		{
 			if (!IsSimulationStarted)
 			{
-				StartSimulation(SimulationDirection);
+				StartSimulation();
 			}
 			else
 			{
@@ -673,11 +667,6 @@ namespace Comets.Application.ModulOrbit
 				else
 					StopSimulation();
 			}
-		}
-
-		private void InvertSimulation()
-		{
-			SimulationDirection = SimulationDirection * -1;
 		}
 
 		#endregion
@@ -931,7 +920,7 @@ namespace Comets.Application.ModulOrbit
 						if (IsSimulationStarted)
 							StopSimulation();
 						else
-							StartSimulation(SimulationDirection);
+							StartSimulation();
 
 						handled = true;
 					}
@@ -940,7 +929,8 @@ namespace Comets.Application.ModulOrbit
 				case Keys.J:
 					if (!ctrl && !shift)
 					{
-						InvertSimulation();
+						// invert simulation
+						IsSimulationForward = !IsSimulationForward;
 						handled = true;
 					}
 					break;
@@ -1012,7 +1002,9 @@ namespace Comets.Application.ModulOrbit
 				case Keys.Enter:
 					if (!ctrl && !shift && orbitPanel.MultipleMode)
 					{
-						orbitPanel.MarkComet(SelectedComet);
+						if (SelectedComet != null)
+							SelectedComet.IsMarked = !SelectedComet.IsMarked;
+
 						if (orbitPanel.IsPaintEnabled && !IsSimulationStarted)
 							RefreshPanel();
 
@@ -1031,7 +1023,8 @@ namespace Comets.Application.ModulOrbit
 				case Keys.Delete:
 					if (!ctrl && !shift && orbitPanel.MultipleMode)
 					{
-						orbitPanel.ClearMarkedComets();
+						OVComets.ForEach(x => x.IsMarked = false);
+
 						if (orbitPanel.IsPaintEnabled && !IsSimulationStarted)
 							RefreshPanel();
 
@@ -1293,10 +1286,7 @@ namespace Comets.Application.ModulOrbit
 		private List<OVComet> TransformComets(CometCollection comets)
 		{
 			List<OVComet> list = new List<OVComet>();
-
-			foreach (Comet c in comets)
-				list.Add(new OVComet(c));
-
+			comets.ForEach(x => list.Add(new OVComet(x)));
 			return list;
 		}
 

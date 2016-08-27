@@ -107,7 +107,6 @@ namespace Comets.OrbitViewer
 		private List<Xyz> CometsPos;
 
 		private List<int> OrbitHistory;
-		private List<int> MarkedComets;
 
 		private PlanetOrbit[] PlanetsOrbit;
 		private Xyz[] PlanetsPos;
@@ -151,13 +150,7 @@ namespace Comets.OrbitViewer
 			get { return this._atime; }
 			set
 			{
-				if (value < ATime.Minimum)
-					this._atime = new ATime(ATime.Minimum);
-				else if (value > ATime.Maximum)
-					this._atime = new ATime(ATime.Maximum);
-				else
-					this._atime = value;
-
+				this._atime = value;
 				UpdatePositions(ATime);
 			}
 		}
@@ -258,6 +251,13 @@ namespace Comets.OrbitViewer
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public bool FilterOnDateShowInWeakColor { get; set; }
 
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public IEnumerable<OVComet> MarkedComets
+		{
+			get { return Comets.Where(x => x.IsMarked); }
+		}
+
 		#endregion
 
 		#region Consctructor
@@ -274,7 +274,6 @@ namespace Comets.OrbitViewer
 			CometsPos = new List<Xyz>();
 
 			OrbitHistory = new List<int>();
-			MarkedComets = new List<int>();
 
 			OrbitDisplay = DefaultOrbitDisplay;
 			LabelDisplay = DefaultLabelDisplay;
@@ -323,18 +322,7 @@ namespace Comets.OrbitViewer
 
 		public void LoadPanel(List<OVComet> comets, ATime atime, int index)
 		{
-			List<OVComet> marked = null;
-
-			if (MarkedComets.Count > 0)
-			{
-				marked = new List<OVComet>();
-
-				for (int i = 0; i < Comets.Count; i++)
-				{
-					if (MarkedComets.Contains(i))
-						marked.Add(Comets.ElementAt(i));
-				}
-			}
+			List<OVComet> marked = MarkedComets.ToList();
 
 			IsPaintEnabled = true;
 			MultipleMode = true;
@@ -342,7 +330,6 @@ namespace Comets.OrbitViewer
 			Comets.Clear();
 			CometOrbits.Clear();
 			OrbitHistory.Clear();
-			MarkedComets.Clear();
 
 			Comets = comets;
 
@@ -352,8 +339,8 @@ namespace Comets.OrbitViewer
 				CometOrbits.Add(new CometOrbit(c));
 				OrbitHistoryAdd(ix);
 
-				if (marked != null && marked.Contains(c))
-					MarkedComets.Add(ix);
+				if (c.IsMarked && !marked.Contains(c))
+					c.IsMarked = false;
 
 				ix++;
 			}
@@ -563,7 +550,7 @@ namespace Comets.OrbitViewer
 				if (ShowDate)
 				{
 					// Date string
-					string strDate = String.Format("{0:00} {1} {2} {3:00}:{4:00}:{5:00}", ATime.Day, ATime.MonthAbbr(ATime.Month), ATime.Year, ATime.Hour, ATime.Minute, ATime.Second);
+					string strDate = String.Format("{0:00} {1} {2} {3:00}:{4:00}:{5:00}", ATime.Day, ATime.MonthString, ATime.Year, ATime.Hour, ATime.Minute, ATime.Second);
 					point1.X = Size.Width - (int)graphics.MeasureString(strDate, FontInformation).Width - labelMargin;
 					point1.Y = Size.Height - labelMargin - (int)(fontSize * 2.0);
 					graphics.DrawString(strDate, FontInformation, sb, point1.X, point1.Y);
@@ -691,18 +678,19 @@ namespace Comets.OrbitViewer
 		private void DrawCometOrbit(Graphics graphics)
 		{
 			graphics.SmoothingMode = Antialiasing ? SmoothingMode.AntiAlias : SmoothingMode.None;
+			int markedCount = MarkedComets.Count();
 
 			for (int i = 0; i < Comets.Count; i++)
 			{
 				bool visibleComet = GetCometVisibility(Comets[i], FilterOnDateSunDist, FilterOnDateEarthDist, FilterOnDateMagnitude);
 				bool visibleSelected = PreserveSelectedOrbit && i == SelectedIndex;
 				bool visibleOrbit = OrbitDisplay.Contains(Object.Comet) && OrbitHistory.Contains(i);
-				bool isCometMarked = MarkedComets.Contains(i);
+				bool isCometMarked = Comets[i].IsMarked;
 
 				bool useWeakColor = false;
 				bool useSelectedColor = visibleSelected &&
 					((OrbitDisplay.Contains(Object.Comet) && MultipleMode && Comets.Count > 1) ||
-					(!OrbitDisplay.Contains(Object.Comet) && (MarkedComets.Count > 0 && !isCometMarked) || (MarkedComets.Count > 1 && isCometMarked)));
+					(!OrbitDisplay.Contains(Object.Comet) && (markedCount > 0 && !isCometMarked) || (markedCount > 1 && isCometMarked)));
 
 				if (!visibleComet)
 				{
@@ -761,7 +749,7 @@ namespace Comets.OrbitViewer
 				bool visibleSelected = PreserveSelectedLabel && i == SelectedIndex;
 				bool visibleLabel = LabelDisplay.Contains(Object.Comet);
 				bool visibleMarker = ShowMarker && i == SelectedIndex;
-				bool isCometMarked = MarkedComets.Contains(i);
+				bool isCometMarked = Comets[i].IsMarked;
 
 				GetCometColorAndDiameter(Comets[i], out diameter, out color);
 
@@ -900,7 +888,6 @@ namespace Comets.OrbitViewer
 			Comets.Clear();
 			CometOrbits.Clear();
 			OrbitHistory.Clear();
-			MarkedComets.Clear();
 			SelectedIndex = -1;
 			CenteredIndex = -1;
 
@@ -940,28 +927,6 @@ namespace Comets.OrbitViewer
 				name = comet.Name;
 
 			return name;
-		}
-
-		#endregion
-
-		#region Marked Comets
-
-		public void MarkComet(OVComet comet)
-		{
-			if (comet != null)
-			{
-				int index = Comets.IndexOf(comet);
-
-				if (MarkedComets.Contains(index))
-					MarkedComets.Remove(index);
-				else
-					MarkedComets.Add(index);
-			}
-		}
-
-		public void ClearMarkedComets()
-		{
-			MarkedComets.Clear();
 		}
 
 		#endregion
