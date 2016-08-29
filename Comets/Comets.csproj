@@ -164,6 +164,7 @@
     <Compile Include="BusinessLayer\OrbitViewer\Comet.cs" />
     <Compile Include="BusinessLayer\OrbitViewer\CometOrbit.cs" />
     <Compile Include="BusinessLayer\OrbitViewer\Matrix.cs" />
+    <Compile Include="BusinessLayer\OrbitViewer\Object.cs" />
     <Compile Include="BusinessLayer\OrbitViewer\OrbitPanel.cs">
       <SubType>Component</SubType>
     </Compile>

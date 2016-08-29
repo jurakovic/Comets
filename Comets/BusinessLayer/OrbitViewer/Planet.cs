@@ -18,15 +18,15 @@ namespace Comets.OrbitViewer
 		/// <param name="planetNo"></param>
 		/// <param name="atime"></param>
 		/// <returns></returns>
-		public static Xyz GetPos(int planetNo, ATime atime)
+		public static Xyz GetPos(Object planet, ATime atime)
 		{
 			if (R_JD_START < atime.JD && atime.JD < R_JD_END)
 			{
-				return PlanetExp.GetPos(planetNo, atime);
+				return PlanetExp.GetPos(planet, atime);
 			}
 			else
 			{
-				PlanetElm planetElm = new PlanetElm(planetNo, atime);
+				PlanetElm planetElm = new PlanetElm(planet, atime);
 				return planetElm.GetPos();
 			}
 		}

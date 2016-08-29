@@ -1,5 +1,4 @@
 using System;
-using Object = Comets.OrbitViewer.OrbitPanel.Object;
 
 namespace Comets.OrbitViewer
 {
@@ -387,23 +386,23 @@ namespace Comets.OrbitViewer
 
 		#region GetPos
 
-		public static Xyz GetPos(int planetNo, ATime atime)
+		public static Xyz GetPos(Object planet, ATime atime)
 		{
-			switch (planetNo)
+			switch (planet)
 			{
-				case (int)Object.Earth:
+				case Object.Earth:
 					return GetPosExp0(atime.T);
-				case (int)Object.Venus:
-				case (int)Object.Mars:
-					return GetPosExp1(planetNo, atime.T);
-				case (int)Object.Jupiter:
-				case (int)Object.Saturn:
-					return GetPosExp2(planetNo, atime.T);
-				case (int)Object.Mercury:
-				case (int)Object.Uranus:
-				case (int)Object.Neptune:
-				case (int)Object.Pluto:
-					return GetPosExp3(planetNo, atime.T2);
+				case Object.Venus:
+				case Object.Mars:
+					return GetPosExp1(planet, atime.T);
+				case Object.Jupiter:
+				case Object.Saturn:
+					return GetPosExp2(planet, atime.T);
+				case Object.Mercury:
+				case Object.Uranus:
+				case Object.Neptune:
+				case Object.Pluto:
+					return GetPosExp3(planet, atime.T2);
 			}
 
 			return null;
@@ -455,20 +454,20 @@ namespace Comets.OrbitViewer
 		/// <param name="planetNo"></param>
 		/// <param name="T"></param>
 		/// <returns></returns>
-		private static Xyz GetPosExp1(int planetNo, double T)
+		private static Xyz GetPosExp1(Object planet, double T)
 		{
 			PlanetExpP0[] ParamL0, ParamL1, ParamQ;
 			PlanetExpP1 ParamP;
 
-			switch (planetNo)
+			switch (planet)
 			{
-				case (int)Object.Venus:
+				case Object.Venus:
 					ParamL0 = VenusL0;
 					ParamL1 = VenusL1;
 					ParamQ = VenusQ;
 					ParamP = VenusP;
 					break;
-				case (int)Object.Mars:
+				case Object.Mars:
 					ParamL0 = MarsL0;
 					ParamL1 = MarsL1;
 					ParamQ = MarsQ;
@@ -518,15 +517,15 @@ namespace Comets.OrbitViewer
 		/// <param name="planetNo"></param>
 		/// <param name="T"></param>
 		/// <returns></returns>
-		private static Xyz GetPosExp2(int planetNo, double T)
+		private static Xyz GetPosExp2(Object planet, double T)
 		{
 			PlanetExpP0[] ParamN, ParamB, ParamQ;
 			PlanetExpP2 ParamP;
 			double q, N;
 
-			switch (planetNo)
+			switch (planet)
 			{
-				case (int)Object.Jupiter:
+				case Object.Jupiter:
 					ParamN = JupiterN;
 					ParamB = JupiterB;
 					ParamQ = JupiterQ;
@@ -536,7 +535,7 @@ namespace Comets.OrbitViewer
 					N -= (0.0019 + 0.00002 * T) * UdMath.udsin(162.78 + 0.38 * T);
 					q = (0.000132 + 0.0000011 * T) * UdMath.udcos(245.93 - 30.349 * T);
 					break;
-				case (int)Object.Saturn:
+				case Object.Saturn:
 					ParamN = SaturnN;
 					ParamB = SaturnB;
 					ParamQ = SaturnQ;
@@ -599,14 +598,14 @@ namespace Comets.OrbitViewer
 		/// <param name="planetNo"></param>
 		/// <param name="T"></param>
 		/// <returns></returns>
-		private static Xyz GetPosExp3(int planetNo, double T)
+		private static Xyz GetPosExp3(Object planet, double T)
 		{
 			PlanetExpP0[] ParamL, ParamB, ParamR;
 			double lambda, beta, radius;
 
-			switch (planetNo)
+			switch (planet)
 			{
-				case (int)Object.Mercury:
+				case Object.Mercury:
 					ParamL = MercuryLambda;
 					ParamB = MercuryBeta;
 					ParamR = MercuryR;
@@ -623,7 +622,7 @@ namespace Comets.OrbitViewer
 					radius += (0.078341 + 0.000008 * T) * UdMath.udcos(149472.515 * T + 354.795);
 					radius += (0.007955 + 0.000002 * T) * UdMath.udcos(298945.03 * T + 169.59);
 					break;
-				case (int)Object.Uranus:
+				case Object.Uranus:
 					ParamL = UranusLambda;
 					ParamB = UranusBeta;
 					ParamR = UranusR;
@@ -642,7 +641,7 @@ namespace Comets.OrbitViewer
 					radius += 0.361949 * T * UdMath.udcos(440.702 * T + 19.879);
 					radius += 0.166685 * T * UdMath.udcos(702.024 * T + 307.419);
 					break;
-				case (int)Object.Neptune:
+				case Object.Neptune:
 					ParamL = NeptuneLambda;
 					ParamB = NeptuneBeta;
 					ParamR = NeptuneR;
@@ -656,7 +655,7 @@ namespace Comets.OrbitViewer
 					radius = 30.073033;
 					radius += 0.009784 * T * UdMath.udcos(515.2 * T + 195.7);
 					break;
-				case (int)Object.Pluto:
+				case Object.Pluto:
 					ParamL = PlutoLambda;
 					ParamB = PlutoBeta;
 					ParamR = PlutoR;

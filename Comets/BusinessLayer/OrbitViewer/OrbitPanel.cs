@@ -12,25 +12,6 @@ namespace Comets.OrbitViewer
 {
 	public class OrbitPanel : Panel
 	{
-		#region Enum
-
-		public enum Object
-		{
-			Sun = 0,
-			Mercury = 1,
-			Venus = 2,
-			Earth = 3,
-			Mars = 4,
-			Jupiter = 5,
-			Saturn = 6,
-			Uranus = 7,
-			Neptune = 8,
-			Pluto = 9,
-			Comet = 10
-		}
-
-		#endregion
-
 		#region Const
 
 		public const int MaximumOrbits = 50;
@@ -51,7 +32,7 @@ namespace Comets.OrbitViewer
 			Object.Jupiter
 		};
 
-		private readonly List<Object> DefaultLabelDisplay = new List<Object>
+		private readonly List<Object> Planets = new List<Object>
 		{
 			Object.Mercury,
 			Object.Venus,
@@ -108,8 +89,8 @@ namespace Comets.OrbitViewer
 
 		private List<int> OrbitHistory;
 
-		private PlanetOrbit[] PlanetsOrbit;
-		private Xyz[] PlanetsPos;
+		private Dictionary<Object, PlanetOrbit> PlanetsOrbit;
+		private Dictionary<Object, Xyz> PlanetsPos;
 		private double EpochPlanetOrbit;
 
 		private Matrix MtxToEcl;
@@ -258,8 +239,8 @@ namespace Comets.OrbitViewer
 		{
 			this.DoubleBuffered = true;
 
-			PlanetsPos = new Xyz[8];
-			PlanetsOrbit = new PlanetOrbit[8];
+			PlanetsPos = InitializeDictionary<Xyz>();
+			PlanetsOrbit = InitializeDictionary<PlanetOrbit>();
 
 			Comets = new List<OVComet>();
 			CometOrbits = new List<CometOrbit>();
@@ -268,7 +249,7 @@ namespace Comets.OrbitViewer
 			OrbitHistory = new List<int>();
 
 			OrbitDisplay = DefaultOrbitDisplay;
-			LabelDisplay = DefaultLabelDisplay;
+			LabelDisplay = Planets.ToList(); //DefaultLabelDisplay
 			CenteredObject = DefaultCenterObject;
 			ShowMarker = DefaultShowMarker;
 			PreserveSelectedOrbit = DefaultPreserveOrbit;
@@ -306,8 +287,6 @@ namespace Comets.OrbitViewer
 			OrbitHistoryAdd(SelectedIndex);
 
 			ATime = atime;
-
-			//UpdatePositions(atime);
 			UpdatePlanetOrbit(atime);
 			UpdateRotationMatrix(atime);
 		}
@@ -342,8 +321,6 @@ namespace Comets.OrbitViewer
 			OrbitHistoryAdd(SelectedIndex);
 
 			ATime = atime;
-
-			//UpdatePositions(atime);
 			UpdatePlanetOrbit(atime);
 			UpdateRotationMatrix(atime);
 		}
@@ -400,9 +377,9 @@ namespace Comets.OrbitViewer
 					Y0 = Size.Height - point.Y;
 				}
 			}
-			else if (CenteredObject >= Object.Mercury)
+			else if (Planets.Contains(CenteredObject))
 			{
-				xyz = PlanetsPos[(int)CenteredObject - 1].Rotate(MtxRotate);
+				xyz = PlanetsPos[CenteredObject].Rotate(MtxRotate);
 				point = GetDrawPoint(xyz);
 
 				X0 = Size.Width - point.X;
@@ -431,77 +408,52 @@ namespace Comets.OrbitViewer
 
 				double zoom = 30.0;
 
-				//if (Zoom * 39.5 >= zoom)
-				//{
-				//	if (OrbitDisplay[(int)OrbitDisplayEnum.Pluto])
-				//		DrawPlanetOrbit(graphics, PlanetOrbit[(int)Object.Pluto - 1]);
-
-				//	DrawPlanetBody(graphics, FontPlanetName, PlanetPos[(int)Object.Pluto - 1], Object.Pluto);
-				//}
-
 				if (Zoom * 30.1 >= zoom)
 				{
-					if (OrbitDisplay.Contains(Object.Neptune))
-						DrawPlanetOrbit(graphics, PlanetsOrbit[(int)Object.Neptune - 1]);
-
-					DrawPlanetBody(graphics, FontPlanetName, PlanetsPos[(int)Object.Neptune - 1], Object.Neptune);
+					DrawPlanetOrbit(graphics, PlanetsOrbit[Object.Neptune]);
+					DrawPlanetBody(graphics, FontPlanetName, PlanetsPos[Object.Neptune], Object.Neptune);
 				}
 
 				if (Zoom * 19.2 >= zoom)
 				{
-
-					if (OrbitDisplay.Contains(Object.Uranus))
-						DrawPlanetOrbit(graphics, PlanetsOrbit[(int)Object.Uranus - 1]);
-
-					DrawPlanetBody(graphics, FontPlanetName, PlanetsPos[(int)Object.Uranus - 1], Object.Uranus);
+					DrawPlanetOrbit(graphics, PlanetsOrbit[Object.Uranus]);
+					DrawPlanetBody(graphics, FontPlanetName, PlanetsPos[Object.Uranus], Object.Uranus);
 				}
 
 				if (Zoom * 9.58 >= zoom)
 				{
-					if (OrbitDisplay.Contains(Object.Saturn))
-						DrawPlanetOrbit(graphics, PlanetsOrbit[(int)Object.Saturn - 1]);
-
-					DrawPlanetBody(graphics, FontPlanetName, PlanetsPos[(int)Object.Saturn - 1], Object.Saturn);
+					DrawPlanetOrbit(graphics, PlanetsOrbit[Object.Saturn]);
+					DrawPlanetBody(graphics, FontPlanetName, PlanetsPos[Object.Saturn], Object.Saturn);
 				}
 
 				if (Zoom * 5.2 >= zoom)
 				{
-					if (OrbitDisplay.Contains(Object.Jupiter))
-						DrawPlanetOrbit(graphics, PlanetsOrbit[(int)Object.Jupiter - 1]);
-
-					DrawPlanetBody(graphics, FontPlanetName, PlanetsPos[(int)Object.Jupiter - 1], Object.Jupiter);
+					DrawPlanetOrbit(graphics, PlanetsOrbit[Object.Jupiter]);
+					DrawPlanetBody(graphics, FontPlanetName, PlanetsPos[Object.Jupiter], Object.Jupiter);
 				}
 
 				if (Zoom * 1.524 >= zoom)
 				{
-					if (OrbitDisplay.Contains(Object.Mars))
-						DrawPlanetOrbit(graphics, PlanetsOrbit[(int)Object.Mars - 1]);
-
-					DrawPlanetBody(graphics, FontPlanetName, PlanetsPos[(int)Object.Mars - 1], Object.Mars);
+					DrawPlanetOrbit(graphics, PlanetsOrbit[Object.Mars]);
+					DrawPlanetBody(graphics, FontPlanetName, PlanetsPos[Object.Mars], Object.Mars);
 				}
 
 				if (Zoom * 1.0 >= zoom)
 				{
-					if (OrbitDisplay.Contains(Object.Earth))
-						DrawEarthOrbit(graphics, PlanetsOrbit[(int)Object.Earth - 1]);
-
-					DrawPlanetBody(graphics, FontPlanetName, PlanetsPos[(int)Object.Earth - 1], Object.Earth);
+					DrawEarthOrbit(graphics, PlanetsOrbit[Object.Earth]);
+					DrawPlanetBody(graphics, FontPlanetName, PlanetsPos[Object.Earth], Object.Earth);
 				}
 
 				if (Zoom * 0.723 >= zoom)
 				{
-					if (OrbitDisplay.Contains(Object.Venus))
-						DrawPlanetOrbit(graphics, PlanetsOrbit[(int)Object.Venus - 1]);
-
-					DrawPlanetBody(graphics, FontPlanetName, PlanetsPos[(int)Object.Venus - 1], Object.Venus);
+					DrawPlanetOrbit(graphics, PlanetsOrbit[Object.Venus]);
+					DrawPlanetBody(graphics, FontPlanetName, PlanetsPos[Object.Venus], Object.Venus);
 				}
 
 				if (Zoom * 0.387 >= zoom)
 				{
-					if (OrbitDisplay.Contains(Object.Mercury))
-						DrawPlanetOrbit(graphics, PlanetsOrbit[(int)Object.Mercury - 1]);
-
-					DrawPlanetBody(graphics, FontPlanetName, PlanetsPos[(int)Object.Mercury - 1], Object.Mercury);
+					DrawPlanetOrbit(graphics, PlanetsOrbit[Object.Mercury]);
+					DrawPlanetBody(graphics, FontPlanetName, PlanetsPos[Object.Mercury], Object.Mercury);
 				}
 
 				DrawCometOrbit(graphics);
@@ -556,6 +508,17 @@ namespace Comets.OrbitViewer
 
 		#region + Methods
 
+		#region InitializeDictionary
+
+		private Dictionary<Object, T> InitializeDictionary<T>() where T : class
+		{
+			Dictionary<Object, T> retval = new Dictionary<Object, T>();
+			Planets.ForEach(planet => retval.Add(planet, null));
+			return retval;
+		}
+
+		#endregion
+
 		#region UpdatePositions
 
 		private void UpdatePositions(ATime atime)
@@ -563,13 +526,9 @@ namespace Comets.OrbitViewer
 			if (IsPaintEnabled)
 			{
 				CometsPos.Clear();
-				foreach (OVComet c in Comets)
-					CometsPos.Add(c.GetPos(atime.JD));
 
-				for (int i = (int)Object.Mercury; i <= (int)Object.Neptune; i++)
-				{
-					PlanetsPos[i - 1] = Planet.GetPos(i, atime);
-				}
+				Comets.ForEach(c => CometsPos.Add(c.GetPos(atime.JD)));
+				Planets.ForEach(p => PlanetsPos[p] = Planet.GetPos(p, atime));
 			}
 		}
 
@@ -579,11 +538,7 @@ namespace Comets.OrbitViewer
 
 		private void UpdatePlanetOrbit(ATime atime)
 		{
-			for (int i = (int)Object.Mercury; i <= (int)Object.Neptune; i++)
-			{
-				PlanetsOrbit[i - 1] = new PlanetOrbit(i, atime);
-			}
-
+			Planets.ForEach(p => PlanetsOrbit[p] = new PlanetOrbit(p, atime));
 			EpochPlanetOrbit = atime.JD;
 		}
 
@@ -785,8 +740,7 @@ namespace Comets.OrbitViewer
 					if (isCometMarked)
 						cmarker = ColorMarkedCometMarker;
 
-					Pen p = new Pen(cmarker);
-					p.Width = 3;
+					Pen p = new Pen(cmarker) { Width = 3 };
 
 					graphics.DrawLine(p, new Point(point1.X, point1.Y - length), new Point(point1.X, point1.Y - offset));
 					graphics.DrawLine(p, new Point(point1.X, point1.Y + length), new Point(point1.X, point1.Y + offset));
@@ -802,24 +756,27 @@ namespace Comets.OrbitViewer
 
 		private void DrawPlanetOrbit(Graphics graphics, PlanetOrbit planetOrbit)
 		{
-			graphics.SmoothingMode = Antialiasing ? SmoothingMode.AntiAlias : SmoothingMode.None;
-
-			Pen pen = new Pen(ColorPlanetOrbitUpper);
-			Point point1, point2;
-			Xyz xyz = planetOrbit.GetAt(0).Rotate(MtxToEcl).Rotate(MtxRotate);
-
-			point1 = GetDrawPoint(xyz);
-
-			for (int i = 1; i <= PlanetOrbit.OrbitDivisionCount; i++)
+			if (this.OrbitDisplay.Contains(planetOrbit.Planet))
 			{
-				xyz = planetOrbit.GetAt(i).Rotate(MtxToEcl);
+				graphics.SmoothingMode = Antialiasing ? SmoothingMode.AntiAlias : SmoothingMode.None;
 
-				pen.Color = xyz.Z >= 0.0 ? ColorPlanetOrbitUpper : ColorPlanetOrbitLower;
+				Pen pen = new Pen(ColorPlanetOrbitUpper);
+				Point point1, point2;
+				Xyz xyz = planetOrbit.GetAt(0).Rotate(MtxToEcl).Rotate(MtxRotate);
 
-				xyz = xyz.Rotate(MtxRotate);
-				point2 = GetDrawPoint(xyz);
-				graphics.DrawLine(pen, point1.X, point1.Y, point2.X, point2.Y);
-				point1 = point2;
+				point1 = GetDrawPoint(xyz);
+
+				for (int i = 1; i <= PlanetOrbit.OrbitDivisionCount; i++)
+				{
+					xyz = planetOrbit.GetAt(i).Rotate(MtxToEcl);
+
+					pen.Color = xyz.Z >= 0.0 ? ColorPlanetOrbitUpper : ColorPlanetOrbitLower;
+
+					xyz = xyz.Rotate(MtxRotate);
+					point2 = GetDrawPoint(xyz);
+					graphics.DrawLine(pen, point1.X, point1.Y, point2.X, point2.Y);
+					point1 = point2;
+				}
 			}
 		}
 
@@ -861,7 +818,7 @@ namespace Comets.OrbitViewer
 
 			graphics.FillPie(sb, point.X - 2, point.Y - 2, 5, 5, 0, 360);
 
-			if (LabelDisplay.Contains(obj))
+			if (this.LabelDisplay.Contains(obj))
 			{
 				sb.Color = ColorPlanetName;
 				string name = obj.ToString();

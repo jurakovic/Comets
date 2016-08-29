@@ -9,6 +9,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Object = Comets.OrbitViewer.Object;
 
 namespace Comets.Application.ModulOrbit
 {
@@ -111,7 +112,7 @@ namespace Comets.Application.ModulOrbit
 		}
 
 		private bool _toolboxVisible = true;
-		public bool ToolboxVisible
+		private bool ToolboxVisible
 		{
 			get { return _toolboxVisible; }
 			set
@@ -124,7 +125,7 @@ namespace Comets.Application.ModulOrbit
 		}
 
 		private bool _isSimulationForward = true;
-		public bool IsSimulationForward
+		private bool IsSimulationForward
 		{
 			get { return _isSimulationForward; }
 			set { _isSimulationForward = value; }
@@ -420,7 +421,7 @@ namespace Comets.Application.ModulOrbit
 		{
 			CheckBox cbx = sender as CheckBox;
 			string name = cbx.Name.Replace("cbx" + OrbitPart, "");
-			OrbitPanel.Object orbit = (OrbitPanel.Object)Enum.Parse(typeof(OrbitPanel.Object), name);
+			Object orbit = (Object)Enum.Parse(typeof(Object), name);
 
 			if (cbx.Checked && !orbitPanel.OrbitDisplay.Contains(orbit))
 				orbitPanel.OrbitDisplay.Add(orbit);
@@ -435,7 +436,7 @@ namespace Comets.Application.ModulOrbit
 		{
 			CheckBox cbx = sender as CheckBox;
 			string name = cbx.Name.Replace("cbx" + LabelPart, "");
-			OrbitPanel.Object label = (OrbitPanel.Object)Enum.Parse(typeof(OrbitPanel.Object), name);
+			Object label = (Object)Enum.Parse(typeof(Object), name);
 
 			if (cbx.Checked && !orbitPanel.LabelDisplay.Contains(label))
 				orbitPanel.LabelDisplay.Add(label);
@@ -452,7 +453,7 @@ namespace Comets.Application.ModulOrbit
 			if (rbtn.Checked)
 			{
 				string name = rbtn.Name.Replace("rbtn" + CenterPart, "");
-				OrbitPanel.Object centerObject = (OrbitPanel.Object)Enum.Parse(typeof(OrbitPanel.Object), name);
+				Object centerObject = (Object)Enum.Parse(typeof(Object), name);
 				orbitPanel.CenteredObject = centerObject;
 
 				if (!ValueChangedByEvent)
@@ -484,7 +485,7 @@ namespace Comets.Application.ModulOrbit
 				RefreshPanel();
 		}
 
-		private void ChangeObjectDisplay(OrbitPanel.Object obj, bool control, bool shift)
+		private void ChangeObjectDisplay(Object obj, bool control, bool shift)
 		{
 			ValueChangedByEvent = true;
 
@@ -500,7 +501,7 @@ namespace Comets.Application.ModulOrbit
 			RefreshPanel();
 		}
 
-		private void ChangeVisibleOrbit(OrbitPanel.Object orbit)
+		private void ChangeVisibleOrbit(Object orbit)
 		{
 			CheckBox cbx = GetControlBoxFromObjectEnum(orbit, typeof(CheckBox), false) as CheckBox;
 
@@ -508,7 +509,7 @@ namespace Comets.Application.ModulOrbit
 				cbx.Checked = !orbitPanel.OrbitDisplay.Contains(orbit);
 		}
 
-		private void ChangeVisibleLabel(OrbitPanel.Object label)
+		private void ChangeVisibleLabel(Object label)
 		{
 			CheckBox cbx = GetControlBoxFromObjectEnum(label, typeof(CheckBox)) as CheckBox;
 
@@ -516,7 +517,7 @@ namespace Comets.Application.ModulOrbit
 				cbx.Checked = !orbitPanel.LabelDisplay.Contains(label);
 		}
 
-		private void ChangeCenterObject(OrbitPanel.Object centeredObject)
+		private void ChangeCenterObject(Object centeredObject)
 		{
 			RadioButton rbtn = GetControlBoxFromObjectEnum(centeredObject, typeof(RadioButton)) as RadioButton;
 
@@ -524,7 +525,7 @@ namespace Comets.Application.ModulOrbit
 				rbtn.Checked = true;
 		}
 
-		private Control GetControlBoxFromObjectEnum(OrbitPanel.Object obj, Type type, bool isLabel = true)
+		private Control GetControlBoxFromObjectEnum(Object obj, Type type, bool isLabel = true)
 		{
 			List<Control> controls = new List<Control>();
 			Control control = null;
@@ -849,49 +850,49 @@ namespace Comets.Application.ModulOrbit
 					break;
 
 				case Keys.D1:
-					ChangeObjectDisplay(OrbitPanel.Object.Mercury, ctrl, shift);
+					ChangeObjectDisplay(Object.Mercury, ctrl, shift);
 					handled = true;
 					break;
 
 				case Keys.D2:
-					ChangeObjectDisplay(OrbitPanel.Object.Venus, ctrl, shift);
+					ChangeObjectDisplay(Object.Venus, ctrl, shift);
 					handled = true;
 					break;
 
 				case Keys.D3:
-					ChangeObjectDisplay(OrbitPanel.Object.Earth, ctrl, shift);
+					ChangeObjectDisplay(Object.Earth, ctrl, shift);
 					handled = true;
 					break;
 
 				case Keys.D4:
-					ChangeObjectDisplay(OrbitPanel.Object.Mars, ctrl, shift);
+					ChangeObjectDisplay(Object.Mars, ctrl, shift);
 					handled = true;
 					break;
 
 				case Keys.D5:
-					ChangeObjectDisplay(OrbitPanel.Object.Jupiter, ctrl, shift);
+					ChangeObjectDisplay(Object.Jupiter, ctrl, shift);
 					handled = true;
 					break;
 
 				case Keys.D6:
-					ChangeObjectDisplay(OrbitPanel.Object.Saturn, ctrl, shift);
+					ChangeObjectDisplay(Object.Saturn, ctrl, shift);
 					handled = true;
 					break;
 
 				case Keys.D7:
-					ChangeObjectDisplay(OrbitPanel.Object.Uranus, ctrl, shift);
+					ChangeObjectDisplay(Object.Uranus, ctrl, shift);
 					handled = true;
 					break;
 
 				case Keys.D8:
-					ChangeObjectDisplay(OrbitPanel.Object.Neptune, ctrl, shift);
+					ChangeObjectDisplay(Object.Neptune, ctrl, shift);
 					handled = true;
 					break;
 
 				case Keys.D9:
 					if (!ctrl && !shift)
 					{
-						ChangeObjectDisplay(OrbitPanel.Object.Comet, ctrl, shift);
+						ChangeObjectDisplay(Object.Comet, ctrl, shift);
 						handled = true;
 					}
 					break;
@@ -899,7 +900,7 @@ namespace Comets.Application.ModulOrbit
 				case Keys.C:
 					if (!ctrl && !shift)
 					{
-						ChangeObjectDisplay(OrbitPanel.Object.Comet, ctrl, shift);
+						ChangeObjectDisplay(Object.Comet, ctrl, shift);
 						handled = true;
 					}
 					else if (ctrl && shift)
@@ -913,7 +914,7 @@ namespace Comets.Application.ModulOrbit
 				case Keys.S:
 					if (!ctrl && !shift)
 					{
-						ChangeCenterObject(OrbitPanel.Object.Sun);
+						ChangeCenterObject(Object.Sun);
 						handled = true;
 					}
 					break;

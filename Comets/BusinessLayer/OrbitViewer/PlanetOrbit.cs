@@ -12,7 +12,7 @@ namespace Comets.OrbitViewer
 
 		#region Properties
 
-		private int PlanetNo { get; set; }
+		public Object Planet { get; private set; }
 		private double JD { get; set; }
 		private Xyz[] Orbit { get; set; }
 
@@ -20,11 +20,11 @@ namespace Comets.OrbitViewer
 
 		#region Constructor
 
-		public PlanetOrbit(int planetNo, ATime atime)
+		public PlanetOrbit(Object planet, ATime atime)
 		{
-			this.PlanetNo = planetNo;
+			this.Planet = planet;
 			this.JD = atime.JD;
-			PlanetElm planetElm = new PlanetElm(planetNo, atime);
+			PlanetElm planetElm = new PlanetElm(planet, atime);
 			this.Orbit = new Xyz[OrbitDivisionCount + 1];
 			DoGetPlanetOrbit(planetElm);
 			Matrix vec = Matrix.VectorConstant(planetElm.w * Math.PI / 180.0,

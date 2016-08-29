@@ -346,8 +346,7 @@ namespace Comets.BusinessLayer.Managers
 				if (!settings.IsMultipleMode)
 					AddPerihelionLine(chart1, settings.SelectedComet, settings.PerihelionLineColor, xMinValue, xMaxValue, yMinValue, yMaxValue, chartAreaName, SeriesPerihelion);
 				else
-					foreach (Comet c in settings.Comets)
-						AddPerihelionLine(chart1, c, settings.PerihelionLineColor, xMinValue, xMaxValue, yMinValue, yMaxValue, chartAreaName, SeriesPerihelion);
+					settings.Comets.ForEach(c => AddPerihelionLine(chart1, c, settings.PerihelionLineColor, xMinValue, xMaxValue, yMinValue, yMaxValue, chartAreaName, SeriesPerihelion));
 			}
 
 			if (settings.NowLineChecked)
