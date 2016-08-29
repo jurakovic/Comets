@@ -61,11 +61,11 @@ namespace Comets.Application
 			{
 				string directory = SettingsManager.DownloadsDirectory;
 
-				if (!Directory.Exists(SettingsManager.DownloadsDirectory))
+				if (!Directory.Exists(directory))
 				{
 					try
 					{
-						Directory.CreateDirectory(SettingsManager.DownloadsDirectory);
+						Directory.CreateDirectory(directory);
 					}
 					catch
 					{

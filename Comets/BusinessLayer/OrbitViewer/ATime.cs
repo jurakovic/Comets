@@ -43,20 +43,6 @@ namespace Comets.OrbitViewer
 
 		#region Constructor
 
-		public ATime(int year, int month, int day, int hour, int min, int sec, double timezone)
-		{
-			this.Year = year;
-			this.Month = month;
-			this.Day = day;
-			this.Hour = hour;
-			this.Minute = min;
-			this.Second = sec;
-			this.JD = GetJD() - timezone / 24.0;
-			this.Timezone = timezone;
-			this.T = GetT();
-			this.T2 = GetT2();
-		}
-
 		public ATime(int year, int month, double day, double timezone)
 		{
 			this.Year = year;
@@ -73,15 +59,6 @@ namespace Comets.OrbitViewer
 			this.T2 = GetT2();
 		}
 
-		public ATime(double jd, double timezone)
-		{
-			this.JD = jd;
-			this.Timezone = timezone;
-			GetDate(jd + timezone / 24.0);
-			this.T = GetT();
-			this.T2 = GetT2();
-		}
-
 		public ATime(DateTime dt, double timezone)
 		{
 			this.Year = dt.Year;
@@ -94,20 +71,6 @@ namespace Comets.OrbitViewer
 			this.Timezone = timezone;
 			this.T = GetT();
 			this.T2 = GetT2();
-		}
-
-		public ATime(ATime atime)
-		{
-			this.Year = atime.Year;
-			this.Month = atime.Month;
-			this.Day = atime.Day;
-			this.Hour = atime.Hour;
-			this.Minute = atime.Minute;
-			this.Second = atime.Second;
-			this.JD = atime.JD;
-			this.Timezone = atime.Timezone;
-			this.T = atime.T;
-			this.T2 = atime.T2;
 		}
 
 		#endregion

@@ -22,10 +22,7 @@ namespace Comets.Application
 		private DateTime _selected;
 		public DateTime SelectedDateTime
 		{
-			get
-			{
-				return _selected;
-			}
+			get { return _selected; }
 			private set
 			{
 				_selected = value;
@@ -36,6 +33,7 @@ namespace Comets.Application
 		public bool ValueChangedByEvent { get; set; }
 
 		private DateTime DefaultDateTime { get; set; }
+
 		private double? T { get; set; }
 
 		#endregion

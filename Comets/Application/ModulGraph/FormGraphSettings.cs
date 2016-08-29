@@ -52,9 +52,7 @@ namespace Comets.Application.ModulGraph
 			txtMinValue.Tag = ValNum.VMagnitude;
 			txtMaxValue.Tag = ValNum.VMagnitude;
 
-			GraphSettings = settings;
-
-			if (GraphSettings == null)
+			if (settings == null)
 			{
 				DateStart = CommonManager.DefaultDateStart;
 				DateEnd = CommonManager.DefaultDateEnd;
@@ -64,24 +62,24 @@ namespace Comets.Application.ModulGraph
 			}
 			else
 			{
-				if (GraphSettings.Filters == null)
-					GraphSettings.Filters = filters;
+				if (settings.Filters == null)
+					settings.Filters = filters;
 
-				rbtnSingle.Checked = !GraphSettings.IsMultipleMode;
-				rbtnMultiple.Checked = GraphSettings.IsMultipleMode;
+				rbtnSingle.Checked = !settings.IsMultipleMode;
+				rbtnMultiple.Checked = settings.IsMultipleMode;
 
-				DateStart = GraphSettings.DateStart;
-				DateEnd = GraphSettings.DateStop;
+				DateStart = settings.DateStart;
+				DateEnd = settings.DateStop;
 
-				txtDaysFromTStart.Text = GraphSettings.DaysFromTStartValue.ToString();
-				txtDaysFromTStop.Text = GraphSettings.DaysFromTStopValue.ToString();
+				txtDaysFromTStart.Text = settings.DaysFromTStartValue.ToString();
+				txtDaysFromTStop.Text = settings.DaysFromTStopValue.ToString();
 
-				if (GraphSettings.DateRange)
+				if (settings.DateRange)
 					rbtnRangeDate.Checked = true;
 				else
 					rbtnRangeDaysFromT.Checked = true;
 
-				switch (GraphSettings.GraphChartType)
+				switch (settings.GraphChartType)
 				{
 					case GraphSettings.ChartType.Magnitude:
 						rbtnMagnitude.Checked = true;
@@ -94,21 +92,23 @@ namespace Comets.Application.ModulGraph
 						break;
 				}
 
-				pnlMagnitudeColor.BackColor = GraphSettings.MagnitudeColor;
+				pnlMagnitudeColor.BackColor = settings.MagnitudeColor;
 
-				cbxNowLine.Checked = GraphSettings.NowLineChecked;
-				pnlNowLineColor.BackColor = GraphSettings.NowLineColor;
+				cbxNowLine.Checked = settings.NowLineChecked;
+				pnlNowLineColor.BackColor = settings.NowLineColor;
 
-				cbxPerihelionLine.Checked = GraphSettings.PerihelionLineChecked;
-				pnlPerihLineColor.BackColor = GraphSettings.PerihelionLineColor;
+				cbxPerihelionLine.Checked = settings.PerihelionLineChecked;
+				pnlPerihLineColor.BackColor = settings.PerihelionLineColor;
 
-				cbxAntialiasing.Checked = GraphSettings.AntialiasingChecked;
+				cbxAntialiasing.Checked = settings.AntialiasingChecked;
 
-				txtMinValue.Text = GraphSettings.MinGraphValue != null ? GraphSettings.MinGraphValue.Value.ToString() : String.Empty;
-				cbxMinValue.Checked = GraphSettings.MinGraphValueChecked;
+				txtMinValue.Text = settings.MinGraphValue != null ? settings.MinGraphValue.Value.ToString() : String.Empty;
+				cbxMinValue.Checked = settings.MinGraphValueChecked;
 
-				txtMaxValue.Text = GraphSettings.MaxGraphValue != null ? GraphSettings.MaxGraphValue.Value.ToString() : String.Empty;
-				cbxMaxValue.Checked = GraphSettings.MaxGraphValueChecked;
+				txtMaxValue.Text = settings.MaxGraphValue != null ? settings.MaxGraphValue.Value.ToString() : String.Empty;
+				cbxMaxValue.Checked = settings.MaxGraphValueChecked;
+
+				this.GraphSettings = settings;
 			}
 		}
 
@@ -118,14 +118,16 @@ namespace Comets.Application.ModulGraph
 
 		private void FormGraphSettings_Load(object sender, EventArgs e)
 		{
-			if (GraphSettings == null)
+			if (this.GraphSettings == null)
 			{
-				GraphSettings = new GraphSettings();
-				GraphSettings.Comets = new CometCollection(CommonManager.UserCollection);
-				GraphSettings.Filters = CommonManager.Filters;
-				GraphSettings.SortProperty = CommonManager.SortProperty;
-				GraphSettings.SortAscending = CommonManager.SortAscending;
-				GraphSettings.AddNew = true;
+				GraphSettings settings = new GraphSettings();
+				settings.Comets = new CometCollection(CommonManager.UserCollection);
+				settings.Filters = CommonManager.Filters;
+				settings.SortProperty = CommonManager.SortProperty;
+				settings.SortAscending = CommonManager.SortAscending;
+				settings.AddNew = true;
+
+				this.GraphSettings = settings;
 			}
 
 			BindCollection();
@@ -149,7 +151,7 @@ namespace Comets.Application.ModulGraph
 		{
 			if (cbComet.SelectedIndex >= 0)
 			{
-				Comet c = GraphSettings.Comets.ElementAt(cbComet.SelectedIndex);
+				Comet c = this.GraphSettings.Comets.ElementAt(cbComet.SelectedIndex);
 
 				lblPerihDate.Text = String.Format("Perihelion date:                {0}", EphemerisManager.JDToDateTime(c.Tn).ToLocalTime().ToString("dd MMM yyyy HH:mm:ss"));
 				lblPerihDist.Text = String.Format("Perihelion distance:          {0:0.000000} AU", c.q);
@@ -163,22 +165,18 @@ namespace Comets.Application.ModulGraph
 
 		private void btnFilter_Click(object sender, EventArgs e)
 		{
-			using (FormDatabase fdb = new FormDatabase(
-				GraphSettings.Comets,
-				GraphSettings.Filters,
-				GraphSettings.SortProperty,
-				GraphSettings.SortAscending,
-				true)
-			{ Owner = this })
+			GraphSettings sett = this.GraphSettings;
+
+			using (FormDatabase fdb = new FormDatabase(sett.Comets, sett.Filters, sett.SortProperty, sett.SortAscending, true) { Owner = this })
 			{
 				fdb.TopMost = this.TopMost;
 
 				if (fdb.ShowDialog() == DialogResult.OK)
 				{
-					GraphSettings.Comets = fdb.Comets;
-					GraphSettings.Filters = fdb.Filters;
-					GraphSettings.SortProperty = fdb.SortProperty;
-					GraphSettings.SortAscending = fdb.SortAscending;
+					sett.Comets = fdb.Comets;
+					sett.Filters = fdb.Filters;
+					sett.SortProperty = fdb.SortProperty;
+					sett.SortAscending = fdb.SortAscending;
 
 					BindCollection();
 				}
@@ -199,9 +197,7 @@ namespace Comets.Application.ModulGraph
 				cd.FullOpen = true;
 
 				if (cd.ShowDialog() == DialogResult.OK)
-				{
 					pnl.BackColor = cd.Color;
-				}
 			}
 		}
 
@@ -235,12 +231,10 @@ namespace Comets.Application.ModulGraph
 
 		private double? GetT()
 		{
-			double? T = null;
+			Comet c = this.GraphSettings.Comets.ElementAtOrDefault(cbComet.SelectedIndex);
+			double? retval = c != null ? c.Tn : (double?)null;
 
-			if (cbComet.SelectedIndex >= 0)
-				T = GraphSettings.Comets.ElementAt(cbComet.SelectedIndex).Tn;
-
-			return T;
+			return retval;
 		}
 
 		private void txtDaysFromTCommon_KeyDown(object sender, KeyEventArgs e)
@@ -352,83 +346,85 @@ namespace Comets.Application.ModulGraph
 					return;
 				}
 
-				GraphSettings.SelectedComet = comet;
-				GraphSettings.Location = CommonManager.Settings.Location;
+				GraphSettings settings = this.GraphSettings;
 
-				GraphSettings.DateRange = rbtnRangeDate.Checked;
+				settings.SelectedComet = comet;
+				settings.Location = CommonManager.Settings.Location;
 
-				GraphSettings.IsMultipleMode = rbtnMultiple.Checked;
+				settings.DateRange = rbtnRangeDate.Checked;
 
-				GraphSettings.Start = start;
-				GraphSettings.Stop = stop;
-				GraphSettings.Interval = interval;
+				settings.IsMultipleMode = rbtnMultiple.Checked;
 
-				GraphSettings.DateStart = DateStart;
-				GraphSettings.DateStop = DateEnd;
+				settings.Start = start;
+				settings.Stop = stop;
+				settings.Interval = interval;
 
-				GraphSettings.DaysFromTStartValue = txtDaysFromTStart.Int();
-				GraphSettings.DaysFromTStopValue = txtDaysFromTStop.Int();
+				settings.DateStart = DateStart;
+				settings.DateStop = DateEnd;
+
+				settings.DaysFromTStartValue = txtDaysFromTStart.Int();
+				settings.DaysFromTStopValue = txtDaysFromTStop.Int();
 
 				if (rbtnMagnitude.Checked)
-					GraphSettings.GraphChartType = GraphSettings.ChartType.Magnitude;
+					settings.GraphChartType = GraphSettings.ChartType.Magnitude;
 				else if (rbtnSunDistance.Checked)
-					GraphSettings.GraphChartType = GraphSettings.ChartType.SunDistance;
+					settings.GraphChartType = GraphSettings.ChartType.SunDistance;
 				else// if (rbtnEarthDistance.Checked)
-					GraphSettings.GraphChartType = GraphSettings.ChartType.EarthDistance;
+					settings.GraphChartType = GraphSettings.ChartType.EarthDistance;
 
-				GraphSettings.MagnitudeColor = pnlMagnitudeColor.BackColor;
+				settings.MagnitudeColor = pnlMagnitudeColor.BackColor;
 
-				GraphSettings.NowLineChecked = cbxNowLine.Checked;
-				GraphSettings.NowLineColor = pnlNowLineColor.BackColor;
+				settings.NowLineChecked = cbxNowLine.Checked;
+				settings.NowLineColor = pnlNowLineColor.BackColor;
 
-				GraphSettings.PerihelionLineChecked = cbxPerihelionLine.Checked;
-				GraphSettings.PerihelionLineColor = pnlPerihLineColor.BackColor;
+				settings.PerihelionLineChecked = cbxPerihelionLine.Checked;
+				settings.PerihelionLineColor = pnlPerihLineColor.BackColor;
 
-				GraphSettings.AntialiasingChecked = cbxAntialiasing.Checked;
+				settings.AntialiasingChecked = cbxAntialiasing.Checked;
 
-				GraphSettings.MinGraphValueChecked = cbxMinValue.Checked;
-				GraphSettings.MinGraphValue = txtMinValue.TextLength > 0 ? (double?)txtMinValue.Double() : null;
+				settings.MinGraphValueChecked = cbxMinValue.Checked;
+				settings.MinGraphValue = txtMinValue.TextLength > 0 ? (double?)txtMinValue.Double() : null;
 
-				GraphSettings.MaxGraphValueChecked = cbxMaxValue.Checked;
-				GraphSettings.MaxGraphValue = txtMaxValue.TextLength > 0 ? (double?)txtMaxValue.Double() : null;
+				settings.MaxGraphValueChecked = cbxMaxValue.Checked;
+				settings.MaxGraphValue = txtMaxValue.TextLength > 0 ? (double?)txtMaxValue.Double() : null;
 
-				if (!CommonManager.Settings.IgnoreLongCalculationWarning && !SettingsBase.ValidateCalculationAmount(GraphSettings))
+				if (!CommonManager.Settings.IgnoreLongCalculationWarning && !SettingsBase.ValidateCalculationAmount(settings))
 					return;
 
-				if (GraphSettings.Ephemerides == null)
-					GraphSettings.Ephemerides = new Dictionary<Comet, List<Ephemeris>>();
+				if (settings.Ephemerides == null)
+					settings.Ephemerides = new Dictionary<Comet, List<Ephemeris>>();
 
 				FormMain main = this.Owner as FormMain;
 
-				if (GraphSettings.IsMultipleMode && GraphSettings.Comets.Count > 1)
-					main.SetProgressMaximumValue(GraphSettings.Comets.Count);
+				if (settings.IsMultipleMode && settings.Comets.Count > 1)
+					main.SetProgressMaximumValue(settings.Comets.Count);
 
 				cts = new CancellationTokenSource();
 
 				try
 				{
-					await EphemerisManager.CalculateEphemerisAsync(GraphSettings, FormMain.Progress, cts.Token);
+					await EphemerisManager.CalculateEphemerisAsync(settings, FormMain.Progress, cts.Token);
 				}
 				catch (OperationCanceledException)
 				{
 					cts = null;
-					GraphSettings.Ephemerides.Clear();
+					settings.Ephemerides.Clear();
 					main.HideProgress();
 					return;
 				}
 
-				if (GraphSettings.AddNew && GraphSettings.SelectedComet != null)
+				if (settings.AddNew && settings.SelectedComet != null)
 				{
-					FormGraph fg = new FormGraph(GraphSettings);
+					FormGraph fg = new FormGraph(settings);
 					fg.MdiParent = this.Owner;
 					fg.WindowState = FormWindowState.Maximized;
 					fg.LoadGraph();
 					fg.Show();
 				}
-				else if (GraphSettings.Ephemerides != null && GraphSettings.Ephemerides.Count > 0)
+				else if (settings.Ephemerides != null && settings.Ephemerides.Count > 0)
 				{
 					FormGraph fg = this.Owner.ActiveMdiChild as FormGraph;
-					fg.GraphSettings = this.GraphSettings;
+					fg.GraphSettings = settings;
 					fg.LoadGraph();
 				}
 
@@ -456,24 +452,26 @@ namespace Comets.Application.ModulGraph
 
 		private void BindCollection()
 		{
-			cbComet.DisplayMember = CometManager.PropertyEnum.full.ToString();
-			cbComet.DataSource = GraphSettings.Comets;
+			GraphSettings settings = this.GraphSettings;
 
-			if (GraphSettings.Comets.Count > 0)
+			cbComet.DisplayMember = CometManager.PropertyEnum.full.ToString();
+			cbComet.DataSource = settings.Comets;
+
+			if (settings.Comets.Count > 0)
 			{
-				if (GraphSettings.SelectedComet != null && GraphSettings.Comets.Contains(GraphSettings.SelectedComet))
+				if (settings.SelectedComet != null && settings.Comets.Contains(settings.SelectedComet))
 				{
-					cbComet.SelectedIndex = GraphSettings.Comets.IndexOf(GraphSettings.SelectedComet);
+					cbComet.SelectedIndex = settings.Comets.IndexOf(settings.SelectedComet);
 				}
 				else
 				{
 					//comet with nearest perihelion date
-					Comet c = GraphSettings.Comets.OrderBy(x => Math.Abs(x.Tn - DateTime.Now.JD())).First();
-					cbComet.SelectedIndex = GraphSettings.Comets.IndexOf(c);
+					Comet c = settings.Comets.OrderBy(x => Math.Abs(x.Tn - DateTime.Now.JD())).First();
+					cbComet.SelectedIndex = settings.Comets.IndexOf(c);
 				}
 			}
 
-			lblMultipleCount.Text = GraphSettings.Comets.Count + " comets";
+			lblMultipleCount.Text = settings.Comets.Count + " comets";
 		}
 
 		#endregion

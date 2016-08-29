@@ -266,32 +266,35 @@ namespace Comets.Application
 				bool azHigher = ep.Az >= PreviousEphemeris.Az;
 				bool eloHigher = ep.Elongation >= PreviousEphemeris.Elongation;
 
-				lblEphemSunDistIndicator.Text = rHigher ? "▲" : "▼";
+				string up = "▲";
+				string down = "▼";
+
+				lblEphemSunDistIndicator.Text = rHigher ? up : down;
 				lblEphemSunDistIndicator.ForeColor = rHigher ? Color.Red : Color.Green;
 
-				lblEphemEarthDistIndicator.Text = dHigher ? "▲" : "▼";
+				lblEphemEarthDistIndicator.Text = dHigher ? up : down;
 				lblEphemEarthDistIndicator.ForeColor = dHigher ? Color.Red : Color.Green;
 
-				lblEphemMagIndicator.Text = mHigher ? "▲" : "▼";
+				lblEphemMagIndicator.Text = mHigher ? up : down;
 				lblEphemMagIndicator.ForeColor = mHigher ? Color.Red : Color.Green;
 
-				lblEphemRaIndicator.Text = raHigher ? "▲" : "▼";
+				lblEphemRaIndicator.Text = raHigher ? up : down;
 				lblEphemRaIndicator.ForeColor = Color.Black;
 
-				lblEphemDecIndicator.Text = decHigher ? "▲" : "▼";
+				lblEphemDecIndicator.Text = decHigher ? up : down;
 
 				if (CommonManager.Settings.Location.Latitude >= 0)
 					lblEphemDecIndicator.ForeColor = decHigher ? Color.Green : Color.Red;
 				else //for southern hemisphere it is better if dec is lower -> higher on sky
 					lblEphemDecIndicator.ForeColor = decHigher ? Color.Red : Color.Green;
 
-				lblEphemAltIndicator.Text = altHigher ? "▲" : "▼";
+				lblEphemAltIndicator.Text = altHigher ? up : down;
 				lblEphemAltIndicator.ForeColor = altHigher ? Color.Green : Color.Red;
 
-				lblEphemAzIndicator.Text = azHigher ? "▲" : "▼";
+				lblEphemAzIndicator.Text = azHigher ? up : down;
 				lblEphemAzIndicator.ForeColor = Color.Black;
 
-				lblEphemElongationIndicator.Text = eloHigher ? "▲" : "▼";
+				lblEphemElongationIndicator.Text = eloHigher ? up : down;
 				lblEphemElongationIndicator.ForeColor = eloHigher ? Color.Green : Color.Red;
 
 				PreviousEphemeris = ep;
@@ -365,7 +368,7 @@ namespace Comets.Application
 
 		#region SortCollection
 
-		public void SortCollection(CometCollection collection)
+		private void SortCollection(CometCollection collection)
 		{
 			CometCollection temp = new CometCollection(collection);
 			Comets.Clear();
@@ -536,16 +539,9 @@ namespace Comets.Application
 		private void PopulateFilters(FilterCollection filters)
 		{
 			if (filters == null)
-			{
 				AddInitialFilters();
-			}
 			else
-			{
-				foreach (Filter f in filters)
-				{
-					AddNewFilterPanel(f, null);
-				}
-			}
+				filters.ForEach(f => AddNewFilterPanel(f, null));
 		}
 
 		#endregion

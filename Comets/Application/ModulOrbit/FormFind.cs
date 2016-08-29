@@ -70,8 +70,7 @@ namespace Comets.Application.ModulOrbit
 
 		private void FormFind_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			if (lbxFilter.SelectedIndex >= 0)
-				SelectedComet = _filteredComets.ElementAt(lbxFilter.SelectedIndex);
+			SelectedComet = _filteredComets.ElementAtOrDefault(lbxFilter.SelectedIndex);
 		}
 
 		#endregion

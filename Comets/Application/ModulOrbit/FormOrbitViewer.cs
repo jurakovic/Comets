@@ -52,6 +52,11 @@ namespace Comets.Application.ModulOrbit
 			new ATimeSpan(10, 0, 0, 0, 0, 0)
 		};
 
+
+		const string LabelPart = "Label";
+		const string OrbitPart = "Orbit";
+		const string CenterPart = "Center";
+
 		#endregion
 
 		#region Fields
@@ -209,7 +214,7 @@ namespace Comets.Application.ModulOrbit
 
 		private void orbitPanel_Resize(object sender, EventArgs e)
 		{
-			orbitPanel.Offscreen = new Bitmap(orbitPanel.Width, orbitPanel.Height);
+			orbitPanel.Image = new Bitmap(orbitPanel.Width, orbitPanel.Height);
 			RefreshPanel();
 		}
 
@@ -349,35 +354,35 @@ namespace Comets.Application.ModulOrbit
 
 		private void btnNoOrbits_Click(object sender, EventArgs e)
 		{
-			SetMultipleCheckBoxes("Orbit", false, true);
+			SetMultipleCheckBoxes(OrbitPart, false, true);
 		}
 
 		private void btnAllOrbits_Click(object sender, EventArgs e)
 		{
-			SetMultipleCheckBoxes("Orbit", true, true);
+			SetMultipleCheckBoxes(OrbitPart, true, true);
 		}
 
 		private void btnNoLabels_Click(object sender, EventArgs e)
 		{
-			SetMultipleCheckBoxes("Label", false, true);
+			SetMultipleCheckBoxes(LabelPart, false, true);
 		}
 
 		private void btnAllLabels_Click(object sender, EventArgs e)
 		{
-			SetMultipleCheckBoxes("Label", true, true);
+			SetMultipleCheckBoxes(LabelPart, true, true);
 		}
 
 		private void btnAllOrbitsLabels_Click(object sender, EventArgs e)
 		{
-			SetMultipleCheckBoxes("Orbit", true);
-			SetMultipleCheckBoxes("Label", true);
+			SetMultipleCheckBoxes(OrbitPart, true);
+			SetMultipleCheckBoxes(LabelPart, true);
 			RefreshPanel();
 		}
 
 		private void btnDefaultOrbitsLabels_Click(object sender, EventArgs e)
 		{
-			SetMultipleCheckBoxes("Orbit", true);
-			SetMultipleCheckBoxes("Label", true);
+			SetMultipleCheckBoxes(OrbitPart, true);
+			SetMultipleCheckBoxes(LabelPart, true);
 
 			ValueChangedByEvent = true;
 			cbxOrbitSaturn.Checked = false;
@@ -414,7 +419,7 @@ namespace Comets.Application.ModulOrbit
 		private void cbxOrbitCommon_CheckedChanged(object sender, EventArgs e)
 		{
 			CheckBox cbx = sender as CheckBox;
-			string name = cbx.Name.Replace("cbxOrbit", "");
+			string name = cbx.Name.Replace("cbx" + OrbitPart, "");
 			OrbitPanel.Object orbit = (OrbitPanel.Object)Enum.Parse(typeof(OrbitPanel.Object), name);
 
 			if (cbx.Checked && !orbitPanel.OrbitDisplay.Contains(orbit))
@@ -429,7 +434,7 @@ namespace Comets.Application.ModulOrbit
 		private void cbxLabelCommon_CheckedChanged(object sender, EventArgs e)
 		{
 			CheckBox cbx = sender as CheckBox;
-			string name = cbx.Name.Replace("cbxLabel", "");
+			string name = cbx.Name.Replace("cbx" + LabelPart, "");
 			OrbitPanel.Object label = (OrbitPanel.Object)Enum.Parse(typeof(OrbitPanel.Object), name);
 
 			if (cbx.Checked && !orbitPanel.LabelDisplay.Contains(label))
@@ -446,7 +451,7 @@ namespace Comets.Application.ModulOrbit
 			RadioButton rbtn = sender as RadioButton;
 			if (rbtn.Checked)
 			{
-				string name = rbtn.Name.Replace("rbtnCenter", "");
+				string name = rbtn.Name.Replace("rbtn" + CenterPart, "");
 				OrbitPanel.Object centerObject = (OrbitPanel.Object)Enum.Parse(typeof(OrbitPanel.Object), name);
 				orbitPanel.CenteredObject = centerObject;
 
@@ -531,11 +536,11 @@ namespace Comets.Application.ModulOrbit
 			string name;
 
 			if (type == typeof(CheckBox) && isLabel)
-				name = "Label";
+				name = LabelPart;
 			else if (type == typeof(CheckBox) && !isLabel)
-				name = "Orbit";
+				name = OrbitPart;
 			else //if(type == typeof(RadioButton))
-				name = "Center";
+				name = CenterPart;
 
 			control = controls.First(x => x.GetType() == type && x.Name.Contains(name));
 

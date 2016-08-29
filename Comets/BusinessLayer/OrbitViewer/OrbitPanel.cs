@@ -130,15 +130,7 @@ namespace Comets.OrbitViewer
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		OVComet SelectedComet
 		{
-			get
-			{
-				OVComet comet = null;
-
-				if (SelectedIndex >= 0 && Comets.Count > 0)
-					comet = Comets.ElementAt(SelectedIndex);
-
-				return comet;
-			}
+			get { return Comets.ElementAtOrDefault(SelectedIndex); }
 		}
 
 		private ATime _atime;
@@ -190,7 +182,7 @@ namespace Comets.OrbitViewer
 
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public Image Offscreen { get; set; }
+		public Image Image { get; set; }
 
 
 		[Browsable(false)]
@@ -286,7 +278,7 @@ namespace Comets.OrbitViewer
 			ShowDistance = DefaultShowDistance;
 			ShowDate = DefaultShowDate;
 
-			Offscreen = null;
+			Image = null;
 			IsPaintEnabled = false;
 		}
 
@@ -364,8 +356,8 @@ namespace Comets.OrbitViewer
 		{
 			if (IsPaintEnabled)
 			{
-				if (Offscreen == null)
-					Offscreen = new Bitmap(Size.Width, Size.Height);
+				if (Image == null)
+					Image = new Bitmap(Size.Width, Size.Height);
 
 				Update(e.Graphics);
 			}
@@ -377,7 +369,7 @@ namespace Comets.OrbitViewer
 
 		public void Update(Graphics g)
 		{
-			Point point3;
+			Point point;
 			Xyz xyz;
 
 			// Calculate Drawing Parameter
@@ -402,22 +394,22 @@ namespace Comets.OrbitViewer
 				if (CenteredIndex >= 0)
 				{
 					xyz = CometsPos[CenteredIndex].Rotate(MtxToEcl).Rotate(MtxRotate);
-					point3 = GetDrawPoint(xyz);
+					point = GetDrawPoint(xyz);
 
-					X0 = Size.Width - point3.X;
-					Y0 = Size.Height - point3.Y;
+					X0 = Size.Width - point.X;
+					Y0 = Size.Height - point.Y;
 				}
 			}
 			else if (CenteredObject >= Object.Mercury)
 			{
 				xyz = PlanetsPos[(int)CenteredObject - 1].Rotate(MtxRotate);
-				point3 = GetDrawPoint(xyz);
+				point = GetDrawPoint(xyz);
 
-				X0 = Size.Width - point3.X;
-				Y0 = Size.Height - point3.Y;
+				X0 = Size.Width - point.X;
+				Y0 = Size.Height - point.Y;
 			}
 
-			using (Graphics graphics = Graphics.FromImage(Offscreen))
+			using (Graphics graphics = Graphics.FromImage(Image))
 			{
 				// Clear bacground
 				SolidBrush sb = new SolidBrush(Color.Black);
@@ -557,7 +549,7 @@ namespace Comets.OrbitViewer
 				}
 			}
 
-			g.DrawImage(Offscreen, 0, 0);
+			g.DrawImage(Image, 0, 0);
 		}
 
 		#endregion
