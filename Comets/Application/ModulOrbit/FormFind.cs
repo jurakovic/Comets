@@ -29,7 +29,7 @@ namespace Comets.Application.ModulOrbit
 		{
 			InitializeComponent();
 
-			_comets = new CometCollection(collection.OrderBy(x => x.sortkey));
+			_comets = new CometCollection(collection.OrderBy(x => x.orderkey));
 			_filteredComets = new CometCollection(_comets);
 
 			lbxFilter.DisplayMember = PropertyEnum.full.ToString();

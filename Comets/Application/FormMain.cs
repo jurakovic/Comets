@@ -212,7 +212,7 @@ namespace Comets.Application
 
 		private void menuItemFileOrbit_Click(object sender, EventArgs e)
 		{
-			FormOrbitViewer fo = new FormOrbitViewer(CommonManager.UserCollection, CommonManager.Filters, CommonManager.SortProperty, CommonManager.SortAscending);
+			FormOrbitViewer fo = new FormOrbitViewer(CommonManager.UserCollection, CommonManager.Filters, CommonManager.OrderProperty, CommonManager.OrderAscending);
 			fo.WindowState = FormWindowState.Maximized;
 			fo.MdiParent = this;
 			fo.Show();
@@ -286,7 +286,7 @@ namespace Comets.Application
 
 		private void menuItemDatabase_Click(object sender, EventArgs e)
 		{
-			using (FormDatabase fdb = new FormDatabase(CommonManager.UserCollection, CommonManager.Filters, CommonManager.SortProperty, CommonManager.SortAscending, false) { Owner = this })
+			using (FormDatabase fdb = new FormDatabase(CommonManager.UserCollection, CommonManager.Filters, CommonManager.OrderProperty, CommonManager.OrderAscending, false) { Owner = this })
 			{
 				fdb.TopMost = this.TopMost;
 
@@ -294,8 +294,8 @@ namespace Comets.Application
 				{
 					CommonManager.UserCollection = fdb.Comets;
 					CommonManager.Filters = fdb.Filters;
-					CommonManager.SortProperty = fdb.SortProperty;
-					CommonManager.SortAscending = fdb.SortAscending;
+					CommonManager.OrderProperty = fdb.OrderProperty;
+					CommonManager.OrderAscending = fdb.OrderAscending;
 				}
 
 				SetStatusCometsLabel(CommonManager.UserCollection.Count, CommonManager.MainCollection.Count);

@@ -115,8 +115,8 @@ namespace Comets.Application.ModulEphemeris
 				EphemerisSettings settings = new EphemerisSettings();
 				settings.Comets = new CometCollection(CommonManager.UserCollection);
 				settings.Filters = CommonManager.Filters;
-				settings.SortProperty = CommonManager.SortProperty;
-				settings.SortAscending = CommonManager.SortAscending;
+				settings.OrderProperty = CommonManager.OrderProperty;
+				settings.OrderAscending = CommonManager.OrderAscending;
 				settings.AddNew = true;
 
 				this.EphemerisSettings = settings;
@@ -159,7 +159,7 @@ namespace Comets.Application.ModulEphemeris
 		{
 			EphemerisSettings sett = this.EphemerisSettings;
 
-			using (FormDatabase fdb = new FormDatabase(sett.Comets, sett.Filters, sett.SortProperty, sett.SortAscending, true) { Owner = this })
+			using (FormDatabase fdb = new FormDatabase(sett.Comets, sett.Filters, sett.OrderProperty, sett.OrderAscending, true) { Owner = this })
 			{
 				fdb.TopMost = this.TopMost;
 
@@ -167,8 +167,8 @@ namespace Comets.Application.ModulEphemeris
 				{
 					sett.Comets = fdb.Comets;
 					sett.Filters = fdb.Filters;
-					sett.SortProperty = fdb.SortProperty;
-					sett.SortAscending = fdb.SortAscending;
+					sett.OrderProperty = fdb.OrderProperty;
+					sett.OrderAscending = fdb.OrderAscending;
 
 					BindCollection();
 				}

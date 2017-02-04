@@ -35,21 +35,21 @@ namespace Comets.BusinessLayer.Managers
 			i,
 			N,
 			w,
-			sortkey
+			orderkey
 		};
 
 		#endregion
 
-		#region GetSortkey
+		#region GetOrderkey
 
 		/// <summary>
-		/// Calculates Sortkey
+		/// Calculates Orderkey
 		/// </summary>
 		/// <param name="id">ID</param>
 		/// <returns></returns>
-		public static double GetSortkey(string id)
+		public static double GetOrderkey(string id)
 		{
-			double sort = 0.0;
+			double order = 0.0;
 			double v = 0.0;
 			double offset = 2000.0;
 			string fragm = String.Empty;
@@ -77,12 +77,12 @@ namespace Comets.BusinessLayer.Managers
 
 			if (Char.IsDigit(id[0]))
 			{
-				sort = id.Substring(0, id.Length - 1).Double();
+				order = id.Substring(0, id.Length - 1).Double();
 			}
 			else
 			{
 				string[] yc = id.Split(' ');
-				sort = yc[0].Split('/')[1].Double() + offset; //da npr C/240 V1 ne bude isto kao i 240P/NEAT i slicno...
+				order = yc[0].Split('/')[1].Double() + offset; //da npr C/240 V1 ne bude isto kao i 240P/NEAT i slicno...
 
 				string code = yc[1];
 
@@ -105,9 +105,9 @@ namespace Comets.BusinessLayer.Managers
 					v += codeDigits.Double() / 10000000.0;
 			}
 
-			sort += v;
+			order += v;
 
-			return sort;
+			return order;
 		}
 
 		#endregion
@@ -157,7 +157,7 @@ namespace Comets.BusinessLayer.Managers
 			else if (e > 1.0)
 				retval = Math.Pow((q / (e - 1.0)), 1.5);
 			else //if (e == 1.0)
-				retval = Math.Pow((q / (1 - 0.999999)), 1.5); //for sorting only
+				retval = Math.Pow((q / (1 - 0.999999)), 1.5); //for ordering only
 
 			return retval;
 		}
@@ -181,7 +181,7 @@ namespace Comets.BusinessLayer.Managers
 			else if (e > 1.0)
 				retval = -(q / (1 - e));
 			else //if (e == 1.0)
-				retval = q / (1 - 0.999999); //for sorting only
+				retval = q / (1 - 0.999999); //for ordering only
 
 			return retval;
 		}
@@ -205,7 +205,7 @@ namespace Comets.BusinessLayer.Managers
 			else if (e > 1.0)
 				retval = a * (1 + (2 - e));
 			else //if (e == 1.0)
-				retval = a * (1 + 0.999999); //for sorting only
+				retval = a * (1 + 0.999999); //for ordering only
 
 			return retval;
 		}

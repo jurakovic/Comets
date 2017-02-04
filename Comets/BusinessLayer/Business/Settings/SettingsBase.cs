@@ -14,8 +14,8 @@ namespace Comets.BusinessLayer.Business
 		public Comet SelectedComet { get; set; }
 		public bool IsMultipleMode { get; set; }
 		public FilterCollection Filters { get; set; }
-		public string SortProperty { get; set; }
-		public bool SortAscending { get; set; }
+		public string OrderProperty { get; set; }
+		public bool OrderAscending { get; set; }
 		public DateTime Start { get; set; }
 		public DateTime Stop { get; set; }
 		public double Interval { get; set; }

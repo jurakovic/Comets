@@ -23,8 +23,8 @@ namespace Comets.Application
 		}
 
 		public FilterCollection Filters { get; private set; }
-		public string SortProperty { get; private set; }
-		public bool SortAscending { get; private set; }
+		public string OrderProperty { get; private set; }
+		public bool OrderAscending { get; private set; }
 
 		private Timer Timer { get; set; }
 		private Ephemeris PreviousEphemeris { get; set; }
@@ -33,11 +33,11 @@ namespace Comets.Application
 
 		#region Constructor
 
-		public FormDatabase(CometCollection collection, FilterCollection filters, string sortProperty, bool sortAscending, bool isForFiltering)
+		public FormDatabase(CometCollection collection, FilterCollection filters, string orderProperty, bool orderAscending, bool isForFiltering)
 		{
 			InitializeComponent();
 
-			this.mnuDesig.Tag = PropertyEnum.sortkey.ToString();
+			this.mnuDesig.Tag = PropertyEnum.orderkey.ToString();
 			this.mnuDiscoverer.Tag = PropertyEnum.name.ToString();
 			this.mnuPerihDate.Tag = PropertyEnum.Tn.ToString();
 			this.mnuPerihDist.Tag = PropertyEnum.q.ToString();
@@ -57,8 +57,8 @@ namespace Comets.Application
 			Comets = new CometCollection(collection);
 			Filters = filters;
 
-			SortProperty = sortProperty;
-			SortAscending = sortAscending;
+			OrderProperty = orderProperty;
+			OrderAscending = orderAscending;
 
 			pnlDetails.Visible = !isForFiltering;
 			pnlFilters.Visible = isForFiltering;
@@ -75,8 +75,8 @@ namespace Comets.Application
 		private void FormDatabase_Load(object sender, EventArgs e)
 		{
 			PopulateFilters(Filters);
-			SetSortItems(SortAscending);
-			SortCollection(Comets);
+			SetOrderItems(OrderAscending);
+			OrderCollection(Comets);
 		}
 
 		#endregion
@@ -167,8 +167,8 @@ namespace Comets.Application
 			txtElemArgPeri.Text = c.w.ToString(format4);
 			txtElemEquinox.Text = "2000.0";
 
-			//t_sortKey.Text = c.sortkey.ToString("0.00000000000");
-			//t_sortKey.Text = c.idKey;
+			//t_orderKey.Text = c.orderkey.ToString("0.00000000000");
+			//t_orderKey.Text = c.idKey;
 		}
 
 		#endregion
@@ -202,10 +202,10 @@ namespace Comets.Application
 			Filters = null;
 			PopulateFilters(Filters);
 
-			SortProperty = CommonManager.DefaultSortProperty;
-			SortAscending = CommonManager.DefaultSortAscending;
+			OrderProperty = CommonManager.DefaultOrderProperty;
+			OrderAscending = CommonManager.DefaultOrderAscending;
 
-			SetSortItems(SortAscending);
+			SetOrderItems(OrderAscending);
 			ApplyFilters();
 		}
 
@@ -303,15 +303,15 @@ namespace Comets.Application
 
 		#endregion
 
-		#region + Sort
+		#region + Order
 
-		#region SetSortItems
+		#region SetOrderItems
 
-		private void SetSortItems(bool isAscending)
+		private void SetOrderItems(bool isAscending)
 		{
-			foreach (MenuItem menuitem in contextSort.MenuItems)
+			foreach (MenuItem menuitem in contextOrder.MenuItems)
 			{
-				if (menuitem.Tag as string == SortProperty)
+				if (menuitem.Tag as string == OrderProperty)
 					menuitem.Checked = true;
 				else
 					menuitem.Checked = false;
@@ -323,62 +323,62 @@ namespace Comets.Application
 
 		#endregion
 
-		#region btnSort_Click
+		#region btnOrder_Click
 
-		private void btnSort_Click(object sender, EventArgs e)
+		private void btnOrder_Click(object sender, EventArgs e)
 		{
 			Button btn = sender as Button;
-			contextSort.Show(this, new Point(btn.Left + 1, btn.Top + btn.Height - 1));
+			contextOrder.Show(this, new Point(btn.Left + 1, btn.Top + btn.Height - 1));
 		}
 
 		#endregion
 
-		#region menuItemSort_Click
+		#region menuItemOrderCommon_Click
 
-		private void menuItemSortCommon_Click(object sender, EventArgs e)
+		private void menuItemOrderCommon_Click(object sender, EventArgs e)
 		{
 			MenuItem mni = sender as MenuItem;
 
 			if (!mni.Checked)
 			{
-				SortAscending = mnuAsc.Checked;
+				OrderAscending = mnuAsc.Checked;
 
-				foreach (MenuItem item in contextSort.MenuItems)
+				foreach (MenuItem item in contextOrder.MenuItems)
 					item.Checked = false;
 
 				mni.Checked = true;
-				SortProperty = mni.Tag as string;
+				OrderProperty = mni.Tag as string;
 
-				mnuAsc.Checked = SortAscending;
-				mnuDesc.Checked = !SortAscending;
+				mnuAsc.Checked = OrderAscending;
+				mnuDesc.Checked = !OrderAscending;
 
-				SortCollection(Comets);
+				OrderCollection(Comets);
 			}
 		}
 
-		private void menuItemSortAscDesc_Click(object sender, EventArgs e)
+		private void menuItemOrderAscDesc_Click(object sender, EventArgs e)
 		{
 			mnuAsc.Checked = !mnuAsc.Checked;
 			mnuDesc.Checked = !mnuDesc.Checked;
-			SortAscending = mnuAsc.Checked;
-			SortCollection(Comets);
+			OrderAscending = mnuAsc.Checked;
+			OrderCollection(Comets);
 		}
 
 		#endregion
 
-		#region SortCollection
+		#region OrderCollection
 
-		private void SortCollection(CometCollection collection)
+		private void OrderCollection(CometCollection collection)
 		{
 			CometCollection temp = new CometCollection(collection);
 			Comets.Clear();
 
-			PropertyDescriptor prop = TypeDescriptor.GetProperties(typeof(Comet)).Find(SortProperty, false);
+			PropertyDescriptor prop = TypeDescriptor.GetProperties(typeof(Comet)).Find(OrderProperty, false);
 
 			if (prop == null)
-				throw new ArgumentException(String.Format("Unknown SortPropertyName: \"{0}\"", SortProperty));
+				throw new ArgumentException(String.Format("Unknown OrderPropertyName: \"{0}\"", OrderProperty));
 
-			if (SortAscending)
+			if (OrderAscending)
 				Comets = new CometCollection(temp.OrderBy(x => prop.GetValue(x)));
 			else
 				Comets = new CometCollection(temp.OrderByDescending(x => prop.GetValue(x)));
@@ -570,7 +570,7 @@ namespace Comets.Application
 			else
 			{
 				Comets = FilterManager.ApplyFilters(CommonManager.MainCollection, Filters);
-				SortCollection(Comets);
+				OrderCollection(Comets);
 			}
 		}
 

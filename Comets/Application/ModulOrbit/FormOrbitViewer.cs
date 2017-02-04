@@ -74,8 +74,8 @@ namespace Comets.Application.ModulOrbit
 
 		private CometCollection Comets;
 		private FilterCollection Filters;
-		private string SortProperty;
-		private bool SortAscending;
+		private string OrderProperty;
+		private bool OrderAscending;
 
 		private List<OVComet> OVComets;
 
@@ -140,7 +140,7 @@ namespace Comets.Application.ModulOrbit
 
 		#region Constructor
 
-		public FormOrbitViewer(CometCollection comets, FilterCollection filters, string sortProperty, bool sortAscending)
+		public FormOrbitViewer(CometCollection comets, FilterCollection filters, string orderProperty, bool orderAscending)
 		{
 			InitializeComponent();
 
@@ -154,8 +154,8 @@ namespace Comets.Application.ModulOrbit
 
 			Comets = comets;
 			Filters = filters;
-			SortProperty = sortProperty;
-			SortAscending = sortAscending;
+			OrderProperty = orderProperty;
+			OrderAscending = orderAscending;
 
 			OVComets = TransformComets(comets);
 			DefaultDateTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, 0, 0, DateTimeKind.Local);
@@ -276,7 +276,7 @@ namespace Comets.Application.ModulOrbit
 
 			string lastSelected = SelectedComet != null ? SelectedComet.Name : null;
 
-			using (FormDatabase fdb = new FormDatabase(Comets, Filters, SortProperty, SortAscending, true) { Owner = this })
+			using (FormDatabase fdb = new FormDatabase(Comets, Filters, OrderProperty, OrderAscending, true) { Owner = this })
 			{
 				fdb.TopMost = this.TopMost;
 
@@ -288,8 +288,8 @@ namespace Comets.Application.ModulOrbit
 
 					Comets = fdb.Comets;
 					Filters = fdb.Filters;
-					SortProperty = fdb.SortProperty;
-					SortAscending = fdb.SortAscending;
+					OrderProperty = fdb.OrderProperty;
+					OrderAscending = fdb.OrderAscending;
 
 					OVComets = TransformComets(Comets);
 
