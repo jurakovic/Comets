@@ -251,8 +251,8 @@ namespace Comets.Application
 				txtInfoCurrEarthDist.Text = ep.EarthDist.ToString("0.000000");
 				txtInfoCurrMag.Text = ep.Magnitude.ToString("0.00");
 
-				txtEphemRA.Text = (EphemerisManager.HMSString(ep.RA / 15.0)).Trim();
-				txtEphemDec.Text = (EphemerisManager.AngleString(ep.Dec, false, true)).Trim();
+				txtEphemRA.Text = EphemerisManager.HMSString(ep.RA / 15.0).Trim();
+				txtEphemDec.Text = EphemerisManager.AngleString(ep.Dec, false, true).Trim();
 				txtEphemAlt.Text = ep.Alt.ToString("0.00") + "°";
 				txtEphemAz.Text = ep.Az.ToString("0.00") + "°";
 				txtEphemElongation.Text = ep.Elongation.ToString("0.00") + "°" + (ep.PositionAngle >= 180 ? " W" : " E");

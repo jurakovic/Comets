@@ -585,13 +585,29 @@ namespace Comets.BusinessLayer.Managers
 			hours = Math.Floor(hours);
 			double seconds = Math.Round(60.0 * (minutes - Math.Floor(minutes)));
 			minutes = Math.Floor(minutes);
-			if (seconds >= 60) { minutes += 1; seconds -= 60; }
-			if (minutes >= 60) { hours += 1; minutes -= 60; }
-			if (hours >= 24) { hours -= 24; }
-			string hmsstr = (t < 0) ? "-" : "";
-			hmsstr = ((hours < 10) ? "0" : "") + hours;
-			hmsstr += ((minutes < 10) ? "h0" : "h") + minutes;
-			hmsstr += ((seconds < 10) ? "m0" : "m") + seconds;
+
+			if (seconds >= 60)
+			{
+				minutes += 1;
+				seconds -= 60;
+			}
+
+			if (minutes >= 60)
+			{
+				hours += 1;
+				minutes -= 60;
+			}
+
+			if (hours >= 24)
+			{
+				hours -= 24;
+			}
+
+			string hmsstr = t < 0 ? "-" : "";
+			hmsstr = hours < 10 ? "0" : "" + hours;
+			hmsstr += minutes < 10 ? "h0" : "h" + minutes;
+			hmsstr += seconds < 10 ? "m0" : "m" + seconds;
+
 			return hmsstr;
 		}
 
@@ -602,13 +618,27 @@ namespace Comets.BusinessLayer.Managers
 			double ar = Math.Round(a * 60) / 60;
 			double deg = Math.Abs(ar);
 			double min = Math.Round(60.0 * (deg - Math.Floor(deg)));
-			if (min >= 60) { deg += 1; min = 0; }
+
+			if (min >= 60)
+			{
+				deg += 1;
+				min = 0;
+			}
+
 			string anglestr = "";
-			if (!circle) anglestr += (ar < 0 ? "-" : "+");
-			if (circle) anglestr += ((Math.Floor(deg) < 100) ? "0" : "");
-			anglestr += ((Math.Floor(deg) < 10) ? "0" : "") + Math.Floor(deg);
-			if (arcmin) anglestr += ((min < 10) ? "°0" : "°") + (min) + "'";
-			else anglestr += ((min < 10) ? ":0" : ":") + (min);
+
+			if (circle)
+				anglestr += Math.Floor(deg) < 100 ? "0" : "";
+			else
+				anglestr += ar < 0 ? "-" : "+";
+
+			anglestr += Math.Floor(deg) < 10 ? "0" : "" + Math.Floor(deg);
+
+			if (arcmin)
+				anglestr += min < 10 ? "°0" : "°" + min + "'";
+			else
+				anglestr += min < 10 ? ":0" : ":" + min;
+
 			return anglestr;
 		}
 
@@ -661,7 +691,7 @@ namespace Comets.BusinessLayer.Managers
 
 			double day0 = b - k - Math.Floor(30.6001 * e) + (jd - Math.Floor(jd));
 
-			int month = (int)Math.Floor(e - ((e >= 13.5) ? 13 : 1) + 0.5);
+			int month = (int)Math.Floor(e - (e >= 13.5 ? 13 : 1) + 0.5);
 			int year = (int)Math.Floor(c - ((month > 2) ? 4716 : 4715) + 0.5);
 			int day = (int)Math.Floor(day0);
 
@@ -699,7 +729,8 @@ namespace Comets.BusinessLayer.Managers
 		/// <returns></returns>
 		private static double Rev2(double angle)
 		{
-			double a = Rev(angle); return (a >= 180 ? a - 360.0 : a);
+			double a = Rev(angle);
+			return a >= 180 ? a - 360.0 : a;
 		}
 
 		private static double Sind(double angle)
