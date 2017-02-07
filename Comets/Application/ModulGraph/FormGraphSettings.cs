@@ -215,7 +215,7 @@ namespace Comets.Application.ModulGraph
 			DateEnd = ShowFormDateTime(CommonManager.DefaultDateEnd, DateEnd, GetT());
 		}
 
-		private DateTime ShowFormDateTime(DateTime def, DateTime current, double? jd)
+		private DateTime ShowFormDateTime(DateTime def, DateTime current, decimal? jd)
 		{
 			using (FormDateTime fdt = new FormDateTime(def, current, jd))
 			{
@@ -229,12 +229,9 @@ namespace Comets.Application.ModulGraph
 			return current;
 		}
 
-		private double? GetT()
+		private decimal? GetT()
 		{
-			Comet c = this.GraphSettings.Comets.ElementAtOrDefault(cbComet.SelectedIndex);
-			double? retval = c != null ? c.Tn : (double?)null;
-
-			return retval;
+			return this.GraphSettings.Comets.ElementAtOrDefault(cbComet.SelectedIndex)?.Tn;
 		}
 
 		private void txtDaysFromTCommon_KeyDown(object sender, KeyEventArgs e)
@@ -308,8 +305,8 @@ namespace Comets.Application.ModulGraph
 				int after = txtDaysFromTStop.Int();
 
 				Comet comet = GraphSettings.Comets.ElementAt(cbComet.SelectedIndex);
-				double startJd = comet.Tn + before; //negativan broj
-				double stopJd = comet.Tn + after;
+				decimal startJd = comet.Tn + before; //negativan broj
+				decimal stopJd = comet.Tn + after;
 
 				DateTime daysFromTStart = EphemerisManager.JDToDateTime(startJd).ToLocalTime();
 				DateTime daysFromTStop = EphemerisManager.JDToDateTime(stopJd).ToLocalTime();
@@ -323,22 +320,22 @@ namespace Comets.Application.ModulGraph
 					return;
 				}
 
-				double interval = 0.0;
-				double totalDays = stop.JD() - start.JD();
+				decimal interval = 0.0m;
+				decimal totalDays = stop.JD() - start.JD();
 
 				if (totalDays <= 100)
-					interval = totalDays / 100.0;
+					interval = totalDays / 100.0m;
 				else if (totalDays < 365)
 					interval = 1;
-				else if (totalDays < 10 * 365.25)
+				else if (totalDays < 10 * 365.25m)
 					interval = 2;
-				else if (totalDays < 50 * 365.25)
+				else if (totalDays < 50 * 365.25m)
 					interval = 5;
-				else if (totalDays < 100 * 365.25)
+				else if (totalDays < 100 * 365.25m)
 					interval = 15;
-				else if (totalDays < 200 * 365.25)
+				else if (totalDays < 200 * 365.25m)
 					interval = 30;
-				else if (totalDays < 300 * 365.25)
+				else if (totalDays < 300 * 365.25m)
 					interval = 40;
 				else
 				{
@@ -466,7 +463,8 @@ namespace Comets.Application.ModulGraph
 				else
 				{
 					//comet with nearest perihelion date
-					Comet c = settings.Comets.OrderBy(x => Math.Abs(x.Tn - DateTime.Now.JD())).First();
+					decimal jdNow = DateTime.Now.JD();
+					Comet c = settings.Comets.OrderBy(x => Math.Abs(x.Tn - jdNow)).First();
 					cbComet.SelectedIndex = settings.Comets.IndexOf(c);
 				}
 			}

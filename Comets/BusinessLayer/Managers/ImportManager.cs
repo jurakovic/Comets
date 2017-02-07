@@ -147,7 +147,7 @@ namespace Comets.BusinessLayer.Managers
 				c.N = Convert.ToDouble(lastLine.Substring(72, 10).Trim());
 				c.w = Convert.ToDouble(lastLine.Substring(82, 10).Trim());
 				c.i = Convert.ToDouble(lastLine.Substring(92, 10).Trim());
-				c.T = Convert.ToDouble(lastLine.Substring(102, 14).Trim());
+				c.T = Convert.ToDecimal(lastLine.Substring(102, 14).Trim());
 				c.k = Convert.ToDouble(lastLine.Substring(129, 6).Trim()) / 2.5;
 				string id = lastLine.Substring(136, 14).Trim();
 
@@ -660,9 +660,9 @@ namespace Comets.BusinessLayer.Managers
 						c.N = Convert.ToDouble(parts[3]);
 						c.w = Convert.ToDouble(parts[4]);
 						double a = Convert.ToDouble(parts[5]); // semi-major axis
-						double n = Convert.ToDouble(parts[6]); // mean daily motion
+						decimal n = Convert.ToDecimal(parts[6]); // mean daily motion
 						c.e = Convert.ToDouble(parts[7]);
-						double M = Convert.ToDouble(parts[8]); // mean anomaly, i.e., degrees from perihelion
+						decimal M = Convert.ToDecimal(parts[8]); // mean anomaly, i.e., degrees from perihelion
 
 						string[] date = parts[9].Split('/');
 						int m = Convert.ToInt32(date[0]);
@@ -685,12 +685,12 @@ namespace Comets.BusinessLayer.Managers
 						}
 						else
 						{
-							double E = EphemerisManager.JD0(y, m, d, h); // epoch date, i.e., time of M
+							decimal E = EphemerisManager.JD0(y, m, d, h); // epoch date, i.e., time of M
 
 							c.T = E - M / n;
 
 							if (M >= 180)
-								c.T += CometManager.GetPeriod(c.q, c.e) * 365.25;
+								c.T += Convert.ToDecimal(CometManager.GetPeriod(c.q, c.e)) * 365.25m;
 
 							DateTime newdate = EphemerisManager.JDToDateTime(c.T);
 							c.Ty = newdate.Year;
@@ -819,7 +819,7 @@ namespace Comets.BusinessLayer.Managers
 			for (int i = 1; i < lines.Length; i++)
 			{
 				Comet c = new Comet();
-				double T;
+				decimal T;
 				int h;
 				string[] Th;
 
@@ -836,9 +836,9 @@ namespace Comets.BusinessLayer.Managers
 					c.name = name;
 
 					Th = parts[1].Split('.');
-					T = Convert.ToDouble(Th[0]);
+					T = Convert.ToDecimal(Th[0]);
 					h = Convert.ToInt32(Th[1].Trim().PadRight(4, '0'));
-					c.T = T + 2400000.5;
+					c.T = T + 2400000.5m;
 
 					DateTime dd = EphemerisManager.JDToDateTime(c.T);
 					c.Ty = dd.Year;
@@ -938,7 +938,7 @@ namespace Comets.BusinessLayer.Managers
 					c.N = Convert.ToDouble(lines[i].Substring(72, 10).Trim());
 					c.w = Convert.ToDouble(lines[i].Substring(82, 10).Trim());
 					c.i = Convert.ToDouble(lines[i].Substring(92, 10).Trim());
-					c.T = Convert.ToDouble(lines[i].Substring(102, 14).Trim());
+					c.T = Convert.ToDecimal(lines[i].Substring(102, 14).Trim());
 					c.k = Convert.ToDouble(lines[i].Substring(129, 6).Trim()) / 2.5;
 					c.id = lines[i].Substring(136, 14).Trim();
 

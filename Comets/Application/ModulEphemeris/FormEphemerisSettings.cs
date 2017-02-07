@@ -213,14 +213,14 @@ namespace Comets.Application.ModulEphemeris
 					return;
 				}
 
-				double ind = txtDayInterval.Int();
-				double inh = txtHourInterval.Int();
-				double inm = txtMinInterval.Int();
+				decimal ind = Convert.ToDecimal(txtDayInterval.Int());
+				decimal inh = Convert.ToDecimal(txtHourInterval.Int());
+				decimal inm = Convert.ToDecimal(txtMinInterval.Int());
 
-				double interval = ind + (inh + (inm / 60.0)) / 24;
+				decimal interval = ind + (inh + (inm / 60.0m)) / 24.0m;
 
-				if (interval == 0.0)
-					interval = 1.0;
+				if (interval == 0.0m)
+					interval = 1.0m;
 
 				EphemerisSettings settings = this.EphemerisSettings;
 
@@ -347,7 +347,7 @@ namespace Comets.Application.ModulEphemeris
 			DateEnd = ShowFormDateTime(CommonManager.DefaultDateEnd, DateEnd, GetT());
 		}
 
-		private DateTime ShowFormDateTime(DateTime def, DateTime current, double? jd)
+		private DateTime ShowFormDateTime(DateTime def, DateTime current, decimal? jd)
 		{
 			using (FormDateTime fdt = new FormDateTime(def, current, jd))
 			{
@@ -360,12 +360,9 @@ namespace Comets.Application.ModulEphemeris
 			return current;
 		}
 
-		private double? GetT()
+		private decimal? GetT()
 		{
-			Comet c = this.EphemerisSettings.Comets.ElementAtOrDefault(cbComet.SelectedIndex);
-			double? retval = c != null ? c.Tn : (double?)null;
-
-			return retval;
+			return this.EphemerisSettings.Comets.ElementAtOrDefault(cbComet.SelectedIndex)?.Tn;
 		}
 
 		private void txtIntervalCommon_KeyDown(object sender, KeyEventArgs e)
@@ -429,7 +426,8 @@ namespace Comets.Application.ModulEphemeris
 				else
 				{
 					//comet with nearest perihelion date
-					Comet c = settings.Comets.OrderBy(x => Math.Abs(x.Tn - DateTime.Now.JD())).First();
+					decimal jdNow = DateTime.Now.JD();
+					Comet c = settings.Comets.OrderBy(x => Math.Abs(x.Tn - jdNow)).First();
 					cbComet.SelectedIndex = settings.Comets.IndexOf(c);
 				}
 			}

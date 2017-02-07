@@ -301,8 +301,8 @@ namespace Comets.BusinessLayer.Managers
 			// {2} zapravo nije w, nije ni M
 			//
 
-			double jd240 = 2400000.5;
-			double jd = DateTime.UtcNow.Date.JD();
+			decimal jd240 = 2400000.5m;
+			decimal jd = DateTime.UtcNow.Date.JD();
 
 			string format = "{0};\t{1:0.0000}\t{2:0.0000}\t{3:0.000000}\t{4:0.000000}\t{5:0.0000}\t{6:0.0000}\t{7:0.0}\t{8:0.0}\tMPC00000\t{9:0.0}\n";
 
@@ -320,7 +320,7 @@ namespace Comets.BusinessLayer.Managers
 
 		private static void ExportStarryNight07(ref StringBuilder sb, CometCollection collection)
 		{
-			double jd = DateTime.UtcNow.Date.JD();
+			decimal jd = DateTime.UtcNow.Date.JD();
 
 			string format = "     {0,-29} {1,4:0.0}    0.0   {2:0.000000}   {3,9:0.000000}    {4,8:0.0000}  {5,8:0.0000}  {6,8:0.0000}  {7,12:0.0000}    {8,9:0.0}  {9,4:0.0}  {10,-13} MPC 00000\n";
 

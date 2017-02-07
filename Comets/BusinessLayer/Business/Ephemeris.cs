@@ -8,7 +8,7 @@ namespace Comets.BusinessLayer.Business
 		/// <summary>
 		/// Julian day
 		/// </summary>
-		public double JD { get; set; }
+		public decimal JD { get; set; }
 
 		/// <summary>
 		/// Right Ascension
@@ -84,14 +84,14 @@ namespace Comets.BusinessLayer.Business
 		/// <summary>
 		/// X-axis
 		/// </summary>
-		public double JD { get; private set; }
+		public decimal JD { get; private set; }
 
 		/// <summary>
 		/// Y-axis
 		/// </summary>
 		public double Value { get; private set; }
 
-		public EphemerisChartDataPoint(double jd, double value)
+		public EphemerisChartDataPoint(decimal jd, double value)
 		{
 			JD = jd;
 			Value = value;

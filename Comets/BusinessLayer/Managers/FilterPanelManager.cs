@@ -257,7 +257,7 @@ namespace Comets.BusinessLayer.Managers
 					}
 					else if (filter.Property == PropertyEnum.Tn)
 					{
-						DateTime date = EphemerisManager.JDToDateTime(filter.Value).ToLocalTime();
+						DateTime date = EphemerisManager.JDToDateTime(Convert.ToDecimal(filter.Value)).ToLocalTime();
 						btnDate.Tag = date;
 						btnDate.Text = date.ToString(DateTimeFormat);
 					}
@@ -277,8 +277,7 @@ namespace Comets.BusinessLayer.Managers
 				txtString.Visible = definition.StringVisible;
 
 				txtValue.Visible = definition.ValueVisible;
-				if (definition.Validator != null)
-					txtValue.Tag = definition.Validator;
+				txtValue.Tag = definition?.Validator;
 
 				btnDate.Visible = definition.DateVisible;
 
@@ -363,11 +362,8 @@ namespace Comets.BusinessLayer.Managers
 
 			str.Visible = definition.StringVisible;
 			value.Visible = definition.ValueVisible;
+			value.Tag = definition?.Validator;
 			date.Visible = definition.DateVisible;
-
-			if (definition.Validator != null)
-				value.Tag = definition.Validator;
-
 			label.Text = definition.LabelText;
 		}
 
@@ -404,7 +400,7 @@ namespace Comets.BusinessLayer.Managers
 			DateTime dt = (DateTime)btn.Tag;
 
 			FormDatabase fdb = btn.FindForm() as FormDatabase;
-			double? T = fdb.SelectedComet != null ? (double?)fdb.SelectedComet.Tn : null;
+			decimal? T = fdb.SelectedComet?.Tn;
 
 			using (FormDateTime fdt = new FormDateTime(CommonManager.DefaultDateStart, dt, T))
 			{

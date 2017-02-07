@@ -18,7 +18,7 @@ namespace Comets.BusinessLayer.Business
 		public bool OrderAscending { get; set; }
 		public DateTime Start { get; set; }
 		public DateTime Stop { get; set; }
-		public double Interval { get; set; }
+		public decimal Interval { get; set; }
 		public Dictionary<Comet, List<Ephemeris>> Ephemerides { get; set; }
 		public bool AddNew { get; set; }
 
@@ -51,7 +51,7 @@ namespace Comets.BusinessLayer.Business
 			{
 				DialogResult dr = MessageBox.Show(
 					"Calculation using selected settings could take a while, depending on your PC performances.\n\nAre you sure you want to continue?\t\t\t",
-					"Comets", 
+					"Comets",
 					//iterationCount.ToString(),
 					MessageBoxButtons.YesNo,
 					MessageBoxIcon.Question);

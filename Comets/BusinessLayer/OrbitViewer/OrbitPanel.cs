@@ -860,8 +860,6 @@ namespace Comets.OrbitViewer
 
 		public string SelectComet(Point point)
 		{
-			string name = null;
-
 			int range = 5;
 			int minX = point.X - range;
 			int minY = point.Y - range;
@@ -872,10 +870,7 @@ namespace Comets.OrbitViewer
 				c.PanelLocation.X >= minX && c.PanelLocation.X <= maxX &&
 				c.PanelLocation.Y >= minY && c.PanelLocation.Y <= maxY);
 
-			if (comet != null)
-				name = comet.Name;
-
-			return name;
+			return comet?.Name;
 		}
 
 		#endregion
@@ -900,7 +895,7 @@ namespace Comets.OrbitViewer
 
 		private Ephemeris GetEphemeris(OVComet comet)
 		{
-			double T = comet.T;
+			decimal T = comet.T;
 			double e = comet.e;
 			double q = comet.q;
 			double w = comet.w / (Math.PI / 180.0);
@@ -908,8 +903,9 @@ namespace Comets.OrbitViewer
 			double i = comet.i / (Math.PI / 180.0);
 			double g = comet.g;
 			double k = comet.k;
+			decimal jd = Convert.ToDecimal(ATime.JD);
 
-			return EphemerisManager.GetEphemeris(T, q, e, w, N, i, g, k, ATime.JD, 0.0, 0.0);
+			return EphemerisManager.GetEphemeris(T, q, e, w, N, i, g, k, jd, 0.0, 0.0);
 		}
 
 		#endregion

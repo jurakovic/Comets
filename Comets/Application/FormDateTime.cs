@@ -34,13 +34,13 @@ namespace Comets.Application
 
 		private DateTime DefaultDateTime { get; set; }
 
-		private double? T { get; set; }
+		private decimal? T { get; set; }
 
 		#endregion
 
 		#region Constructor
 
-		public FormDateTime(DateTime def, DateTime current, double? t)
+		public FormDateTime(DateTime def, DateTime current, decimal? t)
 		{
 			InitializeComponent();
 

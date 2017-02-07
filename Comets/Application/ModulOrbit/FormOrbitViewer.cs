@@ -274,7 +274,7 @@ namespace Comets.Application.ModulOrbit
 		{
 			bool simStarted = IsSimulationStarted;
 
-			string lastSelected = SelectedComet != null ? SelectedComet.Name : null;
+			string lastSelected = SelectedComet?.Name;
 
 			using (FormDatabase fdb = new FormDatabase(Comets, Filters, OrderProperty, OrderAscending, true) { Owner = this })
 			{
@@ -559,9 +559,7 @@ namespace Comets.Application.ModulOrbit
 
 		private void ShowDateTimeForm()
 		{
-			double? T = SelectedComet != null ? (double?)SelectedComet.T : null;
-
-			using (FormDateTime fdt = new FormDateTime(DefaultDateTime, SelectedDateTime, T))
+			using (FormDateTime fdt = new FormDateTime(DefaultDateTime, SelectedDateTime, SelectedComet?.T))
 			{
 				fdt.TopMost = this.TopMost;
 

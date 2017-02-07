@@ -13,7 +13,7 @@ namespace Comets.BusinessLayer.Business
 		private string _full;
 		private string _name;
 		private string _id;
-		private double _T;
+		private decimal _T;
 		private int _Ty;
 		private int _Tm;
 		private int _Td;
@@ -35,7 +35,7 @@ namespace Comets.BusinessLayer.Business
 		private Ephemeris _epPerihelion;
 		private Ephemeris _epCurrent;
 		private DateTime _lastEphemerisUpdate;
-		private double? _Tn;
+		private decimal? _Tn;
 
 		#endregion
 
@@ -71,7 +71,7 @@ namespace Comets.BusinessLayer.Business
 		/// <summary>
 		/// Epoch (Julian day)
 		/// </summary>
-		public double T
+		public decimal T
 		{
 			get { return _T; }
 			set { _T = value; }
@@ -294,7 +294,7 @@ namespace Comets.BusinessLayer.Business
 		/// <summary>
 		/// Nearest perihelion date
 		/// </summary>
-		public double Tn
+		public decimal Tn
 		{
 			get
 			{
@@ -302,13 +302,13 @@ namespace Comets.BusinessLayer.Business
 				{
 					if (IsPeriodic)
 					{
-						List<double> t_all = new List<double>();
+						List<decimal> t_all = new List<decimal>();
 
-						double t = T;
-						double periodDays = P * 365.25;
+						decimal t = T;
+						decimal periodDays = Convert.ToDecimal(P) * 365.25m;
 
-						double min = EphemerisManager.JD(Comets.Application.FormDateTime.Minimum);
-						double max = EphemerisManager.JD(Comets.Application.FormDateTime.Maximum);
+						decimal min = EphemerisManager.JD(Comets.Application.FormDateTime.Minimum);
+						decimal max = EphemerisManager.JD(Comets.Application.FormDateTime.Maximum);
 
 						//going to earliest T
 						while (t - periodDays > min)

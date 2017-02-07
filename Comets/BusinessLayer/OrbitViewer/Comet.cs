@@ -23,7 +23,7 @@ namespace Comets.OrbitViewer
 		/// <summary>
 		/// Epoch
 		/// </summary>
-		public double T { get; private set; }
+		public decimal T { get; private set; }
 
 		/// <summary>
 		/// Eccentricity
@@ -135,7 +135,7 @@ namespace Comets.OrbitViewer
 				throw new ArithmeticException();
 
 			double axis = this.q / (1.0 - this.e);
-			double M = Astro.Gauss * (jd - this.T) / (Math.Sqrt(axis) * axis);
+			double M = Astro.Gauss * (jd - (double)this.T) / (Math.Sqrt(axis) * axis);
 			double E1 = M + this.e * Math.Sin(M);
 			int count = MaxApproximations;
 
@@ -187,7 +187,7 @@ namespace Comets.OrbitViewer
 			if (this.q == 0.0)
 				throw new ArithmeticException();
 
-			double N = Astro.Gauss * (jd - this.T) / (Math.Sqrt(2.0) * this.q * Math.Sqrt(this.q));
+			double N = Astro.Gauss * (jd - (double)this.T) / (Math.Sqrt(2.0) * this.q * Math.Sqrt(this.q));
 			double tanV2 = N;
 			double oldTanV2, tan2V2;
 			int count = MaxApproximations;
@@ -233,7 +233,7 @@ namespace Comets.OrbitViewer
 			{
 				A0 = A1;
 				B0 = B1;
-				N = B0 * A * Astro.Gauss * (jd - this.T) / (Math.Sqrt(2.0) * this.q * Math.Sqrt(this.q));
+				N = B0 * A * Astro.Gauss * (jd - (double)this.T) / (Math.Sqrt(2.0) * this.q * Math.Sqrt(this.q));
 				int count2 = MaxApproximations;
 				do
 				{
