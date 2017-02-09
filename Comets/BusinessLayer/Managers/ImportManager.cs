@@ -366,7 +366,7 @@ namespace Comets.BusinessLayer.Managers
 				}
 			}
 
-			oldCollection = new CometCollection(oldCollection.OrderBy(x => x.orderkey));
+			oldCollection = new CometCollection(oldCollection.OrderBy(x => x.sortkey));
 
 			return oldCollection;
 		}
@@ -436,7 +436,7 @@ namespace Comets.BusinessLayer.Managers
 					ImportNasaComet(filename, ref collection); break;
 			}
 
-			//collection = new CometCollection(collection.OrderBy(x => x.orderkey));
+			//collection = new CometCollection(collection.OrderBy(x => x.sortkey));
 
 			return collection;
 		}
@@ -477,7 +477,7 @@ namespace Comets.BusinessLayer.Managers
 					c.n = CometManager.GetMeanMotion(c.e, c.P);
 					c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
-					c.orderkey = CometManager.GetOrderkey(c.id);
+					c.sortkey = CometManager.GetSortkey(c.id);
 					c.idKey = CometManager.GetIdKey(c.id);
 				}
 				catch
@@ -555,7 +555,7 @@ namespace Comets.BusinessLayer.Managers
 					c.n = CometManager.GetMeanMotion(c.e, c.P);
 					c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
-					c.orderkey = CometManager.GetOrderkey(c.id);
+					c.sortkey = CometManager.GetSortkey(c.id);
 					c.idKey = CometManager.GetIdKey(c.id);
 				}
 				catch
@@ -618,7 +618,7 @@ namespace Comets.BusinessLayer.Managers
 					c.n = CometManager.GetMeanMotion(c.e, c.P);
 					c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
-					c.orderkey = CometManager.GetOrderkey(c.id);
+					c.sortkey = CometManager.GetSortkey(c.id);
 					c.idKey = CometManager.GetIdKey(c.id);
 				}
 				catch
@@ -745,7 +745,7 @@ namespace Comets.BusinessLayer.Managers
 					c.n = CometManager.GetMeanMotion(c.e, c.P);
 					c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
-					c.orderkey = CometManager.GetOrderkey(c.id);
+					c.sortkey = CometManager.GetSortkey(c.id);
 					c.idKey = CometManager.GetIdKey(c.id);
 				}
 				catch
@@ -796,7 +796,7 @@ namespace Comets.BusinessLayer.Managers
 					c.n = CometManager.GetMeanMotion(c.e, c.P);
 					c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
-					c.orderkey = CometManager.GetOrderkey(c.id);
+					c.sortkey = CometManager.GetSortkey(c.id);
 					c.idKey = CometManager.GetIdKey(c.id);
 				}
 				catch
@@ -860,7 +860,7 @@ namespace Comets.BusinessLayer.Managers
 					c.n = CometManager.GetMeanMotion(c.e, c.P);
 					c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
-					c.orderkey = CometManager.GetOrderkey(c.id);
+					c.sortkey = CometManager.GetSortkey(c.id);
 					c.idKey = CometManager.GetIdKey(c.id);
 				}
 				catch
@@ -909,7 +909,7 @@ namespace Comets.BusinessLayer.Managers
 					c.n = CometManager.GetMeanMotion(c.e, c.P);
 					c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
-					c.orderkey = CometManager.GetOrderkey(c.id);
+					c.sortkey = CometManager.GetSortkey(c.id);
 					c.idKey = CometManager.GetIdKey(c.id);
 				}
 				catch
@@ -956,7 +956,7 @@ namespace Comets.BusinessLayer.Managers
 					c.n = CometManager.GetMeanMotion(c.e, c.P);
 					c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
-					c.orderkey = CometManager.GetOrderkey(c.id);
+					c.sortkey = CometManager.GetSortkey(c.id);
 					c.idKey = CometManager.GetIdKey(c.id);
 				}
 				catch
@@ -1007,7 +1007,7 @@ namespace Comets.BusinessLayer.Managers
 					c.n = CometManager.GetMeanMotion(c.e, c.P);
 					c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
-					c.orderkey = CometManager.GetOrderkey(c.id);
+					c.sortkey = CometManager.GetSortkey(c.id);
 					c.idKey = CometManager.GetIdKey(c.id);
 				}
 				catch
@@ -1072,7 +1072,7 @@ namespace Comets.BusinessLayer.Managers
 					c.n = CometManager.GetMeanMotion(c.e, c.P);
 					c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
-					c.orderkey = CometManager.GetOrderkey(c.id);
+					c.sortkey = CometManager.GetSortkey(c.id);
 					c.idKey = CometManager.GetIdKey(c.id);
 				}
 				catch
@@ -1124,7 +1124,7 @@ namespace Comets.BusinessLayer.Managers
 					c.n = CometManager.GetMeanMotion(c.e, c.P);
 					c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
-					c.orderkey = CometManager.GetOrderkey(c.id);
+					c.sortkey = CometManager.GetSortkey(c.id);
 					c.idKey = CometManager.GetIdKey(c.id);
 				}
 				catch
@@ -1184,7 +1184,7 @@ namespace Comets.BusinessLayer.Managers
 					c.n = CometManager.GetMeanMotion(c.e, c.P);
 					c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
-					c.orderkey = CometManager.GetOrderkey(c.id);
+					c.sortkey = CometManager.GetSortkey(c.id);
 					c.idKey = CometManager.GetIdKey(c.id);
 				}
 				catch
@@ -1228,7 +1228,7 @@ namespace Comets.BusinessLayer.Managers
 					c.n = CometManager.GetMeanMotion(c.e, c.P);
 					c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
-					c.orderkey = CometManager.GetOrderkey(c.id);
+					c.sortkey = CometManager.GetSortkey(c.id);
 					c.idKey = CometManager.GetIdKey(c.id);
 				}
 				catch
@@ -1280,7 +1280,7 @@ namespace Comets.BusinessLayer.Managers
 					c.n = CometManager.GetMeanMotion(c.e, c.P);
 					c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
-					c.orderkey = CometManager.GetOrderkey(c.id);
+					c.sortkey = CometManager.GetSortkey(c.id);
 					c.idKey = CometManager.GetIdKey(c.id);
 				}
 				catch
@@ -1332,7 +1332,7 @@ namespace Comets.BusinessLayer.Managers
 					c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
 					//voyager nema id
-					//c.orderkey = CometManager.GetOrderkey(c.id);
+					//c.sortkey = CometManager.GetSortkey(c.id);
 					//c.idKey = CometManager.GetIdKey(c.id);
 				}
 				catch
@@ -1407,7 +1407,7 @@ namespace Comets.BusinessLayer.Managers
 					c.n = CometManager.GetMeanMotion(c.e, c.P);
 					c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
-					c.orderkey = CometManager.GetOrderkey(c.id);
+					c.sortkey = CometManager.GetSortkey(c.id);
 					c.idKey = CometManager.GetIdKey(c.id);
 				}
 				catch
@@ -1459,7 +1459,7 @@ namespace Comets.BusinessLayer.Managers
 					c.n = CometManager.GetMeanMotion(c.e, c.P);
 					c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
-					c.orderkey = CometManager.GetOrderkey(c.id);
+					c.sortkey = CometManager.GetSortkey(c.id);
 					c.idKey = CometManager.GetIdKey(c.id);
 				}
 				catch
@@ -1512,7 +1512,7 @@ namespace Comets.BusinessLayer.Managers
 					c.n = CometManager.GetMeanMotion(c.e, c.P);
 					c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
-					c.orderkey = CometManager.GetOrderkey(c.id);
+					c.sortkey = CometManager.GetSortkey(c.id);
 					c.idKey = CometManager.GetIdKey(c.id);
 				}
 				catch

@@ -76,9 +76,9 @@
 			this.txtElemArgPeri = new System.Windows.Forms.TextBox();
 			this.lbxDatabase = new System.Windows.Forms.ListBox();
 			this.btnFilters = new System.Windows.Forms.Button();
-			this.btnOrder = new System.Windows.Forms.Button();
+			this.btnSort = new System.Windows.Forms.Button();
 			this.btnOk = new System.Windows.Forms.Button();
-			this.contextOrder = new System.Windows.Forms.ContextMenu();
+			this.contextSort = new System.Windows.Forms.ContextMenu();
 			this.mnuDesig = new System.Windows.Forms.MenuItem();
 			this.mnuDiscoverer = new System.Windows.Forms.MenuItem();
 			this.mnuPerihDate = new System.Windows.Forms.MenuItem();
@@ -102,8 +102,8 @@
 			this.pnlDetails = new System.Windows.Forms.Panel();
 			this.tbcDetails = new System.Windows.Forms.TabControl();
 			this.tbpEphemeris = new System.Windows.Forms.TabPage();
-			this.txtElemOrderkey = new System.Windows.Forms.TextBox();
-			this.lblElemOrderkey = new System.Windows.Forms.Label();
+			this.txtElemSortkey = new System.Windows.Forms.TextBox();
+			this.lblElemSortkey = new System.Windows.Forms.Label();
 			this.lblEphemAzIndicator = new System.Windows.Forms.Label();
 			this.lblEphemDecIndicator = new System.Windows.Forms.Label();
 			this.lblEphemSunDistIndicator = new System.Windows.Forms.Label();
@@ -677,15 +677,15 @@
 			this.btnFilters.UseVisualStyleBackColor = true;
 			this.btnFilters.Click += new System.EventHandler(this.btnFilters_Click);
 			// 
-			// btnOrder
+			// btnSort
 			// 
-			this.btnOrder.Location = new System.Drawing.Point(273, 18);
-			this.btnOrder.Name = "btnOrder";
-			this.btnOrder.Size = new System.Drawing.Size(100, 23);
-			this.btnOrder.TabIndex = 1;
-			this.btnOrder.Text = "Order";
-			this.btnOrder.UseVisualStyleBackColor = true;
-			this.btnOrder.Click += new System.EventHandler(this.btnOrder_Click);
+			this.btnSort.Location = new System.Drawing.Point(273, 18);
+			this.btnSort.Name = "btnSort";
+			this.btnSort.Size = new System.Drawing.Size(100, 23);
+			this.btnSort.TabIndex = 1;
+			this.btnSort.Text = "Sort by";
+			this.btnSort.UseVisualStyleBackColor = true;
+			this.btnSort.Click += new System.EventHandler(this.btnSort_Click);
 			// 
 			// btnOk
 			// 
@@ -697,9 +697,9 @@
 			this.btnOk.Text = "OK";
 			this.btnOk.UseVisualStyleBackColor = true;
 			// 
-			// contextOrder
+			// contextSort
 			// 
-			this.contextOrder.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.contextSort.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.mnuDesig,
             this.mnuDiscoverer,
             this.mnuPerihDate,
@@ -726,7 +726,7 @@
 			this.mnuDesig.RadioCheck = true;
 			this.mnuDesig.Tag = "";
 			this.mnuDesig.Text = "Designation";
-			this.mnuDesig.Click += new System.EventHandler(this.menuItemOrderCommon_Click);
+			this.mnuDesig.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuDiscoverer
 			// 
@@ -734,7 +734,7 @@
 			this.mnuDiscoverer.RadioCheck = true;
 			this.mnuDiscoverer.Tag = "";
 			this.mnuDiscoverer.Text = "Discoverer";
-			this.mnuDiscoverer.Click += new System.EventHandler(this.menuItemOrderCommon_Click);
+			this.mnuDiscoverer.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuPerihDate
 			// 
@@ -742,49 +742,49 @@
 			this.mnuPerihDate.RadioCheck = true;
 			this.mnuPerihDate.Tag = "";
 			this.mnuPerihDate.Text = "Perihelion date";
-			this.mnuPerihDate.Click += new System.EventHandler(this.menuItemOrderCommon_Click);
+			this.mnuPerihDate.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuPerihDist
 			// 
 			this.mnuPerihDist.Index = 3;
 			this.mnuPerihDist.Tag = "";
 			this.mnuPerihDist.Text = "Perihelion distance";
-			this.mnuPerihDist.Click += new System.EventHandler(this.menuItemOrderCommon_Click);
+			this.mnuPerihDist.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuPerihEarthDist
 			// 
 			this.mnuPerihEarthDist.Index = 4;
 			this.mnuPerihEarthDist.Tag = "";
 			this.mnuPerihEarthDist.Text = "Perihelion distance from Earth";
-			this.mnuPerihEarthDist.Click += new System.EventHandler(this.menuItemOrderCommon_Click);
+			this.mnuPerihEarthDist.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuPerihMag
 			// 
 			this.mnuPerihMag.Index = 5;
 			this.mnuPerihMag.Tag = "";
 			this.mnuPerihMag.Text = "Perihelion magnitude";
-			this.mnuPerihMag.Click += new System.EventHandler(this.menuItemOrderCommon_Click);
+			this.mnuPerihMag.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuCurrSunDist
 			// 
 			this.mnuCurrSunDist.Index = 6;
 			this.mnuCurrSunDist.Tag = "";
 			this.mnuCurrSunDist.Text = "Current distance from Sun";
-			this.mnuCurrSunDist.Click += new System.EventHandler(this.menuItemOrderCommon_Click);
+			this.mnuCurrSunDist.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuCurrEarthDist
 			// 
 			this.mnuCurrEarthDist.Index = 7;
 			this.mnuCurrEarthDist.Tag = "";
 			this.mnuCurrEarthDist.Text = "Current distance from Earth";
-			this.mnuCurrEarthDist.Click += new System.EventHandler(this.menuItemOrderCommon_Click);
+			this.mnuCurrEarthDist.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuCurrMag
 			// 
 			this.mnuCurrMag.Index = 8;
 			this.mnuCurrMag.Tag = "";
 			this.mnuCurrMag.Text = "Current magnitude";
-			this.mnuCurrMag.Click += new System.EventHandler(this.menuItemOrderCommon_Click);
+			this.mnuCurrMag.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuPeriod
 			// 
@@ -792,21 +792,21 @@
 			this.mnuPeriod.RadioCheck = true;
 			this.mnuPeriod.Tag = "";
 			this.mnuPeriod.Text = "Period";
-			this.mnuPeriod.Click += new System.EventHandler(this.menuItemOrderCommon_Click);
+			this.mnuPeriod.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuAphDistance
 			// 
 			this.mnuAphDistance.Index = 10;
 			this.mnuAphDistance.Tag = "";
 			this.mnuAphDistance.Text = "Aphelion distance";
-			this.mnuAphDistance.Click += new System.EventHandler(this.menuItemOrderCommon_Click);
+			this.mnuAphDistance.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuSemiMajorAxis
 			// 
 			this.mnuSemiMajorAxis.Index = 11;
 			this.mnuSemiMajorAxis.Tag = "";
 			this.mnuSemiMajorAxis.Text = "Semi-major axis";
-			this.mnuSemiMajorAxis.Click += new System.EventHandler(this.menuItemOrderCommon_Click);
+			this.mnuSemiMajorAxis.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuEcc
 			// 
@@ -814,7 +814,7 @@
 			this.mnuEcc.RadioCheck = true;
 			this.mnuEcc.Tag = "";
 			this.mnuEcc.Text = "Eccentricity";
-			this.mnuEcc.Click += new System.EventHandler(this.menuItemOrderCommon_Click);
+			this.mnuEcc.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuIncl
 			// 
@@ -822,7 +822,7 @@
 			this.mnuIncl.RadioCheck = true;
 			this.mnuIncl.Tag = "";
 			this.mnuIncl.Text = "Inclination";
-			this.mnuIncl.Click += new System.EventHandler(this.menuItemOrderCommon_Click);
+			this.mnuIncl.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuAscNode
 			// 
@@ -830,7 +830,7 @@
 			this.mnuAscNode.RadioCheck = true;
 			this.mnuAscNode.Tag = "";
 			this.mnuAscNode.Text = "Long. of the Asc. Node";
-			this.mnuAscNode.Click += new System.EventHandler(this.menuItemOrderCommon_Click);
+			this.mnuAscNode.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuArgPeri
 			// 
@@ -838,7 +838,7 @@
 			this.mnuArgPeri.RadioCheck = true;
 			this.mnuArgPeri.Tag = "";
 			this.mnuArgPeri.Text = "Arg. of Pericenter";
-			this.mnuArgPeri.Click += new System.EventHandler(this.menuItemOrderCommon_Click);
+			this.mnuArgPeri.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuSeparator
 			// 
@@ -850,14 +850,14 @@
 			this.mnuAsc.Index = 17;
 			this.mnuAsc.RadioCheck = true;
 			this.mnuAsc.Text = "Ascending";
-			this.mnuAsc.Click += new System.EventHandler(this.menuItemOrderAscDesc_Click);
+			this.mnuAsc.Click += new System.EventHandler(this.menuItemSortAscDesc_Click);
 			// 
 			// mnuDesc
 			// 
 			this.mnuDesc.Index = 18;
 			this.mnuDesc.RadioCheck = true;
 			this.mnuDesc.Text = "Descending";
-			this.mnuDesc.Click += new System.EventHandler(this.menuItemOrderAscDesc_Click);
+			this.mnuDesc.Click += new System.EventHandler(this.menuItemSortAscDesc_Click);
 			// 
 			// btnFiltersApply
 			// 
@@ -894,8 +894,8 @@
 			// tbpEphemeris
 			// 
 			this.tbpEphemeris.BackColor = System.Drawing.SystemColors.Control;
-			this.tbpEphemeris.Controls.Add(this.txtElemOrderkey);
-			this.tbpEphemeris.Controls.Add(this.lblElemOrderkey);
+			this.tbpEphemeris.Controls.Add(this.txtElemSortkey);
+			this.tbpEphemeris.Controls.Add(this.lblElemSortkey);
 			this.tbpEphemeris.Controls.Add(this.lblEphemAzIndicator);
 			this.tbpEphemeris.Controls.Add(this.lblEphemDecIndicator);
 			this.tbpEphemeris.Controls.Add(this.lblEphemSunDistIndicator);
@@ -947,28 +947,28 @@
 			this.tbpEphemeris.TabIndex = 0;
 			this.tbpEphemeris.Text = "Ephemeris";
 			// 
-			// txtElemOrderkey
+			// txtElemSortkey
 			// 
-			this.txtElemOrderkey.BackColor = System.Drawing.SystemColors.Window;
-			this.txtElemOrderkey.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.txtElemOrderkey.Location = new System.Drawing.Point(382, 26);
-			this.txtElemOrderkey.Name = "txtElemOrderkey";
-			this.txtElemOrderkey.ReadOnly = true;
-			this.txtElemOrderkey.Size = new System.Drawing.Size(116, 22);
-			this.txtElemOrderkey.TabIndex = 1;
-			this.txtElemOrderkey.Visible = false;
+			this.txtElemSortkey.BackColor = System.Drawing.SystemColors.Window;
+			this.txtElemSortkey.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.txtElemSortkey.Location = new System.Drawing.Point(382, 26);
+			this.txtElemSortkey.Name = "txtElemSortkey";
+			this.txtElemSortkey.ReadOnly = true;
+			this.txtElemSortkey.Size = new System.Drawing.Size(116, 22);
+			this.txtElemSortkey.TabIndex = 1;
+			this.txtElemSortkey.Visible = false;
 			// 
-			// lblElemOrderkey
+			// lblElemSortkey
 			// 
-			this.lblElemOrderkey.AutoSize = true;
-			this.lblElemOrderkey.Font = new System.Drawing.Font("Tahoma", 8F);
-			this.lblElemOrderkey.ForeColor = System.Drawing.SystemColors.GrayText;
-			this.lblElemOrderkey.Location = new System.Drawing.Point(381, 7);
-			this.lblElemOrderkey.Name = "lblElemOrderkey";
-			this.lblElemOrderkey.Size = new System.Drawing.Size(44, 13);
-			this.lblElemOrderkey.TabIndex = 315;
-			this.lblElemOrderkey.Text = "Orderkey";
-			this.lblElemOrderkey.Visible = false;
+			this.lblElemSortkey.AutoSize = true;
+			this.lblElemSortkey.Font = new System.Drawing.Font("Tahoma", 8F);
+			this.lblElemSortkey.ForeColor = System.Drawing.SystemColors.GrayText;
+			this.lblElemSortkey.Location = new System.Drawing.Point(381, 7);
+			this.lblElemSortkey.Name = "lblElemSortkey";
+			this.lblElemSortkey.Size = new System.Drawing.Size(44, 13);
+			this.lblElemSortkey.TabIndex = 315;
+			this.lblElemSortkey.Text = "Sortkey";
+			this.lblElemSortkey.Visible = false;
 			// 
 			// lblEphemAzIndicator
 			// 
@@ -1574,7 +1574,7 @@
 			this.Controls.Add(this.btnResetAllFilters);
 			this.Controls.Add(this.lblTotal);
 			this.Controls.Add(this.btnFilters);
-			this.Controls.Add(this.btnOrder);
+			this.Controls.Add(this.btnSort);
 			this.Controls.Add(this.lbxDatabase);
 			this.Controls.Add(this.pnlDetails);
 			this.Controls.Add(this.btnOk);
@@ -1654,9 +1654,9 @@
 		private System.Windows.Forms.TextBox txtElemArgPeri;
 		private System.Windows.Forms.ListBox lbxDatabase;
 		private System.Windows.Forms.Button btnFilters;
-		private System.Windows.Forms.Button btnOrder;
+		private System.Windows.Forms.Button btnSort;
 		private System.Windows.Forms.Button btnOk;
-		private System.Windows.Forms.ContextMenu contextOrder;
+		private System.Windows.Forms.ContextMenu contextSort;
 		private System.Windows.Forms.MenuItem mnuDesig;
 		private System.Windows.Forms.MenuItem mnuDiscoverer;
 		private System.Windows.Forms.MenuItem mnuPerihDate;
@@ -1732,7 +1732,7 @@
 		private System.Windows.Forms.MenuItem mnuSemiMajorAxis;
 		private System.Windows.Forms.Button btnNewFilter;
 		private System.Windows.Forms.Button btnJplInfo;
-		private System.Windows.Forms.Label lblElemOrderkey;
-		private System.Windows.Forms.TextBox txtElemOrderkey;
+		private System.Windows.Forms.Label lblElemSortkey;
+		private System.Windows.Forms.TextBox txtElemSortkey;
 	}
 }

@@ -29,7 +29,7 @@ namespace Comets.BusinessLayer.Business
 		private double _a;
 		private double _Q;
 		private double _n;
-		private double _orderkey;
+		private double _sortkey;
 		private string _idKey;
 
 		private Ephemeris _epPerihelion;
@@ -224,12 +224,12 @@ namespace Comets.BusinessLayer.Business
 		}
 
 		/// <summary>
-		/// Orderkey
+		/// Sortkey
 		/// </summary>
-		public double orderkey
+		public double sortkey
 		{
-			get { return _orderkey; }
-			set { _orderkey = value; }
+			get { return _sortkey; }
+			set { _sortkey = value; }
 		}
 
 		/// <summary>

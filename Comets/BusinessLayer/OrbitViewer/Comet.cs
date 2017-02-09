@@ -81,6 +81,11 @@ namespace Comets.OrbitViewer
 		public Matrix VectorConstant { get; private set; }
 
 		/// <summary>
+		/// SortKey
+		/// </summary>
+		public double SortKey { get; private set; }
+
+		/// <summary>
 		/// Comet location on Panel
 		/// </summary>
 		public Point PanelLocation { get; set; }
@@ -110,6 +115,7 @@ namespace Comets.OrbitViewer
 			this.g = comet.g;
 			this.k = comet.k;
 			this.Equinox = 2000.0;
+			this.SortKey = comet.sortkey;
 
 			int eqYear = (int)Math.Floor(this.Equinox);
 			double eqM = (this.Equinox - (double)eqYear) * 12.0;

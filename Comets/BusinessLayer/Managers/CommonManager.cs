@@ -7,8 +7,8 @@ namespace Comets.BusinessLayer.Managers
 	{
 		#region Const
 
-		public static string DefaultOrderProperty = CometManager.PropertyEnum.orderkey.ToString();
-		public static bool DefaultOrderAscending = true;
+		public static string DefaultSortProperty = CometManager.PropertyEnum.sortkey.ToString();
+		public static bool DefaultSortAscending = true;
 
 		#endregion
 
@@ -19,8 +19,8 @@ namespace Comets.BusinessLayer.Managers
 		public static bool _isDataChanged;
 
 		public static FilterCollection _filters;
-		public static string _orderProperty;
-		public static bool? _orderAscending;
+		public static string _sortProperty;
+		public static bool? _sortAscending;
 
 		public static Settings _settings;
 
@@ -73,33 +73,33 @@ namespace Comets.BusinessLayer.Managers
 			set { _filters = value; }
 		}
 
-		public static string OrderProperty
+		public static string SortProperty
 		{
 			get
 			{
-				if (String.IsNullOrEmpty(_orderProperty))
-					_orderProperty = DefaultOrderProperty;
+				if (String.IsNullOrEmpty(_sortProperty))
+					_sortProperty = DefaultSortProperty;
 
-				return _orderProperty;
+				return _sortProperty;
 			}
 			set
 			{
-				_orderProperty = value;
+				_sortProperty = value;
 			}
 		}
 
-		public static bool OrderAscending
+		public static bool SortAscending
 		{
 			get
 			{
-				if (_orderAscending == null)
-					_orderAscending = DefaultOrderAscending;
+				if (_sortAscending == null)
+					_sortAscending = DefaultSortAscending;
 
-				return _orderAscending.Value;
+				return _sortAscending.Value;
 			}
 			set
 			{
-				_orderAscending = value;
+				_sortAscending = value;
 			}
 		}
 
