@@ -352,6 +352,33 @@ namespace Comets.BusinessLayer.Business
 		}
 
 		#endregion
+
+		#region Equals
+
+		public override bool Equals(object o)
+		{
+			bool retval = false;
+
+			Comet c = o as Comet;
+
+			if (c != null)
+			{
+				retval =
+					this.full == c.full &&
+					this.T == c.T &&
+					this.q == c.q &&
+					this.e == c.e &&
+					this.i == c.i &&
+					this.N == c.N &&
+					this.w == c.w &&
+					this.g == c.g &&
+					this.k == c.k;
+			}
+
+			return retval;
+		}
+
+		#endregion
 	}
 
 	#region CometCollection
@@ -367,6 +394,12 @@ namespace Comets.BusinessLayer.Business
 			: base(comets)
 		{
 
+		}
+
+		public new void Add(Comet c)
+		{
+			if (!this.Any(x => x.full == c.full))
+				base.Add(c);
 		}
 	}
 

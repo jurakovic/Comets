@@ -331,11 +331,11 @@ namespace Comets.BusinessLayer.Managers
 
 		#region ImportMain
 
-		public static CometCollection ImportMain(CometCollection oldCollection, ImportType importType, string filename, out int newCnt, out int oldCnt)
+		public static CometCollection ImportMain(CometCollection oldCollection, ImportType importType, string filename, out int newCnt, out int updCnt)
 		{
-			CometCollection newCollection = ImportManager.ImportByType(importType, filename);
+			CometCollection newCollection = ImportByType(importType, filename);
 
-			oldCnt = 0;
+			updCnt = 0;
 			newCnt = 0;
 
 			if (newCollection.Count > 0)
@@ -349,7 +349,9 @@ namespace Comets.BusinessLayer.Managers
 						if (o != null)
 						{
 							oldCollection.Remove(o);
-							oldCnt++;
+
+							if (!o.Equals(n))
+								updCnt++;
 						}
 						else
 						{
@@ -435,8 +437,6 @@ namespace Comets.BusinessLayer.Managers
 				case ImportType.NASA:
 					ImportNasaComet(filename, ref collection); break;
 			}
-
-			//collection = new CometCollection(collection.OrderBy(x => x.sortkey));
 
 			return collection;
 		}
