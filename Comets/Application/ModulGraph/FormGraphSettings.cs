@@ -167,13 +167,13 @@ namespace Comets.Application.ModulGraph
 		{
 			GraphSettings sett = this.GraphSettings;
 
-			using (FormDatabase fdb = new FormDatabase(sett.Comets, sett.Filters, sett.SortProperty, sett.SortAscending, true) { Owner = this })
+			using (FormDatabase fdb = new FormDatabase(CommonManager.MainCollection, sett.Filters, sett.SortProperty, sett.SortAscending, true) { Owner = this })
 			{
 				fdb.TopMost = this.TopMost;
 
 				if (fdb.ShowDialog() == DialogResult.OK)
 				{
-					sett.Comets = fdb.Comets;
+					sett.Comets = fdb.CometsFiltered;
 					sett.Filters = fdb.Filters;
 					sett.SortProperty = fdb.SortProperty;
 					sett.SortAscending = fdb.SortAscending;

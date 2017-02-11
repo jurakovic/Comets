@@ -9,6 +9,12 @@ namespace Comets.BusinessLayer.Managers
 {
 	public static class ImportManager
 	{
+		#region Const
+
+		private static char[] TrimCharacters = new[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '/', ';' };
+
+		#endregion
+
 		#region GetImportType
 
 		public static ImportType GetImportType(string filename)
@@ -331,17 +337,18 @@ namespace Comets.BusinessLayer.Managers
 
 		#region ImportMain
 
-		public static CometCollection ImportMain(CometCollection oldCollection, ImportType importType, string filename, out int newCnt, out int updCnt)
+		public static CometCollection ImportMain(CometCollection collection, ImportType importType, string filename)
 		{
+			CometCollection oldCollection = new CometCollection(collection);
 			CometCollection newCollection = ImportByType(importType, filename);
-
-			updCnt = 0;
-			newCnt = 0;
 
 			if (newCollection.Count > 0)
 			{
 				if (oldCollection.Count > 0)
 				{
+					oldCollection.SetImportResult(CometManager.ImportResult.NoChanges);
+					newCollection.SetImportResult(CometManager.ImportResult.NoChanges);
+
 					foreach (Comet n in newCollection)
 					{
 						Comet o = oldCollection.FirstOrDefault(x => x.full == n.full);
@@ -351,11 +358,11 @@ namespace Comets.BusinessLayer.Managers
 							oldCollection.Remove(o);
 
 							if (!o.Equals(n))
-								updCnt++;
+								n.ImportResult = CometManager.ImportResult.Update;
 						}
 						else
 						{
-							newCnt++;
+							n.ImportResult = CometManager.ImportResult.New;
 						}
 
 						oldCollection.Add(n);
@@ -363,8 +370,8 @@ namespace Comets.BusinessLayer.Managers
 				}
 				else
 				{
+					newCollection.SetImportResult(CometManager.ImportResult.New);
 					oldCollection = newCollection;
-					newCnt = oldCollection.Count;
 				}
 			}
 
@@ -464,7 +471,7 @@ namespace Comets.BusinessLayer.Managers
 					c.i = Convert.ToDouble(line.Substring(71, 8).Trim());
 					c.g = Convert.ToDouble(line.Substring(91, 4).Trim());
 					c.k = Convert.ToDouble(line.Substring(96, 4).Trim());
-					c.full = line.Substring(102, 55).Trim();
+					c.full = line.Substring(102, 55).Trim().TrimEnd(TrimCharacters).Trim();
 
 					string id, name;
 					CometManager.GetIdNameFromFull(c.full, out id, out name);
@@ -501,7 +508,7 @@ namespace Comets.BusinessLayer.Managers
 
 				try
 				{
-					tempFull = line.Substring(0, 44).Trim();
+					tempFull = line.Substring(0, 44).Trim().TrimEnd(TrimCharacters).Trim();
 					c.Ty = Convert.ToInt32(line.Substring(47, 4).Trim());
 					c.Tm = Convert.ToInt32(line.Substring(52, 2).Trim());
 					c.Td = Convert.ToInt32(line.Substring(55, 2).Trim());
@@ -579,7 +586,7 @@ namespace Comets.BusinessLayer.Managers
 
 				try
 				{
-					tempFull = line.Substring(0, 42).Trim();
+					tempFull = line.Substring(0, 42).Trim().TrimEnd(TrimCharacters).Trim();
 					c.Td = Convert.ToInt32(line.Substring(43, 2).Trim());
 					c.Th = Convert.ToInt32(line.Substring(46, 4).Trim().PadRight(4, '0'));
 					c.Tm = Convert.ToInt32(line.Substring(52, 2).Trim());
@@ -646,9 +653,7 @@ namespace Comets.BusinessLayer.Managers
 				{
 					string[] parts = lines[i].Split(',');
 
-					c.full = parts[0];
-					if (c.full[c.full.Length - 1] == '/') c.full = c.full.TrimEnd('/');
-
+					c.full = parts[0].Trim().TrimEnd(TrimCharacters).Trim();
 					string id, name;
 					CometManager.GetIdNameFromFull(c.full, out id, out name);
 					c.id = id;
@@ -769,9 +774,7 @@ namespace Comets.BusinessLayer.Managers
 				{
 					string[] parts = lines[i].Split(',');
 
-					c.full = parts[0];
-					if (c.full[c.full.Length - 1] == '/') c.full = c.full.TrimEnd('/');
-
+					c.full = parts[0].Trim().TrimEnd(TrimCharacters).Trim();
 					string id, name;
 					CometManager.GetIdNameFromFull(c.full, out id, out name);
 					c.id = id;
@@ -827,9 +830,7 @@ namespace Comets.BusinessLayer.Managers
 				{
 					string[] parts = lines[i].Split('\t');
 
-					c.full = parts[0];
-					c.full = c.full.TrimEnd(';');
-
+					c.full = parts[0].Trim().TrimEnd(TrimCharacters).Trim();
 					string id, name;
 					CometManager.GetIdNameFromFull(c.full, out id, out name);
 					c.id = id;
@@ -882,7 +883,7 @@ namespace Comets.BusinessLayer.Managers
 				{
 					string[] parts = line.Split('|');
 
-					c.full = parts[0].Trim();
+					c.full = parts[0].Trim().TrimEnd(TrimCharacters).Trim();
 
 					string id, name;
 					CometManager.GetIdNameFromFull(c.full, out id, out name);
@@ -931,7 +932,7 @@ namespace Comets.BusinessLayer.Managers
 
 				try
 				{
-					c.name = lines[i].Substring(5, 29).Trim();
+					c.name = lines[i].Substring(5, 29).Trim().TrimEnd(TrimCharacters).Trim();
 					c.g = Convert.ToDouble(lines[i].Substring(34, 6).Trim());
 					c.e = Convert.ToDouble(lines[i].Substring(48, 10).Trim());
 					c.q = Convert.ToDouble(lines[i].Substring(59, 11).Trim());
@@ -980,7 +981,7 @@ namespace Comets.BusinessLayer.Managers
 				{
 					string tempfull = lines[i];
 					string[] idname = tempfull.Split('(');
-					c.name = idname[0].Trim();
+					c.name = idname[0].Trim().TrimEnd(TrimCharacters).Trim();
 					c.id = idname[1].TrimEnd(')');
 					c.full = CometManager.GetFullFromIdName(c.id, c.name);
 
@@ -1061,7 +1062,7 @@ namespace Comets.BusinessLayer.Managers
 					for (int i = 11; i < parts.Length; i++)
 						tempName += parts[i] + " ";
 
-					c.name = tempName.Trim();
+					c.name = tempName.Trim().TrimEnd(TrimCharacters).Trim();
 
 					c.full = CometManager.GetFullFromIdName(id, c.name);
 					c.id = id;
@@ -1094,7 +1095,7 @@ namespace Comets.BusinessLayer.Managers
 
 				try
 				{
-					c.full = lines[i];
+					c.full = lines[i].TrimEnd(TrimCharacters).Trim();
 
 					string id, name;
 					CometManager.GetIdNameFromFull(c.full, out id, out name);
@@ -1173,7 +1174,7 @@ namespace Comets.BusinessLayer.Managers
 					if (lines[i].Length == 69)
 						c.name = String.Empty;
 					else
-						c.name = lines[i].Substring(70, lines[i].Length - 70).Trim();
+						c.name = lines[i].Substring(70, lines[i].Length - 70).Trim().TrimEnd(TrimCharacters).Trim();
 
 					c.full = CometManager.GetFullFromIdName(id, c.name);
 					c.id = id;
@@ -1204,7 +1205,7 @@ namespace Comets.BusinessLayer.Managers
 
 				try
 				{
-					c.name = line.Substring(0, 30).Trim();
+					c.name = line.Substring(0, 30).Trim().TrimEnd(TrimCharacters).Trim();
 					c.id = line.Substring(30, 12).Trim();
 
 					c.full = CometManager.GetFullFromIdName(c.id, c.name);
@@ -1267,7 +1268,7 @@ namespace Comets.BusinessLayer.Managers
 					c.g = Convert.ToDouble(gk[0]);
 					c.k = Convert.ToDouble(gk[1]);
 
-					c.full = parts[12].Split(';')[0];
+					c.full = parts[12].Split(';')[0].TrimEnd(TrimCharacters).Trim();
 
 					string id, name;
 					CometManager.GetIdNameFromFull(c.full, out id, out name);
@@ -1302,7 +1303,7 @@ namespace Comets.BusinessLayer.Managers
 
 				try
 				{
-					c.name = lines[i].Substring(0, 27).Trim();
+					c.name = lines[i].Substring(0, 27).Trim().TrimEnd(TrimCharacters).Trim();
 					c.id = String.Empty;
 					c.full = c.name;
 
@@ -1356,9 +1357,9 @@ namespace Comets.BusinessLayer.Managers
 
 				try
 				{
-					tempFull = line.Substring(2, 41).Trim();
+					tempFull = line.Substring(2, 41).Trim().TrimEnd(TrimCharacters).Trim();
 
-					if ((tempFull[0].In('C', 'P', 'D', 'X')) && tempFull[1] == '/')
+					if (tempFull[0].In('C', 'P', 'D', 'X') && tempFull[1] == '/')
 					{
 						int spaces = tempFull.Count(f => f == ' ');
 
@@ -1429,7 +1430,7 @@ namespace Comets.BusinessLayer.Managers
 
 				try
 				{
-					c.full = lines[i].Split('=')[1];
+					c.full = lines[i].Split('=')[1].Trim().TrimEnd(TrimCharacters).Trim();
 
 					string id, name;
 					CometManager.GetIdNameFromFull(c.full, out id, out name);

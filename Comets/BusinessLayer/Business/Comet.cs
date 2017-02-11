@@ -3,6 +3,7 @@ using Comets.BusinessLayer.Managers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ImportResult = Comets.BusinessLayer.Managers.CometManager.ImportResult;
 
 namespace Comets.BusinessLayer.Business
 {
@@ -36,6 +37,7 @@ namespace Comets.BusinessLayer.Business
 		private Ephemeris _epCurrent;
 		private DateTime _lastEphemerisUpdate;
 		private decimal? _Tn;
+		private ImportResult _importResult;
 
 		#endregion
 
@@ -333,6 +335,12 @@ namespace Comets.BusinessLayer.Business
 			}
 		}
 
+		public ImportResult ImportResult
+		{
+			get { return _importResult; }
+			set { _importResult = value; }
+		}
+
 		#endregion
 
 		#region Constructor
@@ -400,6 +408,11 @@ namespace Comets.BusinessLayer.Business
 		{
 			if (!this.Any(x => x.full == c.full))
 				base.Add(c);
+		}
+
+		public void SetImportResult(ImportResult result)
+		{
+			this.ForEach(x => x.ImportResult = result);
 		}
 	}
 

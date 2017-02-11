@@ -10,6 +10,7 @@ namespace Comets.BusinessLayer.Managers
 		#region Const
 
 		public static string[] Month = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+		public static string[] ImportResults = { "New comets", "Updates", "No changes", "All comets" };
 		public static double MinimumMinutesForRecalculate = 5;
 
 		#endregion
@@ -37,6 +38,14 @@ namespace Comets.BusinessLayer.Managers
 			w,
 			sortkey
 		};
+
+		public enum ImportResult
+		{
+			New = 0,
+			Update,
+			NoChanges,
+			All
+		}
 
 		#endregion
 

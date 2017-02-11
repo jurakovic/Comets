@@ -276,7 +276,7 @@ namespace Comets.Application.ModulOrbit
 
 			string lastSelected = SelectedComet?.Name;
 
-			using (FormDatabase fdb = new FormDatabase(Comets, Filters, SortProperty, SortAscending, true) { Owner = this })
+			using (FormDatabase fdb = new FormDatabase(CommonManager.MainCollection, Filters, SortProperty, SortAscending, true) { Owner = this })
 			{
 				fdb.TopMost = this.TopMost;
 
@@ -286,7 +286,7 @@ namespace Comets.Application.ModulOrbit
 				{
 					orbitPanel.ClearComets(true);
 
-					Comets = fdb.Comets;
+					Comets = fdb.CometsFiltered;
 					Filters = fdb.Filters;
 					SortProperty = fdb.SortProperty;
 					SortAscending = fdb.SortAscending;

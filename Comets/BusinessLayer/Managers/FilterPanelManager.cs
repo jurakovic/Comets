@@ -387,7 +387,7 @@ namespace Comets.BusinessLayer.Managers
 
 			FormDatabase owner = txt.FindForm() as FormDatabase;
 			if (owner != null)
-				owner.ApplyFilters();
+				owner.ApplyFilters(owner.CometsInitial);
 		}
 
 		#endregion

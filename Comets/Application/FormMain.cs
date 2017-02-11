@@ -70,11 +70,10 @@ namespace Comets.Application
 
 			if (File.Exists(SettingsManager.DatabaseFilename))
 			{
-				int n, o; //dummy
-				CometCollection collection = ImportManager.ImportMain(CommonManager.MainCollection, ElementTypesManager.Type.MPC, SettingsManager.DatabaseFilename, out n, out o);
+				CometCollection collection = ImportManager.ImportMain(CommonManager.MainCollection, ElementTypesManager.Type.MPC, SettingsManager.DatabaseFilename);
 				CommonManager.MainCollection = new CometCollection(collection);
 				CommonManager.UserCollection = new CometCollection(collection);
-				SetStatusCometsLabel(CommonManager.UserCollection.Count, CommonManager.MainCollection.Count);
+				SetStatusCometsLabel();
 			}
 		}
 
@@ -99,7 +98,7 @@ namespace Comets.Application
 						{
 							fi.TopMost = this.TopMost;
 							fi.ShowDialog();
-							SetStatusCometsLabel(CommonManager.UserCollection.Count, CommonManager.MainCollection.Count);
+							//SetStatusCometsLabel();
 						}
 					}
 				}
@@ -212,7 +211,7 @@ namespace Comets.Application
 
 		private void menuItemFileOrbit_Click(object sender, EventArgs e)
 		{
-			FormOrbitViewer fo = new FormOrbitViewer(CommonManager.UserCollection, CommonManager.Filters, CommonManager.SortProperty, CommonManager.SortAscending);
+			FormOrbitViewer fo = new FormOrbitViewer(CommonManager.MainCollection, CommonManager.Filters, CommonManager.SortProperty, CommonManager.SortAscending);
 			fo.WindowState = FormWindowState.Maximized;
 			fo.MdiParent = this;
 			fo.Show();
@@ -286,19 +285,19 @@ namespace Comets.Application
 
 		private void menuItemDatabase_Click(object sender, EventArgs e)
 		{
-			using (FormDatabase fdb = new FormDatabase(CommonManager.UserCollection, CommonManager.Filters, CommonManager.SortProperty, CommonManager.SortAscending, false) { Owner = this })
+			using (FormDatabase fdb = new FormDatabase(CommonManager.MainCollection, CommonManager.Filters, CommonManager.SortProperty, CommonManager.SortAscending, false) { Owner = this })
 			{
 				fdb.TopMost = this.TopMost;
 
 				if (fdb.ShowDialog() == DialogResult.OK)
 				{
-					CommonManager.UserCollection = fdb.Comets;
+					CommonManager.UserCollection = fdb.CometsFiltered;
 					CommonManager.Filters = fdb.Filters;
 					CommonManager.SortProperty = fdb.SortProperty;
 					CommonManager.SortAscending = fdb.SortAscending;
 				}
 
-				SetStatusCometsLabel(CommonManager.UserCollection.Count, CommonManager.MainCollection.Count);
+				SetStatusCometsLabel();
 			}
 		}
 
@@ -308,7 +307,6 @@ namespace Comets.Application
 			{
 				formImport.TopMost = this.TopMost;
 				formImport.ShowDialog();
-				SetStatusCometsLabel(CommonManager.UserCollection.Count, CommonManager.MainCollection.Count);
 			}
 		}
 
@@ -426,8 +424,11 @@ namespace Comets.Application
 				(this.ActiveMdiChild as FormOrbitViewer).SaveImage();
 		}
 
-		private void SetStatusCometsLabel(int count, int total)
+		public void SetStatusCometsLabel()
 		{
+			int count = CommonManager.UserCollection.Count;
+			int total = CommonManager.MainCollection.Count;
+
 			if (count < total)
 				this.statusComets.Text = String.Format("Comets: {0} ({1})", count, total);
 			else

@@ -38,7 +38,7 @@
 			this.progressDownload = new System.Windows.Forms.ProgressBar();
 			this.btnClose = new System.Windows.Forms.Button();
 			this.gbxStatus = new System.Windows.Forms.GroupBox();
-			this.labelDetectedComets = new System.Windows.Forms.Label();
+			this.lblCometCount = new System.Windows.Forms.LinkLabel();
 			this.lblImportFormat = new System.Windows.Forms.Label();
 			this.labelTotalCometsDescr = new System.Windows.Forms.Label();
 			this.lblImportFormatDescr = new System.Windows.Forms.Label();
@@ -152,7 +152,7 @@
 			// 
 			this.gbxStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gbxStatus.Controls.Add(this.labelDetectedComets);
+			this.gbxStatus.Controls.Add(this.lblCometCount);
 			this.gbxStatus.Controls.Add(this.lblImportFormat);
 			this.gbxStatus.Controls.Add(this.labelTotalCometsDescr);
 			this.gbxStatus.Controls.Add(this.lblImportFormatDescr);
@@ -166,13 +166,19 @@
 			// 
 			// labelDetectedComets
 			// 
-			this.labelDetectedComets.AutoSize = true;
-			this.labelDetectedComets.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.labelDetectedComets.Location = new System.Drawing.Point(103, 69);
-			this.labelDetectedComets.Name = "labelDetectedComets";
-			this.labelDetectedComets.Size = new System.Drawing.Size(12, 13);
-			this.labelDetectedComets.TabIndex = 47;
-			this.labelDetectedComets.Text = "-";
+			this.lblCometCount.ActiveLinkColor = System.Drawing.Color.Blue;
+			this.lblCometCount.AutoSize = true;
+			this.lblCometCount.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblCometCount.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+			this.lblCometCount.LinkColor = System.Drawing.Color.Blue;
+			this.lblCometCount.Location = new System.Drawing.Point(103, 69);
+			this.lblCometCount.Name = "labelDetectedComets";
+			this.lblCometCount.Size = new System.Drawing.Size(12, 13);
+			this.lblCometCount.TabIndex = 48;
+			this.lblCometCount.TabStop = true;
+			this.lblCometCount.Text = "-";
+			this.lblCometCount.VisitedLinkColor = System.Drawing.Color.Blue;
+			this.lblCometCount.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.labelDetectedComets_LinkClicked);
 			// 
 			// lblImportFormat
 			// 
@@ -279,12 +285,12 @@
 		private System.Windows.Forms.ProgressBar progressDownload;
 		private System.Windows.Forms.Button btnClose;
 		private System.Windows.Forms.GroupBox gbxStatus;
-		private System.Windows.Forms.Label labelDetectedComets;
 		private System.Windows.Forms.Label lblImportFormat;
 		private System.Windows.Forms.Label labelTotalCometsDescr;
 		private System.Windows.Forms.Label lblImportFormatDescr;
 		private System.Windows.Forms.Button btnImport;
 		private System.Windows.Forms.Label lblStatus;
 		private System.Windows.Forms.CheckBox cbxClose;
+		private System.Windows.Forms.LinkLabel lblCometCount;
 	}
 }

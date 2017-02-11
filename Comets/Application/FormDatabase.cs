@@ -15,11 +15,12 @@ namespace Comets.Application
 	{
 		#region Properties
 
-		public CometCollection Comets { get; private set; }
+		public CometCollection CometsInitial { get; private set; }
+		public CometCollection CometsFiltered { get; private set; }
 
 		public Comet SelectedComet
 		{
-			get { return Comets.ElementAtOrDefault(lbxDatabase.SelectedIndex); }
+			get { return CometsFiltered.ElementAtOrDefault(lbxDatabase.SelectedIndex); }
 		}
 
 		public FilterCollection Filters { get; private set; }
@@ -33,9 +34,13 @@ namespace Comets.Application
 
 		#region Constructor
 
-		public FormDatabase(CometCollection collection, FilterCollection filters, string sortProperty, bool sortAscending, bool isForFiltering)
+		public FormDatabase(CometCollection collection, FilterCollection filters, string sortProperty, bool sortAscending, bool isForFiltering, bool isForImportResult = false)
 		{
 			InitializeComponent();
+
+			Timer = new Timer();
+			Timer.Interval = 1000;
+			Timer.Tick += Timer_Tick;
 
 			this.mnuDesig.Tag = PropertyEnum.sortkey.ToString();
 			this.mnuDiscoverer.Tag = PropertyEnum.name.ToString();
@@ -54,7 +59,8 @@ namespace Comets.Application
 			this.mnuAscNode.Tag = PropertyEnum.N.ToString();
 			this.mnuArgPeri.Tag = PropertyEnum.w.ToString();
 
-			Comets = new CometCollection(collection);
+			CometsInitial = new CometCollection(collection);
+			CometsFiltered = new CometCollection(collection);
 			Filters = filters;
 
 			SortProperty = sortProperty;
@@ -63,9 +69,22 @@ namespace Comets.Application
 			pnlDetails.Visible = !isForFiltering;
 			pnlFilters.Visible = isForFiltering;
 
-			Timer = new Timer();
-			Timer.Interval = 1000;
-			Timer.Tick += Timer_Tick;
+			PopulateFilters(Filters);
+			SetSortItems(SortAscending);
+
+			if (isForImportResult)
+			{
+				cbxImportResult.Visible = true;
+				cbxImportResult.DataSource = CometManager.ImportResults;
+				lbxDatabase.Top = 53;
+				lbxDatabase.Height = 354;
+			}
+			else
+			{
+				cbxImportResult.Visible = false;
+				lbxDatabase.Top = 11;
+				lbxDatabase.Height = 396;
+			}
 		}
 
 		#endregion
@@ -74,9 +93,7 @@ namespace Comets.Application
 
 		private void FormDatabase_Load(object sender, EventArgs e)
 		{
-			PopulateFilters(Filters);
-			SetSortItems(SortAscending);
-			SortCollection(Comets);
+			ApplyFilters(CometsFiltered);
 		}
 
 		#endregion
@@ -101,6 +118,17 @@ namespace Comets.Application
 		private void FormDatabase_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			Filters = CollectFilters();
+		}
+
+		#endregion
+
+		#region cbxImportResult_SelectedIndexChanged
+
+		private void cbxImportResult_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			CometManager.ImportResult result = (CometManager.ImportResult)cbxImportResult.SelectedIndex;
+			CometsFiltered = new CometCollection(CometsInitial.Where(x => x.ImportResult == result || result == CometManager.ImportResult.All));
+			ApplyFilters(CometsFiltered);
 		}
 
 		#endregion
@@ -206,7 +234,7 @@ namespace Comets.Application
 			SortAscending = CommonManager.DefaultSortAscending;
 
 			SetSortItems(SortAscending);
-			ApplyFilters();
+			ApplyFilters(CometsInitial);
 		}
 
 		#endregion
@@ -352,7 +380,7 @@ namespace Comets.Application
 				mnuAsc.Checked = SortAscending;
 				mnuDesc.Checked = !SortAscending;
 
-				SortCollection(Comets);
+				SortCollection();
 			}
 		}
 
@@ -361,30 +389,29 @@ namespace Comets.Application
 			mnuAsc.Checked = !mnuAsc.Checked;
 			mnuDesc.Checked = !mnuDesc.Checked;
 			SortAscending = mnuAsc.Checked;
-			SortCollection(Comets);
+			SortCollection();
 		}
 
 		#endregion
 
 		#region SortCollection
 
-		private void SortCollection(CometCollection collection)
+		private void SortCollection()
 		{
-			CometCollection temp = new CometCollection(collection);
-			Comets.Clear();
+			CometCollection temp = new CometCollection(CometsFiltered);
+			CometsFiltered.Clear();
 
 			PropertyDescriptor prop = TypeDescriptor.GetProperties(typeof(Comet)).Find(SortProperty, false);
 
 			if (prop == null)
 				throw new ArgumentException(String.Format("Unknown SortPropertyName: \"{0}\"", SortProperty));
 
-			if (SortAscending)
-				Comets = new CometCollection(temp.OrderBy(x => prop.GetValue(x)));
-			else
-				Comets = new CometCollection(temp.OrderByDescending(x => prop.GetValue(x)));
+			CometsFiltered = SortAscending
+				? new CometCollection(temp.OrderBy(x => prop.GetValue(x)))
+				: new CometCollection(temp.OrderByDescending(x => prop.GetValue(x)));
 
 			//clear textboxes if no comets
-			if (Comets.Count == 0)
+			if (CometsFiltered.Count == 0)
 			{
 				foreach (TabPage t in tbcDetails.TabPages)
 				{
@@ -400,10 +427,10 @@ namespace Comets.Application
 				Timer.Stop();
 			}
 
-			lbxDatabase.DataSource = Comets;
+			lbxDatabase.DataSource = CometsFiltered;
 			lbxDatabase.DisplayMember = PropertyEnum.full.ToString();
 
-			lblTotal.Text = "Comets: " + Comets.Count;
+			lblTotal.Text = "Comets: " + CometsFiltered.Count;
 		}
 
 		#endregion
@@ -550,14 +577,14 @@ namespace Comets.Application
 
 		private void btnFiltersApply_Click(object sender, EventArgs e)
 		{
-			ApplyFilters();
+			ApplyFilters(CometsInitial);
 		}
 
 		#endregion
 
 		#region  ApplyFilters
 
-		public void ApplyFilters()
+		public void ApplyFilters(CometCollection colletion)
 		{
 			Filters = CollectFilters();
 
@@ -569,8 +596,8 @@ namespace Comets.Application
 			}
 			else
 			{
-				Comets = FilterManager.ApplyFilters(CommonManager.MainCollection, Filters);
-				SortCollection(Comets);
+				CometsFiltered = FilterManager.ApplyFilters(colletion, Filters);
+				SortCollection();
 			}
 		}
 

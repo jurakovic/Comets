@@ -3,6 +3,7 @@ using Comets.BusinessLayer.Managers;
 using System;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Windows.Forms;
 using ImportType = Comets.BusinessLayer.Managers.ElementTypesManager.Type;
@@ -26,6 +27,9 @@ namespace Comets.Application
 		private bool IsUsedDownloadedFile { get; set; }
 		private bool IsAutomaticUpdate { get; set; }
 
+		private CometCollection ImportedComets { get; set; }
+		private ToolTip Tooltip { get; set; }
+
 		#endregion
 
 		#region Constructor
@@ -33,6 +37,7 @@ namespace Comets.Application
 		public FormImport(bool isAutomaticUpdate = false)
 		{
 			InitializeComponent();
+			Tooltip = new ToolTip();
 			ImportType = ImportType.NoFileSelected;
 			IsAutomaticUpdate = isAutomaticUpdate;
 			cbxClose.Visible = !isAutomaticUpdate;
@@ -47,7 +52,7 @@ namespace Comets.Application
 			if (IsAutomaticUpdate)
 			{
 				gbxLocalFile.Enabled = false;
-				btnDownload_Click(sender, e);
+				StartDownload();
 			}
 		}
 
@@ -57,32 +62,12 @@ namespace Comets.Application
 
 		private void btnDownload_Click(object sender, EventArgs e)
 		{
-			if (DownloadFilename == null)
-			{
-				string directory = SettingsManager.DownloadsDirectory;
-
-				if (!Directory.Exists(directory))
-				{
-					try
-					{
-						Directory.CreateDirectory(directory);
-					}
-					catch
-					{
-						directory = Path.GetTempPath();
-					}
-				}
-
-				DownloadFilename = directory + "\\Soft00Cmt_" + DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".txt";
-				IsUsedDownloadedFile = true;
-
-				using (BackgroundWorker bwDownload = new BackgroundWorker())
-				{
-					bwDownload.DoWork += new DoWorkEventHandler(bwDownload_DoWork);
-					bwDownload.RunWorkerAsync();
-				}
-			}
+			StartDownload();
 		}
+
+		#endregion
+
+		#region BackgroundWorker
 
 		private void bwDownload_DoWork(object sender, DoWorkEventArgs e)
 		{
@@ -154,8 +139,8 @@ namespace Comets.Application
 
 			SetImportStatus();
 
-			if (IsAutomaticUpdate)
-				btnImport_Click(null, null);
+			//if (IsAutomaticUpdate)
+			//	ImportComets();
 		}
 
 		#endregion
@@ -222,34 +207,71 @@ namespace Comets.Application
 				}
 			}
 
+			ImportedComets = null;
+			Tooltip.RemoveAll();
+
 			ImportType = ImportManager.GetImportType(ImportFilename);
 
 			switch (ImportType)
 			{
 				case ImportType.NoFileSelected:
 					lblImportFormat.Text = "(no file selected)";
-					labelDetectedComets.Text = "-";
+					lblCometCount.Text = "-";
 					break;
 
 				case ImportType.FileNotFound:
 					lblImportFormat.Text = "(file not found)";
-					labelDetectedComets.Text = "-";
+					lblCometCount.Text = "-";
 					break;
 
 				case ImportType.EmptyFile:
 					lblImportFormat.Text = "(empty file)";
-					labelDetectedComets.Text = "-";
+					lblCometCount.Text = "-";
 					break;
 
 				case ImportType.Unknown:
 					lblImportFormat.Text = "(unknown)";
-					labelDetectedComets.Text = "-";
+					lblCometCount.Text = "-";
 					break;
 
 				default:
 					lblImportFormat.Text = ElementTypesManager.TypeName[(int)ImportType];
-					labelDetectedComets.Text = ImportManager.GetNumberOfComets(ImportFilename, ImportType).ToString();
+					ImportedComets = ImportManager.ImportMain(CommonManager.MainCollection, ImportType, ImportFilename);
+					string tooltopText;
+					lblCometCount.Text = GetCountsText(out tooltopText);
+					Tooltip.SetToolTip(lblCometCount, tooltopText);
 					break;
+			}
+		}
+
+		#endregion
+
+		#region GetCountsText
+
+		private string GetCountsText(out string tooltopText)
+		{
+			tooltopText = "New, updates, no changes; total";
+
+			int cntNew = ImportedComets.Count(x => x.ImportResult == CometManager.ImportResult.New);
+			int cntUpd = ImportedComets.Count(x => x.ImportResult == CometManager.ImportResult.Update);
+			int cntNoc = ImportedComets.Count(x => x.ImportResult == CometManager.ImportResult.NoChanges);
+
+			return String.Format("{0}, {1}, {2}; {3}", cntNew, cntUpd, cntNoc, cntNew + cntUpd + cntNoc);
+		}
+
+		#endregion
+
+		#region labelDetectedComets_LinkClicked
+
+		private void labelDetectedComets_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			if (ImportedComets != null)
+			{
+				using (FormDatabase fdb = new FormDatabase(ImportedComets, null, CommonManager.DefaultSortProperty, CommonManager.DefaultSortAscending, false, true) { Owner = this })
+				{
+					fdb.TopMost = this.TopMost;
+					fdb.ShowDialog();
+				}
 			}
 		}
 
@@ -259,21 +281,60 @@ namespace Comets.Application
 
 		private void btnImport_Click(object sender, EventArgs e)
 		{
+			ImportComets();
+		}
+
+		#endregion
+
+		#region StartDownload
+
+		private void StartDownload()
+		{
+			if (DownloadFilename == null)
+			{
+				string directory = SettingsManager.DownloadsDirectory;
+
+				if (!Directory.Exists(directory))
+				{
+					try
+					{
+						Directory.CreateDirectory(directory);
+					}
+					catch
+					{
+						directory = Path.GetTempPath();
+					}
+				}
+
+				DownloadFilename = directory + "\\Soft00Cmt_" + DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".txt";
+				IsUsedDownloadedFile = true;
+
+				using (BackgroundWorker bwDownload = new BackgroundWorker())
+				{
+					bwDownload.DoWork += new DoWorkEventHandler(bwDownload_DoWork);
+					bwDownload.RunWorkerAsync();
+				}
+			}
+		}
+
+		#endregion
+
+		#region ImportComets
+
+		private void ImportComets()
+		{
 			bool isImported = false;
 
-			if (ImportType < ImportType.NoFileSelected)
+			if (ImportType < ImportType.NoFileSelected && ImportedComets != null)
 			{
-				int totalNew = 0;
-				int totalOld = 0;
-
 				string message;
 				MessageBoxIcon icon;
 
-				CometCollection collection = ImportManager.ImportMain(CommonManager.MainCollection, ImportType, ImportFilename, out totalNew, out totalOld);
+				CometCollection collection = ImportedComets;
 
 				if (collection.Count > 0)
 				{
-					message = String.Format("Import complete\n\n{0} new, {1} updated\t\t\t\t", totalNew, totalOld);
+					message = "Import complete\t\t\t\t\t";
 					icon = MessageBoxIcon.Information;
 
 					if (IsUsedDownloadedFile)
@@ -282,11 +343,16 @@ namespace Comets.Application
 						CommonManager.Settings.IsSettingsChanged = true;
 					}
 
+					CommonManager.Filters = null;
 					CommonManager.IsDataChanged = true;
 					CommonManager.MainCollection = new CometCollection(collection);
 					CommonManager.UserCollection = new CometCollection(collection);
 
 					isImported = true;
+
+					FormMain owner = this.Owner as FormMain;
+					if (owner != null)
+						owner.SetStatusCometsLabel();
 				}
 				else
 				{
