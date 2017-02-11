@@ -467,10 +467,13 @@ namespace Comets.Application
 			Point location = new Point(1, 11);
 
 			int id = 0;
+			int count = 0;
 			int offset = 31;
 
 			foreach (Panel p in pnlFilters.Controls.OfType<Panel>())
 			{
+				count++;
+
 				int pid = p.Name.Int();
 				if (pid > id)
 					id = pid;
@@ -482,7 +485,7 @@ namespace Comets.Application
 			FilterPanelManager.CreateFilterPanel(pnlFilters, ++id, location, CommonManager.DefaultDateStart, filter, property);
 
 			btnNewFilter.Location = new Point(btnNewFilter.Location.X, btnNewFilter.Location.Y + offset);
-			btnNewFilter.Visible = id < 10;
+			btnNewFilter.Visible = count < 9;
 		}
 
 		#endregion

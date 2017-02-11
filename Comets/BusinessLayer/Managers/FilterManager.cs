@@ -11,7 +11,9 @@ namespace Comets.BusinessLayer.Managers
 
 		public enum DataTypeEnum { String, Double };
 
-		public enum ValueCompareEnum { Greather_Contains, Less_DoesNotContain };
+		public enum StringCompareEnum { Contains, DoesNotContain, StartsWith, EndsWith };
+
+		public enum DoubleCompareEnum { GreatherThan, LessThan, Equals };
 
 		#endregion
 
@@ -41,19 +43,39 @@ namespace Comets.BusinessLayer.Managers
 							string full = value.ToString().ToLower();
 							string[] names = f.Text.ToLower().Split(',');
 
-							if (f.ValueCompare == ValueCompareEnum.Greather_Contains)
-								checks.Add(names.Any(x => full.Contains(x.Trim())));
-							else
-								checks.Add(!names.Any(x => full.Contains(x.Trim())));
+							switch (f.CompareIndex)
+							{
+								case (int)StringCompareEnum.Contains:
+									checks.Add(names.Any(x => full.Contains(x.Trim())));
+									break;
+								case (int)StringCompareEnum.DoesNotContain:
+									checks.Add(!names.Any(x => full.Contains(x.Trim())));
+									break;
+								case (int)StringCompareEnum.StartsWith:
+									checks.Add(names.Any(x => full.StartsWith(x.Trim())));
+									break;
+								case (int)StringCompareEnum.EndsWith:
+									checks.Add(names.Any(x => full.EndsWith(x.Trim())));
+									break;
+							}
 						}
 						else
 						{
 							double d = Convert.ToDouble(value);
+							double offset = CometManager.EqualValueOffset[f.Property];
 
-							if (f.ValueCompare == ValueCompareEnum.Greather_Contains)
-								checks.Add(d > f.Value);
-							else
-								checks.Add(d < f.Value);
+							switch (f.CompareIndex)
+							{
+								case (int)DoubleCompareEnum.GreatherThan:
+									checks.Add(d > f.Value);
+									break;
+								case (int)DoubleCompareEnum.LessThan:
+									checks.Add(d < f.Value);
+									break;
+								case (int)DoubleCompareEnum.Equals:
+									checks.Add(Math.Abs(d - f.Value) <= offset);
+									break;
+							}
 						}
 					}
 

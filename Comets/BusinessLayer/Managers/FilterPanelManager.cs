@@ -25,8 +25,8 @@ namespace Comets.BusinessLayer.Managers
 		public static readonly string RemoveName = "Remove";
 
 		private static readonly string DateTimeFormat = "dd.MM.yyyy. HH:mm:ss";
-		private static readonly string[] StringCompare = new string[] { "Contains", "Does not contain" };
-		private static readonly string[] ValueCompare = new string[] { "Greather than (>)", "Less than (<)" };
+		private static readonly string[] StringCompare = new string[] { "Contains", "Does not contain", "Starts with", "Ends with" };
+		private static readonly string[] ValueCompare = new string[] { "Greather than (>)", "Less than (<)", "Equals (=)" };
 
 		#endregion
 
@@ -248,7 +248,7 @@ namespace Comets.BusinessLayer.Managers
 				{
 					definition = PanelDefinitions.Single(x => x.Property == filter.Property);
 					propertyIndex = (int)filter.Property;
-					compareIndex = filter.Index;
+					compareIndex = filter.CompareIndex;
 					isChecked = filter.Checked;
 
 					if (filter.DataType == DataTypeEnum.String)
