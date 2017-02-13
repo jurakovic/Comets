@@ -120,10 +120,7 @@ namespace Comets.BusinessLayer.Business
 		/// </summary>
 		public bool IsPeriodic
 		{
-			get
-			{
-				return ((Char.IsDigit(id[0]) && id.EndsWith("P")) || id.StartsWith("P/"));
-			}
+			get { return (!String.IsNullOrEmpty(id) && Char.IsDigit(id[0]) && id.EndsWith("P")) || id.StartsWith("P/"); }
 		}
 
 		/// <summary>
@@ -404,9 +401,9 @@ namespace Comets.BusinessLayer.Business
 
 		}
 
-		public new void Add(Comet c)
+		public void Add(Comet c, bool ignore = false)
 		{
-			if (!this.Any(x => x.full == c.full))
+			if (ignore || !this.Any(x => x.full == c.full))
 				base.Add(c);
 		}
 

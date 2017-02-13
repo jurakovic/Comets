@@ -46,7 +46,8 @@ namespace Comets.Application
 				ExternalProgram ep = CommonManager.Settings.ExternalPrograms.Find(x => x.Type == cbxExportFormat.SelectedIndex);
 
 				sfd.Filter = ElementTypesManager.ExtensionFilters[cbxExportFormat.SelectedIndex] + "All files (*.*)|*.*";
-				sfd.InitialDirectory = ep != null ? ep.Directory : CommonManager.Settings.LastUsedExportDirectory;
+				sfd.FileName = ElementTypesManager.Software[cbxExportFormat.SelectedIndex] + "_" + DateTime.Now.ToString(FormMain.DateTimeFormatSaveAs);
+				sfd.InitialDirectory = ep?.Directory ?? CommonManager.Settings.LastUsedExportDirectory;
 
 				if (sfd.ShowDialog() == DialogResult.OK)
 				{

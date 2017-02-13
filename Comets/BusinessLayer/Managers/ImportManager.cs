@@ -53,7 +53,7 @@ namespace Comets.BusinessLayer.Managers
 			}
 			catch
 			{
-				//go next
+				//try next
 			}
 
 			try //skymap 1
@@ -103,7 +103,10 @@ namespace Comets.BusinessLayer.Managers
 			try //xephem 3
 			{
 				string[] parts = lastLine.Split(',');
-				if (parts.Length == 13 && (parts[1].In("e", "p", "h")))
+
+				if ((parts.Length == 13 && parts[1] == "e") ||
+					(parts.Length == 10 && parts[1] == "p") ||
+					(parts.Length == 11 && parts[1] == "h"))
 					return ImportType.xephem;
 			}
 			catch
@@ -365,7 +368,7 @@ namespace Comets.BusinessLayer.Managers
 							n.ImportResult = CometManager.ImportResult.New;
 						}
 
-						oldCollection.Add(n);
+						oldCollection.Add(n, ignore: importType == ImportType.VoyagerII);
 					}
 				}
 				else
@@ -498,9 +501,7 @@ namespace Comets.BusinessLayer.Managers
 
 		public static void ImportSkyMap01(string filename, ref CometCollection collection)
 		{
-			string tempFull = String.Empty;
-			string tempId = String.Empty;
-			string tempName = String.Empty;
+			string tempFull, tempId, tempName;
 
 			foreach (string line in File.ReadAllLines(filename))
 			{
@@ -509,6 +510,7 @@ namespace Comets.BusinessLayer.Managers
 				try
 				{
 					tempFull = line.Substring(0, 44).Trim().TrimEnd(TrimCharacters).Trim();
+					tempName = tempId = String.Empty;
 					c.Ty = Convert.ToInt32(line.Substring(47, 4).Trim());
 					c.Tm = Convert.ToInt32(line.Substring(52, 2).Trim());
 					c.Td = Convert.ToInt32(line.Substring(55, 2).Trim());
@@ -522,7 +524,7 @@ namespace Comets.BusinessLayer.Managers
 					c.k = Convert.ToDouble(line.Substring(121, 5).Trim());
 
 
-					if ((tempFull[0].In('C', 'P', 'D', 'X')) && tempFull[1] == '/')
+					if (tempFull[0].In('C', 'P', 'D', 'X') && tempFull[1] == '/')
 					{
 						int spaces = tempFull.Count(f => f == ' ');
 
@@ -576,9 +578,7 @@ namespace Comets.BusinessLayer.Managers
 
 		public static void ImportGuide02(string filename, ref CometCollection collection)
 		{
-			string tempFull = String.Empty;
-			string tempId = String.Empty;
-			string tempName = String.Empty;
+			string tempFull, tempId, tempName;
 
 			foreach (string line in File.ReadAllLines(filename))
 			{
@@ -587,6 +587,7 @@ namespace Comets.BusinessLayer.Managers
 				try
 				{
 					tempFull = line.Substring(0, 42).Trim().TrimEnd(TrimCharacters).Trim();
+					tempName = tempId = String.Empty;
 					c.Td = Convert.ToInt32(line.Substring(43, 2).Trim());
 					c.Th = Convert.ToInt32(line.Substring(46, 4).Trim().PadRight(4, '0'));
 					c.Tm = Convert.ToInt32(line.Substring(52, 2).Trim());
@@ -633,8 +634,6 @@ namespace Comets.BusinessLayer.Managers
 					continue;
 				}
 
-
-
 				collection.Add(c);
 			}
 		}
@@ -679,7 +678,7 @@ namespace Comets.BusinessLayer.Managers
 						c.g = Convert.ToDouble(parts[11].Substring(2, parts[11].Length - 2));
 						c.k = Convert.ToDouble(parts[12]);
 
-						c.q = a * (1 - c.e);
+						c.q = Math.Round(a * (1 - c.e), 6);
 
 						if (M == 0)
 						{
@@ -687,23 +686,24 @@ namespace Comets.BusinessLayer.Managers
 							c.Td = d;
 							c.Th = h;
 							c.Ty = y;
+
+							c.T = EphemerisManager.JD0(c.Ty, c.Tm, c.Td, c.Th);
 						}
 						else
 						{
 							decimal E = EphemerisManager.JD0(y, m, d, h); // epoch date, i.e., time of M
-
-							c.T = E - M / n;
+							decimal t = E - M / n;
 
 							if (M >= 180)
-								c.T += Convert.ToDecimal(CometManager.GetPeriod(c.q, c.e)) * 365.25m;
+								t += Convert.ToDecimal(CometManager.GetPeriod(c.q, c.e)) * 365.25m;
 
-							DateTime newdate = EphemerisManager.JDToDateTime(c.T);
-							c.Ty = newdate.Year;
-							c.Tm = newdate.Month;
-							c.Td = newdate.Day;
-							c.Th = (int)(((newdate.Hour + (newdate.Minute / 60.0) + (newdate.Second / 3600.0)) / 24) * 10000);
+							DateTime dt = EphemerisManager.JDToDateTime(t);
+							c.Ty = dt.Year;
+							c.Tm = dt.Month;
+							c.Td = dt.Day;
+							c.Th = (int)(((dt.Hour + (dt.Minute / 60.0) + (dt.Second / 3600.0)) / 24) * 10000);
 
-							var bzvz = c.Th + 3;
+							c.T = EphemerisManager.JD0(c.Ty, c.Tm, c.Td, c.Th); //recalculate
 						}
 					}
 					else if (parts[1] == "p")
@@ -932,16 +932,17 @@ namespace Comets.BusinessLayer.Managers
 
 				try
 				{
-					c.name = lines[i].Substring(5, 29).Trim().TrimEnd(TrimCharacters).Trim();
-					c.g = Convert.ToDouble(lines[i].Substring(34, 6).Trim());
-					c.e = Convert.ToDouble(lines[i].Substring(48, 10).Trim());
-					c.q = Convert.ToDouble(lines[i].Substring(59, 11).Trim());
-					c.N = Convert.ToDouble(lines[i].Substring(72, 10).Trim());
-					c.w = Convert.ToDouble(lines[i].Substring(82, 10).Trim());
-					c.i = Convert.ToDouble(lines[i].Substring(92, 10).Trim());
-					c.T = Convert.ToDecimal(lines[i].Substring(102, 14).Trim());
-					c.k = Convert.ToDouble(lines[i].Substring(129, 6).Trim()) / 2.5;
-					c.id = lines[i].Substring(136, 14).Trim();
+					string line = lines[i];
+					c.name = line.Substring(5, 29).Trim().TrimEnd(TrimCharacters).Trim();
+					c.g = Convert.ToDouble(line.Substring(34, 6).Trim());
+					c.e = Convert.ToDouble(line.Substring(48, 10).Trim());
+					c.q = Convert.ToDouble(line.Substring(59, 11).Trim());
+					c.N = Convert.ToDouble(line.Substring(72, 10).Trim());
+					c.w = Convert.ToDouble(line.Substring(82, 10).Trim());
+					c.i = Convert.ToDouble(line.Substring(92, 10).Trim());
+					c.T = Convert.ToDecimal(line.Substring(102, 14).Trim());
+					c.k = Convert.ToDouble(line.Substring(129, 6).Trim()) / 2.5;
+					c.id = line.Substring(136, 14).Trim();
 
 					c.full = CometManager.GetFullFromIdName(c.id, c.name);
 
@@ -1147,7 +1148,8 @@ namespace Comets.BusinessLayer.Managers
 
 				try
 				{
-					string id = lines[i].Substring(0, 11).Trim();
+					string line = lines[i];
+					string id = line.Substring(0, 11).Trim();
 
 					if (id.Contains('/'))
 					{
@@ -1160,21 +1162,21 @@ namespace Comets.BusinessLayer.Managers
 						id = id1 + " " + id2;
 					}
 
-					c.q = Convert.ToDouble(lines[i].Substring(11, 9).Trim());
-					c.e = Convert.ToDouble(lines[i].Substring(20, 9).Trim());
-					c.i = Convert.ToDouble(lines[i].Substring(29, 9).Trim());
-					c.N = Convert.ToDouble(lines[i].Substring(38, 9).Trim());
-					c.w = Convert.ToDouble(lines[i].Substring(47, 9).Trim());
+					c.q = Convert.ToDouble(line.Substring(11, 9).Trim());
+					c.e = Convert.ToDouble(line.Substring(20, 9).Trim());
+					c.i = Convert.ToDouble(line.Substring(29, 9).Trim());
+					c.N = Convert.ToDouble(line.Substring(38, 9).Trim());
+					c.w = Convert.ToDouble(line.Substring(47, 9).Trim());
 
-					c.Ty = Convert.ToInt32(lines[i].Substring(56, 4).Trim());
-					c.Tm = Convert.ToInt32(lines[i].Substring(61, 2).Trim());
-					c.Td = Convert.ToInt32(lines[i].Substring(61, 2).Trim());
-					c.Th = Convert.ToInt32(lines[i].Substring(65, 4).Trim().PadRight(4, '0'));
+					c.Ty = Convert.ToInt32(line.Substring(56, 4).Trim());
+					c.Tm = Convert.ToInt32(line.Substring(61, 2).Trim());
+					c.Td = Convert.ToInt32(line.Substring(61, 2).Trim());
+					c.Th = Convert.ToInt32(line.Substring(65, 4).Trim().PadRight(4, '0'));
 
-					if (lines[i].Length == 69)
+					if (line.Length == 69)
 						c.name = String.Empty;
 					else
-						c.name = lines[i].Substring(70, lines[i].Length - 70).Trim().TrimEnd(TrimCharacters).Trim();
+						c.name = line.Substring(70, line.Length - 70).Trim().TrimEnd(TrimCharacters).Trim();
 
 					c.full = CometManager.GetFullFromIdName(id, c.name);
 					c.id = id;
@@ -1221,7 +1223,7 @@ namespace Comets.BusinessLayer.Managers
 					c.N = Convert.ToDouble(line.Substring(97, 8).Trim());
 					c.i = Convert.ToDouble(line.Substring(109, 8).Trim());
 					c.g = Convert.ToDouble(line.Substring(119, 6).Trim());
-					c.k = Convert.ToDouble(line.Substring(126, 6).Trim());
+					c.k = Convert.ToDouble(line.Substring(126, 6).Trim()) / 2.5;
 
 					c.T = EphemerisManager.JD0(c.Ty, c.Tm, c.Td, c.Th);
 					c.P = CometManager.GetPeriod(c.q, c.e);
@@ -1303,26 +1305,38 @@ namespace Comets.BusinessLayer.Managers
 
 				try
 				{
-					c.name = lines[i].Substring(0, 27).Trim().TrimEnd(TrimCharacters).Trim();
-					c.id = String.Empty;
-					c.full = c.name;
+					string line = lines[i];
+					string temp = line.Substring(0, 27).Trim().TrimEnd(TrimCharacters).Trim();
 
-					c.q = Convert.ToDouble(lines[i].Substring(27, 9).Trim());
-					c.e = Convert.ToDouble(lines[i].Substring(39, 8).Trim());
-					c.i = Convert.ToDouble(lines[i].Substring(49, 8).Trim());
-					c.N = Convert.ToDouble(lines[i].Substring(60, 8).Trim());
-					c.w = Convert.ToDouble(lines[i].Substring(71, 8).Trim());
+					if ((temp[0].In('C', 'P', 'D', 'X') && temp[1] == '/') || Char.IsDigit(temp[0]))
+					{
+						c.full = temp;
+						c.id = temp;
+						c.name = String.Empty;
+					}
+					else
+					{
+						c.full = temp;
+						c.id = String.Empty;
+						c.name = temp;
+					}
 
-					c.Ty = Convert.ToInt32(lines[i].Substring(87, 4).Trim());
+					c.q = Convert.ToDouble(line.Substring(27, 9).Trim());
+					c.e = Convert.ToDouble(line.Substring(39, 8).Trim());
+					c.i = Convert.ToDouble(line.Substring(49, 8).Trim());
+					c.N = Convert.ToDouble(line.Substring(60, 8).Trim());
+					c.w = Convert.ToDouble(line.Substring(71, 8).Trim());
 
-					string mon = lines[i].Substring(91, 3);
+					c.Ty = Convert.ToInt32(line.Substring(87, 4).Trim());
+
+					string mon = line.Substring(91, 3);
 					int ind = Array.IndexOf(CometManager.Month, mon) + 1;
 					if (ind > 0)
 						c.Tm = ind;
 					else
 						throw new Exception("Invalid month.");
 
-					string[] dh = lines[i].Substring(94, 7).Trim().Split('.');
+					string[] dh = line.Substring(94, 7).Trim().Split('.');
 					c.Td = Convert.ToInt32(dh[0]);
 					c.Th = Convert.ToInt32(dh[1].Trim().PadRight(4, '0'));
 
@@ -1341,15 +1355,13 @@ namespace Comets.BusinessLayer.Managers
 					continue;
 				}
 
-				collection.Add(c);
+				collection.Add(c, true);
 			}
 		}
 
 		public static void ImportSkyTools15(string filename, ref CometCollection collection)
 		{
-			string tempFull = String.Empty;
-			string tempId = String.Empty;
-			string tempName = String.Empty;
+			string tempFull, tempId, tempName;
 
 			foreach (string line in File.ReadAllLines(filename))
 			{
@@ -1358,6 +1370,7 @@ namespace Comets.BusinessLayer.Managers
 				try
 				{
 					tempFull = line.Substring(2, 41).Trim().TrimEnd(TrimCharacters).Trim();
+					tempName = tempId = String.Empty;
 
 					if (tempFull[0].In('C', 'P', 'D', 'X') && tempFull[1] == '/')
 					{
@@ -1482,7 +1495,8 @@ namespace Comets.BusinessLayer.Managers
 
 				try
 				{
-					c.full = lines[i].Substring(0, 43).Trim();
+					string line = lines[i];
+					c.full = line.Substring(0, 43).Trim();
 
 					string id, name;
 					CometManager.GetIdNameFromFull(c.full, out id, out name);
@@ -1493,19 +1507,19 @@ namespace Comets.BusinessLayer.Managers
 					//pogledat epoch
 					//mozda treba njega ucitat pa precesirat vrijednosti W N i na epoch 2000
 
-					//int epoch = Convert.ToInt32(lines[i].Substring(44, 7);
+					//int epoch = Convert.ToInt32(line.Substring(44, 7);
 					/////////////////////////
 
-					c.q = Convert.ToDouble(lines[i].Substring(52, 11).Trim());
-					c.e = Convert.ToDouble(lines[i].Substring(64, 10).Trim());
-					c.i = Convert.ToDouble(lines[i].Substring(75, 9).Trim());
-					c.w = Convert.ToDouble(lines[i].Substring(85, 9).Trim());
-					c.N = Convert.ToDouble(lines[i].Substring(95, 9).Trim());
+					c.q = Convert.ToDouble(line.Substring(52, 11).Trim());
+					c.e = Convert.ToDouble(line.Substring(64, 10).Trim());
+					c.i = Convert.ToDouble(line.Substring(75, 9).Trim());
+					c.w = Convert.ToDouble(line.Substring(85, 9).Trim());
+					c.N = Convert.ToDouble(line.Substring(95, 9).Trim());
 
-					c.Ty = Convert.ToInt32(lines[i].Substring(105, 4).Trim());
-					c.Tm = Convert.ToInt32(lines[i].Substring(109, 2).Trim());
-					c.Td = Convert.ToInt32(lines[i].Substring(111, 2).Trim());
-					c.Th = Convert.ToInt32(Convert.ToDouble(lines[i].Substring(114, 5).Trim().PadRight(5, '0')) / 10.0);
+					c.Ty = Convert.ToInt32(line.Substring(105, 4).Trim());
+					c.Tm = Convert.ToInt32(line.Substring(109, 2).Trim());
+					c.Td = Convert.ToInt32(line.Substring(111, 2).Trim());
+					c.Th = Convert.ToInt32(Convert.ToDouble(line.Substring(114, 5).Trim().PadRight(5, '0')) / 10.0);
 
 					c.T = EphemerisManager.JD0(c.Ty, c.Tm, c.Td, c.Th);
 					c.P = CometManager.GetPeriod(c.q, c.e);
