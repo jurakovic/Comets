@@ -14,6 +14,14 @@ namespace Comets.BusinessLayer.Managers
 		public static string[] ImportResults = { "New comets", "Updates", "No changes", "All comets" };
 		public static double MinimumMinutesForRecalculate = 5;
 
+		public static char[] CometTypes = new char[]
+		{
+			'P', // periodic
+			'C', // not periodic
+			'X', // orbit cannot be computed
+			'D'  // disappeared
+		};
+
 		public static Dictionary<PropertyEnum, double> EqualValueOffset = new Dictionary<PropertyEnum, double>()
 		{
 			{ PropertyEnum.Tn,               1.00 },

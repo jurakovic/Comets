@@ -152,9 +152,10 @@ namespace Comets.Application
 			using (OpenFileDialog ofd = new OpenFileDialog())
 			{
 				ofd.InitialDirectory = CommonManager.Settings.LastUsedImportDirectory;
-				ofd.Filter = "Orbital elements files (*.txt, *.dat, *.comet)|*.txt;*.dat;*.comet|" +
+				ofd.Filter = "Orbital elements files (*.txt, *.dat, *.csv, *.comet)|*.txt;*.dat;*.csv;*.comet|" +
 							"Text documents (*.txt)|*.txt|" +
 							"DAT files (*.dat)|*.dat|" +
+							"CSV files (*.csv)|*.csv|" +
 							"COMET files (*.comet)|*.comet|" +
 							"All files (*.*)|*.*";
 

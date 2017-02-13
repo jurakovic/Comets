@@ -128,7 +128,7 @@ namespace Comets.BusinessLayer.Managers
 
 		#region WriteHeaderText
 
-		public static void WriteHeaderText(ExportType exportType, ref StringBuilder sb, int count)
+		private static void WriteHeaderText(ExportType exportType, ref StringBuilder sb, int count)
 		{
 			switch (exportType)
 			{
@@ -222,7 +222,12 @@ namespace Comets.BusinessLayer.Managers
 
 			foreach (Comet c in collection)
 			{
-				tempFull = c.full.Replace("/", " ").Replace("(", "").Replace(")", "");
+				tempFull = String.IsNullOrEmpty(c.id)
+					? c.name
+					: c.id[0].In(CometManager.CometTypes)
+						? c.full.Replace("(", "").Replace(")", "")
+						: c.full.Replace("(", "").Replace(")", "").Replace("/", " ");
+
 				sb.AppendFormat(format, tempFull, c.Ty, c.Tm, c.Td, c.Th, c.q, c.e, c.w, c.N, c.i, c.g, c.k);
 				sb.AppendLine();
 			}
@@ -239,7 +244,9 @@ namespace Comets.BusinessLayer.Managers
 					? c.id
 					: String.IsNullOrEmpty(c.id)
 						? c.name
-						: Char.IsNumber(c.id[0]) ? "P/" + c.name + " (" + c.id + ")" : c.name + " (" + c.id + ")";
+						: Char.IsNumber(c.id[0])
+							? "P/" + c.name + " (" + c.id + ")"
+							: c.name + " (" + c.id + ")";
 
 				sb.AppendFormat(format, tempFull, c.Td, c.Th, c.Tm, c.Ty, c.q, c.e, c.i, c.w, c.N, c.g, c.k);
 				sb.AppendLine();
@@ -414,7 +421,7 @@ namespace Comets.BusinessLayer.Managers
 
 		private static void ExportSkyChart13(ref StringBuilder sb, CometCollection collection)
 		{
-			string format = "P11\t2000.0\t-{0:0.000000}\t{1:0.000000}\t{2:0.0000}\t{3:0.0000}\t{4:0.0000}\t0\t{5}/{6:00}/{7:00}.{8:0000}\t{9:0.0}\t{10:0.0}\t0\t0\t{11}; MPC 00000";
+			string format = "P11\t2000.0\t-{0:0.000000}\t{1:0.000000}\t{2:0.0000}\t{3:0.0000}\t{4:0.0000}\t0\t{5}/{6:00}/{7:00}.{8:0000}\t{9:0.0} {10:0.0}\t0\t0\t{11}; MPC 00000";
 
 			foreach (Comet c in collection)
 			{

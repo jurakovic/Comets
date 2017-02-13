@@ -43,10 +43,11 @@ namespace Comets.Application
 		{
 			using (SaveFileDialog sfd = new SaveFileDialog())
 			{
-				ExternalProgram ep = CommonManager.Settings.ExternalPrograms.Find(x => x.Type == cbxExportFormat.SelectedIndex);
+				ExportType type = (ExportType)cbxExportFormat.SelectedIndex;
+				ExternalProgram ep = CommonManager.Settings.ExternalPrograms.Find(x => x.Type == (int)type);
 
-				sfd.Filter = ElementTypesManager.ExtensionFilters[cbxExportFormat.SelectedIndex] + "All files (*.*)|*.*";
-				sfd.FileName = ElementTypesManager.Software[cbxExportFormat.SelectedIndex] + "_" + DateTime.Now.ToString(FormMain.DateTimeFormatSaveAs);
+				sfd.Filter = ElementTypesManager.ExtensionFilters[(int)type] + "All files (*.*)|*.*";
+				sfd.FileName = type.ToString() + "_" + DateTime.Now.ToString(FormMain.DateTimeFormatSaveAs);
 				sfd.InitialDirectory = ep?.Directory ?? CommonManager.Settings.LastUsedExportDirectory;
 
 				if (sfd.ShowDialog() == DialogResult.OK)
