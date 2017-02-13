@@ -22,7 +22,7 @@ namespace Comets.Application.ModulGraph
 			set
 			{
 				_start = value;
-				btnStartDate.Text = _start.ToString(FormMain.DateTimeFormat);
+				btnStartDate.Text = _start.ToString(FormMain.DateTimeFormatMain);
 			}
 		}
 
@@ -33,7 +33,7 @@ namespace Comets.Application.ModulGraph
 			set
 			{
 				_end = value;
-				btnEndDate.Text = _end.ToString(FormMain.DateTimeFormat);
+				btnEndDate.Text = _end.ToString(FormMain.DateTimeFormatMain);
 			}
 		}
 

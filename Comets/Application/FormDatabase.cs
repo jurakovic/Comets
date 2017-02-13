@@ -164,7 +164,7 @@ namespace Comets.Application
 			//ephemeris
 			txtInfoName.Text = commonName;
 
-			txtInfoNextPerihDate.Text = EphemerisManager.JDToDateTime(c.Tn).ToLocalTime().ToString(FormMain.DateTimeFormat);
+			txtInfoNextPerihDate.Text = EphemerisManager.JDToDateTime(c.Tn).ToLocalTime().ToString(FormMain.DateTimeFormatMain);
 			txtInfoPeriod.Text = commonPeriod;
 			txtInfoAphSunDist.Text = commonAphDist;
 

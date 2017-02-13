@@ -71,6 +71,7 @@
     <Compile Include="Application\FormControls.Designer.cs">
       <DependentUpon>FormControls.cs</DependentUpon>
     </Compile>
+    <Compile Include="Application\ISave.cs" />
     <Compile Include="Application\ModulOrbit\FormFind.cs">
       <SubType>Form</SubType>
     </Compile>

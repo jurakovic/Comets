@@ -13,7 +13,7 @@ using Object = Comets.OrbitViewer.Object;
 
 namespace Comets.Application.ModulOrbit
 {
-	public partial class FormOrbitViewer : Form
+	public partial class FormOrbitViewer : Form, ISave
 	{
 		#region Consts
 
@@ -98,7 +98,7 @@ namespace Comets.Application.ModulOrbit
 			set
 			{
 				bool isOutOfRange = FormDateTime.RangeDateTime(value, out _selectedDateTime);
-				btnDate.Text = _selectedDateTime.ToString(FormMain.DateTimeFormat);
+				btnDate.Text = _selectedDateTime.ToString(FormMain.DateTimeFormatMain);
 
 				if (isOutOfRange || (IsSimulationStarted && !ValueChangedByEvent))
 					StopSimulation();
@@ -703,7 +703,7 @@ namespace Comets.Application.ModulOrbit
 
 		private void btnSaveImage_Click(object sender, EventArgs e)
 		{
-			SaveImage();
+			Save();
 		}
 
 		#endregion
@@ -1294,13 +1294,14 @@ namespace Comets.Application.ModulOrbit
 			return list;
 		}
 
-		public void SaveImage()
+		public void Save()
 		{
 			using (SaveFileDialog sfd = new SaveFileDialog())
 			{
 				string lastExportDir = CommonManager.Settings.LastUsedExportDirectory;
 
 				sfd.InitialDirectory = !String.IsNullOrEmpty(lastExportDir) ? lastExportDir : Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+				sfd.FileName = "Comets_OrbitViewer_" + DateTime.Now.ToString(FormMain.DateTimeFormatSaveAs);
 				sfd.Filter = "BMP (*.bmp)|*.bmp|" +
 							"GIF (*.gif)|*.gif|" +
 							"JPEG (*.jpg, *.jpeg, *.jpe, *.jfif)|*.jpg;*.jpeg;*.jpe;*.jfif|" +

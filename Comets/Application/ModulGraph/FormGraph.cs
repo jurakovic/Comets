@@ -9,7 +9,7 @@ using System.Windows.Forms.DataVisualization.Charting;
 
 namespace Comets.Application.ModulGraph
 {
-	public partial class FormGraph : Form
+	public partial class FormGraph : Form, ISave
 	{
 		#region Properties
 
@@ -47,15 +47,16 @@ namespace Comets.Application.ModulGraph
 
 		#endregion
 
-		#region SaveGraph
+		#region Save
 
-		public void SaveGraph()
+		public void Save()
 		{
 			using (SaveFileDialog sfd = new SaveFileDialog())
 			{
 				string lastExportDir = CommonManager.Settings.LastUsedExportDirectory;
 
 				sfd.InitialDirectory = !String.IsNullOrEmpty(lastExportDir) ? lastExportDir : Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+				sfd.FileName = "Comets_Graph_" + DateTime.Now.ToString(FormMain.DateTimeFormatSaveAs);
 				sfd.Filter = "BMP (*.bmp)|*.bmp|" +
 							"GIF (*.gif)|*.gif|" +
 							"JPEG (*.jpg, *.jpeg, *.jpe, *.jfif)|*.jpg;*.jpeg;*.jpe;*.jfif|" +
@@ -111,7 +112,7 @@ namespace Comets.Application.ModulGraph
 						string message = String.Empty;
 
 						string comet = String.Empty;
-						string datetime = DateTime.FromOADate(prop.XValue).ToString(FormMain.DateTimeFormat);
+						string datetime = DateTime.FromOADate(prop.XValue).ToString(FormMain.DateTimeFormatMain);
 						double value = prop.YValues[0];
 
 						string series = result.Series.Tag as string;
