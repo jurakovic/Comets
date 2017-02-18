@@ -223,6 +223,31 @@ namespace Comets.Application.ModulOrbit
 
 		#region + ToolBox
 
+		#region Toggle
+
+		private void lblCometToggle_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			Control linkLabel = sender as Control;
+			GroupBox gbx = linkLabel.Parent as GroupBox;
+			Panel pnl = gbx.Controls.OfType<Panel>().Single();
+
+			int minHeight = 30;
+			int maxHeight = gbx.Tag.ToString().Int();
+			int offset = maxHeight - minHeight;
+
+			pnl.Visible = !pnl.Visible;
+			gbx.Height = pnl.Visible ? maxHeight : minHeight;
+
+			if (!pnl.Visible)
+				offset = -offset;
+
+			foreach (Control c in pnlToolbox.Controls.OfType<GroupBox>())
+				if (c.Top > gbx.Top)
+					c.Top += offset;
+		}
+
+		#endregion
+
 		#region Comet
 
 		private void cboObject_SelectedIndexChanged(object sender, EventArgs e)
@@ -399,16 +424,14 @@ namespace Comets.Application.ModulOrbit
 			RefreshPanel();
 		}
 
-		private void SetMultipleCheckBoxes(string name, bool isChecked, bool refresh = false)
+		private void SetMultipleCheckBoxes(string namePart, bool isChecked, bool refresh = false)
 		{
 			ValueChangedByEvent = true;
 
-			foreach (Control c in gbxOrbitsLabelsCenter.Controls)
+			foreach (CheckBox c in pnlOrbitsLabelsCenter.Controls.OfType<CheckBox>())
 			{
-				if (c is CheckBox && c.Enabled && c.Name.Contains(name))
-				{
-					(c as CheckBox).Checked = isChecked;
-				}
+				if (c.Enabled && c.Name.Contains(namePart))
+					c.Checked = isChecked;
 			}
 
 			ValueChangedByEvent = false;
@@ -530,7 +553,7 @@ namespace Comets.Application.ModulOrbit
 			List<Control> controls = new List<Control>();
 			Control control = null;
 
-			foreach (Control c in gbxOrbitsLabelsCenter.Controls)
+			foreach (Control c in pnlOrbitsLabelsCenter.Controls)
 				if (c.Name.EndsWith(obj.ToString()))
 					controls.Add(c);
 
@@ -727,7 +750,7 @@ namespace Comets.Application.ModulOrbit
 				{
 					txt = sender as TextBox;
 					namePart = txt.Name.Replace("txt", String.Empty);
-					cbx = gbxFilterOnDate.Controls.Find("cbx" + namePart, false).Single() as CheckBox;
+					cbx = pnlFilterOnDate.Controls.Find("cbx" + namePart, false).Single() as CheckBox;
 					isTxt = true;
 				}
 
@@ -735,7 +758,7 @@ namespace Comets.Application.ModulOrbit
 				{
 					cbx = sender as CheckBox;
 					namePart = cbx.Name.Replace("cbx", String.Empty);
-					txt = gbxFilterOnDate.Controls.Find("txt" + namePart, false).Single() as TextBox;
+					txt = pnlFilterOnDate.Controls.Find("txt" + namePart, false).Single() as TextBox;
 					isCbx = true;
 				}
 
