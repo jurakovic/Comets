@@ -58,6 +58,15 @@ namespace Comets.Application
 
 		#endregion
 
+		#region linkOpen
+
+		private void linkOpen_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			System.Diagnostics.Process.Start(MpcUrl);
+		}
+
+		#endregion
+
 		#region btnDownload_Click
 
 		private void btnDownload_Click(object sender, EventArgs e)

@@ -45,6 +45,7 @@
 			this.btnImport = new System.Windows.Forms.Button();
 			this.lblStatus = new System.Windows.Forms.Label();
 			this.cbxClose = new System.Windows.Forms.CheckBox();
+			this.linkOpen = new System.Windows.Forms.LinkLabel();
 			this.gbxLocalFile.SuspendLayout();
 			this.gbxDownload.SuspendLayout();
 			this.gbxStatus.SuspendLayout();
@@ -100,6 +101,7 @@
 			this.gbxDownload.Controls.Add(this.btnDownload);
 			this.gbxDownload.Controls.Add(this.lblDownload);
 			this.gbxDownload.Controls.Add(this.progressDownload);
+			this.gbxDownload.Controls.Add(this.linkOpen);
 			this.gbxDownload.Location = new System.Drawing.Point(10, 4);
 			this.gbxDownload.Name = "gbxDownload";
 			this.gbxDownload.Size = new System.Drawing.Size(689, 94);
@@ -241,6 +243,22 @@
 			this.cbxClose.Text = "Close when finished";
 			this.cbxClose.UseVisualStyleBackColor = true;
 			// 
+			// linkOpen
+			// 
+			this.linkOpen.ActiveLinkColor = System.Drawing.Color.Blue;
+			this.linkOpen.AutoSize = true;
+			this.linkOpen.DisabledLinkColor = System.Drawing.Color.Blue;
+			this.linkOpen.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.linkOpen.LinkColor = System.Drawing.Color.Blue;
+			this.linkOpen.Location = new System.Drawing.Point(158, 51);
+			this.linkOpen.Name = "linkOpen";
+			this.linkOpen.Size = new System.Drawing.Size(98, 13);
+			this.linkOpen.TabIndex = 26;
+			this.linkOpen.TabStop = true;
+			this.linkOpen.Text = "Open in browser";
+			this.linkOpen.VisitedLinkColor = System.Drawing.Color.Blue;
+			this.linkOpen.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkOpen_LinkClicked);
+			// 
 			// FormImport
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -292,5 +310,6 @@
 		private System.Windows.Forms.Label lblStatus;
 		private System.Windows.Forms.CheckBox cbxClose;
 		private System.Windows.Forms.LinkLabel lblCometCount;
+		private System.Windows.Forms.LinkLabel linkOpen;
 	}
 }
