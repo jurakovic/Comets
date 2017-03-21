@@ -78,6 +78,12 @@
     <Compile Include="Application\ModulOrbit\FormFind.Designer.cs">
       <DependentUpon>FormFind.cs</DependentUpon>
     </Compile>
+    <Compile Include="Application\ModulOrbit\FormOrbitViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Application\ModulOrbit\FormOrbitViewer.Designer.cs">
+      <DependentUpon>FormOrbitViewer.cs</DependentUpon>
+    </Compile>
     <Compile Include="BusinessLayer\Business\Comet.cs" />
     <Compile Include="BusinessLayer\Business\Filter.cs" />
     <Compile Include="BusinessLayer\Business\ValNum.cs" />
@@ -132,11 +138,11 @@
     <Compile Include="Application\FormSettings.Designer.cs">
       <DependentUpon>FormSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="Application\ModulOrbit\FormOrbitViewer.cs">
-      <SubType>Form</SubType>
+    <Compile Include="Application\ModulOrbit\OrbitViewerControl.cs">
+      <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Application\ModulOrbit\FormOrbitViewer.Designer.cs">
-      <DependentUpon>FormOrbitViewer.cs</DependentUpon>
+    <Compile Include="Application\ModulOrbit\OrbitViewerControl.Designer.cs">
+      <DependentUpon>OrbitViewerControl.cs</DependentUpon>
     </Compile>
     <Compile Include="BusinessLayer\Managers\CometManager.cs" />
     <Compile Include="BusinessLayer\Managers\EphemerisManager.cs" />
@@ -223,6 +229,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Application\ModulOrbit\FormOrbitViewer.resx">
       <DependentUpon>FormOrbitViewer.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Application\ModulOrbit\OrbitViewerControl.resx">
+      <DependentUpon>OrbitViewerControl.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
