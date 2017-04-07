@@ -64,7 +64,7 @@
 			this.lblVersion.Name = "lblVersion";
 			this.lblVersion.Size = new System.Drawing.Size(70, 13);
 			this.lblVersion.TabIndex = 2;
-			this.lblVersion.Text = "Comets 0.8";
+			this.lblVersion.Text = "Comets 0.8.1";
 			// 
 			// lblMore
 			// 

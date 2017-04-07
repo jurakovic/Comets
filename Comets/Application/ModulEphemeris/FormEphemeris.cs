@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace Comets.Application.ModulEphemeris
 {
-	public partial class FormEphemeris : Form
+	public partial class FormEphemeris : Form, ISave
 	{
 		#region Properties
 
@@ -41,20 +41,21 @@ namespace Comets.Application.ModulEphemeris
 
 		#endregion
 
-		#region SaveEphemeris
+		#region Save
 
-		public void SaveEphemeris()
+		public void Save()
 		{
 			using (SaveFileDialog sfd = new SaveFileDialog())
 			{
 				string lastExportDir = CommonManager.Settings.LastUsedExportDirectory;
 
 				sfd.InitialDirectory = !String.IsNullOrEmpty(lastExportDir) ? lastExportDir : Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+				sfd.FileName = "Comets_Ephemeris_" + DateTime.Now.ToString(FormMain.DateTimeFormatSaveAs);
 				sfd.Filter = "Text documents (*.txt)|*.txt|All files (*.*)|*.*";
 
 				if (sfd.ShowDialog() == DialogResult.OK)
 				{
-					File.WriteAllText(sfd.FileName, richTextBox.Text);
+					File.WriteAllLines(sfd.FileName, richTextBox.Lines);
 					CommonManager.Settings.LastUsedExportDirectory = Path.GetDirectoryName(sfd.FileName);
 					MessageBox.Show(String.Format("Ephemeris saved as {0}\t\t\t", sfd.FileName), "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				}

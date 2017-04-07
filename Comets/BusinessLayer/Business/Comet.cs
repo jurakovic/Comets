@@ -3,6 +3,7 @@ using Comets.BusinessLayer.Managers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ImportResult = Comets.BusinessLayer.Managers.CometManager.ImportResult;
 
 namespace Comets.BusinessLayer.Business
 {
@@ -13,7 +14,7 @@ namespace Comets.BusinessLayer.Business
 		private string _full;
 		private string _name;
 		private string _id;
-		private double _T;
+		private decimal _T;
 		private int _Ty;
 		private int _Tm;
 		private int _Td;
@@ -35,7 +36,8 @@ namespace Comets.BusinessLayer.Business
 		private Ephemeris _epPerihelion;
 		private Ephemeris _epCurrent;
 		private DateTime _lastEphemerisUpdate;
-		private double? _Tn;
+		private decimal? _Tn;
+		private ImportResult _importResult;
 
 		#endregion
 
@@ -71,7 +73,7 @@ namespace Comets.BusinessLayer.Business
 		/// <summary>
 		/// Epoch (Julian day)
 		/// </summary>
-		public double T
+		public decimal T
 		{
 			get { return _T; }
 			set { _T = value; }
@@ -118,10 +120,7 @@ namespace Comets.BusinessLayer.Business
 		/// </summary>
 		public bool IsPeriodic
 		{
-			get
-			{
-				return ((Char.IsDigit(id[0]) && id.EndsWith("P")) || id.StartsWith("P/"));
-			}
+			get { return (!String.IsNullOrEmpty(id) && Char.IsDigit(id[0]) && id.EndsWith("P")) || id.StartsWith("P/"); }
 		}
 
 		/// <summary>
@@ -294,7 +293,7 @@ namespace Comets.BusinessLayer.Business
 		/// <summary>
 		/// Nearest perihelion date
 		/// </summary>
-		public double Tn
+		public decimal Tn
 		{
 			get
 			{
@@ -302,13 +301,13 @@ namespace Comets.BusinessLayer.Business
 				{
 					if (IsPeriodic)
 					{
-						List<double> t_all = new List<double>();
+						List<decimal> t_all = new List<decimal>();
 
-						double t = T;
-						double periodDays = P * 365.25;
+						decimal t = T;
+						decimal periodDays = Convert.ToDecimal(P) * 365.25m;
 
-						double min = EphemerisManager.JD(Comets.Application.FormDateTime.Minimum);
-						double max = EphemerisManager.JD(Comets.Application.FormDateTime.Maximum);
+						decimal min = EphemerisManager.JD(Comets.Application.FormDateTime.Minimum);
+						decimal max = EphemerisManager.JD(Comets.Application.FormDateTime.Maximum);
 
 						//going to earliest T
 						while (t - periodDays > min)
@@ -333,6 +332,12 @@ namespace Comets.BusinessLayer.Business
 			}
 		}
 
+		public ImportResult ImportResult
+		{
+			get { return _importResult; }
+			set { _importResult = value; }
+		}
+
 		#endregion
 
 		#region Constructor
@@ -352,6 +357,33 @@ namespace Comets.BusinessLayer.Business
 		}
 
 		#endregion
+
+		#region Equals
+
+		public override bool Equals(object o)
+		{
+			bool retval = false;
+
+			Comet c = o as Comet;
+
+			if (c != null)
+			{
+				retval =
+					this.full == c.full &&
+					this.T == c.T &&
+					this.q == c.q &&
+					this.e == c.e &&
+					this.i == c.i &&
+					this.N == c.N &&
+					this.w == c.w &&
+					this.g == c.g &&
+					this.k == c.k;
+			}
+
+			return retval;
+		}
+
+		#endregion
 	}
 
 	#region CometCollection
@@ -367,6 +399,17 @@ namespace Comets.BusinessLayer.Business
 			: base(comets)
 		{
 
+		}
+
+		public void Add(Comet c, bool ignore = false)
+		{
+			if (ignore || !this.Any(x => x.full == c.full))
+				base.Add(c);
+		}
+
+		public void SetImportResult(ImportResult result)
+		{
+			this.ForEach(x => x.ImportResult = result);
 		}
 	}
 

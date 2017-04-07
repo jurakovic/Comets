@@ -24,9 +24,9 @@ namespace Comets.BusinessLayer.Managers
 		public static readonly string LabelName = "Label";
 		public static readonly string RemoveName = "Remove";
 
-		private static readonly string DateTimeFormat = "dd.MM.yyyy HH:mm:ss";
-		private static readonly string[] StringCompare = new string[] { "Contains", "Does not contain" };
-		private static readonly string[] ValueCompare = new string[] { "Greather than (>)", "Less than (<)" };
+		private static readonly string DateTimeFormat = "dd.MM.yyyy. HH:mm:ss";
+		private static readonly string[] StringCompare = new string[] { "Contains", "Does not contain", "Starts with", "Ends with" };
+		private static readonly string[] ValueCompare = new string[] { "Greather than (>)", "Less than (<)", "Equals (=)" };
 
 		#endregion
 
@@ -248,7 +248,7 @@ namespace Comets.BusinessLayer.Managers
 				{
 					definition = PanelDefinitions.Single(x => x.Property == filter.Property);
 					propertyIndex = (int)filter.Property;
-					compareIndex = filter.Index;
+					compareIndex = filter.CompareIndex;
 					isChecked = filter.Checked;
 
 					if (filter.DataType == DataTypeEnum.String)
@@ -257,7 +257,7 @@ namespace Comets.BusinessLayer.Managers
 					}
 					else if (filter.Property == PropertyEnum.Tn)
 					{
-						DateTime date = EphemerisManager.JDToDateTime(filter.Value).ToLocalTime();
+						DateTime date = EphemerisManager.JDToDateTime(Convert.ToDecimal(filter.Value)).ToLocalTime();
 						btnDate.Tag = date;
 						btnDate.Text = date.ToString(DateTimeFormat);
 					}
@@ -277,8 +277,7 @@ namespace Comets.BusinessLayer.Managers
 				txtString.Visible = definition.StringVisible;
 
 				txtValue.Visible = definition.ValueVisible;
-				if (definition.Validator != null)
-					txtValue.Tag = definition.Validator;
+				txtValue.Tag = definition?.Validator;
 
 				btnDate.Visible = definition.DateVisible;
 
@@ -363,11 +362,8 @@ namespace Comets.BusinessLayer.Managers
 
 			str.Visible = definition.StringVisible;
 			value.Visible = definition.ValueVisible;
+			value.Tag = definition?.Validator;
 			date.Visible = definition.DateVisible;
-
-			if (definition.Validator != null)
-				value.Tag = definition.Validator;
-
 			label.Text = definition.LabelText;
 		}
 
@@ -388,6 +384,10 @@ namespace Comets.BusinessLayer.Managers
 		{
 			TextBox txt = sender as TextBox;
 			txt.Parent.Controls.OfType<CheckBox>().First().Checked = txt.Text.Trim().Length > 0;
+
+			FormDatabase owner = txt.FindForm() as FormDatabase;
+			if (owner != null)
+				owner.ApplyFilters(owner.CometsInitial);
 		}
 
 		#endregion
@@ -400,7 +400,7 @@ namespace Comets.BusinessLayer.Managers
 			DateTime dt = (DateTime)btn.Tag;
 
 			FormDatabase fdb = btn.FindForm() as FormDatabase;
-			double? T = fdb.SelectedComet != null ? (double?)fdb.SelectedComet.Tn : null;
+			decimal? T = fdb.SelectedComet?.Tn;
 
 			using (FormDateTime fdt = new FormDateTime(CommonManager.DefaultDateStart, dt, T))
 			{

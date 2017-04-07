@@ -23,7 +23,7 @@ namespace Comets.Application.ModulEphemeris
 			set
 			{
 				_start = value;
-				btnStartDate.Text = _start.ToString(FormMain.DateTimeFormat);
+				btnStartDate.Text = _start.ToString(FormMain.DateTimeFormatMain);
 			}
 		}
 
@@ -34,7 +34,7 @@ namespace Comets.Application.ModulEphemeris
 			set
 			{
 				_end = value;
-				btnEndDate.Text = _end.ToString(FormMain.DateTimeFormat);
+				btnEndDate.Text = _end.ToString(FormMain.DateTimeFormatMain);
 			}
 		}
 
@@ -56,9 +56,7 @@ namespace Comets.Application.ModulEphemeris
 			txtMaxSunDist.Tag = new ValNum(0, 9.99, 2);
 			txtMinMag.Tag = ValNum.VMagnitude;
 
-			EphemerisSettings = settings;
-
-			if (EphemerisSettings == null)
+			if (settings == null)
 			{
 				DateStart = CommonManager.DefaultDateStart;
 				DateEnd = CommonManager.DefaultDateEnd;
@@ -67,40 +65,42 @@ namespace Comets.Application.ModulEphemeris
 			}
 			else
 			{
-				if (EphemerisSettings.Filters == null)
-					EphemerisSettings.Filters = filters;
+				if (settings.Filters == null)
+					settings.Filters = filters;
 
-				DateStart = EphemerisSettings.Start;
-				DateEnd = EphemerisSettings.Stop;
+				DateStart = settings.Start;
+				DateEnd = settings.Stop;
 
-				txtDayInterval.Text = EphemerisSettings.TimeSpan.Day.ToString();
-				txtHourInterval.Text = EphemerisSettings.TimeSpan.Hour.ToString();
-				txtMinInterval.Text = EphemerisSettings.TimeSpan.Minute.ToString();
+				txtDayInterval.Text = settings.TimeSpan.Day.ToString();
+				txtHourInterval.Text = settings.TimeSpan.Hour.ToString();
+				txtMinInterval.Text = settings.TimeSpan.Minute.ToString();
 
-				rbtnSingle.Checked = !EphemerisSettings.IsMultipleMode;
-				rbtnMultiple.Checked = EphemerisSettings.IsMultipleMode;
+				rbtnSingle.Checked = !settings.IsMultipleMode;
+				rbtnMultiple.Checked = settings.IsMultipleMode;
 
-				radioLocalTime.Checked = EphemerisSettings.LocalTime;
-				radioUnivTime.Checked = !EphemerisSettings.LocalTime;
-				chRA.Checked = EphemerisSettings.RA;
-				chDec.Checked = EphemerisSettings.Dec;
-				chEcLon.Checked = EphemerisSettings.EcLon;
-				chEcLat.Checked = EphemerisSettings.EcLat;
-				chHelioDist.Checked = EphemerisSettings.HelioDist;
-				chGeoDist.Checked = EphemerisSettings.GeoDist;
-				chAlt.Checked = EphemerisSettings.Alt;
-				chAz.Checked = EphemerisSettings.Az;
-				chElong.Checked = EphemerisSettings.Elongation;
-				chMag.Checked = EphemerisSettings.Magnitude;
+				radioLocalTime.Checked = settings.LocalTime;
+				radioUnivTime.Checked = !settings.LocalTime;
+				chRA.Checked = settings.RA;
+				chDec.Checked = settings.Dec;
+				chEcLon.Checked = settings.EcLon;
+				chEcLat.Checked = settings.EcLat;
+				chHelioDist.Checked = settings.HelioDist;
+				chGeoDist.Checked = settings.GeoDist;
+				chAlt.Checked = settings.Alt;
+				chAz.Checked = settings.Az;
+				chElong.Checked = settings.Elongation;
+				chMag.Checked = settings.Magnitude;
 
-				txtMaxSunDist.Text = EphemerisSettings.MaxSunDistValue != null ? EphemerisSettings.MaxSunDistValue.Value.ToString() : String.Empty;
-				cbxMaxSunDist.Checked = EphemerisSettings.MaxSunDistChecked;
+				txtMaxSunDist.Text = settings.MaxSunDistValue != null ? settings.MaxSunDistValue.Value.ToString() : String.Empty;
+				cbxMaxSunDist.Checked = settings.MaxSunDistChecked;
 
-				txtMaxEarthDist.Text = EphemerisSettings.MaxEarthDistValue != null ? EphemerisSettings.MaxEarthDistValue.Value.ToString() : String.Empty;
-				cbxMaxEarthDist.Checked = EphemerisSettings.MaxEarthDistChecked;
+				txtMaxEarthDist.Text = settings.MaxEarthDistValue != null ? settings.MaxEarthDistValue.Value.ToString() : String.Empty;
+				cbxMaxEarthDist.Checked = settings.MaxEarthDistChecked;
 
-				txtMinMag.Text = EphemerisSettings.MinMagnitudeValue != null ? EphemerisSettings.MinMagnitudeValue.Value.ToString() : String.Empty;
-				cbxMinMag.Checked = EphemerisSettings.MinMagnitudeChecked;
+				txtMinMag.Text = settings.MinMagnitudeValue != null ? settings.MinMagnitudeValue.Value.ToString() : String.Empty;
+				cbxMinMag.Checked = settings.MinMagnitudeChecked;
+
+				this.EphemerisSettings = settings;
 			}
 		}
 
@@ -110,14 +110,16 @@ namespace Comets.Application.ModulEphemeris
 
 		private void FormEphemerisSettings_Load(object sender, EventArgs e)
 		{
-			if (EphemerisSettings == null)
+			if (this.EphemerisSettings == null)
 			{
-				EphemerisSettings = new EphemerisSettings();
-				EphemerisSettings.Comets = new CometCollection(CommonManager.UserCollection);
-				EphemerisSettings.Filters = CommonManager.Filters;
-				EphemerisSettings.SortProperty = CommonManager.SortProperty;
-				EphemerisSettings.SortAscending = CommonManager.SortAscending;
-				EphemerisSettings.AddNew = true;
+				EphemerisSettings settings = new EphemerisSettings();
+				settings.Comets = new CometCollection(CommonManager.UserCollection);
+				settings.Filters = CommonManager.Filters;
+				settings.SortProperty = CommonManager.SortProperty;
+				settings.SortAscending = CommonManager.SortAscending;
+				settings.AddNew = true;
+
+				this.EphemerisSettings = settings;
 			}
 
 			BindCollection();
@@ -141,7 +143,7 @@ namespace Comets.Application.ModulEphemeris
 		{
 			if (cbComet.SelectedIndex >= 0)
 			{
-				Comet c = EphemerisSettings.Comets.ElementAt(cbComet.SelectedIndex);
+				Comet c = this.EphemerisSettings.Comets.ElementAt(cbComet.SelectedIndex);
 
 				lblPerihDate.Text = String.Format("Perihelion date:                {0}", EphemerisManager.JDToDateTime(c.Tn).ToLocalTime().ToString("dd MMM yyyy HH:mm:ss"));
 				lblPerihDist.Text = String.Format("Perihelion distance:          {0:0.000000} AU", c.q);
@@ -155,21 +157,18 @@ namespace Comets.Application.ModulEphemeris
 
 		private void btnFilter_Click(object sender, EventArgs e)
 		{
-			using (FormDatabase fdb = new FormDatabase(
-				EphemerisSettings.Comets,
-				EphemerisSettings.Filters,
-				EphemerisSettings.SortProperty,
-				EphemerisSettings.SortAscending,
-				true) { Owner = this })
+			EphemerisSettings sett = this.EphemerisSettings;
+
+			using (FormDatabase fdb = new FormDatabase(CommonManager.MainCollection, sett.Filters, sett.SortProperty, sett.SortAscending, true) { Owner = this })
 			{
 				fdb.TopMost = this.TopMost;
 
 				if (fdb.ShowDialog() == DialogResult.OK)
 				{
-					EphemerisSettings.Comets = fdb.Comets;
-					EphemerisSettings.Filters = fdb.Filters;
-					EphemerisSettings.SortProperty = fdb.SortProperty;
-					EphemerisSettings.SortAscending = fdb.SortAscending;
+					sett.Comets = fdb.CometsFiltered;
+					sett.Filters = fdb.Filters;
+					sett.SortProperty = fdb.SortProperty;
+					sett.SortAscending = fdb.SortAscending;
 
 					BindCollection();
 				}
@@ -202,9 +201,9 @@ namespace Comets.Application.ModulEphemeris
 					return;
 				}
 
-				if (DateEnd < DateStart)
+				if (DateEnd <= DateStart)
 				{
-					MessageBox.Show("End date is less than start date\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					MessageBox.Show("End date must be greather than start date\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
 					return;
 				}
 
@@ -214,82 +213,84 @@ namespace Comets.Application.ModulEphemeris
 					return;
 				}
 
-				double ind = txtDayInterval.Int();
-				double inh = txtHourInterval.Int();
-				double inm = txtMinInterval.Int();
+				decimal ind = Convert.ToDecimal(txtDayInterval.Int());
+				decimal inh = Convert.ToDecimal(txtHourInterval.Int());
+				decimal inm = Convert.ToDecimal(txtMinInterval.Int());
 
-				double interval = ind + (inh + (inm / 60.0)) / 24;
+				decimal interval = ind + (inh + (inm / 60.0m)) / 24.0m;
 
-				if (interval == 0.0)
-					interval = 1.0;
+				if (interval == 0.0m)
+					interval = 1.0m;
 
-				EphemerisSettings.SelectedComet = EphemerisSettings.Comets.ElementAt(cbComet.SelectedIndex);
-				EphemerisSettings.Location = CommonManager.Settings.Location;
+				EphemerisSettings settings = this.EphemerisSettings;
 
-				EphemerisSettings.IsMultipleMode = rbtnMultiple.Checked;
+				settings.SelectedComet = settings.Comets.ElementAt(cbComet.SelectedIndex);
+				settings.Location = CommonManager.Settings.Location;
 
-				EphemerisSettings.Start = DateStart;
-				EphemerisSettings.Stop = DateEnd;
-				EphemerisSettings.Interval = interval;
+				settings.IsMultipleMode = rbtnMultiple.Checked;
 
-				EphemerisSettings.TimeSpan = new ATimeSpan(0, 0, (int)ind, (int)inh, (int)inm, 0);
+				settings.Start = DateStart;
+				settings.Stop = DateEnd;
+				settings.Interval = interval;
 
-				EphemerisSettings.LocalTime = radioLocalTime.Checked;
-				EphemerisSettings.RA = chRA.Checked;
-				EphemerisSettings.Dec = chDec.Checked;
-				EphemerisSettings.EcLon = chEcLon.Checked;
-				EphemerisSettings.EcLat = chEcLat.Checked;
-				EphemerisSettings.HelioDist = chHelioDist.Checked;
-				EphemerisSettings.GeoDist = chGeoDist.Checked;
-				EphemerisSettings.Alt = chAlt.Checked;
-				EphemerisSettings.Az = chAz.Checked;
-				EphemerisSettings.Elongation = chElong.Checked;
-				EphemerisSettings.Magnitude = chMag.Checked;
+				settings.TimeSpan = new ATimeSpan(0, 0, (int)ind, (int)inh, (int)inm, 0);
 
-				EphemerisSettings.MaxSunDistChecked = cbxMaxSunDist.Checked;
-				EphemerisSettings.MaxSunDistValue = txtMaxSunDist.TextLength > 0 ? (double?)txtMaxSunDist.Double() : null;
+				settings.LocalTime = radioLocalTime.Checked;
+				settings.RA = chRA.Checked;
+				settings.Dec = chDec.Checked;
+				settings.EcLon = chEcLon.Checked;
+				settings.EcLat = chEcLat.Checked;
+				settings.HelioDist = chHelioDist.Checked;
+				settings.GeoDist = chGeoDist.Checked;
+				settings.Alt = chAlt.Checked;
+				settings.Az = chAz.Checked;
+				settings.Elongation = chElong.Checked;
+				settings.Magnitude = chMag.Checked;
 
-				EphemerisSettings.MaxEarthDistChecked = cbxMaxEarthDist.Checked;
-				EphemerisSettings.MaxEarthDistValue = txtMaxEarthDist.TextLength > 0 ? (double?)txtMaxEarthDist.Double() : null;
+				settings.MaxSunDistChecked = cbxMaxSunDist.Checked;
+				settings.MaxSunDistValue = txtMaxSunDist.TextLength > 0 ? (double?)txtMaxSunDist.Double() : null;
 
-				EphemerisSettings.MinMagnitudeChecked = cbxMinMag.Checked;
-				EphemerisSettings.MinMagnitudeValue = txtMinMag.TextLength > 0 ? (double?)txtMinMag.Double() : null;
+				settings.MaxEarthDistChecked = cbxMaxEarthDist.Checked;
+				settings.MaxEarthDistValue = txtMaxEarthDist.TextLength > 0 ? (double?)txtMaxEarthDist.Double() : null;
 
-				if (!CommonManager.Settings.IgnoreLongCalculationWarning && !SettingsBase.ValidateCalculationAmount(EphemerisSettings))
+				settings.MinMagnitudeChecked = cbxMinMag.Checked;
+				settings.MinMagnitudeValue = txtMinMag.TextLength > 0 ? (double?)txtMinMag.Double() : null;
+
+				if (!CommonManager.Settings.IgnoreLongCalculationWarning && !SettingsBase.ValidateCalculationAmount(settings))
 					return;
 
-				if (EphemerisSettings.Ephemerides == null)
-					EphemerisSettings.Ephemerides = new Dictionary<Comet, List<Ephemeris>>();
+				if (settings.Ephemerides == null)
+					settings.Ephemerides = new Dictionary<Comet, List<Ephemeris>>();
 
 				FormMain main = this.Owner as FormMain;
 
-				if (EphemerisSettings.IsMultipleMode && EphemerisSettings.Comets.Count > 1)
-					main.SetProgressMaximumValue(EphemerisSettings.Comets.Count);
+				if (settings.IsMultipleMode && settings.Comets.Count > 1)
+					main.SetProgressMaximumValue(settings.Comets.Count);
 
 				cts = new CancellationTokenSource();
 
 				try
 				{
-					await EphemerisManager.CalculateEphemerisAsync(EphemerisSettings, FormMain.Progress, cts.Token);
+					await EphemerisManager.CalculateEphemerisAsync(settings, FormMain.Progress, cts.Token);
 				}
 				catch (OperationCanceledException)
 				{
 					cts = null;
-					EphemerisSettings.Ephemerides.Clear();
+					settings.Ephemerides.Clear();
 					main.HideProgress();
 					return;
 				}
 
-				if (EphemerisSettings.IsMultipleMode && EphemerisSettings.Comets.Count > 1)
-					main.SetProgressMaximumValue(EphemerisSettings.Ephemerides.Count);
+				if (settings.IsMultipleMode && settings.Comets.Count > 1)
+					main.SetProgressMaximumValue(settings.Ephemerides.Count);
 
 				FormEphemeris fe = null;
 
 				try
 				{
-					if (EphemerisSettings.AddNew)
+					if (settings.AddNew)
 					{
-						fe = new FormEphemeris(EphemerisSettings) { Owner = this.Owner };
+						fe = new FormEphemeris(settings) { Owner = this.Owner };
 						fe.MdiParent = this.Owner;
 						fe.WindowState = FormWindowState.Maximized;
 						await fe.LoadResultsAsync(cts.Token);
@@ -298,17 +299,17 @@ namespace Comets.Application.ModulEphemeris
 					else
 					{
 						fe = this.Owner.ActiveMdiChild as FormEphemeris;
-						fe.EphemerisSettings = this.EphemerisSettings;
+						fe.EphemerisSettings = settings;
 						await fe.LoadResultsAsync(cts.Token);
 					}
 				}
 				catch (OperationCanceledException)
 				{
 					cts = null;
-					EphemerisSettings.Ephemerides.Clear();
+					settings.Ephemerides.Clear();
 					main.HideProgress();
 
-					if (EphemerisSettings.AddNew)
+					if (settings.AddNew)
 						fe.Dispose();
 
 					return;
@@ -346,7 +347,7 @@ namespace Comets.Application.ModulEphemeris
 			DateEnd = ShowFormDateTime(CommonManager.DefaultDateEnd, DateEnd, GetT());
 		}
 
-		private DateTime ShowFormDateTime(DateTime def, DateTime current, double? jd)
+		private DateTime ShowFormDateTime(DateTime def, DateTime current, decimal? jd)
 		{
 			using (FormDateTime fdt = new FormDateTime(def, current, jd))
 			{
@@ -359,14 +360,9 @@ namespace Comets.Application.ModulEphemeris
 			return current;
 		}
 
-		private double? GetT()
+		private decimal? GetT()
 		{
-			double? T = null;
-
-			if (cbComet.SelectedIndex >= 0)
-				T = EphemerisSettings.Comets.ElementAt(cbComet.SelectedIndex).Tn;
-
-			return T;
+			return this.EphemerisSettings.Comets.ElementAtOrDefault(cbComet.SelectedIndex)?.Tn;
 		}
 
 		private void txtIntervalCommon_KeyDown(object sender, KeyEventArgs e)
@@ -416,24 +412,27 @@ namespace Comets.Application.ModulEphemeris
 
 		private void BindCollection()
 		{
-			cbComet.DisplayMember = CometManager.PropertyEnum.full.ToString();
-			cbComet.DataSource = EphemerisSettings.Comets;
+			EphemerisSettings settings = this.EphemerisSettings;
 
-			if (EphemerisSettings.Comets.Count > 0)
+			cbComet.DisplayMember = CometManager.PropertyEnum.full.ToString();
+			cbComet.DataSource = settings.Comets;
+
+			if (settings.Comets.Count > 0)
 			{
-				if (EphemerisSettings.SelectedComet != null && EphemerisSettings.Comets.Contains(EphemerisSettings.SelectedComet))
+				if (settings.SelectedComet != null && settings.Comets.Contains(settings.SelectedComet))
 				{
-					cbComet.SelectedIndex = EphemerisSettings.Comets.IndexOf(EphemerisSettings.SelectedComet);
+					cbComet.SelectedIndex = settings.Comets.IndexOf(settings.SelectedComet);
 				}
 				else
 				{
 					//comet with nearest perihelion date
-					Comet c = EphemerisSettings.Comets.OrderBy(x => Math.Abs(x.Tn - DateTime.Now.JD())).First();
-					cbComet.SelectedIndex = EphemerisSettings.Comets.IndexOf(c);
+					decimal jdNow = DateTime.Now.JD();
+					Comet c = settings.Comets.OrderBy(x => Math.Abs(x.Tn - jdNow)).First();
+					cbComet.SelectedIndex = settings.Comets.IndexOf(c);
 				}
 			}
 
-			lblMultipleCount.Text = EphemerisSettings.Comets.Count + " comets";
+			lblMultipleCount.Text = settings.Comets.Count + " comets";
 		}
 
 		#endregion

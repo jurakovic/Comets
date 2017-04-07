@@ -22,10 +22,7 @@ namespace Comets.Application
 		private DateTime _selected;
 		public DateTime SelectedDateTime
 		{
-			get
-			{
-				return _selected;
-			}
+			get { return _selected; }
 			private set
 			{
 				_selected = value;
@@ -36,13 +33,14 @@ namespace Comets.Application
 		public bool ValueChangedByEvent { get; set; }
 
 		private DateTime DefaultDateTime { get; set; }
-		private double? T { get; set; }
+
+		private decimal? T { get; set; }
 
 		#endregion
 
 		#region Constructor
 
-		public FormDateTime(DateTime def, DateTime current, double? t)
+		public FormDateTime(DateTime def, DateTime current, decimal? t)
 		{
 			InitializeComponent();
 
@@ -169,31 +167,30 @@ namespace Comets.Application
 
 		#region RangeDateTime
 
-		public static DateTime RangeDateTime(DateTime dt)
+		public static bool RangeDateTime(DateTime dt, out DateTime value)
 		{
-			if (dt < Minimum)
-				dt = Minimum;
+			bool retval = false;
 
-			if (dt > Maximum)
-				dt = Maximum;
-
-			if (dt.Year == 1582 && dt.Month == 10)
+			if (dt < Minimum || dt > Maximum)
+			{
+				dt = dt < Minimum ? Minimum : Maximum;
+				retval = true;
+			}
+			else if (dt.Year == 1582 && dt.Month == 10)
 			{
 				int day = dt.Day;
 
-				if (5 <= dt.Day && dt.Day < 10)
-				{
+				if (day >= 5 && day < 10)
 					day = 15;
-				}
-				else if (10 <= dt.Day && dt.Day < 15)
-				{
+				else if (day >= 10 && day < 15)
 					day = 4;
-				}
 
 				dt = new DateTime(dt.Year, dt.Month, day, dt.Hour, dt.Minute, dt.Second, dt.Kind);
 			}
 
-			return dt;
+			value = dt;
+
+			return retval;
 		}
 
 		#endregion
@@ -230,9 +227,7 @@ namespace Comets.Application
 
 			DateTime dt = new DateTime(year, mon, day, hour, min, sec, DateTimeKind.Local);
 
-			dt = RangeDateTime(dt);
-
-			_selected = dt;
+			RangeDateTime(dt, out _selected);
 		}
 
 		#endregion

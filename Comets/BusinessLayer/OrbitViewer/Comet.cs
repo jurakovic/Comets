@@ -23,7 +23,7 @@ namespace Comets.OrbitViewer
 		/// <summary>
 		/// Epoch
 		/// </summary>
-		public double T { get; private set; }
+		public decimal T { get; private set; }
 
 		/// <summary>
 		/// Eccentricity
@@ -49,7 +49,7 @@ namespace Comets.OrbitViewer
 		/// Inclination
 		/// </summary>
 		public double i { get; private set; }
-		
+
 		/// <summary>
 		/// Absolute magnitude
 		/// </summary>
@@ -90,6 +90,11 @@ namespace Comets.OrbitViewer
 		/// </summary>
 		public Point PanelLocation { get; set; }
 
+		/// <summary>
+		/// Is Comet marked
+		/// </summary>
+		public bool IsMarked { get; set; }
+
 		#endregion
 
 		#region Constructor
@@ -120,7 +125,7 @@ namespace Comets.OrbitViewer
 
 			this.VectorConstant = Matrix.VectorConstant(w, N, i, this.ATimeEquinox);
 		}
-		
+
 		#endregion
 
 		#region CometStatusEllip
@@ -133,12 +138,10 @@ namespace Comets.OrbitViewer
 		private Xyz CometStatusEllip(double jd)
 		{
 			if (this.q == 0.0)
-			{
 				throw new ArithmeticException();
-			}
 
 			double axis = this.q / (1.0 - this.e);
-			double M = Astro.Gauss * (jd - this.T) / (Math.Sqrt(axis) * axis);
+			double M = Astro.Gauss * (jd - (double)this.T) / (Math.Sqrt(axis) * axis);
 			double E1 = M + this.e * Math.Sin(M);
 			int count = MaxApproximations;
 
@@ -168,9 +171,7 @@ namespace Comets.OrbitViewer
 			}
 
 			if (count == 0)
-			{
 				throw new ArithmeticException();
-			}
 
 			double X = axis * (Math.Cos(E1) - this.e);
 			double Y = axis * Math.Sqrt(1.0 - this.e * this.e) * Math.Sin(E1);
@@ -190,11 +191,9 @@ namespace Comets.OrbitViewer
 		private Xyz CometStatusPara(double jd)
 		{
 			if (this.q == 0.0)
-			{
 				throw new ArithmeticException();
-			}
 
-			double N = Astro.Gauss * (jd - this.T) / (Math.Sqrt(2.0) * this.q * Math.Sqrt(this.q));
+			double N = Astro.Gauss * (jd - (double)this.T) / (Math.Sqrt(2.0) * this.q * Math.Sqrt(this.q));
 			double tanV2 = N;
 			double oldTanV2, tan2V2;
 			int count = MaxApproximations;
@@ -207,9 +206,7 @@ namespace Comets.OrbitViewer
 			} while (Math.Abs(tanV2 - oldTanV2) > Tolerance && --count > 0);
 
 			if (count == 0)
-			{
 				throw new ArithmeticException();
-			}
 
 			tan2V2 = tanV2 * tanV2;
 			double X = this.q * (1.0 - tan2V2);
@@ -230,9 +227,7 @@ namespace Comets.OrbitViewer
 		private Xyz CometStatusNearPara(double jd)
 		{
 			if (this.q == 0.0)
-			{
 				throw new ArithmeticException();
-			}
 
 			double A = Math.Sqrt((1.0 + 9.0 * this.e) / 10.0);
 			double B = 5.0 * (1 - this.e) / (1.0 + 9.0 * this.e);
@@ -244,7 +239,7 @@ namespace Comets.OrbitViewer
 			{
 				A0 = A1;
 				B0 = B1;
-				N = B0 * A * Astro.Gauss * (jd - this.T) / (Math.Sqrt(2.0) * this.q * Math.Sqrt(this.q));
+				N = B0 * A * Astro.Gauss * (jd - (double)this.T) / (Math.Sqrt(2.0) * this.q * Math.Sqrt(this.q));
 				int count2 = MaxApproximations;
 				do
 				{
@@ -261,9 +256,7 @@ namespace Comets.OrbitViewer
 			} while (Math.Abs(A1 - A0) > Tolerance && --count1 > 0);
 
 			if (count1 == 0)
-			{
 				throw new ArithmeticException();
-			}
 
 			double C1 = ((0.12495238 * A1 + 0.21714286) * A1 + 0.4) * A1 + 1.0;
 			double D1 = ((0.00571429 * A1 + 0.2) * A1 - 1.0) * A1 + 1.0;

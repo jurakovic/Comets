@@ -180,7 +180,7 @@
 			this.btnEndDate.Name = "btnEndDate";
 			this.btnEndDate.Size = new System.Drawing.Size(172, 23);
 			this.btnEndDate.TabIndex = 3;
-			this.btnEndDate.Text = "dd.MM.yyyy HH:mm:ss";
+			this.btnEndDate.Text = "dd.MM.yyyy. HH:mm:ss";
 			this.btnEndDate.UseVisualStyleBackColor = true;
 			this.btnEndDate.Click += new System.EventHandler(this.btnEndDate_Click);
 			// 
@@ -191,7 +191,7 @@
 			this.btnStartDate.Name = "btnStartDate";
 			this.btnStartDate.Size = new System.Drawing.Size(172, 23);
 			this.btnStartDate.TabIndex = 1;
-			this.btnStartDate.Text = "dd.MM.yyyy HH:mm:ss";
+			this.btnStartDate.Text = "dd.MM.yyyy. HH:mm:ss";
 			this.btnStartDate.UseVisualStyleBackColor = true;
 			this.btnStartDate.Click += new System.EventHandler(this.btnStartDate_Click);
 			// 

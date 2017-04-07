@@ -1,5 +1,4 @@
 using System;
-using Object = Comets.OrbitViewer.OrbitPanel.Object;
 
 namespace Comets.OrbitViewer
 {
@@ -265,24 +264,24 @@ namespace Comets.OrbitViewer
 
 		#region Constructor
 
-		public PlanetElm(int planetNo, ATime atime)
+		public PlanetElm(Object planet, ATime atime)
 		{
-			switch (planetNo)
+			switch (planet)
 			{
-				case (int)Object.Earth:
+				case Object.Earth:
 					GetPlanetElmEarth(atime.JD);
 					break;
-				case (int)Object.Mercury:
-				case (int)Object.Venus:
-				case (int)Object.Mars:
-				case (int)Object.Jupiter:
-				case (int)Object.Saturn:
-					GetPlanetElm1(planetNo, atime.JD);
+				case Object.Mercury:
+				case Object.Venus:
+				case Object.Mars:
+				case Object.Jupiter:
+				case Object.Saturn:
+					GetPlanetElm1(planet, atime.JD);
 					break;
-				case (int)Object.Uranus:
-				case (int)Object.Neptune:
-				case (int)Object.Pluto:
-					GetPlanetElm2(planetNo, atime.JD);
+				case Object.Uranus:
+				case Object.Neptune:
+				case Object.Pluto:
+					GetPlanetElm2(planet, atime.JD);
 					break;
 				default:
 					throw new ArithmeticException();
@@ -318,27 +317,27 @@ namespace Comets.OrbitViewer
 		/// </summary>
 		/// <param name="planetNo"></param>
 		/// <param name="jd"></param>
-		private void GetPlanetElm1(int planetNo, double jd)
+		private void GetPlanetElm1(Object planet, double jd)
 		{
 			double C1 = (jd - Astro.JD1900) / 36525.0;
 			double C2 = C1 * C1;
 			PlanetElmP1 elmCf;
 
-			switch (planetNo)
+			switch (planet)
 			{
-				case (int)Object.Mercury:
+				case Object.Mercury:
 					elmCf = MercuryE;
 					break;
-				case (int)Object.Venus:
+				case Object.Venus:
 					elmCf = VenusE;
 					break;
-				case (int)Object.Mars:
+				case Object.Mars:
 					elmCf = MarsE;
 					break;
-				case (int)Object.Jupiter:
+				case Object.Jupiter:
 					elmCf = JupiterE;
 					break;
-				case (int)Object.Saturn:
+				case Object.Saturn:
 					elmCf = SaturnE;
 					break;
 				default:
@@ -352,12 +351,12 @@ namespace Comets.OrbitViewer
 			this.e = UdMath.degmal(elmCf.e + elmCf.e1 * C1 + elmCf.e2 * C2 + elmCf.e3 * C1 * C2);
 			this.i = UdMath.degmal(elmCf.i + elmCf.i1 * C1 + elmCf.i2 * C2 + elmCf.i3 * C1 * C2);
 
-			switch (planetNo)
+			switch (planet)
 			{
-				case (int)Object.Jupiter:
+				case Object.Jupiter:
 					PerturbationJupiter(jd);
 					break;
-				case (int)Object.Saturn:
+				case Object.Saturn:
 					PerturbationSaturn(jd);
 					break;
 			}
@@ -372,22 +371,22 @@ namespace Comets.OrbitViewer
 		/// </summary>
 		/// <param name="planetNo"></param>
 		/// <param name="jd"></param>
-		private void GetPlanetElm2(int planetNo, double jd)
+		private void GetPlanetElm2(Object planet, double jd)
 		{
 			double T1 = (jd - Astro.JD2000) / 36525.0;
 			double T2 = T1 * T1;
 			double d = T1 * 36525.0;
 			PlanetElmP2 elmCf = null;
 
-			switch (planetNo)
+			switch (planet)
 			{
-				case (int)Object.Uranus:
+				case Object.Uranus:
 					elmCf = UranusE;
 					break;
-				case (int)Object.Neptune:
+				case Object.Neptune:
 					elmCf = NeptuneE;
 					break;
-				case (int)Object.Pluto:
+				case Object.Pluto:
 					elmCf = PlutoE;
 					break;
 				default:

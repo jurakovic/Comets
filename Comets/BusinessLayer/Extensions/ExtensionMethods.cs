@@ -76,7 +76,7 @@ namespace Comets.BusinessLayer.Extensions
 		/// </summary>
 		/// <param name="dt"></param>
 		/// <returns></returns>
-		public static double JD(this DateTime dt)
+		public static decimal JD(this DateTime dt)
 		{
 			return EphemerisManager.JD(dt);
 		}

@@ -1,7 +1,8 @@
-﻿using System;
+﻿using Comets.BusinessLayer.Extensions;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Comets.BusinessLayer.Extensions;
 
 namespace Comets.BusinessLayer.Managers
 {
@@ -10,7 +11,34 @@ namespace Comets.BusinessLayer.Managers
 		#region Const
 
 		public static string[] Month = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+		public static string[] ImportResults = { "New comets", "Updates", "No changes", "All comets" };
 		public static double MinimumMinutesForRecalculate = 5;
+
+		public static char[] CometTypes = new char[]
+		{
+			'P', // periodic
+			'C', // not periodic
+			'X', // orbit cannot be computed
+			'D'  // disappeared
+		};
+
+		public static Dictionary<PropertyEnum, double> EqualValueOffset = new Dictionary<PropertyEnum, double>()
+		{
+			{ PropertyEnum.Tn,               1.00 },
+			{ PropertyEnum.q,                0.10 },
+			{ PropertyEnum.PerihEarthDist,   0.10 },
+			{ PropertyEnum.PerihMag,         0.20 },
+			{ PropertyEnum.CurrentSunDist,   0.10 },
+			{ PropertyEnum.CurrentEarthDist, 0.10 },
+			{ PropertyEnum.CurrentMag,       0.50 },
+			{ PropertyEnum.P,                0.10 },
+			{ PropertyEnum.Q,                0.10 },
+			{ PropertyEnum.a,                0.10 },
+			{ PropertyEnum.e,                0.01 },
+			{ PropertyEnum.i,                1.00 },
+			{ PropertyEnum.N,                1.00 },
+			{ PropertyEnum.w,                1.00 }
+		};
 
 		#endregion
 
@@ -37,6 +65,14 @@ namespace Comets.BusinessLayer.Managers
 			w,
 			sortkey
 		};
+
+		public enum ImportResult
+		{
+			New = 0,
+			Update,
+			NoChanges,
+			All
+		}
 
 		#endregion
 
@@ -296,6 +332,15 @@ namespace Comets.BusinessLayer.Managers
 			}
 
 			return full;
+		}
+
+		#endregion
+
+		#region OpenJplInfo
+
+		public static void OpenJplInfo(string id)
+		{
+			System.Diagnostics.Process.Start("http://ssd.jpl.nasa.gov/sbdb.cgi?sstr=" + id + ";orb=0;old=0;cov=0;log=0;cad=0");
 		}
 
 		#endregion

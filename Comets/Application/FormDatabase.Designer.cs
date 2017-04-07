@@ -74,8 +74,6 @@
 			this.txtElemMagK = new System.Windows.Forms.TextBox();
 			this.lblElemMagK = new System.Windows.Forms.Label();
 			this.txtElemArgPeri = new System.Windows.Forms.TextBox();
-			this.lblElemSortkey = new System.Windows.Forms.Label();
-			this.txtElemSortkey = new System.Windows.Forms.TextBox();
 			this.lbxDatabase = new System.Windows.Forms.ListBox();
 			this.btnFilters = new System.Windows.Forms.Button();
 			this.btnSort = new System.Windows.Forms.Button();
@@ -104,6 +102,8 @@
 			this.pnlDetails = new System.Windows.Forms.Panel();
 			this.tbcDetails = new System.Windows.Forms.TabControl();
 			this.tbpEphemeris = new System.Windows.Forms.TabPage();
+			this.txtElemSortkey = new System.Windows.Forms.TextBox();
+			this.lblElemSortkey = new System.Windows.Forms.Label();
 			this.lblEphemAzIndicator = new System.Windows.Forms.Label();
 			this.lblEphemDecIndicator = new System.Windows.Forms.Label();
 			this.lblEphemSunDistIndicator = new System.Windows.Forms.Label();
@@ -149,12 +149,15 @@
 			this.txtInfoPerihMag = new System.Windows.Forms.TextBox();
 			this.lblInfoCurrSunDist = new System.Windows.Forms.Label();
 			this.tbpElements = new System.Windows.Forms.TabPage();
+			this.btnJplInfo = new System.Windows.Forms.Button();
 			this.btnCancel = new System.Windows.Forms.Button();
 			this.pnlFilters = new System.Windows.Forms.Panel();
 			this.btnNewFilter = new System.Windows.Forms.Button();
 			this.btnFiltersClose = new System.Windows.Forms.Button();
 			this.btnResetAllFilters = new System.Windows.Forms.Button();
 			this.lblTotal = new System.Windows.Forms.Label();
+			this.cbxImportResult = new System.Windows.Forms.ComboBox();
+			this.lblImportResult = new System.Windows.Forms.Label();
 			this.pnlDetails.SuspendLayout();
 			this.tbcDetails.SuspendLayout();
 			this.tbpEphemeris.SuspendLayout();
@@ -654,38 +657,15 @@
 			this.txtElemArgPeri.Size = new System.Drawing.Size(116, 22);
 			this.txtElemArgPeri.TabIndex = 13;
 			// 
-			// lblElemSortkey
-			// 
-			this.lblElemSortkey.AutoSize = true;
-			this.lblElemSortkey.Font = new System.Drawing.Font("Tahoma", 8F);
-			this.lblElemSortkey.ForeColor = System.Drawing.SystemColors.GrayText;
-			this.lblElemSortkey.Location = new System.Drawing.Point(381, 7);
-			this.lblElemSortkey.Name = "lblElemSortkey";
-			this.lblElemSortkey.Size = new System.Drawing.Size(44, 13);
-			this.lblElemSortkey.TabIndex = 285;
-			this.lblElemSortkey.Text = "Sortkey";
-			this.lblElemSortkey.Visible = false;
-			// 
-			// txtElemSortkey
-			// 
-			this.txtElemSortkey.BackColor = System.Drawing.SystemColors.Window;
-			this.txtElemSortkey.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.txtElemSortkey.Location = new System.Drawing.Point(382, 26);
-			this.txtElemSortkey.Name = "txtElemSortkey";
-			this.txtElemSortkey.ReadOnly = true;
-			this.txtElemSortkey.Size = new System.Drawing.Size(116, 22);
-			this.txtElemSortkey.TabIndex = 1;
-			this.txtElemSortkey.Visible = false;
-			// 
 			// lbxDatabase
 			// 
 			this.lbxDatabase.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
 			this.lbxDatabase.FormattingEnabled = true;
 			this.lbxDatabase.ItemHeight = 14;
-			this.lbxDatabase.Location = new System.Drawing.Point(10, 11);
+			this.lbxDatabase.Location = new System.Drawing.Point(10, 53);
 			this.lbxDatabase.Name = "lbxDatabase";
-			this.lbxDatabase.Size = new System.Drawing.Size(238, 396);
-			this.lbxDatabase.TabIndex = 0;
+			this.lbxDatabase.Size = new System.Drawing.Size(238, 354);
+			this.lbxDatabase.TabIndex = 2;
 			this.lbxDatabase.SelectedIndexChanged += new System.EventHandler(this.lbxDatabase_SelectedIndexChanged);
 			this.lbxDatabase.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lbxDatabase_MouseDoubleClick);
 			// 
@@ -694,7 +674,7 @@
 			this.btnFilters.Location = new System.Drawing.Point(702, 18);
 			this.btnFilters.Name = "btnFilters";
 			this.btnFilters.Size = new System.Drawing.Size(100, 23);
-			this.btnFilters.TabIndex = 4;
+			this.btnFilters.TabIndex = 6;
 			this.btnFilters.Text = "Filters ▼";
 			this.btnFilters.UseVisualStyleBackColor = true;
 			this.btnFilters.Click += new System.EventHandler(this.btnFilters_Click);
@@ -704,8 +684,8 @@
 			this.btnSort.Location = new System.Drawing.Point(273, 18);
 			this.btnSort.Name = "btnSort";
 			this.btnSort.Size = new System.Drawing.Size(100, 23);
-			this.btnSort.TabIndex = 1;
-			this.btnSort.Text = "Sort";
+			this.btnSort.TabIndex = 3;
+			this.btnSort.Text = "Sort by";
 			this.btnSort.UseVisualStyleBackColor = true;
 			this.btnSort.Click += new System.EventHandler(this.btnSort_Click);
 			// 
@@ -898,7 +878,7 @@
 			this.pnlDetails.Location = new System.Drawing.Point(253, 47);
 			this.pnlDetails.Name = "pnlDetails";
 			this.pnlDetails.Size = new System.Drawing.Size(549, 333);
-			this.pnlDetails.TabIndex = 4;
+			this.pnlDetails.TabIndex = 5;
 			// 
 			// tbcDetails
 			// 
@@ -916,6 +896,8 @@
 			// tbpEphemeris
 			// 
 			this.tbpEphemeris.BackColor = System.Drawing.SystemColors.Control;
+			this.tbpEphemeris.Controls.Add(this.txtElemSortkey);
+			this.tbpEphemeris.Controls.Add(this.lblElemSortkey);
 			this.tbpEphemeris.Controls.Add(this.lblEphemAzIndicator);
 			this.tbpEphemeris.Controls.Add(this.lblEphemDecIndicator);
 			this.tbpEphemeris.Controls.Add(this.lblEphemSunDistIndicator);
@@ -966,6 +948,29 @@
 			this.tbpEphemeris.Size = new System.Drawing.Size(531, 288);
 			this.tbpEphemeris.TabIndex = 0;
 			this.tbpEphemeris.Text = "Ephemeris";
+			// 
+			// txtElemSortkey
+			// 
+			this.txtElemSortkey.BackColor = System.Drawing.SystemColors.Window;
+			this.txtElemSortkey.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.txtElemSortkey.Location = new System.Drawing.Point(382, 26);
+			this.txtElemSortkey.Name = "txtElemSortkey";
+			this.txtElemSortkey.ReadOnly = true;
+			this.txtElemSortkey.Size = new System.Drawing.Size(116, 22);
+			this.txtElemSortkey.TabIndex = 1;
+			this.txtElemSortkey.Visible = false;
+			// 
+			// lblElemSortkey
+			// 
+			this.lblElemSortkey.AutoSize = true;
+			this.lblElemSortkey.Font = new System.Drawing.Font("Tahoma", 8F);
+			this.lblElemSortkey.ForeColor = System.Drawing.SystemColors.GrayText;
+			this.lblElemSortkey.Location = new System.Drawing.Point(381, 7);
+			this.lblElemSortkey.Name = "lblElemSortkey";
+			this.lblElemSortkey.Size = new System.Drawing.Size(44, 13);
+			this.lblElemSortkey.TabIndex = 315;
+			this.lblElemSortkey.Text = "Sortkey";
+			this.lblElemSortkey.Visible = false;
 			// 
 			// lblEphemAzIndicator
 			// 
@@ -1099,7 +1104,7 @@
 			this.txtEphemAz.Name = "txtEphemAz";
 			this.txtEphemAz.ReadOnly = true;
 			this.txtEphemAz.Size = new System.Drawing.Size(116, 22);
-			this.txtEphemAz.TabIndex = 14;
+			this.txtEphemAz.TabIndex = 15;
 			// 
 			// txtEphemDec
 			// 
@@ -1109,7 +1114,7 @@
 			this.txtEphemDec.Name = "txtEphemDec";
 			this.txtEphemDec.ReadOnly = true;
 			this.txtEphemDec.Size = new System.Drawing.Size(116, 22);
-			this.txtEphemDec.TabIndex = 13;
+			this.txtEphemDec.TabIndex = 14;
 			// 
 			// txtEphemAlt
 			// 
@@ -1119,7 +1124,7 @@
 			this.txtEphemAlt.Name = "txtEphemAlt";
 			this.txtEphemAlt.ReadOnly = true;
 			this.txtEphemAlt.Size = new System.Drawing.Size(116, 22);
-			this.txtEphemAlt.TabIndex = 11;
+			this.txtEphemAlt.TabIndex = 12;
 			// 
 			// txtEphemRA
 			// 
@@ -1129,7 +1134,7 @@
 			this.txtEphemRA.Name = "txtEphemRA";
 			this.txtEphemRA.ReadOnly = true;
 			this.txtEphemRA.Size = new System.Drawing.Size(116, 22);
-			this.txtEphemRA.TabIndex = 10;
+			this.txtEphemRA.TabIndex = 11;
 			// 
 			// txtEphemElongation
 			// 
@@ -1139,7 +1144,7 @@
 			this.txtEphemElongation.Name = "txtEphemElongation";
 			this.txtEphemElongation.ReadOnly = true;
 			this.txtEphemElongation.Size = new System.Drawing.Size(116, 22);
-			this.txtEphemElongation.TabIndex = 12;
+			this.txtEphemElongation.TabIndex = 13;
 			// 
 			// lblEphemDec
 			// 
@@ -1181,7 +1186,7 @@
 			this.txtInfoCurrMag.Name = "txtInfoCurrMag";
 			this.txtInfoCurrMag.ReadOnly = true;
 			this.txtInfoCurrMag.Size = new System.Drawing.Size(116, 22);
-			this.txtInfoCurrMag.TabIndex = 9;
+			this.txtInfoCurrMag.TabIndex = 10;
 			// 
 			// lblInfoAphDist
 			// 
@@ -1235,7 +1240,7 @@
 			this.txtInfoAphSunDist.Name = "txtInfoAphSunDist";
 			this.txtInfoAphSunDist.ReadOnly = true;
 			this.txtInfoAphSunDist.Size = new System.Drawing.Size(116, 22);
-			this.txtInfoAphSunDist.TabIndex = 3;
+			this.txtInfoAphSunDist.TabIndex = 4;
 			// 
 			// lblInfoPerihEarthDist
 			// 
@@ -1300,7 +1305,7 @@
 			this.txtInfoPeriod.Name = "txtInfoPeriod";
 			this.txtInfoPeriod.ReadOnly = true;
 			this.txtInfoPeriod.Size = new System.Drawing.Size(116, 22);
-			this.txtInfoPeriod.TabIndex = 2;
+			this.txtInfoPeriod.TabIndex = 3;
 			// 
 			// lblInfoCurrMagg
 			// 
@@ -1332,7 +1337,7 @@
 			this.txtInfoCurrEarthDist.Name = "txtInfoCurrEarthDist";
 			this.txtInfoCurrEarthDist.ReadOnly = true;
 			this.txtInfoCurrEarthDist.Size = new System.Drawing.Size(116, 22);
-			this.txtInfoCurrEarthDist.TabIndex = 8;
+			this.txtInfoCurrEarthDist.TabIndex = 9;
 			// 
 			// txtInfoNextPerihDate
 			// 
@@ -1342,7 +1347,7 @@
 			this.txtInfoNextPerihDate.Name = "txtInfoNextPerihDate";
 			this.txtInfoNextPerihDate.ReadOnly = true;
 			this.txtInfoNextPerihDate.Size = new System.Drawing.Size(147, 22);
-			this.txtInfoNextPerihDate.TabIndex = 1;
+			this.txtInfoNextPerihDate.TabIndex = 2;
 			// 
 			// txtInfoCurrSunDist
 			// 
@@ -1352,7 +1357,7 @@
 			this.txtInfoCurrSunDist.Name = "txtInfoCurrSunDist";
 			this.txtInfoCurrSunDist.ReadOnly = true;
 			this.txtInfoCurrSunDist.Size = new System.Drawing.Size(116, 22);
-			this.txtInfoCurrSunDist.TabIndex = 7;
+			this.txtInfoCurrSunDist.TabIndex = 8;
 			// 
 			// lblInfoNextPerihDate
 			// 
@@ -1373,7 +1378,7 @@
 			this.txtInfoPerihEarthDist.Name = "txtInfoPerihEarthDist";
 			this.txtInfoPerihEarthDist.ReadOnly = true;
 			this.txtInfoPerihEarthDist.Size = new System.Drawing.Size(116, 22);
-			this.txtInfoPerihEarthDist.TabIndex = 5;
+			this.txtInfoPerihEarthDist.TabIndex = 6;
 			// 
 			// lblInfoCurrSunDistAU
 			// 
@@ -1405,7 +1410,7 @@
 			this.txtInfoPerihDist.Name = "txtInfoPerihDist";
 			this.txtInfoPerihDist.ReadOnly = true;
 			this.txtInfoPerihDist.Size = new System.Drawing.Size(116, 22);
-			this.txtInfoPerihDist.TabIndex = 4;
+			this.txtInfoPerihDist.TabIndex = 5;
 			// 
 			// txtInfoPerihMag
 			// 
@@ -1415,7 +1420,7 @@
 			this.txtInfoPerihMag.Name = "txtInfoPerihMag";
 			this.txtInfoPerihMag.ReadOnly = true;
 			this.txtInfoPerihMag.Size = new System.Drawing.Size(116, 22);
-			this.txtInfoPerihMag.TabIndex = 6;
+			this.txtInfoPerihMag.TabIndex = 7;
 			// 
 			// lblInfoCurrSunDist
 			// 
@@ -1431,11 +1436,10 @@
 			// tbpElements
 			// 
 			this.tbpElements.BackColor = System.Drawing.SystemColors.Control;
+			this.tbpElements.Controls.Add(this.btnJplInfo);
 			this.tbpElements.Controls.Add(this.txtElemName);
 			this.tbpElements.Controls.Add(this.lblElemN2);
-			this.tbpElements.Controls.Add(this.txtElemSortkey);
 			this.tbpElements.Controls.Add(this.txtElemMeanMotion);
-			this.tbpElements.Controls.Add(this.lblElemSortkey);
 			this.tbpElements.Controls.Add(this.lblElemMeanMotion);
 			this.tbpElements.Controls.Add(this.txtElemArgPeri);
 			this.tbpElements.Controls.Add(this.lblElemName);
@@ -1486,6 +1490,18 @@
 			this.tbpElements.TabIndex = 1;
 			this.tbpElements.Text = "Orbital Elements";
 			// 
+			// btnJplInfo
+			// 
+			this.btnJplInfo.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.btnJplInfo.ForeColor = System.Drawing.Color.Blue;
+			this.btnJplInfo.Location = new System.Drawing.Point(382, 24);
+			this.btnJplInfo.Name = "btnJplInfo";
+			this.btnJplInfo.Size = new System.Drawing.Size(116, 23);
+			this.btnJplInfo.TabIndex = 1;
+			this.btnJplInfo.Text = "JPL Info";
+			this.btnJplInfo.UseVisualStyleBackColor = true;
+			this.btnJplInfo.Click += new System.EventHandler(this.btnJplInfo_Click);
+			// 
 			// btnCancel
 			// 
 			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
@@ -1504,7 +1520,7 @@
 			this.pnlFilters.Location = new System.Drawing.Point(253, 47);
 			this.pnlFilters.Name = "pnlFilters";
 			this.pnlFilters.Size = new System.Drawing.Size(549, 360);
-			this.pnlFilters.TabIndex = 5;
+			this.pnlFilters.TabIndex = 7;
 			this.pnlFilters.Visible = false;
 			this.pnlFilters.VisibleChanged += new System.EventHandler(this.pnlFilters_VisibleChanged);
 			// 
@@ -1536,7 +1552,7 @@
 			this.btnResetAllFilters.Location = new System.Drawing.Point(599, 18);
 			this.btnResetAllFilters.Name = "btnResetAllFilters";
 			this.btnResetAllFilters.Size = new System.Drawing.Size(100, 23);
-			this.btnResetAllFilters.TabIndex = 3;
+			this.btnResetAllFilters.TabIndex = 5;
 			this.btnResetAllFilters.Text = "Reset all";
 			this.btnResetAllFilters.UseVisualStyleBackColor = true;
 			this.btnResetAllFilters.Click += new System.EventHandler(this.btnResetAllFilters_Click);
@@ -1547,8 +1563,28 @@
 			this.lblTotal.Location = new System.Drawing.Point(426, 22);
 			this.lblTotal.Name = "lblTotal";
 			this.lblTotal.Size = new System.Drawing.Size(50, 13);
-			this.lblTotal.TabIndex = 2;
+			this.lblTotal.TabIndex = 4;
 			this.lblTotal.Text = "Comets: ";
+			// 
+			// cbxImportResult
+			// 
+			this.cbxImportResult.BackColor = System.Drawing.SystemColors.Window;
+			this.cbxImportResult.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cbxImportResult.FormattingEnabled = true;
+			this.cbxImportResult.Location = new System.Drawing.Point(89, 19);
+			this.cbxImportResult.Name = "cbxImportResult";
+			this.cbxImportResult.Size = new System.Drawing.Size(159, 21);
+			this.cbxImportResult.TabIndex = 1;
+			this.cbxImportResult.SelectedIndexChanged += new System.EventHandler(this.cbxImportResult_SelectedIndexChanged);
+			// 
+			// lblImportResult
+			// 
+			this.lblImportResult.AutoSize = true;
+			this.lblImportResult.Location = new System.Drawing.Point(8, 22);
+			this.lblImportResult.Name = "lblImportResult";
+			this.lblImportResult.Size = new System.Drawing.Size(73, 13);
+			this.lblImportResult.TabIndex = 0;
+			this.lblImportResult.Text = "Import result:";
 			// 
 			// FormDatabase
 			// 
@@ -1556,15 +1592,17 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(813, 417);
+			this.Controls.Add(this.cbxImportResult);
+			this.Controls.Add(this.pnlFilters);
 			this.Controls.Add(this.btnResetAllFilters);
 			this.Controls.Add(this.lblTotal);
 			this.Controls.Add(this.btnFilters);
 			this.Controls.Add(this.btnSort);
 			this.Controls.Add(this.lbxDatabase);
-			this.Controls.Add(this.pnlFilters);
 			this.Controls.Add(this.pnlDetails);
 			this.Controls.Add(this.btnOk);
 			this.Controls.Add(this.btnCancel);
+			this.Controls.Add(this.lblImportResult);
 			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.KeyPreview = true;
@@ -1641,8 +1679,6 @@
 		private System.Windows.Forms.ListBox lbxDatabase;
 		private System.Windows.Forms.Button btnFilters;
 		private System.Windows.Forms.Button btnSort;
-		private System.Windows.Forms.TextBox txtElemSortkey;
-		private System.Windows.Forms.Label lblElemSortkey;
 		private System.Windows.Forms.Button btnOk;
 		private System.Windows.Forms.ContextMenu contextSort;
 		private System.Windows.Forms.MenuItem mnuDesig;
@@ -1719,5 +1755,10 @@
 		private System.Windows.Forms.MenuItem mnuAphDistance;
 		private System.Windows.Forms.MenuItem mnuSemiMajorAxis;
 		private System.Windows.Forms.Button btnNewFilter;
+		private System.Windows.Forms.Button btnJplInfo;
+		private System.Windows.Forms.Label lblElemSortkey;
+		private System.Windows.Forms.TextBox txtElemSortkey;
+		private System.Windows.Forms.ComboBox cbxImportResult;
+		private System.Windows.Forms.Label lblImportResult;
 	}
 }

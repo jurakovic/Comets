@@ -15,19 +15,12 @@ namespace Comets.Application
 	{
 		#region Properties
 
-		public CometCollection Comets { get; private set; }
+		public CometCollection CometsInitial { get; private set; }
+		public CometCollection CometsFiltered { get; private set; }
 
 		public Comet SelectedComet
 		{
-			get
-			{
-				Comet comet = null;
-
-				if (lbxDatabase.SelectedIndex >= 0)
-					comet = Comets.ElementAt(lbxDatabase.SelectedIndex);
-
-				return comet;
-			}
+			get { return CometsFiltered.ElementAtOrDefault(lbxDatabase.SelectedIndex); }
 		}
 
 		public FilterCollection Filters { get; private set; }
@@ -41,9 +34,13 @@ namespace Comets.Application
 
 		#region Constructor
 
-		public FormDatabase(CometCollection collection, FilterCollection filters, string sortProperty, bool sortAscending, bool isForFiltering)
+		public FormDatabase(CometCollection collection, FilterCollection filters, string sortProperty, bool sortAscending, bool isForFiltering, bool isForImportResult = false)
 		{
 			InitializeComponent();
+
+			Timer = new Timer();
+			Timer.Interval = 1000;
+			Timer.Tick += Timer_Tick;
 
 			this.mnuDesig.Tag = PropertyEnum.sortkey.ToString();
 			this.mnuDiscoverer.Tag = PropertyEnum.name.ToString();
@@ -62,7 +59,8 @@ namespace Comets.Application
 			this.mnuAscNode.Tag = PropertyEnum.N.ToString();
 			this.mnuArgPeri.Tag = PropertyEnum.w.ToString();
 
-			Comets = new CometCollection(collection);
+			CometsInitial = new CometCollection(collection);
+			CometsFiltered = new CometCollection(collection);
 			Filters = filters;
 
 			SortProperty = sortProperty;
@@ -71,9 +69,22 @@ namespace Comets.Application
 			pnlDetails.Visible = !isForFiltering;
 			pnlFilters.Visible = isForFiltering;
 
-			Timer = new Timer();
-			Timer.Interval = 1000;
-			Timer.Tick += Timer_Tick;
+			PopulateFilters(Filters);
+			SetSortItems(SortAscending);
+
+			if (isForImportResult)
+			{
+				cbxImportResult.Visible = true;
+				cbxImportResult.DataSource = CometManager.ImportResults;
+				lbxDatabase.Top = 53;
+				lbxDatabase.Height = 354;
+			}
+			else
+			{
+				cbxImportResult.Visible = false;
+				lbxDatabase.Top = 11;
+				lbxDatabase.Height = 396;
+			}
 		}
 
 		#endregion
@@ -82,9 +93,7 @@ namespace Comets.Application
 
 		private void FormDatabase_Load(object sender, EventArgs e)
 		{
-			PopulateFilters(Filters);
-			SetSortItems(SortAscending);
-			SortCollection(Comets);
+			ApplyFilters(CometsFiltered);
 		}
 
 		#endregion
@@ -109,6 +118,17 @@ namespace Comets.Application
 		private void FormDatabase_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			Filters = CollectFilters();
+		}
+
+		#endregion
+
+		#region cbxImportResult_SelectedIndexChanged
+
+		private void cbxImportResult_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			CometManager.ImportResult result = (CometManager.ImportResult)cbxImportResult.SelectedIndex;
+			CometsFiltered = new CometCollection(CometsInitial.Where(x => x.ImportResult == result || result == CometManager.ImportResult.All));
+			ApplyFilters(CometsFiltered);
 		}
 
 		#endregion
@@ -144,7 +164,7 @@ namespace Comets.Application
 			//ephemeris
 			txtInfoName.Text = commonName;
 
-			txtInfoNextPerihDate.Text = EphemerisManager.JDToDateTime(c.Tn).ToLocalTime().ToString(FormMain.DateTimeFormat);
+			txtInfoNextPerihDate.Text = EphemerisManager.JDToDateTime(c.Tn).ToLocalTime().ToString(FormMain.DateTimeFormatMain);
 			txtInfoPeriod.Text = commonPeriod;
 			txtInfoAphSunDist.Text = commonAphDist;
 
@@ -193,6 +213,16 @@ namespace Comets.Application
 
 		#endregion
 
+		#region btnJplInfo_Click
+
+		private void btnJplInfo_Click(object sender, EventArgs e)
+		{
+			if (SelectedComet != null)
+				CometManager.OpenJplInfo(SelectedComet.id);
+		}
+
+		#endregion
+
 		#region btnResetAllFilters_Click
 
 		private void btnResetAllFilters_Click(object sender, EventArgs e)
@@ -204,7 +234,7 @@ namespace Comets.Application
 			SortAscending = CommonManager.DefaultSortAscending;
 
 			SetSortItems(SortAscending);
-			ApplyFilters();
+			ApplyFilters(CometsInitial);
 		}
 
 		#endregion
@@ -249,8 +279,8 @@ namespace Comets.Application
 				txtInfoCurrEarthDist.Text = ep.EarthDist.ToString("0.000000");
 				txtInfoCurrMag.Text = ep.Magnitude.ToString("0.00");
 
-				txtEphemRA.Text = (EphemerisManager.HMSString(ep.RA / 15.0)).Trim();
-				txtEphemDec.Text = (EphemerisManager.AngleString(ep.Dec, false, true)).Trim();
+				txtEphemRA.Text = EphemerisManager.HMSString(ep.RA / 15.0).Trim();
+				txtEphemDec.Text = EphemerisManager.AngleString(ep.Dec, false, true).Trim();
 				txtEphemAlt.Text = ep.Alt.ToString("0.00") + "°";
 				txtEphemAz.Text = ep.Az.ToString("0.00") + "°";
 				txtEphemElongation.Text = ep.Elongation.ToString("0.00") + "°" + (ep.PositionAngle >= 180 ? " W" : " E");
@@ -264,32 +294,35 @@ namespace Comets.Application
 				bool azHigher = ep.Az >= PreviousEphemeris.Az;
 				bool eloHigher = ep.Elongation >= PreviousEphemeris.Elongation;
 
-				lblEphemSunDistIndicator.Text = rHigher ? "▲" : "▼";
+				string up = "▲";
+				string down = "▼";
+
+				lblEphemSunDistIndicator.Text = rHigher ? up : down;
 				lblEphemSunDistIndicator.ForeColor = rHigher ? Color.Red : Color.Green;
 
-				lblEphemEarthDistIndicator.Text = dHigher ? "▲" : "▼";
+				lblEphemEarthDistIndicator.Text = dHigher ? up : down;
 				lblEphemEarthDistIndicator.ForeColor = dHigher ? Color.Red : Color.Green;
 
-				lblEphemMagIndicator.Text = mHigher ? "▲" : "▼";
+				lblEphemMagIndicator.Text = mHigher ? up : down;
 				lblEphemMagIndicator.ForeColor = mHigher ? Color.Red : Color.Green;
 
-				lblEphemRaIndicator.Text = raHigher ? "▲" : "▼";
+				lblEphemRaIndicator.Text = raHigher ? up : down;
 				lblEphemRaIndicator.ForeColor = Color.Black;
 
-				lblEphemDecIndicator.Text = decHigher ? "▲" : "▼";
+				lblEphemDecIndicator.Text = decHigher ? up : down;
 
 				if (CommonManager.Settings.Location.Latitude >= 0)
 					lblEphemDecIndicator.ForeColor = decHigher ? Color.Green : Color.Red;
 				else //for southern hemisphere it is better if dec is lower -> higher on sky
 					lblEphemDecIndicator.ForeColor = decHigher ? Color.Red : Color.Green;
 
-				lblEphemAltIndicator.Text = altHigher ? "▲" : "▼";
+				lblEphemAltIndicator.Text = altHigher ? up : down;
 				lblEphemAltIndicator.ForeColor = altHigher ? Color.Green : Color.Red;
 
-				lblEphemAzIndicator.Text = azHigher ? "▲" : "▼";
+				lblEphemAzIndicator.Text = azHigher ? up : down;
 				lblEphemAzIndicator.ForeColor = Color.Black;
 
-				lblEphemElongationIndicator.Text = eloHigher ? "▲" : "▼";
+				lblEphemElongationIndicator.Text = eloHigher ? up : down;
 				lblEphemElongationIndicator.ForeColor = eloHigher ? Color.Green : Color.Red;
 
 				PreviousEphemeris = ep;
@@ -347,7 +380,7 @@ namespace Comets.Application
 				mnuAsc.Checked = SortAscending;
 				mnuDesc.Checked = !SortAscending;
 
-				SortCollection(Comets);
+				SortCollection();
 			}
 		}
 
@@ -356,30 +389,29 @@ namespace Comets.Application
 			mnuAsc.Checked = !mnuAsc.Checked;
 			mnuDesc.Checked = !mnuDesc.Checked;
 			SortAscending = mnuAsc.Checked;
-			SortCollection(Comets);
+			SortCollection();
 		}
 
 		#endregion
 
 		#region SortCollection
 
-		public void SortCollection(CometCollection collection)
+		private void SortCollection()
 		{
-			CometCollection temp = new CometCollection(collection);
-			Comets.Clear();
+			CometCollection temp = new CometCollection(CometsFiltered);
+			CometsFiltered.Clear();
 
 			PropertyDescriptor prop = TypeDescriptor.GetProperties(typeof(Comet)).Find(SortProperty, false);
 
 			if (prop == null)
 				throw new ArgumentException(String.Format("Unknown SortPropertyName: \"{0}\"", SortProperty));
 
-			if (SortAscending)
-				Comets = new CometCollection(temp.OrderBy(x => prop.GetValue(x)));
-			else
-				Comets = new CometCollection(temp.OrderByDescending(x => prop.GetValue(x)));
+			CometsFiltered = SortAscending
+				? new CometCollection(temp.OrderBy(x => prop.GetValue(x)))
+				: new CometCollection(temp.OrderByDescending(x => prop.GetValue(x)));
 
 			//clear textboxes if no comets
-			if (Comets.Count == 0)
+			if (CometsFiltered.Count == 0)
 			{
 				foreach (TabPage t in tbcDetails.TabPages)
 				{
@@ -395,10 +427,10 @@ namespace Comets.Application
 				Timer.Stop();
 			}
 
-			lbxDatabase.DataSource = Comets;
+			lbxDatabase.DataSource = CometsFiltered;
 			lbxDatabase.DisplayMember = PropertyEnum.full.ToString();
 
-			lblTotal.Text = "Comets: " + Comets.Count;
+			lblTotal.Text = "Comets: " + CometsFiltered.Count;
 		}
 
 		#endregion
@@ -435,10 +467,13 @@ namespace Comets.Application
 			Point location = new Point(1, 11);
 
 			int id = 0;
+			int count = 0;
 			int offset = 31;
 
 			foreach (Panel p in pnlFilters.Controls.OfType<Panel>())
 			{
+				count++;
+
 				int pid = p.Name.Int();
 				if (pid > id)
 					id = pid;
@@ -450,7 +485,7 @@ namespace Comets.Application
 			FilterPanelManager.CreateFilterPanel(pnlFilters, ++id, location, CommonManager.DefaultDateStart, filter, property);
 
 			btnNewFilter.Location = new Point(btnNewFilter.Location.X, btnNewFilter.Location.Y + offset);
-			btnNewFilter.Visible = id < 10;
+			btnNewFilter.Visible = count < 9;
 		}
 
 		#endregion
@@ -534,16 +569,9 @@ namespace Comets.Application
 		private void PopulateFilters(FilterCollection filters)
 		{
 			if (filters == null)
-			{
 				AddInitialFilters();
-			}
 			else
-			{
-				foreach (Filter f in filters)
-				{
-					AddNewFilterPanel(f, null);
-				}
-			}
+				filters.ForEach(f => AddNewFilterPanel(f, null));
 		}
 
 		#endregion
@@ -552,14 +580,14 @@ namespace Comets.Application
 
 		private void btnFiltersApply_Click(object sender, EventArgs e)
 		{
-			ApplyFilters();
+			ApplyFilters(CometsInitial);
 		}
 
 		#endregion
 
 		#region  ApplyFilters
 
-		private void ApplyFilters()
+		public void ApplyFilters(CometCollection colletion)
 		{
 			Filters = CollectFilters();
 
@@ -571,12 +599,8 @@ namespace Comets.Application
 			}
 			else
 			{
-				if (Filters.Any(x => x.Checked))
-					Comets = FilterManager.ApplyFilters(CommonManager.MainCollection, Filters);
-				else
-					Comets = new CometCollection(CommonManager.MainCollection);
-
-				SortCollection(Comets);
+				CometsFiltered = FilterManager.ApplyFilters(colletion, Filters);
+				SortCollection();
 			}
 		}
 

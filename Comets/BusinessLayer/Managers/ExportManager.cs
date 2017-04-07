@@ -40,7 +40,7 @@ namespace Comets.BusinessLayer.Managers
 					ExportMyStars05(ref sb, collection); break;
 
 				case ExportType.TheSky:
-					//case ExportType.Autostar:
+				case ExportType.Autostar:
 					ExportTheSky06(ref sb, collection); break;
 
 				case ExportType.StarryNight:
@@ -128,7 +128,7 @@ namespace Comets.BusinessLayer.Managers
 
 		#region WriteHeaderText
 
-		public static void WriteHeaderText(ExportType exportType, ref StringBuilder sb, int count)
+		private static void WriteHeaderText(ExportType exportType, ref StringBuilder sb, int count)
 		{
 			switch (exportType)
 			{
@@ -206,39 +206,50 @@ namespace Comets.BusinessLayer.Managers
 		private static void ExportMpc00(ref StringBuilder sb, CometCollection collection)
 		{
 			DateTime d = DateTime.UtcNow;
-			string format = "              {0,4} {1:00} {2,2}.{3:0000} {4,9:0.000000}  {5:0.000000}  {6,8:0.0000}  {7,8:0.0000}  {8,8:0.0000}  {9}{10:00}{11:00}  {12,4:0.0} {13,4:0.0}  {14,-56} MPC 00000\n";
+			string format = "              {0,4} {1:00} {2,2}.{3:0000} {4,9:0.000000}  {5:0.000000}  {6,8:0.0000}  {7,8:0.0000}  {8,8:0.0000}  {9}{10:00}{11:00}  {12,4:0.0} {13,4:0.0}  {14,-56} MPC 00000";
 
 			foreach (Comet c in collection)
+			{
 				sb.AppendFormat(format, c.Ty, c.Tm, c.Td, c.Th, c.q, c.e, c.w, c.N, c.i, d.Year, d.Month, d.Day, c.g, c.k, c.full);
+				sb.AppendLine();
+			}
 		}
 
 		private static void ExportSkyMap01(ref StringBuilder sb, CometCollection collection)
 		{
-			string tempFull = String.Empty;
-
-			string format = "{0,-47}{1,4} {2:00} {3:00}.{4:0000} {5,9:0.000000}       {6:0.000000} {7,8:0.0000} {8,8:0.0000} {9,8:0.0000}  {10,4:0.0}  {11,4:0.0}\n";
+			string tempFull;
+			string format = "{0,-47}{1,4} {2:00} {3:00}.{4:0000} {5,9:0.000000}       {6:0.000000} {7,8:0.0000} {8,8:0.0000} {9,8:0.0000}  {10,4:0.0}  {11,4:0.0}";
 
 			foreach (Comet c in collection)
 			{
-				tempFull = c.full.Replace("/", " ").Replace("(", "").Replace(")", "");
+				tempFull = String.IsNullOrEmpty(c.id)
+					? c.name
+					: c.id[0].In(CometManager.CometTypes)
+						? c.full.Replace("(", "").Replace(")", "")
+						: c.full.Replace("(", "").Replace(")", "").Replace("/", " ");
+
 				sb.AppendFormat(format, tempFull, c.Ty, c.Tm, c.Td, c.Th, c.q, c.e, c.w, c.N, c.i, c.g, c.k);
+				sb.AppendLine();
 			}
 		}
 
 		private static void ExportGuide02(ref StringBuilder sb, CometCollection collection)
 		{
-			string tempFull = String.Empty;
-
-			string format = "{0,-43}{1,2}.{2:0000}  {3,2}  {4,4}  0.0        {5,9:0.000000}    {6:0.000000}  {7,8:0.0000}    {8,8:0.0000}    {9,8:0.0000}    2000.0   {10,4:0.0} {11,4:0.0}    MPC 00000\n";
+			string tempFull;
+			string format = "{0,-43}{1,2}.{2:0000}  {3,2}  {4,4}  0.0        {5,9:0.000000}    {6:0.000000}  {7,8:0.0000}    {8,8:0.0000}    {9,8:0.0000}    2000.0   {10,4:0.0} {11,4:0.0}    MPC 00000";
 
 			foreach (Comet c in collection)
 			{
-				if (c.name.Length == 0)
-					tempFull = c.id;
-				else
-					tempFull = Char.IsNumber(c.id[0]) ? "P/" + c.name + " (" + c.id + ")" : c.name + " (" + c.id + ")";
+				tempFull = String.IsNullOrEmpty(c.name)
+					? c.id
+					: String.IsNullOrEmpty(c.id)
+						? c.name
+						: Char.IsNumber(c.id[0])
+							? "P/" + c.name + " (" + c.id + ")"
+							: c.name + " (" + c.id + ")";
 
 				sb.AppendFormat(format, tempFull, c.Td, c.Th, c.Tm, c.Ty, c.q, c.e, c.i, c.w, c.N, c.g, c.k);
+				sb.AppendLine();
 			}
 		}
 
@@ -246,52 +257,59 @@ namespace Comets.BusinessLayer.Managers
 		{
 			//info: http://www.clearskyinstitute.com/xephem/help/xephem.html#mozTocId215848
 
-			string tempFull = String.Empty;
+			string tempFull, format, line;
 
 			foreach (Comet c in collection)
 			{
 				sb.AppendLine("# From MPC 00000");
 
-				tempFull = c.id + (Char.IsNumber(c.id[0]) ? "/" + c.name : " (" + c.name + ")");
+				tempFull = c.full;
+				if (String.IsNullOrEmpty(c.name))
+					tempFull += "/"; // e.g. 282P/
 
 				if (c.e < 1.0)
 				{
-					string format = "{0},e,{1:0.0000},{2:0.0000},{3:0.0000##},{4:0.0000##},{5:0.0000000},{6:0.00000000},0.0000,{7:00}/{8:00}.{9}/{10},2000,g {11,4:0.0},{12:0.0}\n";
-					sb.AppendFormat(format, tempFull, c.i, c.N, c.w, c.a, c.n, c.e, c.Tm, c.Td, c.Th, c.Ty, c.g, c.k);
+					format = "{0},e,{1:0.0000},{2:0.0000},{3:0.0000##},{4:0.0000##},{5:0.0000000},{6:0.00000000},0.0000,{7:00}/{8:00}.{9:0000}/{10},2000,g {11,4:0.0},{12:0.0}";
+					line = String.Format(format, tempFull, c.i, c.N, c.w, c.a, c.n, c.e, c.Tm, c.Td, c.Th, c.Ty, c.g, c.k);
 				}
 				else if (c.e == 1.0)
 				{
 					double Td = c.Td + c.Th / 10000.0;
-					string format = "{0},p,{1:00}/{2:00.000#}/{3},{4:0.000#},{5:0.000#},{6:0.00000#},{7:0.000#},2000,{8:0.0},{9:0.0}\n";
-					sb.AppendFormat(format, tempFull, c.Tm, Td, c.Ty, c.i, c.w, c.q, c.N, c.g, c.k);
+					format = "{0},p,{1:00}/{2:00.000#}/{3},{4:0.000#},{5:0.000#},{6:0.00000#},{7:0.000#},2000,{8:0.0},{9:0.0}";
+					line = String.Format(format, tempFull, c.Tm, Td, c.Ty, c.i, c.w, c.q, c.N, c.g, c.k);
 				}
 				else// if (c.e > 1.0)
 				{
-					string format = "{0},h,{1:00}/{2:00}.{3}/{4},{5:0.0000},{6:0.0000},{7:0.0000},{8:0.000000},{9:0.000000},2000,{10:0.0},{11:0.0}\n";
-					sb.AppendFormat(format, tempFull, c.Tm, c.Td, c.Th, c.Ty, c.i, c.N, c.w, c.e, c.q, c.g, c.k);
+					format = "{0},h,{1:00}/{2:00}.{3:0000}/{4},{5:0.0000},{6:0.0000},{7:0.0000},{8:0.000000},{9:0.000000},2000,{10:0.0},{11:0.0}";
+					line = String.Format(format, tempFull, c.Tm, c.Td, c.Th, c.Ty, c.i, c.N, c.w, c.e, c.q, c.g, c.k);
 				}
+
+				sb.AppendLine(line);
 			}
 		}
 
 		private static void ExportHomePlanet04(ref StringBuilder sb, CometCollection collection)
 		{
-			string tempFull = String.Empty;
-			string format = String.Empty;
+			string tempFull, format, line;
 
 			foreach (Comet c in collection)
 			{
-				tempFull = c.id + (Char.IsNumber(c.id[0]) ? "/" + c.name : " (" + c.name + ")");
+				tempFull = c.full;
+				if (String.IsNullOrEmpty(c.name))
+					tempFull += "/"; // e.g. 282P/
 
 				if (c.P < 30000)
 				{
-					format = "{0},{1}-{2}-{3}.{4:0000},{5:0.000000},{6:0.000000},{7:0.0000},{8:0.0000},{9:0.0000},{10:0.00000},{11:0.00} years, MPC 00000\n";
-					sb.AppendFormat(format, tempFull, c.Ty, c.Tm, c.Td, c.Th, c.q, c.e, c.w, c.N, c.i, c.a, c.P);
+					format = "{0},{1}-{2}-{3}.{4:0000},{5:0.000000},{6:0.000000},{7:0.0000},{8:0.0000},{9:0.0000},{10:0.00000},{11:0.00} years, MPC 00000";
+					line = String.Format(format, tempFull, c.Ty, c.Tm, c.Td, c.Th, c.q, c.e, c.w, c.N, c.i, c.a, c.P);
 				}
 				else
 				{
-					format = "{0},{1}-{2}-{3}.{4:0000},{5:0.000000},{6:0.000000},{7:0.0000},{8:0.0000},{9:0.0000},,, MPC 00000\n";
-					sb.AppendFormat(format, tempFull, c.Ty, c.Tm, c.Td, c.Th, c.q, c.e, c.w, c.N, c.i);
+					format = "{0},{1}-{2}-{3}.{4:0000},{5:0.000000},{6:0.000000},{7:0.0000},{8:0.0000},{9:0.0000},,, MPC 00000";
+					line = String.Format(format, tempFull, c.Ty, c.Tm, c.Td, c.Th, c.q, c.e, c.w, c.N, c.i);
 				}
+
+				sb.AppendLine(line);
 			}
 		}
 
@@ -301,49 +319,56 @@ namespace Comets.BusinessLayer.Managers
 			// {2} zapravo nije w, nije ni M
 			//
 
-			double jd240 = 2400000.5;
-			double jd = DateTime.UtcNow.Date.JD();
+			decimal jd240 = 2400000.5m;
+			decimal jd = DateTime.UtcNow.Date.JD();
 
-			string format = "{0};\t{1:0.0000}\t{2:0.0000}\t{3:0.000000}\t{4:0.000000}\t{5:0.0000}\t{6:0.0000}\t{7:0.0}\t{8:0.0}\tMPC00000\t{9:0.0}\n";
+			string format = "{0};\t{1:0.0000}\t{2:0.0000}\t{3:0.000000}\t{4:0.000000}\t{5:0.0000}\t{6:0.0000}\t{7:0.0}\t{8:0.0}\tMPC00000\t{9:0.0}";
 
 			foreach (Comet c in collection)
+			{
 				sb.AppendFormat(format, c.full, c.T - jd240, c.w, c.e, c.q, c.i, c.N, c.g, c.k, jd - jd240);
+				sb.AppendLine();
+			}
 		}
 
 		private static void ExportTheSky06(ref StringBuilder sb, CometCollection collection)
 		{
-			string format = "{0,-39}|2000|{1,4}{2:00}{3:00}.{4:0000} |{5,9:0.000000} |{6:0.000000} |{7,8:0.0000} |{8,8:0.0000} |{9,8:0.0000} |{10,4:0.0} |{11,4:0.0} | MPC 00000\n";
+			string format = "{0,-39}|2000|{1,4}{2:00}{3:00}.{4:0000} |{5,9:0.000000} |{6:0.000000} |{7,8:0.0000} |{8,8:0.0000} |{9,8:0.0000} |{10,4:0.0} |{11,4:0.0} | MPC 00000";
 
 			foreach (Comet c in collection)
+			{
 				sb.AppendFormat(format, c.full, c.Ty, c.Tm, c.Td, c.Th, c.q, c.e, c.w, c.N, c.i, c.g, c.k * 2.5);
+				sb.AppendLine();
+			}
 		}
 
 		private static void ExportStarryNight07(ref StringBuilder sb, CometCollection collection)
 		{
-			double jd = DateTime.UtcNow.Date.JD();
-
-			string format = "     {0,-29} {1,4:0.0}    0.0   {2:0.000000}   {3,9:0.000000}    {4,8:0.0000}  {5,8:0.0000}  {6,8:0.0000}  {7,12:0.0000}    {8,9:0.0}  {9,4:0.0}  {10,-13} MPC 00000\n";
+			decimal jd = DateTime.UtcNow.Date.JD();
+			string format = "     {0,-29} {1,4:0.0}    0.0   {2:0.000000}   {3,9:0.000000}    {4,8:0.0000}  {5,8:0.0000}  {6,8:0.0000}  {7,12:0.0000}    {8,9:0.0}  {9,4:0.0}  {10,-13} MPC 00000";
 
 			foreach (Comet c in collection)
+			{
 				sb.AppendFormat(format, c.name, c.g, c.e, c.q, c.N, c.w, c.i, c.T, jd, c.k * 2.5, c.id);
+				sb.AppendLine();
+			}
 		}
 
 		private static void ExportDeepSpace08(ref StringBuilder sb, CometCollection collection)
 		{
-			string format = "C J2000 {0} {1:00} {2:00}.{3:0000} {4:0.000000} {5:0.000000} {6:0.0000} {7:0.0000} {8:0.0000} {9:0.0} {10:0.0}\n";
+			string format = "C J2000 {0} {1:00} {2:00}.{3:0000} {4:0.000000} {5:0.000000} {6:0.0000} {7:0.0000} {8:0.0000} {9:0.0} {10:0.0}";
 
 			foreach (Comet c in collection)
 			{
 				sb.AppendLine(c.name + " (" + c.id + ")");
 				sb.AppendFormat(format, c.Ty, c.Tm, c.Td, c.Th, c.q, c.e, c.w, c.N, c.i, c.g, c.k * 2.5);
+				sb.AppendLine();
 			}
 		}
 
 		private static void ExportPcTcs09(ref StringBuilder sb, CometCollection collection)
 		{
-			string tempId = String.Empty;
-			string line = String.Empty;
-
+			string tempId, line;
 			string format = "{0} {1:0.000000} {2:0.000000} {3:0.0000} {4:0.0000} {5:0.0000} {6,4} {7:00} {8:00}.{9:0000} {10:0.0} {11:0.0} {12}";
 
 			foreach (Comet c in collection)
@@ -351,27 +376,27 @@ namespace Comets.BusinessLayer.Managers
 				tempId = c.id.Replace(" ", "");
 				line = String.Format(format, tempId, c.q, c.e, c.i, c.w, c.N, c.Ty, c.Tm, c.Td, c.Th, c.g, c.k * 2.5, c.name);
 
-				sb.AppendFormat("{0,-126}\n", line);
+				sb.AppendFormat("{0,-126}", line);
+				sb.AppendLine();
 			}
 		}
 
 		private static void ExportEarthCenUniv10(ref StringBuilder sb, CometCollection collection)
 		{
-			string format = "E C 2000 {0} {1:00} {2:00}.{3:0000} {4:0.000000} {5:0.000000} {6:0.0000} {7:0.0000} {8:0.0000} {9:0.0} {10:0.0}\n";
+			string format = "E C 2000 {0} {1:00} {2:00}.{3:0000} {4:0.000000} {5:0.000000} {6:0.0000} {7:0.0000} {8:0.0000} {9:0.0} {10:0.0}";
 
 			foreach (Comet c in collection)
 			{
 				sb.AppendLine(c.full);
 				sb.AppendFormat(format, c.Ty, c.Tm, c.Td, c.Th, c.q, c.e, c.w, c.N, c.i, c.g, c.k * 2.5);
+				sb.AppendLine();
 			}
 		}
 
 		private static void ExportDanceOfThePlanets11(ref StringBuilder sb, CometCollection collection)
 		{
-			string tempId = String.Empty;
-			string q = String.Empty;
-
-			string format = "{0,-11}{1} {2:0.000000} {3,8:0.0000} {4,8:0.0000} {5,8:0.0000} {6,4}.{7:00}{8:00}{9:0000} {10}\n";
+			string tempId, q;
+			string format = "{0,-11}{1} {2:0.000000} {3,8:0.0000} {4,8:0.0000} {5,8:0.0000} {6,4}.{7:00}{8:00}{9:0000} {10}";
 
 			foreach (Comet c in collection)
 			{
@@ -379,59 +404,75 @@ namespace Comets.BusinessLayer.Managers
 				q = c.q < 10.0 ? String.Format("{0:0.000000}", c.q) : "********";
 
 				sb.AppendFormat(format, tempId, q, c.e, c.i, c.N, c.w, c.Ty, c.Tm, c.Td, c.Th, c.name);
+				sb.AppendLine();
 			}
 		}
 
 		private static void ExportMegaStar12(ref StringBuilder sb, CometCollection collection)
 		{
-			string format = "{0,-30}{1,-12}{2,4} {3:00}  {4:00}.{5:0000}   {6,9:0.000000}   {7:0.000000}    {8,8:0.0000}    {9,8:0.0000}    {10,8:0.0000}   {11,4:0.0}   {12,4:0.0}    2000 MPC 00000\n";
+			string format = "{0,-30}{1,-12}{2,4} {3:00}  {4:00}.{5:0000}   {6,9:0.000000}   {7:0.000000}    {8,8:0.0000}    {9,8:0.0000}    {10,8:0.0000}   {11,4:0.0}   {12,4:0.0}    2000 MPC 00000";
 
 			foreach (Comet c in collection)
+			{
 				sb.AppendFormat(format, c.name, c.id, c.Ty, c.Tm, c.Td, c.Th, c.q, c.e, c.w, c.N, c.i, c.g, c.k * 2.5);
+				sb.AppendLine();
+			}
 		}
 
 		private static void ExportSkyChart13(ref StringBuilder sb, CometCollection collection)
 		{
-			string format = "P11\t2000.0\t-{0:0.000000}\t{1:0.000000}\t{2:0.0000}\t{3:0.0000}\t{4:0.0000}\t0\t{5}/{6:00}/{7:00}.{8:0000}\t{9:0.0}\t{10:0.0}\t0\t0\t{11}; MPC 00000\n";
+			string format = "P11\t2000.0\t-{0:0.000000}\t{1:0.000000}\t{2:0.0000}\t{3:0.0000}\t{4:0.0000}\t0\t{5}/{6:00}/{7:00}.{8:0000}\t{9:0.0} {10:0.0}\t0\t0\t{11}; MPC 00000";
 
 			foreach (Comet c in collection)
+			{
 				sb.AppendFormat(format, c.q, c.e, c.i, c.w, c.N, c.Ty, c.Tm, c.Td, c.Th, c.g, c.k, c.full);
+				sb.AppendLine();
+			}
 		}
 
 		private static void ExportVoyager14(ref StringBuilder sb, CometCollection collection)
 		{
-			string date = String.Empty;
-
-			string format = "{0,-26} {1,9:0.000000}   {2:0.000000}  {3,8:0.0000}   {4,8:0.0000}   {5,8:0.0000}   0.0  {6,-14} 2000.0\n";
+			string date;
+			string format = "{0,-26} {1,9:0.000000}   {2:0.000000}  {3,8:0.0000}   {4,8:0.0000}   {5,8:0.0000}   0.0  {6,-14} 2000.0";
 
 			foreach (Comet c in collection)
 			{
 				date = String.Format("{0,4}{1}{2}.{3:0000}", c.Ty, CometManager.Month[c.Tm - 1], c.Td, c.Th);
-				sb.AppendFormat(format, c.name, c.q, c.e, c.i, c.N, c.w, date);
+				sb.AppendFormat(format, !String.IsNullOrEmpty(c.name) ? c.name : c.id, c.q, c.e, c.i, c.N, c.w, date);
+				sb.AppendLine();
 			}
 		}
 
 		private static void ExportSkyTools15(ref StringBuilder sb, CometCollection collection)
 		{
 			DateTime d = DateTime.UtcNow.Date;
-
-			string format = "C {0,-40} {1} {2:00} {3:00} {4,4} {5:00} {6:00}.{7:000}  {8,9:0.000000}   {9:0.000000} {10,7:0.000} {11,7:0.000} {12,7:0.000}  {13,4:0.0}  {14,4:0.0} 0.002000 MPC 00000\n";
+			string full;
+			string format = "C {0,-40} {1} {2:00} {3:00} {4,4} {5:00} {6:00}.{7:000}  {8,9:0.000000}   {9:0.000000} {10,7:0.000} {11,7:0.000} {12,7:0.000}  {13,4:0.0}  {14,4:0.0} 0.002000 MPC 00000";
 
 			foreach (Comet c in collection)
-				sb.AppendFormat(format, c.full, d.Year, d.Month, d.Day, c.Ty, c.Tm, c.Td, c.Th / 10, c.q, c.e, c.w, c.N, c.i, c.g, c.k);
+			{
+				full = c.full.Replace("(", String.Empty).Replace(")", String.Empty);
+				sb.AppendFormat(format, full, d.Year, d.Month, d.Day, c.Ty, c.Tm, c.Td, c.Th / 10, c.q, c.e, c.w, c.N, c.i, c.g, c.k);
+				sb.AppendLine();
+			}
 		}
 
 		private static void ExportSpaceEngine(ref StringBuilder sb, CometCollection collection)
 		{
 			foreach (Comet c in collection)
 			{
-				string full = Char.IsNumber(c.id[0]) ? c.full.Replace('/', ' ') : c.full.Replace("/", "");
+				string full = String.IsNullOrEmpty(c.id)
+					? c.name
+					: Char.IsNumber(c.id[0])
+						? c.full.Replace('/', ' ')
+						: c.full.Replace("/", "");
+
+				char type = String.IsNullOrEmpty(c.id) || c.id[0] != 'C' ? 'P' : 'C';
 
 				sb.AppendLine("Comet\t\"" + full + "\"");
 				sb.AppendLine("{");
 				sb.AppendLine("\tParentBody \"Sol\"");
-
-				sb.AppendLine("\tCometType  \"" + (c.id[0] == 'C' ? 'C' : 'P') + "\"");
+				sb.AppendLine("\tCometType  \"" + type + "\"");
 				sb.AppendLine(String.Format("\tAbsMagn     {0:0.##}", c.g));
 				sb.AppendLine(String.Format("\tSlopeParam  {0:0.##}", c.k));
 				sb.AppendLine();

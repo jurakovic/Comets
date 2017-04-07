@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using PropertyEnum = Comets.BusinessLayer.Managers.CometManager.PropertyEnum;
 using DataTypeEnum = Comets.BusinessLayer.Managers.FilterManager.DataTypeEnum;
-using ValueCompareEnum = Comets.BusinessLayer.Managers.FilterManager.ValueCompareEnum;
 
 namespace Comets.BusinessLayer.Business
 {
@@ -16,8 +15,8 @@ namespace Comets.BusinessLayer.Business
 		private bool _checked;
 		private string _text;
 		private double _value;
-		private int _index;
-		private ValueCompareEnum _valueCompare;
+		private int _compareIndex;
+		private bool _isValid;
 
 		#endregion
 
@@ -48,14 +47,14 @@ namespace Comets.BusinessLayer.Business
 			get { return _value; }
 		}
 
-		public int Index
+		public int CompareIndex
 		{
-			get { return _index; }
+			get { return _compareIndex; }
 		}
 
-		public ValueCompareEnum ValueCompare
+		public bool IsValid
 		{
-			get { return _valueCompare; }
+			get { return _isValid; }
 		}
 
 		#endregion
@@ -68,18 +67,12 @@ namespace Comets.BusinessLayer.Business
 			_dataType = dataType;
 			_checked = isChecked;
 			_text = text;
+			_compareIndex = index;
+
+			_isValid = !String.IsNullOrWhiteSpace(text);
 
 			if (_dataType == DataTypeEnum.Double)
 				_value = _text.Double();
-			else// if (_dataType == DataTypeEnum.String)
-				_value = String.IsNullOrEmpty(_text) ? 0.0 : 1.0; //only for validation
-
-			_index = index;
-
-			if (_index == 0)
-				_valueCompare = ValueCompareEnum.Greather_Contains;
-			else
-				_valueCompare = ValueCompareEnum.Less_DoesNotContain;
 		}
 
 		#endregion

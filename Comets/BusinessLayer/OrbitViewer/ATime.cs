@@ -8,12 +8,6 @@ namespace Comets.OrbitViewer
 
 		public static string[] MonthAbbrConst = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
 
-		public static ATime Minimum = new ATime(1500, 1, 1, 0, 0, 0, 0.0);
-		public static ATime Maximum = new ATime(2500, 1, 1, 0, 0, 0, 0.0);
-
-		public static int TimeIncrement = 1;
-		public static int TimeDecrement = -1;
-
 		#endregion
 
 		#region Properties
@@ -37,23 +31,17 @@ namespace Comets.OrbitViewer
 		/// </summary>
 		public double T2 { get; private set; }
 
+		/// <summary>
+		/// Abbreviated Month Name
+		/// </summary>
+		public string MonthString
+		{
+			get { return MonthAbbrConst[this.Month - 1]; }
+		}
+
 		#endregion
 
 		#region Constructor
-
-		public ATime(int year, int month, int day, int hour, int min, int sec, double timezone)
-		{
-			this.Year = year;
-			this.Month = month;
-			this.Day = day;
-			this.Hour = hour;
-			this.Minute = min;
-			this.Second = sec;
-			this.JD = GetJD() - timezone / 24.0;
-			this.Timezone = timezone;
-			this.T = GetT();
-			this.T2 = GetT2();
-		}
 
 		public ATime(int year, int month, double day, double timezone)
 		{
@@ -67,15 +55,6 @@ namespace Comets.OrbitViewer
 			this.Second = (int)((min - (double)this.Minute) * 60.0);
 			this.JD = GetJD() - timezone / 24.0;
 			this.Timezone = timezone;
-			this.T = GetT();
-			this.T2 = GetT2();
-		}
-
-		public ATime(double jd, double timezone)
-		{
-			this.JD = jd;
-			this.Timezone = timezone;
-			GetDate(jd + timezone / 24.0);
 			this.T = GetT();
 			this.T2 = GetT2();
 		}
@@ -94,35 +73,9 @@ namespace Comets.OrbitViewer
 			this.T2 = GetT2();
 		}
 
-		public ATime(ATime atime)
-		{
-			this.Year = atime.Year;
-			this.Month = atime.Month;
-			this.Day = atime.Day;
-			this.Hour = atime.Hour;
-			this.Minute = atime.Minute;
-			this.Second = atime.Second;
-			this.JD = atime.JD;
-			this.Timezone = atime.Timezone;
-			this.T = atime.T;
-			this.T2 = atime.T2;
-		}
-
 		#endregion
 
-		#region MonthAbbr
-
-		/// <summary>
-		/// Get Abbreviated Month Name
-		/// </summary>
-		/// <param name="month"></param>
-		/// <returns></returns>
-		static public string MonthAbbr(int month)
-		{
-			return MonthAbbrConst[month - 1];
-		}
-
-		#endregion
+		#region + Methods
 
 		#region GetEp
 
@@ -136,7 +89,7 @@ namespace Comets.OrbitViewer
 			double t = (jd - Astro.JD2000) / 36525.0;
 
 			if (t > 30.0)
-			{		// Out of Calculation Range
+			{       // Out of Calculation Range
 				t = 30.0;
 			}
 			else if (t < -30.0)
@@ -153,8 +106,6 @@ namespace Comets.OrbitViewer
 		}
 
 		#endregion
-
-		#region + Methods
 
 		#region GetJD
 
@@ -259,12 +210,14 @@ namespace Comets.OrbitViewer
 
 		#region ChangeDate
 
-		public void ChangeDate(ATimeSpan span, int direction)
+		public void ChangeDate(ATimeSpan span, bool isForward)
 		{
 			DateTime dt;
 
 			try
 			{
+				int direction = isForward ? 1 : -1;
+
 				dt = new DateTime(this.Year, this.Month, this.Day, this.Hour, this.Minute, this.Second);
 				dt = dt.AddYears(direction * span.Year);
 				dt = dt.AddMonths(direction * span.Month);
@@ -275,10 +228,7 @@ namespace Comets.OrbitViewer
 			}
 			catch
 			{
-				if (direction == TimeIncrement)
-					dt = DateTime.MaxValue;
-				else
-					dt = DateTime.MinValue;
+				dt = isForward ? DateTime.MaxValue : DateTime.MinValue;
 			}
 
 			this.Year = dt.Year;
@@ -289,23 +239,8 @@ namespace Comets.OrbitViewer
 			this.Second = dt.Second;
 
 			// check bound between julian and gregorian
-			if (this.Year == 1582 && this.Month == 10)
-			{
-				if (5 <= this.Day && this.Day < 10)
-				{
-					if (direction == TimeIncrement)
-						this.Day = 15;
-					else
-						this.Day = 4;
-				}
-				else if (10 <= this.Day && this.Day < 15)
-				{
-					if (direction == TimeIncrement)
-						this.Day = 15;
-					else
-						this.Day = 4;
-				}
-			}
+			if (this.Year == 1582 && this.Month == 10 && (this.Day > 4 && this.Day < 15))
+				this.Day = isForward ? 15 : 4;
 
 			this.JD = GetJD() - this.Timezone / 24.0;
 			this.T = GetT();

@@ -53,6 +53,7 @@
 			this.label3 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
+			this.label5 = new System.Windows.Forms.Label();
 			this.gbxDateTime.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -242,6 +243,7 @@
 			// gbxDateTime
 			// 
 			this.gbxDateTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.gbxDateTime.Controls.Add(this.label5);
 			this.gbxDateTime.Controls.Add(this.label4);
 			this.gbxDateTime.Controls.Add(this.label3);
 			this.gbxDateTime.Controls.Add(this.label2);
@@ -301,6 +303,16 @@
 			this.label1.TabIndex = 30;
 			this.label1.Text = ".";
 			// 
+			// label5
+			// 
+			this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.label5.AutoSize = true;
+			this.label5.Location = new System.Drawing.Point(234, 34);
+			this.label5.Name = "label5";
+			this.label5.Size = new System.Drawing.Size(11, 13);
+			this.label5.TabIndex = 34;
+			this.label5.Text = ".";
+			// 
 			// FormDateTime
 			// 
 			this.AcceptButton = this.btnOk;
@@ -353,6 +365,6 @@
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Label label1;
-
+		private System.Windows.Forms.Label label5;
 	}
 }
