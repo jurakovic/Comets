@@ -47,6 +47,7 @@ namespace Comets.BusinessLayer.Managers
 
 							switch (property)
 							{
+								case "DownloadUrl": settings.DownloadUrl = value; break;
 								case "AutomaticUpdate": settings.AutomaticUpdate = Convert.ToBoolean(value); break;
 								case "UpdateInterval": settings.UpdateInterval = value.Int(); break;
 								case "LastUpdateDate": settings.LastUpdateDate = Convert.ToDateTime(value); break;
@@ -107,6 +108,7 @@ namespace Comets.BusinessLayer.Managers
 			string format = "{0,-38} = {1}";
 
 			sb.AppendLine("[General]");
+			sb.AppendLine(String.Format(format, "DownloadUrl", settings.DownloadUrl));
 			sb.AppendLine(String.Format(format, "AutomaticUpdate", settings.AutomaticUpdate));
 			sb.AppendLine(String.Format(format, "UpdateInterval", settings.UpdateInterval));
 			if (settings.LastUpdateDate != null)

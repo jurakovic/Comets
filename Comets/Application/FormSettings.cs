@@ -34,6 +34,7 @@ namespace Comets.Application
 		{
 			Settings settings = CommonManager.Settings;
 
+			txtDownloadUrl.Text = settings.DownloadUrl;
 			chAutomaticUpdate.Checked = settings.AutomaticUpdate;
 			txtUpdateInterval.Text = settings.UpdateInterval.ToString();
 			chNewVersionOnStartup.Checked = settings.NewVersionOnStartup;
@@ -84,6 +85,7 @@ namespace Comets.Application
 
 			Settings settings = CommonManager.Settings;
 
+			settings.DownloadUrl = txtDownloadUrl.Text.Trim();
 			settings.AutomaticUpdate = chAutomaticUpdate.Checked;
 			settings.UpdateInterval = txtUpdateInterval.Int();
 			settings.NewVersionOnStartup = chNewVersionOnStartup.Checked;

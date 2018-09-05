@@ -8,6 +8,7 @@ namespace Comets.BusinessLayer.Business
 		#region Properties
 
 		//General
+		public string DownloadUrl { get; set; }
 		public bool AutomaticUpdate { get; set; }
 		public int UpdateInterval { get; set; }
 		public DateTime? LastUpdateDate { get; set; }
@@ -48,6 +49,7 @@ namespace Comets.BusinessLayer.Business
 
 		public Settings()
 		{
+			DownloadUrl = "https://minorplanetcenter.net/iau/Ephemerides/Comets/Soft00Cmt.txt";
 			AutomaticUpdate = true;
 			UpdateInterval = 7;
 			LastUpdateDate = null;
