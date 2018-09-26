@@ -53,25 +53,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Application\FormAbout.cs">
+    <Compile Include="Application\Help\FormAbout.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Application\FormAbout.Designer.cs">
+    <Compile Include="Application\Help\FormAbout.Designer.cs">
       <DependentUpon>FormAbout.cs</DependentUpon>
     </Compile>
-    <Compile Include="Application\FormDateTime.cs">
+    <Compile Include="Application\Edit\FormDateTime.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Application\FormDateTime.Designer.cs">
+    <Compile Include="Application\Edit\FormDateTime.Designer.cs">
       <DependentUpon>FormDateTime.cs</DependentUpon>
     </Compile>
-    <Compile Include="Application\FormControls.cs">
+    <Compile Include="Application\Help\FormControls.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Application\FormControls.Designer.cs">
+    <Compile Include="Application\Help\FormControls.Designer.cs">
       <DependentUpon>FormControls.cs</DependentUpon>
     </Compile>
-    <Compile Include="Application\ISave.cs" />
+    <Compile Include="Application\Interfaces\ISave.cs" />
     <Compile Include="Application\ModulOrbit\FormFind.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -102,10 +102,10 @@
     <Compile Include="Application\ModulEphemeris\FormEphemeris.Designer.cs">
       <DependentUpon>FormEphemeris.cs</DependentUpon>
     </Compile>
-    <Compile Include="Application\FormDatabase.cs">
+    <Compile Include="Application\Edit\FormDatabase.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Application\FormDatabase.Designer.cs">
+    <Compile Include="Application\Edit\FormDatabase.Designer.cs">
       <DependentUpon>FormDatabase.cs</DependentUpon>
     </Compile>
     <Compile Include="Application\ModulEphemeris\FormEphemerisSettings.cs">
@@ -114,10 +114,10 @@
     <Compile Include="Application\ModulEphemeris\FormEphemerisSettings.Designer.cs">
       <DependentUpon>FormEphemerisSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="Application\FormExport.cs">
+    <Compile Include="Application\Edit\FormExport.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Application\FormExport.Designer.cs">
+    <Compile Include="Application\Edit\FormExport.Designer.cs">
       <DependentUpon>FormExport.cs</DependentUpon>
     </Compile>
     <Compile Include="Application\ModulGraph\FormGraphSettings.cs">
@@ -132,10 +132,10 @@
     <Compile Include="Application\ModulGraph\FormGraph.Designer.cs">
       <DependentUpon>FormGraph.cs</DependentUpon>
     </Compile>
-    <Compile Include="Application\FormSettings.cs">
+    <Compile Include="Application\Edit\FormSettings.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Application\FormSettings.Designer.cs">
+    <Compile Include="Application\Edit\FormSettings.Designer.cs">
       <DependentUpon>FormSettings.cs</DependentUpon>
     </Compile>
     <Compile Include="Application\ModulOrbit\OrbitViewerControl.cs">
@@ -146,10 +146,10 @@
     </Compile>
     <Compile Include="BusinessLayer\Managers\CometManager.cs" />
     <Compile Include="BusinessLayer\Managers\EphemerisManager.cs" />
-    <Compile Include="Application\FormImport.cs">
+    <Compile Include="Application\Edit\FormImport.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Application\FormImport.Designer.cs">
+    <Compile Include="Application\Edit\FormImport.Designer.cs">
       <DependentUpon>FormImport.cs</DependentUpon>
     </Compile>
     <Compile Include="Application\FormMain.cs">
@@ -183,13 +183,13 @@
     <Compile Include="BusinessLayer\OrbitViewer\Xyz.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Application\FormAbout.resx">
+    <EmbeddedResource Include="Application\Help\FormAbout.resx">
       <DependentUpon>FormAbout.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Application\FormDateTime.resx">
+    <EmbeddedResource Include="Application\Edit\FormDateTime.resx">
       <DependentUpon>FormDateTime.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Application\FormControls.resx">
+    <EmbeddedResource Include="Application\Help\FormControls.resx">
       <DependentUpon>FormControls.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Application\ModulOrbit\FormFind.resx">
@@ -199,7 +199,7 @@
       <DependentUpon>FormEphemeris.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Application\FormDatabase.resx">
+    <EmbeddedResource Include="Application\Edit\FormDatabase.resx">
       <DependentUpon>FormDatabase.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -207,11 +207,11 @@
       <DependentUpon>FormEphemerisSettings.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Application\FormExport.resx">
+    <EmbeddedResource Include="Application\Edit\FormExport.resx">
       <DependentUpon>FormExport.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Application\FormImport.resx">
+    <EmbeddedResource Include="Application\Edit\FormImport.resx">
       <DependentUpon>FormImport.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Application\ModulGraph\FormGraphSettings.resx">
@@ -224,7 +224,7 @@
       <DependentUpon>FormMain.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Application\FormSettings.resx">
+    <EmbeddedResource Include="Application\Edit\FormSettings.resx">
       <DependentUpon>FormSettings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Application\ModulOrbit\FormOrbitViewer.resx">
@@ -261,6 +261,9 @@
     <Content Include="Resources\about.png" />
     <Content Include="Resources\controls.txt" />
     <Content Include="Resources\icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Application\Controls\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
