@@ -12,14 +12,9 @@ namespace Comets.Application
 {
 	public partial class FormImport : Form
 	{
-		#region Const
-
-		private const string MpcUrl = "http://www.minorplanetcenter.net/iau/Ephemerides/Comets/Soft00Cmt.txt";
-
-		#endregion
-
 		#region Properties
 
+		private string DownloadUrl { get { return CommonManager.Settings.DownloadUrl; } }
 		private string DownloadFilename { get; set; }
 		private string LocalFilename { get; set; }
 		private string ImportFilename { get; set; }
@@ -62,7 +57,7 @@ namespace Comets.Application
 
 		private void linkOpen_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
-			System.Diagnostics.Process.Start(MpcUrl);
+			System.Diagnostics.Process.Start(DownloadUrl);
 		}
 
 		#endregion
@@ -92,6 +87,8 @@ namespace Comets.Application
 				progressDownload.Visible = true;
 				progressDownload.Style = ProgressBarStyle.Marquee;
 
+				ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12 | SecurityProtocolType.Ssl3;
+
 				using (WebClient wc = new WebClient())
 				{
 					Settings settings = CommonManager.Settings;
@@ -105,7 +102,7 @@ namespace Comets.Application
 
 					wc.DownloadProgressChanged += Client_DownloadProgressChanged;
 					wc.DownloadFileCompleted += Client_DownloadFileCompleted;
-					Uri uri = new Uri(MpcUrl);
+					Uri uri = new Uri(DownloadUrl);
 
 					try
 					{
@@ -316,7 +313,11 @@ namespace Comets.Application
 					}
 				}
 
-				DownloadFilename = directory + "\\Soft00Cmt_" + DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".txt";
+				string filename = Path.GetFileNameWithoutExtension(DownloadUrl);
+				string extension = Path.GetExtension(DownloadUrl);
+				string datetime = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
+
+				DownloadFilename = String.Format("{0}\\{1}_{2}{3}", directory, filename, datetime, extension);
 				IsUsedDownloadedFile = true;
 
 				using (BackgroundWorker bwDownload = new BackgroundWorker())
