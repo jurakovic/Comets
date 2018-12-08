@@ -3,7 +3,6 @@ using Comets.BusinessLayer.Extensions;
 using Comets.BusinessLayer.Managers;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -15,28 +14,6 @@ namespace Comets.Application.ModulGraph
 
 		public GraphSettings GraphSettings { get; private set; }
 
-		private DateTime _start;
-		private DateTime DateStart
-		{
-			get { return _start; }
-			set
-			{
-				_start = value;
-				btnStartDate.Text = _start.ToString(FormMain.DateTimeFormatMain);
-			}
-		}
-
-		private DateTime _end;
-		private DateTime DateEnd
-		{
-			get { return _end; }
-			set
-			{
-				_end = value;
-				btnEndDate.Text = _end.ToString(FormMain.DateTimeFormatMain);
-			}
-		}
-
 		private CancellationTokenSource cts;
 
 		#endregion
@@ -47,66 +24,49 @@ namespace Comets.Application.ModulGraph
 		{
 			InitializeComponent();
 
-			txtDaysFromTStart.Tag = new ValNum(-3653, -1);
-			txtDaysFromTStop.Tag = new ValNum(1, 3653);
-			txtMinValue.Tag = ValNum.VMagnitude;
-			txtMaxValue.Tag = ValNum.VMagnitude;
+			selectCometControl.OnSelectedCometChanged += OnSelectedCometChanged;
+			selectCometControl.OnCometsFiltered += OnCometsFiltered;
 
 			if (settings == null)
 			{
-				DateStart = CommonManager.DefaultDateStart;
-				DateEnd = CommonManager.DefaultDateEnd;
+				modeControl.IsMultipleMode = false;
+				modeControl.CometCount = CommonManager.UserCollection.Count;
 
-				btnTimespanDaysFromTDefault_Click(null, null);
-				rbtnRangeDate.Checked = true;
+				int offset = 180;
+				timespanControl.DateStart = CommonManager.DefaultDateStart;
+				timespanControl.DateEnd = CommonManager.DefaultDateEnd;
+				timespanControl.DaysBeforeT = -offset;
+				timespanControl.DaysAfterT = offset;
+				timespanControl.DateRange = true;
 			}
 			else
 			{
 				if (settings.Filters == null)
 					settings.Filters = filters;
 
-				rbtnSingle.Checked = !settings.IsMultipleMode;
-				rbtnMultiple.Checked = settings.IsMultipleMode;
+				modeControl.IsMultipleMode = settings.IsMultipleMode;
+				modeControl.CometCount = settings.Comets.Count;
 
-				DateStart = settings.DateStart;
-				DateEnd = settings.DateStop;
+				timespanControl.DateStart = settings.Start;
+				timespanControl.DateEnd = settings.Stop;
+				timespanControl.DaysBeforeT = settings.DaysBeforeT;
+				timespanControl.DaysAfterT = settings.DaysAfterT;
+				timespanControl.DateRange = settings.DateRange;
+				timespanControl.PerihelionDate = EphemerisManager.JDToLocalDateTimeSafe(settings.SelectedComet?.Tn);
 
-				txtDaysFromTStart.Text = settings.DaysFromTStartValue.ToString();
-				txtDaysFromTStop.Text = settings.DaysFromTStopValue.ToString();
+				chartTypeControl.ChartType = settings.GraphChartType;
 
-				if (settings.DateRange)
-					rbtnRangeDate.Checked = true;
-				else
-					rbtnRangeDaysFromT.Checked = true;
+				chartOptionsControl.MagnitudeColor = settings.MagnitudeColor;
+				chartOptionsControl.NowLineChecked = settings.NowLineChecked;
+				chartOptionsControl.NowLineColor = settings.NowLineColor;
+				chartOptionsControl.PerihelionLineChecked = settings.PerihelionLineChecked;
+				chartOptionsControl.PerihelionLineColor = settings.PerihelionLineColor;
+				chartOptionsControl.AntialiasingChecked = settings.AntialiasingChecked;
 
-				switch (settings.GraphChartType)
-				{
-					case GraphSettings.ChartType.Magnitude:
-						rbtnMagnitude.Checked = true;
-						break;
-					case GraphSettings.ChartType.SunDistance:
-						rbtnSunDistance.Checked = true;
-						break;
-					case GraphSettings.ChartType.EarthDistance:
-						rbtnEarthDistance.Checked = true;
-						break;
-				}
-
-				pnlMagnitudeColor.BackColor = settings.MagnitudeColor;
-
-				cbxNowLine.Checked = settings.NowLineChecked;
-				pnlNowLineColor.BackColor = settings.NowLineColor;
-
-				cbxPerihelionLine.Checked = settings.PerihelionLineChecked;
-				pnlPerihLineColor.BackColor = settings.PerihelionLineColor;
-
-				cbxAntialiasing.Checked = settings.AntialiasingChecked;
-
-				txtMinValue.Text = settings.MinGraphValue != null ? settings.MinGraphValue.Value.ToString() : String.Empty;
-				cbxMinValue.Checked = settings.MinGraphValueChecked;
-
-				txtMaxValue.Text = settings.MaxGraphValue != null ? settings.MaxGraphValue.Value.ToString() : String.Empty;
-				cbxMaxValue.Checked = settings.MaxGraphValueChecked;
+				valueRangeControl.MinValue = settings.MinGraphValue;
+				valueRangeControl.MinValueChecked = settings.MinGraphValueChecked;
+				valueRangeControl.MaxValue = settings.MaxGraphValue;
+				valueRangeControl.MaxValueChecked = settings.MaxGraphValueChecked;
 
 				this.GraphSettings = settings;
 			}
@@ -114,13 +74,17 @@ namespace Comets.Application.ModulGraph
 
 		#endregion
 
-		#region FormGraphSettings_Load
+		#region +EventHandling
+
+		#region Form
 
 		private void FormGraphSettings_Load(object sender, EventArgs e)
 		{
+			GraphSettings settings;
+
 			if (this.GraphSettings == null)
 			{
-				GraphSettings settings = new GraphSettings();
+				settings = new GraphSettings();
 				settings.Comets = new CometCollection(CommonManager.UserCollection);
 				settings.Filters = CommonManager.Filters;
 				settings.SortProperty = CommonManager.SortProperty;
@@ -129,13 +93,14 @@ namespace Comets.Application.ModulGraph
 
 				this.GraphSettings = settings;
 			}
+			settings = this.GraphSettings;
 
-			BindCollection();
+			selectCometControl.Comets = settings.Comets;
+			selectCometControl.Filters = settings.Filters;
+			selectCometControl.SortProperty = settings.SortProperty;
+			selectCometControl.SortAscending = settings.SortAscending;
+			selectCometControl.DataBind(settings.SelectedComet);
 		}
-
-		#endregion
-
-		#region FormGraphSettings_FormClosing
 
 		private void FormGraphSettings_FormClosing(object sender, FormClosingEventArgs e)
 		{
@@ -145,176 +110,42 @@ namespace Comets.Application.ModulGraph
 
 		#endregion
 
-		#region cbComet_SelectedIndexChanged
-
-		private void cbComet_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			if (cbComet.SelectedIndex >= 0)
-			{
-				Comet c = this.GraphSettings.Comets.ElementAt(cbComet.SelectedIndex);
-
-				lblPerihDate.Text = String.Format("Perihelion date:                {0}", EphemerisManager.JDToDateTime(c.Tn).ToLocalTime().ToString("dd MMM yyyy HH:mm:ss"));
-				lblPerihDist.Text = String.Format("Perihelion distance:          {0:0.000000} AU", c.q);
-				lblPeriod.Text = String.Format("Period:                              {0}", c.P < 10000 ? c.P.ToString("0.000000") + " years" : "-");
-			}
-		}
-
-		#endregion
-
-		#region btnFilter_Click
-
-		private void btnFilter_Click(object sender, EventArgs e)
-		{
-			GraphSettings sett = this.GraphSettings;
-
-			using (FormDatabase fdb = new FormDatabase(CommonManager.MainCollection, sett.Filters, sett.SortProperty, sett.SortAscending, true) { Owner = this })
-			{
-				fdb.TopMost = this.TopMost;
-
-				if (fdb.ShowDialog() == DialogResult.OK)
-				{
-					sett.Comets = fdb.CometsFiltered;
-					sett.Filters = fdb.Filters;
-					sett.SortProperty = fdb.SortProperty;
-					sett.SortAscending = fdb.SortAscending;
-
-					BindCollection();
-				}
-			}
-		}
-
-		#endregion
-
-		#region Chart options
-
-		private void pnColorCommon_Click(object sender, EventArgs e)
-		{
-			Panel pnl = sender as Panel;
-
-			using (ColorDialog cd = new ColorDialog())
-			{
-				cd.Color = pnl.BackColor;
-				cd.FullOpen = true;
-
-				if (cd.ShowDialog() == DialogResult.OK)
-					pnl.BackColor = cd.Color;
-			}
-		}
-
-		#endregion
-
-		#region Timespan
-
-		private void btnStartDate_Click(object sender, EventArgs e)
-		{
-			DateStart = ShowFormDateTime(CommonManager.DefaultDateStart, DateStart, GetT());
-		}
-
-		private void btnEndDate_Click(object sender, EventArgs e)
-		{
-			DateEnd = ShowFormDateTime(CommonManager.DefaultDateEnd, DateEnd, GetT());
-		}
-
-		private DateTime ShowFormDateTime(DateTime def, DateTime current, decimal? jd)
-		{
-			DateTime? perihelionDate = EphemerisManager.JDToLocalDateTimeSafe(jd);
-
-			using (FormDateTime fdt = new FormDateTime(def, current, perihelionDate))
-			{
-				fdt.TopMost = this.TopMost;
-
-				if (fdt.ShowDialog() == DialogResult.OK)
-					current = fdt.SelectedDateTime;
-			}
-
-			rbtnRangeDate.Checked = true;
-			return current;
-		}
-
-		private decimal? GetT()
-		{
-			return this.GraphSettings.Comets.ElementAtOrDefault(cbComet.SelectedIndex)?.Tn;
-		}
-
-		private void txtDaysFromTCommon_KeyDown(object sender, KeyEventArgs e)
-		{
-			e.SuppressKeyPress = ValNumManager.TextBoxValueUpDown(sender, e);
-		}
-
-		private void txtDaysFromTCommon_KeyPress(object sender, KeyPressEventArgs e)
-		{
-			e.Handled = ValNumManager.HandleKeyPress(sender, e);
-		}
-
-		private void txtDaysFromTCommon_TextChanged(object sender, EventArgs e)
-		{
-			rbtnRangeDaysFromT.Checked = true;
-		}
-
-		private void btnTimespanDaysFromTDefault_Click(object sender, EventArgs e)
-		{
-			int offset = 180;
-			txtDaysFromTStart.Text = (-offset).ToString();
-			txtDaysFromTStop.Text = offset.ToString();
-		}
-
-		#endregion
-
-		#region Magnitude
-
-		private void txtMagCommon_KeyPress(object sender, KeyPressEventArgs e)
-		{
-			e.Handled = ValNumManager.HandleKeyPress(sender, e);
-		}
-
-		private void txtMinMag_TextChanged(object sender, EventArgs e)
-		{
-			cbxMinValue.Checked = txtMinValue.TextLength > 0;
-		}
-
-		private void txtMaxMag_TextChanged(object sender, EventArgs e)
-		{
-			cbxMaxValue.Checked = txtMaxValue.TextLength > 0;
-		}
-
-		#endregion
-
-		#region btnOk_Click
+		#region Button
 
 		private async void btnOk_Click(object sender, EventArgs e)
 		{
-			if (cbComet.SelectedIndex >= 0)
+			if (selectCometControl.SelectedComet != null)
 			{
-				if (cbxMinValue.Checked && txtMinValue.TextLength == 0)
+				if (valueRangeControl.MinValueChecked && valueRangeControl.MinValue == null)
 				{
 					MessageBox.Show("Enter Minimum value\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
 					return;
 				}
 
-				if (cbxMaxValue.Checked && txtMaxValue.TextLength == 0)
+				if (valueRangeControl.MaxValueChecked && valueRangeControl.MaxValue == null)
 				{
 					MessageBox.Show("Enter Maximum value\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
 					return;
 				}
 
-				if (cbxMinValue.Checked && cbxMaxValue.Checked && txtMinValue.Double() >= txtMaxValue.Double())
+				if (valueRangeControl.MinValueChecked && valueRangeControl.MaxValueChecked && valueRangeControl.MinValue.GetValueOrDefault() >= valueRangeControl.MaxValue.GetValueOrDefault())
 				{
 					MessageBox.Show("Minimum value must be lower than Maximum value\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
 					return;
 				}
 
-				int before = txtDaysFromTStart.Int();
-				int after = txtDaysFromTStop.Int();
+				int before = timespanControl.DaysBeforeT;
+				int after = timespanControl.DaysAfterT;
 
-				Comet comet = GraphSettings.Comets.ElementAt(cbComet.SelectedIndex);
+				Comet comet = selectCometControl.SelectedComet;
 				decimal startJd = comet.Tn + before; //negativan broj
 				decimal stopJd = comet.Tn + after;
 
-				DateTime daysFromTStart = EphemerisManager.JDToDateTime(startJd).ToLocalTime();
-				DateTime daysFromTStop = EphemerisManager.JDToDateTime(stopJd).ToLocalTime();
+				DateTime dateBefore = EphemerisManager.JDToDateTime(startJd).ToLocalTime();
+				DateTime dateAfter = EphemerisManager.JDToDateTime(stopJd).ToLocalTime();
 
-				DateTime start = rbtnRangeDate.Checked ? DateStart : daysFromTStart;
-				DateTime stop = rbtnRangeDate.Checked ? DateEnd : daysFromTStop;
+				DateTime start = timespanControl.DateRange ? timespanControl.DateStart : dateBefore;
+				DateTime stop = timespanControl.DateRange ? timespanControl.DateEnd : dateAfter;
 
 				if (stop <= start)
 				{
@@ -350,42 +181,37 @@ namespace Comets.Application.ModulGraph
 				settings.SelectedComet = comet;
 				settings.Location = CommonManager.Settings.Location;
 
-				settings.DateRange = rbtnRangeDate.Checked;
+				settings.DateRange = timespanControl.DateRange;
 
-				settings.IsMultipleMode = rbtnMultiple.Checked;
+				settings.IsMultipleMode = modeControl.IsMultipleMode;
 
 				settings.Start = start;
 				settings.Stop = stop;
 				settings.Interval = interval;
 
-				settings.DateStart = DateStart;
-				settings.DateStop = DateEnd;
+				settings.DateStart = timespanControl.DateStart;
+				settings.DateStop = timespanControl.DateEnd;
 
-				settings.DaysFromTStartValue = txtDaysFromTStart.Int();
-				settings.DaysFromTStopValue = txtDaysFromTStop.Int();
+				settings.DaysBeforeT = timespanControl.DaysBeforeT;
+				settings.DaysAfterT = timespanControl.DaysAfterT;
 
-				if (rbtnMagnitude.Checked)
-					settings.GraphChartType = GraphSettings.ChartType.Magnitude;
-				else if (rbtnSunDistance.Checked)
-					settings.GraphChartType = GraphSettings.ChartType.SunDistance;
-				else// if (rbtnEarthDistance.Checked)
-					settings.GraphChartType = GraphSettings.ChartType.EarthDistance;
+				settings.GraphChartType = chartTypeControl.ChartType;
 
-				settings.MagnitudeColor = pnlMagnitudeColor.BackColor;
+				settings.MagnitudeColor = chartOptionsControl.MagnitudeColor;
 
-				settings.NowLineChecked = cbxNowLine.Checked;
-				settings.NowLineColor = pnlNowLineColor.BackColor;
+				settings.NowLineChecked = chartOptionsControl.NowLineChecked;
+				settings.NowLineColor = chartOptionsControl.NowLineColor;
 
-				settings.PerihelionLineChecked = cbxPerihelionLine.Checked;
-				settings.PerihelionLineColor = pnlPerihLineColor.BackColor;
+				settings.PerihelionLineChecked = chartOptionsControl.PerihelionLineChecked;
+				settings.PerihelionLineColor = chartOptionsControl.PerihelionLineColor;
 
-				settings.AntialiasingChecked = cbxAntialiasing.Checked;
+				settings.AntialiasingChecked = chartOptionsControl.AntialiasingChecked;
 
-				settings.MinGraphValueChecked = cbxMinValue.Checked;
-				settings.MinGraphValue = txtMinValue.TextLength > 0 ? (double?)txtMinValue.Double() : null;
+				settings.MinGraphValueChecked = valueRangeControl.MinValueChecked;
+				settings.MinGraphValue = valueRangeControl.MinValue;
 
-				settings.MaxGraphValueChecked = cbxMaxValue.Checked;
-				settings.MaxGraphValue = txtMaxValue.TextLength > 0 ? (double?)txtMaxValue.Double() : null;
+				settings.MaxGraphValueChecked = valueRangeControl.MaxValueChecked;
+				settings.MaxGraphValue = valueRangeControl.MaxValue;
 
 				if (!CommonManager.Settings.IgnoreLongCalculationWarning && !SettingsBase.ValidateCalculationAmount(settings))
 					return;
@@ -433,10 +259,6 @@ namespace Comets.Application.ModulGraph
 			}
 		}
 
-		#endregion
-
-		#region btnCancel_Click
-
 		private void btnCancel_Click(object sender, EventArgs e)
 		{
 			if (cts != null)
@@ -447,32 +269,19 @@ namespace Comets.Application.ModulGraph
 
 		#endregion
 
-		#region BindCollection
+		#region Events
 
-		private void BindCollection()
+		private void OnCometsFiltered(int cometCount)
 		{
-			GraphSettings settings = this.GraphSettings;
-
-			cbComet.DisplayMember = CometManager.PropertyEnum.full.ToString();
-			cbComet.DataSource = settings.Comets;
-
-			if (settings.Comets.Count > 0)
-			{
-				if (settings.SelectedComet != null && settings.Comets.Contains(settings.SelectedComet))
-				{
-					cbComet.SelectedIndex = settings.Comets.IndexOf(settings.SelectedComet);
-				}
-				else
-				{
-					//comet with nearest perihelion date
-					decimal jdNow = DateTime.Now.JD();
-					Comet c = settings.Comets.OrderBy(x => Math.Abs(x.Tn - jdNow)).First();
-					cbComet.SelectedIndex = settings.Comets.IndexOf(c);
-				}
-			}
-
-			lblMultipleCount.Text = settings.Comets.Count + " comets";
+			modeControl.CometCount = cometCount;
 		}
+
+		private void OnSelectedCometChanged(DateTime? perihelionDate)
+		{
+			timespanControl.PerihelionDate = perihelionDate;
+		}
+
+		#endregion
 
 		#endregion
 	}

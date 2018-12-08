@@ -15,8 +15,8 @@ namespace Comets.BusinessLayer.Business
 
 		public DateTime DateStart { get; set; }
 		public DateTime DateStop { get; set; }
-		public int DaysFromTStartValue { get; set; }
-		public int DaysFromTStopValue { get; set; }
+		public int DaysBeforeT { get; set; }
+		public int DaysAfterT { get; set; }
 		public bool DateRange { get; set; }
 		public Color MagnitudeColor { get; set; }
 		public bool PerihelionLineChecked { get; set; }

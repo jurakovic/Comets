@@ -113,6 +113,30 @@
     <Compile Include="Application\Controls\ModulEphemeris\TimespanControl.Designer.cs">
       <DependentUpon>TimespanControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Application\Controls\ModulGraph\ChartOptionsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Application\Controls\ModulGraph\ChartOptionsControl.Designer.cs">
+      <DependentUpon>ChartOptionsControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Application\Controls\ModulGraph\ChartTypeControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Application\Controls\ModulGraph\ChartTypeControl.Designer.cs">
+      <DependentUpon>ChartTypeControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Application\Controls\ModulGraph\TimespanControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Application\Controls\ModulGraph\TimespanControl.Designer.cs">
+      <DependentUpon>TimespanControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Application\Controls\ModulGraph\ValueRangeControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Application\Controls\ModulGraph\ValueRangeControl.Designer.cs">
+      <DependentUpon>ValueRangeControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Application\Help\FormAbout.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -272,6 +296,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Application\Controls\ModulEphemeris\TimespanControl.resx">
       <DependentUpon>TimespanControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Application\Controls\ModulGraph\ChartOptionsControl.resx">
+      <DependentUpon>ChartOptionsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Application\Controls\ModulGraph\ChartTypeControl.resx">
+      <DependentUpon>ChartTypeControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Application\Controls\ModulGraph\TimespanControl.resx">
+      <DependentUpon>TimespanControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Application\Controls\ModulGraph\ValueRangeControl.resx">
+      <DependentUpon>ValueRangeControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Application\Help\FormAbout.resx">
       <DependentUpon>FormAbout.cs</DependentUpon>
