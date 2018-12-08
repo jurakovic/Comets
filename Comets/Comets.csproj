@@ -83,6 +83,36 @@
     <Compile Include="Application\Controls\Database\FilterControl.Designer.cs">
       <DependentUpon>FilterControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Application\Controls\Common\ModeControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Application\Controls\Common\ModeControl.Designer.cs">
+      <DependentUpon>ModeControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Application\Controls\Common\SelectCometControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Application\Controls\Common\SelectCometControl.Designer.cs">
+      <DependentUpon>SelectCometControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Application\Controls\ModulEphemeris\OutputDataControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Application\Controls\ModulEphemeris\OutputDataControl.Designer.cs">
+      <DependentUpon>OutputDataControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Application\Controls\ModulEphemeris\RequirementsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Application\Controls\ModulEphemeris\RequirementsControl.Designer.cs">
+      <DependentUpon>RequirementsControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Application\Controls\ModulEphemeris\TimespanControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Application\Controls\ModulEphemeris\TimespanControl.Designer.cs">
+      <DependentUpon>TimespanControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Application\Help\FormAbout.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -227,6 +257,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Application\Controls\Database\FilterControl.resx">
       <DependentUpon>FilterControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Application\Controls\Common\ModeControl.resx">
+      <DependentUpon>ModeControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Application\Controls\Common\SelectCometControl.resx">
+      <DependentUpon>SelectCometControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Application\Controls\ModulEphemeris\OutputDataControl.resx">
+      <DependentUpon>OutputDataControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Application\Controls\ModulEphemeris\RequirementsControl.resx">
+      <DependentUpon>RequirementsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Application\Controls\ModulEphemeris\TimespanControl.resx">
+      <DependentUpon>TimespanControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Application\Help\FormAbout.resx">
       <DependentUpon>FormAbout.cs</DependentUpon>
