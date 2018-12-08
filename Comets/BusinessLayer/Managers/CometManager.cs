@@ -340,7 +340,7 @@ namespace Comets.BusinessLayer.Managers
 
 		public static void OpenJplInfo(string id)
 		{
-			System.Diagnostics.Process.Start("http://ssd.jpl.nasa.gov/sbdb.cgi?sstr=" + id + ";orb=0;old=0;cov=0;log=0;cad=0");
+			System.Diagnostics.Process.Start("https://ssd.jpl.nasa.gov/sbdb.cgi?sstr=" + id + ";orb=0;old=0;cov=0;log=0;cad=0");
 		}
 
 		#endregion

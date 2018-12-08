@@ -349,7 +349,9 @@ namespace Comets.Application.ModulEphemeris
 
 		private DateTime ShowFormDateTime(DateTime def, DateTime current, decimal? jd)
 		{
-			using (FormDateTime fdt = new FormDateTime(def, current, jd))
+			DateTime? perihelionDate = EphemerisManager.JDToLocalDateTimeSafe(jd);
+
+			using (FormDateTime fdt = new FormDateTime(def, current, perihelionDate))
 			{
 				fdt.TopMost = this.TopMost;
 

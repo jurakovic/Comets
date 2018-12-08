@@ -711,6 +711,11 @@ namespace Comets.BusinessLayer.Managers
 			return new DateTime(year, month, day, hour, minute, second);
 		}
 
+		public static DateTime? JDToLocalDateTimeSafe(decimal? jd0)
+		{
+			return jd0 != null ? JDToDateTime(jd0.Value).ToLocalTime() : (DateTime?)null;
+		}
+
 		#endregion
 
 		#region Math functions

@@ -53,6 +53,36 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application\Controls\Common\DateTimeMenuControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Application\Controls\Common\DateTimeMenuControl.Designer.cs">
+      <DependentUpon>DateTimeMenuControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Application\Controls\Common\SelectDateControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Application\Controls\Common\SelectDateControl.Designer.cs">
+      <DependentUpon>SelectDateControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Application\Controls\Database\ElementsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Application\Controls\Database\ElementsControl.Designer.cs">
+      <DependentUpon>ElementsControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Application\Controls\Database\EphemerisControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Application\Controls\Database\EphemerisControl.Designer.cs">
+      <DependentUpon>EphemerisControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Application\Controls\Database\FilterControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Application\Controls\Database\FilterControl.Designer.cs">
+      <DependentUpon>FilterControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Application\Help\FormAbout.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -183,6 +213,21 @@
     <Compile Include="BusinessLayer\OrbitViewer\Xyz.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Application\Controls\Common\DateTimeMenuControl.resx">
+      <DependentUpon>DateTimeMenuControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Application\Controls\Common\SelectDateControl.resx">
+      <DependentUpon>SelectDateControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Application\Controls\Database\ElementsControl.resx">
+      <DependentUpon>ElementsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Application\Controls\Database\EphemerisControl.resx">
+      <DependentUpon>EphemerisControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Application\Controls\Database\FilterControl.resx">
+      <DependentUpon>FilterControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Application\Help\FormAbout.resx">
       <DependentUpon>FormAbout.cs</DependentUpon>
     </EmbeddedResource>
@@ -262,9 +307,7 @@
     <Content Include="Resources\controls.txt" />
     <Content Include="Resources\icon.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Application\Controls\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

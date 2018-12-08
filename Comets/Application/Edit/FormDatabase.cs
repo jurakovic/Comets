@@ -1,8 +1,6 @@
 ﻿using Comets.BusinessLayer.Business;
-using Comets.BusinessLayer.Extensions;
 using Comets.BusinessLayer.Managers;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
@@ -28,7 +26,6 @@ namespace Comets.Application
 		public bool SortAscending { get; private set; }
 
 		private Timer Timer { get; set; }
-		private Ephemeris PreviousEphemeris { get; set; }
 
 		#endregion
 
@@ -37,6 +34,9 @@ namespace Comets.Application
 		public FormDatabase(CometCollection collection, FilterCollection filters, string sortProperty, bool sortAscending, bool isForFiltering, bool isForImportResult = false)
 		{
 			InitializeComponent();
+
+			filterControl.OnFilterApply += this.ApplyFiltersInitalComets;
+			filterControl.OnClose += this.btnFilters_Click;
 
 			Timer = new Timer();
 			Timer.Interval = 1000;
@@ -67,9 +67,9 @@ namespace Comets.Application
 			SortAscending = sortAscending;
 
 			pnlDetails.Visible = !isForFiltering;
-			pnlFilters.Visible = isForFiltering;
+			filterControl.Visible = isForFiltering;
 
-			PopulateFilters(Filters);
+			filterControl.DataBind(Filters);
 			SetSortItems(SortAscending);
 
 			if (isForImportResult)
@@ -89,40 +89,67 @@ namespace Comets.Application
 
 		#endregion
 
-		#region FormDatabase_Load
+		#region +EventHandling
+
+		#region Form
 
 		private void FormDatabase_Load(object sender, EventArgs e)
 		{
 			ApplyFilters(CometsFiltered);
 		}
 
-		#endregion
-
-		#region FormDatabase_KeyDown
-
 		private void FormDatabase_KeyDown(object sender, KeyEventArgs e)
 		{
 			if (e.KeyCode == Keys.Escape)
 			{
-				if (pnlFilters.Visible)
-					InvertPanelsVisibility();
+				if (filterControl.Visible)
+					SwitchVisible();
 				else
 					this.Close();
 			}
 		}
 
-		#endregion
-
-		#region FormDatabase_FormClosing
-
 		private void FormDatabase_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			Filters = CollectFilters();
+			Filters = filterControl.CollectFilters();
 		}
 
 		#endregion
 
-		#region cbxImportResult_SelectedIndexChanged
+		#region UserControl
+
+		private void filterControl_VisibleChanged(object sender, EventArgs e)
+		{
+			this.btnFilters.Text = filterControl.Visible ? "Filters ▲" : "Filters ▼";
+			this.btnOk.TabStop = this.btnCancel.TabStop = pnlDetails.Visible;
+			this.AcceptButton = filterControl.Visible ? filterControl.AcceptButton : btnOk;
+		}
+
+		#endregion
+
+		#region ListBox
+
+		private void lbxDatabase_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			Timer.Stop();
+
+			ephemerisControl.DataBind(SelectedComet);
+			elementsControl.DataBind(SelectedComet);
+
+			Timer.Start();
+		}
+
+		private void lbxDatabase_MouseDoubleClick(object sender, MouseEventArgs e)
+		{
+			if (filterControl.Visible)
+				SwitchVisible();
+			else
+				SwitchTab();
+		}
+
+		#endregion
+
+		#region ComboBox
 
 		private void cbxImportResult_SelectedIndexChanged(object sender, EventArgs e)
 		{
@@ -133,102 +160,18 @@ namespace Comets.Application
 
 		#endregion
 
-		#region lbxDatabase_SelectedIndexChanged
+		#region Button
 
-		private void lbxDatabase_SelectedIndexChanged(object sender, EventArgs e)
+		private void btnSort_Click(object sender, EventArgs e)
 		{
-			Timer.Stop();
-
-			lblEphemSunDistIndicator.Text = String.Empty;
-			lblEphemSunDistIndicator.Text = String.Empty;
-			lblEphemEarthDistIndicator.Text = String.Empty;
-			lblEphemMagIndicator.Text = String.Empty;
-			lblEphemRaIndicator.Text = String.Empty;
-			lblEphemDecIndicator.Text = String.Empty;
-			lblEphemAltIndicator.Text = String.Empty;
-			lblEphemAzIndicator.Text = String.Empty;
-			lblEphemElongationIndicator.Text = String.Empty;
-
-			string format6 = "0.000000";
-			string format4 = "0.0000";
-			int minPeriod = 1000;
-
-			Comet c = SelectedComet;
-			PreviousEphemeris = EphemerisManager.GetEphemeris(c, DateTime.Now.AddMinutes(-1).JD(), CommonManager.Settings.Location);
-
-			string commonName = c.full;
-			string commonPerihDist = c.q.ToString(format6);
-			string commonPeriod = c.P < minPeriod ? c.P.ToString(format6) : String.Empty;
-			string commonAphDist = c.P < minPeriod ? c.Q.ToString(format6) : String.Empty;
-
-			//ephemeris
-			txtInfoName.Text = commonName;
-
-			txtInfoNextPerihDate.Text = EphemerisManager.JDToDateTime(c.Tn).ToLocalTime().ToString(FormMain.DateTimeFormatMain);
-			txtInfoPeriod.Text = commonPeriod;
-			txtInfoAphSunDist.Text = commonAphDist;
-
-			txtInfoPerihDist.Text = commonPerihDist;
-			txtInfoPerihEarthDist.Text = c.PerihEarthDist.ToString(format6);
-			txtInfoPerihMag.Text = c.PerihMag.ToString("0.00");
-
-			CalculateEphemeris();
-			Timer.Start();
-
-			//orbital elements
-			txtElemName.Text = commonName;
-
-			txtElemPerihDate.Text = String.Format("{0}-{1:00}-{2:00}.{3:0000}", c.Ty, c.Tm, c.Td, c.Th);
-			txtElemPeriod.Text = commonPeriod;
-			txtElemMeanMotion.Text = c.P < minPeriod ? c.n.ToString(format6) : String.Empty;
-
-			txtElemPerihDist.Text = commonPerihDist;
-			txtElemAphDist.Text = commonAphDist;
-			txtElemSemiMajorAxis.Text = c.P < minPeriod ? c.a.ToString(format6) : String.Empty;
-
-			txtElemEcc.Text = c.e.ToString(format6);
-			txtElemAscNode.Text = c.N.ToString(format4);
-			txtElemMagG.Text = c.g.ToString("0.0");
-			txtElemMagK.Text = c.k.ToString("0.0");
-
-			txtElemIncl.Text = c.i.ToString(format4);
-			txtElemArgPeri.Text = c.w.ToString(format4);
-			txtElemEquinox.Text = "2000.0";
-
-			//t_sortKey.Text = c.sortkey.ToString("0.00000000000");
-			//t_sortKey.Text = c.idKey;
+			Button btn = sender as Button;
+			contextSort.Show(this, new Point(btn.Left + 1, btn.Top + btn.Height - 1));
 		}
-
-		#endregion
-
-		#region lbxDatabase_MouseDoubleClick
-
-		private void lbxDatabase_MouseDoubleClick(object sender, MouseEventArgs e)
-		{
-			if (pnlFilters.Visible)
-				InvertPanelsVisibility();
-			else
-				InvertTabs();
-		}
-
-		#endregion
-
-		#region btnJplInfo_Click
-
-		private void btnJplInfo_Click(object sender, EventArgs e)
-		{
-			if (SelectedComet != null)
-				CometManager.OpenJplInfo(SelectedComet.id);
-		}
-
-		#endregion
-
-		#region btnResetAllFilters_Click
 
 		private void btnResetAllFilters_Click(object sender, EventArgs e)
 		{
 			Filters = null;
-			PopulateFilters(Filters);
+			filterControl.DataBind(null);
 
 			SortProperty = CommonManager.DefaultSortProperty;
 			SortAscending = CommonManager.DefaultSortAscending;
@@ -237,131 +180,14 @@ namespace Comets.Application
 			ApplyFilters(CometsInitial);
 		}
 
-		#endregion
-
-		#region InvertTabs
-
-		private void InvertTabs()
+		private void btnFilters_Click(object sender, EventArgs e)
 		{
-			tbcDetails.SelectedIndex = tbcDetails.SelectedIndex == 0 ? 1 : 0;
-			lbxDatabase.Focus();
+			SwitchVisible();
 		}
 
 		#endregion
 
-		#region InvertPanelsVisibility
-
-		private void InvertPanelsVisibility()
-		{
-			pnlDetails.Visible = !pnlDetails.Visible;
-			pnlFilters.Visible = !pnlFilters.Visible;
-
-			lbxDatabase.Focus();
-		}
-
-		#endregion
-
-		#region Timer
-
-		void Timer_Tick(object sender, EventArgs e)
-		{
-			CalculateEphemeris();
-		}
-
-		private void CalculateEphemeris()
-		{
-			if (SelectedComet != null)
-			{
-				Comet c = SelectedComet;
-				Ephemeris ep = EphemerisManager.GetEphemeris(c, DateTime.Now.JD(), CommonManager.Settings.Location);
-
-				txtInfoCurrSunDist.Text = ep.SunDist.ToString("0.000000");
-				txtInfoCurrEarthDist.Text = ep.EarthDist.ToString("0.000000");
-				txtInfoCurrMag.Text = ep.Magnitude.ToString("0.00");
-
-				txtEphemRA.Text = EphemerisManager.HMSString(ep.RA / 15.0).Trim();
-				txtEphemDec.Text = EphemerisManager.AngleString(ep.Dec, false, true).Trim();
-				txtEphemAlt.Text = ep.Alt.ToString("0.00") + "°";
-				txtEphemAz.Text = ep.Az.ToString("0.00") + "°";
-				txtEphemElongation.Text = ep.Elongation.ToString("0.00") + "°" + (ep.PositionAngle >= 180 ? " W" : " E");
-
-				bool rHigher = ep.SunDist >= PreviousEphemeris.SunDist;
-				bool dHigher = ep.EarthDist >= PreviousEphemeris.EarthDist;
-				bool mHigher = ep.Magnitude >= PreviousEphemeris.Magnitude;
-				bool raHigher = ep.RA >= PreviousEphemeris.RA;
-				bool decHigher = ep.Dec >= PreviousEphemeris.Dec;
-				bool altHigher = ep.Alt >= PreviousEphemeris.Alt;
-				bool azHigher = ep.Az >= PreviousEphemeris.Az;
-				bool eloHigher = ep.Elongation >= PreviousEphemeris.Elongation;
-
-				string up = "▲";
-				string down = "▼";
-
-				lblEphemSunDistIndicator.Text = rHigher ? up : down;
-				lblEphemSunDistIndicator.ForeColor = rHigher ? Color.Red : Color.Green;
-
-				lblEphemEarthDistIndicator.Text = dHigher ? up : down;
-				lblEphemEarthDistIndicator.ForeColor = dHigher ? Color.Red : Color.Green;
-
-				lblEphemMagIndicator.Text = mHigher ? up : down;
-				lblEphemMagIndicator.ForeColor = mHigher ? Color.Red : Color.Green;
-
-				lblEphemRaIndicator.Text = raHigher ? up : down;
-				lblEphemRaIndicator.ForeColor = Color.Black;
-
-				lblEphemDecIndicator.Text = decHigher ? up : down;
-
-				if (CommonManager.Settings.Location.Latitude >= 0)
-					lblEphemDecIndicator.ForeColor = decHigher ? Color.Green : Color.Red;
-				else //for southern hemisphere it is better if dec is lower -> higher on sky
-					lblEphemDecIndicator.ForeColor = decHigher ? Color.Red : Color.Green;
-
-				lblEphemAltIndicator.Text = altHigher ? up : down;
-				lblEphemAltIndicator.ForeColor = altHigher ? Color.Green : Color.Red;
-
-				lblEphemAzIndicator.Text = azHigher ? up : down;
-				lblEphemAzIndicator.ForeColor = Color.Black;
-
-				lblEphemElongationIndicator.Text = eloHigher ? up : down;
-				lblEphemElongationIndicator.ForeColor = eloHigher ? Color.Green : Color.Red;
-
-				PreviousEphemeris = ep;
-			}
-		}
-
-		#endregion
-
-		#region + Sort
-
-		#region SetSortItems
-
-		private void SetSortItems(bool isAscending)
-		{
-			foreach (MenuItem menuitem in contextSort.MenuItems)
-			{
-				if (menuitem.Tag as string == SortProperty)
-					menuitem.Checked = true;
-				else
-					menuitem.Checked = false;
-			}
-
-			mnuAsc.Checked = isAscending;
-			mnuDesc.Checked = !isAscending;
-		}
-
-		#endregion
-
-		#region btnSort_Click
-
-		private void btnSort_Click(object sender, EventArgs e)
-		{
-			Button btn = sender as Button;
-			contextSort.Show(this, new Point(btn.Left + 1, btn.Top + btn.Height - 1));
-		}
-
-		#endregion
-
-		#region menuItemSort_Click
+		#region ContextMenu
 
 		private void menuItemSortCommon_Click(object sender, EventArgs e)
 		{
@@ -394,7 +220,51 @@ namespace Comets.Application
 
 		#endregion
 
-		#region SortCollection
+		#region Timer
+
+		void Timer_Tick(object sender, EventArgs e)
+		{
+			ephemerisControl.CalculateEphemeris();
+		}
+
+		#endregion
+
+		#endregion
+
+		#region +Methods
+
+		#region Switch
+
+		private void SwitchTab()
+		{
+			tbcDetails.SelectedIndex = tbcDetails.SelectedIndex == 0 ? 1 : 0;
+			lbxDatabase.Focus();
+		}
+
+		private void SwitchVisible()
+		{
+			pnlDetails.Visible = !pnlDetails.Visible;
+			filterControl.Visible = !filterControl.Visible;
+			lbxDatabase.Focus();
+		}
+
+		#endregion
+
+		#region Sort
+
+		private void SetSortItems(bool isAscending)
+		{
+			foreach (MenuItem menuitem in contextSort.MenuItems)
+			{
+				if (menuitem.Tag as string == SortProperty)
+					menuitem.Checked = true;
+				else
+					menuitem.Checked = false;
+			}
+
+			mnuAsc.Checked = isAscending;
+			mnuDesc.Checked = !isAscending;
+		}
 
 		private void SortCollection()
 		{
@@ -410,19 +280,11 @@ namespace Comets.Application
 				? new CometCollection(temp.OrderBy(x => prop.GetValue(x)))
 				: new CometCollection(temp.OrderByDescending(x => prop.GetValue(x)));
 
-			//clear textboxes if no comets
 			if (CometsFiltered.Count == 0)
 			{
-				foreach (TabPage t in tbcDetails.TabPages)
-				{
-					foreach (Control c in t.Controls)
-					{
-						if (c is TextBox)
-							c.Text = String.Empty;
-						else if (c is Label && c.Name.EndsWith("Indicator"))
-							c.Text = String.Empty;
-					}
-				}
+				//clear textboxes if no comets
+				elementsControl.ClearText();
+				ephemerisControl.ClearText();
 
 				Timer.Stop();
 			}
@@ -435,161 +297,16 @@ namespace Comets.Application
 
 		#endregion
 
-		#endregion
+		#region Filters
 
-		#region + Filters
-
-		#region AddInitialFilters
-
-		private void AddInitialFilters()
-		{
-			List<Control> toRemove = new List<Control>();
-
-			foreach (Control p in pnlFilters.Controls.OfType<Panel>())
-				toRemove.Add(p);
-
-			foreach (Control p in toRemove)
-				pnlFilters.Controls.Remove(p);
-
-			btnNewFilter.Location = new Point(20, 7);
-			AddNewFilterPanel(null, PropertyEnum.full);
-			AddNewFilterPanel(null, PropertyEnum.Tn);
-			AddNewFilterPanel(null, PropertyEnum.q);
-			AddNewFilterPanel(null, PropertyEnum.CurrentMag);
-		}
-
-		#endregion
-
-		#region AddNewFilterPanel
-
-		private void AddNewFilterPanel(Filter filter, PropertyEnum? property)
-		{
-			Point location = new Point(1, 11);
-
-			int id = 0;
-			int count = 0;
-			int offset = 31;
-
-			foreach (Panel p in pnlFilters.Controls.OfType<Panel>())
-			{
-				count++;
-
-				int pid = p.Name.Int();
-				if (pid > id)
-					id = pid;
-
-				offset = p.Height + 6; //margin
-				location.Y += offset;
-			}
-
-			FilterPanelManager.CreateFilterPanel(pnlFilters, ++id, location, CommonManager.DefaultDateStart, filter, property);
-
-			btnNewFilter.Location = new Point(btnNewFilter.Location.X, btnNewFilter.Location.Y + offset);
-			btnNewFilter.Visible = count < 9;
-		}
-
-		#endregion
-
-		#region btnNewFilter_Click
-
-		private void btnNewFilter_Click(object sender, EventArgs e)
-		{
-			AddNewFilterPanel(null, PropertyEnum.full);
-		}
-
-		#endregion
-
-		#region btnFilters_Click
-
-		private void btnFilters_Click(object sender, EventArgs e)
-		{
-			InvertPanelsVisibility();
-		}
-
-		#endregion
-
-		#region CollectFilters
-
-		private FilterCollection CollectFilters()
-		{
-			FilterCollection filters = new FilterCollection();
-
-			foreach (Panel p in pnlFilters.Controls.OfType<Panel>())
-			{
-				bool isChecked = false;
-				int propertyIndex = 0;
-				int compareIndex = 0;
-				string txtStr = String.Empty;
-				string txtVal = String.Empty;
-				DateTime dt = DateTime.Now;
-
-				foreach (Control c in p.Controls)
-				{
-					if (c is CheckBox)
-						isChecked = (c as CheckBox).Checked;
-					else if (c is ComboBox && c.Name == FilterPanelManager.PropertyName)
-						propertyIndex = (c as ComboBox).SelectedIndex;
-					else if (c is ComboBox && c.Name == FilterPanelManager.CompareName)
-						compareIndex = (c as ComboBox).SelectedIndex;
-					else if (c is TextBox && c.Name == FilterPanelManager.StringName)
-						txtStr = (c as TextBox).Text.Trim();
-					else if (c is TextBox && c.Name == FilterPanelManager.ValueName)
-						txtVal = (c as TextBox).Text.Trim();
-					else if (c is Button && c.Name == FilterPanelManager.DateName)
-						dt = (DateTime)(c as Button).Tag;
-				}
-
-				if (propertyIndex >= 0)
-				{
-					PropertyEnum property = (PropertyEnum)propertyIndex;
-
-					FilterManager.DataTypeEnum dataType = FilterPanelManager.GetDataType(property);
-
-					string text;
-
-					if (dataType == FilterManager.DataTypeEnum.String)
-						text = txtStr;
-					else if (property == PropertyEnum.Tn)
-						text = dt.JD().ToString();
-					else
-						text = txtVal;
-
-					Filter f = new Filter(property, dataType, isChecked, text, compareIndex);
-					filters.Add(f);
-				}
-			}
-
-			return filters;
-		}
-
-		#endregion
-
-		#region PopulateFilters
-
-		private void PopulateFilters(FilterCollection filters)
-		{
-			if (filters == null)
-				AddInitialFilters();
-			else
-				filters.ForEach(f => AddNewFilterPanel(f, null));
-		}
-
-		#endregion
-
-		#region btnFiltersApply_Click
-
-		private void btnFiltersApply_Click(object sender, EventArgs e)
+		public void ApplyFiltersInitalComets()
 		{
 			ApplyFilters(CometsInitial);
 		}
 
-		#endregion
-
-		#region  ApplyFilters
-
 		public void ApplyFilters(CometCollection colletion)
 		{
-			Filters = CollectFilters();
+			Filters = filterControl.CollectFilters();
 
 			string message = FilterManager.ValidateFilters(Filters);
 
@@ -601,34 +318,6 @@ namespace Comets.Application
 			{
 				CometsFiltered = FilterManager.ApplyFilters(colletion, Filters);
 				SortCollection();
-			}
-		}
-
-		#endregion
-
-		#region pnlFilters_VisibleChanged
-
-		private void pnlFilters_VisibleChanged(object sender, EventArgs e)
-		{
-			this.btnFilters.Text = pnlFilters.Visible ? "Filters ▲" : "Filters ▼";
-			this.btnOk.TabStop = this.btnCancel.TabStop = pnlDetails.Visible;
-			this.AcceptButton = pnlFilters.Visible ? btnFiltersApply : btnOk;
-		}
-
-		#endregion
-
-		#region CreateParams
-
-		protected override CreateParams CreateParams
-		{
-			//http://stackoverflow.com/questions/2612487/how-to-fix-the-flickering-in-user-controls
-			//http://social.msdn.microsoft.com/forums/en-US/winforms/thread/aaed00ce-4bc9-424e-8c05-c30213171c2c/
-
-			get
-			{
-				CreateParams cp = base.CreateParams;
-				cp.ExStyle |= 0x02000000;  // Turn on WS_EX_COMPOSITED
-				return cp;
 			}
 		}
 

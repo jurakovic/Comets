@@ -400,9 +400,9 @@ namespace Comets.BusinessLayer.Managers
 			DateTime dt = (DateTime)btn.Tag;
 
 			FormDatabase fdb = btn.FindForm() as FormDatabase;
-			decimal? T = fdb.SelectedComet?.Tn;
+			DateTime? perihelionDate = EphemerisManager.JDToLocalDateTimeSafe(fdb.SelectedComet?.Tn);
 
-			using (FormDateTime fdt = new FormDateTime(CommonManager.DefaultDateStart, dt, T))
+			using (FormDateTime fdt = new FormDateTime(CommonManager.DefaultDateStart, dt, perihelionDate))
 			{
 				Form form = btn.FindForm();
 				fdt.TopMost = form.TopMost;
@@ -426,7 +426,7 @@ namespace Comets.BusinessLayer.Managers
 		{
 			Button btn = sender as Button;
 			Panel panel = btn.Parent as Panel;
-			Panel container = panel.Parent as Panel;
+			ContainerControl container = panel.Parent as ContainerControl;
 
 			int panelId = panel.Name.Int();
 

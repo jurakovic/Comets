@@ -2,7 +2,6 @@
 using Comets.BusinessLayer.Extensions;
 using Comets.BusinessLayer.Managers;
 using System;
-using System.Drawing;
 using System.Reflection;
 using System.Windows.Forms;
 
@@ -17,9 +16,14 @@ namespace Comets.Application
 
 		#endregion
 
-		#region Properties
+		#region Fields
 
 		private DateTime _selected;
+
+		#endregion
+
+		#region Properties
+
 		public DateTime SelectedDateTime
 		{
 			get { return _selected; }
@@ -32,17 +36,17 @@ namespace Comets.Application
 
 		public bool ValueChangedByEvent { get; set; }
 
-		private DateTime DefaultDateTime { get; set; }
-
-		private decimal? T { get; set; }
-
 		#endregion
 
 		#region Constructor
 
-		public FormDateTime(DateTime def, DateTime current, decimal? t)
+		public FormDateTime(DateTime defaultDateTime, DateTime selectedDateTime, DateTime? perihelionDate)
 		{
 			InitializeComponent();
+
+			dateTimeMenuControl.OnSelectedDatetimeChanged += OnSelectedDateTimeChanged;
+			dateTimeMenuControl.DefaultDateTime = defaultDateTime;
+			dateTimeMenuControl.PerihelionDate = perihelionDate;
 
 			txtDay.Tag = ValNum.VDay;
 			txtMonth.Tag = ValNum.VMonth;
@@ -52,16 +56,23 @@ namespace Comets.Application
 			txtMinute.Tag = ValNum.VMinute;
 			txtSecond.Tag = ValNum.VSecond;
 
-			DefaultDateTime = def;
-			SelectedDateTime = current;
-			T = t;
-
-			this.mnuPerihelionDate.Visible = this.separator3.Visible = T != null;
+			SelectedDateTime = selectedDateTime;
 		}
 
 		#endregion
 
-		#region TextBoxes
+		#region +EventHandling
+
+		#region Event
+
+		public void OnSelectedDateTimeChanged(DateTime dateTime)
+		{
+			SelectedDateTime = dateTime;
+		}
+
+		#endregion
+
+		#region TextBox
 
 		private void txtCommon_KeyDown(object sender, KeyEventArgs e)
 		{
@@ -119,44 +130,7 @@ namespace Comets.Application
 
 		#endregion
 
-		#region ContextMenu
-
-		private void btnSelect_Click(object sender, EventArgs e)
-		{
-			contextDateTime.Show(gbxDateTime, new Point((sender as Button).Left + 1, (sender as Button).Top + (sender as Button).Height - 1));
-		}
-
-		private void mnuDefault_Click(object sender, EventArgs e)
-		{
-			SelectedDateTime = DefaultDateTime;
-		}
-
-		private void mnuNow_Click(object sender, EventArgs e)
-		{
-			SelectedDateTime = DateTime.Now;
-		}
-
-		private void mnuMidnight_Click(object sender, EventArgs e)
-		{
-			DateTime d = DateTime.Now.AddDays(1);
-			SelectedDateTime = new DateTime(d.Year, d.Month, d.Day, 00, 00, 00, DateTimeKind.Local);
-		}
-
-		private void mnuNoon_Click(object sender, EventArgs e)
-		{
-			DateTime d = DateTime.Now;
-			SelectedDateTime = new DateTime(d.Year, d.Month, d.Day, 12, 00, 00, DateTimeKind.Local);
-		}
-
-		private void mnuPerihelionDate_Click(object sender, EventArgs e)
-		{
-			DateTime d = EphemerisManager.JDToDateTime(T.Value);
-			SelectedDateTime = new DateTime(d.Year, d.Month, d.Day, d.Hour, d.Minute, d.Second, DateTimeKind.Utc).ToLocalTime();
-		}
-
-		#endregion
-
-		#region btnOk_Click
+		#region Button
 
 		private void btnOk_Click(object sender, EventArgs e)
 		{
@@ -165,7 +139,9 @@ namespace Comets.Application
 
 		#endregion
 
-		#region RangeDateTime
+		#endregion
+
+		#region Methods
 
 		public static bool RangeDateTime(DateTime dt, out DateTime value)
 		{
@@ -193,10 +169,6 @@ namespace Comets.Application
 			return retval;
 		}
 
-		#endregion
-
-		#region PopulateData
-
 		private void PopulateData()
 		{
 			ValueChangedByEvent = true;
@@ -211,10 +183,6 @@ namespace Comets.Application
 
 			ValueChangedByEvent = false;
 		}
-
-		#endregion
-
-		#region CollectData
 
 		private void CollectData()
 		{

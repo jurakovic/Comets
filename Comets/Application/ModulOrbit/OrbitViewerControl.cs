@@ -556,7 +556,9 @@ namespace Comets.Application.ModulOrbit
 
 		private void ShowDateTimeForm()
 		{
-			using (FormDateTime fdt = new FormDateTime(DefaultDateTime, SelectedDateTime, SelectedComet?.T))
+			DateTime? perihelionDate = EphemerisManager.JDToLocalDateTimeSafe(SelectedComet.T);
+
+			using (FormDateTime fdt = new FormDateTime(DefaultDateTime, SelectedDateTime, perihelionDate))
 			{
 				fdt.TopMost = this.ParentForm.TopMost;
 
