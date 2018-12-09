@@ -56,7 +56,7 @@ namespace Comets.Application.ModulGraph
 				string lastExportDir = CommonManager.Settings.LastUsedExportDirectory;
 
 				sfd.InitialDirectory = !String.IsNullOrEmpty(lastExportDir) ? lastExportDir : Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
-				sfd.FileName = "Comets_Graph_" + DateTime.Now.ToString(FormMain.DateTimeFormatSaveAs);
+				sfd.FileName = "Comets_Graph_" + DateTime.Now.ToString(DateTimeFormat.Filename);
 				sfd.Filter = "BMP (*.bmp)|*.bmp|" +
 							"GIF (*.gif)|*.gif|" +
 							"JPEG (*.jpg, *.jpeg, *.jpe, *.jfif)|*.jpg;*.jpeg;*.jpe;*.jfif|" +
@@ -112,7 +112,7 @@ namespace Comets.Application.ModulGraph
 						string message = String.Empty;
 
 						string comet = String.Empty;
-						string datetime = DateTime.FromOADate(prop.XValue).ToString(FormMain.DateTimeFormatMain);
+						string datetime = DateTime.FromOADate(prop.XValue).ToString(DateTimeFormat.Full);
 						double value = prop.YValues[0];
 
 						string series = result.Series.Tag as string;

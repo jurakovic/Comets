@@ -316,7 +316,7 @@ namespace Comets.Application
 
 				string filename = Path.GetFileNameWithoutExtension(DownloadUrl);
 				string extension = Path.GetExtension(DownloadUrl);
-				string datetime = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
+				string datetime = DateTime.Now.ToString(DateTimeFormat.Filename);
 
 				DownloadFilename = String.Format("{0}\\{1}_{2}{3}", directory, filename, datetime, extension);
 				IsUsedDownloadedFile = true;

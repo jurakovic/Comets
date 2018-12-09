@@ -98,7 +98,7 @@ namespace Comets.Application.ModulOrbit
 			set
 			{
 				bool isOutOfRange = FormDateTime.RangeDateTime(value, out _selectedDateTime);
-				btnDate.Text = _selectedDateTime.ToString(FormMain.DateTimeFormatMain);
+				btnDate.Text = _selectedDateTime.ToString(DateTimeFormat.Full);
 
 				if (isOutOfRange || (IsSimulationStarted && !ValueChangedByEvent))
 					StopSimulation();
@@ -558,7 +558,7 @@ namespace Comets.Application.ModulOrbit
 		{
 			DateTime? perihelionDate = EphemerisManager.JDToLocalDateTimeSafe(SelectedComet.T);
 
-			using (FormDateTime fdt = new FormDateTime(DefaultDateTime, SelectedDateTime, perihelionDate))
+			using (FormDateTime fdt = new FormDateTime(SelectedDateTime, DefaultDateTime, perihelionDate))
 			{
 				fdt.TopMost = this.ParentForm.TopMost;
 
@@ -1300,7 +1300,7 @@ namespace Comets.Application.ModulOrbit
 				string lastExportDir = CommonManager.Settings.LastUsedExportDirectory;
 
 				sfd.InitialDirectory = !String.IsNullOrEmpty(lastExportDir) ? lastExportDir : Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
-				sfd.FileName = "Comets_OrbitViewer_" + DateTime.Now.ToString(FormMain.DateTimeFormatSaveAs);
+				sfd.FileName = "Comets_OrbitViewer_" + DateTime.Now.ToString(DateTimeFormat.Filename);
 				sfd.Filter = "BMP (*.bmp)|*.bmp|" +
 							"GIF (*.gif)|*.gif|" +
 							"JPEG (*.jpg, *.jpeg, *.jpe, *.jfif)|*.jpg;*.jpeg;*.jpe;*.jfif|" +

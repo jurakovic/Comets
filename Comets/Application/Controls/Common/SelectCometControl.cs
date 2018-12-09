@@ -89,7 +89,7 @@ namespace Comets.Application.Controls.Common
 			{
 				Comet c = this.SelectedComet;
 
-				lblPerihelionDateValue.Text = perihelionDate.Value.ToString("dd MMM yyyy HH:mm:ss");
+				lblPerihelionDateValue.Text = perihelionDate.Value.ToString(DateTimeFormat.PerihelionDate);
 				lblPerihelionDistanceValue.Text = c.q.ToString("0.000000") + " AU";
 				lblPeriodValue.Text = c.P < 10000 ? c.P.ToString("0.000000") + " years" : "-";
 			}

@@ -41,7 +41,7 @@
 			chartArea1.AxisX2.IsMarginVisible = false;
 			chartArea1.AxisX2.LabelAutoFitStyle = System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.None;
 			chartArea1.AxisX2.LabelStyle.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			chartArea1.AxisX2.LabelStyle.Format = "dd. MMMM yyyy";
+			chartArea1.AxisX2.LabelStyle.Format = "dd MMM yyyy";
 			chartArea1.AxisX2.LabelStyle.IntervalOffsetType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Months;
 			chartArea1.AxisX2.LabelStyle.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Months;
 			chartArea1.AxisX2.LabelStyle.IsEndLabelVisible = false;

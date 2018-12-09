@@ -13,13 +13,6 @@ namespace Comets.Application
 {
 	public partial class FormMain : Form
 	{
-		#region Const
-
-		public static string DateTimeFormatMain = "dd.MM.yyyy. HH:mm:ss";
-		public static string DateTimeFormatSaveAs = "yyyy-MM-dd_HHmmss";
-
-		#endregion
-
 		#region Properties
 
 		private Size InitialFormSize { get; set; }

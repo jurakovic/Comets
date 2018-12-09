@@ -146,7 +146,7 @@ namespace Comets.BusinessLayer.Managers
 
 					sb.AppendLine(String.Format("Comet:               \t{0}", comet.full));
 
-					sb.AppendLine(String.Format("Perihelion date:     \t{0}", JDToDateTime(comet.Tn).ToLocalTime().ToString("dd MMM yyyy HH:mm:ss")));
+					sb.AppendLine(String.Format("Perihelion date:     \t{0}", JDToDateTime(comet.Tn).ToLocalTime().ToString(DateTimeFormat.PerihelionDate)));
 					sb.AppendLine(String.Format("Perihelion distance: \t{0:0.000000} AU", comet.q));
 					sb.AppendLine(String.Format("Period:              \t{0}", (comet.P < 10000 ? comet.P.ToString("0.000000") + " years" : "-")));
 					sb.AppendLine();
@@ -170,7 +170,7 @@ namespace Comets.BusinessLayer.Managers
 						line.Clear();
 
 						DateTime dt = settings.LocalTime ? JDToDateTime(ep.JD).ToLocalTime() : JDToDateTime(ep.JD);
-						line.Append(dt.ToString("dd.MM.yyyy HH:mm"));
+						line.Append(dt.ToString(DateTimeFormat.Ephemeris));
 						if (settings.RA) line.Append("  " + HMSString(ep.RA / 15.0));
 						if (settings.Dec) line.Append("  " + AngleString(ep.Dec, false, true));
 						if (settings.Alt) line.AppendFormat("{0,8:0.0°}", ep.Alt);
@@ -271,7 +271,7 @@ namespace Comets.BusinessLayer.Managers
 			chartArea.AxisX2.LabelAutoFitStyle = LabelAutoFitStyles.WordWrap;
 			chartArea.AxisX2.IsMarginVisible = false;
 			chartArea.AxisX2.LabelStyle.Font = new Font("Tahoma", 8.25F);
-			chartArea.AxisX2.LabelStyle.Format = (xMaxValue - xMinValue) <= 3.0m ? "dd MMM yyyy HH:mm" : "dd MMM yyyy";
+			chartArea.AxisX2.LabelStyle.Format = (xMaxValue - xMinValue) <= 3.0m ? DateTimeFormat.GraphLong : DateTimeFormat.GraphShort;
 			chartArea.AxisY.Title = yAxisText;
 			chartArea.AxisY.TitleAlignment = StringAlignment.Far;
 			chartArea.AxisY.TitleFont = new Font("Tahoma", 8.25F);

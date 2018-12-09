@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Comets.BusinessLayer.Business;
+using System;
 using System.Windows.Forms;
 
 namespace Comets.Application.Controls.Common
@@ -8,7 +9,7 @@ namespace Comets.Application.Controls.Common
 		#region Fields
 
 		private DateTime _selectedDateTime;
-		private DateTime _defaultDateTime;
+		private DateTime? _defaultDateTime;
 		private DateTime? _perihelionDate;
 
 		#endregion
@@ -23,12 +24,12 @@ namespace Comets.Application.Controls.Common
 			}
 			set
 			{
-				_selectedDateTime = value;
-				btnSelectDate.Text = _selectedDateTime.ToString(FormMain.DateTimeFormatMain);
+				_selectedDateTime = dateTimeMenuControl.SelectedDateTime = value;
+				btnSelectDate.Text = _selectedDateTime.ToString(DateTimeFormat.Full);
 			}
 		}
 
-		public DateTime DefaultDateTime
+		public DateTime? DefaultDateTime
 		{
 			get { return _defaultDateTime; }
 			set { _defaultDateTime = dateTimeMenuControl.DefaultDateTime = value; }
@@ -48,6 +49,7 @@ namespace Comets.Application.Controls.Common
 		{
 			InitializeComponent();
 			dateTimeMenuControl.OnSelectedDatetimeChanged += OnSelectedDateTimeChanged;
+			dateTimeMenuControl.ReferenceControl = this.btnSelectDate;
 		}
 
 		#endregion
@@ -56,7 +58,7 @@ namespace Comets.Application.Controls.Common
 
 		private void btnSelectDate_Click(object sender, EventArgs e)
 		{
-			using (FormDateTime fdt = new FormDateTime(DefaultDateTime, SelectedDateTime, PerihelionDate))
+			using (FormDateTime fdt = new FormDateTime(SelectedDateTime, DefaultDateTime, PerihelionDate))
 			{
 				fdt.TopMost = this.ParentForm.TopMost;
 

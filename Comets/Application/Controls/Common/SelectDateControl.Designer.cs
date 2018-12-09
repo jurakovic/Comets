@@ -42,7 +42,7 @@
 			this.btnSelectDate.Name = "btnSelectDate";
 			this.btnSelectDate.Size = new System.Drawing.Size(149, 23);
 			this.btnSelectDate.TabIndex = 0;
-			this.btnSelectDate.Text = "dd.MM.yyyy. HH:mm:ss";
+			this.btnSelectDate.Text = "<datetime>";
 			this.btnSelectDate.UseVisualStyleBackColor = true;
 			this.btnSelectDate.Click += new System.EventHandler(this.btnSelectDate_Click);
 			// 

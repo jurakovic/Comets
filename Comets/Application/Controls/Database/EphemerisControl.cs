@@ -44,7 +44,7 @@ namespace Comets.Application.Controls.Database
 
 			txtName.Text = c.full;
 
-			txtNextPerihDate.Text = EphemerisManager.JDToDateTime(c.Tn).ToLocalTime().ToString(FormMain.DateTimeFormatMain);
+			txtNextPerihDate.Text = EphemerisManager.JDToDateTime(c.Tn).ToLocalTime().ToString(DateTimeFormat.Full);
 			txtPeriod.Text = c.P < minPeriod ? c.P.ToString(format6) : String.Empty;
 			txtAphSunDist.Text = c.P < minPeriod ? c.Q.ToString(format6) : String.Empty;
 

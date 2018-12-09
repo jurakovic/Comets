@@ -18,7 +18,7 @@ namespace Comets.Application
 
 		#region Fields
 
-		private DateTime _selected;
+		private DateTime _selectedDateTime;
 
 		#endregion
 
@@ -26,10 +26,13 @@ namespace Comets.Application
 
 		public DateTime SelectedDateTime
 		{
-			get { return _selected; }
+			get
+			{
+				return _selectedDateTime;
+			}
 			private set
 			{
-				_selected = value;
+				_selectedDateTime = dateTimeMenuControl.SelectedDateTime = value;
 				PopulateData();
 			}
 		}
@@ -40,13 +43,9 @@ namespace Comets.Application
 
 		#region Constructor
 
-		public FormDateTime(DateTime defaultDateTime, DateTime selectedDateTime, DateTime? perihelionDate)
+		public FormDateTime(DateTime selectedDateTime, DateTime? defaultDateTime, DateTime? perihelionDate)
 		{
 			InitializeComponent();
-
-			dateTimeMenuControl.OnSelectedDatetimeChanged += OnSelectedDateTimeChanged;
-			dateTimeMenuControl.DefaultDateTime = defaultDateTime;
-			dateTimeMenuControl.PerihelionDate = perihelionDate;
 
 			txtDay.Tag = ValNum.VDay;
 			txtMonth.Tag = ValNum.VMonth;
@@ -55,6 +54,10 @@ namespace Comets.Application
 			txtHour.Tag = ValNum.VHour;
 			txtMinute.Tag = ValNum.VMinute;
 			txtSecond.Tag = ValNum.VSecond;
+
+			dateTimeMenuControl.OnSelectedDatetimeChanged += OnSelectedDateTimeChanged;
+			dateTimeMenuControl.DefaultDateTime = defaultDateTime;
+			dateTimeMenuControl.PerihelionDate = perihelionDate;
 
 			SelectedDateTime = selectedDateTime;
 		}
@@ -195,7 +198,7 @@ namespace Comets.Application
 
 			DateTime dt = new DateTime(year, mon, day, hour, min, sec, DateTimeKind.Local);
 
-			RangeDateTime(dt, out _selected);
+			RangeDateTime(dt, out _selectedDateTime);
 		}
 
 		#endregion

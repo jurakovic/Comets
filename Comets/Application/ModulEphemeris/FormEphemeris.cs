@@ -50,7 +50,7 @@ namespace Comets.Application.ModulEphemeris
 				string lastExportDir = CommonManager.Settings.LastUsedExportDirectory;
 
 				sfd.InitialDirectory = !String.IsNullOrEmpty(lastExportDir) ? lastExportDir : Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
-				sfd.FileName = "Comets_Ephemeris_" + DateTime.Now.ToString(FormMain.DateTimeFormatSaveAs);
+				sfd.FileName = "Comets_Ephemeris_" + DateTime.Now.ToString(DateTimeFormat.Filename);
 				sfd.Filter = "Text documents (*.txt)|*.txt|All files (*.*)|*.*";
 
 				if (sfd.ShowDialog() == DialogResult.OK)

@@ -599,7 +599,7 @@
 			this.btnDate.Name = "btnDate";
 			this.btnDate.Size = new System.Drawing.Size(165, 23);
 			this.btnDate.TabIndex = 0;
-			this.btnDate.Text = "dd.MM.yyyy. HH:mm:ss";
+			this.btnDate.Text = "<datetime>";
 			this.btnDate.UseVisualStyleBackColor = true;
 			this.btnDate.Click += new System.EventHandler(this.btnDate_Click);
 			// 

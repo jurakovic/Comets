@@ -47,7 +47,7 @@ namespace Comets.Application
 				ExternalProgram ep = CommonManager.Settings.ExternalPrograms.Find(x => x.Type == (int)type);
 
 				sfd.Filter = ElementTypesManager.ExtensionFilters[(int)type] + "All files (*.*)|*.*";
-				sfd.FileName = type.ToString() + "_" + DateTime.Now.ToString(FormMain.DateTimeFormatSaveAs);
+				sfd.FileName = type.ToString() + "_" + DateTime.Now.ToString(DateTimeFormat.Filename);
 				sfd.InitialDirectory = ep?.Directory ?? CommonManager.Settings.LastUsedExportDirectory;
 
 				if (sfd.ShowDialog() == DialogResult.OK)

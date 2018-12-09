@@ -24,7 +24,6 @@ namespace Comets.BusinessLayer.Managers
 		public static readonly string LabelName = "Label";
 		public static readonly string RemoveName = "Remove";
 
-		private static readonly string DateTimeFormat = "dd.MM.yyyy. HH:mm:ss";
 		private static readonly string[] StringCompare = new string[] { "Contains", "Does not contain", "Starts with", "Ends with" };
 		private static readonly string[] ValueCompare = new string[] { "Greather than (>)", "Less than (<)", "Equals (=)" };
 
@@ -209,7 +208,7 @@ namespace Comets.BusinessLayer.Managers
 			btnDate.Size = new Size(182, 23);
 			btnDate.TabIndex = 5;
 			btnDate.Tag = dt;
-			btnDate.Text = dt.ToString(DateTimeFormat);
+			btnDate.Text = dt.ToString(DateTimeFormat.Full);
 			btnDate.UseVisualStyleBackColor = true;
 			btnDate.Click += btnDate_Click;
 			btnDate.Visible = false;
@@ -259,7 +258,7 @@ namespace Comets.BusinessLayer.Managers
 					{
 						DateTime date = EphemerisManager.JDToDateTime(Convert.ToDecimal(filter.Value)).ToLocalTime();
 						btnDate.Tag = date;
-						btnDate.Text = date.ToString(DateTimeFormat);
+						btnDate.Text = date.ToString(DateTimeFormat.Full);
 					}
 					else
 					{
@@ -402,7 +401,7 @@ namespace Comets.BusinessLayer.Managers
 			FormDatabase fdb = btn.FindForm() as FormDatabase;
 			DateTime? perihelionDate = EphemerisManager.JDToLocalDateTimeSafe(fdb.SelectedComet?.Tn);
 
-			using (FormDateTime fdt = new FormDateTime(CommonManager.DefaultDateStart, dt, perihelionDate))
+			using (FormDateTime fdt = new FormDateTime(dt, CommonManager.DefaultDateStart, perihelionDate))
 			{
 				Form form = btn.FindForm();
 				fdt.TopMost = form.TopMost;
@@ -412,7 +411,7 @@ namespace Comets.BusinessLayer.Managers
 					dt = fdt.SelectedDateTime;
 
 					btn.Tag = dt;
-					btn.Text = dt.ToString(DateTimeFormat);
+					btn.Text = dt.ToString(DateTimeFormat.Full);
 					btn.Parent.Controls.OfType<CheckBox>().First().Checked = true;
 				}
 			}
