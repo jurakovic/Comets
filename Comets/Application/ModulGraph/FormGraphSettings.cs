@@ -33,8 +33,8 @@ namespace Comets.Application.ModulGraph
 				modeControl.CometCount = CommonManager.UserCollection.Count;
 
 				int offset = 180;
-				timespanControl.DateStart = CommonManager.DefaultDateStart;
-				timespanControl.DateEnd = CommonManager.DefaultDateEnd;
+				timespanControl.SelectedDateStart = CommonManager.DefaultDateStart;
+				timespanControl.SelectedDateEnd = CommonManager.DefaultDateEnd;
 				timespanControl.DaysBeforeT = -offset;
 				timespanControl.DaysAfterT = offset;
 				timespanControl.DateRange = true;
@@ -47,8 +47,8 @@ namespace Comets.Application.ModulGraph
 				modeControl.IsMultipleMode = settings.IsMultipleMode;
 				modeControl.CometCount = settings.Comets.Count;
 
-				timespanControl.DateStart = settings.Start;
-				timespanControl.DateEnd = settings.Stop;
+				timespanControl.SelectedDateStart = settings.Start;
+				timespanControl.SelectedDateEnd = settings.Stop;
 				timespanControl.DaysBeforeT = settings.DaysBeforeT;
 				timespanControl.DaysAfterT = settings.DaysAfterT;
 				timespanControl.DateRange = settings.DateRange;
@@ -116,66 +116,10 @@ namespace Comets.Application.ModulGraph
 		{
 			if (selectCometControl.SelectedComet != null)
 			{
-				if (valueRangeControl.MinValueChecked && valueRangeControl.MinValue == null)
-				{
-					MessageBox.Show("Enter Minimum value\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
-					return;
-				}
-
-				if (valueRangeControl.MaxValueChecked && valueRangeControl.MaxValue == null)
-				{
-					MessageBox.Show("Enter Maximum value\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
-					return;
-				}
-
-				if (valueRangeControl.MinValueChecked && valueRangeControl.MaxValueChecked && valueRangeControl.MinValue.GetValueOrDefault() >= valueRangeControl.MaxValue.GetValueOrDefault())
-				{
-					MessageBox.Show("Minimum value must be lower than Maximum value\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
-					return;
-				}
-
-				int before = timespanControl.DaysBeforeT;
-				int after = timespanControl.DaysAfterT;
+				valueRangeControl.ValidateData();
+				timespanControl.ValidateData();
 
 				Comet comet = selectCometControl.SelectedComet;
-				decimal startJd = comet.Tn + before; //negativan broj
-				decimal stopJd = comet.Tn + after;
-
-				DateTime dateBefore = EphemerisManager.JDToDateTime(startJd).ToLocalTime();
-				DateTime dateAfter = EphemerisManager.JDToDateTime(stopJd).ToLocalTime();
-
-				DateTime start = timespanControl.DateRange ? timespanControl.DateStart : dateBefore;
-				DateTime stop = timespanControl.DateRange ? timespanControl.DateEnd : dateAfter;
-
-				if (stop <= start)
-				{
-					MessageBox.Show("End date must be greather than start date\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
-					return;
-				}
-
-				decimal interval = 0.0m;
-				decimal totalDays = stop.JD() - start.JD();
-
-				if (totalDays <= 100)
-					interval = totalDays / 100.0m;
-				else if (totalDays < 365)
-					interval = 1;
-				else if (totalDays < 10 * 365.25m)
-					interval = 2;
-				else if (totalDays < 50 * 365.25m)
-					interval = 5;
-				else if (totalDays < 100 * 365.25m)
-					interval = 15;
-				else if (totalDays < 200 * 365.25m)
-					interval = 30;
-				else if (totalDays < 300 * 365.25m)
-					interval = 40;
-				else
-				{
-					MessageBox.Show("Timespan must be less than 300 years.\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
-					return;
-				}
-
 				GraphSettings settings = this.GraphSettings;
 
 				settings.SelectedComet = comet;
@@ -185,12 +129,12 @@ namespace Comets.Application.ModulGraph
 
 				settings.IsMultipleMode = modeControl.IsMultipleMode;
 
-				settings.Start = start;
-				settings.Stop = stop;
-				settings.Interval = interval;
+				settings.Start = timespanControl.DateStart;
+				settings.Stop = timespanControl.DateEnd;
+				settings.Interval = timespanControl.Interval;
 
-				settings.DateStart = timespanControl.DateStart;
-				settings.DateStop = timespanControl.DateEnd;
+				settings.DateStart = timespanControl.SelectedDateStart;
+				settings.DateStop = timespanControl.SelectedDateEnd;
 
 				settings.DaysBeforeT = timespanControl.DaysBeforeT;
 				settings.DaysAfterT = timespanControl.DaysAfterT;
@@ -236,6 +180,11 @@ namespace Comets.Application.ModulGraph
 					settings.Ephemerides.Clear();
 					main.HideProgress();
 					return;
+				}
+				catch
+				{
+					cts = null;
+					throw;
 				}
 
 				if (settings.AddNew && settings.SelectedComet != null)

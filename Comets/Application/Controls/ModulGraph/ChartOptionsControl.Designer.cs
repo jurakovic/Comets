@@ -66,7 +66,7 @@
 			this.lblValue.Location = new System.Drawing.Point(31, 22);
 			this.lblValue.Name = "lblValue";
 			this.lblValue.Size = new System.Drawing.Size(34, 13);
-			this.lblValue.TabIndex = 0;
+			this.lblValue.TabIndex = 1;
 			this.lblValue.Text = "Value";
 			// 
 			// cbxValue
@@ -78,7 +78,7 @@
 			this.cbxValue.Location = new System.Drawing.Point(15, 21);
 			this.cbxValue.Name = "cbxValue";
 			this.cbxValue.Size = new System.Drawing.Size(29, 17);
-			this.cbxValue.TabIndex = 6;
+			this.cbxValue.TabIndex = 0;
 			this.cbxValue.Text = " ";
 			this.cbxValue.UseVisualStyleBackColor = true;
 			// 
@@ -89,7 +89,7 @@
 			this.pnlPerihLineColor.Location = new System.Drawing.Point(120, 72);
 			this.pnlPerihLineColor.Name = "pnlPerihLineColor";
 			this.pnlPerihLineColor.Size = new System.Drawing.Size(25, 20);
-			this.pnlPerihLineColor.TabIndex = 5;
+			this.pnlPerihLineColor.TabIndex = 6;
 			this.pnlPerihLineColor.TabStop = true;
 			this.pnlPerihLineColor.Click += new System.EventHandler(this.pnlColorCommon_Click);
 			// 
@@ -100,7 +100,7 @@
 			this.pnlNowLineColor.Location = new System.Drawing.Point(120, 45);
 			this.pnlNowLineColor.Name = "pnlNowLineColor";
 			this.pnlNowLineColor.Size = new System.Drawing.Size(25, 20);
-			this.pnlNowLineColor.TabIndex = 3;
+			this.pnlNowLineColor.TabIndex = 4;
 			this.pnlNowLineColor.TabStop = true;
 			this.pnlNowLineColor.Click += new System.EventHandler(this.pnlColorCommon_Click);
 			// 
@@ -111,7 +111,7 @@
 			this.pnlMagnitudeColor.Location = new System.Drawing.Point(120, 19);
 			this.pnlMagnitudeColor.Name = "pnlMagnitudeColor";
 			this.pnlMagnitudeColor.Size = new System.Drawing.Size(25, 20);
-			this.pnlMagnitudeColor.TabIndex = 1;
+			this.pnlMagnitudeColor.TabIndex = 2;
 			this.pnlMagnitudeColor.TabStop = true;
 			this.pnlMagnitudeColor.Click += new System.EventHandler(this.pnlColorCommon_Click);
 			// 
@@ -121,7 +121,7 @@
 			this.cbxAntialiasing.Location = new System.Drawing.Point(15, 102);
 			this.cbxAntialiasing.Name = "cbxAntialiasing";
 			this.cbxAntialiasing.Size = new System.Drawing.Size(79, 17);
-			this.cbxAntialiasing.TabIndex = 6;
+			this.cbxAntialiasing.TabIndex = 7;
 			this.cbxAntialiasing.Text = "Antialiasing";
 			this.cbxAntialiasing.UseVisualStyleBackColor = true;
 			// 
@@ -133,7 +133,7 @@
 			this.cbxNowLine.Location = new System.Drawing.Point(15, 48);
 			this.cbxNowLine.Name = "cbxNowLine";
 			this.cbxNowLine.Size = new System.Drawing.Size(67, 17);
-			this.cbxNowLine.TabIndex = 2;
+			this.cbxNowLine.TabIndex = 3;
 			this.cbxNowLine.Text = "Now line";
 			this.cbxNowLine.UseVisualStyleBackColor = true;
 			// 
@@ -145,7 +145,7 @@
 			this.cbxPerihelionLine.Location = new System.Drawing.Point(15, 75);
 			this.cbxPerihelionLine.Name = "cbxPerihelionLine";
 			this.cbxPerihelionLine.Size = new System.Drawing.Size(91, 17);
-			this.cbxPerihelionLine.TabIndex = 4;
+			this.cbxPerihelionLine.TabIndex = 5;
 			this.cbxPerihelionLine.Text = "Perihelion line";
 			this.cbxPerihelionLine.UseVisualStyleBackColor = true;
 			// 

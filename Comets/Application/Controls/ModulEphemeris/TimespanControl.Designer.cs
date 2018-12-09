@@ -29,6 +29,7 @@
 		private void InitializeComponent()
 		{
 			this.gbxTimestamp = new System.Windows.Forms.GroupBox();
+			this.selectDateControlEnd = new Comets.Application.Controls.Common.SelectDateControl();
 			this.selectDateControlStart = new Comets.Application.Controls.Common.SelectDateControl();
 			this.txtMinInterval = new System.Windows.Forms.TextBox();
 			this.txtHourInterval = new System.Windows.Forms.TextBox();
@@ -37,7 +38,6 @@
 			this.label3 = new System.Windows.Forms.Label();
 			this.label20 = new System.Windows.Forms.Label();
 			this.label4 = new System.Windows.Forms.Label();
-			this.selectDateControlEnd = new Comets.Application.Controls.Common.SelectDateControl();
 			this.gbxTimestamp.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -62,12 +62,19 @@
 			this.gbxTimestamp.TabStop = false;
 			this.gbxTimestamp.Text = "Timespan (Local time)";
 			// 
+			// selectDateControlEnd
+			// 
+			this.selectDateControlEnd.Location = new System.Drawing.Point(106, 48);
+			this.selectDateControlEnd.Name = "selectDateControlEnd";
+			this.selectDateControlEnd.Size = new System.Drawing.Size(172, 23);
+			this.selectDateControlEnd.TabIndex = 3;
+			// 
 			// selectDateControlStart
 			// 
 			this.selectDateControlStart.Location = new System.Drawing.Point(106, 19);
 			this.selectDateControlStart.Name = "selectDateControlStart";
 			this.selectDateControlStart.Size = new System.Drawing.Size(172, 23);
-			this.selectDateControlStart.TabIndex = 9;
+			this.selectDateControlStart.TabIndex = 1;
 			// 
 			// txtMinInterval
 			// 
@@ -138,13 +145,6 @@
 			this.label4.Size = new System.Drawing.Size(29, 13);
 			this.label4.TabIndex = 2;
 			this.label4.Text = "End:";
-			// 
-			// selectDateControl1
-			// 
-			this.selectDateControlEnd.Location = new System.Drawing.Point(106, 48);
-			this.selectDateControlEnd.Name = "selectDateControl1";
-			this.selectDateControlEnd.Size = new System.Drawing.Size(172, 23);
-			this.selectDateControlEnd.TabIndex = 10;
 			// 
 			// TimespanControl
 			// 

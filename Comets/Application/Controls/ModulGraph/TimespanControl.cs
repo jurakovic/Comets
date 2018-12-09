@@ -8,15 +8,21 @@ namespace Comets.Application.Controls.ModulGraph
 {
 	public partial class TimespanControl : UserControl
 	{
+		#region Fields
+
+		private DateTime? _perihelionDateTime;
+
+		#endregion
+
 		#region Properties
 
-		public DateTime DateStart
+		public DateTime SelectedDateStart
 		{
 			get { return selectDateControlStart.SelectedDateTime; }
 			set { selectDateControlStart.SelectedDateTime = value; }
 		}
 
-		public DateTime DateEnd
+		public DateTime SelectedDateEnd
 		{
 			get { return selectDateControlEnd.SelectedDateTime; }
 			set { selectDateControlEnd.SelectedDateTime = value; }
@@ -49,7 +55,59 @@ namespace Comets.Application.Controls.ModulGraph
 
 		public DateTime? PerihelionDate
 		{
-			set { selectDateControlStart.PerihelionDate = selectDateControlEnd.PerihelionDate = value; }
+			get { return _perihelionDateTime; }
+			set { _perihelionDateTime = selectDateControlStart.PerihelionDate = selectDateControlEnd.PerihelionDate = value; }
+		}
+
+		public DateTime DateStart
+		{
+			get
+			{
+				return this.DateRange
+					? this.SelectedDateStart
+					: this.PerihelionDate.GetValueOrDefault(DateTime.Now).AddDays(this.DaysBeforeT); //negativan broj
+			}
+		}
+
+		public DateTime DateEnd
+		{
+			get
+			{
+				return this.DateRange
+					? this.SelectedDateEnd
+					: this.PerihelionDate.GetValueOrDefault(DateTime.Now).AddDays(this.DaysAfterT);
+			}
+		}
+
+		private decimal TotalDays
+		{
+			get { return DateEnd.JD() - DateStart.JD(); }
+		}
+
+		public decimal Interval
+		{
+			get
+			{
+				decimal interval = 0.0m;
+				decimal totalDays = this.TotalDays;
+
+				if (totalDays <= 100)
+					interval = totalDays / 100.0m;
+				else if (totalDays < 365)
+					interval = 1;
+				else if (totalDays < 10 * 365.25m)
+					interval = 2;
+				else if (totalDays < 50 * 365.25m)
+					interval = 5;
+				else if (totalDays < 100 * 365.25m)
+					interval = 15;
+				else if (totalDays < 200 * 365.25m)
+					interval = 30;
+				else if (totalDays < 300 * 365.25m)
+					interval = 40;
+
+				return interval;
+			}
 		}
 
 		#endregion
@@ -100,6 +158,19 @@ namespace Comets.Application.Controls.ModulGraph
 		}
 
 		#endregion
+
+		#endregion
+
+		#region ValidateData
+
+		public void ValidateData()
+		{
+			if (this.DateEnd <= this.DateStart)
+				throw new ValidationException("End date must be greather than start date");
+
+			if (this.TotalDays >= 300 * 365.25m)
+				throw new ValidationException("Timespan must be less than 300 years");
+		}
 
 		#endregion
 	}

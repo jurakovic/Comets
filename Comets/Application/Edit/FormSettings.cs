@@ -69,18 +69,25 @@ namespace Comets.Application
 
 		private void btnOK_Click(object sender, EventArgs e)
 		{
-			if (rbManualProxy.Checked && (String.IsNullOrEmpty(txtProxy.Text.Trim()) || txtPort.Int() == 0))
+			if (rbManualProxy.Checked)
 			{
-				tabControl1.SelectedIndex = 3;
-				MessageBox.Show("Please enter Proxy and Port\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
-				return;
+				if (String.IsNullOrEmpty(txtProxy.Text.Trim()))
+				{
+					tabControl1.SelectedIndex = 3;
+					throw new ValidationException("Please enter Proxy", txtProxy);
+				}
+
+				if (txtPort.Int() == 0)
+				{
+					tabControl1.SelectedIndex = 3;
+					throw new ValidationException("Please enter Port", txtPort);
+				}
 			}
 
 			if (chAutomaticUpdate.Checked && String.IsNullOrEmpty(txtUpdateInterval.Text.Trim()))
 			{
 				tabControl1.SelectedIndex = 0;
-				MessageBox.Show("Please enter days interval for automatic update\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
-				return;
+				throw new ValidationException("Please enter days interval for automatic update", txtUpdateInterval);
 			}
 
 			Settings settings = CommonManager.Settings;

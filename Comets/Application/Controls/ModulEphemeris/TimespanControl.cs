@@ -90,5 +90,18 @@ namespace Comets.Application.Controls.ModulEphemeris
 		#endregion
 
 		#endregion
+
+		#region ValidateData
+
+		public void ValidateData()
+		{
+			if (this.DateEnd <= this.DateStart)
+				throw new ValidationException("End date must be greather than start date", selectDateControlStart);
+
+			if ((this.DateEnd - this.DateStart).TotalDays >= 300 * 365.25)
+				throw new ValidationException("Timespan must be less than 300 years", selectDateControlStart);
+		}
+
+		#endregion
 	}
 }

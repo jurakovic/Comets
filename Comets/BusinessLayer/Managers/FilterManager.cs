@@ -101,7 +101,7 @@ namespace Comets.BusinessLayer.Managers
 
 			Filter filter = filters.FirstOrDefault(x => x.Checked && !x.IsValid);
 			if (filter != null)
-				retval = String.Format("Please enter value for \"{0}\" \t\t", FilterPanelManager.GetText(filter.Property));
+				retval = String.Format("Please enter value for \"{0}\"", FilterPanelManager.GetText(filter.Property));
 
 			return retval;
 		}

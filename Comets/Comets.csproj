@@ -170,6 +170,7 @@
     </Compile>
     <Compile Include="BusinessLayer\Business\Comet.cs" />
     <Compile Include="BusinessLayer\Business\Filter.cs" />
+    <Compile Include="BusinessLayer\Business\ValidationException.cs" />
     <Compile Include="BusinessLayer\Business\ValNum.cs" />
     <Compile Include="BusinessLayer\Business\Settings\SettingsBase.cs" />
     <Compile Include="BusinessLayer\Managers\CommonManager.cs" />

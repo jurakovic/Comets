@@ -84,5 +84,21 @@ namespace Comets.Application.Controls.ModulEphemeris
 		}
 
 		#endregion
+
+		#region Validate
+
+		public void ValidateData()
+		{
+			if (this.MaxSunDistChecked && this.MaxSunDistValue == null)
+				throw new ValidationException("Please enter Maximum Sun distance value", txtMaxSunDist);
+
+			if (this.MaxEarthDistChecked && this.MaxEarthDistValue == null)
+				throw new ValidationException("Please enter Maximum Earth distance value", txtMaxEarthDist);
+
+			if (this.MinMagnitudeChecked && this.MinMagnitudeValue == null)
+				throw new ValidationException("Please enter Minimum magnitude value", txtMinMag);
+		}
+
+		#endregion
 	}
 }

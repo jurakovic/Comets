@@ -311,14 +311,10 @@ namespace Comets.Application
 			string message = FilterManager.ValidateFilters(Filters);
 
 			if (message != null)
-			{
-				MessageBox.Show(message, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-			}
-			else
-			{
-				CometsFiltered = FilterManager.ApplyFilters(colletion, Filters);
-				SortCollection();
-			}
+				throw new ValidationException(message);
+
+			CometsFiltered = FilterManager.ApplyFilters(colletion, Filters);
+			SortCollection();
 		}
 
 		#endregion

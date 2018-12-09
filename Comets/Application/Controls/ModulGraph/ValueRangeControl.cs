@@ -66,5 +66,21 @@ namespace Comets.Application.Controls.ModulGraph
 		}
 
 		#endregion
+
+		#region ValidateData
+
+		public void ValidateData()
+		{
+			if (this.MinValueChecked && this.MinValue == null)
+				throw new ValidationException("Enter Minimum value", txtMinValue);
+
+			if (this.MaxValueChecked && this.MaxValue == null)
+				throw new ValidationException("Enter Maximum value", txtMaxValue);
+
+			if (this.MinValueChecked && this.MaxValueChecked && this.MinValue.GetValueOrDefault() >= this.MaxValue.GetValueOrDefault())
+				throw new ValidationException("Minimum value must be lower than Maximum value", txtMaxValue);
+		}
+
+		#endregion
 	}
 }

@@ -110,7 +110,8 @@ namespace Comets.Application
 					}
 					catch
 					{
-						//nothing...
+						DownloadFilename = null;
+						throw;
 					}
 				}
 			}

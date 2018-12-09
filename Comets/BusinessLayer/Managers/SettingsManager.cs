@@ -171,14 +171,7 @@ namespace Comets.BusinessLayer.Managers
 				}
 			}
 
-			try
-			{
-				File.WriteAllText(SettingsIniFilename, sb.ToString());
-			}
-			catch
-			{
-				//do nothing...
-			}
+			File.WriteAllText(SettingsIniFilename, sb.ToString());
 		}
 
 		#endregion

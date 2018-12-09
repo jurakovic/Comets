@@ -121,35 +121,8 @@ namespace Comets.Application.ModulEphemeris
 		{
 			if (selectCometControl.SelectedComet != null)
 			{
-				if (requirementsControl.MaxSunDistChecked && requirementsControl.MaxSunDistValue == null)
-				{
-					MessageBox.Show("Please enter Maximum Sun distance value\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
-					return;
-				}
-
-				if (requirementsControl.MaxEarthDistChecked && requirementsControl.MaxEarthDistValue == null)
-				{
-					MessageBox.Show("Please enter Maximum Earth distance value\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
-					return;
-				}
-
-				if (requirementsControl.MinMagnitudeChecked && requirementsControl.MinMagnitudeValue == null)
-				{
-					MessageBox.Show("Please enter Minimum magnitude value\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
-					return;
-				}
-
-				if (timespanControl.DateEnd <= timespanControl.DateStart)
-				{
-					MessageBox.Show("End date must be greather than start date\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
-					return;
-				}
-
-				if ((timespanControl.DateEnd - timespanControl.DateStart).TotalDays > 300 * 365.25)
-				{
-					MessageBox.Show("Timespan must be less than 300 years.\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
-					return;
-				}
+				requirementsControl.ValidateData();
+				timespanControl.ValidateData();
 
 				decimal ind = timespanControl.DayInterval;
 				decimal inh = timespanControl.HourInterval;
@@ -218,6 +191,11 @@ namespace Comets.Application.ModulEphemeris
 					main.HideProgress();
 					return;
 				}
+				catch
+				{
+					cts = null;
+					throw;
+				}
 
 				if (settings.IsMultipleMode && settings.Comets.Count > 1)
 					main.SetProgressMaximumValue(settings.Ephemerides.Count);
@@ -251,6 +229,11 @@ namespace Comets.Application.ModulEphemeris
 						fe.Dispose();
 
 					return;
+				}
+				catch
+				{
+					cts = null;
+					throw;
 				}
 
 				main.HideProgress();

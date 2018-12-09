@@ -37,11 +37,11 @@
 			this.label3 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this.pnlRangeDate = new System.Windows.Forms.Panel();
+			this.selectDateControlEnd = new Comets.Application.Controls.Common.SelectDateControl();
+			this.selectDateControlStart = new Comets.Application.Controls.Common.SelectDateControl();
 			this.label1 = new System.Windows.Forms.Label();
 			this.rbtnRangeDaysFromT = new System.Windows.Forms.RadioButton();
 			this.rbtnRangeDate = new System.Windows.Forms.RadioButton();
-			this.selectDateControlStart = new Comets.Application.Controls.Common.SelectDateControl();
-			this.selectDateControlEnd = new Comets.Application.Controls.Common.SelectDateControl();
 			this.gbxTimespan.SuspendLayout();
 			this.pnlRangeDaysFromT.SuspendLayout();
 			this.pnlRangeDate.SuspendLayout();
@@ -146,6 +146,20 @@
 			this.pnlRangeDate.Size = new System.Drawing.Size(362, 27);
 			this.pnlRangeDate.TabIndex = 2;
 			// 
+			// selectDateControlEnd
+			// 
+			this.selectDateControlEnd.Location = new System.Drawing.Point(188, 2);
+			this.selectDateControlEnd.Name = "selectDateControlEnd";
+			this.selectDateControlEnd.Size = new System.Drawing.Size(172, 23);
+			this.selectDateControlEnd.TabIndex = 4;
+			// 
+			// selectDateControlStart
+			// 
+			this.selectDateControlStart.Location = new System.Drawing.Point(2, 2);
+			this.selectDateControlStart.Name = "selectDateControlStart";
+			this.selectDateControlStart.Size = new System.Drawing.Size(172, 23);
+			this.selectDateControlStart.TabIndex = 3;
+			// 
 			// label1
 			// 
 			this.label1.AutoSize = true;
@@ -177,27 +191,13 @@
 			this.rbtnRangeDate.Text = "Date";
 			this.rbtnRangeDate.UseVisualStyleBackColor = true;
 			// 
-			// selectDateControlStart
-			// 
-			this.selectDateControlStart.Location = new System.Drawing.Point(2, 2);
-			this.selectDateControlStart.Name = "selectDateControlStart";
-			this.selectDateControlStart.Size = new System.Drawing.Size(172, 23);
-			this.selectDateControlStart.TabIndex = 3;
-			// 
-			// selectDateControlEnd
-			// 
-			this.selectDateControlEnd.Location = new System.Drawing.Point(188, 2);
-			this.selectDateControlEnd.Name = "selectDateControlEnd";
-			this.selectDateControlEnd.Size = new System.Drawing.Size(170, 23);
-			this.selectDateControlEnd.TabIndex = 4;
-			// 
-			// TimespanControl2
+			// TimespanControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.gbxTimespan);
 			this.Font = new System.Drawing.Font("Tahoma", 8.25F);
-			this.Name = "TimespanControl2";
+			this.Name = "TimespanControl";
 			this.Size = new System.Drawing.Size(558, 83);
 			this.gbxTimespan.ResumeLayout(false);
 			this.gbxTimespan.PerformLayout();
