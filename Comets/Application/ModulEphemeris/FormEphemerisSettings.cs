@@ -254,14 +254,18 @@ namespace Comets.Application.ModulEphemeris
 
 		#region Events
 
-		private void OnCometsFiltered(int cometCount)
-		{
-			modeControl.CometCount = cometCount;
-		}
-
 		private void OnSelectedCometChanged(DateTime? perihelionDate)
 		{
-			timespanControl.PerihelionDate = perihelionDate;
+			this.timespanControl.PerihelionDate = perihelionDate;
+		}
+
+		private void OnCometsFiltered(CometCollection comets, FilterCollection filters, string sortProperty, bool sortAscending)
+		{
+			this.EphemerisSettings.Comets = comets;
+			this.EphemerisSettings.Filters = filters;
+			this.EphemerisSettings.SortProperty = sortProperty;
+			this.EphemerisSettings.SortAscending = sortAscending;
+			this.modeControl.CometCount = comets.Count;
 		}
 
 		#endregion

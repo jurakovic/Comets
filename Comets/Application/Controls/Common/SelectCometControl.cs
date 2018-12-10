@@ -13,7 +13,7 @@ namespace Comets.Application.Controls.Common
 		#region Events
 
 		public Action<DateTime?> OnSelectedCometChanged;
-		public Action<int> OnCometsFiltered;
+		public Action<CometCollection, FilterCollection, string, bool> OnCometsFiltered;
 
 		#endregion
 
@@ -71,7 +71,7 @@ namespace Comets.Application.Controls.Common
 
 					DataBind(comet);
 
-					OnCometsFiltered(this.Comets.Count);
+					OnCometsFiltered(this.Comets, this.Filters, this.SortProperty, this.SortAscending);
 					OnSelectedCometChangedInternal();
 				}
 			}

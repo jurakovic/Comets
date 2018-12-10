@@ -220,14 +220,18 @@ namespace Comets.Application.ModulGraph
 
 		#region Events
 
-		private void OnCometsFiltered(int cometCount)
-		{
-			modeControl.CometCount = cometCount;
-		}
-
 		private void OnSelectedCometChanged(DateTime? perihelionDate)
 		{
-			timespanControl.PerihelionDate = perihelionDate;
+			this.timespanControl.PerihelionDate = perihelionDate;
+		}
+
+		private void OnCometsFiltered(CometCollection comets, FilterCollection filters, string sortProperty, bool sortAscending)
+		{
+			this.GraphSettings.Comets = comets;
+			this.GraphSettings.Filters = filters;
+			this.GraphSettings.SortProperty = sortProperty;
+			this.GraphSettings.SortAscending = sortAscending;
+			this.modeControl.CometCount = comets.Count;
 		}
 
 		#endregion
