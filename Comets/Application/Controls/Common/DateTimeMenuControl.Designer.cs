@@ -42,6 +42,8 @@
 			this.mnuAddThreeMonths = new System.Windows.Forms.MenuItem();
 			this.mnuAddSixMonth = new System.Windows.Forms.MenuItem();
 			this.mnuAddOneYear = new System.Windows.Forms.MenuItem();
+			this.mnuNow = new System.Windows.Forms.MenuItem();
+			this.sepNow = new System.Windows.Forms.MenuItem();
 			this.SuspendLayout();
 			// 
 			// btnShowMenu
@@ -61,6 +63,8 @@
 			this.ctxMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.mnuDefault,
             this.sepDefault,
+            this.mnuNow,
+            this.sepNow,
             this.mnuPerihelionDate,
             this.sepPerihelionDate,
             this.mnuLastYear,
@@ -85,61 +89,72 @@
 			// 
 			// mnuPerihelionDate
 			// 
-			this.mnuPerihelionDate.Index = 2;
+			this.mnuPerihelionDate.Index = 4;
 			this.mnuPerihelionDate.Text = "Perihelion Date";
 			this.mnuPerihelionDate.Click += new System.EventHandler(this.mnuCommon_Click);
 			// 
 			// sepPerihelionDate
 			// 
-			this.sepPerihelionDate.Index = 3;
+			this.sepPerihelionDate.Index = 5;
 			this.sepPerihelionDate.Text = "-";
 			// 
 			// mnuLastYear
 			// 
-			this.mnuLastYear.Index = 4;
+			this.mnuLastYear.Index = 6;
 			this.mnuLastYear.Text = "<last year first day>";
 			this.mnuLastYear.Click += new System.EventHandler(this.mnuCommon_Click);
 			// 
 			// mnuThisYear
 			// 
-			this.mnuThisYear.Index = 5;
+			this.mnuThisYear.Index = 7;
 			this.mnuThisYear.Text = "<this year first day>";
 			this.mnuThisYear.Click += new System.EventHandler(this.mnuCommon_Click);
 			// 
 			// mnuNextYear
 			// 
-			this.mnuNextYear.Index = 6;
+			this.mnuNextYear.Index = 8;
 			this.mnuNextYear.Text = "<next year first day>";
 			this.mnuNextYear.Click += new System.EventHandler(this.mnuCommon_Click);
 			// 
 			// mnuAfterNextYear
 			// 
-			this.mnuAfterNextYear.Index = 7;
+			this.mnuAfterNextYear.Index = 9;
 			this.mnuAfterNextYear.Text = "<after next year first day>";
 			this.mnuAfterNextYear.Click += new System.EventHandler(this.mnuCommon_Click);
 			// 
 			// sepAdd
 			// 
-			this.sepAdd.Index = 8;
+			this.sepAdd.Index = 10;
 			this.sepAdd.Text = "-";
 			// 
 			// mnuAddThreeMonths
 			// 
-			this.mnuAddThreeMonths.Index = 9;
+			this.mnuAddThreeMonths.Index = 11;
 			this.mnuAddThreeMonths.Text = "Add 3 months";
 			this.mnuAddThreeMonths.Click += new System.EventHandler(this.mnuCommon_Click);
 			// 
 			// mnuAddSixMonth
 			// 
-			this.mnuAddSixMonth.Index = 10;
+			this.mnuAddSixMonth.Index = 12;
 			this.mnuAddSixMonth.Text = "Add 6 months";
 			this.mnuAddSixMonth.Click += new System.EventHandler(this.mnuCommon_Click);
 			// 
 			// mnuAddOneYear
 			// 
-			this.mnuAddOneYear.Index = 11;
+			this.mnuAddOneYear.Index = 13;
 			this.mnuAddOneYear.Text = "Add 1 year";
 			this.mnuAddOneYear.Click += new System.EventHandler(this.mnuCommon_Click);
+			// 
+			// mnuNow
+			// 
+			this.mnuNow.Index = 2;
+			this.mnuNow.Text = "Now";
+			this.mnuNow.Click += new System.EventHandler(this.mnuCommon_Click);
+			// 
+			// sepNow
+			// 
+			this.sepNow.Index = 3;
+			this.sepNow.Text = "-";
 			// 
 			// DateTimeMenuControl
 			// 
@@ -168,5 +183,7 @@
 		private System.Windows.Forms.MenuItem mnuNextYear;
 		private System.Windows.Forms.MenuItem sepPerihelionDate;
 		private System.Windows.Forms.MenuItem mnuAfterNextYear;
+		private System.Windows.Forms.MenuItem mnuNow;
+		private System.Windows.Forms.MenuItem sepNow;
 	}
 }

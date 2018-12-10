@@ -74,6 +74,7 @@
 			this.txtPerihDist = new System.Windows.Forms.TextBox();
 			this.txtPerihMag = new System.Windows.Forms.TextBox();
 			this.lblCurrSunDist = new System.Windows.Forms.Label();
+			this.selectDateControl = new Comets.Application.Controls.Common.SelectDateControl();
 			this.SuspendLayout();
 			// 
 			// txtElemSortkey
@@ -560,10 +561,18 @@
 			this.lblCurrSunDist.TabIndex = 7;
 			this.lblCurrSunDist.Text = "Current distance from Sun";
 			// 
+			// selectDateControl1
+			// 
+			this.selectDateControl.Location = new System.Drawing.Point(364, 250);
+			this.selectDateControl.Name = "selectDateControl1";
+			this.selectDateControl.Size = new System.Drawing.Size(157, 23);
+			this.selectDateControl.TabIndex = 46;
+			// 
 			// EphemerisControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.selectDateControl);
 			this.Controls.Add(this.txtElemSortkey);
 			this.Controls.Add(this.lblElemSortkey);
 			this.Controls.Add(this.lblAzIndicator);
@@ -665,5 +674,6 @@
 		private System.Windows.Forms.TextBox txtPerihDist;
 		private System.Windows.Forms.TextBox txtPerihMag;
 		private System.Windows.Forms.Label lblCurrSunDist;
+		private Common.SelectDateControl selectDateControl;
 	}
 }

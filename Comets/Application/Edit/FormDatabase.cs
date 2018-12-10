@@ -25,8 +25,6 @@ namespace Comets.Application
 		public string SortProperty { get; private set; }
 		public bool SortAscending { get; private set; }
 
-		private Timer Timer { get; set; }
-
 		#endregion
 
 		#region Constructor
@@ -35,12 +33,8 @@ namespace Comets.Application
 		{
 			InitializeComponent();
 
-			filterControl.OnFilterApply += this.ApplyFiltersInitalComets;
+			filterControl.OnFilterApply += this.OnFilterApply;
 			filterControl.OnClose += this.btnFilters_Click;
-
-			Timer = new Timer();
-			Timer.Interval = 1000;
-			Timer.Tick += Timer_Tick;
 
 			this.mnuDesig.Tag = PropertyEnum.sortkey.ToString();
 			this.mnuDiscoverer.Tag = PropertyEnum.name.ToString();
@@ -112,6 +106,7 @@ namespace Comets.Application
 		private void FormDatabase_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			Filters = filterControl.CollectFilters();
+			ephemerisControl.DisposeTimer();
 		}
 
 		#endregion
@@ -131,12 +126,9 @@ namespace Comets.Application
 
 		private void lbxDatabase_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			Timer.Stop();
-
 			ephemerisControl.DataBind(SelectedComet);
 			elementsControl.DataBind(SelectedComet);
-
-			Timer.Start();
+			ephemerisControl.StartTimer();
 		}
 
 		private void lbxDatabase_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -178,6 +170,9 @@ namespace Comets.Application
 
 			SetSortItems(SortAscending);
 			ApplyFilters(CometsInitial);
+
+			ephemerisControl.StopTimer();
+			ephemerisControl.StartTimer();
 		}
 
 		private void btnFilters_Click(object sender, EventArgs e)
@@ -220,11 +215,11 @@ namespace Comets.Application
 
 		#endregion
 
-		#region Timer
+		#region Event
 
-		void Timer_Tick(object sender, EventArgs e)
+		private void OnFilterApply()
 		{
-			ephemerisControl.CalculateEphemeris();
+			ApplyFilters(CometsInitial);
 		}
 
 		#endregion
@@ -283,10 +278,9 @@ namespace Comets.Application
 			if (CometsFiltered.Count == 0)
 			{
 				//clear textboxes if no comets
-				elementsControl.ClearText();
-				ephemerisControl.ClearText();
-
-				Timer.Stop();
+				ephemerisControl.StopTimer();
+				elementsControl.ClearData();
+				ephemerisControl.ClearData();
 			}
 
 			lbxDatabase.DataSource = CometsFiltered;
@@ -298,11 +292,6 @@ namespace Comets.Application
 		#endregion
 
 		#region Filters
-
-		public void ApplyFiltersInitalComets()
-		{
-			ApplyFilters(CometsInitial);
-		}
 
 		public void ApplyFilters(CometCollection colletion)
 		{

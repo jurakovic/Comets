@@ -13,6 +13,10 @@ namespace Comets.Application.Controls.Database
 		#region Const
 
 		private readonly string IndicatorIdentifier = "Indicator";
+		private readonly int MarginBottom = 15;
+		private readonly int MarginTop = 35;
+		private readonly int IntervalSync = 10;
+		private readonly int IntervalSecond = 1000;
 
 		#endregion
 
@@ -20,6 +24,7 @@ namespace Comets.Application.Controls.Database
 
 		private Comet SelectedComet { get; set; }
 		private Ephemeris PreviousEphemeris { get; set; }
+		private Timer Timer { get; set; }
 
 		#endregion
 
@@ -28,16 +33,65 @@ namespace Comets.Application.Controls.Database
 		public EphemerisControl()
 		{
 			InitializeComponent();
+
+			this.selectDateControl.OnSelectedDatetimeChanged += OnSelectedDatetimeChanged;
+			this.selectDateControl.SelectedDateTime = DateTime.Now;
+
+			Timer = new Timer();
+			Timer.Interval = IntervalSync;
+			Timer.Tick += Timer_Tick;
 		}
 
 		#endregion
 
-		#region Methods
+		#region +EventHandling
+
+		#region Timer
+
+		private void Timer_Tick(object sender, EventArgs e)
+		{
+			//System.Diagnostics.Debug.Print(DateTime.Now.Millisecond.ToString());
+
+			if (Timer.Interval == IntervalSync)
+			{
+				//"syncing" with system clock
+				if (DateTime.Now.Millisecond > MarginBottom && DateTime.Now.Millisecond < MarginTop)
+				{
+					StopTimer();
+					Timer.Interval = IntervalSecond;
+					selectDateControl.SelectedDateTime = DateTime.Now;
+					StartTimer(); // start "synced" ticks
+				}
+			}
+			else
+			{
+				selectDateControl.SelectedDateTime = selectDateControl.SelectedDateTime.AddMilliseconds(Timer.Interval);
+				CalculateEphemeris(selectDateControl.SelectedDateTime);
+			}
+		}
+
+		#endregion
+
+		#region Event
+
+		private void OnSelectedDatetimeChanged(DateTime dateTime)
+		{
+			selectDateControl.SelectedDateTime = dateTime;
+			CalculateInitialEphemeris(dateTime);
+		}
+
+		#endregion
+
+		#endregion
+
+		#region +Methods
+
+		#region Data
 
 		public void DataBind(Comet c)
 		{
 			this.SelectedComet = c;
-			this.PreviousEphemeris = EphemerisManager.GetEphemeris(c, DateTime.Now.AddMinutes(-1).JD(), CommonManager.Settings.Location);
+			this.selectDateControl.PerihelionDate = EphemerisManager.JDToLocalDateTimeSafe(c.Tn);
 
 			string format6 = "0.000000";
 			int minPeriod = 1000;
@@ -51,15 +105,35 @@ namespace Comets.Application.Controls.Database
 			txtPerihDist.Text = c.q.ToString(format6);
 			txtPerihEarthDist.Text = c.PerihEarthDist.ToString(format6);
 			txtPerihMag.Text = c.PerihMag.ToString("0.00");
-
-			CalculateEphemeris();
 		}
 
-		public void CalculateEphemeris()
+		public void ClearData()
+		{
+			this.Controls.OfType<TextBox>().ToList().ForEach(x => x.Text = String.Empty);
+			this.Controls.OfType<Label>().Where(x => x.Name.EndsWith(IndicatorIdentifier)).ToList().ForEach(x => x.Text = String.Empty);
+
+			this.SelectedComet = null;
+			this.selectDateControl.PerihelionDate = null;
+		}
+
+		#endregion
+
+		#region CalculateEphemeris
+
+		private void CalculateInitialEphemeris(DateTime dateTime)
+		{
+			if (this.SelectedComet != null)
+			{
+				this.PreviousEphemeris = EphemerisManager.GetEphemeris(this.SelectedComet, dateTime.AddSeconds(-1).JD(), CommonManager.Settings.Location);
+				CalculateEphemeris(dateTime);
+			}
+		}
+
+		private void CalculateEphemeris(DateTime dateTime)
 		{
 			if (SelectedComet != null)
 			{
-				Ephemeris ep = EphemerisManager.GetEphemeris(SelectedComet, DateTime.Now.JD(), CommonManager.Settings.Location);
+				Ephemeris ep = EphemerisManager.GetEphemeris(SelectedComet, dateTime.JD(), CommonManager.Settings.Location);
 
 				txtCurrSunDist.Text = ep.SunDist.ToString("0.000000");
 				txtCurrEarthDist.Text = ep.EarthDist.ToString("0.000000");
@@ -115,11 +189,28 @@ namespace Comets.Application.Controls.Database
 			}
 		}
 
-		public void ClearText()
+		#endregion
+
+		#region Timer
+
+		public void StartTimer()
 		{
-			this.Controls.OfType<TextBox>().ToList().ForEach(x => x.Text = String.Empty);
-			this.Controls.OfType<Label>().Where(x => x.Name.EndsWith(IndicatorIdentifier)).ToList().ForEach(x => x.Text = String.Empty);
+			CalculateInitialEphemeris(selectDateControl.SelectedDateTime);
+			Timer.Start();
 		}
+
+		public void StopTimer()
+		{
+			Timer.Interval = IntervalSync; //reseting interval to force sync when started next time
+			Timer.Stop();
+		}
+
+		public void DisposeTimer()
+		{
+			Timer?.Dispose();
+		}
+
+		#endregion
 
 		#endregion
 	}

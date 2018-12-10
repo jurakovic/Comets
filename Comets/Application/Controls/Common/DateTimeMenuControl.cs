@@ -18,6 +18,7 @@ namespace Comets.Application.Controls.Common
 		public enum DateTimePreset
 		{
 			Default = 0,
+			Now,
 			PerihelionDate,
 			LastYear,
 			ThisYear,
@@ -58,6 +59,7 @@ namespace Comets.Application.Controls.Common
 			InitializeComponent();
 
 			mnuDefault.Tag = DateTimePreset.Default;
+			mnuNow.Tag = DateTimePreset.Now;
 			mnuPerihelionDate.Tag = DateTimePreset.PerihelionDate;
 			mnuLastYear.Tag = DateTimePreset.LastYear;
 			mnuThisYear.Tag = DateTimePreset.ThisYear;
@@ -90,6 +92,9 @@ namespace Comets.Application.Controls.Common
 
 				switch (preset)
 				{
+					case DateTimePreset.Now:
+						retval = DateTime.Now;
+						break;
 					case DateTimePreset.PerihelionDate:
 						retval = PerihelionDate.Value;
 						break;

@@ -6,6 +6,12 @@ namespace Comets.Application.Controls.Common
 {
 	public partial class SelectDateControl : UserControl
 	{
+		#region Events
+
+		public Action<DateTime> OnSelectedDatetimeChanged;
+
+		#endregion
+
 		#region Fields
 
 		private DateTime _selectedDateTime;
@@ -48,7 +54,7 @@ namespace Comets.Application.Controls.Common
 		public SelectDateControl()
 		{
 			InitializeComponent();
-			dateTimeMenuControl.OnSelectedDatetimeChanged += OnSelectedDateTimeChanged;
+			dateTimeMenuControl.OnSelectedDatetimeChanged += OnSelectedDatetimeChangedInternal;
 			dateTimeMenuControl.ReferenceControl = this.btnSelectDate;
 		}
 
@@ -63,13 +69,18 @@ namespace Comets.Application.Controls.Common
 				fdt.TopMost = this.ParentForm.TopMost;
 
 				if (fdt.ShowDialog() == DialogResult.OK)
-					OnSelectedDateTimeChanged(fdt.SelectedDateTime);
+					OnSelectedDatetimeChangedInternal(fdt.SelectedDateTime);
 			}
 		}
 
-		public void OnSelectedDateTimeChanged(DateTime dateTime)
+		#endregion
+
+		#region Methods
+
+		private void OnSelectedDatetimeChangedInternal(DateTime dateTime)
 		{
 			SelectedDateTime = dateTime;
+			OnSelectedDatetimeChanged?.Invoke(dateTime);
 		}
 
 		#endregion

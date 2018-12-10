@@ -66,7 +66,7 @@ namespace Comets.Application.Controls.Database
 			//t_sortKey.Text = c.idKey;
 		}
 
-		public void ClearText()
+		public void ClearData()
 		{
 			this.Controls.OfType<TextBox>().ToList().ForEach(x => x.Text = String.Empty);
 		}
