@@ -1,20 +1,23 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Comets", "Comets\Comets.csproj", "{A92F71ED-BE7E-452C-A542-EDF7655CEEAD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Comets.Application", "Comets.Application\Comets.Application.csproj", "{A92F71ED-BE7E-452C-A542-EDF7655CEEAD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Comets.Application.Common", "Comets.Application.Common\Comets.Application.Common.csproj", "{F8BE1A4A-F5C6-4E04-A94F-31F106E8A456}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Comets.Core", "Comets.Core\Comets.Core.csproj", "{75B634F7-75C2-41B5-A54A-89E2F2C5E806}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Comets.OrbitViewer", "Comets.OrbitViewer\Comets.OrbitViewer.csproj", "{674783D2-0AAF-405D-9C8F-5F4491AD9863}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Comets.Application.Ephemeris", "Comets.Application.Ephemeris\Comets.Application.Ephemeris.csproj", "{39196587-5CD7-434E-AB4A-CDE317A6E31D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Comets.Application.Graph", "Comets.Application.Graph\Comets.Application.Graph.csproj", "{B2F9EAC7-D136-4229-8EAF-B6F9E20A2142}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Comets.Application.OrbitViewer", "Comets.Application.OrbitViewer\Comets.Application.OrbitViewer.csproj", "{31E593CB-E0D5-4761-B280-C909545090AD}"
 EndProject
 Global
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 2
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://jurakovic.visualstudio.com/defaultcollection
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = Comets\\Comets.csproj
-		SccProjectName1 = Comets
-		SccLocalPath1 = Comets
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -24,8 +27,62 @@ Global
 		{A92F71ED-BE7E-452C-A542-EDF7655CEEAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A92F71ED-BE7E-452C-A542-EDF7655CEEAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A92F71ED-BE7E-452C-A542-EDF7655CEEAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8BE1A4A-F5C6-4E04-A94F-31F106E8A456}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8BE1A4A-F5C6-4E04-A94F-31F106E8A456}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8BE1A4A-F5C6-4E04-A94F-31F106E8A456}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8BE1A4A-F5C6-4E04-A94F-31F106E8A456}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75B634F7-75C2-41B5-A54A-89E2F2C5E806}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75B634F7-75C2-41B5-A54A-89E2F2C5E806}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75B634F7-75C2-41B5-A54A-89E2F2C5E806}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75B634F7-75C2-41B5-A54A-89E2F2C5E806}.Release|Any CPU.Build.0 = Release|Any CPU
+		{674783D2-0AAF-405D-9C8F-5F4491AD9863}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{674783D2-0AAF-405D-9C8F-5F4491AD9863}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{674783D2-0AAF-405D-9C8F-5F4491AD9863}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{674783D2-0AAF-405D-9C8F-5F4491AD9863}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39196587-5CD7-434E-AB4A-CDE317A6E31D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39196587-5CD7-434E-AB4A-CDE317A6E31D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39196587-5CD7-434E-AB4A-CDE317A6E31D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39196587-5CD7-434E-AB4A-CDE317A6E31D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2F9EAC7-D136-4229-8EAF-B6F9E20A2142}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2F9EAC7-D136-4229-8EAF-B6F9E20A2142}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2F9EAC7-D136-4229-8EAF-B6F9E20A2142}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2F9EAC7-D136-4229-8EAF-B6F9E20A2142}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31E593CB-E0D5-4761-B280-C909545090AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31E593CB-E0D5-4761-B280-C909545090AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31E593CB-E0D5-4761-B280-C909545090AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31E593CB-E0D5-4761-B280-C909545090AD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E99AE4BE-CFFC-478C-A6FA-208F4E9A20E3}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 8
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://jurakovic.visualstudio.com/
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = Comets.Application\\Comets.Application.csproj
+		SccProjectName1 = Comets.Application
+		SccLocalPath1 = Comets.Application
+		SccProjectUniqueName2 = Comets.Application.Common\\Comets.Application.Common.csproj
+		SccProjectName2 = Comets.Application.Common
+		SccLocalPath2 = Comets.Application.Common
+		SccProjectUniqueName3 = Comets.Core\\Comets.Core.csproj
+		SccProjectName3 = Comets.Core
+		SccLocalPath3 = Comets.Core
+		SccProjectUniqueName4 = Comets.OrbitViewer\\Comets.OrbitViewer.csproj
+		SccProjectName4 = Comets.OrbitViewer
+		SccLocalPath4 = Comets.OrbitViewer
+		SccProjectUniqueName5 = Comets.Application.Ephemeris\\Comets.Application.Ephemeris.csproj
+		SccProjectName5 = Comets.Application.Ephemeris
+		SccLocalPath5 = Comets.Application.Ephemeris
+		SccProjectUniqueName6 = Comets.Application.Graph\\Comets.Application.Graph.csproj
+		SccProjectName6 = Comets.Application.Graph
+		SccLocalPath6 = Comets.Application.Graph
+		SccProjectUniqueName7 = Comets.Application.OrbitViewer\\Comets.Application.OrbitViewer.csproj
+		SccProjectName7 = Comets.Application.OrbitViewer
+		SccLocalPath7 = Comets.Application.OrbitViewer
 	EndGlobalSection
 EndGlobal
