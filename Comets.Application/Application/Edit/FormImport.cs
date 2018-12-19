@@ -14,7 +14,7 @@ namespace Comets.Application.Edit
 	{
 		#region Events
 
-		public Action OnImportCompleted;
+		public event Action OnImportCompleted;
 
 		#endregion
 

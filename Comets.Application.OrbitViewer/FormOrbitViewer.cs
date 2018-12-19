@@ -9,7 +9,7 @@ namespace Comets.Application.OrbitViewer
 	{
 		#region Events
 
-		public Action<bool> OnToolboxVisibleChanged;
+		public event Action<bool> OnToolboxVisibleChanged;
 
 		#endregion
 
@@ -19,7 +19,6 @@ namespace Comets.Application.OrbitViewer
 		{
 			InitializeComponent();
 
-			orbitViewerControl.OnToolboxVisibleChanged += this.OnToolboxVisibleChanged;
 			orbitViewerControl.LoadControl(comets, filters, sortProperty, sortAscending);
 		}
 
@@ -29,7 +28,7 @@ namespace Comets.Application.OrbitViewer
 
 		private void FormOrbitViewer_Activated(object sender, EventArgs e)
 		{
-			OnToolboxVisibleChanged?.Invoke(orbitViewerControl.ToolboxVisible);
+			OnToolboxVisibleChanged(orbitViewerControl.ToolboxVisible);
 		}
 
 		private void FormOrbitViewer_Deactivate(object sender, EventArgs e)

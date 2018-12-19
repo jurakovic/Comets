@@ -11,8 +11,8 @@ namespace Comets.Application.Ephemeris
 	{
 		#region Events
 
-		public Action<int> OnProgressBegin;
-		public Action OnProgressEnd;
+		public event Action<int> OnProgressBegin;
+		public event Action OnProgressEnd;
 
 		#endregion
 
@@ -127,7 +127,7 @@ namespace Comets.Application.Ephemeris
 
 		private async void btnOk_Click(object sender, EventArgs e)
 		{
-			if (selectCometControl.SelectedComet != null)
+			if (selectCometControl.SelectedComet != null && cts == null)
 			{
 				requirementsControl.ValidateData();
 				timespanControl.ValidateData();
@@ -182,9 +182,16 @@ namespace Comets.Application.Ephemeris
 					settings.Ephemerides = new Dictionary<Comet, List<Core.Ephemeris>>();
 
 				if (settings.IsMultipleMode && settings.Comets.Count > 1)
-					OnProgressBegin?.Invoke(settings.Comets.Count);
+					OnProgressBegin(settings.Comets.Count);
 
 				cts = new CancellationTokenSource();
+
+				void ResetState()
+				{
+					cts = null;
+					settings.Ephemerides.Clear();
+					OnProgressEnd();
+				}
 
 				try
 				{
@@ -192,19 +199,17 @@ namespace Comets.Application.Ephemeris
 				}
 				catch (OperationCanceledException)
 				{
-					cts = null;
-					settings.Ephemerides.Clear();
-					OnProgressEnd();
+					ResetState();
 					return;
 				}
 				catch
 				{
-					cts = null;
+					ResetState();
 					throw;
 				}
 
 				if (settings.IsMultipleMode && settings.Comets.Count > 1)
-					OnProgressBegin?.Invoke(settings.Ephemerides.Count);
+					OnProgressBegin(settings.Ephemerides.Count);
 
 				FormEphemeris fe = null;
 
@@ -227,9 +232,7 @@ namespace Comets.Application.Ephemeris
 				}
 				catch (OperationCanceledException)
 				{
-					cts = null;
-					settings.Ephemerides.Clear();
-					OnProgressEnd();
+					ResetState();
 
 					if (settings.AddNew)
 						fe.Dispose();
@@ -238,7 +241,7 @@ namespace Comets.Application.Ephemeris
 				}
 				catch
 				{
-					cts = null;
+					ResetState();
 					throw;
 				}
 

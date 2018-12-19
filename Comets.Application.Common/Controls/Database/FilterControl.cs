@@ -56,12 +56,12 @@ namespace Comets.Application.Common.Controls.Database
 
 		private void btnApply_Click(object sender, EventArgs e)
 		{
-			OnFilterApply?.Invoke();
+			OnFilterApply();
 		}
 
 		private void btnClose_Click(object sender, EventArgs e)
 		{
-			OnClose?.Invoke(sender, e);
+			OnClose(sender, e);
 		}
 
 		#endregion

@@ -11,8 +11,8 @@ namespace Comets.Application.Graph
 	{
 		#region Events
 
-		public Action<int> OnProgressBegin;
-		public Action OnProgressEnd;
+		public event Action<int> OnProgressBegin;
+		public event Action OnProgressEnd;
 
 		#endregion
 
@@ -123,7 +123,7 @@ namespace Comets.Application.Graph
 
 		private async void btnOk_Click(object sender, EventArgs e)
 		{
-			if (selectCometControl.SelectedComet != null)
+			if (selectCometControl.SelectedComet != null && cts == null)
 			{
 				valueRangeControl.ValidateData();
 				timespanControl.ValidateData();
@@ -173,9 +173,16 @@ namespace Comets.Application.Graph
 					settings.Ephemerides = new Dictionary<Comet, List<Ephemeris>>();
 
 				if (settings.IsMultipleMode && settings.Comets.Count > 1)
-					OnProgressBegin?.Invoke(settings.Comets.Count);
+					OnProgressBegin(settings.Comets.Count);
 
 				cts = new CancellationTokenSource();
+
+				void ResetState()
+				{
+					cts = null;
+					settings.Ephemerides.Clear();
+					OnProgressEnd();
+				}
 
 				try
 				{
@@ -183,14 +190,12 @@ namespace Comets.Application.Graph
 				}
 				catch (OperationCanceledException)
 				{
-					cts = null;
-					settings.Ephemerides.Clear();
-					OnProgressEnd();
+					ResetState();
 					return;
 				}
 				catch
 				{
-					cts = null;
+					ResetState();
 					throw;
 				}
 

@@ -12,8 +12,8 @@ namespace Comets.Application.Common.Controls.Common
 	{
 		#region Events
 
-		public Action<DateTime?> OnSelectedCometChanged;
-		public Action<CometCollection, FilterCollection, string, bool> OnCometsFiltered;
+		public event Action<DateTime?> OnSelectedCometChanged;
+		public event Action<CometCollection, FilterCollection, string, bool> OnCometsFiltered;
 
 		#endregion
 

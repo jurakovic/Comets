@@ -9,7 +9,7 @@ namespace Comets.Application.Common.Controls.DateAndTime
 	{
 		#region Events
 
-		public Action<DateTime> OnSelectedDatetimeChanged;
+		public event Action<DateTime> OnSelectedDatetimeChanged;
 
 		#endregion
 

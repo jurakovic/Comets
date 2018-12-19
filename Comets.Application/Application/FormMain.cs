@@ -96,9 +96,8 @@ namespace Comets.Application
 						using (FormImport fi = new FormImport(true) { Owner = this })
 						{
 							fi.TopMost = this.TopMost;
-							fi.OnImportCompleted = this.SetStatusCometsLabel;
+							fi.OnImportCompleted += this.SetStatusCometsLabel;
 							fi.ShowDialog();
-							//SetStatusCometsLabel();
 						}
 					}
 				}
@@ -317,7 +316,7 @@ namespace Comets.Application
 			using (FormImport formImport = new FormImport() { Owner = this })
 			{
 				formImport.TopMost = this.TopMost;
-				formImport.OnImportCompleted = this.SetStatusCometsLabel;
+				formImport.OnImportCompleted += this.SetStatusCometsLabel;
 				formImport.ShowDialog();
 			}
 		}
@@ -433,29 +432,31 @@ namespace Comets.Application
 			isave?.Save();
 		}
 
-		public void SetStatusCometsLabel()
+		private void SetStatusCometsLabel()
 		{
 			int count = CommonManager.UserCollection.Count;
 			int total = CommonManager.MainCollection.Count;
 
+			string text = String.Format("Comets: {0}", count);
+
 			if (count < total)
-				this.statusComets.Text = String.Format("Comets: {0} ({1})", count, total);
-			else
-				this.statusComets.Text = String.Format("Comets: {0}", count);
+				text += String.Format(" ({0})", total);
+
+			this.statusComets.Text = text;
 		}
 
-		public void SetToolBoxMenuItemChecked(bool isChecked)
+		private void SetToolBoxMenuItemChecked(bool isChecked)
 		{
 			this.mnuShowToolbox.Checked = isChecked;
 		}
 
-		public void SetProgressMaximumValue(int value)
+		private void SetProgressMaximumValue(int value)
 		{
 			statusProgressBar.Visible = true;
 			statusProgressBar.Maximum = value;
 		}
 
-		public void ReportProgress(int value)
+		private void ReportProgress(int value)
 		{
 			//http://derekwill.com/2014/06/24/combating-the-lag-of-the-winforms-progressbar/
 
@@ -473,7 +474,7 @@ namespace Comets.Application
 			statusProgressBar.Value = value;
 		}
 
-		public void HideProgress()
+		private void HideProgress()
 		{
 			statusProgressBar.Value = statusProgressBar.Minimum;
 			statusProgressBar.Visible = false;

@@ -11,6 +11,7 @@ namespace Comets.Application
 	{
 		#region Fields
 
+		private bool ValueChangedInternal;
 		private DateTime _selectedDateTime;
 
 		#endregion
@@ -29,8 +30,6 @@ namespace Comets.Application
 				PopulateData();
 			}
 		}
-
-		public bool ValueChangedByEvent { get; set; }
 
 		#endregion
 
@@ -77,7 +76,7 @@ namespace Comets.Application
 
 			if (up || down)
 			{
-				ValueChangedByEvent = true;
+				ValueChangedInternal = true;
 
 				ValNum val = (sender as TextBox).Tag as ValNum;
 				Type t = typeof(DateTime);
@@ -85,7 +84,7 @@ namespace Comets.Application
 				SelectedDateTime = (DateTime)minfo.Invoke(SelectedDateTime, new object[] { up ? 1 : -1 });
 
 				e.SuppressKeyPress = true;
-				ValueChangedByEvent = false;
+				ValueChangedInternal = false;
 			}
 		}
 
@@ -98,8 +97,8 @@ namespace Comets.Application
 		{
 			if (txtMonth.Text.Length > 0 && txtYear.Text.Length > 0)
 			{
-				bool tempValueChanged = ValueChangedByEvent;
-				ValueChangedByEvent = true;
+				bool tempValueChanged = ValueChangedInternal;
+				ValueChangedInternal = true;
 
 				int max = DateTime.DaysInMonth(txtYear.Int(), txtMonth.Int());
 
@@ -111,16 +110,16 @@ namespace Comets.Application
 
 				txtDay.Tag = n;
 
-				ValueChangedByEvent = tempValueChanged;
+				ValueChangedInternal = tempValueChanged;
 			}
 
-			if (!ValueChangedByEvent)
+			if (!ValueChangedInternal)
 				CollectData();
 		}
 
 		private void txtCommon_TextChanged(object sender, EventArgs e)
 		{
-			if (!ValueChangedByEvent)
+			if (!ValueChangedInternal)
 				CollectData();
 		}
 
@@ -167,7 +166,7 @@ namespace Comets.Application
 
 		private void PopulateData()
 		{
-			ValueChangedByEvent = true;
+			ValueChangedInternal = true;
 
 			txtDay.Text = SelectedDateTime.Day.ToString("00");
 			txtMonth.Text = SelectedDateTime.Month.ToString("00");
@@ -177,7 +176,7 @@ namespace Comets.Application
 			txtMinute.Text = SelectedDateTime.Minute.ToString("00");
 			txtSecond.Text = SelectedDateTime.Second.ToString("00");
 
-			ValueChangedByEvent = false;
+			ValueChangedInternal = false;
 		}
 
 		private void CollectData()

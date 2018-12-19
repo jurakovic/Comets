@@ -15,12 +15,6 @@ namespace Comets.Application.OrbitViewer
 {
 	public partial class OrbitViewerControl : UserControl
 	{
-		#region Events
-
-		public Action<bool> OnToolboxVisibleChanged;
-
-		#endregion
-
 		#region Consts
 
 		const int DefaultScrollVert = 40;
@@ -76,7 +70,7 @@ namespace Comets.Application.OrbitViewer
 		private Timer Timer;
 		private ATimeSpan TimeStep;
 
-		private bool ValueChangedByEvent;
+		private bool ValueChangedInternal;
 
 		private CometCollection Comets;
 		private FilterCollection Filters;
@@ -106,7 +100,7 @@ namespace Comets.Application.OrbitViewer
 				bool isOutOfRange = FormDateTime.RangeDateTime(value, out _selectedDateTime);
 				btnDate.Text = _selectedDateTime.ToString(DateTimeFormat.Full);
 
-				if (isOutOfRange || (IsSimulationStarted && !ValueChangedByEvent))
+				if (isOutOfRange || (IsSimulationStarted && !ValueChangedInternal))
 					StopSimulation();
 
 				if (orbitPanel.IsPaintEnabled)
@@ -121,13 +115,7 @@ namespace Comets.Application.OrbitViewer
 		public bool ToolboxVisible
 		{
 			get { return _toolboxVisible; }
-			private set
-			{
-				_toolboxVisible = value;
-
-				if (!ValueChangedByEvent)
-					OnToolboxVisibleChanged?.Invoke(value);
-			}
+			private set { _toolboxVisible = value; }
 		}
 
 		private bool _isSimulationForward = true;
@@ -173,7 +161,7 @@ namespace Comets.Application.OrbitViewer
 			OVComets = TransformComets(comets);
 			DefaultDateTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, 0, 0, DateTimeKind.Local);
 
-			ValueChangedByEvent = true;
+			ValueChangedInternal = true;
 
 			scrollVert.Value = DefaultScrollVert;
 			scrollHorz.Value = DefaultScrollHorz;
@@ -181,7 +169,7 @@ namespace Comets.Application.OrbitViewer
 
 			SelectedDateTime = DefaultDateTime;
 
-			ValueChangedByEvent = false;
+			ValueChangedInternal = false;
 
 			BindCollection();
 
@@ -238,7 +226,7 @@ namespace Comets.Application.OrbitViewer
 
 		private void cboObject_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			if (!ValueChangedByEvent)
+			if (!ValueChangedInternal)
 			{
 				orbitPanel.LoadPanel(SelectedComet, orbitPanel.ATime);
 				SetFormText();
@@ -326,9 +314,9 @@ namespace Comets.Application.OrbitViewer
 
 				SetFormText();
 
-				ValueChangedByEvent = true;
+				ValueChangedInternal = true;
 				rbtnMultipleMode.Checked = true;
-				ValueChangedByEvent = false;
+				ValueChangedInternal = false;
 
 				RefreshPanel();
 			}
@@ -347,16 +335,16 @@ namespace Comets.Application.OrbitViewer
 
 		private void rbtnMode_CheckedChanged(object sender, EventArgs e)
 		{
-			bool tempChanged = ValueChangedByEvent;
-			ValueChangedByEvent = true;
+			bool tempChanged = ValueChangedInternal;
+			ValueChangedInternal = true;
 
 			orbitPanel.MultipleMode = rbtnMultipleMode.Checked;
 
-			ValueChangedByEvent = tempChanged;
+			ValueChangedInternal = tempChanged;
 
 			SetFormText();
 
-			if (!ValueChangedByEvent)
+			if (!ValueChangedInternal)
 				RefreshPanel();
 		}
 
@@ -396,7 +384,7 @@ namespace Comets.Application.OrbitViewer
 			SetMultipleCheckBoxes(OrbitPart, true);
 			SetMultipleCheckBoxes(LabelPart, true);
 
-			ValueChangedByEvent = true;
+			ValueChangedInternal = true;
 			cbxOrbitSaturn.Checked = false;
 			cbxOrbitUranus.Checked = false;
 			cbxOrbitNeptune.Checked = false;
@@ -405,14 +393,14 @@ namespace Comets.Application.OrbitViewer
 			rbtnCenterSun.Checked = true;
 			cbxSelectedOrbit.Checked = true;
 			cbxSelectedLabel.Checked = true;
-			ValueChangedByEvent = false;
+			ValueChangedInternal = false;
 
 			RefreshPanel();
 		}
 
 		private void SetMultipleCheckBoxes(string namePart, bool isChecked, bool refresh = false)
 		{
-			ValueChangedByEvent = true;
+			ValueChangedInternal = true;
 
 			foreach (CheckBox c in pnlOrbitsLabelsCenter.Controls.OfType<CheckBox>())
 			{
@@ -420,7 +408,7 @@ namespace Comets.Application.OrbitViewer
 					c.Checked = isChecked;
 			}
 
-			ValueChangedByEvent = false;
+			ValueChangedInternal = false;
 
 			if (refresh)
 				RefreshPanel();
@@ -437,7 +425,7 @@ namespace Comets.Application.OrbitViewer
 			else
 				orbitPanel.OrbitDisplay.Remove(orbit);
 
-			if (!ValueChangedByEvent)
+			if (!ValueChangedInternal)
 				RefreshPanel();
 		}
 
@@ -452,7 +440,7 @@ namespace Comets.Application.OrbitViewer
 			else
 				orbitPanel.LabelDisplay.Remove(label);
 
-			if (!ValueChangedByEvent)
+			if (!ValueChangedInternal)
 				RefreshPanel();
 		}
 
@@ -465,7 +453,7 @@ namespace Comets.Application.OrbitViewer
 				Object centerObject = (Object)Enum.Parse(typeof(Object), name);
 				orbitPanel.CenteredObject = centerObject;
 
-				if (!ValueChangedByEvent)
+				if (!ValueChangedInternal)
 					RefreshPanel();
 			}
 		}
@@ -474,7 +462,7 @@ namespace Comets.Application.OrbitViewer
 		{
 			orbitPanel.PreserveSelectedOrbit = cbxSelectedOrbit.Checked;
 
-			if (!ValueChangedByEvent)
+			if (!ValueChangedInternal)
 				RefreshPanel();
 		}
 
@@ -482,7 +470,7 @@ namespace Comets.Application.OrbitViewer
 		{
 			orbitPanel.PreserveSelectedLabel = cbxSelectedLabel.Checked;
 
-			if (!ValueChangedByEvent)
+			if (!ValueChangedInternal)
 				RefreshPanel();
 		}
 
@@ -490,13 +478,13 @@ namespace Comets.Application.OrbitViewer
 		{
 			orbitPanel.ShowMarker = cbxMarker.Checked;
 
-			if (!ValueChangedByEvent)
+			if (!ValueChangedInternal)
 				RefreshPanel();
 		}
 
 		private void ChangeObjectDisplay(Object obj, bool control, bool shift)
 		{
-			ValueChangedByEvent = true;
+			ValueChangedInternal = true;
 
 			if (!control && !shift)
 				ChangeCenterObject(obj);
@@ -505,7 +493,7 @@ namespace Comets.Application.OrbitViewer
 			else if (shift && !control)
 				ChangeVisibleLabel(obj);
 
-			ValueChangedByEvent = false;
+			ValueChangedInternal = false;
 
 			RefreshPanel();
 		}
@@ -636,9 +624,9 @@ namespace Comets.Application.OrbitViewer
 			ATime atime = orbitPanel.ATime;
 			atime.ChangeDate(TimeStep, isForward);
 
-			ValueChangedByEvent = true;
+			ValueChangedInternal = true;
 			SelectedDateTime = new DateTime(atime.Year, atime.Month, atime.Day, atime.Hour, atime.Minute, atime.Second, DateTimeKind.Utc);
-			ValueChangedByEvent = false;
+			ValueChangedInternal = false;
 		}
 
 		private void StartSimulation(bool? isForward = null)
@@ -723,7 +711,7 @@ namespace Comets.Application.OrbitViewer
 
 		private void filterOnDateTxtCbxCommon_TextChangedCheckedChanged(object sender, EventArgs e)
 		{
-			if (!ValueChangedByEvent)
+			if (!ValueChangedInternal)
 			{
 				TextBox txt = null;
 				CheckBox cbx = null;
@@ -770,9 +758,9 @@ namespace Comets.Application.OrbitViewer
 
 				if (isTxt)
 				{
-					ValueChangedByEvent = true;
+					ValueChangedInternal = true;
 					cbx.Checked = value != null;
-					ValueChangedByEvent = false;
+					ValueChangedInternal = false;
 				}
 
 				RefreshPanel();
@@ -1145,7 +1133,7 @@ namespace Comets.Application.OrbitViewer
 
 				if (name != null)
 				{
-					ValueChangedByEvent = true;
+					ValueChangedInternal = true;
 					rbtnCenterComet.Checked = true;
 
 					bool isCometCentered = orbitPanel.CenterSelectedComet();
@@ -1167,7 +1155,7 @@ namespace Comets.Application.OrbitViewer
 						}
 					}
 
-					ValueChangedByEvent = false;
+					ValueChangedInternal = false;
 					RefreshPanel();
 				}
 			}
@@ -1245,7 +1233,7 @@ namespace Comets.Application.OrbitViewer
 		{
 			orbitPanel.RotateVert = (double)(90 - scrollVert.Value);
 
-			if (!ValueChangedByEvent)
+			if (!ValueChangedInternal)
 				RefreshPanel();
 		}
 
@@ -1253,7 +1241,7 @@ namespace Comets.Application.OrbitViewer
 		{
 			orbitPanel.RotateHorz = (double)(90 - scrollHorz.Value);
 
-			if (!ValueChangedByEvent)
+			if (!ValueChangedInternal)
 				RefreshPanel();
 		}
 
@@ -1261,7 +1249,7 @@ namespace Comets.Application.OrbitViewer
 		{
 			orbitPanel.Zoom = (double)scrollZoom.Value;
 
-			if (!ValueChangedByEvent)
+			if (!ValueChangedInternal)
 				RefreshPanel();
 		}
 
@@ -1273,7 +1261,7 @@ namespace Comets.Application.OrbitViewer
 
 		private void BindCollection(string name = null)
 		{
-			ValueChangedByEvent = true;
+			ValueChangedInternal = true;
 
 			cboComet.DisplayMember = "Name";
 			cboComet.DataSource = OVComets;
@@ -1286,7 +1274,7 @@ namespace Comets.Application.OrbitViewer
 					SelectedComet = OVComets.OrderBy(x => Math.Abs(x.T - DateTime.Now.JD())).First(); //comet with nearest perihelion date
 			}
 
-			ValueChangedByEvent = false;
+			ValueChangedInternal = false;
 		}
 
 		private void RefreshPanel()
