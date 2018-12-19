@@ -69,6 +69,19 @@ namespace Comets.Core.Extensions
 
 		#endregion
 
+		#region CheckBox
+
+		/// <summary>
+		/// Inverts CheckBox.Checked property (Checked = !Checked)
+		/// </summary>
+		/// <param name="cbx"></param>
+		public static void Invert(this CheckBox cbx)
+		{
+			cbx.Checked = !cbx.Checked;
+		}
+
+		#endregion
+
 		#region DateTime
 
 		/// <summary>

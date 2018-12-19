@@ -981,7 +981,7 @@ namespace Comets.Application.OrbitViewer
 				case Keys.G:
 					if (!ctrl && !shift)
 					{
-						cbxSelectedOrbit.Checked = !cbxSelectedOrbit.Checked;
+						cbxSelectedOrbit.Invert();
 						handled = true;
 					}
 					break;
@@ -989,7 +989,7 @@ namespace Comets.Application.OrbitViewer
 				case Keys.H:
 					if (!ctrl && !shift)
 					{
-						cbxSelectedLabel.Checked = !cbxSelectedLabel.Checked;
+						cbxSelectedLabel.Invert();
 						handled = true;
 					}
 					break;
@@ -997,7 +997,7 @@ namespace Comets.Application.OrbitViewer
 				case Keys.M:
 					if (!ctrl && !shift)
 					{
-						cbxMarker.Checked = !cbxMarker.Checked;
+						cbxMarker.Invert();
 						handled = true;
 					}
 					break;
@@ -1150,8 +1150,8 @@ namespace Comets.Application.OrbitViewer
 						}
 						else
 						{
-							cbxSelectedOrbit.Checked = !cbxSelectedOrbit.Checked;
-							cbxSelectedLabel.Checked = !cbxSelectedLabel.Checked;
+							cbxSelectedOrbit.Invert();
+							cbxSelectedLabel.Invert();
 						}
 					}
 
