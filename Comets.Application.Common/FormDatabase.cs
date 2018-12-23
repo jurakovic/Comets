@@ -1,6 +1,7 @@
 ﻿using Comets.Application.Common.General;
 using Comets.Application.Common.Managers;
 using Comets.Core;
+using Comets.Core.Extensions;
 using Comets.Core.Managers;
 using System;
 using System.ComponentModel;
@@ -209,8 +210,8 @@ namespace Comets.Application
 
 		private void menuItemSortAscDesc_Click(object sender, EventArgs e)
 		{
-			mnuAsc.Checked = !mnuAsc.Checked;
-			mnuDesc.Checked = !mnuDesc.Checked;
+			mnuAsc.InvertChecked();
+			mnuDesc.InvertChecked();
 			SortAscending = mnuAsc.Checked;
 			SortCollection();
 		}
@@ -240,8 +241,8 @@ namespace Comets.Application
 
 		private void SwitchVisible()
 		{
-			pnlDetails.Visible = !pnlDetails.Visible;
-			filterControl.Visible = !filterControl.Visible;
+			pnlDetails.InvertVisible();
+			filterControl.InvertVisible();
 			lbxDatabase.Focus();
 		}
 

@@ -5,6 +5,7 @@ using Comets.Application.Graph;
 using Comets.Application.Help;
 using Comets.Application.OrbitViewer;
 using Comets.Core;
+using Comets.Core.Extensions;
 using Comets.Core.Managers;
 using System;
 using System.Drawing;
@@ -284,7 +285,7 @@ namespace Comets.Application
 		{
 			if (this.ActiveMdiChild is FormOrbitViewer)
 			{
-				mnuShowToolbox.Checked = !mnuShowToolbox.Checked;
+				mnuShowToolbox.InvertChecked();
 				(this.ActiveMdiChild as FormOrbitViewer).ShowToolbox(mnuShowToolbox.Checked);
 			}
 		}
@@ -348,13 +349,13 @@ namespace Comets.Application
 
 		private void menuItemViewAlwaysOnTop_Click(object sender, EventArgs e)
 		{
-			this.menuItemViewAlwaysOnTop.Checked = !this.menuItemViewAlwaysOnTop.Checked;
+			this.menuItemViewAlwaysOnTop.InvertChecked();
 			this.TopMost = this.menuItemViewAlwaysOnTop.Checked;
 		}
 
 		private void menuItemViewStatusBar_Click(object sender, EventArgs e)
 		{
-			menuItemViewStatusBar.Checked = !menuItemViewStatusBar.Checked;
+			this.menuItemViewStatusBar.InvertChecked();
 			CommonManager.Settings.ShowStatusBar = menuItemViewStatusBar.Checked;
 			CommonManager.Settings.IsSettingsChanged = true;
 			this.statusStrip.Visible = menuItemViewStatusBar.Checked;

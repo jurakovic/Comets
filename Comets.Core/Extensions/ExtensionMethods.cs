@@ -45,7 +45,7 @@ namespace Comets.Core.Extensions
 
 		#endregion
 
-		#region TextBox
+		#region Controls
 
 		/// <summary>
 		/// Converts TextBox.Text value to double. Returns 0.0 if conversion failed.
@@ -67,17 +67,31 @@ namespace Comets.Core.Extensions
 			return (int)txt.Text.Double();
 		}
 
-		#endregion
-
-		#region CheckBox
+		/// <summary>
+		/// Inverts Control.Visible property (Visible = !Visible)
+		/// </summary>
+		/// <param name="cbx"></param>
+		public static void InvertVisible(this Control control)
+		{
+			control.Visible = !control.Visible;
+		}
 
 		/// <summary>
 		/// Inverts CheckBox.Checked property (Checked = !Checked)
 		/// </summary>
 		/// <param name="cbx"></param>
-		public static void Invert(this CheckBox cbx)
+		public static void InvertChecked(this CheckBox cbx)
 		{
 			cbx.Checked = !cbx.Checked;
+		}
+
+		/// <summary>
+		/// Inverts MenuItem.Checked property (Checked = !Checked)
+		/// </summary>
+		/// <param name="cbx"></param>
+		public static void InvertChecked(this MenuItem item)
+		{
+			item.Checked = !item.Checked;
 		}
 
 		#endregion

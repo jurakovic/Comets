@@ -209,7 +209,7 @@ namespace Comets.Application.OrbitViewer
 			int maxHeight = gbx.Tag.ToString().Int();
 			int offset = maxHeight - minHeight;
 
-			pnl.Visible = !pnl.Visible;
+			pnl.InvertVisible();
 			gbx.Height = pnl.Visible ? maxHeight : minHeight;
 
 			if (!pnl.Visible)
@@ -981,7 +981,7 @@ namespace Comets.Application.OrbitViewer
 				case Keys.G:
 					if (!ctrl && !shift)
 					{
-						cbxSelectedOrbit.Invert();
+						cbxSelectedOrbit.InvertChecked();
 						handled = true;
 					}
 					break;
@@ -989,7 +989,7 @@ namespace Comets.Application.OrbitViewer
 				case Keys.H:
 					if (!ctrl && !shift)
 					{
-						cbxSelectedLabel.Invert();
+						cbxSelectedLabel.InvertChecked();
 						handled = true;
 					}
 					break;
@@ -997,7 +997,7 @@ namespace Comets.Application.OrbitViewer
 				case Keys.M:
 					if (!ctrl && !shift)
 					{
-						cbxMarker.Invert();
+						cbxMarker.InvertChecked();
 						handled = true;
 					}
 					break;
@@ -1150,8 +1150,8 @@ namespace Comets.Application.OrbitViewer
 						}
 						else
 						{
-							cbxSelectedOrbit.Invert();
-							cbxSelectedLabel.Invert();
+							cbxSelectedOrbit.InvertChecked();
+							cbxSelectedLabel.InvertChecked();
 						}
 					}
 
