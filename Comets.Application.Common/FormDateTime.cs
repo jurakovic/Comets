@@ -1,4 +1,5 @@
-﻿using Comets.Core;
+﻿using Comets.Application.Common.Controls.Common;
+using Comets.Core;
 using Comets.Core.Extensions;
 using Comets.Core.Managers;
 using System;
@@ -7,11 +8,10 @@ using System.Windows.Forms;
 
 namespace Comets.Application
 {
-	public partial class FormDateTime : Form
+	public partial class FormDateTime : ValueChangeForm
 	{
 		#region Fields
 
-		private bool ValueChangedInternal;
 		private DateTime _selectedDateTime;
 
 		#endregion

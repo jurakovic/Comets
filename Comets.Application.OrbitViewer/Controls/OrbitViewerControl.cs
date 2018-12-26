@@ -1,19 +1,21 @@
-﻿using Comets.Core;
+﻿using Comets.Application.Common.Controls.Common;
+using Comets.Core;
 using Comets.Core.Extensions;
 using Comets.Core.Managers;
 using Comets.OrbitViewer;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Object = Comets.OrbitViewer.Object;
+using SimulationEvent = Comets.Application.OrbitViewer.Controls.SimulationControl.SimulationEvent;
+using FilterValue = Comets.Application.OrbitViewer.Controls.FilterControl.FilterValue;
 
 namespace Comets.Application.OrbitViewer
 {
-	public partial class OrbitViewerControl : UserControl
+	public partial class OrbitViewerControl : ValueChangeControl
 	{
 		#region Consts
 
@@ -21,42 +23,6 @@ namespace Comets.Application.OrbitViewer
 		const int DefaultScrollHorz = 75;
 		const int DefaultScrollZoom = 145;
 
-		readonly string[] TimeStepItems =
-		{
-			"1 Hour",
-			"6 Hours",
-			"12 Hours",
-			"1 Day",
-			"3 Days",
-			"10 Days",
-			"1 Month",
-			"3 Months",
-			"6 Months",
-			"1 Year",
-			"3 Years",
-			"10 Years"
-		};
-
-		readonly ATimeSpan[] TimeStepSpan =
-		{
-			new ATimeSpan( 0, 0, 0, 1, 0, 0),
-			new ATimeSpan( 0, 0, 0, 6, 0, 0),
-			new ATimeSpan( 0, 0, 0,12, 0, 0),
-			new ATimeSpan( 0, 0, 1, 0, 0, 0),
-			new ATimeSpan( 0, 0, 3, 0, 0, 0),
-			new ATimeSpan( 0, 0,10, 0, 0, 0),
-			new ATimeSpan( 0, 1, 0, 0, 0, 0),
-			new ATimeSpan( 0, 3, 0, 0, 0, 0),
-			new ATimeSpan( 0, 6, 0, 0, 0, 0),
-			new ATimeSpan( 1, 0, 0, 0, 0, 0),
-			new ATimeSpan( 3, 0, 0, 0, 0, 0),
-			new ATimeSpan(10, 0, 0, 0, 0, 0)
-		};
-
-
-		const string LabelPart = "Label";
-		const string OrbitPart = "Orbit";
-		const string CenterPart = "Center";
 
 		#endregion
 
@@ -70,16 +36,10 @@ namespace Comets.Application.OrbitViewer
 		private Timer Timer;
 		private ATimeSpan TimeStep;
 
-		private bool ValueChangedInternal;
-
 		private CometCollection Comets;
 		private FilterCollection Filters;
 		private string SortProperty;
 		private bool SortAscending;
-
-		private List<OVComet> OVComets;
-
-		private DateTime DefaultDateTime;
 
 		#endregion
 
@@ -87,43 +47,33 @@ namespace Comets.Application.OrbitViewer
 
 		private OVComet SelectedComet
 		{
-			get { return OVComets?.ElementAtOrDefault(cboComet.SelectedIndex); }
-			set { cboComet.SelectedIndex = OVComets.IndexOf(value); }
+			get { return cometControl.SelectedComet; }
+			set { cometControl.SelectedComet = value; }
 		}
 
-		private DateTime _selectedDateTime;
 		private DateTime SelectedDateTime
 		{
-			get { return _selectedDateTime; }
+			get { return dateTimeControl.SelectedDateTime; }
 			set
 			{
-				bool isOutOfRange = FormDateTime.RangeDateTime(value, out _selectedDateTime);
-				btnDate.Text = _selectedDateTime.ToString(DateTimeFormat.Full);
+				DateTime selectedDateTime;
+				bool isOutOfRange = FormDateTime.RangeDateTime(value, out selectedDateTime);
+				dateTimeControl.SelectedDateTime = selectedDateTime;
 
 				if (isOutOfRange || (IsSimulationStarted && !ValueChangedInternal))
 					StopSimulation();
 
 				if (orbitPanel.IsPaintEnabled)
 				{
-					orbitPanel.ATime = new ATime(_selectedDateTime, _selectedDateTime.Timezone());
+					orbitPanel.ATime = new ATime(selectedDateTime, selectedDateTime.Timezone());
 					RefreshPanel();
 				}
 			}
 		}
 
-		private bool _toolboxVisible = true;
-		public bool ToolboxVisible
-		{
-			get { return _toolboxVisible; }
-			private set { _toolboxVisible = value; }
-		}
+		public bool ToolboxVisible { get; private set; } = true;
 
-		private bool _isSimulationForward = true;
-		private bool IsSimulationForward
-		{
-			get { return _isSimulationForward; }
-			set { _isSimulationForward = value; }
-		}
+		private bool IsSimulationForward { get; set; } = true;
 
 		private bool IsSimulationStarted
 		{
@@ -137,6 +87,40 @@ namespace Comets.Application.OrbitViewer
 		public OrbitViewerControl()
 		{
 			InitializeComponent();
+
+			Timer = new Timer();
+			Timer.Interval = 50;
+			Timer.Tick += new EventHandler(this.timer_Tick);
+
+			cometControl.OnSelectedCometChanged += LoadSelectedComet;
+			cometControl.OnFilter += FilterComets;
+			cometControl.OnLoadAll += LoadAllComets;
+			cometControl.OnClear += ClearComets;
+
+			modeControl.OnModeChanged += SetMode;
+
+			displayControl.OnDisplayChanged += RefreshPanel;
+			displayControl.OnOrbitDisplayChanged += ChangeOrbitDisplay;
+			displayControl.OnLabelDisplayChanged += ChangeLabelDisplay;
+			displayControl.OnCenterObjectChanged += SetCenterObject;
+			displayControl.OnPreserveSelectedOrbitChanged += SetPreserveSelectedOrbit;
+			displayControl.OnPreserveSelectedLabelChanged += SetPreserveSelectedLabel;
+			displayControl.OnShowMarkerChanged += SetShowMarker;
+
+			dateTimeControl.OnSelectedDatetimeChanged += SetDateTime;
+
+			simulationControl.OnSimulationEvent += ExecuteSimulationEvent;
+			simulationControl.OnTimespanChanged += SetTimeStep;
+
+			filterControl.OnFilterValueChanged += SetFilterOnDateValue;
+			filterControl.OnShowInWeakColorChanged += SetFilterOnDateShowInWeakColor;
+
+			infoLabelsControl.OnShowDistanceLabelChanged += SetShowDistanceLabel;
+			infoLabelsControl.OnShowDateLabelChanged += SetShowDateLabel;
+
+			miscControl.OnShowAxesChanged += SetShowAxes;
+			miscControl.OnAntialiasingChanged += SetAntialiasing;
+			miscControl.OnSaveImage += Save;
 		}
 
 		#endregion
@@ -145,21 +129,14 @@ namespace Comets.Application.OrbitViewer
 
 		public void LoadControl(CometCollection comets, FilterCollection filters, string sortProperty, bool sortAscending)
 		{
-			txtFodSunDist.Tag = new ValNum(0.0, 99.99, 2);
-			txtFodEarthDist.Tag = new ValNum(0.0, 99.99, 2);
-			txtFodMagnitude.Tag = ValNum.VMagnitude;
-
-			Timer = new Timer();
-			Timer.Interval = 50;
-			Timer.Tick += new EventHandler(this.timer_Tick);
-
 			Comets = comets;
 			Filters = filters;
 			SortProperty = sortProperty;
 			SortAscending = sortAscending;
 
-			OVComets = TransformComets(comets);
-			DefaultDateTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, 0, 0, DateTimeKind.Local);
+			dateTimeControl.DefaultDateTime
+				= SelectedDateTime
+				= new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, 0, 0, DateTimeKind.Local);
 
 			ValueChangedInternal = true;
 
@@ -167,18 +144,11 @@ namespace Comets.Application.OrbitViewer
 			scrollHorz.Value = DefaultScrollHorz;
 			scrollZoom.Value = DefaultScrollZoom;
 
-			SelectedDateTime = DefaultDateTime;
-
 			ValueChangedInternal = false;
 
-			BindCollection();
+			cometControl.BindCollection(comets);
 
-			cboTimestep.DataSource = TimeStepItems;
-			cboTimestep.SelectedIndex = 3;
-
-			ATime atime = new ATime(SelectedDateTime, SelectedDateTime.Timezone());
-			orbitPanel.LoadPanel(SelectedComet, atime);
-			RefreshPanel();
+			LoadSelectedComet();
 		}
 
 		#endregion
@@ -197,61 +167,14 @@ namespace Comets.Application.OrbitViewer
 
 		#region + ToolBox
 
-		#region Toggle
-
-		private void lblCometToggle_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-		{
-			Control linkLabel = sender as Control;
-			GroupBox gbx = linkLabel.Parent as GroupBox;
-			Panel pnl = gbx.Controls.OfType<Panel>().Single();
-
-			int minHeight = 30;
-			int maxHeight = gbx.Tag.ToString().Int();
-			int offset = maxHeight - minHeight;
-
-			pnl.InvertVisible();
-			gbx.Height = pnl.Visible ? maxHeight : minHeight;
-
-			if (!pnl.Visible)
-				offset = -offset;
-
-			foreach (Control c in pnlToolbox.Controls.OfType<GroupBox>())
-				if (c.Top > gbx.Top)
-					c.Top += offset;
-		}
-
-		#endregion
-
 		#region Comet
 
-		private void cboObject_SelectedIndexChanged(object sender, EventArgs e)
+		private void LoadSelectedComet()
 		{
-			if (!ValueChangedInternal)
-			{
-				orbitPanel.LoadPanel(SelectedComet, orbitPanel.ATime);
-				SetFormText();
-				RefreshPanel();
-			}
-		}
-
-		private void btnFilter_Click(object sender, EventArgs e)
-		{
-			FilterComets();
-		}
-
-		private void btnAll_Click(object sender, EventArgs e)
-		{
-			LoadAllComets();
-		}
-
-		private void btnClear_Click(object sender, EventArgs e)
-		{
-			ClearComets();
-		}
-
-		private void comboBoxCommon_MouseHover(object sender, EventArgs e)
-		{
-			(sender as ComboBox).Focus();
+			orbitPanel.LoadPanel(SelectedComet, orbitPanel.ATime ?? new ATime(SelectedDateTime, SelectedDateTime.Timezone()));
+			SetPerihelionDate();
+			SetFormText();
+			RefreshPanel();
 		}
 
 		private void FindComet()
@@ -265,7 +188,7 @@ namespace Comets.Application.OrbitViewer
 				ff.Location = panelLocation + margin;
 
 				if (ff.ShowDialog() == DialogResult.OK && ff.SelectedComet != null)
-					SelectedComet = OVComets.First(x => x.Name == ff.SelectedComet.full);
+					cometControl.SelectCometByName(ff.SelectedComet.full);
 			}
 		}
 
@@ -290,13 +213,12 @@ namespace Comets.Application.OrbitViewer
 					SortProperty = fdb.SortProperty;
 					SortAscending = fdb.SortAscending;
 
-					OVComets = TransformComets(Comets);
+					cometControl.BindCollection(Comets, lastSelected);
 
-					BindCollection(lastSelected);
+					if (modeControl.MultipleMode)
+						orbitPanel.LoadPanel(cometControl.Comets.ToList(), orbitPanel.ATime, cometControl.SelectedIndex);
 
-					if (rbtnMultipleMode.Checked)
-						orbitPanel.LoadPanel(OVComets.ToList(), orbitPanel.ATime, cboComet.SelectedIndex);
-
+					SetPerihelionDate();
 					SetFormText();
 					RefreshPanel();
 				}
@@ -308,16 +230,12 @@ namespace Comets.Application.OrbitViewer
 
 		private void LoadAllComets()
 		{
-			if (OVComets.Count > 0 && orbitPanel.Comets.Count != OVComets.Count)
+			if (cometControl.Comets.Count > 0 && orbitPanel.Comets.Count != cometControl.Comets.Count)
 			{
-				orbitPanel.LoadPanel(OVComets.ToList(), orbitPanel.ATime, cboComet.SelectedIndex);
+				orbitPanel.LoadPanel(cometControl.Comets.ToList(), orbitPanel.ATime, cometControl.SelectedIndex);
+				modeControl.SetMode(true);
 
 				SetFormText();
-
-				ValueChangedInternal = true;
-				rbtnMultipleMode.Checked = true;
-				ValueChangedInternal = false;
-
 				RefreshPanel();
 			}
 		}
@@ -333,293 +251,119 @@ namespace Comets.Application.OrbitViewer
 
 		#region Mode
 
-		private void rbtnMode_CheckedChanged(object sender, EventArgs e)
+		private void SetMode()
 		{
-			bool tempChanged = ValueChangedInternal;
-			ValueChangedInternal = true;
-
-			orbitPanel.MultipleMode = rbtnMultipleMode.Checked;
-
-			ValueChangedInternal = tempChanged;
+			orbitPanel.MultipleMode = modeControl.MultipleMode;
 
 			SetFormText();
-
-			if (!ValueChangedInternal)
-				RefreshPanel();
+			RefreshPanel();
 		}
 
 		#endregion
 
-		#region Orbits, Labels, Center
+		#region Display
 
-		private void btnNoOrbits_Click(object sender, EventArgs e)
+		private void ChangeOrbitDisplay(bool isChecked, Object orbit)
 		{
-			SetMultipleCheckBoxes(OrbitPart, false, true);
-		}
-
-		private void btnAllOrbits_Click(object sender, EventArgs e)
-		{
-			SetMultipleCheckBoxes(OrbitPart, true, true);
-		}
-
-		private void btnNoLabels_Click(object sender, EventArgs e)
-		{
-			SetMultipleCheckBoxes(LabelPart, false, true);
-		}
-
-		private void btnAllLabels_Click(object sender, EventArgs e)
-		{
-			SetMultipleCheckBoxes(LabelPart, true, true);
-		}
-
-		private void btnAllOrbitsLabels_Click(object sender, EventArgs e)
-		{
-			SetMultipleCheckBoxes(OrbitPart, true);
-			SetMultipleCheckBoxes(LabelPart, true);
-			RefreshPanel();
-		}
-
-		private void btnDefaultOrbitsLabels_Click(object sender, EventArgs e)
-		{
-			SetMultipleCheckBoxes(OrbitPart, true);
-			SetMultipleCheckBoxes(LabelPart, true);
-
-			ValueChangedInternal = true;
-			cbxOrbitSaturn.Checked = false;
-			cbxOrbitUranus.Checked = false;
-			cbxOrbitNeptune.Checked = false;
-			cbxOrbitComet.Checked = false;
-			cbxLabelComet.Checked = false;
-			rbtnCenterSun.Checked = true;
-			cbxSelectedOrbit.Checked = true;
-			cbxSelectedLabel.Checked = true;
-			ValueChangedInternal = false;
-
-			RefreshPanel();
-		}
-
-		private void SetMultipleCheckBoxes(string namePart, bool isChecked, bool refresh = false)
-		{
-			ValueChangedInternal = true;
-
-			foreach (CheckBox c in pnlOrbitsLabelsCenter.Controls.OfType<CheckBox>())
-			{
-				if (c.Enabled && c.Name.Contains(namePart))
-					c.Checked = isChecked;
-			}
-
-			ValueChangedInternal = false;
-
-			if (refresh)
-				RefreshPanel();
-		}
-
-		private void cbxOrbitCommon_CheckedChanged(object sender, EventArgs e)
-		{
-			CheckBox cbx = sender as CheckBox;
-			string name = cbx.Name.Replace("cbx" + OrbitPart, "");
-			Object orbit = (Object)Enum.Parse(typeof(Object), name);
-
-			if (cbx.Checked && !orbitPanel.OrbitDisplay.Contains(orbit))
+			if (isChecked && !orbitPanel.OrbitDisplay.Contains(orbit))
 				orbitPanel.OrbitDisplay.Add(orbit);
 			else
 				orbitPanel.OrbitDisplay.Remove(orbit);
-
-			if (!ValueChangedInternal)
-				RefreshPanel();
 		}
 
-		private void cbxLabelCommon_CheckedChanged(object sender, EventArgs e)
+		private void ChangeLabelDisplay(bool isChecked, Object orbit)
 		{
-			CheckBox cbx = sender as CheckBox;
-			string name = cbx.Name.Replace("cbx" + LabelPart, "");
-			Object label = (Object)Enum.Parse(typeof(Object), name);
-
-			if (cbx.Checked && !orbitPanel.LabelDisplay.Contains(label))
-				orbitPanel.LabelDisplay.Add(label);
+			if (isChecked && !orbitPanel.LabelDisplay.Contains(orbit))
+				orbitPanel.LabelDisplay.Add(orbit);
 			else
-				orbitPanel.LabelDisplay.Remove(label);
-
-			if (!ValueChangedInternal)
-				RefreshPanel();
+				orbitPanel.LabelDisplay.Remove(orbit);
 		}
 
-		private void rbtnCenterCommon_CheckedChanged(object sender, EventArgs e)
+		private void SetCenterObject(Object centerObject)
 		{
-			RadioButton rbtn = sender as RadioButton;
-			if (rbtn.Checked)
-			{
-				string name = rbtn.Name.Replace("rbtn" + CenterPart, "");
-				Object centerObject = (Object)Enum.Parse(typeof(Object), name);
-				orbitPanel.CenteredObject = centerObject;
-
-				if (!ValueChangedInternal)
-					RefreshPanel();
-			}
+			orbitPanel.CenteredObject = centerObject;
 		}
 
-		private void cbxOrbit_CheckedChanged(object sender, EventArgs e)
+		private void SetPreserveSelectedOrbit(bool preserveSelectedOrbit)
 		{
-			orbitPanel.PreserveSelectedOrbit = cbxSelectedOrbit.Checked;
-
-			if (!ValueChangedInternal)
-				RefreshPanel();
+			orbitPanel.PreserveSelectedOrbit = preserveSelectedOrbit;
 		}
 
-		private void cbxLabel_CheckedChanged(object sender, EventArgs e)
+		private void SetPreserveSelectedLabel(bool preserveSelectedLabel)
 		{
-			orbitPanel.PreserveSelectedLabel = cbxSelectedLabel.Checked;
-
-			if (!ValueChangedInternal)
-				RefreshPanel();
+			orbitPanel.PreserveSelectedLabel = preserveSelectedLabel;
 		}
 
-		private void cbxMarker_CheckedChanged(object sender, EventArgs e)
+		private void SetShowMarker(bool showMarker)
 		{
-			orbitPanel.ShowMarker = cbxMarker.Checked;
-
-			if (!ValueChangedInternal)
-				RefreshPanel();
+			orbitPanel.ShowMarker = showMarker;
 		}
 
 		private void ChangeObjectDisplay(Object obj, bool control, bool shift)
 		{
-			ValueChangedInternal = true;
-
 			if (!control && !shift)
-				ChangeCenterObject(obj);
+				displayControl.ChangeCenterObject(obj);
 			else if (control && !shift)
-				ChangeVisibleOrbit(obj);
+				displayControl.ChangeVisibleOrbit(obj, !orbitPanel.OrbitDisplay.Contains(obj));
 			else if (shift && !control)
-				ChangeVisibleLabel(obj);
-
-			ValueChangedInternal = false;
-
-			RefreshPanel();
-		}
-
-		private void ChangeVisibleOrbit(Object orbit)
-		{
-			CheckBox cbx = GetControlBoxFromObjectEnum(orbit, typeof(CheckBox), false) as CheckBox;
-
-			if (cbx != null && cbx.Enabled)
-				cbx.Checked = !orbitPanel.OrbitDisplay.Contains(orbit);
-		}
-
-		private void ChangeVisibleLabel(Object label)
-		{
-			CheckBox cbx = GetControlBoxFromObjectEnum(label, typeof(CheckBox)) as CheckBox;
-
-			if (cbx != null && cbx.Enabled)
-				cbx.Checked = !orbitPanel.LabelDisplay.Contains(label);
-		}
-
-		private void ChangeCenterObject(Object centeredObject)
-		{
-			RadioButton rbtn = GetControlBoxFromObjectEnum(centeredObject, typeof(RadioButton)) as RadioButton;
-
-			if (rbtn != null && rbtn.Enabled)
-				rbtn.Checked = true;
-		}
-
-		private Control GetControlBoxFromObjectEnum(Object obj, Type type, bool isLabel = true)
-		{
-			List<Control> controls = new List<Control>();
-			Control control = null;
-
-			foreach (Control c in pnlOrbitsLabelsCenter.Controls)
-				if (c.Name.EndsWith(obj.ToString()))
-					controls.Add(c);
-
-			string name;
-
-			if (type == typeof(CheckBox) && isLabel)
-				name = LabelPart;
-			else if (type == typeof(CheckBox) && !isLabel)
-				name = OrbitPart;
-			else //if(type == typeof(RadioButton))
-				name = CenterPart;
-
-			control = controls.First(x => x.GetType() == type && x.Name.Contains(name));
-
-			return control;
+				displayControl.ChangeVisibleLabel(obj, !orbitPanel.LabelDisplay.Contains(obj));
 		}
 
 		#endregion
 
 		#region Date and Time
 
-		private void btnDate_Click(object sender, EventArgs e)
+		private void SetDateTime(DateTime dateTime)
 		{
-			ShowDateTimeForm();
+			SelectedDateTime = dateTime;
 		}
 
-		private void ShowDateTimeForm()
+		private void SetPerihelionDate()
 		{
-			DateTime? perihelionDate = EphemerisManager.JDToLocalDateTimeSafe(SelectedComet.T);
-
-			using (FormDateTime fdt = new FormDateTime(SelectedDateTime, DefaultDateTime, perihelionDate))
-			{
-				fdt.TopMost = this.ParentForm.TopMost;
-
-				if (fdt.ShowDialog() == DialogResult.OK)
-					SelectedDateTime = fdt.SelectedDateTime;
-			}
-		}
-
-		private void btnNow_Click(object sender, EventArgs e)
-		{
-			SelectedDateTime = DateTime.Now;
-		}
-
-		private void btnPerihDate_Click(object sender, EventArgs e)
-		{
-			if (SelectedComet != null)
-				SelectedDateTime = EphemerisManager.JDToDateTime(SelectedComet.T).ToLocalTime();
+			dateTimeControl.PerihelionDate = EphemerisManager.JDToLocalDateTimeSafe(SelectedComet?.T);
 		}
 
 		#endregion
 
 		#region Simulation
 
-		private void btnRevPlay_Click(object sender, EventArgs e)
+		private void ExecuteSimulationEvent(SimulationEvent simulationEvent)
 		{
-			StartSimulation(false);
+			switch (simulationEvent)
+			{
+				case SimulationEvent.PlayBack:
+					IsSimulationForward = false;
+					StartSimulation();
+					break;
+				case SimulationEvent.StepBack:
+					StopSimulation();
+					ChangeSimulationDate(false);
+					break;
+				case SimulationEvent.Stop:
+					StopSimulation();
+					break;
+				case SimulationEvent.StepForward:
+					StopSimulation();
+					ChangeSimulationDate(true);
+					break;
+				case SimulationEvent.PlayForward:
+					IsSimulationForward = true;
+					StartSimulation();
+					break;
+			}
 		}
 
-		private void btnRevStep_Click(object sender, EventArgs e)
+		private void SetTimeStep(ATimeSpan timeStep)
 		{
-			StopSimulation();
-			ChangeDate(false);
-		}
-
-		private void btnStop_Click(object sender, EventArgs e)
-		{
-			StopSimulation();
-		}
-
-		private void btnForStep_Click(object sender, EventArgs e)
-		{
-			StopSimulation();
-			ChangeDate(true);
-		}
-
-		private void btnForPlay_Click(object sender, EventArgs e)
-		{
-			StartSimulation(true);
-		}
-
-		private void cboTimestep_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			TimeStep = TimeStepSpan[cboTimestep.SelectedIndex];
+			TimeStep = timeStep;
 		}
 
 		private void timer_Tick(object sender, EventArgs e)
 		{
-			ChangeDate(IsSimulationForward);
+			ChangeSimulationDate(IsSimulationForward);
 		}
 
-		private void ChangeDate(bool isForward)
+		private void ChangeSimulationDate(bool isForward)
 		{
 			ATime atime = orbitPanel.ATime;
 			atime.ChangeDate(TimeStep, isForward);
@@ -629,11 +373,8 @@ namespace Comets.Application.OrbitViewer
 			ValueChangedInternal = false;
 		}
 
-		private void StartSimulation(bool? isForward = null)
+		private void StartSimulation()
 		{
-			if (isForward != null)
-				IsSimulationForward = isForward.Value;
-
 			Timer.Start();
 		}
 
@@ -645,136 +386,76 @@ namespace Comets.Application.OrbitViewer
 		private void FasterSimulation()
 		{
 			if (!IsSimulationStarted)
-			{
 				StartSimulation();
-			}
 			else
-			{
-				if (cboTimestep.SelectedIndex < cboTimestep.Items.Count - 1)
-				{
-					cboTimestep.SelectedIndex++;
-				}
-			}
+				simulationControl.FasterSimulation();
 		}
 
 		private void SlowerSimulation()
 		{
 			if (!IsSimulationStarted)
-			{
 				StartSimulation();
-			}
-			else
-			{
-				if (cboTimestep.SelectedIndex > 0)
-					cboTimestep.SelectedIndex--;
-				else
-					StopSimulation();
-			}
-		}
-
-		#endregion
-
-		#region Other
-
-		private void cbxShowAxes_CheckedChanged(object sender, EventArgs e)
-		{
-			orbitPanel.ShowAxes = cbxShowAxes.Checked;
-			RefreshPanel();
-		}
-
-		private void cbxAntialiasing_CheckedChanged(object sender, EventArgs e)
-		{
-			orbitPanel.Antialiasing = cbxAntialiasing.Checked;
-			RefreshPanel();
-		}
-
-		private void cbxMagDist_CheckedChanged(object sender, EventArgs e)
-		{
-			orbitPanel.ShowDistance = cbxMagDist.Checked;
-			RefreshPanel();
-		}
-
-		private void cbxDateTime_CheckedChanged(object sender, EventArgs e)
-		{
-			orbitPanel.ShowDate = cbxDateTime.Checked;
-			RefreshPanel();
-		}
-
-		private void btnSaveImage_Click(object sender, EventArgs e)
-		{
-			Save();
+			else if (!simulationControl.SlowerSimulation())
+				StopSimulation();
 		}
 
 		#endregion
 
 		#region Filter on date
 
-		private void filterOnDateTxtCbxCommon_TextChangedCheckedChanged(object sender, EventArgs e)
+		private void SetFilterOnDateValue(FilterValue filter, double? value)
 		{
-			if (!ValueChangedInternal)
+			switch (filter)
 			{
-				TextBox txt = null;
-				CheckBox cbx = null;
-
-				bool isTxt = false;
-				bool isCbx = false;
-
-				string namePart = null;
-				double? value = null;
-
-				if (sender is TextBox)
-				{
-					txt = sender as TextBox;
-					namePart = txt.Name.Replace("txt", String.Empty);
-					cbx = pnlFilterOnDate.Controls.Find("cbx" + namePart, false).Single() as CheckBox;
-					isTxt = true;
-				}
-
-				if (sender is CheckBox)
-				{
-					cbx = sender as CheckBox;
-					namePart = cbx.Name.Replace("cbx", String.Empty);
-					txt = pnlFilterOnDate.Controls.Find("txt" + namePart, false).Single() as TextBox;
-					isCbx = true;
-				}
-
-				if (!String.IsNullOrEmpty(txt.Text) && (isTxt || (isCbx && cbx.Checked)))
-					value = txt.Double();
-
-				switch (namePart)
-				{
-					case "FodSunDist":
-						orbitPanel.FilterOnDateSunDist = value;
-						break;
-					case "FodEarthDist":
-						orbitPanel.FilterOnDateEarthDist = value;
-						break;
-					case "FodMagnitude":
-						orbitPanel.FilterOnDateMagnitude = value;
-						break;
-					default:
-						throw new NotImplementedException(txt.Name);
-				}
-
-				if (isTxt)
-				{
-					ValueChangedInternal = true;
-					cbx.Checked = value != null;
-					ValueChangedInternal = false;
-				}
-
-				RefreshPanel();
+				case FilterValue.SunDistance:
+					orbitPanel.FilterOnDateSunDist = value;
+					break;
+				case FilterValue.EarthDistance:
+					orbitPanel.FilterOnDateEarthDist = value;
+					break;
+				case FilterValue.Magnitude:
+					orbitPanel.FilterOnDateMagnitude = value;
+					break;
 			}
+
+			RefreshPanel();
 		}
 
-		private void txtFilterOnDateCommon_KeyPress(object sender, KeyPressEventArgs e)
+		private void SetFilterOnDateShowInWeakColor(bool showInWeakColor)
 		{
-			e.Handled = ValNumManager.HandleKeyPress(sender, e);
+			orbitPanel.FilterOnDateShowInWeakColor = showInWeakColor;
+			RefreshPanel();
 		}
 
-		private void cbxWeakColor_CheckedChanged(object sender, EventArgs e)
+		#endregion
+
+		#region Info labels
+
+		private void SetShowDistanceLabel(bool showDistanceLabel)
 		{
-			orbitPanel.FilterOnDateShowInWeakColor = cbxWeakColor.Checked;
+			orbitPanel.ShowDistance = showDistanceLabel;
+			RefreshPanel();
+		}
+
+		private void SetShowDateLabel(bool showDateLabel)
+		{
+			orbitPanel.ShowDate = showDateLabel;
+			RefreshPanel();
+		}
+
+		#endregion
+
+		#region Misc
+
+		private void SetShowAxes(bool showAxes)
+		{
+			orbitPanel.ShowAxes = showAxes;
+			RefreshPanel();
+		}
+
+		private void SetAntialiasing(bool antialiasing)
+		{
+			orbitPanel.Antialiasing = antialiasing;
 			RefreshPanel();
 		}
 
@@ -799,7 +480,7 @@ namespace Comets.Application.OrbitViewer
 
 		public void OrbitViewerControl_KeyDown(object sender, KeyEventArgs e)
 		{
-			if ((txtFodSunDist.Focused || txtFodEarthDist.Focused || txtFodMagnitude.Focused)
+			if (filterControl.Focused
 				&& e.KeyCode.In(Keys.D1, Keys.D2, Keys.D3, Keys.D4, Keys.D5, Keys.D6, Keys.D7, Keys.D8, Keys.D9, Keys.D0, Keys.Back))
 				return;
 
@@ -911,7 +592,7 @@ namespace Comets.Application.OrbitViewer
 				case Keys.S:
 					if (!ctrl && !shift)
 					{
-						ChangeCenterObject(Object.Sun);
+						displayControl.ChangeCenterObject(Object.Sun);
 						handled = true;
 					}
 					break;
@@ -957,7 +638,7 @@ namespace Comets.Application.OrbitViewer
 				case Keys.D:
 					if (ctrl && !shift)
 					{
-						ShowDateTimeForm();
+						dateTimeControl.ShowDateTimeForm();
 						handled = true;
 					}
 					break;
@@ -981,7 +662,7 @@ namespace Comets.Application.OrbitViewer
 				case Keys.G:
 					if (!ctrl && !shift)
 					{
-						cbxSelectedOrbit.InvertChecked();
+						displayControl.InvertSelectedCometOrbit();
 						handled = true;
 					}
 					break;
@@ -989,7 +670,7 @@ namespace Comets.Application.OrbitViewer
 				case Keys.H:
 					if (!ctrl && !shift)
 					{
-						cbxSelectedLabel.InvertChecked();
+						displayControl.InvertSelectedCometLabel();
 						handled = true;
 					}
 					break;
@@ -997,7 +678,7 @@ namespace Comets.Application.OrbitViewer
 				case Keys.M:
 					if (!ctrl && !shift)
 					{
-						cbxMarker.InvertChecked();
+						displayControl.InvertMarker();
 						handled = true;
 					}
 					break;
@@ -1026,7 +707,7 @@ namespace Comets.Application.OrbitViewer
 				case Keys.Delete:
 					if (!ctrl && !shift && orbitPanel.MultipleMode)
 					{
-						OVComets.ForEach(x => x.IsMarked = false);
+						cometControl.UnmarkComets();
 
 						if (orbitPanel.IsPaintEnabled && !IsSimulationStarted)
 							RefreshPanel();
@@ -1051,13 +732,14 @@ namespace Comets.Application.OrbitViewer
 				case Keys.I:
 					if (ctrl && !shift && SelectedComet != null)
 					{
-						Comet c = Comets.ElementAt(cboComet.SelectedIndex);
+						//dodati id i na ovcomet?
+						Comet c = Comets.ElementAt(cometControl.SelectedIndex);
 						CometManager.OpenJplInfo(c.id);
 						handled = true;
 					}
 					break;
 				default:
-					handled = !(cboComet.Focused || cboTimestep.Focused);
+					handled = !(cometControl.Focused || simulationControl.Focused);
 					break;
 			}
 
@@ -1121,43 +803,16 @@ namespace Comets.Application.OrbitViewer
 			if (!IsLeftButtonMoving && e.Button == MouseButtons.Left && orbitPanel.MultipleMode)
 			{
 				string name = orbitPanel.SelectComet(e.Location);
-				SelectedComet = OVComets.FirstOrDefault(x => x.Name == name);
+				cometControl.SelectCometByName(name);
 			}
 		}
 
 		private void orbitPanel_MouseDoubleClick(object sender, MouseEventArgs e)
 		{
-			if (e.Button == MouseButtons.Left)
+			if (e.Button == MouseButtons.Left &&
+				orbitPanel.SelectComet(e.Location) != null)
 			{
-				string name = orbitPanel.SelectComet(e.Location);
-
-				if (name != null)
-				{
-					ValueChangedInternal = true;
-					rbtnCenterComet.Checked = true;
-
-					bool isCometCentered = orbitPanel.CenterSelectedComet();
-
-					if (!isCometCentered)
-					{
-						if (cbxSelectedOrbit.Checked && !cbxSelectedLabel.Checked)
-						{
-							cbxSelectedLabel.Checked = true;
-						}
-						else if (cbxSelectedLabel.Checked && !cbxSelectedOrbit.Checked)
-						{
-							cbxSelectedOrbit.Checked = true;
-						}
-						else
-						{
-							cbxSelectedOrbit.InvertChecked();
-							cbxSelectedLabel.InvertChecked();
-						}
-					}
-
-					ValueChangedInternal = false;
-					RefreshPanel();
-				}
+				displayControl.SetDoubleClickDisplay(orbitPanel.CenterSelectedComet);
 			}
 		}
 
@@ -1259,24 +914,6 @@ namespace Comets.Application.OrbitViewer
 
 		#region Methods
 
-		private void BindCollection(string name = null)
-		{
-			ValueChangedInternal = true;
-
-			cboComet.DisplayMember = "Name";
-			cboComet.DataSource = OVComets;
-
-			if (OVComets.Count > 0)
-			{
-				if (name != null && OVComets.Any(x => x.Name == name))
-					SelectedComet = OVComets.First(x => x.Name == name);
-				else
-					SelectedComet = OVComets.OrderBy(x => Math.Abs(x.T - DateTime.Now.JD())).First(); //comet with nearest perihelion date
-			}
-
-			ValueChangedInternal = false;
-		}
-
 		private void RefreshPanel()
 		{
 			orbitPanel.Invalidate();
@@ -1286,13 +923,6 @@ namespace Comets.Application.OrbitViewer
 		{
 			ToolboxVisible = visible;
 			pnlToolbox.Visible = visible;
-		}
-
-		private List<OVComet> TransformComets(CometCollection comets)
-		{
-			List<OVComet> list = new List<OVComet>();
-			comets.ForEach(x => list.Add(new OVComet(x)));
-			return list;
 		}
 
 		public void Save()

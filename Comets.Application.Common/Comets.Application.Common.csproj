@@ -46,6 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\Common\ValueChange.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Controls\Database\ElementsControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

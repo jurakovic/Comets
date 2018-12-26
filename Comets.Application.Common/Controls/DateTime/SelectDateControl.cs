@@ -24,10 +24,7 @@ namespace Comets.Application.Common.Controls.DateAndTime
 
 		public DateTime SelectedDateTime
 		{
-			get
-			{
-				return _selectedDateTime;
-			}
+			get { return _selectedDateTime; }
 			set
 			{
 				_selectedDateTime = dateTimeMenuControl.SelectedDateTime = value;
@@ -54,7 +51,7 @@ namespace Comets.Application.Common.Controls.DateAndTime
 		public SelectDateControl()
 		{
 			InitializeComponent();
-			dateTimeMenuControl.OnSelectedDatetimeChanged += OnSelectedDatetimeChangedInternal;
+			dateTimeMenuControl.OnSelectedDatetimeChanged += SetSelectedDateTime;
 			dateTimeMenuControl.ReferenceControl = this.btnSelectDate;
 		}
 
@@ -64,20 +61,25 @@ namespace Comets.Application.Common.Controls.DateAndTime
 
 		private void btnSelectDate_Click(object sender, EventArgs e)
 		{
-			using (FormDateTime fdt = new FormDateTime(SelectedDateTime, DefaultDateTime, PerihelionDate))
-			{
-				fdt.TopMost = this.ParentForm.TopMost;
-
-				if (fdt.ShowDialog() == DialogResult.OK)
-					OnSelectedDatetimeChangedInternal(fdt.SelectedDateTime);
-			}
+			ShowDateTimeForm();
 		}
 
 		#endregion
 
 		#region Methods
 
-		private void OnSelectedDatetimeChangedInternal(DateTime dateTime)
+		public void ShowDateTimeForm()
+		{
+			using (FormDateTime fdt = new FormDateTime(SelectedDateTime, DefaultDateTime, PerihelionDate))
+			{
+				fdt.TopMost = this.ParentForm.TopMost;
+
+				if (fdt.ShowDialog() == DialogResult.OK)
+					SetSelectedDateTime(fdt.SelectedDateTime);
+			}
+		}
+
+		private void SetSelectedDateTime(DateTime dateTime)
 		{
 			SelectedDateTime = dateTime;
 			OnSelectedDatetimeChanged?.Invoke(dateTime);
