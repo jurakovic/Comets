@@ -17,7 +17,7 @@ namespace Comets.Application.OrbitViewer.Controls
 
 		#region Fields
 
-		private string _text = String.Empty;
+		private string _title = String.Empty;
 
 		#endregion
 
@@ -36,10 +36,10 @@ namespace Comets.Application.OrbitViewer.Controls
 			}
 		}
 
-		public new string Text
+		public string Title
 		{
-			get { return _text; }
-			set { _text = value; SetText(); }
+			get { return _title; }
+			set { _title = value; SetText(); }
 		}
 
 		[Category("Appearance"), DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
@@ -78,7 +78,7 @@ namespace Comets.Application.OrbitViewer.Controls
 
 		private void SetText()
 		{
-			linkLabel.Text = String.Format("{0}  {1}", IsCollapsed ? "▼" : "▲", _text.ToUpper().PadRight(255));
+			linkLabel.Text = String.Format("{0}  {1}", IsCollapsed ? "▼" : "▲", _title.ToUpper().PadRight(255));
 		}
 
 		private void MovePanels()

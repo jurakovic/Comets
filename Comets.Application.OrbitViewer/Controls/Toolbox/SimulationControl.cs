@@ -142,7 +142,8 @@ namespace Comets.Application.OrbitViewer.Controls
 
 		private void SetTimespan()
 		{
-			OnTimespanChanged(TimeStepSpan[cboTimestep.SelectedIndex]);
+			//?.Invoke because of error in designer
+			OnTimespanChanged?.Invoke(TimeStepSpan[cboTimestep.SelectedIndex]);
 		}
 
 		#endregion
