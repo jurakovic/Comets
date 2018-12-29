@@ -181,14 +181,13 @@ namespace Comets.Application.OrbitViewer
 		{
 			using (FormFind ff = new FormFind(Comets))
 			{
-				ff.TopMost = this.ParentForm.TopMost;
-
 				Point panelLocation = this.orbitPanel.PointToScreen(Point.Empty);
 				Size margin = new Size(7, 7);
-				ff.Location = panelLocation + margin;
 
-				if (ff.ShowDialog() == DialogResult.OK && ff.SelectedComet != null)
-					cometControl.SelectCometByName(ff.SelectedComet.full);
+				ff.TopMost = this.ParentForm.TopMost;
+				ff.OnSelectedCometChanged += cometControl.SelectCometByName;
+				ff.Location = panelLocation + margin;
+				ff.ShowDialog();
 			}
 		}
 

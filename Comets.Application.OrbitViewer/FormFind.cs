@@ -1,4 +1,5 @@
-﻿using Comets.Core;
+﻿using Comets.Application.Common.Controls.Common;
+using Comets.Core;
 using System;
 using System.Data;
 using System.Drawing;
@@ -8,14 +9,26 @@ using PropertyEnum = Comets.Core.Managers.CometManager.PropertyEnum;
 
 namespace Comets.OrbitViewer
 {
-	public partial class FormFind : Form
+	public partial class FormFind : ValueChangeForm
 	{
+		#region Events
+
+		public event Action<string> OnSelectedCometChanged;
+
+		#endregion
+
 		#region Properties
 
-		public Comet SelectedComet { get; private set; }
+		private OVComet SelectedComet
+		{
+			get
+			{
+				Comet c = lbxFilter.SelectedItem as Comet;
+				return c != null ? new OVComet(c) : null;
+			}
+		}
 
 		private CometCollection Comets { get; set; }
-		private CometCollection FilteredComets { get; set; }
 
 		#endregion
 
@@ -26,10 +39,6 @@ namespace Comets.OrbitViewer
 			InitializeComponent();
 
 			Comets = new CometCollection(collection.OrderBy(x => x.sortkey));
-			FilteredComets = new CometCollection(Comets);
-
-			lbxFilter.DisplayMember = PropertyEnum.full.ToString();
-			lbxFilter.DataSource = FilteredComets;
 		}
 
 		#endregion
@@ -38,20 +47,22 @@ namespace Comets.OrbitViewer
 
 		#region Form
 
-		private void FormFind_FormClosing(object sender, FormClosingEventArgs e)
+		private void FormFind_Load(object sender, EventArgs e)
 		{
-			SelectedComet = FilteredComets.ElementAtOrDefault(lbxFilter.SelectedIndex);
+			ValueChangedInternal = true;
+			BindCollection(this.Comets);
+			ValueChangedInternal = false;
 		}
 
 		#endregion
 
 		#region TextBox
 
-		private void txtInfoName_TextChanged(object sender, EventArgs e)
+		private void txtName_TextChanged(object sender, EventArgs e)
 		{
-			string text = txtInfoName.Text.ToLower();
-			FilteredComets = new CometCollection(Comets.Where(x => x.full.ToLower().Contains(text)));
-			lbxFilter.DataSource = FilteredComets;
+			string text = txtName.Text.ToLower();
+			CometCollection filteredComets = new CometCollection(Comets.Where(x => x.full.ToLower().Contains(text)));
+			BindCollection(filteredComets);
 		}
 
 		#endregion
@@ -73,6 +84,12 @@ namespace Comets.OrbitViewer
 			}
 		}
 
+		private void lbxFilter_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			if (!ValueChangedInternal)
+				OnSelectedCometChanged(SelectedComet?.Name);
+		}
+
 		private void lbxFilter_MouseDoubleClick(object sender, MouseEventArgs e)
 		{
 			this.DialogResult = DialogResult.OK;
@@ -80,6 +97,16 @@ namespace Comets.OrbitViewer
 		}
 
 		#endregion
+
+		#endregion
+
+		#region Methods
+
+		private void BindCollection(CometCollection comets)
+		{
+			lbxFilter.DisplayMember = PropertyEnum.full.ToString();
+			lbxFilter.DataSource = comets;
+		}
 
 		#endregion
 	}
