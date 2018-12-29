@@ -19,10 +19,9 @@ namespace Comets.Application.OrbitViewer
 	{
 		#region Consts
 
-		const int DefaultScrollVert = 40;
+		const int DefaultScrollVert = 20;
 		const int DefaultScrollHorz = 75;
 		const int DefaultScrollZoom = 145;
-
 
 		#endregion
 
@@ -148,7 +147,9 @@ namespace Comets.Application.OrbitViewer
 
 			cometControl.BindCollection(comets);
 
-			LoadSelectedComet();
+			//modeControl.SetMode(false);
+			//LoadSelectedComet();
+			LoadAllComets();
 		}
 
 		#endregion
@@ -231,7 +232,8 @@ namespace Comets.Application.OrbitViewer
 		{
 			if (cometControl.Comets.Count > 0 && orbitPanel.Comets.Count != cometControl.Comets.Count)
 			{
-				orbitPanel.LoadPanel(cometControl.Comets.ToList(), orbitPanel.ATime, cometControl.SelectedIndex);
+				ATime atime = orbitPanel.ATime ?? new ATime(SelectedDateTime, SelectedDateTime.Timezone());
+				orbitPanel.LoadPanel(cometControl.Comets.ToList(), atime, cometControl.SelectedIndex);
 				modeControl.SetMode(true);
 
 				SetFormText();

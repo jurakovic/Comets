@@ -51,12 +51,10 @@
 			// rbtnSingleMode
 			// 
 			this.rbtnSingleMode.AutoSize = true;
-			this.rbtnSingleMode.Checked = true;
 			this.rbtnSingleMode.Location = new System.Drawing.Point(23, 7);
 			this.rbtnSingleMode.Name = "rbtnSingleMode";
 			this.rbtnSingleMode.Size = new System.Drawing.Size(53, 17);
 			this.rbtnSingleMode.TabIndex = 0;
-			this.rbtnSingleMode.TabStop = true;
 			this.rbtnSingleMode.Text = "Single";
 			this.rbtnSingleMode.UseVisualStyleBackColor = true;
 			this.rbtnSingleMode.CheckedChanged += new System.EventHandler(this.rbtnCommon_CheckedChanged);
