@@ -296,12 +296,13 @@ namespace Comets.Application
 
 		private void menuItemDatabase_Click(object sender, EventArgs e)
 		{
-			using (FormDatabase fdb = new FormDatabase(CommonManager.MainCollection, CommonManager.Filters, CommonManager.SortProperty, CommonManager.SortAscending, false) { Owner = this })
+			using (FormDatabase fdb = new FormDatabase(CommonManager.MainCollection, true, CommonManager.Filters, CommonManager.SortProperty, CommonManager.SortAscending, false) { Owner = this })
 			{
 				fdb.TopMost = this.TopMost;
 
 				if (fdb.ShowDialog() == DialogResult.OK)
 				{
+					CommonManager.MainCollection = fdb.CometsInitial;
 					CommonManager.UserCollection = fdb.CometsFiltered;
 					CommonManager.Filters = fdb.Filters;
 					CommonManager.SortProperty = fdb.SortProperty;

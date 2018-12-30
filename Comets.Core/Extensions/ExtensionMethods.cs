@@ -45,6 +45,22 @@ namespace Comets.Core.Extensions
 
 		#endregion
 
+		#region Int
+
+		/// <summary>
+		/// Returns the value in the specified range.
+		/// </summary>
+		/// <param name="value"></param>
+		/// <param name="min"></param>
+		/// <param name="max"></param>
+		/// <returns></returns>
+		public static int Range(this int value, int min, int max)
+		{
+			return value > max ? max : value < min ? min : value;
+		}
+
+		#endregion
+
 		#region Controls
 
 		/// <summary>

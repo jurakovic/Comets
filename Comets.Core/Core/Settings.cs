@@ -15,7 +15,8 @@ namespace Comets.Core
 		public bool RememberWindowPosition { get; set; }
 		public bool NewVersionOnStartup { get; set; }
 		public bool ExitWithoutConfirm { get; set; }
-		public bool IgnoreLongCalculationWarning { get; set; }
+		public bool ShowLongCalculationConfirmation { get; set; }
+		public bool ShowDeleteCometConfirmation { get; set; }
 		public bool ShowStatusBar { get; set; }
 
 		//Window
@@ -56,7 +57,8 @@ namespace Comets.Core
 			NewVersionOnStartup = false;
 			RememberWindowPosition = true;
 			ExitWithoutConfirm = false;
-			IgnoreLongCalculationWarning = false;
+			ShowLongCalculationConfirmation = true;
+			ShowDeleteCometConfirmation = true;
 			ShowStatusBar = true;
 
 			Maximized = false;

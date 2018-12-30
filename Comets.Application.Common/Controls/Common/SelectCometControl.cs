@@ -56,7 +56,7 @@ namespace Comets.Application.Common.Controls.Common
 
 		private void btnFilter_Click(object sender, EventArgs e)
 		{
-			using (FormDatabase fdb = new FormDatabase(CommonManager.MainCollection, Filters, SortProperty, SortAscending, true) { Owner = this.ParentForm })
+			using (FormDatabase fdb = new FormDatabase(CommonManager.MainCollection, false, Filters, SortProperty, SortAscending, true) { Owner = this.ParentForm })
 			{
 				fdb.TopMost = this.ParentForm.TopMost;
 

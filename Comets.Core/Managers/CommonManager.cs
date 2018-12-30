@@ -1,5 +1,4 @@
-﻿using Comets.Core;
-using System;
+﻿using System;
 
 namespace Comets.Core.Managers
 {

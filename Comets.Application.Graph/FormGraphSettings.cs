@@ -166,7 +166,7 @@ namespace Comets.Application.Graph
 				settings.MaxGraphValueChecked = valueRangeControl.MaxValueChecked;
 				settings.MaxGraphValue = valueRangeControl.MaxValue;
 
-				if (!CommonManager.Settings.IgnoreLongCalculationWarning && !SettingsBase.ValidateCalculationAmount(settings))
+				if (!SettingsBase.ValidateCalculationAmount(settings))
 					return;
 
 				if (settings.Ephemerides == null)

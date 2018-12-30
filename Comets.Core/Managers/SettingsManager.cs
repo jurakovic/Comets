@@ -1,5 +1,4 @@
-﻿using Comets.Core;
-using Comets.Core.Extensions;
+﻿using Comets.Core.Extensions;
 using System;
 using System.IO;
 using System.Linq;
@@ -30,6 +29,7 @@ namespace Comets.Core.Managers
 				string value = String.Empty;
 
 				int exceptionCount = 0;
+				bool hasInvalidProperty = false;
 
 				string[] lines = File.ReadAllLines(SettingsIniFilename);
 				int count = lines.Count();
@@ -53,7 +53,8 @@ namespace Comets.Core.Managers
 								case "LastUpdateDate": settings.LastUpdateDate = Convert.ToDateTime(value); break;
 								case "RememberWindowPosition": settings.RememberWindowPosition = Convert.ToBoolean(value); break;
 								case "ShowStatusBar": settings.ShowStatusBar = Convert.ToBoolean(value); break;
-								case "IgnoreLongCalculationWarning": settings.IgnoreLongCalculationWarning = Convert.ToBoolean(value); break;
+								case "ShowLongCalculationConfirmation": settings.ShowLongCalculationConfirmation = Convert.ToBoolean(value); break;
+								case "ShowDeleteCometConfirmation": settings.ShowDeleteCometConfirmation = Convert.ToBoolean(value); break;
 								case "ExitWithoutConfirm": settings.ExitWithoutConfirm = Convert.ToBoolean(value); break;
 								//case "NewVersionOnStartup": settings.NewVersionOnStartup = Convert.ToBoolean(value); break; 
 
@@ -77,6 +78,8 @@ namespace Comets.Core.Managers
 								default:
 									if (ElementTypesManager.TypeName.Contains(property))
 										settings.ExternalPrograms.Add(new ExternalProgram(Array.IndexOf(ElementTypesManager.TypeName, property), value));
+									else
+										hasInvalidProperty = true;
 									break;
 							}
 						}
@@ -91,7 +94,7 @@ namespace Comets.Core.Managers
 					}
 				}
 
-				settings.IsSettingsChanged = exceptionCount > 0;
+				settings.IsSettingsChanged = exceptionCount > 0 || hasInvalidProperty;
 			}
 
 			return settings;
@@ -117,7 +120,8 @@ namespace Comets.Core.Managers
 
 			sb.AppendLine(String.Format(format, "RememberWindowPosition", settings.RememberWindowPosition));
 			sb.AppendLine(String.Format(format, "ShowStatusBar", settings.ShowStatusBar));
-			sb.AppendLine(String.Format(format, "IgnoreLongCalculationWarning", settings.IgnoreLongCalculationWarning));
+			sb.AppendLine(String.Format(format, "ShowLongCalculationConfirmation", settings.ShowLongCalculationConfirmation));
+			sb.AppendLine(String.Format(format, "ShowDeleteCometConfirmation", settings.ShowDeleteCometConfirmation));
 			sb.AppendLine(String.Format(format, "ExitWithoutConfirm", settings.ExitWithoutConfirm));
 			//sb.AppendLine(String.Format(format, "NewVersionOnStartup", settings.NewVersionOnStartup));
 			sb.AppendLine();

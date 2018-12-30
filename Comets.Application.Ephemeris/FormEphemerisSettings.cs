@@ -175,7 +175,7 @@ namespace Comets.Application.Ephemeris
 				settings.MinMagnitudeChecked = requirementsControl.MinMagnitudeChecked;
 				settings.MinMagnitudeValue = requirementsControl.MinMagnitudeValue;
 
-				if (!CommonManager.Settings.IgnoreLongCalculationWarning && !SettingsBase.ValidateCalculationAmount(settings))
+				if (!SettingsBase.ValidateCalculationAmount(settings))
 					return;
 
 				if (settings.Ephemerides == null)

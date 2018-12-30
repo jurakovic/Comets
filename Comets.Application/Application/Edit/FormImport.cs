@@ -72,7 +72,7 @@ namespace Comets.Application.Edit
 		{
 			if (ImportedComets != null)
 			{
-				using (FormDatabase fdb = new FormDatabase(ImportedComets, null, CommonManager.DefaultSortProperty, CommonManager.DefaultSortAscending, false, true) { Owner = this })
+				using (FormDatabase fdb = new FormDatabase(ImportedComets, false, null, CommonManager.DefaultSortProperty, CommonManager.DefaultSortAscending, false, true) { Owner = this })
 				{
 					fdb.TopMost = this.TopMost;
 					fdb.ShowDialog();

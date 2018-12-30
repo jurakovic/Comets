@@ -43,7 +43,8 @@ namespace Comets.Application.Edit
 			chNewVersionOnStartup.Checked = settings.NewVersionOnStartup;
 			chRememberWindowPosition.Checked = settings.RememberWindowPosition;
 			chExitWithoutConfirm.Checked = settings.ExitWithoutConfirm;
-			cbxIgnoreLongCalculationWarning.Checked = settings.IgnoreLongCalculationWarning;
+			cbxShowLongCalculationConfirmation.Checked = settings.ShowLongCalculationConfirmation;
+			cbxShowDeleteCometConfirmation.Checked = settings.ShowDeleteCometConfirmation;
 			chShowStatusBar.Checked = settings.ShowStatusBar;
 
 			rbNoProxy.Checked = !settings.UseProxy;
@@ -99,7 +100,8 @@ namespace Comets.Application.Edit
 			settings.AutomaticUpdate = chAutomaticUpdate.Checked;
 			settings.UpdateInterval = txtUpdateInterval.Int();
 			settings.NewVersionOnStartup = chNewVersionOnStartup.Checked;
-			settings.IgnoreLongCalculationWarning = cbxIgnoreLongCalculationWarning.Checked;
+			settings.ShowLongCalculationConfirmation = cbxShowLongCalculationConfirmation.Checked;
+			settings.ShowDeleteCometConfirmation = cbxShowDeleteCometConfirmation.Checked;
 			settings.ExitWithoutConfirm = chExitWithoutConfirm.Checked;
 			settings.RememberWindowPosition = chRememberWindowPosition.Checked;
 			settings.ShowStatusBar = chShowStatusBar.Checked;

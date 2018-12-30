@@ -32,7 +32,7 @@ namespace Comets.Application
 
 		#region Constructor
 
-		public FormDatabase(CometCollection collection, FilterCollection filters, string sortProperty, bool sortAscending, bool isForFiltering, bool isForImportResult = false)
+		public FormDatabase(CometCollection collection, bool deleteVisible, FilterCollection filters, string sortProperty, bool sortAscending, bool isForFiltering, bool isForImportResult = false)
 		{
 			InitializeComponent();
 
@@ -56,6 +56,8 @@ namespace Comets.Application
 			this.mnuAscNode.Tag = PropertyEnum.N.ToString();
 			this.mnuArgPeri.Tag = PropertyEnum.w.ToString();
 
+			this.btnDelete.Visible = deleteVisible;
+
 			CometsInitial = new CometCollection(collection);
 			CometsFiltered = new CometCollection(collection);
 			Filters = filters;
@@ -73,8 +75,8 @@ namespace Comets.Application
 			{
 				cbxImportResult.Visible = true;
 				cbxImportResult.DataSource = CometManager.ImportResults;
-				lbxDatabase.Top = 53;
-				lbxDatabase.Height = 354;
+				lbxDatabase.Top = 39;
+				lbxDatabase.Height = 368;
 			}
 			else
 			{
@@ -163,6 +165,24 @@ namespace Comets.Application
 			contextSort.Show(this, new Point(btn.Left + 1, btn.Top + btn.Height - 1));
 		}
 
+		private void btnDelete_Click(object sender, EventArgs e)
+		{
+			Comet c = SelectedComet;
+
+			if (c != null && SettingsBase.ValidateCometDelete(c.full))
+			{
+				int selectedIndex = lbxDatabase.SelectedIndex;
+
+				CometsFiltered.Remove(c);
+				CometsInitial.Remove(c);
+				CommonManager.IsDataChanged = true;
+
+				SortCollection();
+
+				lbxDatabase.SelectedIndex = selectedIndex.Range(0, CometsFiltered.Count - 1);
+			}
+		}
+
 		private void btnResetAllFilters_Click(object sender, EventArgs e)
 		{
 			Filters = null;
@@ -231,6 +251,36 @@ namespace Comets.Application
 
 		#region +Methods
 
+		#region BindCollection
+
+		private void BindCollection()
+		{
+			if (CometsFiltered.Count == 0)
+			{
+				//clear textboxes if no comets
+				ephemerisControl.StopTimer();
+				elementsControl.ClearData();
+				ephemerisControl.ClearData();
+			}
+
+			lbxDatabase.DataSource = CometsFiltered;
+			lbxDatabase.DisplayMember = PropertyEnum.full.ToString();
+
+			int count = CometsFiltered.Count;
+			int total = CometsInitial.Count;
+
+			string text = String.Format("Database ({0}", count);
+
+			if (count < total)
+				text += String.Format("/{0}", total);
+
+			text += " comets)";
+
+			this.Text = text;
+		}
+
+		#endregion
+
 		#region Switch
 
 		private void SwitchTab()
@@ -278,18 +328,7 @@ namespace Comets.Application
 				? new CometCollection(temp.OrderBy(x => prop.GetValue(x)))
 				: new CometCollection(temp.OrderByDescending(x => prop.GetValue(x)));
 
-			if (CometsFiltered.Count == 0)
-			{
-				//clear textboxes if no comets
-				ephemerisControl.StopTimer();
-				elementsControl.ClearData();
-				ephemerisControl.ClearData();
-			}
-
-			lbxDatabase.DataSource = CometsFiltered;
-			lbxDatabase.DisplayMember = PropertyEnum.full.ToString();
-
-			lblTotal.Text = "Comets: " + CometsFiltered.Count;
+			BindCollection();
 		}
 
 		#endregion

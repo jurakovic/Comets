@@ -31,9 +31,10 @@
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabGeneral = new System.Windows.Forms.TabPage();
 			this.gbxGeneral = new System.Windows.Forms.GroupBox();
+			this.cbxShowDeleteCometConfirmation = new System.Windows.Forms.CheckBox();
 			this.txtDownloadUrl = new System.Windows.Forms.TextBox();
 			this.lblDownloadUrl = new System.Windows.Forms.Label();
-			this.cbxIgnoreLongCalculationWarning = new System.Windows.Forms.CheckBox();
+			this.cbxShowLongCalculationConfirmation = new System.Windows.Forms.CheckBox();
 			this.lblDays = new System.Windows.Forms.Label();
 			this.txtUpdateInterval = new System.Windows.Forms.TextBox();
 			this.chShowStatusBar = new System.Windows.Forms.CheckBox();
@@ -103,8 +104,8 @@
 			// 
 			// tabControl1
 			// 
-			this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.tabControl1.Controls.Add(this.tabGeneral);
 			this.tabControl1.Controls.Add(this.tabLocation);
 			this.tabControl1.Controls.Add(this.tabPrograms);
@@ -130,11 +131,12 @@
 			// 
 			// gbxGeneral
 			// 
-			this.gbxGeneral.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.gbxGeneral.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.gbxGeneral.Controls.Add(this.cbxShowDeleteCometConfirmation);
 			this.gbxGeneral.Controls.Add(this.txtDownloadUrl);
 			this.gbxGeneral.Controls.Add(this.lblDownloadUrl);
-			this.gbxGeneral.Controls.Add(this.cbxIgnoreLongCalculationWarning);
+			this.gbxGeneral.Controls.Add(this.cbxShowLongCalculationConfirmation);
 			this.gbxGeneral.Controls.Add(this.lblDays);
 			this.gbxGeneral.Controls.Add(this.txtUpdateInterval);
 			this.gbxGeneral.Controls.Add(this.chShowStatusBar);
@@ -147,6 +149,16 @@
 			this.gbxGeneral.Size = new System.Drawing.Size(669, 285);
 			this.gbxGeneral.TabIndex = 0;
 			this.gbxGeneral.TabStop = false;
+			// 
+			// cbxShowDeleteCometConfirmation
+			// 
+			this.cbxShowDeleteCometConfirmation.AutoSize = true;
+			this.cbxShowDeleteCometConfirmation.Location = new System.Drawing.Point(13, 160);
+			this.cbxShowDeleteCometConfirmation.Name = "cbxShowDeleteCometConfirmation";
+			this.cbxShowDeleteCometConfirmation.Size = new System.Drawing.Size(179, 17);
+			this.cbxShowDeleteCometConfirmation.TabIndex = 9;
+			this.cbxShowDeleteCometConfirmation.Text = "Show delete comet confirmation";
+			this.cbxShowDeleteCometConfirmation.UseVisualStyleBackColor = true;
 			// 
 			// txtDownloadUrl
 			// 
@@ -164,15 +176,15 @@
 			this.lblDownloadUrl.TabIndex = 0;
 			this.lblDownloadUrl.Text = "Download URL:";
 			// 
-			// cbxIgnoreLongCalculationWarning
+			// cbxShowLongCalculationConfirmation
 			// 
-			this.cbxIgnoreLongCalculationWarning.AutoSize = true;
-			this.cbxIgnoreLongCalculationWarning.Location = new System.Drawing.Point(13, 125);
-			this.cbxIgnoreLongCalculationWarning.Name = "cbxIgnoreLongCalculationWarning";
-			this.cbxIgnoreLongCalculationWarning.Size = new System.Drawing.Size(175, 17);
-			this.cbxIgnoreLongCalculationWarning.TabIndex = 6;
-			this.cbxIgnoreLongCalculationWarning.Text = "Ignore long calculation warning";
-			this.cbxIgnoreLongCalculationWarning.UseVisualStyleBackColor = true;
+			this.cbxShowLongCalculationConfirmation.AutoSize = true;
+			this.cbxShowLongCalculationConfirmation.Location = new System.Drawing.Point(13, 125);
+			this.cbxShowLongCalculationConfirmation.Name = "cbxShowLongCalculationConfirmation";
+			this.cbxShowLongCalculationConfirmation.Size = new System.Drawing.Size(175, 17);
+			this.cbxShowLongCalculationConfirmation.TabIndex = 6;
+			this.cbxShowLongCalculationConfirmation.Text = "Ignore long calculation warning";
+			this.cbxShowLongCalculationConfirmation.UseVisualStyleBackColor = true;
 			// 
 			// lblDays
 			// 
@@ -198,7 +210,7 @@
 			// chShowStatusBar
 			// 
 			this.chShowStatusBar.AutoSize = true;
-			this.chShowStatusBar.Location = new System.Drawing.Point(13, 195);
+			this.chShowStatusBar.Location = new System.Drawing.Point(13, 230);
 			this.chShowStatusBar.Name = "chShowStatusBar";
 			this.chShowStatusBar.Size = new System.Drawing.Size(104, 17);
 			this.chShowStatusBar.TabIndex = 8;
@@ -208,7 +220,7 @@
 			// chExitWithoutConfirm
 			// 
 			this.chExitWithoutConfirm.AutoSize = true;
-			this.chExitWithoutConfirm.Location = new System.Drawing.Point(13, 160);
+			this.chExitWithoutConfirm.Location = new System.Drawing.Point(13, 195);
 			this.chExitWithoutConfirm.Name = "chExitWithoutConfirm";
 			this.chExitWithoutConfirm.Size = new System.Drawing.Size(121, 17);
 			this.chExitWithoutConfirm.TabIndex = 7;
@@ -218,7 +230,7 @@
 			// chNewVersionOnStartup
 			// 
 			this.chNewVersionOnStartup.AutoSize = true;
-			this.chNewVersionOnStartup.Location = new System.Drawing.Point(13, 230);
+			this.chNewVersionOnStartup.Location = new System.Drawing.Point(13, 265);
 			this.chNewVersionOnStartup.Name = "chNewVersionOnStartup";
 			this.chNewVersionOnStartup.Size = new System.Drawing.Size(186, 17);
 			this.chNewVersionOnStartup.TabIndex = 0;
@@ -259,8 +271,8 @@
 			// 
 			// gbxLocation
 			// 
-			this.gbxLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.gbxLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.gbxLocation.Controls.Add(this.cbxEastWest);
 			this.gbxLocation.Controls.Add(this.cbxNorthSouth);
 			this.gbxLocation.Controls.Add(this.lblLonDeg);
@@ -282,8 +294,8 @@
 			this.cbxEastWest.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cbxEastWest.FormattingEnabled = true;
 			this.cbxEastWest.Items.AddRange(new object[] {
-			"East",
-			"West"});
+            "East",
+            "West"});
 			this.cbxEastWest.Location = new System.Drawing.Point(181, 182);
 			this.cbxEastWest.Name = "cbxEastWest";
 			this.cbxEastWest.Size = new System.Drawing.Size(100, 21);
@@ -294,8 +306,8 @@
 			this.cbxNorthSouth.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cbxNorthSouth.FormattingEnabled = true;
 			this.cbxNorthSouth.Items.AddRange(new object[] {
-			"North",
-			"South"});
+            "North",
+            "South"});
 			this.cbxNorthSouth.Location = new System.Drawing.Point(181, 115);
 			this.cbxNorthSouth.Name = "cbxNorthSouth";
 			this.cbxNorthSouth.Size = new System.Drawing.Size(100, 21);
@@ -331,8 +343,8 @@
 			// 
 			// txtLongitude
 			// 
-			this.txtLongitude.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.txtLongitude.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.txtLongitude.Location = new System.Drawing.Point(31, 182);
 			this.txtLongitude.MaxLength = 100;
 			this.txtLongitude.Name = "txtLongitude";
@@ -342,8 +354,8 @@
 			// 
 			// txtName
 			// 
-			this.txtName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.txtName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.txtName.Location = new System.Drawing.Point(31, 48);
 			this.txtName.MaxLength = 128;
 			this.txtName.Name = "txtName";
@@ -362,8 +374,8 @@
 			// 
 			// txtLatitude
 			// 
-			this.txtLatitude.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.txtLatitude.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.txtLatitude.Location = new System.Drawing.Point(31, 115);
 			this.txtLatitude.MaxLength = 100;
 			this.txtLatitude.Name = "txtLatitude";
@@ -394,8 +406,8 @@
 			// 
 			// gbxPrograms
 			// 
-			this.gbxPrograms.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.gbxPrograms.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.gbxPrograms.Controls.Add(this.dgvPrograms);
 			this.gbxPrograms.Controls.Add(this.btnClear);
 			this.gbxPrograms.Controls.Add(this.btnRemove);
@@ -415,8 +427,8 @@
 			this.dgvPrograms.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
 			this.dgvPrograms.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dgvPrograms.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-			this.colProgram,
-			this.colDirectory});
+            this.colProgram,
+            this.colDirectory});
 			this.dgvPrograms.Location = new System.Drawing.Point(3, 10);
 			this.dgvPrograms.MultiSelect = false;
 			this.dgvPrograms.Name = "dgvPrograms";
@@ -486,8 +498,8 @@
 			// 
 			// gbxAddProgram
 			// 
-			this.gbxAddProgram.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.gbxAddProgram.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.gbxAddProgram.Controls.Add(this.txtDirectory);
 			this.gbxAddProgram.Controls.Add(this.lblDirectory);
 			this.gbxAddProgram.Controls.Add(this.btnBrowse);
@@ -504,8 +516,8 @@
 			// 
 			// txtDirectory
 			// 
-			this.txtDirectory.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.txtDirectory.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.txtDirectory.Location = new System.Drawing.Point(155, 115);
 			this.txtDirectory.Name = "txtDirectory";
 			this.txtDirectory.Size = new System.Drawing.Size(499, 21);
@@ -585,8 +597,8 @@
 			// 
 			// gbxNetwork
 			// 
-			this.gbxNetwork.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.gbxNetwork.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.gbxNetwork.Controls.Add(this.pnlProxy);
 			this.gbxNetwork.Controls.Add(this.rbManualProxy);
 			this.gbxNetwork.Controls.Add(this.rbNoProxy);
@@ -626,8 +638,8 @@
 			// 
 			// txtPort
 			// 
-			this.txtPort.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.txtPort.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.txtPort.Location = new System.Drawing.Point(28, 109);
 			this.txtPort.MaxLength = 5;
 			this.txtPort.Name = "txtPort";
@@ -646,8 +658,8 @@
 			// 
 			// txtProxy
 			// 
-			this.txtProxy.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.txtProxy.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.txtProxy.Location = new System.Drawing.Point(28, 42);
 			this.txtProxy.MaxLength = 128;
 			this.txtProxy.Name = "txtProxy";
@@ -666,8 +678,8 @@
 			// 
 			// txtUsername
 			// 
-			this.txtUsername.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.txtUsername.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.txtUsername.Location = new System.Drawing.Point(273, 109);
 			this.txtUsername.MaxLength = 256;
 			this.txtUsername.Name = "txtUsername";
@@ -676,8 +688,8 @@
 			// 
 			// txtPassword
 			// 
-			this.txtPassword.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.txtPassword.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.txtPassword.Location = new System.Drawing.Point(273, 176);
 			this.txtPassword.MaxLength = 256;
 			this.txtPassword.Name = "txtPassword";
@@ -697,8 +709,8 @@
 			// 
 			// txtDomain
 			// 
-			this.txtDomain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.txtDomain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.txtDomain.Location = new System.Drawing.Point(273, 42);
 			this.txtDomain.MaxLength = 256;
 			this.txtDomain.Name = "txtDomain";
@@ -861,8 +873,9 @@
 		private System.Windows.Forms.DataGridViewTextBoxColumn colDirectory;
 		private System.Windows.Forms.TextBox txtUpdateInterval;
 		private System.Windows.Forms.Label lblDays;
-		private System.Windows.Forms.CheckBox cbxIgnoreLongCalculationWarning;
+		private System.Windows.Forms.CheckBox cbxShowLongCalculationConfirmation;
 		private System.Windows.Forms.TextBox txtDownloadUrl;
 		private System.Windows.Forms.Label lblDownloadUrl;
+		private System.Windows.Forms.CheckBox cbxShowDeleteCometConfirmation;
 	}
 }

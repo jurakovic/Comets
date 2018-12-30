@@ -55,15 +55,15 @@
 			this.pnlDetails = new System.Windows.Forms.Panel();
 			this.tbcDetails = new System.Windows.Forms.TabControl();
 			this.tbpEphemeris = new System.Windows.Forms.TabPage();
-			this.ephemerisControl = new Common.Controls.Database.EphemerisControl();
+			this.ephemerisControl = new Comets.Application.Common.Controls.Database.EphemerisControl();
 			this.tbpElements = new System.Windows.Forms.TabPage();
-			this.elementsControl = new Common.Controls.Database.ElementsControl();
+			this.elementsControl = new Comets.Application.Common.Controls.Database.ElementsControl();
 			this.btnCancel = new System.Windows.Forms.Button();
 			this.btnResetAllFilters = new System.Windows.Forms.Button();
-			this.lblTotal = new System.Windows.Forms.Label();
 			this.cbxImportResult = new System.Windows.Forms.ComboBox();
 			this.lblImportResult = new System.Windows.Forms.Label();
-			this.filterControl = new Common.Controls.Database.FilterControl();
+			this.filterControl = new Comets.Application.Common.Controls.Database.FilterControl();
+			this.btnDelete = new System.Windows.Forms.Button();
 			this.pnlDetails.SuspendLayout();
 			this.tbcDetails.SuspendLayout();
 			this.tbpEphemeris.SuspendLayout();
@@ -75,16 +75,16 @@
 			this.lbxDatabase.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
 			this.lbxDatabase.FormattingEnabled = true;
 			this.lbxDatabase.ItemHeight = 14;
-			this.lbxDatabase.Location = new System.Drawing.Point(10, 53);
+			this.lbxDatabase.Location = new System.Drawing.Point(10, 39);
 			this.lbxDatabase.Name = "lbxDatabase";
-			this.lbxDatabase.Size = new System.Drawing.Size(238, 354);
+			this.lbxDatabase.Size = new System.Drawing.Size(238, 368);
 			this.lbxDatabase.TabIndex = 2;
 			this.lbxDatabase.SelectedIndexChanged += new System.EventHandler(this.lbxDatabase_SelectedIndexChanged);
 			this.lbxDatabase.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lbxDatabase_MouseDoubleClick);
 			// 
 			// btnFilters
 			// 
-			this.btnFilters.Location = new System.Drawing.Point(702, 18);
+			this.btnFilters.Location = new System.Drawing.Point(702, 10);
 			this.btnFilters.Name = "btnFilters";
 			this.btnFilters.Size = new System.Drawing.Size(100, 23);
 			this.btnFilters.TabIndex = 6;
@@ -94,7 +94,7 @@
 			// 
 			// btnSort
 			// 
-			this.btnSort.Location = new System.Drawing.Point(273, 18);
+			this.btnSort.Location = new System.Drawing.Point(258, 10);
 			this.btnSort.Name = "btnSort";
 			this.btnSort.Size = new System.Drawing.Size(100, 23);
 			this.btnSort.TabIndex = 3;
@@ -108,7 +108,7 @@
 			this.btnOk.Location = new System.Drawing.Point(598, 384);
 			this.btnOk.Name = "btnOk";
 			this.btnOk.Size = new System.Drawing.Size(100, 23);
-			this.btnOk.TabIndex = 6;
+			this.btnOk.TabIndex = 7;
 			this.btnOk.Text = "OK";
 			this.btnOk.UseVisualStyleBackColor = true;
 			// 
@@ -338,14 +338,14 @@
 			this.btnCancel.Location = new System.Drawing.Point(702, 384);
 			this.btnCancel.Name = "btnCancel";
 			this.btnCancel.Size = new System.Drawing.Size(100, 23);
-			this.btnCancel.TabIndex = 7;
+			this.btnCancel.TabIndex = 8;
 			this.btnCancel.Text = "Cancel";
 			this.btnCancel.UseVisualStyleBackColor = true;
 			// 
 			// btnResetAllFilters
 			// 
 			this.btnResetAllFilters.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.btnResetAllFilters.Location = new System.Drawing.Point(599, 18);
+			this.btnResetAllFilters.Location = new System.Drawing.Point(599, 10);
 			this.btnResetAllFilters.Name = "btnResetAllFilters";
 			this.btnResetAllFilters.Size = new System.Drawing.Size(100, 23);
 			this.btnResetAllFilters.TabIndex = 5;
@@ -353,21 +353,12 @@
 			this.btnResetAllFilters.UseVisualStyleBackColor = true;
 			this.btnResetAllFilters.Click += new System.EventHandler(this.btnResetAllFilters_Click);
 			// 
-			// lblTotal
-			// 
-			this.lblTotal.AutoSize = true;
-			this.lblTotal.Location = new System.Drawing.Point(426, 22);
-			this.lblTotal.Name = "lblTotal";
-			this.lblTotal.Size = new System.Drawing.Size(50, 13);
-			this.lblTotal.TabIndex = 4;
-			this.lblTotal.Text = "Comets: ";
-			// 
 			// cbxImportResult
 			// 
 			this.cbxImportResult.BackColor = System.Drawing.SystemColors.Window;
 			this.cbxImportResult.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cbxImportResult.FormattingEnabled = true;
-			this.cbxImportResult.Location = new System.Drawing.Point(89, 19);
+			this.cbxImportResult.Location = new System.Drawing.Point(89, 11);
 			this.cbxImportResult.Name = "cbxImportResult";
 			this.cbxImportResult.Size = new System.Drawing.Size(159, 21);
 			this.cbxImportResult.TabIndex = 1;
@@ -376,7 +367,7 @@
 			// lblImportResult
 			// 
 			this.lblImportResult.AutoSize = true;
-			this.lblImportResult.Location = new System.Drawing.Point(8, 22);
+			this.lblImportResult.Location = new System.Drawing.Point(8, 14);
 			this.lblImportResult.Name = "lblImportResult";
 			this.lblImportResult.Size = new System.Drawing.Size(73, 13);
 			this.lblImportResult.TabIndex = 0;
@@ -388,9 +379,19 @@
 			this.filterControl.Location = new System.Drawing.Point(253, 47);
 			this.filterControl.Name = "filterControl";
 			this.filterControl.Size = new System.Drawing.Size(549, 360);
-			this.filterControl.TabIndex = 8;
+			this.filterControl.TabIndex = 0;
 			this.filterControl.Visible = false;
 			this.filterControl.VisibleChanged += new System.EventHandler(this.filterControl_VisibleChanged);
+			// 
+			// btnDelete
+			// 
+			this.btnDelete.Location = new System.Drawing.Point(361, 10);
+			this.btnDelete.Name = "btnDelete";
+			this.btnDelete.Size = new System.Drawing.Size(100, 23);
+			this.btnDelete.TabIndex = 4;
+			this.btnDelete.Text = "Delete";
+			this.btnDelete.UseVisualStyleBackColor = true;
+			this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
 			// 
 			// FormDatabase
 			// 
@@ -398,17 +399,17 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(813, 417);
-			this.Controls.Add(this.filterControl);
+			this.Controls.Add(this.btnDelete);
 			this.Controls.Add(this.cbxImportResult);
 			this.Controls.Add(this.btnResetAllFilters);
-			this.Controls.Add(this.lblTotal);
 			this.Controls.Add(this.btnFilters);
 			this.Controls.Add(this.btnSort);
 			this.Controls.Add(this.lbxDatabase);
+			this.Controls.Add(this.lblImportResult);
+			this.Controls.Add(this.filterControl);
+			this.Controls.Add(this.pnlDetails);
 			this.Controls.Add(this.btnOk);
 			this.Controls.Add(this.btnCancel);
-			this.Controls.Add(this.lblImportResult);
-			this.Controls.Add(this.pnlDetails);
 			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.KeyPreview = true;
@@ -449,7 +450,6 @@
 		private System.Windows.Forms.MenuItem mnuDesc;
 		private System.Windows.Forms.Panel pnlDetails;
 		private System.Windows.Forms.Button btnCancel;
-		private System.Windows.Forms.Label lblTotal;
 		private System.Windows.Forms.MenuItem mnuPerihEarthDist;
 		private System.Windows.Forms.MenuItem mnuIncl;
 		private System.Windows.Forms.MenuItem mnuCurrSunDist;
@@ -468,5 +468,6 @@
 		private Common.Controls.Database.EphemerisControl ephemerisControl;
 		private Common.Controls.Database.ElementsControl elementsControl;
 		private Common.Controls.Database.FilterControl filterControl;
+		private System.Windows.Forms.Button btnDelete;
 	}
 }

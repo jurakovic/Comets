@@ -28,9 +28,8 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
-			this.mainMenu = new System.Windows.Forms.MainMenu(this.components);
+			this.mainMenu = new System.Windows.Forms.MainMenu();
 			this.menuItemFile = new System.Windows.Forms.MenuItem();
 			this.menuItemFileEphemeris = new System.Windows.Forms.MenuItem();
 			this.menuItemFileGraph = new System.Windows.Forms.MenuItem();
