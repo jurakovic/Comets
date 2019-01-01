@@ -35,11 +35,14 @@
 			// 
 			// pnlDateTime
 			// 
+			this.pnlDateTime.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.pnlDateTime.BackColor = System.Drawing.SystemColors.ControlDark;
 			this.pnlDateTime.Controls.Add(this.selectDateControl);
 			this.pnlDateTime.Location = new System.Drawing.Point(0, 0);
 			this.pnlDateTime.Name = "pnlDateTime";
-			this.pnlDateTime.Size = new System.Drawing.Size(173, 32);
+			this.pnlDateTime.Size = new System.Drawing.Size(173, 31);
 			this.pnlDateTime.TabIndex = 0;
 			// 
 			// selectDateControl
@@ -59,7 +62,7 @@
 			this.Controls.Add(this.pnlDateTime);
 			this.Font = new System.Drawing.Font("Tahoma", 8.25F);
 			this.Name = "DateTimeControl";
-			this.Size = new System.Drawing.Size(173, 32);
+			this.Size = new System.Drawing.Size(173, 31);
 			this.pnlDateTime.ResumeLayout(false);
 			this.ResumeLayout(false);
 

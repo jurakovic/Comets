@@ -95,6 +95,11 @@ namespace Comets.OrbitViewer
 		/// </summary>
 		public bool IsMarked { get; set; }
 
+		/// <summary>
+		/// Is Comet shown on panel
+		/// </summary>
+		public bool IsVisible { get; set; }
+
 		#endregion
 
 		#region Constructor

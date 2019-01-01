@@ -87,8 +87,6 @@ namespace Comets.OrbitViewer
 		private List<CometOrbit> CometOrbits;
 		private List<Xyz> CometsPos;
 
-		private List<int> OrbitHistory;
-
 		private Dictionary<Object, PlanetOrbit> PlanetsOrbit;
 		private Dictionary<Object, Xyz> PlanetsPos;
 		private double EpochPlanetOrbit;
@@ -246,8 +244,6 @@ namespace Comets.OrbitViewer
 			CometOrbits = new List<CometOrbit>();
 			CometsPos = new List<Xyz>();
 
-			OrbitHistory = new List<int>();
-
 			OrbitDisplay = DefaultOrbitDisplay;
 			LabelDisplay = Planets.ToList(); //DefaultLabelDisplay
 			CenteredObject = DefaultCenterObject;
@@ -284,7 +280,6 @@ namespace Comets.OrbitViewer
 			}
 
 			SelectedIndex = Comets.IndexOf(comet);
-			OrbitHistoryAdd(SelectedIndex);
 
 			ATime = atime;
 			UpdatePlanetOrbit(atime);
@@ -300,7 +295,6 @@ namespace Comets.OrbitViewer
 
 			Comets.Clear();
 			CometOrbits.Clear();
-			OrbitHistory.Clear();
 
 			Comets = comets;
 
@@ -308,7 +302,6 @@ namespace Comets.OrbitViewer
 			foreach (OVComet c in Comets)
 			{
 				CometOrbits.Add(new CometOrbit(c));
-				OrbitHistoryAdd(ix);
 
 				if (c.IsMarked && !marked.Contains(c))
 					c.IsMarked = false;
@@ -318,7 +311,6 @@ namespace Comets.OrbitViewer
 
 			SelectedIndex = index;
 			CenteredIndex = index;
-			OrbitHistoryAdd(SelectedIndex);
 
 			ATime = atime;
 			UpdatePlanetOrbit(atime);
@@ -529,7 +521,18 @@ namespace Comets.OrbitViewer
 
 				Comets.ForEach(c => CometsPos.Add(c.GetPos(atime.JD)));
 				Planets.ForEach(p => PlanetsPos[p] = Planet.GetPos(p, atime));
+
+				UpdateCometVisibility();
 			}
+		}
+
+		#endregion
+
+		#region UpdateCometVisibility
+
+		public void UpdateCometVisibility()
+		{
+			Comets.ForEach(c => c.IsVisible = GetCometVisibility(c, FilterOnDateSunDist, FilterOnDateEarthDist, FilterOnDateMagnitude));
 		}
 
 		#endregion
@@ -629,25 +632,24 @@ namespace Comets.OrbitViewer
 
 			for (int i = 0; i < Comets.Count; i++)
 			{
-				bool visibleComet = GetCometVisibility(Comets[i], FilterOnDateSunDist, FilterOnDateEarthDist, FilterOnDateMagnitude);
+				bool visibleComet = Comets[i].IsVisible; //GetCometVisibility(Comets[i], FilterOnDateSunDist, FilterOnDateEarthDist, FilterOnDateMagnitude);
 				bool visibleSelected = PreserveSelectedOrbit && i == SelectedIndex;
-				bool visibleOrbit = OrbitDisplay.Contains(Object.Comet) && OrbitHistory.Contains(i);
+				bool visibleOrbit = OrbitDisplay.Contains(Object.Comet);
 				bool isCometMarked = Comets[i].IsMarked;
 
 				bool useWeakColor = false;
-				bool useSelectedColor = visibleSelected &&
-					((OrbitDisplay.Contains(Object.Comet) && MultipleMode && Comets.Count > 1) ||
-					(!OrbitDisplay.Contains(Object.Comet) && (markedCount > 0 && !isCometMarked) || (markedCount > 1 && isCometMarked)));
+				bool useSelectedColor = visibleSelected && MultipleMode &&
+					((markedCount > 0 && !isCometMarked) || (markedCount > 1 && isCometMarked));
 
 				if (!visibleComet)
 				{
 					useWeakColor = FilterOnDateShowInWeakColor && !visibleSelected && !isCometMarked;
 
-					if (!FilterOnDateShowInWeakColor)
-						visibleOrbit = visibleSelected;
+					//if (!FilterOnDateShowInWeakColor)
+					//	visibleOrbit = visibleSelected;
 				}
 
-				if (visibleOrbit || visibleSelected || isCometMarked)
+				if (/*visibleOrbit ||*/ visibleSelected || isCometMarked)
 				{
 					Xyz xyz = CometOrbits[i].GetAt(0).Rotate(MtxToEcl).Rotate(MtxRotate);
 					Pen pen = new Pen(Color.White);
@@ -692,7 +694,7 @@ namespace Comets.OrbitViewer
 				int diameter = 2;
 				Color color = Color.Black;
 
-				bool visibleComet = GetCometVisibility(Comets[i], FilterOnDateSunDist, FilterOnDateEarthDist, FilterOnDateMagnitude);
+				bool visibleComet = Comets[i].IsVisible;
 				bool visibleSelected = PreserveSelectedLabel && i == SelectedIndex;
 				bool visibleLabel = LabelDisplay.Contains(Object.Comet);
 				bool visibleMarker = ShowMarker && i == SelectedIndex;
@@ -836,7 +838,6 @@ namespace Comets.OrbitViewer
 
 			Comets.Clear();
 			CometOrbits.Clear();
-			OrbitHistory.Clear();
 			SelectedIndex = -1;
 			CenteredIndex = -1;
 
@@ -846,7 +847,6 @@ namespace Comets.OrbitViewer
 				CometOrbits.Add(new CometOrbit(comet));
 
 				SelectedIndex = 0;
-				OrbitHistoryAdd(SelectedIndex);
 
 				UpdatePositions(ATime);
 				UpdatePlanetOrbit(ATime);
@@ -867,6 +867,7 @@ namespace Comets.OrbitViewer
 			int maxY = point.Y + range;
 
 			OVComet comet = Comets.FirstOrDefault(c =>
+				(c.IsVisible || c.IsMarked || FilterOnDateShowInWeakColor) &&
 				c.PanelLocation.X >= minX && c.PanelLocation.X <= maxX &&
 				c.PanelLocation.Y >= minY && c.PanelLocation.Y <= maxY);
 
@@ -982,21 +983,6 @@ namespace Comets.OrbitViewer
 			}
 
 			return retval;
-		}
-
-		#endregion
-
-		#region OrbitHistoryAdd
-
-		private void OrbitHistoryAdd(int index)
-		{
-			if (OrbitHistory.Contains(index))
-				OrbitHistory.Remove(index);
-
-			OrbitHistory.Add(index);
-
-			if (OrbitHistory.Count > MaximumOrbits)
-				OrbitHistory.RemoveAt(0);
 		}
 
 		#endregion

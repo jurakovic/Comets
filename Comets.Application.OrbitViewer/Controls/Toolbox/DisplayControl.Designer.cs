@@ -255,9 +255,9 @@
 			this.cbxMarker.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.cbxMarker.Location = new System.Drawing.Point(4, 209);
 			this.cbxMarker.Name = "cbxMarker";
-			this.cbxMarker.Size = new System.Drawing.Size(59, 17);
+			this.cbxMarker.Size = new System.Drawing.Size(135, 17);
 			this.cbxMarker.TabIndex = 36;
-			this.cbxMarker.Text = "Marker";
+			this.cbxMarker.Text = "Selected comet marker";
 			this.cbxMarker.UseVisualStyleBackColor = true;
 			this.cbxMarker.CheckedChanged += new System.EventHandler(this.cbxMarker_CheckedChanged);
 			// 
@@ -620,6 +620,7 @@
 			// cbxOrbitComet
 			// 
 			this.cbxOrbitComet.AutoSize = true;
+			this.cbxOrbitComet.Enabled = false;
 			this.cbxOrbitComet.Location = new System.Drawing.Point(140, 23);
 			this.cbxOrbitComet.Name = "cbxOrbitComet";
 			this.cbxOrbitComet.Size = new System.Drawing.Size(15, 14);

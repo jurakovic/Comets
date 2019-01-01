@@ -25,8 +25,8 @@
     Mouse controls
 --------------------------
 
- Left click (on comet)           Select comet
- Left click (on no comet)        Clear selection
+ Left click on comet             Select comet
+ Left click on no comet          Clear selection (alt. Backspace)
  Left double click (on comet)    If comet not selected, select and center
                                  comet, otherwise toggle on/off selected
                                  comet orbit/label
@@ -37,9 +37,8 @@
     Keyboard shortcuts
 --------------------------
 
+ Ctrl + T                        Toggle on/off toolbox
  Ctrl + Shift + F                Filter comets
- Ctrl + Shift + A                Load all comets
- Ctrl + Shift + C                Clear comets
 
  S / 0                           Center on Sun
  1 - 8                           Center on planet
@@ -52,8 +51,8 @@
  Ctrl + I                        JPL Info
  Ctrl + F                        Find comet
  Ctrl + D                        Select date
- Ctrl + N                        Set current date
- Ctrl + B                        Set perihelion date of selected comet
+ Ctrl + N                        Set date to current date
+ Ctrl + B                        Set date to perihelion date of selected comet
 
  Left, Right, Up, Down           Rotate
  + / Q                           Zoom in
@@ -68,6 +67,6 @@
  H                               Toggle on/off selected comet label
  M                               Toggle on/off selected comet marker
 
- Backspace                       Clear selection
+ Backspace                       Clear selection (alt. Left click on no comet)
  Enter                           Mark/unmark selected comet
  Delete                          Clear marks

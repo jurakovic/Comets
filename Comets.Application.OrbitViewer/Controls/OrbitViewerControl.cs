@@ -93,8 +93,7 @@ namespace Comets.Application.OrbitViewer
 
 			cometControl.OnSelectedCometChanged += LoadSelectedComet;
 			cometControl.OnFilter += FilterComets;
-			cometControl.OnLoadAll += LoadAllComets;
-			cometControl.OnClear += ClearComets;
+			cometControl.OnMark += MarkComet;
 
 			modeControl.OnModeChanged += SetMode;
 
@@ -192,6 +191,18 @@ namespace Comets.Application.OrbitViewer
 			}
 		}
 
+		private void MarkComet()
+		{
+			if (orbitPanel.MultipleMode)
+			{
+				if (SelectedComet != null)
+					SelectedComet.IsMarked = !SelectedComet.IsMarked;
+
+				if (orbitPanel.IsPaintEnabled && !IsSimulationStarted)
+					RefreshPanel();
+			}
+		}
+
 		private void FilterComets()
 		{
 			bool simStarted = IsSimulationStarted;
@@ -241,20 +252,18 @@ namespace Comets.Application.OrbitViewer
 			}
 		}
 
-		private void ClearComets()
-		{
-			orbitPanel.ClearComets();
-			SetFormText();
-			RefreshPanel();
-		}
-
 		#endregion
 
 		#region Mode
 
-		private void SetMode()
+		private void SetMode(bool isMultiple)
 		{
-			orbitPanel.MultipleMode = modeControl.MultipleMode;
+			orbitPanel.MultipleMode = isMultiple;
+
+			if (isMultiple)
+				LoadAllComets();
+			//else
+			//	orbitPanel.ClearComets();
 
 			SetFormText();
 			RefreshPanel();
@@ -419,6 +428,7 @@ namespace Comets.Application.OrbitViewer
 					break;
 			}
 
+			orbitPanel.UpdateCometVisibility();
 			RefreshPanel();
 		}
 
@@ -521,11 +531,10 @@ namespace Comets.Application.OrbitViewer
 					if (!ctrl && !shift)
 						handled = MoveScroll(scrollZoom, false, false);
 					break;
+
 				case Keys.A:
 					if (!ctrl && !shift)
 						handled = MoveScroll(scrollZoom, false, false);
-					else if (ctrl && shift)
-						LoadAllComets();
 					break;
 
 				case Keys.D1:
@@ -580,11 +589,6 @@ namespace Comets.Application.OrbitViewer
 					if (!ctrl && !shift)
 					{
 						ChangeObjectDisplay(Object.Comet, ctrl, shift);
-						handled = true;
-					}
-					else if (ctrl && shift)
-					{
-						ClearComets();
 						handled = true;
 					}
 					break;
@@ -685,14 +689,9 @@ namespace Comets.Application.OrbitViewer
 					break;
 
 				case Keys.Enter:
-					if (!ctrl && !shift && orbitPanel.MultipleMode)
+					if (!ctrl && !shift)
 					{
-						if (SelectedComet != null)
-							SelectedComet.IsMarked = !SelectedComet.IsMarked;
-
-						if (orbitPanel.IsPaintEnabled && !IsSimulationStarted)
-							RefreshPanel();
-
+						MarkComet();
 						handled = true;
 					}
 					break;

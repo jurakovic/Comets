@@ -16,8 +16,7 @@ namespace Comets.Application.OrbitViewer.Controls
 
 		public event Action OnSelectedCometChanged;
 		public event Action OnFilter;
-		public event Action OnLoadAll;
-		public event Action OnClear;
+		public event Action OnMark;
 
 		#endregion
 
@@ -78,14 +77,9 @@ namespace Comets.Application.OrbitViewer.Controls
 			OnFilter();
 		}
 
-		private void btnAll_Click(object sender, EventArgs e)
+		private void btnMark_Click(object sender, EventArgs e)
 		{
-			OnLoadAll();
-		}
-
-		private void btnClear_Click(object sender, EventArgs e)
-		{
-			OnClear();
+			OnMark();
 		}
 
 		#endregion

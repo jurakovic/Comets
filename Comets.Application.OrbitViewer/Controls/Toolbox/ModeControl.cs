@@ -7,7 +7,7 @@ namespace Comets.Application.OrbitViewer.Controls
 	{
 		#region Events
 
-		public event Action OnModeChanged;
+		public event Action<bool> OnModeChanged;
 
 		#endregion
 
@@ -34,7 +34,7 @@ namespace Comets.Application.OrbitViewer.Controls
 		private void rbtnCommon_CheckedChanged(object sender, EventArgs e)
 		{
 			if (!ValueChangedInternal)
-				OnModeChanged();
+				OnModeChanged(MultipleMode);
 		}
 
 		#endregion
