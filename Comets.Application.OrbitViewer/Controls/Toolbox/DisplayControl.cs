@@ -1,5 +1,4 @@
 ﻿using Comets.Application.Common.Controls.Common;
-using Comets.Core.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,9 +15,6 @@ namespace Comets.Application.OrbitViewer.Controls
 		public event Action<bool, Object> OnOrbitDisplayChanged;
 		public event Action<bool, Object> OnLabelDisplayChanged;
 		public event Action<Object> OnCenterObjectChanged;
-		public event Action<bool> OnPreserveSelectedOrbitChanged;
-		public event Action<bool> OnPreserveSelectedLabelChanged;
-		public event Action<bool> OnShowMarkerChanged;
 
 		#endregion
 
@@ -76,8 +72,6 @@ namespace Comets.Application.OrbitViewer.Controls
 			cbxOrbitComet.Checked = false;
 			cbxLabelComet.Checked = false;
 			rbtnCenterSun.Checked = true;
-			cbxSelectedOrbit.Checked = true;
-			cbxSelectedLabel.Checked = true;
 
 			ValueChangedInternal = false;
 			OnDisplayChanged();
@@ -113,30 +107,6 @@ namespace Comets.Application.OrbitViewer.Controls
 			Object label = (Object)Enum.Parse(typeof(Object), name);
 
 			OnLabelDisplayChanged(cbx.Checked, label);
-
-			if (!ValueChangedInternal)
-				OnDisplayChanged();
-		}
-
-		private void cbxOrbit_CheckedChanged(object sender, EventArgs e)
-		{
-			OnPreserveSelectedOrbitChanged(cbxSelectedOrbit.Checked);
-
-			if (!ValueChangedInternal)
-				OnDisplayChanged();
-		}
-
-		private void cbxLabel_CheckedChanged(object sender, EventArgs e)
-		{
-			OnPreserveSelectedLabelChanged(cbxSelectedLabel.Checked);
-
-			if (!ValueChangedInternal)
-				OnDisplayChanged();
-		}
-
-		private void cbxMarker_CheckedChanged(object sender, EventArgs e)
-		{
-			OnShowMarkerChanged(cbxMarker.Checked);
 
 			if (!ValueChangedInternal)
 				OnDisplayChanged();
@@ -200,49 +170,6 @@ namespace Comets.Application.OrbitViewer.Controls
 
 			ValueChangedInternal = false;
 			OnDisplayChanged();
-		}
-
-		public void SetDoubleClickDisplay(Func<bool> centerSelectedCometFunc)
-		{
-			ValueChangedInternal = true;
-			rbtnCenterComet.Checked = true;
-
-			bool isCometCentered = centerSelectedCometFunc(); //orbitPanel.CenterSelectedComet();
-
-			if (!isCometCentered)
-			{
-				if (cbxSelectedOrbit.Checked && !cbxSelectedLabel.Checked)
-				{
-					cbxSelectedLabel.Checked = true;
-				}
-				else if (cbxSelectedLabel.Checked && !cbxSelectedOrbit.Checked)
-				{
-					cbxSelectedOrbit.Checked = true;
-				}
-				else
-				{
-					cbxSelectedOrbit.InvertChecked();
-					cbxSelectedLabel.InvertChecked();
-				}
-			}
-
-			ValueChangedInternal = false;
-			OnDisplayChanged();
-		}
-
-		public void InvertSelectedCometOrbit()
-		{
-			cbxSelectedOrbit.InvertChecked();
-		}
-
-		public void InvertSelectedCometLabel()
-		{
-			cbxSelectedLabel.InvertChecked();
-		}
-
-		public void InvertMarker()
-		{
-			cbxMarker.InvertChecked();
 		}
 
 		private void SetMultipleCheckBoxes(string namePart, bool isChecked, bool refresh = false)

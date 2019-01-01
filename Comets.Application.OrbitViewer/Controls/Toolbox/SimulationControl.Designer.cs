@@ -47,6 +47,7 @@
 			this.pnlSimulation.Controls.Add(this.btnStop);
 			this.pnlSimulation.Controls.Add(this.btnForPlay);
 			this.pnlSimulation.Controls.Add(this.btnForStep);
+			this.pnlSimulation.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pnlSimulation.Location = new System.Drawing.Point(0, 0);
 			this.pnlSimulation.Name = "pnlSimulation";
 			this.pnlSimulation.Size = new System.Drawing.Size(173, 60);

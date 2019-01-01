@@ -41,6 +41,7 @@
 			this.pnlMisc.Controls.Add(this.cbxShowAxes);
 			this.pnlMisc.Controls.Add(this.btnSaveImage);
 			this.pnlMisc.Controls.Add(this.cbxAntialiasing);
+			this.pnlMisc.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pnlMisc.Location = new System.Drawing.Point(0, 0);
 			this.pnlMisc.Name = "pnlMisc";
 			this.pnlMisc.Size = new System.Drawing.Size(173, 77);

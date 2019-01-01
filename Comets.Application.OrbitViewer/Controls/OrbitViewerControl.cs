@@ -94,6 +94,10 @@ namespace Comets.Application.OrbitViewer
 			cometControl.OnSelectedCometChanged += LoadSelectedComet;
 			cometControl.OnFilter += FilterComets;
 			cometControl.OnMark += MarkComet;
+			cometControl.OnPreserveSelectedOrbitChanged += SetPreserveSelectedOrbit;
+			cometControl.OnPreserveSelectedLabelChanged += SetPreserveSelectedLabel;
+			cometControl.OnShowMarkerChanged += SetShowMarker;
+			cometControl.OnDisplayChanged += RefreshPanel;
 
 			modeControl.OnModeChanged += SetMode;
 
@@ -101,9 +105,6 @@ namespace Comets.Application.OrbitViewer
 			displayControl.OnOrbitDisplayChanged += ChangeOrbitDisplay;
 			displayControl.OnLabelDisplayChanged += ChangeLabelDisplay;
 			displayControl.OnCenterObjectChanged += SetCenterObject;
-			displayControl.OnPreserveSelectedOrbitChanged += SetPreserveSelectedOrbit;
-			displayControl.OnPreserveSelectedLabelChanged += SetPreserveSelectedLabel;
-			displayControl.OnShowMarkerChanged += SetShowMarker;
 
 			dateTimeControl.OnSelectedDatetimeChanged += SetDateTime;
 
@@ -127,6 +128,8 @@ namespace Comets.Application.OrbitViewer
 
 		public void LoadControl(CometCollection comets, FilterCollection filters, string sortProperty, bool sortAscending)
 		{
+			cpnlDisplay.IsCollapsed = true;
+
 			Comets = comets;
 			Filters = filters;
 			SortProperty = sortProperty;
@@ -189,6 +192,21 @@ namespace Comets.Application.OrbitViewer
 				ff.Location = panelLocation + margin;
 				ff.ShowDialog();
 			}
+		}
+
+		private void SetPreserveSelectedOrbit(bool preserveSelectedOrbit)
+		{
+			orbitPanel.PreserveSelectedOrbit = preserveSelectedOrbit;
+		}
+
+		private void SetPreserveSelectedLabel(bool preserveSelectedLabel)
+		{
+			orbitPanel.PreserveSelectedLabel = preserveSelectedLabel;
+		}
+
+		private void SetShowMarker(bool showMarker)
+		{
+			orbitPanel.ShowMarker = showMarker;
 		}
 
 		private void MarkComet()
@@ -292,21 +310,6 @@ namespace Comets.Application.OrbitViewer
 		private void SetCenterObject(Object centerObject)
 		{
 			orbitPanel.CenteredObject = centerObject;
-		}
-
-		private void SetPreserveSelectedOrbit(bool preserveSelectedOrbit)
-		{
-			orbitPanel.PreserveSelectedOrbit = preserveSelectedOrbit;
-		}
-
-		private void SetPreserveSelectedLabel(bool preserveSelectedLabel)
-		{
-			orbitPanel.PreserveSelectedLabel = preserveSelectedLabel;
-		}
-
-		private void SetShowMarker(bool showMarker)
-		{
-			orbitPanel.ShowMarker = showMarker;
 		}
 
 		private void ChangeObjectDisplay(Object obj, bool control, bool shift)
@@ -667,7 +670,7 @@ namespace Comets.Application.OrbitViewer
 				case Keys.G:
 					if (!ctrl && !shift)
 					{
-						displayControl.InvertSelectedCometOrbit();
+						cometControl.InvertSelectedCometOrbit();
 						handled = true;
 					}
 					break;
@@ -675,7 +678,7 @@ namespace Comets.Application.OrbitViewer
 				case Keys.H:
 					if (!ctrl && !shift)
 					{
-						displayControl.InvertSelectedCometLabel();
+						cometControl.InvertSelectedCometLabel();
 						handled = true;
 					}
 					break;
@@ -683,7 +686,7 @@ namespace Comets.Application.OrbitViewer
 				case Keys.M:
 					if (!ctrl && !shift)
 					{
-						displayControl.InvertMarker();
+						cometControl.InvertMarker();
 						handled = true;
 					}
 					break;
@@ -696,7 +699,7 @@ namespace Comets.Application.OrbitViewer
 					}
 					break;
 
-				case Keys.Back:
+				case Keys.Escape:
 					if (!ctrl && !shift)
 					{
 						SelectedComet = null;
@@ -812,7 +815,8 @@ namespace Comets.Application.OrbitViewer
 			if (e.Button == MouseButtons.Left &&
 				orbitPanel.SelectComet(e.Location) != null)
 			{
-				displayControl.SetDoubleClickDisplay(orbitPanel.CenterSelectedComet);
+				displayControl.ChangeCenterObject(Object.Comet);
+				cometControl.SetDoubleClickDisplay(orbitPanel.CenterSelectedComet);
 			}
 		}
 

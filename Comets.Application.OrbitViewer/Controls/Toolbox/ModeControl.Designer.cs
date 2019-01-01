@@ -36,12 +36,10 @@
 			// 
 			// pnlMode
 			// 
-			this.pnlMode.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
 			this.pnlMode.BackColor = System.Drawing.SystemColors.ControlDark;
 			this.pnlMode.Controls.Add(this.rbtnSingleMode);
 			this.pnlMode.Controls.Add(this.rbtnMultipleMode);
+			this.pnlMode.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pnlMode.Font = new System.Drawing.Font("Tahoma", 8.25F);
 			this.pnlMode.Location = new System.Drawing.Point(0, 0);
 			this.pnlMode.Name = "pnlMode";

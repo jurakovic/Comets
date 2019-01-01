@@ -49,6 +49,7 @@
 			this.pnlFilterOnDate.Controls.Add(this.txtFodEarthDist);
 			this.pnlFilterOnDate.Controls.Add(this.txtFodMagnitude);
 			this.pnlFilterOnDate.Controls.Add(this.cbxWeakColor);
+			this.pnlFilterOnDate.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pnlFilterOnDate.Location = new System.Drawing.Point(0, 0);
 			this.pnlFilterOnDate.Name = "pnlFilterOnDate";
 			this.pnlFilterOnDate.Size = new System.Drawing.Size(173, 98);
@@ -78,6 +79,7 @@
 			// 
 			// txtFodSunDist
 			// 
+			this.txtFodSunDist.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.txtFodSunDist.Location = new System.Drawing.Point(129, 2);
 			this.txtFodSunDist.Name = "txtFodSunDist";
 			this.txtFodSunDist.Size = new System.Drawing.Size(40, 21);
@@ -98,6 +100,7 @@
 			// 
 			// txtFodEarthDist
 			// 
+			this.txtFodEarthDist.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.txtFodEarthDist.Location = new System.Drawing.Point(129, 26);
 			this.txtFodEarthDist.Name = "txtFodEarthDist";
 			this.txtFodEarthDist.Size = new System.Drawing.Size(40, 21);
@@ -107,6 +110,7 @@
 			// 
 			// txtFodMagnitude
 			// 
+			this.txtFodMagnitude.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.txtFodMagnitude.Location = new System.Drawing.Point(129, 50);
 			this.txtFodMagnitude.Name = "txtFodMagnitude";
 			this.txtFodMagnitude.Size = new System.Drawing.Size(40, 21);

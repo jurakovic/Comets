@@ -1,5 +1,6 @@
 ﻿using Comets.Application.Common.Controls.Common;
 using Comets.Core;
+using Comets.Core.Extensions;
 using System;
 using System.Data;
 using System.Drawing;
@@ -52,6 +53,27 @@ namespace Comets.OrbitViewer
 			ValueChangedInternal = true;
 			BindCollection(this.Comets);
 			ValueChangedInternal = false;
+		}
+
+		private void FormFind_KeyDown(object sender, KeyEventArgs e)
+		{
+			int selIndex = lbxFilter.SelectedIndex;
+			int maxIndex = lbxFilter.Items.Count - 1;
+
+			switch (e.KeyData)
+			{
+				case Keys.Up:
+					lbxFilter.SelectedIndex = (selIndex - 1).Range(0, maxIndex);
+					e.SuppressKeyPress = true;
+					break;
+				case Keys.Down:
+					lbxFilter.SelectedIndex = (selIndex + 1).Range(0, maxIndex);
+					e.SuppressKeyPress = true;
+					break;
+				default:
+					txtName.Focus();
+					break;
+			}
 		}
 
 		#endregion

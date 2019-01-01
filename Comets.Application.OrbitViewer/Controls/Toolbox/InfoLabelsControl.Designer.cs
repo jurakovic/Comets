@@ -39,6 +39,7 @@
 			this.pnlInfoLabels.BackColor = System.Drawing.SystemColors.ControlDark;
 			this.pnlInfoLabels.Controls.Add(this.cbxMagDist);
 			this.pnlInfoLabels.Controls.Add(this.cbxDateTime);
+			this.pnlInfoLabels.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pnlInfoLabels.Location = new System.Drawing.Point(0, 0);
 			this.pnlInfoLabels.Name = "pnlInfoLabels";
 			this.pnlInfoLabels.Size = new System.Drawing.Size(173, 51);

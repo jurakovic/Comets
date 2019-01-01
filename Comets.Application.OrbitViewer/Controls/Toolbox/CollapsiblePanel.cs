@@ -25,6 +25,8 @@ namespace Comets.Application.OrbitViewer.Controls
 
 		public int HeightExpanded { get; set; }
 
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public bool IsCollapsed
 		{
 			get { return this.Height == HeightCollapsed; }
@@ -32,6 +34,7 @@ namespace Comets.Application.OrbitViewer.Controls
 			{
 				this.Height = value ? HeightCollapsed : HeightExpanded;
 				this.panel.Visible = !value;
+				MovePanels();
 				SetText();
 			}
 		}
@@ -67,9 +70,6 @@ namespace Comets.Application.OrbitViewer.Controls
 				throw new ArgumentException("HeightExpanded not set");
 
 			this.IsCollapsed = !this.IsCollapsed;
-
-			MovePanels();
-			SetText();
 		}
 
 		#endregion
@@ -83,16 +83,19 @@ namespace Comets.Application.OrbitViewer.Controls
 
 		private void MovePanels()
 		{
-			int offset = HeightExpanded - HeightCollapsed;
-
 			Control container =
 				this.Parent as Form
 				?? (this.Parent as ContainerControl) as Control
 				?? (this.Parent as Panel) as Control;
 
-			foreach (Control c in container.Controls.OfType<CollapsiblePanel>())
-				if (c.Left == this.Left && c.Top > this.Top)
-					c.Top += this.panel.Visible ? offset : -offset; //move up or down
+			if (container != null)
+			{
+				int offset = HeightExpanded - HeightCollapsed;
+
+				foreach (Control c in container.Controls.OfType<CollapsiblePanel>())
+					if (c.Left == this.Left && c.Top > this.Top)
+						c.Top += this.panel.Visible ? offset : -offset; //move up or down
+			}
 		}
 
 		#endregion

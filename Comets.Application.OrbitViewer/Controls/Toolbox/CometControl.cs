@@ -17,6 +17,10 @@ namespace Comets.Application.OrbitViewer.Controls
 		public event Action OnSelectedCometChanged;
 		public event Action OnFilter;
 		public event Action OnMark;
+		public event Action<bool> OnPreserveSelectedOrbitChanged;
+		public event Action<bool> OnPreserveSelectedLabelChanged;
+		public event Action<bool> OnShowMarkerChanged;
+		public event Action OnDisplayChanged;
 
 		#endregion
 
@@ -82,6 +86,30 @@ namespace Comets.Application.OrbitViewer.Controls
 			OnMark();
 		}
 
+		private void cbxOrbit_CheckedChanged(object sender, EventArgs e)
+		{
+			OnPreserveSelectedOrbitChanged(cbxOrbit.Checked);
+
+			if (!ValueChangedInternal)
+				OnDisplayChanged();
+		}
+
+		private void cbxLabel_CheckedChanged(object sender, EventArgs e)
+		{
+			OnPreserveSelectedLabelChanged(cbxLabel.Checked);
+
+			if (!ValueChangedInternal)
+				OnDisplayChanged();
+		}
+
+		private void cbxMarker_CheckedChanged(object sender, EventArgs e)
+		{
+			OnShowMarkerChanged(cbxMarker.Checked);
+
+			if (!ValueChangedInternal)
+				OnDisplayChanged();
+		}
+
 		#endregion
 
 		#region Methods
@@ -121,6 +149,48 @@ namespace Comets.Application.OrbitViewer.Controls
 		public void UnmarkComets()
 		{
 			Comets.ForEach(x => x.IsMarked = false);
+		}
+
+		public void SetDoubleClickDisplay(Func<bool> centerSelectedCometFunc)
+		{
+			ValueChangedInternal = true;
+
+			bool isCometCentered = centerSelectedCometFunc(); //orbitPanel.CenterSelectedComet();
+
+			if (!isCometCentered)
+			{
+				if (cbxOrbit.Checked && !cbxLabel.Checked)
+				{
+					cbxLabel.Checked = true;
+				}
+				else if (cbxLabel.Checked && !cbxOrbit.Checked)
+				{
+					cbxOrbit.Checked = true;
+				}
+				else
+				{
+					cbxOrbit.InvertChecked();
+					cbxLabel.InvertChecked();
+				}
+			}
+
+			ValueChangedInternal = false;
+			OnDisplayChanged();
+		}
+
+		public void InvertSelectedCometOrbit()
+		{
+			cbxOrbit.InvertChecked();
+		}
+
+		public void InvertSelectedCometLabel()
+		{
+			cbxLabel.InvertChecked();
+		}
+
+		public void InvertMarker()
+		{
+			cbxMarker.InvertChecked();
 		}
 
 		#endregion

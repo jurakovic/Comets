@@ -33,13 +33,10 @@
 			this.lblLabels = new System.Windows.Forms.Label();
 			this.lblOrbits = new System.Windows.Forms.Label();
 			this.btnNoOrbits = new System.Windows.Forms.Button();
-			this.cbxSelectedLabel = new System.Windows.Forms.CheckBox();
 			this.cbxOrbitMercury = new System.Windows.Forms.CheckBox();
-			this.cbxSelectedOrbit = new System.Windows.Forms.CheckBox();
 			this.cbxOrbitVenus = new System.Windows.Forms.CheckBox();
 			this.btnNoLabels = new System.Windows.Forms.Button();
 			this.rbtnCenterEarth = new System.Windows.Forms.RadioButton();
-			this.cbxMarker = new System.Windows.Forms.CheckBox();
 			this.rbtnCenterVenus = new System.Windows.Forms.RadioButton();
 			this.cbxLabelMercury = new System.Windows.Forms.CheckBox();
 			this.btnAllLabels = new System.Windows.Forms.Button();
@@ -89,13 +86,10 @@
 			this.panel.Controls.Add(this.lblLabels);
 			this.panel.Controls.Add(this.lblOrbits);
 			this.panel.Controls.Add(this.btnNoOrbits);
-			this.panel.Controls.Add(this.cbxSelectedLabel);
 			this.panel.Controls.Add(this.cbxOrbitMercury);
-			this.panel.Controls.Add(this.cbxSelectedOrbit);
 			this.panel.Controls.Add(this.cbxOrbitVenus);
 			this.panel.Controls.Add(this.btnNoLabels);
 			this.panel.Controls.Add(this.rbtnCenterEarth);
-			this.panel.Controls.Add(this.cbxMarker);
 			this.panel.Controls.Add(this.rbtnCenterVenus);
 			this.panel.Controls.Add(this.cbxLabelMercury);
 			this.panel.Controls.Add(this.btnAllLabels);
@@ -135,9 +129,10 @@
 			this.panel.Controls.Add(this.rbtnCenterSun);
 			this.panel.Controls.Add(this.cbxLabelUranus);
 			this.panel.Controls.Add(this.cbxLabelNeptune);
+			this.panel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.panel.Location = new System.Drawing.Point(0, 0);
 			this.panel.Name = "panel";
-			this.panel.Size = new System.Drawing.Size(173, 228);
+			this.panel.Size = new System.Drawing.Size(173, 156);
 			this.panel.TabIndex = 0;
 			// 
 			// lblCenter
@@ -179,19 +174,6 @@
 			this.btnNoOrbits.UseVisualStyleBackColor = true;
 			this.btnNoOrbits.Click += new System.EventHandler(this.btnNoOrbits_Click);
 			// 
-			// cbxSelectedLabel
-			// 
-			this.cbxSelectedLabel.AutoSize = true;
-			this.cbxSelectedLabel.Checked = true;
-			this.cbxSelectedLabel.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.cbxSelectedLabel.Location = new System.Drawing.Point(4, 186);
-			this.cbxSelectedLabel.Name = "cbxSelectedLabel";
-			this.cbxSelectedLabel.Size = new System.Drawing.Size(124, 17);
-			this.cbxSelectedLabel.TabIndex = 35;
-			this.cbxSelectedLabel.Text = "Selected comet label";
-			this.cbxSelectedLabel.UseVisualStyleBackColor = true;
-			this.cbxSelectedLabel.CheckedChanged += new System.EventHandler(this.cbxLabel_CheckedChanged);
-			// 
 			// cbxOrbitMercury
 			// 
 			this.cbxOrbitMercury.AutoSize = true;
@@ -203,19 +185,6 @@
 			this.cbxOrbitMercury.TabIndex = 1;
 			this.cbxOrbitMercury.UseVisualStyleBackColor = true;
 			this.cbxOrbitMercury.CheckedChanged += new System.EventHandler(this.cbxOrbitCommon_CheckedChanged);
-			// 
-			// cbxSelectedOrbit
-			// 
-			this.cbxSelectedOrbit.AutoSize = true;
-			this.cbxSelectedOrbit.Checked = true;
-			this.cbxSelectedOrbit.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.cbxSelectedOrbit.Location = new System.Drawing.Point(4, 163);
-			this.cbxSelectedOrbit.Name = "cbxSelectedOrbit";
-			this.cbxSelectedOrbit.Size = new System.Drawing.Size(124, 17);
-			this.cbxSelectedOrbit.TabIndex = 34;
-			this.cbxSelectedOrbit.Text = "Selected comet orbit";
-			this.cbxSelectedOrbit.UseVisualStyleBackColor = true;
-			this.cbxSelectedOrbit.CheckedChanged += new System.EventHandler(this.cbxOrbit_CheckedChanged);
 			// 
 			// cbxOrbitVenus
 			// 
@@ -247,19 +216,6 @@
 			this.rbtnCenterEarth.TabIndex = 25;
 			this.rbtnCenterEarth.UseVisualStyleBackColor = true;
 			this.rbtnCenterEarth.CheckedChanged += new System.EventHandler(this.rbtnCenterCommon_CheckedChanged);
-			// 
-			// cbxMarker
-			// 
-			this.cbxMarker.AutoSize = true;
-			this.cbxMarker.Checked = true;
-			this.cbxMarker.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.cbxMarker.Location = new System.Drawing.Point(4, 209);
-			this.cbxMarker.Name = "cbxMarker";
-			this.cbxMarker.Size = new System.Drawing.Size(135, 17);
-			this.cbxMarker.TabIndex = 36;
-			this.cbxMarker.Text = "Selected comet marker";
-			this.cbxMarker.UseVisualStyleBackColor = true;
-			this.cbxMarker.CheckedChanged += new System.EventHandler(this.cbxMarker_CheckedChanged);
 			// 
 			// rbtnCenterVenus
 			// 
@@ -681,7 +637,7 @@
 			this.Controls.Add(this.panel);
 			this.Font = new System.Drawing.Font("Tahoma", 8.25F);
 			this.Name = "DisplayControl";
-			this.Size = new System.Drawing.Size(173, 228);
+			this.Size = new System.Drawing.Size(173, 156);
 			this.panel.ResumeLayout(false);
 			this.panel.PerformLayout();
 			this.ResumeLayout(false);
@@ -692,13 +648,10 @@
 
 		private System.Windows.Forms.Panel panel;
 		private System.Windows.Forms.Button btnNoOrbits;
-		private System.Windows.Forms.CheckBox cbxSelectedLabel;
 		private System.Windows.Forms.CheckBox cbxOrbitMercury;
-		private System.Windows.Forms.CheckBox cbxSelectedOrbit;
 		private System.Windows.Forms.CheckBox cbxOrbitVenus;
 		private System.Windows.Forms.Button btnNoLabels;
 		private System.Windows.Forms.RadioButton rbtnCenterEarth;
-		private System.Windows.Forms.CheckBox cbxMarker;
 		private System.Windows.Forms.RadioButton rbtnCenterVenus;
 		private System.Windows.Forms.CheckBox cbxLabelMercury;
 		private System.Windows.Forms.Button btnAllLabels;

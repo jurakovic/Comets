@@ -26,7 +26,7 @@
 --------------------------
 
  Left click on comet             Select comet
- Left click on no comet          Clear selection (alt. Backspace)
+ Left click on no comet          Clear selection (alt. Escape)
  Left double click (on comet)    If comet not selected, select and center
                                  comet, otherwise toggle on/off selected
                                  comet orbit/label
@@ -67,6 +67,6 @@
  H                               Toggle on/off selected comet label
  M                               Toggle on/off selected comet marker
 
- Backspace                       Clear selection (alt. Left click on no comet)
+ Escape                          Clear selection (alt. Left click on no comet)
  Enter                           Mark/unmark selected comet
  Delete                          Clear marks
