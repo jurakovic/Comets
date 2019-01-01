@@ -94,11 +94,11 @@ namespace Comets.Application
 						MessageBoxButtons.YesNo,
 						MessageBoxIcon.Information) == DialogResult.Yes)
 					{
-						using (FormImport fi = new FormImport(true) { Owner = this })
+						using (FormUpdate fu = new FormUpdate(true) { Owner = this })
 						{
-							fi.TopMost = this.TopMost;
-							fi.OnImportCompleted += this.SetStatusCometsLabel;
-							fi.ShowDialog();
+							fu.TopMost = this.TopMost;
+							fu.OnImportCompleted += this.SetStatusCometsLabel;
+							fu.ShowDialog();
 						}
 					}
 				}
@@ -151,7 +151,8 @@ namespace Comets.Application
 		{
 			if ((CommonManager.IsDataChanged || !File.Exists(SettingsManager.DatabaseFilename)) && CommonManager.MainCollection.Count > 0)
 			{
-				ExporManager.ExportMain(ElementTypesManager.Type.MPC, SettingsManager.DatabaseFilename, CommonManager.MainCollection);
+				string elements = ExportManager.ExportMain(ElementTypesManager.Type.MPC, CommonManager.MainCollection);
+				ExportManager.WriteToFile(SettingsManager.DatabaseFilename, elements);
 			}
 
 			bool isFormSizeLocationChanged = CurrentFormLocation != InitialFormLocation || CurrentFormSize != InitialFormSize;
@@ -222,6 +223,14 @@ namespace Comets.Application
 			fo.WindowState = FormWindowState.Maximized;
 			fo.MdiParent = this;
 			fo.Show();
+		}
+
+		private void menuItemOrbitalElements_Click(object sender, EventArgs e)
+		{
+			FormElements fe = new FormElements();
+			fe.WindowState = FormWindowState.Maximized;
+			fe.MdiParent = this;
+			fe.Show();
 		}
 
 		private void menuItemExit_Click(object sender, EventArgs e)
@@ -315,7 +324,7 @@ namespace Comets.Application
 
 		private void menuItemImport_Click(object sender, EventArgs e)
 		{
-			using (FormImport formImport = new FormImport() { Owner = this })
+			using (FormUpdate formImport = new FormUpdate() { Owner = this })
 			{
 				formImport.TopMost = this.TopMost;
 				formImport.OnImportCompleted += this.SetStatusCometsLabel;
@@ -325,11 +334,11 @@ namespace Comets.Application
 
 		private void menuItemExport_Click(object sender, EventArgs e)
 		{
-			using (FormExport formExport = new FormExport() { Owner = this })
-			{
-				formExport.TopMost = this.TopMost;
-				formExport.ShowDialog();
-			}
+			//using (FormExport formExport = new FormExport() { Owner = this })
+			//{
+			//	formExport.TopMost = this.TopMost;
+			//	formExport.ShowDialog();
+			//}
 		}
 
 		private void menuItemSettings_Click(object sender, EventArgs e)

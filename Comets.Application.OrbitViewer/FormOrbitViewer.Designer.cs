@@ -28,8 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormOrbitViewer));
-			this.orbitViewerControl = new OrbitViewerControl();
+			this.orbitViewerControl = new Comets.Application.OrbitViewer.OrbitViewerControl();
 			this.SuspendLayout();
 			// 
 			// orbitViewerControl
@@ -49,10 +48,11 @@
 			this.ClientSize = new System.Drawing.Size(934, 811);
 			this.Controls.Add(this.orbitViewerControl);
 			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.KeyPreview = true;
 			this.MinimumSize = new System.Drawing.Size(720, 650);
 			this.Name = "FormOrbitViewer";
+			this.ShowIcon = false;
+			this.ShowInTaskbar = false;
 			this.Text = "Orbit Viewer";
 			this.Activated += new System.EventHandler(this.FormOrbitViewer_Activated);
 			this.Deactivate += new System.EventHandler(this.FormOrbitViewer_Deactivate);

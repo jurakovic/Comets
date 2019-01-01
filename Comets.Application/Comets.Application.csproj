@@ -65,11 +65,11 @@
     <Compile Include="Application\Help\FormControls.Designer.cs">
       <DependentUpon>FormControls.cs</DependentUpon>
     </Compile>
-    <Compile Include="Application\Edit\FormExport.cs">
+    <Compile Include="Application\FormElements.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Application\Edit\FormExport.Designer.cs">
-      <DependentUpon>FormExport.cs</DependentUpon>
+    <Compile Include="Application\FormElements.Designer.cs">
+      <DependentUpon>FormElements.cs</DependentUpon>
     </Compile>
     <Compile Include="Application\Edit\FormSettings.cs">
       <SubType>Form</SubType>
@@ -77,11 +77,11 @@
     <Compile Include="Application\Edit\FormSettings.Designer.cs">
       <DependentUpon>FormSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="Application\Edit\FormImport.cs">
+    <Compile Include="Application\Edit\FormUpdate.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Application\Edit\FormImport.Designer.cs">
-      <DependentUpon>FormImport.cs</DependentUpon>
+    <Compile Include="Application\Edit\FormUpdate.Designer.cs">
+      <DependentUpon>FormUpdate.cs</DependentUpon>
     </Compile>
     <Compile Include="Application\FormMain.cs">
       <SubType>Form</SubType>
@@ -97,12 +97,12 @@
     <EmbeddedResource Include="Application\Help\FormControls.resx">
       <DependentUpon>FormControls.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Application\Edit\FormExport.resx">
-      <DependentUpon>FormExport.cs</DependentUpon>
+    <EmbeddedResource Include="Application\FormElements.resx">
+      <DependentUpon>FormElements.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Application\Edit\FormImport.resx">
-      <DependentUpon>FormImport.cs</DependentUpon>
+    <EmbeddedResource Include="Application\Edit\FormUpdate.resx">
+      <DependentUpon>FormUpdate.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Application\FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>

@@ -31,6 +31,6 @@ namespace Comets.Core
 		/// <summary>
 		/// yyyy-MM-dd_HH-mm-ss
 		/// </summary>
-		public static readonly string Filename = "yyyy-MM-dd_HH-mm-ss";
+		public static readonly string Filename = "yyyy-MM-dd_HHmmss";
 	}
 }

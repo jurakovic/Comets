@@ -10,7 +10,7 @@ using ImportType = Comets.Core.Managers.ElementTypesManager.Type;
 
 namespace Comets.Application.Edit
 {
-	public partial class FormImport : Form
+	public partial class FormUpdate : Form
 	{
 		#region Events
 
@@ -35,7 +35,7 @@ namespace Comets.Application.Edit
 
 		#region Constructor
 
-		public FormImport(bool isAutomaticUpdate = false)
+		public FormUpdate(bool isAutomaticUpdate = false)
 		{
 			InitializeComponent();
 			Tooltip = new ToolTip();

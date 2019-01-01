@@ -28,8 +28,9 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
-			this.mainMenu = new System.Windows.Forms.MainMenu();
+			this.mainMenu = new System.Windows.Forms.MainMenu(this.components);
 			this.menuItemFile = new System.Windows.Forms.MenuItem();
 			this.menuItemFileEphemeris = new System.Windows.Forms.MenuItem();
 			this.menuItemFileGraph = new System.Windows.Forms.MenuItem();
@@ -48,10 +49,8 @@
 			this.mnuShowToolbox = new System.Windows.Forms.MenuItem();
 			this.menuItemEdit = new System.Windows.Forms.MenuItem();
 			this.menuItemDatabase = new System.Windows.Forms.MenuItem();
+			this.menuItemUpdate = new System.Windows.Forms.MenuItem();
 			this.menuItemSeparatorEdit1 = new System.Windows.Forms.MenuItem();
-			this.menuItemImport = new System.Windows.Forms.MenuItem();
-			this.menuItemExport = new System.Windows.Forms.MenuItem();
-			this.menuItemSeparatorEdit2 = new System.Windows.Forms.MenuItem();
 			this.menuItemSettings = new System.Windows.Forms.MenuItem();
 			this.menuItemView = new System.Windows.Forms.MenuItem();
 			this.menuItemViewAlwaysOnTop = new System.Windows.Forms.MenuItem();
@@ -123,13 +122,13 @@
 			// 
 			this.menuItemSeparatorFile1.Index = 3;
 			this.menuItemSeparatorFile1.Text = "-";
-			this.menuItemSeparatorFile1.Visible = false;
 			// 
 			// menuItemOrbitalElements
 			// 
 			this.menuItemOrbitalElements.Index = 4;
+			this.menuItemOrbitalElements.Shortcut = System.Windows.Forms.Shortcut.CtrlO;
 			this.menuItemOrbitalElements.Text = "&Orbital elements";
-			this.menuItemOrbitalElements.Visible = false;
+			this.menuItemOrbitalElements.Click += new System.EventHandler(this.menuItemOrbitalElements_Click);
 			// 
 			// menuItemSeparatorFile3
 			// 
@@ -210,10 +209,8 @@
 			this.menuItemEdit.Index = 4;
 			this.menuItemEdit.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.menuItemDatabase,
+            this.menuItemUpdate,
             this.menuItemSeparatorEdit1,
-            this.menuItemImport,
-            this.menuItemExport,
-            this.menuItemSeparatorEdit2,
             this.menuItemSettings});
 			this.menuItemEdit.Text = "&Edit";
 			// 
@@ -224,33 +221,21 @@
 			this.menuItemDatabase.Text = "&Database";
 			this.menuItemDatabase.Click += new System.EventHandler(this.menuItemDatabase_Click);
 			// 
+			// menuItemUpdate
+			// 
+			this.menuItemUpdate.Index = 1;
+			this.menuItemUpdate.Shortcut = System.Windows.Forms.Shortcut.F6;
+			this.menuItemUpdate.Text = "&Update";
+			this.menuItemUpdate.Click += new System.EventHandler(this.menuItemImport_Click);
+			// 
 			// menuItemSeparatorEdit1
 			// 
-			this.menuItemSeparatorEdit1.Index = 1;
+			this.menuItemSeparatorEdit1.Index = 2;
 			this.menuItemSeparatorEdit1.Text = "-";
-			// 
-			// menuItemImport
-			// 
-			this.menuItemImport.Index = 2;
-			this.menuItemImport.Shortcut = System.Windows.Forms.Shortcut.F7;
-			this.menuItemImport.Text = "&Import";
-			this.menuItemImport.Click += new System.EventHandler(this.menuItemImport_Click);
-			// 
-			// menuItemExport
-			// 
-			this.menuItemExport.Index = 3;
-			this.menuItemExport.Shortcut = System.Windows.Forms.Shortcut.F8;
-			this.menuItemExport.Text = "&Export";
-			this.menuItemExport.Click += new System.EventHandler(this.menuItemExport_Click);
-			// 
-			// menuItemSeparatorEdit2
-			// 
-			this.menuItemSeparatorEdit2.Index = 4;
-			this.menuItemSeparatorEdit2.Text = "-";
 			// 
 			// menuItemSettings
 			// 
-			this.menuItemSettings.Index = 5;
+			this.menuItemSettings.Index = 3;
 			this.menuItemSettings.Text = "&Settings";
 			this.menuItemSettings.Click += new System.EventHandler(this.menuItemSettings_Click);
 			// 
@@ -385,6 +370,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(784, 562);
 			this.Controls.Add(this.statusStrip);
+			this.Font = new System.Drawing.Font("Tahoma", 8.25F);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.IsMdiContainer = true;
 			this.Menu = this.mainMenu;
@@ -420,13 +406,11 @@
 		private System.Windows.Forms.MenuItem menuItemSeparatorFile1;
 		private System.Windows.Forms.MenuItem menuItemExit;
 		private System.Windows.Forms.MenuItem menuItemSeparatorEdit1;
-		private System.Windows.Forms.MenuItem menuItemImport;
-		private System.Windows.Forms.MenuItem menuItemExport;
+		private System.Windows.Forms.MenuItem menuItemUpdate;
 		private System.Windows.Forms.MenuItem menuItemAbout;
 		private System.Windows.Forms.MenuItem menuItemSettings;
 		private System.Windows.Forms.MenuItem menuItemSeparatorFile3;
 		private System.Windows.Forms.MenuItem menuItemOrbitalElements;
-		private System.Windows.Forms.MenuItem menuItemSeparatorEdit2;
 		private System.Windows.Forms.MenuItem menuItemViewStatusBar;
 		private System.Windows.Forms.StatusStrip statusStrip;
 		private System.Windows.Forms.ToolStripStatusLabel statusSpace;

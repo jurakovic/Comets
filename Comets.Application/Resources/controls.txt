@@ -5,14 +5,15 @@
  Ctrl + G                        New Graph
  Ctrl + V                        New Orbit Viewer
 
+ Ctrl + O                        Orbital elements
+
  Ctrl + Shift + E                Ephemeris Settings
  Ctrl + Shift + G                Graph Settings
 
  Ctrl + S                        Save current view (text, image)
 
  F5                              Database
- F7                              Import
- F8                              Export
+ F6                              Update
 
  Ctrl + F4                       Close current window
  Alt + F4                        Close program

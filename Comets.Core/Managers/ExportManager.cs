@@ -1,5 +1,4 @@
-﻿using Comets.Core;
-using Comets.Core.Extensions;
+﻿using Comets.Core.Extensions;
 using System;
 using System.IO;
 using System.Text;
@@ -8,13 +7,12 @@ using ExportType = Comets.Core.Managers.ElementTypesManager.Type;
 
 namespace Comets.Core.Managers
 {
-	public static class ExporManager
+	public static class ExportManager
 	{
 		#region ExportMain
 
-		public static bool ExportMain(ExportType exportType, string filename, CometCollection collection)
+		public static string ExportMain(ExportType exportType, CometCollection collection)
 		{
-			bool retVal = true;
 			StringBuilder sb = new StringBuilder();
 
 			WriteHeaderText(exportType, ref sb, collection.Count);
@@ -83,6 +81,16 @@ namespace Comets.Core.Managers
 					//    ExportNasaComet(ref sb, collection); break;
 			}
 
+			return sb.ToString();
+		}
+
+		#endregion
+
+		#region WriteToFile
+
+		public static bool WriteToFile(string filename, string elements)
+		{
+			bool retVal = true;
 			bool tryAgain = false;
 
 			do
@@ -92,7 +100,7 @@ namespace Comets.Core.Managers
 					retVal = true;
 					tryAgain = false;
 
-					File.WriteAllText(filename, sb.ToString());
+					File.WriteAllText(filename, elements);
 				}
 				catch
 				{
