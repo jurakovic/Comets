@@ -124,18 +124,6 @@ namespace Comets.OrbitViewer
 			   1.769952, -0.0093082, -0.0000071
 		);
 
-		/// <summary>
-		/// Pluto
-		/// </summary>
-		public static PlanetElmP2 PlutoE = new PlanetElmP2(
-			 238.467028, 0.00401595755, -0.0090561,
-			 224.141630, 1.3900789, 0.0003019,
-			 110.318223, 1.3506963, 0.0004014,
-			  39.5403429, 0.00313105, -0.00003792,
-			   0.24900535, 0.000038850, -0.000000562,
-			  17.145104, -0.0054981, -0.0000384
-		);
-
 		#endregion
 
 		#region Perturbation correction
@@ -280,7 +268,6 @@ namespace Comets.OrbitViewer
 					break;
 				case Object.Uranus:
 				case Object.Neptune:
-				case Object.Pluto:
 					GetPlanetElm2(planet, atime.JD);
 					break;
 				default:
@@ -367,7 +354,7 @@ namespace Comets.OrbitViewer
 		#region GetPlanetElm2
 
 		/// <summary>
-		/// Get mean orbital elements (Uranus, Neptune, Pluto)
+		/// Get mean orbital elements (Uranus, Neptune)
 		/// </summary>
 		/// <param name="planetNo"></param>
 		/// <param name="jd"></param>
@@ -385,9 +372,6 @@ namespace Comets.OrbitViewer
 					break;
 				case Object.Neptune:
 					elmCf = NeptuneE;
-					break;
-				case Object.Pluto:
-					elmCf = PlutoE;
 					break;
 				default:
 					throw new ArithmeticException();

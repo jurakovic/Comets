@@ -314,42 +314,6 @@ namespace Comets.OrbitViewer
 
 		#endregion
 
-		#region Pluto
-
-		static PlanetExpP0[] PlutoLambda = {
-			new PlanetExpP0(15.81087,    246.556453,    298.348019),
-			new PlanetExpP0( 1.18379,    551.34710,     351.67676),
-			new PlanetExpP0( 0.07886,    941.622,        41.989),
-			new PlanetExpP0( 0.00861,   2836.46,         60.35),
-			new PlanetExpP0( 0.00590,   1306.75,        112.91),
-			new PlanetExpP0( 0.00145,   2488.14,         19.01),
-			new PlanetExpP0( 0.00022,   5861.8,          77.9),
-			new PlanetExpP0( 0.00013,   3288.8,         293.0),
-		};
-
-		static PlanetExpP0[] PlutoBeta = {
-			new PlanetExpP0(17.04550,    172.554318,     42.574982),
-			new PlanetExpP0( 2.45310,    415.60630,      66.15350),
-			new PlanetExpP0( 0.26775,    713.1227,      105.0840),
-			new PlanetExpP0( 0.01855,   1089.202,       146.660),
-			new PlanetExpP0( 0.00119,   2658.22,        293.06),
-			new PlanetExpP0( 0.00098,   3055.6,          18.8),
-			new PlanetExpP0( 0.00090,   1532.6,         213.7),
-			new PlanetExpP0( 0.00042,   2342.3,         254.2),
-		};
-
-		static PlanetExpP0[] PlutoR = {
-			new PlanetExpP0(8.670489,    181.3383,      198.4973),
-			new PlanetExpP0(0.333884,    475.963,       228.717),
-			new PlanetExpP0(0.008426,    909.8,         252.9),
-			new PlanetExpP0(0.004902,   2831.6,         149.4),
-			new PlanetExpP0(0.001188,   1748.0,         114.1),
-			new PlanetExpP0(0.000390,   3188.0,          15.0),
-			new PlanetExpP0(0.000116,   5860.0,         169.0),
-		};
-
-		#endregion
-
 		#region Sun
 
 		static PlanetExpP0[] SunLambda = {
@@ -401,7 +365,6 @@ namespace Comets.OrbitViewer
 				case Object.Mercury:
 				case Object.Uranus:
 				case Object.Neptune:
-				case Object.Pluto:
 					return GetPosExp3(planet, atime.T2);
 			}
 
@@ -593,7 +556,7 @@ namespace Comets.OrbitViewer
 		#region GetPosExp3
 
 		/// <summary>
-		/// Get Position of Mercury, Uranus, Neptune, Pluto
+		/// Get Position of Mercury, Uranus, Neptune
 		/// </summary>
 		/// <param name="planetNo"></param>
 		/// <param name="T"></param>
@@ -654,18 +617,6 @@ namespace Comets.OrbitViewer
 
 					radius = 30.073033;
 					radius += 0.009784 * T * UdMath.udcos(515.2 * T + 195.7);
-					break;
-				case Object.Pluto:
-					ParamL = PlutoLambda;
-					ParamB = PlutoBeta;
-					ParamR = PlutoR;
-
-					lambda = 241.82574 + 179.09519 * T;
-					beta = -2.30285;
-
-					radius = 38.662489;
-					radius += 0.007619 * T * UdMath.udcos(1425.9 * T + 31.0);
-					radius += 0.002543 * T * UdMath.udcos(2196.1 * T + 199.5);
 					break;
 				default:
 					throw new ArithmeticException();

@@ -14,7 +14,6 @@ namespace Comets.OrbitViewer
 		Saturn = 6,
 		Uranus = 7,
 		Neptune = 8,
-		Pluto = 9,
 		Comet = 10,
 		//Asteroid = 11,
 	}
