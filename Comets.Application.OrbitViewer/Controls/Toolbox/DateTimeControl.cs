@@ -8,7 +8,7 @@ namespace Comets.Application.OrbitViewer.Controls
 	{
 		#region Events
 
-		public event Action<DateTime> OnSelectedDatetimeChanged
+		public event Action<object, DateTime> OnSelectedDatetimeChanged
 		{
 			add { this.selectDateControl.OnSelectedDatetimeChanged += value; }
 			remove { this.selectDateControl.OnSelectedDatetimeChanged -= value; }

@@ -112,6 +112,9 @@ namespace Comets.Application
 		{
 			Filters = filterControl.CollectFilters();
 			ephemerisControl.DisposeTimer();
+
+			//https://stackoverflow.com/q/3144004
+			(this.Owner as Form).Activate();
 		}
 
 		#endregion

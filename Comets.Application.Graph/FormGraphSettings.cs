@@ -61,7 +61,7 @@ namespace Comets.Application.Graph
 				timespanControl.DaysBeforeT = settings.DaysBeforeT;
 				timespanControl.DaysAfterT = settings.DaysAfterT;
 				timespanControl.DateRange = settings.DateRange;
-				timespanControl.PerihelionDate = EphemerisManager.JDToLocalDateTimeSafe(settings.SelectedComet?.Tn);
+				timespanControl.PerihelionDate = EphemerisManager.JDToDateTimeSafe(settings.SelectedComet?.Tn);
 
 				chartTypeControl.ChartType = settings.GraphChartType;
 

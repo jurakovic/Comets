@@ -1,4 +1,5 @@
-﻿using Comets.Core;
+﻿using Comets.Application.Common.Controls.DateAndTime;
+using Comets.Core;
 using Comets.Core.Extensions;
 using Comets.Core.Managers;
 using System;
@@ -137,7 +138,7 @@ namespace Comets.Application.Common.Managers
 
 			TextBox txtString = new TextBox();
 			TextBox txtValue = new TextBox();
-			Button btnDate = new Button();
+			SelectDateControl sdc = new SelectDateControl();
 
 			Label lblLabel = new Label();
 			Button btnRemove = new Button();
@@ -150,7 +151,7 @@ namespace Comets.Application.Common.Managers
 
 			pnlPanel.Controls.Add(txtString);
 			pnlPanel.Controls.Add(txtValue);
-			pnlPanel.Controls.Add(btnDate);
+			pnlPanel.Controls.Add(sdc);
 
 			pnlPanel.Controls.Add(lblLabel);
 			pnlPanel.Controls.Add(btnRemove);
@@ -218,15 +219,13 @@ namespace Comets.Application.Common.Managers
 			// 
 			// Date
 			// 
-			btnDate.Location = new Point(336, 1);
-			btnDate.Name = DateName;
-			btnDate.Size = new Size(182, 23);
-			btnDate.TabIndex = 5;
-			btnDate.Tag = dt;
-			btnDate.Text = dt.ToString(DateTimeFormat.Full);
-			btnDate.UseVisualStyleBackColor = true;
-			btnDate.Click += btnDate_Click;
-			btnDate.Visible = false;
+			sdc.Location = new Point(336, 1);
+			sdc.Name = DateName;
+			sdc.Size = new Size(182, 23);
+			sdc.TabIndex = 5;
+			sdc.SelectedDateTime = dt;
+			sdc.OnSelectedDatetimeChanged += sdc_OnSelectedDatetimeChanged;
+			sdc.Visible = false;
 
 			// 
 			// Label
@@ -271,9 +270,7 @@ namespace Comets.Application.Common.Managers
 					}
 					else if (filter.Property == PropertyEnum.Tn)
 					{
-						DateTime date = EphemerisManager.JDToDateTime(Convert.ToDecimal(filter.Value)).ToLocalTime();
-						btnDate.Tag = date;
-						btnDate.Text = date.ToString(DateTimeFormat.Full);
+						sdc.SelectedDateTime = EphemerisManager.JDToDateTime(Convert.ToDecimal(filter.Value));
 					}
 					else
 					{
@@ -293,7 +290,7 @@ namespace Comets.Application.Common.Managers
 				txtValue.Visible = definition.ValueVisible;
 				txtValue.Tag = definition?.Validator;
 
-				btnDate.Visible = definition.DateVisible;
+				sdc.Visible = definition.DateVisible;
 
 				lblLabel.Text = definition.LabelText;
 
@@ -343,7 +340,7 @@ namespace Comets.Application.Common.Managers
 			ComboBox compare = null;
 			TextBox str = null;
 			TextBox value = null;
-			Button date = null;
+			SelectDateControl date = null;
 			Label label = null;
 
 			foreach (Control c in panel.Controls)
@@ -357,7 +354,7 @@ namespace Comets.Application.Common.Managers
 				else if (c.Name == ValueName)
 					value = c as TextBox;
 				else if (c.Name == DateName)
-					date = c as Button;
+					date = c as SelectDateControl;
 				else if (c.Name == LabelName)
 					label = c as Label;
 			}
@@ -406,29 +403,20 @@ namespace Comets.Application.Common.Managers
 
 		#endregion
 
-		#region btnDate_Click
+		#region sdc_OnDateChanged
 
-		static void btnDate_Click(object sender, EventArgs e)
+		private static void sdc_OnSelectedDatetimeChanged(object sender, DateTime dt)
 		{
-			Button btn = sender as Button;
-			DateTime dt = (DateTime)btn.Tag;
-
-			FormDatabase fdb = btn.FindForm() as FormDatabase;
-			DateTime? perihelionDate = EphemerisManager.JDToLocalDateTimeSafe(fdb.SelectedComet?.Tn);
-
-			using (FormDateTime fdt = new FormDateTime(dt, CommonManager.DefaultDateStart, perihelionDate))
+			Control control = sender as Control;
+			SelectDateControl sdc = control.Parent as SelectDateControl ?? control as SelectDateControl;
+			if (sdc != null)
 			{
-				Form form = btn.FindForm();
-				fdt.TopMost = form.TopMost;
+				sdc.SelectedDateTime = dt;
+				sdc.Parent.Controls.OfType<CheckBox>().First().Checked = true;
 
-				if (fdt.ShowDialog() == DialogResult.OK)
-				{
-					dt = fdt.SelectedDateTime;
-
-					btn.Tag = dt;
-					btn.Text = dt.ToString(DateTimeFormat.Full);
-					btn.Parent.Controls.OfType<CheckBox>().First().Checked = true;
-				}
+				FormDatabase owner = sdc.FindForm() as FormDatabase;
+				if (owner != null)
+					owner.ApplyFilters(owner.CometsInitial);
 			}
 		}
 

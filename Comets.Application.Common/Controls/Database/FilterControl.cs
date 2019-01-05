@@ -1,4 +1,5 @@
-﻿using Comets.Application.Common.Managers;
+﻿using Comets.Application.Common.Controls.DateAndTime;
+using Comets.Application.Common.Managers;
 using Comets.Core;
 using Comets.Core.Extensions;
 using Comets.Core.Managers;
@@ -92,7 +93,7 @@ namespace Comets.Application.Common.Controls.Database
 				int compareIndex = 0;
 				string txtStr = String.Empty;
 				string txtVal = String.Empty;
-				DateTime dt = DateTime.Now;
+				DateTime dt = DateTime.UtcNow;
 
 				foreach (Control c in p.Controls)
 				{
@@ -106,8 +107,8 @@ namespace Comets.Application.Common.Controls.Database
 						txtStr = (c as TextBox).Text.Trim();
 					else if (c is TextBox && c.Name == FilterPanelManager.ValueName)
 						txtVal = (c as TextBox).Text.Trim();
-					else if (c is Button && c.Name == FilterPanelManager.DateName)
-						dt = (DateTime)(c as Button).Tag;
+					else if (c is SelectDateControl && c.Name == FilterPanelManager.DateName)
+						dt = (c as SelectDateControl).SelectedDateTime;
 				}
 
 				if (propertyIndex >= 0)

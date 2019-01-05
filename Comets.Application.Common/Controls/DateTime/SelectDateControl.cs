@@ -8,7 +8,7 @@ namespace Comets.Application.Common.Controls.DateAndTime
 	{
 		#region Events
 
-		public event Action<DateTime> OnSelectedDatetimeChanged;
+		public event Action<object, DateTime> OnSelectedDatetimeChanged;
 
 		#endregion
 
@@ -29,6 +29,7 @@ namespace Comets.Application.Common.Controls.DateAndTime
 			{
 				_selectedDateTime = dateTimeMenuControl.SelectedDateTime = value;
 				btnSelectDate.Text = _selectedDateTime.ToString(DateTimeFormat.Full);
+				ToolTop.SetToolTip(btnSelectDate, _selectedDateTime.ToLocalTime().ToString(DateTimeFormat.Full));
 			}
 		}
 
@@ -44,6 +45,8 @@ namespace Comets.Application.Common.Controls.DateAndTime
 			set { _perihelionDate = dateTimeMenuControl.PerihelionDate = value; }
 		}
 
+		private ToolTip ToolTop { get; set; }
+
 		#endregion
 
 		#region Constructor
@@ -53,6 +56,10 @@ namespace Comets.Application.Common.Controls.DateAndTime
 			InitializeComponent();
 			dateTimeMenuControl.OnSelectedDatetimeChanged += SetSelectedDateTime;
 			dateTimeMenuControl.ReferenceControl = this.btnSelectDate;
+
+			ToolTop = new ToolTip();
+			ToolTop.AutomaticDelay = 500;
+			ToolTop.ToolTipTitle = "Local time";
 		}
 
 		#endregion
@@ -75,14 +82,14 @@ namespace Comets.Application.Common.Controls.DateAndTime
 				fdt.TopMost = this.ParentForm.TopMost;
 
 				if (fdt.ShowDialog() == DialogResult.OK)
-					SetSelectedDateTime(fdt.SelectedDateTime);
+					SetSelectedDateTime(this, fdt.SelectedDateTime);
 			}
 		}
 
-		private void SetSelectedDateTime(DateTime dateTime)
+		private void SetSelectedDateTime(object sender, DateTime dateTime)
 		{
 			SelectedDateTime = dateTime;
-			OnSelectedDatetimeChanged?.Invoke(dateTime);
+			OnSelectedDatetimeChanged?.Invoke(sender, dateTime);
 		}
 
 		#endregion

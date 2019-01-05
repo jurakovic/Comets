@@ -131,7 +131,7 @@ namespace Comets.Application.OrbitViewer.Controls
 				if (name != null && Comets.Any(x => x.Name == name))
 					SelectedComet = Comets.First(x => x.Name == name);
 				else
-					SelectedComet = Comets.OrderBy(x => Math.Abs(x.T - DateTime.Now.JD())).First(); //comet with nearest perihelion date
+					SelectedComet = Comets.OrderBy(x => Math.Abs(x.T - DateTime.UtcNow.JD())).First(); //comet with nearest perihelion date
 			}
 			else
 			{

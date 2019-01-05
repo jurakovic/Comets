@@ -85,7 +85,7 @@ namespace Comets.Application
 		{
 			if (CommonManager.Settings.AutomaticUpdate && CommonManager.Settings.LastUpdateDate != null)
 			{
-				int daysLastUpdate = (int)(DateTime.Now - CommonManager.Settings.LastUpdateDate.Value).TotalDays;
+				int daysLastUpdate = (int)(DateTime.UtcNow - CommonManager.Settings.LastUpdateDate.Value).TotalDays;
 
 				if (daysLastUpdate >= CommonManager.Settings.UpdateInterval)
 				{
@@ -330,15 +330,6 @@ namespace Comets.Application
 				formImport.OnImportCompleted += this.SetStatusCometsLabel;
 				formImport.ShowDialog();
 			}
-		}
-
-		private void menuItemExport_Click(object sender, EventArgs e)
-		{
-			//using (FormExport formExport = new FormExport() { Owner = this })
-			//{
-			//	formExport.TopMost = this.TopMost;
-			//	formExport.ShowDialog();
-			//}
 		}
 
 		private void menuItemSettings_Click(object sender, EventArgs e)

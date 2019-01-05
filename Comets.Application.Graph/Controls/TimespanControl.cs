@@ -66,7 +66,7 @@ namespace Comets.Application.Graph
 			{
 				return this.DateRange
 					? this.SelectedDateStart
-					: this.PerihelionDate.GetValueOrDefault(DateTime.Now).AddDays(this.DaysBeforeT); //negativan broj
+					: this.PerihelionDate.GetValueOrDefault(DateTime.UtcNow).AddDays(this.DaysBeforeT); //negativan broj
 			}
 		}
 
@@ -76,7 +76,7 @@ namespace Comets.Application.Graph
 			{
 				return this.DateRange
 					? this.SelectedDateEnd
-					: this.PerihelionDate.GetValueOrDefault(DateTime.Now).AddDays(this.DaysAfterT);
+					: this.PerihelionDate.GetValueOrDefault(DateTime.UtcNow).AddDays(this.DaysAfterT);
 			}
 		}
 

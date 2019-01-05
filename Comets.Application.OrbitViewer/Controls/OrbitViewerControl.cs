@@ -137,7 +137,7 @@ namespace Comets.Application.OrbitViewer
 
 			dateTimeControl.DefaultDateTime
 				= SelectedDateTime
-				= new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, 0, 0, DateTimeKind.Local);
+				= DateTime.UtcNow.Date.AddHours(DateTime.UtcNow.Hour);
 
 			ValueChangedInternal = true;
 
@@ -326,14 +326,14 @@ namespace Comets.Application.OrbitViewer
 
 		#region Date and Time
 
-		private void SetDateTime(DateTime dateTime)
+		private void SetDateTime(object sender, DateTime dateTime)
 		{
 			SelectedDateTime = dateTime;
 		}
 
 		private void SetPerihelionDate()
 		{
-			dateTimeControl.PerihelionDate = EphemerisManager.JDToLocalDateTimeSafe(SelectedComet?.T);
+			dateTimeControl.PerihelionDate = EphemerisManager.JDToDateTimeSafe(SelectedComet?.T);
 		}
 
 		#endregion
@@ -654,7 +654,7 @@ namespace Comets.Application.OrbitViewer
 				case Keys.B:
 					if (ctrl && !shift && SelectedComet != null)
 					{
-						SelectedDateTime = EphemerisManager.JDToDateTime(SelectedComet.T).ToLocalTime();
+						SelectedDateTime = EphemerisManager.JDToDateTime(SelectedComet.T);
 						handled = true;
 					}
 					break;
@@ -662,7 +662,7 @@ namespace Comets.Application.OrbitViewer
 				case Keys.N:
 					if (ctrl && !shift)
 					{
-						SelectedDateTime = DateTime.Now;
+						SelectedDateTime = DateTime.UtcNow;
 						handled = true;
 					}
 					break;

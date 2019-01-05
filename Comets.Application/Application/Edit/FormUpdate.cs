@@ -351,7 +351,7 @@ namespace Comets.Application.Edit
 
 					if (IsUsedDownloadedFile)
 					{
-						CommonManager.Settings.LastUpdateDate = DateTime.Now;
+						CommonManager.Settings.LastUpdateDate = DateTime.UtcNow;
 						CommonManager.Settings.IsSettingsChanged = true;
 					}
 

@@ -181,9 +181,9 @@
 			this.cbxShowLongCalculationConfirmation.AutoSize = true;
 			this.cbxShowLongCalculationConfirmation.Location = new System.Drawing.Point(13, 125);
 			this.cbxShowLongCalculationConfirmation.Name = "cbxShowLongCalculationConfirmation";
-			this.cbxShowLongCalculationConfirmation.Size = new System.Drawing.Size(175, 17);
+			this.cbxShowLongCalculationConfirmation.Size = new System.Drawing.Size(190, 17);
 			this.cbxShowLongCalculationConfirmation.TabIndex = 6;
-			this.cbxShowLongCalculationConfirmation.Text = "Ignore long calculation warning";
+			this.cbxShowLongCalculationConfirmation.Text = "Show long calculation confirmation";
 			this.cbxShowLongCalculationConfirmation.UseVisualStyleBackColor = true;
 			// 
 			// lblDays

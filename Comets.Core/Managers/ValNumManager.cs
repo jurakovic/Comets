@@ -1,6 +1,6 @@
-﻿using Comets.Core;
-using Comets.Core.Extensions;
+﻿using Comets.Core.Extensions;
 using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
@@ -21,21 +21,28 @@ namespace Comets.Core.Managers
 
 			double minimum = v.DMin;
 			double maximum = v.DMax;
-			int decimals = v.Decimals;
 
 			if (minimum > maximum)
 				throw new Exception("Minimum can not be greather than maximum");
 
+			bool negative = minimum < 0;
+			int decimals = v.Decimals;
+
 			if (e.KeyChar == ',')
 				e.KeyChar = '.';
 
-			string str = Char.IsControl(e.KeyChar) ? String.Empty : e.KeyChar.ToString();
+			string input = Char.IsControl(e.KeyChar) ? String.Empty : e.KeyChar.ToString();
 
-			string text = textbox.SelectionLength > 0 ? textbox.Text.Replace(textbox.SelectedText, str) : textbox.Text + str;
+			string text;
+
+			if (textbox.SelectionLength > 0)
+				text = textbox.Text.Replace(textbox.SelectedText, input);
+			else if (e.KeyChar == '\b') //backspace
+				text = String.Concat(textbox.Text.Select((c, i) => i == textbox.SelectionStart - 1 ? input : c.ToString()));
+			else
+				text = textbox.Text.Insert(textbox.SelectionStart, input);
 
 			string pattern = "^";
-
-			bool negative = minimum < 0;
 
 			if (negative)
 				pattern += "-?";
@@ -52,13 +59,7 @@ namespace Comets.Core.Managers
 				pattern += "[0-9]*([.][0-9]{0," + decimals + "})?$)";
 			}
 
-			bool handle = !Regex.IsMatch(text, pattern);
-
-			if (Char.IsDigit(e.KeyChar) && !handle)
-				handle = text.Double() < minimum;
-
-			if (Char.IsDigit(e.KeyChar) && !handle)
-				handle = text.Double() > maximum;
+			bool handle = !Regex.IsMatch(text, pattern) || text.Double() < minimum || text.Double() > maximum;
 
 			return handle;
 		}
@@ -76,8 +77,8 @@ namespace Comets.Core.Managers
 			if (v == null)
 				throw new NullReferenceException("Textbox has no defined ValNum Tag");
 
-			int value = 0;
-			bool hasValue = Int32.TryParse(txt.Text, out value);
+			double value = 0;
+			bool hasValue = Double.TryParse(txt.Text, out value);
 			bool suppress = false;
 
 			bool up = e.KeyData == Keys.Up;

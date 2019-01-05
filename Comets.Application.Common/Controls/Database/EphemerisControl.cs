@@ -35,7 +35,7 @@ namespace Comets.Application.Common.Controls.Database
 			InitializeComponent();
 
 			this.selectDateControl.OnSelectedDatetimeChanged += OnSelectedDatetimeChanged;
-			this.selectDateControl.SelectedDateTime = DateTime.Now;
+			this.selectDateControl.SelectedDateTime = DateTime.UtcNow;
 
 			Timer = new Timer();
 			Timer.Interval = IntervalSync;
@@ -50,16 +50,16 @@ namespace Comets.Application.Common.Controls.Database
 
 		private void Timer_Tick(object sender, EventArgs e)
 		{
-			//System.Diagnostics.Debug.Print(DateTime.Now.Millisecond.ToString());
+			//System.Diagnostics.Debug.Print(DateTime.UtcNow.Millisecond.ToString());
 
 			if (Timer.Interval == IntervalSync)
 			{
 				//"syncing" with system clock
-				if (DateTime.Now.Millisecond > MarginBottom && DateTime.Now.Millisecond < MarginTop)
+				if (DateTime.UtcNow.Millisecond > MarginBottom && DateTime.UtcNow.Millisecond < MarginTop)
 				{
 					StopTimer();
 					Timer.Interval = IntervalSecond;
-					selectDateControl.SelectedDateTime = DateTime.Now;
+					selectDateControl.SelectedDateTime = DateTime.UtcNow;
 					StartTimer(); // start "synced" ticks
 				}
 			}
@@ -74,7 +74,7 @@ namespace Comets.Application.Common.Controls.Database
 
 		#region Event
 
-		private void OnSelectedDatetimeChanged(DateTime dateTime)
+		private void OnSelectedDatetimeChanged(object sender, DateTime dateTime)
 		{
 			selectDateControl.SelectedDateTime = dateTime;
 			CalculateInitialEphemeris(dateTime);
@@ -91,14 +91,14 @@ namespace Comets.Application.Common.Controls.Database
 		public void DataBind(Comet c)
 		{
 			this.SelectedComet = c;
-			this.selectDateControl.PerihelionDate = EphemerisManager.JDToLocalDateTimeSafe(c.Tn);
+			this.selectDateControl.PerihelionDate = EphemerisManager.JDToDateTimeSafe(c.Tn);
 
 			string format6 = "0.000000";
 			int minPeriod = 1000;
 
 			txtName.Text = c.full;
 
-			txtNextPerihDate.Text = EphemerisManager.JDToDateTime(c.Tn).ToLocalTime().ToString(DateTimeFormat.Full);
+			txtNextPerihDate.Text = EphemerisManager.JDToDateTime(c.Tn).ToString(DateTimeFormat.Full);
 			txtPeriod.Text = c.P < minPeriod ? c.P.ToString(format6) : String.Empty;
 			txtAphSunDist.Text = c.P < minPeriod ? c.Q.ToString(format6) : String.Empty;
 

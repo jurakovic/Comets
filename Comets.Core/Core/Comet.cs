@@ -120,7 +120,7 @@ namespace Comets.Core
 		/// </summary>
 		public bool IsPeriodic
 		{
-			get { return (!String.IsNullOrEmpty(id) && Char.IsDigit(id[0]) && id.EndsWith("P")) || id.StartsWith("P/"); }
+			get { return (!String.IsNullOrEmpty(id) && Char.IsDigit(id[0]) && (id.EndsWith("P") || id.Contains("P-"))) || id.StartsWith("P/"); }
 		}
 
 		/// <summary>
@@ -255,10 +255,10 @@ namespace Comets.Core
 		{
 			get
 			{
-				if (_epCurrent == null || (DateTime.Now - _lastEphemerisUpdate).TotalMinutes > CometManager.MinimumMinutesForRecalculate)
+				if (_epCurrent == null || (DateTime.UtcNow - _lastEphemerisUpdate).TotalMinutes > CometManager.MinimumMinutesForRecalculate)
 				{
-					_lastEphemerisUpdate = DateTime.Now;
-					_epCurrent = EphemerisManager.GetEphemeris(this, DateTime.Now.JD(), CommonManager.Settings.Location);
+					_lastEphemerisUpdate = DateTime.UtcNow;
+					_epCurrent = EphemerisManager.GetEphemeris(this, DateTime.UtcNow.JD(), CommonManager.Settings.Location);
 				}
 
 				return _epCurrent;
@@ -320,7 +320,7 @@ namespace Comets.Core
 							t += periodDays;
 						}
 
-						_Tn = t_all.OrderBy(x => Math.Abs(x - DateTime.Now.JD())).First();
+						_Tn = t_all.OrderBy(x => Math.Abs(x - DateTime.UtcNow.JD())).First();
 					}
 					else
 					{

@@ -123,8 +123,8 @@ namespace Comets.Core.Managers
 			{
 				if (_defaultDateStart == null)
 				{
-					DateTime dt = DateTime.Now.AddMonths(-1);
-					_defaultDateStart = new DateTime(dt.Year, dt.Month, 1, 0, 0, 0, DateTimeKind.Local);
+					DateTime dt = DateTime.UtcNow.AddMonths(-1);
+					_defaultDateStart = new DateTime(dt.Year, dt.Month, 1, 0, 0, 0, DateTimeKind.Utc);
 				}
 
 				return _defaultDateStart.Value;
@@ -137,8 +137,8 @@ namespace Comets.Core.Managers
 			{
 				if (_defaultDateEnd == null)
 				{
-					DateTime dt = DateTime.Now.AddMonths(2);
-					_defaultDateEnd = new DateTime(dt.Year, dt.Month, 1, 0, 0, 0, DateTimeKind.Local);
+					DateTime dt = DateTime.UtcNow.AddMonths(2);
+					_defaultDateEnd = new DateTime(dt.Year, dt.Month, 1, 0, 0, 0, DateTimeKind.Utc);
 				}
 
 				return _defaultDateEnd.Value;

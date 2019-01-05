@@ -47,7 +47,11 @@ namespace Comets.Application
 			txtMinute.Tag = ValNum.VMinute;
 			txtSecond.Tag = ValNum.VSecond;
 
-			dateTimeMenuControl.OnSelectedDatetimeChanged += OnSelectedDateTimeChanged;
+			decimal min = EphemerisManager.MinimumDateTime.JD();
+			decimal max = EphemerisManager.MaximumDateTime.JD();
+			txtJD.Tag = new ValNum((double)min, (double)max, 5);
+
+			dateTimeMenuControl.OnSelectedDatetimeChanged += SetDateTime;
 			dateTimeMenuControl.DefaultDateTime = defaultDateTime;
 			dateTimeMenuControl.PerihelionDate = perihelionDate;
 
@@ -58,11 +62,11 @@ namespace Comets.Application
 
 		#region +EventHandling
 
-		#region Event
+		#region Form
 
-		public void OnSelectedDateTimeChanged(DateTime dateTime)
+		private void FormDateTime_Load(object sender, EventArgs e)
 		{
-			SelectedDateTime = dateTime;
+			this.ActiveControl = btnOk;
 		}
 
 		#endregion
@@ -85,6 +89,10 @@ namespace Comets.Application
 
 				e.SuppressKeyPress = true;
 				ValueChangedInternal = false;
+			}
+			else
+			{
+				e.SuppressKeyPress = e.KeyCode == Keys.Delete;
 			}
 		}
 
@@ -123,6 +131,17 @@ namespace Comets.Application
 				CollectData();
 		}
 
+		private void txtJD_KeyDown(object sender, KeyEventArgs e)
+		{
+			e.SuppressKeyPress = e.KeyCode == Keys.Delete || ValNumManager.TextBoxValueUpDown(sender, e);
+		}
+
+		private void txtJD_TextChanged(object sender, EventArgs e)
+		{
+			if (!ValueChangedInternal)
+				SelectedDateTime = EphemerisManager.JDToDateTime((decimal)txtJD.Double());
+		}
+
 		#endregion
 
 		#region Button
@@ -130,6 +149,9 @@ namespace Comets.Application
 		private void btnOk_Click(object sender, EventArgs e)
 		{
 			CollectData();
+
+			RangeDateTime(SelectedDateTime, out DateTime dt);
+			SelectedDateTime = dt;
 		}
 
 		#endregion
@@ -137,6 +159,11 @@ namespace Comets.Application
 		#endregion
 
 		#region Methods
+
+		private void SetDateTime(object sender, DateTime dateTime)
+		{
+			SelectedDateTime = dateTime;
+		}
 
 		public static bool RangeDateTime(DateTime dt, out DateTime value)
 		{
@@ -168,13 +195,17 @@ namespace Comets.Application
 		{
 			ValueChangedInternal = true;
 
-			txtDay.Text = SelectedDateTime.Day.ToString("00");
-			txtMonth.Text = SelectedDateTime.Month.ToString("00");
+			txtDay.Text = SelectedDateTime.Day.ToString();
+			txtMonth.Text = SelectedDateTime.Month.ToString();
 			txtYear.Text = SelectedDateTime.Year.ToString();
 
-			txtHour.Text = SelectedDateTime.Hour.ToString("00");
-			txtMinute.Text = SelectedDateTime.Minute.ToString("00");
-			txtSecond.Text = SelectedDateTime.Second.ToString("00");
+			txtHour.Text = SelectedDateTime.Hour.ToString();
+			txtMinute.Text = SelectedDateTime.Minute.ToString();
+			txtSecond.Text = SelectedDateTime.Second.ToString();
+
+			txtLocalTime.Text = SelectedDateTime.ToLocalTime().ToString(DateTimeFormat.Full);
+
+			txtJD.Text = SelectedDateTime.JD().ToString("0.0####");
 
 			ValueChangedInternal = false;
 		}
@@ -188,9 +219,7 @@ namespace Comets.Application
 			int min = txtMinute.Int();
 			int sec = txtSecond.Int();
 
-			DateTime dt = new DateTime(year, mon, day, hour, min, sec, DateTimeKind.Local);
-
-			RangeDateTime(dt, out _selectedDateTime);
+			SelectedDateTime = new DateTime(year, mon, day, hour, min, sec, DateTimeKind.Utc);
 		}
 
 		#endregion

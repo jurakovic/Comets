@@ -9,7 +9,7 @@ namespace Comets.Application.Common.Controls.DateAndTime
 	{
 		#region Events
 
-		public event Action<DateTime> OnSelectedDatetimeChanged;
+		public event Action<object, DateTime> OnSelectedDatetimeChanged;
 
 		#endregion
 
@@ -27,20 +27,29 @@ namespace Comets.Application.Common.Controls.DateAndTime
 			AddThreeMonths,
 			AddSixMonth,
 			AddOneYear,
+			SubThreeMonths,
+			SubSixMonths,
+			SubOneYear,
 		}
 
 		#endregion
 
 		#region Const
 
-		private readonly DateTime LastYear = new DateTime(DateTime.Now.Year - 1, 1, 1);
-		private readonly DateTime ThisYear = new DateTime(DateTime.Now.Year, 1, 1);
-		private readonly DateTime NextYear = new DateTime(DateTime.Now.Year + 1, 1, 1);
-		private readonly DateTime AfterNextYear = new DateTime(DateTime.Now.Year + 2, 1, 1);
+		private readonly DateTime LastYear = new DateTime(DateTime.UtcNow.Year - 1, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+		private readonly DateTime ThisYear = new DateTime(DateTime.UtcNow.Year, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+		private readonly DateTime NextYear = new DateTime(DateTime.UtcNow.Year + 1, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+		private readonly DateTime AfterNextYear = new DateTime(DateTime.UtcNow.Year + 2, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
 		#endregion
 
 		#region Properties
+
+		public string Title
+		{
+			get { return btnShowMenu.Text; }
+			set { btnShowMenu.Text = value; }
+		}
 
 		public DateTime SelectedDateTime { get; set; }
 
@@ -66,8 +75,11 @@ namespace Comets.Application.Common.Controls.DateAndTime
 			mnuNextYear.Tag = DateTimePreset.NextYear;
 			mnuAfterNextYear.Tag = DateTimePreset.AfterNextYear;
 			mnuAddThreeMonths.Tag = DateTimePreset.AddThreeMonths;
-			mnuAddSixMonth.Tag = DateTimePreset.AddSixMonth;
+			mnuAddSixMonths.Tag = DateTimePreset.AddSixMonth;
 			mnuAddOneYear.Tag = DateTimePreset.AddOneYear;
+			mnuSubThreeMonths.Tag = DateTimePreset.SubThreeMonths;
+			mnuSubSixMonths.Tag = DateTimePreset.SubSixMonths;
+			mnuSubOneYear.Tag = DateTimePreset.SubOneYear;
 
 			mnuLastYear.Text = LastYear.ToString(DateTimeFormat.PerihelionDate);
 			mnuThisYear.Text = ThisYear.ToString(DateTimeFormat.PerihelionDate);
@@ -93,7 +105,7 @@ namespace Comets.Application.Common.Controls.DateAndTime
 				switch (preset)
 				{
 					case DateTimePreset.Now:
-						retval = DateTime.Now;
+						retval = DateTime.UtcNow;
 						break;
 					case DateTimePreset.PerihelionDate:
 						retval = PerihelionDate.Value;
@@ -119,12 +131,21 @@ namespace Comets.Application.Common.Controls.DateAndTime
 					case DateTimePreset.AddOneYear:
 						retval = SelectedDateTime.AddYears(1);
 						break;
+					case DateTimePreset.SubThreeMonths:
+						retval = SelectedDateTime.AddMonths(-3);
+						break;
+					case DateTimePreset.SubSixMonths:
+						retval = SelectedDateTime.AddMonths(-6);
+						break;
+					case DateTimePreset.SubOneYear:
+						retval = SelectedDateTime.AddYears(-1);
+						break;
 					default:
-						retval = DefaultDateTime.GetValueOrDefault(DateTime.Now);
+						retval = DefaultDateTime.GetValueOrDefault(DateTime.UtcNow);
 						break;
 				}
 
-				OnSelectedDatetimeChanged(retval);
+				OnSelectedDatetimeChanged(ReferenceControl, retval);
 			}
 		}
 

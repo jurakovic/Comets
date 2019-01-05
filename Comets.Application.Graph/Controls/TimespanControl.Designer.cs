@@ -37,8 +37,8 @@
 			this.label3 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this.pnlRangeDate = new System.Windows.Forms.Panel();
-			this.selectDateControlEnd = new Application.Common.Controls.DateAndTime.SelectDateControl();
-			this.selectDateControlStart = new Application.Common.Controls.DateAndTime.SelectDateControl();
+			this.selectDateControlEnd = new Comets.Application.Common.Controls.DateAndTime.SelectDateControl();
+			this.selectDateControlStart = new Comets.Application.Common.Controls.DateAndTime.SelectDateControl();
 			this.label1 = new System.Windows.Forms.Label();
 			this.rbtnRangeDaysFromT = new System.Windows.Forms.RadioButton();
 			this.rbtnRangeDate = new System.Windows.Forms.RadioButton();
@@ -61,7 +61,7 @@
 			this.gbxTimespan.Size = new System.Drawing.Size(558, 83);
 			this.gbxTimespan.TabIndex = 0;
 			this.gbxTimespan.TabStop = false;
-			this.gbxTimespan.Text = "Timespan (Local time)";
+			this.gbxTimespan.Text = "Timespan (Universal time)";
 			// 
 			// pnlRangeDaysFromT
 			// 
@@ -148,6 +148,7 @@
 			// 
 			// selectDateControlEnd
 			// 
+			this.selectDateControlEnd.Font = new System.Drawing.Font("Tahoma", 8.25F);
 			this.selectDateControlEnd.Location = new System.Drawing.Point(188, 2);
 			this.selectDateControlEnd.Name = "selectDateControlEnd";
 			this.selectDateControlEnd.Size = new System.Drawing.Size(172, 23);
@@ -155,6 +156,7 @@
 			// 
 			// selectDateControlStart
 			// 
+			this.selectDateControlStart.Font = new System.Drawing.Font("Tahoma", 8.25F);
 			this.selectDateControlStart.Location = new System.Drawing.Point(2, 2);
 			this.selectDateControlStart.Name = "selectDateControlStart";
 			this.selectDateControlStart.Size = new System.Drawing.Size(172, 23);

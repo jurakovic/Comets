@@ -83,7 +83,7 @@ namespace Comets.Application.Common.Controls.Common
 
 		private void OnSelectedCometChangedInternal()
 		{
-			DateTime? perihelionDate = EphemerisManager.JDToLocalDateTimeSafe(this.SelectedComet?.Tn);
+			DateTime? perihelionDate = EphemerisManager.JDToDateTimeSafe(this.SelectedComet?.Tn);
 
 			if (this.SelectedComet != null)
 			{
@@ -125,7 +125,7 @@ namespace Comets.Application.Common.Controls.Common
 					else
 					{
 						//comet with nearest perihelion date
-						decimal jdNow = DateTime.Now.JD();
+						decimal jdNow = DateTime.UtcNow.JD();
 						this.SelectedComet = this.Comets.OrderBy(x => Math.Abs(x.Tn - jdNow)).First();
 					}
 				}

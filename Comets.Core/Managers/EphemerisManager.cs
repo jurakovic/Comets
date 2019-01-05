@@ -149,7 +149,7 @@ namespace Comets.Core.Managers
 
 					sb.AppendLine(String.Format("Comet:               \t{0}", comet.full));
 
-					sb.AppendLine(String.Format("Perihelion date:     \t{0}", JDToDateTime(comet.Tn).ToLocalTime().ToString(DateTimeFormat.PerihelionDate)));
+					sb.AppendLine(String.Format("Perihelion date:     \t{0}", JDToDateTime(comet.Tn).ToString(DateTimeFormat.PerihelionDate)));
 					sb.AppendLine(String.Format("Perihelion distance: \t{0:0.000000} AU", comet.q));
 					sb.AppendLine(String.Format("Period:              \t{0}", (comet.P < 10000 ? comet.P.ToString("0.000000") + " years" : "-")));
 					sb.AppendLine();
@@ -300,8 +300,8 @@ namespace Comets.Core.Managers
 			else
 				yInterval = 2D;
 
-			chartArea.AxisX2.Minimum = JDToDateTime(xMinValue).ToLocalTime().ToOADate();
-			chartArea.AxisX2.Maximum = JDToDateTime(xMaxValue).ToLocalTime().ToOADate();
+			chartArea.AxisX2.Minimum = JDToDateTime(xMinValue).ToOADate();
+			chartArea.AxisX2.Maximum = JDToDateTime(xMaxValue).ToOADate();
 			chartArea.AxisX2.IntervalType = DateTimeIntervalType.Auto;
 			chartArea.AxisX2.IntervalOffset = 0;
 
@@ -338,7 +338,7 @@ namespace Comets.Core.Managers
 					series.XValueType = ChartValueType.DateTime;
 
 					foreach (EphemerisChartDataPoint dp in dataPoints)
-						series.Points.Add(new DataPoint(JDToDateTime(dp.JD).ToLocalTime().ToOADate(), dp.Value));
+						series.Points.Add(new DataPoint(JDToDateTime(dp.JD).ToOADate(), dp.Value));
 
 					chart1.Series.Add(series);
 
@@ -350,7 +350,7 @@ namespace Comets.Core.Managers
 			if (settings.PerihelionLineChecked && !settings.IsMultipleMode)
 				AddPerihelionLine(chart1, settings.SelectedComet, settings.PerihelionLineColor, xMinValue, xMaxValue, yMinValue, yMaxValue, chartAreaName, SeriesPerihelion);
 
-			decimal jdNow = DateTime.Now.JD();
+			decimal jdNow = DateTime.UtcNow.JD();
 
 			if (settings.NowLineChecked && xMinValue < jdNow && xMaxValue > jdNow)
 			{
@@ -361,8 +361,8 @@ namespace Comets.Core.Managers
 				s.ChartType = SeriesChartType.Line;
 				s.XAxisType = AxisType.Secondary;
 				s.XValueType = ChartValueType.DateTime;
-				s.Points.Add(new DataPoint(JDToDateTime(jdNow).ToLocalTime().ToOADate(), yMinValue));
-				s.Points.Add(new DataPoint(JDToDateTime(jdNow).ToLocalTime().ToOADate(), yMaxValue));
+				s.Points.Add(new DataPoint(JDToDateTime(jdNow).ToOADate(), yMinValue));
+				s.Points.Add(new DataPoint(JDToDateTime(jdNow).ToOADate(), yMaxValue));
 				chart1.Series.Add(s);
 			}
 
@@ -393,8 +393,8 @@ namespace Comets.Core.Managers
 				s.ChartType = SeriesChartType.Line;
 				s.XAxisType = AxisType.Secondary;
 				s.XValueType = ChartValueType.DateTime;
-				s.Points.Add(new DataPoint(JDToDateTime(t).ToLocalTime().ToOADate(), yMin));
-				s.Points.Add(new DataPoint(JDToDateTime(t).ToLocalTime().ToOADate(), yMax));
+				s.Points.Add(new DataPoint(JDToDateTime(t).ToOADate(), yMin));
+				s.Points.Add(new DataPoint(JDToDateTime(t).ToOADate(), yMax));
 
 				chart1.Series.Add(s);
 				t += periodDays;
@@ -711,12 +711,12 @@ namespace Comets.Core.Managers
 			//int dw = (int)(Math.Floor(jd + 1.5) - 7 * Math.Floor((jd + 1.5) / 7));
 			//return new int[] { year, month, day, dw, hour, minute, second };
 
-			return new DateTime(year, month, day, hour, minute, second);
+			return new DateTime(year, month, day, hour, minute, second, DateTimeKind.Utc);
 		}
 
-		public static DateTime? JDToLocalDateTimeSafe(decimal? jd0)
+		public static DateTime? JDToDateTimeSafe(decimal? jd0)
 		{
-			return jd0 != null ? JDToDateTime(jd0.Value).ToLocalTime() : (DateTime?)null;
+			return jd0 != null ? JDToDateTime(jd0.Value) : (DateTime?)null;
 		}
 
 		#endregion

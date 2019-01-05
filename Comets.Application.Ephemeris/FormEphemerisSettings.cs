@@ -59,7 +59,7 @@ namespace Comets.Application.Ephemeris
 				timespanControl.DayInterval = settings.TimeSpan.Days;
 				timespanControl.HourInterval = settings.TimeSpan.Hours;
 				timespanControl.MinuteInterval = settings.TimeSpan.Minutes;
-				timespanControl.PerihelionDate = EphemerisManager.JDToLocalDateTimeSafe(settings.SelectedComet?.Tn);
+				timespanControl.PerihelionDate = EphemerisManager.JDToDateTimeSafe(settings.SelectedComet?.Tn);
 
 				outputDataControl.LocalTime = settings.LocalTime;
 				outputDataControl.RA = settings.RA;

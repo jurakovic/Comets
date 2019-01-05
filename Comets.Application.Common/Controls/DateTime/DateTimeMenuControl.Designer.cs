@@ -32,6 +32,8 @@
 			this.ctxMenu = new System.Windows.Forms.ContextMenu();
 			this.mnuDefault = new System.Windows.Forms.MenuItem();
 			this.sepDefault = new System.Windows.Forms.MenuItem();
+			this.mnuNow = new System.Windows.Forms.MenuItem();
+			this.sepNow = new System.Windows.Forms.MenuItem();
 			this.mnuPerihelionDate = new System.Windows.Forms.MenuItem();
 			this.sepPerihelionDate = new System.Windows.Forms.MenuItem();
 			this.mnuLastYear = new System.Windows.Forms.MenuItem();
@@ -40,16 +42,18 @@
 			this.mnuAfterNextYear = new System.Windows.Forms.MenuItem();
 			this.sepAdd = new System.Windows.Forms.MenuItem();
 			this.mnuAddThreeMonths = new System.Windows.Forms.MenuItem();
-			this.mnuAddSixMonth = new System.Windows.Forms.MenuItem();
+			this.mnuAddSixMonths = new System.Windows.Forms.MenuItem();
 			this.mnuAddOneYear = new System.Windows.Forms.MenuItem();
-			this.mnuNow = new System.Windows.Forms.MenuItem();
-			this.sepNow = new System.Windows.Forms.MenuItem();
+			this.sepSub = new System.Windows.Forms.MenuItem();
+			this.mnuSubThreeMonths = new System.Windows.Forms.MenuItem();
+			this.mnuSubSixMonths = new System.Windows.Forms.MenuItem();
+			this.mnuSubOneYear = new System.Windows.Forms.MenuItem();
 			this.SuspendLayout();
 			// 
 			// btnShowMenu
 			// 
 			this.btnShowMenu.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.btnShowMenu.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.btnShowMenu.Font = new System.Drawing.Font("Tahoma", 8.25F);
 			this.btnShowMenu.Location = new System.Drawing.Point(0, 0);
 			this.btnShowMenu.Name = "btnShowMenu";
 			this.btnShowMenu.Size = new System.Drawing.Size(24, 23);
@@ -61,20 +65,24 @@
 			// ctxMenu
 			// 
 			this.ctxMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-			this.mnuDefault,
-			this.sepDefault,
-			this.mnuNow,
-			this.sepNow,
-			this.mnuPerihelionDate,
-			this.sepPerihelionDate,
-			this.mnuLastYear,
-			this.mnuThisYear,
-			this.mnuNextYear,
-			this.mnuAfterNextYear,
-			this.sepAdd,
-			this.mnuAddThreeMonths,
-			this.mnuAddSixMonth,
-			this.mnuAddOneYear});
+            this.mnuDefault,
+            this.sepDefault,
+            this.mnuNow,
+            this.sepNow,
+            this.mnuPerihelionDate,
+            this.sepPerihelionDate,
+            this.mnuLastYear,
+            this.mnuThisYear,
+            this.mnuNextYear,
+            this.mnuAfterNextYear,
+            this.sepAdd,
+            this.mnuAddThreeMonths,
+            this.mnuAddSixMonths,
+            this.mnuAddOneYear,
+            this.sepSub,
+            this.mnuSubThreeMonths,
+            this.mnuSubSixMonths,
+            this.mnuSubOneYear});
 			// 
 			// mnuDefault
 			// 
@@ -86,6 +94,17 @@
 			// 
 			this.sepDefault.Index = 1;
 			this.sepDefault.Text = "-";
+			// 
+			// mnuNow
+			// 
+			this.mnuNow.Index = 2;
+			this.mnuNow.Text = "Now";
+			this.mnuNow.Click += new System.EventHandler(this.mnuCommon_Click);
+			// 
+			// sepNow
+			// 
+			this.sepNow.Index = 3;
+			this.sepNow.Text = "-";
 			// 
 			// mnuPerihelionDate
 			// 
@@ -133,11 +152,11 @@
 			this.mnuAddThreeMonths.Text = "Add 3 months";
 			this.mnuAddThreeMonths.Click += new System.EventHandler(this.mnuCommon_Click);
 			// 
-			// mnuAddSixMonth
+			// mnuAddSixMonths
 			// 
-			this.mnuAddSixMonth.Index = 12;
-			this.mnuAddSixMonth.Text = "Add 6 months";
-			this.mnuAddSixMonth.Click += new System.EventHandler(this.mnuCommon_Click);
+			this.mnuAddSixMonths.Index = 12;
+			this.mnuAddSixMonths.Text = "Add 6 months";
+			this.mnuAddSixMonths.Click += new System.EventHandler(this.mnuCommon_Click);
 			// 
 			// mnuAddOneYear
 			// 
@@ -145,22 +164,35 @@
 			this.mnuAddOneYear.Text = "Add 1 year";
 			this.mnuAddOneYear.Click += new System.EventHandler(this.mnuCommon_Click);
 			// 
-			// mnuNow
+			// sepSub
 			// 
-			this.mnuNow.Index = 2;
-			this.mnuNow.Text = "Now";
-			this.mnuNow.Click += new System.EventHandler(this.mnuCommon_Click);
+			this.sepSub.Index = 14;
+			this.sepSub.Text = "-";
 			// 
-			// sepNow
+			// mnuSubThreeMonths
 			// 
-			this.sepNow.Index = 3;
-			this.sepNow.Text = "-";
+			this.mnuSubThreeMonths.Index = 15;
+			this.mnuSubThreeMonths.Text = "Subtract 3 months";
+			this.mnuSubThreeMonths.Click += new System.EventHandler(this.mnuCommon_Click);
+			// 
+			// mnuSubSixMonths
+			// 
+			this.mnuSubSixMonths.Index = 16;
+			this.mnuSubSixMonths.Text = "Subtract 6 months";
+			this.mnuSubSixMonths.Click += new System.EventHandler(this.mnuCommon_Click);
+			// 
+			// mnuSubOneYear
+			// 
+			this.mnuSubOneYear.Index = 17;
+			this.mnuSubOneYear.Text = "Subtract 1 year";
+			this.mnuSubOneYear.Click += new System.EventHandler(this.mnuCommon_Click);
 			// 
 			// DateTimeMenuControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.btnShowMenu);
+			this.Font = new System.Drawing.Font("Tahoma", 8.25F);
 			this.Name = "DateTimeMenuControl";
 			this.Size = new System.Drawing.Size(24, 23);
 			this.ResumeLayout(false);
@@ -174,7 +206,7 @@
 		private System.Windows.Forms.MenuItem mnuDefault;
 		private System.Windows.Forms.MenuItem sepDefault;
 		private System.Windows.Forms.MenuItem mnuAddThreeMonths;
-		private System.Windows.Forms.MenuItem mnuAddSixMonth;
+		private System.Windows.Forms.MenuItem mnuAddSixMonths;
 		private System.Windows.Forms.MenuItem mnuAddOneYear;
 		private System.Windows.Forms.MenuItem sepAdd;
 		private System.Windows.Forms.MenuItem mnuPerihelionDate;
@@ -185,5 +217,9 @@
 		private System.Windows.Forms.MenuItem mnuAfterNextYear;
 		private System.Windows.Forms.MenuItem mnuNow;
 		private System.Windows.Forms.MenuItem sepNow;
+		private System.Windows.Forms.MenuItem sepSub;
+		private System.Windows.Forms.MenuItem mnuSubThreeMonths;
+		private System.Windows.Forms.MenuItem mnuSubSixMonths;
+		private System.Windows.Forms.MenuItem mnuSubOneYear;
 	}
 }
