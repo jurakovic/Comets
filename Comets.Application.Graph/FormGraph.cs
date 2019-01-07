@@ -113,35 +113,42 @@ namespace Comets.Application.Graph
 
 					if (prop != null)
 					{
-						string message = String.Empty;
+						DateTime dt = new DateTime(DateTime.FromOADate(prop.XValue).Ticks, DateTimeKind.Utc);
 
-						string comet = String.Empty;
-						string datetime = DateTime.FromOADate(prop.XValue).ToString(DateTimeFormat.Full);
+						int offset = 0;
+						string title = String.Empty;
+						string message = String.Empty;
+						string date = dt/*.ToLocalTime()*/.ToString(DateTimeFormat.Full);
 						double value = prop.YValues[0];
 
 						string series = result.Series.Tag as string;
 
 						if (series.StartsWith(EphemerisManager.SeriesNow))
 						{
-							message = String.Format("{0}", datetime);
+							offset = 21;
+							title = "Today";
+							message = String.Format("Time: {0}", date);
 						}
 						else if (series.StartsWith(EphemerisManager.SeriesPerihelion))
 						{
-							comet = series.Replace(EphemerisManager.SeriesPerihelion, String.Empty);
-							message = String.Format("{0}, {1}", comet, datetime);
+							offset = 37;
+							title = series.Replace(EphemerisManager.SeriesPerihelion, String.Empty);
+							message = String.Format("Perihelion time: {0}", date);
 						}
 						else if (series.StartsWith(EphemerisManager.SeriesValue))
 						{
-							comet = series.Replace(EphemerisManager.SeriesValue, String.Empty);
+							offset = 52;
+							title = series.Replace(EphemerisManager.SeriesValue, String.Empty);
 
 							string format = GraphSettings.GraphChartType == GraphSettings.ChartType.Magnitude
-								? "{0}, {1}, {2:0.00}"
-								: "{0}, {1}, {2:0.0000} AU";
+								? "Time: {0}\nMagnitude: {1:0.00}"
+								: "Time: {0}\nDistance: {1:0.0000} AU";
 
-							message = String.Format(format, comet, datetime, value);
+							message = String.Format(format, date, value);
 						}
 
-						ToolTip.Show(message, this.chart1, LastPoint.X, LastPoint.Y - 15);
+						ToolTip.ToolTipTitle = title;
+						ToolTip.Show(message, this.chart1, LastPoint.X, LastPoint.Y - offset);
 					}
 				}
 			}

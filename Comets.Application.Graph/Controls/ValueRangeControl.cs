@@ -3,6 +3,7 @@ using Comets.Core;
 using Comets.Core.Extensions;
 using Comets.Core.Managers;
 using System;
+using System.ComponentModel;
 using System.Windows.Forms;
 
 namespace Comets.Application.Graph
@@ -11,24 +12,32 @@ namespace Comets.Application.Graph
 	{
 		#region Properties
 
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public bool MinValueChecked
 		{
 			get { return cbxMinValue.Checked; }
 			set { cbxMinValue.Checked = value; }
 		}
 
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public double? MinValue
 		{
 			get { return txtMinValue.TextLength > 0 ? (double?)txtMinValue.Double() : null; }
 			set { txtMinValue.Text = value != null ? value.Value.ToString() : String.Empty; }
 		}
 
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public bool MaxValueChecked
 		{
 			get { return cbxMaxValue.Checked; }
 			set { cbxMaxValue.Checked = value; }
 		}
 
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public double? MaxValue
 		{
 			get { return txtMaxValue.TextLength > 0 ? (double?)txtMaxValue.Double() : null; }

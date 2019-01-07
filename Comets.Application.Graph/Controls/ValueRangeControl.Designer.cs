@@ -47,7 +47,7 @@
 			this.gbxValueRange.Controls.Add(this.cbxMinValue);
 			this.gbxValueRange.Location = new System.Drawing.Point(0, 0);
 			this.gbxValueRange.Name = "gbxValueRange";
-			this.gbxValueRange.Size = new System.Drawing.Size(153, 83);
+			this.gbxValueRange.Size = new System.Drawing.Size(153, 135);
 			this.gbxValueRange.TabIndex = 0;
 			this.gbxValueRange.TabStop = false;
 			this.gbxValueRange.Text = "Value range";
@@ -58,6 +58,7 @@
 			this.txtMaxValue.Name = "txtMaxValue";
 			this.txtMaxValue.Size = new System.Drawing.Size(45, 21);
 			this.txtMaxValue.TabIndex = 3;
+			this.txtMaxValue.Text = "12";
 			this.txtMaxValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.txtMaxValue.TextChanged += new System.EventHandler(this.txtMaxMag_TextChanged);
 			this.txtMaxValue.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMagCommon_KeyPress);
@@ -75,6 +76,8 @@
 			// cbxMaxValue
 			// 
 			this.cbxMaxValue.AutoSize = true;
+			this.cbxMaxValue.Checked = true;
+			this.cbxMaxValue.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.cbxMaxValue.Location = new System.Drawing.Point(15, 48);
 			this.cbxMaxValue.Name = "cbxMaxValue";
 			this.cbxMaxValue.Size = new System.Drawing.Size(70, 17);
@@ -99,7 +102,7 @@
 			this.Controls.Add(this.gbxValueRange);
 			this.Font = new System.Drawing.Font("Tahoma", 8.25F);
 			this.Name = "ValueRangeControl";
-			this.Size = new System.Drawing.Size(153, 83);
+			this.Size = new System.Drawing.Size(153, 135);
 			this.gbxValueRange.ResumeLayout(false);
 			this.gbxValueRange.PerformLayout();
 			this.ResumeLayout(false);

@@ -45,7 +45,7 @@
 			this.gbxChartType.Controls.Add(this.rbtnMagnitude);
 			this.gbxChartType.Location = new System.Drawing.Point(0, 0);
 			this.gbxChartType.Name = "gbxChartType";
-			this.gbxChartType.Size = new System.Drawing.Size(115, 135);
+			this.gbxChartType.Size = new System.Drawing.Size(149, 135);
 			this.gbxChartType.TabIndex = 0;
 			this.gbxChartType.TabStop = false;
 			this.gbxChartType.Text = "Chart Type";
@@ -89,7 +89,7 @@
 			this.Controls.Add(this.gbxChartType);
 			this.Font = new System.Drawing.Font("Tahoma", 8.25F);
 			this.Name = "ChartTypeControl";
-			this.Size = new System.Drawing.Size(115, 135);
+			this.Size = new System.Drawing.Size(149, 135);
 			this.gbxChartType.ResumeLayout(false);
 			this.gbxChartType.PerformLayout();
 			this.ResumeLayout(false);

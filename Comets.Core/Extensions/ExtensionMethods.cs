@@ -45,7 +45,7 @@ namespace Comets.Core.Extensions
 
 		#endregion
 
-		#region Int
+		#region IComparable
 
 		/// <summary>
 		/// Returns the value in the specified range.
@@ -54,9 +54,9 @@ namespace Comets.Core.Extensions
 		/// <param name="min"></param>
 		/// <param name="max"></param>
 		/// <returns></returns>
-		public static int Range(this int value, int min, int max)
+		public static T Range<T>(this T value, T min, T max) where T : IComparable
 		{
-			return value > max ? max : value < min ? min : value;
+			return value.CompareTo(max) > 0 ? max : value.CompareTo(min) < 0 ? min : value;
 		}
 
 		#endregion

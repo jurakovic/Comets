@@ -32,7 +32,7 @@
 			this.ctxMenu = new System.Windows.Forms.ContextMenu();
 			this.mnuDefault = new System.Windows.Forms.MenuItem();
 			this.sepDefault = new System.Windows.Forms.MenuItem();
-			this.mnuNow = new System.Windows.Forms.MenuItem();
+			this.mnuToday = new System.Windows.Forms.MenuItem();
 			this.sepNow = new System.Windows.Forms.MenuItem();
 			this.mnuPerihelionDate = new System.Windows.Forms.MenuItem();
 			this.sepPerihelionDate = new System.Windows.Forms.MenuItem();
@@ -67,7 +67,7 @@
 			this.ctxMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.mnuDefault,
             this.sepDefault,
-            this.mnuNow,
+            this.mnuToday,
             this.sepNow,
             this.mnuPerihelionDate,
             this.sepPerihelionDate,
@@ -95,11 +95,11 @@
 			this.sepDefault.Index = 1;
 			this.sepDefault.Text = "-";
 			// 
-			// mnuNow
+			// mnuToday
 			// 
-			this.mnuNow.Index = 2;
-			this.mnuNow.Text = "Now";
-			this.mnuNow.Click += new System.EventHandler(this.mnuCommon_Click);
+			this.mnuToday.Index = 2;
+			this.mnuToday.Text = "Today";
+			this.mnuToday.Click += new System.EventHandler(this.mnuCommon_Click);
 			// 
 			// sepNow
 			// 
@@ -215,7 +215,7 @@
 		private System.Windows.Forms.MenuItem mnuNextYear;
 		private System.Windows.Forms.MenuItem sepPerihelionDate;
 		private System.Windows.Forms.MenuItem mnuAfterNextYear;
-		private System.Windows.Forms.MenuItem mnuNow;
+		private System.Windows.Forms.MenuItem mnuToday;
 		private System.Windows.Forms.MenuItem sepNow;
 		private System.Windows.Forms.MenuItem sepSub;
 		private System.Windows.Forms.MenuItem mnuSubThreeMonths;

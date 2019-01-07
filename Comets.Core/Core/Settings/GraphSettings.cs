@@ -13,11 +13,6 @@ namespace Comets.Core
 
 		#region Properties
 
-		public DateTime DateStart { get; set; }
-		public DateTime DateStop { get; set; }
-		public int DaysBeforeT { get; set; }
-		public int DaysAfterT { get; set; }
-		public bool DateRange { get; set; }
 		public Color MagnitudeColor { get; set; }
 		public bool PerihelionLineChecked { get; set; }
 		public Color PerihelionLineColor { get; set; }

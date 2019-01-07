@@ -37,29 +37,28 @@ namespace Comets.Application.Ephemeris
 
 			if (settings == null)
 			{
-				modeControl.IsMultipleMode = false;
-				modeControl.CometCount = CommonManager.UserCollection.Count;
-
+				selectCometControl.SortProperty = CommonManager.DefaultSortProperty;
+				selectCometControl.SortAscending = CommonManager.DefaultSortAscending;
 				timespanControl.DateStart = CommonManager.DefaultDateStart;
 				timespanControl.DateEnd = CommonManager.DefaultDateEnd;
-				timespanControl.DayInterval = 1;
-				timespanControl.HourInterval = 0;
-				timespanControl.MinuteInterval = 0;
+				intervalControl.DayInterval = 1;
+				intervalControl.HourInterval = 0;
+				intervalControl.MinuteInterval = 0;
 			}
 			else
 			{
 				if (settings.Filters == null)
 					settings.Filters = filters;
 
-				modeControl.IsMultipleMode = settings.IsMultipleMode;
-				modeControl.CometCount = settings.Comets.Count;
+				selectCometControl.SortProperty = settings.SortProperty;
+				selectCometControl.SortAscending = settings.SortAscending;
 
 				timespanControl.DateStart = settings.Start;
 				timespanControl.DateEnd = settings.Stop;
-				timespanControl.DayInterval = settings.TimeSpan.Days;
-				timespanControl.HourInterval = settings.TimeSpan.Hours;
-				timespanControl.MinuteInterval = settings.TimeSpan.Minutes;
 				timespanControl.PerihelionDate = EphemerisManager.JDToDateTimeSafe(settings.SelectedComet?.Tn);
+				intervalControl.DayInterval = settings.TimeSpan.Days;
+				intervalControl.HourInterval = settings.TimeSpan.Hours;
+				intervalControl.MinuteInterval = settings.TimeSpan.Minutes;
 
 				outputDataControl.LocalTime = settings.LocalTime;
 				outputDataControl.RA = settings.RA;
@@ -112,7 +111,7 @@ namespace Comets.Application.Ephemeris
 			selectCometControl.Filters = settings.Filters;
 			selectCometControl.SortProperty = settings.SortProperty;
 			selectCometControl.SortAscending = settings.SortAscending;
-			selectCometControl.DataBind(settings.SelectedComet);
+			selectCometControl.DataBind(settings.SelectedComet, settings.IsMultipleMode);
 		}
 
 		private void FormEphemerisSettings_FormClosing(object sender, FormClosingEventArgs e)
@@ -127,14 +126,14 @@ namespace Comets.Application.Ephemeris
 
 		private async void btnOk_Click(object sender, EventArgs e)
 		{
-			if (selectCometControl.SelectedComet != null && cts == null)
+			if ((selectCometControl.SelectedComet != null || selectCometControl.IsSelectedAll) && cts == null)
 			{
 				requirementsControl.ValidateData();
 				timespanControl.ValidateData();
 
-				decimal ind = timespanControl.DayInterval;
-				decimal inh = timespanControl.HourInterval;
-				decimal inm = timespanControl.MinuteInterval;
+				decimal ind = intervalControl.DayInterval;
+				decimal inh = intervalControl.HourInterval;
+				decimal inm = intervalControl.MinuteInterval;
 
 				decimal interval = ind + (inh + (inm / 60.0m)) / 24.0m;
 
@@ -142,11 +141,14 @@ namespace Comets.Application.Ephemeris
 					interval = 1.0m;
 
 				EphemerisSettings settings = this.EphemerisSettings;
+				settings.Comets = selectCometControl.Comets;
+				settings.Filters = selectCometControl.Filters;
+				settings.SortProperty = selectCometControl.SortProperty;
+				settings.SortAscending = selectCometControl.SortAscending;
 
 				settings.SelectedComet = selectCometControl.SelectedComet;
 				settings.Location = CommonManager.Settings.Location;
-
-				settings.IsMultipleMode = modeControl.IsMultipleMode;
+				settings.IsMultipleMode = selectCometControl.IsSelectedAll;
 
 				settings.Start = timespanControl.DateStart;
 				settings.Stop = timespanControl.DateEnd;
@@ -168,10 +170,8 @@ namespace Comets.Application.Ephemeris
 
 				settings.MaxSunDistChecked = requirementsControl.MaxSunDistChecked;
 				settings.MaxSunDistValue = requirementsControl.MaxSunDistValue;
-
 				settings.MaxEarthDistChecked = requirementsControl.MaxEarthDistChecked;
 				settings.MaxEarthDistValue = requirementsControl.MaxEarthDistValue;
-
 				settings.MinMagnitudeChecked = requirementsControl.MinMagnitudeChecked;
 				settings.MinMagnitudeValue = requirementsControl.MinMagnitudeValue;
 
@@ -274,7 +274,6 @@ namespace Comets.Application.Ephemeris
 			this.EphemerisSettings.Filters = filters;
 			this.EphemerisSettings.SortProperty = sortProperty;
 			this.EphemerisSettings.SortAscending = sortAscending;
-			this.modeControl.CometCount = comets.Count;
 		}
 
 		#endregion

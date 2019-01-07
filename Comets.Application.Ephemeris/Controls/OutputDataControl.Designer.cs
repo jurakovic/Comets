@@ -63,7 +63,7 @@
 			this.gbxOutputData.Controls.Add(this.chRA);
 			this.gbxOutputData.Location = new System.Drawing.Point(0, 0);
 			this.gbxOutputData.Name = "gbxOutputData";
-			this.gbxOutputData.Size = new System.Drawing.Size(526, 149);
+			this.gbxOutputData.Size = new System.Drawing.Size(503, 137);
 			this.gbxOutputData.TabIndex = 0;
 			this.gbxOutputData.TabStop = false;
 			this.gbxOutputData.Text = "Output data";
@@ -95,7 +95,7 @@
 			this.chMag.AutoSize = true;
 			this.chMag.Checked = true;
 			this.chMag.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chMag.Location = new System.Drawing.Point(421, 89);
+			this.chMag.Location = new System.Drawing.Point(382, 89);
 			this.chMag.Name = "chMag";
 			this.chMag.Size = new System.Drawing.Size(76, 17);
 			this.chMag.TabIndex = 11;
@@ -107,7 +107,7 @@
 			this.chGeoDist.AutoSize = true;
 			this.chGeoDist.Checked = true;
 			this.chGeoDist.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chGeoDist.Location = new System.Drawing.Point(421, 47);
+			this.chGeoDist.Location = new System.Drawing.Point(382, 47);
 			this.chGeoDist.Name = "chGeoDist";
 			this.chGeoDist.Size = new System.Drawing.Size(95, 17);
 			this.chGeoDist.TabIndex = 10;
@@ -119,7 +119,7 @@
 			this.chHelioDist.AutoSize = true;
 			this.chHelioDist.Checked = true;
 			this.chHelioDist.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chHelioDist.Location = new System.Drawing.Point(421, 22);
+			this.chHelioDist.Location = new System.Drawing.Point(382, 22);
 			this.chHelioDist.Name = "chHelioDist";
 			this.chHelioDist.Size = new System.Drawing.Size(87, 17);
 			this.chHelioDist.TabIndex = 9;
@@ -131,7 +131,7 @@
 			this.chElong.AutoSize = true;
 			this.chElong.Checked = true;
 			this.chElong.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chElong.Location = new System.Drawing.Point(280, 89);
+			this.chElong.Location = new System.Drawing.Point(254, 89);
 			this.chElong.Name = "chElong";
 			this.chElong.Size = new System.Drawing.Size(76, 17);
 			this.chElong.TabIndex = 8;
@@ -141,7 +141,7 @@
 			// chEcLat
 			// 
 			this.chEcLat.AutoSize = true;
-			this.chEcLat.Location = new System.Drawing.Point(280, 47);
+			this.chEcLat.Location = new System.Drawing.Point(254, 47);
 			this.chEcLat.Name = "chEcLat";
 			this.chEcLat.Size = new System.Drawing.Size(100, 17);
 			this.chEcLat.TabIndex = 7;
@@ -151,7 +151,7 @@
 			// chEcLon
 			// 
 			this.chEcLon.AutoSize = true;
-			this.chEcLon.Location = new System.Drawing.Point(280, 22);
+			this.chEcLon.Location = new System.Drawing.Point(254, 22);
 			this.chEcLon.Name = "chEcLon";
 			this.chEcLon.Size = new System.Drawing.Size(108, 17);
 			this.chEcLon.TabIndex = 6;
@@ -163,7 +163,7 @@
 			this.chAz.AutoSize = true;
 			this.chAz.Checked = true;
 			this.chAz.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chAz.Location = new System.Drawing.Point(137, 113);
+			this.chAz.Location = new System.Drawing.Point(124, 113);
 			this.chAz.Name = "chAz";
 			this.chAz.Size = new System.Drawing.Size(87, 17);
 			this.chAz.TabIndex = 5;
@@ -175,7 +175,7 @@
 			this.chAlt.AutoSize = true;
 			this.chAlt.Checked = true;
 			this.chAlt.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chAlt.Location = new System.Drawing.Point(137, 89);
+			this.chAlt.Location = new System.Drawing.Point(124, 89);
 			this.chAlt.Name = "chAlt";
 			this.chAlt.Size = new System.Drawing.Size(87, 17);
 			this.chAlt.TabIndex = 4;
@@ -187,7 +187,7 @@
 			this.chDec.AutoSize = true;
 			this.chDec.Checked = true;
 			this.chDec.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chDec.Location = new System.Drawing.Point(137, 47);
+			this.chDec.Location = new System.Drawing.Point(124, 47);
 			this.chDec.Name = "chDec";
 			this.chDec.Size = new System.Drawing.Size(107, 17);
 			this.chDec.TabIndex = 3;
@@ -199,7 +199,7 @@
 			this.chRA.AutoSize = true;
 			this.chRA.Checked = true;
 			this.chRA.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chRA.Location = new System.Drawing.Point(137, 22);
+			this.chRA.Location = new System.Drawing.Point(124, 22);
 			this.chRA.Name = "chRA";
 			this.chRA.Size = new System.Drawing.Size(126, 17);
 			this.chRA.TabIndex = 2;
@@ -213,7 +213,7 @@
 			this.Controls.Add(this.gbxOutputData);
 			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.Name = "OutputDataControl";
-			this.Size = new System.Drawing.Size(526, 149);
+			this.Size = new System.Drawing.Size(503, 137);
 			this.gbxOutputData.ResumeLayout(false);
 			this.gbxOutputData.PerformLayout();
 			this.ResumeLayout(false);

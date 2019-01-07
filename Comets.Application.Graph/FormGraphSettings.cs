@@ -1,4 +1,5 @@
 ﻿using Comets.Core;
+using Comets.Core.Extensions;
 using Comets.Core.Managers;
 using System;
 using System.Collections.Generic;
@@ -38,29 +39,16 @@ namespace Comets.Application.Graph
 
 			if (settings == null)
 			{
-				modeControl.IsMultipleMode = false;
-				modeControl.CometCount = CommonManager.UserCollection.Count;
-
-				int offset = 180;
-				timespanControl.SelectedDateStart = CommonManager.DefaultDateStart;
-				timespanControl.SelectedDateEnd = CommonManager.DefaultDateEnd;
-				timespanControl.DaysBeforeT = -offset;
-				timespanControl.DaysAfterT = offset;
-				timespanControl.DateRange = true;
+				timespanControl.DateStart = CommonManager.DefaultDateStart;
+				timespanControl.DateEnd = CommonManager.DefaultDateEnd;
 			}
 			else
 			{
 				if (settings.Filters == null)
 					settings.Filters = filters;
 
-				modeControl.IsMultipleMode = settings.IsMultipleMode;
-				modeControl.CometCount = settings.Comets.Count;
-
-				timespanControl.SelectedDateStart = settings.Start;
-				timespanControl.SelectedDateEnd = settings.Stop;
-				timespanControl.DaysBeforeT = settings.DaysBeforeT;
-				timespanControl.DaysAfterT = settings.DaysAfterT;
-				timespanControl.DateRange = settings.DateRange;
+				timespanControl.DateStart = settings.Start;
+				timespanControl.DateEnd = settings.Stop;
 				timespanControl.PerihelionDate = EphemerisManager.JDToDateTimeSafe(settings.SelectedComet?.Tn);
 
 				chartTypeControl.ChartType = settings.GraphChartType;
@@ -108,7 +96,7 @@ namespace Comets.Application.Graph
 			selectCometControl.Filters = settings.Filters;
 			selectCometControl.SortProperty = settings.SortProperty;
 			selectCometControl.SortAscending = settings.SortAscending;
-			selectCometControl.DataBind(settings.SelectedComet);
+			selectCometControl.DataBind(settings.SelectedComet, settings.IsMultipleMode);
 		}
 
 		private void FormGraphSettings_FormClosing(object sender, FormClosingEventArgs e)
@@ -123,46 +111,56 @@ namespace Comets.Application.Graph
 
 		private async void btnOk_Click(object sender, EventArgs e)
 		{
-			if (selectCometControl.SelectedComet != null && cts == null)
+			if ((selectCometControl.SelectedComet != null || selectCometControl.IsSelectedAll) && cts == null)
 			{
 				valueRangeControl.ValidateData();
 				timespanControl.ValidateData();
 
-				Comet comet = selectCometControl.SelectedComet;
 				GraphSettings settings = this.GraphSettings;
+				settings.Comets = selectCometControl.Comets;
+				settings.Filters = selectCometControl.Filters;
+				settings.SortProperty = selectCometControl.SortProperty;
+				settings.SortAscending = selectCometControl.SortAscending;
 
+				Comet comet = selectCometControl.SelectedComet;
 				settings.SelectedComet = comet;
 				settings.Location = CommonManager.Settings.Location;
 
-				settings.DateRange = timespanControl.DateRange;
+				settings.IsMultipleMode = selectCometControl.IsSelectedAll;
 
-				settings.IsMultipleMode = modeControl.IsMultipleMode;
+				decimal totalDays = timespanControl.DateEnd.JD() - timespanControl.DateStart.JD();
+				decimal interval = 0.0m;
+
+				if (totalDays <= 100)
+					interval = totalDays / 100.0m;
+				else if (totalDays < 365)
+					interval = 1;
+				else if (totalDays < 10 * 365.25m)
+					interval = 2;
+				else if (totalDays < 50 * 365.25m)
+					interval = 5;
+				else if (totalDays < 100 * 365.25m)
+					interval = 15;
+				else if (totalDays < 200 * 365.25m)
+					interval = 30;
+				else if (totalDays < 300 * 365.25m)
+					interval = 40;
 
 				settings.Start = timespanControl.DateStart;
 				settings.Stop = timespanControl.DateEnd;
-				settings.Interval = timespanControl.Interval;
-
-				settings.DateStart = timespanControl.SelectedDateStart;
-				settings.DateStop = timespanControl.SelectedDateEnd;
-
-				settings.DaysBeforeT = timespanControl.DaysBeforeT;
-				settings.DaysAfterT = timespanControl.DaysAfterT;
+				settings.Interval = interval;
 
 				settings.GraphChartType = chartTypeControl.ChartType;
 
 				settings.MagnitudeColor = chartOptionsControl.MagnitudeColor;
-
 				settings.NowLineChecked = chartOptionsControl.NowLineChecked;
 				settings.NowLineColor = chartOptionsControl.NowLineColor;
-
 				settings.PerihelionLineChecked = chartOptionsControl.PerihelionLineChecked;
 				settings.PerihelionLineColor = chartOptionsControl.PerihelionLineColor;
-
 				settings.AntialiasingChecked = chartOptionsControl.AntialiasingChecked;
 
 				settings.MinGraphValueChecked = valueRangeControl.MinValueChecked;
 				settings.MinGraphValue = valueRangeControl.MinValue;
-
 				settings.MaxGraphValueChecked = valueRangeControl.MaxValueChecked;
 				settings.MaxGraphValue = valueRangeControl.MaxValue;
 
@@ -199,7 +197,7 @@ namespace Comets.Application.Graph
 					throw;
 				}
 
-				if (settings.AddNew && settings.SelectedComet != null)
+				if (settings.AddNew)
 				{
 					FormGraph fg = new FormGraph(settings, this.Progress);
 					fg.MdiParent = this.Owner;
@@ -243,7 +241,6 @@ namespace Comets.Application.Graph
 			this.GraphSettings.Filters = filters;
 			this.GraphSettings.SortProperty = sortProperty;
 			this.GraphSettings.SortAscending = sortAscending;
-			this.modeControl.CometCount = comets.Count;
 		}
 
 		#endregion

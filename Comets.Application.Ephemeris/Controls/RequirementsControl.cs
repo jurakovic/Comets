@@ -3,6 +3,7 @@ using Comets.Core;
 using Comets.Core.Extensions;
 using Comets.Core.Managers;
 using System;
+using System.ComponentModel;
 using System.Windows.Forms;
 
 namespace Comets.Application.Ephemeris
@@ -11,36 +12,48 @@ namespace Comets.Application.Ephemeris
 	{
 		#region Properties
 
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public bool MaxSunDistChecked
 		{
 			get { return cbxMaxSunDist.Checked; }
 			set { cbxMaxSunDist.Checked = value; }
 		}
 
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public double? MaxSunDistValue
 		{
 			get { return txtMaxSunDist.TextLength > 0 ? (double?)txtMaxSunDist.Double() : null; }
 			set { txtMaxSunDist.Text = value != null ? value.Value.ToString() : String.Empty; }
 		}
 
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public bool MaxEarthDistChecked
 		{
 			get { return cbxMaxEarthDist.Checked; }
 			set { cbxMaxEarthDist.Checked = value; }
 		}
 
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public double? MaxEarthDistValue
 		{
 			get { return txtMaxEarthDist.TextLength > 0 ? (double?)txtMaxEarthDist.Double() : null; }
 			set { txtMaxEarthDist.Text = value != null ? value.Value.ToString() : String.Empty; }
 		}
 
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public bool MinMagnitudeChecked
 		{
 			get { return cbxMinMag.Checked; }
 			set { cbxMinMag.Checked = value; }
 		}
 
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public double? MinMagnitudeValue
 		{
 			get { return txtMinMag.TextLength > 0 ? (double?)txtMinMag.Double() : null; }

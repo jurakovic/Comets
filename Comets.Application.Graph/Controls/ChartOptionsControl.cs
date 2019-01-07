@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -8,36 +9,48 @@ namespace Comets.Application.Graph
 	{
 		#region Properties
 
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public Color MagnitudeColor
 		{
 			get { return pnlMagnitudeColor.BackColor; }
 			set { pnlMagnitudeColor.BackColor = value; }
 		}
 
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public bool NowLineChecked
 		{
 			get { return cbxNowLine.Checked; }
 			set { cbxNowLine.Checked = value; }
 		}
 
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public Color NowLineColor
 		{
 			get { return pnlNowLineColor.BackColor; }
 			set { pnlNowLineColor.BackColor = value; }
 		}
 
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public bool PerihelionLineChecked
 		{
 			get { return cbxPerihelionLine.Checked; }
 			set { cbxPerihelionLine.Checked = value; }
 		}
 
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public Color PerihelionLineColor
 		{
 			get { return pnlPerihLineColor.BackColor; }
 			set { pnlPerihLineColor.BackColor = value; }
 		}
 
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public bool AntialiasingChecked
 		{
 			get { return cbxAntialiasing.Checked; }

@@ -2,6 +2,7 @@
 using Comets.Core.Extensions;
 using Comets.Core.Managers;
 using System;
+using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Windows.Forms;
@@ -17,18 +18,60 @@ namespace Comets.Application.Common.Controls.Common
 
 		#endregion
 
+		#region Fields
+
+		private CometCollection _comets;
+
+		#endregion
+
 		#region Properties
 
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public Comet SelectedComet
 		{
-			get { return Comets.ElementAtOrDefault(cbComet.SelectedIndex); }
-			private set { cbComet.SelectedIndex = Comets.IndexOf(value); }
+			get { return Comets.ElementAtOrDefault(cbComet.SelectedIndex - 1); }
+			private set { cbComet.SelectedIndex = Comets.IndexOf(value) + 1; }
 		}
 
-		public CometCollection Comets { get; set; }
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public bool IsSelectedAll
+		{
+			get { return cbComet.SelectedIndex == 0; }
+		}
+
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public CometCollection Comets
+		{
+			get { return _comets; }
+			set { _comets = sortMenuControl.Comets = value; }
+		}
+
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public FilterCollection Filters { get; set; }
-		public string SortProperty { get; set; }
-		public bool SortAscending { get; set; }
+
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public string SortProperty
+		{
+			get { return sortMenuControl.SortProperty; }
+			set { sortMenuControl.SortProperty = value; }
+		}
+
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public bool SortAscending
+		{
+			get { return sortMenuControl.SortAscending; }
+			set { sortMenuControl.SortAscending = value; }
+		}
+
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		private ToolTip ToolTip { get; set; }
 
 		#endregion
 
@@ -37,6 +80,10 @@ namespace Comets.Application.Common.Controls.Common
 		public SelectCometControl()
 		{
 			InitializeComponent();
+
+			sortMenuControl.OnSort += OnCometsSorted;
+
+			ToolTip = new ToolTip();
 		}
 
 		#endregion
@@ -54,6 +101,11 @@ namespace Comets.Application.Common.Controls.Common
 
 		#region Button
 
+		private void btnAll_Click(object sender, EventArgs e)
+		{
+			SelectAll();
+		}
+
 		private void btnFilter_Click(object sender, EventArgs e)
 		{
 			using (FormDatabase fdb = new FormDatabase(CommonManager.MainCollection, false, Filters, SortProperty, SortAscending, true) { Owner = this.ParentForm })
@@ -68,8 +120,9 @@ namespace Comets.Application.Common.Controls.Common
 					this.Filters = fdb.Filters;
 					this.SortProperty = fdb.SortProperty;
 					this.SortAscending = fdb.SortAscending;
+					sortMenuControl.Comets = this.Comets;
 
-					DataBind(comet);
+					DataBind(comet, this.IsSelectedAll);
 
 					OnCometsFiltered(this.Comets, this.Filters, this.SortProperty, this.SortAscending);
 					OnSelectedCometChangedInternal();
@@ -89,18 +142,34 @@ namespace Comets.Application.Common.Controls.Common
 			{
 				Comet c = this.SelectedComet;
 
-				lblPerihelionDateValue.Text = perihelionDate.Value.ToString(DateTimeFormat.PerihelionDate);
-				lblPerihelionDistanceValue.Text = c.q.ToString("0.000000") + " AU";
-				lblPeriodValue.Text = c.P < 10000 ? c.P.ToString("0.000000") + " years" : "-";
+				string text = String.Format("T: {0}\nP: {1}\nq: {2:0.000000} AU\nr: {3:0.000000} AU\nd: {4:0.000000} AU\nm: {5:0.00}",
+					perihelionDate.Value.ToString(DateTimeFormat.PerihelionDate),
+					c.P < 10000 ? c.P.ToString("0.0000") + " years" : "-",
+					c.q,
+					c.CurrentSunDist,
+					c.CurrentEarthDist,
+					c.CurrentMag);
+
+				ToolTip.ToolTipTitle = c.full;
+				ToolTip.SetToolTip(cbComet, text);
 			}
 			else
 			{
-				lblPerihelionDateValue.Text =
-				lblPerihelionDistanceValue.Text =
-				lblPeriodValue.Text = String.Empty;
+				ToolTip.RemoveAll();
 			}
 
 			OnSelectedCometChanged(perihelionDate);
+		}
+
+		private void OnCometsSorted()
+		{
+			Comet comet = SelectedComet;
+
+			this.Comets = sortMenuControl.Comets;
+			this.SortProperty = sortMenuControl.SortProperty;
+			this.SortAscending = sortMenuControl.SortAscending;
+
+			DataBind(comet, IsSelectedAll);
 		}
 
 		#endregion
@@ -109,14 +178,28 @@ namespace Comets.Application.Common.Controls.Common
 
 		#region Methods
 
-		public void DataBind(Comet selectedComet)
+		public void DataBind(Comet selectedComet, bool selectAll)
 		{
 			if (this.Comets != null)
 			{
-				cbComet.DisplayMember = CometManager.PropertyEnum.full.ToString();
-				cbComet.DataSource = this.Comets;
+				bool selectComet = false;
+				CometCollection comets = new CometCollection();
 
 				if (this.Comets.Count > 0)
+				{
+					selectComet = true;
+					comets.Add(new Comet() { full = String.Format("[ALL COMETS ({0})]", this.Comets.Count) });
+					comets.AddRange(this.Comets);
+				}
+
+				cbComet.DisplayMember = CometManager.PropertyEnum.full.ToString();
+				cbComet.DataSource = comets;
+
+				if (selectAll)
+				{
+					SelectAll();
+				}
+				else if (selectComet)
 				{
 					if (selectedComet != null && this.Comets.Contains(selectedComet))
 					{
@@ -130,6 +213,12 @@ namespace Comets.Application.Common.Controls.Common
 					}
 				}
 			}
+		}
+
+		private void SelectAll()
+		{
+			if (this.Comets.Count > 0)
+				cbComet.SelectedIndex = 0;
 		}
 
 		#endregion

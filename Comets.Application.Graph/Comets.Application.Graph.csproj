@@ -59,12 +59,6 @@
     <Compile Include="Controls\ChartTypeControl.Designer.cs">
       <DependentUpon>ChartTypeControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\TimespanControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\TimespanControl.Designer.cs">
-      <DependentUpon>TimespanControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="Controls\ValueRangeControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -92,9 +86,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ChartTypeControl.resx">
       <DependentUpon>ChartTypeControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\TimespanControl.resx">
-      <DependentUpon>TimespanControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ValueRangeControl.resx">
       <DependentUpon>ValueRangeControl.cs</DependentUpon>

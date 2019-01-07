@@ -4,8 +4,6 @@ using Comets.Core;
 using Comets.Core.Extensions;
 using Comets.Core.Managers;
 using System;
-using System.ComponentModel;
-using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using PropertyEnum = Comets.Core.Managers.CometManager.PropertyEnum;
@@ -25,8 +23,18 @@ namespace Comets.Application
 		}
 
 		public FilterCollection Filters { get; private set; }
-		public string SortProperty { get; private set; }
-		public bool SortAscending { get; private set; }
+
+		public string SortProperty
+		{
+			get { return sortMenuControl.SortProperty; }
+			set { sortMenuControl.SortProperty = value; }
+		}
+
+		public bool SortAscending
+		{
+			get { return sortMenuControl.SortAscending; }
+			set { sortMenuControl.SortAscending = value; }
+		}
 
 		#endregion
 
@@ -36,25 +44,9 @@ namespace Comets.Application
 		{
 			InitializeComponent();
 
+			sortMenuControl.OnSort += this.OnCometsSorted;
 			filterControl.OnFilterApply += this.OnFilterApply;
 			filterControl.OnClose += this.btnFilters_Click;
-
-			this.mnuDesig.Tag = PropertyEnum.sortkey.ToString();
-			this.mnuDiscoverer.Tag = PropertyEnum.name.ToString();
-			this.mnuPerihDate.Tag = PropertyEnum.Tn.ToString();
-			this.mnuPerihDist.Tag = PropertyEnum.q.ToString();
-			this.mnuPerihEarthDist.Tag = PropertyEnum.PerihEarthDist.ToString();
-			this.mnuPerihMag.Tag = PropertyEnum.PerihMag.ToString();
-			this.mnuCurrSunDist.Tag = PropertyEnum.CurrentSunDist.ToString();
-			this.mnuCurrEarthDist.Tag = PropertyEnum.CurrentEarthDist.ToString();
-			this.mnuCurrMag.Tag = PropertyEnum.CurrentMag.ToString();
-			this.mnuPeriod.Tag = PropertyEnum.P.ToString();
-			this.mnuAphDistance.Tag = PropertyEnum.Q.ToString();
-			this.mnuSemiMajorAxis.Tag = PropertyEnum.a.ToString();
-			this.mnuEcc.Tag = PropertyEnum.e.ToString();
-			this.mnuIncl.Tag = PropertyEnum.i.ToString();
-			this.mnuAscNode.Tag = PropertyEnum.N.ToString();
-			this.mnuArgPeri.Tag = PropertyEnum.w.ToString();
 
 			this.btnDelete.Visible = deleteVisible;
 
@@ -68,8 +60,8 @@ namespace Comets.Application
 			pnlDetails.Visible = !isForFiltering;
 			filterControl.Visible = isForFiltering;
 
+			sortMenuControl.Comets = CometsInitial;
 			filterControl.DataBind(Filters);
-			SetSortItems(SortAscending);
 
 			if (isForImportResult)
 			{
@@ -123,7 +115,7 @@ namespace Comets.Application
 
 		private void filterControl_VisibleChanged(object sender, EventArgs e)
 		{
-			this.btnFilters.Text = filterControl.Visible ? "Filters ▲" : "Filters ▼";
+			this.btnFilters.Text = filterControl.Visible ? "FILTERS ▲" : "FILTERS ▼";
 			this.btnOk.TabStop = this.btnCancel.TabStop = pnlDetails.Visible;
 			this.AcceptButton = filterControl.Visible ? filterControl.AcceptButton : btnOk;
 		}
@@ -162,12 +154,6 @@ namespace Comets.Application
 
 		#region Button
 
-		private void btnSort_Click(object sender, EventArgs e)
-		{
-			Button btn = sender as Button;
-			contextSort.Show(this, new Point(btn.Left + 1, btn.Top + btn.Height - 1));
-		}
-
 		private void btnDelete_Click(object sender, EventArgs e)
 		{
 			Comet c = SelectedComet;
@@ -180,13 +166,13 @@ namespace Comets.Application
 				CometsInitial.Remove(c);
 				CommonManager.IsDataChanged = true;
 
-				SortCollection();
+				sortMenuControl.SortCollection(CometsFiltered);
 
 				lbxDatabase.SelectedIndex = selectedIndex.Range(0, CometsFiltered.Count - 1);
 			}
 		}
 
-		private void btnResetAllFilters_Click(object sender, EventArgs e)
+		private void btnReset_Click(object sender, EventArgs e)
 		{
 			Filters = null;
 			filterControl.DataBind(null);
@@ -194,11 +180,7 @@ namespace Comets.Application
 			SortProperty = CommonManager.DefaultSortProperty;
 			SortAscending = CommonManager.DefaultSortAscending;
 
-			SetSortItems(SortAscending);
 			ApplyFilters(CometsInitial);
-
-			ephemerisControl.StopTimer();
-			ephemerisControl.StartTimer();
 		}
 
 		private void btnFilters_Click(object sender, EventArgs e)
@@ -208,40 +190,16 @@ namespace Comets.Application
 
 		#endregion
 
-		#region ContextMenu
-
-		private void menuItemSortCommon_Click(object sender, EventArgs e)
-		{
-			MenuItem mni = sender as MenuItem;
-
-			if (!mni.Checked)
-			{
-				SortAscending = mnuAsc.Checked;
-
-				foreach (MenuItem item in contextSort.MenuItems)
-					item.Checked = false;
-
-				mni.Checked = true;
-				SortProperty = mni.Tag as string;
-
-				mnuAsc.Checked = SortAscending;
-				mnuDesc.Checked = !SortAscending;
-
-				SortCollection();
-			}
-		}
-
-		private void menuItemSortAscDesc_Click(object sender, EventArgs e)
-		{
-			mnuAsc.InvertChecked();
-			mnuDesc.InvertChecked();
-			SortAscending = mnuAsc.Checked;
-			SortCollection();
-		}
-
-		#endregion
-
 		#region Event
+
+		private void OnCometsSorted()
+		{
+			this.CometsFiltered = sortMenuControl.Comets;
+			this.SortProperty = sortMenuControl.SortProperty;
+			this.SortAscending = sortMenuControl.SortAscending;
+
+			BindCollection();
+		}
 
 		private void OnFilterApply()
 		{
@@ -301,41 +259,6 @@ namespace Comets.Application
 
 		#endregion
 
-		#region Sort
-
-		private void SetSortItems(bool isAscending)
-		{
-			foreach (MenuItem menuitem in contextSort.MenuItems)
-			{
-				if (menuitem.Tag as string == SortProperty)
-					menuitem.Checked = true;
-				else
-					menuitem.Checked = false;
-			}
-
-			mnuAsc.Checked = isAscending;
-			mnuDesc.Checked = !isAscending;
-		}
-
-		private void SortCollection()
-		{
-			CometCollection temp = new CometCollection(CometsFiltered);
-			CometsFiltered.Clear();
-
-			PropertyDescriptor prop = TypeDescriptor.GetProperties(typeof(Comet)).Find(SortProperty, false);
-
-			if (prop == null)
-				throw new ArgumentException(String.Format("Unknown SortPropertyName: \"{0}\"", SortProperty));
-
-			CometsFiltered = SortAscending
-				? new CometCollection(temp.OrderBy(x => prop.GetValue(x)))
-				: new CometCollection(temp.OrderByDescending(x => prop.GetValue(x)));
-
-			BindCollection();
-		}
-
-		#endregion
-
 		#region Filters
 
 		public void ApplyFilters(CometCollection colletion)
@@ -348,7 +271,7 @@ namespace Comets.Application
 				throw new ValidationException(message);
 
 			CometsFiltered = FilterManager.ApplyFilters(colletion, Filters);
-			SortCollection();
+			sortMenuControl.SortCollection(CometsFiltered);
 		}
 
 		#endregion

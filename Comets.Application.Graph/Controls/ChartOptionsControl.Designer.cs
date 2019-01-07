@@ -55,7 +55,7 @@
 			this.gbxChartOptions.Controls.Add(this.cbxPerihelionLine);
 			this.gbxChartOptions.Location = new System.Drawing.Point(0, 0);
 			this.gbxChartOptions.Name = "gbxChartOptions";
-			this.gbxChartOptions.Size = new System.Drawing.Size(153, 135);
+			this.gbxChartOptions.Size = new System.Drawing.Size(189, 135);
 			this.gbxChartOptions.TabIndex = 0;
 			this.gbxChartOptions.TabStop = false;
 			this.gbxChartOptions.Text = "Chart options";
@@ -86,7 +86,7 @@
 			// 
 			this.pnlPerihLineColor.BackColor = System.Drawing.Color.RoyalBlue;
 			this.pnlPerihLineColor.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.pnlPerihLineColor.Location = new System.Drawing.Point(120, 72);
+			this.pnlPerihLineColor.Location = new System.Drawing.Point(136, 72);
 			this.pnlPerihLineColor.Name = "pnlPerihLineColor";
 			this.pnlPerihLineColor.Size = new System.Drawing.Size(25, 20);
 			this.pnlPerihLineColor.TabIndex = 6;
@@ -97,7 +97,7 @@
 			// 
 			this.pnlNowLineColor.BackColor = System.Drawing.Color.LimeGreen;
 			this.pnlNowLineColor.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.pnlNowLineColor.Location = new System.Drawing.Point(120, 45);
+			this.pnlNowLineColor.Location = new System.Drawing.Point(136, 45);
 			this.pnlNowLineColor.Name = "pnlNowLineColor";
 			this.pnlNowLineColor.Size = new System.Drawing.Size(25, 20);
 			this.pnlNowLineColor.TabIndex = 4;
@@ -108,7 +108,7 @@
 			// 
 			this.pnlMagnitudeColor.BackColor = System.Drawing.Color.Red;
 			this.pnlMagnitudeColor.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.pnlMagnitudeColor.Location = new System.Drawing.Point(120, 19);
+			this.pnlMagnitudeColor.Location = new System.Drawing.Point(136, 19);
 			this.pnlMagnitudeColor.Name = "pnlMagnitudeColor";
 			this.pnlMagnitudeColor.Size = new System.Drawing.Size(25, 20);
 			this.pnlMagnitudeColor.TabIndex = 2;
@@ -155,7 +155,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.gbxChartOptions);
 			this.Name = "ChartOptionsControl";
-			this.Size = new System.Drawing.Size(153, 135);
+			this.Size = new System.Drawing.Size(189, 135);
 			this.gbxChartOptions.ResumeLayout(false);
 			this.gbxChartOptions.PerformLayout();
 			this.ResumeLayout(false);

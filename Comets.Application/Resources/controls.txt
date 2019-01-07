@@ -51,7 +51,7 @@
  Ctrl + I                        JPL Info
  Ctrl + F                        Find comet
  Ctrl + D                        Select date
- Ctrl + N                        Set date to current date
+ Ctrl + N                        Set date to today
  Ctrl + B                        Set date to perihelion date of selected comet
 
  Left, Right, Up, Down           Rotate

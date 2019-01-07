@@ -46,6 +46,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\Common\SortMenuControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Common\SortMenuControl.Designer.cs">
+      <DependentUpon>SortMenuControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Common\TimespanControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Common\TimespanControl.Designer.cs">
+      <DependentUpon>TimespanControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Common\ValueChange.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -79,12 +91,6 @@
     <Compile Include="Controls\DateTime\SelectDateControl.Designer.cs">
       <DependentUpon>SelectDateControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Common\ModeControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\Common\ModeControl.Designer.cs">
-      <DependentUpon>ModeControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="Controls\Common\SelectCometControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -110,6 +116,12 @@
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Controls\Common\SortMenuControl.resx">
+      <DependentUpon>SortMenuControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Common\TimespanControl.resx">
+      <DependentUpon>TimespanControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\Database\ElementsControl.resx">
       <DependentUpon>ElementsControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -124,9 +136,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\DateTime\SelectDateControl.resx">
       <DependentUpon>SelectDateControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\Common\ModeControl.resx">
-      <DependentUpon>ModeControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\Common\SelectCometControl.resx">
       <DependentUpon>SelectCometControl.cs</DependentUpon>

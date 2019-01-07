@@ -46,6 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\IntervalControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\IntervalControl.Designer.cs">
+      <DependentUpon>IntervalControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\OutputDataControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -57,12 +63,6 @@
     </Compile>
     <Compile Include="Controls\RequirementsControl.Designer.cs">
       <DependentUpon>RequirementsControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\TimespanControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\TimespanControl.Designer.cs">
-      <DependentUpon>TimespanControl.cs</DependentUpon>
     </Compile>
     <Compile Include="FormEphemeris.cs">
       <SubType>Form</SubType>
@@ -80,14 +80,14 @@
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Controls\IntervalControl.resx">
+      <DependentUpon>IntervalControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\OutputDataControl.resx">
       <DependentUpon>OutputDataControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\RequirementsControl.resx">
       <DependentUpon>RequirementsControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\TimespanControl.resx">
-      <DependentUpon>TimespanControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormEphemeris.resx">
       <DependentUpon>FormEphemeris.cs</DependentUpon>

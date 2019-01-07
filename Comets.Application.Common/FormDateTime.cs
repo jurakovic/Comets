@@ -171,7 +171,7 @@ namespace Comets.Application
 
 			if (dt < EphemerisManager.MinimumDateTime || dt > EphemerisManager.MaximumDateTime)
 			{
-				dt = dt < EphemerisManager.MinimumDateTime ? EphemerisManager.MinimumDateTime : EphemerisManager.MaximumDateTime;
+				dt = dt.Range(EphemerisManager.MinimumDateTime, EphemerisManager.MaximumDateTime);
 				retval = true;
 			}
 			else if (dt.Year == 1582 && dt.Month == 10)

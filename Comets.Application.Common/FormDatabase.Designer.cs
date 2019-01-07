@@ -30,28 +30,7 @@
 		{
 			this.lbxDatabase = new System.Windows.Forms.ListBox();
 			this.btnFilters = new System.Windows.Forms.Button();
-			this.btnSort = new System.Windows.Forms.Button();
 			this.btnOk = new System.Windows.Forms.Button();
-			this.contextSort = new System.Windows.Forms.ContextMenu();
-			this.mnuDesig = new System.Windows.Forms.MenuItem();
-			this.mnuDiscoverer = new System.Windows.Forms.MenuItem();
-			this.mnuPerihDate = new System.Windows.Forms.MenuItem();
-			this.mnuPerihDist = new System.Windows.Forms.MenuItem();
-			this.mnuPerihEarthDist = new System.Windows.Forms.MenuItem();
-			this.mnuPerihMag = new System.Windows.Forms.MenuItem();
-			this.mnuCurrSunDist = new System.Windows.Forms.MenuItem();
-			this.mnuCurrEarthDist = new System.Windows.Forms.MenuItem();
-			this.mnuCurrMag = new System.Windows.Forms.MenuItem();
-			this.mnuPeriod = new System.Windows.Forms.MenuItem();
-			this.mnuAphDistance = new System.Windows.Forms.MenuItem();
-			this.mnuSemiMajorAxis = new System.Windows.Forms.MenuItem();
-			this.mnuEcc = new System.Windows.Forms.MenuItem();
-			this.mnuIncl = new System.Windows.Forms.MenuItem();
-			this.mnuAscNode = new System.Windows.Forms.MenuItem();
-			this.mnuArgPeri = new System.Windows.Forms.MenuItem();
-			this.mnuSeparator = new System.Windows.Forms.MenuItem();
-			this.mnuAsc = new System.Windows.Forms.MenuItem();
-			this.mnuDesc = new System.Windows.Forms.MenuItem();
 			this.pnlDetails = new System.Windows.Forms.Panel();
 			this.tbcDetails = new System.Windows.Forms.TabControl();
 			this.tbpEphemeris = new System.Windows.Forms.TabPage();
@@ -59,11 +38,12 @@
 			this.tbpElements = new System.Windows.Forms.TabPage();
 			this.elementsControl = new Comets.Application.Common.Controls.Database.ElementsControl();
 			this.btnCancel = new System.Windows.Forms.Button();
-			this.btnResetAllFilters = new System.Windows.Forms.Button();
+			this.btnReset = new System.Windows.Forms.Button();
 			this.cbxImportResult = new System.Windows.Forms.ComboBox();
 			this.lblImportResult = new System.Windows.Forms.Label();
-			this.filterControl = new Comets.Application.Common.Controls.Database.FilterControl();
 			this.btnDelete = new System.Windows.Forms.Button();
+			this.filterControl = new Comets.Application.Common.Controls.Database.FilterControl();
+			this.sortMenuControl = new Comets.Application.Common.Controls.Common.SortMenuControl();
 			this.pnlDetails.SuspendLayout();
 			this.tbcDetails.SuspendLayout();
 			this.tbpEphemeris.SuspendLayout();
@@ -88,19 +68,9 @@
 			this.btnFilters.Name = "btnFilters";
 			this.btnFilters.Size = new System.Drawing.Size(100, 23);
 			this.btnFilters.TabIndex = 6;
-			this.btnFilters.Text = "Filters ▼";
+			this.btnFilters.Text = "FILTERS ▼";
 			this.btnFilters.UseVisualStyleBackColor = true;
 			this.btnFilters.Click += new System.EventHandler(this.btnFilters_Click);
-			// 
-			// btnSort
-			// 
-			this.btnSort.Location = new System.Drawing.Point(258, 10);
-			this.btnSort.Name = "btnSort";
-			this.btnSort.Size = new System.Drawing.Size(100, 23);
-			this.btnSort.TabIndex = 3;
-			this.btnSort.Text = "Sort by";
-			this.btnSort.UseVisualStyleBackColor = true;
-			this.btnSort.Click += new System.EventHandler(this.btnSort_Click);
 			// 
 			// btnOk
 			// 
@@ -111,168 +81,6 @@
 			this.btnOk.TabIndex = 7;
 			this.btnOk.Text = "OK";
 			this.btnOk.UseVisualStyleBackColor = true;
-			// 
-			// contextSort
-			// 
-			this.contextSort.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.mnuDesig,
-            this.mnuDiscoverer,
-            this.mnuPerihDate,
-            this.mnuPerihDist,
-            this.mnuPerihEarthDist,
-            this.mnuPerihMag,
-            this.mnuCurrSunDist,
-            this.mnuCurrEarthDist,
-            this.mnuCurrMag,
-            this.mnuPeriod,
-            this.mnuAphDistance,
-            this.mnuSemiMajorAxis,
-            this.mnuEcc,
-            this.mnuIncl,
-            this.mnuAscNode,
-            this.mnuArgPeri,
-            this.mnuSeparator,
-            this.mnuAsc,
-            this.mnuDesc});
-			// 
-			// mnuDesig
-			// 
-			this.mnuDesig.Index = 0;
-			this.mnuDesig.RadioCheck = true;
-			this.mnuDesig.Tag = "";
-			this.mnuDesig.Text = "Designation";
-			this.mnuDesig.Click += new System.EventHandler(this.menuItemSortCommon_Click);
-			// 
-			// mnuDiscoverer
-			// 
-			this.mnuDiscoverer.Index = 1;
-			this.mnuDiscoverer.RadioCheck = true;
-			this.mnuDiscoverer.Tag = "";
-			this.mnuDiscoverer.Text = "Discoverer";
-			this.mnuDiscoverer.Click += new System.EventHandler(this.menuItemSortCommon_Click);
-			// 
-			// mnuPerihDate
-			// 
-			this.mnuPerihDate.Index = 2;
-			this.mnuPerihDate.RadioCheck = true;
-			this.mnuPerihDate.Tag = "";
-			this.mnuPerihDate.Text = "Perihelion date";
-			this.mnuPerihDate.Click += new System.EventHandler(this.menuItemSortCommon_Click);
-			// 
-			// mnuPerihDist
-			// 
-			this.mnuPerihDist.Index = 3;
-			this.mnuPerihDist.Tag = "";
-			this.mnuPerihDist.Text = "Perihelion distance";
-			this.mnuPerihDist.Click += new System.EventHandler(this.menuItemSortCommon_Click);
-			// 
-			// mnuPerihEarthDist
-			// 
-			this.mnuPerihEarthDist.Index = 4;
-			this.mnuPerihEarthDist.Tag = "";
-			this.mnuPerihEarthDist.Text = "Perihelion distance from Earth";
-			this.mnuPerihEarthDist.Click += new System.EventHandler(this.menuItemSortCommon_Click);
-			// 
-			// mnuPerihMag
-			// 
-			this.mnuPerihMag.Index = 5;
-			this.mnuPerihMag.Tag = "";
-			this.mnuPerihMag.Text = "Perihelion magnitude";
-			this.mnuPerihMag.Click += new System.EventHandler(this.menuItemSortCommon_Click);
-			// 
-			// mnuCurrSunDist
-			// 
-			this.mnuCurrSunDist.Index = 6;
-			this.mnuCurrSunDist.Tag = "";
-			this.mnuCurrSunDist.Text = "Current distance from Sun";
-			this.mnuCurrSunDist.Click += new System.EventHandler(this.menuItemSortCommon_Click);
-			// 
-			// mnuCurrEarthDist
-			// 
-			this.mnuCurrEarthDist.Index = 7;
-			this.mnuCurrEarthDist.Tag = "";
-			this.mnuCurrEarthDist.Text = "Current distance from Earth";
-			this.mnuCurrEarthDist.Click += new System.EventHandler(this.menuItemSortCommon_Click);
-			// 
-			// mnuCurrMag
-			// 
-			this.mnuCurrMag.Index = 8;
-			this.mnuCurrMag.Tag = "";
-			this.mnuCurrMag.Text = "Current magnitude";
-			this.mnuCurrMag.Click += new System.EventHandler(this.menuItemSortCommon_Click);
-			// 
-			// mnuPeriod
-			// 
-			this.mnuPeriod.Index = 9;
-			this.mnuPeriod.RadioCheck = true;
-			this.mnuPeriod.Tag = "";
-			this.mnuPeriod.Text = "Period";
-			this.mnuPeriod.Click += new System.EventHandler(this.menuItemSortCommon_Click);
-			// 
-			// mnuAphDistance
-			// 
-			this.mnuAphDistance.Index = 10;
-			this.mnuAphDistance.Tag = "";
-			this.mnuAphDistance.Text = "Aphelion distance";
-			this.mnuAphDistance.Click += new System.EventHandler(this.menuItemSortCommon_Click);
-			// 
-			// mnuSemiMajorAxis
-			// 
-			this.mnuSemiMajorAxis.Index = 11;
-			this.mnuSemiMajorAxis.Tag = "";
-			this.mnuSemiMajorAxis.Text = "Semi-major axis";
-			this.mnuSemiMajorAxis.Click += new System.EventHandler(this.menuItemSortCommon_Click);
-			// 
-			// mnuEcc
-			// 
-			this.mnuEcc.Index = 12;
-			this.mnuEcc.RadioCheck = true;
-			this.mnuEcc.Tag = "";
-			this.mnuEcc.Text = "Eccentricity";
-			this.mnuEcc.Click += new System.EventHandler(this.menuItemSortCommon_Click);
-			// 
-			// mnuIncl
-			// 
-			this.mnuIncl.Index = 13;
-			this.mnuIncl.RadioCheck = true;
-			this.mnuIncl.Tag = "";
-			this.mnuIncl.Text = "Inclination";
-			this.mnuIncl.Click += new System.EventHandler(this.menuItemSortCommon_Click);
-			// 
-			// mnuAscNode
-			// 
-			this.mnuAscNode.Index = 14;
-			this.mnuAscNode.RadioCheck = true;
-			this.mnuAscNode.Tag = "";
-			this.mnuAscNode.Text = "Long. of the Asc. Node";
-			this.mnuAscNode.Click += new System.EventHandler(this.menuItemSortCommon_Click);
-			// 
-			// mnuArgPeri
-			// 
-			this.mnuArgPeri.Index = 15;
-			this.mnuArgPeri.RadioCheck = true;
-			this.mnuArgPeri.Tag = "";
-			this.mnuArgPeri.Text = "Arg. of Pericenter";
-			this.mnuArgPeri.Click += new System.EventHandler(this.menuItemSortCommon_Click);
-			// 
-			// mnuSeparator
-			// 
-			this.mnuSeparator.Index = 16;
-			this.mnuSeparator.Text = "-";
-			// 
-			// mnuAsc
-			// 
-			this.mnuAsc.Index = 17;
-			this.mnuAsc.RadioCheck = true;
-			this.mnuAsc.Text = "Ascending";
-			this.mnuAsc.Click += new System.EventHandler(this.menuItemSortAscDesc_Click);
-			// 
-			// mnuDesc
-			// 
-			this.mnuDesc.Index = 18;
-			this.mnuDesc.RadioCheck = true;
-			this.mnuDesc.Text = "Descending";
-			this.mnuDesc.Click += new System.EventHandler(this.menuItemSortAscDesc_Click);
 			// 
 			// pnlDetails
 			// 
@@ -342,16 +150,16 @@
 			this.btnCancel.Text = "Cancel";
 			this.btnCancel.UseVisualStyleBackColor = true;
 			// 
-			// btnResetAllFilters
+			// btnReset
 			// 
-			this.btnResetAllFilters.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.btnResetAllFilters.Location = new System.Drawing.Point(599, 10);
-			this.btnResetAllFilters.Name = "btnResetAllFilters";
-			this.btnResetAllFilters.Size = new System.Drawing.Size(100, 23);
-			this.btnResetAllFilters.TabIndex = 5;
-			this.btnResetAllFilters.Text = "Reset all";
-			this.btnResetAllFilters.UseVisualStyleBackColor = true;
-			this.btnResetAllFilters.Click += new System.EventHandler(this.btnResetAllFilters_Click);
+			this.btnReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.btnReset.Location = new System.Drawing.Point(599, 10);
+			this.btnReset.Name = "btnResetAllFilters";
+			this.btnReset.Size = new System.Drawing.Size(100, 23);
+			this.btnReset.TabIndex = 5;
+			this.btnReset.Text = "RESET";
+			this.btnReset.UseVisualStyleBackColor = true;
+			this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
 			// 
 			// cbxImportResult
 			// 
@@ -373,6 +181,16 @@
 			this.lblImportResult.TabIndex = 0;
 			this.lblImportResult.Text = "Import result:";
 			// 
+			// btnDelete
+			// 
+			this.btnDelete.Location = new System.Drawing.Point(361, 10);
+			this.btnDelete.Name = "btnDelete";
+			this.btnDelete.Size = new System.Drawing.Size(100, 23);
+			this.btnDelete.TabIndex = 4;
+			this.btnDelete.Text = "DELETE";
+			this.btnDelete.UseVisualStyleBackColor = true;
+			this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+			// 
 			// filterControl
 			// 
 			this.filterControl.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -383,15 +201,14 @@
 			this.filterControl.Visible = false;
 			this.filterControl.VisibleChanged += new System.EventHandler(this.filterControl_VisibleChanged);
 			// 
-			// btnDelete
+			// sortMenuControl
 			// 
-			this.btnDelete.Location = new System.Drawing.Point(361, 10);
-			this.btnDelete.Name = "btnDelete";
-			this.btnDelete.Size = new System.Drawing.Size(100, 23);
-			this.btnDelete.TabIndex = 4;
-			this.btnDelete.Text = "Delete";
-			this.btnDelete.UseVisualStyleBackColor = true;
-			this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+			this.sortMenuControl.Font = new System.Drawing.Font("Tahoma", 8.25F);
+			this.sortMenuControl.Location = new System.Drawing.Point(258, 10);
+			this.sortMenuControl.Name = "sortMenuControl";
+			this.sortMenuControl.Size = new System.Drawing.Size(100, 23);
+			this.sortMenuControl.TabIndex = 3;
+			this.sortMenuControl.Title = "SORT BY";
 			// 
 			// FormDatabase
 			// 
@@ -399,11 +216,11 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(813, 417);
+			this.Controls.Add(this.sortMenuControl);
 			this.Controls.Add(this.btnDelete);
 			this.Controls.Add(this.cbxImportResult);
-			this.Controls.Add(this.btnResetAllFilters);
+			this.Controls.Add(this.btnReset);
 			this.Controls.Add(this.btnFilters);
-			this.Controls.Add(this.btnSort);
 			this.Controls.Add(this.lbxDatabase);
 			this.Controls.Add(this.lblImportResult);
 			this.Controls.Add(this.filterControl);
@@ -435,39 +252,19 @@
 		#endregion
 		private System.Windows.Forms.ListBox lbxDatabase;
 		private System.Windows.Forms.Button btnFilters;
-		private System.Windows.Forms.Button btnSort;
 		private System.Windows.Forms.Button btnOk;
-		private System.Windows.Forms.ContextMenu contextSort;
-		private System.Windows.Forms.MenuItem mnuDesig;
-		private System.Windows.Forms.MenuItem mnuDiscoverer;
-		private System.Windows.Forms.MenuItem mnuPerihDate;
-		private System.Windows.Forms.MenuItem mnuEcc;
-		private System.Windows.Forms.MenuItem mnuAscNode;
-		private System.Windows.Forms.MenuItem mnuArgPeri;
-		private System.Windows.Forms.MenuItem mnuPeriod;
-		private System.Windows.Forms.MenuItem mnuSeparator;
-		private System.Windows.Forms.MenuItem mnuAsc;
-		private System.Windows.Forms.MenuItem mnuDesc;
 		private System.Windows.Forms.Panel pnlDetails;
 		private System.Windows.Forms.Button btnCancel;
-		private System.Windows.Forms.MenuItem mnuPerihEarthDist;
-		private System.Windows.Forms.MenuItem mnuIncl;
-		private System.Windows.Forms.MenuItem mnuCurrSunDist;
-		private System.Windows.Forms.MenuItem mnuCurrEarthDist;
-		private System.Windows.Forms.MenuItem mnuPerihMag;
-		private System.Windows.Forms.MenuItem mnuCurrMag;
-		private System.Windows.Forms.MenuItem mnuPerihDist;
 		private System.Windows.Forms.TabControl tbcDetails;
 		private System.Windows.Forms.TabPage tbpEphemeris;
 		private System.Windows.Forms.TabPage tbpElements;
-		private System.Windows.Forms.Button btnResetAllFilters;
-		private System.Windows.Forms.MenuItem mnuAphDistance;
-		private System.Windows.Forms.MenuItem mnuSemiMajorAxis;
+		private System.Windows.Forms.Button btnReset;
 		private System.Windows.Forms.ComboBox cbxImportResult;
 		private System.Windows.Forms.Label lblImportResult;
 		private Common.Controls.Database.EphemerisControl ephemerisControl;
 		private Common.Controls.Database.ElementsControl elementsControl;
 		private Common.Controls.Database.FilterControl filterControl;
 		private System.Windows.Forms.Button btnDelete;
+		private Common.Controls.Common.SortMenuControl sortMenuControl;
 	}
 }

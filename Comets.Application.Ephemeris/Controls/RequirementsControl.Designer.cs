@@ -51,14 +51,15 @@
 			this.gbxRequirements.Controls.Add(this.cbxMaxSunDist);
 			this.gbxRequirements.Location = new System.Drawing.Point(0, 0);
 			this.gbxRequirements.Name = "gbxRequirements";
-			this.gbxRequirements.Size = new System.Drawing.Size(199, 149);
+			this.gbxRequirements.Size = new System.Drawing.Size(204, 137);
 			this.gbxRequirements.TabIndex = 0;
 			this.gbxRequirements.TabStop = false;
 			this.gbxRequirements.Text = "Requirements";
 			// 
 			// txtMinMag
 			// 
-			this.txtMinMag.Location = new System.Drawing.Point(147, 87);
+			this.txtMinMag.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.txtMinMag.Location = new System.Drawing.Point(152, 87);
 			this.txtMinMag.Name = "txtMinMag";
 			this.txtMinMag.Size = new System.Drawing.Size(42, 21);
 			this.txtMinMag.TabIndex = 5;
@@ -69,7 +70,8 @@
 			// 
 			// txtMaxEarthDist
 			// 
-			this.txtMaxEarthDist.Location = new System.Drawing.Point(147, 45);
+			this.txtMaxEarthDist.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.txtMaxEarthDist.Location = new System.Drawing.Point(152, 45);
 			this.txtMaxEarthDist.Name = "txtMaxEarthDist";
 			this.txtMaxEarthDist.Size = new System.Drawing.Size(42, 21);
 			this.txtMaxEarthDist.TabIndex = 3;
@@ -79,7 +81,8 @@
 			// 
 			// txtMaxSunDist
 			// 
-			this.txtMaxSunDist.Location = new System.Drawing.Point(147, 20);
+			this.txtMaxSunDist.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.txtMaxSunDist.Location = new System.Drawing.Point(152, 20);
 			this.txtMaxSunDist.Name = "txtMaxSunDist";
 			this.txtMaxSunDist.Size = new System.Drawing.Size(42, 21);
 			this.txtMaxSunDist.TabIndex = 1;
@@ -92,31 +95,31 @@
 			this.cbxMinMag.AutoSize = true;
 			this.cbxMinMag.Checked = true;
 			this.cbxMinMag.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.cbxMinMag.Location = new System.Drawing.Point(10, 89);
+			this.cbxMinMag.Location = new System.Drawing.Point(12, 89);
 			this.cbxMinMag.Name = "cbxMinMag";
-			this.cbxMinMag.Size = new System.Drawing.Size(119, 17);
+			this.cbxMinMag.Size = new System.Drawing.Size(95, 17);
 			this.cbxMinMag.TabIndex = 4;
-			this.cbxMinMag.Text = "Minimum magnitude";
+			this.cbxMinMag.Text = "Min magnitude";
 			this.cbxMinMag.UseVisualStyleBackColor = true;
 			// 
 			// cbxMaxEarthDist
 			// 
 			this.cbxMaxEarthDist.AutoSize = true;
-			this.cbxMaxEarthDist.Location = new System.Drawing.Point(10, 48);
+			this.cbxMaxEarthDist.Location = new System.Drawing.Point(12, 48);
 			this.cbxMaxEarthDist.Name = "cbxMaxEarthDist";
-			this.cbxMaxEarthDist.Size = new System.Drawing.Size(142, 17);
+			this.cbxMaxEarthDist.Size = new System.Drawing.Size(118, 17);
 			this.cbxMaxEarthDist.TabIndex = 2;
-			this.cbxMaxEarthDist.Text = "Maximum Earth distance";
+			this.cbxMaxEarthDist.Text = "Max Earth distance";
 			this.cbxMaxEarthDist.UseVisualStyleBackColor = true;
 			// 
 			// cbxMaxSunDist
 			// 
 			this.cbxMaxSunDist.AutoSize = true;
-			this.cbxMaxSunDist.Location = new System.Drawing.Point(10, 22);
+			this.cbxMaxSunDist.Location = new System.Drawing.Point(12, 22);
 			this.cbxMaxSunDist.Name = "cbxMaxSunDist";
-			this.cbxMaxSunDist.Size = new System.Drawing.Size(134, 17);
+			this.cbxMaxSunDist.Size = new System.Drawing.Size(110, 17);
 			this.cbxMaxSunDist.TabIndex = 0;
-			this.cbxMaxSunDist.Text = "Maximum Sun distance";
+			this.cbxMaxSunDist.Text = "Max Sun distance";
 			this.cbxMaxSunDist.UseVisualStyleBackColor = true;
 			// 
 			// RequirementsControl
@@ -126,7 +129,7 @@
 			this.Controls.Add(this.gbxRequirements);
 			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.Name = "RequirementsControl";
-			this.Size = new System.Drawing.Size(199, 149);
+			this.Size = new System.Drawing.Size(204, 137);
 			this.gbxRequirements.ResumeLayout(false);
 			this.gbxRequirements.PerformLayout();
 			this.ResumeLayout(false);

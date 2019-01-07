@@ -137,7 +137,7 @@ namespace Comets.Core.Managers
 			{
 				if (_defaultDateEnd == null)
 				{
-					DateTime dt = DateTime.UtcNow.AddMonths(2);
+					DateTime dt = DateTime.UtcNow.AddMonths(5);
 					_defaultDateEnd = new DateTime(dt.Year, dt.Month, 1, 0, 0, 0, DateTimeKind.Utc);
 				}
 

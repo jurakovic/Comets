@@ -1,46 +1,33 @@
 ﻿using Comets.Application.Common.General;
-using Comets.Core;
-using Comets.Core.Extensions;
 using Comets.Core.Managers;
 using System;
+using System.ComponentModel;
 using System.Windows.Forms;
 
-namespace Comets.Application.Ephemeris
+namespace Comets.Application.Common.Controls.Common
 {
 	public partial class TimespanControl : UserControl
 	{
 		#region Properties
 
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public DateTime DateStart
 		{
 			get { return selectDateControlStart.SelectedDateTime; }
 			set { selectDateControlStart.SelectedDateTime = value; }
 		}
 
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public DateTime DateEnd
 		{
 			get { return selectDateControlEnd.SelectedDateTime; }
 			set { selectDateControlEnd.SelectedDateTime = value; }
 		}
 
-		public int DayInterval
-		{
-			get { return txtDayInterval.Text.Int(); }
-			set { txtDayInterval.Text = value.ToString(); }
-		}
-
-		public int HourInterval
-		{
-			get { return txtHourInterval.Text.Int(); }
-			set { txtHourInterval.Text = value.ToString(); }
-		}
-
-		public int MinuteInterval
-		{
-			get { return txtMinInterval.Text.Int(); }
-			set { txtMinInterval.Text = value.ToString(); }
-		}
-
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public DateTime? PerihelionDate
 		{
 			set { selectDateControlStart.PerihelionDate = selectDateControlEnd.PerihelionDate = value; }
@@ -54,41 +41,9 @@ namespace Comets.Application.Ephemeris
 		{
 			InitializeComponent();
 
-			txtDayInterval.Tag = new ValNum(0, 3652);
-			txtHourInterval.Tag = new ValNum(0, 23);
-			txtMinInterval.Tag = new ValNum(0, 59);
-
 			selectDateControlStart.DefaultDateTime = CommonManager.DefaultDateStart;
 			selectDateControlEnd.DefaultDateTime = CommonManager.DefaultDateEnd;
 		}
-
-		#endregion
-
-		#region +EventHandling
-
-		#region Button
-
-		private void btnDefaultInterval_Click(object sender, EventArgs e)
-		{
-			this.DayInterval = 1;
-			this.HourInterval = this.MinuteInterval = 0;
-		}
-
-		#endregion
-
-		#region TextBox
-
-		private void txtIntervalCommon_KeyDown(object sender, KeyEventArgs e)
-		{
-			e.SuppressKeyPress = ValNumManager.TextBoxValueUpDown(sender, e);
-		}
-
-		private void txtIntervalCommon_KeyPress(object sender, KeyPressEventArgs e)
-		{
-			e.Handled = ValNumManager.HandleKeyPress(sender, e);
-		}
-
-		#endregion
 
 		#endregion
 

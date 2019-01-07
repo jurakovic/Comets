@@ -135,9 +135,7 @@ namespace Comets.Application.OrbitViewer
 			SortProperty = sortProperty;
 			SortAscending = sortAscending;
 
-			dateTimeControl.DefaultDateTime
-				= SelectedDateTime
-				= DateTime.UtcNow.Date.AddHours(DateTime.UtcNow.Hour);
+			SelectedDateTime = DateTime.UtcNow.Date;
 
 			ValueChangedInternal = true;
 
@@ -662,7 +660,7 @@ namespace Comets.Application.OrbitViewer
 				case Keys.N:
 					if (ctrl && !shift)
 					{
-						SelectedDateTime = DateTime.UtcNow;
+						SelectedDateTime = DateTime.UtcNow.Date;
 						handled = true;
 					}
 					break;

@@ -1,4 +1,5 @@
 ﻿using Comets.Core;
+using System.ComponentModel;
 using System.Windows.Forms;
 
 namespace Comets.Application.Graph
@@ -7,6 +8,8 @@ namespace Comets.Application.Graph
 	{
 		#region Properties
 
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public GraphSettings.ChartType ChartType
 		{
 			get
