@@ -74,6 +74,14 @@ namespace Comets.Core.Managers
 			All
 		}
 
+		public enum SelectionType
+		{
+			Brightest = 0,
+			ClosestToPerihelion,
+			ClosestToEarth,
+			ClosestToSun,
+		}
+
 		#endregion
 
 		#region GetSortkey
@@ -332,6 +340,41 @@ namespace Comets.Core.Managers
 			}
 
 			return full;
+		}
+
+		#endregion
+
+		#region GetCometBySelectionType
+
+		public static Comet GetCometBySelectionType(CometCollection comets, SelectionType type, Comet defaultComet = null)
+		{
+			Comet comet = null;
+
+			if (defaultComet != null && comets.Contains(defaultComet))
+			{
+				comet = defaultComet;
+			}
+			else
+			{
+				switch (type)
+				{
+					case SelectionType.Brightest:
+						comet = comets.OrderBy(x => x.CurrentMag).First();
+						break;
+					case SelectionType.ClosestToPerihelion:
+						decimal jdNow = DateTime.UtcNow.JD();
+						comet = comets.OrderBy(x => Math.Abs(x.Tn - jdNow)).First();
+						break;
+					case SelectionType.ClosestToEarth:
+						comet = comets.OrderBy(x => x.CurrentEarthDist).First();
+						break;
+					case SelectionType.ClosestToSun:
+						comet = comets.OrderBy(x => x.CurrentSunDist).First();
+						break;
+				}
+			}
+
+			return comet;
 		}
 
 		#endregion

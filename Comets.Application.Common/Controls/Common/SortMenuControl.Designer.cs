@@ -89,7 +89,6 @@
 			// 
 			this.mnuDesig.Index = 0;
 			this.mnuDesig.RadioCheck = true;
-			this.mnuDesig.Tag = "";
 			this.mnuDesig.Text = "Designation";
 			this.mnuDesig.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
@@ -97,7 +96,6 @@
 			// 
 			this.mnuDiscoverer.Index = 1;
 			this.mnuDiscoverer.RadioCheck = true;
-			this.mnuDiscoverer.Tag = "";
 			this.mnuDiscoverer.Text = "Discoverer";
 			this.mnuDiscoverer.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
@@ -105,49 +103,42 @@
 			// 
 			this.mnuPerihDate.Index = 2;
 			this.mnuPerihDate.RadioCheck = true;
-			this.mnuPerihDate.Tag = "";
 			this.mnuPerihDate.Text = "Perihelion date";
 			this.mnuPerihDate.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuPerihDist
 			// 
 			this.mnuPerihDist.Index = 3;
-			this.mnuPerihDist.Tag = "";
 			this.mnuPerihDist.Text = "Perihelion distance";
 			this.mnuPerihDist.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuPerihEarthDist
 			// 
 			this.mnuPerihEarthDist.Index = 4;
-			this.mnuPerihEarthDist.Tag = "";
 			this.mnuPerihEarthDist.Text = "Perihelion distance from Earth";
 			this.mnuPerihEarthDist.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuPerihMag
 			// 
 			this.mnuPerihMag.Index = 5;
-			this.mnuPerihMag.Tag = "";
 			this.mnuPerihMag.Text = "Perihelion magnitude";
 			this.mnuPerihMag.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuCurrSunDist
 			// 
 			this.mnuCurrSunDist.Index = 6;
-			this.mnuCurrSunDist.Tag = "";
 			this.mnuCurrSunDist.Text = "Current distance from Sun";
 			this.mnuCurrSunDist.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuCurrEarthDist
 			// 
 			this.mnuCurrEarthDist.Index = 7;
-			this.mnuCurrEarthDist.Tag = "";
 			this.mnuCurrEarthDist.Text = "Current distance from Earth";
 			this.mnuCurrEarthDist.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuCurrMag
 			// 
 			this.mnuCurrMag.Index = 8;
-			this.mnuCurrMag.Tag = "";
 			this.mnuCurrMag.Text = "Current magnitude";
 			this.mnuCurrMag.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
@@ -155,21 +146,18 @@
 			// 
 			this.mnuPeriod.Index = 9;
 			this.mnuPeriod.RadioCheck = true;
-			this.mnuPeriod.Tag = "";
 			this.mnuPeriod.Text = "Period";
 			this.mnuPeriod.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuAphDistance
 			// 
 			this.mnuAphDistance.Index = 10;
-			this.mnuAphDistance.Tag = "";
 			this.mnuAphDistance.Text = "Aphelion distance";
 			this.mnuAphDistance.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuSemiMajorAxis
 			// 
 			this.mnuSemiMajorAxis.Index = 11;
-			this.mnuSemiMajorAxis.Tag = "";
 			this.mnuSemiMajorAxis.Text = "Semi-major axis";
 			this.mnuSemiMajorAxis.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
@@ -177,7 +165,6 @@
 			// 
 			this.mnuEcc.Index = 12;
 			this.mnuEcc.RadioCheck = true;
-			this.mnuEcc.Tag = "";
 			this.mnuEcc.Text = "Eccentricity";
 			this.mnuEcc.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
@@ -185,7 +172,6 @@
 			// 
 			this.mnuIncl.Index = 13;
 			this.mnuIncl.RadioCheck = true;
-			this.mnuIncl.Tag = "";
 			this.mnuIncl.Text = "Inclination";
 			this.mnuIncl.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
@@ -193,7 +179,6 @@
 			// 
 			this.mnuAscNode.Index = 14;
 			this.mnuAscNode.RadioCheck = true;
-			this.mnuAscNode.Tag = "";
 			this.mnuAscNode.Text = "Long. of the Asc. Node";
 			this.mnuAscNode.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
@@ -201,7 +186,6 @@
 			// 
 			this.mnuArgPeri.Index = 15;
 			this.mnuArgPeri.RadioCheck = true;
-			this.mnuArgPeri.Tag = "";
 			this.mnuArgPeri.Text = "Arg. of Pericenter";
 			this.mnuArgPeri.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 

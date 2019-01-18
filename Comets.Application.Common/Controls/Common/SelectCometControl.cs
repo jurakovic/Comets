@@ -1,11 +1,12 @@
 ﻿using Comets.Core;
-using Comets.Core.Extensions;
 using Comets.Core.Managers;
 using System;
 using System.ComponentModel;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using CometSelectionType = Comets.Core.Managers.CometManager.SelectionType;
 
 namespace Comets.Application.Common.Controls.Common
 {
@@ -82,6 +83,10 @@ namespace Comets.Application.Common.Controls.Common
 			InitializeComponent();
 
 			sortMenuControl.OnSort += OnCometsSorted;
+			mnuBrightest.Tag = CometSelectionType.Brightest;
+			mnuClosestToPerihelion.Tag = CometSelectionType.ClosestToPerihelion;
+			mnuClosestToEarth.Tag = CometSelectionType.ClosestToEarth;
+			mnuClosestToSun.Tag = CometSelectionType.ClosestToSun;
 
 			ToolTip = new ToolTip();
 		}
@@ -106,6 +111,11 @@ namespace Comets.Application.Common.Controls.Common
 			SelectAll();
 		}
 
+		private void btnSelect_Click(object sender, EventArgs e)
+		{
+			ctxSelect.Show(gbxSelectComet, new Point(btnAll.Left + 1, btnAll.Top + btnAll.Height - 1));
+		}
+
 		private void btnFilter_Click(object sender, EventArgs e)
 		{
 			using (FormDatabase fdb = new FormDatabase(CommonManager.MainCollection, false, Filters, SortProperty, SortAscending, true) { Owner = this.ParentForm })
@@ -128,6 +138,16 @@ namespace Comets.Application.Common.Controls.Common
 					OnSelectedCometChangedInternal();
 				}
 			}
+		}
+
+		#endregion
+
+		#region Menu
+
+		private void mnuCommon_Click(object sender, EventArgs e)
+		{
+			CometSelectionType type = (CometSelectionType)(sender as MenuItem).Tag;
+			this.SelectedComet = GetComet(type, null);
 		}
 
 		#endregion
@@ -201,16 +221,7 @@ namespace Comets.Application.Common.Controls.Common
 				}
 				else if (selectComet)
 				{
-					if (selectedComet != null && this.Comets.Contains(selectedComet))
-					{
-						this.SelectedComet = selectedComet;
-					}
-					else
-					{
-						//comet with nearest perihelion date
-						decimal jdNow = DateTime.UtcNow.JD();
-						this.SelectedComet = this.Comets.OrderBy(x => Math.Abs(x.Tn - jdNow)).First();
-					}
+					this.SelectedComet = GetComet(CometSelectionType.Brightest, selectedComet);
 				}
 			}
 		}
@@ -219,6 +230,11 @@ namespace Comets.Application.Common.Controls.Common
 		{
 			if (this.Comets.Count > 0)
 				cbComet.SelectedIndex = 0;
+		}
+
+		private Comet GetComet(CometSelectionType type, Comet defaultComet)
+		{
+			return CometManager.GetCometBySelectionType(this.Comets, type, defaultComet);
 		}
 
 		#endregion
