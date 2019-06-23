@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{31E593CB-E0D5-4761-B280-C909545090AD}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Comets.Application.OrbitViewer</RootNamespace>
+    <AssemblyName>Comets.Application.OrbitViewer</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controls\Toolbox\CollapsiblePanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Toolbox\CollapsiblePanel.Designer.cs">
+      <DependentUpon>CollapsiblePanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Toolbox\CometControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Toolbox\CometControl.Designer.cs">
+      <DependentUpon>CometControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Toolbox\DateTimeControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Toolbox\DateTimeControl.Designer.cs">
+      <DependentUpon>DateTimeControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Toolbox\FilterControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Toolbox\FilterControl.Designer.cs">
+      <DependentUpon>FilterControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Toolbox\InfoLabelsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Toolbox\InfoLabelsControl.Designer.cs">
+      <DependentUpon>InfoLabelsControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Toolbox\MiscControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Toolbox\MiscControl.Designer.cs">
+      <DependentUpon>MiscControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Toolbox\ModeControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Toolbox\ModeControl.Designer.cs">
+      <DependentUpon>ModeControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Toolbox\DisplayControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Toolbox\DisplayControl.Designer.cs">
+      <DependentUpon>DisplayControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\OrbitViewerControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\OrbitViewerControl.Designer.cs">
+      <DependentUpon>OrbitViewerControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Toolbox\SimulationControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Toolbox\SimulationControl.Designer.cs">
+      <DependentUpon>SimulationControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormFind.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormFind.Designer.cs">
+      <DependentUpon>FormFind.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormOrbitViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormOrbitViewer.Designer.cs">
+      <DependentUpon>FormOrbitViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Controls\Toolbox\CollapsiblePanel.resx">
+      <DependentUpon>CollapsiblePanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Toolbox\CometControl.resx">
+      <DependentUpon>CometControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Toolbox\DateTimeControl.resx">
+      <DependentUpon>DateTimeControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Toolbox\FilterControl.resx">
+      <DependentUpon>FilterControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Toolbox\InfoLabelsControl.resx">
+      <DependentUpon>InfoLabelsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Toolbox\MiscControl.resx">
+      <DependentUpon>MiscControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Toolbox\ModeControl.resx">
+      <DependentUpon>ModeControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Toolbox\DisplayControl.resx">
+      <DependentUpon>DisplayControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\OrbitViewerControl.resx">
+      <DependentUpon>OrbitViewerControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Toolbox\SimulationControl.resx">
+      <DependentUpon>SimulationControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormFind.resx">
+      <DependentUpon>FormFind.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormOrbitViewer.resx">
+      <DependentUpon>FormOrbitViewer.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Comets.Application.Common\Comets.Application.Common.csproj">
+      <Project>{f8be1a4a-f5c6-4e04-a94f-31f106e8a456}</Project>
+      <Name>Comets.Application.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Comets.Core\Comets.Core.csproj">
+      <Project>{75b634f7-75c2-41b5-a54a-89e2f2c5e806}</Project>
+      <Name>Comets.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Comets.OrbitViewer\Comets.OrbitViewer.csproj">
+      <Project>{674783d2-0aaf-405d-9c8f-5f4491ad9863}</Project>
+      <Name>Comets.OrbitViewer</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
