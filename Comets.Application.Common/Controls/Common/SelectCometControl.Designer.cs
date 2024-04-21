@@ -34,11 +34,11 @@
 			this.btnAll = new System.Windows.Forms.Button();
 			this.btnFilter = new System.Windows.Forms.Button();
 			this.cbComet = new System.Windows.Forms.ComboBox();
-			this.ctxSelect = new System.Windows.Forms.ContextMenu();
-			this.mnuBrightest = new System.Windows.Forms.MenuItem();
-			this.mnuClosestToPerihelion = new System.Windows.Forms.MenuItem();
-			this.mnuClosestToEarth = new System.Windows.Forms.MenuItem();
-			this.mnuClosestToSun = new System.Windows.Forms.MenuItem();
+			this.ctxSelect = new System.Windows.Forms.ContextMenuStrip();
+			this.mnuBrightest = new System.Windows.Forms.ToolStripMenuItem();
+			this.mnuClosestToPerihelion = new System.Windows.Forms.ToolStripMenuItem();
+			this.mnuClosestToEarth = new System.Windows.Forms.ToolStripMenuItem();
+			this.mnuClosestToSun = new System.Windows.Forms.ToolStripMenuItem();
 			this.gbxSelectComet.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -116,7 +116,7 @@
 			// 
 			// ctxSelect
 			// 
-			this.ctxSelect.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.ctxSelect.Items.AddRange(new System.Windows.Forms.ToolStripMenuItem[] {
             this.mnuBrightest,
             this.mnuClosestToPerihelion,
             this.mnuClosestToEarth,
@@ -124,25 +124,21 @@
 			// 
 			// mnuBrightest
 			// 
-			this.mnuBrightest.Index = 0;
 			this.mnuBrightest.Text = "Brightest";
 			this.mnuBrightest.Click += new System.EventHandler(this.mnuCommon_Click);
 			// 
 			// mnuClosestToPerihelion
 			// 
-			this.mnuClosestToPerihelion.Index = 1;
 			this.mnuClosestToPerihelion.Text = "Closest to perihelion";
 			this.mnuClosestToPerihelion.Click += new System.EventHandler(this.mnuCommon_Click);
 			// 
 			// mnuClosestToEarth
 			// 
-			this.mnuClosestToEarth.Index = 2;
 			this.mnuClosestToEarth.Text = "Closest to Earth";
 			this.mnuClosestToEarth.Click += new System.EventHandler(this.mnuCommon_Click);
 			// 
 			// mnuClosestToSun
 			// 
-			this.mnuClosestToSun.Index = 3;
 			this.mnuClosestToSun.Text = "Closest to Sun";
 			this.mnuClosestToSun.Click += new System.EventHandler(this.mnuCommon_Click);
 			// 
@@ -167,10 +163,10 @@
 		private System.Windows.Forms.Button btnAll;
 		private SortMenuControl sortMenuControl;
 		private System.Windows.Forms.Button btnSelect;
-		private System.Windows.Forms.ContextMenu ctxSelect;
-		private System.Windows.Forms.MenuItem mnuBrightest;
-		private System.Windows.Forms.MenuItem mnuClosestToEarth;
-		private System.Windows.Forms.MenuItem mnuClosestToSun;
-		private System.Windows.Forms.MenuItem mnuClosestToPerihelion;
+		private System.Windows.Forms.ContextMenuStrip ctxSelect;
+		private System.Windows.Forms.ToolStripMenuItem mnuBrightest;
+		private System.Windows.Forms.ToolStripMenuItem mnuClosestToEarth;
+		private System.Windows.Forms.ToolStripMenuItem mnuClosestToSun;
+		private System.Windows.Forms.ToolStripMenuItem mnuClosestToPerihelion;
 	}
 }

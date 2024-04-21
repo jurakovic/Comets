@@ -32,7 +32,7 @@ namespace Comets.Application.OrbitViewer
 		private bool IsMouseWheelZoom;
 		private Point StartDrag;
 
-		private Timer Timer;
+		private System.Windows.Forms.Timer Timer;
 		private ATimeSpan TimeStep;
 
 		private CometCollection Comets;
@@ -87,7 +87,7 @@ namespace Comets.Application.OrbitViewer
 		{
 			InitializeComponent();
 
-			Timer = new Timer();
+			Timer = new System.Windows.Forms.Timer();
 			Timer.Interval = 50;
 			Timer.Tick += new EventHandler(this.timer_Tick);
 

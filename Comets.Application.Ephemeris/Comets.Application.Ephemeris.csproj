@@ -1,110 +1,15 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{39196587-5CD7-434E-AB4A-CDE317A6E31D}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>Comets.Application.Ephemeris</RootNamespace>
-    <AssemblyName>Comets.Application.Ephemeris</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
-    <SccProjectName>SAK</SccProjectName>
-    <SccLocalPath>SAK</SccLocalPath>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccProvider>SAK</SccProvider>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
+    <ProjectReference Include="..\Comets.Application.Common\Comets.Application.Common.csproj" />
+    <ProjectReference Include="..\Comets.Core\Comets.Core.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Controls\IntervalControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\IntervalControl.Designer.cs">
-      <DependentUpon>IntervalControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\OutputDataControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\OutputDataControl.Designer.cs">
-      <DependentUpon>OutputDataControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\RequirementsControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\RequirementsControl.Designer.cs">
-      <DependentUpon>RequirementsControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FormEphemeris.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormEphemeris.Designer.cs">
-      <DependentUpon>FormEphemeris.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FormEphemerisSettings.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormEphemerisSettings.Designer.cs">
-      <DependentUpon>FormEphemerisSettings.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Controls\IntervalControl.resx">
-      <DependentUpon>IntervalControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\OutputDataControl.resx">
-      <DependentUpon>OutputDataControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\RequirementsControl.resx">
-      <DependentUpon>RequirementsControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormEphemeris.resx">
-      <DependentUpon>FormEphemeris.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormEphemerisSettings.resx">
-      <DependentUpon>FormEphemerisSettings.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Comets.Application.Common\Comets.Application.Common.csproj">
-      <Project>{f8be1a4a-f5c6-4e04-a94f-31f106e8a456}</Project>
-      <Name>Comets.Application.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Comets.Core\Comets.Core.csproj">
-      <Project>{75b634f7-75c2-41b5-a54a-89e2f2c5e806}</Project>
-      <Name>Comets.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+
 </Project>

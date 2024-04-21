@@ -83,13 +83,13 @@ namespace Comets.Application.Common.Controls.Common
 
 		private void menuItemSortCommon_Click(object sender, EventArgs e)
 		{
-			MenuItem mni = sender as MenuItem;
+			ToolStripMenuItem mni = sender as ToolStripMenuItem;
 
 			if (!mni.Checked)
 			{
 				SortAscending = mnuAsc.Checked;
 
-				foreach (MenuItem item in contextSort.MenuItems)
+				foreach (ToolStripMenuItem item in contextSort.Items)
 					item.Checked = false;
 
 				mni.Checked = true;
@@ -118,7 +118,7 @@ namespace Comets.Application.Common.Controls.Common
 
 		public void SetSortItems()
 		{
-			foreach (MenuItem menuitem in contextSort.MenuItems)
+			foreach (ToolStripMenuItem menuitem in contextSort.Items)
 			{
 				if (menuitem.Tag as string == SortProperty)
 					menuitem.Checked = true;
