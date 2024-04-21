@@ -30,7 +30,7 @@
 		{
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
-			this.mainMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.mainMenu = new MenuStrip();
 			this.menuItemFile = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuItemFileEphemeris = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuItemFileGraph = new System.Windows.Forms.ToolStripMenuItem();
@@ -368,11 +368,12 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(784, 562);
+			this.Controls.Add(this.mainMenu);
 			this.Controls.Add(this.statusStrip);
 			this.Font = new System.Drawing.Font("Tahoma", 8.25F);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.IsMdiContainer = true;
-			this.ContextMenuStrip = this.mainMenu;
+			this.MainMenuStrip = this.mainMenu;
 			this.MinimumSize = new System.Drawing.Size(800, 600);
 			this.Name = "FormMain";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -384,6 +385,8 @@
 			this.Shown += new System.EventHandler(this.FormMain_Shown);
 			this.Move += new System.EventHandler(this.FormMain_Move);
 			this.Resize += new System.EventHandler(this.FormMain_Resize);
+			this.mainMenu.ResumeLayout(false);
+			this.mainMenu.PerformLayout();
 			this.statusStrip.ResumeLayout(false);
 			this.statusStrip.PerformLayout();
 			this.ResumeLayout(false);
@@ -393,7 +396,7 @@
 
 		#endregion
 
-		private System.Windows.Forms.ContextMenuStrip mainMenu;
+		private System.Windows.Forms.MenuStrip mainMenu;
 		private System.Windows.Forms.ToolStripMenuItem menuItemFile;
 		private System.Windows.Forms.ToolStripMenuItem menuItemEdit;
 		private System.Windows.Forms.ToolStripMenuItem menuItemView;
