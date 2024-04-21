@@ -75,43 +75,46 @@
 			// mainMenu
 			// 
 			this.mainMenu.Items.AddRange(new System.Windows.Forms.ToolStripMenuItem[] {
-            this.menuItemFile,
-            this.menuItemEphemeris,
-            this.menuItemGraph,
-            this.menuItemOrbit,
-            this.menuItemEdit,
-            this.menuItemView,
-            this.menuItemWindow,
-            this.menuItemHelp});
+			this.menuItemFile,
+			this.menuItemEphemeris,
+			this.menuItemGraph,
+			this.menuItemOrbit,
+			this.menuItemEdit,
+			this.menuItemView,
+			this.menuItemWindow,
+			this.menuItemHelp});
 			// 
 			// menuItemFile
 			// 
 			this.menuItemFile.MergeIndex = 0;
 			this.menuItemFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripMenuItem[] {
-            this.menuItemFileEphemeris,
-            this.menuItemFileGraph,
-            this.menuItemFileOrbit,
-            this.menuItemSeparatorFile1,
-            this.menuItemOrbitalElements,
-            this.menuItemSeparatorFile3,
-            this.menuItemExit});
+			this.menuItemFileEphemeris,
+			this.menuItemFileGraph,
+			this.menuItemFileOrbit,
+			this.menuItemSeparatorFile1,
+			this.menuItemOrbitalElements,
+			this.menuItemSeparatorFile3,
+			this.menuItemExit});
 			this.menuItemFile.Text = "&File";
 			// 
 			// menuItemFileEphemeris
 			// 
 			this.menuItemFileEphemeris.MergeIndex = 0;
+			this.menuItemFileEphemeris.ShortcutKeys = Keys.Control | Keys.E;
 			this.menuItemFileEphemeris.Text = "&Ephemeris";
 			this.menuItemFileEphemeris.Click += new System.EventHandler(this.menuItemFileEphemerides_Click);
 			// 
 			// menuItemFileGraph
 			// 
 			this.menuItemFileGraph.MergeIndex = 1;
+			this.menuItemFileGraph.ShortcutKeys = Keys.Control | Keys.G;
 			this.menuItemFileGraph.Text = "&Graph";
 			this.menuItemFileGraph.Click += new System.EventHandler(this.menuItemFileGraph_Click);
 			// 
 			// menuItemFileOrbit
 			// 
 			this.menuItemFileOrbit.MergeIndex = 2;
+			this.menuItemFileOrbit.ShortcutKeys = Keys.Control | Keys.V;
 			this.menuItemFileOrbit.Text = "Orbit &Viewer";
 			this.menuItemFileOrbit.Click += new System.EventHandler(this.menuItemFileOrbit_Click);
 			// 
@@ -123,6 +126,7 @@
 			// menuItemOrbitalElements
 			// 
 			this.menuItemOrbitalElements.MergeIndex = 4;
+			this.menuItemOrbitalElements.ShortcutKeys = Keys.Control | Keys.O;
 			this.menuItemOrbitalElements.Text = "&Orbital elements";
 			this.menuItemOrbitalElements.Click += new System.EventHandler(this.menuItemOrbitalElements_Click);
 			// 
@@ -134,6 +138,7 @@
 			// menuItemExit
 			// 
 			this.menuItemExit.MergeIndex = 6;
+			this.menuItemExit.ShortcutKeys = Keys.Alt | Keys.F4;
 			this.menuItemExit.Text = "E&xit";
 			this.menuItemExit.Click += new System.EventHandler(this.menuItemExit_Click);
 			// 
@@ -141,20 +146,22 @@
 			// 
 			this.menuItemEphemeris.MergeIndex = 1;
 			this.menuItemEphemeris.DropDownItems.AddRange(new System.Windows.Forms.ToolStripMenuItem[] {
-            this.menuItemEphemerisSettings,
-            this.menuItemEphemerisSaveAs});
+			this.menuItemEphemerisSettings,
+			this.menuItemEphemerisSaveAs});
 			this.menuItemEphemeris.Text = "E&phemeris";
 			this.menuItemEphemeris.Visible = false;
 			// 
 			// menuItemEphemerisSettings
 			// 
 			this.menuItemEphemerisSettings.MergeIndex = 0;
+			this.menuItemEphemerisSettings.ShortcutKeys = Keys.Control | Keys.Shift | Keys.E;
 			this.menuItemEphemerisSettings.Text = "&Settings";
 			this.menuItemEphemerisSettings.Click += new System.EventHandler(this.menuItemEphemSettings_Click);
 			// 
 			// menuItemEphemerisSaveAs
 			// 
 			this.menuItemEphemerisSaveAs.MergeIndex = 1;
+			this.menuItemEphemerisSaveAs.ShortcutKeys = Keys.Control | Keys.S;
 			this.menuItemEphemerisSaveAs.Text = "Save &As";
 			this.menuItemEphemerisSaveAs.Click += new System.EventHandler(this.menuItemEphemerisSaveAs_Click);
 			// 
@@ -162,20 +169,22 @@
 			// 
 			this.menuItemGraph.MergeIndex = 2;
 			this.menuItemGraph.DropDownItems.AddRange(new System.Windows.Forms.ToolStripMenuItem[] {
-            this.menuItemGraphSettings,
-            this.menuItemGraphSaveAs});
+			this.menuItemGraphSettings,
+			this.menuItemGraphSaveAs});
 			this.menuItemGraph.Text = "&Graph";
 			this.menuItemGraph.Visible = false;
 			// 
 			// menuItemGraphSettings
 			// 
 			this.menuItemGraphSettings.MergeIndex = 0;
+			this.menuItemGraphSettings.ShortcutKeys = Keys.Control | Keys.Shift | Keys.G;
 			this.menuItemGraphSettings.Text = "&Settings";
 			this.menuItemGraphSettings.Click += new System.EventHandler(this.menuItemGraphSettings_Click);
 			// 
 			// menuItemGraphSaveAs
 			// 
 			this.menuItemGraphSaveAs.MergeIndex = 1;
+			this.menuItemGraphSaveAs.ShortcutKeys = Keys.Control | Keys.S;
 			this.menuItemGraphSaveAs.Text = "Save &As";
 			this.menuItemGraphSaveAs.Click += new System.EventHandler(this.menuItemGraphSaveAs_Click);
 			// 
@@ -183,7 +192,7 @@
 			// 
 			this.menuItemOrbit.MergeIndex = 3;
 			this.menuItemOrbit.DropDownItems.AddRange(new System.Windows.Forms.ToolStripMenuItem[] {
-            this.mnuShowToolbox});
+			this.mnuShowToolbox});
 			this.menuItemOrbit.Text = "&Orbit";
 			this.menuItemOrbit.Visible = false;
 			// 
@@ -191,6 +200,7 @@
 			// 
 			this.mnuShowToolbox.Checked = true;
 			this.mnuShowToolbox.MergeIndex = 0;
+			this.mnuShowToolbox.ShortcutKeys = Keys.Control | Keys.T;
 			this.mnuShowToolbox.Text = "Show &Toolbox";
 			this.mnuShowToolbox.Click += new System.EventHandler(this.mnuShowToolbox_Click);
 			// 
@@ -198,21 +208,23 @@
 			// 
 			this.menuItemEdit.MergeIndex = 4;
 			this.menuItemEdit.DropDownItems.AddRange(new System.Windows.Forms.ToolStripMenuItem[] {
-            this.menuItemDatabase,
-            this.menuItemUpdate,
-            this.menuItemSeparatorEdit1,
-            this.menuItemSettings});
+			this.menuItemDatabase,
+			this.menuItemUpdate,
+			this.menuItemSeparatorEdit1,
+			this.menuItemSettings});
 			this.menuItemEdit.Text = "&Edit";
 			// 
 			// menuItemDatabase
 			// 
 			this.menuItemDatabase.MergeIndex = 0;
+			this.menuItemDatabase.ShortcutKeys = Keys.Control | Keys.F5;
 			this.menuItemDatabase.Text = "&Database";
 			this.menuItemDatabase.Click += new System.EventHandler(this.menuItemDatabase_Click);
 			// 
 			// menuItemUpdate
 			// 
 			this.menuItemUpdate.MergeIndex = 1;
+			this.menuItemUpdate.ShortcutKeys = Keys.Control | Keys.F6;
 			this.menuItemUpdate.Text = "&Update";
 			this.menuItemUpdate.Click += new System.EventHandler(this.menuItemImport_Click);
 			// 
@@ -231,8 +243,8 @@
 			// 
 			this.menuItemView.MergeIndex = 5;
 			this.menuItemView.DropDownItems.AddRange(new System.Windows.Forms.ToolStripMenuItem[] {
-            this.menuItemViewAlwaysOnTop,
-            this.menuItemViewStatusBar});
+			this.menuItemViewAlwaysOnTop,
+			this.menuItemViewStatusBar});
 			this.menuItemView.Text = "&View";
 			// 
 			// menuItemViewAlwaysOnTop
@@ -252,12 +264,12 @@
 			// 
 			this.menuItemWindow.MergeIndex = 6;
 			this.menuItemWindow.DropDownItems.AddRange(new System.Windows.Forms.ToolStripMenuItem[] {
-            this.menuItemTileVert,
-            this.menuItemTileHoriz,
-            this.menuItemCascade,
-            this.menuItemMinimizeAll,
-            this.menuItemRestoreAll,
-            this.menuItemClose});
+			this.menuItemTileVert,
+			this.menuItemTileHoriz,
+			this.menuItemCascade,
+			this.menuItemMinimizeAll,
+			this.menuItemRestoreAll,
+			this.menuItemClose});
 			this.menuItemWindow.Text = "&Window";
 			this.menuItemWindow.Visible = false;
 			// 
@@ -294,6 +306,7 @@
 			// menuItemClose
 			// 
 			this.menuItemClose.MergeIndex = 5;
+			this.menuItemClose.ShortcutKeys = Keys.Control | Keys.F4;
 			this.menuItemClose.Text = "&Close";
 			this.menuItemClose.Click += new System.EventHandler(this.menuItemClose_Click);
 			// 
@@ -301,8 +314,8 @@
 			// 
 			this.menuItemHelp.MergeIndex = 7;
 			this.menuItemHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripMenuItem[] {
-            this.menuItemControls,
-            this.menuItemAbout});
+			this.menuItemControls,
+			this.menuItemAbout});
 			this.menuItemHelp.Text = "&Help";
 			// 
 			// menuItemControls
@@ -320,9 +333,9 @@
 			// statusStrip
 			// 
 			this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.statusComets,
-            this.statusSpace,
-            this.statusProgressBar});
+			this.statusComets,
+			this.statusSpace,
+			this.statusProgressBar});
 			this.statusStrip.Location = new System.Drawing.Point(0, 540);
 			this.statusStrip.Name = "statusStrip";
 			this.statusStrip.Size = new System.Drawing.Size(784, 22);
