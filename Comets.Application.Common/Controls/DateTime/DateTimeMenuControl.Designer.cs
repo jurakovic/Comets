@@ -86,86 +86,104 @@
 			// 
 			// mnuDefault
 			// 
+			this.mnuDefault.MergeIndex = 0;
 			this.mnuDefault.Text = "Default";
 			this.mnuDefault.Click += new System.EventHandler(this.mnuCommon_Click);
 			// 
 			// sepDefault
 			// 
+			this.sepDefault.MergeIndex = 1;
 			this.sepDefault.Text = "-";
 			// 
 			// mnuToday
 			// 
+			this.mnuToday.MergeIndex = 2;
 			this.mnuToday.Text = "Today";
 			this.mnuToday.Click += new System.EventHandler(this.mnuCommon_Click);
 			// 
 			// sepNow
 			// 
+			this.sepNow.MergeIndex = 3;
 			this.sepNow.Text = "-";
 			// 
 			// mnuPerihelionDate
 			// 
+			this.mnuPerihelionDate.MergeIndex = 4;
 			this.mnuPerihelionDate.Text = "Perihelion Date";
 			this.mnuPerihelionDate.Click += new System.EventHandler(this.mnuCommon_Click);
 			// 
 			// sepPerihelionDate
 			// 
+			this.sepPerihelionDate.MergeIndex = 5;
 			this.sepPerihelionDate.Text = "-";
 			// 
 			// mnuLastYear
 			// 
+			this.mnuLastYear.MergeIndex = 6;
 			this.mnuLastYear.Text = "<last year first day>";
 			this.mnuLastYear.Click += new System.EventHandler(this.mnuCommon_Click);
 			// 
 			// mnuThisYear
 			// 
+			this.mnuThisYear.MergeIndex = 7;
 			this.mnuThisYear.Text = "<this year first day>";
 			this.mnuThisYear.Click += new System.EventHandler(this.mnuCommon_Click);
 			// 
 			// mnuNextYear
 			// 
+			this.mnuNextYear.MergeIndex = 8;
 			this.mnuNextYear.Text = "<next year first day>";
 			this.mnuNextYear.Click += new System.EventHandler(this.mnuCommon_Click);
 			// 
 			// mnuAfterNextYear
 			// 
+			this.mnuAfterNextYear.MergeIndex = 9;
 			this.mnuAfterNextYear.Text = "<after next year first day>";
 			this.mnuAfterNextYear.Click += new System.EventHandler(this.mnuCommon_Click);
 			// 
 			// sepAdd
 			// 
+			this.sepAdd.MergeIndex = 10;
 			this.sepAdd.Text = "-";
 			// 
 			// mnuAddThreeMonths
 			// 
+			this.mnuAddThreeMonths.MergeIndex = 11;
 			this.mnuAddThreeMonths.Text = "Add 3 months";
 			this.mnuAddThreeMonths.Click += new System.EventHandler(this.mnuCommon_Click);
 			// 
 			// mnuAddSixMonths
 			// 
+			this.mnuAddSixMonths.MergeIndex = 12;
 			this.mnuAddSixMonths.Text = "Add 6 months";
 			this.mnuAddSixMonths.Click += new System.EventHandler(this.mnuCommon_Click);
 			// 
 			// mnuAddOneYear
 			// 
+			this.mnuAddOneYear.MergeIndex = 13;
 			this.mnuAddOneYear.Text = "Add 1 year";
 			this.mnuAddOneYear.Click += new System.EventHandler(this.mnuCommon_Click);
 			// 
 			// sepSub
 			// 
+			this.sepSub.MergeIndex = 14;
 			this.sepSub.Text = "-";
 			// 
 			// mnuSubThreeMonths
 			// 
+			this.mnuSubThreeMonths.MergeIndex = 15;
 			this.mnuSubThreeMonths.Text = "Subtract 3 months";
 			this.mnuSubThreeMonths.Click += new System.EventHandler(this.mnuCommon_Click);
 			// 
 			// mnuSubSixMonths
 			// 
+			this.mnuSubSixMonths.MergeIndex = 16;
 			this.mnuSubSixMonths.Text = "Subtract 6 months";
 			this.mnuSubSixMonths.Click += new System.EventHandler(this.mnuCommon_Click);
 			// 
 			// mnuSubOneYear
 			// 
+			this.mnuSubOneYear.MergeIndex = 17;
 			this.mnuSubOneYear.Text = "Subtract 1 year";
 			this.mnuSubOneYear.Click += new System.EventHandler(this.mnuCommon_Click);
 			// 

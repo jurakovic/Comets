@@ -87,96 +87,114 @@
 			// 
 			// mnuDesig
 			// 
+			this.mnuDesig.MergeIndex = 0;
 			this.mnuDesig.Text = "Designation";
 			this.mnuDesig.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuDiscoverer
 			// 
+			this.mnuDiscoverer.MergeIndex = 1;
 			this.mnuDiscoverer.Text = "Discoverer";
 			this.mnuDiscoverer.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuPerihDate
 			// 
+			this.mnuPerihDate.MergeIndex = 2;
 			this.mnuPerihDate.Text = "Perihelion date";
 			this.mnuPerihDate.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuPerihDist
 			// 
+			this.mnuPerihDist.MergeIndex = 3;
 			this.mnuPerihDist.Text = "Perihelion distance";
 			this.mnuPerihDist.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuPerihEarthDist
 			// 
+			this.mnuPerihEarthDist.MergeIndex = 4;
 			this.mnuPerihEarthDist.Text = "Perihelion distance from Earth";
 			this.mnuPerihEarthDist.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuPerihMag
 			// 
+			this.mnuPerihMag.MergeIndex = 5;
 			this.mnuPerihMag.Text = "Perihelion magnitude";
 			this.mnuPerihMag.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuCurrSunDist
 			// 
+			this.mnuCurrSunDist.MergeIndex = 6;
 			this.mnuCurrSunDist.Text = "Current distance from Sun";
 			this.mnuCurrSunDist.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuCurrEarthDist
 			// 
+			this.mnuCurrEarthDist.MergeIndex = 7;
 			this.mnuCurrEarthDist.Text = "Current distance from Earth";
 			this.mnuCurrEarthDist.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuCurrMag
 			// 
+			this.mnuCurrMag.MergeIndex = 8;
 			this.mnuCurrMag.Text = "Current magnitude";
 			this.mnuCurrMag.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuPeriod
 			// 
+			this.mnuPeriod.MergeIndex = 9;
 			this.mnuPeriod.Text = "Period";
 			this.mnuPeriod.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuAphDistance
 			// 
+			this.mnuAphDistance.MergeIndex = 10;
 			this.mnuAphDistance.Text = "Aphelion distance";
 			this.mnuAphDistance.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuSemiMajorAxis
 			// 
+			this.mnuSemiMajorAxis.MergeIndex = 11;
 			this.mnuSemiMajorAxis.Text = "Semi-major axis";
 			this.mnuSemiMajorAxis.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuEcc
 			// 
+			this.mnuEcc.MergeIndex = 12;
 			this.mnuEcc.Text = "Eccentricity";
 			this.mnuEcc.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuIncl
 			// 
+			this.mnuIncl.MergeIndex = 13;
 			this.mnuIncl.Text = "Inclination";
 			this.mnuIncl.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuAscNode
 			// 
+			this.mnuAscNode.MergeIndex = 14;
 			this.mnuAscNode.Text = "Long. of the Asc. Node";
 			this.mnuAscNode.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuArgPeri
 			// 
-
+			this.mnuArgPeri.MergeIndex = 15;
 			this.mnuArgPeri.Text = "Arg. of Pericenter";
 			this.mnuArgPeri.Click += new System.EventHandler(this.menuItemSortCommon_Click);
 			// 
 			// mnuSeparator
 			// 
+			this.mnuSeparator.MergeIndex = 16;
 			this.mnuSeparator.Text = "-";
 			// 
 			// mnuAsc
 			// 
+			this.mnuAsc.MergeIndex = 17;
 			this.mnuAsc.Text = "Ascending";
 			this.mnuAsc.Click += new System.EventHandler(this.menuItemSortAscDesc_Click);
 			// 
 			// mnuDesc
 			// 
+			this.mnuDesc.MergeIndex = 18;
 			this.mnuDesc.Text = "Descending";
 			this.mnuDesc.Click += new System.EventHandler(this.menuItemSortAscDesc_Click);
 			// 

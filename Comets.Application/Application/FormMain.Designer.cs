@@ -86,6 +86,7 @@
 			// 
 			// menuItemFile
 			// 
+			this.menuItemFile.MergeIndex = 0;
 			this.menuItemFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripMenuItem[] {
             this.menuItemFileEphemeris,
             this.menuItemFileGraph,
@@ -98,39 +99,47 @@
 			// 
 			// menuItemFileEphemeris
 			// 
+			this.menuItemFileEphemeris.MergeIndex = 0;
 			this.menuItemFileEphemeris.Text = "&Ephemeris";
 			this.menuItemFileEphemeris.Click += new System.EventHandler(this.menuItemFileEphemerides_Click);
 			// 
 			// menuItemFileGraph
 			// 
+			this.menuItemFileGraph.MergeIndex = 1;
 			this.menuItemFileGraph.Text = "&Graph";
 			this.menuItemFileGraph.Click += new System.EventHandler(this.menuItemFileGraph_Click);
 			// 
 			// menuItemFileOrbit
 			// 
+			this.menuItemFileOrbit.MergeIndex = 2;
 			this.menuItemFileOrbit.Text = "Orbit &Viewer";
 			this.menuItemFileOrbit.Click += new System.EventHandler(this.menuItemFileOrbit_Click);
 			// 
 			// menuItemSeparatorFile1
 			// 
+			this.menuItemSeparatorFile1.MergeIndex = 3;
 			this.menuItemSeparatorFile1.Text = "-";
 			// 
 			// menuItemOrbitalElements
 			// 
+			this.menuItemOrbitalElements.MergeIndex = 4;
 			this.menuItemOrbitalElements.Text = "&Orbital elements";
 			this.menuItemOrbitalElements.Click += new System.EventHandler(this.menuItemOrbitalElements_Click);
 			// 
 			// menuItemSeparatorFile3
 			// 
+			this.menuItemSeparatorFile3.MergeIndex = 5;
 			this.menuItemSeparatorFile3.Text = "-";
 			// 
 			// menuItemExit
 			// 
+			this.menuItemExit.MergeIndex = 6;
 			this.menuItemExit.Text = "E&xit";
 			this.menuItemExit.Click += new System.EventHandler(this.menuItemExit_Click);
 			// 
 			// menuItemEphemeris
 			// 
+			this.menuItemEphemeris.MergeIndex = 1;
 			this.menuItemEphemeris.DropDownItems.AddRange(new System.Windows.Forms.ToolStripMenuItem[] {
             this.menuItemEphemerisSettings,
             this.menuItemEphemerisSaveAs});
@@ -139,16 +148,19 @@
 			// 
 			// menuItemEphemerisSettings
 			// 
+			this.menuItemEphemerisSettings.MergeIndex = 0;
 			this.menuItemEphemerisSettings.Text = "&Settings";
 			this.menuItemEphemerisSettings.Click += new System.EventHandler(this.menuItemEphemSettings_Click);
 			// 
 			// menuItemEphemerisSaveAs
 			// 
+			this.menuItemEphemerisSaveAs.MergeIndex = 1;
 			this.menuItemEphemerisSaveAs.Text = "Save &As";
 			this.menuItemEphemerisSaveAs.Click += new System.EventHandler(this.menuItemEphemerisSaveAs_Click);
 			// 
 			// menuItemGraph
 			// 
+			this.menuItemGraph.MergeIndex = 2;
 			this.menuItemGraph.DropDownItems.AddRange(new System.Windows.Forms.ToolStripMenuItem[] {
             this.menuItemGraphSettings,
             this.menuItemGraphSaveAs});
@@ -157,19 +169,19 @@
 			// 
 			// menuItemGraphSettings
 			// 
-
+			this.menuItemGraphSettings.MergeIndex = 0;
 			this.menuItemGraphSettings.Text = "&Settings";
 			this.menuItemGraphSettings.Click += new System.EventHandler(this.menuItemGraphSettings_Click);
 			// 
 			// menuItemGraphSaveAs
 			// 
-
+			this.menuItemGraphSaveAs.MergeIndex = 1;
 			this.menuItemGraphSaveAs.Text = "Save &As";
 			this.menuItemGraphSaveAs.Click += new System.EventHandler(this.menuItemGraphSaveAs_Click);
 			// 
 			// menuItemOrbit
 			// 
-
+			this.menuItemOrbit.MergeIndex = 3;
 			this.menuItemOrbit.DropDownItems.AddRange(new System.Windows.Forms.ToolStripMenuItem[] {
             this.mnuShowToolbox});
 			this.menuItemOrbit.Text = "&Orbit";
@@ -178,13 +190,13 @@
 			// mnuShowToolbox
 			// 
 			this.mnuShowToolbox.Checked = true;
-
+			this.mnuShowToolbox.MergeIndex = 0;
 			this.mnuShowToolbox.Text = "Show &Toolbox";
 			this.mnuShowToolbox.Click += new System.EventHandler(this.mnuShowToolbox_Click);
 			// 
 			// menuItemEdit
 			// 
-
+			this.menuItemEdit.MergeIndex = 4;
 			this.menuItemEdit.DropDownItems.AddRange(new System.Windows.Forms.ToolStripMenuItem[] {
             this.menuItemDatabase,
             this.menuItemUpdate,
@@ -194,27 +206,30 @@
 			// 
 			// menuItemDatabase
 			// 
-
+			this.menuItemDatabase.MergeIndex = 0;
 			this.menuItemDatabase.Text = "&Database";
 			this.menuItemDatabase.Click += new System.EventHandler(this.menuItemDatabase_Click);
 			// 
 			// menuItemUpdate
 			// 
-
+			this.menuItemUpdate.MergeIndex = 1;
 			this.menuItemUpdate.Text = "&Update";
 			this.menuItemUpdate.Click += new System.EventHandler(this.menuItemImport_Click);
 			// 
 			// menuItemSeparatorEdit1
 			// 
+			this.menuItemSeparatorEdit1.MergeIndex = 2;
 			this.menuItemSeparatorEdit1.Text = "-";
 			// 
 			// menuItemSettings
 			// 
+			this.menuItemSettings.MergeIndex = 3;
 			this.menuItemSettings.Text = "&Settings";
 			this.menuItemSettings.Click += new System.EventHandler(this.menuItemSettings_Click);
 			// 
 			// menuItemView
 			// 
+			this.menuItemView.MergeIndex = 5;
 			this.menuItemView.DropDownItems.AddRange(new System.Windows.Forms.ToolStripMenuItem[] {
             this.menuItemViewAlwaysOnTop,
             this.menuItemViewStatusBar});
@@ -222,17 +237,20 @@
 			// 
 			// menuItemViewAlwaysOnTop
 			// 
+			this.menuItemViewAlwaysOnTop.MergeIndex = 0;
 			this.menuItemViewAlwaysOnTop.Text = "Always on &Top";
 			this.menuItemViewAlwaysOnTop.Click += new System.EventHandler(this.menuItemViewAlwaysOnTop_Click);
 			// 
 			// menuItemViewStatusBar
 			// 
 			this.menuItemViewStatusBar.Checked = true;
+			this.menuItemViewStatusBar.MergeIndex = 1;
 			this.menuItemViewStatusBar.Text = "Show &status bar";
 			this.menuItemViewStatusBar.Click += new System.EventHandler(this.menuItemViewStatusBar_Click);
 			// 
 			// menuItemWindow
 			// 
+			this.menuItemWindow.MergeIndex = 6;
 			this.menuItemWindow.DropDownItems.AddRange(new System.Windows.Forms.ToolStripMenuItem[] {
             this.menuItemTileVert,
             this.menuItemTileHoriz,
@@ -245,37 +263,43 @@
 			// 
 			// menuItemTileVert
 			// 
+			this.menuItemTileVert.MergeIndex = 0;
 			this.menuItemTileVert.Text = "Tile &Horizontally";
 			this.menuItemTileVert.Click += new System.EventHandler(this.menuItemTileVert_Click);
 			// 
 			// menuItemTileHoriz
 			// 
+			this.menuItemTileHoriz.MergeIndex = 1;
 			this.menuItemTileHoriz.Text = "Tile &Vertically";
 			this.menuItemTileHoriz.Click += new System.EventHandler(this.menuItemTileHoriz_Click);
 			// 
 			// menuItemCascade
 			// 
+			this.menuItemCascade.MergeIndex = 2;
 			this.menuItemCascade.Text = "&Cascade";
 			this.menuItemCascade.Click += new System.EventHandler(this.menuItemCascade_Click);
 			// 
 			// menuItemMinimizeAll
 			// 
+			this.menuItemMinimizeAll.MergeIndex = 3;
 			this.menuItemMinimizeAll.Text = "&Minimize All";
 			this.menuItemMinimizeAll.Click += new System.EventHandler(this.menuItemMinimizeAll_Click);
 			// 
 			// menuItemRestoreAll
 			// 
+			this.menuItemRestoreAll.MergeIndex = 4;
 			this.menuItemRestoreAll.Text = "&Restore All";
 			this.menuItemRestoreAll.Click += new System.EventHandler(this.menuItemRestoreAll_Click);
 			// 
 			// menuItemClose
 			// 
-			this.menuItemClose.ShortcutKeys = Keys.Control | Keys.F4;
+			this.menuItemClose.MergeIndex = 5;
 			this.menuItemClose.Text = "&Close";
 			this.menuItemClose.Click += new System.EventHandler(this.menuItemClose_Click);
 			// 
 			// menuItemHelp
 			// 
+			this.menuItemHelp.MergeIndex = 7;
 			this.menuItemHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripMenuItem[] {
             this.menuItemControls,
             this.menuItemAbout});
@@ -283,11 +307,13 @@
 			// 
 			// menuItemControls
 			// 
+			this.menuItemControls.MergeIndex = 0;
 			this.menuItemControls.Text = "&Controls";
 			this.menuItemControls.Click += new System.EventHandler(this.menuItemControls_Click);
 			// 
 			// menuItemAbout
 			// 
+			this.menuItemAbout.MergeIndex = 1;
 			this.menuItemAbout.Text = "&About";
 			this.menuItemAbout.Click += new System.EventHandler(this.menuItemAbout_Click);
 			// 

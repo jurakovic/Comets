@@ -124,21 +124,25 @@
 			// 
 			// mnuBrightest
 			// 
+			this.mnuBrightest.MergeIndex = 0;
 			this.mnuBrightest.Text = "Brightest";
 			this.mnuBrightest.Click += new System.EventHandler(this.mnuCommon_Click);
 			// 
 			// mnuClosestToPerihelion
 			// 
+			this.mnuClosestToPerihelion.MergeIndex = 1;
 			this.mnuClosestToPerihelion.Text = "Closest to perihelion";
 			this.mnuClosestToPerihelion.Click += new System.EventHandler(this.mnuCommon_Click);
 			// 
 			// mnuClosestToEarth
 			// 
+			this.mnuClosestToEarth.MergeIndex = 2;
 			this.mnuClosestToEarth.Text = "Closest to Earth";
 			this.mnuClosestToEarth.Click += new System.EventHandler(this.mnuCommon_Click);
 			// 
 			// mnuClosestToSun
 			// 
+			this.mnuClosestToSun.MergeIndex = 3;
 			this.mnuClosestToSun.Text = "Closest to Sun";
 			this.mnuClosestToSun.Click += new System.EventHandler(this.mnuCommon_Click);
 			// 
