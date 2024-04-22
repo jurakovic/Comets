@@ -83,6 +83,9 @@
 			this.menuItemView,
 			this.menuItemWindow,
 			this.menuItemHelp});
+			this.mainMenu.MdiWindowListItem = menuItemWindow;
+			this.mainMenu.Padding = new Padding(0, 2, 0, 2);
+			this.mainMenu.RenderMode = ToolStripRenderMode.System;
 			// 
 			// menuItemFile
 			// 
