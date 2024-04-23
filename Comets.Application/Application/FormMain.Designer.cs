@@ -35,9 +35,9 @@
 			this.menuItemFileEphemeris = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuItemFileGraph = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuItemFileOrbit = new System.Windows.Forms.ToolStripMenuItem();
-			this.menuItemSeparatorFile1 = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemSeparatorFile1 = new System.Windows.Forms.ToolStripSeparator();
 			this.menuItemOrbitalElements = new System.Windows.Forms.ToolStripMenuItem();
-			this.menuItemSeparatorFile3 = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemSeparatorFile3 = new System.Windows.Forms.ToolStripSeparator();
 			this.menuItemExit = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuItemEphemeris = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuItemEphemerisSettings = new System.Windows.Forms.ToolStripMenuItem();
@@ -50,7 +50,7 @@
 			this.menuItemEdit = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuItemDatabase = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuItemUpdate = new System.Windows.Forms.ToolStripMenuItem();
-			this.menuItemSeparatorEdit1 = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemSeparatorEdit1 = new System.Windows.Forms.ToolStripSeparator();
 			this.menuItemSettings = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuItemView = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuItemViewAlwaysOnTop = new System.Windows.Forms.ToolStripMenuItem();
@@ -90,7 +90,7 @@
 			// menuItemFile
 			// 
 			this.menuItemFile.MergeIndex = 0;
-			this.menuItemFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripMenuItem[] {
+			this.menuItemFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.menuItemFileEphemeris,
 			this.menuItemFileGraph,
 			this.menuItemFileOrbit,
@@ -210,7 +210,7 @@
 			// menuItemEdit
 			// 
 			this.menuItemEdit.MergeIndex = 4;
-			this.menuItemEdit.DropDownItems.AddRange(new System.Windows.Forms.ToolStripMenuItem[] {
+			this.menuItemEdit.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.menuItemDatabase,
 			this.menuItemUpdate,
 			this.menuItemSeparatorEdit1,
@@ -220,14 +220,14 @@
 			// menuItemDatabase
 			// 
 			this.menuItemDatabase.MergeIndex = 0;
-			this.menuItemDatabase.ShortcutKeys = Keys.Control | Keys.F5;
+			this.menuItemDatabase.ShortcutKeys = Keys.F5;
 			this.menuItemDatabase.Text = "&Database";
 			this.menuItemDatabase.Click += new System.EventHandler(this.menuItemDatabase_Click);
 			// 
 			// menuItemUpdate
 			// 
 			this.menuItemUpdate.MergeIndex = 1;
-			this.menuItemUpdate.ShortcutKeys = Keys.Control | Keys.F6;
+			this.menuItemUpdate.ShortcutKeys = Keys.F6;
 			this.menuItemUpdate.Text = "&Update";
 			this.menuItemUpdate.Click += new System.EventHandler(this.menuItemImport_Click);
 			// 
@@ -408,13 +408,13 @@
 		private System.Windows.Forms.ToolStripMenuItem menuItemFileEphemeris;
 		private System.Windows.Forms.ToolStripMenuItem menuItemFileGraph;
 		private System.Windows.Forms.ToolStripMenuItem menuItemFileOrbit;
-		private System.Windows.Forms.ToolStripMenuItem menuItemSeparatorFile1;
+		private System.Windows.Forms.ToolStripSeparator menuItemSeparatorFile1;
 		private System.Windows.Forms.ToolStripMenuItem menuItemExit;
-		private System.Windows.Forms.ToolStripMenuItem menuItemSeparatorEdit1;
+		private System.Windows.Forms.ToolStripSeparator menuItemSeparatorEdit1;
 		private System.Windows.Forms.ToolStripMenuItem menuItemUpdate;
 		private System.Windows.Forms.ToolStripMenuItem menuItemAbout;
 		private System.Windows.Forms.ToolStripMenuItem menuItemSettings;
-		private System.Windows.Forms.ToolStripMenuItem menuItemSeparatorFile3;
+		private System.Windows.Forms.ToolStripSeparator menuItemSeparatorFile3;
 		private System.Windows.Forms.ToolStripMenuItem menuItemOrbitalElements;
 		private System.Windows.Forms.ToolStripMenuItem menuItemViewStatusBar;
 		private System.Windows.Forms.StatusStrip statusStrip;
