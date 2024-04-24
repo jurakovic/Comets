@@ -2,6 +2,7 @@
 using Comets.Core.Managers;
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -65,7 +66,7 @@ namespace Comets.Application.Edit
 
 		private void linkOpen_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
-			System.Diagnostics.Process.Start(DownloadUrl);
+			Process.Start(new ProcessStartInfo(DownloadUrl) { UseShellExecute = true });
 		}
 
 		private void labelDetectedComets_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
