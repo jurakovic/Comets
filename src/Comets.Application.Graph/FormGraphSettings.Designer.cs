@@ -28,106 +28,107 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.btnOk = new System.Windows.Forms.Button();
-			this.btnCancel = new System.Windows.Forms.Button();
-			this.valueRangeControl = new Comets.Application.Graph.ValueRangeControl();
-			this.chartOptionsControl = new Comets.Application.Graph.ChartOptionsControl();
-			this.chartTypeControl = new Comets.Application.Graph.ChartTypeControl();
-			this.selectCometControl = new Comets.Application.Common.Controls.Common.SelectCometControl();
-			this.timespanControl = new Comets.Application.Common.Controls.Common.TimespanControl();
-			this.SuspendLayout();
+			btnOk = new Button();
+			btnCancel = new Button();
+			valueRangeControl = new ValueRangeControl();
+			chartOptionsControl = new ChartOptionsControl();
+			chartTypeControl = new ChartTypeControl();
+			selectCometControl = new Common.Controls.Common.SelectCometControl();
+			timespanControl = new Common.Controls.Common.TimespanControl();
+			SuspendLayout();
 			// 
 			// btnOk
 			// 
-			this.btnOk.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
-			this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnOk.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.btnOk.Location = new System.Drawing.Point(338, 245);
-			this.btnOk.Name = "btnOk";
-			this.btnOk.Size = new System.Drawing.Size(100, 24);
-			this.btnOk.TabIndex = 5;
-			this.btnOk.Text = "OK";
-			this.btnOk.UseVisualStyleBackColor = true;
-			this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
+			btnOk.AccessibleRole = AccessibleRole.None;
+			btnOk.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+			btnOk.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 238);
+			btnOk.Location = new Point(338, 245);
+			btnOk.Name = "btnOk";
+			btnOk.Size = new Size(100, 24);
+			btnOk.TabIndex = 5;
+			btnOk.Text = "OK";
+			btnOk.UseVisualStyleBackColor = true;
+			btnOk.Click += btnOk_Click;
 			// 
 			// btnCancel
 			// 
-			this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.btnCancel.Location = new System.Drawing.Point(444, 245);
-			this.btnCancel.Name = "btnCancel";
-			this.btnCancel.Size = new System.Drawing.Size(100, 24);
-			this.btnCancel.TabIndex = 6;
-			this.btnCancel.Text = "Cancel";
-			this.btnCancel.UseVisualStyleBackColor = true;
-			this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+			btnCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+			btnCancel.DialogResult = DialogResult.Cancel;
+			btnCancel.Location = new Point(444, 245);
+			btnCancel.Name = "btnCancel";
+			btnCancel.Size = new Size(100, 24);
+			btnCancel.TabIndex = 6;
+			btnCancel.Text = "Cancel";
+			btnCancel.UseVisualStyleBackColor = true;
+			btnCancel.Click += btnCancel_Click;
 			// 
 			// valueRangeControl
 			// 
-			this.valueRangeControl.Font = new System.Drawing.Font("Tahoma", 8.25F);
-			this.valueRangeControl.Location = new System.Drawing.Point(376, 97);
-			this.valueRangeControl.Name = "valueRangeControl";
-			this.valueRangeControl.Size = new System.Drawing.Size(167, 135);
-			this.valueRangeControl.TabIndex = 4;
+			valueRangeControl.Font = new Font("Tahoma", 8.25F);
+			valueRangeControl.Location = new Point(376, 97);
+			valueRangeControl.Name = "valueRangeControl";
+			valueRangeControl.Size = new Size(167, 135);
+			valueRangeControl.TabIndex = 4;
 			// 
 			// chartOptionsControl
 			// 
-			this.chartOptionsControl.Location = new System.Drawing.Point(181, 97);
-			this.chartOptionsControl.Name = "chartOptionsControl";
-			this.chartOptionsControl.Size = new System.Drawing.Size(189, 135);
-			this.chartOptionsControl.TabIndex = 3;
+			chartOptionsControl.Font = new Font("Tahoma", 8.25F);
+			chartOptionsControl.Location = new Point(181, 97);
+			chartOptionsControl.Margin = new Padding(4, 3, 4, 3);
+			chartOptionsControl.Name = "chartOptionsControl";
+			chartOptionsControl.Size = new Size(189, 135);
+			chartOptionsControl.TabIndex = 3;
 			// 
 			// chartTypeControl
 			// 
-			this.chartTypeControl.Font = new System.Drawing.Font("Tahoma", 8.25F);
-			this.chartTypeControl.Location = new System.Drawing.Point(12, 97);
-			this.chartTypeControl.Name = "chartTypeControl";
-			this.chartTypeControl.Size = new System.Drawing.Size(163, 135);
-			this.chartTypeControl.TabIndex = 2;
+			chartTypeControl.Font = new Font("Tahoma", 8.25F);
+			chartTypeControl.Location = new Point(12, 97);
+			chartTypeControl.Name = "chartTypeControl";
+			chartTypeControl.Size = new Size(163, 135);
+			chartTypeControl.TabIndex = 2;
 			// 
 			// selectCometControl
 			// 
-			this.selectCometControl.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.selectCometControl.Location = new System.Drawing.Point(12, 6);
-			this.selectCometControl.Name = "selectCometControl";
-			this.selectCometControl.Size = new System.Drawing.Size(290, 85);
-			this.selectCometControl.TabIndex = 0;
+			selectCometControl.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+			selectCometControl.Location = new Point(12, 6);
+			selectCometControl.Name = "selectCometControl";
+			selectCometControl.Size = new Size(290, 85);
+			selectCometControl.TabIndex = 0;
 			// 
 			// timespanControl
 			// 
-			this.timespanControl.Font = new System.Drawing.Font("Tahoma", 8.25F);
-			this.timespanControl.Location = new System.Drawing.Point(308, 6);
-			this.timespanControl.Name = "timespanControl";
-			this.timespanControl.Size = new System.Drawing.Size(235, 85);
-			this.timespanControl.TabIndex = 1;
+			timespanControl.Font = new Font("Tahoma", 8.25F);
+			timespanControl.Location = new Point(308, 6);
+			timespanControl.Name = "timespanControl";
+			timespanControl.Size = new Size(235, 85);
+			timespanControl.TabIndex = 1;
 			// 
 			// FormGraphSettings
 			// 
-			this.AcceptButton = this.btnOk;
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.CancelButton = this.btnCancel;
-			this.ClientSize = new System.Drawing.Size(556, 281);
-			this.Controls.Add(this.valueRangeControl);
-			this.Controls.Add(this.timespanControl);
-			this.Controls.Add(this.chartOptionsControl);
-			this.Controls.Add(this.chartTypeControl);
-			this.Controls.Add(this.selectCometControl);
-			this.Controls.Add(this.btnOk);
-			this.Controls.Add(this.btnCancel);
-			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-			this.MaximizeBox = false;
-			this.MinimizeBox = false;
-			this.Name = "FormGraphSettings";
-			this.ShowIcon = false;
-			this.ShowInTaskbar = false;
-			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-			this.Text = "Graph settings";
-			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormGraphSettings_FormClosing);
-			this.Load += new System.EventHandler(this.FormGraphSettings_Load);
-			this.ResumeLayout(false);
-
+			AcceptButton = btnOk;
+			AutoScaleDimensions = new SizeF(6F, 13F);
+			AutoScaleMode = AutoScaleMode.Font;
+			CancelButton = btnCancel;
+			ClientSize = new Size(556, 281);
+			Controls.Add(valueRangeControl);
+			Controls.Add(timespanControl);
+			Controls.Add(chartOptionsControl);
+			Controls.Add(chartTypeControl);
+			Controls.Add(selectCometControl);
+			Controls.Add(btnOk);
+			Controls.Add(btnCancel);
+			Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 238);
+			FormBorderStyle = FormBorderStyle.FixedSingle;
+			MaximizeBox = false;
+			MinimizeBox = false;
+			Name = "FormGraphSettings";
+			ShowIcon = false;
+			ShowInTaskbar = false;
+			StartPosition = FormStartPosition.CenterParent;
+			Text = "Graph settings";
+			FormClosing += FormGraphSettings_FormClosing;
+			Load += FormGraphSettings_Load;
+			ResumeLayout(false);
 		}
 
 		#endregion
