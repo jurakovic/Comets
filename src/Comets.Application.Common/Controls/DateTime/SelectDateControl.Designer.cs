@@ -28,45 +28,46 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.btnSelectDate = new System.Windows.Forms.Button();
-			this.dateTimeMenuControl = new Comets.Application.Common.Controls.DateAndTime.DateTimeMenuControl();
-			this.SuspendLayout();
+			btnSelectDate = new Button();
+			dateTimeMenuControl = new DateTimeMenuControl();
+			SuspendLayout();
 			// 
 			// btnSelectDate
 			// 
-			this.btnSelectDate.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnSelectDate.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.btnSelectDate.Location = new System.Drawing.Point(0, 0);
-			this.btnSelectDate.Name = "btnSelectDate";
-			this.btnSelectDate.Size = new System.Drawing.Size(149, 23);
-			this.btnSelectDate.TabIndex = 0;
-			this.btnSelectDate.Text = "<datetime>";
-			this.btnSelectDate.UseVisualStyleBackColor = true;
-			this.btnSelectDate.Click += new System.EventHandler(this.btnSelectDate_Click);
+			btnSelectDate.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+			btnSelectDate.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+			btnSelectDate.Location = new Point(0, 0);
+			btnSelectDate.Name = "btnSelectDate";
+			btnSelectDate.Size = new Size(149, 23);
+			btnSelectDate.TabIndex = 0;
+			btnSelectDate.Text = "<datetime>";
+			btnSelectDate.UseVisualStyleBackColor = true;
+			btnSelectDate.Click += btnSelectDate_Click;
 			// 
 			// dateTimeMenuControl
 			// 
-			this.dateTimeMenuControl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.dateTimeMenuControl.Location = new System.Drawing.Point(148, 0);
-			this.dateTimeMenuControl.Name = "dateTimeMenuControl";
-			this.dateTimeMenuControl.Size = new System.Drawing.Size(24, 23);
-			this.dateTimeMenuControl.TabIndex = 1;
-			this.dateTimeMenuControl.Title = "▼";
+			dateTimeMenuControl.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+			dateTimeMenuControl.DefaultDateTime = null;
+			dateTimeMenuControl.Font = new Font("Tahoma", 8.25F);
+			dateTimeMenuControl.Location = new Point(148, 0);
+			dateTimeMenuControl.Name = "dateTimeMenuControl";
+			dateTimeMenuControl.PerihelionDate = null;
+			dateTimeMenuControl.ReferenceControl = null;
+			dateTimeMenuControl.SelectedDateTime = new DateTime(0L);
+			dateTimeMenuControl.Size = new Size(24, 23);
+			dateTimeMenuControl.TabIndex = 1;
+			dateTimeMenuControl.Title = "▼";
 			// 
 			// SelectDateControl
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Controls.Add(this.btnSelectDate);
-			this.Controls.Add(this.dateTimeMenuControl);
-			this.Font = new System.Drawing.Font("Tahoma", 8.25F);
-			this.Name = "SelectDateControl";
-			this.Size = new System.Drawing.Size(172, 23);
-			this.ResumeLayout(false);
-
+			AutoScaleDimensions = new SizeF(6F, 13F);
+			AutoScaleMode = AutoScaleMode.Font;
+			Controls.Add(btnSelectDate);
+			Controls.Add(dateTimeMenuControl);
+			Font = new Font("Tahoma", 8.25F);
+			Name = "SelectDateControl";
+			Size = new Size(172, 23);
+			ResumeLayout(false);
 		}
 
 		#endregion

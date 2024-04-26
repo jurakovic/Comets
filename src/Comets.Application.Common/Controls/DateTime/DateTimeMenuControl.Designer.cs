@@ -28,175 +28,197 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.btnShowMenu = new System.Windows.Forms.Button();
-			this.ctxMenu = new System.Windows.Forms.ContextMenuStrip();
-			this.mnuDefault = new System.Windows.Forms.ToolStripMenuItem();
-			this.sepDefault = new System.Windows.Forms.ToolStripMenuItem();
-			this.mnuToday = new System.Windows.Forms.ToolStripMenuItem();
-			this.sepNow = new System.Windows.Forms.ToolStripMenuItem();
-			this.mnuPerihelionDate = new System.Windows.Forms.ToolStripMenuItem();
-			this.sepPerihelionDate = new System.Windows.Forms.ToolStripMenuItem();
-			this.mnuLastYear = new System.Windows.Forms.ToolStripMenuItem();
-			this.mnuThisYear = new System.Windows.Forms.ToolStripMenuItem();
-			this.mnuNextYear = new System.Windows.Forms.ToolStripMenuItem();
-			this.mnuAfterNextYear = new System.Windows.Forms.ToolStripMenuItem();
-			this.sepAdd = new System.Windows.Forms.ToolStripMenuItem();
-			this.mnuAddThreeMonths = new System.Windows.Forms.ToolStripMenuItem();
-			this.mnuAddSixMonths = new System.Windows.Forms.ToolStripMenuItem();
-			this.mnuAddOneYear = new System.Windows.Forms.ToolStripMenuItem();
-			this.sepSub = new System.Windows.Forms.ToolStripMenuItem();
-			this.mnuSubThreeMonths = new System.Windows.Forms.ToolStripMenuItem();
-			this.mnuSubSixMonths = new System.Windows.Forms.ToolStripMenuItem();
-			this.mnuSubOneYear = new System.Windows.Forms.ToolStripMenuItem();
-			this.SuspendLayout();
+			components = new System.ComponentModel.Container();
+			btnShowMenu = new Button();
+			ctxMenu = new ContextMenuStrip(components);
+			mnuDefault = new ToolStripMenuItem();
+			sepDefault = new ToolStripMenuItem();
+			mnuToday = new ToolStripMenuItem();
+			sepNow = new ToolStripMenuItem();
+			mnuPerihelionDate = new ToolStripMenuItem();
+			sepPerihelionDate = new ToolStripMenuItem();
+			mnuLastYear = new ToolStripMenuItem();
+			mnuThisYear = new ToolStripMenuItem();
+			mnuNextYear = new ToolStripMenuItem();
+			mnuAfterNextYear = new ToolStripMenuItem();
+			sepAdd = new ToolStripMenuItem();
+			mnuAddThreeMonths = new ToolStripMenuItem();
+			mnuAddSixMonths = new ToolStripMenuItem();
+			mnuAddOneYear = new ToolStripMenuItem();
+			sepSub = new ToolStripMenuItem();
+			mnuSubThreeMonths = new ToolStripMenuItem();
+			mnuSubSixMonths = new ToolStripMenuItem();
+			mnuSubOneYear = new ToolStripMenuItem();
+			ctxMenu.SuspendLayout();
+			SuspendLayout();
 			// 
 			// btnShowMenu
 			// 
-			this.btnShowMenu.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.btnShowMenu.Font = new System.Drawing.Font("Tahoma", 8.25F);
-			this.btnShowMenu.Location = new System.Drawing.Point(0, 0);
-			this.btnShowMenu.Name = "btnShowMenu";
-			this.btnShowMenu.Size = new System.Drawing.Size(24, 23);
-			this.btnShowMenu.TabIndex = 0;
-			this.btnShowMenu.Text = "▼";
-			this.btnShowMenu.UseVisualStyleBackColor = true;
-			this.btnShowMenu.Click += new System.EventHandler(this.btnShowMenu_Click);
+			btnShowMenu.Dock = DockStyle.Fill;
+			btnShowMenu.Font = new Font("Tahoma", 8.25F);
+			btnShowMenu.Location = new Point(0, 0);
+			btnShowMenu.Name = "btnShowMenu";
+			btnShowMenu.Size = new Size(24, 23);
+			btnShowMenu.TabIndex = 0;
+			btnShowMenu.Text = "▼";
+			btnShowMenu.UseVisualStyleBackColor = true;
+			btnShowMenu.Click += btnShowMenu_Click;
 			// 
 			// ctxMenu
 			// 
-			this.ctxMenu.Items.AddRange(new System.Windows.Forms.ToolStripMenuItem[] {
-            this.mnuDefault,
-            this.sepDefault,
-            this.mnuToday,
-            this.sepNow,
-            this.mnuPerihelionDate,
-            this.sepPerihelionDate,
-            this.mnuLastYear,
-            this.mnuThisYear,
-            this.mnuNextYear,
-            this.mnuAfterNextYear,
-            this.sepAdd,
-            this.mnuAddThreeMonths,
-            this.mnuAddSixMonths,
-            this.mnuAddOneYear,
-            this.sepSub,
-            this.mnuSubThreeMonths,
-            this.mnuSubSixMonths,
-            this.mnuSubOneYear});
+			ctxMenu.Items.AddRange(new ToolStripItem[] { mnuDefault, sepDefault, mnuToday, sepNow, mnuPerihelionDate, sepPerihelionDate, mnuLastYear, mnuThisYear, mnuNextYear, mnuAfterNextYear, sepAdd, mnuAddThreeMonths, mnuAddSixMonths, mnuAddOneYear, sepSub, mnuSubThreeMonths, mnuSubSixMonths, mnuSubOneYear });
+			ctxMenu.Name = "ctxMenu";
+			ctxMenu.Size = new Size(211, 400);
 			// 
 			// mnuDefault
 			// 
-			this.mnuDefault.MergeIndex = 0;
-			this.mnuDefault.Text = "Default";
-			this.mnuDefault.Click += new System.EventHandler(this.mnuCommon_Click);
+			mnuDefault.MergeIndex = 0;
+			mnuDefault.Name = "mnuDefault";
+			mnuDefault.Size = new Size(210, 22);
+			mnuDefault.Text = "Default";
+			mnuDefault.Click += mnuCommon_Click;
 			// 
 			// sepDefault
 			// 
-			this.sepDefault.MergeIndex = 1;
-			this.sepDefault.Text = "-";
+			sepDefault.MergeIndex = 1;
+			sepDefault.Name = "sepDefault";
+			sepDefault.Size = new Size(210, 22);
+			sepDefault.Text = "-";
 			// 
 			// mnuToday
 			// 
-			this.mnuToday.MergeIndex = 2;
-			this.mnuToday.Text = "Today";
-			this.mnuToday.Click += new System.EventHandler(this.mnuCommon_Click);
+			mnuToday.MergeIndex = 2;
+			mnuToday.Name = "mnuToday";
+			mnuToday.Size = new Size(210, 22);
+			mnuToday.Text = "Today";
+			mnuToday.Click += mnuCommon_Click;
 			// 
 			// sepNow
 			// 
-			this.sepNow.MergeIndex = 3;
-			this.sepNow.Text = "-";
+			sepNow.MergeIndex = 3;
+			sepNow.Name = "sepNow";
+			sepNow.Size = new Size(210, 22);
+			sepNow.Text = "-";
 			// 
 			// mnuPerihelionDate
 			// 
-			this.mnuPerihelionDate.MergeIndex = 4;
-			this.mnuPerihelionDate.Text = "Perihelion Date";
-			this.mnuPerihelionDate.Click += new System.EventHandler(this.mnuCommon_Click);
+			mnuPerihelionDate.MergeIndex = 4;
+			mnuPerihelionDate.Name = "mnuPerihelionDate";
+			mnuPerihelionDate.Size = new Size(210, 22);
+			mnuPerihelionDate.Text = "Perihelion Date";
+			mnuPerihelionDate.Click += mnuCommon_Click;
 			// 
 			// sepPerihelionDate
 			// 
-			this.sepPerihelionDate.MergeIndex = 5;
-			this.sepPerihelionDate.Text = "-";
+			sepPerihelionDate.MergeIndex = 5;
+			sepPerihelionDate.Name = "sepPerihelionDate";
+			sepPerihelionDate.Size = new Size(210, 22);
+			sepPerihelionDate.Text = "-";
 			// 
 			// mnuLastYear
 			// 
-			this.mnuLastYear.MergeIndex = 6;
-			this.mnuLastYear.Text = "<last year first day>";
-			this.mnuLastYear.Click += new System.EventHandler(this.mnuCommon_Click);
+			mnuLastYear.MergeIndex = 6;
+			mnuLastYear.Name = "mnuLastYear";
+			mnuLastYear.Size = new Size(210, 22);
+			mnuLastYear.Text = "<last year first day>";
+			mnuLastYear.Click += mnuCommon_Click;
 			// 
 			// mnuThisYear
 			// 
-			this.mnuThisYear.MergeIndex = 7;
-			this.mnuThisYear.Text = "<this year first day>";
-			this.mnuThisYear.Click += new System.EventHandler(this.mnuCommon_Click);
+			mnuThisYear.MergeIndex = 7;
+			mnuThisYear.Name = "mnuThisYear";
+			mnuThisYear.Size = new Size(210, 22);
+			mnuThisYear.Text = "<this year first day>";
+			mnuThisYear.Click += mnuCommon_Click;
 			// 
 			// mnuNextYear
 			// 
-			this.mnuNextYear.MergeIndex = 8;
-			this.mnuNextYear.Text = "<next year first day>";
-			this.mnuNextYear.Click += new System.EventHandler(this.mnuCommon_Click);
+			mnuNextYear.MergeIndex = 8;
+			mnuNextYear.Name = "mnuNextYear";
+			mnuNextYear.Size = new Size(210, 22);
+			mnuNextYear.Text = "<next year first day>";
+			mnuNextYear.Click += mnuCommon_Click;
 			// 
 			// mnuAfterNextYear
 			// 
-			this.mnuAfterNextYear.MergeIndex = 9;
-			this.mnuAfterNextYear.Text = "<after next year first day>";
-			this.mnuAfterNextYear.Click += new System.EventHandler(this.mnuCommon_Click);
+			mnuAfterNextYear.MergeIndex = 9;
+			mnuAfterNextYear.Name = "mnuAfterNextYear";
+			mnuAfterNextYear.Size = new Size(210, 22);
+			mnuAfterNextYear.Text = "<after next year first day>";
+			mnuAfterNextYear.Click += mnuCommon_Click;
 			// 
 			// sepAdd
 			// 
-			this.sepAdd.MergeIndex = 10;
-			this.sepAdd.Text = "-";
+			sepAdd.MergeIndex = 10;
+			sepAdd.Name = "sepAdd";
+			sepAdd.Size = new Size(210, 22);
+			sepAdd.Text = "-";
 			// 
 			// mnuAddThreeMonths
 			// 
-			this.mnuAddThreeMonths.MergeIndex = 11;
-			this.mnuAddThreeMonths.Text = "Add 3 months";
-			this.mnuAddThreeMonths.Click += new System.EventHandler(this.mnuCommon_Click);
+			mnuAddThreeMonths.MergeIndex = 11;
+			mnuAddThreeMonths.Name = "mnuAddThreeMonths";
+			mnuAddThreeMonths.Size = new Size(210, 22);
+			mnuAddThreeMonths.Text = "Add 3 months";
+			mnuAddThreeMonths.Click += mnuCommon_Click;
 			// 
 			// mnuAddSixMonths
 			// 
-			this.mnuAddSixMonths.MergeIndex = 12;
-			this.mnuAddSixMonths.Text = "Add 6 months";
-			this.mnuAddSixMonths.Click += new System.EventHandler(this.mnuCommon_Click);
+			mnuAddSixMonths.MergeIndex = 12;
+			mnuAddSixMonths.Name = "mnuAddSixMonths";
+			mnuAddSixMonths.Size = new Size(210, 22);
+			mnuAddSixMonths.Text = "Add 6 months";
+			mnuAddSixMonths.Click += mnuCommon_Click;
 			// 
 			// mnuAddOneYear
 			// 
-			this.mnuAddOneYear.MergeIndex = 13;
-			this.mnuAddOneYear.Text = "Add 1 year";
-			this.mnuAddOneYear.Click += new System.EventHandler(this.mnuCommon_Click);
+			mnuAddOneYear.MergeIndex = 13;
+			mnuAddOneYear.Name = "mnuAddOneYear";
+			mnuAddOneYear.Size = new Size(210, 22);
+			mnuAddOneYear.Text = "Add 1 year";
+			mnuAddOneYear.Click += mnuCommon_Click;
 			// 
 			// sepSub
 			// 
-			this.sepSub.MergeIndex = 14;
-			this.sepSub.Text = "-";
+			sepSub.MergeIndex = 14;
+			sepSub.Name = "sepSub";
+			sepSub.Size = new Size(210, 22);
+			sepSub.Text = "-";
 			// 
 			// mnuSubThreeMonths
 			// 
-			this.mnuSubThreeMonths.MergeIndex = 15;
-			this.mnuSubThreeMonths.Text = "Subtract 3 months";
-			this.mnuSubThreeMonths.Click += new System.EventHandler(this.mnuCommon_Click);
+			mnuSubThreeMonths.MergeIndex = 15;
+			mnuSubThreeMonths.Name = "mnuSubThreeMonths";
+			mnuSubThreeMonths.Size = new Size(210, 22);
+			mnuSubThreeMonths.Text = "Subtract 3 months";
+			mnuSubThreeMonths.Click += mnuCommon_Click;
 			// 
 			// mnuSubSixMonths
 			// 
-			this.mnuSubSixMonths.MergeIndex = 16;
-			this.mnuSubSixMonths.Text = "Subtract 6 months";
-			this.mnuSubSixMonths.Click += new System.EventHandler(this.mnuCommon_Click);
+			mnuSubSixMonths.MergeIndex = 16;
+			mnuSubSixMonths.Name = "mnuSubSixMonths";
+			mnuSubSixMonths.Size = new Size(210, 22);
+			mnuSubSixMonths.Text = "Subtract 6 months";
+			mnuSubSixMonths.Click += mnuCommon_Click;
 			// 
 			// mnuSubOneYear
 			// 
-			this.mnuSubOneYear.MergeIndex = 17;
-			this.mnuSubOneYear.Text = "Subtract 1 year";
-			this.mnuSubOneYear.Click += new System.EventHandler(this.mnuCommon_Click);
+			mnuSubOneYear.MergeIndex = 17;
+			mnuSubOneYear.Name = "mnuSubOneYear";
+			mnuSubOneYear.Size = new Size(210, 22);
+			mnuSubOneYear.Text = "Subtract 1 year";
+			mnuSubOneYear.Click += mnuCommon_Click;
 			// 
 			// DateTimeMenuControl
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Controls.Add(this.btnShowMenu);
-			this.Font = new System.Drawing.Font("Tahoma", 8.25F);
-			this.Name = "DateTimeMenuControl";
-			this.Size = new System.Drawing.Size(24, 23);
-			this.ResumeLayout(false);
-
+			AutoScaleDimensions = new SizeF(6F, 13F);
+			AutoScaleMode = AutoScaleMode.Font;
+			Controls.Add(btnShowMenu);
+			Font = new Font("Tahoma", 8.25F);
+			Name = "DateTimeMenuControl";
+			Size = new Size(24, 23);
+			ctxMenu.ResumeLayout(false);
+			ResumeLayout(false);
 		}
 
 		#endregion
