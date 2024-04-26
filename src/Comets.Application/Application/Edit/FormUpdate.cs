@@ -154,7 +154,7 @@ namespace Comets.Application.Edit
 				progressDownload.Visible = true;
 				progressDownload.Style = ProgressBarStyle.Marquee;
 
-				ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12 | SecurityProtocolType.Ssl3;
+				//ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12 | SecurityProtocolType.Ssl3;
 
 				using (WebClient wc = new WebClient())
 				{
