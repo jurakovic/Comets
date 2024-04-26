@@ -28,36 +28,35 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.richTextBox = new System.Windows.Forms.RichTextBox();
-			this.SuspendLayout();
+			richTextBox = new RichTextBox();
+			SuspendLayout();
 			// 
 			// richTextBox
 			// 
-			this.richTextBox.BackColor = System.Drawing.SystemColors.Window;
-			this.richTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.richTextBox.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.richTextBox.Location = new System.Drawing.Point(0, 0);
-			this.richTextBox.Name = "richTextBox";
-			this.richTextBox.ReadOnly = true;
-			this.richTextBox.Size = new System.Drawing.Size(784, 561);
-			this.richTextBox.TabIndex = 0;
-			this.richTextBox.Text = "";
-			this.richTextBox.WordWrap = false;
+			richTextBox.BackColor = SystemColors.Window;
+			richTextBox.Dock = DockStyle.Fill;
+			richTextBox.Font = new Font("Consolas", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 238);
+			richTextBox.Location = new Point(0, 0);
+			richTextBox.Name = "richTextBox";
+			richTextBox.ReadOnly = true;
+			richTextBox.Size = new Size(784, 561);
+			richTextBox.TabIndex = 0;
+			richTextBox.Text = "";
+			richTextBox.WordWrap = false;
 			// 
 			// FormEphemeris
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(784, 561);
-			this.Controls.Add(this.richTextBox);
-			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.Name = "FormEphemeris";
-			this.ShowIcon = false;
-			this.ShowInTaskbar = false;
-			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-			this.Text = "Ephemeris";
-			this.ResumeLayout(false);
-
+			AutoScaleDimensions = new SizeF(6F, 13F);
+			AutoScaleMode = AutoScaleMode.Font;
+			ClientSize = new Size(784, 561);
+			Controls.Add(richTextBox);
+			Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 238);
+			Name = "FormEphemeris";
+			ShowIcon = false;
+			ShowInTaskbar = false;
+			StartPosition = FormStartPosition.CenterParent;
+			Text = "Ephemeris";
+			ResumeLayout(false);
 		}
 
 		#endregion
