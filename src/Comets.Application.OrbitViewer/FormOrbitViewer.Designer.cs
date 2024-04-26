@@ -28,37 +28,36 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.orbitViewerControl = new Comets.Application.OrbitViewer.OrbitViewerControl();
-			this.SuspendLayout();
+			orbitViewerControl = new OrbitViewerControl();
+			SuspendLayout();
 			// 
 			// orbitViewerControl
 			// 
-			this.orbitViewerControl.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.orbitViewerControl.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.orbitViewerControl.Location = new System.Drawing.Point(0, 0);
-			this.orbitViewerControl.MinimumSize = new System.Drawing.Size(720, 650);
-			this.orbitViewerControl.Name = "orbitViewerControl";
-			this.orbitViewerControl.Size = new System.Drawing.Size(934, 811);
-			this.orbitViewerControl.TabIndex = 0;
+			orbitViewerControl.Dock = DockStyle.Fill;
+			orbitViewerControl.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 238);
+			orbitViewerControl.Location = new Point(0, 0);
+			orbitViewerControl.MinimumSize = new Size(720, 650);
+			orbitViewerControl.Name = "orbitViewerControl";
+			orbitViewerControl.Size = new Size(934, 811);
+			orbitViewerControl.TabIndex = 0;
 			// 
 			// FormOrbitViewer
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(934, 811);
-			this.Controls.Add(this.orbitViewerControl);
-			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.KeyPreview = true;
-			this.MinimumSize = new System.Drawing.Size(720, 650);
-			this.Name = "FormOrbitViewer";
-			this.ShowIcon = false;
-			this.ShowInTaskbar = false;
-			this.Text = "Orbit Viewer";
-			this.Activated += new System.EventHandler(this.FormOrbitViewer_Activated);
-			this.Deactivate += new System.EventHandler(this.FormOrbitViewer_Deactivate);
-			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormOrbitViewer_KeyDown);
-			this.ResumeLayout(false);
-
+			AutoScaleDimensions = new SizeF(6F, 13F);
+			AutoScaleMode = AutoScaleMode.Font;
+			ClientSize = new Size(934, 811);
+			Controls.Add(orbitViewerControl);
+			Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 238);
+			KeyPreview = true;
+			MinimumSize = new Size(720, 650);
+			Name = "FormOrbitViewer";
+			ShowIcon = false;
+			ShowInTaskbar = false;
+			Text = "Orbit Viewer";
+			Activated += FormOrbitViewer_Activated;
+			Deactivate += FormOrbitViewer_Deactivate;
+			KeyDown += FormOrbitViewer_KeyDown;
+			ResumeLayout(false);
 		}
 
 		#endregion

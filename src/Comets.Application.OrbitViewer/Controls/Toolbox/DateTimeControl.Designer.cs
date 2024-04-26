@@ -28,42 +28,42 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.pnlDateTime = new System.Windows.Forms.Panel();
-			this.selectDateControl = new Comets.Application.Common.Controls.DateAndTime.SelectDateControl();
-			this.pnlDateTime.SuspendLayout();
-			this.SuspendLayout();
+			pnlDateTime = new Panel();
+			selectDateControl = new Common.Controls.DateAndTime.SelectDateControl();
+			pnlDateTime.SuspendLayout();
+			SuspendLayout();
 			// 
 			// pnlDateTime
 			// 
-			this.pnlDateTime.BackColor = System.Drawing.SystemColors.ControlDark;
-			this.pnlDateTime.Controls.Add(this.selectDateControl);
-			this.pnlDateTime.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pnlDateTime.Location = new System.Drawing.Point(0, 0);
-			this.pnlDateTime.Name = "pnlDateTime";
-			this.pnlDateTime.Size = new System.Drawing.Size(173, 31);
-			this.pnlDateTime.TabIndex = 0;
+			pnlDateTime.BackColor = SystemColors.ControlDark;
+			pnlDateTime.Controls.Add(selectDateControl);
+			pnlDateTime.Dock = DockStyle.Fill;
+			pnlDateTime.Location = new Point(0, 0);
+			pnlDateTime.Name = "pnlDateTime";
+			pnlDateTime.Size = new Size(173, 31);
+			pnlDateTime.TabIndex = 0;
 			// 
 			// selectDateControl
 			// 
-			this.selectDateControl.DefaultDateTime = null;
-			this.selectDateControl.Location = new System.Drawing.Point(4, 4);
-			this.selectDateControl.Name = "selectDateControl";
-			this.selectDateControl.PerihelionDate = null;
-			this.selectDateControl.SelectedDateTime = new System.DateTime(((long)(0)));
-			this.selectDateControl.Size = new System.Drawing.Size(165, 23);
-			this.selectDateControl.TabIndex = 0;
+			selectDateControl.DefaultDateTime = null;
+			selectDateControl.Font = new Font("Tahoma", 8.25F);
+			selectDateControl.Location = new Point(4, 4);
+			selectDateControl.Name = "selectDateControl";
+			selectDateControl.PerihelionDate = null;
+			selectDateControl.SelectedDateTime = new DateTime(0L);
+			selectDateControl.Size = new Size(165, 23);
+			selectDateControl.TabIndex = 0;
 			// 
 			// DateTimeControl
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Controls.Add(this.pnlDateTime);
-			this.Font = new System.Drawing.Font("Tahoma", 8.25F);
-			this.Name = "DateTimeControl";
-			this.Size = new System.Drawing.Size(173, 31);
-			this.pnlDateTime.ResumeLayout(false);
-			this.ResumeLayout(false);
-
+			AutoScaleDimensions = new SizeF(6F, 13F);
+			AutoScaleMode = AutoScaleMode.Font;
+			Controls.Add(pnlDateTime);
+			Font = new Font("Tahoma", 8.25F);
+			Name = "DateTimeControl";
+			Size = new Size(173, 31);
+			pnlDateTime.ResumeLayout(false);
+			ResumeLayout(false);
 		}
 
 		#endregion
