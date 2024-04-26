@@ -117,7 +117,8 @@
 			// 
 			ctxSelect.Items.AddRange(new ToolStripItem[] { mnuBrightest, mnuClosestToPerihelion, mnuClosestToEarth, mnuClosestToSun });
 			ctxSelect.Name = "ctxSelect";
-			ctxSelect.Size = new Size(183, 92);
+			ctxSelect.RenderMode = ToolStripRenderMode.System;
+			ctxSelect.Size = new Size(183, 114);
 			// 
 			// mnuBrightest
 			// 

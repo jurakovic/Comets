@@ -32,20 +32,20 @@
 			btnShowMenu = new Button();
 			ctxMenu = new ContextMenuStrip(components);
 			mnuDefault = new ToolStripMenuItem();
-			sepDefault = new ToolStripMenuItem();
+			sepDefault = new ToolStripSeparator();
 			mnuToday = new ToolStripMenuItem();
-			sepNow = new ToolStripMenuItem();
+			sepNow = new ToolStripSeparator();
 			mnuPerihelionDate = new ToolStripMenuItem();
-			sepPerihelionDate = new ToolStripMenuItem();
+			sepPerihelionDate = new ToolStripSeparator();
 			mnuLastYear = new ToolStripMenuItem();
 			mnuThisYear = new ToolStripMenuItem();
 			mnuNextYear = new ToolStripMenuItem();
 			mnuAfterNextYear = new ToolStripMenuItem();
-			sepAdd = new ToolStripMenuItem();
+			sepAdd = new ToolStripSeparator();
 			mnuAddThreeMonths = new ToolStripMenuItem();
 			mnuAddSixMonths = new ToolStripMenuItem();
 			mnuAddOneYear = new ToolStripMenuItem();
-			sepSub = new ToolStripMenuItem();
+			sepSub = new ToolStripSeparator();
 			mnuSubThreeMonths = new ToolStripMenuItem();
 			mnuSubSixMonths = new ToolStripMenuItem();
 			mnuSubOneYear = new ToolStripMenuItem();
@@ -68,6 +68,7 @@
 			// 
 			ctxMenu.Items.AddRange(new ToolStripItem[] { mnuDefault, sepDefault, mnuToday, sepNow, mnuPerihelionDate, sepPerihelionDate, mnuLastYear, mnuThisYear, mnuNextYear, mnuAfterNextYear, sepAdd, mnuAddThreeMonths, mnuAddSixMonths, mnuAddOneYear, sepSub, mnuSubThreeMonths, mnuSubSixMonths, mnuSubOneYear });
 			ctxMenu.Name = "ctxMenu";
+			ctxMenu.RenderMode = ToolStripRenderMode.System;
 			ctxMenu.Size = new Size(211, 400);
 			// 
 			// mnuDefault
@@ -83,7 +84,6 @@
 			sepDefault.MergeIndex = 1;
 			sepDefault.Name = "sepDefault";
 			sepDefault.Size = new Size(210, 22);
-			sepDefault.Text = "-";
 			// 
 			// mnuToday
 			// 
@@ -98,7 +98,6 @@
 			sepNow.MergeIndex = 3;
 			sepNow.Name = "sepNow";
 			sepNow.Size = new Size(210, 22);
-			sepNow.Text = "-";
 			// 
 			// mnuPerihelionDate
 			// 
@@ -113,7 +112,6 @@
 			sepPerihelionDate.MergeIndex = 5;
 			sepPerihelionDate.Name = "sepPerihelionDate";
 			sepPerihelionDate.Size = new Size(210, 22);
-			sepPerihelionDate.Text = "-";
 			// 
 			// mnuLastYear
 			// 
@@ -152,7 +150,6 @@
 			sepAdd.MergeIndex = 10;
 			sepAdd.Name = "sepAdd";
 			sepAdd.Size = new Size(210, 22);
-			sepAdd.Text = "-";
 			// 
 			// mnuAddThreeMonths
 			// 
@@ -183,7 +180,6 @@
 			sepSub.MergeIndex = 14;
 			sepSub.Name = "sepSub";
 			sepSub.Size = new Size(210, 22);
-			sepSub.Text = "-";
 			// 
 			// mnuSubThreeMonths
 			// 
@@ -226,20 +222,20 @@
 		private System.Windows.Forms.Button btnShowMenu;
 		private System.Windows.Forms.ContextMenuStrip ctxMenu;
 		private System.Windows.Forms.ToolStripMenuItem mnuDefault;
-		private System.Windows.Forms.ToolStripMenuItem sepDefault;
+		private System.Windows.Forms.ToolStripSeparator sepDefault;
 		private System.Windows.Forms.ToolStripMenuItem mnuAddThreeMonths;
 		private System.Windows.Forms.ToolStripMenuItem mnuAddSixMonths;
 		private System.Windows.Forms.ToolStripMenuItem mnuAddOneYear;
-		private System.Windows.Forms.ToolStripMenuItem sepAdd;
+		private System.Windows.Forms.ToolStripSeparator sepAdd;
 		private System.Windows.Forms.ToolStripMenuItem mnuPerihelionDate;
 		private System.Windows.Forms.ToolStripMenuItem mnuLastYear;
 		private System.Windows.Forms.ToolStripMenuItem mnuThisYear;
 		private System.Windows.Forms.ToolStripMenuItem mnuNextYear;
-		private System.Windows.Forms.ToolStripMenuItem sepPerihelionDate;
+		private System.Windows.Forms.ToolStripSeparator sepPerihelionDate;
 		private System.Windows.Forms.ToolStripMenuItem mnuAfterNextYear;
 		private System.Windows.Forms.ToolStripMenuItem mnuToday;
-		private System.Windows.Forms.ToolStripMenuItem sepNow;
-		private System.Windows.Forms.ToolStripMenuItem sepSub;
+		private System.Windows.Forms.ToolStripSeparator sepNow;
+		private System.Windows.Forms.ToolStripSeparator sepSub;
 		private System.Windows.Forms.ToolStripMenuItem mnuSubThreeMonths;
 		private System.Windows.Forms.ToolStripMenuItem mnuSubSixMonths;
 		private System.Windows.Forms.ToolStripMenuItem mnuSubOneYear;

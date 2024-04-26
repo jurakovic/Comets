@@ -47,7 +47,7 @@
 			mnuIncl = new ToolStripMenuItem();
 			mnuAscNode = new ToolStripMenuItem();
 			mnuArgPeri = new ToolStripMenuItem();
-			mnuSeparator = new ToolStripMenuItem();
+			mnuSeparator = new ToolStripSeparator();
 			mnuAsc = new ToolStripMenuItem();
 			mnuDesc = new ToolStripMenuItem();
 			contextSort.SuspendLayout();
@@ -68,6 +68,7 @@
 			// 
 			contextSort.Items.AddRange(new ToolStripItem[] { mnuDesig, mnuDiscoverer, mnuPerihDate, mnuPerihDist, mnuPerihEarthDist, mnuPerihMag, mnuCurrSunDist, mnuCurrEarthDist, mnuCurrMag, mnuPeriod, mnuAphDistance, mnuSemiMajorAxis, mnuEcc, mnuIncl, mnuAscNode, mnuArgPeri, mnuSeparator, mnuAsc, mnuDesc });
 			contextSort.Name = "contextSort";
+			contextSort.RenderMode = ToolStripRenderMode.System;
 			contextSort.Size = new Size(234, 422);
 			// 
 			// mnuDesig
@@ -203,7 +204,6 @@
 			mnuSeparator.MergeIndex = 16;
 			mnuSeparator.Name = "mnuSeparator";
 			mnuSeparator.Size = new Size(233, 22);
-			mnuSeparator.Text = "-";
 			// 
 			// mnuAsc
 			// 
@@ -253,7 +253,7 @@
 		private System.Windows.Forms.ToolStripMenuItem mnuIncl;
 		private System.Windows.Forms.ToolStripMenuItem mnuAscNode;
 		private System.Windows.Forms.ToolStripMenuItem mnuArgPeri;
-		private System.Windows.Forms.ToolStripMenuItem mnuSeparator;
+		private System.Windows.Forms.ToolStripSeparator mnuSeparator;
 		private System.Windows.Forms.ToolStripMenuItem mnuAsc;
 		private System.Windows.Forms.ToolStripMenuItem mnuDesc;
 	}

@@ -89,7 +89,7 @@ namespace Comets.Application.Common.Controls.Common
 			{
 				SortAscending = mnuAsc.Checked;
 
-				foreach (ToolStripMenuItem item in contextSort.Items)
+				foreach (ToolStripMenuItem item in contextSort.Items.OfType<ToolStripMenuItem>())
 					item.Checked = false;
 
 				mni.Checked = true;
@@ -118,7 +118,7 @@ namespace Comets.Application.Common.Controls.Common
 
 		public void SetSortItems()
 		{
-			foreach (ToolStripMenuItem menuitem in contextSort.Items)
+			foreach (ToolStripMenuItem menuitem in contextSort.Items.OfType<ToolStripMenuItem>())
 			{
 				if (menuitem.Tag as string == SortProperty)
 					menuitem.Checked = true;
