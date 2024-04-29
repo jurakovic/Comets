@@ -398,6 +398,18 @@ namespace Comets.Application
 			this.ActiveMdiChild?.Close();
 		}
 
+		private void menuItemWindow_DropDownOpening(object sender, EventArgs e)
+		{
+			// wrong window item text workaround
+			// bug in framework: if child window text changed, menu window item text not changed until another child activated
+
+			foreach (ToolStripMenuItem item in menuItemWindow.DropDownItems.OfType<ToolStripMenuItem>().Where(x => x.Checked))//.SingleOrDefault())
+			{
+				int num = item.Text.Substring(0, item.Text.IndexOf(' ') + 1).Replace("&", "").Int();
+				item.Text = num.ToString() + " " + this.ActiveMdiChild.Text;
+			}
+		}
+
 		#endregion
 
 		#region Menu: Help

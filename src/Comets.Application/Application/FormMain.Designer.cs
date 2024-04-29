@@ -38,6 +38,11 @@
 			menuItemOrbitalElements = new ToolStripMenuItem();
 			menuItemSeparatorFile3 = new ToolStripSeparator();
 			menuItemExit = new ToolStripMenuItem();
+			menuItemEdit = new ToolStripMenuItem();
+			menuItemDatabase = new ToolStripMenuItem();
+			menuItemUpdate = new ToolStripMenuItem();
+			menuItemSeparatorEdit1 = new ToolStripSeparator();
+			menuItemSettings = new ToolStripMenuItem();
 			menuItemEphemeris = new ToolStripMenuItem();
 			menuItemEphemerisSettings = new ToolStripMenuItem();
 			menuItemEphemerisSaveAs = new ToolStripMenuItem();
@@ -46,11 +51,6 @@
 			menuItemGraphSaveAs = new ToolStripMenuItem();
 			menuItemOrbit = new ToolStripMenuItem();
 			mnuShowToolbox = new ToolStripMenuItem();
-			menuItemEdit = new ToolStripMenuItem();
-			menuItemDatabase = new ToolStripMenuItem();
-			menuItemUpdate = new ToolStripMenuItem();
-			menuItemSeparatorEdit1 = new ToolStripSeparator();
-			menuItemSettings = new ToolStripMenuItem();
 			menuItemView = new ToolStripMenuItem();
 			menuItemViewAlwaysOnTop = new ToolStripMenuItem();
 			menuItemViewStatusBar = new ToolStripMenuItem();
@@ -74,7 +74,7 @@
 			// 
 			// mainMenu
 			// 
-			mainMenu.Items.AddRange(new ToolStripItem[] { menuItemFile, menuItemEphemeris, menuItemGraph, menuItemOrbit, menuItemEdit, menuItemView, menuItemWindow, menuItemHelp });
+			mainMenu.Items.AddRange(new ToolStripItem[] { menuItemFile, menuItemEdit, menuItemEphemeris, menuItemGraph, menuItemOrbit, menuItemView, menuItemWindow, menuItemHelp });
 			mainMenu.Location = new Point(0, 0);
 			mainMenu.MdiWindowListItem = menuItemWindow;
 			mainMenu.Name = "mainMenu";
@@ -147,6 +147,46 @@
 			menuItemExit.Size = new Size(204, 22);
 			menuItemExit.Text = "E&xit";
 			menuItemExit.Click += menuItemExit_Click;
+			// 
+			// menuItemEdit
+			// 
+			menuItemEdit.DropDownItems.AddRange(new ToolStripItem[] { menuItemDatabase, menuItemUpdate, menuItemSeparatorEdit1, menuItemSettings });
+			menuItemEdit.MergeIndex = 4;
+			menuItemEdit.Name = "menuItemEdit";
+			menuItemEdit.Size = new Size(39, 20);
+			menuItemEdit.Text = "&Edit";
+			// 
+			// menuItemDatabase
+			// 
+			menuItemDatabase.MergeIndex = 0;
+			menuItemDatabase.Name = "menuItemDatabase";
+			menuItemDatabase.ShortcutKeys = Keys.F5;
+			menuItemDatabase.Size = new Size(141, 22);
+			menuItemDatabase.Text = "&Database";
+			menuItemDatabase.Click += menuItemDatabase_Click;
+			// 
+			// menuItemUpdate
+			// 
+			menuItemUpdate.MergeIndex = 1;
+			menuItemUpdate.Name = "menuItemUpdate";
+			menuItemUpdate.ShortcutKeys = Keys.F6;
+			menuItemUpdate.Size = new Size(141, 22);
+			menuItemUpdate.Text = "&Update";
+			menuItemUpdate.Click += menuItemImport_Click;
+			// 
+			// menuItemSeparatorEdit1
+			// 
+			menuItemSeparatorEdit1.MergeIndex = 2;
+			menuItemSeparatorEdit1.Name = "menuItemSeparatorEdit1";
+			menuItemSeparatorEdit1.Size = new Size(138, 6);
+			// 
+			// menuItemSettings
+			// 
+			menuItemSettings.MergeIndex = 3;
+			menuItemSettings.Name = "menuItemSettings";
+			menuItemSettings.Size = new Size(141, 22);
+			menuItemSettings.Text = "&Settings";
+			menuItemSettings.Click += menuItemSettings_Click;
 			// 
 			// menuItemEphemeris
 			// 
@@ -222,46 +262,6 @@
 			mnuShowToolbox.Text = "Show &Toolbox";
 			mnuShowToolbox.Click += mnuShowToolbox_Click;
 			// 
-			// menuItemEdit
-			// 
-			menuItemEdit.DropDownItems.AddRange(new ToolStripItem[] { menuItemDatabase, menuItemUpdate, menuItemSeparatorEdit1, menuItemSettings });
-			menuItemEdit.MergeIndex = 4;
-			menuItemEdit.Name = "menuItemEdit";
-			menuItemEdit.Size = new Size(39, 20);
-			menuItemEdit.Text = "&Edit";
-			// 
-			// menuItemDatabase
-			// 
-			menuItemDatabase.MergeIndex = 0;
-			menuItemDatabase.Name = "menuItemDatabase";
-			menuItemDatabase.ShortcutKeys = Keys.F5;
-			menuItemDatabase.Size = new Size(141, 22);
-			menuItemDatabase.Text = "&Database";
-			menuItemDatabase.Click += menuItemDatabase_Click;
-			// 
-			// menuItemUpdate
-			// 
-			menuItemUpdate.MergeIndex = 1;
-			menuItemUpdate.Name = "menuItemUpdate";
-			menuItemUpdate.ShortcutKeys = Keys.F6;
-			menuItemUpdate.Size = new Size(141, 22);
-			menuItemUpdate.Text = "&Update";
-			menuItemUpdate.Click += menuItemImport_Click;
-			// 
-			// menuItemSeparatorEdit1
-			// 
-			menuItemSeparatorEdit1.MergeIndex = 2;
-			menuItemSeparatorEdit1.Name = "menuItemSeparatorEdit1";
-			menuItemSeparatorEdit1.Size = new Size(138, 6);
-			// 
-			// menuItemSettings
-			// 
-			menuItemSettings.MergeIndex = 3;
-			menuItemSettings.Name = "menuItemSettings";
-			menuItemSettings.Size = new Size(141, 22);
-			menuItemSettings.Text = "&Settings";
-			menuItemSettings.Click += menuItemSettings_Click;
-			// 
 			// menuItemView
 			// 
 			menuItemView.DropDownItems.AddRange(new ToolStripItem[] { menuItemViewAlwaysOnTop, menuItemViewStatusBar });
@@ -296,12 +296,13 @@
 			menuItemWindow.Size = new Size(63, 20);
 			menuItemWindow.Text = "&Window";
 			menuItemWindow.Visible = false;
+			menuItemWindow.DropDownOpening += menuItemWindow_DropDownOpening;
 			// 
 			// menuItemTileVert
 			// 
 			menuItemTileVert.MergeIndex = 0;
 			menuItemTileVert.Name = "menuItemTileVert";
-			menuItemTileVert.Size = new Size(159, 22);
+			menuItemTileVert.Size = new Size(180, 22);
 			menuItemTileVert.Text = "Tile &Horizontally";
 			menuItemTileVert.Click += menuItemTileVert_Click;
 			// 
@@ -309,7 +310,7 @@
 			// 
 			menuItemTileHoriz.MergeIndex = 1;
 			menuItemTileHoriz.Name = "menuItemTileHoriz";
-			menuItemTileHoriz.Size = new Size(159, 22);
+			menuItemTileHoriz.Size = new Size(180, 22);
 			menuItemTileHoriz.Text = "Tile &Vertically";
 			menuItemTileHoriz.Click += menuItemTileHoriz_Click;
 			// 
@@ -317,7 +318,7 @@
 			// 
 			menuItemCascade.MergeIndex = 2;
 			menuItemCascade.Name = "menuItemCascade";
-			menuItemCascade.Size = new Size(159, 22);
+			menuItemCascade.Size = new Size(180, 22);
 			menuItemCascade.Text = "&Cascade";
 			menuItemCascade.Click += menuItemCascade_Click;
 			// 
@@ -325,7 +326,7 @@
 			// 
 			menuItemMinimizeAll.MergeIndex = 3;
 			menuItemMinimizeAll.Name = "menuItemMinimizeAll";
-			menuItemMinimizeAll.Size = new Size(159, 22);
+			menuItemMinimizeAll.Size = new Size(180, 22);
 			menuItemMinimizeAll.Text = "&Minimize All";
 			menuItemMinimizeAll.Click += menuItemMinimizeAll_Click;
 			// 
@@ -333,7 +334,7 @@
 			// 
 			menuItemRestoreAll.MergeIndex = 4;
 			menuItemRestoreAll.Name = "menuItemRestoreAll";
-			menuItemRestoreAll.Size = new Size(159, 22);
+			menuItemRestoreAll.Size = new Size(180, 22);
 			menuItemRestoreAll.Text = "&Restore All";
 			menuItemRestoreAll.Click += menuItemRestoreAll_Click;
 			// 
@@ -342,7 +343,7 @@
 			menuItemClose.MergeIndex = 5;
 			menuItemClose.Name = "menuItemClose";
 			menuItemClose.ShortcutKeys = Keys.Control | Keys.F4;
-			menuItemClose.Size = new Size(159, 22);
+			menuItemClose.Size = new Size(180, 22);
 			menuItemClose.Text = "&Close";
 			menuItemClose.Click += menuItemClose_Click;
 			// 
