@@ -28,95 +28,95 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			cboFormat = new System.Windows.Forms.ComboBox();
-			lblFormat = new System.Windows.Forms.Label();
-			btnSave = new System.Windows.Forms.Button();
-			pnlElements = new System.Windows.Forms.Panel();
-			btnClose = new System.Windows.Forms.Button();
-			rtxtElements = new System.Windows.Forms.RichTextBox();
-			pnlElements.SuspendLayout();
+			this.cboFormat = new System.Windows.Forms.ComboBox();
+			this.lblFormat = new System.Windows.Forms.Label();
+			this.btnSave = new System.Windows.Forms.Button();
+			this.pnlElements = new System.Windows.Forms.Panel();
+			this.btnClose = new System.Windows.Forms.Button();
+			this.rtxtElements = new System.Windows.Forms.RichTextBox();
+			this.pnlElements.SuspendLayout();
 			SuspendLayout();
 			// 
 			// cboFormat
 			// 
-			cboFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			cboFormat.FormattingEnabled = true;
-			cboFormat.Location = new System.Drawing.Point(62, 9);
-			cboFormat.Name = "cboFormat";
-			cboFormat.Size = new System.Drawing.Size(280, 21);
-			cboFormat.TabIndex = 1;
-			cboFormat.SelectedIndexChanged += cboFormat_SelectedIndexChanged;
+			this.cboFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cboFormat.FormattingEnabled = true;
+			this.cboFormat.Location = new System.Drawing.Point(62, 9);
+			this.cboFormat.Name = "cboFormat";
+			this.cboFormat.Size = new System.Drawing.Size(280, 21);
+			this.cboFormat.TabIndex = 1;
+			this.cboFormat.SelectedIndexChanged += cboFormat_SelectedIndexChanged;
 			// 
 			// lblFormat
 			// 
-			lblFormat.AutoSize = true;
-			lblFormat.Font = new System.Drawing.Font("Tahoma", 8.25F);
-			lblFormat.Location = new System.Drawing.Point(8, 12);
-			lblFormat.Name = "lblFormat";
-			lblFormat.Size = new System.Drawing.Size(45, 13);
-			lblFormat.TabIndex = 0;
-			lblFormat.Text = "Format:";
+			this.lblFormat.AutoSize = true;
+			this.lblFormat.Font = new System.Drawing.Font("Tahoma", 8.25F);
+			this.lblFormat.Location = new System.Drawing.Point(8, 12);
+			this.lblFormat.Name = "lblFormat";
+			this.lblFormat.Size = new System.Drawing.Size(45, 13);
+			this.lblFormat.TabIndex = 0;
+			this.lblFormat.Text = "Format:";
 			// 
 			// btnSave
 			// 
-			btnSave.Font = new System.Drawing.Font("Tahoma", 8.25F);
-			btnSave.Location = new System.Drawing.Point(351, 8);
-			btnSave.Name = "btnSave";
-			btnSave.Size = new System.Drawing.Size(97, 23);
-			btnSave.TabIndex = 2;
-			btnSave.Text = "Save As";
-			btnSave.UseVisualStyleBackColor = true;
-			btnSave.Click += btnSave_Click;
+			this.btnSave.Font = new System.Drawing.Font("Tahoma", 8.25F);
+			this.btnSave.Location = new System.Drawing.Point(351, 8);
+			this.btnSave.Name = "btnSave";
+			this.btnSave.Size = new System.Drawing.Size(97, 23);
+			this.btnSave.TabIndex = 2;
+			this.btnSave.Text = "Save As";
+			this.btnSave.UseVisualStyleBackColor = true;
+			this.btnSave.Click += btnSave_Click;
 			// 
 			// pnlElements
 			// 
-			pnlElements.Controls.Add(btnClose);
-			pnlElements.Controls.Add(lblFormat);
-			pnlElements.Controls.Add(btnSave);
-			pnlElements.Controls.Add(cboFormat);
-			pnlElements.Dock = System.Windows.Forms.DockStyle.Top;
-			pnlElements.Location = new System.Drawing.Point(0, 0);
-			pnlElements.Name = "pnlElements";
-			pnlElements.Size = new System.Drawing.Size(1350, 40);
-			pnlElements.TabIndex = 0;
+			this.pnlElements.Controls.Add(this.btnClose);
+			this.pnlElements.Controls.Add(this.lblFormat);
+			this.pnlElements.Controls.Add(this.btnSave);
+			this.pnlElements.Controls.Add(this.cboFormat);
+			this.pnlElements.Dock = System.Windows.Forms.DockStyle.Top;
+			this.pnlElements.Location = new System.Drawing.Point(0, 0);
+			this.pnlElements.Name = "pnlElements";
+			this.pnlElements.Size = new System.Drawing.Size(1350, 40);
+			this.pnlElements.TabIndex = 0;
 			// 
 			// btnClose
 			// 
-			btnClose.Font = new System.Drawing.Font("Tahoma", 8.25F);
-			btnClose.Location = new System.Drawing.Point(454, 8);
-			btnClose.Name = "btnClose";
-			btnClose.Size = new System.Drawing.Size(97, 23);
-			btnClose.TabIndex = 3;
-			btnClose.Text = "Close";
-			btnClose.UseVisualStyleBackColor = true;
-			btnClose.Click += btnClose_Click;
+			this.btnClose.Font = new System.Drawing.Font("Tahoma", 8.25F);
+			this.btnClose.Location = new System.Drawing.Point(454, 8);
+			this.btnClose.Name = "btnClose";
+			this.btnClose.Size = new System.Drawing.Size(97, 23);
+			this.btnClose.TabIndex = 3;
+			this.btnClose.Text = "Close";
+			this.btnClose.UseVisualStyleBackColor = true;
+			this.btnClose.Click += btnClose_Click;
 			// 
 			// rtxtElements
 			// 
-			rtxtElements.Dock = System.Windows.Forms.DockStyle.Fill;
-			rtxtElements.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
-			rtxtElements.Location = new System.Drawing.Point(0, 40);
-			rtxtElements.Name = "rtxtElements";
-			rtxtElements.ReadOnly = true;
-			rtxtElements.Size = new System.Drawing.Size(1350, 689);
-			rtxtElements.TabIndex = 1;
-			rtxtElements.Text = "";
+			this.rtxtElements.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.rtxtElements.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
+			this.rtxtElements.Location = new System.Drawing.Point(0, 40);
+			this.rtxtElements.Name = "rtxtElements";
+			this.rtxtElements.ReadOnly = true;
+			this.rtxtElements.Size = new System.Drawing.Size(1350, 689);
+			this.rtxtElements.TabIndex = 1;
+			this.rtxtElements.Text = "";
 			// 
 			// FormElements
 			// 
-			AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-			AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			ClientSize = new System.Drawing.Size(1350, 729);
-			Controls.Add(rtxtElements);
-			Controls.Add(pnlElements);
-			Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
-			Name = "FormElements";
-			ShowIcon = false;
-			ShowInTaskbar = false;
-			Text = "Orbital elements";
-			Load += FormExport_Load;
-			pnlElements.ResumeLayout(false);
-			pnlElements.PerformLayout();
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.ClientSize = new System.Drawing.Size(1350, 729);
+			this.Controls.Add(this.rtxtElements);
+			this.Controls.Add(this.pnlElements);
+			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
+			this.Name = "FormElements";
+			this.ShowIcon = false;
+			this.ShowInTaskbar = false;
+			this.Text = "Orbital elements";
+			this.Load += FormExport_Load;
+			this.pnlElements.ResumeLayout(false);
+			this.pnlElements.PerformLayout();
 			ResumeLayout(false);
 		}
 

@@ -28,52 +28,52 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			txtControls = new System.Windows.Forms.TextBox();
-			btnOk = new System.Windows.Forms.Button();
+			this.txtControls = new System.Windows.Forms.TextBox();
+			this.btnOk = new System.Windows.Forms.Button();
 			SuspendLayout();
 			// 
 			// txtControls
 			// 
-			txtControls.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-			txtControls.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
-			txtControls.Location = new System.Drawing.Point(0, 0);
-			txtControls.Multiline = true;
-			txtControls.Name = "txtControls";
-			txtControls.ReadOnly = true;
-			txtControls.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			txtControls.Size = new System.Drawing.Size(564, 580);
-			txtControls.TabIndex = 0;
+			this.txtControls.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+			this.txtControls.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
+			this.txtControls.Location = new System.Drawing.Point(0, 0);
+			this.txtControls.Multiline = true;
+			this.txtControls.Name = "txtControls";
+			this.txtControls.ReadOnly = true;
+			this.txtControls.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+			this.txtControls.Size = new System.Drawing.Size(564, 580);
+			this.txtControls.TabIndex = 0;
 			// 
 			// btnOk
 			// 
-			btnOk.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-			btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-			btnOk.Location = new System.Drawing.Point(452, 596);
-			btnOk.Name = "btnOk";
-			btnOk.Size = new System.Drawing.Size(100, 23);
-			btnOk.TabIndex = 1;
-			btnOk.Text = "OK";
-			btnOk.UseVisualStyleBackColor = true;
+			this.btnOk.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+			this.btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
+			this.btnOk.Location = new System.Drawing.Point(452, 596);
+			this.btnOk.Name = "btnOk";
+			this.btnOk.Size = new System.Drawing.Size(100, 23);
+			this.btnOk.TabIndex = 1;
+			this.btnOk.Text = "OK";
+			this.btnOk.UseVisualStyleBackColor = true;
 			// 
 			// FormControls
 			// 
-			AcceptButton = btnOk;
-			AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-			AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			CancelButton = btnOk;
-			ClientSize = new System.Drawing.Size(564, 631);
-			Controls.Add(btnOk);
-			Controls.Add(txtControls);
-			Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
-			FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-			MaximizeBox = false;
-			MinimizeBox = false;
-			Name = "FormControls";
-			ShowIcon = false;
-			ShowInTaskbar = false;
-			StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-			Text = "Controls";
-			Load += FormControls_Load;
+			this.AcceptButton = this.btnOk;
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.CancelButton = this.btnOk;
+			this.ClientSize = new System.Drawing.Size(564, 631);
+			this.Controls.Add(this.btnOk);
+			this.Controls.Add(this.txtControls);
+			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+			this.MaximizeBox = false;
+			this.MinimizeBox = false;
+			this.Name = "FormControls";
+			this.ShowIcon = false;
+			this.ShowInTaskbar = false;
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+			this.Text = "Controls";
+			this.Load += FormControls_Load;
 			ResumeLayout(false);
 			PerformLayout();
 		}

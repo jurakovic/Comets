@@ -28,259 +28,259 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			gbxLocalFile = new System.Windows.Forms.GroupBox();
-			lblLocalFile = new System.Windows.Forms.Label();
-			txtLocalFile = new System.Windows.Forms.TextBox();
-			btnBrowse = new System.Windows.Forms.Button();
-			gbxDownload = new System.Windows.Forms.GroupBox();
-			btnDownload = new System.Windows.Forms.Button();
-			lblDownload = new System.Windows.Forms.Label();
-			progressDownload = new System.Windows.Forms.ProgressBar();
-			linkOpen = new System.Windows.Forms.LinkLabel();
-			btnClose = new System.Windows.Forms.Button();
-			gbxStatus = new System.Windows.Forms.GroupBox();
-			lblCometCount = new System.Windows.Forms.LinkLabel();
-			lblImportFormat = new System.Windows.Forms.Label();
-			labelTotalCometsDescr = new System.Windows.Forms.Label();
-			lblImportFormatDescr = new System.Windows.Forms.Label();
-			btnImport = new System.Windows.Forms.Button();
-			lblStatus = new System.Windows.Forms.Label();
-			cbxClose = new System.Windows.Forms.CheckBox();
-			gbxLocalFile.SuspendLayout();
-			gbxDownload.SuspendLayout();
-			gbxStatus.SuspendLayout();
+			this.gbxLocalFile = new System.Windows.Forms.GroupBox();
+			this.lblLocalFile = new System.Windows.Forms.Label();
+			this.txtLocalFile = new System.Windows.Forms.TextBox();
+			this.btnBrowse = new System.Windows.Forms.Button();
+			this.gbxDownload = new System.Windows.Forms.GroupBox();
+			this.btnDownload = new System.Windows.Forms.Button();
+			this.lblDownload = new System.Windows.Forms.Label();
+			this.progressDownload = new System.Windows.Forms.ProgressBar();
+			this.linkOpen = new System.Windows.Forms.LinkLabel();
+			this.btnClose = new System.Windows.Forms.Button();
+			this.gbxStatus = new System.Windows.Forms.GroupBox();
+			this.lblCometCount = new System.Windows.Forms.LinkLabel();
+			this.lblImportFormat = new System.Windows.Forms.Label();
+			this.labelTotalCometsDescr = new System.Windows.Forms.Label();
+			this.lblImportFormatDescr = new System.Windows.Forms.Label();
+			this.btnImport = new System.Windows.Forms.Button();
+			this.lblStatus = new System.Windows.Forms.Label();
+			this.cbxClose = new System.Windows.Forms.CheckBox();
+			this.gbxLocalFile.SuspendLayout();
+			this.gbxDownload.SuspendLayout();
+			this.gbxStatus.SuspendLayout();
 			SuspendLayout();
 			// 
 			// gbxLocalFile
 			// 
-			gbxLocalFile.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-			gbxLocalFile.Controls.Add(lblLocalFile);
-			gbxLocalFile.Controls.Add(txtLocalFile);
-			gbxLocalFile.Controls.Add(btnBrowse);
-			gbxLocalFile.Location = new System.Drawing.Point(10, 99);
-			gbxLocalFile.Name = "gbxLocalFile";
-			gbxLocalFile.Size = new System.Drawing.Size(689, 94);
-			gbxLocalFile.TabIndex = 1;
-			gbxLocalFile.TabStop = false;
+			this.gbxLocalFile.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+			this.gbxLocalFile.Controls.Add(this.lblLocalFile);
+			this.gbxLocalFile.Controls.Add(this.txtLocalFile);
+			this.gbxLocalFile.Controls.Add(this.btnBrowse);
+			this.gbxLocalFile.Location = new System.Drawing.Point(10, 99);
+			this.gbxLocalFile.Name = "gbxLocalFile";
+			this.gbxLocalFile.Size = new System.Drawing.Size(689, 94);
+			this.gbxLocalFile.TabIndex = 1;
+			this.gbxLocalFile.TabStop = false;
 			// 
 			// lblLocalFile
 			// 
-			lblLocalFile.AutoSize = true;
-			lblLocalFile.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 238);
-			lblLocalFile.Location = new System.Drawing.Point(6, 17);
-			lblLocalFile.Name = "lblLocalFile";
-			lblLocalFile.Size = new System.Drawing.Size(126, 13);
-			lblLocalFile.TabIndex = 38;
-			lblLocalFile.Text = "Import from local file";
+			this.lblLocalFile.AutoSize = true;
+			this.lblLocalFile.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 238);
+			this.lblLocalFile.Location = new System.Drawing.Point(6, 17);
+			this.lblLocalFile.Name = "lblLocalFile";
+			this.lblLocalFile.Size = new System.Drawing.Size(126, 13);
+			this.lblLocalFile.TabIndex = 38;
+			this.lblLocalFile.Text = "Import from local file";
 			// 
 			// txtLocalFile
 			// 
-			txtLocalFile.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-			txtLocalFile.Location = new System.Drawing.Point(155, 48);
-			txtLocalFile.Name = "txtLocalFile";
-			txtLocalFile.Size = new System.Drawing.Size(499, 21);
-			txtLocalFile.TabIndex = 1;
-			txtLocalFile.TextChanged += txtImportFilename_TextChanged;
+			this.txtLocalFile.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+			this.txtLocalFile.Location = new System.Drawing.Point(155, 48);
+			this.txtLocalFile.Name = "txtLocalFile";
+			this.txtLocalFile.Size = new System.Drawing.Size(499, 21);
+			this.txtLocalFile.TabIndex = 1;
+			this.txtLocalFile.TextChanged += txtImportFilename_TextChanged;
 			// 
 			// btnBrowse
 			// 
-			btnBrowse.Location = new System.Drawing.Point(31, 47);
-			btnBrowse.Name = "btnBrowse";
-			btnBrowse.Size = new System.Drawing.Size(118, 23);
-			btnBrowse.TabIndex = 0;
-			btnBrowse.Text = "Browse";
-			btnBrowse.UseVisualStyleBackColor = true;
-			btnBrowse.Click += btnBrowse_Click;
+			this.btnBrowse.Location = new System.Drawing.Point(31, 47);
+			this.btnBrowse.Name = "btnBrowse";
+			this.btnBrowse.Size = new System.Drawing.Size(118, 23);
+			this.btnBrowse.TabIndex = 0;
+			this.btnBrowse.Text = "Browse";
+			this.btnBrowse.UseVisualStyleBackColor = true;
+			this.btnBrowse.Click += btnBrowse_Click;
 			// 
 			// gbxDownload
 			// 
-			gbxDownload.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-			gbxDownload.Controls.Add(btnDownload);
-			gbxDownload.Controls.Add(lblDownload);
-			gbxDownload.Controls.Add(progressDownload);
-			gbxDownload.Controls.Add(linkOpen);
-			gbxDownload.Location = new System.Drawing.Point(10, 4);
-			gbxDownload.Name = "gbxDownload";
-			gbxDownload.Size = new System.Drawing.Size(689, 94);
-			gbxDownload.TabIndex = 0;
-			gbxDownload.TabStop = false;
+			this.gbxDownload.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+			this.gbxDownload.Controls.Add(this.btnDownload);
+			this.gbxDownload.Controls.Add(this.lblDownload);
+			this.gbxDownload.Controls.Add(this.progressDownload);
+			this.gbxDownload.Controls.Add(this.linkOpen);
+			this.gbxDownload.Location = new System.Drawing.Point(10, 4);
+			this.gbxDownload.Name = "gbxDownload";
+			this.gbxDownload.Size = new System.Drawing.Size(689, 94);
+			this.gbxDownload.TabIndex = 0;
+			this.gbxDownload.TabStop = false;
 			// 
 			// btnDownload
 			// 
-			btnDownload.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
-			btnDownload.Location = new System.Drawing.Point(31, 47);
-			btnDownload.Name = "btnDownload";
-			btnDownload.Size = new System.Drawing.Size(118, 23);
-			btnDownload.TabIndex = 0;
-			btnDownload.Text = "Download";
-			btnDownload.UseVisualStyleBackColor = true;
-			btnDownload.Click += btnDownload_Click;
+			this.btnDownload.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
+			this.btnDownload.Location = new System.Drawing.Point(31, 47);
+			this.btnDownload.Name = "btnDownload";
+			this.btnDownload.Size = new System.Drawing.Size(118, 23);
+			this.btnDownload.TabIndex = 0;
+			this.btnDownload.Text = "Download";
+			this.btnDownload.UseVisualStyleBackColor = true;
+			this.btnDownload.Click += btnDownload_Click;
 			// 
 			// lblDownload
 			// 
-			lblDownload.AutoSize = true;
-			lblDownload.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 238);
-			lblDownload.Location = new System.Drawing.Point(6, 17);
-			lblDownload.Name = "lblDownload";
-			lblDownload.Size = new System.Drawing.Size(297, 13);
-			lblDownload.TabIndex = 25;
-			lblDownload.Text = "Download the latest orbital elements from Internet";
+			this.lblDownload.AutoSize = true;
+			this.lblDownload.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 238);
+			this.lblDownload.Location = new System.Drawing.Point(6, 17);
+			this.lblDownload.Name = "lblDownload";
+			this.lblDownload.Size = new System.Drawing.Size(297, 13);
+			this.lblDownload.TabIndex = 25;
+			this.lblDownload.Text = "Download the latest orbital elements from Internet";
 			// 
 			// progressDownload
 			// 
-			progressDownload.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-			progressDownload.Location = new System.Drawing.Point(155, 48);
-			progressDownload.Name = "progressDownload";
-			progressDownload.Size = new System.Drawing.Size(499, 21);
-			progressDownload.TabIndex = 1;
-			progressDownload.Visible = false;
+			this.progressDownload.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+			this.progressDownload.Location = new System.Drawing.Point(155, 48);
+			this.progressDownload.Name = "progressDownload";
+			this.progressDownload.Size = new System.Drawing.Size(499, 21);
+			this.progressDownload.TabIndex = 1;
+			this.progressDownload.Visible = false;
 			// 
 			// linkOpen
 			// 
-			linkOpen.ActiveLinkColor = System.Drawing.Color.Blue;
-			linkOpen.AutoSize = true;
-			linkOpen.DisabledLinkColor = System.Drawing.Color.Blue;
-			linkOpen.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 238);
-			linkOpen.LinkColor = System.Drawing.Color.Blue;
-			linkOpen.Location = new System.Drawing.Point(158, 51);
-			linkOpen.Name = "linkOpen";
-			linkOpen.Size = new System.Drawing.Size(98, 13);
-			linkOpen.TabIndex = 26;
-			linkOpen.TabStop = true;
-			linkOpen.Text = "Open in browser";
-			linkOpen.VisitedLinkColor = System.Drawing.Color.Blue;
-			linkOpen.LinkClicked += linkOpen_LinkClicked;
+			this.linkOpen.ActiveLinkColor = System.Drawing.Color.Blue;
+			this.linkOpen.AutoSize = true;
+			this.linkOpen.DisabledLinkColor = System.Drawing.Color.Blue;
+			this.linkOpen.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 238);
+			this.linkOpen.LinkColor = System.Drawing.Color.Blue;
+			this.linkOpen.Location = new System.Drawing.Point(158, 51);
+			this.linkOpen.Name = "linkOpen";
+			this.linkOpen.Size = new System.Drawing.Size(98, 13);
+			this.linkOpen.TabIndex = 26;
+			this.linkOpen.TabStop = true;
+			this.linkOpen.Text = "Open in browser";
+			this.linkOpen.VisitedLinkColor = System.Drawing.Color.Blue;
+			this.linkOpen.LinkClicked += linkOpen_LinkClicked;
 			// 
 			// btnClose
 			// 
-			btnClose.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-			btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			btnClose.Location = new System.Drawing.Point(546, 351);
-			btnClose.Name = "btnClose";
-			btnClose.Size = new System.Drawing.Size(118, 23);
-			btnClose.TabIndex = 4;
-			btnClose.Text = "Close";
-			btnClose.UseVisualStyleBackColor = true;
+			this.btnClose.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+			this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			this.btnClose.Location = new System.Drawing.Point(546, 351);
+			this.btnClose.Name = "btnClose";
+			this.btnClose.Size = new System.Drawing.Size(118, 23);
+			this.btnClose.TabIndex = 4;
+			this.btnClose.Text = "Close";
+			this.btnClose.UseVisualStyleBackColor = true;
 			// 
 			// gbxStatus
 			// 
-			gbxStatus.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-			gbxStatus.Controls.Add(lblCometCount);
-			gbxStatus.Controls.Add(lblImportFormat);
-			gbxStatus.Controls.Add(labelTotalCometsDescr);
-			gbxStatus.Controls.Add(lblImportFormatDescr);
-			gbxStatus.Controls.Add(btnImport);
-			gbxStatus.Controls.Add(lblStatus);
-			gbxStatus.Location = new System.Drawing.Point(10, 193);
-			gbxStatus.Name = "gbxStatus";
-			gbxStatus.Size = new System.Drawing.Size(689, 140);
-			gbxStatus.TabIndex = 2;
-			gbxStatus.TabStop = false;
+			this.gbxStatus.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+			this.gbxStatus.Controls.Add(this.lblCometCount);
+			this.gbxStatus.Controls.Add(this.lblImportFormat);
+			this.gbxStatus.Controls.Add(this.labelTotalCometsDescr);
+			this.gbxStatus.Controls.Add(this.lblImportFormatDescr);
+			this.gbxStatus.Controls.Add(this.btnImport);
+			this.gbxStatus.Controls.Add(this.lblStatus);
+			this.gbxStatus.Location = new System.Drawing.Point(10, 193);
+			this.gbxStatus.Name = "gbxStatus";
+			this.gbxStatus.Size = new System.Drawing.Size(689, 140);
+			this.gbxStatus.TabIndex = 2;
+			this.gbxStatus.TabStop = false;
 			// 
 			// lblCometCount
 			// 
-			lblCometCount.ActiveLinkColor = System.Drawing.Color.Blue;
-			lblCometCount.AutoSize = true;
-			lblCometCount.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 238);
-			lblCometCount.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-			lblCometCount.LinkColor = System.Drawing.Color.Blue;
-			lblCometCount.Location = new System.Drawing.Point(103, 69);
-			lblCometCount.Name = "lblCometCount";
-			lblCometCount.Size = new System.Drawing.Size(12, 13);
-			lblCometCount.TabIndex = 48;
-			lblCometCount.TabStop = true;
-			lblCometCount.Text = "-";
-			lblCometCount.VisitedLinkColor = System.Drawing.Color.Blue;
-			lblCometCount.LinkClicked += labelDetectedComets_LinkClicked;
+			this.lblCometCount.ActiveLinkColor = System.Drawing.Color.Blue;
+			this.lblCometCount.AutoSize = true;
+			this.lblCometCount.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 238);
+			this.lblCometCount.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+			this.lblCometCount.LinkColor = System.Drawing.Color.Blue;
+			this.lblCometCount.Location = new System.Drawing.Point(103, 69);
+			this.lblCometCount.Name = "lblCometCount";
+			this.lblCometCount.Size = new System.Drawing.Size(12, 13);
+			this.lblCometCount.TabIndex = 48;
+			this.lblCometCount.TabStop = true;
+			this.lblCometCount.Text = "-";
+			this.lblCometCount.VisitedLinkColor = System.Drawing.Color.Blue;
+			this.lblCometCount.LinkClicked += labelDetectedComets_LinkClicked;
 			// 
 			// lblImportFormat
 			// 
-			lblImportFormat.AutoSize = true;
-			lblImportFormat.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 238);
-			lblImportFormat.Location = new System.Drawing.Point(109, 48);
-			lblImportFormat.Name = "lblImportFormat";
-			lblImportFormat.Size = new System.Drawing.Size(102, 13);
-			lblImportFormat.TabIndex = 46;
-			lblImportFormat.Text = "(no file selected)";
+			this.lblImportFormat.AutoSize = true;
+			this.lblImportFormat.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 238);
+			this.lblImportFormat.Location = new System.Drawing.Point(109, 48);
+			this.lblImportFormat.Name = "lblImportFormat";
+			this.lblImportFormat.Size = new System.Drawing.Size(102, 13);
+			this.lblImportFormat.TabIndex = 46;
+			this.lblImportFormat.Text = "(no file selected)";
 			// 
 			// labelTotalCometsDescr
 			// 
-			labelTotalCometsDescr.AutoSize = true;
-			labelTotalCometsDescr.Location = new System.Drawing.Point(33, 69);
-			labelTotalCometsDescr.Name = "labelTotalCometsDescr";
-			labelTotalCometsDescr.Size = new System.Drawing.Size(74, 13);
-			labelTotalCometsDescr.TabIndex = 45;
-			labelTotalCometsDescr.Text = "Total Comets:";
+			this.labelTotalCometsDescr.AutoSize = true;
+			this.labelTotalCometsDescr.Location = new System.Drawing.Point(33, 69);
+			this.labelTotalCometsDescr.Name = "labelTotalCometsDescr";
+			this.labelTotalCometsDescr.Size = new System.Drawing.Size(74, 13);
+			this.labelTotalCometsDescr.TabIndex = 45;
+			this.labelTotalCometsDescr.Text = "Total Comets:";
 			// 
 			// lblImportFormatDescr
 			// 
-			lblImportFormatDescr.AutoSize = true;
-			lblImportFormatDescr.Location = new System.Drawing.Point(33, 48);
-			lblImportFormatDescr.Name = "lblImportFormatDescr";
-			lblImportFormatDescr.Size = new System.Drawing.Size(83, 13);
-			lblImportFormatDescr.TabIndex = 44;
-			lblImportFormatDescr.Text = "Import Format: ";
+			this.lblImportFormatDescr.AutoSize = true;
+			this.lblImportFormatDescr.Location = new System.Drawing.Point(33, 48);
+			this.lblImportFormatDescr.Name = "lblImportFormatDescr";
+			this.lblImportFormatDescr.Size = new System.Drawing.Size(83, 13);
+			this.lblImportFormatDescr.TabIndex = 44;
+			this.lblImportFormatDescr.Text = "Import Format: ";
 			// 
 			// btnImport
 			// 
-			btnImport.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 238);
-			btnImport.Location = new System.Drawing.Point(31, 93);
-			btnImport.Name = "btnImport";
-			btnImport.Size = new System.Drawing.Size(118, 23);
-			btnImport.TabIndex = 0;
-			btnImport.Text = "Import";
-			btnImport.UseVisualStyleBackColor = true;
-			btnImport.Click += btnImport_Click;
+			this.btnImport.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 238);
+			this.btnImport.Location = new System.Drawing.Point(31, 93);
+			this.btnImport.Name = "btnImport";
+			this.btnImport.Size = new System.Drawing.Size(118, 23);
+			this.btnImport.TabIndex = 0;
+			this.btnImport.Text = "Import";
+			this.btnImport.UseVisualStyleBackColor = true;
+			this.btnImport.Click += btnImport_Click;
 			// 
 			// lblStatus
 			// 
-			lblStatus.AutoSize = true;
-			lblStatus.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 238);
-			lblStatus.Location = new System.Drawing.Point(6, 17);
-			lblStatus.Name = "lblStatus";
-			lblStatus.Size = new System.Drawing.Size(44, 13);
-			lblStatus.TabIndex = 25;
-			lblStatus.Text = "Status";
+			this.lblStatus.AutoSize = true;
+			this.lblStatus.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 238);
+			this.lblStatus.Location = new System.Drawing.Point(6, 17);
+			this.lblStatus.Name = "lblStatus";
+			this.lblStatus.Size = new System.Drawing.Size(44, 13);
+			this.lblStatus.TabIndex = 25;
+			this.lblStatus.Text = "Status";
 			// 
 			// cbxClose
 			// 
-			cbxClose.AutoSize = true;
-			cbxClose.Checked = true;
-			cbxClose.CheckState = System.Windows.Forms.CheckState.Checked;
-			cbxClose.Location = new System.Drawing.Point(19, 355);
-			cbxClose.Name = "cbxClose";
-			cbxClose.Size = new System.Drawing.Size(121, 17);
-			cbxClose.TabIndex = 3;
-			cbxClose.Text = "Close when finished";
-			cbxClose.UseVisualStyleBackColor = true;
+			this.cbxClose.AutoSize = true;
+			this.cbxClose.Checked = true;
+			this.cbxClose.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.cbxClose.Location = new System.Drawing.Point(19, 355);
+			this.cbxClose.Name = "cbxClose";
+			this.cbxClose.Size = new System.Drawing.Size(121, 17);
+			this.cbxClose.TabIndex = 3;
+			this.cbxClose.Text = "Close when finished";
+			this.cbxClose.UseVisualStyleBackColor = true;
 			// 
 			// FormUpdate
 			// 
-			AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-			AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			CancelButton = btnClose;
-			ClientSize = new System.Drawing.Size(709, 394);
-			Controls.Add(cbxClose);
-			Controls.Add(gbxStatus);
-			Controls.Add(btnClose);
-			Controls.Add(gbxLocalFile);
-			Controls.Add(gbxDownload);
-			Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
-			FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-			MaximizeBox = false;
-			MinimizeBox = false;
-			Name = "FormUpdate";
-			ShowIcon = false;
-			ShowInTaskbar = false;
-			StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-			Text = "Update";
-			Load += FormImport_Load;
-			gbxLocalFile.ResumeLayout(false);
-			gbxLocalFile.PerformLayout();
-			gbxDownload.ResumeLayout(false);
-			gbxDownload.PerformLayout();
-			gbxStatus.ResumeLayout(false);
-			gbxStatus.PerformLayout();
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.CancelButton = this.btnClose;
+			this.ClientSize = new System.Drawing.Size(709, 394);
+			this.Controls.Add(this.cbxClose);
+			this.Controls.Add(this.gbxStatus);
+			this.Controls.Add(this.btnClose);
+			this.Controls.Add(this.gbxLocalFile);
+			this.Controls.Add(this.gbxDownload);
+			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+			this.MaximizeBox = false;
+			this.MinimizeBox = false;
+			this.Name = "FormUpdate";
+			this.ShowIcon = false;
+			this.ShowInTaskbar = false;
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+			this.Text = "Update";
+			this.Load += FormImport_Load;
+			this.gbxLocalFile.ResumeLayout(false);
+			this.gbxLocalFile.PerformLayout();
+			this.gbxDownload.ResumeLayout(false);
+			this.gbxDownload.PerformLayout();
+			this.gbxStatus.ResumeLayout(false);
+			this.gbxStatus.PerformLayout();
 			ResumeLayout(false);
 			PerformLayout();
 		}
