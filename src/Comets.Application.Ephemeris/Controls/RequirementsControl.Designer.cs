@@ -28,108 +28,108 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			gbxRequirements = new System.Windows.Forms.GroupBox();
-			txtMinMag = new System.Windows.Forms.TextBox();
-			txtMaxEarthDist = new System.Windows.Forms.TextBox();
-			txtMaxSunDist = new System.Windows.Forms.TextBox();
-			cbxMinMag = new System.Windows.Forms.CheckBox();
-			cbxMaxEarthDist = new System.Windows.Forms.CheckBox();
-			cbxMaxSunDist = new System.Windows.Forms.CheckBox();
-			gbxRequirements.SuspendLayout();
+			this.gbxRequirements = new System.Windows.Forms.GroupBox();
+			this.txtMinMag = new System.Windows.Forms.TextBox();
+			this.txtMaxEarthDist = new System.Windows.Forms.TextBox();
+			this.txtMaxSunDist = new System.Windows.Forms.TextBox();
+			this.cbxMinMag = new System.Windows.Forms.CheckBox();
+			this.cbxMaxEarthDist = new System.Windows.Forms.CheckBox();
+			this.cbxMaxSunDist = new System.Windows.Forms.CheckBox();
+			this.gbxRequirements.SuspendLayout();
 			SuspendLayout();
 			// 
 			// gbxRequirements
 			// 
-			gbxRequirements.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-			gbxRequirements.Controls.Add(txtMinMag);
-			gbxRequirements.Controls.Add(txtMaxEarthDist);
-			gbxRequirements.Controls.Add(txtMaxSunDist);
-			gbxRequirements.Controls.Add(cbxMinMag);
-			gbxRequirements.Controls.Add(cbxMaxEarthDist);
-			gbxRequirements.Controls.Add(cbxMaxSunDist);
-			gbxRequirements.Location = new System.Drawing.Point(0, 0);
-			gbxRequirements.Name = "gbxRequirements";
-			gbxRequirements.Size = new System.Drawing.Size(204, 137);
-			gbxRequirements.TabIndex = 0;
-			gbxRequirements.TabStop = false;
-			gbxRequirements.Text = "Requirements";
+			this.gbxRequirements.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+			this.gbxRequirements.Controls.Add(this.txtMinMag);
+			this.gbxRequirements.Controls.Add(this.txtMaxEarthDist);
+			this.gbxRequirements.Controls.Add(this.txtMaxSunDist);
+			this.gbxRequirements.Controls.Add(this.cbxMinMag);
+			this.gbxRequirements.Controls.Add(this.cbxMaxEarthDist);
+			this.gbxRequirements.Controls.Add(this.cbxMaxSunDist);
+			this.gbxRequirements.Location = new System.Drawing.Point(0, 0);
+			this.gbxRequirements.Name = "gbxRequirements";
+			this.gbxRequirements.Size = new System.Drawing.Size(204, 137);
+			this.gbxRequirements.TabIndex = 0;
+			this.gbxRequirements.TabStop = false;
+			this.gbxRequirements.Text = "Requirements";
 			// 
 			// txtMinMag
 			// 
-			txtMinMag.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-			txtMinMag.Location = new System.Drawing.Point(152, 87);
-			txtMinMag.Name = "txtMinMag";
-			txtMinMag.Size = new System.Drawing.Size(42, 21);
-			txtMinMag.TabIndex = 5;
-			txtMinMag.Text = "12";
-			txtMinMag.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			txtMinMag.TextChanged += txtMinMag_TextChanged;
-			txtMinMag.KeyPress += txtMagDistCommon_KeyPress;
+			this.txtMinMag.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+			this.txtMinMag.Location = new System.Drawing.Point(152, 87);
+			this.txtMinMag.Name = "txtMinMag";
+			this.txtMinMag.Size = new System.Drawing.Size(42, 21);
+			this.txtMinMag.TabIndex = 5;
+			this.txtMinMag.Text = "12";
+			this.txtMinMag.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.txtMinMag.TextChanged += txtMinMag_TextChanged;
+			this.txtMinMag.KeyPress += txtMagDistCommon_KeyPress;
 			// 
 			// txtMaxEarthDist
 			// 
-			txtMaxEarthDist.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-			txtMaxEarthDist.Location = new System.Drawing.Point(152, 45);
-			txtMaxEarthDist.Name = "txtMaxEarthDist";
-			txtMaxEarthDist.Size = new System.Drawing.Size(42, 21);
-			txtMaxEarthDist.TabIndex = 3;
-			txtMaxEarthDist.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			txtMaxEarthDist.TextChanged += txtMaxEarthDist_TextChanged;
-			txtMaxEarthDist.KeyPress += txtMagDistCommon_KeyPress;
+			this.txtMaxEarthDist.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+			this.txtMaxEarthDist.Location = new System.Drawing.Point(152, 45);
+			this.txtMaxEarthDist.Name = "txtMaxEarthDist";
+			this.txtMaxEarthDist.Size = new System.Drawing.Size(42, 21);
+			this.txtMaxEarthDist.TabIndex = 3;
+			this.txtMaxEarthDist.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.txtMaxEarthDist.TextChanged += txtMaxEarthDist_TextChanged;
+			this.txtMaxEarthDist.KeyPress += txtMagDistCommon_KeyPress;
 			// 
 			// txtMaxSunDist
 			// 
-			txtMaxSunDist.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-			txtMaxSunDist.Location = new System.Drawing.Point(152, 20);
-			txtMaxSunDist.Name = "txtMaxSunDist";
-			txtMaxSunDist.Size = new System.Drawing.Size(42, 21);
-			txtMaxSunDist.TabIndex = 1;
-			txtMaxSunDist.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			txtMaxSunDist.TextChanged += txtMaxSunDist_TextChanged;
-			txtMaxSunDist.KeyPress += txtMagDistCommon_KeyPress;
+			this.txtMaxSunDist.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+			this.txtMaxSunDist.Location = new System.Drawing.Point(152, 20);
+			this.txtMaxSunDist.Name = "txtMaxSunDist";
+			this.txtMaxSunDist.Size = new System.Drawing.Size(42, 21);
+			this.txtMaxSunDist.TabIndex = 1;
+			this.txtMaxSunDist.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.txtMaxSunDist.TextChanged += txtMaxSunDist_TextChanged;
+			this.txtMaxSunDist.KeyPress += txtMagDistCommon_KeyPress;
 			// 
 			// cbxMinMag
 			// 
-			cbxMinMag.AutoSize = true;
-			cbxMinMag.Checked = true;
-			cbxMinMag.CheckState = System.Windows.Forms.CheckState.Checked;
-			cbxMinMag.Location = new System.Drawing.Point(12, 89);
-			cbxMinMag.Name = "cbxMinMag";
-			cbxMinMag.Size = new System.Drawing.Size(95, 17);
-			cbxMinMag.TabIndex = 4;
-			cbxMinMag.Text = "Min magnitude";
-			cbxMinMag.UseVisualStyleBackColor = true;
+			this.cbxMinMag.AutoSize = true;
+			this.cbxMinMag.Checked = true;
+			this.cbxMinMag.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.cbxMinMag.Location = new System.Drawing.Point(12, 89);
+			this.cbxMinMag.Name = "cbxMinMag";
+			this.cbxMinMag.Size = new System.Drawing.Size(95, 17);
+			this.cbxMinMag.TabIndex = 4;
+			this.cbxMinMag.Text = "Min magnitude";
+			this.cbxMinMag.UseVisualStyleBackColor = true;
 			// 
 			// cbxMaxEarthDist
 			// 
-			cbxMaxEarthDist.AutoSize = true;
-			cbxMaxEarthDist.Location = new System.Drawing.Point(12, 48);
-			cbxMaxEarthDist.Name = "cbxMaxEarthDist";
-			cbxMaxEarthDist.Size = new System.Drawing.Size(118, 17);
-			cbxMaxEarthDist.TabIndex = 2;
-			cbxMaxEarthDist.Text = "Max Earth distance";
-			cbxMaxEarthDist.UseVisualStyleBackColor = true;
+			this.cbxMaxEarthDist.AutoSize = true;
+			this.cbxMaxEarthDist.Location = new System.Drawing.Point(12, 48);
+			this.cbxMaxEarthDist.Name = "cbxMaxEarthDist";
+			this.cbxMaxEarthDist.Size = new System.Drawing.Size(118, 17);
+			this.cbxMaxEarthDist.TabIndex = 2;
+			this.cbxMaxEarthDist.Text = "Max Earth distance";
+			this.cbxMaxEarthDist.UseVisualStyleBackColor = true;
 			// 
 			// cbxMaxSunDist
 			// 
-			cbxMaxSunDist.AutoSize = true;
-			cbxMaxSunDist.Location = new System.Drawing.Point(12, 22);
-			cbxMaxSunDist.Name = "cbxMaxSunDist";
-			cbxMaxSunDist.Size = new System.Drawing.Size(110, 17);
-			cbxMaxSunDist.TabIndex = 0;
-			cbxMaxSunDist.Text = "Max Sun distance";
-			cbxMaxSunDist.UseVisualStyleBackColor = true;
+			this.cbxMaxSunDist.AutoSize = true;
+			this.cbxMaxSunDist.Location = new System.Drawing.Point(12, 22);
+			this.cbxMaxSunDist.Name = "cbxMaxSunDist";
+			this.cbxMaxSunDist.Size = new System.Drawing.Size(110, 17);
+			this.cbxMaxSunDist.TabIndex = 0;
+			this.cbxMaxSunDist.Text = "Max Sun distance";
+			this.cbxMaxSunDist.UseVisualStyleBackColor = true;
 			// 
 			// RequirementsControl
 			// 
-			AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-			AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			Controls.Add(gbxRequirements);
-			Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-			Name = "RequirementsControl";
-			Size = new System.Drawing.Size(204, 137);
-			gbxRequirements.ResumeLayout(false);
-			gbxRequirements.PerformLayout();
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.gbxRequirements);
+			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+			this.Name = "RequirementsControl";
+			this.Size = new System.Drawing.Size(204, 137);
+			this.gbxRequirements.ResumeLayout(false);
+			this.gbxRequirements.PerformLayout();
 			ResumeLayout(false);
 		}
 

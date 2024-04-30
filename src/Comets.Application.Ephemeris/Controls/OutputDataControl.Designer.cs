@@ -28,192 +28,192 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			gbxOutputData = new System.Windows.Forms.GroupBox();
-			radioLocalTime = new System.Windows.Forms.RadioButton();
-			radioUnivTime = new System.Windows.Forms.RadioButton();
-			chMag = new System.Windows.Forms.CheckBox();
-			chGeoDist = new System.Windows.Forms.CheckBox();
-			chHelioDist = new System.Windows.Forms.CheckBox();
-			chElong = new System.Windows.Forms.CheckBox();
-			chEcLat = new System.Windows.Forms.CheckBox();
-			chEcLon = new System.Windows.Forms.CheckBox();
-			chAz = new System.Windows.Forms.CheckBox();
-			chAlt = new System.Windows.Forms.CheckBox();
-			chDec = new System.Windows.Forms.CheckBox();
-			chRA = new System.Windows.Forms.CheckBox();
-			gbxOutputData.SuspendLayout();
+			this.gbxOutputData = new System.Windows.Forms.GroupBox();
+			this.radioLocalTime = new System.Windows.Forms.RadioButton();
+			this.radioUnivTime = new System.Windows.Forms.RadioButton();
+			this.chMag = new System.Windows.Forms.CheckBox();
+			this.chGeoDist = new System.Windows.Forms.CheckBox();
+			this.chHelioDist = new System.Windows.Forms.CheckBox();
+			this.chElong = new System.Windows.Forms.CheckBox();
+			this.chEcLat = new System.Windows.Forms.CheckBox();
+			this.chEcLon = new System.Windows.Forms.CheckBox();
+			this.chAz = new System.Windows.Forms.CheckBox();
+			this.chAlt = new System.Windows.Forms.CheckBox();
+			this.chDec = new System.Windows.Forms.CheckBox();
+			this.chRA = new System.Windows.Forms.CheckBox();
+			this.gbxOutputData.SuspendLayout();
 			SuspendLayout();
 			// 
 			// gbxOutputData
 			// 
-			gbxOutputData.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-			gbxOutputData.Controls.Add(radioLocalTime);
-			gbxOutputData.Controls.Add(radioUnivTime);
-			gbxOutputData.Controls.Add(chMag);
-			gbxOutputData.Controls.Add(chGeoDist);
-			gbxOutputData.Controls.Add(chHelioDist);
-			gbxOutputData.Controls.Add(chElong);
-			gbxOutputData.Controls.Add(chEcLat);
-			gbxOutputData.Controls.Add(chEcLon);
-			gbxOutputData.Controls.Add(chAz);
-			gbxOutputData.Controls.Add(chAlt);
-			gbxOutputData.Controls.Add(chDec);
-			gbxOutputData.Controls.Add(chRA);
-			gbxOutputData.Location = new System.Drawing.Point(0, 0);
-			gbxOutputData.Name = "gbxOutputData";
-			gbxOutputData.Size = new System.Drawing.Size(503, 137);
-			gbxOutputData.TabIndex = 0;
-			gbxOutputData.TabStop = false;
-			gbxOutputData.Text = "Output data";
+			this.gbxOutputData.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+			this.gbxOutputData.Controls.Add(this.radioLocalTime);
+			this.gbxOutputData.Controls.Add(this.radioUnivTime);
+			this.gbxOutputData.Controls.Add(this.chMag);
+			this.gbxOutputData.Controls.Add(this.chGeoDist);
+			this.gbxOutputData.Controls.Add(this.chHelioDist);
+			this.gbxOutputData.Controls.Add(this.chElong);
+			this.gbxOutputData.Controls.Add(this.chEcLat);
+			this.gbxOutputData.Controls.Add(this.chEcLon);
+			this.gbxOutputData.Controls.Add(this.chAz);
+			this.gbxOutputData.Controls.Add(this.chAlt);
+			this.gbxOutputData.Controls.Add(this.chDec);
+			this.gbxOutputData.Controls.Add(this.chRA);
+			this.gbxOutputData.Location = new System.Drawing.Point(0, 0);
+			this.gbxOutputData.Name = "gbxOutputData";
+			this.gbxOutputData.Size = new System.Drawing.Size(503, 137);
+			this.gbxOutputData.TabIndex = 0;
+			this.gbxOutputData.TabStop = false;
+			this.gbxOutputData.Text = "Output data";
 			// 
 			// radioLocalTime
 			// 
-			radioLocalTime.AutoSize = true;
-			radioLocalTime.Checked = true;
-			radioLocalTime.Location = new System.Drawing.Point(12, 22);
-			radioLocalTime.Name = "radioLocalTime";
-			radioLocalTime.Size = new System.Drawing.Size(74, 17);
-			radioLocalTime.TabIndex = 0;
-			radioLocalTime.TabStop = true;
-			radioLocalTime.Text = "Local Time";
-			radioLocalTime.UseVisualStyleBackColor = true;
+			this.radioLocalTime.AutoSize = true;
+			this.radioLocalTime.Checked = true;
+			this.radioLocalTime.Location = new System.Drawing.Point(12, 22);
+			this.radioLocalTime.Name = "radioLocalTime";
+			this.radioLocalTime.Size = new System.Drawing.Size(74, 17);
+			this.radioLocalTime.TabIndex = 0;
+			this.radioLocalTime.TabStop = true;
+			this.radioLocalTime.Text = "Local Time";
+			this.radioLocalTime.UseVisualStyleBackColor = true;
 			// 
 			// radioUnivTime
 			// 
-			radioUnivTime.AutoSize = true;
-			radioUnivTime.Location = new System.Drawing.Point(12, 47);
-			radioUnivTime.Name = "radioUnivTime";
-			radioUnivTime.Size = new System.Drawing.Size(94, 17);
-			radioUnivTime.TabIndex = 1;
-			radioUnivTime.Text = "Universal Time";
-			radioUnivTime.UseVisualStyleBackColor = true;
+			this.radioUnivTime.AutoSize = true;
+			this.radioUnivTime.Location = new System.Drawing.Point(12, 47);
+			this.radioUnivTime.Name = "radioUnivTime";
+			this.radioUnivTime.Size = new System.Drawing.Size(94, 17);
+			this.radioUnivTime.TabIndex = 1;
+			this.radioUnivTime.Text = "Universal Time";
+			this.radioUnivTime.UseVisualStyleBackColor = true;
 			// 
 			// chMag
 			// 
-			chMag.AutoSize = true;
-			chMag.Checked = true;
-			chMag.CheckState = System.Windows.Forms.CheckState.Checked;
-			chMag.Location = new System.Drawing.Point(382, 89);
-			chMag.Name = "chMag";
-			chMag.Size = new System.Drawing.Size(76, 17);
-			chMag.TabIndex = 11;
-			chMag.Text = "Magnitude";
-			chMag.UseVisualStyleBackColor = true;
+			this.chMag.AutoSize = true;
+			this.chMag.Checked = true;
+			this.chMag.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.chMag.Location = new System.Drawing.Point(382, 89);
+			this.chMag.Name = "chMag";
+			this.chMag.Size = new System.Drawing.Size(76, 17);
+			this.chMag.TabIndex = 11;
+			this.chMag.Text = "Magnitude";
+			this.chMag.UseVisualStyleBackColor = true;
 			// 
 			// chGeoDist
 			// 
-			chGeoDist.AutoSize = true;
-			chGeoDist.Checked = true;
-			chGeoDist.CheckState = System.Windows.Forms.CheckState.Checked;
-			chGeoDist.Location = new System.Drawing.Point(382, 47);
-			chGeoDist.Name = "chGeoDist";
-			chGeoDist.Size = new System.Drawing.Size(95, 17);
-			chGeoDist.TabIndex = 10;
-			chGeoDist.Text = "Earth distance";
-			chGeoDist.UseVisualStyleBackColor = true;
+			this.chGeoDist.AutoSize = true;
+			this.chGeoDist.Checked = true;
+			this.chGeoDist.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.chGeoDist.Location = new System.Drawing.Point(382, 47);
+			this.chGeoDist.Name = "chGeoDist";
+			this.chGeoDist.Size = new System.Drawing.Size(95, 17);
+			this.chGeoDist.TabIndex = 10;
+			this.chGeoDist.Text = "Earth distance";
+			this.chGeoDist.UseVisualStyleBackColor = true;
 			// 
 			// chHelioDist
 			// 
-			chHelioDist.AutoSize = true;
-			chHelioDist.Checked = true;
-			chHelioDist.CheckState = System.Windows.Forms.CheckState.Checked;
-			chHelioDist.Location = new System.Drawing.Point(382, 22);
-			chHelioDist.Name = "chHelioDist";
-			chHelioDist.Size = new System.Drawing.Size(87, 17);
-			chHelioDist.TabIndex = 9;
-			chHelioDist.Text = "Sun distance";
-			chHelioDist.UseVisualStyleBackColor = true;
+			this.chHelioDist.AutoSize = true;
+			this.chHelioDist.Checked = true;
+			this.chHelioDist.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.chHelioDist.Location = new System.Drawing.Point(382, 22);
+			this.chHelioDist.Name = "chHelioDist";
+			this.chHelioDist.Size = new System.Drawing.Size(87, 17);
+			this.chHelioDist.TabIndex = 9;
+			this.chHelioDist.Text = "Sun distance";
+			this.chHelioDist.UseVisualStyleBackColor = true;
 			// 
 			// chElong
 			// 
-			chElong.AutoSize = true;
-			chElong.Checked = true;
-			chElong.CheckState = System.Windows.Forms.CheckState.Checked;
-			chElong.Location = new System.Drawing.Point(254, 89);
-			chElong.Name = "chElong";
-			chElong.Size = new System.Drawing.Size(76, 17);
-			chElong.TabIndex = 8;
-			chElong.Text = "Elongation";
-			chElong.UseVisualStyleBackColor = true;
+			this.chElong.AutoSize = true;
+			this.chElong.Checked = true;
+			this.chElong.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.chElong.Location = new System.Drawing.Point(254, 89);
+			this.chElong.Name = "chElong";
+			this.chElong.Size = new System.Drawing.Size(76, 17);
+			this.chElong.TabIndex = 8;
+			this.chElong.Text = "Elongation";
+			this.chElong.UseVisualStyleBackColor = true;
 			// 
 			// chEcLat
 			// 
-			chEcLat.AutoSize = true;
-			chEcLat.Location = new System.Drawing.Point(254, 47);
-			chEcLat.Name = "chEcLat";
-			chEcLat.Size = new System.Drawing.Size(100, 17);
-			chEcLat.TabIndex = 7;
-			chEcLat.Text = "Ecliptic Latitude";
-			chEcLat.UseVisualStyleBackColor = true;
+			this.chEcLat.AutoSize = true;
+			this.chEcLat.Location = new System.Drawing.Point(254, 47);
+			this.chEcLat.Name = "chEcLat";
+			this.chEcLat.Size = new System.Drawing.Size(100, 17);
+			this.chEcLat.TabIndex = 7;
+			this.chEcLat.Text = "Ecliptic Latitude";
+			this.chEcLat.UseVisualStyleBackColor = true;
 			// 
 			// chEcLon
 			// 
-			chEcLon.AutoSize = true;
-			chEcLon.Location = new System.Drawing.Point(254, 22);
-			chEcLon.Name = "chEcLon";
-			chEcLon.Size = new System.Drawing.Size(108, 17);
-			chEcLon.TabIndex = 6;
-			chEcLon.Text = "Ecliptic Longitude";
-			chEcLon.UseVisualStyleBackColor = true;
+			this.chEcLon.AutoSize = true;
+			this.chEcLon.Location = new System.Drawing.Point(254, 22);
+			this.chEcLon.Name = "chEcLon";
+			this.chEcLon.Size = new System.Drawing.Size(108, 17);
+			this.chEcLon.TabIndex = 6;
+			this.chEcLon.Text = "Ecliptic Longitude";
+			this.chEcLon.UseVisualStyleBackColor = true;
 			// 
 			// chAz
 			// 
-			chAz.AutoSize = true;
-			chAz.Checked = true;
-			chAz.CheckState = System.Windows.Forms.CheckState.Checked;
-			chAz.Location = new System.Drawing.Point(124, 113);
-			chAz.Name = "chAz";
-			chAz.Size = new System.Drawing.Size(87, 17);
-			chAz.TabIndex = 5;
-			chAz.Text = "Azimuth (Az)";
-			chAz.UseVisualStyleBackColor = true;
+			this.chAz.AutoSize = true;
+			this.chAz.Checked = true;
+			this.chAz.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.chAz.Location = new System.Drawing.Point(124, 113);
+			this.chAz.Name = "chAz";
+			this.chAz.Size = new System.Drawing.Size(87, 17);
+			this.chAz.TabIndex = 5;
+			this.chAz.Text = "Azimuth (Az)";
+			this.chAz.UseVisualStyleBackColor = true;
 			// 
 			// chAlt
 			// 
-			chAlt.AutoSize = true;
-			chAlt.Checked = true;
-			chAlt.CheckState = System.Windows.Forms.CheckState.Checked;
-			chAlt.Location = new System.Drawing.Point(124, 89);
-			chAlt.Name = "chAlt";
-			chAlt.Size = new System.Drawing.Size(87, 17);
-			chAlt.TabIndex = 4;
-			chAlt.Text = "Altitude (Alt)";
-			chAlt.UseVisualStyleBackColor = true;
+			this.chAlt.AutoSize = true;
+			this.chAlt.Checked = true;
+			this.chAlt.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.chAlt.Location = new System.Drawing.Point(124, 89);
+			this.chAlt.Name = "chAlt";
+			this.chAlt.Size = new System.Drawing.Size(87, 17);
+			this.chAlt.TabIndex = 4;
+			this.chAlt.Text = "Altitude (Alt)";
+			this.chAlt.UseVisualStyleBackColor = true;
 			// 
 			// chDec
 			// 
-			chDec.AutoSize = true;
-			chDec.Checked = true;
-			chDec.CheckState = System.Windows.Forms.CheckState.Checked;
-			chDec.Location = new System.Drawing.Point(124, 47);
-			chDec.Name = "chDec";
-			chDec.Size = new System.Drawing.Size(107, 17);
-			chDec.TabIndex = 3;
-			chDec.Text = "Declination (Dec)";
-			chDec.UseVisualStyleBackColor = true;
+			this.chDec.AutoSize = true;
+			this.chDec.Checked = true;
+			this.chDec.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.chDec.Location = new System.Drawing.Point(124, 47);
+			this.chDec.Name = "chDec";
+			this.chDec.Size = new System.Drawing.Size(107, 17);
+			this.chDec.TabIndex = 3;
+			this.chDec.Text = "Declination (Dec)";
+			this.chDec.UseVisualStyleBackColor = true;
 			// 
 			// chRA
 			// 
-			chRA.AutoSize = true;
-			chRA.Checked = true;
-			chRA.CheckState = System.Windows.Forms.CheckState.Checked;
-			chRA.Location = new System.Drawing.Point(124, 22);
-			chRA.Name = "chRA";
-			chRA.Size = new System.Drawing.Size(126, 17);
-			chRA.TabIndex = 2;
-			chRA.Text = "Right ascension (RA)";
-			chRA.UseVisualStyleBackColor = true;
+			this.chRA.AutoSize = true;
+			this.chRA.Checked = true;
+			this.chRA.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.chRA.Location = new System.Drawing.Point(124, 22);
+			this.chRA.Name = "chRA";
+			this.chRA.Size = new System.Drawing.Size(126, 17);
+			this.chRA.TabIndex = 2;
+			this.chRA.Text = "Right ascension (RA)";
+			this.chRA.UseVisualStyleBackColor = true;
 			// 
 			// OutputDataControl
 			// 
-			AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-			AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			Controls.Add(gbxOutputData);
-			Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-			Name = "OutputDataControl";
-			Size = new System.Drawing.Size(503, 137);
-			gbxOutputData.ResumeLayout(false);
-			gbxOutputData.PerformLayout();
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.gbxOutputData);
+			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+			this.Name = "OutputDataControl";
+			this.Size = new System.Drawing.Size(503, 137);
+			this.gbxOutputData.ResumeLayout(false);
+			this.gbxOutputData.PerformLayout();
 			ResumeLayout(false);
 		}
 

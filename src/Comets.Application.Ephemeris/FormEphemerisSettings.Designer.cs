@@ -28,105 +28,105 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			btnOk = new System.Windows.Forms.Button();
-			btnCancel = new System.Windows.Forms.Button();
-			selectCometControl = new Common.Controls.Common.SelectCometControl();
-			timespanControl = new Common.Controls.Common.TimespanControl();
-			outputDataControl = new OutputDataControl();
-			requirementsControl = new RequirementsControl();
-			intervalControl = new Controls.IntervalControl();
+			this.btnOk = new System.Windows.Forms.Button();
+			this.btnCancel = new System.Windows.Forms.Button();
+			this.selectCometControl = new Common.Controls.Common.SelectCometControl();
+			this.timespanControl = new Common.Controls.Common.TimespanControl();
+			this.outputDataControl = new OutputDataControl();
+			this.requirementsControl = new RequirementsControl();
+			this.intervalControl = new Controls.IntervalControl();
 			SuspendLayout();
 			// 
 			// btnOk
 			// 
-			btnOk.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
-			btnOk.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-			btnOk.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
-			btnOk.Location = new System.Drawing.Point(548, 245);
-			btnOk.Name = "btnOk";
-			btnOk.Size = new System.Drawing.Size(100, 24);
-			btnOk.TabIndex = 5;
-			btnOk.Text = "OK";
-			btnOk.UseVisualStyleBackColor = true;
-			btnOk.Click += btnOk_Click;
+			this.btnOk.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
+			this.btnOk.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+			this.btnOk.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
+			this.btnOk.Location = new System.Drawing.Point(548, 245);
+			this.btnOk.Name = "btnOk";
+			this.btnOk.Size = new System.Drawing.Size(100, 24);
+			this.btnOk.TabIndex = 5;
+			this.btnOk.Text = "OK";
+			this.btnOk.UseVisualStyleBackColor = true;
+			this.btnOk.Click += btnOk_Click;
 			// 
 			// btnCancel
 			// 
-			btnCancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-			btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			btnCancel.Location = new System.Drawing.Point(654, 245);
-			btnCancel.Name = "btnCancel";
-			btnCancel.Size = new System.Drawing.Size(100, 24);
-			btnCancel.TabIndex = 6;
-			btnCancel.Text = "Cancel";
-			btnCancel.UseVisualStyleBackColor = true;
-			btnCancel.Click += btnCancel_Click;
+			this.btnCancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			this.btnCancel.Location = new System.Drawing.Point(654, 245);
+			this.btnCancel.Name = "btnCancel";
+			this.btnCancel.Size = new System.Drawing.Size(100, 24);
+			this.btnCancel.TabIndex = 6;
+			this.btnCancel.Text = "Cancel";
+			this.btnCancel.UseVisualStyleBackColor = true;
+			this.btnCancel.Click += btnCancel_Click;
 			// 
 			// selectCometControl
 			// 
-			selectCometControl.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-			selectCometControl.Location = new System.Drawing.Point(12, 6);
-			selectCometControl.Name = "selectCometControl";
-			selectCometControl.Size = new System.Drawing.Size(290, 85);
-			selectCometControl.TabIndex = 0;
+			this.selectCometControl.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+			this.selectCometControl.Location = new System.Drawing.Point(12, 6);
+			this.selectCometControl.Name = "selectCometControl";
+			this.selectCometControl.Size = new System.Drawing.Size(290, 85);
+			this.selectCometControl.TabIndex = 0;
 			// 
 			// timespanControl
 			// 
-			timespanControl.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-			timespanControl.Location = new System.Drawing.Point(308, 6);
-			timespanControl.Name = "timespanControl";
-			timespanControl.Size = new System.Drawing.Size(235, 85);
-			timespanControl.TabIndex = 1;
+			this.timespanControl.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+			this.timespanControl.Location = new System.Drawing.Point(308, 6);
+			this.timespanControl.Name = "timespanControl";
+			this.timespanControl.Size = new System.Drawing.Size(235, 85);
+			this.timespanControl.TabIndex = 1;
 			// 
 			// outputDataControl
 			// 
-			outputDataControl.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-			outputDataControl.Location = new System.Drawing.Point(12, 97);
-			outputDataControl.Name = "outputDataControl";
-			outputDataControl.Size = new System.Drawing.Size(530, 137);
-			outputDataControl.TabIndex = 3;
+			this.outputDataControl.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+			this.outputDataControl.Location = new System.Drawing.Point(12, 97);
+			this.outputDataControl.Name = "outputDataControl";
+			this.outputDataControl.Size = new System.Drawing.Size(530, 137);
+			this.outputDataControl.TabIndex = 3;
 			// 
 			// requirementsControl
 			// 
-			requirementsControl.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-			requirementsControl.Location = new System.Drawing.Point(548, 97);
-			requirementsControl.Name = "requirementsControl";
-			requirementsControl.Size = new System.Drawing.Size(204, 137);
-			requirementsControl.TabIndex = 4;
+			this.requirementsControl.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+			this.requirementsControl.Location = new System.Drawing.Point(548, 97);
+			this.requirementsControl.Name = "requirementsControl";
+			this.requirementsControl.Size = new System.Drawing.Size(204, 137);
+			this.requirementsControl.TabIndex = 4;
 			// 
 			// intervalControl
 			// 
-			intervalControl.Font = new System.Drawing.Font("Tahoma", 8.25F);
-			intervalControl.Location = new System.Drawing.Point(549, 6);
-			intervalControl.Name = "intervalControl";
-			intervalControl.Size = new System.Drawing.Size(204, 85);
-			intervalControl.TabIndex = 2;
+			this.intervalControl.Font = new System.Drawing.Font("Tahoma", 8.25F);
+			this.intervalControl.Location = new System.Drawing.Point(549, 6);
+			this.intervalControl.Name = "intervalControl";
+			this.intervalControl.Size = new System.Drawing.Size(204, 85);
+			this.intervalControl.TabIndex = 2;
 			// 
 			// FormEphemerisSettings
 			// 
-			AcceptButton = btnOk;
-			AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-			AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			CancelButton = btnCancel;
-			ClientSize = new System.Drawing.Size(766, 281);
-			Controls.Add(intervalControl);
-			Controls.Add(requirementsControl);
-			Controls.Add(outputDataControl);
-			Controls.Add(timespanControl);
-			Controls.Add(selectCometControl);
-			Controls.Add(btnOk);
-			Controls.Add(btnCancel);
-			Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
-			FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-			MaximizeBox = false;
-			MinimizeBox = false;
-			Name = "FormEphemerisSettings";
-			ShowIcon = false;
-			ShowInTaskbar = false;
-			StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-			Text = "Ephemeris settings";
-			FormClosing += FormEphemerisSettings_FormClosing;
-			Load += FormEphemerisSettings_Load;
+			this.AcceptButton = this.btnOk;
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.CancelButton = this.btnCancel;
+			this.ClientSize = new System.Drawing.Size(766, 281);
+			this.Controls.Add(this.intervalControl);
+			this.Controls.Add(this.requirementsControl);
+			this.Controls.Add(this.outputDataControl);
+			this.Controls.Add(this.timespanControl);
+			this.Controls.Add(this.selectCometControl);
+			this.Controls.Add(this.btnOk);
+			this.Controls.Add(this.btnCancel);
+			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+			this.MaximizeBox = false;
+			this.MinimizeBox = false;
+			this.Name = "FormEphemerisSettings";
+			this.ShowIcon = false;
+			this.ShowInTaskbar = false;
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+			this.Text = "Ephemeris settings";
+			this.FormClosing += FormEphemerisSettings_FormClosing;
+			this.Load += FormEphemerisSettings_Load;
 			ResumeLayout(false);
 		}
 
