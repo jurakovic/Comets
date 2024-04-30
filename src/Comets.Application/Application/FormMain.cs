@@ -202,6 +202,7 @@ namespace Comets.Application
 				fes.TopMost = this.TopMost;
 				fes.OnProgressBegin += SetProgressMaximumValue;
 				fes.OnProgressEnd += HideProgress;
+				fes.OnProgressEnd += UpdateMenuItemText;
 				fes.ShowDialog();
 			}
 		}
@@ -213,6 +214,7 @@ namespace Comets.Application
 				fgs.TopMost = this.TopMost;
 				fgs.OnProgressBegin += SetProgressMaximumValue;
 				fgs.OnProgressEnd += HideProgress;
+				fgs.OnProgressEnd += UpdateMenuItemText;
 				fgs.ShowDialog();
 			}
 		}
@@ -253,6 +255,7 @@ namespace Comets.Application
 					fes.TopMost = this.TopMost;
 					fes.OnProgressBegin += SetProgressMaximumValue;
 					fes.OnProgressEnd += HideProgress;
+					fes.OnProgressEnd += UpdateMenuItemText;
 					fes.ShowDialog();
 				}
 			}
@@ -277,6 +280,7 @@ namespace Comets.Application
 					fgs.TopMost = this.TopMost;
 					fgs.OnProgressBegin += SetProgressMaximumValue;
 					fgs.OnProgressEnd += HideProgress;
+					fgs.OnProgressEnd += UpdateMenuItemText;
 					fgs.ShowDialog();
 				}
 			}
@@ -399,18 +403,6 @@ namespace Comets.Application
 			this.ActiveMdiChild?.Close();
 		}
 
-		private void menuItemWindow_DropDownOpening(object sender, EventArgs e)
-		{
-			// wrong window item text workaround
-			// bug in framework: if child window text changed, menu window item text not changed until another child activated
-
-			foreach (ToolStripMenuItem item in menuItemWindow.DropDownItems.OfType<ToolStripMenuItem>().Where(x => x.Checked))//.SingleOrDefault())
-			{
-				int num = item.Text.Substring(0, item.Text.IndexOf(' ') + 1).Replace("&", "").Int();
-				item.Text = num.ToString() + " " + this.ActiveMdiChild.Text;
-			}
-		}
-
 		#endregion
 
 		#region Menu: Help
@@ -493,6 +485,19 @@ namespace Comets.Application
 		{
 			statusProgressBar.Value = statusProgressBar.Minimum;
 			statusProgressBar.Visible = false;
+		}
+
+		private void UpdateMenuItemText()
+		{
+			// wrong window item text workaround
+			// bug in framework: if active mdi child window text changed, menu item text not updated until another child activated
+
+			ToolStripMenuItem item = menuItemWindow.DropDownItems.OfType<ToolStripMenuItem>().Where(x => x.Checked).SingleOrDefault();
+			if (item != null)
+			{
+				string num = item.Text.Substring(0, item.Text.IndexOf(' '));
+				item.Text = $"{num} {this.ActiveMdiChild.Text}";
+			}
 		}
 
 		#endregion

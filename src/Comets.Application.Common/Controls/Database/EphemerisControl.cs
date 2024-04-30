@@ -24,7 +24,7 @@ namespace Comets.Application.Common.Controls.Database
 
 		private Comet SelectedComet { get; set; }
 		private Ephemeris PreviousEphemeris { get; set; }
-		private System.Windows.Forms.Timer Timer { get; set; }
+		private Timer Timer { get; set; }
 
 		#endregion
 
@@ -37,7 +37,7 @@ namespace Comets.Application.Common.Controls.Database
 			this.selectDateControl.OnSelectedDatetimeChanged += OnSelectedDatetimeChanged;
 			this.selectDateControl.SelectedDateTime = DateTime.UtcNow;
 
-			Timer = new System.Windows.Forms.Timer();
+			Timer = new Timer();
 			Timer.Interval = IntervalSync;
 			Timer.Tick += Timer_Tick;
 		}

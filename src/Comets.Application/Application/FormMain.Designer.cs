@@ -296,7 +296,6 @@
 			this.menuItemWindow.Size = new System.Drawing.Size(63, 20);
 			this.menuItemWindow.Text = "&Window";
 			this.menuItemWindow.Visible = false;
-			this.menuItemWindow.DropDownOpening += menuItemWindow_DropDownOpening;
 			// 
 			// menuItemTileVert
 			// 
