@@ -42,7 +42,7 @@
 			this.chDec = new System.Windows.Forms.CheckBox();
 			this.chRA = new System.Windows.Forms.CheckBox();
 			this.gbxOutputData.SuspendLayout();
-			SuspendLayout();
+			this.SuspendLayout();
 			// 
 			// gbxOutputData
 			// 
@@ -214,7 +214,7 @@
 			this.Size = new System.Drawing.Size(503, 137);
 			this.gbxOutputData.ResumeLayout(false);
 			this.gbxOutputData.PerformLayout();
-			ResumeLayout(false);
+			this.ResumeLayout(false);
 		}
 
 		#endregion

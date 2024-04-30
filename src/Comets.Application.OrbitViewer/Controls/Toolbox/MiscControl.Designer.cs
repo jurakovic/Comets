@@ -33,7 +33,7 @@
 			this.btnSaveImage = new System.Windows.Forms.Button();
 			this.cbxAntialiasing = new System.Windows.Forms.CheckBox();
 			this.pnlMisc.SuspendLayout();
-			SuspendLayout();
+			this.SuspendLayout();
 			// 
 			// pnlMisc
 			// 
@@ -89,7 +89,7 @@
 			this.Size = new System.Drawing.Size(173, 77);
 			this.pnlMisc.ResumeLayout(false);
 			this.pnlMisc.PerformLayout();
-			ResumeLayout(false);
+			this.ResumeLayout(false);
 		}
 
 		#endregion

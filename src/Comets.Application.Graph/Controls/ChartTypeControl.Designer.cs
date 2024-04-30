@@ -33,7 +33,7 @@
 			this.rbtnSunDistance = new System.Windows.Forms.RadioButton();
 			this.rbtnMagnitude = new System.Windows.Forms.RadioButton();
 			this.gbxChartType.SuspendLayout();
-			SuspendLayout();
+			this.SuspendLayout();
 			// 
 			// gbxChartType
 			// 
@@ -90,7 +90,7 @@
 			this.Size = new System.Drawing.Size(149, 135);
 			this.gbxChartType.ResumeLayout(false);
 			this.gbxChartType.PerformLayout();
-			ResumeLayout(false);
+			this.ResumeLayout(false);
 		}
 
 		#endregion

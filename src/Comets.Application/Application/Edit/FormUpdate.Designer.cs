@@ -49,7 +49,7 @@
 			this.gbxLocalFile.SuspendLayout();
 			this.gbxDownload.SuspendLayout();
 			this.gbxStatus.SuspendLayout();
-			SuspendLayout();
+			this.SuspendLayout();
 			// 
 			// gbxLocalFile
 			// 
@@ -281,8 +281,8 @@
 			this.gbxDownload.PerformLayout();
 			this.gbxStatus.ResumeLayout(false);
 			this.gbxStatus.PerformLayout();
-			ResumeLayout(false);
-			PerformLayout();
+			this.ResumeLayout(false);
+			this.PerformLayout();
 		}
 
 		#endregion

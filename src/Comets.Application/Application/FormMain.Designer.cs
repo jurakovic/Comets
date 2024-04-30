@@ -70,7 +70,7 @@
 			this.statusProgressBar = new System.Windows.Forms.ToolStripProgressBar();
 			this.mainMenu.SuspendLayout();
 			this.statusStrip.SuspendLayout();
-			SuspendLayout();
+			this.SuspendLayout();
 			// 
 			// mainMenu
 			// 
@@ -426,8 +426,8 @@
 			this.mainMenu.PerformLayout();
 			this.statusStrip.ResumeLayout(false);
 			this.statusStrip.PerformLayout();
-			ResumeLayout(false);
-			PerformLayout();
+			this.ResumeLayout(false);
+			this.PerformLayout();
 		}
 
 		#endregion

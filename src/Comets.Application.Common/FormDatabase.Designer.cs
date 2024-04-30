@@ -48,7 +48,7 @@
 			this.tbcDetails.SuspendLayout();
 			this.tbpEphemeris.SuspendLayout();
 			this.tbpElements.SuspendLayout();
-			SuspendLayout();
+			this.SuspendLayout();
 			// 
 			// lbxDatabase
 			// 
@@ -245,8 +245,8 @@
 			this.tbcDetails.ResumeLayout(false);
 			this.tbpEphemeris.ResumeLayout(false);
 			this.tbpElements.ResumeLayout(false);
-			ResumeLayout(false);
-			PerformLayout();
+			this.ResumeLayout(false);
+			this.PerformLayout();
 		}
 
 		#endregion

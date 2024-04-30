@@ -59,7 +59,7 @@
 			this.cpnlInfoLabels.WorkingArea.SuspendLayout();
 			this.cpnlMisc.WorkingArea.SuspendLayout();
 			this.orbitPanel.SuspendLayout();
-			SuspendLayout();
+			this.SuspendLayout();
 			// 
 			// pnlToolbox
 			// 
@@ -388,7 +388,7 @@
 			this.cpnlInfoLabels.WorkingArea.ResumeLayout(false);
 			this.cpnlMisc.WorkingArea.ResumeLayout(false);
 			this.orbitPanel.ResumeLayout(false);
-			ResumeLayout(false);
+			this.ResumeLayout(false);
 		}
 
 		#endregion

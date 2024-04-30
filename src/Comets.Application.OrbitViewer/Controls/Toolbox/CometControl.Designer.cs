@@ -36,7 +36,7 @@
 			this.cboComet = new System.Windows.Forms.ComboBox();
 			this.btnFilter = new System.Windows.Forms.Button();
 			this.pnlComet.SuspendLayout();
-			SuspendLayout();
+			this.SuspendLayout();
 			// 
 			// pnlComet
 			// 
@@ -135,7 +135,7 @@
 			this.Size = new System.Drawing.Size(173, 79);
 			this.pnlComet.ResumeLayout(false);
 			this.pnlComet.PerformLayout();
-			ResumeLayout(false);
+			this.ResumeLayout(false);
 		}
 
 		#endregion

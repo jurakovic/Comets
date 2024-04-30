@@ -31,7 +31,7 @@
 			this.btnAddNew = new System.Windows.Forms.Button();
 			this.btnClose = new System.Windows.Forms.Button();
 			this.btnApply = new System.Windows.Forms.Button();
-			SuspendLayout();
+			this.SuspendLayout();
 			// 
 			// btnAddNew
 			// 
@@ -76,7 +76,7 @@
 			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
 			this.Name = "FilterControl";
 			this.Size = new System.Drawing.Size(549, 360);
-			ResumeLayout(false);
+			this.ResumeLayout(false);
 		}
 
 		#endregion

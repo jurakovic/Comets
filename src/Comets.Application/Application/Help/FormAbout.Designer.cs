@@ -34,7 +34,7 @@
 			this.lblVersion = new System.Windows.Forms.Label();
 			this.lblMore = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)this.pictureBox1).BeginInit();
-			SuspendLayout();
+			this.SuspendLayout();
 			// 
 			// btnOk
 			// 
@@ -95,8 +95,8 @@
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "About";
 			((System.ComponentModel.ISupportInitialize)this.pictureBox1).EndInit();
-			ResumeLayout(false);
-			PerformLayout();
+			this.ResumeLayout(false);
+			this.PerformLayout();
 		}
 
 		#endregion

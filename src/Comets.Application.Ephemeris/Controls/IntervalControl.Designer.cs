@@ -37,7 +37,7 @@
 			this.txtDayInterval = new System.Windows.Forms.TextBox();
 			this.btnDefaultInterval = new System.Windows.Forms.Button();
 			this.gbxTimestamp.SuspendLayout();
-			SuspendLayout();
+			this.SuspendLayout();
 			// 
 			// gbxTimestamp
 			// 
@@ -135,7 +135,7 @@
 			this.Size = new System.Drawing.Size(204, 85);
 			this.gbxTimestamp.ResumeLayout(false);
 			this.gbxTimestamp.PerformLayout();
-			ResumeLayout(false);
+			this.ResumeLayout(false);
 		}
 
 		#endregion

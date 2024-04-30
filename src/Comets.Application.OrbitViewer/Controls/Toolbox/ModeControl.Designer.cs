@@ -32,7 +32,7 @@
 			this.rbtnSingleMode = new System.Windows.Forms.RadioButton();
 			this.rbtnMultipleMode = new System.Windows.Forms.RadioButton();
 			this.pnlMode.SuspendLayout();
-			SuspendLayout();
+			this.SuspendLayout();
 			// 
 			// pnlMode
 			// 
@@ -81,7 +81,7 @@
 			this.Size = new System.Drawing.Size(202, 35);
 			this.pnlMode.ResumeLayout(false);
 			this.pnlMode.PerformLayout();
-			ResumeLayout(false);
+			this.ResumeLayout(false);
 		}
 
 		#endregion

@@ -42,7 +42,7 @@
 			this.mnuClosestToSun = new System.Windows.Forms.ToolStripMenuItem();
 			this.gbxSelectComet.SuspendLayout();
 			this.ctxSelect.SuspendLayout();
-			SuspendLayout();
+			this.SuspendLayout();
 			// 
 			// gbxSelectComet
 			// 
@@ -162,7 +162,7 @@
 			this.Size = new System.Drawing.Size(290, 85);
 			this.gbxSelectComet.ResumeLayout(false);
 			this.ctxSelect.ResumeLayout(false);
-			ResumeLayout(false);
+			this.ResumeLayout(false);
 		}
 
 		#endregion

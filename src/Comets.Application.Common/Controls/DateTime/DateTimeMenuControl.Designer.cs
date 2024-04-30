@@ -50,7 +50,7 @@
 			this.mnuSubSixMonths = new System.Windows.Forms.ToolStripMenuItem();
 			this.mnuSubOneYear = new System.Windows.Forms.ToolStripMenuItem();
 			this.ctxMenu.SuspendLayout();
-			SuspendLayout();
+			this.SuspendLayout();
 			// 
 			// btnShowMenu
 			// 
@@ -214,7 +214,7 @@
 			this.Name = "DateTimeMenuControl";
 			this.Size = new System.Drawing.Size(24, 23);
 			this.ctxMenu.ResumeLayout(false);
-			ResumeLayout(false);
+			this.ResumeLayout(false);
 		}
 
 		#endregion

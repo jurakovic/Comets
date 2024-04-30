@@ -100,7 +100,7 @@
 			this.tabNetwork.SuspendLayout();
 			this.gbxNetwork.SuspendLayout();
 			this.pnlProxy.SuspendLayout();
-			SuspendLayout();
+			this.SuspendLayout();
 			// 
 			// tabControl1
 			// 
@@ -789,7 +789,7 @@
 			this.gbxNetwork.PerformLayout();
 			this.pnlProxy.ResumeLayout(false);
 			this.pnlProxy.PerformLayout();
-			ResumeLayout(false);
+			this.ResumeLayout(false);
 		}
 
 		#endregion

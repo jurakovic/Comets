@@ -35,7 +35,7 @@
 			this.chartTypeControl = new ChartTypeControl();
 			this.selectCometControl = new Common.Controls.Common.SelectCometControl();
 			this.timespanControl = new Common.Controls.Common.TimespanControl();
-			SuspendLayout();
+			this.SuspendLayout();
 			// 
 			// btnOk
 			// 
@@ -128,7 +128,7 @@
 			this.Text = "Graph settings";
 			this.FormClosing += FormGraphSettings_FormClosing;
 			this.Load += FormGraphSettings_Load;
-			ResumeLayout(false);
+			this.ResumeLayout(false);
 		}
 
 		#endregion

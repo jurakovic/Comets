@@ -29,7 +29,7 @@
 		private void InitializeComponent()
 		{
 			this.orbitViewerControl = new OrbitViewerControl();
-			SuspendLayout();
+			this.SuspendLayout();
 			// 
 			// orbitViewerControl
 			// 
@@ -57,7 +57,7 @@
 			this.Activated += FormOrbitViewer_Activated;
 			this.Deactivate += FormOrbitViewer_Deactivate;
 			this.KeyDown += FormOrbitViewer_KeyDown;
-			ResumeLayout(false);
+			this.ResumeLayout(false);
 		}
 
 		#endregion

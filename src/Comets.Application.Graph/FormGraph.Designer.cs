@@ -31,7 +31,7 @@
 			System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
 			this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
 			((System.ComponentModel.ISupportInitialize)this.chart1).BeginInit();
-			SuspendLayout();
+			this.SuspendLayout();
 			// 
 			// chart1
 			// 
@@ -91,7 +91,7 @@
 			this.ShowInTaskbar = false;
 			this.Text = "Graph";
 			((System.ComponentModel.ISupportInitialize)this.chart1).EndInit();
-			ResumeLayout(false);
+			this.ResumeLayout(false);
 		}
 
 		#endregion

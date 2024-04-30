@@ -36,7 +36,7 @@
 			this.cbxMaxEarthDist = new System.Windows.Forms.CheckBox();
 			this.cbxMaxSunDist = new System.Windows.Forms.CheckBox();
 			this.gbxRequirements.SuspendLayout();
-			SuspendLayout();
+			this.SuspendLayout();
 			// 
 			// gbxRequirements
 			// 
@@ -130,7 +130,7 @@
 			this.Size = new System.Drawing.Size(204, 137);
 			this.gbxRequirements.ResumeLayout(false);
 			this.gbxRequirements.PerformLayout();
-			ResumeLayout(false);
+			this.ResumeLayout(false);
 		}
 
 		#endregion

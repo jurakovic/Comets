@@ -30,7 +30,7 @@
 		{
 			this.btnSelectDate = new System.Windows.Forms.Button();
 			this.dateTimeMenuControl = new DateTimeMenuControl();
-			SuspendLayout();
+			this.SuspendLayout();
 			// 
 			// btnSelectDate
 			// 
@@ -67,7 +67,7 @@
 			this.Font = new System.Drawing.Font("Tahoma", 8.25F);
 			this.Name = "SelectDateControl";
 			this.Size = new System.Drawing.Size(172, 23);
-			ResumeLayout(false);
+			this.ResumeLayout(false);
 		}
 
 		#endregion

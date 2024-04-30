@@ -35,7 +35,7 @@
 			this.btnClose = new System.Windows.Forms.Button();
 			this.rtxtElements = new System.Windows.Forms.RichTextBox();
 			this.pnlElements.SuspendLayout();
-			SuspendLayout();
+			this.SuspendLayout();
 			// 
 			// cboFormat
 			// 
@@ -117,7 +117,7 @@
 			this.Load += FormExport_Load;
 			this.pnlElements.ResumeLayout(false);
 			this.pnlElements.PerformLayout();
-			ResumeLayout(false);
+			this.ResumeLayout(false);
 		}
 
 		#endregion

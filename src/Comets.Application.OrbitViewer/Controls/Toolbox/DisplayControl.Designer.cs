@@ -77,7 +77,7 @@
 			this.cbxLabelUranus = new System.Windows.Forms.CheckBox();
 			this.cbxLabelNeptune = new System.Windows.Forms.CheckBox();
 			this.panel.SuspendLayout();
-			SuspendLayout();
+			this.SuspendLayout();
 			// 
 			// panel
 			// 
@@ -640,7 +640,7 @@
 			this.Size = new System.Drawing.Size(173, 156);
 			this.panel.ResumeLayout(false);
 			this.panel.PerformLayout();
-			ResumeLayout(false);
+			this.ResumeLayout(false);
 		}
 
 		#endregion

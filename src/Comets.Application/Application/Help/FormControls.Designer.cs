@@ -30,7 +30,7 @@
 		{
 			this.txtControls = new System.Windows.Forms.TextBox();
 			this.btnOk = new System.Windows.Forms.Button();
-			SuspendLayout();
+			this.SuspendLayout();
 			// 
 			// txtControls
 			// 
@@ -74,8 +74,8 @@
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Controls";
 			this.Load += FormControls_Load;
-			ResumeLayout(false);
-			PerformLayout();
+			this.ResumeLayout(false);
+			this.PerformLayout();
 		}
 
 		#endregion

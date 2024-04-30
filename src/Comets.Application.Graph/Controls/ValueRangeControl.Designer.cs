@@ -34,7 +34,7 @@
 			this.cbxMaxValue = new System.Windows.Forms.CheckBox();
 			this.cbxMinValue = new System.Windows.Forms.CheckBox();
 			this.gbxValueRange.SuspendLayout();
-			SuspendLayout();
+			this.SuspendLayout();
 			// 
 			// gbxValueRange
 			// 
@@ -103,7 +103,7 @@
 			this.Size = new System.Drawing.Size(153, 135);
 			this.gbxValueRange.ResumeLayout(false);
 			this.gbxValueRange.PerformLayout();
-			ResumeLayout(false);
+			this.ResumeLayout(false);
 		}
 
 		#endregion

@@ -37,7 +37,7 @@
 			this.txtFodMagnitude = new System.Windows.Forms.TextBox();
 			this.cbxWeakColor = new System.Windows.Forms.CheckBox();
 			this.pnlFilterOnDate.SuspendLayout();
-			SuspendLayout();
+			this.SuspendLayout();
 			// 
 			// pnlFilterOnDate
 			// 
@@ -141,7 +141,7 @@
 			this.Size = new System.Drawing.Size(173, 98);
 			this.pnlFilterOnDate.ResumeLayout(false);
 			this.pnlFilterOnDate.PerformLayout();
-			ResumeLayout(false);
+			this.ResumeLayout(false);
 		}
 
 		#endregion

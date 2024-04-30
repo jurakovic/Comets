@@ -34,7 +34,7 @@
 			this.label3 = new System.Windows.Forms.Label();
 			this.label4 = new System.Windows.Forms.Label();
 			this.gbxTimestamp.SuspendLayout();
-			SuspendLayout();
+			this.SuspendLayout();
 			// 
 			// gbxTimestamp
 			// 
@@ -102,7 +102,7 @@
 			this.Size = new System.Drawing.Size(235, 85);
 			this.gbxTimestamp.ResumeLayout(false);
 			this.gbxTimestamp.PerformLayout();
-			ResumeLayout(false);
+			this.ResumeLayout(false);
 		}
 
 		#endregion

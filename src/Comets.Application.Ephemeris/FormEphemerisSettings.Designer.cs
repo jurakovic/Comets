@@ -35,7 +35,7 @@
 			this.outputDataControl = new OutputDataControl();
 			this.requirementsControl = new RequirementsControl();
 			this.intervalControl = new Controls.IntervalControl();
-			SuspendLayout();
+			this.SuspendLayout();
 			// 
 			// btnOk
 			// 
@@ -127,7 +127,7 @@
 			this.Text = "Ephemeris settings";
 			this.FormClosing += FormEphemerisSettings_FormClosing;
 			this.Load += FormEphemerisSettings_Load;
-			ResumeLayout(false);
+			this.ResumeLayout(false);
 		}
 
 		#endregion

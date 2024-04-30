@@ -29,7 +29,7 @@
 		private void InitializeComponent()
 		{
 			this.richTextBox = new System.Windows.Forms.RichTextBox();
-			SuspendLayout();
+			this.SuspendLayout();
 			// 
 			// richTextBox
 			// 
@@ -56,7 +56,7 @@
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Ephemeris";
-			ResumeLayout(false);
+			this.ResumeLayout(false);
 		}
 
 		#endregion

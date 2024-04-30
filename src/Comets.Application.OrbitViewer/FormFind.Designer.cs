@@ -32,7 +32,7 @@
 			this.lbxFilter = new System.Windows.Forms.ListBox();
 			this.btnCancelHidden = new System.Windows.Forms.Button();
 			this.btnOkHidden = new System.Windows.Forms.Button();
-			SuspendLayout();
+			this.SuspendLayout();
 			// 
 			// txtName
 			// 
@@ -108,8 +108,8 @@
 			this.Text = "Find";
 			this.Load += FormFind_Load;
 			this.KeyDown += FormFind_KeyDown;
-			ResumeLayout(false);
-			PerformLayout();
+			this.ResumeLayout(false);
+			this.PerformLayout();
 		}
 
 		#endregion

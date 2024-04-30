@@ -38,7 +38,7 @@
 			this.cbxNowLine = new System.Windows.Forms.CheckBox();
 			this.cbxPerihelionLine = new System.Windows.Forms.CheckBox();
 			this.gbxChartOptions.SuspendLayout();
-			SuspendLayout();
+			this.SuspendLayout();
 			// 
 			// gbxChartOptions
 			// 
@@ -166,7 +166,7 @@
 			this.Size = new System.Drawing.Size(189, 135);
 			this.gbxChartOptions.ResumeLayout(false);
 			this.gbxChartOptions.PerformLayout();
-			ResumeLayout(false);
+			this.ResumeLayout(false);
 		}
 
 		#endregion

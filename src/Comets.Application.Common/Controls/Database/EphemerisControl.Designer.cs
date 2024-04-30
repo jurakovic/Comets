@@ -75,7 +75,7 @@
 			this.txtPerihMag = new System.Windows.Forms.TextBox();
 			this.lblCurrSunDist = new System.Windows.Forms.Label();
 			this.selectDateControl = new DateAndTime.SelectDateControl();
-			SuspendLayout();
+			this.SuspendLayout();
 			// 
 			// txtElemSortkey
 			// 
@@ -673,8 +673,8 @@
 			this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.Name = "EphemerisControl";
 			this.Size = new System.Drawing.Size(620, 332);
-			ResumeLayout(false);
-			PerformLayout();
+			this.ResumeLayout(false);
+			this.PerformLayout();
 		}
 
 		#endregion

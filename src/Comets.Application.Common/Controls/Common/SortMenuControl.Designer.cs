@@ -51,7 +51,7 @@
 			this.mnuAsc = new System.Windows.Forms.ToolStripMenuItem();
 			this.mnuDesc = new System.Windows.Forms.ToolStripMenuItem();
 			this.contextSort.SuspendLayout();
-			SuspendLayout();
+			this.SuspendLayout();
 			// 
 			// btnSort
 			// 
@@ -230,7 +230,7 @@
 			this.Name = "SortMenuControl";
 			this.Size = new System.Drawing.Size(100, 23);
 			this.contextSort.ResumeLayout(false);
-			ResumeLayout(false);
+			this.ResumeLayout(false);
 		}
 
 		#endregion

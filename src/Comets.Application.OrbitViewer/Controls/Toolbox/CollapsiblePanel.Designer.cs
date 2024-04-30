@@ -32,7 +32,7 @@
 			this.linkLabel = new System.Windows.Forms.LinkLabel();
 			this.panel = new System.Windows.Forms.Panel();
 			this.groupbox.SuspendLayout();
-			SuspendLayout();
+			this.SuspendLayout();
 			// 
 			// groupbox
 			// 
@@ -82,7 +82,7 @@
 			this.Name = "CollapsiblePanel";
 			this.Size = new System.Drawing.Size(200, 200);
 			this.groupbox.ResumeLayout(false);
-			ResumeLayout(false);
+			this.ResumeLayout(false);
 		}
 
 		#endregion

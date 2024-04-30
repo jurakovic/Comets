@@ -32,7 +32,7 @@
 			this.cbxMagDist = new System.Windows.Forms.CheckBox();
 			this.cbxDateTime = new System.Windows.Forms.CheckBox();
 			this.pnlInfoLabels.SuspendLayout();
-			SuspendLayout();
+			this.SuspendLayout();
 			// 
 			// pnlInfoLabels
 			// 
@@ -81,7 +81,7 @@
 			this.Size = new System.Drawing.Size(173, 51);
 			this.pnlInfoLabels.ResumeLayout(false);
 			this.pnlInfoLabels.PerformLayout();
-			ResumeLayout(false);
+			this.ResumeLayout(false);
 		}
 
 		#endregion

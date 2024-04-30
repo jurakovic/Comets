@@ -75,7 +75,7 @@
 			this.txtAscNode = new System.Windows.Forms.TextBox();
 			this.txtIncl = new System.Windows.Forms.TextBox();
 			this.txtAphDist = new System.Windows.Forms.TextBox();
-			SuspendLayout();
+			this.SuspendLayout();
 			// 
 			// btnJplInfo
 			// 
@@ -635,8 +635,8 @@
 			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
 			this.Name = "ElementsControl";
 			this.Size = new System.Drawing.Size(531, 288);
-			ResumeLayout(false);
-			PerformLayout();
+			this.ResumeLayout(false);
+			this.PerformLayout();
 		}
 
 		#endregion

@@ -36,7 +36,7 @@
 			this.btnForPlay = new System.Windows.Forms.Button();
 			this.btnForStep = new System.Windows.Forms.Button();
 			this.pnlSimulation.SuspendLayout();
-			SuspendLayout();
+			this.SuspendLayout();
 			// 
 			// pnlSimulation
 			// 
@@ -129,7 +129,7 @@
 			this.Size = new System.Drawing.Size(173, 60);
 			this.Load += SimulationControl_Load;
 			this.pnlSimulation.ResumeLayout(false);
-			ResumeLayout(false);
+			this.ResumeLayout(false);
 		}
 
 		#endregion

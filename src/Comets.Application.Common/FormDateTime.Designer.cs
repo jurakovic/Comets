@@ -51,7 +51,7 @@
 			this.txtJD = new System.Windows.Forms.TextBox();
 			this.dateTimeMenuControl = new Common.Controls.DateAndTime.DateTimeMenuControl();
 			this.gbxDate.SuspendLayout();
-			SuspendLayout();
+			this.SuspendLayout();
 			// 
 			// txtSecond
 			// 
@@ -319,7 +319,7 @@
 			this.Load += FormDateTime_Load;
 			this.gbxDate.ResumeLayout(false);
 			this.gbxDate.PerformLayout();
-			ResumeLayout(false);
+			this.ResumeLayout(false);
 		}
 
 		#endregion

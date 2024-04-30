@@ -31,7 +31,7 @@
 			this.pnlDateTime = new System.Windows.Forms.Panel();
 			this.selectDateControl = new Common.Controls.DateAndTime.SelectDateControl();
 			this.pnlDateTime.SuspendLayout();
-			SuspendLayout();
+			this.SuspendLayout();
 			// 
 			// pnlDateTime
 			// 
@@ -63,7 +63,7 @@
 			this.Name = "DateTimeControl";
 			this.Size = new System.Drawing.Size(173, 31);
 			this.pnlDateTime.ResumeLayout(false);
-			ResumeLayout(false);
+			this.ResumeLayout(false);
 		}
 
 		#endregion
