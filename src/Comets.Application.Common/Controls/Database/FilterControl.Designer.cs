@@ -28,54 +28,54 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			btnAddNew = new System.Windows.Forms.Button();
-			btnClose = new System.Windows.Forms.Button();
-			btnApply = new System.Windows.Forms.Button();
+			this.btnAddNew = new System.Windows.Forms.Button();
+			this.btnClose = new System.Windows.Forms.Button();
+			this.btnApply = new System.Windows.Forms.Button();
 			SuspendLayout();
 			// 
 			// btnAddNew
 			// 
-			btnAddNew.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
-			btnAddNew.Location = new System.Drawing.Point(20, 7);
-			btnAddNew.Name = "btnAddNew";
-			btnAddNew.Size = new System.Drawing.Size(25, 23);
-			btnAddNew.TabIndex = 0;
-			btnAddNew.Text = "+";
-			btnAddNew.UseVisualStyleBackColor = true;
-			btnAddNew.Click += btnAddNew_Click;
+			this.btnAddNew.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
+			this.btnAddNew.Location = new System.Drawing.Point(20, 7);
+			this.btnAddNew.Name = "btnAddNew";
+			this.btnAddNew.Size = new System.Drawing.Size(25, 23);
+			this.btnAddNew.TabIndex = 0;
+			this.btnAddNew.Text = "+";
+			this.btnAddNew.UseVisualStyleBackColor = true;
+			this.btnAddNew.Click += btnAddNew_Click;
 			// 
 			// btnClose
 			// 
-			btnClose.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
-			btnClose.Location = new System.Drawing.Point(449, 337);
-			btnClose.Name = "btnClose";
-			btnClose.Size = new System.Drawing.Size(100, 23);
-			btnClose.TabIndex = 2;
-			btnClose.Text = "Close";
-			btnClose.UseVisualStyleBackColor = true;
-			btnClose.Click += btnClose_Click;
+			this.btnClose.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+			this.btnClose.Location = new System.Drawing.Point(449, 337);
+			this.btnClose.Name = "btnClose";
+			this.btnClose.Size = new System.Drawing.Size(100, 23);
+			this.btnClose.TabIndex = 2;
+			this.btnClose.Text = "Close";
+			this.btnClose.UseVisualStyleBackColor = true;
+			this.btnClose.Click += btnClose_Click;
 			// 
 			// btnApply
 			// 
-			btnApply.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
-			btnApply.Location = new System.Drawing.Point(345, 337);
-			btnApply.Name = "btnApply";
-			btnApply.Size = new System.Drawing.Size(100, 23);
-			btnApply.TabIndex = 1;
-			btnApply.Text = "Apply";
-			btnApply.UseVisualStyleBackColor = true;
-			btnApply.Click += btnApply_Click;
+			this.btnApply.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+			this.btnApply.Location = new System.Drawing.Point(345, 337);
+			this.btnApply.Name = "btnApply";
+			this.btnApply.Size = new System.Drawing.Size(100, 23);
+			this.btnApply.TabIndex = 1;
+			this.btnApply.Text = "Apply";
+			this.btnApply.UseVisualStyleBackColor = true;
+			this.btnApply.Click += btnApply_Click;
 			// 
 			// FilterControl
 			// 
-			AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-			AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			Controls.Add(btnAddNew);
-			Controls.Add(btnClose);
-			Controls.Add(btnApply);
-			Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-			Name = "FilterControl";
-			Size = new System.Drawing.Size(549, 360);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.btnAddNew);
+			this.Controls.Add(this.btnClose);
+			this.Controls.Add(this.btnApply);
+			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+			this.Name = "FilterControl";
+			this.Size = new System.Drawing.Size(549, 360);
 			ResumeLayout(false);
 		}
 

@@ -28,297 +28,297 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			txtSecond = new System.Windows.Forms.TextBox();
-			txtMinute = new System.Windows.Forms.TextBox();
-			txtHour = new System.Windows.Forms.TextBox();
-			txtDay = new System.Windows.Forms.TextBox();
-			txtMonth = new System.Windows.Forms.TextBox();
-			txtYear = new System.Windows.Forms.TextBox();
-			btnCancel = new System.Windows.Forms.Button();
-			btnOk = new System.Windows.Forms.Button();
-			gbxDate = new System.Windows.Forms.GroupBox();
-			txtLocalTime = new System.Windows.Forms.TextBox();
-			lblLocalTime = new System.Windows.Forms.Label();
-			lblS = new System.Windows.Forms.Label();
-			lblM = new System.Windows.Forms.Label();
-			lblH = new System.Windows.Forms.Label();
-			lblD = new System.Windows.Forms.Label();
-			lblMo = new System.Windows.Forms.Label();
-			lblY = new System.Windows.Forms.Label();
-			lblJD = new System.Windows.Forms.Label();
-			lblTime = new System.Windows.Forms.Label();
-			lblDate = new System.Windows.Forms.Label();
-			txtJD = new System.Windows.Forms.TextBox();
-			dateTimeMenuControl = new Common.Controls.DateAndTime.DateTimeMenuControl();
-			gbxDate.SuspendLayout();
+			this.txtSecond = new System.Windows.Forms.TextBox();
+			this.txtMinute = new System.Windows.Forms.TextBox();
+			this.txtHour = new System.Windows.Forms.TextBox();
+			this.txtDay = new System.Windows.Forms.TextBox();
+			this.txtMonth = new System.Windows.Forms.TextBox();
+			this.txtYear = new System.Windows.Forms.TextBox();
+			this.btnCancel = new System.Windows.Forms.Button();
+			this.btnOk = new System.Windows.Forms.Button();
+			this.gbxDate = new System.Windows.Forms.GroupBox();
+			this.txtLocalTime = new System.Windows.Forms.TextBox();
+			this.lblLocalTime = new System.Windows.Forms.Label();
+			this.lblS = new System.Windows.Forms.Label();
+			this.lblM = new System.Windows.Forms.Label();
+			this.lblH = new System.Windows.Forms.Label();
+			this.lblD = new System.Windows.Forms.Label();
+			this.lblMo = new System.Windows.Forms.Label();
+			this.lblY = new System.Windows.Forms.Label();
+			this.lblJD = new System.Windows.Forms.Label();
+			this.lblTime = new System.Windows.Forms.Label();
+			this.lblDate = new System.Windows.Forms.Label();
+			this.txtJD = new System.Windows.Forms.TextBox();
+			this.dateTimeMenuControl = new Common.Controls.DateAndTime.DateTimeMenuControl();
+			this.gbxDate.SuspendLayout();
 			SuspendLayout();
 			// 
 			// txtSecond
 			// 
-			txtSecond.Location = new System.Drawing.Point(171, 73);
-			txtSecond.Name = "txtSecond";
-			txtSecond.Size = new System.Drawing.Size(35, 21);
-			txtSecond.TabIndex = 13;
-			txtSecond.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			txtSecond.TextChanged += txtCommon_TextChanged;
-			txtSecond.KeyDown += txtCommon_KeyDown;
-			txtSecond.KeyPress += txtCommon_KeyPress;
+			this.txtSecond.Location = new System.Drawing.Point(171, 73);
+			this.txtSecond.Name = "txtSecond";
+			this.txtSecond.Size = new System.Drawing.Size(35, 21);
+			this.txtSecond.TabIndex = 13;
+			this.txtSecond.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.txtSecond.TextChanged += txtCommon_TextChanged;
+			this.txtSecond.KeyDown += txtCommon_KeyDown;
+			this.txtSecond.KeyPress += txtCommon_KeyPress;
 			// 
 			// txtMinute
 			// 
-			txtMinute.Location = new System.Drawing.Point(125, 73);
-			txtMinute.Name = "txtMinute";
-			txtMinute.Size = new System.Drawing.Size(35, 21);
-			txtMinute.TabIndex = 12;
-			txtMinute.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			txtMinute.TextChanged += txtCommon_TextChanged;
-			txtMinute.KeyDown += txtCommon_KeyDown;
-			txtMinute.KeyPress += txtCommon_KeyPress;
+			this.txtMinute.Location = new System.Drawing.Point(125, 73);
+			this.txtMinute.Name = "txtMinute";
+			this.txtMinute.Size = new System.Drawing.Size(35, 21);
+			this.txtMinute.TabIndex = 12;
+			this.txtMinute.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.txtMinute.TextChanged += txtCommon_TextChanged;
+			this.txtMinute.KeyDown += txtCommon_KeyDown;
+			this.txtMinute.KeyPress += txtCommon_KeyPress;
 			// 
 			// txtHour
 			// 
-			txtHour.Location = new System.Drawing.Point(79, 73);
-			txtHour.Name = "txtHour";
-			txtHour.Size = new System.Drawing.Size(35, 21);
-			txtHour.TabIndex = 11;
-			txtHour.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			txtHour.TextChanged += txtCommon_TextChanged;
-			txtHour.KeyDown += txtCommon_KeyDown;
-			txtHour.KeyPress += txtCommon_KeyPress;
+			this.txtHour.Location = new System.Drawing.Point(79, 73);
+			this.txtHour.Name = "txtHour";
+			this.txtHour.Size = new System.Drawing.Size(35, 21);
+			this.txtHour.TabIndex = 11;
+			this.txtHour.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.txtHour.TextChanged += txtCommon_TextChanged;
+			this.txtHour.KeyDown += txtCommon_KeyDown;
+			this.txtHour.KeyPress += txtCommon_KeyPress;
 			// 
 			// txtDay
 			// 
-			txtDay.Location = new System.Drawing.Point(79, 35);
-			txtDay.Name = "txtDay";
-			txtDay.Size = new System.Drawing.Size(35, 21);
-			txtDay.TabIndex = 4;
-			txtDay.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			txtDay.TextChanged += txtCommon_TextChanged;
-			txtDay.KeyDown += txtCommon_KeyDown;
-			txtDay.KeyPress += txtCommon_KeyPress;
+			this.txtDay.Location = new System.Drawing.Point(79, 35);
+			this.txtDay.Name = "txtDay";
+			this.txtDay.Size = new System.Drawing.Size(35, 21);
+			this.txtDay.TabIndex = 4;
+			this.txtDay.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.txtDay.TextChanged += txtCommon_TextChanged;
+			this.txtDay.KeyDown += txtCommon_KeyDown;
+			this.txtDay.KeyPress += txtCommon_KeyPress;
 			// 
 			// txtMonth
 			// 
-			txtMonth.Location = new System.Drawing.Point(125, 35);
-			txtMonth.Name = "txtMonth";
-			txtMonth.Size = new System.Drawing.Size(35, 21);
-			txtMonth.TabIndex = 5;
-			txtMonth.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			txtMonth.TextChanged += txtMonthYear_TextChanged;
-			txtMonth.KeyDown += txtCommon_KeyDown;
-			txtMonth.KeyPress += txtCommon_KeyPress;
+			this.txtMonth.Location = new System.Drawing.Point(125, 35);
+			this.txtMonth.Name = "txtMonth";
+			this.txtMonth.Size = new System.Drawing.Size(35, 21);
+			this.txtMonth.TabIndex = 5;
+			this.txtMonth.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.txtMonth.TextChanged += txtMonthYear_TextChanged;
+			this.txtMonth.KeyDown += txtCommon_KeyDown;
+			this.txtMonth.KeyPress += txtCommon_KeyPress;
 			// 
 			// txtYear
 			// 
-			txtYear.Location = new System.Drawing.Point(171, 35);
-			txtYear.Name = "txtYear";
-			txtYear.Size = new System.Drawing.Size(45, 21);
-			txtYear.TabIndex = 6;
-			txtYear.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			txtYear.TextChanged += txtMonthYear_TextChanged;
-			txtYear.KeyDown += txtCommon_KeyDown;
-			txtYear.KeyPress += txtCommon_KeyPress;
+			this.txtYear.Location = new System.Drawing.Point(171, 35);
+			this.txtYear.Name = "txtYear";
+			this.txtYear.Size = new System.Drawing.Size(45, 21);
+			this.txtYear.TabIndex = 6;
+			this.txtYear.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.txtYear.TextChanged += txtMonthYear_TextChanged;
+			this.txtYear.KeyDown += txtCommon_KeyDown;
+			this.txtYear.KeyPress += txtCommon_KeyPress;
 			// 
 			// btnCancel
 			// 
-			btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			btnCancel.Location = new System.Drawing.Point(271, 149);
-			btnCancel.Name = "btnCancel";
-			btnCancel.Size = new System.Drawing.Size(90, 23);
-			btnCancel.TabIndex = 3;
-			btnCancel.Text = "Cancel";
-			btnCancel.UseVisualStyleBackColor = true;
+			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			this.btnCancel.Location = new System.Drawing.Point(271, 149);
+			this.btnCancel.Name = "btnCancel";
+			this.btnCancel.Size = new System.Drawing.Size(90, 23);
+			this.btnCancel.TabIndex = 3;
+			this.btnCancel.Text = "Cancel";
+			this.btnCancel.UseVisualStyleBackColor = true;
 			// 
 			// btnOk
 			// 
-			btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-			btnOk.Location = new System.Drawing.Point(271, 120);
-			btnOk.Name = "btnOk";
-			btnOk.Size = new System.Drawing.Size(90, 23);
-			btnOk.TabIndex = 2;
-			btnOk.Text = "OK";
-			btnOk.UseVisualStyleBackColor = true;
-			btnOk.Click += btnOk_Click;
+			this.btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
+			this.btnOk.Location = new System.Drawing.Point(271, 120);
+			this.btnOk.Name = "btnOk";
+			this.btnOk.Size = new System.Drawing.Size(90, 23);
+			this.btnOk.TabIndex = 2;
+			this.btnOk.Text = "OK";
+			this.btnOk.UseVisualStyleBackColor = true;
+			this.btnOk.Click += btnOk_Click;
 			// 
 			// gbxDate
 			// 
-			gbxDate.Controls.Add(txtLocalTime);
-			gbxDate.Controls.Add(lblLocalTime);
-			gbxDate.Controls.Add(lblS);
-			gbxDate.Controls.Add(lblM);
-			gbxDate.Controls.Add(lblH);
-			gbxDate.Controls.Add(lblD);
-			gbxDate.Controls.Add(lblMo);
-			gbxDate.Controls.Add(lblY);
-			gbxDate.Controls.Add(lblJD);
-			gbxDate.Controls.Add(lblTime);
-			gbxDate.Controls.Add(lblDate);
-			gbxDate.Controls.Add(txtJD);
-			gbxDate.Controls.Add(txtSecond);
-			gbxDate.Controls.Add(txtDay);
-			gbxDate.Controls.Add(txtHour);
-			gbxDate.Controls.Add(txtMinute);
-			gbxDate.Controls.Add(txtMonth);
-			gbxDate.Controls.Add(txtYear);
-			gbxDate.Location = new System.Drawing.Point(11, 5);
-			gbxDate.Name = "gbxDate";
-			gbxDate.Size = new System.Drawing.Size(235, 191);
-			gbxDate.TabIndex = 0;
-			gbxDate.TabStop = false;
+			this.gbxDate.Controls.Add(this.txtLocalTime);
+			this.gbxDate.Controls.Add(this.lblLocalTime);
+			this.gbxDate.Controls.Add(this.lblS);
+			this.gbxDate.Controls.Add(this.lblM);
+			this.gbxDate.Controls.Add(this.lblH);
+			this.gbxDate.Controls.Add(this.lblD);
+			this.gbxDate.Controls.Add(this.lblMo);
+			this.gbxDate.Controls.Add(this.lblY);
+			this.gbxDate.Controls.Add(this.lblJD);
+			this.gbxDate.Controls.Add(this.lblTime);
+			this.gbxDate.Controls.Add(this.lblDate);
+			this.gbxDate.Controls.Add(this.txtJD);
+			this.gbxDate.Controls.Add(this.txtSecond);
+			this.gbxDate.Controls.Add(this.txtDay);
+			this.gbxDate.Controls.Add(this.txtHour);
+			this.gbxDate.Controls.Add(this.txtMinute);
+			this.gbxDate.Controls.Add(this.txtMonth);
+			this.gbxDate.Controls.Add(this.txtYear);
+			this.gbxDate.Location = new System.Drawing.Point(11, 5);
+			this.gbxDate.Name = "gbxDate";
+			this.gbxDate.Size = new System.Drawing.Size(235, 191);
+			this.gbxDate.TabIndex = 0;
+			this.gbxDate.TabStop = false;
 			// 
 			// txtLocalTime
 			// 
-			txtLocalTime.BackColor = System.Drawing.SystemColors.Control;
-			txtLocalTime.Location = new System.Drawing.Point(79, 111);
-			txtLocalTime.Name = "txtLocalTime";
-			txtLocalTime.ReadOnly = true;
-			txtLocalTime.Size = new System.Drawing.Size(137, 21);
-			txtLocalTime.TabIndex = 15;
-			txtLocalTime.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.txtLocalTime.BackColor = System.Drawing.SystemColors.Control;
+			this.txtLocalTime.Location = new System.Drawing.Point(79, 111);
+			this.txtLocalTime.Name = "txtLocalTime";
+			this.txtLocalTime.ReadOnly = true;
+			this.txtLocalTime.Size = new System.Drawing.Size(137, 21);
+			this.txtLocalTime.TabIndex = 15;
+			this.txtLocalTime.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
 			// lblLocalTime
 			// 
-			lblLocalTime.AutoSize = true;
-			lblLocalTime.Location = new System.Drawing.Point(17, 114);
-			lblLocalTime.Name = "lblLocalTime";
-			lblLocalTime.Size = new System.Drawing.Size(58, 13);
-			lblLocalTime.TabIndex = 14;
-			lblLocalTime.Text = "Local time:";
+			this.lblLocalTime.AutoSize = true;
+			this.lblLocalTime.Location = new System.Drawing.Point(17, 114);
+			this.lblLocalTime.Name = "lblLocalTime";
+			this.lblLocalTime.Size = new System.Drawing.Size(58, 13);
+			this.lblLocalTime.TabIndex = 14;
+			this.lblLocalTime.Text = "Local time:";
 			// 
 			// lblS
 			// 
-			lblS.AutoSize = true;
-			lblS.ForeColor = System.Drawing.SystemColors.GrayText;
-			lblS.Location = new System.Drawing.Point(169, 57);
-			lblS.Name = "lblS";
-			lblS.Size = new System.Drawing.Size(13, 13);
-			lblS.TabIndex = 9;
-			lblS.Text = "S";
+			this.lblS.AutoSize = true;
+			this.lblS.ForeColor = System.Drawing.SystemColors.GrayText;
+			this.lblS.Location = new System.Drawing.Point(169, 57);
+			this.lblS.Name = "lblS";
+			this.lblS.Size = new System.Drawing.Size(13, 13);
+			this.lblS.TabIndex = 9;
+			this.lblS.Text = "S";
 			// 
 			// lblM
 			// 
-			lblM.AutoSize = true;
-			lblM.ForeColor = System.Drawing.SystemColors.GrayText;
-			lblM.Location = new System.Drawing.Point(123, 57);
-			lblM.Name = "lblM";
-			lblM.Size = new System.Drawing.Size(15, 13);
-			lblM.TabIndex = 8;
-			lblM.Text = "M";
+			this.lblM.AutoSize = true;
+			this.lblM.ForeColor = System.Drawing.SystemColors.GrayText;
+			this.lblM.Location = new System.Drawing.Point(123, 57);
+			this.lblM.Name = "lblM";
+			this.lblM.Size = new System.Drawing.Size(15, 13);
+			this.lblM.TabIndex = 8;
+			this.lblM.Text = "M";
 			// 
 			// lblH
 			// 
-			lblH.AutoSize = true;
-			lblH.ForeColor = System.Drawing.SystemColors.GrayText;
-			lblH.Location = new System.Drawing.Point(77, 57);
-			lblH.Name = "lblH";
-			lblH.Size = new System.Drawing.Size(14, 13);
-			lblH.TabIndex = 7;
-			lblH.Text = "H";
+			this.lblH.AutoSize = true;
+			this.lblH.ForeColor = System.Drawing.SystemColors.GrayText;
+			this.lblH.Location = new System.Drawing.Point(77, 57);
+			this.lblH.Name = "lblH";
+			this.lblH.Size = new System.Drawing.Size(14, 13);
+			this.lblH.TabIndex = 7;
+			this.lblH.Text = "H";
 			// 
 			// lblD
 			// 
-			lblD.AutoSize = true;
-			lblD.ForeColor = System.Drawing.SystemColors.GrayText;
-			lblD.Location = new System.Drawing.Point(77, 19);
-			lblD.Name = "lblD";
-			lblD.Size = new System.Drawing.Size(14, 13);
-			lblD.TabIndex = 0;
-			lblD.Text = "D";
+			this.lblD.AutoSize = true;
+			this.lblD.ForeColor = System.Drawing.SystemColors.GrayText;
+			this.lblD.Location = new System.Drawing.Point(77, 19);
+			this.lblD.Name = "lblD";
+			this.lblD.Size = new System.Drawing.Size(14, 13);
+			this.lblD.TabIndex = 0;
+			this.lblD.Text = "D";
 			// 
 			// lblMo
 			// 
-			lblMo.AutoSize = true;
-			lblMo.ForeColor = System.Drawing.SystemColors.GrayText;
-			lblMo.Location = new System.Drawing.Point(123, 19);
-			lblMo.Name = "lblMo";
-			lblMo.Size = new System.Drawing.Size(15, 13);
-			lblMo.TabIndex = 1;
-			lblMo.Text = "M";
+			this.lblMo.AutoSize = true;
+			this.lblMo.ForeColor = System.Drawing.SystemColors.GrayText;
+			this.lblMo.Location = new System.Drawing.Point(123, 19);
+			this.lblMo.Name = "lblMo";
+			this.lblMo.Size = new System.Drawing.Size(15, 13);
+			this.lblMo.TabIndex = 1;
+			this.lblMo.Text = "M";
 			// 
 			// lblY
 			// 
-			lblY.AutoSize = true;
-			lblY.ForeColor = System.Drawing.SystemColors.GrayText;
-			lblY.Location = new System.Drawing.Point(169, 19);
-			lblY.Name = "lblY";
-			lblY.Size = new System.Drawing.Size(13, 13);
-			lblY.TabIndex = 2;
-			lblY.Text = "Y";
+			this.lblY.AutoSize = true;
+			this.lblY.ForeColor = System.Drawing.SystemColors.GrayText;
+			this.lblY.Location = new System.Drawing.Point(169, 19);
+			this.lblY.Name = "lblY";
+			this.lblY.Size = new System.Drawing.Size(13, 13);
+			this.lblY.TabIndex = 2;
+			this.lblY.Text = "Y";
 			// 
 			// lblJD
 			// 
-			lblJD.AutoSize = true;
-			lblJD.Location = new System.Drawing.Point(17, 152);
-			lblJD.Name = "lblJD";
-			lblJD.Size = new System.Drawing.Size(23, 13);
-			lblJD.TabIndex = 16;
-			lblJD.Text = "JD:";
+			this.lblJD.AutoSize = true;
+			this.lblJD.Location = new System.Drawing.Point(17, 152);
+			this.lblJD.Name = "lblJD";
+			this.lblJD.Size = new System.Drawing.Size(23, 13);
+			this.lblJD.TabIndex = 16;
+			this.lblJD.Text = "JD:";
 			// 
 			// lblTime
 			// 
-			lblTime.AutoSize = true;
-			lblTime.Location = new System.Drawing.Point(17, 76);
-			lblTime.Name = "lblTime";
-			lblTime.Size = new System.Drawing.Size(33, 13);
-			lblTime.TabIndex = 10;
-			lblTime.Text = "Time:";
+			this.lblTime.AutoSize = true;
+			this.lblTime.Location = new System.Drawing.Point(17, 76);
+			this.lblTime.Name = "lblTime";
+			this.lblTime.Size = new System.Drawing.Size(33, 13);
+			this.lblTime.TabIndex = 10;
+			this.lblTime.Text = "Time:";
 			// 
 			// lblDate
 			// 
-			lblDate.AutoSize = true;
-			lblDate.Location = new System.Drawing.Point(17, 38);
-			lblDate.Name = "lblDate";
-			lblDate.Size = new System.Drawing.Size(34, 13);
-			lblDate.TabIndex = 3;
-			lblDate.Text = "Date:";
+			this.lblDate.AutoSize = true;
+			this.lblDate.Location = new System.Drawing.Point(17, 38);
+			this.lblDate.Name = "lblDate";
+			this.lblDate.Size = new System.Drawing.Size(34, 13);
+			this.lblDate.TabIndex = 3;
+			this.lblDate.Text = "Date:";
 			// 
 			// txtJD
 			// 
-			txtJD.Location = new System.Drawing.Point(79, 149);
-			txtJD.Name = "txtJD";
-			txtJD.Size = new System.Drawing.Size(137, 21);
-			txtJD.TabIndex = 17;
-			txtJD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			txtJD.TextChanged += txtJD_TextChanged;
-			txtJD.KeyDown += txtJD_KeyDown;
-			txtJD.KeyPress += txtCommon_KeyPress;
+			this.txtJD.Location = new System.Drawing.Point(79, 149);
+			this.txtJD.Name = "txtJD";
+			this.txtJD.Size = new System.Drawing.Size(137, 21);
+			this.txtJD.TabIndex = 17;
+			this.txtJD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.txtJD.TextChanged += txtJD_TextChanged;
+			this.txtJD.KeyDown += txtJD_KeyDown;
+			this.txtJD.KeyPress += txtCommon_KeyPress;
 			// 
 			// dateTimeMenuControl
 			// 
-			dateTimeMenuControl.DefaultDateTime = null;
-			dateTimeMenuControl.Font = new System.Drawing.Font("Tahoma", 8.25F);
-			dateTimeMenuControl.Location = new System.Drawing.Point(271, 38);
-			dateTimeMenuControl.Name = "dateTimeMenuControl";
-			dateTimeMenuControl.PerihelionDate = null;
-			dateTimeMenuControl.ReferenceControl = null;
-			dateTimeMenuControl.SelectedDateTime = new System.DateTime(0L);
-			dateTimeMenuControl.Size = new System.Drawing.Size(90, 23);
-			dateTimeMenuControl.TabIndex = 1;
-			dateTimeMenuControl.Title = "Select";
+			this.dateTimeMenuControl.DefaultDateTime = null;
+			this.dateTimeMenuControl.Font = new System.Drawing.Font("Tahoma", 8.25F);
+			this.dateTimeMenuControl.Location = new System.Drawing.Point(271, 38);
+			this.dateTimeMenuControl.Name = "dateTimeMenuControl";
+			this.dateTimeMenuControl.PerihelionDate = null;
+			this.dateTimeMenuControl.ReferenceControl = null;
+			this.dateTimeMenuControl.SelectedDateTime = new System.DateTime(0L);
+			this.dateTimeMenuControl.Size = new System.Drawing.Size(90, 23);
+			this.dateTimeMenuControl.TabIndex = 1;
+			this.dateTimeMenuControl.Title = "Select";
 			// 
 			// FormDateTime
 			// 
-			AcceptButton = btnOk;
-			AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-			AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			CancelButton = btnCancel;
-			ClientSize = new System.Drawing.Size(384, 206);
-			Controls.Add(gbxDate);
-			Controls.Add(btnCancel);
-			Controls.Add(btnOk);
-			Controls.Add(dateTimeMenuControl);
-			Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
-			FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-			MaximizeBox = false;
-			MinimizeBox = false;
-			Name = "FormDateTime";
-			ShowIcon = false;
-			ShowInTaskbar = false;
-			StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-			Text = "Universal Time (UTC)";
-			Load += FormDateTime_Load;
-			gbxDate.ResumeLayout(false);
-			gbxDate.PerformLayout();
+			this.AcceptButton = this.btnOk;
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.CancelButton = this.btnCancel;
+			this.ClientSize = new System.Drawing.Size(384, 206);
+			this.Controls.Add(this.gbxDate);
+			this.Controls.Add(this.btnCancel);
+			this.Controls.Add(this.btnOk);
+			this.Controls.Add(this.dateTimeMenuControl);
+			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+			this.MaximizeBox = false;
+			this.MinimizeBox = false;
+			this.Name = "FormDateTime";
+			this.ShowIcon = false;
+			this.ShowInTaskbar = false;
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+			this.Text = "Universal Time (UTC)";
+			this.Load += FormDateTime_Load;
+			this.gbxDate.ResumeLayout(false);
+			this.gbxDate.PerformLayout();
 			ResumeLayout(false);
 		}
 

@@ -28,140 +28,140 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			components = new System.ComponentModel.Container();
-			gbxSelectComet = new System.Windows.Forms.GroupBox();
-			btnSelect = new System.Windows.Forms.Button();
-			sortMenuControl = new SortMenuControl();
-			btnAll = new System.Windows.Forms.Button();
-			btnFilter = new System.Windows.Forms.Button();
-			cbComet = new System.Windows.Forms.ComboBox();
-			ctxSelect = new System.Windows.Forms.ContextMenuStrip(components);
-			mnuBrightest = new System.Windows.Forms.ToolStripMenuItem();
-			mnuClosestToPerihelion = new System.Windows.Forms.ToolStripMenuItem();
-			mnuClosestToEarth = new System.Windows.Forms.ToolStripMenuItem();
-			mnuClosestToSun = new System.Windows.Forms.ToolStripMenuItem();
-			gbxSelectComet.SuspendLayout();
-			ctxSelect.SuspendLayout();
+			this.components = new System.ComponentModel.Container();
+			this.gbxSelectComet = new System.Windows.Forms.GroupBox();
+			this.btnSelect = new System.Windows.Forms.Button();
+			this.sortMenuControl = new SortMenuControl();
+			this.btnAll = new System.Windows.Forms.Button();
+			this.btnFilter = new System.Windows.Forms.Button();
+			this.cbComet = new System.Windows.Forms.ComboBox();
+			this.ctxSelect = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.mnuBrightest = new System.Windows.Forms.ToolStripMenuItem();
+			this.mnuClosestToPerihelion = new System.Windows.Forms.ToolStripMenuItem();
+			this.mnuClosestToEarth = new System.Windows.Forms.ToolStripMenuItem();
+			this.mnuClosestToSun = new System.Windows.Forms.ToolStripMenuItem();
+			this.gbxSelectComet.SuspendLayout();
+			this.ctxSelect.SuspendLayout();
 			SuspendLayout();
 			// 
 			// gbxSelectComet
 			// 
-			gbxSelectComet.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-			gbxSelectComet.Controls.Add(btnSelect);
-			gbxSelectComet.Controls.Add(sortMenuControl);
-			gbxSelectComet.Controls.Add(btnAll);
-			gbxSelectComet.Controls.Add(btnFilter);
-			gbxSelectComet.Controls.Add(cbComet);
-			gbxSelectComet.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
-			gbxSelectComet.Location = new System.Drawing.Point(0, 0);
-			gbxSelectComet.Name = "gbxSelectComet";
-			gbxSelectComet.Size = new System.Drawing.Size(290, 85);
-			gbxSelectComet.TabIndex = 0;
-			gbxSelectComet.TabStop = false;
-			gbxSelectComet.Text = "Select comet";
+			this.gbxSelectComet.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+			this.gbxSelectComet.Controls.Add(this.btnSelect);
+			this.gbxSelectComet.Controls.Add(this.sortMenuControl);
+			this.gbxSelectComet.Controls.Add(this.btnAll);
+			this.gbxSelectComet.Controls.Add(this.btnFilter);
+			this.gbxSelectComet.Controls.Add(this.cbComet);
+			this.gbxSelectComet.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
+			this.gbxSelectComet.Location = new System.Drawing.Point(0, 0);
+			this.gbxSelectComet.Name = "gbxSelectComet";
+			this.gbxSelectComet.Size = new System.Drawing.Size(290, 85);
+			this.gbxSelectComet.TabIndex = 0;
+			this.gbxSelectComet.TabStop = false;
+			this.gbxSelectComet.Text = "Select comet";
 			// 
 			// btnSelect
 			// 
-			btnSelect.Location = new System.Drawing.Point(72, 49);
-			btnSelect.Name = "btnSelect";
-			btnSelect.Size = new System.Drawing.Size(24, 24);
-			btnSelect.TabIndex = 2;
-			btnSelect.Text = "▼";
-			btnSelect.UseVisualStyleBackColor = true;
-			btnSelect.Click += btnSelect_Click;
+			this.btnSelect.Location = new System.Drawing.Point(72, 49);
+			this.btnSelect.Name = "btnSelect";
+			this.btnSelect.Size = new System.Drawing.Size(24, 24);
+			this.btnSelect.TabIndex = 2;
+			this.btnSelect.Text = "▼";
+			this.btnSelect.UseVisualStyleBackColor = true;
+			this.btnSelect.Click += btnSelect_Click;
 			// 
 			// sortMenuControl
 			// 
-			sortMenuControl.Font = new System.Drawing.Font("Tahoma", 8.25F);
-			sortMenuControl.Location = new System.Drawing.Point(193, 49);
-			sortMenuControl.Name = "sortMenuControl";
-			sortMenuControl.Size = new System.Drawing.Size(85, 24);
-			sortMenuControl.TabIndex = 4;
-			sortMenuControl.Title = "SORT BY";
+			this.sortMenuControl.Font = new System.Drawing.Font("Tahoma", 8.25F);
+			this.sortMenuControl.Location = new System.Drawing.Point(193, 49);
+			this.sortMenuControl.Name = "sortMenuControl";
+			this.sortMenuControl.Size = new System.Drawing.Size(85, 24);
+			this.sortMenuControl.TabIndex = 4;
+			this.sortMenuControl.Title = "SORT BY";
 			// 
 			// btnAll
 			// 
-			btnAll.Location = new System.Drawing.Point(11, 49);
-			btnAll.Name = "btnAll";
-			btnAll.Size = new System.Drawing.Size(62, 24);
-			btnAll.TabIndex = 1;
-			btnAll.Text = "ALL";
-			btnAll.UseVisualStyleBackColor = true;
-			btnAll.Click += btnAll_Click;
+			this.btnAll.Location = new System.Drawing.Point(11, 49);
+			this.btnAll.Name = "btnAll";
+			this.btnAll.Size = new System.Drawing.Size(62, 24);
+			this.btnAll.TabIndex = 1;
+			this.btnAll.Text = "ALL";
+			this.btnAll.UseVisualStyleBackColor = true;
+			this.btnAll.Click += btnAll_Click;
 			// 
 			// btnFilter
 			// 
-			btnFilter.Location = new System.Drawing.Point(102, 49);
-			btnFilter.Name = "btnFilter";
-			btnFilter.Size = new System.Drawing.Size(85, 24);
-			btnFilter.TabIndex = 3;
-			btnFilter.Text = "FILTER";
-			btnFilter.UseVisualStyleBackColor = true;
-			btnFilter.Click += btnFilter_Click;
+			this.btnFilter.Location = new System.Drawing.Point(102, 49);
+			this.btnFilter.Name = "btnFilter";
+			this.btnFilter.Size = new System.Drawing.Size(85, 24);
+			this.btnFilter.TabIndex = 3;
+			this.btnFilter.Text = "FILTER";
+			this.btnFilter.UseVisualStyleBackColor = true;
+			this.btnFilter.Click += btnFilter_Click;
 			// 
 			// cbComet
 			// 
-			cbComet.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-			cbComet.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			cbComet.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
-			cbComet.FormattingEnabled = true;
-			cbComet.IntegralHeight = false;
-			cbComet.Location = new System.Drawing.Point(12, 21);
-			cbComet.MaxDropDownItems = 21;
-			cbComet.Name = "cbComet";
-			cbComet.Size = new System.Drawing.Size(265, 22);
-			cbComet.TabIndex = 0;
-			cbComet.SelectedIndexChanged += cbComet_SelectedIndexChanged;
+			this.cbComet.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+			this.cbComet.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cbComet.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
+			this.cbComet.FormattingEnabled = true;
+			this.cbComet.IntegralHeight = false;
+			this.cbComet.Location = new System.Drawing.Point(12, 21);
+			this.cbComet.MaxDropDownItems = 21;
+			this.cbComet.Name = "cbComet";
+			this.cbComet.Size = new System.Drawing.Size(265, 22);
+			this.cbComet.TabIndex = 0;
+			this.cbComet.SelectedIndexChanged += cbComet_SelectedIndexChanged;
 			// 
 			// ctxSelect
 			// 
-			ctxSelect.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { mnuBrightest, mnuClosestToPerihelion, mnuClosestToEarth, mnuClosestToSun });
-			ctxSelect.Name = "ctxSelect";
-			ctxSelect.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-			ctxSelect.Size = new System.Drawing.Size(183, 114);
+			this.ctxSelect.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.mnuBrightest, this.mnuClosestToPerihelion, this.mnuClosestToEarth, this.mnuClosestToSun });
+			this.ctxSelect.Name = "ctxSelect";
+			this.ctxSelect.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+			this.ctxSelect.Size = new System.Drawing.Size(183, 92);
 			// 
 			// mnuBrightest
 			// 
-			mnuBrightest.MergeIndex = 0;
-			mnuBrightest.Name = "mnuBrightest";
-			mnuBrightest.Size = new System.Drawing.Size(182, 22);
-			mnuBrightest.Text = "Brightest";
-			mnuBrightest.Click += mnuCommon_Click;
+			this.mnuBrightest.MergeIndex = 0;
+			this.mnuBrightest.Name = "mnuBrightest";
+			this.mnuBrightest.Size = new System.Drawing.Size(182, 22);
+			this.mnuBrightest.Text = "Brightest";
+			this.mnuBrightest.Click += mnuCommon_Click;
 			// 
 			// mnuClosestToPerihelion
 			// 
-			mnuClosestToPerihelion.MergeIndex = 1;
-			mnuClosestToPerihelion.Name = "mnuClosestToPerihelion";
-			mnuClosestToPerihelion.Size = new System.Drawing.Size(182, 22);
-			mnuClosestToPerihelion.Text = "Closest to perihelion";
-			mnuClosestToPerihelion.Click += mnuCommon_Click;
+			this.mnuClosestToPerihelion.MergeIndex = 1;
+			this.mnuClosestToPerihelion.Name = "mnuClosestToPerihelion";
+			this.mnuClosestToPerihelion.Size = new System.Drawing.Size(182, 22);
+			this.mnuClosestToPerihelion.Text = "Closest to perihelion";
+			this.mnuClosestToPerihelion.Click += mnuCommon_Click;
 			// 
 			// mnuClosestToEarth
 			// 
-			mnuClosestToEarth.MergeIndex = 2;
-			mnuClosestToEarth.Name = "mnuClosestToEarth";
-			mnuClosestToEarth.Size = new System.Drawing.Size(182, 22);
-			mnuClosestToEarth.Text = "Closest to Earth";
-			mnuClosestToEarth.Click += mnuCommon_Click;
+			this.mnuClosestToEarth.MergeIndex = 2;
+			this.mnuClosestToEarth.Name = "mnuClosestToEarth";
+			this.mnuClosestToEarth.Size = new System.Drawing.Size(182, 22);
+			this.mnuClosestToEarth.Text = "Closest to Earth";
+			this.mnuClosestToEarth.Click += mnuCommon_Click;
 			// 
 			// mnuClosestToSun
 			// 
-			mnuClosestToSun.MergeIndex = 3;
-			mnuClosestToSun.Name = "mnuClosestToSun";
-			mnuClosestToSun.Size = new System.Drawing.Size(182, 22);
-			mnuClosestToSun.Text = "Closest to Sun";
-			mnuClosestToSun.Click += mnuCommon_Click;
+			this.mnuClosestToSun.MergeIndex = 3;
+			this.mnuClosestToSun.Name = "mnuClosestToSun";
+			this.mnuClosestToSun.Size = new System.Drawing.Size(182, 22);
+			this.mnuClosestToSun.Text = "Closest to Sun";
+			this.mnuClosestToSun.Click += mnuCommon_Click;
 			// 
 			// SelectCometControl
 			// 
-			AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-			AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			Controls.Add(gbxSelectComet);
-			Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-			Name = "SelectCometControl";
-			Size = new System.Drawing.Size(290, 85);
-			gbxSelectComet.ResumeLayout(false);
-			ctxSelect.ResumeLayout(false);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.gbxSelectComet);
+			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+			this.Name = "SelectCometControl";
+			this.Size = new System.Drawing.Size(290, 85);
+			this.gbxSelectComet.ResumeLayout(false);
+			this.ctxSelect.ResumeLayout(false);
 			ResumeLayout(false);
 		}
 
