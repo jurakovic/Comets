@@ -28,59 +28,59 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			pnlInfoLabels = new System.Windows.Forms.Panel();
-			cbxMagDist = new System.Windows.Forms.CheckBox();
-			cbxDateTime = new System.Windows.Forms.CheckBox();
-			pnlInfoLabels.SuspendLayout();
+			this.pnlInfoLabels = new System.Windows.Forms.Panel();
+			this.cbxMagDist = new System.Windows.Forms.CheckBox();
+			this.cbxDateTime = new System.Windows.Forms.CheckBox();
+			this.pnlInfoLabels.SuspendLayout();
 			SuspendLayout();
 			// 
 			// pnlInfoLabels
 			// 
-			pnlInfoLabels.BackColor = System.Drawing.SystemColors.ControlDark;
-			pnlInfoLabels.Controls.Add(cbxMagDist);
-			pnlInfoLabels.Controls.Add(cbxDateTime);
-			pnlInfoLabels.Dock = System.Windows.Forms.DockStyle.Fill;
-			pnlInfoLabels.Location = new System.Drawing.Point(0, 0);
-			pnlInfoLabels.Name = "pnlInfoLabels";
-			pnlInfoLabels.Size = new System.Drawing.Size(173, 51);
-			pnlInfoLabels.TabIndex = 0;
+			this.pnlInfoLabels.BackColor = System.Drawing.SystemColors.ControlDark;
+			this.pnlInfoLabels.Controls.Add(this.cbxMagDist);
+			this.pnlInfoLabels.Controls.Add(this.cbxDateTime);
+			this.pnlInfoLabels.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pnlInfoLabels.Location = new System.Drawing.Point(0, 0);
+			this.pnlInfoLabels.Name = "pnlInfoLabels";
+			this.pnlInfoLabels.Size = new System.Drawing.Size(173, 51);
+			this.pnlInfoLabels.TabIndex = 0;
 			// 
 			// cbxMagDist
 			// 
-			cbxMagDist.AutoSize = true;
-			cbxMagDist.Checked = true;
-			cbxMagDist.CheckState = System.Windows.Forms.CheckState.Checked;
-			cbxMagDist.Location = new System.Drawing.Point(6, 5);
-			cbxMagDist.Name = "cbxMagDist";
-			cbxMagDist.Size = new System.Drawing.Size(145, 17);
-			cbxMagDist.TabIndex = 0;
-			cbxMagDist.Text = "Magnitude and distances";
-			cbxMagDist.UseVisualStyleBackColor = true;
-			cbxMagDist.CheckedChanged += cbxMagDist_CheckedChanged;
+			this.cbxMagDist.AutoSize = true;
+			this.cbxMagDist.Checked = true;
+			this.cbxMagDist.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.cbxMagDist.Location = new System.Drawing.Point(6, 5);
+			this.cbxMagDist.Name = "cbxMagDist";
+			this.cbxMagDist.Size = new System.Drawing.Size(145, 17);
+			this.cbxMagDist.TabIndex = 0;
+			this.cbxMagDist.Text = "Magnitude and distances";
+			this.cbxMagDist.UseVisualStyleBackColor = true;
+			this.cbxMagDist.CheckedChanged += cbxMagDist_CheckedChanged;
 			// 
 			// cbxDateTime
 			// 
-			cbxDateTime.AutoSize = true;
-			cbxDateTime.Checked = true;
-			cbxDateTime.CheckState = System.Windows.Forms.CheckState.Checked;
-			cbxDateTime.Location = new System.Drawing.Point(6, 28);
-			cbxDateTime.Name = "cbxDateTime";
-			cbxDateTime.Size = new System.Drawing.Size(95, 17);
-			cbxDateTime.TabIndex = 1;
-			cbxDateTime.Text = "Date and Time";
-			cbxDateTime.UseVisualStyleBackColor = true;
-			cbxDateTime.CheckedChanged += cbxDateTime_CheckedChanged;
+			this.cbxDateTime.AutoSize = true;
+			this.cbxDateTime.Checked = true;
+			this.cbxDateTime.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.cbxDateTime.Location = new System.Drawing.Point(6, 28);
+			this.cbxDateTime.Name = "cbxDateTime";
+			this.cbxDateTime.Size = new System.Drawing.Size(95, 17);
+			this.cbxDateTime.TabIndex = 1;
+			this.cbxDateTime.Text = "Date and Time";
+			this.cbxDateTime.UseVisualStyleBackColor = true;
+			this.cbxDateTime.CheckedChanged += cbxDateTime_CheckedChanged;
 			// 
 			// InfoLabelsControl
 			// 
-			AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-			AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			Controls.Add(pnlInfoLabels);
-			Font = new System.Drawing.Font("Tahoma", 8.25F);
-			Name = "InfoLabelsControl";
-			Size = new System.Drawing.Size(173, 51);
-			pnlInfoLabels.ResumeLayout(false);
-			pnlInfoLabels.PerformLayout();
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.pnlInfoLabels);
+			this.Font = new System.Drawing.Font("Tahoma", 8.25F);
+			this.Name = "InfoLabelsControl";
+			this.Size = new System.Drawing.Size(173, 51);
+			this.pnlInfoLabels.ResumeLayout(false);
+			this.pnlInfoLabels.PerformLayout();
 			ResumeLayout(false);
 		}
 

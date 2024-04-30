@@ -28,59 +28,59 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			pnlMode = new System.Windows.Forms.Panel();
-			rbtnSingleMode = new System.Windows.Forms.RadioButton();
-			rbtnMultipleMode = new System.Windows.Forms.RadioButton();
-			pnlMode.SuspendLayout();
+			this.pnlMode = new System.Windows.Forms.Panel();
+			this.rbtnSingleMode = new System.Windows.Forms.RadioButton();
+			this.rbtnMultipleMode = new System.Windows.Forms.RadioButton();
+			this.pnlMode.SuspendLayout();
 			SuspendLayout();
 			// 
 			// pnlMode
 			// 
-			pnlMode.BackColor = System.Drawing.SystemColors.ControlDark;
-			pnlMode.Controls.Add(rbtnSingleMode);
-			pnlMode.Controls.Add(rbtnMultipleMode);
-			pnlMode.Dock = System.Windows.Forms.DockStyle.Fill;
-			pnlMode.Font = new System.Drawing.Font("Tahoma", 8.25F);
-			pnlMode.Location = new System.Drawing.Point(0, 0);
-			pnlMode.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-			pnlMode.Name = "pnlMode";
-			pnlMode.Size = new System.Drawing.Size(202, 35);
-			pnlMode.TabIndex = 0;
+			this.pnlMode.BackColor = System.Drawing.SystemColors.ControlDark;
+			this.pnlMode.Controls.Add(this.rbtnSingleMode);
+			this.pnlMode.Controls.Add(this.rbtnMultipleMode);
+			this.pnlMode.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pnlMode.Font = new System.Drawing.Font("Tahoma", 8.25F);
+			this.pnlMode.Location = new System.Drawing.Point(0, 0);
+			this.pnlMode.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			this.pnlMode.Name = "pnlMode";
+			this.pnlMode.Size = new System.Drawing.Size(202, 35);
+			this.pnlMode.TabIndex = 0;
 			// 
 			// rbtnSingleMode
 			// 
-			rbtnSingleMode.AutoSize = true;
-			rbtnSingleMode.Location = new System.Drawing.Point(27, 8);
-			rbtnSingleMode.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-			rbtnSingleMode.Name = "rbtnSingleMode";
-			rbtnSingleMode.Size = new System.Drawing.Size(53, 17);
-			rbtnSingleMode.TabIndex = 0;
-			rbtnSingleMode.Text = "Single";
-			rbtnSingleMode.UseVisualStyleBackColor = true;
-			rbtnSingleMode.CheckedChanged += rbtnCommon_CheckedChanged;
+			this.rbtnSingleMode.AutoSize = true;
+			this.rbtnSingleMode.Location = new System.Drawing.Point(27, 8);
+			this.rbtnSingleMode.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			this.rbtnSingleMode.Name = "rbtnSingleMode";
+			this.rbtnSingleMode.Size = new System.Drawing.Size(53, 17);
+			this.rbtnSingleMode.TabIndex = 0;
+			this.rbtnSingleMode.Text = "Single";
+			this.rbtnSingleMode.UseVisualStyleBackColor = true;
+			this.rbtnSingleMode.CheckedChanged += rbtnCommon_CheckedChanged;
 			// 
 			// rbtnMultipleMode
 			// 
-			rbtnMultipleMode.AutoSize = true;
-			rbtnMultipleMode.Location = new System.Drawing.Point(98, 8);
-			rbtnMultipleMode.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-			rbtnMultipleMode.Name = "rbtnMultipleMode";
-			rbtnMultipleMode.Size = new System.Drawing.Size(61, 17);
-			rbtnMultipleMode.TabIndex = 1;
-			rbtnMultipleMode.Text = "Multiple";
-			rbtnMultipleMode.UseVisualStyleBackColor = true;
-			rbtnMultipleMode.CheckedChanged += rbtnCommon_CheckedChanged;
+			this.rbtnMultipleMode.AutoSize = true;
+			this.rbtnMultipleMode.Location = new System.Drawing.Point(98, 8);
+			this.rbtnMultipleMode.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			this.rbtnMultipleMode.Name = "rbtnMultipleMode";
+			this.rbtnMultipleMode.Size = new System.Drawing.Size(61, 17);
+			this.rbtnMultipleMode.TabIndex = 1;
+			this.rbtnMultipleMode.Text = "Multiple";
+			this.rbtnMultipleMode.UseVisualStyleBackColor = true;
+			this.rbtnMultipleMode.CheckedChanged += rbtnCommon_CheckedChanged;
 			// 
 			// ModeControl
 			// 
-			AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-			AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			Controls.Add(pnlMode);
-			Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-			Name = "ModeControl";
-			Size = new System.Drawing.Size(202, 35);
-			pnlMode.ResumeLayout(false);
-			pnlMode.PerformLayout();
+			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.pnlMode);
+			this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			this.Name = "ModeControl";
+			this.Size = new System.Drawing.Size(202, 35);
+			this.pnlMode.ResumeLayout(false);
+			this.pnlMode.PerformLayout();
 			ResumeLayout(false);
 		}
 

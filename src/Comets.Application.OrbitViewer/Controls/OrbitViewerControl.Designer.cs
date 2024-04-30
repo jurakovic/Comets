@@ -28,366 +28,366 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			pnlToolbox = new System.Windows.Forms.Panel();
-			cpnlComet = new Controls.CollapsiblePanel();
-			cometControl = new Controls.CometControl();
-			cpnlMode = new Controls.CollapsiblePanel();
-			modeControl = new Controls.ModeControl();
-			cpnlDisplay = new Controls.CollapsiblePanel();
-			displayControl = new Controls.DisplayControl();
-			cpnlDateTime = new Controls.CollapsiblePanel();
-			dateTimeControl = new Controls.DateTimeControl();
-			cpnlSimulation = new Controls.CollapsiblePanel();
-			simulationControl = new Controls.SimulationControl();
-			cpnlFilterOnDate = new Controls.CollapsiblePanel();
-			filterControl = new Controls.FilterControl();
-			cpnlInfoLabels = new Controls.CollapsiblePanel();
-			infoLabelsControl = new Controls.InfoLabelsControl();
-			cpnlMisc = new Controls.CollapsiblePanel();
-			miscControl = new Controls.MiscControl();
-			orbitPanel = new Comets.OrbitViewer.OrbitPanel();
-			scrollVert = new System.Windows.Forms.VScrollBar();
-			scrollHorz = new System.Windows.Forms.HScrollBar();
-			scrollZoom = new System.Windows.Forms.HScrollBar();
-			pnlToolbox.SuspendLayout();
-			cpnlComet.WorkingArea.SuspendLayout();
-			cpnlMode.WorkingArea.SuspendLayout();
-			cpnlDisplay.WorkingArea.SuspendLayout();
-			cpnlDateTime.WorkingArea.SuspendLayout();
-			cpnlSimulation.WorkingArea.SuspendLayout();
-			cpnlFilterOnDate.WorkingArea.SuspendLayout();
-			cpnlInfoLabels.WorkingArea.SuspendLayout();
-			cpnlMisc.WorkingArea.SuspendLayout();
-			orbitPanel.SuspendLayout();
+			this.pnlToolbox = new System.Windows.Forms.Panel();
+			this.cpnlComet = new Controls.CollapsiblePanel();
+			this.cometControl = new Controls.CometControl();
+			this.cpnlMode = new Controls.CollapsiblePanel();
+			this.modeControl = new Controls.ModeControl();
+			this.cpnlDisplay = new Controls.CollapsiblePanel();
+			this.displayControl = new Controls.DisplayControl();
+			this.cpnlDateTime = new Controls.CollapsiblePanel();
+			this.dateTimeControl = new Controls.DateTimeControl();
+			this.cpnlSimulation = new Controls.CollapsiblePanel();
+			this.simulationControl = new Controls.SimulationControl();
+			this.cpnlFilterOnDate = new Controls.CollapsiblePanel();
+			this.filterControl = new Controls.FilterControl();
+			this.cpnlInfoLabels = new Controls.CollapsiblePanel();
+			this.infoLabelsControl = new Controls.InfoLabelsControl();
+			this.cpnlMisc = new Controls.CollapsiblePanel();
+			this.miscControl = new Controls.MiscControl();
+			this.orbitPanel = new Comets.OrbitViewer.OrbitPanel();
+			this.scrollVert = new System.Windows.Forms.VScrollBar();
+			this.scrollHorz = new System.Windows.Forms.HScrollBar();
+			this.scrollZoom = new System.Windows.Forms.HScrollBar();
+			this.pnlToolbox.SuspendLayout();
+			this.cpnlComet.WorkingArea.SuspendLayout();
+			this.cpnlMode.WorkingArea.SuspendLayout();
+			this.cpnlDisplay.WorkingArea.SuspendLayout();
+			this.cpnlDateTime.WorkingArea.SuspendLayout();
+			this.cpnlSimulation.WorkingArea.SuspendLayout();
+			this.cpnlFilterOnDate.WorkingArea.SuspendLayout();
+			this.cpnlInfoLabels.WorkingArea.SuspendLayout();
+			this.cpnlMisc.WorkingArea.SuspendLayout();
+			this.orbitPanel.SuspendLayout();
 			SuspendLayout();
 			// 
 			// pnlToolbox
 			// 
-			pnlToolbox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			pnlToolbox.Controls.Add(cpnlComet);
-			pnlToolbox.Controls.Add(cpnlMode);
-			pnlToolbox.Controls.Add(cpnlDisplay);
-			pnlToolbox.Controls.Add(cpnlDateTime);
-			pnlToolbox.Controls.Add(cpnlSimulation);
-			pnlToolbox.Controls.Add(cpnlFilterOnDate);
-			pnlToolbox.Controls.Add(cpnlInfoLabels);
-			pnlToolbox.Controls.Add(cpnlMisc);
-			pnlToolbox.Dock = System.Windows.Forms.DockStyle.Left;
-			pnlToolbox.Location = new System.Drawing.Point(0, 0);
-			pnlToolbox.Name = "pnlToolbox";
-			pnlToolbox.Size = new System.Drawing.Size(192, 900);
-			pnlToolbox.TabIndex = 0;
+			this.pnlToolbox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.pnlToolbox.Controls.Add(this.cpnlComet);
+			this.pnlToolbox.Controls.Add(this.cpnlMode);
+			this.pnlToolbox.Controls.Add(this.cpnlDisplay);
+			this.pnlToolbox.Controls.Add(this.cpnlDateTime);
+			this.pnlToolbox.Controls.Add(this.cpnlSimulation);
+			this.pnlToolbox.Controls.Add(this.cpnlFilterOnDate);
+			this.pnlToolbox.Controls.Add(this.cpnlInfoLabels);
+			this.pnlToolbox.Controls.Add(this.cpnlMisc);
+			this.pnlToolbox.Dock = System.Windows.Forms.DockStyle.Left;
+			this.pnlToolbox.Location = new System.Drawing.Point(0, 0);
+			this.pnlToolbox.Name = "pnlToolbox";
+			this.pnlToolbox.Size = new System.Drawing.Size(192, 900);
+			this.pnlToolbox.TabIndex = 0;
 			// 
 			// cpnlComet
 			// 
-			cpnlComet.Font = new System.Drawing.Font("Tahoma", 8.25F);
-			cpnlComet.HeightExpanded = 114;
-			cpnlComet.Location = new System.Drawing.Point(0, -1);
-			cpnlComet.Name = "cpnlComet";
-			cpnlComet.Size = new System.Drawing.Size(189, 114);
-			cpnlComet.TabIndex = 0;
-			cpnlComet.Title = "Comet";
+			this.cpnlComet.Font = new System.Drawing.Font("Tahoma", 8.25F);
+			this.cpnlComet.HeightExpanded = 114;
+			this.cpnlComet.Location = new System.Drawing.Point(0, -1);
+			this.cpnlComet.Name = "cpnlComet";
+			this.cpnlComet.Size = new System.Drawing.Size(189, 114);
+			this.cpnlComet.TabIndex = 0;
+			this.cpnlComet.Title = "Comet";
 			// 
 			// 
 			// 
-			cpnlComet.WorkingArea.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-			cpnlComet.WorkingArea.BackColor = System.Drawing.SystemColors.Control;
-			cpnlComet.WorkingArea.Controls.Add(cometControl);
-			cpnlComet.WorkingArea.Location = new System.Drawing.Point(4, 28);
-			cpnlComet.WorkingArea.Name = "WorkingArea";
-			cpnlComet.WorkingArea.Size = new System.Drawing.Size(173, 79);
-			cpnlComet.WorkingArea.TabIndex = 1;
+			this.cpnlComet.WorkingArea.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+			this.cpnlComet.WorkingArea.BackColor = System.Drawing.SystemColors.Control;
+			this.cpnlComet.WorkingArea.Controls.Add(this.cometControl);
+			this.cpnlComet.WorkingArea.Location = new System.Drawing.Point(4, 28);
+			this.cpnlComet.WorkingArea.Name = "WorkingArea";
+			this.cpnlComet.WorkingArea.Size = new System.Drawing.Size(173, 79);
+			this.cpnlComet.WorkingArea.TabIndex = 1;
 			// 
 			// cometControl
 			// 
-			cometControl.Dock = System.Windows.Forms.DockStyle.Fill;
-			cometControl.Font = new System.Drawing.Font("Tahoma", 8.25F);
-			cometControl.Location = new System.Drawing.Point(0, 0);
-			cometControl.Name = "cometControl";
-			cometControl.Size = new System.Drawing.Size(173, 79);
-			cometControl.TabIndex = 0;
+			this.cometControl.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.cometControl.Font = new System.Drawing.Font("Tahoma", 8.25F);
+			this.cometControl.Location = new System.Drawing.Point(0, 0);
+			this.cometControl.Name = "cometControl";
+			this.cometControl.Size = new System.Drawing.Size(173, 79);
+			this.cometControl.TabIndex = 0;
 			// 
 			// cpnlMode
 			// 
-			cpnlMode.Font = new System.Drawing.Font("Tahoma", 8.25F);
-			cpnlMode.HeightExpanded = 64;
-			cpnlMode.Location = new System.Drawing.Point(0, 109);
-			cpnlMode.Name = "cpnlMode";
-			cpnlMode.Size = new System.Drawing.Size(189, 65);
-			cpnlMode.TabIndex = 1;
-			cpnlMode.Title = "Mode";
+			this.cpnlMode.Font = new System.Drawing.Font("Tahoma", 8.25F);
+			this.cpnlMode.HeightExpanded = 64;
+			this.cpnlMode.Location = new System.Drawing.Point(0, 109);
+			this.cpnlMode.Name = "cpnlMode";
+			this.cpnlMode.Size = new System.Drawing.Size(189, 65);
+			this.cpnlMode.TabIndex = 1;
+			this.cpnlMode.Title = "Mode";
 			// 
 			// 
 			// 
-			cpnlMode.WorkingArea.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-			cpnlMode.WorkingArea.BackColor = System.Drawing.SystemColors.Control;
-			cpnlMode.WorkingArea.Controls.Add(modeControl);
-			cpnlMode.WorkingArea.Location = new System.Drawing.Point(4, 28);
-			cpnlMode.WorkingArea.Name = "WorkingArea";
-			cpnlMode.WorkingArea.Size = new System.Drawing.Size(173, 30);
-			cpnlMode.WorkingArea.TabIndex = 1;
+			this.cpnlMode.WorkingArea.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+			this.cpnlMode.WorkingArea.BackColor = System.Drawing.SystemColors.Control;
+			this.cpnlMode.WorkingArea.Controls.Add(this.modeControl);
+			this.cpnlMode.WorkingArea.Location = new System.Drawing.Point(4, 28);
+			this.cpnlMode.WorkingArea.Name = "WorkingArea";
+			this.cpnlMode.WorkingArea.Size = new System.Drawing.Size(173, 30);
+			this.cpnlMode.WorkingArea.TabIndex = 1;
 			// 
 			// modeControl
 			// 
-			modeControl.Dock = System.Windows.Forms.DockStyle.Fill;
-			modeControl.Location = new System.Drawing.Point(0, 0);
-			modeControl.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-			modeControl.Name = "modeControl";
-			modeControl.Size = new System.Drawing.Size(173, 30);
-			modeControl.TabIndex = 0;
+			this.modeControl.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.modeControl.Location = new System.Drawing.Point(0, 0);
+			this.modeControl.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			this.modeControl.Name = "modeControl";
+			this.modeControl.Size = new System.Drawing.Size(173, 30);
+			this.modeControl.TabIndex = 0;
 			// 
 			// cpnlDisplay
 			// 
-			cpnlDisplay.Font = new System.Drawing.Font("Tahoma", 8.25F);
-			cpnlDisplay.HeightExpanded = 191;
-			cpnlDisplay.Location = new System.Drawing.Point(0, 170);
-			cpnlDisplay.Name = "cpnlDisplay";
-			cpnlDisplay.Size = new System.Drawing.Size(189, 191);
-			cpnlDisplay.TabIndex = 2;
-			cpnlDisplay.Title = "Display";
+			this.cpnlDisplay.Font = new System.Drawing.Font("Tahoma", 8.25F);
+			this.cpnlDisplay.HeightExpanded = 191;
+			this.cpnlDisplay.Location = new System.Drawing.Point(0, 170);
+			this.cpnlDisplay.Name = "cpnlDisplay";
+			this.cpnlDisplay.Size = new System.Drawing.Size(189, 191);
+			this.cpnlDisplay.TabIndex = 2;
+			this.cpnlDisplay.Title = "Display";
 			// 
 			// 
 			// 
-			cpnlDisplay.WorkingArea.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-			cpnlDisplay.WorkingArea.BackColor = System.Drawing.SystemColors.Control;
-			cpnlDisplay.WorkingArea.Controls.Add(displayControl);
-			cpnlDisplay.WorkingArea.Location = new System.Drawing.Point(4, 28);
-			cpnlDisplay.WorkingArea.Name = "WorkingArea";
-			cpnlDisplay.WorkingArea.Size = new System.Drawing.Size(173, 156);
-			cpnlDisplay.WorkingArea.TabIndex = 1;
+			this.cpnlDisplay.WorkingArea.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+			this.cpnlDisplay.WorkingArea.BackColor = System.Drawing.SystemColors.Control;
+			this.cpnlDisplay.WorkingArea.Controls.Add(this.displayControl);
+			this.cpnlDisplay.WorkingArea.Location = new System.Drawing.Point(4, 28);
+			this.cpnlDisplay.WorkingArea.Name = "WorkingArea";
+			this.cpnlDisplay.WorkingArea.Size = new System.Drawing.Size(173, 156);
+			this.cpnlDisplay.WorkingArea.TabIndex = 1;
 			// 
 			// displayControl
 			// 
-			displayControl.Dock = System.Windows.Forms.DockStyle.Fill;
-			displayControl.Font = new System.Drawing.Font("Tahoma", 8.25F);
-			displayControl.Location = new System.Drawing.Point(0, 0);
-			displayControl.Name = "displayControl";
-			displayControl.Size = new System.Drawing.Size(173, 156);
-			displayControl.TabIndex = 0;
+			this.displayControl.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.displayControl.Font = new System.Drawing.Font("Tahoma", 8.25F);
+			this.displayControl.Location = new System.Drawing.Point(0, 0);
+			this.displayControl.Name = "displayControl";
+			this.displayControl.Size = new System.Drawing.Size(173, 156);
+			this.displayControl.TabIndex = 0;
 			// 
 			// cpnlDateTime
 			// 
-			cpnlDateTime.Font = new System.Drawing.Font("Tahoma", 8.25F);
-			cpnlDateTime.HeightExpanded = 66;
-			cpnlDateTime.Location = new System.Drawing.Point(0, 357);
-			cpnlDateTime.Name = "cpnlDateTime";
-			cpnlDateTime.Size = new System.Drawing.Size(189, 66);
-			cpnlDateTime.TabIndex = 3;
-			cpnlDateTime.Title = "Date and time";
+			this.cpnlDateTime.Font = new System.Drawing.Font("Tahoma", 8.25F);
+			this.cpnlDateTime.HeightExpanded = 66;
+			this.cpnlDateTime.Location = new System.Drawing.Point(0, 357);
+			this.cpnlDateTime.Name = "cpnlDateTime";
+			this.cpnlDateTime.Size = new System.Drawing.Size(189, 66);
+			this.cpnlDateTime.TabIndex = 3;
+			this.cpnlDateTime.Title = "Date and time";
 			// 
 			// 
 			// 
-			cpnlDateTime.WorkingArea.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-			cpnlDateTime.WorkingArea.BackColor = System.Drawing.SystemColors.Control;
-			cpnlDateTime.WorkingArea.Controls.Add(dateTimeControl);
-			cpnlDateTime.WorkingArea.Location = new System.Drawing.Point(4, 28);
-			cpnlDateTime.WorkingArea.Name = "WorkingArea";
-			cpnlDateTime.WorkingArea.Size = new System.Drawing.Size(173, 31);
-			cpnlDateTime.WorkingArea.TabIndex = 1;
+			this.cpnlDateTime.WorkingArea.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+			this.cpnlDateTime.WorkingArea.BackColor = System.Drawing.SystemColors.Control;
+			this.cpnlDateTime.WorkingArea.Controls.Add(this.dateTimeControl);
+			this.cpnlDateTime.WorkingArea.Location = new System.Drawing.Point(4, 28);
+			this.cpnlDateTime.WorkingArea.Name = "WorkingArea";
+			this.cpnlDateTime.WorkingArea.Size = new System.Drawing.Size(173, 31);
+			this.cpnlDateTime.WorkingArea.TabIndex = 1;
 			// 
 			// dateTimeControl
 			// 
-			dateTimeControl.Dock = System.Windows.Forms.DockStyle.Fill;
-			dateTimeControl.Font = new System.Drawing.Font("Tahoma", 8.25F);
-			dateTimeControl.Location = new System.Drawing.Point(0, 0);
-			dateTimeControl.Name = "dateTimeControl";
-			dateTimeControl.Size = new System.Drawing.Size(173, 31);
-			dateTimeControl.TabIndex = 0;
+			this.dateTimeControl.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.dateTimeControl.Font = new System.Drawing.Font("Tahoma", 8.25F);
+			this.dateTimeControl.Location = new System.Drawing.Point(0, 0);
+			this.dateTimeControl.Name = "dateTimeControl";
+			this.dateTimeControl.Size = new System.Drawing.Size(173, 31);
+			this.dateTimeControl.TabIndex = 0;
 			// 
 			// cpnlSimulation
 			// 
-			cpnlSimulation.Font = new System.Drawing.Font("Tahoma", 8.25F);
-			cpnlSimulation.HeightExpanded = 95;
-			cpnlSimulation.Location = new System.Drawing.Point(0, 419);
-			cpnlSimulation.Name = "cpnlSimulation";
-			cpnlSimulation.Size = new System.Drawing.Size(189, 95);
-			cpnlSimulation.TabIndex = 4;
-			cpnlSimulation.Title = "Simulation";
+			this.cpnlSimulation.Font = new System.Drawing.Font("Tahoma", 8.25F);
+			this.cpnlSimulation.HeightExpanded = 95;
+			this.cpnlSimulation.Location = new System.Drawing.Point(0, 419);
+			this.cpnlSimulation.Name = "cpnlSimulation";
+			this.cpnlSimulation.Size = new System.Drawing.Size(189, 95);
+			this.cpnlSimulation.TabIndex = 4;
+			this.cpnlSimulation.Title = "Simulation";
 			// 
 			// 
 			// 
-			cpnlSimulation.WorkingArea.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-			cpnlSimulation.WorkingArea.BackColor = System.Drawing.SystemColors.Control;
-			cpnlSimulation.WorkingArea.Controls.Add(simulationControl);
-			cpnlSimulation.WorkingArea.Location = new System.Drawing.Point(4, 28);
-			cpnlSimulation.WorkingArea.Name = "WorkingArea";
-			cpnlSimulation.WorkingArea.Size = new System.Drawing.Size(173, 60);
-			cpnlSimulation.WorkingArea.TabIndex = 1;
+			this.cpnlSimulation.WorkingArea.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+			this.cpnlSimulation.WorkingArea.BackColor = System.Drawing.SystemColors.Control;
+			this.cpnlSimulation.WorkingArea.Controls.Add(this.simulationControl);
+			this.cpnlSimulation.WorkingArea.Location = new System.Drawing.Point(4, 28);
+			this.cpnlSimulation.WorkingArea.Name = "WorkingArea";
+			this.cpnlSimulation.WorkingArea.Size = new System.Drawing.Size(173, 60);
+			this.cpnlSimulation.WorkingArea.TabIndex = 1;
 			// 
 			// simulationControl
 			// 
-			simulationControl.Dock = System.Windows.Forms.DockStyle.Fill;
-			simulationControl.Font = new System.Drawing.Font("Tahoma", 8.25F);
-			simulationControl.Location = new System.Drawing.Point(0, 0);
-			simulationControl.Name = "simulationControl";
-			simulationControl.Size = new System.Drawing.Size(173, 60);
-			simulationControl.TabIndex = 0;
+			this.simulationControl.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.simulationControl.Font = new System.Drawing.Font("Tahoma", 8.25F);
+			this.simulationControl.Location = new System.Drawing.Point(0, 0);
+			this.simulationControl.Name = "simulationControl";
+			this.simulationControl.Size = new System.Drawing.Size(173, 60);
+			this.simulationControl.TabIndex = 0;
 			// 
 			// cpnlFilterOnDate
 			// 
-			cpnlFilterOnDate.Font = new System.Drawing.Font("Tahoma", 8.25F);
-			cpnlFilterOnDate.HeightExpanded = 133;
-			cpnlFilterOnDate.Location = new System.Drawing.Point(0, 510);
-			cpnlFilterOnDate.Name = "cpnlFilterOnDate";
-			cpnlFilterOnDate.Size = new System.Drawing.Size(189, 133);
-			cpnlFilterOnDate.TabIndex = 5;
-			cpnlFilterOnDate.Title = "Filter on date";
+			this.cpnlFilterOnDate.Font = new System.Drawing.Font("Tahoma", 8.25F);
+			this.cpnlFilterOnDate.HeightExpanded = 133;
+			this.cpnlFilterOnDate.Location = new System.Drawing.Point(0, 510);
+			this.cpnlFilterOnDate.Name = "cpnlFilterOnDate";
+			this.cpnlFilterOnDate.Size = new System.Drawing.Size(189, 133);
+			this.cpnlFilterOnDate.TabIndex = 5;
+			this.cpnlFilterOnDate.Title = "Filter on date";
 			// 
 			// 
 			// 
-			cpnlFilterOnDate.WorkingArea.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-			cpnlFilterOnDate.WorkingArea.BackColor = System.Drawing.SystemColors.Control;
-			cpnlFilterOnDate.WorkingArea.Controls.Add(filterControl);
-			cpnlFilterOnDate.WorkingArea.Location = new System.Drawing.Point(4, 28);
-			cpnlFilterOnDate.WorkingArea.Name = "WorkingArea";
-			cpnlFilterOnDate.WorkingArea.Size = new System.Drawing.Size(173, 98);
-			cpnlFilterOnDate.WorkingArea.TabIndex = 1;
+			this.cpnlFilterOnDate.WorkingArea.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+			this.cpnlFilterOnDate.WorkingArea.BackColor = System.Drawing.SystemColors.Control;
+			this.cpnlFilterOnDate.WorkingArea.Controls.Add(this.filterControl);
+			this.cpnlFilterOnDate.WorkingArea.Location = new System.Drawing.Point(4, 28);
+			this.cpnlFilterOnDate.WorkingArea.Name = "WorkingArea";
+			this.cpnlFilterOnDate.WorkingArea.Size = new System.Drawing.Size(173, 98);
+			this.cpnlFilterOnDate.WorkingArea.TabIndex = 1;
 			// 
 			// filterControl
 			// 
-			filterControl.Dock = System.Windows.Forms.DockStyle.Fill;
-			filterControl.Font = new System.Drawing.Font("Tahoma", 8.25F);
-			filterControl.Location = new System.Drawing.Point(0, 0);
-			filterControl.Name = "filterControl";
-			filterControl.Size = new System.Drawing.Size(173, 98);
-			filterControl.TabIndex = 0;
+			this.filterControl.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.filterControl.Font = new System.Drawing.Font("Tahoma", 8.25F);
+			this.filterControl.Location = new System.Drawing.Point(0, 0);
+			this.filterControl.Name = "filterControl";
+			this.filterControl.Size = new System.Drawing.Size(173, 98);
+			this.filterControl.TabIndex = 0;
 			// 
 			// cpnlInfoLabels
 			// 
-			cpnlInfoLabels.Font = new System.Drawing.Font("Tahoma", 8.25F);
-			cpnlInfoLabels.HeightExpanded = 86;
-			cpnlInfoLabels.Location = new System.Drawing.Point(0, 639);
-			cpnlInfoLabels.Name = "cpnlInfoLabels";
-			cpnlInfoLabels.Size = new System.Drawing.Size(189, 86);
-			cpnlInfoLabels.TabIndex = 6;
-			cpnlInfoLabels.Title = "Info labels";
+			this.cpnlInfoLabels.Font = new System.Drawing.Font("Tahoma", 8.25F);
+			this.cpnlInfoLabels.HeightExpanded = 86;
+			this.cpnlInfoLabels.Location = new System.Drawing.Point(0, 639);
+			this.cpnlInfoLabels.Name = "cpnlInfoLabels";
+			this.cpnlInfoLabels.Size = new System.Drawing.Size(189, 86);
+			this.cpnlInfoLabels.TabIndex = 6;
+			this.cpnlInfoLabels.Title = "Info labels";
 			// 
 			// 
 			// 
-			cpnlInfoLabels.WorkingArea.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-			cpnlInfoLabels.WorkingArea.BackColor = System.Drawing.SystemColors.Control;
-			cpnlInfoLabels.WorkingArea.Controls.Add(infoLabelsControl);
-			cpnlInfoLabels.WorkingArea.Location = new System.Drawing.Point(4, 28);
-			cpnlInfoLabels.WorkingArea.Name = "WorkingArea";
-			cpnlInfoLabels.WorkingArea.Size = new System.Drawing.Size(173, 51);
-			cpnlInfoLabels.WorkingArea.TabIndex = 1;
+			this.cpnlInfoLabels.WorkingArea.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+			this.cpnlInfoLabels.WorkingArea.BackColor = System.Drawing.SystemColors.Control;
+			this.cpnlInfoLabels.WorkingArea.Controls.Add(this.infoLabelsControl);
+			this.cpnlInfoLabels.WorkingArea.Location = new System.Drawing.Point(4, 28);
+			this.cpnlInfoLabels.WorkingArea.Name = "WorkingArea";
+			this.cpnlInfoLabels.WorkingArea.Size = new System.Drawing.Size(173, 51);
+			this.cpnlInfoLabels.WorkingArea.TabIndex = 1;
 			// 
 			// infoLabelsControl
 			// 
-			infoLabelsControl.Dock = System.Windows.Forms.DockStyle.Fill;
-			infoLabelsControl.Font = new System.Drawing.Font("Tahoma", 8.25F);
-			infoLabelsControl.Location = new System.Drawing.Point(0, 0);
-			infoLabelsControl.Name = "infoLabelsControl";
-			infoLabelsControl.Size = new System.Drawing.Size(173, 51);
-			infoLabelsControl.TabIndex = 0;
+			this.infoLabelsControl.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.infoLabelsControl.Font = new System.Drawing.Font("Tahoma", 8.25F);
+			this.infoLabelsControl.Location = new System.Drawing.Point(0, 0);
+			this.infoLabelsControl.Name = "infoLabelsControl";
+			this.infoLabelsControl.Size = new System.Drawing.Size(173, 51);
+			this.infoLabelsControl.TabIndex = 0;
 			// 
 			// cpnlMisc
 			// 
-			cpnlMisc.Font = new System.Drawing.Font("Tahoma", 8.25F);
-			cpnlMisc.HeightExpanded = 112;
-			cpnlMisc.Location = new System.Drawing.Point(0, 721);
-			cpnlMisc.Name = "cpnlMisc";
-			cpnlMisc.Size = new System.Drawing.Size(189, 112);
-			cpnlMisc.TabIndex = 7;
-			cpnlMisc.Title = "Misc.";
+			this.cpnlMisc.Font = new System.Drawing.Font("Tahoma", 8.25F);
+			this.cpnlMisc.HeightExpanded = 112;
+			this.cpnlMisc.Location = new System.Drawing.Point(0, 721);
+			this.cpnlMisc.Name = "cpnlMisc";
+			this.cpnlMisc.Size = new System.Drawing.Size(189, 112);
+			this.cpnlMisc.TabIndex = 7;
+			this.cpnlMisc.Title = "Misc.";
 			// 
 			// 
 			// 
-			cpnlMisc.WorkingArea.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-			cpnlMisc.WorkingArea.BackColor = System.Drawing.SystemColors.Control;
-			cpnlMisc.WorkingArea.Controls.Add(miscControl);
-			cpnlMisc.WorkingArea.Location = new System.Drawing.Point(4, 28);
-			cpnlMisc.WorkingArea.Name = "WorkingArea";
-			cpnlMisc.WorkingArea.Size = new System.Drawing.Size(173, 77);
-			cpnlMisc.WorkingArea.TabIndex = 1;
+			this.cpnlMisc.WorkingArea.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+			this.cpnlMisc.WorkingArea.BackColor = System.Drawing.SystemColors.Control;
+			this.cpnlMisc.WorkingArea.Controls.Add(this.miscControl);
+			this.cpnlMisc.WorkingArea.Location = new System.Drawing.Point(4, 28);
+			this.cpnlMisc.WorkingArea.Name = "WorkingArea";
+			this.cpnlMisc.WorkingArea.Size = new System.Drawing.Size(173, 77);
+			this.cpnlMisc.WorkingArea.TabIndex = 1;
 			// 
 			// miscControl
 			// 
-			miscControl.Dock = System.Windows.Forms.DockStyle.Fill;
-			miscControl.Font = new System.Drawing.Font("Tahoma", 8.25F);
-			miscControl.Location = new System.Drawing.Point(0, 0);
-			miscControl.Name = "miscControl";
-			miscControl.Size = new System.Drawing.Size(173, 77);
-			miscControl.TabIndex = 0;
+			this.miscControl.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.miscControl.Font = new System.Drawing.Font("Tahoma", 8.25F);
+			this.miscControl.Location = new System.Drawing.Point(0, 0);
+			this.miscControl.Name = "miscControl";
+			this.miscControl.Size = new System.Drawing.Size(173, 77);
+			this.miscControl.TabIndex = 0;
 			// 
 			// orbitPanel
 			// 
-			orbitPanel.BackColor = System.Drawing.Color.Black;
-			orbitPanel.Controls.Add(scrollVert);
-			orbitPanel.Controls.Add(scrollHorz);
-			orbitPanel.Controls.Add(scrollZoom);
-			orbitPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-			orbitPanel.Location = new System.Drawing.Point(192, 0);
-			orbitPanel.MinimumSize = new System.Drawing.Size(682, 458);
-			orbitPanel.Name = "orbitPanel";
-			orbitPanel.Size = new System.Drawing.Size(742, 900);
-			orbitPanel.TabIndex = 0;
-			orbitPanel.MouseClick += orbitPanel_MouseClick;
-			orbitPanel.MouseDoubleClick += orbitPanel_MouseDoubleClick;
-			orbitPanel.MouseDown += orbitPanel_MouseDown;
-			orbitPanel.MouseEnter += orbitPanel_MouseEnter;
-			orbitPanel.MouseLeave += orbitPanel_MouseLeave;
-			orbitPanel.MouseMove += orbitPanel_MouseMove;
-			orbitPanel.PreviewKeyDown += orbitPanel_PreviewKeyDown;
-			orbitPanel.Resize += orbitPanel_Resize;
+			this.orbitPanel.BackColor = System.Drawing.Color.Black;
+			this.orbitPanel.Controls.Add(this.scrollVert);
+			this.orbitPanel.Controls.Add(this.scrollHorz);
+			this.orbitPanel.Controls.Add(this.scrollZoom);
+			this.orbitPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.orbitPanel.Location = new System.Drawing.Point(192, 0);
+			this.orbitPanel.MinimumSize = new System.Drawing.Size(682, 458);
+			this.orbitPanel.Name = "orbitPanel";
+			this.orbitPanel.Size = new System.Drawing.Size(742, 900);
+			this.orbitPanel.TabIndex = 0;
+			this.orbitPanel.MouseClick += orbitPanel_MouseClick;
+			this.orbitPanel.MouseDoubleClick += orbitPanel_MouseDoubleClick;
+			this.orbitPanel.MouseDown += orbitPanel_MouseDown;
+			this.orbitPanel.MouseEnter += orbitPanel_MouseEnter;
+			this.orbitPanel.MouseLeave += orbitPanel_MouseLeave;
+			this.orbitPanel.MouseMove += orbitPanel_MouseMove;
+			this.orbitPanel.PreviewKeyDown += orbitPanel_PreviewKeyDown;
+			this.orbitPanel.Resize += orbitPanel_Resize;
 			// 
 			// scrollVert
 			// 
-			scrollVert.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-			scrollVert.LargeChange = 1;
-			scrollVert.Location = new System.Drawing.Point(708, 16);
-			scrollVert.Maximum = 359;
-			scrollVert.Name = "scrollVert";
-			scrollVert.Size = new System.Drawing.Size(17, 272);
-			scrollVert.TabIndex = 0;
-			scrollVert.Visible = false;
-			scrollVert.ValueChanged += scrollVert_ValueChanged;
+			this.scrollVert.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+			this.scrollVert.LargeChange = 1;
+			this.scrollVert.Location = new System.Drawing.Point(708, 16);
+			this.scrollVert.Maximum = 359;
+			this.scrollVert.Name = "scrollVert";
+			this.scrollVert.Size = new System.Drawing.Size(17, 272);
+			this.scrollVert.TabIndex = 0;
+			this.scrollVert.Visible = false;
+			this.scrollVert.ValueChanged += scrollVert_ValueChanged;
 			// 
 			// scrollHorz
 			// 
-			scrollHorz.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-			scrollHorz.LargeChange = 1;
-			scrollHorz.Location = new System.Drawing.Point(432, 300);
-			scrollHorz.Maximum = 359;
-			scrollHorz.Name = "scrollHorz";
-			scrollHorz.Size = new System.Drawing.Size(293, 17);
-			scrollHorz.TabIndex = 1;
-			scrollHorz.Visible = false;
-			scrollHorz.ValueChanged += scrollHorz_ValueChanged;
+			this.scrollHorz.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+			this.scrollHorz.LargeChange = 1;
+			this.scrollHorz.Location = new System.Drawing.Point(432, 300);
+			this.scrollHorz.Maximum = 359;
+			this.scrollHorz.Name = "scrollHorz";
+			this.scrollHorz.Size = new System.Drawing.Size(293, 17);
+			this.scrollHorz.TabIndex = 1;
+			this.scrollHorz.Visible = false;
+			this.scrollHorz.ValueChanged += scrollHorz_ValueChanged;
 			// 
 			// scrollZoom
 			// 
-			scrollZoom.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-			scrollZoom.Location = new System.Drawing.Point(432, 327);
-			scrollZoom.Maximum = 5000;
-			scrollZoom.Minimum = 5;
-			scrollZoom.Name = "scrollZoom";
-			scrollZoom.Size = new System.Drawing.Size(293, 17);
-			scrollZoom.TabIndex = 2;
-			scrollZoom.Value = 5;
-			scrollZoom.Visible = false;
-			scrollZoom.ValueChanged += scrollZoom_ValueChanged;
+			this.scrollZoom.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+			this.scrollZoom.Location = new System.Drawing.Point(432, 327);
+			this.scrollZoom.Maximum = 5000;
+			this.scrollZoom.Minimum = 5;
+			this.scrollZoom.Name = "scrollZoom";
+			this.scrollZoom.Size = new System.Drawing.Size(293, 17);
+			this.scrollZoom.TabIndex = 2;
+			this.scrollZoom.Value = 5;
+			this.scrollZoom.Visible = false;
+			this.scrollZoom.ValueChanged += scrollZoom_ValueChanged;
 			// 
 			// OrbitViewerControl
 			// 
-			AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-			AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			Controls.Add(orbitPanel);
-			Controls.Add(pnlToolbox);
-			Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
-			MinimumSize = new System.Drawing.Size(720, 650);
-			Name = "OrbitViewerControl";
-			Size = new System.Drawing.Size(934, 900);
-			pnlToolbox.ResumeLayout(false);
-			cpnlComet.WorkingArea.ResumeLayout(false);
-			cpnlMode.WorkingArea.ResumeLayout(false);
-			cpnlDisplay.WorkingArea.ResumeLayout(false);
-			cpnlDateTime.WorkingArea.ResumeLayout(false);
-			cpnlSimulation.WorkingArea.ResumeLayout(false);
-			cpnlFilterOnDate.WorkingArea.ResumeLayout(false);
-			cpnlInfoLabels.WorkingArea.ResumeLayout(false);
-			cpnlMisc.WorkingArea.ResumeLayout(false);
-			orbitPanel.ResumeLayout(false);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.orbitPanel);
+			this.Controls.Add(this.pnlToolbox);
+			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
+			this.MinimumSize = new System.Drawing.Size(720, 650);
+			this.Name = "OrbitViewerControl";
+			this.Size = new System.Drawing.Size(934, 900);
+			this.pnlToolbox.ResumeLayout(false);
+			this.cpnlComet.WorkingArea.ResumeLayout(false);
+			this.cpnlMode.WorkingArea.ResumeLayout(false);
+			this.cpnlDisplay.WorkingArea.ResumeLayout(false);
+			this.cpnlDateTime.WorkingArea.ResumeLayout(false);
+			this.cpnlSimulation.WorkingArea.ResumeLayout(false);
+			this.cpnlFilterOnDate.WorkingArea.ResumeLayout(false);
+			this.cpnlInfoLabels.WorkingArea.ResumeLayout(false);
+			this.cpnlMisc.WorkingArea.ResumeLayout(false);
+			this.orbitPanel.ResumeLayout(false);
 			ResumeLayout(false);
 		}
 

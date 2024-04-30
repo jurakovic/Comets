@@ -28,107 +28,107 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			pnlSimulation = new System.Windows.Forms.Panel();
-			btnRevPlay = new System.Windows.Forms.Button();
-			btnRevStep = new System.Windows.Forms.Button();
-			cboTimestep = new System.Windows.Forms.ComboBox();
-			btnStop = new System.Windows.Forms.Button();
-			btnForPlay = new System.Windows.Forms.Button();
-			btnForStep = new System.Windows.Forms.Button();
-			pnlSimulation.SuspendLayout();
+			this.pnlSimulation = new System.Windows.Forms.Panel();
+			this.btnRevPlay = new System.Windows.Forms.Button();
+			this.btnRevStep = new System.Windows.Forms.Button();
+			this.cboTimestep = new System.Windows.Forms.ComboBox();
+			this.btnStop = new System.Windows.Forms.Button();
+			this.btnForPlay = new System.Windows.Forms.Button();
+			this.btnForStep = new System.Windows.Forms.Button();
+			this.pnlSimulation.SuspendLayout();
 			SuspendLayout();
 			// 
 			// pnlSimulation
 			// 
-			pnlSimulation.BackColor = System.Drawing.SystemColors.ControlDark;
-			pnlSimulation.Controls.Add(btnRevPlay);
-			pnlSimulation.Controls.Add(btnRevStep);
-			pnlSimulation.Controls.Add(cboTimestep);
-			pnlSimulation.Controls.Add(btnStop);
-			pnlSimulation.Controls.Add(btnForPlay);
-			pnlSimulation.Controls.Add(btnForStep);
-			pnlSimulation.Dock = System.Windows.Forms.DockStyle.Fill;
-			pnlSimulation.Location = new System.Drawing.Point(0, 0);
-			pnlSimulation.Name = "pnlSimulation";
-			pnlSimulation.Size = new System.Drawing.Size(173, 60);
-			pnlSimulation.TabIndex = 0;
+			this.pnlSimulation.BackColor = System.Drawing.SystemColors.ControlDark;
+			this.pnlSimulation.Controls.Add(this.btnRevPlay);
+			this.pnlSimulation.Controls.Add(this.btnRevStep);
+			this.pnlSimulation.Controls.Add(this.cboTimestep);
+			this.pnlSimulation.Controls.Add(this.btnStop);
+			this.pnlSimulation.Controls.Add(this.btnForPlay);
+			this.pnlSimulation.Controls.Add(this.btnForStep);
+			this.pnlSimulation.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pnlSimulation.Location = new System.Drawing.Point(0, 0);
+			this.pnlSimulation.Name = "pnlSimulation";
+			this.pnlSimulation.Size = new System.Drawing.Size(173, 60);
+			this.pnlSimulation.TabIndex = 0;
 			// 
 			// btnRevPlay
 			// 
-			btnRevPlay.Font = new System.Drawing.Font("Tahoma", 6.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 238);
-			btnRevPlay.Location = new System.Drawing.Point(5, 5);
-			btnRevPlay.Name = "btnRevPlay";
-			btnRevPlay.Size = new System.Drawing.Size(31, 23);
-			btnRevPlay.TabIndex = 0;
-			btnRevPlay.Text = "<<";
-			btnRevPlay.UseVisualStyleBackColor = true;
-			btnRevPlay.Click += btnRevPlay_Click;
+			this.btnRevPlay.Font = new System.Drawing.Font("Tahoma", 6.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 238);
+			this.btnRevPlay.Location = new System.Drawing.Point(5, 5);
+			this.btnRevPlay.Name = "btnRevPlay";
+			this.btnRevPlay.Size = new System.Drawing.Size(31, 23);
+			this.btnRevPlay.TabIndex = 0;
+			this.btnRevPlay.Text = "<<";
+			this.btnRevPlay.UseVisualStyleBackColor = true;
+			this.btnRevPlay.Click += btnRevPlay_Click;
 			// 
 			// btnRevStep
 			// 
-			btnRevStep.Font = new System.Drawing.Font("Tahoma", 6.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 238);
-			btnRevStep.Location = new System.Drawing.Point(38, 5);
-			btnRevStep.Name = "btnRevStep";
-			btnRevStep.Size = new System.Drawing.Size(31, 23);
-			btnRevStep.TabIndex = 1;
-			btnRevStep.Text = "|<";
-			btnRevStep.UseVisualStyleBackColor = true;
-			btnRevStep.Click += btnRevStep_Click;
+			this.btnRevStep.Font = new System.Drawing.Font("Tahoma", 6.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 238);
+			this.btnRevStep.Location = new System.Drawing.Point(38, 5);
+			this.btnRevStep.Name = "btnRevStep";
+			this.btnRevStep.Size = new System.Drawing.Size(31, 23);
+			this.btnRevStep.TabIndex = 1;
+			this.btnRevStep.Text = "|<";
+			this.btnRevStep.UseVisualStyleBackColor = true;
+			this.btnRevStep.Click += btnRevStep_Click;
 			// 
 			// cboTimestep
 			// 
-			cboTimestep.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			cboTimestep.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
-			cboTimestep.FormattingEnabled = true;
-			cboTimestep.Location = new System.Drawing.Point(5, 34);
-			cboTimestep.Name = "cboTimestep";
-			cboTimestep.Size = new System.Drawing.Size(163, 21);
-			cboTimestep.TabIndex = 5;
-			cboTimestep.SelectedIndexChanged += cboTimestep_SelectedIndexChanged;
+			this.cboTimestep.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cboTimestep.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
+			this.cboTimestep.FormattingEnabled = true;
+			this.cboTimestep.Location = new System.Drawing.Point(5, 34);
+			this.cboTimestep.Name = "cboTimestep";
+			this.cboTimestep.Size = new System.Drawing.Size(163, 21);
+			this.cboTimestep.TabIndex = 5;
+			this.cboTimestep.SelectedIndexChanged += cboTimestep_SelectedIndexChanged;
 			// 
 			// btnStop
 			// 
-			btnStop.Font = new System.Drawing.Font("Tahoma", 6.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 238);
-			btnStop.Location = new System.Drawing.Point(71, 5);
-			btnStop.Name = "btnStop";
-			btnStop.Size = new System.Drawing.Size(31, 23);
-			btnStop.TabIndex = 2;
-			btnStop.Text = "||";
-			btnStop.UseVisualStyleBackColor = true;
-			btnStop.Click += btnStop_Click;
+			this.btnStop.Font = new System.Drawing.Font("Tahoma", 6.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 238);
+			this.btnStop.Location = new System.Drawing.Point(71, 5);
+			this.btnStop.Name = "btnStop";
+			this.btnStop.Size = new System.Drawing.Size(31, 23);
+			this.btnStop.TabIndex = 2;
+			this.btnStop.Text = "||";
+			this.btnStop.UseVisualStyleBackColor = true;
+			this.btnStop.Click += btnStop_Click;
 			// 
 			// btnForPlay
 			// 
-			btnForPlay.Font = new System.Drawing.Font("Tahoma", 6.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 238);
-			btnForPlay.Location = new System.Drawing.Point(137, 5);
-			btnForPlay.Name = "btnForPlay";
-			btnForPlay.Size = new System.Drawing.Size(31, 23);
-			btnForPlay.TabIndex = 4;
-			btnForPlay.Text = ">>";
-			btnForPlay.UseVisualStyleBackColor = true;
-			btnForPlay.Click += btnForPlay_Click;
+			this.btnForPlay.Font = new System.Drawing.Font("Tahoma", 6.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 238);
+			this.btnForPlay.Location = new System.Drawing.Point(137, 5);
+			this.btnForPlay.Name = "btnForPlay";
+			this.btnForPlay.Size = new System.Drawing.Size(31, 23);
+			this.btnForPlay.TabIndex = 4;
+			this.btnForPlay.Text = ">>";
+			this.btnForPlay.UseVisualStyleBackColor = true;
+			this.btnForPlay.Click += btnForPlay_Click;
 			// 
 			// btnForStep
 			// 
-			btnForStep.Font = new System.Drawing.Font("Tahoma", 6.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 238);
-			btnForStep.Location = new System.Drawing.Point(104, 5);
-			btnForStep.Name = "btnForStep";
-			btnForStep.Size = new System.Drawing.Size(31, 23);
-			btnForStep.TabIndex = 3;
-			btnForStep.Text = ">|";
-			btnForStep.UseVisualStyleBackColor = true;
-			btnForStep.Click += btnForStep_Click;
+			this.btnForStep.Font = new System.Drawing.Font("Tahoma", 6.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 238);
+			this.btnForStep.Location = new System.Drawing.Point(104, 5);
+			this.btnForStep.Name = "btnForStep";
+			this.btnForStep.Size = new System.Drawing.Size(31, 23);
+			this.btnForStep.TabIndex = 3;
+			this.btnForStep.Text = ">|";
+			this.btnForStep.UseVisualStyleBackColor = true;
+			this.btnForStep.Click += btnForStep_Click;
 			// 
 			// SimulationControl
 			// 
-			AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-			AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			Controls.Add(pnlSimulation);
-			Font = new System.Drawing.Font("Tahoma", 8.25F);
-			Name = "SimulationControl";
-			Size = new System.Drawing.Size(173, 60);
-			Load += SimulationControl_Load;
-			pnlSimulation.ResumeLayout(false);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.pnlSimulation);
+			this.Font = new System.Drawing.Font("Tahoma", 8.25F);
+			this.Name = "SimulationControl";
+			this.Size = new System.Drawing.Size(173, 60);
+			this.Load += SimulationControl_Load;
+			this.pnlSimulation.ResumeLayout(false);
 			ResumeLayout(false);
 		}
 
