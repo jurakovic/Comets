@@ -28,31 +28,31 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			pnlMisc = new Panel();
-			cbxShowAxes = new CheckBox();
-			btnSaveImage = new Button();
-			cbxAntialiasing = new CheckBox();
+			pnlMisc = new System.Windows.Forms.Panel();
+			cbxShowAxes = new System.Windows.Forms.CheckBox();
+			btnSaveImage = new System.Windows.Forms.Button();
+			cbxAntialiasing = new System.Windows.Forms.CheckBox();
 			pnlMisc.SuspendLayout();
 			SuspendLayout();
 			// 
 			// pnlMisc
 			// 
-			pnlMisc.BackColor = SystemColors.ControlDark;
+			pnlMisc.BackColor = System.Drawing.SystemColors.ControlDark;
 			pnlMisc.Controls.Add(cbxShowAxes);
 			pnlMisc.Controls.Add(btnSaveImage);
 			pnlMisc.Controls.Add(cbxAntialiasing);
-			pnlMisc.Dock = DockStyle.Fill;
-			pnlMisc.Location = new Point(0, 0);
+			pnlMisc.Dock = System.Windows.Forms.DockStyle.Fill;
+			pnlMisc.Location = new System.Drawing.Point(0, 0);
 			pnlMisc.Name = "pnlMisc";
-			pnlMisc.Size = new Size(173, 77);
+			pnlMisc.Size = new System.Drawing.Size(173, 77);
 			pnlMisc.TabIndex = 0;
 			// 
 			// cbxShowAxes
 			// 
 			cbxShowAxes.AutoSize = true;
-			cbxShowAxes.Location = new Point(6, 5);
+			cbxShowAxes.Location = new System.Drawing.Point(6, 5);
 			cbxShowAxes.Name = "cbxShowAxes";
-			cbxShowAxes.Size = new Size(78, 17);
+			cbxShowAxes.Size = new System.Drawing.Size(78, 17);
 			cbxShowAxes.TabIndex = 0;
 			cbxShowAxes.Text = "Show axes";
 			cbxShowAxes.UseVisualStyleBackColor = true;
@@ -60,9 +60,9 @@
 			// 
 			// btnSaveImage
 			// 
-			btnSaveImage.Location = new Point(4, 50);
+			btnSaveImage.Location = new System.Drawing.Point(4, 50);
 			btnSaveImage.Name = "btnSaveImage";
-			btnSaveImage.Size = new Size(165, 23);
+			btnSaveImage.Size = new System.Drawing.Size(165, 23);
 			btnSaveImage.TabIndex = 2;
 			btnSaveImage.Text = "Save image";
 			btnSaveImage.UseVisualStyleBackColor = true;
@@ -71,9 +71,9 @@
 			// cbxAntialiasing
 			// 
 			cbxAntialiasing.AutoSize = true;
-			cbxAntialiasing.Location = new Point(6, 28);
+			cbxAntialiasing.Location = new System.Drawing.Point(6, 28);
 			cbxAntialiasing.Name = "cbxAntialiasing";
-			cbxAntialiasing.Size = new Size(80, 17);
+			cbxAntialiasing.Size = new System.Drawing.Size(80, 17);
 			cbxAntialiasing.TabIndex = 1;
 			cbxAntialiasing.Text = "Antialiasing";
 			cbxAntialiasing.UseVisualStyleBackColor = true;
@@ -81,12 +81,12 @@
 			// 
 			// MiscControl
 			// 
-			AutoScaleDimensions = new SizeF(6F, 13F);
-			AutoScaleMode = AutoScaleMode.Font;
+			AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			Controls.Add(pnlMisc);
-			Font = new Font("Tahoma", 8.25F);
+			Font = new System.Drawing.Font("Tahoma", 8.25F);
 			Name = "MiscControl";
-			Size = new Size(173, 77);
+			Size = new System.Drawing.Size(173, 77);
 			pnlMisc.ResumeLayout(false);
 			pnlMisc.PerformLayout();
 			ResumeLayout(false);

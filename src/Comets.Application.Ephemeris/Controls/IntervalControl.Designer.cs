@@ -28,20 +28,20 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			gbxTimestamp = new GroupBox();
-			lblM = new Label();
-			lblH = new Label();
-			lblD = new Label();
-			txtMinInterval = new TextBox();
-			txtHourInterval = new TextBox();
-			txtDayInterval = new TextBox();
-			btnDefaultInterval = new Button();
+			gbxTimestamp = new System.Windows.Forms.GroupBox();
+			lblM = new System.Windows.Forms.Label();
+			lblH = new System.Windows.Forms.Label();
+			lblD = new System.Windows.Forms.Label();
+			txtMinInterval = new System.Windows.Forms.TextBox();
+			txtHourInterval = new System.Windows.Forms.TextBox();
+			txtDayInterval = new System.Windows.Forms.TextBox();
+			btnDefaultInterval = new System.Windows.Forms.Button();
 			gbxTimestamp.SuspendLayout();
 			SuspendLayout();
 			// 
 			// gbxTimestamp
 			// 
-			gbxTimestamp.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+			gbxTimestamp.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
 			gbxTimestamp.Controls.Add(lblM);
 			gbxTimestamp.Controls.Add(lblH);
 			gbxTimestamp.Controls.Add(lblD);
@@ -49,9 +49,9 @@
 			gbxTimestamp.Controls.Add(txtHourInterval);
 			gbxTimestamp.Controls.Add(txtDayInterval);
 			gbxTimestamp.Controls.Add(btnDefaultInterval);
-			gbxTimestamp.Location = new Point(0, 0);
+			gbxTimestamp.Location = new System.Drawing.Point(0, 0);
 			gbxTimestamp.Name = "gbxTimestamp";
-			gbxTimestamp.Size = new Size(204, 85);
+			gbxTimestamp.Size = new System.Drawing.Size(204, 85);
 			gbxTimestamp.TabIndex = 0;
 			gbxTimestamp.TabStop = false;
 			gbxTimestamp.Text = "Interval";
@@ -59,80 +59,80 @@
 			// lblM
 			// 
 			lblM.AutoSize = true;
-			lblM.ForeColor = SystemColors.GrayText;
-			lblM.Location = new Point(106, 32);
+			lblM.ForeColor = System.Drawing.SystemColors.GrayText;
+			lblM.Location = new System.Drawing.Point(106, 32);
 			lblM.Name = "lblM";
-			lblM.Size = new Size(15, 13);
+			lblM.Size = new System.Drawing.Size(15, 13);
 			lblM.TabIndex = 2;
 			lblM.Text = "M";
 			// 
 			// lblH
 			// 
 			lblH.AutoSize = true;
-			lblH.ForeColor = SystemColors.GrayText;
-			lblH.Location = new Point(58, 32);
+			lblH.ForeColor = System.Drawing.SystemColors.GrayText;
+			lblH.Location = new System.Drawing.Point(58, 32);
 			lblH.Name = "lblH";
-			lblH.Size = new Size(14, 13);
+			lblH.Size = new System.Drawing.Size(14, 13);
 			lblH.TabIndex = 1;
 			lblH.Text = "H";
 			// 
 			// lblD
 			// 
 			lblD.AutoSize = true;
-			lblD.ForeColor = SystemColors.GrayText;
-			lblD.Location = new Point(10, 32);
+			lblD.ForeColor = System.Drawing.SystemColors.GrayText;
+			lblD.Location = new System.Drawing.Point(10, 32);
 			lblD.Name = "lblD";
-			lblD.Size = new Size(14, 13);
+			lblD.Size = new System.Drawing.Size(14, 13);
 			lblD.TabIndex = 0;
 			lblD.Text = "D";
 			// 
 			// txtMinInterval
 			// 
-			txtMinInterval.Location = new Point(108, 48);
+			txtMinInterval.Location = new System.Drawing.Point(108, 48);
 			txtMinInterval.Name = "txtMinInterval";
-			txtMinInterval.Size = new Size(42, 21);
+			txtMinInterval.Size = new System.Drawing.Size(42, 21);
 			txtMinInterval.TabIndex = 5;
-			txtMinInterval.TextAlign = HorizontalAlignment.Right;
+			txtMinInterval.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			txtMinInterval.KeyDown += txtIntervalCommon_KeyDown;
 			txtMinInterval.KeyPress += txtIntervalCommon_KeyPress;
 			// 
 			// txtHourInterval
 			// 
-			txtHourInterval.Location = new Point(60, 48);
+			txtHourInterval.Location = new System.Drawing.Point(60, 48);
 			txtHourInterval.Name = "txtHourInterval";
-			txtHourInterval.Size = new Size(42, 21);
+			txtHourInterval.Size = new System.Drawing.Size(42, 21);
 			txtHourInterval.TabIndex = 4;
-			txtHourInterval.TextAlign = HorizontalAlignment.Right;
+			txtHourInterval.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			txtHourInterval.KeyDown += txtIntervalCommon_KeyDown;
 			txtHourInterval.KeyPress += txtIntervalCommon_KeyPress;
 			// 
 			// txtDayInterval
 			// 
-			txtDayInterval.Location = new Point(12, 48);
+			txtDayInterval.Location = new System.Drawing.Point(12, 48);
 			txtDayInterval.Name = "txtDayInterval";
-			txtDayInterval.Size = new Size(42, 21);
+			txtDayInterval.Size = new System.Drawing.Size(42, 21);
 			txtDayInterval.TabIndex = 3;
-			txtDayInterval.TextAlign = HorizontalAlignment.Right;
+			txtDayInterval.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			txtDayInterval.KeyDown += txtIntervalCommon_KeyDown;
 			txtDayInterval.KeyPress += txtIntervalCommon_KeyPress;
 			// 
 			// btnDefaultInterval
 			// 
-			btnDefaultInterval.Location = new Point(156, 51);
+			btnDefaultInterval.Location = new System.Drawing.Point(156, 51);
 			btnDefaultInterval.Name = "btnDefaultInterval";
-			btnDefaultInterval.Size = new Size(16, 16);
+			btnDefaultInterval.Size = new System.Drawing.Size(16, 16);
 			btnDefaultInterval.TabIndex = 6;
 			btnDefaultInterval.UseVisualStyleBackColor = true;
 			btnDefaultInterval.Click += btnDefaultInterval_Click;
 			// 
 			// IntervalControl
 			// 
-			AutoScaleDimensions = new SizeF(6F, 13F);
-			AutoScaleMode = AutoScaleMode.Font;
+			AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			Controls.Add(gbxTimestamp);
-			Font = new Font("Tahoma", 8.25F);
+			Font = new System.Drawing.Font("Tahoma", 8.25F);
 			Name = "IntervalControl";
-			Size = new Size(204, 85);
+			Size = new System.Drawing.Size(204, 85);
 			gbxTimestamp.ResumeLayout(false);
 			gbxTimestamp.PerformLayout();
 			ResumeLayout(false);

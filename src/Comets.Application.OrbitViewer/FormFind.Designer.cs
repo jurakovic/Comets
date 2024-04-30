@@ -28,36 +28,36 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			txtName = new TextBox();
-			lbxFilter = new ListBox();
-			btnCancelHidden = new Button();
-			btnOkHidden = new Button();
+			txtName = new System.Windows.Forms.TextBox();
+			lbxFilter = new System.Windows.Forms.ListBox();
+			btnCancelHidden = new System.Windows.Forms.Button();
+			btnOkHidden = new System.Windows.Forms.Button();
 			SuspendLayout();
 			// 
 			// txtName
 			// 
-			txtName.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-			txtName.BackColor = Color.Black;
-			txtName.Font = new Font("Consolas", 9F, FontStyle.Regular, GraphicsUnit.Point, 238);
-			txtName.ForeColor = Color.White;
-			txtName.Location = new Point(1, 1);
+			txtName.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+			txtName.BackColor = System.Drawing.Color.Black;
+			txtName.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
+			txtName.ForeColor = System.Drawing.Color.White;
+			txtName.Location = new System.Drawing.Point(1, 1);
 			txtName.Name = "txtName";
-			txtName.Size = new Size(278, 22);
+			txtName.Size = new System.Drawing.Size(278, 22);
 			txtName.TabIndex = 1;
 			txtName.TextChanged += txtName_TextChanged;
 			// 
 			// lbxFilter
 			// 
-			lbxFilter.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-			lbxFilter.BackColor = Color.Black;
-			lbxFilter.DrawMode = DrawMode.OwnerDrawFixed;
-			lbxFilter.Font = new Font("Consolas", 9F, FontStyle.Regular, GraphicsUnit.Point, 238);
-			lbxFilter.ForeColor = Color.White;
+			lbxFilter.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+			lbxFilter.BackColor = System.Drawing.Color.Black;
+			lbxFilter.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+			lbxFilter.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
+			lbxFilter.ForeColor = System.Drawing.Color.White;
 			lbxFilter.FormattingEnabled = true;
 			lbxFilter.ItemHeight = 14;
-			lbxFilter.Location = new Point(1, 22);
+			lbxFilter.Location = new System.Drawing.Point(1, 22);
 			lbxFilter.Name = "lbxFilter";
-			lbxFilter.Size = new Size(278, 102);
+			lbxFilter.Size = new System.Drawing.Size(278, 102);
 			lbxFilter.TabIndex = 2;
 			lbxFilter.DrawItem += lbxFilter_DrawItem;
 			lbxFilter.SelectedIndexChanged += lbxFilter_SelectedIndexChanged;
@@ -65,11 +65,11 @@
 			// 
 			// btnCancelHidden
 			// 
-			btnCancelHidden.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-			btnCancelHidden.DialogResult = DialogResult.Cancel;
-			btnCancelHidden.Location = new Point(193, 90);
+			btnCancelHidden.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+			btnCancelHidden.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			btnCancelHidden.Location = new System.Drawing.Point(193, 90);
 			btnCancelHidden.Name = "btnCancelHidden";
-			btnCancelHidden.Size = new Size(75, 23);
+			btnCancelHidden.Size = new System.Drawing.Size(75, 23);
 			btnCancelHidden.TabIndex = 3;
 			btnCancelHidden.TabStop = false;
 			btnCancelHidden.Text = "CancelHidden";
@@ -77,11 +77,11 @@
 			// 
 			// btnOkHidden
 			// 
-			btnOkHidden.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-			btnOkHidden.DialogResult = DialogResult.OK;
-			btnOkHidden.Location = new Point(112, 90);
+			btnOkHidden.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+			btnOkHidden.DialogResult = System.Windows.Forms.DialogResult.OK;
+			btnOkHidden.Location = new System.Drawing.Point(112, 90);
 			btnOkHidden.Name = "btnOkHidden";
-			btnOkHidden.Size = new Size(75, 23);
+			btnOkHidden.Size = new System.Drawing.Size(75, 23);
 			btnOkHidden.TabIndex = 4;
 			btnOkHidden.TabStop = false;
 			btnOkHidden.Text = "OKHidden";
@@ -90,21 +90,21 @@
 			// FormFind
 			// 
 			AcceptButton = btnOkHidden;
-			AutoScaleDimensions = new SizeF(6F, 13F);
-			AutoScaleMode = AutoScaleMode.Font;
+			AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			CancelButton = btnCancelHidden;
-			ClientSize = new Size(280, 125);
+			ClientSize = new System.Drawing.Size(280, 125);
 			Controls.Add(txtName);
 			Controls.Add(lbxFilter);
 			Controls.Add(btnOkHidden);
 			Controls.Add(btnCancelHidden);
-			Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 238);
-			FormBorderStyle = FormBorderStyle.None;
+			Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
+			FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			KeyPreview = true;
 			Name = "FormFind";
 			ShowIcon = false;
 			ShowInTaskbar = false;
-			StartPosition = FormStartPosition.Manual;
+			StartPosition = System.Windows.Forms.FormStartPosition.Manual;
 			Text = "Find";
 			Load += FormFind_Load;
 			KeyDown += FormFind_KeyDown;

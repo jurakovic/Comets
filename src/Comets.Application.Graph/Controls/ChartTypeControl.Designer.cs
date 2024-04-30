@@ -28,22 +28,22 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			gbxChartType = new GroupBox();
-			rbtnEarthDistance = new RadioButton();
-			rbtnSunDistance = new RadioButton();
-			rbtnMagnitude = new RadioButton();
+			gbxChartType = new System.Windows.Forms.GroupBox();
+			rbtnEarthDistance = new System.Windows.Forms.RadioButton();
+			rbtnSunDistance = new System.Windows.Forms.RadioButton();
+			rbtnMagnitude = new System.Windows.Forms.RadioButton();
 			gbxChartType.SuspendLayout();
 			SuspendLayout();
 			// 
 			// gbxChartType
 			// 
-			gbxChartType.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+			gbxChartType.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
 			gbxChartType.Controls.Add(rbtnEarthDistance);
 			gbxChartType.Controls.Add(rbtnSunDistance);
 			gbxChartType.Controls.Add(rbtnMagnitude);
-			gbxChartType.Location = new Point(0, 0);
+			gbxChartType.Location = new System.Drawing.Point(0, 0);
 			gbxChartType.Name = "gbxChartType";
-			gbxChartType.Size = new Size(149, 135);
+			gbxChartType.Size = new System.Drawing.Size(149, 135);
 			gbxChartType.TabIndex = 0;
 			gbxChartType.TabStop = false;
 			gbxChartType.Text = "Chart Type";
@@ -51,9 +51,9 @@
 			// rbtnEarthDistance
 			// 
 			rbtnEarthDistance.AutoSize = true;
-			rbtnEarthDistance.Location = new Point(14, 75);
+			rbtnEarthDistance.Location = new System.Drawing.Point(14, 75);
 			rbtnEarthDistance.Name = "rbtnEarthDistance";
-			rbtnEarthDistance.Size = new Size(94, 17);
+			rbtnEarthDistance.Size = new System.Drawing.Size(94, 17);
 			rbtnEarthDistance.TabIndex = 2;
 			rbtnEarthDistance.Text = "Earth distance";
 			rbtnEarthDistance.UseVisualStyleBackColor = true;
@@ -61,9 +61,9 @@
 			// rbtnSunDistance
 			// 
 			rbtnSunDistance.AutoSize = true;
-			rbtnSunDistance.Location = new Point(14, 47);
+			rbtnSunDistance.Location = new System.Drawing.Point(14, 47);
 			rbtnSunDistance.Name = "rbtnSunDistance";
-			rbtnSunDistance.Size = new Size(86, 17);
+			rbtnSunDistance.Size = new System.Drawing.Size(86, 17);
 			rbtnSunDistance.TabIndex = 1;
 			rbtnSunDistance.Text = "Sun distance";
 			rbtnSunDistance.UseVisualStyleBackColor = true;
@@ -72,9 +72,9 @@
 			// 
 			rbtnMagnitude.AutoSize = true;
 			rbtnMagnitude.Checked = true;
-			rbtnMagnitude.Location = new Point(14, 21);
+			rbtnMagnitude.Location = new System.Drawing.Point(14, 21);
 			rbtnMagnitude.Name = "rbtnMagnitude";
-			rbtnMagnitude.Size = new Size(75, 17);
+			rbtnMagnitude.Size = new System.Drawing.Size(75, 17);
 			rbtnMagnitude.TabIndex = 0;
 			rbtnMagnitude.TabStop = true;
 			rbtnMagnitude.Text = "Magnitude";
@@ -82,12 +82,12 @@
 			// 
 			// ChartTypeControl
 			// 
-			AutoScaleDimensions = new SizeF(6F, 13F);
-			AutoScaleMode = AutoScaleMode.Font;
+			AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			Controls.Add(gbxChartType);
-			Font = new Font("Tahoma", 8.25F);
+			Font = new System.Drawing.Font("Tahoma", 8.25F);
 			Name = "ChartTypeControl";
-			Size = new Size(149, 135);
+			Size = new System.Drawing.Size(149, 135);
 			gbxChartType.ResumeLayout(false);
 			gbxChartType.PerformLayout();
 			ResumeLayout(false);

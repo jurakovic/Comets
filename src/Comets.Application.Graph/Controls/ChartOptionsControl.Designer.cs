@@ -28,21 +28,21 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			gbxChartOptions = new GroupBox();
-			lblValue = new Label();
-			cbxValue = new CheckBox();
-			pnlPerihLineColor = new Panel();
-			pnlNowLineColor = new Panel();
-			pnlMagnitudeColor = new Panel();
-			cbxAntialiasing = new CheckBox();
-			cbxNowLine = new CheckBox();
-			cbxPerihelionLine = new CheckBox();
+			gbxChartOptions = new System.Windows.Forms.GroupBox();
+			lblValue = new System.Windows.Forms.Label();
+			cbxValue = new System.Windows.Forms.CheckBox();
+			pnlPerihLineColor = new System.Windows.Forms.Panel();
+			pnlNowLineColor = new System.Windows.Forms.Panel();
+			pnlMagnitudeColor = new System.Windows.Forms.Panel();
+			cbxAntialiasing = new System.Windows.Forms.CheckBox();
+			cbxNowLine = new System.Windows.Forms.CheckBox();
+			cbxPerihelionLine = new System.Windows.Forms.CheckBox();
 			gbxChartOptions.SuspendLayout();
 			SuspendLayout();
 			// 
 			// gbxChartOptions
 			// 
-			gbxChartOptions.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+			gbxChartOptions.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
 			gbxChartOptions.Controls.Add(lblValue);
 			gbxChartOptions.Controls.Add(cbxValue);
 			gbxChartOptions.Controls.Add(pnlPerihLineColor);
@@ -51,9 +51,9 @@
 			gbxChartOptions.Controls.Add(cbxAntialiasing);
 			gbxChartOptions.Controls.Add(cbxNowLine);
 			gbxChartOptions.Controls.Add(cbxPerihelionLine);
-			gbxChartOptions.Location = new Point(0, 0);
+			gbxChartOptions.Location = new System.Drawing.Point(0, 0);
 			gbxChartOptions.Name = "gbxChartOptions";
-			gbxChartOptions.Size = new Size(189, 135);
+			gbxChartOptions.Size = new System.Drawing.Size(189, 135);
 			gbxChartOptions.TabIndex = 0;
 			gbxChartOptions.TabStop = false;
 			gbxChartOptions.Text = "Chart options";
@@ -61,10 +61,10 @@
 			// lblValue
 			// 
 			lblValue.AutoSize = true;
-			lblValue.Location = new Point(30, 22);
-			lblValue.Margin = new Padding(4, 0, 4, 0);
+			lblValue.Location = new System.Drawing.Point(30, 22);
+			lblValue.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			lblValue.Name = "lblValue";
-			lblValue.Size = new Size(33, 13);
+			lblValue.Size = new System.Drawing.Size(33, 13);
 			lblValue.TabIndex = 1;
 			lblValue.Text = "Value";
 			// 
@@ -72,48 +72,48 @@
 			// 
 			cbxValue.AutoSize = true;
 			cbxValue.Checked = true;
-			cbxValue.CheckState = CheckState.Checked;
+			cbxValue.CheckState = System.Windows.Forms.CheckState.Checked;
 			cbxValue.Enabled = false;
-			cbxValue.Location = new Point(14, 21);
-			cbxValue.Margin = new Padding(4, 3, 4, 3);
+			cbxValue.Location = new System.Drawing.Point(14, 21);
+			cbxValue.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			cbxValue.Name = "cbxValue";
-			cbxValue.Size = new Size(29, 17);
+			cbxValue.Size = new System.Drawing.Size(29, 17);
 			cbxValue.TabIndex = 0;
 			cbxValue.Text = " ";
 			cbxValue.UseVisualStyleBackColor = true;
 			// 
 			// pnlPerihLineColor
 			// 
-			pnlPerihLineColor.BackColor = Color.RoyalBlue;
-			pnlPerihLineColor.BorderStyle = BorderStyle.Fixed3D;
-			pnlPerihLineColor.Location = new Point(136, 72);
-			pnlPerihLineColor.Margin = new Padding(4, 3, 4, 3);
+			pnlPerihLineColor.BackColor = System.Drawing.Color.RoyalBlue;
+			pnlPerihLineColor.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			pnlPerihLineColor.Location = new System.Drawing.Point(136, 72);
+			pnlPerihLineColor.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			pnlPerihLineColor.Name = "pnlPerihLineColor";
-			pnlPerihLineColor.Size = new Size(25, 20);
+			pnlPerihLineColor.Size = new System.Drawing.Size(25, 20);
 			pnlPerihLineColor.TabIndex = 6;
 			pnlPerihLineColor.TabStop = true;
 			pnlPerihLineColor.Click += pnlColorCommon_Click;
 			// 
 			// pnlNowLineColor
 			// 
-			pnlNowLineColor.BackColor = Color.LimeGreen;
-			pnlNowLineColor.BorderStyle = BorderStyle.Fixed3D;
-			pnlNowLineColor.Location = new Point(136, 45);
-			pnlNowLineColor.Margin = new Padding(4, 3, 4, 3);
+			pnlNowLineColor.BackColor = System.Drawing.Color.LimeGreen;
+			pnlNowLineColor.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			pnlNowLineColor.Location = new System.Drawing.Point(136, 45);
+			pnlNowLineColor.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			pnlNowLineColor.Name = "pnlNowLineColor";
-			pnlNowLineColor.Size = new Size(25, 20);
+			pnlNowLineColor.Size = new System.Drawing.Size(25, 20);
 			pnlNowLineColor.TabIndex = 4;
 			pnlNowLineColor.TabStop = true;
 			pnlNowLineColor.Click += pnlColorCommon_Click;
 			// 
 			// pnlMagnitudeColor
 			// 
-			pnlMagnitudeColor.BackColor = Color.Red;
-			pnlMagnitudeColor.BorderStyle = BorderStyle.Fixed3D;
-			pnlMagnitudeColor.Location = new Point(136, 19);
-			pnlMagnitudeColor.Margin = new Padding(4, 3, 4, 3);
+			pnlMagnitudeColor.BackColor = System.Drawing.Color.Red;
+			pnlMagnitudeColor.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			pnlMagnitudeColor.Location = new System.Drawing.Point(136, 19);
+			pnlMagnitudeColor.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			pnlMagnitudeColor.Name = "pnlMagnitudeColor";
-			pnlMagnitudeColor.Size = new Size(25, 20);
+			pnlMagnitudeColor.Size = new System.Drawing.Size(25, 20);
 			pnlMagnitudeColor.TabIndex = 2;
 			pnlMagnitudeColor.TabStop = true;
 			pnlMagnitudeColor.Click += pnlColorCommon_Click;
@@ -121,10 +121,10 @@
 			// cbxAntialiasing
 			// 
 			cbxAntialiasing.AutoSize = true;
-			cbxAntialiasing.Location = new Point(14, 102);
-			cbxAntialiasing.Margin = new Padding(4, 3, 4, 3);
+			cbxAntialiasing.Location = new System.Drawing.Point(14, 102);
+			cbxAntialiasing.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			cbxAntialiasing.Name = "cbxAntialiasing";
-			cbxAntialiasing.Size = new Size(80, 17);
+			cbxAntialiasing.Size = new System.Drawing.Size(80, 17);
 			cbxAntialiasing.TabIndex = 7;
 			cbxAntialiasing.Text = "Antialiasing";
 			cbxAntialiasing.UseVisualStyleBackColor = true;
@@ -133,11 +133,11 @@
 			// 
 			cbxNowLine.AutoSize = true;
 			cbxNowLine.Checked = true;
-			cbxNowLine.CheckState = CheckState.Checked;
-			cbxNowLine.Location = new Point(14, 48);
-			cbxNowLine.Margin = new Padding(4, 3, 4, 3);
+			cbxNowLine.CheckState = System.Windows.Forms.CheckState.Checked;
+			cbxNowLine.Location = new System.Drawing.Point(14, 48);
+			cbxNowLine.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			cbxNowLine.Name = "cbxNowLine";
-			cbxNowLine.Size = new Size(66, 17);
+			cbxNowLine.Size = new System.Drawing.Size(66, 17);
 			cbxNowLine.TabIndex = 3;
 			cbxNowLine.Text = "Now line";
 			cbxNowLine.UseVisualStyleBackColor = true;
@@ -146,24 +146,24 @@
 			// 
 			cbxPerihelionLine.AutoSize = true;
 			cbxPerihelionLine.Checked = true;
-			cbxPerihelionLine.CheckState = CheckState.Checked;
-			cbxPerihelionLine.Location = new Point(14, 75);
-			cbxPerihelionLine.Margin = new Padding(4, 3, 4, 3);
+			cbxPerihelionLine.CheckState = System.Windows.Forms.CheckState.Checked;
+			cbxPerihelionLine.Location = new System.Drawing.Point(14, 75);
+			cbxPerihelionLine.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			cbxPerihelionLine.Name = "cbxPerihelionLine";
-			cbxPerihelionLine.Size = new Size(91, 17);
+			cbxPerihelionLine.Size = new System.Drawing.Size(91, 17);
 			cbxPerihelionLine.TabIndex = 5;
 			cbxPerihelionLine.Text = "Perihelion line";
 			cbxPerihelionLine.UseVisualStyleBackColor = true;
 			// 
 			// ChartOptionsControl
 			// 
-			AutoScaleDimensions = new SizeF(6F, 13F);
-			AutoScaleMode = AutoScaleMode.Font;
+			AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			Controls.Add(gbxChartOptions);
-			Font = new Font("Tahoma", 8.25F);
-			Margin = new Padding(4, 3, 4, 3);
+			Font = new System.Drawing.Font("Tahoma", 8.25F);
+			Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			Name = "ChartOptionsControl";
-			Size = new Size(189, 135);
+			Size = new System.Drawing.Size(189, 135);
 			gbxChartOptions.ResumeLayout(false);
 			gbxChartOptions.PerformLayout();
 			ResumeLayout(false);

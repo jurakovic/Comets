@@ -28,41 +28,41 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			cboFormat = new ComboBox();
-			lblFormat = new Label();
-			btnSave = new Button();
-			pnlElements = new Panel();
-			btnClose = new Button();
-			rtxtElements = new RichTextBox();
+			cboFormat = new System.Windows.Forms.ComboBox();
+			lblFormat = new System.Windows.Forms.Label();
+			btnSave = new System.Windows.Forms.Button();
+			pnlElements = new System.Windows.Forms.Panel();
+			btnClose = new System.Windows.Forms.Button();
+			rtxtElements = new System.Windows.Forms.RichTextBox();
 			pnlElements.SuspendLayout();
 			SuspendLayout();
 			// 
 			// cboFormat
 			// 
-			cboFormat.DropDownStyle = ComboBoxStyle.DropDownList;
+			cboFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			cboFormat.FormattingEnabled = true;
-			cboFormat.Location = new Point(62, 9);
+			cboFormat.Location = new System.Drawing.Point(62, 9);
 			cboFormat.Name = "cboFormat";
-			cboFormat.Size = new Size(280, 21);
+			cboFormat.Size = new System.Drawing.Size(280, 21);
 			cboFormat.TabIndex = 1;
 			cboFormat.SelectedIndexChanged += cboFormat_SelectedIndexChanged;
 			// 
 			// lblFormat
 			// 
 			lblFormat.AutoSize = true;
-			lblFormat.Font = new Font("Tahoma", 8.25F);
-			lblFormat.Location = new Point(8, 12);
+			lblFormat.Font = new System.Drawing.Font("Tahoma", 8.25F);
+			lblFormat.Location = new System.Drawing.Point(8, 12);
 			lblFormat.Name = "lblFormat";
-			lblFormat.Size = new Size(45, 13);
+			lblFormat.Size = new System.Drawing.Size(45, 13);
 			lblFormat.TabIndex = 0;
 			lblFormat.Text = "Format:";
 			// 
 			// btnSave
 			// 
-			btnSave.Font = new Font("Tahoma", 8.25F);
-			btnSave.Location = new Point(351, 8);
+			btnSave.Font = new System.Drawing.Font("Tahoma", 8.25F);
+			btnSave.Location = new System.Drawing.Point(351, 8);
 			btnSave.Name = "btnSave";
-			btnSave.Size = new Size(97, 23);
+			btnSave.Size = new System.Drawing.Size(97, 23);
 			btnSave.TabIndex = 2;
 			btnSave.Text = "Save As";
 			btnSave.UseVisualStyleBackColor = true;
@@ -74,18 +74,18 @@
 			pnlElements.Controls.Add(lblFormat);
 			pnlElements.Controls.Add(btnSave);
 			pnlElements.Controls.Add(cboFormat);
-			pnlElements.Dock = DockStyle.Top;
-			pnlElements.Location = new Point(0, 0);
+			pnlElements.Dock = System.Windows.Forms.DockStyle.Top;
+			pnlElements.Location = new System.Drawing.Point(0, 0);
 			pnlElements.Name = "pnlElements";
-			pnlElements.Size = new Size(1350, 40);
+			pnlElements.Size = new System.Drawing.Size(1350, 40);
 			pnlElements.TabIndex = 0;
 			// 
 			// btnClose
 			// 
-			btnClose.Font = new Font("Tahoma", 8.25F);
-			btnClose.Location = new Point(454, 8);
+			btnClose.Font = new System.Drawing.Font("Tahoma", 8.25F);
+			btnClose.Location = new System.Drawing.Point(454, 8);
 			btnClose.Name = "btnClose";
-			btnClose.Size = new Size(97, 23);
+			btnClose.Size = new System.Drawing.Size(97, 23);
 			btnClose.TabIndex = 3;
 			btnClose.Text = "Close";
 			btnClose.UseVisualStyleBackColor = true;
@@ -93,23 +93,23 @@
 			// 
 			// rtxtElements
 			// 
-			rtxtElements.Dock = DockStyle.Fill;
-			rtxtElements.Font = new Font("Consolas", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 238);
-			rtxtElements.Location = new Point(0, 40);
+			rtxtElements.Dock = System.Windows.Forms.DockStyle.Fill;
+			rtxtElements.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
+			rtxtElements.Location = new System.Drawing.Point(0, 40);
 			rtxtElements.Name = "rtxtElements";
 			rtxtElements.ReadOnly = true;
-			rtxtElements.Size = new Size(1350, 689);
+			rtxtElements.Size = new System.Drawing.Size(1350, 689);
 			rtxtElements.TabIndex = 1;
 			rtxtElements.Text = "";
 			// 
 			// FormElements
 			// 
-			AutoScaleDimensions = new SizeF(6F, 13F);
-			AutoScaleMode = AutoScaleMode.Font;
-			ClientSize = new Size(1350, 729);
+			AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			ClientSize = new System.Drawing.Size(1350, 729);
 			Controls.Add(rtxtElements);
 			Controls.Add(pnlElements);
-			Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 238);
+			Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			Name = "FormElements";
 			ShowIcon = false;
 			ShowInTaskbar = false;

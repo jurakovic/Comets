@@ -28,17 +28,17 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			btnSelectDate = new Button();
+			btnSelectDate = new System.Windows.Forms.Button();
 			dateTimeMenuControl = new DateTimeMenuControl();
 			SuspendLayout();
 			// 
 			// btnSelectDate
 			// 
-			btnSelectDate.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-			btnSelectDate.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-			btnSelectDate.Location = new Point(0, 0);
+			btnSelectDate.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+			btnSelectDate.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+			btnSelectDate.Location = new System.Drawing.Point(0, 0);
 			btnSelectDate.Name = "btnSelectDate";
-			btnSelectDate.Size = new Size(149, 23);
+			btnSelectDate.Size = new System.Drawing.Size(149, 23);
 			btnSelectDate.TabIndex = 0;
 			btnSelectDate.Text = "<datetime>";
 			btnSelectDate.UseVisualStyleBackColor = true;
@@ -46,27 +46,27 @@
 			// 
 			// dateTimeMenuControl
 			// 
-			dateTimeMenuControl.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+			dateTimeMenuControl.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
 			dateTimeMenuControl.DefaultDateTime = null;
-			dateTimeMenuControl.Font = new Font("Tahoma", 8.25F);
-			dateTimeMenuControl.Location = new Point(148, 0);
+			dateTimeMenuControl.Font = new System.Drawing.Font("Tahoma", 8.25F);
+			dateTimeMenuControl.Location = new System.Drawing.Point(148, 0);
 			dateTimeMenuControl.Name = "dateTimeMenuControl";
 			dateTimeMenuControl.PerihelionDate = null;
 			dateTimeMenuControl.ReferenceControl = null;
-			dateTimeMenuControl.SelectedDateTime = new DateTime(0L);
-			dateTimeMenuControl.Size = new Size(24, 23);
+			dateTimeMenuControl.SelectedDateTime = new System.DateTime(0L);
+			dateTimeMenuControl.Size = new System.Drawing.Size(24, 23);
 			dateTimeMenuControl.TabIndex = 1;
 			dateTimeMenuControl.Title = "▼";
 			// 
 			// SelectDateControl
 			// 
-			AutoScaleDimensions = new SizeF(6F, 13F);
-			AutoScaleMode = AutoScaleMode.Font;
+			AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			Controls.Add(btnSelectDate);
 			Controls.Add(dateTimeMenuControl);
-			Font = new Font("Tahoma", 8.25F);
+			Font = new System.Drawing.Font("Tahoma", 8.25F);
 			Name = "SelectDateControl";
-			Size = new Size(172, 23);
+			Size = new System.Drawing.Size(172, 23);
 			ResumeLayout(false);
 		}
 

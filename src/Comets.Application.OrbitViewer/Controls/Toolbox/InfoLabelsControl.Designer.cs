@@ -28,31 +28,31 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			pnlInfoLabels = new Panel();
-			cbxMagDist = new CheckBox();
-			cbxDateTime = new CheckBox();
+			pnlInfoLabels = new System.Windows.Forms.Panel();
+			cbxMagDist = new System.Windows.Forms.CheckBox();
+			cbxDateTime = new System.Windows.Forms.CheckBox();
 			pnlInfoLabels.SuspendLayout();
 			SuspendLayout();
 			// 
 			// pnlInfoLabels
 			// 
-			pnlInfoLabels.BackColor = SystemColors.ControlDark;
+			pnlInfoLabels.BackColor = System.Drawing.SystemColors.ControlDark;
 			pnlInfoLabels.Controls.Add(cbxMagDist);
 			pnlInfoLabels.Controls.Add(cbxDateTime);
-			pnlInfoLabels.Dock = DockStyle.Fill;
-			pnlInfoLabels.Location = new Point(0, 0);
+			pnlInfoLabels.Dock = System.Windows.Forms.DockStyle.Fill;
+			pnlInfoLabels.Location = new System.Drawing.Point(0, 0);
 			pnlInfoLabels.Name = "pnlInfoLabels";
-			pnlInfoLabels.Size = new Size(173, 51);
+			pnlInfoLabels.Size = new System.Drawing.Size(173, 51);
 			pnlInfoLabels.TabIndex = 0;
 			// 
 			// cbxMagDist
 			// 
 			cbxMagDist.AutoSize = true;
 			cbxMagDist.Checked = true;
-			cbxMagDist.CheckState = CheckState.Checked;
-			cbxMagDist.Location = new Point(6, 5);
+			cbxMagDist.CheckState = System.Windows.Forms.CheckState.Checked;
+			cbxMagDist.Location = new System.Drawing.Point(6, 5);
 			cbxMagDist.Name = "cbxMagDist";
-			cbxMagDist.Size = new Size(145, 17);
+			cbxMagDist.Size = new System.Drawing.Size(145, 17);
 			cbxMagDist.TabIndex = 0;
 			cbxMagDist.Text = "Magnitude and distances";
 			cbxMagDist.UseVisualStyleBackColor = true;
@@ -62,10 +62,10 @@
 			// 
 			cbxDateTime.AutoSize = true;
 			cbxDateTime.Checked = true;
-			cbxDateTime.CheckState = CheckState.Checked;
-			cbxDateTime.Location = new Point(6, 28);
+			cbxDateTime.CheckState = System.Windows.Forms.CheckState.Checked;
+			cbxDateTime.Location = new System.Drawing.Point(6, 28);
 			cbxDateTime.Name = "cbxDateTime";
-			cbxDateTime.Size = new Size(95, 17);
+			cbxDateTime.Size = new System.Drawing.Size(95, 17);
 			cbxDateTime.TabIndex = 1;
 			cbxDateTime.Text = "Date and Time";
 			cbxDateTime.UseVisualStyleBackColor = true;
@@ -73,12 +73,12 @@
 			// 
 			// InfoLabelsControl
 			// 
-			AutoScaleDimensions = new SizeF(6F, 13F);
-			AutoScaleMode = AutoScaleMode.Font;
+			AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			Controls.Add(pnlInfoLabels);
-			Font = new Font("Tahoma", 8.25F);
+			Font = new System.Drawing.Font("Tahoma", 8.25F);
 			Name = "InfoLabelsControl";
-			Size = new Size(173, 51);
+			Size = new System.Drawing.Size(173, 51);
 			pnlInfoLabels.ResumeLayout(false);
 			pnlInfoLabels.PerformLayout();
 			ResumeLayout(false);

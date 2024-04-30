@@ -28,46 +28,46 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			gbxValueRange = new GroupBox();
-			txtMaxValue = new TextBox();
-			txtMinValue = new TextBox();
-			cbxMaxValue = new CheckBox();
-			cbxMinValue = new CheckBox();
+			gbxValueRange = new System.Windows.Forms.GroupBox();
+			txtMaxValue = new System.Windows.Forms.TextBox();
+			txtMinValue = new System.Windows.Forms.TextBox();
+			cbxMaxValue = new System.Windows.Forms.CheckBox();
+			cbxMinValue = new System.Windows.Forms.CheckBox();
 			gbxValueRange.SuspendLayout();
 			SuspendLayout();
 			// 
 			// gbxValueRange
 			// 
-			gbxValueRange.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+			gbxValueRange.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
 			gbxValueRange.Controls.Add(txtMaxValue);
 			gbxValueRange.Controls.Add(txtMinValue);
 			gbxValueRange.Controls.Add(cbxMaxValue);
 			gbxValueRange.Controls.Add(cbxMinValue);
-			gbxValueRange.Location = new Point(0, 0);
+			gbxValueRange.Location = new System.Drawing.Point(0, 0);
 			gbxValueRange.Name = "gbxValueRange";
-			gbxValueRange.Size = new Size(153, 135);
+			gbxValueRange.Size = new System.Drawing.Size(153, 135);
 			gbxValueRange.TabIndex = 0;
 			gbxValueRange.TabStop = false;
 			gbxValueRange.Text = "Value range";
 			// 
 			// txtMaxValue
 			// 
-			txtMaxValue.Location = new Point(99, 47);
+			txtMaxValue.Location = new System.Drawing.Point(99, 47);
 			txtMaxValue.Name = "txtMaxValue";
-			txtMaxValue.Size = new Size(45, 21);
+			txtMaxValue.Size = new System.Drawing.Size(45, 21);
 			txtMaxValue.TabIndex = 3;
 			txtMaxValue.Text = "12";
-			txtMaxValue.TextAlign = HorizontalAlignment.Right;
+			txtMaxValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			txtMaxValue.TextChanged += txtMaxMag_TextChanged;
 			txtMaxValue.KeyPress += txtMagCommon_KeyPress;
 			// 
 			// txtMinValue
 			// 
-			txtMinValue.Location = new Point(99, 20);
+			txtMinValue.Location = new System.Drawing.Point(99, 20);
 			txtMinValue.Name = "txtMinValue";
-			txtMinValue.Size = new Size(45, 21);
+			txtMinValue.Size = new System.Drawing.Size(45, 21);
 			txtMinValue.TabIndex = 1;
-			txtMinValue.TextAlign = HorizontalAlignment.Right;
+			txtMinValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			txtMinValue.TextChanged += txtMinMag_TextChanged;
 			txtMinValue.KeyPress += txtMagCommon_KeyPress;
 			// 
@@ -75,10 +75,10 @@
 			// 
 			cbxMaxValue.AutoSize = true;
 			cbxMaxValue.Checked = true;
-			cbxMaxValue.CheckState = CheckState.Checked;
-			cbxMaxValue.Location = new Point(15, 48);
+			cbxMaxValue.CheckState = System.Windows.Forms.CheckState.Checked;
+			cbxMaxValue.Location = new System.Drawing.Point(15, 48);
 			cbxMaxValue.Name = "cbxMaxValue";
-			cbxMaxValue.Size = new Size(70, 17);
+			cbxMaxValue.Size = new System.Drawing.Size(70, 17);
 			cbxMaxValue.TabIndex = 2;
 			cbxMaxValue.Text = "Maximum";
 			cbxMaxValue.UseVisualStyleBackColor = true;
@@ -86,21 +86,21 @@
 			// cbxMinValue
 			// 
 			cbxMinValue.AutoSize = true;
-			cbxMinValue.Location = new Point(15, 21);
+			cbxMinValue.Location = new System.Drawing.Point(15, 21);
 			cbxMinValue.Name = "cbxMinValue";
-			cbxMinValue.Size = new Size(66, 17);
+			cbxMinValue.Size = new System.Drawing.Size(66, 17);
 			cbxMinValue.TabIndex = 0;
 			cbxMinValue.Text = "Minimum";
 			cbxMinValue.UseVisualStyleBackColor = true;
 			// 
 			// ValueRangeControl
 			// 
-			AutoScaleDimensions = new SizeF(6F, 13F);
-			AutoScaleMode = AutoScaleMode.Font;
+			AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			Controls.Add(gbxValueRange);
-			Font = new Font("Tahoma", 8.25F);
+			Font = new System.Drawing.Font("Tahoma", 8.25F);
 			Name = "ValueRangeControl";
-			Size = new Size(153, 135);
+			Size = new System.Drawing.Size(153, 135);
 			gbxValueRange.ResumeLayout(false);
 			gbxValueRange.PerformLayout();
 			ResumeLayout(false);

@@ -28,59 +28,59 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			groupbox = new GroupBox();
-			linkLabel = new LinkLabel();
-			panel = new Panel();
+			groupbox = new System.Windows.Forms.GroupBox();
+			linkLabel = new System.Windows.Forms.LinkLabel();
+			panel = new System.Windows.Forms.Panel();
 			groupbox.SuspendLayout();
 			SuspendLayout();
 			// 
 			// groupbox
 			// 
-			groupbox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-			groupbox.BackColor = SystemColors.Control;
+			groupbox.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+			groupbox.BackColor = System.Drawing.SystemColors.Control;
 			groupbox.Controls.Add(linkLabel);
 			groupbox.Controls.Add(panel);
-			groupbox.Location = new Point(4, -2);
+			groupbox.Location = new System.Drawing.Point(4, -2);
 			groupbox.Name = "groupbox";
-			groupbox.Size = new Size(192, 199);
+			groupbox.Size = new System.Drawing.Size(192, 199);
 			groupbox.TabIndex = 0;
 			groupbox.TabStop = false;
 			groupbox.Tag = "91";
 			// 
 			// linkLabel
 			// 
-			linkLabel.ActiveLinkColor = SystemColors.ControlText;
-			linkLabel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-			linkLabel.Cursor = Cursors.Hand;
-			linkLabel.Font = new Font("Tahoma", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 238);
-			linkLabel.LinkBehavior = LinkBehavior.NeverUnderline;
-			linkLabel.LinkColor = SystemColors.ControlText;
-			linkLabel.Location = new Point(3, 11);
+			linkLabel.ActiveLinkColor = System.Drawing.SystemColors.ControlText;
+			linkLabel.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+			linkLabel.Cursor = System.Windows.Forms.Cursors.Hand;
+			linkLabel.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 238);
+			linkLabel.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
+			linkLabel.LinkColor = System.Drawing.SystemColors.ControlText;
+			linkLabel.Location = new System.Drawing.Point(3, 11);
 			linkLabel.Name = "linkLabel";
-			linkLabel.Size = new Size(184, 13);
+			linkLabel.Size = new System.Drawing.Size(184, 13);
 			linkLabel.TabIndex = 0;
 			linkLabel.TabStop = true;
 			linkLabel.Text = "▲  Text";
-			linkLabel.VisitedLinkColor = SystemColors.ControlText;
+			linkLabel.VisitedLinkColor = System.Drawing.SystemColors.ControlText;
 			linkLabel.LinkClicked += linkLabel_LinkClicked;
 			// 
 			// panel
 			// 
-			panel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-			panel.BackColor = SystemColors.Control;
-			panel.Location = new Point(4, 28);
+			panel.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+			panel.BackColor = System.Drawing.SystemColors.Control;
+			panel.Location = new System.Drawing.Point(4, 28);
 			panel.Name = "panel";
-			panel.Size = new Size(184, 165);
+			panel.Size = new System.Drawing.Size(184, 165);
 			panel.TabIndex = 1;
 			// 
 			// CollapsiblePanel
 			// 
-			AutoScaleDimensions = new SizeF(6F, 13F);
-			AutoScaleMode = AutoScaleMode.Font;
+			AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			Controls.Add(groupbox);
-			Font = new Font("Tahoma", 8.25F);
+			Font = new System.Drawing.Font("Tahoma", 8.25F);
 			Name = "CollapsiblePanel";
-			Size = new Size(200, 200);
+			Size = new System.Drawing.Size(200, 200);
 			groupbox.ResumeLayout(false);
 			ResumeLayout(false);
 		}

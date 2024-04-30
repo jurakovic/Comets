@@ -33,23 +33,23 @@
 			// 
 			// orbitViewerControl
 			// 
-			orbitViewerControl.Dock = DockStyle.Fill;
-			orbitViewerControl.Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 238);
-			orbitViewerControl.Location = new Point(0, 0);
-			orbitViewerControl.MinimumSize = new Size(720, 650);
+			orbitViewerControl.Dock = System.Windows.Forms.DockStyle.Fill;
+			orbitViewerControl.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
+			orbitViewerControl.Location = new System.Drawing.Point(0, 0);
+			orbitViewerControl.MinimumSize = new System.Drawing.Size(720, 650);
 			orbitViewerControl.Name = "orbitViewerControl";
-			orbitViewerControl.Size = new Size(934, 811);
+			orbitViewerControl.Size = new System.Drawing.Size(934, 811);
 			orbitViewerControl.TabIndex = 0;
 			// 
 			// FormOrbitViewer
 			// 
-			AutoScaleDimensions = new SizeF(6F, 13F);
-			AutoScaleMode = AutoScaleMode.Font;
-			ClientSize = new Size(934, 811);
+			AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			ClientSize = new System.Drawing.Size(934, 811);
 			Controls.Add(orbitViewerControl);
-			Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 238);
+			Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			KeyPreview = true;
-			MinimumSize = new Size(720, 650);
+			MinimumSize = new System.Drawing.Size(720, 650);
 			Name = "FormOrbitViewer";
 			ShowIcon = false;
 			ShowInTaskbar = false;

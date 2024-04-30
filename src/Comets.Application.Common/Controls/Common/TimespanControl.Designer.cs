@@ -28,78 +28,78 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			gbxTimestamp = new GroupBox();
+			gbxTimestamp = new System.Windows.Forms.GroupBox();
 			selectDateControlEnd = new DateAndTime.SelectDateControl();
 			selectDateControlStart = new DateAndTime.SelectDateControl();
-			label3 = new Label();
-			label4 = new Label();
+			label3 = new System.Windows.Forms.Label();
+			label4 = new System.Windows.Forms.Label();
 			gbxTimestamp.SuspendLayout();
 			SuspendLayout();
 			// 
 			// gbxTimestamp
 			// 
-			gbxTimestamp.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+			gbxTimestamp.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
 			gbxTimestamp.Controls.Add(selectDateControlEnd);
 			gbxTimestamp.Controls.Add(selectDateControlStart);
 			gbxTimestamp.Controls.Add(label3);
 			gbxTimestamp.Controls.Add(label4);
-			gbxTimestamp.Location = new Point(0, 0);
+			gbxTimestamp.Location = new System.Drawing.Point(0, 0);
 			gbxTimestamp.Name = "gbxTimestamp";
-			gbxTimestamp.Size = new Size(235, 85);
+			gbxTimestamp.Size = new System.Drawing.Size(235, 85);
 			gbxTimestamp.TabIndex = 0;
 			gbxTimestamp.TabStop = false;
 			gbxTimestamp.Text = "Timespan (Universal time)";
 			// 
 			// selectDateControlEnd
 			// 
-			selectDateControlEnd.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+			selectDateControlEnd.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
 			selectDateControlEnd.DefaultDateTime = null;
-			selectDateControlEnd.Font = new Font("Tahoma", 8.25F);
-			selectDateControlEnd.Location = new Point(53, 49);
+			selectDateControlEnd.Font = new System.Drawing.Font("Tahoma", 8.25F);
+			selectDateControlEnd.Location = new System.Drawing.Point(53, 49);
 			selectDateControlEnd.Name = "selectDateControlEnd";
 			selectDateControlEnd.PerihelionDate = null;
-			selectDateControlEnd.SelectedDateTime = new DateTime(0L);
-			selectDateControlEnd.Size = new Size(172, 23);
+			selectDateControlEnd.SelectedDateTime = new System.DateTime(0L);
+			selectDateControlEnd.Size = new System.Drawing.Size(172, 23);
 			selectDateControlEnd.TabIndex = 3;
 			// 
 			// selectDateControlStart
 			// 
-			selectDateControlStart.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+			selectDateControlStart.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
 			selectDateControlStart.DefaultDateTime = null;
-			selectDateControlStart.Font = new Font("Tahoma", 8.25F);
-			selectDateControlStart.Location = new Point(53, 20);
+			selectDateControlStart.Font = new System.Drawing.Font("Tahoma", 8.25F);
+			selectDateControlStart.Location = new System.Drawing.Point(53, 20);
 			selectDateControlStart.Name = "selectDateControlStart";
 			selectDateControlStart.PerihelionDate = null;
-			selectDateControlStart.SelectedDateTime = new DateTime(0L);
-			selectDateControlStart.Size = new Size(172, 23);
+			selectDateControlStart.SelectedDateTime = new System.DateTime(0L);
+			selectDateControlStart.Size = new System.Drawing.Size(172, 23);
 			selectDateControlStart.TabIndex = 1;
 			// 
 			// label3
 			// 
 			label3.AutoSize = true;
-			label3.Location = new Point(8, 25);
+			label3.Location = new System.Drawing.Point(8, 25);
 			label3.Name = "label3";
-			label3.Size = new Size(35, 13);
+			label3.Size = new System.Drawing.Size(35, 13);
 			label3.TabIndex = 0;
 			label3.Text = "Start:";
 			// 
 			// label4
 			// 
 			label4.AutoSize = true;
-			label4.Location = new Point(8, 54);
+			label4.Location = new System.Drawing.Point(8, 54);
 			label4.Name = "label4";
-			label4.Size = new Size(29, 13);
+			label4.Size = new System.Drawing.Size(29, 13);
 			label4.TabIndex = 2;
 			label4.Text = "End:";
 			// 
 			// TimespanControl
 			// 
-			AutoScaleDimensions = new SizeF(6F, 13F);
-			AutoScaleMode = AutoScaleMode.Font;
+			AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			Controls.Add(gbxTimestamp);
-			Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+			Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
 			Name = "TimespanControl";
-			Size = new Size(235, 85);
+			Size = new System.Drawing.Size(235, 85);
 			gbxTimestamp.ResumeLayout(false);
 			gbxTimestamp.PerformLayout();
 			ResumeLayout(false);

@@ -28,29 +28,29 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			txtControls = new TextBox();
-			btnOk = new Button();
+			txtControls = new System.Windows.Forms.TextBox();
+			btnOk = new System.Windows.Forms.Button();
 			SuspendLayout();
 			// 
 			// txtControls
 			// 
-			txtControls.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-			txtControls.Font = new Font("Courier New", 9F, FontStyle.Regular, GraphicsUnit.Point, 238);
-			txtControls.Location = new Point(0, 0);
+			txtControls.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+			txtControls.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
+			txtControls.Location = new System.Drawing.Point(0, 0);
 			txtControls.Multiline = true;
 			txtControls.Name = "txtControls";
 			txtControls.ReadOnly = true;
-			txtControls.ScrollBars = ScrollBars.Both;
-			txtControls.Size = new Size(564, 580);
+			txtControls.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+			txtControls.Size = new System.Drawing.Size(564, 580);
 			txtControls.TabIndex = 0;
 			// 
 			// btnOk
 			// 
-			btnOk.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-			btnOk.DialogResult = DialogResult.OK;
-			btnOk.Location = new Point(452, 596);
+			btnOk.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+			btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
+			btnOk.Location = new System.Drawing.Point(452, 596);
 			btnOk.Name = "btnOk";
-			btnOk.Size = new Size(100, 23);
+			btnOk.Size = new System.Drawing.Size(100, 23);
 			btnOk.TabIndex = 1;
 			btnOk.Text = "OK";
 			btnOk.UseVisualStyleBackColor = true;
@@ -58,20 +58,20 @@
 			// FormControls
 			// 
 			AcceptButton = btnOk;
-			AutoScaleDimensions = new SizeF(6F, 13F);
-			AutoScaleMode = AutoScaleMode.Font;
+			AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			CancelButton = btnOk;
-			ClientSize = new Size(564, 631);
+			ClientSize = new System.Drawing.Size(564, 631);
 			Controls.Add(btnOk);
 			Controls.Add(txtControls);
-			Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 238);
-			FormBorderStyle = FormBorderStyle.FixedSingle;
+			Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
+			FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			MaximizeBox = false;
 			MinimizeBox = false;
 			Name = "FormControls";
 			ShowIcon = false;
 			ShowInTaskbar = false;
-			StartPosition = FormStartPosition.CenterParent;
+			StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			Text = "Controls";
 			Load += FormControls_Load;
 			ResumeLayout(false);

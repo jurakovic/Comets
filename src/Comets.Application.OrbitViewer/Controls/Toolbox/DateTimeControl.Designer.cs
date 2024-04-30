@@ -28,40 +28,40 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			pnlDateTime = new Panel();
+			pnlDateTime = new System.Windows.Forms.Panel();
 			selectDateControl = new Common.Controls.DateAndTime.SelectDateControl();
 			pnlDateTime.SuspendLayout();
 			SuspendLayout();
 			// 
 			// pnlDateTime
 			// 
-			pnlDateTime.BackColor = SystemColors.ControlDark;
+			pnlDateTime.BackColor = System.Drawing.SystemColors.ControlDark;
 			pnlDateTime.Controls.Add(selectDateControl);
-			pnlDateTime.Dock = DockStyle.Fill;
-			pnlDateTime.Location = new Point(0, 0);
+			pnlDateTime.Dock = System.Windows.Forms.DockStyle.Fill;
+			pnlDateTime.Location = new System.Drawing.Point(0, 0);
 			pnlDateTime.Name = "pnlDateTime";
-			pnlDateTime.Size = new Size(173, 31);
+			pnlDateTime.Size = new System.Drawing.Size(173, 31);
 			pnlDateTime.TabIndex = 0;
 			// 
 			// selectDateControl
 			// 
 			selectDateControl.DefaultDateTime = null;
-			selectDateControl.Font = new Font("Tahoma", 8.25F);
-			selectDateControl.Location = new Point(4, 4);
+			selectDateControl.Font = new System.Drawing.Font("Tahoma", 8.25F);
+			selectDateControl.Location = new System.Drawing.Point(4, 4);
 			selectDateControl.Name = "selectDateControl";
 			selectDateControl.PerihelionDate = null;
-			selectDateControl.SelectedDateTime = new DateTime(0L);
-			selectDateControl.Size = new Size(165, 23);
+			selectDateControl.SelectedDateTime = new System.DateTime(0L);
+			selectDateControl.Size = new System.Drawing.Size(165, 23);
 			selectDateControl.TabIndex = 0;
 			// 
 			// DateTimeControl
 			// 
-			AutoScaleDimensions = new SizeF(6F, 13F);
-			AutoScaleMode = AutoScaleMode.Font;
+			AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			Controls.Add(pnlDateTime);
-			Font = new Font("Tahoma", 8.25F);
+			Font = new System.Drawing.Font("Tahoma", 8.25F);
 			Name = "DateTimeControl";
-			Size = new Size(173, 31);
+			Size = new System.Drawing.Size(173, 31);
 			pnlDateTime.ResumeLayout(false);
 			ResumeLayout(false);
 		}

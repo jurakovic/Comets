@@ -28,17 +28,17 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			btnAddNew = new Button();
-			btnClose = new Button();
-			btnApply = new Button();
+			btnAddNew = new System.Windows.Forms.Button();
+			btnClose = new System.Windows.Forms.Button();
+			btnApply = new System.Windows.Forms.Button();
 			SuspendLayout();
 			// 
 			// btnAddNew
 			// 
-			btnAddNew.Font = new Font("Tahoma", 9F, FontStyle.Regular, GraphicsUnit.Point, 238);
-			btnAddNew.Location = new Point(20, 7);
+			btnAddNew.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
+			btnAddNew.Location = new System.Drawing.Point(20, 7);
 			btnAddNew.Name = "btnAddNew";
-			btnAddNew.Size = new Size(25, 23);
+			btnAddNew.Size = new System.Drawing.Size(25, 23);
 			btnAddNew.TabIndex = 0;
 			btnAddNew.Text = "+";
 			btnAddNew.UseVisualStyleBackColor = true;
@@ -46,10 +46,10 @@
 			// 
 			// btnClose
 			// 
-			btnClose.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-			btnClose.Location = new Point(449, 337);
+			btnClose.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+			btnClose.Location = new System.Drawing.Point(449, 337);
 			btnClose.Name = "btnClose";
-			btnClose.Size = new Size(100, 23);
+			btnClose.Size = new System.Drawing.Size(100, 23);
 			btnClose.TabIndex = 2;
 			btnClose.Text = "Close";
 			btnClose.UseVisualStyleBackColor = true;
@@ -57,10 +57,10 @@
 			// 
 			// btnApply
 			// 
-			btnApply.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-			btnApply.Location = new Point(345, 337);
+			btnApply.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+			btnApply.Location = new System.Drawing.Point(345, 337);
 			btnApply.Name = "btnApply";
-			btnApply.Size = new Size(100, 23);
+			btnApply.Size = new System.Drawing.Size(100, 23);
 			btnApply.TabIndex = 1;
 			btnApply.Text = "Apply";
 			btnApply.UseVisualStyleBackColor = true;
@@ -68,14 +68,14 @@
 			// 
 			// FilterControl
 			// 
-			AutoScaleDimensions = new SizeF(6F, 13F);
-			AutoScaleMode = AutoScaleMode.Font;
+			AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			Controls.Add(btnAddNew);
 			Controls.Add(btnClose);
 			Controls.Add(btnApply);
-			Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+			Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
 			Name = "FilterControl";
-			Size = new Size(549, 360);
+			Size = new System.Drawing.Size(549, 360);
 			ResumeLayout(false);
 		}
 

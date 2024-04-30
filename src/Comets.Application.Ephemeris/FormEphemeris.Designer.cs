@@ -28,33 +28,33 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			richTextBox = new RichTextBox();
+			richTextBox = new System.Windows.Forms.RichTextBox();
 			SuspendLayout();
 			// 
 			// richTextBox
 			// 
-			richTextBox.BackColor = SystemColors.Window;
-			richTextBox.Dock = DockStyle.Fill;
-			richTextBox.Font = new Font("Consolas", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 238);
-			richTextBox.Location = new Point(0, 0);
+			richTextBox.BackColor = System.Drawing.SystemColors.Window;
+			richTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+			richTextBox.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
+			richTextBox.Location = new System.Drawing.Point(0, 0);
 			richTextBox.Name = "richTextBox";
 			richTextBox.ReadOnly = true;
-			richTextBox.Size = new Size(784, 561);
+			richTextBox.Size = new System.Drawing.Size(784, 561);
 			richTextBox.TabIndex = 0;
 			richTextBox.Text = "";
 			richTextBox.WordWrap = false;
 			// 
 			// FormEphemeris
 			// 
-			AutoScaleDimensions = new SizeF(6F, 13F);
-			AutoScaleMode = AutoScaleMode.Font;
-			ClientSize = new Size(784, 561);
+			AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			ClientSize = new System.Drawing.Size(784, 561);
 			Controls.Add(richTextBox);
-			Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 238);
+			Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			Name = "FormEphemeris";
 			ShowIcon = false;
 			ShowInTaskbar = false;
-			StartPosition = FormStartPosition.CenterParent;
+			StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			Text = "Ephemeris";
 			ResumeLayout(false);
 		}

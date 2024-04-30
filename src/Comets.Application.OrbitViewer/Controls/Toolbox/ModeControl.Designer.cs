@@ -28,32 +28,32 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			pnlMode = new Panel();
-			rbtnSingleMode = new RadioButton();
-			rbtnMultipleMode = new RadioButton();
+			pnlMode = new System.Windows.Forms.Panel();
+			rbtnSingleMode = new System.Windows.Forms.RadioButton();
+			rbtnMultipleMode = new System.Windows.Forms.RadioButton();
 			pnlMode.SuspendLayout();
 			SuspendLayout();
 			// 
 			// pnlMode
 			// 
-			pnlMode.BackColor = SystemColors.ControlDark;
+			pnlMode.BackColor = System.Drawing.SystemColors.ControlDark;
 			pnlMode.Controls.Add(rbtnSingleMode);
 			pnlMode.Controls.Add(rbtnMultipleMode);
-			pnlMode.Dock = DockStyle.Fill;
-			pnlMode.Font = new Font("Tahoma", 8.25F);
-			pnlMode.Location = new Point(0, 0);
-			pnlMode.Margin = new Padding(4, 3, 4, 3);
+			pnlMode.Dock = System.Windows.Forms.DockStyle.Fill;
+			pnlMode.Font = new System.Drawing.Font("Tahoma", 8.25F);
+			pnlMode.Location = new System.Drawing.Point(0, 0);
+			pnlMode.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			pnlMode.Name = "pnlMode";
-			pnlMode.Size = new Size(202, 35);
+			pnlMode.Size = new System.Drawing.Size(202, 35);
 			pnlMode.TabIndex = 0;
 			// 
 			// rbtnSingleMode
 			// 
 			rbtnSingleMode.AutoSize = true;
-			rbtnSingleMode.Location = new Point(27, 8);
-			rbtnSingleMode.Margin = new Padding(4, 3, 4, 3);
+			rbtnSingleMode.Location = new System.Drawing.Point(27, 8);
+			rbtnSingleMode.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			rbtnSingleMode.Name = "rbtnSingleMode";
-			rbtnSingleMode.Size = new Size(53, 17);
+			rbtnSingleMode.Size = new System.Drawing.Size(53, 17);
 			rbtnSingleMode.TabIndex = 0;
 			rbtnSingleMode.Text = "Single";
 			rbtnSingleMode.UseVisualStyleBackColor = true;
@@ -62,10 +62,10 @@
 			// rbtnMultipleMode
 			// 
 			rbtnMultipleMode.AutoSize = true;
-			rbtnMultipleMode.Location = new Point(98, 8);
-			rbtnMultipleMode.Margin = new Padding(4, 3, 4, 3);
+			rbtnMultipleMode.Location = new System.Drawing.Point(98, 8);
+			rbtnMultipleMode.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			rbtnMultipleMode.Name = "rbtnMultipleMode";
-			rbtnMultipleMode.Size = new Size(61, 17);
+			rbtnMultipleMode.Size = new System.Drawing.Size(61, 17);
 			rbtnMultipleMode.TabIndex = 1;
 			rbtnMultipleMode.Text = "Multiple";
 			rbtnMultipleMode.UseVisualStyleBackColor = true;
@@ -73,12 +73,12 @@
 			// 
 			// ModeControl
 			// 
-			AutoScaleDimensions = new SizeF(7F, 15F);
-			AutoScaleMode = AutoScaleMode.Font;
+			AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+			AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			Controls.Add(pnlMode);
-			Margin = new Padding(4, 3, 4, 3);
+			Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			Name = "ModeControl";
-			Size = new Size(202, 35);
+			Size = new System.Drawing.Size(202, 35);
 			pnlMode.ResumeLayout(false);
 			pnlMode.PerformLayout();
 			ResumeLayout(false);
