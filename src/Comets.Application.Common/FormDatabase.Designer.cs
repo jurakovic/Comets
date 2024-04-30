@@ -59,8 +59,8 @@
 			this.lbxDatabase.Name = "lbxDatabase";
 			this.lbxDatabase.Size = new System.Drawing.Size(238, 368);
 			this.lbxDatabase.TabIndex = 2;
-			this.lbxDatabase.SelectedIndexChanged += lbxDatabase_SelectedIndexChanged;
-			this.lbxDatabase.MouseDoubleClick += lbxDatabase_MouseDoubleClick;
+			this.lbxDatabase.SelectedIndexChanged += this.lbxDatabase_SelectedIndexChanged;
+			this.lbxDatabase.MouseDoubleClick += this.lbxDatabase_MouseDoubleClick;
 			// 
 			// btnFilters
 			// 
@@ -70,7 +70,7 @@
 			this.btnFilters.TabIndex = 6;
 			this.btnFilters.Text = "FILTERS ▼";
 			this.btnFilters.UseVisualStyleBackColor = true;
-			this.btnFilters.Click += btnFilters_Click;
+			this.btnFilters.Click += this.btnFilters_Click;
 			// 
 			// btnOk
 			// 
@@ -160,7 +160,7 @@
 			this.btnReset.TabIndex = 5;
 			this.btnReset.Text = "RESET";
 			this.btnReset.UseVisualStyleBackColor = true;
-			this.btnReset.Click += btnReset_Click;
+			this.btnReset.Click += this.btnReset_Click;
 			// 
 			// cbxImportResult
 			// 
@@ -171,7 +171,7 @@
 			this.cbxImportResult.Name = "cbxImportResult";
 			this.cbxImportResult.Size = new System.Drawing.Size(159, 21);
 			this.cbxImportResult.TabIndex = 1;
-			this.cbxImportResult.SelectedIndexChanged += cbxImportResult_SelectedIndexChanged;
+			this.cbxImportResult.SelectedIndexChanged += this.cbxImportResult_SelectedIndexChanged;
 			// 
 			// lblImportResult
 			// 
@@ -190,7 +190,7 @@
 			this.btnDelete.TabIndex = 4;
 			this.btnDelete.Text = "DELETE";
 			this.btnDelete.UseVisualStyleBackColor = true;
-			this.btnDelete.Click += btnDelete_Click;
+			this.btnDelete.Click += this.btnDelete_Click;
 			// 
 			// filterControl
 			// 
@@ -200,7 +200,7 @@
 			this.filterControl.Size = new System.Drawing.Size(549, 360);
 			this.filterControl.TabIndex = 0;
 			this.filterControl.Visible = false;
-			this.filterControl.VisibleChanged += filterControl_VisibleChanged;
+			this.filterControl.VisibleChanged += this.filterControl_VisibleChanged;
 			// 
 			// sortMenuControl
 			// 
@@ -238,9 +238,9 @@
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Database";
-			this.FormClosing += FormDatabase_FormClosing;
-			this.Load += FormDatabase_Load;
-			this.KeyDown += FormDatabase_KeyDown;
+			this.FormClosing += this.FormDatabase_FormClosing;
+			this.Load += this.FormDatabase_Load;
+			this.KeyDown += this.FormDatabase_KeyDown;
 			this.pnlDetails.ResumeLayout(false);
 			this.tbcDetails.ResumeLayout(false);
 			this.tbpEphemeris.ResumeLayout(false);

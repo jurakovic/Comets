@@ -80,7 +80,7 @@
 			this.txtLocalFile.Name = "txtLocalFile";
 			this.txtLocalFile.Size = new System.Drawing.Size(499, 21);
 			this.txtLocalFile.TabIndex = 1;
-			this.txtLocalFile.TextChanged += txtImportFilename_TextChanged;
+			this.txtLocalFile.TextChanged += this.txtImportFilename_TextChanged;
 			// 
 			// btnBrowse
 			// 
@@ -90,7 +90,7 @@
 			this.btnBrowse.TabIndex = 0;
 			this.btnBrowse.Text = "Browse";
 			this.btnBrowse.UseVisualStyleBackColor = true;
-			this.btnBrowse.Click += btnBrowse_Click;
+			this.btnBrowse.Click += this.btnBrowse_Click;
 			// 
 			// gbxDownload
 			// 
@@ -114,7 +114,7 @@
 			this.btnDownload.TabIndex = 0;
 			this.btnDownload.Text = "Download";
 			this.btnDownload.UseVisualStyleBackColor = true;
-			this.btnDownload.Click += btnDownload_Click;
+			this.btnDownload.Click += this.btnDownload_Click;
 			// 
 			// lblDownload
 			// 
@@ -149,7 +149,7 @@
 			this.linkOpen.TabStop = true;
 			this.linkOpen.Text = "Open in browser";
 			this.linkOpen.VisitedLinkColor = System.Drawing.Color.Blue;
-			this.linkOpen.LinkClicked += linkOpen_LinkClicked;
+			this.linkOpen.LinkClicked += this.linkOpen_LinkClicked;
 			// 
 			// btnClose
 			// 
@@ -191,7 +191,7 @@
 			this.lblCometCount.TabStop = true;
 			this.lblCometCount.Text = "-";
 			this.lblCometCount.VisitedLinkColor = System.Drawing.Color.Blue;
-			this.lblCometCount.LinkClicked += labelDetectedComets_LinkClicked;
+			this.lblCometCount.LinkClicked += this.labelDetectedComets_LinkClicked;
 			// 
 			// lblImportFormat
 			// 
@@ -230,7 +230,7 @@
 			this.btnImport.TabIndex = 0;
 			this.btnImport.Text = "Import";
 			this.btnImport.UseVisualStyleBackColor = true;
-			this.btnImport.Click += btnImport_Click;
+			this.btnImport.Click += this.btnImport_Click;
 			// 
 			// lblStatus
 			// 
@@ -274,7 +274,7 @@
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Update";
-			this.Load += FormImport_Load;
+			this.Load += this.FormImport_Load;
 			this.gbxLocalFile.ResumeLayout(false);
 			this.gbxLocalFile.PerformLayout();
 			this.gbxDownload.ResumeLayout(false);

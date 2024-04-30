@@ -62,7 +62,7 @@
 			this.btnRevPlay.TabIndex = 0;
 			this.btnRevPlay.Text = "<<";
 			this.btnRevPlay.UseVisualStyleBackColor = true;
-			this.btnRevPlay.Click += btnRevPlay_Click;
+			this.btnRevPlay.Click += this.btnRevPlay_Click;
 			// 
 			// btnRevStep
 			// 
@@ -73,7 +73,7 @@
 			this.btnRevStep.TabIndex = 1;
 			this.btnRevStep.Text = "|<";
 			this.btnRevStep.UseVisualStyleBackColor = true;
-			this.btnRevStep.Click += btnRevStep_Click;
+			this.btnRevStep.Click += this.btnRevStep_Click;
 			// 
 			// cboTimestep
 			// 
@@ -84,7 +84,7 @@
 			this.cboTimestep.Name = "cboTimestep";
 			this.cboTimestep.Size = new System.Drawing.Size(163, 21);
 			this.cboTimestep.TabIndex = 5;
-			this.cboTimestep.SelectedIndexChanged += cboTimestep_SelectedIndexChanged;
+			this.cboTimestep.SelectedIndexChanged += this.cboTimestep_SelectedIndexChanged;
 			// 
 			// btnStop
 			// 
@@ -95,7 +95,7 @@
 			this.btnStop.TabIndex = 2;
 			this.btnStop.Text = "||";
 			this.btnStop.UseVisualStyleBackColor = true;
-			this.btnStop.Click += btnStop_Click;
+			this.btnStop.Click += this.btnStop_Click;
 			// 
 			// btnForPlay
 			// 
@@ -106,7 +106,7 @@
 			this.btnForPlay.TabIndex = 4;
 			this.btnForPlay.Text = ">>";
 			this.btnForPlay.UseVisualStyleBackColor = true;
-			this.btnForPlay.Click += btnForPlay_Click;
+			this.btnForPlay.Click += this.btnForPlay_Click;
 			// 
 			// btnForStep
 			// 
@@ -117,7 +117,7 @@
 			this.btnForStep.TabIndex = 3;
 			this.btnForStep.Text = ">|";
 			this.btnForStep.UseVisualStyleBackColor = true;
-			this.btnForStep.Click += btnForStep_Click;
+			this.btnForStep.Click += this.btnForStep_Click;
 			// 
 			// SimulationControl
 			// 
@@ -127,7 +127,7 @@
 			this.Font = new System.Drawing.Font("Tahoma", 8.25F);
 			this.Name = "SimulationControl";
 			this.Size = new System.Drawing.Size(173, 60);
-			this.Load += SimulationControl_Load;
+			this.Load += this.SimulationControl_Load;
 			this.pnlSimulation.ResumeLayout(false);
 			this.ResumeLayout(false);
 		}

@@ -322,14 +322,14 @@
 			this.orbitPanel.Name = "orbitPanel";
 			this.orbitPanel.Size = new System.Drawing.Size(742, 900);
 			this.orbitPanel.TabIndex = 0;
-			this.orbitPanel.MouseClick += orbitPanel_MouseClick;
-			this.orbitPanel.MouseDoubleClick += orbitPanel_MouseDoubleClick;
-			this.orbitPanel.MouseDown += orbitPanel_MouseDown;
-			this.orbitPanel.MouseEnter += orbitPanel_MouseEnter;
-			this.orbitPanel.MouseLeave += orbitPanel_MouseLeave;
-			this.orbitPanel.MouseMove += orbitPanel_MouseMove;
-			this.orbitPanel.PreviewKeyDown += orbitPanel_PreviewKeyDown;
-			this.orbitPanel.Resize += orbitPanel_Resize;
+			this.orbitPanel.MouseClick += this.orbitPanel_MouseClick;
+			this.orbitPanel.MouseDoubleClick += this.orbitPanel_MouseDoubleClick;
+			this.orbitPanel.MouseDown += this.orbitPanel_MouseDown;
+			this.orbitPanel.MouseEnter += this.orbitPanel_MouseEnter;
+			this.orbitPanel.MouseLeave += this.orbitPanel_MouseLeave;
+			this.orbitPanel.MouseMove += this.orbitPanel_MouseMove;
+			this.orbitPanel.PreviewKeyDown += this.orbitPanel_PreviewKeyDown;
+			this.orbitPanel.Resize += this.orbitPanel_Resize;
 			// 
 			// scrollVert
 			// 
@@ -341,7 +341,7 @@
 			this.scrollVert.Size = new System.Drawing.Size(17, 272);
 			this.scrollVert.TabIndex = 0;
 			this.scrollVert.Visible = false;
-			this.scrollVert.ValueChanged += scrollVert_ValueChanged;
+			this.scrollVert.ValueChanged += this.scrollVert_ValueChanged;
 			// 
 			// scrollHorz
 			// 
@@ -353,7 +353,7 @@
 			this.scrollHorz.Size = new System.Drawing.Size(293, 17);
 			this.scrollHorz.TabIndex = 1;
 			this.scrollHorz.Visible = false;
-			this.scrollHorz.ValueChanged += scrollHorz_ValueChanged;
+			this.scrollHorz.ValueChanged += this.scrollHorz_ValueChanged;
 			// 
 			// scrollZoom
 			// 
@@ -366,7 +366,7 @@
 			this.scrollZoom.TabIndex = 2;
 			this.scrollZoom.Value = 5;
 			this.scrollZoom.Visible = false;
-			this.scrollZoom.ValueChanged += scrollZoom_ValueChanged;
+			this.scrollZoom.ValueChanged += this.scrollZoom_ValueChanged;
 			// 
 			// OrbitViewerControl
 			// 

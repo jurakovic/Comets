@@ -54,9 +54,9 @@
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
 			this.Text = "Orbit Viewer";
-			this.Activated += FormOrbitViewer_Activated;
-			this.Deactivate += FormOrbitViewer_Deactivate;
-			this.KeyDown += FormOrbitViewer_KeyDown;
+			this.Activated += this.FormOrbitViewer_Activated;
+			this.Deactivate += this.FormOrbitViewer_Deactivate;
+			this.KeyDown += this.FormOrbitViewer_KeyDown;
 			this.ResumeLayout(false);
 		}
 

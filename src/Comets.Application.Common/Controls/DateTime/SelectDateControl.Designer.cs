@@ -42,7 +42,7 @@
 			this.btnSelectDate.TabIndex = 0;
 			this.btnSelectDate.Text = "<datetime>";
 			this.btnSelectDate.UseVisualStyleBackColor = true;
-			this.btnSelectDate.Click += btnSelectDate_Click;
+			this.btnSelectDate.Click += this.btnSelectDate_Click;
 			// 
 			// dateTimeMenuControl
 			// 

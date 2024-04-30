@@ -202,8 +202,8 @@
 			this.txtUpdateInterval.TabIndex = 3;
 			this.txtUpdateInterval.Text = "7";
 			this.txtUpdateInterval.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.txtUpdateInterval.KeyDown += txtUpdateInterval_KeyDown;
-			this.txtUpdateInterval.KeyPress += txtUpdateInterval_KeyPress;
+			this.txtUpdateInterval.KeyDown += this.txtUpdateInterval_KeyDown;
+			this.txtUpdateInterval.KeyPress += this.txtUpdateInterval_KeyPress;
 			// 
 			// chShowStatusBar
 			// 
@@ -342,7 +342,7 @@
 			this.txtLongitude.Name = "txtLongitude";
 			this.txtLongitude.Size = new System.Drawing.Size(115, 21);
 			this.txtLongitude.TabIndex = 3;
-			this.txtLongitude.KeyPress += txtLatitudeLongitude_KeyPress;
+			this.txtLongitude.KeyPress += this.txtLatitudeLongitude_KeyPress;
 			// 
 			// txtName
 			// 
@@ -371,7 +371,7 @@
 			this.txtLatitude.Name = "txtLatitude";
 			this.txtLatitude.Size = new System.Drawing.Size(115, 21);
 			this.txtLatitude.TabIndex = 1;
-			this.txtLatitude.KeyPress += txtLatitudeLongitude_KeyPress;
+			this.txtLatitude.KeyPress += this.txtLatitudeLongitude_KeyPress;
 			// 
 			// lblName
 			// 
@@ -451,7 +451,7 @@
 			this.btnClear.TabIndex = 4;
 			this.btnClear.Text = "Clear";
 			this.btnClear.UseVisualStyleBackColor = true;
-			this.btnClear.Click += btnClear_Click;
+			this.btnClear.Click += this.btnClear_Click;
 			// 
 			// btnRemove
 			// 
@@ -461,7 +461,7 @@
 			this.btnRemove.TabIndex = 3;
 			this.btnRemove.Text = "Remove";
 			this.btnRemove.UseVisualStyleBackColor = true;
-			this.btnRemove.Click += btnRemove_Click;
+			this.btnRemove.Click += this.btnRemove_Click;
 			// 
 			// btnEdit
 			// 
@@ -471,7 +471,7 @@
 			this.btnEdit.TabIndex = 2;
 			this.btnEdit.Text = "Edit";
 			this.btnEdit.UseVisualStyleBackColor = true;
-			this.btnEdit.Click += btnEdit_Click;
+			this.btnEdit.Click += this.btnEdit_Click;
 			// 
 			// btnAdd
 			// 
@@ -481,7 +481,7 @@
 			this.btnAdd.TabIndex = 1;
 			this.btnAdd.Text = "Add";
 			this.btnAdd.UseVisualStyleBackColor = true;
-			this.btnAdd.Click += btnAdd_Click;
+			this.btnAdd.Click += this.btnAdd_Click;
 			// 
 			// gbxAddProgram
 			// 
@@ -526,7 +526,7 @@
 			this.btnBrowse.TabIndex = 1;
 			this.btnBrowse.Text = "Browse";
 			this.btnBrowse.UseVisualStyleBackColor = true;
-			this.btnBrowse.Click += btnBrowse_Click;
+			this.btnBrowse.Click += this.btnBrowse_Click;
 			// 
 			// cbxExternalProgram
 			// 
@@ -536,7 +536,7 @@
 			this.cbxExternalProgram.Name = "cbxExternalProgram";
 			this.cbxExternalProgram.Size = new System.Drawing.Size(280, 21);
 			this.cbxExternalProgram.TabIndex = 0;
-			this.cbxExternalProgram.SelectedIndexChanged += cbxProgram_SelectedIndexChanged;
+			this.cbxExternalProgram.SelectedIndexChanged += this.cbxProgram_SelectedIndexChanged;
 			// 
 			// lblSelectProgram
 			// 
@@ -557,7 +557,7 @@
 			this.btnProgramsOk.TabIndex = 3;
 			this.btnProgramsOk.Text = "OK";
 			this.btnProgramsOk.UseVisualStyleBackColor = true;
-			this.btnProgramsOk.Click += btnProgramsOk_Click;
+			this.btnProgramsOk.Click += this.btnProgramsOk_Click;
 			// 
 			// btnProgramsCancel
 			// 
@@ -568,7 +568,7 @@
 			this.btnProgramsCancel.TabIndex = 4;
 			this.btnProgramsCancel.Text = "Cancel";
 			this.btnProgramsCancel.UseVisualStyleBackColor = true;
-			this.btnProgramsCancel.Click += btnProgramsCancel_Click;
+			this.btnProgramsCancel.Click += this.btnProgramsCancel_Click;
 			// 
 			// tabNetwork
 			// 
@@ -715,7 +715,7 @@
 			this.rbManualProxy.TabIndex = 1;
 			this.rbManualProxy.Text = "Manual proxy configuration";
 			this.rbManualProxy.UseVisualStyleBackColor = true;
-			this.rbManualProxy.CheckedChanged += rbCommon_CheckedChanged;
+			this.rbManualProxy.CheckedChanged += this.rbCommon_CheckedChanged;
 			// 
 			// rbNoProxy
 			// 
@@ -728,7 +728,7 @@
 			this.rbNoProxy.TabStop = true;
 			this.rbNoProxy.Text = "No proxy";
 			this.rbNoProxy.UseVisualStyleBackColor = true;
-			this.rbNoProxy.CheckedChanged += rbCommon_CheckedChanged;
+			this.rbNoProxy.CheckedChanged += this.rbCommon_CheckedChanged;
 			// 
 			// btnCancel
 			// 
@@ -750,7 +750,7 @@
 			this.btnOk.TabIndex = 1;
 			this.btnOk.Text = "OK";
 			this.btnOk.UseVisualStyleBackColor = true;
-			this.btnOk.Click += btnOK_Click;
+			this.btnOk.Click += this.btnOK_Click;
 			// 
 			// FormSettings
 			// 
@@ -771,7 +771,7 @@
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Settings";
-			this.Load += FormSettings_Load;
+			this.Load += this.FormSettings_Load;
 			this.tabControl1.ResumeLayout(false);
 			this.tabGeneral.ResumeLayout(false);
 			this.gbxGeneral.ResumeLayout(false);

@@ -77,7 +77,7 @@
 			this.chart1.Size = new System.Drawing.Size(1575, 841);
 			this.chart1.TabIndex = 1;
 			this.chart1.Text = "chart1";
-			this.chart1.MouseMove += chart1_MouseMove;
+			this.chart1.MouseMove += this.chart1_MouseMove;
 			// 
 			// FormGraph
 			// 

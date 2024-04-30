@@ -73,7 +73,7 @@
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Controls";
-			this.Load += FormControls_Load;
+			this.Load += this.FormControls_Load;
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}

@@ -48,7 +48,7 @@
 			this.btnOk.TabIndex = 5;
 			this.btnOk.Text = "OK";
 			this.btnOk.UseVisualStyleBackColor = true;
-			this.btnOk.Click += btnOk_Click;
+			this.btnOk.Click += this.btnOk_Click;
 			// 
 			// btnCancel
 			// 
@@ -60,7 +60,7 @@
 			this.btnCancel.TabIndex = 6;
 			this.btnCancel.Text = "Cancel";
 			this.btnCancel.UseVisualStyleBackColor = true;
-			this.btnCancel.Click += btnCancel_Click;
+			this.btnCancel.Click += this.btnCancel_Click;
 			// 
 			// valueRangeControl
 			// 
@@ -126,8 +126,8 @@
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Graph settings";
-			this.FormClosing += FormGraphSettings_FormClosing;
-			this.Load += FormGraphSettings_Load;
+			this.FormClosing += this.FormGraphSettings_FormClosing;
+			this.Load += this.FormGraphSettings_Load;
 			this.ResumeLayout(false);
 		}
 

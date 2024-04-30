@@ -62,7 +62,7 @@
 			this.btnShowMenu.TabIndex = 0;
 			this.btnShowMenu.Text = "▼";
 			this.btnShowMenu.UseVisualStyleBackColor = true;
-			this.btnShowMenu.Click += btnShowMenu_Click;
+			this.btnShowMenu.Click += this.btnShowMenu_Click;
 			// 
 			// ctxMenu
 			// 
@@ -77,7 +77,7 @@
 			this.mnuDefault.Name = "mnuDefault";
 			this.mnuDefault.Size = new System.Drawing.Size(210, 22);
 			this.mnuDefault.Text = "Default";
-			this.mnuDefault.Click += mnuCommon_Click;
+			this.mnuDefault.Click += this.mnuCommon_Click;
 			// 
 			// sepDefault
 			// 
@@ -91,7 +91,7 @@
 			this.mnuToday.Name = "mnuToday";
 			this.mnuToday.Size = new System.Drawing.Size(210, 22);
 			this.mnuToday.Text = "Today";
-			this.mnuToday.Click += mnuCommon_Click;
+			this.mnuToday.Click += this.mnuCommon_Click;
 			// 
 			// sepNow
 			// 
@@ -105,7 +105,7 @@
 			this.mnuPerihelionDate.Name = "mnuPerihelionDate";
 			this.mnuPerihelionDate.Size = new System.Drawing.Size(210, 22);
 			this.mnuPerihelionDate.Text = "Perihelion Date";
-			this.mnuPerihelionDate.Click += mnuCommon_Click;
+			this.mnuPerihelionDate.Click += this.mnuCommon_Click;
 			// 
 			// sepPerihelionDate
 			// 
@@ -119,7 +119,7 @@
 			this.mnuLastYear.Name = "mnuLastYear";
 			this.mnuLastYear.Size = new System.Drawing.Size(210, 22);
 			this.mnuLastYear.Text = "<last year first day>";
-			this.mnuLastYear.Click += mnuCommon_Click;
+			this.mnuLastYear.Click += this.mnuCommon_Click;
 			// 
 			// mnuThisYear
 			// 
@@ -127,7 +127,7 @@
 			this.mnuThisYear.Name = "mnuThisYear";
 			this.mnuThisYear.Size = new System.Drawing.Size(210, 22);
 			this.mnuThisYear.Text = "<this year first day>";
-			this.mnuThisYear.Click += mnuCommon_Click;
+			this.mnuThisYear.Click += this.mnuCommon_Click;
 			// 
 			// mnuNextYear
 			// 
@@ -135,7 +135,7 @@
 			this.mnuNextYear.Name = "mnuNextYear";
 			this.mnuNextYear.Size = new System.Drawing.Size(210, 22);
 			this.mnuNextYear.Text = "<next year first day>";
-			this.mnuNextYear.Click += mnuCommon_Click;
+			this.mnuNextYear.Click += this.mnuCommon_Click;
 			// 
 			// mnuAfterNextYear
 			// 
@@ -143,7 +143,7 @@
 			this.mnuAfterNextYear.Name = "mnuAfterNextYear";
 			this.mnuAfterNextYear.Size = new System.Drawing.Size(210, 22);
 			this.mnuAfterNextYear.Text = "<after next year first day>";
-			this.mnuAfterNextYear.Click += mnuCommon_Click;
+			this.mnuAfterNextYear.Click += this.mnuCommon_Click;
 			// 
 			// sepAdd
 			// 
@@ -157,7 +157,7 @@
 			this.mnuAddThreeMonths.Name = "mnuAddThreeMonths";
 			this.mnuAddThreeMonths.Size = new System.Drawing.Size(210, 22);
 			this.mnuAddThreeMonths.Text = "Add 3 months";
-			this.mnuAddThreeMonths.Click += mnuCommon_Click;
+			this.mnuAddThreeMonths.Click += this.mnuCommon_Click;
 			// 
 			// mnuAddSixMonths
 			// 
@@ -165,7 +165,7 @@
 			this.mnuAddSixMonths.Name = "mnuAddSixMonths";
 			this.mnuAddSixMonths.Size = new System.Drawing.Size(210, 22);
 			this.mnuAddSixMonths.Text = "Add 6 months";
-			this.mnuAddSixMonths.Click += mnuCommon_Click;
+			this.mnuAddSixMonths.Click += this.mnuCommon_Click;
 			// 
 			// mnuAddOneYear
 			// 
@@ -173,7 +173,7 @@
 			this.mnuAddOneYear.Name = "mnuAddOneYear";
 			this.mnuAddOneYear.Size = new System.Drawing.Size(210, 22);
 			this.mnuAddOneYear.Text = "Add 1 year";
-			this.mnuAddOneYear.Click += mnuCommon_Click;
+			this.mnuAddOneYear.Click += this.mnuCommon_Click;
 			// 
 			// sepSub
 			// 
@@ -187,7 +187,7 @@
 			this.mnuSubThreeMonths.Name = "mnuSubThreeMonths";
 			this.mnuSubThreeMonths.Size = new System.Drawing.Size(210, 22);
 			this.mnuSubThreeMonths.Text = "Subtract 3 months";
-			this.mnuSubThreeMonths.Click += mnuCommon_Click;
+			this.mnuSubThreeMonths.Click += this.mnuCommon_Click;
 			// 
 			// mnuSubSixMonths
 			// 
@@ -195,7 +195,7 @@
 			this.mnuSubSixMonths.Name = "mnuSubSixMonths";
 			this.mnuSubSixMonths.Size = new System.Drawing.Size(210, 22);
 			this.mnuSubSixMonths.Text = "Subtract 6 months";
-			this.mnuSubSixMonths.Click += mnuCommon_Click;
+			this.mnuSubSixMonths.Click += this.mnuCommon_Click;
 			// 
 			// mnuSubOneYear
 			// 
@@ -203,7 +203,7 @@
 			this.mnuSubOneYear.Name = "mnuSubOneYear";
 			this.mnuSubOneYear.Size = new System.Drawing.Size(210, 22);
 			this.mnuSubOneYear.Text = "Subtract 1 year";
-			this.mnuSubOneYear.Click += mnuCommon_Click;
+			this.mnuSubOneYear.Click += this.mnuCommon_Click;
 			// 
 			// DateTimeMenuControl
 			// 

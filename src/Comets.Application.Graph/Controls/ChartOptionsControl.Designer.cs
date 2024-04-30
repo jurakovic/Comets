@@ -92,7 +92,7 @@
 			this.pnlPerihLineColor.Size = new System.Drawing.Size(25, 20);
 			this.pnlPerihLineColor.TabIndex = 6;
 			this.pnlPerihLineColor.TabStop = true;
-			this.pnlPerihLineColor.Click += pnlColorCommon_Click;
+			this.pnlPerihLineColor.Click += this.pnlColorCommon_Click;
 			// 
 			// pnlNowLineColor
 			// 
@@ -104,7 +104,7 @@
 			this.pnlNowLineColor.Size = new System.Drawing.Size(25, 20);
 			this.pnlNowLineColor.TabIndex = 4;
 			this.pnlNowLineColor.TabStop = true;
-			this.pnlNowLineColor.Click += pnlColorCommon_Click;
+			this.pnlNowLineColor.Click += this.pnlColorCommon_Click;
 			// 
 			// pnlMagnitudeColor
 			// 
@@ -116,7 +116,7 @@
 			this.pnlMagnitudeColor.Size = new System.Drawing.Size(25, 20);
 			this.pnlMagnitudeColor.TabIndex = 2;
 			this.pnlMagnitudeColor.TabStop = true;
-			this.pnlMagnitudeColor.Click += pnlColorCommon_Click;
+			this.pnlMagnitudeColor.Click += this.pnlColorCommon_Click;
 			// 
 			// cbxAntialiasing
 			// 

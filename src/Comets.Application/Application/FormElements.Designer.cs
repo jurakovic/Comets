@@ -45,7 +45,7 @@
 			this.cboFormat.Name = "cboFormat";
 			this.cboFormat.Size = new System.Drawing.Size(280, 21);
 			this.cboFormat.TabIndex = 1;
-			this.cboFormat.SelectedIndexChanged += cboFormat_SelectedIndexChanged;
+			this.cboFormat.SelectedIndexChanged += this.cboFormat_SelectedIndexChanged;
 			// 
 			// lblFormat
 			// 
@@ -66,7 +66,7 @@
 			this.btnSave.TabIndex = 2;
 			this.btnSave.Text = "Save As";
 			this.btnSave.UseVisualStyleBackColor = true;
-			this.btnSave.Click += btnSave_Click;
+			this.btnSave.Click += this.btnSave_Click;
 			// 
 			// pnlElements
 			// 
@@ -89,7 +89,7 @@
 			this.btnClose.TabIndex = 3;
 			this.btnClose.Text = "Close";
 			this.btnClose.UseVisualStyleBackColor = true;
-			this.btnClose.Click += btnClose_Click;
+			this.btnClose.Click += this.btnClose_Click;
 			// 
 			// rtxtElements
 			// 
@@ -114,7 +114,7 @@
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
 			this.Text = "Orbital elements";
-			this.Load += FormExport_Load;
+			this.Load += this.FormExport_Load;
 			this.pnlElements.ResumeLayout(false);
 			this.pnlElements.PerformLayout();
 			this.ResumeLayout(false);

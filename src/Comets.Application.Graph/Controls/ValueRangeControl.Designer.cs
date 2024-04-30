@@ -58,8 +58,8 @@
 			this.txtMaxValue.TabIndex = 3;
 			this.txtMaxValue.Text = "12";
 			this.txtMaxValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.txtMaxValue.TextChanged += txtMaxMag_TextChanged;
-			this.txtMaxValue.KeyPress += txtMagCommon_KeyPress;
+			this.txtMaxValue.TextChanged += this.txtMaxMag_TextChanged;
+			this.txtMaxValue.KeyPress += this.txtMagCommon_KeyPress;
 			// 
 			// txtMinValue
 			// 
@@ -68,8 +68,8 @@
 			this.txtMinValue.Size = new System.Drawing.Size(45, 21);
 			this.txtMinValue.TabIndex = 1;
 			this.txtMinValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.txtMinValue.TextChanged += txtMinMag_TextChanged;
-			this.txtMinValue.KeyPress += txtMagCommon_KeyPress;
+			this.txtMinValue.TextChanged += this.txtMinMag_TextChanged;
+			this.txtMinValue.KeyPress += this.txtMagCommon_KeyPress;
 			// 
 			// cbxMaxValue
 			// 

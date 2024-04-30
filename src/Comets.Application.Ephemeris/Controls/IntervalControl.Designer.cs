@@ -93,8 +93,8 @@
 			this.txtMinInterval.Size = new System.Drawing.Size(42, 21);
 			this.txtMinInterval.TabIndex = 5;
 			this.txtMinInterval.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.txtMinInterval.KeyDown += txtIntervalCommon_KeyDown;
-			this.txtMinInterval.KeyPress += txtIntervalCommon_KeyPress;
+			this.txtMinInterval.KeyDown += this.txtIntervalCommon_KeyDown;
+			this.txtMinInterval.KeyPress += this.txtIntervalCommon_KeyPress;
 			// 
 			// txtHourInterval
 			// 
@@ -103,8 +103,8 @@
 			this.txtHourInterval.Size = new System.Drawing.Size(42, 21);
 			this.txtHourInterval.TabIndex = 4;
 			this.txtHourInterval.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.txtHourInterval.KeyDown += txtIntervalCommon_KeyDown;
-			this.txtHourInterval.KeyPress += txtIntervalCommon_KeyPress;
+			this.txtHourInterval.KeyDown += this.txtIntervalCommon_KeyDown;
+			this.txtHourInterval.KeyPress += this.txtIntervalCommon_KeyPress;
 			// 
 			// txtDayInterval
 			// 
@@ -113,8 +113,8 @@
 			this.txtDayInterval.Size = new System.Drawing.Size(42, 21);
 			this.txtDayInterval.TabIndex = 3;
 			this.txtDayInterval.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.txtDayInterval.KeyDown += txtIntervalCommon_KeyDown;
-			this.txtDayInterval.KeyPress += txtIntervalCommon_KeyPress;
+			this.txtDayInterval.KeyDown += this.txtIntervalCommon_KeyDown;
+			this.txtDayInterval.KeyPress += this.txtIntervalCommon_KeyPress;
 			// 
 			// btnDefaultInterval
 			// 
@@ -123,7 +123,7 @@
 			this.btnDefaultInterval.Size = new System.Drawing.Size(16, 16);
 			this.btnDefaultInterval.TabIndex = 6;
 			this.btnDefaultInterval.UseVisualStyleBackColor = true;
-			this.btnDefaultInterval.Click += btnDefaultInterval_Click;
+			this.btnDefaultInterval.Click += this.btnDefaultInterval_Click;
 			// 
 			// IntervalControl
 			// 

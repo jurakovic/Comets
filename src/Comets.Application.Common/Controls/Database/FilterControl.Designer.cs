@@ -42,7 +42,7 @@
 			this.btnAddNew.TabIndex = 0;
 			this.btnAddNew.Text = "+";
 			this.btnAddNew.UseVisualStyleBackColor = true;
-			this.btnAddNew.Click += btnAddNew_Click;
+			this.btnAddNew.Click += this.btnAddNew_Click;
 			// 
 			// btnClose
 			// 
@@ -53,7 +53,7 @@
 			this.btnClose.TabIndex = 2;
 			this.btnClose.Text = "Close";
 			this.btnClose.UseVisualStyleBackColor = true;
-			this.btnClose.Click += btnClose_Click;
+			this.btnClose.Click += this.btnClose_Click;
 			// 
 			// btnApply
 			// 
@@ -64,7 +64,7 @@
 			this.btnApply.TabIndex = 1;
 			this.btnApply.Text = "Apply";
 			this.btnApply.UseVisualStyleBackColor = true;
-			this.btnApply.Click += btnApply_Click;
+			this.btnApply.Click += this.btnApply_Click;
 			// 
 			// FilterControl
 			// 

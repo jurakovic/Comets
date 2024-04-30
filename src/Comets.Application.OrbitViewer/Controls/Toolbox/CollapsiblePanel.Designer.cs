@@ -62,7 +62,7 @@
 			this.linkLabel.TabStop = true;
 			this.linkLabel.Text = "▲  Text";
 			this.linkLabel.VisitedLinkColor = System.Drawing.SystemColors.ControlText;
-			this.linkLabel.LinkClicked += linkLabel_LinkClicked;
+			this.linkLabel.LinkClicked += this.linkLabel_LinkClicked;
 			// 
 			// panel
 			// 

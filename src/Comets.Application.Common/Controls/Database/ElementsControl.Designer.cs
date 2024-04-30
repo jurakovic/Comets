@@ -87,7 +87,7 @@
 			this.btnJplInfo.TabIndex = 2;
 			this.btnJplInfo.Text = "JPL Info";
 			this.btnJplInfo.UseVisualStyleBackColor = true;
-			this.btnJplInfo.Click += btnJplInfo_Click;
+			this.btnJplInfo.Click += this.btnJplInfo_Click;
 			// 
 			// txtName
 			// 

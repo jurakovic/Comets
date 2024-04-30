@@ -68,7 +68,7 @@
 			this.btnSelect.TabIndex = 2;
 			this.btnSelect.Text = "▼";
 			this.btnSelect.UseVisualStyleBackColor = true;
-			this.btnSelect.Click += btnSelect_Click;
+			this.btnSelect.Click += this.btnSelect_Click;
 			// 
 			// sortMenuControl
 			// 
@@ -87,7 +87,7 @@
 			this.btnAll.TabIndex = 1;
 			this.btnAll.Text = "ALL";
 			this.btnAll.UseVisualStyleBackColor = true;
-			this.btnAll.Click += btnAll_Click;
+			this.btnAll.Click += this.btnAll_Click;
 			// 
 			// btnFilter
 			// 
@@ -97,7 +97,7 @@
 			this.btnFilter.TabIndex = 3;
 			this.btnFilter.Text = "FILTER";
 			this.btnFilter.UseVisualStyleBackColor = true;
-			this.btnFilter.Click += btnFilter_Click;
+			this.btnFilter.Click += this.btnFilter_Click;
 			// 
 			// cbComet
 			// 
@@ -111,7 +111,7 @@
 			this.cbComet.Name = "cbComet";
 			this.cbComet.Size = new System.Drawing.Size(265, 22);
 			this.cbComet.TabIndex = 0;
-			this.cbComet.SelectedIndexChanged += cbComet_SelectedIndexChanged;
+			this.cbComet.SelectedIndexChanged += this.cbComet_SelectedIndexChanged;
 			// 
 			// ctxSelect
 			// 
@@ -126,7 +126,7 @@
 			this.mnuBrightest.Name = "mnuBrightest";
 			this.mnuBrightest.Size = new System.Drawing.Size(182, 22);
 			this.mnuBrightest.Text = "Brightest";
-			this.mnuBrightest.Click += mnuCommon_Click;
+			this.mnuBrightest.Click += this.mnuCommon_Click;
 			// 
 			// mnuClosestToPerihelion
 			// 
@@ -134,7 +134,7 @@
 			this.mnuClosestToPerihelion.Name = "mnuClosestToPerihelion";
 			this.mnuClosestToPerihelion.Size = new System.Drawing.Size(182, 22);
 			this.mnuClosestToPerihelion.Text = "Closest to perihelion";
-			this.mnuClosestToPerihelion.Click += mnuCommon_Click;
+			this.mnuClosestToPerihelion.Click += this.mnuCommon_Click;
 			// 
 			// mnuClosestToEarth
 			// 
@@ -142,7 +142,7 @@
 			this.mnuClosestToEarth.Name = "mnuClosestToEarth";
 			this.mnuClosestToEarth.Size = new System.Drawing.Size(182, 22);
 			this.mnuClosestToEarth.Text = "Closest to Earth";
-			this.mnuClosestToEarth.Click += mnuCommon_Click;
+			this.mnuClosestToEarth.Click += this.mnuCommon_Click;
 			// 
 			// mnuClosestToSun
 			// 
@@ -150,7 +150,7 @@
 			this.mnuClosestToSun.Name = "mnuClosestToSun";
 			this.mnuClosestToSun.Size = new System.Drawing.Size(182, 22);
 			this.mnuClosestToSun.Text = "Closest to Sun";
-			this.mnuClosestToSun.Click += mnuCommon_Click;
+			this.mnuClosestToSun.Click += this.mnuCommon_Click;
 			// 
 			// SelectCometControl
 			// 

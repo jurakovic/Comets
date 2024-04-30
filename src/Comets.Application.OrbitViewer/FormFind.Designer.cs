@@ -44,7 +44,7 @@
 			this.txtName.Name = "txtName";
 			this.txtName.Size = new System.Drawing.Size(278, 22);
 			this.txtName.TabIndex = 1;
-			this.txtName.TextChanged += txtName_TextChanged;
+			this.txtName.TextChanged += this.txtName_TextChanged;
 			// 
 			// lbxFilter
 			// 
@@ -59,9 +59,9 @@
 			this.lbxFilter.Name = "lbxFilter";
 			this.lbxFilter.Size = new System.Drawing.Size(278, 102);
 			this.lbxFilter.TabIndex = 2;
-			this.lbxFilter.DrawItem += lbxFilter_DrawItem;
-			this.lbxFilter.SelectedIndexChanged += lbxFilter_SelectedIndexChanged;
-			this.lbxFilter.MouseDoubleClick += lbxFilter_MouseDoubleClick;
+			this.lbxFilter.DrawItem += this.lbxFilter_DrawItem;
+			this.lbxFilter.SelectedIndexChanged += this.lbxFilter_SelectedIndexChanged;
+			this.lbxFilter.MouseDoubleClick += this.lbxFilter_MouseDoubleClick;
 			// 
 			// btnCancelHidden
 			// 
@@ -106,8 +106,8 @@
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
 			this.Text = "Find";
-			this.Load += FormFind_Load;
-			this.KeyDown += FormFind_KeyDown;
+			this.Load += this.FormFind_Load;
+			this.KeyDown += this.FormFind_KeyDown;
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}

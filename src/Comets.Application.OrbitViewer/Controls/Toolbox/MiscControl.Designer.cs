@@ -56,7 +56,7 @@
 			this.cbxShowAxes.TabIndex = 0;
 			this.cbxShowAxes.Text = "Show axes";
 			this.cbxShowAxes.UseVisualStyleBackColor = true;
-			this.cbxShowAxes.CheckedChanged += cbxShowAxes_CheckedChanged;
+			this.cbxShowAxes.CheckedChanged += this.cbxShowAxes_CheckedChanged;
 			// 
 			// btnSaveImage
 			// 
@@ -66,7 +66,7 @@
 			this.btnSaveImage.TabIndex = 2;
 			this.btnSaveImage.Text = "Save image";
 			this.btnSaveImage.UseVisualStyleBackColor = true;
-			this.btnSaveImage.Click += btnSaveImage_Click;
+			this.btnSaveImage.Click += this.btnSaveImage_Click;
 			// 
 			// cbxAntialiasing
 			// 
@@ -77,7 +77,7 @@
 			this.cbxAntialiasing.TabIndex = 1;
 			this.cbxAntialiasing.Text = "Antialiasing";
 			this.cbxAntialiasing.UseVisualStyleBackColor = true;
-			this.cbxAntialiasing.CheckedChanged += cbxAntialiasing_CheckedChanged;
+			this.cbxAntialiasing.CheckedChanged += this.cbxAntialiasing_CheckedChanged;
 			// 
 			// MiscControl
 			// 

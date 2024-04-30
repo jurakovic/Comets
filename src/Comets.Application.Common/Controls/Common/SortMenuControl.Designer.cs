@@ -62,7 +62,7 @@
 			this.btnSort.TabIndex = 4;
 			this.btnSort.Text = "Sort by";
 			this.btnSort.UseVisualStyleBackColor = true;
-			this.btnSort.Click += btnSort_Click;
+			this.btnSort.Click += this.btnSort_Click;
 			// 
 			// contextSort
 			// 
@@ -77,7 +77,7 @@
 			this.mnuDesig.Name = "mnuDesig";
 			this.mnuDesig.Size = new System.Drawing.Size(233, 22);
 			this.mnuDesig.Text = "Designation";
-			this.mnuDesig.Click += menuItemSortCommon_Click;
+			this.mnuDesig.Click += this.menuItemSortCommon_Click;
 			// 
 			// mnuDiscoverer
 			// 
@@ -85,7 +85,7 @@
 			this.mnuDiscoverer.Name = "mnuDiscoverer";
 			this.mnuDiscoverer.Size = new System.Drawing.Size(233, 22);
 			this.mnuDiscoverer.Text = "Discoverer";
-			this.mnuDiscoverer.Click += menuItemSortCommon_Click;
+			this.mnuDiscoverer.Click += this.menuItemSortCommon_Click;
 			// 
 			// mnuPerihDate
 			// 
@@ -93,7 +93,7 @@
 			this.mnuPerihDate.Name = "mnuPerihDate";
 			this.mnuPerihDate.Size = new System.Drawing.Size(233, 22);
 			this.mnuPerihDate.Text = "Perihelion date";
-			this.mnuPerihDate.Click += menuItemSortCommon_Click;
+			this.mnuPerihDate.Click += this.menuItemSortCommon_Click;
 			// 
 			// mnuPerihDist
 			// 
@@ -101,7 +101,7 @@
 			this.mnuPerihDist.Name = "mnuPerihDist";
 			this.mnuPerihDist.Size = new System.Drawing.Size(233, 22);
 			this.mnuPerihDist.Text = "Perihelion distance";
-			this.mnuPerihDist.Click += menuItemSortCommon_Click;
+			this.mnuPerihDist.Click += this.menuItemSortCommon_Click;
 			// 
 			// mnuPerihEarthDist
 			// 
@@ -109,7 +109,7 @@
 			this.mnuPerihEarthDist.Name = "mnuPerihEarthDist";
 			this.mnuPerihEarthDist.Size = new System.Drawing.Size(233, 22);
 			this.mnuPerihEarthDist.Text = "Perihelion distance from Earth";
-			this.mnuPerihEarthDist.Click += menuItemSortCommon_Click;
+			this.mnuPerihEarthDist.Click += this.menuItemSortCommon_Click;
 			// 
 			// mnuPerihMag
 			// 
@@ -117,7 +117,7 @@
 			this.mnuPerihMag.Name = "mnuPerihMag";
 			this.mnuPerihMag.Size = new System.Drawing.Size(233, 22);
 			this.mnuPerihMag.Text = "Perihelion magnitude";
-			this.mnuPerihMag.Click += menuItemSortCommon_Click;
+			this.mnuPerihMag.Click += this.menuItemSortCommon_Click;
 			// 
 			// mnuCurrSunDist
 			// 
@@ -125,7 +125,7 @@
 			this.mnuCurrSunDist.Name = "mnuCurrSunDist";
 			this.mnuCurrSunDist.Size = new System.Drawing.Size(233, 22);
 			this.mnuCurrSunDist.Text = "Current distance from Sun";
-			this.mnuCurrSunDist.Click += menuItemSortCommon_Click;
+			this.mnuCurrSunDist.Click += this.menuItemSortCommon_Click;
 			// 
 			// mnuCurrEarthDist
 			// 
@@ -133,7 +133,7 @@
 			this.mnuCurrEarthDist.Name = "mnuCurrEarthDist";
 			this.mnuCurrEarthDist.Size = new System.Drawing.Size(233, 22);
 			this.mnuCurrEarthDist.Text = "Current distance from Earth";
-			this.mnuCurrEarthDist.Click += menuItemSortCommon_Click;
+			this.mnuCurrEarthDist.Click += this.menuItemSortCommon_Click;
 			// 
 			// mnuCurrMag
 			// 
@@ -141,7 +141,7 @@
 			this.mnuCurrMag.Name = "mnuCurrMag";
 			this.mnuCurrMag.Size = new System.Drawing.Size(233, 22);
 			this.mnuCurrMag.Text = "Current magnitude";
-			this.mnuCurrMag.Click += menuItemSortCommon_Click;
+			this.mnuCurrMag.Click += this.menuItemSortCommon_Click;
 			// 
 			// mnuPeriod
 			// 
@@ -149,7 +149,7 @@
 			this.mnuPeriod.Name = "mnuPeriod";
 			this.mnuPeriod.Size = new System.Drawing.Size(233, 22);
 			this.mnuPeriod.Text = "Period";
-			this.mnuPeriod.Click += menuItemSortCommon_Click;
+			this.mnuPeriod.Click += this.menuItemSortCommon_Click;
 			// 
 			// mnuAphDistance
 			// 
@@ -157,7 +157,7 @@
 			this.mnuAphDistance.Name = "mnuAphDistance";
 			this.mnuAphDistance.Size = new System.Drawing.Size(233, 22);
 			this.mnuAphDistance.Text = "Aphelion distance";
-			this.mnuAphDistance.Click += menuItemSortCommon_Click;
+			this.mnuAphDistance.Click += this.menuItemSortCommon_Click;
 			// 
 			// mnuSemiMajorAxis
 			// 
@@ -165,7 +165,7 @@
 			this.mnuSemiMajorAxis.Name = "mnuSemiMajorAxis";
 			this.mnuSemiMajorAxis.Size = new System.Drawing.Size(233, 22);
 			this.mnuSemiMajorAxis.Text = "Semi-major axis";
-			this.mnuSemiMajorAxis.Click += menuItemSortCommon_Click;
+			this.mnuSemiMajorAxis.Click += this.menuItemSortCommon_Click;
 			// 
 			// mnuEcc
 			// 
@@ -173,7 +173,7 @@
 			this.mnuEcc.Name = "mnuEcc";
 			this.mnuEcc.Size = new System.Drawing.Size(233, 22);
 			this.mnuEcc.Text = "Eccentricity";
-			this.mnuEcc.Click += menuItemSortCommon_Click;
+			this.mnuEcc.Click += this.menuItemSortCommon_Click;
 			// 
 			// mnuIncl
 			// 
@@ -181,7 +181,7 @@
 			this.mnuIncl.Name = "mnuIncl";
 			this.mnuIncl.Size = new System.Drawing.Size(233, 22);
 			this.mnuIncl.Text = "Inclination";
-			this.mnuIncl.Click += menuItemSortCommon_Click;
+			this.mnuIncl.Click += this.menuItemSortCommon_Click;
 			// 
 			// mnuAscNode
 			// 
@@ -189,7 +189,7 @@
 			this.mnuAscNode.Name = "mnuAscNode";
 			this.mnuAscNode.Size = new System.Drawing.Size(233, 22);
 			this.mnuAscNode.Text = "Long. of the Asc. Node";
-			this.mnuAscNode.Click += menuItemSortCommon_Click;
+			this.mnuAscNode.Click += this.menuItemSortCommon_Click;
 			// 
 			// mnuArgPeri
 			// 
@@ -197,7 +197,7 @@
 			this.mnuArgPeri.Name = "mnuArgPeri";
 			this.mnuArgPeri.Size = new System.Drawing.Size(233, 22);
 			this.mnuArgPeri.Text = "Arg. of Pericenter";
-			this.mnuArgPeri.Click += menuItemSortCommon_Click;
+			this.mnuArgPeri.Click += this.menuItemSortCommon_Click;
 			// 
 			// mnuSeparator
 			// 
@@ -211,7 +211,7 @@
 			this.mnuAsc.Name = "mnuAsc";
 			this.mnuAsc.Size = new System.Drawing.Size(233, 22);
 			this.mnuAsc.Text = "Ascending";
-			this.mnuAsc.Click += menuItemSortAscDesc_Click;
+			this.mnuAsc.Click += this.menuItemSortAscDesc_Click;
 			// 
 			// mnuDesc
 			// 
@@ -219,7 +219,7 @@
 			this.mnuDesc.Name = "mnuDesc";
 			this.mnuDesc.Size = new System.Drawing.Size(233, 22);
 			this.mnuDesc.Text = "Descending";
-			this.mnuDesc.Click += menuItemSortAscDesc_Click;
+			this.mnuDesc.Click += this.menuItemSortAscDesc_Click;
 			// 
 			// SortMenuControl
 			// 

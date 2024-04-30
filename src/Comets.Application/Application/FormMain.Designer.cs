@@ -98,7 +98,7 @@
 			this.menuItemFileEphemeris.ShortcutKeys = System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E;
 			this.menuItemFileEphemeris.Size = new System.Drawing.Size(204, 22);
 			this.menuItemFileEphemeris.Text = "&Ephemeris";
-			this.menuItemFileEphemeris.Click += menuItemFileEphemerides_Click;
+			this.menuItemFileEphemeris.Click += this.menuItemFileEphemerides_Click;
 			// 
 			// menuItemFileGraph
 			// 
@@ -107,7 +107,7 @@
 			this.menuItemFileGraph.ShortcutKeys = System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.G;
 			this.menuItemFileGraph.Size = new System.Drawing.Size(204, 22);
 			this.menuItemFileGraph.Text = "&Graph";
-			this.menuItemFileGraph.Click += menuItemFileGraph_Click;
+			this.menuItemFileGraph.Click += this.menuItemFileGraph_Click;
 			// 
 			// menuItemFileOrbit
 			// 
@@ -116,7 +116,7 @@
 			this.menuItemFileOrbit.ShortcutKeys = System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V;
 			this.menuItemFileOrbit.Size = new System.Drawing.Size(204, 22);
 			this.menuItemFileOrbit.Text = "Orbit &Viewer";
-			this.menuItemFileOrbit.Click += menuItemFileOrbit_Click;
+			this.menuItemFileOrbit.Click += this.menuItemFileOrbit_Click;
 			// 
 			// menuItemSeparatorFile1
 			// 
@@ -131,7 +131,7 @@
 			this.menuItemOrbitalElements.ShortcutKeys = System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O;
 			this.menuItemOrbitalElements.Size = new System.Drawing.Size(204, 22);
 			this.menuItemOrbitalElements.Text = "&Orbital elements";
-			this.menuItemOrbitalElements.Click += menuItemOrbitalElements_Click;
+			this.menuItemOrbitalElements.Click += this.menuItemOrbitalElements_Click;
 			// 
 			// menuItemSeparatorFile3
 			// 
@@ -146,7 +146,7 @@
 			this.menuItemExit.ShortcutKeys = System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4;
 			this.menuItemExit.Size = new System.Drawing.Size(204, 22);
 			this.menuItemExit.Text = "E&xit";
-			this.menuItemExit.Click += menuItemExit_Click;
+			this.menuItemExit.Click += this.menuItemExit_Click;
 			// 
 			// menuItemEdit
 			// 
@@ -163,7 +163,7 @@
 			this.menuItemDatabase.ShortcutKeys = System.Windows.Forms.Keys.F5;
 			this.menuItemDatabase.Size = new System.Drawing.Size(141, 22);
 			this.menuItemDatabase.Text = "&Database";
-			this.menuItemDatabase.Click += menuItemDatabase_Click;
+			this.menuItemDatabase.Click += this.menuItemDatabase_Click;
 			// 
 			// menuItemUpdate
 			// 
@@ -172,7 +172,7 @@
 			this.menuItemUpdate.ShortcutKeys = System.Windows.Forms.Keys.F6;
 			this.menuItemUpdate.Size = new System.Drawing.Size(141, 22);
 			this.menuItemUpdate.Text = "&Update";
-			this.menuItemUpdate.Click += menuItemImport_Click;
+			this.menuItemUpdate.Click += this.menuItemImport_Click;
 			// 
 			// menuItemSeparatorEdit1
 			// 
@@ -186,7 +186,7 @@
 			this.menuItemSettings.Name = "menuItemSettings";
 			this.menuItemSettings.Size = new System.Drawing.Size(141, 22);
 			this.menuItemSettings.Text = "&Settings";
-			this.menuItemSettings.Click += menuItemSettings_Click;
+			this.menuItemSettings.Click += this.menuItemSettings_Click;
 			// 
 			// menuItemEphemeris
 			// 
@@ -204,7 +204,7 @@
 			this.menuItemEphemerisSettings.ShortcutKeys = System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift | System.Windows.Forms.Keys.E;
 			this.menuItemEphemerisSettings.Size = new System.Drawing.Size(188, 22);
 			this.menuItemEphemerisSettings.Text = "&Settings";
-			this.menuItemEphemerisSettings.Click += menuItemEphemSettings_Click;
+			this.menuItemEphemerisSettings.Click += this.menuItemEphemSettings_Click;
 			// 
 			// menuItemEphemerisSaveAs
 			// 
@@ -213,7 +213,7 @@
 			this.menuItemEphemerisSaveAs.ShortcutKeys = System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S;
 			this.menuItemEphemerisSaveAs.Size = new System.Drawing.Size(188, 22);
 			this.menuItemEphemerisSaveAs.Text = "Save &As";
-			this.menuItemEphemerisSaveAs.Click += menuItemEphemerisSaveAs_Click;
+			this.menuItemEphemerisSaveAs.Click += this.menuItemEphemerisSaveAs_Click;
 			// 
 			// menuItemGraph
 			// 
@@ -231,7 +231,7 @@
 			this.menuItemGraphSettings.ShortcutKeys = System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift | System.Windows.Forms.Keys.G;
 			this.menuItemGraphSettings.Size = new System.Drawing.Size(190, 22);
 			this.menuItemGraphSettings.Text = "&Settings";
-			this.menuItemGraphSettings.Click += menuItemGraphSettings_Click;
+			this.menuItemGraphSettings.Click += this.menuItemGraphSettings_Click;
 			// 
 			// menuItemGraphSaveAs
 			// 
@@ -240,7 +240,7 @@
 			this.menuItemGraphSaveAs.ShortcutKeys = System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S;
 			this.menuItemGraphSaveAs.Size = new System.Drawing.Size(190, 22);
 			this.menuItemGraphSaveAs.Text = "Save &As";
-			this.menuItemGraphSaveAs.Click += menuItemGraphSaveAs_Click;
+			this.menuItemGraphSaveAs.Click += this.menuItemGraphSaveAs_Click;
 			// 
 			// menuItemOrbit
 			// 
@@ -260,7 +260,7 @@
 			this.mnuShowToolbox.ShortcutKeys = System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T;
 			this.mnuShowToolbox.Size = new System.Drawing.Size(188, 22);
 			this.mnuShowToolbox.Text = "Show &Toolbox";
-			this.mnuShowToolbox.Click += mnuShowToolbox_Click;
+			this.mnuShowToolbox.Click += this.mnuShowToolbox_Click;
 			// 
 			// menuItemView
 			// 
@@ -276,7 +276,7 @@
 			this.menuItemViewAlwaysOnTop.Name = "menuItemViewAlwaysOnTop";
 			this.menuItemViewAlwaysOnTop.Size = new System.Drawing.Size(157, 22);
 			this.menuItemViewAlwaysOnTop.Text = "Always on &Top";
-			this.menuItemViewAlwaysOnTop.Click += menuItemViewAlwaysOnTop_Click;
+			this.menuItemViewAlwaysOnTop.Click += this.menuItemViewAlwaysOnTop_Click;
 			// 
 			// menuItemViewStatusBar
 			// 
@@ -286,7 +286,7 @@
 			this.menuItemViewStatusBar.Name = "menuItemViewStatusBar";
 			this.menuItemViewStatusBar.Size = new System.Drawing.Size(157, 22);
 			this.menuItemViewStatusBar.Text = "Show &status bar";
-			this.menuItemViewStatusBar.Click += menuItemViewStatusBar_Click;
+			this.menuItemViewStatusBar.Click += this.menuItemViewStatusBar_Click;
 			// 
 			// menuItemWindow
 			// 
@@ -303,7 +303,7 @@
 			this.menuItemTileVert.Name = "menuItemTileVert";
 			this.menuItemTileVert.Size = new System.Drawing.Size(159, 22);
 			this.menuItemTileVert.Text = "Tile &Horizontally";
-			this.menuItemTileVert.Click += menuItemTileVert_Click;
+			this.menuItemTileVert.Click += this.menuItemTileVert_Click;
 			// 
 			// menuItemTileHoriz
 			// 
@@ -311,7 +311,7 @@
 			this.menuItemTileHoriz.Name = "menuItemTileHoriz";
 			this.menuItemTileHoriz.Size = new System.Drawing.Size(159, 22);
 			this.menuItemTileHoriz.Text = "Tile &Vertically";
-			this.menuItemTileHoriz.Click += menuItemTileHoriz_Click;
+			this.menuItemTileHoriz.Click += this.menuItemTileHoriz_Click;
 			// 
 			// menuItemCascade
 			// 
@@ -319,7 +319,7 @@
 			this.menuItemCascade.Name = "menuItemCascade";
 			this.menuItemCascade.Size = new System.Drawing.Size(159, 22);
 			this.menuItemCascade.Text = "&Cascade";
-			this.menuItemCascade.Click += menuItemCascade_Click;
+			this.menuItemCascade.Click += this.menuItemCascade_Click;
 			// 
 			// menuItemMinimizeAll
 			// 
@@ -327,7 +327,7 @@
 			this.menuItemMinimizeAll.Name = "menuItemMinimizeAll";
 			this.menuItemMinimizeAll.Size = new System.Drawing.Size(159, 22);
 			this.menuItemMinimizeAll.Text = "&Minimize All";
-			this.menuItemMinimizeAll.Click += menuItemMinimizeAll_Click;
+			this.menuItemMinimizeAll.Click += this.menuItemMinimizeAll_Click;
 			// 
 			// menuItemRestoreAll
 			// 
@@ -335,7 +335,7 @@
 			this.menuItemRestoreAll.Name = "menuItemRestoreAll";
 			this.menuItemRestoreAll.Size = new System.Drawing.Size(159, 22);
 			this.menuItemRestoreAll.Text = "&Restore All";
-			this.menuItemRestoreAll.Click += menuItemRestoreAll_Click;
+			this.menuItemRestoreAll.Click += this.menuItemRestoreAll_Click;
 			// 
 			// menuItemClose
 			// 
@@ -344,7 +344,7 @@
 			this.menuItemClose.ShortcutKeys = System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F4;
 			this.menuItemClose.Size = new System.Drawing.Size(159, 22);
 			this.menuItemClose.Text = "&Close";
-			this.menuItemClose.Click += menuItemClose_Click;
+			this.menuItemClose.Click += this.menuItemClose_Click;
 			// 
 			// menuItemHelp
 			// 
@@ -360,7 +360,7 @@
 			this.menuItemControls.Name = "menuItemControls";
 			this.menuItemControls.Size = new System.Drawing.Size(119, 22);
 			this.menuItemControls.Text = "&Controls";
-			this.menuItemControls.Click += menuItemControls_Click;
+			this.menuItemControls.Click += this.menuItemControls_Click;
 			// 
 			// menuItemAbout
 			// 
@@ -368,7 +368,7 @@
 			this.menuItemAbout.Name = "menuItemAbout";
 			this.menuItemAbout.Size = new System.Drawing.Size(119, 22);
 			this.menuItemAbout.Text = "&About";
-			this.menuItemAbout.Click += menuItemAbout_Click;
+			this.menuItemAbout.Click += this.menuItemAbout_Click;
 			// 
 			// statusStrip
 			// 
@@ -415,13 +415,13 @@
 			this.Name = "FormMain";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Comets";
-			this.FormClosing += FormMain_FormClosing;
-			this.FormClosed += FormMain_FormClosed;
-			this.Load += FormMain_Load;
-			this.MdiChildActivate += FormMain_MdiChildActivate;
-			this.Shown += FormMain_Shown;
-			this.Move += FormMain_Move;
-			this.Resize += FormMain_Resize;
+			this.FormClosing += this.FormMain_FormClosing;
+			this.FormClosed += this.FormMain_FormClosed;
+			this.Load += this.FormMain_Load;
+			this.MdiChildActivate += this.FormMain_MdiChildActivate;
+			this.Shown += this.FormMain_Shown;
+			this.Move += this.FormMain_Move;
+			this.Resize += this.FormMain_Resize;
 			this.mainMenu.ResumeLayout(false);
 			this.mainMenu.PerformLayout();
 			this.statusStrip.ResumeLayout(false);

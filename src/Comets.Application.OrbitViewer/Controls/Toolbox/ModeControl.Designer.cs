@@ -57,7 +57,7 @@
 			this.rbtnSingleMode.TabIndex = 0;
 			this.rbtnSingleMode.Text = "Single";
 			this.rbtnSingleMode.UseVisualStyleBackColor = true;
-			this.rbtnSingleMode.CheckedChanged += rbtnCommon_CheckedChanged;
+			this.rbtnSingleMode.CheckedChanged += this.rbtnCommon_CheckedChanged;
 			// 
 			// rbtnMultipleMode
 			// 
@@ -69,7 +69,7 @@
 			this.rbtnMultipleMode.TabIndex = 1;
 			this.rbtnMultipleMode.Text = "Multiple";
 			this.rbtnMultipleMode.UseVisualStyleBackColor = true;
-			this.rbtnMultipleMode.CheckedChanged += rbtnCommon_CheckedChanged;
+			this.rbtnMultipleMode.CheckedChanged += this.rbtnCommon_CheckedChanged;
 			// 
 			// ModeControl
 			// 
