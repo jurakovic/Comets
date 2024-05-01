@@ -113,7 +113,7 @@
 			this.Name = "FormElements";
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
-			this.Text = "Orbital elements";
+			this.Text = "Orbital Elements";
 			this.Load += this.FormExport_Load;
 			this.pnlElements.ResumeLayout(false);
 			this.pnlElements.PerformLayout();

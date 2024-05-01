@@ -233,6 +233,7 @@ namespace Comets.Application
 			FormElements fe = new FormElements();
 			fe.WindowState = FormWindowState.Maximized;
 			fe.MdiParent = this;
+			fe.OnElementsTextWriteEnd += UpdateMenuItemText;
 			fe.Show();
 		}
 

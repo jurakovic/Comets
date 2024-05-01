@@ -130,7 +130,7 @@
 			this.menuItemOrbitalElements.Name = "menuItemOrbitalElements";
 			this.menuItemOrbitalElements.ShortcutKeys = System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O;
 			this.menuItemOrbitalElements.Size = new System.Drawing.Size(204, 22);
-			this.menuItemOrbitalElements.Text = "&Orbital elements";
+			this.menuItemOrbitalElements.Text = "&Orbital Elements";
 			this.menuItemOrbitalElements.Click += this.menuItemOrbitalElements_Click;
 			// 
 			// menuItemSeparatorFile3
