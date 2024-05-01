@@ -8,6 +8,8 @@
     <UseWindowsForms>true</UseWindowsForms>
     <AssemblyName>Comets</AssemblyName>
     <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
+    <PublishSingleFile>true</PublishSingleFile>
+    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
   </PropertyGroup>
 
   <ItemGroup>

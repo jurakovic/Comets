@@ -62,9 +62,9 @@
 			this.lblVersion.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 238);
 			this.lblVersion.Location = new System.Drawing.Point(99, 17);
 			this.lblVersion.Name = "lblVersion";
-			this.lblVersion.Size = new System.Drawing.Size(80, 13);
+			this.lblVersion.Size = new System.Drawing.Size(113, 13);
 			this.lblVersion.TabIndex = 2;
-			this.lblVersion.Text = "Comets 0.8.1";
+			this.lblVersion.Text = "Comets <version>";
 			// 
 			// lblMore
 			// 
@@ -94,6 +94,7 @@
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "About";
+			this.Load += this.FormAbout_Load;
 			((System.ComponentModel.ISupportInitialize)this.pictureBox1).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
