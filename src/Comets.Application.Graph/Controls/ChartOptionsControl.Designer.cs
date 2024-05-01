@@ -29,7 +29,6 @@
 		private void InitializeComponent()
 		{
 			this.gbxChartOptions = new System.Windows.Forms.GroupBox();
-			this.lblValue = new System.Windows.Forms.Label();
 			this.cbxValue = new System.Windows.Forms.CheckBox();
 			this.pnlPerihLineColor = new System.Windows.Forms.Panel();
 			this.pnlNowLineColor = new System.Windows.Forms.Panel();
@@ -43,7 +42,6 @@
 			// gbxChartOptions
 			// 
 			this.gbxChartOptions.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-			this.gbxChartOptions.Controls.Add(this.lblValue);
 			this.gbxChartOptions.Controls.Add(this.cbxValue);
 			this.gbxChartOptions.Controls.Add(this.pnlPerihLineColor);
 			this.gbxChartOptions.Controls.Add(this.pnlNowLineColor);
@@ -58,16 +56,6 @@
 			this.gbxChartOptions.TabStop = false;
 			this.gbxChartOptions.Text = "Chart options";
 			// 
-			// lblValue
-			// 
-			this.lblValue.AutoSize = true;
-			this.lblValue.Location = new System.Drawing.Point(30, 22);
-			this.lblValue.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.lblValue.Name = "lblValue";
-			this.lblValue.Size = new System.Drawing.Size(33, 13);
-			this.lblValue.TabIndex = 1;
-			this.lblValue.Text = "Value";
-			// 
 			// cbxValue
 			// 
 			this.cbxValue.AutoSize = true;
@@ -77,9 +65,9 @@
 			this.cbxValue.Location = new System.Drawing.Point(14, 21);
 			this.cbxValue.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.cbxValue.Name = "cbxValue";
-			this.cbxValue.Size = new System.Drawing.Size(29, 17);
+			this.cbxValue.Size = new System.Drawing.Size(52, 17);
 			this.cbxValue.TabIndex = 0;
-			this.cbxValue.Text = " ";
+			this.cbxValue.Text = "Value";
 			this.cbxValue.UseVisualStyleBackColor = true;
 			// 
 			// pnlPerihLineColor
@@ -172,7 +160,6 @@
 		#endregion
 
 		private System.Windows.Forms.GroupBox gbxChartOptions;
-		private System.Windows.Forms.Label lblValue;
 		private System.Windows.Forms.CheckBox cbxValue;
 		private System.Windows.Forms.Panel pnlPerihLineColor;
 		private System.Windows.Forms.Panel pnlNowLineColor;

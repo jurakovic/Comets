@@ -44,13 +44,13 @@
 			this.pnlMode.Location = new System.Drawing.Point(0, 0);
 			this.pnlMode.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.pnlMode.Name = "pnlMode";
-			this.pnlMode.Size = new System.Drawing.Size(202, 35);
+			this.pnlMode.Size = new System.Drawing.Size(173, 30);
 			this.pnlMode.TabIndex = 0;
 			// 
 			// rbtnSingleMode
 			// 
 			this.rbtnSingleMode.AutoSize = true;
-			this.rbtnSingleMode.Location = new System.Drawing.Point(27, 8);
+			this.rbtnSingleMode.Location = new System.Drawing.Point(23, 7);
 			this.rbtnSingleMode.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.rbtnSingleMode.Name = "rbtnSingleMode";
 			this.rbtnSingleMode.Size = new System.Drawing.Size(53, 17);
@@ -62,7 +62,7 @@
 			// rbtnMultipleMode
 			// 
 			this.rbtnMultipleMode.AutoSize = true;
-			this.rbtnMultipleMode.Location = new System.Drawing.Point(98, 8);
+			this.rbtnMultipleMode.Location = new System.Drawing.Point(84, 7);
 			this.rbtnMultipleMode.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.rbtnMultipleMode.Name = "rbtnMultipleMode";
 			this.rbtnMultipleMode.Size = new System.Drawing.Size(61, 17);
@@ -78,7 +78,7 @@
 			this.Controls.Add(this.pnlMode);
 			this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.Name = "ModeControl";
-			this.Size = new System.Drawing.Size(202, 35);
+			this.Size = new System.Drawing.Size(173, 30);
 			this.pnlMode.ResumeLayout(false);
 			this.pnlMode.PerformLayout();
 			this.ResumeLayout(false);
