@@ -4,4 +4,7 @@ latest=$(git show release:version)
 
 echo $latest
 
-dotnet publish -f net8.0-windows -r win-x64 --no-self-contained -p:PublishSingleFile=true -p:AssemblyVersion=1.2.3.4 -p:Version=1.2.3.4
+version="0.9.0"
+
+dotnet publish src/Comets.Application -f net8.0-windows -r win-x64 --no-self-contained -p:PublishSingleFile=true -p:IncludeSourceRevisionInInformationalVersion=false -p:AssemblyVersion=$version -p:Version=$version
+
