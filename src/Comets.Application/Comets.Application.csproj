@@ -6,7 +6,13 @@
     <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>disable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
+    <AssemblyName>Comets</AssemblyName>
+    <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\icon.ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Comets.Application.Common\Comets.Application.Common.csproj" />
