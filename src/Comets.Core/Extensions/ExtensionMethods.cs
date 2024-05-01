@@ -105,7 +105,7 @@ namespace Comets.Core.Extensions
 		/// Inverts MenuItem.Checked property (Checked = !Checked)
 		/// </summary>
 		/// <param name="cbx"></param>
-		public static void InvertChecked(this MenuItem item)
+		public static void InvertChecked(this ToolStripMenuItem item)
 		{
 			item.Checked = !item.Checked;
 		}

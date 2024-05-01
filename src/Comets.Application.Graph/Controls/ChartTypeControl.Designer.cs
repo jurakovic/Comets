@@ -37,9 +37,7 @@
 			// 
 			// gbxChartType
 			// 
-			this.gbxChartType.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.gbxChartType.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
 			this.gbxChartType.Controls.Add(this.rbtnEarthDistance);
 			this.gbxChartType.Controls.Add(this.rbtnSunDistance);
 			this.gbxChartType.Controls.Add(this.rbtnMagnitude);
@@ -93,7 +91,6 @@
 			this.gbxChartType.ResumeLayout(false);
 			this.gbxChartType.PerformLayout();
 			this.ResumeLayout(false);
-
 		}
 
 		#endregion

@@ -49,7 +49,7 @@
 			this.lblTime = new System.Windows.Forms.Label();
 			this.lblDate = new System.Windows.Forms.Label();
 			this.txtJD = new System.Windows.Forms.TextBox();
-			this.dateTimeMenuControl = new Comets.Application.Common.Controls.DateAndTime.DateTimeMenuControl();
+			this.dateTimeMenuControl = new Common.Controls.DateAndTime.DateTimeMenuControl();
 			this.gbxDate.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -60,9 +60,9 @@
 			this.txtSecond.Size = new System.Drawing.Size(35, 21);
 			this.txtSecond.TabIndex = 13;
 			this.txtSecond.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.txtSecond.TextChanged += new System.EventHandler(this.txtCommon_TextChanged);
-			this.txtSecond.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCommon_KeyDown);
-			this.txtSecond.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCommon_KeyPress);
+			this.txtSecond.TextChanged += this.txtCommon_TextChanged;
+			this.txtSecond.KeyDown += this.txtCommon_KeyDown;
+			this.txtSecond.KeyPress += this.txtCommon_KeyPress;
 			// 
 			// txtMinute
 			// 
@@ -71,9 +71,9 @@
 			this.txtMinute.Size = new System.Drawing.Size(35, 21);
 			this.txtMinute.TabIndex = 12;
 			this.txtMinute.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.txtMinute.TextChanged += new System.EventHandler(this.txtCommon_TextChanged);
-			this.txtMinute.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCommon_KeyDown);
-			this.txtMinute.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCommon_KeyPress);
+			this.txtMinute.TextChanged += this.txtCommon_TextChanged;
+			this.txtMinute.KeyDown += this.txtCommon_KeyDown;
+			this.txtMinute.KeyPress += this.txtCommon_KeyPress;
 			// 
 			// txtHour
 			// 
@@ -82,9 +82,9 @@
 			this.txtHour.Size = new System.Drawing.Size(35, 21);
 			this.txtHour.TabIndex = 11;
 			this.txtHour.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.txtHour.TextChanged += new System.EventHandler(this.txtCommon_TextChanged);
-			this.txtHour.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCommon_KeyDown);
-			this.txtHour.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCommon_KeyPress);
+			this.txtHour.TextChanged += this.txtCommon_TextChanged;
+			this.txtHour.KeyDown += this.txtCommon_KeyDown;
+			this.txtHour.KeyPress += this.txtCommon_KeyPress;
 			// 
 			// txtDay
 			// 
@@ -93,9 +93,9 @@
 			this.txtDay.Size = new System.Drawing.Size(35, 21);
 			this.txtDay.TabIndex = 4;
 			this.txtDay.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.txtDay.TextChanged += new System.EventHandler(this.txtCommon_TextChanged);
-			this.txtDay.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCommon_KeyDown);
-			this.txtDay.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCommon_KeyPress);
+			this.txtDay.TextChanged += this.txtCommon_TextChanged;
+			this.txtDay.KeyDown += this.txtCommon_KeyDown;
+			this.txtDay.KeyPress += this.txtCommon_KeyPress;
 			// 
 			// txtMonth
 			// 
@@ -104,9 +104,9 @@
 			this.txtMonth.Size = new System.Drawing.Size(35, 21);
 			this.txtMonth.TabIndex = 5;
 			this.txtMonth.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.txtMonth.TextChanged += new System.EventHandler(this.txtMonthYear_TextChanged);
-			this.txtMonth.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCommon_KeyDown);
-			this.txtMonth.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCommon_KeyPress);
+			this.txtMonth.TextChanged += this.txtMonthYear_TextChanged;
+			this.txtMonth.KeyDown += this.txtCommon_KeyDown;
+			this.txtMonth.KeyPress += this.txtCommon_KeyPress;
 			// 
 			// txtYear
 			// 
@@ -115,9 +115,9 @@
 			this.txtYear.Size = new System.Drawing.Size(45, 21);
 			this.txtYear.TabIndex = 6;
 			this.txtYear.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.txtYear.TextChanged += new System.EventHandler(this.txtMonthYear_TextChanged);
-			this.txtYear.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCommon_KeyDown);
-			this.txtYear.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCommon_KeyPress);
+			this.txtYear.TextChanged += this.txtMonthYear_TextChanged;
+			this.txtYear.KeyDown += this.txtCommon_KeyDown;
+			this.txtYear.KeyPress += this.txtCommon_KeyPress;
 			// 
 			// btnCancel
 			// 
@@ -138,7 +138,7 @@
 			this.btnOk.TabIndex = 2;
 			this.btnOk.Text = "OK";
 			this.btnOk.UseVisualStyleBackColor = true;
-			this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
+			this.btnOk.Click += this.btnOk_Click;
 			// 
 			// gbxDate
 			// 
@@ -279,9 +279,9 @@
 			this.txtJD.Size = new System.Drawing.Size(137, 21);
 			this.txtJD.TabIndex = 17;
 			this.txtJD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.txtJD.TextChanged += new System.EventHandler(this.txtJD_TextChanged);
-			this.txtJD.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtJD_KeyDown);
-			this.txtJD.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCommon_KeyPress);
+			this.txtJD.TextChanged += this.txtJD_TextChanged;
+			this.txtJD.KeyDown += this.txtJD_KeyDown;
+			this.txtJD.KeyPress += this.txtCommon_KeyPress;
 			// 
 			// dateTimeMenuControl
 			// 
@@ -291,7 +291,7 @@
 			this.dateTimeMenuControl.Name = "dateTimeMenuControl";
 			this.dateTimeMenuControl.PerihelionDate = null;
 			this.dateTimeMenuControl.ReferenceControl = null;
-			this.dateTimeMenuControl.SelectedDateTime = new System.DateTime(((long)(0)));
+			this.dateTimeMenuControl.SelectedDateTime = new System.DateTime(0L);
 			this.dateTimeMenuControl.Size = new System.Drawing.Size(90, 23);
 			this.dateTimeMenuControl.TabIndex = 1;
 			this.dateTimeMenuControl.Title = "Select";
@@ -307,7 +307,7 @@
 			this.Controls.Add(this.btnCancel);
 			this.Controls.Add(this.btnOk);
 			this.Controls.Add(this.dateTimeMenuControl);
-			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
@@ -316,11 +316,10 @@
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Universal Time (UTC)";
-			this.Load += new System.EventHandler(this.FormDateTime_Load);
+			this.Load += this.FormDateTime_Load;
 			this.gbxDate.ResumeLayout(false);
 			this.gbxDate.PerformLayout();
 			this.ResumeLayout(false);
-
 		}
 
 		#endregion

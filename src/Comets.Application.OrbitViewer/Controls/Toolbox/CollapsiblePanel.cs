@@ -64,7 +64,7 @@ namespace Comets.Application.OrbitViewer.Controls
 
 		#region EventHandling
 
-		private void linkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		private void label_Click(object sender, EventArgs e)
 		{
 			if (HeightExpanded == 0)
 				throw new ArgumentException("HeightExpanded not set");
@@ -78,7 +78,7 @@ namespace Comets.Application.OrbitViewer.Controls
 
 		private void SetText()
 		{
-			linkLabel.Text = String.Format("{0}  {1}", IsCollapsed ? "▼" : "▲", _title.ToUpper().PadRight(255));
+			label.Text = String.Format("{0}  {1}", IsCollapsed ? "▼" : "▲", _title.ToUpper().PadRight(255));
 		}
 
 		private void MovePanels()

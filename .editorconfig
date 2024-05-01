@@ -11,6 +11,13 @@ trim_trailing_whitespace = true
 [*.cs]
 indent_style = tab
 dotnet_sort_system_directives_first = false
+dotnet_style_qualification_for_field = true
+
+[*.Designer.cs]
+dotnet_style_qualification_for_field = true
+dotnet_style_qualification_for_property = true
+dotnet_style_qualification_for_method = true
+dotnet_style_qualification_for_event = true
 
 [*.csproj]
 indent_size = 2

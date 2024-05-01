@@ -36,25 +36,22 @@
 			// 
 			// txtName
 			// 
-			this.txtName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.txtName.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
 			this.txtName.BackColor = System.Drawing.Color.Black;
-			this.txtName.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.txtName.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.txtName.ForeColor = System.Drawing.Color.White;
 			this.txtName.Location = new System.Drawing.Point(1, 1);
 			this.txtName.Name = "txtName";
 			this.txtName.Size = new System.Drawing.Size(278, 22);
 			this.txtName.TabIndex = 1;
-			this.txtName.TextChanged += new System.EventHandler(this.txtName_TextChanged);
+			this.txtName.TextChanged += this.txtName_TextChanged;
 			// 
 			// lbxFilter
 			// 
-			this.lbxFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.lbxFilter.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
 			this.lbxFilter.BackColor = System.Drawing.Color.Black;
 			this.lbxFilter.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-			this.lbxFilter.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lbxFilter.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.lbxFilter.ForeColor = System.Drawing.Color.White;
 			this.lbxFilter.FormattingEnabled = true;
 			this.lbxFilter.ItemHeight = 14;
@@ -62,13 +59,13 @@
 			this.lbxFilter.Name = "lbxFilter";
 			this.lbxFilter.Size = new System.Drawing.Size(278, 102);
 			this.lbxFilter.TabIndex = 2;
-			this.lbxFilter.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.lbxFilter_DrawItem);
-			this.lbxFilter.SelectedIndexChanged += new System.EventHandler(this.lbxFilter_SelectedIndexChanged);
-			this.lbxFilter.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lbxFilter_MouseDoubleClick);
+			this.lbxFilter.DrawItem += this.lbxFilter_DrawItem;
+			this.lbxFilter.SelectedIndexChanged += this.lbxFilter_SelectedIndexChanged;
+			this.lbxFilter.MouseDoubleClick += this.lbxFilter_MouseDoubleClick;
 			// 
 			// btnCancelHidden
 			// 
-			this.btnCancelHidden.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnCancelHidden.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
 			this.btnCancelHidden.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.btnCancelHidden.Location = new System.Drawing.Point(193, 90);
 			this.btnCancelHidden.Name = "btnCancelHidden";
@@ -80,7 +77,7 @@
 			// 
 			// btnOkHidden
 			// 
-			this.btnOkHidden.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnOkHidden.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
 			this.btnOkHidden.DialogResult = System.Windows.Forms.DialogResult.OK;
 			this.btnOkHidden.Location = new System.Drawing.Point(112, 90);
 			this.btnOkHidden.Name = "btnOkHidden";
@@ -101,7 +98,7 @@
 			this.Controls.Add(this.lbxFilter);
 			this.Controls.Add(this.btnOkHidden);
 			this.Controls.Add(this.btnCancelHidden);
-			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.KeyPreview = true;
 			this.Name = "FormFind";
@@ -109,11 +106,10 @@
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
 			this.Text = "Find";
-			this.Load += new System.EventHandler(this.FormFind_Load);
-			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormFind_KeyDown);
+			this.Load += this.FormFind_Load;
+			this.KeyDown += this.FormFind_KeyDown;
 			this.ResumeLayout(false);
 			this.PerformLayout();
-
 		}
 
 		#endregion

@@ -95,7 +95,7 @@
 			this.gbxLocation.SuspendLayout();
 			this.tabPrograms.SuspendLayout();
 			this.gbxPrograms.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.dgvPrograms)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)this.dgvPrograms).BeginInit();
 			this.gbxAddProgram.SuspendLayout();
 			this.tabNetwork.SuspendLayout();
 			this.gbxNetwork.SuspendLayout();
@@ -104,8 +104,7 @@
 			// 
 			// tabControl1
 			// 
-			this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.tabControl1.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
 			this.tabControl1.Controls.Add(this.tabGeneral);
 			this.tabControl1.Controls.Add(this.tabLocation);
 			this.tabControl1.Controls.Add(this.tabPrograms);
@@ -131,8 +130,7 @@
 			// 
 			// gbxGeneral
 			// 
-			this.gbxGeneral.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.gbxGeneral.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
 			this.gbxGeneral.Controls.Add(this.cbxShowDeleteCometConfirmation);
 			this.gbxGeneral.Controls.Add(this.txtDownloadUrl);
 			this.gbxGeneral.Controls.Add(this.lblDownloadUrl);
@@ -204,8 +202,8 @@
 			this.txtUpdateInterval.TabIndex = 3;
 			this.txtUpdateInterval.Text = "7";
 			this.txtUpdateInterval.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.txtUpdateInterval.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtUpdateInterval_KeyDown);
-			this.txtUpdateInterval.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtUpdateInterval_KeyPress);
+			this.txtUpdateInterval.KeyDown += this.txtUpdateInterval_KeyDown;
+			this.txtUpdateInterval.KeyPress += this.txtUpdateInterval_KeyPress;
 			// 
 			// chShowStatusBar
 			// 
@@ -271,8 +269,7 @@
 			// 
 			// gbxLocation
 			// 
-			this.gbxLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.gbxLocation.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
 			this.gbxLocation.Controls.Add(this.cbxEastWest);
 			this.gbxLocation.Controls.Add(this.cbxNorthSouth);
 			this.gbxLocation.Controls.Add(this.lblLonDeg);
@@ -293,9 +290,7 @@
 			// 
 			this.cbxEastWest.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cbxEastWest.FormattingEnabled = true;
-			this.cbxEastWest.Items.AddRange(new object[] {
-            "East",
-            "West"});
+			this.cbxEastWest.Items.AddRange(new object[] { "East", "West" });
 			this.cbxEastWest.Location = new System.Drawing.Point(181, 182);
 			this.cbxEastWest.Name = "cbxEastWest";
 			this.cbxEastWest.Size = new System.Drawing.Size(100, 21);
@@ -305,9 +300,7 @@
 			// 
 			this.cbxNorthSouth.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cbxNorthSouth.FormattingEnabled = true;
-			this.cbxNorthSouth.Items.AddRange(new object[] {
-            "North",
-            "South"});
+			this.cbxNorthSouth.Items.AddRange(new object[] { "North", "South" });
 			this.cbxNorthSouth.Location = new System.Drawing.Point(181, 115);
 			this.cbxNorthSouth.Name = "cbxNorthSouth";
 			this.cbxNorthSouth.Size = new System.Drawing.Size(100, 21);
@@ -334,7 +327,7 @@
 			// lblLongitude
 			// 
 			this.lblLongitude.AutoSize = true;
-			this.lblLongitude.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblLongitude.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 238);
 			this.lblLongitude.Location = new System.Drawing.Point(6, 151);
 			this.lblLongitude.Name = "lblLongitude";
 			this.lblLongitude.Size = new System.Drawing.Size(63, 13);
@@ -343,19 +336,17 @@
 			// 
 			// txtLongitude
 			// 
-			this.txtLongitude.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.txtLongitude.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
 			this.txtLongitude.Location = new System.Drawing.Point(31, 182);
 			this.txtLongitude.MaxLength = 100;
 			this.txtLongitude.Name = "txtLongitude";
 			this.txtLongitude.Size = new System.Drawing.Size(115, 21);
 			this.txtLongitude.TabIndex = 3;
-			this.txtLongitude.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtLatitudeLongitude_KeyPress);
+			this.txtLongitude.KeyPress += this.txtLatitudeLongitude_KeyPress;
 			// 
 			// txtName
 			// 
-			this.txtName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.txtName.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
 			this.txtName.Location = new System.Drawing.Point(31, 48);
 			this.txtName.MaxLength = 128;
 			this.txtName.Name = "txtName";
@@ -365,7 +356,7 @@
 			// lblLatitude
 			// 
 			this.lblLatitude.AutoSize = true;
-			this.lblLatitude.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblLatitude.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 238);
 			this.lblLatitude.Location = new System.Drawing.Point(6, 84);
 			this.lblLatitude.Name = "lblLatitude";
 			this.lblLatitude.Size = new System.Drawing.Size(54, 13);
@@ -374,19 +365,18 @@
 			// 
 			// txtLatitude
 			// 
-			this.txtLatitude.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.txtLatitude.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
 			this.txtLatitude.Location = new System.Drawing.Point(31, 115);
 			this.txtLatitude.MaxLength = 100;
 			this.txtLatitude.Name = "txtLatitude";
 			this.txtLatitude.Size = new System.Drawing.Size(115, 21);
 			this.txtLatitude.TabIndex = 1;
-			this.txtLatitude.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtLatitudeLongitude_KeyPress);
+			this.txtLatitude.KeyPress += this.txtLatitudeLongitude_KeyPress;
 			// 
 			// lblName
 			// 
 			this.lblName.AutoSize = true;
-			this.lblName.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblName.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 238);
 			this.lblName.Location = new System.Drawing.Point(6, 17);
 			this.lblName.Name = "lblName";
 			this.lblName.Size = new System.Drawing.Size(39, 13);
@@ -406,8 +396,7 @@
 			// 
 			// gbxPrograms
 			// 
-			this.gbxPrograms.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.gbxPrograms.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
 			this.gbxPrograms.Controls.Add(this.dgvPrograms);
 			this.gbxPrograms.Controls.Add(this.btnClear);
 			this.gbxPrograms.Controls.Add(this.btnRemove);
@@ -426,9 +415,7 @@
 			this.dgvPrograms.AllowUserToResizeRows = false;
 			this.dgvPrograms.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
 			this.dgvPrograms.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.dgvPrograms.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.colProgram,
-            this.colDirectory});
+			this.dgvPrograms.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] { this.colProgram, this.colDirectory });
 			this.dgvPrograms.Location = new System.Drawing.Point(3, 10);
 			this.dgvPrograms.MultiSelect = false;
 			this.dgvPrograms.Name = "dgvPrograms";
@@ -464,7 +451,7 @@
 			this.btnClear.TabIndex = 4;
 			this.btnClear.Text = "Clear";
 			this.btnClear.UseVisualStyleBackColor = true;
-			this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
+			this.btnClear.Click += this.btnClear_Click;
 			// 
 			// btnRemove
 			// 
@@ -474,7 +461,7 @@
 			this.btnRemove.TabIndex = 3;
 			this.btnRemove.Text = "Remove";
 			this.btnRemove.UseVisualStyleBackColor = true;
-			this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
+			this.btnRemove.Click += this.btnRemove_Click;
 			// 
 			// btnEdit
 			// 
@@ -484,7 +471,7 @@
 			this.btnEdit.TabIndex = 2;
 			this.btnEdit.Text = "Edit";
 			this.btnEdit.UseVisualStyleBackColor = true;
-			this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
+			this.btnEdit.Click += this.btnEdit_Click;
 			// 
 			// btnAdd
 			// 
@@ -494,12 +481,11 @@
 			this.btnAdd.TabIndex = 1;
 			this.btnAdd.Text = "Add";
 			this.btnAdd.UseVisualStyleBackColor = true;
-			this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
+			this.btnAdd.Click += this.btnAdd_Click;
 			// 
 			// gbxAddProgram
 			// 
-			this.gbxAddProgram.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.gbxAddProgram.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
 			this.gbxAddProgram.Controls.Add(this.txtDirectory);
 			this.gbxAddProgram.Controls.Add(this.lblDirectory);
 			this.gbxAddProgram.Controls.Add(this.btnBrowse);
@@ -516,8 +502,7 @@
 			// 
 			// txtDirectory
 			// 
-			this.txtDirectory.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.txtDirectory.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
 			this.txtDirectory.Location = new System.Drawing.Point(155, 115);
 			this.txtDirectory.Name = "txtDirectory";
 			this.txtDirectory.Size = new System.Drawing.Size(499, 21);
@@ -526,7 +511,7 @@
 			// lblDirectory
 			// 
 			this.lblDirectory.AutoSize = true;
-			this.lblDirectory.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblDirectory.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 238);
 			this.lblDirectory.Location = new System.Drawing.Point(6, 84);
 			this.lblDirectory.Name = "lblDirectory";
 			this.lblDirectory.Size = new System.Drawing.Size(60, 13);
@@ -541,7 +526,7 @@
 			this.btnBrowse.TabIndex = 1;
 			this.btnBrowse.Text = "Browse";
 			this.btnBrowse.UseVisualStyleBackColor = true;
-			this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
+			this.btnBrowse.Click += this.btnBrowse_Click;
 			// 
 			// cbxExternalProgram
 			// 
@@ -551,12 +536,12 @@
 			this.cbxExternalProgram.Name = "cbxExternalProgram";
 			this.cbxExternalProgram.Size = new System.Drawing.Size(280, 21);
 			this.cbxExternalProgram.TabIndex = 0;
-			this.cbxExternalProgram.SelectedIndexChanged += new System.EventHandler(this.cbxProgram_SelectedIndexChanged);
+			this.cbxExternalProgram.SelectedIndexChanged += this.cbxProgram_SelectedIndexChanged;
 			// 
 			// lblSelectProgram
 			// 
 			this.lblSelectProgram.AutoSize = true;
-			this.lblSelectProgram.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblSelectProgram.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 238);
 			this.lblSelectProgram.Location = new System.Drawing.Point(6, 17);
 			this.lblSelectProgram.Name = "lblSelectProgram";
 			this.lblSelectProgram.Size = new System.Drawing.Size(94, 13);
@@ -565,25 +550,25 @@
 			// 
 			// btnProgramsOk
 			// 
-			this.btnProgramsOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnProgramsOk.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
 			this.btnProgramsOk.Location = new System.Drawing.Point(31, 186);
 			this.btnProgramsOk.Name = "btnProgramsOk";
 			this.btnProgramsOk.Size = new System.Drawing.Size(118, 23);
 			this.btnProgramsOk.TabIndex = 3;
 			this.btnProgramsOk.Text = "OK";
 			this.btnProgramsOk.UseVisualStyleBackColor = true;
-			this.btnProgramsOk.Click += new System.EventHandler(this.btnProgramsOk_Click);
+			this.btnProgramsOk.Click += this.btnProgramsOk_Click;
 			// 
 			// btnProgramsCancel
 			// 
-			this.btnProgramsCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnProgramsCancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
 			this.btnProgramsCancel.Location = new System.Drawing.Point(155, 186);
 			this.btnProgramsCancel.Name = "btnProgramsCancel";
 			this.btnProgramsCancel.Size = new System.Drawing.Size(118, 23);
 			this.btnProgramsCancel.TabIndex = 4;
 			this.btnProgramsCancel.Text = "Cancel";
 			this.btnProgramsCancel.UseVisualStyleBackColor = true;
-			this.btnProgramsCancel.Click += new System.EventHandler(this.btnProgramsCancel_Click);
+			this.btnProgramsCancel.Click += this.btnProgramsCancel_Click;
 			// 
 			// tabNetwork
 			// 
@@ -597,8 +582,7 @@
 			// 
 			// gbxNetwork
 			// 
-			this.gbxNetwork.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.gbxNetwork.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
 			this.gbxNetwork.Controls.Add(this.pnlProxy);
 			this.gbxNetwork.Controls.Add(this.rbManualProxy);
 			this.gbxNetwork.Controls.Add(this.rbNoProxy);
@@ -629,7 +613,7 @@
 			// lblPort
 			// 
 			this.lblPort.AutoSize = true;
-			this.lblPort.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblPort.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 238);
 			this.lblPort.Location = new System.Drawing.Point(3, 78);
 			this.lblPort.Name = "lblPort";
 			this.lblPort.Size = new System.Drawing.Size(31, 13);
@@ -638,8 +622,7 @@
 			// 
 			// txtPort
 			// 
-			this.txtPort.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.txtPort.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
 			this.txtPort.Location = new System.Drawing.Point(28, 109);
 			this.txtPort.MaxLength = 5;
 			this.txtPort.Name = "txtPort";
@@ -649,7 +632,7 @@
 			// lblProxy
 			// 
 			this.lblProxy.AutoSize = true;
-			this.lblProxy.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblProxy.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 238);
 			this.lblProxy.Location = new System.Drawing.Point(3, 11);
 			this.lblProxy.Name = "lblProxy";
 			this.lblProxy.Size = new System.Drawing.Size(40, 13);
@@ -658,8 +641,7 @@
 			// 
 			// txtProxy
 			// 
-			this.txtProxy.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.txtProxy.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
 			this.txtProxy.Location = new System.Drawing.Point(28, 42);
 			this.txtProxy.MaxLength = 128;
 			this.txtProxy.Name = "txtProxy";
@@ -669,7 +651,7 @@
 			// lblUsername
 			// 
 			this.lblUsername.AutoSize = true;
-			this.lblUsername.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblUsername.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 238);
 			this.lblUsername.Location = new System.Drawing.Point(248, 78);
 			this.lblUsername.Name = "lblUsername";
 			this.lblUsername.Size = new System.Drawing.Size(65, 13);
@@ -678,8 +660,7 @@
 			// 
 			// txtUsername
 			// 
-			this.txtUsername.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.txtUsername.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
 			this.txtUsername.Location = new System.Drawing.Point(273, 109);
 			this.txtUsername.MaxLength = 256;
 			this.txtUsername.Name = "txtUsername";
@@ -688,8 +669,7 @@
 			// 
 			// txtPassword
 			// 
-			this.txtPassword.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.txtPassword.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
 			this.txtPassword.Location = new System.Drawing.Point(273, 176);
 			this.txtPassword.MaxLength = 256;
 			this.txtPassword.Name = "txtPassword";
@@ -700,7 +680,7 @@
 			// lblDomain
 			// 
 			this.lblDomain.AutoSize = true;
-			this.lblDomain.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblDomain.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 238);
 			this.lblDomain.Location = new System.Drawing.Point(248, 11);
 			this.lblDomain.Name = "lblDomain";
 			this.lblDomain.Size = new System.Drawing.Size(50, 13);
@@ -709,8 +689,7 @@
 			// 
 			// txtDomain
 			// 
-			this.txtDomain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.txtDomain.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
 			this.txtDomain.Location = new System.Drawing.Point(273, 42);
 			this.txtDomain.MaxLength = 256;
 			this.txtDomain.Name = "txtDomain";
@@ -720,7 +699,7 @@
 			// lblPassword
 			// 
 			this.lblPassword.AutoSize = true;
-			this.lblPassword.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblPassword.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 238);
 			this.lblPassword.Location = new System.Drawing.Point(248, 145);
 			this.lblPassword.Name = "lblPassword";
 			this.lblPassword.Size = new System.Drawing.Size(61, 13);
@@ -736,7 +715,7 @@
 			this.rbManualProxy.TabIndex = 1;
 			this.rbManualProxy.Text = "Manual proxy configuration";
 			this.rbManualProxy.UseVisualStyleBackColor = true;
-			this.rbManualProxy.CheckedChanged += new System.EventHandler(this.rbCommon_CheckedChanged);
+			this.rbManualProxy.CheckedChanged += this.rbCommon_CheckedChanged;
 			// 
 			// rbNoProxy
 			// 
@@ -749,11 +728,11 @@
 			this.rbNoProxy.TabStop = true;
 			this.rbNoProxy.Text = "No proxy";
 			this.rbNoProxy.UseVisualStyleBackColor = true;
-			this.rbNoProxy.CheckedChanged += new System.EventHandler(this.rbCommon_CheckedChanged);
+			this.rbNoProxy.CheckedChanged += this.rbCommon_CheckedChanged;
 			// 
 			// btnCancel
 			// 
-			this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnCancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
 			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.btnCancel.Location = new System.Drawing.Point(599, 345);
 			this.btnCancel.Name = "btnCancel";
@@ -764,14 +743,14 @@
 			// 
 			// btnOk
 			// 
-			this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnOk.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
 			this.btnOk.Location = new System.Drawing.Point(493, 345);
 			this.btnOk.Name = "btnOk";
 			this.btnOk.Size = new System.Drawing.Size(100, 24);
 			this.btnOk.TabIndex = 1;
 			this.btnOk.Text = "OK";
 			this.btnOk.UseVisualStyleBackColor = true;
-			this.btnOk.Click += new System.EventHandler(this.btnOK_Click);
+			this.btnOk.Click += this.btnOK_Click;
 			// 
 			// FormSettings
 			// 
@@ -783,7 +762,7 @@
 			this.Controls.Add(this.btnOk);
 			this.Controls.Add(this.btnCancel);
 			this.Controls.Add(this.tabControl1);
-			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
@@ -792,7 +771,7 @@
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Settings";
-			this.Load += new System.EventHandler(this.FormSettings_Load);
+			this.Load += this.FormSettings_Load;
 			this.tabControl1.ResumeLayout(false);
 			this.tabGeneral.ResumeLayout(false);
 			this.gbxGeneral.ResumeLayout(false);
@@ -802,7 +781,7 @@
 			this.gbxLocation.PerformLayout();
 			this.tabPrograms.ResumeLayout(false);
 			this.gbxPrograms.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.dgvPrograms)).EndInit();
+			((System.ComponentModel.ISupportInitialize)this.dgvPrograms).EndInit();
 			this.gbxAddProgram.ResumeLayout(false);
 			this.gbxAddProgram.PerformLayout();
 			this.tabNetwork.ResumeLayout(false);
@@ -811,7 +790,6 @@
 			this.pnlProxy.ResumeLayout(false);
 			this.pnlProxy.PerformLayout();
 			this.ResumeLayout(false);
-
 		}
 
 		#endregion

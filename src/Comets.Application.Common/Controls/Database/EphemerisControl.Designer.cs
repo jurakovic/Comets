@@ -80,7 +80,7 @@
 			// txtElemSortkey
 			// 
 			this.txtElemSortkey.BackColor = System.Drawing.SystemColors.Window;
-			this.txtElemSortkey.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.txtElemSortkey.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.txtElemSortkey.Location = new System.Drawing.Point(382, 26);
 			this.txtElemSortkey.Name = "txtElemSortkey";
 			this.txtElemSortkey.ReadOnly = true;
@@ -102,7 +102,7 @@
 			// 
 			// lblAzIndicator
 			// 
-			this.lblAzIndicator.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblAzIndicator.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.lblAzIndicator.ForeColor = System.Drawing.Color.Black;
 			this.lblAzIndicator.Location = new System.Drawing.Point(188, 253);
 			this.lblAzIndicator.Name = "lblAzIndicator";
@@ -112,7 +112,7 @@
 			// 
 			// lblDecIndicator
 			// 
-			this.lblDecIndicator.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblDecIndicator.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.lblDecIndicator.ForeColor = System.Drawing.Color.Black;
 			this.lblDecIndicator.Location = new System.Drawing.Point(8, 253);
 			this.lblDecIndicator.Name = "lblDecIndicator";
@@ -122,7 +122,7 @@
 			// 
 			// lblSunDistIndicator
 			// 
-			this.lblSunDistIndicator.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblSunDistIndicator.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.lblSunDistIndicator.ForeColor = System.Drawing.Color.Black;
 			this.lblSunDistIndicator.Location = new System.Drawing.Point(8, 164);
 			this.lblSunDistIndicator.Name = "lblSunDistIndicator";
@@ -132,7 +132,7 @@
 			// 
 			// lblMagIndicator
 			// 
-			this.lblMagIndicator.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblMagIndicator.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.lblMagIndicator.ForeColor = System.Drawing.Color.Black;
 			this.lblMagIndicator.Location = new System.Drawing.Point(365, 163);
 			this.lblMagIndicator.Name = "lblMagIndicator";
@@ -142,7 +142,7 @@
 			// 
 			// lblEarthDistIndicator
 			// 
-			this.lblEarthDistIndicator.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblEarthDistIndicator.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.lblEarthDistIndicator.ForeColor = System.Drawing.Color.Black;
 			this.lblEarthDistIndicator.Location = new System.Drawing.Point(188, 163);
 			this.lblEarthDistIndicator.Name = "lblEarthDistIndicator";
@@ -152,7 +152,7 @@
 			// 
 			// lblElongationIndicator
 			// 
-			this.lblElongationIndicator.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblElongationIndicator.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.lblElongationIndicator.ForeColor = System.Drawing.Color.Black;
 			this.lblElongationIndicator.Location = new System.Drawing.Point(365, 208);
 			this.lblElongationIndicator.Name = "lblElongationIndicator";
@@ -162,7 +162,7 @@
 			// 
 			// lblAltIndicator
 			// 
-			this.lblAltIndicator.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblAltIndicator.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.lblAltIndicator.ForeColor = System.Drawing.Color.Black;
 			this.lblAltIndicator.Location = new System.Drawing.Point(188, 208);
 			this.lblAltIndicator.Name = "lblAltIndicator";
@@ -172,7 +172,7 @@
 			// 
 			// lblRaIndicator
 			// 
-			this.lblRaIndicator.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblRaIndicator.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.lblRaIndicator.ForeColor = System.Drawing.Color.Black;
 			this.lblRaIndicator.Location = new System.Drawing.Point(8, 208);
 			this.lblRaIndicator.Name = "lblRaIndicator";
@@ -227,7 +227,7 @@
 			// txtAz
 			// 
 			this.txtAz.BackColor = System.Drawing.SystemColors.Window;
-			this.txtAz.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.txtAz.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.txtAz.Location = new System.Drawing.Point(205, 251);
 			this.txtAz.Name = "txtAz";
 			this.txtAz.ReadOnly = true;
@@ -237,7 +237,7 @@
 			// txtDec
 			// 
 			this.txtDec.BackColor = System.Drawing.SystemColors.Window;
-			this.txtDec.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.txtDec.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.txtDec.Location = new System.Drawing.Point(25, 251);
 			this.txtDec.Name = "txtDec";
 			this.txtDec.ReadOnly = true;
@@ -247,7 +247,7 @@
 			// txtAlt
 			// 
 			this.txtAlt.BackColor = System.Drawing.SystemColors.Window;
-			this.txtAlt.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.txtAlt.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.txtAlt.Location = new System.Drawing.Point(205, 206);
 			this.txtAlt.Name = "txtAlt";
 			this.txtAlt.ReadOnly = true;
@@ -257,7 +257,7 @@
 			// txtRA
 			// 
 			this.txtRA.BackColor = System.Drawing.SystemColors.Window;
-			this.txtRA.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.txtRA.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.txtRA.Location = new System.Drawing.Point(25, 206);
 			this.txtRA.Name = "txtRA";
 			this.txtRA.ReadOnly = true;
@@ -267,7 +267,7 @@
 			// txtElongation
 			// 
 			this.txtElongation.BackColor = System.Drawing.SystemColors.Window;
-			this.txtElongation.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.txtElongation.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.txtElongation.Location = new System.Drawing.Point(382, 206);
 			this.txtElongation.Name = "txtElongation";
 			this.txtElongation.ReadOnly = true;
@@ -288,7 +288,7 @@
 			// txtName
 			// 
 			this.txtName.BackColor = System.Drawing.SystemColors.Window;
-			this.txtName.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.txtName.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.txtName.Location = new System.Drawing.Point(25, 26);
 			this.txtName.Name = "txtName";
 			this.txtName.ReadOnly = true;
@@ -298,7 +298,7 @@
 			// lblPerihEarthDistAU
 			// 
 			this.lblPerihEarthDistAU.AutoSize = true;
-			this.lblPerihEarthDistAU.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblPerihEarthDistAU.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.lblPerihEarthDistAU.ForeColor = System.Drawing.SystemColors.WindowText;
 			this.lblPerihEarthDistAU.Location = new System.Drawing.Point(321, 119);
 			this.lblPerihEarthDistAU.Name = "lblPerihEarthDistAU";
@@ -309,7 +309,7 @@
 			// txtCurrMag
 			// 
 			this.txtCurrMag.BackColor = System.Drawing.SystemColors.Window;
-			this.txtCurrMag.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.txtCurrMag.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.txtCurrMag.Location = new System.Drawing.Point(382, 161);
 			this.txtCurrMag.Name = "txtCurrMag";
 			this.txtCurrMag.ReadOnly = true;
@@ -341,7 +341,7 @@
 			// lblAphSunDistAU
 			// 
 			this.lblAphSunDistAU.AutoSize = true;
-			this.lblAphSunDistAU.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblAphSunDistAU.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.lblAphSunDistAU.ForeColor = System.Drawing.SystemColors.WindowText;
 			this.lblAphSunDistAU.Location = new System.Drawing.Point(498, 74);
 			this.lblAphSunDistAU.Name = "lblAphSunDistAU";
@@ -352,7 +352,7 @@
 			// lblPerihDistAU
 			// 
 			this.lblPerihDistAU.AutoSize = true;
-			this.lblPerihDistAU.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblPerihDistAU.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.lblPerihDistAU.ForeColor = System.Drawing.SystemColors.WindowText;
 			this.lblPerihDistAU.Location = new System.Drawing.Point(141, 119);
 			this.lblPerihDistAU.Name = "lblPerihDistAU";
@@ -363,7 +363,7 @@
 			// txtAphSunDist
 			// 
 			this.txtAphSunDist.BackColor = System.Drawing.SystemColors.Window;
-			this.txtAphSunDist.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.txtAphSunDist.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.txtAphSunDist.Location = new System.Drawing.Point(382, 71);
 			this.txtAphSunDist.Name = "txtAphSunDist";
 			this.txtAphSunDist.ReadOnly = true;
@@ -417,7 +417,7 @@
 			// lblCurrEarthDistAU
 			// 
 			this.lblCurrEarthDistAU.AutoSize = true;
-			this.lblCurrEarthDistAU.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblCurrEarthDistAU.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.lblCurrEarthDistAU.ForeColor = System.Drawing.SystemColors.WindowText;
 			this.lblCurrEarthDistAU.Location = new System.Drawing.Point(321, 164);
 			this.lblCurrEarthDistAU.Name = "lblCurrEarthDistAU";
@@ -428,7 +428,7 @@
 			// txtPeriod
 			// 
 			this.txtPeriod.BackColor = System.Drawing.SystemColors.Window;
-			this.txtPeriod.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.txtPeriod.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.txtPeriod.Location = new System.Drawing.Point(205, 71);
 			this.txtPeriod.Name = "txtPeriod";
 			this.txtPeriod.ReadOnly = true;
@@ -449,7 +449,7 @@
 			// lblPeriodYears
 			// 
 			this.lblPeriodYears.AutoSize = true;
-			this.lblPeriodYears.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblPeriodYears.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.lblPeriodYears.ForeColor = System.Drawing.SystemColors.WindowText;
 			this.lblPeriodYears.Location = new System.Drawing.Point(321, 74);
 			this.lblPeriodYears.Name = "lblPeriodYears";
@@ -460,7 +460,7 @@
 			// txtCurrEarthDist
 			// 
 			this.txtCurrEarthDist.BackColor = System.Drawing.SystemColors.Window;
-			this.txtCurrEarthDist.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.txtCurrEarthDist.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.txtCurrEarthDist.Location = new System.Drawing.Point(205, 161);
 			this.txtCurrEarthDist.Name = "txtCurrEarthDist";
 			this.txtCurrEarthDist.ReadOnly = true;
@@ -470,7 +470,7 @@
 			// txtNextPerihDate
 			// 
 			this.txtNextPerihDate.BackColor = System.Drawing.SystemColors.Window;
-			this.txtNextPerihDate.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.txtNextPerihDate.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.txtNextPerihDate.Location = new System.Drawing.Point(25, 71);
 			this.txtNextPerihDate.Name = "txtNextPerihDate";
 			this.txtNextPerihDate.ReadOnly = true;
@@ -480,7 +480,7 @@
 			// txtCurrSunDist
 			// 
 			this.txtCurrSunDist.BackColor = System.Drawing.SystemColors.Window;
-			this.txtCurrSunDist.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.txtCurrSunDist.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.txtCurrSunDist.Location = new System.Drawing.Point(25, 161);
 			this.txtCurrSunDist.Name = "txtCurrSunDist";
 			this.txtCurrSunDist.ReadOnly = true;
@@ -501,7 +501,7 @@
 			// txtPerihEarthDist
 			// 
 			this.txtPerihEarthDist.BackColor = System.Drawing.SystemColors.Window;
-			this.txtPerihEarthDist.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.txtPerihEarthDist.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.txtPerihEarthDist.Location = new System.Drawing.Point(205, 116);
 			this.txtPerihEarthDist.Name = "txtPerihEarthDist";
 			this.txtPerihEarthDist.ReadOnly = true;
@@ -511,7 +511,7 @@
 			// lblCurrSunDistAU
 			// 
 			this.lblCurrSunDistAU.AutoSize = true;
-			this.lblCurrSunDistAU.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblCurrSunDistAU.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.lblCurrSunDistAU.ForeColor = System.Drawing.SystemColors.WindowText;
 			this.lblCurrSunDistAU.Location = new System.Drawing.Point(141, 164);
 			this.lblCurrSunDistAU.Name = "lblCurrSunDistAU";
@@ -533,7 +533,7 @@
 			// txtPerihDist
 			// 
 			this.txtPerihDist.BackColor = System.Drawing.SystemColors.Window;
-			this.txtPerihDist.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.txtPerihDist.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.txtPerihDist.Location = new System.Drawing.Point(25, 116);
 			this.txtPerihDist.Name = "txtPerihDist";
 			this.txtPerihDist.ReadOnly = true;
@@ -543,7 +543,7 @@
 			// txtPerihMag
 			// 
 			this.txtPerihMag.BackColor = System.Drawing.SystemColors.Window;
-			this.txtPerihMag.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.txtPerihMag.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.txtPerihMag.Location = new System.Drawing.Point(382, 116);
 			this.txtPerihMag.Name = "txtPerihMag";
 			this.txtPerihMag.ReadOnly = true;
@@ -561,10 +561,13 @@
 			this.lblCurrSunDist.TabIndex = 7;
 			this.lblCurrSunDist.Text = "Current distance from Sun";
 			// 
-			// selectDateControl1
+			// selectDateControl
 			// 
+			this.selectDateControl.DefaultDateTime = null;
+			this.selectDateControl.Font = new System.Drawing.Font("Tahoma", 8.25F);
 			this.selectDateControl.Location = new System.Drawing.Point(364, 250);
-			this.selectDateControl.Name = "selectDateControl1";
+			this.selectDateControl.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			this.selectDateControl.Name = "selectDateControl";
 			this.selectDateControl.Size = new System.Drawing.Size(157, 23);
 			this.selectDateControl.TabIndex = 46;
 			// 
@@ -619,11 +622,11 @@
 			this.Controls.Add(this.txtPerihDist);
 			this.Controls.Add(this.txtPerihMag);
 			this.Controls.Add(this.lblCurrSunDist);
+			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
 			this.Name = "EphemerisControl";
 			this.Size = new System.Drawing.Size(531, 288);
 			this.ResumeLayout(false);
 			this.PerformLayout();
-
 		}
 
 		#endregion

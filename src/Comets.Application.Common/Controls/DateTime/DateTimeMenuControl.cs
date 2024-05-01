@@ -97,7 +97,7 @@ namespace Comets.Application.Common.Controls.DateAndTime
 		{
 			if (OnSelectedDatetimeChanged != null)
 			{
-				MenuItem item = sender as MenuItem;
+				ToolStripMenuItem item = sender as ToolStripMenuItem;
 				DateTimePreset preset = (DateTimePreset)item.Tag;
 
 				DateTime retval;

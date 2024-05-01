@@ -35,7 +35,7 @@
 			// 
 			this.richTextBox.BackColor = System.Drawing.SystemColors.Window;
 			this.richTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.richTextBox.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.richTextBox.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.richTextBox.Location = new System.Drawing.Point(0, 0);
 			this.richTextBox.Name = "richTextBox";
 			this.richTextBox.ReadOnly = true;
@@ -50,14 +50,13 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(784, 561);
 			this.Controls.Add(this.richTextBox);
-			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.Name = "FormEphemeris";
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Ephemeris";
 			this.ResumeLayout(false);
-
 		}
 
 		#endregion

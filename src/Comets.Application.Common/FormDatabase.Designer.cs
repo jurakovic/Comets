@@ -34,16 +34,16 @@
 			this.pnlDetails = new System.Windows.Forms.Panel();
 			this.tbcDetails = new System.Windows.Forms.TabControl();
 			this.tbpEphemeris = new System.Windows.Forms.TabPage();
-			this.ephemerisControl = new Comets.Application.Common.Controls.Database.EphemerisControl();
+			this.ephemerisControl = new Common.Controls.Database.EphemerisControl();
 			this.tbpElements = new System.Windows.Forms.TabPage();
-			this.elementsControl = new Comets.Application.Common.Controls.Database.ElementsControl();
+			this.elementsControl = new Common.Controls.Database.ElementsControl();
 			this.btnCancel = new System.Windows.Forms.Button();
 			this.btnReset = new System.Windows.Forms.Button();
 			this.cbxImportResult = new System.Windows.Forms.ComboBox();
 			this.lblImportResult = new System.Windows.Forms.Label();
 			this.btnDelete = new System.Windows.Forms.Button();
-			this.filterControl = new Comets.Application.Common.Controls.Database.FilterControl();
-			this.sortMenuControl = new Comets.Application.Common.Controls.Common.SortMenuControl();
+			this.filterControl = new Common.Controls.Database.FilterControl();
+			this.sortMenuControl = new Common.Controls.Common.SortMenuControl();
 			this.pnlDetails.SuspendLayout();
 			this.tbcDetails.SuspendLayout();
 			this.tbpEphemeris.SuspendLayout();
@@ -52,15 +52,15 @@
 			// 
 			// lbxDatabase
 			// 
-			this.lbxDatabase.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lbxDatabase.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.lbxDatabase.FormattingEnabled = true;
 			this.lbxDatabase.ItemHeight = 14;
 			this.lbxDatabase.Location = new System.Drawing.Point(10, 39);
 			this.lbxDatabase.Name = "lbxDatabase";
 			this.lbxDatabase.Size = new System.Drawing.Size(238, 368);
 			this.lbxDatabase.TabIndex = 2;
-			this.lbxDatabase.SelectedIndexChanged += new System.EventHandler(this.lbxDatabase_SelectedIndexChanged);
-			this.lbxDatabase.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lbxDatabase_MouseDoubleClick);
+			this.lbxDatabase.SelectedIndexChanged += this.lbxDatabase_SelectedIndexChanged;
+			this.lbxDatabase.MouseDoubleClick += this.lbxDatabase_MouseDoubleClick;
 			// 
 			// btnFilters
 			// 
@@ -70,7 +70,7 @@
 			this.btnFilters.TabIndex = 6;
 			this.btnFilters.Text = "FILTERS ▼";
 			this.btnFilters.UseVisualStyleBackColor = true;
-			this.btnFilters.Click += new System.EventHandler(this.btnFilters_Click);
+			this.btnFilters.Click += this.btnFilters_Click;
 			// 
 			// btnOk
 			// 
@@ -117,6 +117,7 @@
 			// ephemerisControl
 			// 
 			this.ephemerisControl.Location = new System.Drawing.Point(0, 0);
+			this.ephemerisControl.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.ephemerisControl.Name = "ephemerisControl";
 			this.ephemerisControl.Size = new System.Drawing.Size(531, 288);
 			this.ephemerisControl.TabIndex = 0;
@@ -134,7 +135,7 @@
 			// 
 			// elementsControl
 			// 
-			this.elementsControl.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.elementsControl.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
 			this.elementsControl.Location = new System.Drawing.Point(0, 0);
 			this.elementsControl.Name = "elementsControl";
 			this.elementsControl.Size = new System.Drawing.Size(531, 288);
@@ -152,14 +153,14 @@
 			// 
 			// btnReset
 			// 
-			this.btnReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.btnReset.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
 			this.btnReset.Location = new System.Drawing.Point(599, 10);
-			this.btnReset.Name = "btnResetAllFilters";
+			this.btnReset.Name = "btnReset";
 			this.btnReset.Size = new System.Drawing.Size(100, 23);
 			this.btnReset.TabIndex = 5;
 			this.btnReset.Text = "RESET";
 			this.btnReset.UseVisualStyleBackColor = true;
-			this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
+			this.btnReset.Click += this.btnReset_Click;
 			// 
 			// cbxImportResult
 			// 
@@ -170,7 +171,7 @@
 			this.cbxImportResult.Name = "cbxImportResult";
 			this.cbxImportResult.Size = new System.Drawing.Size(159, 21);
 			this.cbxImportResult.TabIndex = 1;
-			this.cbxImportResult.SelectedIndexChanged += new System.EventHandler(this.cbxImportResult_SelectedIndexChanged);
+			this.cbxImportResult.SelectedIndexChanged += this.cbxImportResult_SelectedIndexChanged;
 			// 
 			// lblImportResult
 			// 
@@ -189,17 +190,17 @@
 			this.btnDelete.TabIndex = 4;
 			this.btnDelete.Text = "DELETE";
 			this.btnDelete.UseVisualStyleBackColor = true;
-			this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+			this.btnDelete.Click += this.btnDelete_Click;
 			// 
 			// filterControl
 			// 
-			this.filterControl.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.filterControl.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
 			this.filterControl.Location = new System.Drawing.Point(253, 47);
 			this.filterControl.Name = "filterControl";
 			this.filterControl.Size = new System.Drawing.Size(549, 360);
 			this.filterControl.TabIndex = 0;
 			this.filterControl.Visible = false;
-			this.filterControl.VisibleChanged += new System.EventHandler(this.filterControl_VisibleChanged);
+			this.filterControl.VisibleChanged += this.filterControl_VisibleChanged;
 			// 
 			// sortMenuControl
 			// 
@@ -227,7 +228,7 @@
 			this.Controls.Add(this.pnlDetails);
 			this.Controls.Add(this.btnOk);
 			this.Controls.Add(this.btnCancel);
-			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.KeyPreview = true;
 			this.MaximizeBox = false;
@@ -237,16 +238,15 @@
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Database";
-			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormDatabase_FormClosing);
-			this.Load += new System.EventHandler(this.FormDatabase_Load);
-			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormDatabase_KeyDown);
+			this.FormClosing += this.FormDatabase_FormClosing;
+			this.Load += this.FormDatabase_Load;
+			this.KeyDown += this.FormDatabase_KeyDown;
 			this.pnlDetails.ResumeLayout(false);
 			this.tbcDetails.ResumeLayout(false);
 			this.tbpEphemeris.ResumeLayout(false);
 			this.tbpElements.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
-
 		}
 
 		#endregion

@@ -10,6 +10,12 @@ namespace Comets.Application
 {
 	public partial class FormElements : Form, ISave
 	{
+		#region Events
+
+		public event Action OnElementsTextWriteEnd;
+
+		#endregion
+
 		#region Properties
 
 		private ElementTypesManager.Type ExportType
@@ -45,6 +51,7 @@ namespace Comets.Application
 		{
 			this.Text = String.Format("Orbital Elements ({0})", ElementTypesManager.Software[(int)ExportType]);
 			rtxtElements.Text = ExportManager.ExportMain(ExportType, CommonManager.UserCollection);
+			OnElementsTextWriteEnd();
 		}
 
 		#endregion

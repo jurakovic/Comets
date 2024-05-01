@@ -45,7 +45,7 @@
 			this.cboFormat.Name = "cboFormat";
 			this.cboFormat.Size = new System.Drawing.Size(280, 21);
 			this.cboFormat.TabIndex = 1;
-			this.cboFormat.SelectedIndexChanged += new System.EventHandler(this.cboFormat_SelectedIndexChanged);
+			this.cboFormat.SelectedIndexChanged += this.cboFormat_SelectedIndexChanged;
 			// 
 			// lblFormat
 			// 
@@ -66,7 +66,7 @@
 			this.btnSave.TabIndex = 2;
 			this.btnSave.Text = "Save As";
 			this.btnSave.UseVisualStyleBackColor = true;
-			this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+			this.btnSave.Click += this.btnSave_Click;
 			// 
 			// pnlElements
 			// 
@@ -89,12 +89,12 @@
 			this.btnClose.TabIndex = 3;
 			this.btnClose.Text = "Close";
 			this.btnClose.UseVisualStyleBackColor = true;
-			this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
+			this.btnClose.Click += this.btnClose_Click;
 			// 
 			// rtxtElements
 			// 
 			this.rtxtElements.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.rtxtElements.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.rtxtElements.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.rtxtElements.Location = new System.Drawing.Point(0, 40);
 			this.rtxtElements.Name = "rtxtElements";
 			this.rtxtElements.ReadOnly = true;
@@ -109,16 +109,15 @@
 			this.ClientSize = new System.Drawing.Size(1350, 729);
 			this.Controls.Add(this.rtxtElements);
 			this.Controls.Add(this.pnlElements);
-			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.Name = "FormElements";
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
-			this.Text = "Orbital elements";
-			this.Load += new System.EventHandler(this.FormExport_Load);
+			this.Text = "Orbital Elements";
+			this.Load += this.FormExport_Load;
 			this.pnlElements.ResumeLayout(false);
 			this.pnlElements.PerformLayout();
 			this.ResumeLayout(false);
-
 		}
 
 		#endregion

@@ -29,8 +29,8 @@
 		private void InitializeComponent()
 		{
 			this.gbxTimestamp = new System.Windows.Forms.GroupBox();
-			this.selectDateControlEnd = new Comets.Application.Common.Controls.DateAndTime.SelectDateControl();
-			this.selectDateControlStart = new Comets.Application.Common.Controls.DateAndTime.SelectDateControl();
+			this.selectDateControlEnd = new DateAndTime.SelectDateControl();
+			this.selectDateControlStart = new DateAndTime.SelectDateControl();
 			this.label3 = new System.Windows.Forms.Label();
 			this.label4 = new System.Windows.Forms.Label();
 			this.gbxTimestamp.SuspendLayout();
@@ -38,9 +38,7 @@
 			// 
 			// gbxTimestamp
 			// 
-			this.gbxTimestamp.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.gbxTimestamp.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
 			this.gbxTimestamp.Controls.Add(this.selectDateControlEnd);
 			this.gbxTimestamp.Controls.Add(this.selectDateControlStart);
 			this.gbxTimestamp.Controls.Add(this.label3);
@@ -54,25 +52,25 @@
 			// 
 			// selectDateControlEnd
 			// 
-			this.selectDateControlEnd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.selectDateControlEnd.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
 			this.selectDateControlEnd.DefaultDateTime = null;
 			this.selectDateControlEnd.Font = new System.Drawing.Font("Tahoma", 8.25F);
 			this.selectDateControlEnd.Location = new System.Drawing.Point(53, 49);
 			this.selectDateControlEnd.Name = "selectDateControlEnd";
 			this.selectDateControlEnd.PerihelionDate = null;
-			this.selectDateControlEnd.SelectedDateTime = new System.DateTime(((long)(0)));
+			this.selectDateControlEnd.SelectedDateTime = new System.DateTime(0L);
 			this.selectDateControlEnd.Size = new System.Drawing.Size(172, 23);
 			this.selectDateControlEnd.TabIndex = 3;
 			// 
 			// selectDateControlStart
 			// 
-			this.selectDateControlStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.selectDateControlStart.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
 			this.selectDateControlStart.DefaultDateTime = null;
 			this.selectDateControlStart.Font = new System.Drawing.Font("Tahoma", 8.25F);
 			this.selectDateControlStart.Location = new System.Drawing.Point(53, 20);
 			this.selectDateControlStart.Name = "selectDateControlStart";
 			this.selectDateControlStart.PerihelionDate = null;
-			this.selectDateControlStart.SelectedDateTime = new System.DateTime(((long)(0)));
+			this.selectDateControlStart.SelectedDateTime = new System.DateTime(0L);
 			this.selectDateControlStart.Size = new System.Drawing.Size(172, 23);
 			this.selectDateControlStart.TabIndex = 1;
 			// 
@@ -99,13 +97,12 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.gbxTimestamp);
-			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
 			this.Name = "TimespanControl";
 			this.Size = new System.Drawing.Size(235, 85);
 			this.gbxTimestamp.ResumeLayout(false);
 			this.gbxTimestamp.PerformLayout();
 			this.ResumeLayout(false);
-
 		}
 
 		#endregion

@@ -29,30 +29,30 @@
 		private void InitializeComponent()
 		{
 			this.pnlToolbox = new System.Windows.Forms.Panel();
-			this.cpnlDisplay = new Comets.Application.OrbitViewer.Controls.CollapsiblePanel();
-			this.displayControl = new Comets.Application.OrbitViewer.Controls.DisplayControl();
-			this.cpnlComet = new Comets.Application.OrbitViewer.Controls.CollapsiblePanel();
-			this.cometControl = new Comets.Application.OrbitViewer.Controls.CometControl();
-			this.cpnlMode = new Comets.Application.OrbitViewer.Controls.CollapsiblePanel();
-			this.modeControl = new Comets.Application.OrbitViewer.Controls.ModeControl();
-			this.cpnlDateTime = new Comets.Application.OrbitViewer.Controls.CollapsiblePanel();
-			this.dateTimeControl = new Comets.Application.OrbitViewer.Controls.DateTimeControl();
-			this.cpnlSimulation = new Comets.Application.OrbitViewer.Controls.CollapsiblePanel();
-			this.simulationControl = new Comets.Application.OrbitViewer.Controls.SimulationControl();
-			this.cpnlFilterOnDate = new Comets.Application.OrbitViewer.Controls.CollapsiblePanel();
-			this.filterControl = new Comets.Application.OrbitViewer.Controls.FilterControl();
-			this.cpnlInfoLabels = new Comets.Application.OrbitViewer.Controls.CollapsiblePanel();
-			this.infoLabelsControl = new Comets.Application.OrbitViewer.Controls.InfoLabelsControl();
-			this.cpnlMisc = new Comets.Application.OrbitViewer.Controls.CollapsiblePanel();
-			this.miscControl = new Comets.Application.OrbitViewer.Controls.MiscControl();
+			this.cpnlComet = new Controls.CollapsiblePanel();
+			this.cometControl = new Controls.CometControl();
+			this.cpnlMode = new Controls.CollapsiblePanel();
+			this.modeControl = new Controls.ModeControl();
+			this.cpnlDisplay = new Controls.CollapsiblePanel();
+			this.displayControl = new Controls.DisplayControl();
+			this.cpnlDateTime = new Controls.CollapsiblePanel();
+			this.dateTimeControl = new Controls.DateTimeControl();
+			this.cpnlSimulation = new Controls.CollapsiblePanel();
+			this.simulationControl = new Controls.SimulationControl();
+			this.cpnlFilterOnDate = new Controls.CollapsiblePanel();
+			this.filterControl = new Controls.FilterControl();
+			this.cpnlInfoLabels = new Controls.CollapsiblePanel();
+			this.infoLabelsControl = new Controls.InfoLabelsControl();
+			this.cpnlMisc = new Controls.CollapsiblePanel();
+			this.miscControl = new Controls.MiscControl();
 			this.orbitPanel = new Comets.OrbitViewer.OrbitPanel();
 			this.scrollVert = new System.Windows.Forms.VScrollBar();
 			this.scrollHorz = new System.Windows.Forms.HScrollBar();
 			this.scrollZoom = new System.Windows.Forms.HScrollBar();
 			this.pnlToolbox.SuspendLayout();
-			this.cpnlDisplay.WorkingArea.SuspendLayout();
 			this.cpnlComet.WorkingArea.SuspendLayout();
 			this.cpnlMode.WorkingArea.SuspendLayout();
+			this.cpnlDisplay.WorkingArea.SuspendLayout();
 			this.cpnlDateTime.WorkingArea.SuspendLayout();
 			this.cpnlSimulation.WorkingArea.SuspendLayout();
 			this.cpnlFilterOnDate.WorkingArea.SuspendLayout();
@@ -78,37 +78,6 @@
 			this.pnlToolbox.Size = new System.Drawing.Size(192, 900);
 			this.pnlToolbox.TabIndex = 0;
 			// 
-			// cpnlDisplay
-			// 
-			this.cpnlDisplay.Font = new System.Drawing.Font("Tahoma", 8.25F);
-			this.cpnlDisplay.HeightExpanded = 191;
-			this.cpnlDisplay.Location = new System.Drawing.Point(0, 170);
-			this.cpnlDisplay.Name = "cpnlDisplay";
-			this.cpnlDisplay.Size = new System.Drawing.Size(189, 191);
-			this.cpnlDisplay.TabIndex = 2;
-			this.cpnlDisplay.Title = "Display";
-			// 
-			// cpnlDisplay.WorkingArea
-			// 
-			this.cpnlDisplay.WorkingArea.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.cpnlDisplay.WorkingArea.BackColor = System.Drawing.SystemColors.Control;
-			this.cpnlDisplay.WorkingArea.Controls.Add(this.displayControl);
-			this.cpnlDisplay.WorkingArea.Location = new System.Drawing.Point(4, 28);
-			this.cpnlDisplay.WorkingArea.Name = "WorkingArea";
-			this.cpnlDisplay.WorkingArea.Size = new System.Drawing.Size(173, 156);
-			this.cpnlDisplay.WorkingArea.TabIndex = 1;
-			// 
-			// displayControl
-			// 
-			this.displayControl.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.displayControl.Font = new System.Drawing.Font("Tahoma", 8.25F);
-			this.displayControl.Location = new System.Drawing.Point(0, 0);
-			this.displayControl.Name = "displayControl";
-			this.displayControl.Size = new System.Drawing.Size(173, 156);
-			this.displayControl.TabIndex = 0;
-			// 
 			// cpnlComet
 			// 
 			this.cpnlComet.Font = new System.Drawing.Font("Tahoma", 8.25F);
@@ -119,11 +88,9 @@
 			this.cpnlComet.TabIndex = 0;
 			this.cpnlComet.Title = "Comet";
 			// 
-			// cpnlComet.WorkingArea
 			// 
-			this.cpnlComet.WorkingArea.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			// 
+			this.cpnlComet.WorkingArea.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
 			this.cpnlComet.WorkingArea.BackColor = System.Drawing.SystemColors.Control;
 			this.cpnlComet.WorkingArea.Controls.Add(this.cometControl);
 			this.cpnlComet.WorkingArea.Location = new System.Drawing.Point(4, 28);
@@ -150,11 +117,9 @@
 			this.cpnlMode.TabIndex = 1;
 			this.cpnlMode.Title = "Mode";
 			// 
-			// cpnlMode.WorkingArea
 			// 
-			this.cpnlMode.WorkingArea.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			// 
+			this.cpnlMode.WorkingArea.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
 			this.cpnlMode.WorkingArea.BackColor = System.Drawing.SystemColors.Control;
 			this.cpnlMode.WorkingArea.Controls.Add(this.modeControl);
 			this.cpnlMode.WorkingArea.Location = new System.Drawing.Point(4, 28);
@@ -166,9 +131,39 @@
 			// 
 			this.modeControl.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.modeControl.Location = new System.Drawing.Point(0, 0);
+			this.modeControl.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.modeControl.Name = "modeControl";
 			this.modeControl.Size = new System.Drawing.Size(173, 30);
 			this.modeControl.TabIndex = 0;
+			// 
+			// cpnlDisplay
+			// 
+			this.cpnlDisplay.Font = new System.Drawing.Font("Tahoma", 8.25F);
+			this.cpnlDisplay.HeightExpanded = 191;
+			this.cpnlDisplay.Location = new System.Drawing.Point(0, 170);
+			this.cpnlDisplay.Name = "cpnlDisplay";
+			this.cpnlDisplay.Size = new System.Drawing.Size(189, 191);
+			this.cpnlDisplay.TabIndex = 2;
+			this.cpnlDisplay.Title = "Display";
+			// 
+			// 
+			// 
+			this.cpnlDisplay.WorkingArea.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+			this.cpnlDisplay.WorkingArea.BackColor = System.Drawing.SystemColors.Control;
+			this.cpnlDisplay.WorkingArea.Controls.Add(this.displayControl);
+			this.cpnlDisplay.WorkingArea.Location = new System.Drawing.Point(4, 28);
+			this.cpnlDisplay.WorkingArea.Name = "WorkingArea";
+			this.cpnlDisplay.WorkingArea.Size = new System.Drawing.Size(173, 156);
+			this.cpnlDisplay.WorkingArea.TabIndex = 1;
+			// 
+			// displayControl
+			// 
+			this.displayControl.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.displayControl.Font = new System.Drawing.Font("Tahoma", 8.25F);
+			this.displayControl.Location = new System.Drawing.Point(0, 0);
+			this.displayControl.Name = "displayControl";
+			this.displayControl.Size = new System.Drawing.Size(173, 156);
+			this.displayControl.TabIndex = 0;
 			// 
 			// cpnlDateTime
 			// 
@@ -180,11 +175,9 @@
 			this.cpnlDateTime.TabIndex = 3;
 			this.cpnlDateTime.Title = "Date and time";
 			// 
-			// cpnlDateTime.WorkingArea
 			// 
-			this.cpnlDateTime.WorkingArea.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			// 
+			this.cpnlDateTime.WorkingArea.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
 			this.cpnlDateTime.WorkingArea.BackColor = System.Drawing.SystemColors.Control;
 			this.cpnlDateTime.WorkingArea.Controls.Add(this.dateTimeControl);
 			this.cpnlDateTime.WorkingArea.Location = new System.Drawing.Point(4, 28);
@@ -211,11 +204,9 @@
 			this.cpnlSimulation.TabIndex = 4;
 			this.cpnlSimulation.Title = "Simulation";
 			// 
-			// cpnlSimulation.WorkingArea
 			// 
-			this.cpnlSimulation.WorkingArea.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			// 
+			this.cpnlSimulation.WorkingArea.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
 			this.cpnlSimulation.WorkingArea.BackColor = System.Drawing.SystemColors.Control;
 			this.cpnlSimulation.WorkingArea.Controls.Add(this.simulationControl);
 			this.cpnlSimulation.WorkingArea.Location = new System.Drawing.Point(4, 28);
@@ -242,11 +233,9 @@
 			this.cpnlFilterOnDate.TabIndex = 5;
 			this.cpnlFilterOnDate.Title = "Filter on date";
 			// 
-			// cpnlFilterOnDate.WorkingArea
 			// 
-			this.cpnlFilterOnDate.WorkingArea.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			// 
+			this.cpnlFilterOnDate.WorkingArea.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
 			this.cpnlFilterOnDate.WorkingArea.BackColor = System.Drawing.SystemColors.Control;
 			this.cpnlFilterOnDate.WorkingArea.Controls.Add(this.filterControl);
 			this.cpnlFilterOnDate.WorkingArea.Location = new System.Drawing.Point(4, 28);
@@ -273,11 +262,9 @@
 			this.cpnlInfoLabels.TabIndex = 6;
 			this.cpnlInfoLabels.Title = "Info labels";
 			// 
-			// cpnlInfoLabels.WorkingArea
 			// 
-			this.cpnlInfoLabels.WorkingArea.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			// 
+			this.cpnlInfoLabels.WorkingArea.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
 			this.cpnlInfoLabels.WorkingArea.BackColor = System.Drawing.SystemColors.Control;
 			this.cpnlInfoLabels.WorkingArea.Controls.Add(this.infoLabelsControl);
 			this.cpnlInfoLabels.WorkingArea.Location = new System.Drawing.Point(4, 28);
@@ -304,11 +291,9 @@
 			this.cpnlMisc.TabIndex = 7;
 			this.cpnlMisc.Title = "Misc.";
 			// 
-			// cpnlMisc.WorkingArea
 			// 
-			this.cpnlMisc.WorkingArea.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			// 
+			this.cpnlMisc.WorkingArea.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
 			this.cpnlMisc.WorkingArea.BackColor = System.Drawing.SystemColors.Control;
 			this.cpnlMisc.WorkingArea.Controls.Add(this.miscControl);
 			this.cpnlMisc.WorkingArea.Location = new System.Drawing.Point(4, 28);
@@ -337,18 +322,18 @@
 			this.orbitPanel.Name = "orbitPanel";
 			this.orbitPanel.Size = new System.Drawing.Size(742, 900);
 			this.orbitPanel.TabIndex = 0;
-			this.orbitPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.orbitPanel_MouseClick);
-			this.orbitPanel.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.orbitPanel_MouseDoubleClick);
-			this.orbitPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.orbitPanel_MouseDown);
-			this.orbitPanel.MouseEnter += new System.EventHandler(this.orbitPanel_MouseEnter);
-			this.orbitPanel.MouseLeave += new System.EventHandler(this.orbitPanel_MouseLeave);
-			this.orbitPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.orbitPanel_MouseMove);
-			this.orbitPanel.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.orbitPanel_PreviewKeyDown);
-			this.orbitPanel.Resize += new System.EventHandler(this.orbitPanel_Resize);
+			this.orbitPanel.MouseClick += this.orbitPanel_MouseClick;
+			this.orbitPanel.MouseDoubleClick += this.orbitPanel_MouseDoubleClick;
+			this.orbitPanel.MouseDown += this.orbitPanel_MouseDown;
+			this.orbitPanel.MouseEnter += this.orbitPanel_MouseEnter;
+			this.orbitPanel.MouseLeave += this.orbitPanel_MouseLeave;
+			this.orbitPanel.MouseMove += this.orbitPanel_MouseMove;
+			this.orbitPanel.PreviewKeyDown += this.orbitPanel_PreviewKeyDown;
+			this.orbitPanel.Resize += this.orbitPanel_Resize;
 			// 
 			// scrollVert
 			// 
-			this.scrollVert.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.scrollVert.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
 			this.scrollVert.LargeChange = 1;
 			this.scrollVert.Location = new System.Drawing.Point(708, 16);
 			this.scrollVert.Maximum = 359;
@@ -356,11 +341,11 @@
 			this.scrollVert.Size = new System.Drawing.Size(17, 272);
 			this.scrollVert.TabIndex = 0;
 			this.scrollVert.Visible = false;
-			this.scrollVert.ValueChanged += new System.EventHandler(this.scrollVert_ValueChanged);
+			this.scrollVert.ValueChanged += this.scrollVert_ValueChanged;
 			// 
 			// scrollHorz
 			// 
-			this.scrollHorz.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.scrollHorz.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
 			this.scrollHorz.LargeChange = 1;
 			this.scrollHorz.Location = new System.Drawing.Point(432, 300);
 			this.scrollHorz.Maximum = 359;
@@ -368,11 +353,11 @@
 			this.scrollHorz.Size = new System.Drawing.Size(293, 17);
 			this.scrollHorz.TabIndex = 1;
 			this.scrollHorz.Visible = false;
-			this.scrollHorz.ValueChanged += new System.EventHandler(this.scrollHorz_ValueChanged);
+			this.scrollHorz.ValueChanged += this.scrollHorz_ValueChanged;
 			// 
 			// scrollZoom
 			// 
-			this.scrollZoom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.scrollZoom.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
 			this.scrollZoom.Location = new System.Drawing.Point(432, 327);
 			this.scrollZoom.Maximum = 5000;
 			this.scrollZoom.Minimum = 5;
@@ -381,7 +366,7 @@
 			this.scrollZoom.TabIndex = 2;
 			this.scrollZoom.Value = 5;
 			this.scrollZoom.Visible = false;
-			this.scrollZoom.ValueChanged += new System.EventHandler(this.scrollZoom_ValueChanged);
+			this.scrollZoom.ValueChanged += this.scrollZoom_ValueChanged;
 			// 
 			// OrbitViewerControl
 			// 
@@ -389,14 +374,14 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.orbitPanel);
 			this.Controls.Add(this.pnlToolbox);
-			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.MinimumSize = new System.Drawing.Size(720, 650);
 			this.Name = "OrbitViewerControl";
 			this.Size = new System.Drawing.Size(934, 900);
 			this.pnlToolbox.ResumeLayout(false);
-			this.cpnlDisplay.WorkingArea.ResumeLayout(false);
 			this.cpnlComet.WorkingArea.ResumeLayout(false);
 			this.cpnlMode.WorkingArea.ResumeLayout(false);
+			this.cpnlDisplay.WorkingArea.ResumeLayout(false);
 			this.cpnlDateTime.WorkingArea.ResumeLayout(false);
 			this.cpnlSimulation.WorkingArea.ResumeLayout(false);
 			this.cpnlFilterOnDate.WorkingArea.ResumeLayout(false);
@@ -404,7 +389,6 @@
 			this.cpnlMisc.WorkingArea.ResumeLayout(false);
 			this.orbitPanel.ResumeLayout(false);
 			this.ResumeLayout(false);
-
 		}
 
 		#endregion

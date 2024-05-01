@@ -64,7 +64,7 @@
 			this.cbxFodSunDist.TabIndex = 0;
 			this.cbxFodSunDist.Text = "Distance from Sun";
 			this.cbxFodSunDist.UseVisualStyleBackColor = true;
-			this.cbxFodSunDist.CheckedChanged += new System.EventHandler(this.filterOnDateTxtCbxCommon_TextChangedCheckedChanged);
+			this.cbxFodSunDist.CheckedChanged += this.filterOnDateTxtCbxCommon_TextChangedCheckedChanged;
 			// 
 			// cbxFodMagnitude
 			// 
@@ -75,17 +75,17 @@
 			this.cbxFodMagnitude.TabIndex = 4;
 			this.cbxFodMagnitude.Text = "Magnitude";
 			this.cbxFodMagnitude.UseVisualStyleBackColor = true;
-			this.cbxFodMagnitude.CheckedChanged += new System.EventHandler(this.filterOnDateTxtCbxCommon_TextChangedCheckedChanged);
+			this.cbxFodMagnitude.CheckedChanged += this.filterOnDateTxtCbxCommon_TextChangedCheckedChanged;
 			// 
 			// txtFodSunDist
 			// 
-			this.txtFodSunDist.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.txtFodSunDist.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
 			this.txtFodSunDist.Location = new System.Drawing.Point(129, 2);
 			this.txtFodSunDist.Name = "txtFodSunDist";
 			this.txtFodSunDist.Size = new System.Drawing.Size(40, 21);
 			this.txtFodSunDist.TabIndex = 1;
-			this.txtFodSunDist.TextChanged += new System.EventHandler(this.filterOnDateTxtCbxCommon_TextChangedCheckedChanged);
-			this.txtFodSunDist.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFilterOnDateCommon_KeyPress);
+			this.txtFodSunDist.TextChanged += this.filterOnDateTxtCbxCommon_TextChangedCheckedChanged;
+			this.txtFodSunDist.KeyPress += this.txtFilterOnDateCommon_KeyPress;
 			// 
 			// cbxFodEarthDist
 			// 
@@ -96,27 +96,27 @@
 			this.cbxFodEarthDist.TabIndex = 2;
 			this.cbxFodEarthDist.Text = "Distance from Earth";
 			this.cbxFodEarthDist.UseVisualStyleBackColor = true;
-			this.cbxFodEarthDist.CheckedChanged += new System.EventHandler(this.filterOnDateTxtCbxCommon_TextChangedCheckedChanged);
+			this.cbxFodEarthDist.CheckedChanged += this.filterOnDateTxtCbxCommon_TextChangedCheckedChanged;
 			// 
 			// txtFodEarthDist
 			// 
-			this.txtFodEarthDist.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.txtFodEarthDist.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
 			this.txtFodEarthDist.Location = new System.Drawing.Point(129, 26);
 			this.txtFodEarthDist.Name = "txtFodEarthDist";
 			this.txtFodEarthDist.Size = new System.Drawing.Size(40, 21);
 			this.txtFodEarthDist.TabIndex = 3;
-			this.txtFodEarthDist.TextChanged += new System.EventHandler(this.filterOnDateTxtCbxCommon_TextChangedCheckedChanged);
-			this.txtFodEarthDist.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFilterOnDateCommon_KeyPress);
+			this.txtFodEarthDist.TextChanged += this.filterOnDateTxtCbxCommon_TextChangedCheckedChanged;
+			this.txtFodEarthDist.KeyPress += this.txtFilterOnDateCommon_KeyPress;
 			// 
 			// txtFodMagnitude
 			// 
-			this.txtFodMagnitude.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.txtFodMagnitude.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
 			this.txtFodMagnitude.Location = new System.Drawing.Point(129, 50);
 			this.txtFodMagnitude.Name = "txtFodMagnitude";
 			this.txtFodMagnitude.Size = new System.Drawing.Size(40, 21);
 			this.txtFodMagnitude.TabIndex = 5;
-			this.txtFodMagnitude.TextChanged += new System.EventHandler(this.filterOnDateTxtCbxCommon_TextChangedCheckedChanged);
-			this.txtFodMagnitude.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFilterOnDateCommon_KeyPress);
+			this.txtFodMagnitude.TextChanged += this.filterOnDateTxtCbxCommon_TextChangedCheckedChanged;
+			this.txtFodMagnitude.KeyPress += this.txtFilterOnDateCommon_KeyPress;
 			// 
 			// cbxWeakColor
 			// 
@@ -129,7 +129,7 @@
 			this.cbxWeakColor.TabIndex = 6;
 			this.cbxWeakColor.Text = "Show in weak color";
 			this.cbxWeakColor.UseVisualStyleBackColor = true;
-			this.cbxWeakColor.CheckedChanged += new System.EventHandler(this.cbxWeakColor_CheckedChanged);
+			this.cbxWeakColor.CheckedChanged += this.cbxWeakColor_CheckedChanged;
 			// 
 			// FilterControl
 			// 
@@ -142,7 +142,6 @@
 			this.pnlFilterOnDate.ResumeLayout(false);
 			this.pnlFilterOnDate.PerformLayout();
 			this.ResumeLayout(false);
-
 		}
 
 		#endregion

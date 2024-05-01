@@ -28,27 +28,29 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this.btnSort = new System.Windows.Forms.Button();
-			this.contextSort = new System.Windows.Forms.ContextMenu();
-			this.mnuDesig = new System.Windows.Forms.MenuItem();
-			this.mnuDiscoverer = new System.Windows.Forms.MenuItem();
-			this.mnuPerihDate = new System.Windows.Forms.MenuItem();
-			this.mnuPerihDist = new System.Windows.Forms.MenuItem();
-			this.mnuPerihEarthDist = new System.Windows.Forms.MenuItem();
-			this.mnuPerihMag = new System.Windows.Forms.MenuItem();
-			this.mnuCurrSunDist = new System.Windows.Forms.MenuItem();
-			this.mnuCurrEarthDist = new System.Windows.Forms.MenuItem();
-			this.mnuCurrMag = new System.Windows.Forms.MenuItem();
-			this.mnuPeriod = new System.Windows.Forms.MenuItem();
-			this.mnuAphDistance = new System.Windows.Forms.MenuItem();
-			this.mnuSemiMajorAxis = new System.Windows.Forms.MenuItem();
-			this.mnuEcc = new System.Windows.Forms.MenuItem();
-			this.mnuIncl = new System.Windows.Forms.MenuItem();
-			this.mnuAscNode = new System.Windows.Forms.MenuItem();
-			this.mnuArgPeri = new System.Windows.Forms.MenuItem();
-			this.mnuSeparator = new System.Windows.Forms.MenuItem();
-			this.mnuAsc = new System.Windows.Forms.MenuItem();
-			this.mnuDesc = new System.Windows.Forms.MenuItem();
+			this.contextSort = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.mnuDesig = new System.Windows.Forms.ToolStripMenuItem();
+			this.mnuDiscoverer = new System.Windows.Forms.ToolStripMenuItem();
+			this.mnuPerihDate = new System.Windows.Forms.ToolStripMenuItem();
+			this.mnuPerihDist = new System.Windows.Forms.ToolStripMenuItem();
+			this.mnuPerihEarthDist = new System.Windows.Forms.ToolStripMenuItem();
+			this.mnuPerihMag = new System.Windows.Forms.ToolStripMenuItem();
+			this.mnuCurrSunDist = new System.Windows.Forms.ToolStripMenuItem();
+			this.mnuCurrEarthDist = new System.Windows.Forms.ToolStripMenuItem();
+			this.mnuCurrMag = new System.Windows.Forms.ToolStripMenuItem();
+			this.mnuPeriod = new System.Windows.Forms.ToolStripMenuItem();
+			this.mnuAphDistance = new System.Windows.Forms.ToolStripMenuItem();
+			this.mnuSemiMajorAxis = new System.Windows.Forms.ToolStripMenuItem();
+			this.mnuEcc = new System.Windows.Forms.ToolStripMenuItem();
+			this.mnuIncl = new System.Windows.Forms.ToolStripMenuItem();
+			this.mnuAscNode = new System.Windows.Forms.ToolStripMenuItem();
+			this.mnuArgPeri = new System.Windows.Forms.ToolStripMenuItem();
+			this.mnuSeparator = new System.Windows.Forms.ToolStripSeparator();
+			this.mnuAsc = new System.Windows.Forms.ToolStripMenuItem();
+			this.mnuDesc = new System.Windows.Forms.ToolStripMenuItem();
+			this.contextSort.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// btnSort
@@ -60,153 +62,164 @@
 			this.btnSort.TabIndex = 4;
 			this.btnSort.Text = "Sort by";
 			this.btnSort.UseVisualStyleBackColor = true;
-			this.btnSort.Click += new System.EventHandler(this.btnSort_Click);
+			this.btnSort.Click += this.btnSort_Click;
 			// 
 			// contextSort
 			// 
-			this.contextSort.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.mnuDesig,
-            this.mnuDiscoverer,
-            this.mnuPerihDate,
-            this.mnuPerihDist,
-            this.mnuPerihEarthDist,
-            this.mnuPerihMag,
-            this.mnuCurrSunDist,
-            this.mnuCurrEarthDist,
-            this.mnuCurrMag,
-            this.mnuPeriod,
-            this.mnuAphDistance,
-            this.mnuSemiMajorAxis,
-            this.mnuEcc,
-            this.mnuIncl,
-            this.mnuAscNode,
-            this.mnuArgPeri,
-            this.mnuSeparator,
-            this.mnuAsc,
-            this.mnuDesc});
+			this.contextSort.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.mnuDesig, this.mnuDiscoverer, this.mnuPerihDate, this.mnuPerihDist, this.mnuPerihEarthDist, this.mnuPerihMag, this.mnuCurrSunDist, this.mnuCurrEarthDist, this.mnuCurrMag, this.mnuPeriod, this.mnuAphDistance, this.mnuSemiMajorAxis, this.mnuEcc, this.mnuIncl, this.mnuAscNode, this.mnuArgPeri, this.mnuSeparator, this.mnuAsc, this.mnuDesc });
+			this.contextSort.Name = "contextSort";
+			this.contextSort.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+			this.contextSort.Size = new System.Drawing.Size(234, 406);
 			// 
 			// mnuDesig
 			// 
-			this.mnuDesig.Index = 0;
-			this.mnuDesig.RadioCheck = true;
+			this.mnuDesig.MergeIndex = 0;
+			this.mnuDesig.Name = "mnuDesig";
+			this.mnuDesig.Size = new System.Drawing.Size(233, 22);
 			this.mnuDesig.Text = "Designation";
-			this.mnuDesig.Click += new System.EventHandler(this.menuItemSortCommon_Click);
+			this.mnuDesig.Click += this.menuItemSortCommon_Click;
 			// 
 			// mnuDiscoverer
 			// 
-			this.mnuDiscoverer.Index = 1;
-			this.mnuDiscoverer.RadioCheck = true;
+			this.mnuDiscoverer.MergeIndex = 1;
+			this.mnuDiscoverer.Name = "mnuDiscoverer";
+			this.mnuDiscoverer.Size = new System.Drawing.Size(233, 22);
 			this.mnuDiscoverer.Text = "Discoverer";
-			this.mnuDiscoverer.Click += new System.EventHandler(this.menuItemSortCommon_Click);
+			this.mnuDiscoverer.Click += this.menuItemSortCommon_Click;
 			// 
 			// mnuPerihDate
 			// 
-			this.mnuPerihDate.Index = 2;
-			this.mnuPerihDate.RadioCheck = true;
+			this.mnuPerihDate.MergeIndex = 2;
+			this.mnuPerihDate.Name = "mnuPerihDate";
+			this.mnuPerihDate.Size = new System.Drawing.Size(233, 22);
 			this.mnuPerihDate.Text = "Perihelion date";
-			this.mnuPerihDate.Click += new System.EventHandler(this.menuItemSortCommon_Click);
+			this.mnuPerihDate.Click += this.menuItemSortCommon_Click;
 			// 
 			// mnuPerihDist
 			// 
-			this.mnuPerihDist.Index = 3;
+			this.mnuPerihDist.MergeIndex = 3;
+			this.mnuPerihDist.Name = "mnuPerihDist";
+			this.mnuPerihDist.Size = new System.Drawing.Size(233, 22);
 			this.mnuPerihDist.Text = "Perihelion distance";
-			this.mnuPerihDist.Click += new System.EventHandler(this.menuItemSortCommon_Click);
+			this.mnuPerihDist.Click += this.menuItemSortCommon_Click;
 			// 
 			// mnuPerihEarthDist
 			// 
-			this.mnuPerihEarthDist.Index = 4;
+			this.mnuPerihEarthDist.MergeIndex = 4;
+			this.mnuPerihEarthDist.Name = "mnuPerihEarthDist";
+			this.mnuPerihEarthDist.Size = new System.Drawing.Size(233, 22);
 			this.mnuPerihEarthDist.Text = "Perihelion distance from Earth";
-			this.mnuPerihEarthDist.Click += new System.EventHandler(this.menuItemSortCommon_Click);
+			this.mnuPerihEarthDist.Click += this.menuItemSortCommon_Click;
 			// 
 			// mnuPerihMag
 			// 
-			this.mnuPerihMag.Index = 5;
+			this.mnuPerihMag.MergeIndex = 5;
+			this.mnuPerihMag.Name = "mnuPerihMag";
+			this.mnuPerihMag.Size = new System.Drawing.Size(233, 22);
 			this.mnuPerihMag.Text = "Perihelion magnitude";
-			this.mnuPerihMag.Click += new System.EventHandler(this.menuItemSortCommon_Click);
+			this.mnuPerihMag.Click += this.menuItemSortCommon_Click;
 			// 
 			// mnuCurrSunDist
 			// 
-			this.mnuCurrSunDist.Index = 6;
+			this.mnuCurrSunDist.MergeIndex = 6;
+			this.mnuCurrSunDist.Name = "mnuCurrSunDist";
+			this.mnuCurrSunDist.Size = new System.Drawing.Size(233, 22);
 			this.mnuCurrSunDist.Text = "Current distance from Sun";
-			this.mnuCurrSunDist.Click += new System.EventHandler(this.menuItemSortCommon_Click);
+			this.mnuCurrSunDist.Click += this.menuItemSortCommon_Click;
 			// 
 			// mnuCurrEarthDist
 			// 
-			this.mnuCurrEarthDist.Index = 7;
+			this.mnuCurrEarthDist.MergeIndex = 7;
+			this.mnuCurrEarthDist.Name = "mnuCurrEarthDist";
+			this.mnuCurrEarthDist.Size = new System.Drawing.Size(233, 22);
 			this.mnuCurrEarthDist.Text = "Current distance from Earth";
-			this.mnuCurrEarthDist.Click += new System.EventHandler(this.menuItemSortCommon_Click);
+			this.mnuCurrEarthDist.Click += this.menuItemSortCommon_Click;
 			// 
 			// mnuCurrMag
 			// 
-			this.mnuCurrMag.Index = 8;
+			this.mnuCurrMag.MergeIndex = 8;
+			this.mnuCurrMag.Name = "mnuCurrMag";
+			this.mnuCurrMag.Size = new System.Drawing.Size(233, 22);
 			this.mnuCurrMag.Text = "Current magnitude";
-			this.mnuCurrMag.Click += new System.EventHandler(this.menuItemSortCommon_Click);
+			this.mnuCurrMag.Click += this.menuItemSortCommon_Click;
 			// 
 			// mnuPeriod
 			// 
-			this.mnuPeriod.Index = 9;
-			this.mnuPeriod.RadioCheck = true;
+			this.mnuPeriod.MergeIndex = 9;
+			this.mnuPeriod.Name = "mnuPeriod";
+			this.mnuPeriod.Size = new System.Drawing.Size(233, 22);
 			this.mnuPeriod.Text = "Period";
-			this.mnuPeriod.Click += new System.EventHandler(this.menuItemSortCommon_Click);
+			this.mnuPeriod.Click += this.menuItemSortCommon_Click;
 			// 
 			// mnuAphDistance
 			// 
-			this.mnuAphDistance.Index = 10;
+			this.mnuAphDistance.MergeIndex = 10;
+			this.mnuAphDistance.Name = "mnuAphDistance";
+			this.mnuAphDistance.Size = new System.Drawing.Size(233, 22);
 			this.mnuAphDistance.Text = "Aphelion distance";
-			this.mnuAphDistance.Click += new System.EventHandler(this.menuItemSortCommon_Click);
+			this.mnuAphDistance.Click += this.menuItemSortCommon_Click;
 			// 
 			// mnuSemiMajorAxis
 			// 
-			this.mnuSemiMajorAxis.Index = 11;
+			this.mnuSemiMajorAxis.MergeIndex = 11;
+			this.mnuSemiMajorAxis.Name = "mnuSemiMajorAxis";
+			this.mnuSemiMajorAxis.Size = new System.Drawing.Size(233, 22);
 			this.mnuSemiMajorAxis.Text = "Semi-major axis";
-			this.mnuSemiMajorAxis.Click += new System.EventHandler(this.menuItemSortCommon_Click);
+			this.mnuSemiMajorAxis.Click += this.menuItemSortCommon_Click;
 			// 
 			// mnuEcc
 			// 
-			this.mnuEcc.Index = 12;
-			this.mnuEcc.RadioCheck = true;
+			this.mnuEcc.MergeIndex = 12;
+			this.mnuEcc.Name = "mnuEcc";
+			this.mnuEcc.Size = new System.Drawing.Size(233, 22);
 			this.mnuEcc.Text = "Eccentricity";
-			this.mnuEcc.Click += new System.EventHandler(this.menuItemSortCommon_Click);
+			this.mnuEcc.Click += this.menuItemSortCommon_Click;
 			// 
 			// mnuIncl
 			// 
-			this.mnuIncl.Index = 13;
-			this.mnuIncl.RadioCheck = true;
+			this.mnuIncl.MergeIndex = 13;
+			this.mnuIncl.Name = "mnuIncl";
+			this.mnuIncl.Size = new System.Drawing.Size(233, 22);
 			this.mnuIncl.Text = "Inclination";
-			this.mnuIncl.Click += new System.EventHandler(this.menuItemSortCommon_Click);
+			this.mnuIncl.Click += this.menuItemSortCommon_Click;
 			// 
 			// mnuAscNode
 			// 
-			this.mnuAscNode.Index = 14;
-			this.mnuAscNode.RadioCheck = true;
+			this.mnuAscNode.MergeIndex = 14;
+			this.mnuAscNode.Name = "mnuAscNode";
+			this.mnuAscNode.Size = new System.Drawing.Size(233, 22);
 			this.mnuAscNode.Text = "Long. of the Asc. Node";
-			this.mnuAscNode.Click += new System.EventHandler(this.menuItemSortCommon_Click);
+			this.mnuAscNode.Click += this.menuItemSortCommon_Click;
 			// 
 			// mnuArgPeri
 			// 
-			this.mnuArgPeri.Index = 15;
-			this.mnuArgPeri.RadioCheck = true;
+			this.mnuArgPeri.MergeIndex = 15;
+			this.mnuArgPeri.Name = "mnuArgPeri";
+			this.mnuArgPeri.Size = new System.Drawing.Size(233, 22);
 			this.mnuArgPeri.Text = "Arg. of Pericenter";
-			this.mnuArgPeri.Click += new System.EventHandler(this.menuItemSortCommon_Click);
+			this.mnuArgPeri.Click += this.menuItemSortCommon_Click;
 			// 
 			// mnuSeparator
 			// 
-			this.mnuSeparator.Index = 16;
-			this.mnuSeparator.Text = "-";
+			this.mnuSeparator.MergeIndex = 16;
+			this.mnuSeparator.Name = "mnuSeparator";
+			this.mnuSeparator.Size = new System.Drawing.Size(230, 6);
 			// 
 			// mnuAsc
 			// 
-			this.mnuAsc.Index = 17;
-			this.mnuAsc.RadioCheck = true;
+			this.mnuAsc.MergeIndex = 17;
+			this.mnuAsc.Name = "mnuAsc";
+			this.mnuAsc.Size = new System.Drawing.Size(233, 22);
 			this.mnuAsc.Text = "Ascending";
-			this.mnuAsc.Click += new System.EventHandler(this.menuItemSortAscDesc_Click);
+			this.mnuAsc.Click += this.menuItemSortAscDesc_Click;
 			// 
 			// mnuDesc
 			// 
-			this.mnuDesc.Index = 18;
-			this.mnuDesc.RadioCheck = true;
+			this.mnuDesc.MergeIndex = 18;
+			this.mnuDesc.Name = "mnuDesc";
+			this.mnuDesc.Size = new System.Drawing.Size(233, 22);
 			this.mnuDesc.Text = "Descending";
-			this.mnuDesc.Click += new System.EventHandler(this.menuItemSortAscDesc_Click);
+			this.mnuDesc.Click += this.menuItemSortAscDesc_Click;
 			// 
 			// SortMenuControl
 			// 
@@ -216,32 +229,32 @@
 			this.Font = new System.Drawing.Font("Tahoma", 8.25F);
 			this.Name = "SortMenuControl";
 			this.Size = new System.Drawing.Size(100, 23);
+			this.contextSort.ResumeLayout(false);
 			this.ResumeLayout(false);
-
 		}
 
 		#endregion
 
 		private System.Windows.Forms.Button btnSort;
-		private System.Windows.Forms.ContextMenu contextSort;
-		private System.Windows.Forms.MenuItem mnuDesig;
-		private System.Windows.Forms.MenuItem mnuDiscoverer;
-		private System.Windows.Forms.MenuItem mnuPerihDate;
-		private System.Windows.Forms.MenuItem mnuPerihDist;
-		private System.Windows.Forms.MenuItem mnuPerihEarthDist;
-		private System.Windows.Forms.MenuItem mnuPerihMag;
-		private System.Windows.Forms.MenuItem mnuCurrSunDist;
-		private System.Windows.Forms.MenuItem mnuCurrEarthDist;
-		private System.Windows.Forms.MenuItem mnuCurrMag;
-		private System.Windows.Forms.MenuItem mnuPeriod;
-		private System.Windows.Forms.MenuItem mnuAphDistance;
-		private System.Windows.Forms.MenuItem mnuSemiMajorAxis;
-		private System.Windows.Forms.MenuItem mnuEcc;
-		private System.Windows.Forms.MenuItem mnuIncl;
-		private System.Windows.Forms.MenuItem mnuAscNode;
-		private System.Windows.Forms.MenuItem mnuArgPeri;
-		private System.Windows.Forms.MenuItem mnuSeparator;
-		private System.Windows.Forms.MenuItem mnuAsc;
-		private System.Windows.Forms.MenuItem mnuDesc;
+		private System.Windows.Forms.ContextMenuStrip contextSort;
+		private System.Windows.Forms.ToolStripMenuItem mnuDesig;
+		private System.Windows.Forms.ToolStripMenuItem mnuDiscoverer;
+		private System.Windows.Forms.ToolStripMenuItem mnuPerihDate;
+		private System.Windows.Forms.ToolStripMenuItem mnuPerihDist;
+		private System.Windows.Forms.ToolStripMenuItem mnuPerihEarthDist;
+		private System.Windows.Forms.ToolStripMenuItem mnuPerihMag;
+		private System.Windows.Forms.ToolStripMenuItem mnuCurrSunDist;
+		private System.Windows.Forms.ToolStripMenuItem mnuCurrEarthDist;
+		private System.Windows.Forms.ToolStripMenuItem mnuCurrMag;
+		private System.Windows.Forms.ToolStripMenuItem mnuPeriod;
+		private System.Windows.Forms.ToolStripMenuItem mnuAphDistance;
+		private System.Windows.Forms.ToolStripMenuItem mnuSemiMajorAxis;
+		private System.Windows.Forms.ToolStripMenuItem mnuEcc;
+		private System.Windows.Forms.ToolStripMenuItem mnuIncl;
+		private System.Windows.Forms.ToolStripMenuItem mnuAscNode;
+		private System.Windows.Forms.ToolStripMenuItem mnuArgPeri;
+		private System.Windows.Forms.ToolStripSeparator mnuSeparator;
+		private System.Windows.Forms.ToolStripMenuItem mnuAsc;
+		private System.Windows.Forms.ToolStripMenuItem mnuDesc;
 	}
 }

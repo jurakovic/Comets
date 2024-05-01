@@ -56,7 +56,7 @@
 			this.cbxMagDist.TabIndex = 0;
 			this.cbxMagDist.Text = "Magnitude and distances";
 			this.cbxMagDist.UseVisualStyleBackColor = true;
-			this.cbxMagDist.CheckedChanged += new System.EventHandler(this.cbxMagDist_CheckedChanged);
+			this.cbxMagDist.CheckedChanged += this.cbxMagDist_CheckedChanged;
 			// 
 			// cbxDateTime
 			// 
@@ -69,7 +69,7 @@
 			this.cbxDateTime.TabIndex = 1;
 			this.cbxDateTime.Text = "Date and Time";
 			this.cbxDateTime.UseVisualStyleBackColor = true;
-			this.cbxDateTime.CheckedChanged += new System.EventHandler(this.cbxDateTime_CheckedChanged);
+			this.cbxDateTime.CheckedChanged += this.cbxDateTime_CheckedChanged;
 			// 
 			// InfoLabelsControl
 			// 
@@ -82,7 +82,6 @@
 			this.pnlInfoLabels.ResumeLayout(false);
 			this.pnlInfoLabels.PerformLayout();
 			this.ResumeLayout(false);
-
 		}
 
 		#endregion

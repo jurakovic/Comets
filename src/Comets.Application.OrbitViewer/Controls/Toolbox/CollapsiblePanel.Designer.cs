@@ -29,18 +29,16 @@
 		private void InitializeComponent()
 		{
 			this.groupbox = new System.Windows.Forms.GroupBox();
-			this.linkLabel = new System.Windows.Forms.LinkLabel();
+			this.label = new System.Windows.Forms.Label();
 			this.panel = new System.Windows.Forms.Panel();
 			this.groupbox.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// groupbox
 			// 
-			this.groupbox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.groupbox.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
 			this.groupbox.BackColor = System.Drawing.SystemColors.Control;
-			this.groupbox.Controls.Add(this.linkLabel);
+			this.groupbox.Controls.Add(this.label);
 			this.groupbox.Controls.Add(this.panel);
 			this.groupbox.Location = new System.Drawing.Point(4, -2);
 			this.groupbox.Name = "groupbox";
@@ -49,29 +47,22 @@
 			this.groupbox.TabStop = false;
 			this.groupbox.Tag = "91";
 			// 
-			// linkLabel
+			// label
 			// 
-			this.linkLabel.ActiveLinkColor = System.Drawing.SystemColors.ControlText;
-			this.linkLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.linkLabel.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.linkLabel.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.linkLabel.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
-			this.linkLabel.LinkColor = System.Drawing.SystemColors.ControlText;
-			this.linkLabel.Location = new System.Drawing.Point(3, 11);
-			this.linkLabel.Name = "linkLabel";
-			this.linkLabel.Size = new System.Drawing.Size(184, 13);
-			this.linkLabel.TabIndex = 0;
-			this.linkLabel.TabStop = true;
-			this.linkLabel.Text = "▲  Text";
-			this.linkLabel.VisitedLinkColor = System.Drawing.SystemColors.ControlText;
-			this.linkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel_LinkClicked);
+			this.label.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+			this.label.Cursor = System.Windows.Forms.Cursors.Hand;
+			this.label.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 238);
+			this.label.Location = new System.Drawing.Point(3, 11);
+			this.label.Name = "label";
+			this.label.Size = new System.Drawing.Size(184, 13);
+			this.label.TabIndex = 0;
+			this.label.TabStop = true;
+			this.label.Text = "▲  Text";
+			this.label.Click += this.label_Click;
 			// 
 			// panel
 			// 
-			this.panel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.panel.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
 			this.panel.BackColor = System.Drawing.SystemColors.Control;
 			this.panel.Location = new System.Drawing.Point(4, 28);
 			this.panel.Name = "panel";
@@ -88,13 +79,12 @@
 			this.Size = new System.Drawing.Size(200, 200);
 			this.groupbox.ResumeLayout(false);
 			this.ResumeLayout(false);
-
 		}
 
 		#endregion
 
 		private System.Windows.Forms.GroupBox groupbox;
-		private System.Windows.Forms.LinkLabel linkLabel;
+		private System.Windows.Forms.Label label;
 		private System.Windows.Forms.Panel panel;
 	}
 }

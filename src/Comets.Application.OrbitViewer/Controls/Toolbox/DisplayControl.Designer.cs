@@ -138,7 +138,7 @@
 			// lblCenter
 			// 
 			this.lblCenter.AutoSize = true;
-			this.lblCenter.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.lblCenter.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
 			this.lblCenter.Location = new System.Drawing.Point(5, 75);
 			this.lblCenter.Name = "lblCenter";
 			this.lblCenter.Size = new System.Drawing.Size(50, 13);
@@ -148,7 +148,7 @@
 			// lblLabels
 			// 
 			this.lblLabels.AutoSize = true;
-			this.lblLabels.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.lblLabels.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
 			this.lblLabels.Location = new System.Drawing.Point(5, 40);
 			this.lblLabels.Name = "lblLabels";
 			this.lblLabels.Size = new System.Drawing.Size(40, 13);
@@ -158,7 +158,7 @@
 			// lblOrbits
 			// 
 			this.lblOrbits.AutoSize = true;
-			this.lblOrbits.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.lblOrbits.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
 			this.lblOrbits.Location = new System.Drawing.Point(5, 6);
 			this.lblOrbits.Name = "lblOrbits";
 			this.lblOrbits.Size = new System.Drawing.Size(42, 13);
@@ -172,7 +172,7 @@
 			this.btnNoOrbits.Size = new System.Drawing.Size(15, 15);
 			this.btnNoOrbits.TabIndex = 0;
 			this.btnNoOrbits.UseVisualStyleBackColor = true;
-			this.btnNoOrbits.Click += new System.EventHandler(this.btnNoOrbits_Click);
+			this.btnNoOrbits.Click += this.btnNoOrbits_Click;
 			// 
 			// cbxOrbitMercury
 			// 
@@ -184,7 +184,7 @@
 			this.cbxOrbitMercury.Size = new System.Drawing.Size(15, 14);
 			this.cbxOrbitMercury.TabIndex = 1;
 			this.cbxOrbitMercury.UseVisualStyleBackColor = true;
-			this.cbxOrbitMercury.CheckedChanged += new System.EventHandler(this.cbxOrbitCommon_CheckedChanged);
+			this.cbxOrbitMercury.CheckedChanged += this.cbxOrbitCommon_CheckedChanged;
 			// 
 			// cbxOrbitVenus
 			// 
@@ -196,7 +196,7 @@
 			this.cbxOrbitVenus.Size = new System.Drawing.Size(15, 14);
 			this.cbxOrbitVenus.TabIndex = 2;
 			this.cbxOrbitVenus.UseVisualStyleBackColor = true;
-			this.cbxOrbitVenus.CheckedChanged += new System.EventHandler(this.cbxOrbitCommon_CheckedChanged);
+			this.cbxOrbitVenus.CheckedChanged += this.cbxOrbitCommon_CheckedChanged;
 			// 
 			// btnNoLabels
 			// 
@@ -205,7 +205,7 @@
 			this.btnNoLabels.Size = new System.Drawing.Size(15, 15);
 			this.btnNoLabels.TabIndex = 11;
 			this.btnNoLabels.UseVisualStyleBackColor = true;
-			this.btnNoLabels.Click += new System.EventHandler(this.btnNoLabels_Click);
+			this.btnNoLabels.Click += this.btnNoLabels_Click;
 			// 
 			// rbtnCenterEarth
 			// 
@@ -215,7 +215,7 @@
 			this.rbtnCenterEarth.Size = new System.Drawing.Size(14, 13);
 			this.rbtnCenterEarth.TabIndex = 25;
 			this.rbtnCenterEarth.UseVisualStyleBackColor = true;
-			this.rbtnCenterEarth.CheckedChanged += new System.EventHandler(this.rbtnCenterCommon_CheckedChanged);
+			this.rbtnCenterEarth.CheckedChanged += this.rbtnCenterCommon_CheckedChanged;
 			// 
 			// rbtnCenterVenus
 			// 
@@ -225,7 +225,7 @@
 			this.rbtnCenterVenus.Size = new System.Drawing.Size(14, 13);
 			this.rbtnCenterVenus.TabIndex = 24;
 			this.rbtnCenterVenus.UseVisualStyleBackColor = true;
-			this.rbtnCenterVenus.CheckedChanged += new System.EventHandler(this.rbtnCenterCommon_CheckedChanged);
+			this.rbtnCenterVenus.CheckedChanged += this.rbtnCenterCommon_CheckedChanged;
 			// 
 			// cbxLabelMercury
 			// 
@@ -237,7 +237,7 @@
 			this.cbxLabelMercury.Size = new System.Drawing.Size(15, 14);
 			this.cbxLabelMercury.TabIndex = 12;
 			this.cbxLabelMercury.UseVisualStyleBackColor = true;
-			this.cbxLabelMercury.CheckedChanged += new System.EventHandler(this.cbxLabelCommon_CheckedChanged);
+			this.cbxLabelMercury.CheckedChanged += this.cbxLabelCommon_CheckedChanged;
 			// 
 			// btnAllLabels
 			// 
@@ -246,7 +246,7 @@
 			this.btnAllLabels.Size = new System.Drawing.Size(15, 15);
 			this.btnAllLabels.TabIndex = 21;
 			this.btnAllLabels.UseVisualStyleBackColor = true;
-			this.btnAllLabels.Click += new System.EventHandler(this.btnAllLabels_Click);
+			this.btnAllLabels.Click += this.btnAllLabels_Click;
 			// 
 			// cbxLabelVenus
 			// 
@@ -258,7 +258,7 @@
 			this.cbxLabelVenus.Size = new System.Drawing.Size(15, 14);
 			this.cbxLabelVenus.TabIndex = 13;
 			this.cbxLabelVenus.UseVisualStyleBackColor = true;
-			this.cbxLabelVenus.CheckedChanged += new System.EventHandler(this.cbxLabelCommon_CheckedChanged);
+			this.cbxLabelVenus.CheckedChanged += this.cbxLabelCommon_CheckedChanged;
 			// 
 			// btnAllOrbits
 			// 
@@ -267,7 +267,7 @@
 			this.btnAllOrbits.Size = new System.Drawing.Size(15, 15);
 			this.btnAllOrbits.TabIndex = 10;
 			this.btnAllOrbits.UseVisualStyleBackColor = true;
-			this.btnAllOrbits.Click += new System.EventHandler(this.btnAllOrbits_Click);
+			this.btnAllOrbits.Click += this.btnAllOrbits_Click;
 			// 
 			// rbtnCenterMars
 			// 
@@ -277,12 +277,12 @@
 			this.rbtnCenterMars.Size = new System.Drawing.Size(14, 13);
 			this.rbtnCenterMars.TabIndex = 26;
 			this.rbtnCenterMars.UseVisualStyleBackColor = true;
-			this.rbtnCenterMars.CheckedChanged += new System.EventHandler(this.rbtnCenterCommon_CheckedChanged);
+			this.rbtnCenterMars.CheckedChanged += this.rbtnCenterCommon_CheckedChanged;
 			// 
 			// lblComet
 			// 
 			this.lblComet.AutoSize = true;
-			this.lblComet.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblComet.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 238);
 			this.lblComet.Location = new System.Drawing.Point(141, 109);
 			this.lblComet.Name = "lblComet";
 			this.lblComet.Size = new System.Drawing.Size(14, 13);
@@ -299,12 +299,12 @@
 			this.cbxOrbitEarth.Size = new System.Drawing.Size(15, 14);
 			this.cbxOrbitEarth.TabIndex = 3;
 			this.cbxOrbitEarth.UseVisualStyleBackColor = true;
-			this.cbxOrbitEarth.CheckedChanged += new System.EventHandler(this.cbxOrbitCommon_CheckedChanged);
+			this.cbxOrbitEarth.CheckedChanged += this.cbxOrbitCommon_CheckedChanged;
 			// 
 			// lblNeptune
 			// 
 			this.lblNeptune.AutoSize = true;
-			this.lblNeptune.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblNeptune.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 238);
 			this.lblNeptune.Location = new System.Drawing.Point(126, 109);
 			this.lblNeptune.Name = "lblNeptune";
 			this.lblNeptune.Size = new System.Drawing.Size(14, 13);
@@ -321,12 +321,12 @@
 			this.cbxOrbitMars.Size = new System.Drawing.Size(15, 14);
 			this.cbxOrbitMars.TabIndex = 4;
 			this.cbxOrbitMars.UseVisualStyleBackColor = true;
-			this.cbxOrbitMars.CheckedChanged += new System.EventHandler(this.cbxOrbitCommon_CheckedChanged);
+			this.cbxOrbitMars.CheckedChanged += this.cbxOrbitCommon_CheckedChanged;
 			// 
 			// lblUranus
 			// 
 			this.lblUranus.AutoSize = true;
-			this.lblUranus.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblUranus.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 238);
 			this.lblUranus.Location = new System.Drawing.Point(111, 109);
 			this.lblUranus.Name = "lblUranus";
 			this.lblUranus.Size = new System.Drawing.Size(15, 13);
@@ -341,12 +341,12 @@
 			this.rbtnCenterJupiter.Size = new System.Drawing.Size(14, 13);
 			this.rbtnCenterJupiter.TabIndex = 27;
 			this.rbtnCenterJupiter.UseVisualStyleBackColor = true;
-			this.rbtnCenterJupiter.CheckedChanged += new System.EventHandler(this.rbtnCenterCommon_CheckedChanged);
+			this.rbtnCenterJupiter.CheckedChanged += this.rbtnCenterCommon_CheckedChanged;
 			// 
 			// lblSaturn
 			// 
 			this.lblSaturn.AutoSize = true;
-			this.lblSaturn.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblSaturn.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 238);
 			this.lblSaturn.Location = new System.Drawing.Point(96, 109);
 			this.lblSaturn.Name = "lblSaturn";
 			this.lblSaturn.Size = new System.Drawing.Size(14, 13);
@@ -363,12 +363,12 @@
 			this.cbxLabelEarth.Size = new System.Drawing.Size(15, 14);
 			this.cbxLabelEarth.TabIndex = 14;
 			this.cbxLabelEarth.UseVisualStyleBackColor = true;
-			this.cbxLabelEarth.CheckedChanged += new System.EventHandler(this.cbxLabelCommon_CheckedChanged);
+			this.cbxLabelEarth.CheckedChanged += this.cbxLabelCommon_CheckedChanged;
 			// 
 			// lblJupiter
 			// 
 			this.lblJupiter.AutoSize = true;
-			this.lblJupiter.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblJupiter.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 238);
 			this.lblJupiter.Location = new System.Drawing.Point(82, 109);
 			this.lblJupiter.Name = "lblJupiter";
 			this.lblJupiter.Size = new System.Drawing.Size(13, 13);
@@ -385,12 +385,12 @@
 			this.cbxLabelMars.Size = new System.Drawing.Size(15, 14);
 			this.cbxLabelMars.TabIndex = 15;
 			this.cbxLabelMars.UseVisualStyleBackColor = true;
-			this.cbxLabelMars.CheckedChanged += new System.EventHandler(this.cbxLabelCommon_CheckedChanged);
+			this.cbxLabelMars.CheckedChanged += this.cbxLabelCommon_CheckedChanged;
 			// 
 			// lblMars
 			// 
 			this.lblMars.AutoSize = true;
-			this.lblMars.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblMars.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 238);
 			this.lblMars.Location = new System.Drawing.Point(65, 109);
 			this.lblMars.Name = "lblMars";
 			this.lblMars.Size = new System.Drawing.Size(17, 13);
@@ -405,12 +405,12 @@
 			this.rbtnCenterSaturn.Size = new System.Drawing.Size(14, 13);
 			this.rbtnCenterSaturn.TabIndex = 28;
 			this.rbtnCenterSaturn.UseVisualStyleBackColor = true;
-			this.rbtnCenterSaturn.CheckedChanged += new System.EventHandler(this.rbtnCenterCommon_CheckedChanged);
+			this.rbtnCenterSaturn.CheckedChanged += this.rbtnCenterCommon_CheckedChanged;
 			// 
 			// lblEarth
 			// 
 			this.lblEarth.AutoSize = true;
-			this.lblEarth.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblEarth.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 238);
 			this.lblEarth.Location = new System.Drawing.Point(52, 109);
 			this.lblEarth.Name = "lblEarth";
 			this.lblEarth.Size = new System.Drawing.Size(13, 13);
@@ -427,12 +427,12 @@
 			this.cbxOrbitJupiter.Size = new System.Drawing.Size(15, 14);
 			this.cbxOrbitJupiter.TabIndex = 5;
 			this.cbxOrbitJupiter.UseVisualStyleBackColor = true;
-			this.cbxOrbitJupiter.CheckedChanged += new System.EventHandler(this.cbxOrbitCommon_CheckedChanged);
+			this.cbxOrbitJupiter.CheckedChanged += this.cbxOrbitCommon_CheckedChanged;
 			// 
 			// lblVenus
 			// 
 			this.lblVenus.AutoSize = true;
-			this.lblVenus.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblVenus.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 238);
 			this.lblVenus.Location = new System.Drawing.Point(37, 109);
 			this.lblVenus.Name = "lblVenus";
 			this.lblVenus.Size = new System.Drawing.Size(14, 13);
@@ -447,12 +447,12 @@
 			this.cbxOrbitSaturn.Size = new System.Drawing.Size(15, 14);
 			this.cbxOrbitSaturn.TabIndex = 6;
 			this.cbxOrbitSaturn.UseVisualStyleBackColor = true;
-			this.cbxOrbitSaturn.CheckedChanged += new System.EventHandler(this.cbxOrbitCommon_CheckedChanged);
+			this.cbxOrbitSaturn.CheckedChanged += this.cbxOrbitCommon_CheckedChanged;
 			// 
 			// lblMercury
 			// 
 			this.lblMercury.AutoSize = true;
-			this.lblMercury.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblMercury.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 238);
 			this.lblMercury.Location = new System.Drawing.Point(20, 109);
 			this.lblMercury.Name = "lblMercury";
 			this.lblMercury.Size = new System.Drawing.Size(17, 13);
@@ -467,12 +467,12 @@
 			this.rbtnCenterUranus.Size = new System.Drawing.Size(14, 13);
 			this.rbtnCenterUranus.TabIndex = 29;
 			this.rbtnCenterUranus.UseVisualStyleBackColor = true;
-			this.rbtnCenterUranus.CheckedChanged += new System.EventHandler(this.rbtnCenterCommon_CheckedChanged);
+			this.rbtnCenterUranus.CheckedChanged += this.rbtnCenterCommon_CheckedChanged;
 			// 
 			// lblSun
 			// 
 			this.lblSun.AutoSize = true;
-			this.lblSun.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblSun.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 238);
 			this.lblSun.Location = new System.Drawing.Point(6, 109);
 			this.lblSun.Name = "lblSun";
 			this.lblSun.Size = new System.Drawing.Size(14, 13);
@@ -489,7 +489,7 @@
 			this.cbxLabelJupiter.Size = new System.Drawing.Size(15, 14);
 			this.cbxLabelJupiter.TabIndex = 16;
 			this.cbxLabelJupiter.UseVisualStyleBackColor = true;
-			this.cbxLabelJupiter.CheckedChanged += new System.EventHandler(this.cbxLabelCommon_CheckedChanged);
+			this.cbxLabelJupiter.CheckedChanged += this.cbxLabelCommon_CheckedChanged;
 			// 
 			// btnAllOrbitsLabels
 			// 
@@ -499,7 +499,7 @@
 			this.btnAllOrbitsLabels.TabIndex = 33;
 			this.btnAllOrbitsLabels.Text = "ALL";
 			this.btnAllOrbitsLabels.UseVisualStyleBackColor = true;
-			this.btnAllOrbitsLabels.Click += new System.EventHandler(this.btnAllOrbitsLabels_Click);
+			this.btnAllOrbitsLabels.Click += this.btnAllOrbitsLabels_Click;
 			// 
 			// cbxLabelSaturn
 			// 
@@ -511,7 +511,7 @@
 			this.cbxLabelSaturn.Size = new System.Drawing.Size(15, 14);
 			this.cbxLabelSaturn.TabIndex = 17;
 			this.cbxLabelSaturn.UseVisualStyleBackColor = true;
-			this.cbxLabelSaturn.CheckedChanged += new System.EventHandler(this.cbxLabelCommon_CheckedChanged);
+			this.cbxLabelSaturn.CheckedChanged += this.cbxLabelCommon_CheckedChanged;
 			// 
 			// btnDefaultOrbitsLabels
 			// 
@@ -521,7 +521,7 @@
 			this.btnDefaultOrbitsLabels.TabIndex = 32;
 			this.btnDefaultOrbitsLabels.Text = "DEFAULT";
 			this.btnDefaultOrbitsLabels.UseVisualStyleBackColor = true;
-			this.btnDefaultOrbitsLabels.Click += new System.EventHandler(this.btnDefaultOrbitsLabels_Click);
+			this.btnDefaultOrbitsLabels.Click += this.btnDefaultOrbitsLabels_Click;
 			// 
 			// rbtnCenterNeptune
 			// 
@@ -531,7 +531,7 @@
 			this.rbtnCenterNeptune.Size = new System.Drawing.Size(14, 13);
 			this.rbtnCenterNeptune.TabIndex = 30;
 			this.rbtnCenterNeptune.UseVisualStyleBackColor = true;
-			this.rbtnCenterNeptune.CheckedChanged += new System.EventHandler(this.rbtnCenterCommon_CheckedChanged);
+			this.rbtnCenterNeptune.CheckedChanged += this.rbtnCenterCommon_CheckedChanged;
 			// 
 			// rbtnCenterMercury
 			// 
@@ -541,7 +541,7 @@
 			this.rbtnCenterMercury.Size = new System.Drawing.Size(14, 13);
 			this.rbtnCenterMercury.TabIndex = 23;
 			this.rbtnCenterMercury.UseVisualStyleBackColor = true;
-			this.rbtnCenterMercury.CheckedChanged += new System.EventHandler(this.rbtnCenterCommon_CheckedChanged);
+			this.rbtnCenterMercury.CheckedChanged += this.rbtnCenterCommon_CheckedChanged;
 			// 
 			// cbxOrbitUranus
 			// 
@@ -551,7 +551,7 @@
 			this.cbxOrbitUranus.Size = new System.Drawing.Size(15, 14);
 			this.cbxOrbitUranus.TabIndex = 7;
 			this.cbxOrbitUranus.UseVisualStyleBackColor = true;
-			this.cbxOrbitUranus.CheckedChanged += new System.EventHandler(this.cbxOrbitCommon_CheckedChanged);
+			this.cbxOrbitUranus.CheckedChanged += this.cbxOrbitCommon_CheckedChanged;
 			// 
 			// cbxLabelComet
 			// 
@@ -561,7 +561,7 @@
 			this.cbxLabelComet.Size = new System.Drawing.Size(15, 14);
 			this.cbxLabelComet.TabIndex = 20;
 			this.cbxLabelComet.UseVisualStyleBackColor = true;
-			this.cbxLabelComet.CheckedChanged += new System.EventHandler(this.cbxLabelCommon_CheckedChanged);
+			this.cbxLabelComet.CheckedChanged += this.cbxLabelCommon_CheckedChanged;
 			// 
 			// cbxOrbitNeptune
 			// 
@@ -571,7 +571,7 @@
 			this.cbxOrbitNeptune.Size = new System.Drawing.Size(15, 14);
 			this.cbxOrbitNeptune.TabIndex = 8;
 			this.cbxOrbitNeptune.UseVisualStyleBackColor = true;
-			this.cbxOrbitNeptune.CheckedChanged += new System.EventHandler(this.cbxOrbitCommon_CheckedChanged);
+			this.cbxOrbitNeptune.CheckedChanged += this.cbxOrbitCommon_CheckedChanged;
 			// 
 			// cbxOrbitComet
 			// 
@@ -582,7 +582,7 @@
 			this.cbxOrbitComet.Size = new System.Drawing.Size(15, 14);
 			this.cbxOrbitComet.TabIndex = 9;
 			this.cbxOrbitComet.UseVisualStyleBackColor = true;
-			this.cbxOrbitComet.CheckedChanged += new System.EventHandler(this.cbxOrbitCommon_CheckedChanged);
+			this.cbxOrbitComet.CheckedChanged += this.cbxOrbitCommon_CheckedChanged;
 			// 
 			// rbtnCenterComet
 			// 
@@ -592,7 +592,7 @@
 			this.rbtnCenterComet.Size = new System.Drawing.Size(14, 13);
 			this.rbtnCenterComet.TabIndex = 31;
 			this.rbtnCenterComet.UseVisualStyleBackColor = true;
-			this.rbtnCenterComet.CheckedChanged += new System.EventHandler(this.rbtnCenterCommon_CheckedChanged);
+			this.rbtnCenterComet.CheckedChanged += this.rbtnCenterCommon_CheckedChanged;
 			// 
 			// rbtnCenterSun
 			// 
@@ -604,7 +604,7 @@
 			this.rbtnCenterSun.TabIndex = 22;
 			this.rbtnCenterSun.TabStop = true;
 			this.rbtnCenterSun.UseVisualStyleBackColor = true;
-			this.rbtnCenterSun.CheckedChanged += new System.EventHandler(this.rbtnCenterCommon_CheckedChanged);
+			this.rbtnCenterSun.CheckedChanged += this.rbtnCenterCommon_CheckedChanged;
 			// 
 			// cbxLabelUranus
 			// 
@@ -616,7 +616,7 @@
 			this.cbxLabelUranus.Size = new System.Drawing.Size(15, 14);
 			this.cbxLabelUranus.TabIndex = 18;
 			this.cbxLabelUranus.UseVisualStyleBackColor = true;
-			this.cbxLabelUranus.CheckedChanged += new System.EventHandler(this.cbxLabelCommon_CheckedChanged);
+			this.cbxLabelUranus.CheckedChanged += this.cbxLabelCommon_CheckedChanged;
 			// 
 			// cbxLabelNeptune
 			// 
@@ -628,7 +628,7 @@
 			this.cbxLabelNeptune.Size = new System.Drawing.Size(15, 14);
 			this.cbxLabelNeptune.TabIndex = 19;
 			this.cbxLabelNeptune.UseVisualStyleBackColor = true;
-			this.cbxLabelNeptune.CheckedChanged += new System.EventHandler(this.cbxLabelCommon_CheckedChanged);
+			this.cbxLabelNeptune.CheckedChanged += this.cbxLabelCommon_CheckedChanged;
 			// 
 			// DisplayControl
 			// 
@@ -641,7 +641,6 @@
 			this.panel.ResumeLayout(false);
 			this.panel.PerformLayout();
 			this.ResumeLayout(false);
-
 		}
 
 		#endregion
