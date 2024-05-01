@@ -146,7 +146,7 @@ namespace Comets.Application.Common.Controls.Common
 
 		private void mnuCommon_Click(object sender, EventArgs e)
 		{
-			CometSelectionType type = (CometSelectionType)(sender as MenuItem).Tag;
+			CometSelectionType type = (CometSelectionType)(sender as ToolStripMenuItem).Tag;
 			this.SelectedComet = GetComet(type, null);
 		}
 

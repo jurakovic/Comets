@@ -46,9 +46,7 @@
 			// 
 			// gbxOutputData
 			// 
-			this.gbxOutputData.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.gbxOutputData.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
 			this.gbxOutputData.Controls.Add(this.radioLocalTime);
 			this.gbxOutputData.Controls.Add(this.radioUnivTime);
 			this.gbxOutputData.Controls.Add(this.chMag);
@@ -211,13 +209,12 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.gbxOutputData);
-			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
 			this.Name = "OutputDataControl";
 			this.Size = new System.Drawing.Size(503, 137);
 			this.gbxOutputData.ResumeLayout(false);
 			this.gbxOutputData.PerformLayout();
 			this.ResumeLayout(false);
-
 		}
 
 		#endregion

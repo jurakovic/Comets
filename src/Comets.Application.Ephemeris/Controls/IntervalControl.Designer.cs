@@ -41,9 +41,7 @@
 			// 
 			// gbxTimestamp
 			// 
-			this.gbxTimestamp.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.gbxTimestamp.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
 			this.gbxTimestamp.Controls.Add(this.lblM);
 			this.gbxTimestamp.Controls.Add(this.lblH);
 			this.gbxTimestamp.Controls.Add(this.lblD);
@@ -95,8 +93,8 @@
 			this.txtMinInterval.Size = new System.Drawing.Size(42, 21);
 			this.txtMinInterval.TabIndex = 5;
 			this.txtMinInterval.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.txtMinInterval.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtIntervalCommon_KeyDown);
-			this.txtMinInterval.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtIntervalCommon_KeyPress);
+			this.txtMinInterval.KeyDown += this.txtIntervalCommon_KeyDown;
+			this.txtMinInterval.KeyPress += this.txtIntervalCommon_KeyPress;
 			// 
 			// txtHourInterval
 			// 
@@ -105,8 +103,8 @@
 			this.txtHourInterval.Size = new System.Drawing.Size(42, 21);
 			this.txtHourInterval.TabIndex = 4;
 			this.txtHourInterval.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.txtHourInterval.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtIntervalCommon_KeyDown);
-			this.txtHourInterval.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtIntervalCommon_KeyPress);
+			this.txtHourInterval.KeyDown += this.txtIntervalCommon_KeyDown;
+			this.txtHourInterval.KeyPress += this.txtIntervalCommon_KeyPress;
 			// 
 			// txtDayInterval
 			// 
@@ -115,8 +113,8 @@
 			this.txtDayInterval.Size = new System.Drawing.Size(42, 21);
 			this.txtDayInterval.TabIndex = 3;
 			this.txtDayInterval.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.txtDayInterval.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtIntervalCommon_KeyDown);
-			this.txtDayInterval.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtIntervalCommon_KeyPress);
+			this.txtDayInterval.KeyDown += this.txtIntervalCommon_KeyDown;
+			this.txtDayInterval.KeyPress += this.txtIntervalCommon_KeyPress;
 			// 
 			// btnDefaultInterval
 			// 
@@ -125,7 +123,7 @@
 			this.btnDefaultInterval.Size = new System.Drawing.Size(16, 16);
 			this.btnDefaultInterval.TabIndex = 6;
 			this.btnDefaultInterval.UseVisualStyleBackColor = true;
-			this.btnDefaultInterval.Click += new System.EventHandler(this.btnDefaultInterval_Click);
+			this.btnDefaultInterval.Click += this.btnDefaultInterval_Click;
 			// 
 			// IntervalControl
 			// 
@@ -138,7 +136,6 @@
 			this.gbxTimestamp.ResumeLayout(false);
 			this.gbxTimestamp.PerformLayout();
 			this.ResumeLayout(false);
-
 		}
 
 		#endregion

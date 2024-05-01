@@ -79,7 +79,7 @@
 			// 
 			// btnJplInfo
 			// 
-			this.btnJplInfo.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.btnJplInfo.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 238);
 			this.btnJplInfo.ForeColor = System.Drawing.Color.Blue;
 			this.btnJplInfo.Location = new System.Drawing.Point(382, 24);
 			this.btnJplInfo.Name = "btnJplInfo";
@@ -87,12 +87,12 @@
 			this.btnJplInfo.TabIndex = 2;
 			this.btnJplInfo.Text = "JPL Info";
 			this.btnJplInfo.UseVisualStyleBackColor = true;
-			this.btnJplInfo.Click += new System.EventHandler(this.btnJplInfo_Click);
+			this.btnJplInfo.Click += this.btnJplInfo_Click;
 			// 
 			// txtName
 			// 
 			this.txtName.BackColor = System.Drawing.SystemColors.Window;
-			this.txtName.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.txtName.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.txtName.Location = new System.Drawing.Point(25, 26);
 			this.txtName.Name = "txtName";
 			this.txtName.ReadOnly = true;
@@ -102,7 +102,7 @@
 			// lblN2
 			// 
 			this.lblN2.AutoSize = true;
-			this.lblN2.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblN2.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.lblN2.ForeColor = System.Drawing.SystemColors.WindowText;
 			this.lblN2.Location = new System.Drawing.Point(367, 74);
 			this.lblN2.Name = "lblN2";
@@ -113,7 +113,7 @@
 			// txtMeanMotion
 			// 
 			this.txtMeanMotion.BackColor = System.Drawing.SystemColors.Window;
-			this.txtMeanMotion.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.txtMeanMotion.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.txtMeanMotion.Location = new System.Drawing.Point(382, 71);
 			this.txtMeanMotion.Name = "txtMeanMotion";
 			this.txtMeanMotion.ReadOnly = true;
@@ -134,7 +134,7 @@
 			// txtArgPeri
 			// 
 			this.txtArgPeri.BackColor = System.Drawing.SystemColors.Window;
-			this.txtArgPeri.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.txtArgPeri.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.txtArgPeri.Location = new System.Drawing.Point(205, 206);
 			this.txtArgPeri.Name = "txtArgPeri";
 			this.txtArgPeri.ReadOnly = true;
@@ -155,7 +155,7 @@
 			// lblMagK
 			// 
 			this.lblMagK.AutoSize = true;
-			this.lblMagK.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblMagK.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.lblMagK.ForeColor = System.Drawing.SystemColors.WindowText;
 			this.lblMagK.Location = new System.Drawing.Point(440, 164);
 			this.lblMagK.Name = "lblMagK";
@@ -177,7 +177,7 @@
 			// txtMagK
 			// 
 			this.txtMagK.BackColor = System.Drawing.SystemColors.Window;
-			this.txtMagK.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.txtMagK.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.txtMagK.Location = new System.Drawing.Point(456, 161);
 			this.txtMagK.Name = "txtMagK";
 			this.txtMagK.ReadOnly = true;
@@ -187,7 +187,7 @@
 			// txtPeriod
 			// 
 			this.txtPeriod.BackColor = System.Drawing.SystemColors.Window;
-			this.txtPeriod.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.txtPeriod.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.txtPeriod.Location = new System.Drawing.Point(205, 71);
 			this.txtPeriod.Name = "txtPeriod";
 			this.txtPeriod.ReadOnly = true;
@@ -197,7 +197,7 @@
 			// lblMagG
 			// 
 			this.lblMagG.AutoSize = true;
-			this.lblMagG.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblMagG.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.lblMagG.ForeColor = System.Drawing.SystemColors.WindowText;
 			this.lblMagG.Location = new System.Drawing.Point(366, 164);
 			this.lblMagG.Name = "lblMagG";
@@ -208,7 +208,7 @@
 			// lblPYears
 			// 
 			this.lblPYears.AutoSize = true;
-			this.lblPYears.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblPYears.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.lblPYears.ForeColor = System.Drawing.SystemColors.WindowText;
 			this.lblPYears.Location = new System.Drawing.Point(321, 74);
 			this.lblPYears.Name = "lblPYears";
@@ -219,7 +219,7 @@
 			// txtMagG
 			// 
 			this.txtMagG.BackColor = System.Drawing.SystemColors.Window;
-			this.txtMagG.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.txtMagG.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.txtMagG.Location = new System.Drawing.Point(382, 161);
 			this.txtMagG.Name = "txtMagG";
 			this.txtMagG.ReadOnly = true;
@@ -229,7 +229,7 @@
 			// txtPerihDate
 			// 
 			this.txtPerihDate.BackColor = System.Drawing.SystemColors.Window;
-			this.txtPerihDate.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.txtPerihDate.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.txtPerihDate.Location = new System.Drawing.Point(25, 71);
 			this.txtPerihDate.Name = "txtPerihDate";
 			this.txtPerihDate.ReadOnly = true;
@@ -261,7 +261,7 @@
 			// lblQAu
 			// 
 			this.lblQAu.AutoSize = true;
-			this.lblQAu.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblQAu.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.lblQAu.ForeColor = System.Drawing.SystemColors.WindowText;
 			this.lblQAu.Location = new System.Drawing.Point(141, 119);
 			this.lblQAu.Name = "lblQAu";
@@ -294,7 +294,7 @@
 			// txtEquinox
 			// 
 			this.txtEquinox.BackColor = System.Drawing.SystemColors.Window;
-			this.txtEquinox.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.txtEquinox.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.txtEquinox.Location = new System.Drawing.Point(382, 206);
 			this.txtEquinox.Name = "txtEquinox";
 			this.txtEquinox.ReadOnly = true;
@@ -304,7 +304,7 @@
 			// lblW
 			// 
 			this.lblW.AutoSize = true;
-			this.lblW.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblW.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.lblW.ForeColor = System.Drawing.SystemColors.WindowText;
 			this.lblW.Location = new System.Drawing.Point(188, 209);
 			this.lblW.Name = "lblW";
@@ -326,7 +326,7 @@
 			// lblP
 			// 
 			this.lblP.AutoSize = true;
-			this.lblP.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblP.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.lblP.ForeColor = System.Drawing.SystemColors.WindowText;
 			this.lblP.Location = new System.Drawing.Point(189, 74);
 			this.lblP.Name = "lblP";
@@ -337,7 +337,7 @@
 			// lblWDeg
 			// 
 			this.lblWDeg.AutoSize = true;
-			this.lblWDeg.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblWDeg.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.lblWDeg.ForeColor = System.Drawing.SystemColors.WindowText;
 			this.lblWDeg.Location = new System.Drawing.Point(321, 209);
 			this.lblWDeg.Name = "lblWDeg";
@@ -348,7 +348,7 @@
 			// lblT
 			// 
 			this.lblT.AutoSize = true;
-			this.lblT.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblT.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.lblT.ForeColor = System.Drawing.SystemColors.WindowText;
 			this.lblT.Location = new System.Drawing.Point(9, 74);
 			this.lblT.Name = "lblT";
@@ -359,7 +359,7 @@
 			// lblN
 			// 
 			this.lblN.AutoSize = true;
-			this.lblN.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblN.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.lblN.ForeColor = System.Drawing.SystemColors.WindowText;
 			this.lblN.Location = new System.Drawing.Point(188, 164);
 			this.lblN.Name = "lblN";
@@ -392,7 +392,7 @@
 			// lblAAu
 			// 
 			this.lblAAu.AutoSize = true;
-			this.lblAAu.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblAAu.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.lblAAu.ForeColor = System.Drawing.SystemColors.WindowText;
 			this.lblAAu.Location = new System.Drawing.Point(498, 119);
 			this.lblAAu.Name = "lblAAu";
@@ -403,7 +403,7 @@
 			// lblI
 			// 
 			this.lblI.AutoSize = true;
-			this.lblI.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblI.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.lblI.ForeColor = System.Drawing.SystemColors.WindowText;
 			this.lblI.Location = new System.Drawing.Point(13, 209);
 			this.lblI.Name = "lblI";
@@ -414,7 +414,7 @@
 			// lblA
 			// 
 			this.lblA.AutoSize = true;
-			this.lblA.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblA.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.lblA.ForeColor = System.Drawing.SystemColors.WindowText;
 			this.lblA.Location = new System.Drawing.Point(367, 119);
 			this.lblA.Name = "lblA";
@@ -436,7 +436,7 @@
 			// txtSemiMajorAxis
 			// 
 			this.txtSemiMajorAxis.BackColor = System.Drawing.SystemColors.Window;
-			this.txtSemiMajorAxis.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.txtSemiMajorAxis.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.txtSemiMajorAxis.Location = new System.Drawing.Point(382, 116);
 			this.txtSemiMajorAxis.Name = "txtSemiMajorAxis";
 			this.txtSemiMajorAxis.ReadOnly = true;
@@ -446,7 +446,7 @@
 			// lblNDeg
 			// 
 			this.lblNDeg.AutoSize = true;
-			this.lblNDeg.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblNDeg.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.lblNDeg.ForeColor = System.Drawing.SystemColors.WindowText;
 			this.lblNDeg.Location = new System.Drawing.Point(321, 164);
 			this.lblNDeg.Name = "lblNDeg";
@@ -479,7 +479,7 @@
 			// txtPerihDist
 			// 
 			this.txtPerihDist.BackColor = System.Drawing.SystemColors.Window;
-			this.txtPerihDist.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.txtPerihDist.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.txtPerihDist.Location = new System.Drawing.Point(25, 116);
 			this.txtPerihDist.Name = "txtPerihDist";
 			this.txtPerihDist.ReadOnly = true;
@@ -489,7 +489,7 @@
 			// lblE
 			// 
 			this.lblE.AutoSize = true;
-			this.lblE.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblE.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.lblE.ForeColor = System.Drawing.SystemColors.WindowText;
 			this.lblE.Location = new System.Drawing.Point(10, 164);
 			this.lblE.Name = "lblE";
@@ -500,7 +500,7 @@
 			// lblQ2Au
 			// 
 			this.lblQ2Au.AutoSize = true;
-			this.lblQ2Au.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblQ2Au.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.lblQ2Au.ForeColor = System.Drawing.SystemColors.WindowText;
 			this.lblQ2Au.Location = new System.Drawing.Point(321, 119);
 			this.lblQ2Au.Name = "lblQ2Au";
@@ -511,7 +511,7 @@
 			// lblQ
 			// 
 			this.lblQ.AutoSize = true;
-			this.lblQ.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblQ.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.lblQ.ForeColor = System.Drawing.SystemColors.WindowText;
 			this.lblQ.Location = new System.Drawing.Point(9, 119);
 			this.lblQ.Name = "lblQ";
@@ -522,7 +522,7 @@
 			// txtEcc
 			// 
 			this.txtEcc.BackColor = System.Drawing.SystemColors.Window;
-			this.txtEcc.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.txtEcc.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.txtEcc.Location = new System.Drawing.Point(25, 161);
 			this.txtEcc.Name = "txtEcc";
 			this.txtEcc.ReadOnly = true;
@@ -532,7 +532,7 @@
 			// lblIDeg
 			// 
 			this.lblIDeg.AutoSize = true;
-			this.lblIDeg.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblIDeg.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.lblIDeg.ForeColor = System.Drawing.SystemColors.WindowText;
 			this.lblIDeg.Location = new System.Drawing.Point(141, 209);
 			this.lblIDeg.Name = "lblIDeg";
@@ -543,7 +543,7 @@
 			// lblQ2
 			// 
 			this.lblQ2.AutoSize = true;
-			this.lblQ2.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblQ2.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.lblQ2.ForeColor = System.Drawing.SystemColors.WindowText;
 			this.lblQ2.Location = new System.Drawing.Point(187, 119);
 			this.lblQ2.Name = "lblQ2";
@@ -554,7 +554,7 @@
 			// txtAscNode
 			// 
 			this.txtAscNode.BackColor = System.Drawing.SystemColors.Window;
-			this.txtAscNode.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.txtAscNode.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.txtAscNode.Location = new System.Drawing.Point(205, 161);
 			this.txtAscNode.Name = "txtAscNode";
 			this.txtAscNode.ReadOnly = true;
@@ -564,7 +564,7 @@
 			// txtIncl
 			// 
 			this.txtIncl.BackColor = System.Drawing.SystemColors.Window;
-			this.txtIncl.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.txtIncl.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.txtIncl.Location = new System.Drawing.Point(25, 206);
 			this.txtIncl.Name = "txtIncl";
 			this.txtIncl.ReadOnly = true;
@@ -574,7 +574,7 @@
 			// txtAphDist
 			// 
 			this.txtAphDist.BackColor = System.Drawing.SystemColors.Window;
-			this.txtAphDist.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.txtAphDist.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.txtAphDist.Location = new System.Drawing.Point(205, 116);
 			this.txtAphDist.Name = "txtAphDist";
 			this.txtAphDist.ReadOnly = true;
@@ -632,12 +632,11 @@
 			this.Controls.Add(this.txtAscNode);
 			this.Controls.Add(this.txtIncl);
 			this.Controls.Add(this.txtAphDist);
-			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
 			this.Name = "ElementsControl";
 			this.Size = new System.Drawing.Size(531, 288);
 			this.ResumeLayout(false);
 			this.PerformLayout();
-
 		}
 
 		#endregion

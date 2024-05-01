@@ -33,38 +33,38 @@
 			this.btnApply = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
-			// btnNewFilter
+			// btnAddNew
 			// 
-			this.btnAddNew.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.btnAddNew.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.btnAddNew.Location = new System.Drawing.Point(20, 7);
-			this.btnAddNew.Name = "btnNewFilter";
+			this.btnAddNew.Name = "btnAddNew";
 			this.btnAddNew.Size = new System.Drawing.Size(25, 23);
 			this.btnAddNew.TabIndex = 0;
 			this.btnAddNew.Text = "+";
 			this.btnAddNew.UseVisualStyleBackColor = true;
-			this.btnAddNew.Click += new System.EventHandler(this.btnAddNew_Click);
+			this.btnAddNew.Click += this.btnAddNew_Click;
 			// 
-			// btnFiltersClose
+			// btnClose
 			// 
-			this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.btnClose.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
 			this.btnClose.Location = new System.Drawing.Point(449, 337);
-			this.btnClose.Name = "btnFiltersClose";
+			this.btnClose.Name = "btnClose";
 			this.btnClose.Size = new System.Drawing.Size(100, 23);
 			this.btnClose.TabIndex = 2;
 			this.btnClose.Text = "Close";
 			this.btnClose.UseVisualStyleBackColor = true;
-			this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
+			this.btnClose.Click += this.btnClose_Click;
 			// 
-			// btnFiltersApply
+			// btnApply
 			// 
-			this.btnApply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.btnApply.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
 			this.btnApply.Location = new System.Drawing.Point(345, 337);
-			this.btnApply.Name = "btnFiltersApply";
+			this.btnApply.Name = "btnApply";
 			this.btnApply.Size = new System.Drawing.Size(100, 23);
 			this.btnApply.TabIndex = 1;
 			this.btnApply.Text = "Apply";
 			this.btnApply.UseVisualStyleBackColor = true;
-			this.btnApply.Click += new System.EventHandler(this.btnApply_Click);
+			this.btnApply.Click += this.btnApply_Click;
 			// 
 			// FilterControl
 			// 
@@ -73,11 +73,10 @@
 			this.Controls.Add(this.btnAddNew);
 			this.Controls.Add(this.btnClose);
 			this.Controls.Add(this.btnApply);
-			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
 			this.Name = "FilterControl";
 			this.Size = new System.Drawing.Size(549, 360);
 			this.ResumeLayout(false);
-
 		}
 
 		#endregion

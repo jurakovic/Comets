@@ -40,9 +40,7 @@
 			// 
 			// gbxRequirements
 			// 
-			this.gbxRequirements.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.gbxRequirements.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
 			this.gbxRequirements.Controls.Add(this.txtMinMag);
 			this.gbxRequirements.Controls.Add(this.txtMaxEarthDist);
 			this.gbxRequirements.Controls.Add(this.txtMaxSunDist);
@@ -58,37 +56,37 @@
 			// 
 			// txtMinMag
 			// 
-			this.txtMinMag.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.txtMinMag.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
 			this.txtMinMag.Location = new System.Drawing.Point(152, 87);
 			this.txtMinMag.Name = "txtMinMag";
 			this.txtMinMag.Size = new System.Drawing.Size(42, 21);
 			this.txtMinMag.TabIndex = 5;
 			this.txtMinMag.Text = "12";
 			this.txtMinMag.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.txtMinMag.TextChanged += new System.EventHandler(this.txtMinMag_TextChanged);
-			this.txtMinMag.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMagDistCommon_KeyPress);
+			this.txtMinMag.TextChanged += this.txtMinMag_TextChanged;
+			this.txtMinMag.KeyPress += this.txtMagDistCommon_KeyPress;
 			// 
 			// txtMaxEarthDist
 			// 
-			this.txtMaxEarthDist.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.txtMaxEarthDist.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
 			this.txtMaxEarthDist.Location = new System.Drawing.Point(152, 45);
 			this.txtMaxEarthDist.Name = "txtMaxEarthDist";
 			this.txtMaxEarthDist.Size = new System.Drawing.Size(42, 21);
 			this.txtMaxEarthDist.TabIndex = 3;
 			this.txtMaxEarthDist.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.txtMaxEarthDist.TextChanged += new System.EventHandler(this.txtMaxEarthDist_TextChanged);
-			this.txtMaxEarthDist.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMagDistCommon_KeyPress);
+			this.txtMaxEarthDist.TextChanged += this.txtMaxEarthDist_TextChanged;
+			this.txtMaxEarthDist.KeyPress += this.txtMagDistCommon_KeyPress;
 			// 
 			// txtMaxSunDist
 			// 
-			this.txtMaxSunDist.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.txtMaxSunDist.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
 			this.txtMaxSunDist.Location = new System.Drawing.Point(152, 20);
 			this.txtMaxSunDist.Name = "txtMaxSunDist";
 			this.txtMaxSunDist.Size = new System.Drawing.Size(42, 21);
 			this.txtMaxSunDist.TabIndex = 1;
 			this.txtMaxSunDist.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.txtMaxSunDist.TextChanged += new System.EventHandler(this.txtMaxSunDist_TextChanged);
-			this.txtMaxSunDist.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMagDistCommon_KeyPress);
+			this.txtMaxSunDist.TextChanged += this.txtMaxSunDist_TextChanged;
+			this.txtMaxSunDist.KeyPress += this.txtMagDistCommon_KeyPress;
 			// 
 			// cbxMinMag
 			// 
@@ -127,13 +125,12 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.gbxRequirements);
-			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
 			this.Name = "RequirementsControl";
 			this.Size = new System.Drawing.Size(204, 137);
 			this.gbxRequirements.ResumeLayout(false);
 			this.gbxRequirements.PerformLayout();
 			this.ResumeLayout(false);
-
 		}
 
 		#endregion

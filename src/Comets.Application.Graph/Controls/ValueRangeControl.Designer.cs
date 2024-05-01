@@ -38,9 +38,7 @@
 			// 
 			// gbxValueRange
 			// 
-			this.gbxValueRange.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.gbxValueRange.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
 			this.gbxValueRange.Controls.Add(this.txtMaxValue);
 			this.gbxValueRange.Controls.Add(this.txtMinValue);
 			this.gbxValueRange.Controls.Add(this.cbxMaxValue);
@@ -60,8 +58,8 @@
 			this.txtMaxValue.TabIndex = 3;
 			this.txtMaxValue.Text = "12";
 			this.txtMaxValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.txtMaxValue.TextChanged += new System.EventHandler(this.txtMaxMag_TextChanged);
-			this.txtMaxValue.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMagCommon_KeyPress);
+			this.txtMaxValue.TextChanged += this.txtMaxMag_TextChanged;
+			this.txtMaxValue.KeyPress += this.txtMagCommon_KeyPress;
 			// 
 			// txtMinValue
 			// 
@@ -70,8 +68,8 @@
 			this.txtMinValue.Size = new System.Drawing.Size(45, 21);
 			this.txtMinValue.TabIndex = 1;
 			this.txtMinValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.txtMinValue.TextChanged += new System.EventHandler(this.txtMinMag_TextChanged);
-			this.txtMinValue.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMagCommon_KeyPress);
+			this.txtMinValue.TextChanged += this.txtMinMag_TextChanged;
+			this.txtMinValue.KeyPress += this.txtMagCommon_KeyPress;
 			// 
 			// cbxMaxValue
 			// 
@@ -106,7 +104,6 @@
 			this.gbxValueRange.ResumeLayout(false);
 			this.gbxValueRange.PerformLayout();
 			this.ResumeLayout(false);
-
 		}
 
 		#endregion

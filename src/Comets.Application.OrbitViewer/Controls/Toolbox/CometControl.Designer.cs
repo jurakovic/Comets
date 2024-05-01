@@ -64,7 +64,7 @@
 			this.cbxLabel.TabIndex = 38;
 			this.cbxLabel.Text = "Label";
 			this.cbxLabel.UseVisualStyleBackColor = true;
-			this.cbxLabel.CheckedChanged += new System.EventHandler(this.cbxLabel_CheckedChanged);
+			this.cbxLabel.CheckedChanged += this.cbxLabel_CheckedChanged;
 			// 
 			// cbxOrbit
 			// 
@@ -77,7 +77,7 @@
 			this.cbxOrbit.TabIndex = 37;
 			this.cbxOrbit.Text = "Orbit";
 			this.cbxOrbit.UseVisualStyleBackColor = true;
-			this.cbxOrbit.CheckedChanged += new System.EventHandler(this.cbxOrbit_CheckedChanged);
+			this.cbxOrbit.CheckedChanged += this.cbxOrbit_CheckedChanged;
 			// 
 			// cbxMarker
 			// 
@@ -90,7 +90,7 @@
 			this.cbxMarker.TabIndex = 39;
 			this.cbxMarker.Text = "Marker";
 			this.cbxMarker.UseVisualStyleBackColor = true;
-			this.cbxMarker.CheckedChanged += new System.EventHandler(this.cbxMarker_CheckedChanged);
+			this.cbxMarker.CheckedChanged += this.cbxMarker_CheckedChanged;
 			// 
 			// btnMark
 			// 
@@ -100,12 +100,12 @@
 			this.btnMark.TabIndex = 2;
 			this.btnMark.Text = "MARK";
 			this.btnMark.UseVisualStyleBackColor = true;
-			this.btnMark.Click += new System.EventHandler(this.btnMark_Click);
+			this.btnMark.Click += this.btnMark_Click;
 			// 
 			// cboComet
 			// 
 			this.cboComet.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cboComet.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.cboComet.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.cboComet.FormattingEnabled = true;
 			this.cboComet.IntegralHeight = false;
 			this.cboComet.Location = new System.Drawing.Point(4, 4);
@@ -113,7 +113,7 @@
 			this.cboComet.Name = "cboComet";
 			this.cboComet.Size = new System.Drawing.Size(165, 21);
 			this.cboComet.TabIndex = 0;
-			this.cboComet.SelectedIndexChanged += new System.EventHandler(this.cboObject_SelectedIndexChanged);
+			this.cboComet.SelectedIndexChanged += this.cboObject_SelectedIndexChanged;
 			// 
 			// btnFilter
 			// 
@@ -123,7 +123,7 @@
 			this.btnFilter.TabIndex = 1;
 			this.btnFilter.Text = "FILTER";
 			this.btnFilter.UseVisualStyleBackColor = true;
-			this.btnFilter.Click += new System.EventHandler(this.btnFilter_Click);
+			this.btnFilter.Click += this.btnFilter_Click;
 			// 
 			// CometControl
 			// 
@@ -136,7 +136,6 @@
 			this.pnlComet.ResumeLayout(false);
 			this.pnlComet.PerformLayout();
 			this.ResumeLayout(false);
-
 		}
 
 		#endregion

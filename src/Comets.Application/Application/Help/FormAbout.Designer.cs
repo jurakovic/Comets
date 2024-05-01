@@ -33,12 +33,12 @@
 			this.pictureBox1 = new System.Windows.Forms.PictureBox();
 			this.lblVersion = new System.Windows.Forms.Label();
 			this.lblMore = new System.Windows.Forms.Label();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)this.pictureBox1).BeginInit();
 			this.SuspendLayout();
 			// 
 			// btnOk
 			// 
-			this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnOk.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
 			this.btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
 			this.btnOk.Location = new System.Drawing.Point(292, 127);
 			this.btnOk.Name = "btnOk";
@@ -49,7 +49,7 @@
 			// 
 			// pictureBox1
 			// 
-			this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+			this.pictureBox1.Image = (System.Drawing.Image)resources.GetObject("pictureBox1.Image");
 			this.pictureBox1.Location = new System.Drawing.Point(17, 17);
 			this.pictureBox1.Name = "pictureBox1";
 			this.pictureBox1.Size = new System.Drawing.Size(64, 64);
@@ -59,10 +59,10 @@
 			// lblVersion
 			// 
 			this.lblVersion.AutoSize = true;
-			this.lblVersion.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lblVersion.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 238);
 			this.lblVersion.Location = new System.Drawing.Point(99, 17);
 			this.lblVersion.Name = "lblVersion";
-			this.lblVersion.Size = new System.Drawing.Size(70, 13);
+			this.lblVersion.Size = new System.Drawing.Size(80, 13);
 			this.lblVersion.TabIndex = 2;
 			this.lblVersion.Text = "Comets 0.8.1";
 			// 
@@ -87,17 +87,16 @@
 			this.Controls.Add(this.lblVersion);
 			this.Controls.Add(this.pictureBox1);
 			this.Controls.Add(this.btnOk);
-			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.Name = "FormAbout";
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "About";
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+			((System.ComponentModel.ISupportInitialize)this.pictureBox1).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
-
 		}
 
 		#endregion

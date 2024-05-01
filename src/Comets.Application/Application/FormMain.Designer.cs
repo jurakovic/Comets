@@ -28,315 +28,351 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
-			this.mainMenu = new System.Windows.Forms.MainMenu(this.components);
-			this.menuItemFile = new System.Windows.Forms.MenuItem();
-			this.menuItemFileEphemeris = new System.Windows.Forms.MenuItem();
-			this.menuItemFileGraph = new System.Windows.Forms.MenuItem();
-			this.menuItemFileOrbit = new System.Windows.Forms.MenuItem();
-			this.menuItemSeparatorFile1 = new System.Windows.Forms.MenuItem();
-			this.menuItemOrbitalElements = new System.Windows.Forms.MenuItem();
-			this.menuItemSeparatorFile3 = new System.Windows.Forms.MenuItem();
-			this.menuItemExit = new System.Windows.Forms.MenuItem();
-			this.menuItemEphemeris = new System.Windows.Forms.MenuItem();
-			this.menuItemEphemerisSettings = new System.Windows.Forms.MenuItem();
-			this.menuItemEphemerisSaveAs = new System.Windows.Forms.MenuItem();
-			this.menuItemGraph = new System.Windows.Forms.MenuItem();
-			this.menuItemGraphSettings = new System.Windows.Forms.MenuItem();
-			this.menuItemGraphSaveAs = new System.Windows.Forms.MenuItem();
-			this.menuItemOrbit = new System.Windows.Forms.MenuItem();
-			this.mnuShowToolbox = new System.Windows.Forms.MenuItem();
-			this.menuItemEdit = new System.Windows.Forms.MenuItem();
-			this.menuItemDatabase = new System.Windows.Forms.MenuItem();
-			this.menuItemUpdate = new System.Windows.Forms.MenuItem();
-			this.menuItemSeparatorEdit1 = new System.Windows.Forms.MenuItem();
-			this.menuItemSettings = new System.Windows.Forms.MenuItem();
-			this.menuItemView = new System.Windows.Forms.MenuItem();
-			this.menuItemViewAlwaysOnTop = new System.Windows.Forms.MenuItem();
-			this.menuItemViewStatusBar = new System.Windows.Forms.MenuItem();
-			this.menuItemWindow = new System.Windows.Forms.MenuItem();
-			this.menuItemTileVert = new System.Windows.Forms.MenuItem();
-			this.menuItemTileHoriz = new System.Windows.Forms.MenuItem();
-			this.menuItemCascade = new System.Windows.Forms.MenuItem();
-			this.menuItemMinimizeAll = new System.Windows.Forms.MenuItem();
-			this.menuItemRestoreAll = new System.Windows.Forms.MenuItem();
-			this.menuItemClose = new System.Windows.Forms.MenuItem();
-			this.menuItemHelp = new System.Windows.Forms.MenuItem();
-			this.menuItemControls = new System.Windows.Forms.MenuItem();
-			this.menuItemAbout = new System.Windows.Forms.MenuItem();
+			this.mainMenu = new System.Windows.Forms.MenuStrip();
+			this.menuItemFile = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemFileEphemeris = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemFileGraph = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemFileOrbit = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemSeparatorFile1 = new System.Windows.Forms.ToolStripSeparator();
+			this.menuItemOrbitalElements = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemSeparatorFile3 = new System.Windows.Forms.ToolStripSeparator();
+			this.menuItemExit = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemEdit = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemDatabase = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemUpdate = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemSeparatorEdit1 = new System.Windows.Forms.ToolStripSeparator();
+			this.menuItemSettings = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemEphemeris = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemEphemerisSettings = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemEphemerisSaveAs = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemGraph = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemGraphSettings = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemGraphSaveAs = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemOrbit = new System.Windows.Forms.ToolStripMenuItem();
+			this.mnuShowToolbox = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemView = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemViewAlwaysOnTop = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemViewStatusBar = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemWindow = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemTileVert = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemTileHoriz = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemCascade = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemMinimizeAll = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemRestoreAll = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemClose = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemHelp = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemControls = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemAbout = new System.Windows.Forms.ToolStripMenuItem();
 			this.statusStrip = new System.Windows.Forms.StatusStrip();
 			this.statusComets = new System.Windows.Forms.ToolStripStatusLabel();
 			this.statusSpace = new System.Windows.Forms.ToolStripStatusLabel();
 			this.statusProgressBar = new System.Windows.Forms.ToolStripProgressBar();
+			this.mainMenu.SuspendLayout();
 			this.statusStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// mainMenu
 			// 
-			this.mainMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.menuItemFile,
-            this.menuItemEphemeris,
-            this.menuItemGraph,
-            this.menuItemOrbit,
-            this.menuItemEdit,
-            this.menuItemView,
-            this.menuItemWindow,
-            this.menuItemHelp});
+			this.mainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.menuItemFile, this.menuItemEdit, this.menuItemEphemeris, this.menuItemGraph, this.menuItemOrbit, this.menuItemView, this.menuItemWindow, this.menuItemHelp });
+			this.mainMenu.Location = new System.Drawing.Point(0, 0);
+			this.mainMenu.MdiWindowListItem = this.menuItemWindow;
+			this.mainMenu.Name = "mainMenu";
+			this.mainMenu.Padding = new System.Windows.Forms.Padding(0, 2, 0, 2);
+			this.mainMenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+			this.mainMenu.Size = new System.Drawing.Size(784, 24);
+			this.mainMenu.TabIndex = 0;
 			// 
 			// menuItemFile
 			// 
-			this.menuItemFile.Index = 0;
-			this.menuItemFile.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.menuItemFileEphemeris,
-            this.menuItemFileGraph,
-            this.menuItemFileOrbit,
-            this.menuItemSeparatorFile1,
-            this.menuItemOrbitalElements,
-            this.menuItemSeparatorFile3,
-            this.menuItemExit});
+			this.menuItemFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.menuItemFileEphemeris, this.menuItemFileGraph, this.menuItemFileOrbit, this.menuItemSeparatorFile1, this.menuItemOrbitalElements, this.menuItemSeparatorFile3, this.menuItemExit });
+			this.menuItemFile.MergeIndex = 0;
+			this.menuItemFile.Name = "menuItemFile";
+			this.menuItemFile.Size = new System.Drawing.Size(37, 20);
 			this.menuItemFile.Text = "&File";
 			// 
 			// menuItemFileEphemeris
 			// 
-			this.menuItemFileEphemeris.Index = 0;
-			this.menuItemFileEphemeris.Shortcut = System.Windows.Forms.Shortcut.CtrlE;
+			this.menuItemFileEphemeris.MergeIndex = 0;
+			this.menuItemFileEphemeris.Name = "menuItemFileEphemeris";
+			this.menuItemFileEphemeris.ShortcutKeys = System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E;
+			this.menuItemFileEphemeris.Size = new System.Drawing.Size(204, 22);
 			this.menuItemFileEphemeris.Text = "&Ephemeris";
-			this.menuItemFileEphemeris.Click += new System.EventHandler(this.menuItemFileEphemerides_Click);
+			this.menuItemFileEphemeris.Click += this.menuItemFileEphemerides_Click;
 			// 
 			// menuItemFileGraph
 			// 
-			this.menuItemFileGraph.Index = 1;
-			this.menuItemFileGraph.Shortcut = System.Windows.Forms.Shortcut.CtrlG;
+			this.menuItemFileGraph.MergeIndex = 1;
+			this.menuItemFileGraph.Name = "menuItemFileGraph";
+			this.menuItemFileGraph.ShortcutKeys = System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.G;
+			this.menuItemFileGraph.Size = new System.Drawing.Size(204, 22);
 			this.menuItemFileGraph.Text = "&Graph";
-			this.menuItemFileGraph.Click += new System.EventHandler(this.menuItemFileGraph_Click);
+			this.menuItemFileGraph.Click += this.menuItemFileGraph_Click;
 			// 
 			// menuItemFileOrbit
 			// 
-			this.menuItemFileOrbit.Index = 2;
-			this.menuItemFileOrbit.Shortcut = System.Windows.Forms.Shortcut.CtrlV;
+			this.menuItemFileOrbit.MergeIndex = 2;
+			this.menuItemFileOrbit.Name = "menuItemFileOrbit";
+			this.menuItemFileOrbit.ShortcutKeys = System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V;
+			this.menuItemFileOrbit.Size = new System.Drawing.Size(204, 22);
 			this.menuItemFileOrbit.Text = "Orbit &Viewer";
-			this.menuItemFileOrbit.Click += new System.EventHandler(this.menuItemFileOrbit_Click);
+			this.menuItemFileOrbit.Click += this.menuItemFileOrbit_Click;
 			// 
 			// menuItemSeparatorFile1
 			// 
-			this.menuItemSeparatorFile1.Index = 3;
-			this.menuItemSeparatorFile1.Text = "-";
+			this.menuItemSeparatorFile1.MergeIndex = 3;
+			this.menuItemSeparatorFile1.Name = "menuItemSeparatorFile1";
+			this.menuItemSeparatorFile1.Size = new System.Drawing.Size(201, 6);
 			// 
 			// menuItemOrbitalElements
 			// 
-			this.menuItemOrbitalElements.Index = 4;
-			this.menuItemOrbitalElements.Shortcut = System.Windows.Forms.Shortcut.CtrlO;
-			this.menuItemOrbitalElements.Text = "&Orbital elements";
-			this.menuItemOrbitalElements.Click += new System.EventHandler(this.menuItemOrbitalElements_Click);
+			this.menuItemOrbitalElements.MergeIndex = 4;
+			this.menuItemOrbitalElements.Name = "menuItemOrbitalElements";
+			this.menuItemOrbitalElements.ShortcutKeys = System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O;
+			this.menuItemOrbitalElements.Size = new System.Drawing.Size(204, 22);
+			this.menuItemOrbitalElements.Text = "&Orbital Elements";
+			this.menuItemOrbitalElements.Click += this.menuItemOrbitalElements_Click;
 			// 
 			// menuItemSeparatorFile3
 			// 
-			this.menuItemSeparatorFile3.Index = 5;
-			this.menuItemSeparatorFile3.Text = "-";
+			this.menuItemSeparatorFile3.MergeIndex = 5;
+			this.menuItemSeparatorFile3.Name = "menuItemSeparatorFile3";
+			this.menuItemSeparatorFile3.Size = new System.Drawing.Size(201, 6);
 			// 
 			// menuItemExit
 			// 
-			this.menuItemExit.Index = 6;
-			this.menuItemExit.Shortcut = System.Windows.Forms.Shortcut.AltF4;
+			this.menuItemExit.MergeIndex = 6;
+			this.menuItemExit.Name = "menuItemExit";
+			this.menuItemExit.ShortcutKeys = System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4;
+			this.menuItemExit.Size = new System.Drawing.Size(204, 22);
 			this.menuItemExit.Text = "E&xit";
-			this.menuItemExit.Click += new System.EventHandler(this.menuItemExit_Click);
+			this.menuItemExit.Click += this.menuItemExit_Click;
+			// 
+			// menuItemEdit
+			// 
+			this.menuItemEdit.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.menuItemDatabase, this.menuItemUpdate, this.menuItemSeparatorEdit1, this.menuItemSettings });
+			this.menuItemEdit.MergeIndex = 4;
+			this.menuItemEdit.Name = "menuItemEdit";
+			this.menuItemEdit.Size = new System.Drawing.Size(39, 20);
+			this.menuItemEdit.Text = "&Edit";
+			// 
+			// menuItemDatabase
+			// 
+			this.menuItemDatabase.MergeIndex = 0;
+			this.menuItemDatabase.Name = "menuItemDatabase";
+			this.menuItemDatabase.ShortcutKeys = System.Windows.Forms.Keys.F5;
+			this.menuItemDatabase.Size = new System.Drawing.Size(141, 22);
+			this.menuItemDatabase.Text = "&Database";
+			this.menuItemDatabase.Click += this.menuItemDatabase_Click;
+			// 
+			// menuItemUpdate
+			// 
+			this.menuItemUpdate.MergeIndex = 1;
+			this.menuItemUpdate.Name = "menuItemUpdate";
+			this.menuItemUpdate.ShortcutKeys = System.Windows.Forms.Keys.F6;
+			this.menuItemUpdate.Size = new System.Drawing.Size(141, 22);
+			this.menuItemUpdate.Text = "&Update";
+			this.menuItemUpdate.Click += this.menuItemImport_Click;
+			// 
+			// menuItemSeparatorEdit1
+			// 
+			this.menuItemSeparatorEdit1.MergeIndex = 2;
+			this.menuItemSeparatorEdit1.Name = "menuItemSeparatorEdit1";
+			this.menuItemSeparatorEdit1.Size = new System.Drawing.Size(138, 6);
+			// 
+			// menuItemSettings
+			// 
+			this.menuItemSettings.MergeIndex = 3;
+			this.menuItemSettings.Name = "menuItemSettings";
+			this.menuItemSettings.Size = new System.Drawing.Size(141, 22);
+			this.menuItemSettings.Text = "&Settings";
+			this.menuItemSettings.Click += this.menuItemSettings_Click;
 			// 
 			// menuItemEphemeris
 			// 
-			this.menuItemEphemeris.Index = 1;
-			this.menuItemEphemeris.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.menuItemEphemerisSettings,
-            this.menuItemEphemerisSaveAs});
+			this.menuItemEphemeris.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.menuItemEphemerisSettings, this.menuItemEphemerisSaveAs });
+			this.menuItemEphemeris.MergeIndex = 1;
+			this.menuItemEphemeris.Name = "menuItemEphemeris";
+			this.menuItemEphemeris.Size = new System.Drawing.Size(74, 20);
 			this.menuItemEphemeris.Text = "E&phemeris";
 			this.menuItemEphemeris.Visible = false;
 			// 
 			// menuItemEphemerisSettings
 			// 
-			this.menuItemEphemerisSettings.Index = 0;
-			this.menuItemEphemerisSettings.Shortcut = System.Windows.Forms.Shortcut.CtrlShiftE;
+			this.menuItemEphemerisSettings.MergeIndex = 0;
+			this.menuItemEphemerisSettings.Name = "menuItemEphemerisSettings";
+			this.menuItemEphemerisSettings.ShortcutKeys = System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift | System.Windows.Forms.Keys.E;
+			this.menuItemEphemerisSettings.Size = new System.Drawing.Size(188, 22);
 			this.menuItemEphemerisSettings.Text = "&Settings";
-			this.menuItemEphemerisSettings.Click += new System.EventHandler(this.menuItemEphemSettings_Click);
+			this.menuItemEphemerisSettings.Click += this.menuItemEphemSettings_Click;
 			// 
 			// menuItemEphemerisSaveAs
 			// 
-			this.menuItemEphemerisSaveAs.Index = 1;
-			this.menuItemEphemerisSaveAs.Shortcut = System.Windows.Forms.Shortcut.CtrlS;
+			this.menuItemEphemerisSaveAs.MergeIndex = 1;
+			this.menuItemEphemerisSaveAs.Name = "menuItemEphemerisSaveAs";
+			this.menuItemEphemerisSaveAs.ShortcutKeys = System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S;
+			this.menuItemEphemerisSaveAs.Size = new System.Drawing.Size(188, 22);
 			this.menuItemEphemerisSaveAs.Text = "Save &As";
-			this.menuItemEphemerisSaveAs.Click += new System.EventHandler(this.menuItemEphemerisSaveAs_Click);
+			this.menuItemEphemerisSaveAs.Click += this.menuItemEphemerisSaveAs_Click;
 			// 
 			// menuItemGraph
 			// 
-			this.menuItemGraph.Index = 2;
-			this.menuItemGraph.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.menuItemGraphSettings,
-            this.menuItemGraphSaveAs});
+			this.menuItemGraph.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.menuItemGraphSettings, this.menuItemGraphSaveAs });
+			this.menuItemGraph.MergeIndex = 2;
+			this.menuItemGraph.Name = "menuItemGraph";
+			this.menuItemGraph.Size = new System.Drawing.Size(51, 20);
 			this.menuItemGraph.Text = "&Graph";
 			this.menuItemGraph.Visible = false;
 			// 
 			// menuItemGraphSettings
 			// 
-			this.menuItemGraphSettings.Index = 0;
-			this.menuItemGraphSettings.Shortcut = System.Windows.Forms.Shortcut.CtrlShiftG;
+			this.menuItemGraphSettings.MergeIndex = 0;
+			this.menuItemGraphSettings.Name = "menuItemGraphSettings";
+			this.menuItemGraphSettings.ShortcutKeys = System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift | System.Windows.Forms.Keys.G;
+			this.menuItemGraphSettings.Size = new System.Drawing.Size(190, 22);
 			this.menuItemGraphSettings.Text = "&Settings";
-			this.menuItemGraphSettings.Click += new System.EventHandler(this.menuItemGraphSettings_Click);
+			this.menuItemGraphSettings.Click += this.menuItemGraphSettings_Click;
 			// 
 			// menuItemGraphSaveAs
 			// 
-			this.menuItemGraphSaveAs.Index = 1;
-			this.menuItemGraphSaveAs.Shortcut = System.Windows.Forms.Shortcut.CtrlS;
+			this.menuItemGraphSaveAs.MergeIndex = 1;
+			this.menuItemGraphSaveAs.Name = "menuItemGraphSaveAs";
+			this.menuItemGraphSaveAs.ShortcutKeys = System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S;
+			this.menuItemGraphSaveAs.Size = new System.Drawing.Size(190, 22);
 			this.menuItemGraphSaveAs.Text = "Save &As";
-			this.menuItemGraphSaveAs.Click += new System.EventHandler(this.menuItemGraphSaveAs_Click);
+			this.menuItemGraphSaveAs.Click += this.menuItemGraphSaveAs_Click;
 			// 
 			// menuItemOrbit
 			// 
-			this.menuItemOrbit.Index = 3;
-			this.menuItemOrbit.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.mnuShowToolbox});
+			this.menuItemOrbit.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.mnuShowToolbox });
+			this.menuItemOrbit.MergeIndex = 3;
+			this.menuItemOrbit.Name = "menuItemOrbit";
+			this.menuItemOrbit.Size = new System.Drawing.Size(46, 20);
 			this.menuItemOrbit.Text = "&Orbit";
 			this.menuItemOrbit.Visible = false;
 			// 
 			// mnuShowToolbox
 			// 
 			this.mnuShowToolbox.Checked = true;
-			this.mnuShowToolbox.Index = 0;
-			this.mnuShowToolbox.Shortcut = System.Windows.Forms.Shortcut.CtrlT;
+			this.mnuShowToolbox.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.mnuShowToolbox.MergeIndex = 0;
+			this.mnuShowToolbox.Name = "mnuShowToolbox";
+			this.mnuShowToolbox.ShortcutKeys = System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T;
+			this.mnuShowToolbox.Size = new System.Drawing.Size(188, 22);
 			this.mnuShowToolbox.Text = "Show &Toolbox";
-			this.mnuShowToolbox.Click += new System.EventHandler(this.mnuShowToolbox_Click);
-			// 
-			// menuItemEdit
-			// 
-			this.menuItemEdit.Index = 4;
-			this.menuItemEdit.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.menuItemDatabase,
-            this.menuItemUpdate,
-            this.menuItemSeparatorEdit1,
-            this.menuItemSettings});
-			this.menuItemEdit.Text = "&Edit";
-			// 
-			// menuItemDatabase
-			// 
-			this.menuItemDatabase.Index = 0;
-			this.menuItemDatabase.Shortcut = System.Windows.Forms.Shortcut.F5;
-			this.menuItemDatabase.Text = "&Database";
-			this.menuItemDatabase.Click += new System.EventHandler(this.menuItemDatabase_Click);
-			// 
-			// menuItemUpdate
-			// 
-			this.menuItemUpdate.Index = 1;
-			this.menuItemUpdate.Shortcut = System.Windows.Forms.Shortcut.F6;
-			this.menuItemUpdate.Text = "&Update";
-			this.menuItemUpdate.Click += new System.EventHandler(this.menuItemImport_Click);
-			// 
-			// menuItemSeparatorEdit1
-			// 
-			this.menuItemSeparatorEdit1.Index = 2;
-			this.menuItemSeparatorEdit1.Text = "-";
-			// 
-			// menuItemSettings
-			// 
-			this.menuItemSettings.Index = 3;
-			this.menuItemSettings.Text = "&Settings";
-			this.menuItemSettings.Click += new System.EventHandler(this.menuItemSettings_Click);
+			this.mnuShowToolbox.Click += this.mnuShowToolbox_Click;
 			// 
 			// menuItemView
 			// 
-			this.menuItemView.Index = 5;
-			this.menuItemView.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.menuItemViewAlwaysOnTop,
-            this.menuItemViewStatusBar});
+			this.menuItemView.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.menuItemViewAlwaysOnTop, this.menuItemViewStatusBar });
+			this.menuItemView.MergeIndex = 5;
+			this.menuItemView.Name = "menuItemView";
+			this.menuItemView.Size = new System.Drawing.Size(44, 20);
 			this.menuItemView.Text = "&View";
 			// 
 			// menuItemViewAlwaysOnTop
 			// 
-			this.menuItemViewAlwaysOnTop.Index = 0;
+			this.menuItemViewAlwaysOnTop.MergeIndex = 0;
+			this.menuItemViewAlwaysOnTop.Name = "menuItemViewAlwaysOnTop";
+			this.menuItemViewAlwaysOnTop.Size = new System.Drawing.Size(157, 22);
 			this.menuItemViewAlwaysOnTop.Text = "Always on &Top";
-			this.menuItemViewAlwaysOnTop.Click += new System.EventHandler(this.menuItemViewAlwaysOnTop_Click);
+			this.menuItemViewAlwaysOnTop.Click += this.menuItemViewAlwaysOnTop_Click;
 			// 
 			// menuItemViewStatusBar
 			// 
 			this.menuItemViewStatusBar.Checked = true;
-			this.menuItemViewStatusBar.Index = 1;
+			this.menuItemViewStatusBar.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.menuItemViewStatusBar.MergeIndex = 1;
+			this.menuItemViewStatusBar.Name = "menuItemViewStatusBar";
+			this.menuItemViewStatusBar.Size = new System.Drawing.Size(157, 22);
 			this.menuItemViewStatusBar.Text = "Show &status bar";
-			this.menuItemViewStatusBar.Click += new System.EventHandler(this.menuItemViewStatusBar_Click);
+			this.menuItemViewStatusBar.Click += this.menuItemViewStatusBar_Click;
 			// 
 			// menuItemWindow
 			// 
-			this.menuItemWindow.Index = 6;
-			this.menuItemWindow.MdiList = true;
-			this.menuItemWindow.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.menuItemTileVert,
-            this.menuItemTileHoriz,
-            this.menuItemCascade,
-            this.menuItemMinimizeAll,
-            this.menuItemRestoreAll,
-            this.menuItemClose});
+			this.menuItemWindow.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.menuItemTileVert, this.menuItemTileHoriz, this.menuItemCascade, this.menuItemMinimizeAll, this.menuItemRestoreAll, this.menuItemClose });
+			this.menuItemWindow.MergeIndex = 6;
+			this.menuItemWindow.Name = "menuItemWindow";
+			this.menuItemWindow.Size = new System.Drawing.Size(63, 20);
 			this.menuItemWindow.Text = "&Window";
 			this.menuItemWindow.Visible = false;
 			// 
 			// menuItemTileVert
 			// 
-			this.menuItemTileVert.Index = 0;
+			this.menuItemTileVert.MergeIndex = 0;
+			this.menuItemTileVert.Name = "menuItemTileVert";
+			this.menuItemTileVert.Size = new System.Drawing.Size(159, 22);
 			this.menuItemTileVert.Text = "Tile &Horizontally";
-			this.menuItemTileVert.Click += new System.EventHandler(this.menuItemTileVert_Click);
+			this.menuItemTileVert.Click += this.menuItemTileVert_Click;
 			// 
 			// menuItemTileHoriz
 			// 
-			this.menuItemTileHoriz.Index = 1;
+			this.menuItemTileHoriz.MergeIndex = 1;
+			this.menuItemTileHoriz.Name = "menuItemTileHoriz";
+			this.menuItemTileHoriz.Size = new System.Drawing.Size(159, 22);
 			this.menuItemTileHoriz.Text = "Tile &Vertically";
-			this.menuItemTileHoriz.Click += new System.EventHandler(this.menuItemTileHoriz_Click);
+			this.menuItemTileHoriz.Click += this.menuItemTileHoriz_Click;
 			// 
 			// menuItemCascade
 			// 
-			this.menuItemCascade.Index = 2;
+			this.menuItemCascade.MergeIndex = 2;
+			this.menuItemCascade.Name = "menuItemCascade";
+			this.menuItemCascade.Size = new System.Drawing.Size(159, 22);
 			this.menuItemCascade.Text = "&Cascade";
-			this.menuItemCascade.Click += new System.EventHandler(this.menuItemCascade_Click);
+			this.menuItemCascade.Click += this.menuItemCascade_Click;
 			// 
 			// menuItemMinimizeAll
 			// 
-			this.menuItemMinimizeAll.Index = 3;
+			this.menuItemMinimizeAll.MergeIndex = 3;
+			this.menuItemMinimizeAll.Name = "menuItemMinimizeAll";
+			this.menuItemMinimizeAll.Size = new System.Drawing.Size(159, 22);
 			this.menuItemMinimizeAll.Text = "&Minimize All";
-			this.menuItemMinimizeAll.Click += new System.EventHandler(this.menuItemMinimizeAll_Click);
+			this.menuItemMinimizeAll.Click += this.menuItemMinimizeAll_Click;
 			// 
 			// menuItemRestoreAll
 			// 
-			this.menuItemRestoreAll.Index = 4;
+			this.menuItemRestoreAll.MergeIndex = 4;
+			this.menuItemRestoreAll.Name = "menuItemRestoreAll";
+			this.menuItemRestoreAll.Size = new System.Drawing.Size(159, 22);
 			this.menuItemRestoreAll.Text = "&Restore All";
-			this.menuItemRestoreAll.Click += new System.EventHandler(this.menuItemRestoreAll_Click);
+			this.menuItemRestoreAll.Click += this.menuItemRestoreAll_Click;
 			// 
 			// menuItemClose
 			// 
-			this.menuItemClose.Index = 5;
-			this.menuItemClose.Shortcut = System.Windows.Forms.Shortcut.CtrlF4;
+			this.menuItemClose.MergeIndex = 5;
+			this.menuItemClose.Name = "menuItemClose";
+			this.menuItemClose.ShortcutKeys = System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F4;
+			this.menuItemClose.Size = new System.Drawing.Size(159, 22);
 			this.menuItemClose.Text = "&Close";
-			this.menuItemClose.Click += new System.EventHandler(this.menuItemClose_Click);
+			this.menuItemClose.Click += this.menuItemClose_Click;
 			// 
 			// menuItemHelp
 			// 
-			this.menuItemHelp.Index = 7;
-			this.menuItemHelp.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.menuItemControls,
-            this.menuItemAbout});
+			this.menuItemHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.menuItemControls, this.menuItemAbout });
+			this.menuItemHelp.MergeIndex = 7;
+			this.menuItemHelp.Name = "menuItemHelp";
+			this.menuItemHelp.Size = new System.Drawing.Size(44, 20);
 			this.menuItemHelp.Text = "&Help";
 			// 
 			// menuItemControls
 			// 
-			this.menuItemControls.Index = 0;
+			this.menuItemControls.MergeIndex = 0;
+			this.menuItemControls.Name = "menuItemControls";
+			this.menuItemControls.Size = new System.Drawing.Size(119, 22);
 			this.menuItemControls.Text = "&Controls";
-			this.menuItemControls.Click += new System.EventHandler(this.menuItemControls_Click);
+			this.menuItemControls.Click += this.menuItemControls_Click;
 			// 
 			// menuItemAbout
 			// 
-			this.menuItemAbout.Index = 1;
+			this.menuItemAbout.MergeIndex = 1;
+			this.menuItemAbout.Name = "menuItemAbout";
+			this.menuItemAbout.Size = new System.Drawing.Size(119, 22);
 			this.menuItemAbout.Text = "&About";
-			this.menuItemAbout.Click += new System.EventHandler(this.menuItemAbout_Click);
+			this.menuItemAbout.Click += this.menuItemAbout_Click;
 			// 
 			// statusStrip
 			// 
-			this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.statusComets,
-            this.statusSpace,
-            this.statusProgressBar});
+			this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.statusComets, this.statusSpace, this.statusProgressBar });
 			this.statusStrip.Location = new System.Drawing.Point(0, 540);
 			this.statusStrip.Name = "statusStrip";
 			this.statusStrip.Size = new System.Drawing.Size(784, 22);
@@ -369,70 +405,72 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(784, 562);
+			this.Controls.Add(this.mainMenu);
 			this.Controls.Add(this.statusStrip);
 			this.Font = new System.Drawing.Font("Tahoma", 8.25F);
-			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+			this.Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
 			this.IsMdiContainer = true;
-			this.Menu = this.mainMenu;
+			this.MainMenuStrip = this.mainMenu;
 			this.MinimumSize = new System.Drawing.Size(800, 600);
 			this.Name = "FormMain";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Comets";
-			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
-			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormMain_FormClosed);
-			this.Load += new System.EventHandler(this.FormMain_Load);
-			this.MdiChildActivate += new System.EventHandler(this.FormMain_MdiChildActivate);
-			this.Shown += new System.EventHandler(this.FormMain_Shown);
-			this.Move += new System.EventHandler(this.FormMain_Move);
-			this.Resize += new System.EventHandler(this.FormMain_Resize);
+			this.FormClosing += this.FormMain_FormClosing;
+			this.FormClosed += this.FormMain_FormClosed;
+			this.Load += this.FormMain_Load;
+			this.MdiChildActivate += this.FormMain_MdiChildActivate;
+			this.Shown += this.FormMain_Shown;
+			this.Move += this.FormMain_Move;
+			this.Resize += this.FormMain_Resize;
+			this.mainMenu.ResumeLayout(false);
+			this.mainMenu.PerformLayout();
 			this.statusStrip.ResumeLayout(false);
 			this.statusStrip.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
-
 		}
 
 		#endregion
 
-		private System.Windows.Forms.MainMenu mainMenu;
-		private System.Windows.Forms.MenuItem menuItemFile;
-		private System.Windows.Forms.MenuItem menuItemEdit;
-		private System.Windows.Forms.MenuItem menuItemView;
-		private System.Windows.Forms.MenuItem menuItemHelp;
-		private System.Windows.Forms.MenuItem menuItemDatabase;
-		private System.Windows.Forms.MenuItem menuItemFileEphemeris;
-		private System.Windows.Forms.MenuItem menuItemFileGraph;
-		private System.Windows.Forms.MenuItem menuItemFileOrbit;
-		private System.Windows.Forms.MenuItem menuItemSeparatorFile1;
-		private System.Windows.Forms.MenuItem menuItemExit;
-		private System.Windows.Forms.MenuItem menuItemSeparatorEdit1;
-		private System.Windows.Forms.MenuItem menuItemUpdate;
-		private System.Windows.Forms.MenuItem menuItemAbout;
-		private System.Windows.Forms.MenuItem menuItemSettings;
-		private System.Windows.Forms.MenuItem menuItemSeparatorFile3;
-		private System.Windows.Forms.MenuItem menuItemOrbitalElements;
-		private System.Windows.Forms.MenuItem menuItemViewStatusBar;
+		private System.Windows.Forms.MenuStrip mainMenu;
+		private System.Windows.Forms.ToolStripMenuItem menuItemFile;
+		private System.Windows.Forms.ToolStripMenuItem menuItemEdit;
+		private System.Windows.Forms.ToolStripMenuItem menuItemView;
+		private System.Windows.Forms.ToolStripMenuItem menuItemHelp;
+		private System.Windows.Forms.ToolStripMenuItem menuItemDatabase;
+		private System.Windows.Forms.ToolStripMenuItem menuItemFileEphemeris;
+		private System.Windows.Forms.ToolStripMenuItem menuItemFileGraph;
+		private System.Windows.Forms.ToolStripMenuItem menuItemFileOrbit;
+		private System.Windows.Forms.ToolStripSeparator menuItemSeparatorFile1;
+		private System.Windows.Forms.ToolStripMenuItem menuItemExit;
+		private System.Windows.Forms.ToolStripSeparator menuItemSeparatorEdit1;
+		private System.Windows.Forms.ToolStripMenuItem menuItemUpdate;
+		private System.Windows.Forms.ToolStripMenuItem menuItemAbout;
+		private System.Windows.Forms.ToolStripMenuItem menuItemSettings;
+		private System.Windows.Forms.ToolStripSeparator menuItemSeparatorFile3;
+		private System.Windows.Forms.ToolStripMenuItem menuItemOrbitalElements;
+		private System.Windows.Forms.ToolStripMenuItem menuItemViewStatusBar;
 		private System.Windows.Forms.StatusStrip statusStrip;
 		private System.Windows.Forms.ToolStripStatusLabel statusSpace;
 		private System.Windows.Forms.ToolStripProgressBar statusProgressBar;
 		private System.Windows.Forms.ToolStripStatusLabel statusComets;
-		private System.Windows.Forms.MenuItem menuItemWindow;
-		private System.Windows.Forms.MenuItem menuItemCascade;
-		private System.Windows.Forms.MenuItem menuItemTileHoriz;
-		private System.Windows.Forms.MenuItem menuItemTileVert;
-		private System.Windows.Forms.MenuItem menuItemEphemeris;
-		private System.Windows.Forms.MenuItem menuItemEphemerisSettings;
-		private System.Windows.Forms.MenuItem menuItemEphemerisSaveAs;
-		private System.Windows.Forms.MenuItem menuItemMinimizeAll;
-		private System.Windows.Forms.MenuItem menuItemClose;
-		private System.Windows.Forms.MenuItem menuItemRestoreAll;
-		private System.Windows.Forms.MenuItem menuItemGraph;
-		private System.Windows.Forms.MenuItem menuItemGraphSettings;
-		private System.Windows.Forms.MenuItem menuItemGraphSaveAs;
-		private System.Windows.Forms.MenuItem menuItemOrbit;
-		private System.Windows.Forms.MenuItem menuItemViewAlwaysOnTop;
-		private System.Windows.Forms.MenuItem mnuShowToolbox;
-		private System.Windows.Forms.MenuItem menuItemControls;
+		private System.Windows.Forms.ToolStripMenuItem menuItemWindow;
+		private System.Windows.Forms.ToolStripMenuItem menuItemCascade;
+		private System.Windows.Forms.ToolStripMenuItem menuItemTileHoriz;
+		private System.Windows.Forms.ToolStripMenuItem menuItemTileVert;
+		private System.Windows.Forms.ToolStripMenuItem menuItemEphemeris;
+		private System.Windows.Forms.ToolStripMenuItem menuItemEphemerisSettings;
+		private System.Windows.Forms.ToolStripMenuItem menuItemEphemerisSaveAs;
+		private System.Windows.Forms.ToolStripMenuItem menuItemMinimizeAll;
+		private System.Windows.Forms.ToolStripMenuItem menuItemClose;
+		private System.Windows.Forms.ToolStripMenuItem menuItemRestoreAll;
+		private System.Windows.Forms.ToolStripMenuItem menuItemGraph;
+		private System.Windows.Forms.ToolStripMenuItem menuItemGraphSettings;
+		private System.Windows.Forms.ToolStripMenuItem menuItemGraphSaveAs;
+		private System.Windows.Forms.ToolStripMenuItem menuItemOrbit;
+		private System.Windows.Forms.ToolStripMenuItem menuItemViewAlwaysOnTop;
+		private System.Windows.Forms.ToolStripMenuItem mnuShowToolbox;
+		private System.Windows.Forms.ToolStripMenuItem menuItemControls;
 	}
 }
 

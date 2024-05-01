@@ -28,13 +28,13 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.orbitViewerControl = new Comets.Application.OrbitViewer.OrbitViewerControl();
+			this.orbitViewerControl = new OrbitViewerControl();
 			this.SuspendLayout();
 			// 
 			// orbitViewerControl
 			// 
 			this.orbitViewerControl.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.orbitViewerControl.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.orbitViewerControl.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.orbitViewerControl.Location = new System.Drawing.Point(0, 0);
 			this.orbitViewerControl.MinimumSize = new System.Drawing.Size(720, 650);
 			this.orbitViewerControl.Name = "orbitViewerControl";
@@ -47,18 +47,17 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(934, 811);
 			this.Controls.Add(this.orbitViewerControl);
-			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.KeyPreview = true;
 			this.MinimumSize = new System.Drawing.Size(720, 650);
 			this.Name = "FormOrbitViewer";
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
 			this.Text = "Orbit Viewer";
-			this.Activated += new System.EventHandler(this.FormOrbitViewer_Activated);
-			this.Deactivate += new System.EventHandler(this.FormOrbitViewer_Deactivate);
-			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormOrbitViewer_KeyDown);
+			this.Activated += this.FormOrbitViewer_Activated;
+			this.Deactivate += this.FormOrbitViewer_Deactivate;
+			this.KeyDown += this.FormOrbitViewer_KeyDown;
 			this.ResumeLayout(false);
-
 		}
 
 		#endregion

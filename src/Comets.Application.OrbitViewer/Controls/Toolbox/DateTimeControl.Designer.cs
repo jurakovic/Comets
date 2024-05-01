@@ -29,7 +29,7 @@
 		private void InitializeComponent()
 		{
 			this.pnlDateTime = new System.Windows.Forms.Panel();
-			this.selectDateControl = new Comets.Application.Common.Controls.DateAndTime.SelectDateControl();
+			this.selectDateControl = new Common.Controls.DateAndTime.SelectDateControl();
 			this.pnlDateTime.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -46,10 +46,11 @@
 			// selectDateControl
 			// 
 			this.selectDateControl.DefaultDateTime = null;
+			this.selectDateControl.Font = new System.Drawing.Font("Tahoma", 8.25F);
 			this.selectDateControl.Location = new System.Drawing.Point(4, 4);
 			this.selectDateControl.Name = "selectDateControl";
 			this.selectDateControl.PerihelionDate = null;
-			this.selectDateControl.SelectedDateTime = new System.DateTime(((long)(0)));
+			this.selectDateControl.SelectedDateTime = new System.DateTime(0L);
 			this.selectDateControl.Size = new System.Drawing.Size(165, 23);
 			this.selectDateControl.TabIndex = 0;
 			// 
@@ -63,7 +64,6 @@
 			this.Size = new System.Drawing.Size(173, 31);
 			this.pnlDateTime.ResumeLayout(false);
 			this.ResumeLayout(false);
-
 		}
 
 		#endregion

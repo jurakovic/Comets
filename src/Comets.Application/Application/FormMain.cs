@@ -10,6 +10,7 @@ using Comets.Core.Managers;
 using System;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -201,6 +202,7 @@ namespace Comets.Application
 				fes.TopMost = this.TopMost;
 				fes.OnProgressBegin += SetProgressMaximumValue;
 				fes.OnProgressEnd += HideProgress;
+				fes.OnProgressEnd += UpdateMenuItemText;
 				fes.ShowDialog();
 			}
 		}
@@ -212,6 +214,7 @@ namespace Comets.Application
 				fgs.TopMost = this.TopMost;
 				fgs.OnProgressBegin += SetProgressMaximumValue;
 				fgs.OnProgressEnd += HideProgress;
+				fgs.OnProgressEnd += UpdateMenuItemText;
 				fgs.ShowDialog();
 			}
 		}
@@ -230,6 +233,7 @@ namespace Comets.Application
 			FormElements fe = new FormElements();
 			fe.WindowState = FormWindowState.Maximized;
 			fe.MdiParent = this;
+			fe.OnElementsTextWriteEnd += UpdateMenuItemText;
 			fe.Show();
 		}
 
@@ -252,6 +256,7 @@ namespace Comets.Application
 					fes.TopMost = this.TopMost;
 					fes.OnProgressBegin += SetProgressMaximumValue;
 					fes.OnProgressEnd += HideProgress;
+					fes.OnProgressEnd += UpdateMenuItemText;
 					fes.ShowDialog();
 				}
 			}
@@ -276,6 +281,7 @@ namespace Comets.Application
 					fgs.TopMost = this.TopMost;
 					fgs.OnProgressBegin += SetProgressMaximumValue;
 					fgs.OnProgressEnd += HideProgress;
+					fgs.OnProgressEnd += UpdateMenuItemText;
 					fgs.ShowDialog();
 				}
 			}
@@ -480,6 +486,19 @@ namespace Comets.Application
 		{
 			statusProgressBar.Value = statusProgressBar.Minimum;
 			statusProgressBar.Visible = false;
+		}
+
+		private void UpdateMenuItemText()
+		{
+			// wrong window item text workaround
+			// bug in framework: if active mdi child window text changed, menu item text not updated until another child activated
+
+			ToolStripMenuItem item = menuItemWindow.DropDownItems.OfType<ToolStripMenuItem>().Where(x => x.Checked).SingleOrDefault();
+			if (item != null)
+			{
+				string num = item.Text.Substring(0, item.Text.IndexOf(' '));
+				item.Text = $"{num} {this.ActiveMdiChild.Text}";
+			}
 		}
 
 		#endregion

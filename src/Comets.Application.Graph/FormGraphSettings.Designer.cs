@@ -30,29 +30,29 @@
 		{
 			this.btnOk = new System.Windows.Forms.Button();
 			this.btnCancel = new System.Windows.Forms.Button();
-			this.valueRangeControl = new Comets.Application.Graph.ValueRangeControl();
-			this.chartOptionsControl = new Comets.Application.Graph.ChartOptionsControl();
-			this.chartTypeControl = new Comets.Application.Graph.ChartTypeControl();
-			this.selectCometControl = new Comets.Application.Common.Controls.Common.SelectCometControl();
-			this.timespanControl = new Comets.Application.Common.Controls.Common.TimespanControl();
+			this.valueRangeControl = new ValueRangeControl();
+			this.chartOptionsControl = new ChartOptionsControl();
+			this.chartTypeControl = new ChartTypeControl();
+			this.selectCometControl = new Common.Controls.Common.SelectCometControl();
+			this.timespanControl = new Common.Controls.Common.TimespanControl();
 			this.SuspendLayout();
 			// 
 			// btnOk
 			// 
 			this.btnOk.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
-			this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnOk.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.btnOk.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+			this.btnOk.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.btnOk.Location = new System.Drawing.Point(338, 245);
 			this.btnOk.Name = "btnOk";
 			this.btnOk.Size = new System.Drawing.Size(100, 24);
 			this.btnOk.TabIndex = 5;
 			this.btnOk.Text = "OK";
 			this.btnOk.UseVisualStyleBackColor = true;
-			this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
+			this.btnOk.Click += this.btnOk_Click;
 			// 
 			// btnCancel
 			// 
-			this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnCancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
 			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.btnCancel.Location = new System.Drawing.Point(444, 245);
 			this.btnCancel.Name = "btnCancel";
@@ -60,7 +60,7 @@
 			this.btnCancel.TabIndex = 6;
 			this.btnCancel.Text = "Cancel";
 			this.btnCancel.UseVisualStyleBackColor = true;
-			this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+			this.btnCancel.Click += this.btnCancel_Click;
 			// 
 			// valueRangeControl
 			// 
@@ -72,7 +72,9 @@
 			// 
 			// chartOptionsControl
 			// 
+			this.chartOptionsControl.Font = new System.Drawing.Font("Tahoma", 8.25F);
 			this.chartOptionsControl.Location = new System.Drawing.Point(181, 97);
+			this.chartOptionsControl.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.chartOptionsControl.Name = "chartOptionsControl";
 			this.chartOptionsControl.Size = new System.Drawing.Size(189, 135);
 			this.chartOptionsControl.TabIndex = 3;
@@ -87,7 +89,7 @@
 			// 
 			// selectCometControl
 			// 
-			this.selectCometControl.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.selectCometControl.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
 			this.selectCometControl.Location = new System.Drawing.Point(12, 6);
 			this.selectCometControl.Name = "selectCometControl";
 			this.selectCometControl.Size = new System.Drawing.Size(290, 85);
@@ -115,7 +117,7 @@
 			this.Controls.Add(this.selectCometControl);
 			this.Controls.Add(this.btnOk);
 			this.Controls.Add(this.btnCancel);
-			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 238);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
@@ -124,10 +126,9 @@
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Graph settings";
-			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormGraphSettings_FormClosing);
-			this.Load += new System.EventHandler(this.FormGraphSettings_Load);
+			this.FormClosing += this.FormGraphSettings_FormClosing;
+			this.Load += this.FormGraphSettings_Load;
 			this.ResumeLayout(false);
-
 		}
 
 		#endregion
