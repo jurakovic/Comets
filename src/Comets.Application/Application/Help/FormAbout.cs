@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Diagnostics;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace Comets.Application.Help
@@ -23,6 +24,11 @@ namespace Comets.Application.Help
 				.InformationalVersion;
 
 			lblVersion.Text = $"Comets {version}";
+		}
+
+		private void linkGithub_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			Process.Start(new ProcessStartInfo("https://github.com/jurakovic/Comets") { UseShellExecute = true });
 		}
 
 		#endregion

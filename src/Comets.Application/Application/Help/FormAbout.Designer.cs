@@ -32,7 +32,8 @@
 			this.btnOk = new System.Windows.Forms.Button();
 			this.pictureBox1 = new System.Windows.Forms.PictureBox();
 			this.lblVersion = new System.Windows.Forms.Label();
-			this.lblMore = new System.Windows.Forms.Label();
+			this.lblAuthor = new System.Windows.Forms.Label();
+			this.linkGithub = new System.Windows.Forms.LinkLabel();
 			((System.ComponentModel.ISupportInitialize)this.pictureBox1).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -40,7 +41,7 @@
 			// 
 			this.btnOk.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
 			this.btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-			this.btnOk.Location = new System.Drawing.Point(292, 127);
+			this.btnOk.Location = new System.Drawing.Point(272, 106);
 			this.btnOk.Name = "btnOk";
 			this.btnOk.Size = new System.Drawing.Size(100, 23);
 			this.btnOk.TabIndex = 0;
@@ -66,14 +67,27 @@
 			this.lblVersion.TabIndex = 2;
 			this.lblVersion.Text = "Comets <version>";
 			// 
-			// lblMore
+			// lblAuthor
 			// 
-			this.lblMore.AutoSize = true;
-			this.lblMore.Location = new System.Drawing.Point(99, 41);
-			this.lblMore.Name = "lblMore";
-			this.lblMore.Size = new System.Drawing.Size(27, 13);
-			this.lblMore.TabIndex = 7;
-			this.lblMore.Text = "(...)";
+			this.lblAuthor.AutoSize = true;
+			this.lblAuthor.Location = new System.Drawing.Point(99, 37);
+			this.lblAuthor.Name = "lblAuthor";
+			this.lblAuthor.Size = new System.Drawing.Size(140, 13);
+			this.lblAuthor.TabIndex = 7;
+			this.lblAuthor.Text = "Copyright © 2024 jurakovic";
+			// 
+			// linkGithub
+			// 
+			this.linkGithub.ActiveLinkColor = System.Drawing.Color.Blue;
+			this.linkGithub.AutoSize = true;
+			this.linkGithub.Location = new System.Drawing.Point(99, 57);
+			this.linkGithub.Name = "linkGithub";
+			this.linkGithub.Size = new System.Drawing.Size(184, 13);
+			this.linkGithub.TabIndex = 8;
+			this.linkGithub.TabStop = true;
+			this.linkGithub.Text = "https://github.com/jurakovic/Comets";
+			this.linkGithub.VisitedLinkColor = System.Drawing.Color.Blue;
+			this.linkGithub.LinkClicked += this.linkGithub_LinkClicked;
 			// 
 			// FormAbout
 			// 
@@ -81,9 +95,10 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.btnOk;
-			this.ClientSize = new System.Drawing.Size(404, 162);
+			this.ClientSize = new System.Drawing.Size(384, 141);
 			this.ControlBox = false;
-			this.Controls.Add(this.lblMore);
+			this.Controls.Add(this.linkGithub);
+			this.Controls.Add(this.lblAuthor);
 			this.Controls.Add(this.lblVersion);
 			this.Controls.Add(this.pictureBox1);
 			this.Controls.Add(this.btnOk);
@@ -105,6 +120,7 @@
 		private System.Windows.Forms.Button btnOk;
 		private System.Windows.Forms.PictureBox pictureBox1;
 		private System.Windows.Forms.Label lblVersion;
-		private System.Windows.Forms.Label lblMore;
+		private System.Windows.Forms.Label lblAuthor;
+		private System.Windows.Forms.LinkLabel linkGithub;
 	}
 }
