@@ -10,22 +10,30 @@ function main() {
 
     while [ "${1:-}" != "" ]; do
         case "$1" in
-          "-v" | "--version")
-            shift
-            VERSION="$1"
-            ;;
-          "-b" | "--bump_type")
-            shift
-            BUMP_TYPE="$1"
-            ;;
-          "-a" | "--arch")
-            shift
-            ARCH="$1"
-            ;;
-          "-p" | "--preview")
-            shift
-            PREVIEW="$1"
-            ;;
+            "-h" | "--help")
+              help
+              return
+              ;;
+            "-v" | "--version")
+              shift
+              VERSION="$1"
+              ;;
+            "-b" | "--bump_type")
+              shift
+              BUMP_TYPE="$1"
+              ;;
+            "-a" | "--arch")
+              shift
+              ARCH="$1"
+              ;;
+            "-p" | "--preview")
+              shift
+              PREVIEW="$1"
+              ;;
+            *)
+              help
+              return
+              ;;
         esac
         shift
     done
