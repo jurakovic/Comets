@@ -16,7 +16,17 @@ function main() {
 
     read -p "Press any key to continue..." -n1 -s; echo
 
-    dotnet publish src/Comets.Application -f net8.0-windows -r win-$ARCH --no-self-contained -p:AssemblyVersion=$VERSION -p:Version=$VERSION
+    dotnet publish src/Comets.Application -f net8.0-windows -r win-$ARCH --no-self-contained -p:AssemblyVersion="$(echo $VERSION | sed 's/-preview-/./')" -p:Version="$VERSION"
+
+    local branch=$(git branch --show-current)
+    git switch -c release origin/release || git checkout release
+
+    echo "$VERSION" > version
+    git add version
+    git commit -m "$VERSION"
+    #git push
+
+    git checkout "$branch"
 }
 
 function read_args() {
@@ -72,7 +82,7 @@ function read_args() {
     fi
 
     if [ "$VERSION" = "auto" ]; then
-        local latest=$(git show origin/release:version)
+        local latest=$(git show release:version)
         VERSION=$(bump_version "$latest" "$BUMP_TYPE" "$PREVIEW")
     fi
 
