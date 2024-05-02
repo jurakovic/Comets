@@ -12,11 +12,19 @@ _arch_values=("x64" "x86")
 _preview_values=("auto" "true" "false")
 
 function main() {
+    read_args "$@"
+
+    read -p "Press any key to continue..." -n1 -s; echo
+
+    dotnet publish src/Comets.Application -f net8.0-windows -r win-$ARCH --no-self-contained -p:AssemblyVersion=$VERSION -p:Version=$VERSION
+}
+
+function read_args() {
     while [ "${1:-}" != "" ]; do
         case "$1" in
             "-h" | "--help")
               help
-              return
+              exit 0
               ;;
             "-v" | "--version")
               shift
@@ -72,14 +80,21 @@ function main() {
     echo "PREVIEW:   $PREVIEW"
     echo "BUMP_TYPE: $BUMP_TYPE"
     echo "VERSION:   $VERSION"
-
-    read -p "Press any key to continue..." -n1 -s; echo
-
-    dotnet publish src/Comets.Application -f net8.0-windows -r win-$ARCH --no-self-contained -p:AssemblyVersion=$VERSION -p:Version=$VERSION
 }
 
 function help() {
-    echo "help..."
+    echo "Options:                         Allowed values:"
+    echo "  -v, --version <VERSION>        auto*, x.y.z"
+    echo "  -b, --bump_type <BUMP_TYPE>    major, minor, patch*"
+    echo "  -p, --preview <PREVIEW>        auto*, true, false"
+    echo "  -a, --arch <ARCH>              x64*, x86"
+    echo "  -h, --help"
+    echo "                                 * Default value"
+    echo ""
+    echo "Example usage:"
+    echo "  ./publish.sh"
+    echo "  ./publish.sh -v 1.2.3"
+    echo "  ./publish.sh -b major -p true"
 }
 
 function is_in_array() {
