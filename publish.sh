@@ -12,8 +12,6 @@ _arch_values=("x64" "x86")
 _preview_values=("auto" "true" "false")
 
 function main() {
-    #[ ! "$1" ] && help && return
-
     while [ "${1:-}" != "" ]; do
         case "$1" in
             "-h" | "--help")
@@ -52,10 +50,6 @@ function main() {
                   exit 1
               fi
               ;;
-            #*)
-            #  help
-            #  return
-            #  ;;
         esac
         shift
     done
@@ -78,6 +72,10 @@ function main() {
     echo "PREVIEW:   $PREVIEW"
     echo "BUMP_TYPE: $BUMP_TYPE"
     echo "VERSION:   $VERSION"
+
+    read -p "Press any key to continue..." -n1 -s; echo
+
+    dotnet publish src/Comets.Application -f net8.0-windows -r win-$ARCH --no-self-contained -p:AssemblyVersion=$VERSION -p:Version=$VERSION
 }
 
 function help() {
@@ -166,22 +164,4 @@ function bump_version_main() {
     echo "${major}.${minor}.${patch}"
 }
 
-
-#invalid_argument "test" "${_bump_type_values[@]}"
 main "$@"
-
-
-exit 0
-
-latest=$(git show origin/release:version)
-
-echo $latest
-
-version="0.9.0"
-
-#dotnet publish src/Comets.Application -f net8.0-windows -r win-x64 --no-self-contained -p:AssemblyVersion=$version -p:Version=$version
-
-bump_version "1.2.3" "minor" "false"
-
-./publish.sh
-./publish.sh -v "1.2.3" -b major -a x86 -p true
