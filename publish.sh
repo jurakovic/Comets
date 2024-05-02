@@ -6,27 +6,7 @@
 #arch (default: x64; x64, x86)
 
 
-function bump_version_preview0() {
-    currentVersion="$1"
-    bumpVer="$2"
-    preview="$3"
-
-    echo "$currentVersion"
-    echo "$bumpVer"
-    echo "$preview"
-
-    bump_version_main "$currentVersion" "$bumpVer"
-}
-
-function bump_version_main0() {
-    currentVersion="$1"
-    bumpVer="$2"
-
-    echo "$currentVersion"
-    echo "$bumpVer"
-}
-
-function bump_version_preview() {
+function bump_version() {
     local current_version="$1"
     local bump_type="$2"
     local preview="$3"
@@ -101,29 +81,5 @@ version="0.9.0"
 
 #dotnet publish src/Comets.Application -f net8.0-windows -r win-x64 --no-self-contained -p:AssemblyVersion=$version -p:Version=$version
 
-bump_version_preview0 "1.2.3" "minor" "false"
-
-bump_version_main "1.2.3" "major"
-bump_version_main "1.2.3" "minor"
-bump_version_main "1.2.3" "patch"
-
-echo $(bump_version_main "1.2.3" "major")
-echo $(bump_version_main "1.2.3" "minor")
-echo $(bump_version_main "1.2.3" "patch")
-
-bump_version_preview "1.2.3" "major" "true"
-bump_version_preview "1.2.3" "minor" "true"
-bump_version_preview "1.2.3" "patch" "true"
-
-echo $(bump_version_preview "1.2.3" "major" "true")
-echo $(bump_version_preview "1.2.3" "minor" "true")
-echo $(bump_version_preview "1.2.3" "patch" "true")
-
-bump_version_preview "1.2.3-preview-2" "major" "true"
-bump_version_preview "1.2.3-preview-2" "minor" "true"
-bump_version_preview "1.2.3-preview-2" "patch" "true"
-
-echo $(bump_version_preview "1.2.3-preview-2" "major" "true")
-echo $(bump_version_preview "1.2.3-preview-2" "minor" "true")
-echo $(bump_version_preview "1.2.3-preview-2" "patch" "true")
+bump_version "1.2.3" "minor" "false"
 
