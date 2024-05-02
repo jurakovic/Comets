@@ -1,12 +1,18 @@
 #!/bin/bash
 
-VERSION="auto"    # (default: auto ; auto, "x.x.x..")
-BUMP_TYPE="patch" # (default: patch; major, minor, patch)
-ARCH="x64"        # (default: x64  ; x64, x86)
-PREVIEW="false"   # (default: false; true, false)
+# Default values
+VERSION="auto"
+BUMP_TYPE="patch"
+ARCH="x64"
+PREVIEW="auto"
+
+# Allowed values
+_bump_type_values=("major" "minor" "patch")
+_arch_values=("x64" "x86")
+_preview_values=("auto" "true" "false")
 
 function main() {
-    [ ! "$1" ] && help && return
+    #[ ! "$1" ] && help && return
 
     while [ "${1:-}" != "" ]; do
         case "$1" in
@@ -16,36 +22,82 @@ function main() {
               ;;
             "-v" | "--version")
               shift
+              # todo: regex validate
               VERSION="$1"
               ;;
             "-b" | "--bump_type")
               shift
-              BUMP_TYPE="$1"
+              if is_in_array "$1" "${_bump_type_values[@]}"; then
+                  BUMP_TYPE="$1"
+              else
+                  invalid_argument "$1" "${_bump_type_values[*]}"
+                  exit 1
+              fi
               ;;
             "-a" | "--arch")
               shift
-              ARCH="$1"
+              if is_in_array "$1" "${_arch_values[@]}"; then
+                  ARCH="$1"
+              else
+                  invalid_argument "$1" "${_arch_values[*]}"
+                  exit 1
+              fi
               ;;
             "-p" | "--preview")
               shift
-              PREVIEW="$1"
+              if is_in_array "$1" "${_preview_values[@]}"; then
+                  PREVIEW="$1"
+              else
+                  invalid_argument "$1" "${_preview_values[*]}"
+                  exit 1
+              fi
               ;;
-            *)
-              help
-              return
-              ;;
+            #*)
+            #  help
+            #  return
+            #  ;;
         esac
         shift
     done
 
-    echo "$VERSION"
-    echo "$BUMP_TYPE"
-    echo "$ARCH"
-    echo "$PREVIEW"
+    if [ "$PREVIEW" = "auto" ]; then
+        local branch=$(git branch --show-current)
+        if [ "$branch" != "master" ]; then
+            PREVIEW="true"
+        else
+            PREVIEW="false"
+        fi
+    fi
+
+    if [ "$VERSION" = "auto" ]; then
+        local latest=$(git show origin/release:version)
+        VERSION=$(bump_version "$latest" "$BUMP_TYPE" "$PREVIEW")
+    fi
+
+    echo "ARCH:      $ARCH"
+    echo "PREVIEW:   $PREVIEW"
+    echo "BUMP_TYPE: $BUMP_TYPE"
+    echo "VERSION:   $VERSION"
 }
 
 function help() {
     echo "help..."
+}
+
+function is_in_array() {
+    local value="$1"
+    shift
+    for element in "$@"; do
+        if [[ "$element" == "$value" ]]; then
+            return 0
+        fi
+    done
+    return 1
+}
+
+function invalid_argument() {
+    echo "Error. Invalid argument value: $1"
+    echo "Allowed values: ${*:2}"
 }
 
 function bump_version() {
@@ -115,7 +167,9 @@ function bump_version_main() {
 }
 
 
+#invalid_argument "test" "${_bump_type_values[@]}"
 main "$@"
+
 
 exit 0
 
@@ -130,4 +184,4 @@ version="0.9.0"
 bump_version "1.2.3" "minor" "false"
 
 ./publish.sh
-./publish.sh -v 1.2.3 -b major -a x86 -p true
+./publish.sh -v "1.2.3" -b major -a x86 -p true
