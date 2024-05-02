@@ -1,10 +1,44 @@
 #!/bin/bash
 
-#parameters:
-#version (default: auto; auto, "x.x.x..")
-#bump (default: patch; major, minor, patch)
-#arch (default: x64; x64, x86)
+VERSION="auto"    # (default: auto ; auto, "x.x.x..")
+BUMP_TYPE="patch" # (default: patch; major, minor, patch)
+ARCH="x64"        # (default: x64  ; x64, x86)
+PREVIEW="false"   # (default: false; true, false)
 
+function main() {
+    [ ! "$1" ] && help && return
+
+    while [ "${1:-}" != "" ]; do
+        case "$1" in
+          "-v" | "--version")
+            shift
+            VERSION="$1"
+            ;;
+          "-b" | "--bump_type")
+            shift
+            BUMP_TYPE="$1"
+            ;;
+          "-a" | "--arch")
+            shift
+            ARCH="$1"
+            ;;
+          "-p" | "--preview")
+            shift
+            PREVIEW="$1"
+            ;;
+        esac
+        shift
+    done
+
+    echo "$VERSION"
+    echo "$BUMP_TYPE"
+    echo "$ARCH"
+    echo "$PREVIEW"
+}
+
+function help() {
+    echo "help..."
+}
 
 function bump_version() {
     local current_version="$1"
@@ -73,6 +107,10 @@ function bump_version_main() {
 }
 
 
+main "$@"
+
+exit 0
+
 latest=$(git show origin/release:version)
 
 echo $latest
@@ -83,3 +121,5 @@ version="0.9.0"
 
 bump_version "1.2.3" "minor" "false"
 
+./publish.sh
+./publish.sh -v 1.2.3 -b major -a x86 -p true
