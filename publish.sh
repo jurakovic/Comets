@@ -18,6 +18,7 @@ function main() {
     read_args "$@"
 
     read -p "Press any key to continue..." -n1 -s; echo
+    echo
 
     dotnet publish src/Comets.Application -f net8.0-windows -r win-$ARCH --no-self-contained -p:AssemblyVersion="$(echo $VERSION | sed 's/-preview//')" -p:Version="$VERSION"
 
@@ -26,7 +27,7 @@ function main() {
     local sha256=$(sha1sum.exe "src/Comets.Application/bin/Release/net8.0-windows/win-$ARCH/publish/Comets.exe" | cut -d " " -f 1)
     local url="https://github.com/jurakovic/Comets/releases/tag/v$VERSION"
 
-    git switch -c release origin/release || git checkout release
+    git checkout release && git pull || git switch -c release origin/release
 
     echo "VERSION:   $VERSION"    > version
     echo "BUMP_TYPE: $BUMP_TYPE" >> version
@@ -47,6 +48,10 @@ function main() {
 
     mkdir -p release
     tar -C "src/Comets.Application/bin/Release/net8.0-windows/win-$ARCH/publish/" -a -c -f release/comets-$VERSION.zip Comets.exe
+
+    echo
+    echo "Done"
+    echo "Version $VERSION released"
 }
 
 function read_args() {
