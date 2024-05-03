@@ -42,6 +42,8 @@ function main() {
     git push
 
     git checkout "$BRANCH"
+    git tag "$VERSION"
+    git push origin "$VERSION"
 }
 
 function read_args() {
