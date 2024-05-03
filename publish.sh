@@ -148,9 +148,9 @@ function bump_version() {
     local bump_type="$2"
     local preview="$3"
 
-    IFS='-' read -ra chunks <<< "$current_version"
+    IFS='-' read -ra chunks <<< $(echo $current_version | sed 's/-preview./-/')
     local current_main_version="${chunks[0]}"
-    local current_prev_version="${chunks[2]:-0}"
+    local current_prev_version="${chunks[1]:-0}"
     local next_version=""
 
     if [[ "$preview" == "false" ]]; then
