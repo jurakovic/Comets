@@ -24,7 +24,9 @@ function main() {
 
     if [[ ! $? -eq 0 ]]; then exit 1; fi # exit if build canceled
 
-    local sha256=$(sha1sum.exe "src/Comets.Application/bin/Release/net8.0-windows/win-$ARCH/publish/Comets.exe" | cut -d " " -f 1)
+    local publish_path="src/Comets.Application/bin/Release/net8.0-windows/win-$ARCH/publish"
+    local assembly_name="Comets.exe"
+    local sha256=$(sha1sum.exe "$publish_path/$assembly_name" | cut -d " " -f 1)
     local url="https://github.com/jurakovic/Comets/releases/tag/v$VERSION"
 
     git checkout release && git pull || git switch -c release origin/release
@@ -47,7 +49,7 @@ function main() {
     git push origin "$VERSION"
 
     mkdir -p release
-    tar -C "src/Comets.Application/bin/Release/net8.0-windows/win-$ARCH/publish/" -a -c -f release/comets-$VERSION.zip Comets.exe
+    tar -C "$publish_path/" -a -c -f release/comets-$VERSION.zip $assembly_name
 
     echo
     echo "Done"
