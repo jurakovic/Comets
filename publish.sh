@@ -109,7 +109,7 @@ function read_args() {
     echo "ARCH:      $ARCH"
     echo "BRANCH:    $BRANCH"
     echo "COMMIT:    $COMMIT"
-    echo "MESSAGE:   $CMTMSG"
+    echo "MESSAGE:   $MESSAGE"
 }
 
 function help() {
