@@ -82,6 +82,10 @@ function read_args() {
         shift
     done
 
+    BRANCH=$(git branch --show-current)
+    COMMIT=$(git log -n 1 --format="%H")
+    CMTMSG=$(git log -n 1 --format="%B")
+
     if [ "$PREVIEW" = "auto" ]; then
         if [ "$BRANCH" != "master" ]; then
             PREVIEW="true"
@@ -91,16 +95,13 @@ function read_args() {
     fi
 
     if [ "$VERSION" = "auto" ]; then
-        local latest=$(git show origin/release:version | head -n 1 | sed 's/VERSION:   //')
-        VERSION=$(bump_version "$latest" "$BUMP_TYPE" "$PREVIEW")
+        local previous=$(git show origin/release:version | head -n 1 | sed 's/VERSION:   //')
+        echo "PREV_VER:  $previous"
+        VERSION=$(bump_version "$previous" "$BUMP_TYPE" "$PREVIEW")
     else
         BUMP_TYPE=""
         PREVIEW=""
     fi
-
-    BRANCH=$(git branch --show-current)
-    COMMIT=$(git log -n 1 --format="%H")
-    CMTMSG=$(git log -n 1 --format="%B")
 
     echo "VERSION:   $VERSION"
     echo "BUMP_TYPE: $BUMP_TYPE"
