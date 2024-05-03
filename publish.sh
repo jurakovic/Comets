@@ -3,7 +3,7 @@
 # Default values
 BRANCH=""
 COMMIT=""
-CMTMSG=""
+MESSAGE=""
 VERSION="auto"
 BUMP_TYPE="patch"
 PREVIEW="auto"
@@ -84,7 +84,7 @@ function read_args() {
 
     BRANCH=$(git branch --show-current)
     COMMIT=$(git log -n 1 --format="%H")
-    CMTMSG=$(git log -n 1 --format="%B")
+    MESSAGE=$(git log -n 1 --format="%B")
 
     if [ "$PREVIEW" = "auto" ]; then
         if [ "$BRANCH" != "master" ]; then
@@ -109,7 +109,7 @@ function read_args() {
     echo "ARCH:      $ARCH"
     echo "BRANCH:    $BRANCH"
     echo "COMMIT:    $COMMIT"
-    echo "CMTMSG:    $CMTMSG"
+    echo "MESSAGE:   $CMTMSG"
 }
 
 function help() {
