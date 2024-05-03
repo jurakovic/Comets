@@ -21,7 +21,10 @@ function main() {
 
     dotnet publish src/Comets.Application -f net8.0-windows -r win-$ARCH --no-self-contained -p:AssemblyVersion="$(echo $VERSION | sed 's/-preview//')" -p:Version="$VERSION"
 
+    if [[ ! $? -eq 0 ]]; then exit 1; fi # exit if build canceled
+
     local sha256=$(sha1sum.exe "src/Comets.Application/bin/Release/net8.0-windows/win-$ARCH/publish/Comets.exe" | cut -d " " -f 1)
+    local url="https://github.com/jurakovic/Comets/releases/tag/v$VERSION"
 
     git switch -c release origin/release || git checkout release
 
@@ -32,6 +35,8 @@ function main() {
     echo "BRANCH:    $BRANCH"    >> version
     echo "COMMIT:    $COMMIT"    >> version
     echo "SHA256:    $sha256"    >> version
+    echo "URL:       $url"       >> version
+
     git add version
     git commit -m "$VERSION ($BRANCH)"
     git push
