@@ -3,13 +3,13 @@
 # Default values
 VERSION="auto"
 BUMP_TYPE="patch"
-ARCH="x64"
 PREVIEW="auto"
+ARCH="x64"
 
 # Allowed values
 _bump_type_values=("major" "minor" "patch")
-_arch_values=("x64" "x86")
 _preview_values=("auto" "true" "false")
+_arch_values=("x64" "x86")
 
 function main() {
     read_args "$@"
@@ -51,21 +51,21 @@ function read_args() {
                   exit 1
               fi
               ;;
-            "-a" | "--arch")
-              shift
-              if is_in_array "$1" "${_arch_values[@]}"; then
-                  ARCH="$1"
-              else
-                  invalid_argument "$1" "${_arch_values[*]}"
-                  exit 1
-              fi
-              ;;
             "-p" | "--preview")
               shift
               if is_in_array "$1" "${_preview_values[@]}"; then
                   PREVIEW="$1"
               else
                   invalid_argument "$1" "${_preview_values[*]}"
+                  exit 1
+              fi
+              ;;
+            "-a" | "--arch")
+              shift
+              if is_in_array "$1" "${_arch_values[@]}"; then
+                  ARCH="$1"
+              else
+                  invalid_argument "$1" "${_arch_values[*]}"
                   exit 1
               fi
               ;;
@@ -85,12 +85,15 @@ function read_args() {
     if [ "$VERSION" = "auto" ]; then
         local latest=$(git show origin/release:version | head -n 1)
         VERSION=$(bump_version "$latest" "$BUMP_TYPE" "$PREVIEW")
+    else
+        BUMP_TYPE=""
+        PREVIEW=""
     fi
 
-    echo "ARCH:      $ARCH"
-    echo "PREVIEW:   $PREVIEW"
-    echo "BUMP_TYPE: $BUMP_TYPE"
     echo "VERSION:   $VERSION"
+    echo "BUMP_TYPE: $BUMP_TYPE"
+    echo "PREVIEW:   $PREVIEW"
+    echo "ARCH:      $ARCH"
 }
 
 function help() {
