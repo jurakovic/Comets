@@ -19,7 +19,7 @@ function main() {
 
     read -p "Press any key to continue..." -n1 -s; echo
 
-    dotnet publish src/Comets.Application -f net8.0-windows -r win-$ARCH --no-self-contained -p:AssemblyVersion="$(echo $VERSION | sed 's/-preview-/./')" -p:Version="$VERSION"
+    dotnet publish src/Comets.Application -f net8.0-windows -r win-$ARCH --no-self-contained -p:AssemblyVersion="$(echo $VERSION | sed 's/-preview//')" -p:Version="$VERSION"
 
     local sha256=$(sha1sum.exe "src/Comets.Application/bin/Release/net8.0-windows/win-$ARCH/publish/Comets.exe" | cut -d " " -f 1)
 
@@ -165,11 +165,11 @@ function bump_version() {
         if [[ "$current_prev_version" -eq 0 ]]; then
             # First preview
             next_version=$(bump_version_main "$current_main_version" "$bump_type")
-            next_version+="-preview-1"
+            next_version+="-preview.1"
         else
             # Bumping existing preview
             next_version="$current_main_version"
-            next_version+="-preview-$((current_prev_version + 1))"
+            next_version+="-preview.$((current_prev_version + 1))"
         fi
     fi
 
