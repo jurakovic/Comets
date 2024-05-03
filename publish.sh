@@ -44,6 +44,9 @@ function main() {
     git checkout "$BRANCH"
     git tag "$VERSION"
     git push origin "$VERSION"
+
+    mkdir -p release
+    tar -C "src/Comets.Application/bin/Release/net8.0-windows/win-$ARCH/publish/" -a -c -f release/comets-$VERSION.zip Comets.exe
 }
 
 function read_args() {
