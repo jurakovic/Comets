@@ -22,9 +22,10 @@ function main() {
     git switch -c release origin/release || git checkout release
 
     echo "$VERSION" > version
+    echo "$branch" >> version
     git add version
-    git commit -m "$VERSION"
-    #git push
+    git commit -m "$VERSION ($branch)"
+    git push
 
     git checkout "$branch"
 }
@@ -82,7 +83,7 @@ function read_args() {
     fi
 
     if [ "$VERSION" = "auto" ]; then
-        local latest=$(git show release:version)
+        local latest=$(git show origin/release:version | head -n 1)
         VERSION=$(bump_version "$latest" "$BUMP_TYPE" "$PREVIEW")
     fi
 
