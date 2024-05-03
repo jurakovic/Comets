@@ -26,7 +26,7 @@ function main() {
 
     local publish_path="src/Comets.Application/bin/Release/net8.0-windows/win-$ARCH/publish"
     local assembly_name="Comets.exe"
-    local sha256=$(sha1sum.exe "$publish_path/$assembly_name" | cut -d " " -f 1)
+    local sha256=$(sha256sum.exe "$publish_path/$assembly_name" | cut -d " " -f 1)
     local url="https://github.com/jurakovic/Comets/releases/tag/v$VERSION"
 
     git checkout release && git pull || git switch -c release origin/release
@@ -41,7 +41,7 @@ function main() {
     echo "URL:       $url"       >> version
 
     git add version
-    git commit -m "$VERSION ($BRANCH)"
+    git commit -m "v$VERSION ($BRANCH)"
     git push
 
     git checkout "$BRANCH"
