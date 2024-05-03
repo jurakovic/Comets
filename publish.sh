@@ -45,8 +45,8 @@ function main() {
     git push
 
     git checkout "$BRANCH"
-    git tag "$VERSION"
-    git push origin "$VERSION"
+    git tag "v$VERSION"
+    git push origin "v$VERSION"
 
     mkdir -p release
     tar -C "$publish_path/" -a -c -f release/comets-$VERSION.zip $assembly_name
