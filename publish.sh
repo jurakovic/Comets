@@ -1,6 +1,9 @@
 #!/bin/bash
 
 # Default values
+BRANCH=""
+COMMIT=""
+CMTMSG=""
 VERSION="auto"
 BUMP_TYPE="patch"
 PREVIEW="auto"
@@ -18,16 +21,22 @@ function main() {
 
     dotnet publish src/Comets.Application -f net8.0-windows -r win-$ARCH --no-self-contained -p:AssemblyVersion="$(echo $VERSION | sed 's/-preview-/./')" -p:Version="$VERSION"
 
-    local branch=$(git branch --show-current)
+    local sha256=$(sha1sum.exe "src/Comets.Application/bin/Release/net8.0-windows/win-$ARCH/publish/Comets.exe" | cut -d " " -f 1)
+
     git switch -c release origin/release || git checkout release
 
-    echo "$VERSION" > version
-    echo "$branch" >> version
+    echo "VERSION:   $VERSION"    > version
+    echo "BUMP_TYPE: $BUMP_TYPE" >> version
+    echo "PREVIEW:   $PREVIEW"   >> version
+    echo "ARCH:      $ARCH"      >> version
+    echo "BRANCH:    $BRANCH"    >> version
+    echo "COMMIT:    $COMMIT"    >> version
+    echo "SHA256:    $sha256"    >> version
     git add version
-    git commit -m "$VERSION ($branch)"
+    git commit -m "$VERSION ($BRANCH)"
     git push
 
-    git checkout "$branch"
+    git checkout "$BRANCH"
 }
 
 function read_args() {
@@ -74,8 +83,7 @@ function read_args() {
     done
 
     if [ "$PREVIEW" = "auto" ]; then
-        local branch=$(git branch --show-current)
-        if [ "$branch" != "master" ]; then
+        if [ "$BRANCH" != "master" ]; then
             PREVIEW="true"
         else
             PREVIEW="false"
@@ -83,17 +91,24 @@ function read_args() {
     fi
 
     if [ "$VERSION" = "auto" ]; then
-        local latest=$(git show origin/release:version | head -n 1)
+        local latest=$(git show origin/release:version | head -n 1 | sed 's/VERSION:   //')
         VERSION=$(bump_version "$latest" "$BUMP_TYPE" "$PREVIEW")
     else
         BUMP_TYPE=""
         PREVIEW=""
     fi
 
+    BRANCH=$(git branch --show-current)
+    COMMIT=$(git log -n 1 --format="%H")
+    CMTMSG=$(git log -n 1 --format="%B")
+
     echo "VERSION:   $VERSION"
     echo "BUMP_TYPE: $BUMP_TYPE"
     echo "PREVIEW:   $PREVIEW"
     echo "ARCH:      $ARCH"
+    echo "BRANCH:    $BRANCH"
+    echo "COMMIT:    $COMMIT"
+    echo "CMTMSG:    $CMTMSG"
 }
 
 function help() {
