@@ -14,6 +14,11 @@ _bump_type_values=("major" "minor" "patch")
 _preview_values=("auto" "true" "false")
 _arch_values=("x64" "x86")
 
+# Colors
+Color_Off='\033[0m'
+Color_Green='\033[0;32m'
+Color_Yellow='\033[0;33m'
+
 function main() {
     read_args "$@"
 
@@ -23,6 +28,10 @@ function main() {
     dotnet publish src/Comets.Application -f net8.0-windows -r win-$ARCH --no-self-contained -p:AssemblyVersion="$(echo $VERSION | sed 's/-preview//')" -p:Version="$VERSION"
 
     if [[ ! $? -eq 0 ]]; then exit 1; fi # exit if build canceled
+
+    echo
+    echo -e "${Color_Green}Build OK${Color_Off}"
+    read -p "Press any key to continue to git commit, tag, push..." -n1 -s; echo
 
     local publish_path="src/Comets.Application/bin/Release/net8.0-windows/win-$ARCH/publish"
     local assembly_name="Comets.exe"
@@ -52,8 +61,8 @@ function main() {
     tar -C "$publish_path/" -a -c -f release/comets-$VERSION.zip $assembly_name
 
     echo
-    echo "Done"
-    echo "Version $VERSION released"
+    echo -e "${Color_Yellow}Version $VERSION released${Color_Off}"
+    echo -e "${Color_Green}All done${Color_Off}"
 }
 
 function read_args() {
