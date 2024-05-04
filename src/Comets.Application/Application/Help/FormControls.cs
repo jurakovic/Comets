@@ -1,5 +1,4 @@
-﻿using System.IO;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
 namespace Comets.Application.Help
 {
@@ -18,8 +17,7 @@ namespace Comets.Application.Help
 
 		private void FormControls_Load(object sender, System.EventArgs e)
 		{
-			string controls = "controls.txt";
-			txtControls.Text = File.Exists(controls) ? File.ReadAllText(controls) : "controls.txt not found...";
+			txtControls.Text = Properties.Resources.Controls;
 			txtControls.Select(0, 0);
 		}
 

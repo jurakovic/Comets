@@ -5,7 +5,7 @@
  Ctrl + G                        New Graph
  Ctrl + V                        New Orbit Viewer
 
- Ctrl + O                        Orbital elements
+ Ctrl + O                        Orbital Elements
 
  Ctrl + Shift + E                Ephemeris Settings
  Ctrl + Shift + G                Graph Settings
