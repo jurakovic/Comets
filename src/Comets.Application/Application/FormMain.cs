@@ -1,4 +1,5 @@
-﻿using Comets.Application.Common.General;
+﻿using Comets.Application.Application;
+using Comets.Application.Common.General;
 using Comets.Application.Edit;
 using Comets.Application.Ephemeris;
 using Comets.Application.Graph;
@@ -502,5 +503,13 @@ namespace Comets.Application
 		}
 
 		#endregion
+
+		private void menuItemFileOrbit3d_Click(object sender, EventArgs e)
+		{
+			FormOV3D fo = new FormOV3D();
+			fo.WindowState = FormWindowState.Maximized;
+			//fo.MdiParent = this;
+			fo.Show();
+		}
 	}
 }

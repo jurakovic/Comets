@@ -68,6 +68,7 @@
 			this.statusComets = new System.Windows.Forms.ToolStripStatusLabel();
 			this.statusSpace = new System.Windows.Forms.ToolStripStatusLabel();
 			this.statusProgressBar = new System.Windows.Forms.ToolStripProgressBar();
+			this.menuItemFileOrbit3d = new System.Windows.Forms.ToolStripMenuItem();
 			this.mainMenu.SuspendLayout();
 			this.statusStrip.SuspendLayout();
 			this.SuspendLayout();
@@ -85,7 +86,7 @@
 			// 
 			// menuItemFile
 			// 
-			this.menuItemFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.menuItemFileEphemeris, this.menuItemFileGraph, this.menuItemFileOrbit, this.menuItemSeparatorFile1, this.menuItemOrbitalElements, this.menuItemSeparatorFile3, this.menuItemExit });
+			this.menuItemFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.menuItemFileEphemeris, this.menuItemFileGraph, this.menuItemFileOrbit, this.menuItemFileOrbit3d, this.menuItemSeparatorFile1, this.menuItemOrbitalElements, this.menuItemSeparatorFile3, this.menuItemExit });
 			this.menuItemFile.MergeIndex = 0;
 			this.menuItemFile.Name = "menuItemFile";
 			this.menuItemFile.Size = new System.Drawing.Size(37, 20);
@@ -400,6 +401,14 @@
 			this.statusProgressBar.Size = new System.Drawing.Size(200, 16);
 			this.statusProgressBar.Visible = false;
 			// 
+			// menuItemFileOrbit3d
+			// 
+			this.menuItemFileOrbit3d.MergeIndex = 2;
+			this.menuItemFileOrbit3d.Name = "menuItemFileOrbit3d";
+			this.menuItemFileOrbit3d.Size = new System.Drawing.Size(204, 22);
+			this.menuItemFileOrbit3d.Text = "Orbit Viewer &3D";
+			this.menuItemFileOrbit3d.Click += this.menuItemFileOrbit3d_Click;
+			// 
 			// FormMain
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -471,6 +480,7 @@
 		private System.Windows.Forms.ToolStripMenuItem menuItemViewAlwaysOnTop;
 		private System.Windows.Forms.ToolStripMenuItem mnuShowToolbox;
 		private System.Windows.Forms.ToolStripMenuItem menuItemControls;
+		private System.Windows.Forms.ToolStripMenuItem menuItemFileOrbit3d;
 	}
 }
 
