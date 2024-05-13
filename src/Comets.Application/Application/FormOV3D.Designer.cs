@@ -43,10 +43,10 @@ namespace Comets.Application.Application
 			this.glControl.Dock = DockStyle.Fill;
 			this.glControl.Flags = OpenTK.Windowing.Common.ContextFlags.Default;
 			this.glControl.IsEventDriven = true;
-			this.glControl.Location = new System.Drawing.Point(10, 10);
+			this.glControl.Location = new System.Drawing.Point(0, 0);
 			this.glControl.Name = "glControl";
 			this.glControl.Profile = OpenTK.Windowing.Common.ContextProfile.Core;
-			this.glControl.Size = new System.Drawing.Size(50, 50);
+			this.glControl.Size = new System.Drawing.Size(800, 450);
 			this.glControl.TabIndex = 1;
 			this.glControl.Load += this.glControl_Load;
 			this.glControl.Paint += this.glControl_Paint;
@@ -58,8 +58,10 @@ namespace Comets.Application.Application
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(800, 450);
+			this.Controls.Add(this.glControl);
 			this.Name = "FormOV3D";
 			this.Text = "FormOV3D";
+			this.FormClosed += this.FormOV3D_FormClosed;
 			this.Load += this.FormOV3D_Load;
 			this.Shown += this.FormOV3D_Shown;
 			this.ResumeLayout(false);
@@ -68,5 +70,7 @@ namespace Comets.Application.Application
 		private GLControl glControl;
 
 		#endregion
+
+		private GLControl glControl1;
 	}
 }

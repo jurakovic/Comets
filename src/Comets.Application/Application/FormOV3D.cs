@@ -22,7 +22,7 @@ namespace Comets.Application.Application
 {
 	public partial class FormOV3D : Form
 	{
-		Example example;//= new FirstSceneExample();
+		Example example = null;// new FirstSceneExample();
 		private System.Windows.Forms.Timer _timer;
 		private int timeInterval = 10;
 
@@ -35,6 +35,8 @@ namespace Comets.Application.Application
 
 		private void glControl_Load(object sender, EventArgs e)
 		{
+			RunSample();
+
 #if NET6_0_OR_GREATER
 			this.glControl.Profile = OpenTK.Windowing.Common.ContextProfile.Compatability;
 #endif
@@ -66,25 +68,7 @@ namespace Comets.Application.Application
 
 		private void FormOV3D_Load(object sender, EventArgs e)
 		{
-			//this.glControl.MakeCurrent();
 
-			if (example == null)
-				return;
-
-			example.Load(this.glControl);
-
-			_timer = new System.Windows.Forms.Timer();
-			_timer.Interval = timeInterval;
-			_timer.Tick += (sender, e) =>
-			{
-				Render();
-			};
-			_timer.Start();
-
-
-
-			GL.Viewport(0, 0, glControl.ClientSize.Width, glControl.ClientSize.Height);
-			example.Resize(glControl.ClientSize);
 		}
 
 		private void Render()
@@ -100,21 +84,66 @@ namespace Comets.Application.Application
 
 		private void FormOV3D_Shown(object sender, EventArgs e)
 		{
+			RunSample();
+		}
+
+		void RunSample()
+		{
+			if (null != example)
+			{
+				example.Unload();
+
+				example = null;
+
+				if (_timer != null)
+				{
+					_timer.Stop();
+					_timer.Dispose();
+				}
+			}
+
 			example = new FirstSceneExample();
-			FormOV3D_Load(sender, e);
+			if (null != example)
+			{
+				this.glControl.MakeCurrent();
+
+				example.Load(this.glControl);
+
+				_timer = new System.Windows.Forms.Timer();
+				_timer.Interval = timeInterval;
+				_timer.Tick += (sender, e) =>
+				{
+					Render();
+				};
+				_timer.Start();
+
+
+				GL.Viewport(0, 0, glControl.ClientSize.Width, glControl.ClientSize.Height);
+				example.Resize(glControl.ClientSize);
+			}
+		}
+
+		private void FormOV3D_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			example.Unload();
+
+			example = null;
+
+			if (_timer != null)
+			{
+				_timer.Stop();
+				_timer.Dispose();
+			}
 		}
 	}
 
 	abstract public class Example
 	{
 		public GLRenderer renderer;
-
 		protected readonly Random random = new Random();
-
-
 		protected readonly Stopwatch stopWatch = new Stopwatch();
-
 		public GLControl glControl;
+
 		public virtual void Load(GLControl control)
 		{
 			Debug.Assert(null != control);
@@ -122,7 +151,7 @@ namespace Comets.Application.Application
 			glControl = control;
 			this.renderer = new THREE.GLRenderer();
 
-			//this.renderer.Context = control.Context;
+			this.renderer.Context = control.Context;
 			this.renderer.Width = control.Width;
 			this.renderer.Height = control.Height;
 
@@ -177,9 +206,7 @@ namespace Comets.Application.Application
 	public class FirstSceneExample : Example
 	{
 		Scene scene;
-
 		Camera camera;
-
 		TrackballControls controls;
 
 		public FirstSceneExample() : base()
@@ -187,6 +214,7 @@ namespace Comets.Application.Application
 			camera = new PerspectiveCamera();
 			scene = new Scene();
 		}
+
 		private void InitRenderer()
 		{
 			this.renderer.SetClearColor(new THREE.Color().SetHex(0x000000));
@@ -205,6 +233,7 @@ namespace Comets.Application.Application
 			camera.Position.Z = 40;
 			camera.LookAt(THREE.Vector3.Zero());
 		}
+
 		private void InitCameraController()
 		{
 			controls = new TrackballControls(this.glControl, camera);
@@ -218,6 +247,7 @@ namespace Comets.Application.Application
 			controls.StaticMoving = true;
 			controls.DynamicDampingFactor = 0.2f;
 		}
+
 		public override void Load(GLControl glControl)
 		{
 			base.Load(glControl);
@@ -265,6 +295,7 @@ namespace Comets.Application.Application
 			//      // add the sphere to the scene
 			scene.Add(sphere);
 		}
+
 		public override void Render()
 		{
 			controls.Update();
