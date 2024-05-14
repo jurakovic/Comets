@@ -275,8 +275,8 @@ namespace BlueMystic
 				{
 					ApplySystemDarkTheme(OwnerForm, IsDarkMode);
 
-					//OwnerForm.BackColor = OScolors.Background;
-					//OwnerForm.ForeColor = OScolors.TextInactive;
+					OwnerForm.BackColor = OScolors.Background;
+					OwnerForm.ForeColor = OScolors.TextInactive;
 				}
 
 				if (OwnerForm != null && OwnerForm.Controls != null)
@@ -324,6 +324,11 @@ namespace BlueMystic
 				ThemeControl(e.Control);
 			};
 
+
+			if (control is MdiClient mdi)
+			{
+				control.BackColor = OScolors.AppWorkspace;
+			}
 			if (control is TextBox tb)
 			{
 				//SetRoundBorders(tb, 4, OScolors.SurfaceDark, 1);
@@ -646,6 +651,8 @@ namespace BlueMystic
 			//bool IsDarkMode = (GetWindowsColorMode() <= 0); //<- O: DarkMode, 1: LightMode
 			if (isDarkMode)
 			{
+				_ret.AppWorkspace = Color.FromArgb(32, 32, 32);   //<- Negro Claro
+				//_ret.AppWorkspace = SystemColors.ControlDarkDark;
 				_ret.Background = Color.FromArgb(32, 32, 32);   //<- Negro Claro
 				_ret.BackgroundDark = Color.FromArgb(18, 18, 18);
 				_ret.BackgroundLight = ControlPaint.Light(_ret.Background);
@@ -663,7 +670,7 @@ namespace BlueMystic
 				_ret.ControlLight = Color.FromArgb(67, 67, 67);
 
 				_ret.Primary = Color.FromArgb(3, 218, 198);   //<- Verde Pastel
-				_ret.Secondary = Color.MediumSlateBlue;         //<- Magenta Claro				
+				_ret.Secondary = Color.MediumSlateBlue;         //<- Magenta Claro
 			}
 
 			return _ret;
@@ -865,6 +872,9 @@ namespace BlueMystic
 	public class OSThemeColors
 	{
 		public OSThemeColors() { }
+
+		/// <summary>For the MDI AppWorkspace</summary>
+		public System.Drawing.Color AppWorkspace { get; set; } = SystemColors.AppWorkspace;
 
 		/// <summary>For the very back of the Window</summary>
 		public System.Drawing.Color Background { get; set; } = SystemColors.Control;

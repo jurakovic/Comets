@@ -6,21 +6,21 @@ using System.Windows.Forms;
 namespace Comets.Application
 {
 #if RELEASE
-    public abstract class ThemedForm : Form
+    public abstract class ThemeForm : Form
 #else
-	public class ThemedForm : Form
+	public class ThemeForm : Form
 #endif
 	{
 		private DarkModeCS DarkMode = null;
 
-		public ThemedForm()
+		public ThemeForm()
 		{
 			this.Load += this.FormSettings_Load;
 		}
 
 		private void FormSettings_Load(object sender, EventArgs e)
 		{
-			SetTheme(CommonManager.Settings.Theme);
+			DarkMode = new DarkModeCS(this, CommonManager.Settings.Theme);
 		}
 
 		public void SetTheme(Core.Settings.ThemeEnum theme)

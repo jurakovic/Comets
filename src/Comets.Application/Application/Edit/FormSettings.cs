@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace Comets.Application.Edit
 {
-	public partial class FormSettings : Form
+	public partial class FormSettings : ThemeForm
 	{
 		#region Properties
 
