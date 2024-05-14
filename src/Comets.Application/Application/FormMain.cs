@@ -1,5 +1,4 @@
-﻿using BlueMystic;
-using Comets.Application.Common.General;
+﻿using Comets.Application.Common.General;
 using Comets.Application.Edit;
 using Comets.Application.Ephemeris;
 using Comets.Application.Graph;
@@ -17,10 +16,8 @@ using System.Windows.Forms;
 
 namespace Comets.Application
 {
-	public partial class FormMain : Form
+	public partial class FormMain : ThemeForm
 	{
-		private DarkModeCS DM = null; //<- Line 1
-
 		#region Properties
 
 		private Size InitialFormSize { get; set; }
@@ -37,7 +34,6 @@ namespace Comets.Application
 		public FormMain()
 		{
 			InitializeComponent();
-			DM = new DarkModeCS(this); //<- Line 2
 
 			Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
 
