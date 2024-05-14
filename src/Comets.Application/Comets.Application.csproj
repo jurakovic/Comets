@@ -28,13 +28,13 @@
 
   <ItemGroup>
     <Reference Include="THREE">
-      <HintPath>..\..\..\..\github\THREE_release\THREE.dll</HintPath>
+      <HintPath>..\..\res\THREE.dll</HintPath>
     </Reference>
     <Reference Include="THREE.OpenGL">
-      <HintPath>..\..\..\..\github\THREE_release\THREE.OpenGL.dll</HintPath>
+      <HintPath>..\..\res\THREE.OpenGL.dll</HintPath>
     </Reference>
     <Reference Include="THREE.WinForms">
-      <HintPath>..\..\..\..\github\THREE_release\THREE.WinForms.dll</HintPath>
+      <HintPath>..\..\res\THREE.WinForms.dll</HintPath>
     </Reference>
   </ItemGroup>
 
