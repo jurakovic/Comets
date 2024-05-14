@@ -4,11 +4,15 @@ using System.Windows.Forms;
 
 namespace Comets.Application
 {
-	public abstract class ThemeForm : Form
+#if RELEASE
+    public abstract class ThemedForm : Form
+#else
+	public class ThemedForm : Form
+#endif
 	{
 		private DarkModeCS DM = null; //<- Line 1
 
-		public ThemeForm()
+		public ThemedForm()
 		{
 			this.Load += this.FormSettings_Load;
 		}
@@ -20,7 +24,7 @@ namespace Comets.Application
 
 		private void FormSettings_Load(object sender, EventArgs e)
 		{
-			SetTheme();
+			//SetTheme();
 		}
 	}
 }

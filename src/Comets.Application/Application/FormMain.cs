@@ -16,7 +16,7 @@ using System.Windows.Forms;
 
 namespace Comets.Application
 {
-	public partial class FormMain : ThemeForm
+	public partial class FormMain : ThemedForm
 	{
 		#region Properties
 
