@@ -103,6 +103,7 @@ namespace Comets.Application.Application
 			}
 
 			example = new FirstSceneExample();
+			//example = new OvExample();
 			if (null != example)
 			{
 				this.glControl.MakeCurrent();
@@ -294,6 +295,104 @@ namespace Comets.Application.Application
 
 			//      // add the sphere to the scene
 			scene.Add(sphere);
+		}
+
+		public override void Render()
+		{
+			controls.Update();
+			this.renderer.Render(scene, camera);
+		}
+
+		public override void Resize(System.Drawing.Size clientSize)
+		{
+			base.Resize(clientSize);
+			camera.Aspect = this.glControl.AspectRatio;
+			camera.UpdateProjectionMatrix();
+		}
+	}
+
+
+	public class OvExample : Example
+	{
+		Scene scene;
+		Camera camera;
+		TrackballControls controls;
+
+		public OvExample() : base()
+		{
+			camera = new OrthographicCamera(100, 100, 100, 100, 1, 100);
+			scene = new Scene();
+		}
+
+		private void InitRenderer()
+		{
+			//this.renderer.SetClearColor(new THREE.Color().SetHex(0x000000));
+			//this.renderer.ShadowMap.Enabled = true;
+			//this.renderer.ShadowMap.type = Constants.PCFSoftShadowMap;
+		}
+
+		private void InitCamera()
+		{
+			camera.Position.X = -30;
+			camera.Position.Y = 50;
+			camera.Position.Z = 40;
+			camera.LookAt(THREE.Vector3.Zero());
+
+			//camera.position.set(JPL.Config.camera.position.x, JPL.Config.camera.position.y, JPL.Config.camera.position.z);
+		}
+
+		private void InitCameraController()
+		{
+			controls = new TrackballControls(this.glControl, camera);
+			controls.StaticMoving = false;
+			controls.RotateSpeed = 3.0f;
+			controls.ZoomSpeed = 2;
+			controls.PanSpeed = 2;
+			controls.NoZoom = false;
+			controls.NoPan = false;
+			controls.NoRotate = false;
+			controls.StaticMoving = true;
+			controls.DynamicDampingFactor = 0.2f;
+		}
+
+		public override void Load(GLControl glControl)
+		{
+			base.Load(glControl);
+
+			InitRenderer();
+			InitCamera();
+			InitCameraController();
+
+			scene.Background = THREE.Color.Hex(0xffffff);
+
+
+			var primaryPoint = new THREE.PointLight(0xAAAAAA, 1.0f);
+			primaryPoint.Position.Set(0, 0, 0);
+			scene.Add(primaryPoint);
+
+			var ambient = new THREE.AmbientLight(0x666666);
+			scene.Add(ambient);
+
+
+
+			var segments = 60f;
+			var radius = 1000f;
+			var size = 360 / segments;
+
+			var geometry = new THREE.Geometry();
+
+			for (var i = 0; i <= segments; i++)
+			{
+				var segment = (i * size) * Math.PI / 180;
+				geometry.Vertices.Append(new THREE.Vector3((float)Math.Cos(segment) * radius, 0, (float)Math.Sin(segment) * radius));
+			}
+
+			var material = new THREE.LineBasicMaterial();// new System.Collections.Hashtable{ opacity = config.opacity, transparent: config.transparent, fog: false, linewidth: 1 } );
+
+			var line = new THREE.Line(geometry, material);
+			line.Position.Set(0, 0, 0);
+
+			scene.Add(line);
 		}
 
 		public override void Render()
