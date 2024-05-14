@@ -47,6 +47,7 @@ namespace Comets.Core.Managers
 
 							switch (property)
 							{
+								case "Theme": settings.Theme = value.ToEnum(Settings.ThemeEnum.Light); break;
 								case "DownloadUrl": settings.DownloadUrl = value; break;
 								case "AutomaticUpdate": settings.AutomaticUpdate = Convert.ToBoolean(value); break;
 								case "UpdateInterval": settings.UpdateInterval = value.Int(); break;
@@ -111,6 +112,7 @@ namespace Comets.Core.Managers
 			string format = "{0,-38} = {1}";
 
 			sb.AppendLine("[General]");
+			sb.AppendLine(String.Format(format, "Theme", settings.Theme.ToString()));
 			sb.AppendLine(String.Format(format, "DownloadUrl", settings.DownloadUrl));
 			sb.AppendLine(String.Format(format, "AutomaticUpdate", settings.AutomaticUpdate));
 			sb.AppendLine(String.Format(format, "UpdateInterval", settings.UpdateInterval));

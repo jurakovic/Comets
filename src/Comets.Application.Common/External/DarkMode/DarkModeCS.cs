@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using static Comets.Core.Settings;
 //using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 
@@ -183,7 +184,7 @@ namespace BlueMystic
 		public extern static IntPtr SendMessage(IntPtr hWnd, int msg, IntPtr wParam, [MarshalAs(UnmanagedType.LPWStr)] string lParam);
 
 
-		[DllImport("DwmApi")] 
+		[DllImport("DwmApi")]
 		public static extern int DwmSetWindowAttribute(IntPtr hwnd, int attr, int[] attrValue, int attrSize);
 
 		[DllImport("dwmapi.dll")]
@@ -245,14 +246,27 @@ namespace BlueMystic
 		/// <param name="_Form">The Form to become Dark</param>
 		/// <param name="_ColorizeIcons">[OPTIONAL] re-colorize all Icons in Toolbars and Menus.</param>
 		/// <param name="_RoundedPanels">[OPTIONAL] make all Panels Borders Rounded</param>
-		public DarkModeCS(Form _Form, bool _ColorizeIcons = true, bool _RoundedPanels = false)
+		public DarkModeCS(Form _Form, ThemeEnum theme = ThemeEnum.UseSystemSettings, bool _ColorizeIcons = true, bool _RoundedPanels = false)
 		{
 			//Sets the Properties:
 			OwnerForm = _Form;
 			ColorizeIcons = _ColorizeIcons;
 			RoundedPanels = _RoundedPanels;
-			IsDarkMode = GetWindowsColorMode() <= 0 ? true : false;
-			OScolors = GetSystemColors(OwnerForm);
+
+			switch (theme)
+			{
+				case ThemeEnum.Light:
+					IsDarkMode = false;
+					break;
+				case ThemeEnum.Dark:
+					IsDarkMode = true;
+					break;
+				case ThemeEnum.UseSystemSettings:
+					IsDarkMode = GetWindowsColorMode() <= 0;
+					break;
+			}
+
+			OScolors = GetSystemColors(OwnerForm, IsDarkMode);
 
 			if (IsDarkMode && OScolors != null)
 			{
@@ -311,12 +325,12 @@ namespace BlueMystic
 				panel.BackColor = OScolors.Surface;
 				panel.BorderStyle = BorderStyle.None;
 
-				if ( !(panel.Parent is TabControl) || !(panel.Parent is TableLayoutPanel))
+				if (!(panel.Parent is TabControl) || !(panel.Parent is TableLayoutPanel))
 				{
 					if (RoundedPanels)
 					{
 						SetRoundBorders(panel, 6, OScolors.SurfaceDark, 1);
-					}					
+					}
 				}
 			}
 			if (control is GroupBox group)
@@ -397,7 +411,7 @@ namespace BlueMystic
 						//e.DrawDefault = true;
 						//e.DrawBackground();
 						//e.DrawText();
-						
+
 						using (SolidBrush backBrush = new SolidBrush(OScolors.ControlLight))
 						{
 							using (SolidBrush foreBrush = new SolidBrush(OScolors.TextActive))
@@ -410,11 +424,12 @@ namespace BlueMystic
 								}
 							}
 						}
-						
+
 					};
 					lView.DrawItem += (sender, e) => { e.DrawDefault = true; };
-					lView.DrawSubItem += (sender, e) => { 
-						
+					lView.DrawSubItem += (sender, e) =>
+					{
+
 						e.DrawDefault = true;
 						/*
 						IntPtr headerControl = GetHeaderControl(lView);
@@ -434,7 +449,7 @@ namespace BlueMystic
 
 						ReleaseDC(headerControl, hdc);
 						*/
-					};					
+					};
 				}
 			}
 			if (control is Button button)
@@ -615,12 +630,12 @@ namespace BlueMystic
 		/// <summary>Returns Windows's System Colors for UI components following Google Material Design concepts.</summary>
 		/// <param name="Window">[OPTIONAL] Applies DarkMode (if set) to this Window Title and Background.</param>
 		/// <returns>List of Colors:  Background, OnBackground, Surface, OnSurface, Primary, OnPrimary, Secondary, OnSecondary</returns>
-		public static OSThemeColors GetSystemColors(Form Window = null)
+		public static OSThemeColors GetSystemColors(Form Window = null, bool isDarkMode = false)
 		{
 			OSThemeColors _ret = new OSThemeColors();
 
-			bool IsDarkMode = (GetWindowsColorMode() <= 0); //<- O: DarkMode, 1: LightMode
-			if (IsDarkMode)
+			//bool IsDarkMode = (GetWindowsColorMode() <= 0); //<- O: DarkMode, 1: LightMode
+			if (isDarkMode)
 			{
 				_ret.Background = Color.FromArgb(32, 32, 32);   //<- Negro Claro
 				_ret.BackgroundDark = Color.FromArgb(18, 18, 18);
@@ -654,7 +669,7 @@ namespace BlueMystic
 
 			return _ret;
 		}
-		
+
 		/// <summary>Apply Round Corners to the indicated Control or Form.</summary>
 		/// <param name="_Control">the one who will have rounded Corners. Set BorderStyle = None.</param>
 		/// <param name="Radius">Radious for the Corners</param>
@@ -1193,7 +1208,7 @@ namespace BlueMystic
 			}
 		}
 
-		
+
 
 	}
 	public class CustomColorTable : ProfessionalColorTable

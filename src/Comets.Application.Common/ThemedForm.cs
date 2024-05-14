@@ -1,4 +1,5 @@
 ﻿using BlueMystic;
+using Comets.Core.Managers;
 using System;
 using System.Windows.Forms;
 
@@ -10,21 +11,16 @@ namespace Comets.Application
 	public class ThemedForm : Form
 #endif
 	{
-		private DarkModeCS DM = null; //<- Line 1
+		private DarkModeCS DarkMode = null;
 
 		public ThemedForm()
 		{
 			this.Load += this.FormSettings_Load;
 		}
 
-		public void SetTheme()
-		{
-			DM = new DarkModeCS(this); //<- Line 2
-		}
-
 		private void FormSettings_Load(object sender, EventArgs e)
 		{
-			//SetTheme();
+			DarkMode = new DarkModeCS(this, CommonManager.Settings.Theme);
 		}
 	}
 }
