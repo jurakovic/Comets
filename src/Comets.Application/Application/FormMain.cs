@@ -46,6 +46,10 @@ namespace Comets.Application
 
 			this.menuItemViewStatusBar.Checked = CommonManager.Settings.ShowStatusBar;
 			this.statusStrip.Visible = CommonManager.Settings.ShowStatusBar;
+
+			this.menuItemViewThemeLight.Checked = CommonManager.Settings.Theme == Settings.ThemeEnum.Light;
+			this.menuItemViewThemeDark.Checked = CommonManager.Settings.Theme == Settings.ThemeEnum.Dark;
+			this.menuItemViewThemeSystem.Checked = CommonManager.Settings.Theme == Settings.ThemeEnum.UseSystemSettings;
 		}
 
 		#endregion
@@ -354,6 +358,21 @@ namespace Comets.Application
 
 		#region Menu: View
 
+		private void menuItemViewThemeCommon_Click(object sender, EventArgs e)
+		{
+			// uncheck all
+			this.menuItemViewThemeLight.Checked = false;
+			this.menuItemViewThemeDark.Checked = false;
+			this.menuItemViewThemeSystem.Checked = false;
+
+			ToolStripMenuItem currentItem = sender as ToolStripMenuItem;
+			Settings.ThemeEnum theme = currentItem.Tag.ToString().ToEnum(Settings.ThemeEnum.Light);
+			CommonManager.Settings.Theme = theme;
+			CommonManager.Settings.IsSettingsChanged = true;
+			SetTheme(theme);
+			currentItem.Checked = true;
+		}
+
 		private void menuItemViewAlwaysOnTop_Click(object sender, EventArgs e)
 		{
 			this.menuItemViewAlwaysOnTop.InvertChecked();
@@ -502,5 +521,6 @@ namespace Comets.Application
 		}
 
 		#endregion
+
 	}
 }

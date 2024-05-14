@@ -52,6 +52,10 @@
 			this.menuItemOrbit = new System.Windows.Forms.ToolStripMenuItem();
 			this.mnuShowToolbox = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuItemView = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemViewTheme = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemViewThemeLight = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemViewThemeDark = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemViewThemeSystem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuItemViewAlwaysOnTop = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuItemViewStatusBar = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuItemWindow = new System.Windows.Forms.ToolStripMenuItem();
@@ -264,17 +268,48 @@
 			// 
 			// menuItemView
 			// 
-			this.menuItemView.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.menuItemViewAlwaysOnTop, this.menuItemViewStatusBar });
+			this.menuItemView.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.menuItemViewTheme, this.menuItemViewAlwaysOnTop, this.menuItemViewStatusBar });
 			this.menuItemView.MergeIndex = 5;
 			this.menuItemView.Name = "menuItemView";
 			this.menuItemView.Size = new System.Drawing.Size(44, 20);
 			this.menuItemView.Text = "&View";
 			// 
+			// menuItemViewTheme
+			// 
+			this.menuItemViewTheme.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.menuItemViewThemeLight, this.menuItemViewThemeDark, this.menuItemViewThemeSystem });
+			this.menuItemViewTheme.Name = "menuItemViewTheme";
+			this.menuItemViewTheme.Size = new System.Drawing.Size(180, 22);
+			this.menuItemViewTheme.Text = "Theme";
+			// 
+			// menuItemViewThemeLight
+			// 
+			this.menuItemViewThemeLight.Name = "menuItemViewThemeLight";
+			this.menuItemViewThemeLight.Size = new System.Drawing.Size(180, 22);
+			this.menuItemViewThemeLight.Tag = "Light";
+			this.menuItemViewThemeLight.Text = "Light";
+			this.menuItemViewThemeLight.Click += this.menuItemViewThemeCommon_Click;
+			// 
+			// menuItemViewThemeDark
+			// 
+			this.menuItemViewThemeDark.Name = "menuItemViewThemeDark";
+			this.menuItemViewThemeDark.Size = new System.Drawing.Size(180, 22);
+			this.menuItemViewThemeDark.Tag = "Dark";
+			this.menuItemViewThemeDark.Text = "Dark";
+			this.menuItemViewThemeDark.Click += this.menuItemViewThemeCommon_Click;
+			// 
+			// menuItemViewThemeSystem
+			// 
+			this.menuItemViewThemeSystem.Name = "menuItemViewThemeSystem";
+			this.menuItemViewThemeSystem.Size = new System.Drawing.Size(180, 22);
+			this.menuItemViewThemeSystem.Tag = "UseSystemSettings";
+			this.menuItemViewThemeSystem.Text = "Use System Settings";
+			this.menuItemViewThemeSystem.Click += this.menuItemViewThemeCommon_Click;
+			// 
 			// menuItemViewAlwaysOnTop
 			// 
 			this.menuItemViewAlwaysOnTop.MergeIndex = 0;
 			this.menuItemViewAlwaysOnTop.Name = "menuItemViewAlwaysOnTop";
-			this.menuItemViewAlwaysOnTop.Size = new System.Drawing.Size(157, 22);
+			this.menuItemViewAlwaysOnTop.Size = new System.Drawing.Size(180, 22);
 			this.menuItemViewAlwaysOnTop.Text = "Always on &Top";
 			this.menuItemViewAlwaysOnTop.Click += this.menuItemViewAlwaysOnTop_Click;
 			// 
@@ -284,7 +319,7 @@
 			this.menuItemViewStatusBar.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.menuItemViewStatusBar.MergeIndex = 1;
 			this.menuItemViewStatusBar.Name = "menuItemViewStatusBar";
-			this.menuItemViewStatusBar.Size = new System.Drawing.Size(157, 22);
+			this.menuItemViewStatusBar.Size = new System.Drawing.Size(180, 22);
 			this.menuItemViewStatusBar.Text = "Show &status bar";
 			this.menuItemViewStatusBar.Click += this.menuItemViewStatusBar_Click;
 			// 
@@ -471,6 +506,10 @@
 		private System.Windows.Forms.ToolStripMenuItem menuItemViewAlwaysOnTop;
 		private System.Windows.Forms.ToolStripMenuItem mnuShowToolbox;
 		private System.Windows.Forms.ToolStripMenuItem menuItemControls;
+		private System.Windows.Forms.ToolStripMenuItem menuItemViewTheme;
+		private System.Windows.Forms.ToolStripMenuItem menuItemViewThemeLight;
+		private System.Windows.Forms.ToolStripMenuItem menuItemViewThemeDark;
+		private System.Windows.Forms.ToolStripMenuItem menuItemViewThemeSystem;
 	}
 }
 

@@ -268,8 +268,17 @@ namespace BlueMystic
 
 			OScolors = GetSystemColors(OwnerForm, IsDarkMode);
 
-			if (IsDarkMode && OScolors != null)
+			if (/*IsDarkMode && */OScolors != null)
 			{
+				//Apply Window's Dark Mode to the Form's Title bar
+				if (OwnerForm != null)
+				{
+					ApplySystemDarkTheme(OwnerForm, IsDarkMode);
+
+					//OwnerForm.BackColor = OScolors.Background;
+					//OwnerForm.ForeColor = OScolors.TextInactive;
+				}
+
 				if (OwnerForm != null && OwnerForm.Controls != null)
 				{
 					foreach (Control _control in OwnerForm.Controls)
@@ -308,7 +317,7 @@ namespace BlueMystic
 
 			control.HandleCreated += (object sender, EventArgs e) =>
 			{
-				ApplySystemDarkTheme(control);
+				ApplySystemDarkTheme(control, IsDarkMode);
 			};
 			control.ControlAdded += (object sender, ControlEventArgs e) =>
 			{
@@ -655,16 +664,6 @@ namespace BlueMystic
 
 				_ret.Primary = Color.FromArgb(3, 218, 198);   //<- Verde Pastel
 				_ret.Secondary = Color.MediumSlateBlue;         //<- Magenta Claro				
-
-				//Apply Window's Dark Mode to the Form's Title bar
-				if (Window != null)
-				{
-					//SetWin32ApiTheme(Window);
-					ApplySystemDarkTheme(Window);
-
-					Window.BackColor = _ret.Background;
-					Window.ForeColor = _ret.TextInactive;
-				}
 			}
 
 			return _ret;
@@ -781,7 +780,7 @@ namespace BlueMystic
 
 		/// <summary>Attemps to apply Window's Dark Style to the Control and all its childs.</summary>
 		/// <param name="control"></param>
-		private static void ApplySystemDarkTheme(Control control = null)
+		private static void ApplySystemDarkTheme(Control control = null, bool isDarkMode = false)
 		{
 			/* 			    
 				DWMWA_USE_IMMERSIVE_DARK_MODE:   https://learn.microsoft.com/en-us/windows/win32/api/dwmapi/ne-dwmapi-dwmwindowattribute
@@ -795,7 +794,7 @@ namespace BlueMystic
 				SetWindowTheme:     https://learn.microsoft.com/en-us/windows/win32/api/uxtheme/nf-uxtheme-setwindowtheme
 				Causes a window to use a different set of visual style information than its class normally uses.
 			 */
-			int[] DarkModeOn = new[] { 0x01 }; //<- 1=True, 0=False
+			int[] DarkModeOn = new[] { isDarkMode ? 0x01 : 0x00 }; //<- 1=True, 0=False
 
 			SetWindowTheme(control.Handle, "DarkMode_Explorer", null);
 
@@ -805,7 +804,7 @@ namespace BlueMystic
 			foreach (Control child in control.Controls)
 			{
 				if (child.Controls.Count != 0)
-					ApplySystemDarkTheme(child);
+					ApplySystemDarkTheme(child, isDarkMode);
 			}
 		}
 
