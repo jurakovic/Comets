@@ -246,25 +246,13 @@ namespace BlueMystic
 		/// <param name="_Form">The Form to become Dark</param>
 		/// <param name="_ColorizeIcons">[OPTIONAL] re-colorize all Icons in Toolbars and Menus.</param>
 		/// <param name="_RoundedPanels">[OPTIONAL] make all Panels Borders Rounded</param>
-		public DarkModeCS(Form _Form, ThemeEnum theme = ThemeEnum.UseSystemSettings, bool _ColorizeIcons = true, bool _RoundedPanels = false)
+		public DarkModeCS(Form _Form, bool useDarkTheme = false, bool _ColorizeIcons = true, bool _RoundedPanels = false)
 		{
 			//Sets the Properties:
 			OwnerForm = _Form;
 			ColorizeIcons = _ColorizeIcons;
 			RoundedPanels = _RoundedPanels;
-
-			switch (theme)
-			{
-				case ThemeEnum.Light:
-					IsDarkMode = false;
-					break;
-				case ThemeEnum.Dark:
-					IsDarkMode = true;
-					break;
-				case ThemeEnum.UseSystemSettings:
-					IsDarkMode = GetWindowsColorMode() <= 0;
-					break;
-			}
+			IsDarkMode = useDarkTheme;
 
 			OScolors = GetSystemColors(OwnerForm, IsDarkMode);
 

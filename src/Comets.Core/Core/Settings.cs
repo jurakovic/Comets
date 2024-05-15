@@ -5,21 +5,9 @@ namespace Comets.Core
 {
 	public class Settings
 	{
-		#region Enum
-
-		public enum ThemeEnum
-		{
-			Dark = 0,
-			Light = 1,
-			UseSystemSettings = 2,
-		}
-
-		#endregion
-
 		#region Properties
 
 		//General
-		public ThemeEnum Theme { get; set; }
 		public string DownloadUrl { get; set; }
 		public bool AutomaticUpdate { get; set; }
 		public int UpdateInterval { get; set; }
@@ -30,6 +18,7 @@ namespace Comets.Core
 		public bool ShowLongCalculationConfirmation { get; set; }
 		public bool ShowDeleteCometConfirmation { get; set; }
 		public bool ShowStatusBar { get; set; }
+		public bool UseDarkTheme { get; set; }
 
 		//Window
 		public bool Maximized { get; set; }
@@ -62,7 +51,6 @@ namespace Comets.Core
 
 		public Settings()
 		{
-			Theme = ThemeEnum.Light;
 			DownloadUrl = "https://minorplanetcenter.net/iau/Ephemerides/Comets/Soft00Cmt.txt";
 			AutomaticUpdate = true;
 			UpdateInterval = 7;
@@ -73,6 +61,7 @@ namespace Comets.Core
 			ShowLongCalculationConfirmation = true;
 			ShowDeleteCometConfirmation = true;
 			ShowStatusBar = true;
+			UseDarkTheme = false;
 
 			Maximized = false;
 			Width = 0;

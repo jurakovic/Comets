@@ -20,13 +20,8 @@ namespace Comets.Application
 
 		private void FormSettings_Load(object sender, EventArgs e)
 		{
-			DarkMode = new DarkModeCS(this, CommonManager.Settings.Theme);
-		}
-
-		public void SetTheme(Core.Settings.ThemeEnum theme)
-		{
-			DarkMode = new DarkModeCS(this, theme);
-			this.Refresh();
+			if (CommonManager.Settings.UseDarkTheme)
+				DarkMode = new DarkModeCS(this, true);
 		}
 	}
 }
