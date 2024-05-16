@@ -40,7 +40,7 @@
 			this.pnlDateTime.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pnlDateTime.Location = new System.Drawing.Point(0, 0);
 			this.pnlDateTime.Name = "pnlDateTime";
-			this.pnlDateTime.Size = new System.Drawing.Size(173, 31);
+			this.pnlDateTime.Size = new System.Drawing.Size(173, 32);
 			this.pnlDateTime.TabIndex = 0;
 			// 
 			// selectDateControl
@@ -51,7 +51,7 @@
 			this.selectDateControl.Name = "selectDateControl";
 			this.selectDateControl.PerihelionDate = null;
 			this.selectDateControl.SelectedDateTime = new System.DateTime(0L);
-			this.selectDateControl.Size = new System.Drawing.Size(165, 23);
+			this.selectDateControl.Size = new System.Drawing.Size(165, 24);
 			this.selectDateControl.TabIndex = 0;
 			// 
 			// DateTimeControl
@@ -61,7 +61,7 @@
 			this.Controls.Add(this.pnlDateTime);
 			this.Font = new System.Drawing.Font("Tahoma", 8.25F);
 			this.Name = "DateTimeControl";
-			this.Size = new System.Drawing.Size(173, 31);
+			this.Size = new System.Drawing.Size(173, 32);
 			this.pnlDateTime.ResumeLayout(false);
 			this.ResumeLayout(false);
 		}

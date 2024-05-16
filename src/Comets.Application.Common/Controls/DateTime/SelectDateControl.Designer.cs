@@ -34,6 +34,7 @@
 			// 
 			// btnSelectDate
 			// 
+			this.btnSelectDate.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
 			this.btnSelectDate.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
 			this.btnSelectDate.Location = new System.Drawing.Point(0, 0);
 			this.btnSelectDate.Name = "btnSelectDate";
@@ -45,6 +46,7 @@
 			// 
 			// dateTimeMenuControl
 			// 
+			this.dateTimeMenuControl.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
 			this.dateTimeMenuControl.DefaultDateTime = null;
 			this.dateTimeMenuControl.Font = new System.Drawing.Font("Tahoma", 8.25F);
 			this.dateTimeMenuControl.Location = new System.Drawing.Point(148, 0);
