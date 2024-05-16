@@ -246,17 +246,29 @@ namespace BlueMystic
 		/// <param name="_Form">The Form to become Dark</param>
 		/// <param name="_ColorizeIcons">[OPTIONAL] re-colorize all Icons in Toolbars and Menus.</param>
 		/// <param name="_RoundedPanels">[OPTIONAL] make all Panels Borders Rounded</param>
-		public DarkModeCS(Form _Form, bool useDarkTheme = false, bool _ColorizeIcons = true, bool _RoundedPanels = false)
+		public DarkModeCS(Form _Form, ThemeEnum theme, bool _ColorizeIcons = true, bool _RoundedPanels = false)
 		{
 			//Sets the Properties:
 			OwnerForm = _Form;
 			ColorizeIcons = _ColorizeIcons;
 			RoundedPanels = _RoundedPanels;
-			IsDarkMode = useDarkTheme;
+
+			switch (theme)
+			{
+				case ThemeEnum.Light:
+					IsDarkMode = false;
+					break;
+				case ThemeEnum.Dark:
+					IsDarkMode = true;
+					break;
+				case ThemeEnum.UseSystemSettings:
+					IsDarkMode = GetWindowsColorMode() <= 0;
+					break;
+			}
 
 			OScolors = GetSystemColors(OwnerForm, IsDarkMode);
 
-			if (/*IsDarkMode && */OScolors != null)
+			if (IsDarkMode && OScolors != null)
 			{
 				//Apply Window's Dark Mode to the Form's Title bar
 				if (OwnerForm != null)
@@ -640,7 +652,7 @@ namespace BlueMystic
 			if (isDarkMode)
 			{
 				_ret.AppWorkspace = Color.FromArgb(32, 32, 32);   //<- Negro Claro
-				//_ret.AppWorkspace = SystemColors.ControlDarkDark;
+																  //_ret.AppWorkspace = SystemColors.ControlDarkDark;
 				_ret.Background = Color.FromArgb(32, 32, 32);   //<- Negro Claro
 				_ret.BackgroundDark = Color.FromArgb(18, 18, 18);
 				_ret.BackgroundLight = ControlPaint.Light(_ret.Background);

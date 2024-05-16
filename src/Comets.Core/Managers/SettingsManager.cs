@@ -47,6 +47,7 @@ namespace Comets.Core.Managers
 
 							switch (property)
 							{
+								case "Theme": settings.Theme = value.ToEnum(Settings.ThemeEnum.Light); break;
 								case "DownloadUrl": settings.DownloadUrl = value; break;
 								case "AutomaticUpdate": settings.AutomaticUpdate = Convert.ToBoolean(value); break;
 								case "UpdateInterval": settings.UpdateInterval = value.Int(); break;
@@ -56,7 +57,6 @@ namespace Comets.Core.Managers
 								case "ShowLongCalculationConfirmation": settings.ShowLongCalculationConfirmation = Convert.ToBoolean(value); break;
 								case "ShowDeleteCometConfirmation": settings.ShowDeleteCometConfirmation = Convert.ToBoolean(value); break;
 								case "ExitWithoutConfirm": settings.ExitWithoutConfirm = Convert.ToBoolean(value); break;
-								case "UseDarkTheme": settings.UseDarkTheme = Convert.ToBoolean(value); break;
 								//case "NewVersionOnStartup": settings.NewVersionOnStartup = Convert.ToBoolean(value); break; 
 
 								case "Maximized": settings.Maximized = Convert.ToBoolean(value); break;
@@ -112,6 +112,7 @@ namespace Comets.Core.Managers
 			string format = "{0,-38} = {1}";
 
 			sb.AppendLine("[General]");
+			sb.AppendLine(String.Format(format, "Theme", settings.Theme.ToString()));
 			sb.AppendLine(String.Format(format, "DownloadUrl", settings.DownloadUrl));
 			sb.AppendLine(String.Format(format, "AutomaticUpdate", settings.AutomaticUpdate));
 			sb.AppendLine(String.Format(format, "UpdateInterval", settings.UpdateInterval));
@@ -124,7 +125,6 @@ namespace Comets.Core.Managers
 			sb.AppendLine(String.Format(format, "ShowLongCalculationConfirmation", settings.ShowLongCalculationConfirmation));
 			sb.AppendLine(String.Format(format, "ShowDeleteCometConfirmation", settings.ShowDeleteCometConfirmation));
 			sb.AppendLine(String.Format(format, "ExitWithoutConfirm", settings.ExitWithoutConfirm));
-			sb.AppendLine(String.Format(format, "UseDarkTheme", settings.UseDarkTheme));
 			//sb.AppendLine(String.Format(format, "NewVersionOnStartup", settings.NewVersionOnStartup));
 			sb.AppendLine();
 
