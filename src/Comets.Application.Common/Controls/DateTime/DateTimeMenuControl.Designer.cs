@@ -59,7 +59,7 @@
 			this.btnShowMenu.Font = new System.Drawing.Font("Tahoma", 8.25F);
 			this.btnShowMenu.Location = new System.Drawing.Point(0, 0);
 			this.btnShowMenu.Name = "btnShowMenu";
-			this.btnShowMenu.Size = new System.Drawing.Size(24, 23);
+			this.btnShowMenu.Size = new System.Drawing.Size(24, 24);
 			this.btnShowMenu.TabIndex = 0;
 			this.btnShowMenu.Text = "▼";
 			this.btnShowMenu.UseVisualStyleBackColor = true;
@@ -213,7 +213,7 @@
 			this.Controls.Add(this.btnShowMenu);
 			this.Font = new System.Drawing.Font("Tahoma", 8.25F);
 			this.Name = "DateTimeMenuControl";
-			this.Size = new System.Drawing.Size(24, 23);
+			this.Size = new System.Drawing.Size(24, 24);
 			this.ctxMenu.ResumeLayout(false);
 			this.ResumeLayout(false);
 		}
