@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace Comets.Application.Graph
 {
-	public partial class FormGraphSettings : Form
+	public partial class FormGraphSettings : ThemeForm
 	{
 		#region Events
 

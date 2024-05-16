@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace Comets.Application.Ephemeris
 {
-	public partial class FormEphemerisSettings : Form
+	public partial class FormEphemerisSettings : ThemeForm
 	{
 		#region Events
 
