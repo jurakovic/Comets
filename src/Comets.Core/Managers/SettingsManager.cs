@@ -26,7 +26,7 @@ namespace Comets.Core.Managers
 		{
 			"Light",
 			"Dark",
-			"System settings"
+			"Use system settings"
 		};
 
 		#endregion
