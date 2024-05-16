@@ -5,7 +5,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using static Comets.Core.Settings;
+using ThemeEnum = Comets.Core.Managers.SettingsManager.ThemeEnum;
 //using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 
@@ -261,7 +261,7 @@ namespace BlueMystic
 				case ThemeEnum.Dark:
 					IsDarkMode = true;
 					break;
-				case ThemeEnum.UseSystemSettings:
+				case ThemeEnum.SystemSettings:
 					IsDarkMode = GetWindowsColorMode() <= 0;
 					break;
 			}

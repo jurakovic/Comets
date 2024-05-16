@@ -31,6 +31,9 @@
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabGeneral = new System.Windows.Forms.TabPage();
 			this.gbxGeneral = new System.Windows.Forms.GroupBox();
+			this.lblRestart = new System.Windows.Forms.Label();
+			this.cboTheme = new System.Windows.Forms.ComboBox();
+			this.lblTheme = new System.Windows.Forms.Label();
 			this.cbxShowDeleteCometConfirmation = new System.Windows.Forms.CheckBox();
 			this.txtDownloadUrl = new System.Windows.Forms.TextBox();
 			this.lblDownloadUrl = new System.Windows.Forms.Label();
@@ -131,6 +134,9 @@
 			// gbxGeneral
 			// 
 			this.gbxGeneral.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+			this.gbxGeneral.Controls.Add(this.lblRestart);
+			this.gbxGeneral.Controls.Add(this.cboTheme);
+			this.gbxGeneral.Controls.Add(this.lblTheme);
 			this.gbxGeneral.Controls.Add(this.cbxShowDeleteCometConfirmation);
 			this.gbxGeneral.Controls.Add(this.txtDownloadUrl);
 			this.gbxGeneral.Controls.Add(this.lblDownloadUrl);
@@ -148,10 +154,37 @@
 			this.gbxGeneral.TabIndex = 0;
 			this.gbxGeneral.TabStop = false;
 			// 
+			// lblRestart
+			// 
+			this.lblRestart.AutoSize = true;
+			this.lblRestart.Location = new System.Drawing.Point(178, 79);
+			this.lblRestart.Name = "lblRestart";
+			this.lblRestart.Size = new System.Drawing.Size(90, 13);
+			this.lblRestart.TabIndex = 15;
+			this.lblRestart.Text = "(requires restart)";
+			// 
+			// cboTheme
+			// 
+			this.cboTheme.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cboTheme.FormattingEnabled = true;
+			this.cboTheme.Location = new System.Drawing.Point(62, 76);
+			this.cboTheme.Name = "cboTheme";
+			this.cboTheme.Size = new System.Drawing.Size(110, 21);
+			this.cboTheme.TabIndex = 14;
+			// 
+			// lblTheme
+			// 
+			this.lblTheme.AutoSize = true;
+			this.lblTheme.Location = new System.Drawing.Point(13, 79);
+			this.lblTheme.Name = "lblTheme";
+			this.lblTheme.Size = new System.Drawing.Size(43, 13);
+			this.lblTheme.TabIndex = 13;
+			this.lblTheme.Text = "Theme:";
+			// 
 			// cbxShowDeleteCometConfirmation
 			// 
 			this.cbxShowDeleteCometConfirmation.AutoSize = true;
-			this.cbxShowDeleteCometConfirmation.Location = new System.Drawing.Point(13, 160);
+			this.cbxShowDeleteCometConfirmation.Location = new System.Drawing.Point(13, 156);
 			this.cbxShowDeleteCometConfirmation.Name = "cbxShowDeleteCometConfirmation";
 			this.cbxShowDeleteCometConfirmation.Size = new System.Drawing.Size(179, 17);
 			this.cbxShowDeleteCometConfirmation.TabIndex = 9;
@@ -177,7 +210,7 @@
 			// cbxShowLongCalculationConfirmation
 			// 
 			this.cbxShowLongCalculationConfirmation.AutoSize = true;
-			this.cbxShowLongCalculationConfirmation.Location = new System.Drawing.Point(13, 125);
+			this.cbxShowLongCalculationConfirmation.Location = new System.Drawing.Point(13, 129);
 			this.cbxShowLongCalculationConfirmation.Name = "cbxShowLongCalculationConfirmation";
 			this.cbxShowLongCalculationConfirmation.Size = new System.Drawing.Size(190, 17);
 			this.cbxShowLongCalculationConfirmation.TabIndex = 6;
@@ -187,7 +220,7 @@
 			// lblDays
 			// 
 			this.lblDays.AutoSize = true;
-			this.lblDays.Location = new System.Drawing.Point(270, 56);
+			this.lblDays.Location = new System.Drawing.Point(270, 49);
 			this.lblDays.Name = "lblDays";
 			this.lblDays.Size = new System.Drawing.Size(30, 13);
 			this.lblDays.TabIndex = 4;
@@ -195,7 +228,7 @@
 			// 
 			// txtUpdateInterval
 			// 
-			this.txtUpdateInterval.Location = new System.Drawing.Point(220, 53);
+			this.txtUpdateInterval.Location = new System.Drawing.Point(220, 46);
 			this.txtUpdateInterval.MaxLength = 2;
 			this.txtUpdateInterval.Name = "txtUpdateInterval";
 			this.txtUpdateInterval.Size = new System.Drawing.Size(44, 21);
@@ -208,7 +241,7 @@
 			// chShowStatusBar
 			// 
 			this.chShowStatusBar.AutoSize = true;
-			this.chShowStatusBar.Location = new System.Drawing.Point(13, 230);
+			this.chShowStatusBar.Location = new System.Drawing.Point(13, 210);
 			this.chShowStatusBar.Name = "chShowStatusBar";
 			this.chShowStatusBar.Size = new System.Drawing.Size(104, 17);
 			this.chShowStatusBar.TabIndex = 8;
@@ -218,7 +251,7 @@
 			// chExitWithoutConfirm
 			// 
 			this.chExitWithoutConfirm.AutoSize = true;
-			this.chExitWithoutConfirm.Location = new System.Drawing.Point(13, 195);
+			this.chExitWithoutConfirm.Location = new System.Drawing.Point(13, 183);
 			this.chExitWithoutConfirm.Name = "chExitWithoutConfirm";
 			this.chExitWithoutConfirm.Size = new System.Drawing.Size(121, 17);
 			this.chExitWithoutConfirm.TabIndex = 7;
@@ -228,7 +261,7 @@
 			// chNewVersionOnStartup
 			// 
 			this.chNewVersionOnStartup.AutoSize = true;
-			this.chNewVersionOnStartup.Location = new System.Drawing.Point(13, 265);
+			this.chNewVersionOnStartup.Location = new System.Drawing.Point(13, 237);
 			this.chNewVersionOnStartup.Name = "chNewVersionOnStartup";
 			this.chNewVersionOnStartup.Size = new System.Drawing.Size(186, 17);
 			this.chNewVersionOnStartup.TabIndex = 0;
@@ -239,7 +272,7 @@
 			// chRememberWindowPosition
 			// 
 			this.chRememberWindowPosition.AutoSize = true;
-			this.chRememberWindowPosition.Location = new System.Drawing.Point(13, 90);
+			this.chRememberWindowPosition.Location = new System.Drawing.Point(13, 102);
 			this.chRememberWindowPosition.Name = "chRememberWindowPosition";
 			this.chRememberWindowPosition.Size = new System.Drawing.Size(156, 17);
 			this.chRememberWindowPosition.TabIndex = 5;
@@ -249,7 +282,7 @@
 			// chAutomaticUpdate
 			// 
 			this.chAutomaticUpdate.AutoSize = true;
-			this.chAutomaticUpdate.Location = new System.Drawing.Point(13, 55);
+			this.chAutomaticUpdate.Location = new System.Drawing.Point(13, 48);
 			this.chAutomaticUpdate.Name = "chAutomaticUpdate";
 			this.chAutomaticUpdate.Size = new System.Drawing.Size(204, 17);
 			this.chAutomaticUpdate.TabIndex = 2;
@@ -855,5 +888,8 @@
 		private System.Windows.Forms.TextBox txtDownloadUrl;
 		private System.Windows.Forms.Label lblDownloadUrl;
 		private System.Windows.Forms.CheckBox cbxShowDeleteCometConfirmation;
+		private System.Windows.Forms.Label lblTheme;
+		private System.Windows.Forms.Label lblRestart;
+		private System.Windows.Forms.ComboBox cboTheme;
 	}
 }

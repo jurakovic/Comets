@@ -1,25 +1,15 @@
-﻿using System;
+﻿using Comets.Core.Managers;
+using System;
 using System.Collections.Generic;
 
 namespace Comets.Core
 {
 	public class Settings
 	{
-		#region Enum
-
-		public enum ThemeEnum
-		{
-			Dark = 0,
-			Light = 1,
-			UseSystemSettings = 2,
-		}
-
-		#endregion
-
 		#region Properties
 
 		//General
-		public ThemeEnum Theme { get; set; }
+		public SettingsManager.ThemeEnum Theme { get; set; }
 		public string DownloadUrl { get; set; }
 		public bool AutomaticUpdate { get; set; }
 		public int UpdateInterval { get; set; }
@@ -62,7 +52,7 @@ namespace Comets.Core
 
 		public Settings()
 		{
-			Theme = ThemeEnum.Light;
+			Theme = SettingsManager.ThemeEnum.Light;
 			DownloadUrl = "https://minorplanetcenter.net/iau/Ephemerides/Comets/Soft00Cmt.txt";
 			AutomaticUpdate = true;
 			UpdateInterval = 7;

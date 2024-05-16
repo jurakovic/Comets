@@ -46,6 +46,8 @@ namespace Comets.Application.Edit
 			cbxShowLongCalculationConfirmation.Checked = settings.ShowLongCalculationConfirmation;
 			cbxShowDeleteCometConfirmation.Checked = settings.ShowDeleteCometConfirmation;
 			chShowStatusBar.Checked = settings.ShowStatusBar;
+			cboTheme.DataSource = SettingsManager.Themes;
+			cboTheme.SelectedIndex = (int)settings.Theme;
 
 			rbNoProxy.Checked = !settings.UseProxy;
 			rbManualProxy.Checked = settings.UseProxy;
@@ -105,6 +107,7 @@ namespace Comets.Application.Edit
 			settings.ExitWithoutConfirm = chExitWithoutConfirm.Checked;
 			settings.RememberWindowPosition = chRememberWindowPosition.Checked;
 			settings.ShowStatusBar = chShowStatusBar.Checked;
+			settings.Theme = (SettingsManager.ThemeEnum)cboTheme.SelectedIndex;
 
 			settings.UseProxy = rbManualProxy.Checked;
 			settings.Domain = txtDomain.Text.Trim();

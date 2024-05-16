@@ -15,6 +15,20 @@ namespace Comets.Core.Managers
 		public const string DatabaseFilename = "Comets.db";
 		public const string SettingsIniFilename = "settings.ini";
 
+		public enum ThemeEnum
+		{
+			Light = 0,
+			Dark = 1,
+			SystemSettings = 2,
+		}
+
+		public static string[] Themes =
+		{
+			"Light",
+			"Dark",
+			"System settings"
+		};
+
 		#endregion
 
 		#region LoadSettings
@@ -47,7 +61,7 @@ namespace Comets.Core.Managers
 
 							switch (property)
 							{
-								case "Theme": settings.Theme = value.ToEnum(Settings.ThemeEnum.Light); break;
+								case "Theme": settings.Theme = value.ToEnum(ThemeEnum.Light); break;
 								case "DownloadUrl": settings.DownloadUrl = value; break;
 								case "AutomaticUpdate": settings.AutomaticUpdate = Convert.ToBoolean(value); break;
 								case "UpdateInterval": settings.UpdateInterval = value.Int(); break;
