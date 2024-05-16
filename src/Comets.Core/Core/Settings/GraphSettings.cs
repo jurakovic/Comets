@@ -13,29 +13,20 @@ namespace Comets.Core
 
 		#region Properties
 
-		public Color MagnitudeColor { get; set; }
-		public bool PerihelionLineChecked { get; set; }
-		public Color PerihelionLineColor { get; set; }
-		public bool NowLineChecked { get; set; }
-		public Color NowLineColor { get; set; }
+		public Color MagnitudeColor { get; set; } = Color.Red;
+		public bool PerihelionLineChecked { get; set; } = true;
+		public Color PerihelionLineColor { get; set; } = Color.RoyalBlue;
+		public bool NowLineChecked { get; set; } = true;
+		public Color NowLineColor { get; set; } = Color.LimeGreen;
 		public bool AntialiasingChecked { get; set; }
 
-		public ChartType GraphChartType { get; set; }
+		public ChartType GraphChartType { get; set; } = ChartType.Magnitude;
 
 		public bool MinGraphValueChecked { get; set; }
 		public double? MinGraphValue { get; set; }
 
-		public bool MaxGraphValueChecked { get; set; }
-		public double? MaxGraphValue { get; set; }
-
-		#endregion
-
-		#region Constructor
-
-		public GraphSettings()
-		{
-
-		}
+		public bool MaxGraphValueChecked { get; set; } = true;
+		public double? MaxGraphValue { get; set; } = 12.0;
 
 		#endregion
 
