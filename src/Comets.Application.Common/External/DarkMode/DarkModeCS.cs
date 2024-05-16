@@ -306,14 +306,13 @@ namespace BlueMystic
 
 			//Change the Colors only if its the default ones, this allows the user to set own colors:
 			if (control.BackColor == SystemColors.Control || control.BackColor == SystemColors.Window)
-			{
 				control.GetType().GetProperty("BackColor")?.SetValue(control, OScolors.Control);
-			}
+
 			if (control.ForeColor == SystemColors.ControlText || control.ForeColor == SystemColors.WindowText)
-			{
 				control.GetType().GetProperty("ForeColor")?.SetValue(control, OScolors.TextActive);
-			}
-			control.GetType().GetProperty("BorderStyle")?.SetValue(control, BStyle);
+
+			if (control is not UserControl)
+				control.GetType().GetProperty("BorderStyle")?.SetValue(control, BStyle);
 
 			control.HandleCreated += (object sender, EventArgs e) =>
 			{
