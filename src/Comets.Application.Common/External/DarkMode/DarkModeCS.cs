@@ -1,15 +1,11 @@
-﻿// src: https://github.com/BlueMystical/Dark-Mode-Forms/blob/v1.6.1/DarkModeCS.cs
-
-using System;
+﻿using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using ThemeEnum = Comets.Core.Managers.SettingsManager.ThemeEnum;
-//using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
-
-
+// src: https://github.com/BlueMystical/Dark-Mode-Forms/blob/v1.6.1/DarkModeCS.cs
 namespace BlueMystic
 {
 	/// <summary>This tries to automatically apply Windows Dark Mode (if enabled) to a Form.
@@ -323,7 +319,6 @@ namespace BlueMystic
 				ThemeControl(e.Control);
 			};
 
-
 			if (control is MdiClient mdi)
 			{
 				control.BackColor = OScolors.AppWorkspace;
@@ -501,10 +496,7 @@ namespace BlueMystic
 			if (control is MenuStrip menu)
 			{
 				menu.RenderMode = ToolStripRenderMode.Professional;
-				menu.Renderer = new MyRenderer(new CustomColorTable(OScolors), ColorizeIcons)
-				{
-					MyColors = OScolors
-				};
+				menu.Renderer = new MyRenderer(new CustomColorTable(OScolors), ColorizeIcons) { MyColors = OScolors };
 			}
 			if (control is ToolStrip toolBar)
 			{
@@ -651,7 +643,6 @@ namespace BlueMystic
 			if (isDarkMode)
 			{
 				_ret.AppWorkspace = Color.FromArgb(32, 32, 32);   //<- Negro Claro
-																  //_ret.AppWorkspace = SystemColors.ControlDarkDark;
 				_ret.Background = Color.FromArgb(32, 32, 32);   //<- Negro Claro
 				_ret.BackgroundDark = Color.FromArgb(18, 18, 18);
 				_ret.BackgroundLight = ControlPaint.Light(_ret.Background);
@@ -867,6 +858,8 @@ namespace BlueMystic
 		#endregion
 	}
 
+	#region OSThemeColors
+
 	/// <summary>Windows 10+ System Colors for Clear Color Mode.</summary>
 	public class OSThemeColors
 	{
@@ -918,6 +911,10 @@ namespace BlueMystic
 		public System.Drawing.Color SecondaryDark { get { return ControlPaint.Dark(Secondary); } }
 		public System.Drawing.Color SecondaryLight { get { return ControlPaint.Light(Secondary); } }
 	}
+
+	#endregion
+
+	#region MyRenderer
 
 	/* Custom Renderers for Menus and ToolBars */
 	public class MyRenderer : ToolStripProfessionalRenderer
@@ -1219,6 +1216,11 @@ namespace BlueMystic
 
 
 	}
+
+	#endregion
+
+	#region CustomColorTable
+
 	public class CustomColorTable : ProfessionalColorTable
 	{
 		public OSThemeColors Colors { get; set; }
@@ -1242,4 +1244,6 @@ namespace BlueMystic
 			get { return Colors.Control; }
 		}
 	}
+
+	#endregion
 }
