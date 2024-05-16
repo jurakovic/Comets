@@ -55,6 +55,7 @@
 			// 
 			// btnSort
 			// 
+			this.btnSort.ContextMenuStrip = this.contextSort;
 			this.btnSort.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.btnSort.Location = new System.Drawing.Point(0, 0);
 			this.btnSort.Name = "btnSort";

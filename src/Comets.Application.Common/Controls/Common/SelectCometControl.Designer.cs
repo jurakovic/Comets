@@ -62,6 +62,7 @@
 			// 
 			// btnSelect
 			// 
+			this.btnSelect.ContextMenuStrip = this.ctxSelect;
 			this.btnSelect.Location = new System.Drawing.Point(72, 49);
 			this.btnSelect.Name = "btnSelect";
 			this.btnSelect.Size = new System.Drawing.Size(24, 24);
