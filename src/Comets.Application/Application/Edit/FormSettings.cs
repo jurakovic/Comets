@@ -37,6 +37,8 @@ namespace Comets.Application.Edit
 		{
 			Settings settings = CommonManager.Settings;
 
+			cboTheme.DataSource = SettingsManager.Themes;
+			cboTheme.SelectedIndex = (int)settings.Theme;
 			txtDownloadUrl.Text = settings.DownloadUrl;
 			chAutomaticUpdate.Checked = settings.AutomaticUpdate;
 			txtUpdateInterval.Text = settings.UpdateInterval.ToString();
@@ -46,8 +48,6 @@ namespace Comets.Application.Edit
 			cbxShowLongCalculationConfirmation.Checked = settings.ShowLongCalculationConfirmation;
 			cbxShowDeleteCometConfirmation.Checked = settings.ShowDeleteCometConfirmation;
 			chShowStatusBar.Checked = settings.ShowStatusBar;
-			cboTheme.DataSource = SettingsManager.Themes;
-			cboTheme.SelectedIndex = (int)settings.Theme;
 
 			rbNoProxy.Checked = !settings.UseProxy;
 			rbManualProxy.Checked = settings.UseProxy;
@@ -98,6 +98,7 @@ namespace Comets.Application.Edit
 
 			Settings settings = CommonManager.Settings;
 
+			settings.Theme = (SettingsManager.ThemeEnum)cboTheme.SelectedIndex;
 			settings.DownloadUrl = txtDownloadUrl.Text.Trim();
 			settings.AutomaticUpdate = chAutomaticUpdate.Checked;
 			settings.UpdateInterval = txtUpdateInterval.Int();
@@ -107,7 +108,6 @@ namespace Comets.Application.Edit
 			settings.ExitWithoutConfirm = chExitWithoutConfirm.Checked;
 			settings.RememberWindowPosition = chRememberWindowPosition.Checked;
 			settings.ShowStatusBar = chShowStatusBar.Checked;
-			settings.Theme = (SettingsManager.ThemeEnum)cboTheme.SelectedIndex;
 
 			settings.UseProxy = rbManualProxy.Checked;
 			settings.Domain = txtDomain.Text.Trim();

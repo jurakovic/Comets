@@ -157,7 +157,7 @@
 			// lblRestart
 			// 
 			this.lblRestart.AutoSize = true;
-			this.lblRestart.Location = new System.Drawing.Point(178, 79);
+			this.lblRestart.Location = new System.Drawing.Point(225, 20);
 			this.lblRestart.Name = "lblRestart";
 			this.lblRestart.Size = new System.Drawing.Size(90, 13);
 			this.lblRestart.TabIndex = 15;
@@ -167,15 +167,15 @@
 			// 
 			this.cboTheme.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cboTheme.FormattingEnabled = true;
-			this.cboTheme.Location = new System.Drawing.Point(62, 76);
+			this.cboTheme.Location = new System.Drawing.Point(99, 17);
 			this.cboTheme.Name = "cboTheme";
-			this.cboTheme.Size = new System.Drawing.Size(110, 21);
+			this.cboTheme.Size = new System.Drawing.Size(120, 21);
 			this.cboTheme.TabIndex = 14;
 			// 
 			// lblTheme
 			// 
 			this.lblTheme.AutoSize = true;
-			this.lblTheme.Location = new System.Drawing.Point(13, 79);
+			this.lblTheme.Location = new System.Drawing.Point(13, 20);
 			this.lblTheme.Name = "lblTheme";
 			this.lblTheme.Size = new System.Drawing.Size(43, 13);
 			this.lblTheme.TabIndex = 13;
@@ -193,7 +193,7 @@
 			// 
 			// txtDownloadUrl
 			// 
-			this.txtDownloadUrl.Location = new System.Drawing.Point(99, 17);
+			this.txtDownloadUrl.Location = new System.Drawing.Point(99, 46);
 			this.txtDownloadUrl.Name = "txtDownloadUrl";
 			this.txtDownloadUrl.Size = new System.Drawing.Size(400, 21);
 			this.txtDownloadUrl.TabIndex = 1;
@@ -201,7 +201,7 @@
 			// lblDownloadUrl
 			// 
 			this.lblDownloadUrl.AutoSize = true;
-			this.lblDownloadUrl.Location = new System.Drawing.Point(13, 20);
+			this.lblDownloadUrl.Location = new System.Drawing.Point(13, 49);
 			this.lblDownloadUrl.Name = "lblDownloadUrl";
 			this.lblDownloadUrl.Size = new System.Drawing.Size(80, 13);
 			this.lblDownloadUrl.TabIndex = 0;
@@ -220,7 +220,7 @@
 			// lblDays
 			// 
 			this.lblDays.AutoSize = true;
-			this.lblDays.Location = new System.Drawing.Point(270, 49);
+			this.lblDays.Location = new System.Drawing.Point(270, 79);
 			this.lblDays.Name = "lblDays";
 			this.lblDays.Size = new System.Drawing.Size(30, 13);
 			this.lblDays.TabIndex = 4;
@@ -228,7 +228,7 @@
 			// 
 			// txtUpdateInterval
 			// 
-			this.txtUpdateInterval.Location = new System.Drawing.Point(220, 46);
+			this.txtUpdateInterval.Location = new System.Drawing.Point(220, 76);
 			this.txtUpdateInterval.MaxLength = 2;
 			this.txtUpdateInterval.Name = "txtUpdateInterval";
 			this.txtUpdateInterval.Size = new System.Drawing.Size(44, 21);
@@ -282,7 +282,7 @@
 			// chAutomaticUpdate
 			// 
 			this.chAutomaticUpdate.AutoSize = true;
-			this.chAutomaticUpdate.Location = new System.Drawing.Point(13, 48);
+			this.chAutomaticUpdate.Location = new System.Drawing.Point(13, 78);
 			this.chAutomaticUpdate.Name = "chAutomaticUpdate";
 			this.chAutomaticUpdate.Size = new System.Drawing.Size(204, 17);
 			this.chAutomaticUpdate.TabIndex = 2;
