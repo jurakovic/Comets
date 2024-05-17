@@ -655,7 +655,7 @@ namespace BlueMystic
 				_ret.TextInactive = Color.FromArgb(176, 176, 176);  //<- Blanco Palido
 				_ret.TextInAccent = GetReadableColor(_ret.Accent);
 
-				_ret.Control = Color.FromArgb(55, 55, 55);       //<- Gris Oscuro
+				_ret.Control = Color.Blue;// FromArgb(55, 55, 55);       //<- Gris Oscuro
 				_ret.ControlDark = ControlPaint.Dark(_ret.Control);
 				_ret.ControlLight = Color.FromArgb(67, 67, 67);
 
@@ -968,7 +968,7 @@ namespace BlueMystic
 		// Background of the whole ToolBar Or MenuBar:
 		protected override void OnRenderToolStripBackground(ToolStripRenderEventArgs e)
 		{
-			e.ToolStrip.BackColor = MyColors.Background;
+			e.ToolStrip.BackColor = Color.Violet;// MyColors.Background;
 			base.OnRenderToolStripBackground(e);
 		}
 
@@ -1168,14 +1168,14 @@ namespace BlueMystic
 			var _menu = e.Item as ToolStripItem;
 			if (_menu.Pressed)
 			{
-				gradientBegin = MyColors.Control; // Color.FromArgb(254, 128, 62);
-				gradientEnd = MyColors.Control; // Color.FromArgb(255, 223, 154);
+				gradientBegin = Color.Yellow;//MyColors.Accent; // Color.FromArgb(254, 128, 62);
+				gradientEnd =   Color.Yellow;//olors.Accent; // Color.FromArgb(255, 223, 154);
 				DrawIt = true;
 			}
 			else if (_menu.Selected)
 			{
-				gradientBegin = MyColors.Accent;// Color.FromArgb(255, 255, 222);
-				gradientEnd = MyColors.Accent; // Color.FromArgb(255, 203, 136);
+				gradientBegin = Color.Red;//MyColors.Accent;// Color.FromArgb(255, 255, 222);
+				gradientEnd =   Color.Red;//yColors.Accent; // Color.FromArgb(255, 203, 136);
 				DrawIt = true;
 			}
 
@@ -1233,15 +1233,15 @@ namespace BlueMystic
 
 		public override Color ImageMarginGradientBegin
 		{
-			get { return Colors.Control; }
+			get { return Color.Green; }
 		}
 		public override Color ImageMarginGradientMiddle
 		{
-			get { return Colors.Control; }
+			get { return Color.Green; }
 		}
 		public override Color ImageMarginGradientEnd
 		{
-			get { return Colors.Control; }
+			get { return Color.Green; }
 		}
 	}
 
