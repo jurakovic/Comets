@@ -3,6 +3,7 @@ using Comets.Core.Extensions;
 using Comets.Core.Managers;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -77,7 +78,6 @@ namespace Comets.Application.Graph
 			timespanControl.PerihelionDate = EphemerisManager.JDToDateTimeSafe(settings.SelectedComet?.Tn);
 
 			chartTypeControl.ChartType = settings.GraphChartType;
-
 			chartOptionsControl.MagnitudeColor = settings.MagnitudeColor;
 			chartOptionsControl.NowLineChecked = settings.NowLineChecked;
 			chartOptionsControl.NowLineColor = settings.NowLineColor;
@@ -144,6 +144,8 @@ namespace Comets.Application.Graph
 
 				settings.GraphChartType = chartTypeControl.ChartType;
 
+				settings.BackgroundColor = this.IsDarkMode ? Color.FromArgb(55, 55, 55) : settings.BackgroundColor;
+				settings.TextColor = this.IsDarkMode ? Color.White : settings.TextColor;
 				settings.MagnitudeColor = chartOptionsControl.MagnitudeColor;
 				settings.NowLineChecked = chartOptionsControl.NowLineChecked;
 				settings.NowLineColor = chartOptionsControl.NowLineColor;

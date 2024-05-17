@@ -13,6 +13,8 @@ namespace Comets.Core
 
 		#region Properties
 
+		public Color BackgroundColor { get; set; } = Color.White;
+		public Color TextColor { get; set; } = Color.Black;
 		public Color MagnitudeColor { get; set; } = Color.Red;
 		public bool PerihelionLineChecked { get; set; } = true;
 		public Color PerihelionLineColor { get; set; } = Color.RoyalBlue;

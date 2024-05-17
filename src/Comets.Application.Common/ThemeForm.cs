@@ -13,6 +13,8 @@ namespace Comets.Application
 	{
 		private DarkModeCS _darkMode = null;
 
+		public bool IsDarkMode => (_darkMode?.IsDarkMode).GetValueOrDefault();
+
 		public ThemeForm()
 		{
 			this.Load += this.FormSettings_Load;
