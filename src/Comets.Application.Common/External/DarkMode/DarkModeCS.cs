@@ -1249,6 +1249,10 @@ namespace BlueMystic
 		{
 			get { return this.Color; }
 		}
+
+		public override Color CheckBackground => Colors.Background;
+		public override Color CheckSelectedBackground => Colors.Control;
+		public override Color CheckPressedBackground => Colors.Surface;
 	}
 
 	#endregion
