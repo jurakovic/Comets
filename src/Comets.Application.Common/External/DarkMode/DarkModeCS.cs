@@ -968,6 +968,7 @@ namespace BlueMystic
 		// Background of the whole ToolBar Or MenuBar:
 		protected override void OnRenderToolStripBackground(ToolStripRenderEventArgs e)
 		{
+			// menu, menu items
 			e.ToolStrip.BackColor = MyColors.Background;
 			base.OnRenderToolStripBackground(e);
 		}
@@ -1168,14 +1169,16 @@ namespace BlueMystic
 			var _menu = e.Item as ToolStripItem;
 			if (_menu.Pressed)
 			{
-				gradientBegin = MyColors.Control; // Color.FromArgb(254, 128, 62);
-				gradientEnd = MyColors.Control; // Color.FromArgb(255, 223, 154);
+				// clicked menu item
+				gradientBegin = MyColors.Surface;//Color.FromArgb(255, 46, 46, 46);
+				gradientEnd = MyColors.Surface; //Color.FromArgb(255, 46, 46, 46);
 				DrawIt = true;
 			}
 			else if (_menu.Selected)
 			{
-				gradientBegin = MyColors.Accent;// Color.FromArgb(255, 255, 222);
-				gradientEnd = MyColors.Accent; // Color.FromArgb(255, 203, 136);
+				// hovered menu item
+				gradientBegin = MyColors.Control;//Color.FromArgb(255, 61, 61, 61);
+				gradientEnd = MyColors.Control; //Color.FromArgb(255, 61, 61, 61);
 				DrawIt = true;
 			}
 
@@ -1231,17 +1234,20 @@ namespace BlueMystic
 			base.UseSystemColors = false;
 		}
 
+		// menu item icon area (left side)
+		private Color Color => Colors.Background;
+
 		public override Color ImageMarginGradientBegin
 		{
-			get { return Colors.Control; }
+			get { return this.Color; }
 		}
 		public override Color ImageMarginGradientMiddle
 		{
-			get { return Colors.Control; }
+			get { return this.Color; }
 		}
 		public override Color ImageMarginGradientEnd
 		{
-			get { return Colors.Control; }
+			get { return this.Color; }
 		}
 	}
 
