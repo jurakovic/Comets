@@ -262,27 +262,22 @@ namespace Comets.Core.Managers
 			decimal xMaxValue = settings.Stop.JD();
 
 			chart1.AntiAliasing = settings.AntialiasingChecked ? AntiAliasingStyles.All : AntiAliasingStyles.Text;
-			chart1.BackColor = SystemColors.ControlDarkDark;
 
 			ChartArea chartArea = new ChartArea();
 			chartArea.Name = chartAreaName;
-			chartArea.BackColor = Color.Blue;
 
 			chartArea.AxisX2.Title = xAxisText;
 			chartArea.AxisX2.TitleAlignment = StringAlignment.Far;
 			chartArea.AxisX2.TitleFont = new Font("Tahoma", 8.25F);
-			chartArea.AxisX2.TitleForeColor = Color.Red;
 			chartArea.AxisX2.MajorGrid.Enabled = false;
 			chartArea.AxisX2.IsLabelAutoFit = false;
 			chartArea.AxisX2.LabelAutoFitStyle = LabelAutoFitStyles.WordWrap;
 			chartArea.AxisX2.IsMarginVisible = false;
 			chartArea.AxisX2.LabelStyle.Font = new Font("Tahoma", 8.25F);
-			chartArea.AxisX2.LabelStyle.ForeColor = Color.Violet;
 			chartArea.AxisX2.LabelStyle.Format = (xMaxValue - xMinValue) <= 3.0m ? DateTimeFormat.GraphLong : DateTimeFormat.GraphShort;
 			chartArea.AxisY.Title = yAxisText;
 			chartArea.AxisY.TitleAlignment = StringAlignment.Far;
 			chartArea.AxisY.TitleFont = new Font("Tahoma", 8.25F);
-			chartArea.AxisY.TitleForeColor = Color.Yellow;
 			chartArea.AxisY.TextOrientation = TextOrientation.Rotated270;
 			chartArea.AxisY.IsReversed = true;
 			chartArea.AxisY.MajorGrid.Enabled = false;
@@ -290,7 +285,6 @@ namespace Comets.Core.Managers
 			chartArea.AxisY.IsMarginVisible = false;
 			chartArea.AxisY.MajorTickMark.Size = 0.5F;
 			chartArea.AxisY.LabelStyle.Font = new Font("Tahoma", 8.25F);
-			chartArea.AxisY.LabelStyle.ForeColor = Color.Green;
 			chartArea.AxisY.LabelStyle.Format = "00.00";
 
 			double yInterval = 0D;
@@ -378,7 +372,6 @@ namespace Comets.Core.Managers
 			{
 				Title title = new Title(settings.SelectedComet.ToString());
 				title.Font = new Font("Tahoma", 11.25F);
-				title.ForeColor = Color.Orange;
 				chart1.Titles.Add(title);
 			}
 		}
