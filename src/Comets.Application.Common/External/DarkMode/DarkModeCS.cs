@@ -14,7 +14,6 @@ namespace BlueMystic
 	{
 		#region Win32 API Declarations
 
-
 		public struct DWMCOLORIZATIONcolors
 		{
 			public uint ColorizationColor,
@@ -586,7 +585,6 @@ namespace BlueMystic
 			throw new NotImplementedException();
 		}
 
-
 		/// <summary>Returns Windows Color Mode for Applications.
 		/// <para>0=dark theme, 1=light theme</para>
 		/// </summary>
@@ -769,6 +767,7 @@ namespace BlueMystic
 			}
 			return bmp2;
 		}
+
 		public static Image ChangeToColor(Image bmp, Color c) => (Image)ChangeToColor((Bitmap)bmp, c);
 
 		#endregion
@@ -779,7 +778,7 @@ namespace BlueMystic
 		/// <param name="control"></param>
 		private static void ApplySystemDarkTheme(Control control = null, bool isDarkMode = false)
 		{
-			/* 			    
+			/*
 				DWMWA_USE_IMMERSIVE_DARK_MODE:   https://learn.microsoft.com/en-us/windows/win32/api/dwmapi/ne-dwmapi-dwmwindowattribute
 
 				Use with DwmSetWindowAttribute. Allows the window frame for this window to be drawn in dark mode colors when the dark mode system setting is enabled. 
@@ -790,7 +789,7 @@ namespace BlueMystic
 
 				SetWindowTheme:     https://learn.microsoft.com/en-us/windows/win32/api/uxtheme/nf-uxtheme-setwindowtheme
 				Causes a window to use a different set of visual style information than its class normally uses.
-			 */
+			*/
 			int[] DarkModeOn = new[] { isDarkMode ? 0x01 : 0x00 }; //<- 1=True, 0=False
 
 			SetWindowTheme(control.Handle, "DarkMode_Explorer", null);
@@ -807,10 +806,7 @@ namespace BlueMystic
 
 		private static bool IsWindows10orGreater()
 		{
-			if (WindowsVersion() >= 10)
-				return true;
-			else
-				return false;
+			return (WindowsVersion() >= 10);
 		}
 
 		private static int WindowsVersion()
@@ -863,8 +859,6 @@ namespace BlueMystic
 	/// <summary>Windows 10+ System Colors for Clear Color Mode.</summary>
 	public class OSThemeColors
 	{
-		public OSThemeColors() { }
-
 		/// <summary>For the MDI AppWorkspace</summary>
 		public System.Drawing.Color AppWorkspace { get; set; } = SystemColors.AppWorkspace;
 
@@ -1068,7 +1062,6 @@ namespace BlueMystic
 				e.Graphics.FillRectangle(b, bounds);
 			}
 
-
 			//3. Draws the Chevron:
 			#region Chevron
 
@@ -1166,15 +1159,15 @@ namespace BlueMystic
 			Color gradientEnd = MyColors.Background; // Color.FromArgb(125, 165, 224);
 
 			bool DrawIt = false;
-			var _menu = e.Item as ToolStripItem;
-			if (_menu.Pressed)
+
+			if (e.Item.Pressed)
 			{
 				// clicked menu item
 				gradientBegin = MyColors.Surface;//Color.FromArgb(255, 46, 46, 46);
 				gradientEnd = MyColors.Surface; //Color.FromArgb(255, 46, 46, 46);
 				DrawIt = true;
 			}
-			else if (_menu.Selected)
+			else if (e.Item.Selected)
 			{
 				// hovered menu item
 				gradientBegin = MyColors.Control;//Color.FromArgb(255, 61, 61, 61);
@@ -1185,10 +1178,10 @@ namespace BlueMystic
 			if (DrawIt)
 			{
 				using (Brush b = new LinearGradientBrush(
-				bounds,
-				gradientBegin,
-				gradientEnd,
-				LinearGradientMode.Vertical))
+					bounds,
+					gradientBegin,
+					gradientEnd,
+					LinearGradientMode.Vertical))
 				{
 					g.FillRectangle(b, bounds);
 				}
@@ -1212,12 +1205,8 @@ namespace BlueMystic
 					e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
 					e.Graphics.DrawImage(adjustedImage, e.ImageRectangle);
 				}
-
 			}
 		}
-
-
-
 	}
 
 	#endregion
@@ -1235,21 +1224,11 @@ namespace BlueMystic
 		}
 
 		// menu item icon area (left side)
-		private Color Color => Colors.Background;
+		public override Color ImageMarginGradientBegin => Colors.Background;
+		public override Color ImageMarginGradientMiddle => Colors.Background;
+		public override Color ImageMarginGradientEnd => Colors.Background;
 
-		public override Color ImageMarginGradientBegin
-		{
-			get { return this.Color; }
-		}
-		public override Color ImageMarginGradientMiddle
-		{
-			get { return this.Color; }
-		}
-		public override Color ImageMarginGradientEnd
-		{
-			get { return this.Color; }
-		}
-
+		// menu item checkbox
 		public override Color CheckBackground => Colors.Background;
 		public override Color CheckSelectedBackground => Colors.Control;
 		public override Color CheckPressedBackground => Colors.Surface;
