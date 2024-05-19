@@ -1,11 +1,16 @@
-﻿using System;
+﻿/*********************************************************************************\
+Credits:  BlueMystic
+Original: https://github.com/BlueMystical/Dark-Mode-Forms/blob/v1.6.1/DarkModeCS.cs
+Fork:     https://github.com/jurakovic/Dark-Mode-Forms/blob/main/DarkModeCS.cs
+\*********************************************************************************/
+
+using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using ThemeEnum = Comets.Core.Managers.SettingsManager.ThemeEnum;
 
-// src: https://github.com/BlueMystical/Dark-Mode-Forms/blob/v1.6.1/DarkModeCS.cs
 namespace BlueMystic
 {
 	/// <summary>This tries to automatically apply Windows Dark Mode (if enabled) to a Form.
@@ -158,7 +163,6 @@ namespace BlueMystic
 			DWMWCP_ROUNDSMALL = 3
 		}
 
-
 		[Serializable, StructLayout(LayoutKind.Sequential)]
 		public struct RECT
 		{
@@ -177,7 +181,6 @@ namespace BlueMystic
 
 		[DllImport("user32.dll", CharSet = CharSet.Auto)]
 		public extern static IntPtr SendMessage(IntPtr hWnd, int msg, IntPtr wParam, [MarshalAs(UnmanagedType.LPWStr)] string lParam);
-
 
 		[DllImport("DwmApi")]
 		public static extern int DwmSetWindowAttribute(IntPtr hwnd, int attr, int[] attrValue, int attrSize);
@@ -261,7 +264,7 @@ namespace BlueMystic
 					break;
 			}
 
-			OScolors = GetSystemColors(OwnerForm, IsDarkMode);
+			OScolors = GetSystemColors(IsDarkMode);
 
 			if (IsDarkMode && OScolors != null)
 			{
@@ -296,8 +299,8 @@ namespace BlueMystic
 		/// <param name="control">Can be a Form or any Winforms Control.</param>
 		public void ThemeControl(Control control)
 		{
-			BorderStyle BStyle = (IsDarkMode ? BorderStyle.FixedSingle : BorderStyle.Fixed3D);
-			FlatStyle FStyle = (IsDarkMode ? FlatStyle.Flat : FlatStyle.Standard);
+			BorderStyle BStyle = IsDarkMode ? BorderStyle.FixedSingle : BorderStyle.Fixed3D;
+			FlatStyle FStyle = IsDarkMode ? FlatStyle.Flat : FlatStyle.Standard;
 
 			//Change the Colors only if its the default ones, this allows the user to set own colors:
 			if (control.BackColor == SystemColors.Control || control.BackColor == SystemColors.Window)
@@ -431,12 +434,10 @@ namespace BlueMystic
 								}
 							}
 						}
-
 					};
 					lView.DrawItem += (sender, e) => { e.DrawDefault = true; };
 					lView.DrawSubItem += (sender, e) =>
 					{
-
 						e.DrawDefault = true;
 						/*
 						IntPtr headerControl = GetHeaderControl(lView);
@@ -633,7 +634,7 @@ namespace BlueMystic
 		/// <summary>Returns Windows's System Colors for UI components following Google Material Design concepts.</summary>
 		/// <param name="Window">[OPTIONAL] Applies DarkMode (if set) to this Window Title and Background.</param>
 		/// <returns>List of Colors:  Background, OnBackground, Surface, OnSurface, Primary, OnPrimary, Secondary, OnSecondary</returns>
-		public static OSThemeColors GetSystemColors(Form Window = null, bool isDarkMode = false)
+		public static OSThemeColors GetSystemColors(bool isDarkMode)
 		{
 			OSThemeColors _ret = new OSThemeColors();
 
@@ -733,7 +734,6 @@ namespace BlueMystic
 			catch { throw; }
 		}
 
-
 		/// <summary>Colorea una imagen usando una Matrix de Color.</summary>
 		/// <param name="bmp">Imagen a Colorear</param>
 		/// <param name="c">Color a Utilizar</param>
@@ -806,7 +806,7 @@ namespace BlueMystic
 
 		private static bool IsWindows10orGreater()
 		{
-			return (WindowsVersion() >= 10);
+			return WindowsVersion() >= 10;
 		}
 
 		private static int WindowsVersion()
@@ -1037,8 +1037,6 @@ namespace BlueMystic
 			Rectangle bounds = new Rectangle(Point.Empty, e.Item.Size);
 			Color gradientBegin = MyColors.Background; // Color.FromArgb(203, 225, 252);
 			Color gradientEnd = MyColors.Background;
-
-			Pen BordersPencil = new Pen(MyColors.Background);
 
 			//1. Determine the colors to use:
 			if (e.Item.Pressed)
