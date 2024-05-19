@@ -38,7 +38,7 @@ namespace Comets.Application.Edit
 			Settings settings = CommonManager.Settings;
 
 			cboTheme.DataSource = SettingsManager.Themes;
-			cboTheme.SelectedIndex = (int)settings.Theme;
+			cboTheme.SelectedIndex = (int)settings.SelectedTheme;
 			txtDownloadUrl.Text = settings.DownloadUrl;
 			chAutomaticUpdate.Checked = settings.AutomaticUpdate;
 			txtUpdateInterval.Text = settings.UpdateInterval.ToString();
@@ -98,7 +98,7 @@ namespace Comets.Application.Edit
 
 			Settings settings = CommonManager.Settings;
 
-			settings.Theme = (SettingsManager.ThemeEnum)cboTheme.SelectedIndex;
+			settings.SelectedTheme = (SettingsManager.ThemeEnum)cboTheme.SelectedIndex;
 			settings.DownloadUrl = txtDownloadUrl.Text.Trim();
 			settings.AutomaticUpdate = chAutomaticUpdate.Checked;
 			settings.UpdateInterval = txtUpdateInterval.Int();

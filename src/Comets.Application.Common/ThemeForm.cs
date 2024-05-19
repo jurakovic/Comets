@@ -22,7 +22,7 @@ namespace Comets.Application
 
 		private void FormSettings_Load(object sender, EventArgs e)
 		{
-			_darkMode = new DarkModeCS(this, CommonManager.Settings.Theme);
+			_darkMode = new DarkModeCS(this, CommonManager.Settings.ActiveTheme);
 		}
 	}
 }

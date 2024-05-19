@@ -9,7 +9,8 @@ namespace Comets.Core
 		#region Properties
 
 		//General
-		public SettingsManager.ThemeEnum Theme { get; set; }
+		public SettingsManager.ThemeEnum ActiveTheme { get; set; }
+		public SettingsManager.ThemeEnum SelectedTheme { get; set; }
 		public string DownloadUrl { get; set; }
 		public bool AutomaticUpdate { get; set; }
 		public int UpdateInterval { get; set; }
@@ -52,7 +53,8 @@ namespace Comets.Core
 
 		public Settings()
 		{
-			Theme = SettingsManager.ThemeEnum.Light;
+			ActiveTheme = SettingsManager.ThemeEnum.Light;
+			SelectedTheme = SettingsManager.ThemeEnum.Light;
 			DownloadUrl = "https://minorplanetcenter.net/iau/Ephemerides/Comets/Soft00Cmt.txt";
 			AutomaticUpdate = true;
 			UpdateInterval = 7;
