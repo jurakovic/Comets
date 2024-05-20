@@ -6,22 +6,23 @@
 ---
 
 Inspired by [Comet for Windows](http://www.aerith.net/project/comet.html).  
-Incorporates more advanced version of [OrbitViewer.NET](https://github.com/jurakovic/OrbitViewer.NET).  
+Incorporates more advanced version of [OrbitViewer.NET](https://github.com/jurakovic/OrbitViewer.NET) (C# rewrite of [OrbitViewer](https://www.astroarts.co.jp/products/orbitviewer/index.html)).  
 
 
 ### Features
 
 - Calculate ephemeris
+- Plot graph with visual magnitude or distance to Sun or Earth
+- *3D* Orbit Viewer
+- Convert to and from multiple orbital elements ([MPC](https://minorplanetcenter.net/iau/Ephemerides/SoftwareEls.html))
+- Dark theme (thanks to ["Dark-Mode-Forms" by BlueMystical](https://github.com/BlueMystical/Dark-Mode-Forms); [my fork here](https://github.com/jurakovic/Dark-Mode-Forms))
+
+### Screenshots
 
 ![Ephemeris](img/ephemeris.png)
-
-- Plot graph with visual magnitude or distance to Sun or Earth
-
 ![Graph](img/graph.png)
-
-- *3D* Orbit Viewer
-
 ![Orbit](img/orbit.png)
+
 
 ---
 
