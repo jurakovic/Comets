@@ -17,10 +17,16 @@ Incorporates more advanced version of [OrbitViewer.NET](https://github.com/jurak
 - Convert to and from multiple orbital elements ([MPC](https://minorplanetcenter.net/iau/Ephemerides/SoftwareEls.html))
 - Dark theme (thanks to ["Dark-Mode-Forms" by BlueMystical](https://github.com/BlueMystical/Dark-Mode-Forms); [my fork here](https://github.com/jurakovic/Dark-Mode-Forms))
 
+
+### Download
+
+[Latest Release](https://github.com/jurakovic/Comets/releases/latest)
+
+
 ### Screenshots
 
 ![Ephemeris](img/ephemeris.png)
-![Ephemeris_darak](img/ephemeris_dark.png)
+![Ephemeris_dark](img/ephemeris_dark.png)
 ![Graph](img/graph.png)
 ![Graph_dark](img/graph_dark.png)
 ![Orbit](img/orbit.png)
