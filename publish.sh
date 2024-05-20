@@ -41,6 +41,7 @@ function main() {
 
     local sha256=$(sha256sum.exe "$release_path/$assembly_name" | cut -d " " -f 1)
     local url="https://github.com/jurakovic/Comets/releases/tag/v$VERSION"
+    echo "$sha256  $assembly_name" > $release_path/checksum.txt
 
     echo
     echo -e "${Color_Green}Release OK${Color_Off}"
