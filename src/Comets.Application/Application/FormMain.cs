@@ -16,7 +16,7 @@ using System.Windows.Forms;
 
 namespace Comets.Application
 {
-	public partial class FormMain : Form
+	public partial class FormMain : ThemeForm
 	{
 		#region Properties
 
@@ -502,5 +502,6 @@ namespace Comets.Application
 		}
 
 		#endregion
+
 	}
 }

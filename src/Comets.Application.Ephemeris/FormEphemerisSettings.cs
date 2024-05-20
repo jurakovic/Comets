@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace Comets.Application.Ephemeris
 {
-	public partial class FormEphemerisSettings : Form
+	public partial class FormEphemerisSettings : ThemeForm
 	{
 		#region Events
 
@@ -31,56 +31,13 @@ namespace Comets.Application.Ephemeris
 		{
 			InitializeComponent();
 			this.Progress = progress;
+			this.EphemerisSettings = settings;
+
+			if (this.EphemerisSettings != null && this.EphemerisSettings.Filters == null)
+				this.EphemerisSettings.Filters = filters;
 
 			selectCometControl.OnSelectedCometChanged += OnSelectedCometChanged;
 			selectCometControl.OnCometsFiltered += OnCometsFiltered;
-
-			if (settings == null)
-			{
-				selectCometControl.SortProperty = CommonManager.DefaultSortProperty;
-				selectCometControl.SortAscending = CommonManager.DefaultSortAscending;
-				timespanControl.DateStart = CommonManager.DefaultDateStart;
-				timespanControl.DateEnd = CommonManager.DefaultDateEnd;
-				intervalControl.DayInterval = 1;
-				intervalControl.HourInterval = 0;
-				intervalControl.MinuteInterval = 0;
-			}
-			else
-			{
-				if (settings.Filters == null)
-					settings.Filters = filters;
-
-				selectCometControl.SortProperty = settings.SortProperty;
-				selectCometControl.SortAscending = settings.SortAscending;
-
-				timespanControl.DateStart = settings.Start;
-				timespanControl.DateEnd = settings.Stop;
-				timespanControl.PerihelionDate = EphemerisManager.JDToDateTimeSafe(settings.SelectedComet?.Tn);
-				intervalControl.DayInterval = settings.TimeSpan.Days;
-				intervalControl.HourInterval = settings.TimeSpan.Hours;
-				intervalControl.MinuteInterval = settings.TimeSpan.Minutes;
-
-				outputDataControl.LocalTime = settings.LocalTime;
-				outputDataControl.RA = settings.RA;
-				outputDataControl.Dec = settings.Dec;
-				outputDataControl.EcLon = settings.EcLon;
-				outputDataControl.EcLat = settings.EcLat;
-				outputDataControl.HelioDist = settings.HelioDist;
-				outputDataControl.GeoDist = settings.GeoDist;
-				outputDataControl.Alt = settings.Alt;
-				outputDataControl.Az = settings.Az;
-				outputDataControl.Elongation = settings.Elongation;
-				outputDataControl.Magnitude = settings.Magnitude;
-
-				requirementsControl.MaxSunDistValue = settings.MaxSunDistValue;
-				requirementsControl.MaxSunDistChecked = settings.MaxSunDistChecked;
-				requirementsControl.MaxEarthDistValue = settings.MaxEarthDistValue;
-				requirementsControl.MaxEarthDistChecked = settings.MaxEarthDistChecked;
-				requirementsControl.MinMagnitudeValue = settings.MinMagnitudeValue;
-				requirementsControl.MinMagnitudeChecked = settings.MinMagnitudeChecked;
-
-				this.EphemerisSettings = settings;
-			}
 		}
 
 		#endregion
@@ -91,27 +48,53 @@ namespace Comets.Application.Ephemeris
 
 		private void FormEphemerisSettings_Load(object sender, EventArgs e)
 		{
-			EphemerisSettings settings;
+			EphemerisSettings settings = this.EphemerisSettings;
 
-			if (this.EphemerisSettings == null)
+			if (settings == null)
 			{
 				settings = new EphemerisSettings();
 				settings.Comets = new CometCollection(CommonManager.UserCollection);
 				settings.Filters = CommonManager.Filters;
 				settings.SortProperty = CommonManager.SortProperty;
 				settings.SortAscending = CommonManager.SortAscending;
+				settings.Start = CommonManager.DefaultDateStart;
+				settings.Stop = CommonManager.DefaultDateEnd;
 				settings.AddNew = true;
 
 				this.EphemerisSettings = settings;
 			}
-
-			settings = this.EphemerisSettings;
 
 			selectCometControl.Comets = settings.Comets;
 			selectCometControl.Filters = settings.Filters;
 			selectCometControl.SortProperty = settings.SortProperty;
 			selectCometControl.SortAscending = settings.SortAscending;
 			selectCometControl.DataBind(settings.SelectedComet, settings.IsMultipleMode);
+
+			timespanControl.DateStart = settings.Start;
+			timespanControl.DateEnd = settings.Stop;
+			timespanControl.PerihelionDate = EphemerisManager.JDToDateTimeSafe(settings.SelectedComet?.Tn);
+			intervalControl.DayInterval = settings.TimeSpan.Days;
+			intervalControl.HourInterval = settings.TimeSpan.Hours;
+			intervalControl.MinuteInterval = settings.TimeSpan.Minutes;
+
+			outputDataControl.LocalTime = settings.LocalTime;
+			outputDataControl.RA = settings.RA;
+			outputDataControl.Dec = settings.Dec;
+			outputDataControl.EcLon = settings.EcLon;
+			outputDataControl.EcLat = settings.EcLat;
+			outputDataControl.HelioDist = settings.HelioDist;
+			outputDataControl.GeoDist = settings.GeoDist;
+			outputDataControl.Alt = settings.Alt;
+			outputDataControl.Az = settings.Az;
+			outputDataControl.Elongation = settings.Elongation;
+			outputDataControl.Magnitude = settings.Magnitude;
+
+			requirementsControl.MaxSunDistValue = settings.MaxSunDistValue;
+			requirementsControl.MaxSunDistChecked = settings.MaxSunDistChecked;
+			requirementsControl.MaxEarthDistValue = settings.MaxEarthDistValue;
+			requirementsControl.MaxEarthDistChecked = settings.MaxEarthDistChecked;
+			requirementsControl.MinMagnitudeValue = settings.MinMagnitudeValue;
+			requirementsControl.MinMagnitudeChecked = settings.MinMagnitudeChecked;
 		}
 
 		private void FormEphemerisSettings_FormClosing(object sender, FormClosingEventArgs e)

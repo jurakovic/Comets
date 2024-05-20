@@ -274,7 +274,7 @@
 			// 
 			this.menuItemViewAlwaysOnTop.MergeIndex = 0;
 			this.menuItemViewAlwaysOnTop.Name = "menuItemViewAlwaysOnTop";
-			this.menuItemViewAlwaysOnTop.Size = new System.Drawing.Size(157, 22);
+			this.menuItemViewAlwaysOnTop.Size = new System.Drawing.Size(180, 22);
 			this.menuItemViewAlwaysOnTop.Text = "Always on &Top";
 			this.menuItemViewAlwaysOnTop.Click += this.menuItemViewAlwaysOnTop_Click;
 			// 
@@ -284,7 +284,7 @@
 			this.menuItemViewStatusBar.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.menuItemViewStatusBar.MergeIndex = 1;
 			this.menuItemViewStatusBar.Name = "menuItemViewStatusBar";
-			this.menuItemViewStatusBar.Size = new System.Drawing.Size(157, 22);
+			this.menuItemViewStatusBar.Size = new System.Drawing.Size(180, 22);
 			this.menuItemViewStatusBar.Text = "Show &status bar";
 			this.menuItemViewStatusBar.Click += this.menuItemViewStatusBar_Click;
 			// 

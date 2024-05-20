@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace Comets.Application.Edit
 {
-	public partial class FormSettings : Form
+	public partial class FormSettings : ThemeForm
 	{
 		#region Properties
 
@@ -37,6 +37,8 @@ namespace Comets.Application.Edit
 		{
 			Settings settings = CommonManager.Settings;
 
+			cboTheme.DataSource = SettingsManager.Themes;
+			cboTheme.SelectedIndex = (int)settings.SelectedTheme;
 			txtDownloadUrl.Text = settings.DownloadUrl;
 			chAutomaticUpdate.Checked = settings.AutomaticUpdate;
 			txtUpdateInterval.Text = settings.UpdateInterval.ToString();
@@ -96,6 +98,7 @@ namespace Comets.Application.Edit
 
 			Settings settings = CommonManager.Settings;
 
+			settings.SelectedTheme = (SettingsManager.ThemeEnum)cboTheme.SelectedIndex;
 			settings.DownloadUrl = txtDownloadUrl.Text.Trim();
 			settings.AutomaticUpdate = chAutomaticUpdate.Checked;
 			settings.UpdateInterval = txtUpdateInterval.Int();

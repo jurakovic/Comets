@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace Comets.Application.Ephemeris
 {
-	public partial class FormEphemeris : Form, ISave
+	public partial class FormEphemeris : ThemeForm, ISave
 	{
 		#region Properties
 

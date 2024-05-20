@@ -11,7 +11,7 @@ using ImportType = Comets.Core.Managers.ElementTypesManager.Type;
 
 namespace Comets.Application.Edit
 {
-	public partial class FormUpdate : Form
+	public partial class FormUpdate : ThemeForm
 	{
 		#region Events
 
