@@ -381,16 +381,16 @@
 			// 
 			// statusComets
 			// 
-			this.statusComets.AutoSize = false;
 			this.statusComets.Name = "statusComets";
-			this.statusComets.Size = new System.Drawing.Size(200, 17);
+			this.statusComets.Size = new System.Drawing.Size(60, 17);
 			this.statusComets.Text = "Comets: 0";
 			this.statusComets.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.statusComets.Click += this.statusComets_Click;
 			// 
 			// statusSpace
 			// 
 			this.statusSpace.Name = "statusSpace";
-			this.statusSpace.Size = new System.Drawing.Size(569, 17);
+			this.statusSpace.Size = new System.Drawing.Size(476, 17);
 			this.statusSpace.Spring = true;
 			// 
 			// statusProgressBar

@@ -430,6 +430,15 @@ namespace Comets.Application
 
 		#endregion
 
+		#region StatusStrip
+
+		private void statusComets_Click(object sender, EventArgs e)
+		{
+			menuItemDatabase_Click(sender, e);
+		}
+
+		#endregion
+
 		#endregion
 
 		#region Methods
