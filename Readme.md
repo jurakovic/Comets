@@ -20,8 +20,11 @@ Incorporates more advanced version of [OrbitViewer.NET](https://github.com/jurak
 ### Screenshots
 
 ![Ephemeris](img/ephemeris.png)
+![Ephemeris_darak](img/ephemeris_dark.png)
 ![Graph](img/graph.png)
+![Graph_dark](img/graph_dark.png)
 ![Orbit](img/orbit.png)
+![Orbit_dark](img/orbit_dark.png)
 
 
 ---
