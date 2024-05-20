@@ -173,7 +173,7 @@ namespace Comets.Application.Edit
 			gbxPrograms.Visible = false;
 			gbxAddProgram.Visible = true;
 
-			cbxProgram_SelectedIndexChanged(null, null);
+			txtDirectory.Text = Programs.FirstOrDefault(x => x.Type == cbxExternalProgram.SelectedIndex)?.Directory;
 		}
 
 		private void btnEdit_Click(object sender, EventArgs e)
@@ -206,19 +206,13 @@ namespace Comets.Application.Edit
 
 		private void cbxProgram_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			if (Programs.Any(x => x.Type == cbxExternalProgram.SelectedIndex))
-				txtDirectory.Text = Programs.Where(x => x.Type == cbxExternalProgram.SelectedIndex).First().Directory;
-			else
-				txtDirectory.Text = String.Empty;
+			txtDirectory.Text = Programs.FirstOrDefault(x => x.Type == cbxExternalProgram.SelectedIndex)?.Directory;
 		}
 
 		private void btnBrowse_Click(object sender, EventArgs e)
 		{
 			using (FolderBrowserDialog fbd = new FolderBrowserDialog())
 			{
-				fbd.Description = "Select " + ElementTypesManager.Software[cbxExternalProgram.SelectedIndex] + " directory";
-				fbd.ShowNewFolderButton = true;
-
 				if (fbd.ShowDialog() == DialogResult.OK)
 					txtDirectory.Text = fbd.SelectedPath;
 			}
@@ -236,6 +230,10 @@ namespace Comets.Application.Edit
 
 			if (text.Length > 0 && System.IO.Directory.Exists(text))
 			{
+				ExternalProgram existing = Programs.FirstOrDefault(x => x.Type == cbxExternalProgram.SelectedIndex);
+				if (existing != null)
+					Programs.Remove(existing);
+
 				Programs.Add(new ExternalProgram(cbxExternalProgram.SelectedIndex, text));
 
 				cbxExternalProgram.SelectedIndex = 0;
