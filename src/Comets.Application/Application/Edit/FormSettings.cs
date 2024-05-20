@@ -3,6 +3,7 @@ using Comets.Core;
 using Comets.Core.Extensions;
 using Comets.Core.Managers;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
@@ -63,9 +64,7 @@ namespace Comets.Application.Edit
 			txtLongitude.Text = (Math.Abs(settings.Location.Longitude)).ToString("0.000000");
 			cbxEastWest.SelectedIndex = settings.Location.Longitude >= 0.0 ? 0 : 1;
 
-			Programs = new BindingList<ExternalProgram>(settings.ExternalPrograms.OrderBy(x => x.Type).ToList());
-
-			dgvPrograms.DataSource = Programs;
+			BindPrograms(settings.ExternalPrograms);
 			cbxExternalProgram.DataSource = ElementTypesManager.TypeName;
 		}
 
@@ -242,13 +241,24 @@ namespace Comets.Application.Edit
 				gbxPrograms.Visible = true;
 				gbxAddProgram.Visible = false;
 
-				dgvPrograms.ClearSelection();
+				BindPrograms(Programs);
 			}
 		}
 
 		#endregion
 
 		#endregion
+
+		#endregion
+
+		#region Methods
+
+		private void BindPrograms(IList<ExternalProgram> programs)
+		{
+			Programs = new BindingList<ExternalProgram>(programs.OrderBy(x => x.Type).ToList());
+
+			dgvPrograms.DataSource = Programs;
+		}
 
 		#endregion
 	}
