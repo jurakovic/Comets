@@ -10,7 +10,7 @@ using PropertyEnum = Comets.Core.Managers.CometManager.PropertyEnum;
 
 namespace Comets.Application
 {
-	public partial class FormDatabase : Form
+	public partial class FormDatabase : ThemeForm
 	{
 		#region Properties
 

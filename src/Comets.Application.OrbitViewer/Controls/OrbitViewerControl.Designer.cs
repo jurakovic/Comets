@@ -171,7 +171,7 @@
 			this.cpnlDateTime.HeightExpanded = 66;
 			this.cpnlDateTime.Location = new System.Drawing.Point(0, 357);
 			this.cpnlDateTime.Name = "cpnlDateTime";
-			this.cpnlDateTime.Size = new System.Drawing.Size(189, 66);
+			this.cpnlDateTime.Size = new System.Drawing.Size(189, 67);
 			this.cpnlDateTime.TabIndex = 3;
 			this.cpnlDateTime.Title = "Date and time";
 			// 
@@ -182,7 +182,7 @@
 			this.cpnlDateTime.WorkingArea.Controls.Add(this.dateTimeControl);
 			this.cpnlDateTime.WorkingArea.Location = new System.Drawing.Point(4, 28);
 			this.cpnlDateTime.WorkingArea.Name = "WorkingArea";
-			this.cpnlDateTime.WorkingArea.Size = new System.Drawing.Size(173, 31);
+			this.cpnlDateTime.WorkingArea.Size = new System.Drawing.Size(173, 32);
 			this.cpnlDateTime.WorkingArea.TabIndex = 1;
 			// 
 			// dateTimeControl
@@ -191,14 +191,14 @@
 			this.dateTimeControl.Font = new System.Drawing.Font("Tahoma", 8.25F);
 			this.dateTimeControl.Location = new System.Drawing.Point(0, 0);
 			this.dateTimeControl.Name = "dateTimeControl";
-			this.dateTimeControl.Size = new System.Drawing.Size(173, 31);
+			this.dateTimeControl.Size = new System.Drawing.Size(173, 32);
 			this.dateTimeControl.TabIndex = 0;
 			// 
 			// cpnlSimulation
 			// 
 			this.cpnlSimulation.Font = new System.Drawing.Font("Tahoma", 8.25F);
 			this.cpnlSimulation.HeightExpanded = 95;
-			this.cpnlSimulation.Location = new System.Drawing.Point(0, 419);
+			this.cpnlSimulation.Location = new System.Drawing.Point(0, 420);
 			this.cpnlSimulation.Name = "cpnlSimulation";
 			this.cpnlSimulation.Size = new System.Drawing.Size(189, 95);
 			this.cpnlSimulation.TabIndex = 4;
@@ -227,7 +227,7 @@
 			// 
 			this.cpnlFilterOnDate.Font = new System.Drawing.Font("Tahoma", 8.25F);
 			this.cpnlFilterOnDate.HeightExpanded = 133;
-			this.cpnlFilterOnDate.Location = new System.Drawing.Point(0, 510);
+			this.cpnlFilterOnDate.Location = new System.Drawing.Point(0, 511);
 			this.cpnlFilterOnDate.Name = "cpnlFilterOnDate";
 			this.cpnlFilterOnDate.Size = new System.Drawing.Size(189, 133);
 			this.cpnlFilterOnDate.TabIndex = 5;
@@ -256,7 +256,7 @@
 			// 
 			this.cpnlInfoLabels.Font = new System.Drawing.Font("Tahoma", 8.25F);
 			this.cpnlInfoLabels.HeightExpanded = 86;
-			this.cpnlInfoLabels.Location = new System.Drawing.Point(0, 639);
+			this.cpnlInfoLabels.Location = new System.Drawing.Point(0, 640);
 			this.cpnlInfoLabels.Name = "cpnlInfoLabels";
 			this.cpnlInfoLabels.Size = new System.Drawing.Size(189, 86);
 			this.cpnlInfoLabels.TabIndex = 6;
@@ -285,7 +285,7 @@
 			// 
 			this.cpnlMisc.Font = new System.Drawing.Font("Tahoma", 8.25F);
 			this.cpnlMisc.HeightExpanded = 112;
-			this.cpnlMisc.Location = new System.Drawing.Point(0, 721);
+			this.cpnlMisc.Location = new System.Drawing.Point(0, 722);
 			this.cpnlMisc.Name = "cpnlMisc";
 			this.cpnlMisc.Size = new System.Drawing.Size(189, 112);
 			this.cpnlMisc.TabIndex = 7;

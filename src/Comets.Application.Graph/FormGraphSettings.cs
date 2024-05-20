@@ -3,12 +3,13 @@ using Comets.Core.Extensions;
 using Comets.Core.Managers;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
 
 namespace Comets.Application.Graph
 {
-	public partial class FormGraphSettings : Form
+	public partial class FormGraphSettings : ThemeForm
 	{
 		#region Events
 
@@ -33,40 +34,13 @@ namespace Comets.Application.Graph
 		{
 			InitializeComponent();
 			this.Progress = progress;
+			this.GraphSettings = settings;
+
+			if (this.GraphSettings != null && this.GraphSettings.Filters == null)
+				this.GraphSettings.Filters = filters;
 
 			selectCometControl.OnSelectedCometChanged += OnSelectedCometChanged;
 			selectCometControl.OnCometsFiltered += OnCometsFiltered;
-
-			if (settings == null)
-			{
-				timespanControl.DateStart = CommonManager.DefaultDateStart;
-				timespanControl.DateEnd = CommonManager.DefaultDateEnd;
-			}
-			else
-			{
-				if (settings.Filters == null)
-					settings.Filters = filters;
-
-				timespanControl.DateStart = settings.Start;
-				timespanControl.DateEnd = settings.Stop;
-				timespanControl.PerihelionDate = EphemerisManager.JDToDateTimeSafe(settings.SelectedComet?.Tn);
-
-				chartTypeControl.ChartType = settings.GraphChartType;
-
-				chartOptionsControl.MagnitudeColor = settings.MagnitudeColor;
-				chartOptionsControl.NowLineChecked = settings.NowLineChecked;
-				chartOptionsControl.NowLineColor = settings.NowLineColor;
-				chartOptionsControl.PerihelionLineChecked = settings.PerihelionLineChecked;
-				chartOptionsControl.PerihelionLineColor = settings.PerihelionLineColor;
-				chartOptionsControl.AntialiasingChecked = settings.AntialiasingChecked;
-
-				valueRangeControl.MinValue = settings.MinGraphValue;
-				valueRangeControl.MinValueChecked = settings.MinGraphValueChecked;
-				valueRangeControl.MaxValue = settings.MaxGraphValue;
-				valueRangeControl.MaxValueChecked = settings.MaxGraphValueChecked;
-
-				this.GraphSettings = settings;
-			}
 		}
 
 		#endregion
@@ -77,26 +51,44 @@ namespace Comets.Application.Graph
 
 		private void FormGraphSettings_Load(object sender, EventArgs e)
 		{
-			GraphSettings settings;
+			GraphSettings settings = this.GraphSettings;
 
-			if (this.GraphSettings == null)
+			if (settings == null)
 			{
 				settings = new GraphSettings();
 				settings.Comets = new CometCollection(CommonManager.UserCollection);
 				settings.Filters = CommonManager.Filters;
 				settings.SortProperty = CommonManager.SortProperty;
 				settings.SortAscending = CommonManager.SortAscending;
+				settings.Start = CommonManager.DefaultDateStart;
+				settings.Stop = CommonManager.DefaultDateEnd;
 				settings.AddNew = true;
 
 				this.GraphSettings = settings;
 			}
-			settings = this.GraphSettings;
 
 			selectCometControl.Comets = settings.Comets;
 			selectCometControl.Filters = settings.Filters;
 			selectCometControl.SortProperty = settings.SortProperty;
 			selectCometControl.SortAscending = settings.SortAscending;
 			selectCometControl.DataBind(settings.SelectedComet, settings.IsMultipleMode);
+
+			timespanControl.DateStart = settings.Start;
+			timespanControl.DateEnd = settings.Stop;
+			timespanControl.PerihelionDate = EphemerisManager.JDToDateTimeSafe(settings.SelectedComet?.Tn);
+
+			chartTypeControl.ChartType = settings.GraphChartType;
+			chartOptionsControl.MagnitudeColor = settings.MagnitudeColor;
+			chartOptionsControl.NowLineChecked = settings.NowLineChecked;
+			chartOptionsControl.NowLineColor = settings.NowLineColor;
+			chartOptionsControl.PerihelionLineChecked = settings.PerihelionLineChecked;
+			chartOptionsControl.PerihelionLineColor = settings.PerihelionLineColor;
+			chartOptionsControl.AntialiasingChecked = settings.AntialiasingChecked;
+
+			valueRangeControl.MinValue = settings.MinGraphValue;
+			valueRangeControl.MinValueChecked = settings.MinGraphValueChecked;
+			valueRangeControl.MaxValue = settings.MaxGraphValue;
+			valueRangeControl.MaxValueChecked = settings.MaxGraphValueChecked;
 		}
 
 		private void FormGraphSettings_FormClosing(object sender, FormClosingEventArgs e)
@@ -152,6 +144,8 @@ namespace Comets.Application.Graph
 
 				settings.GraphChartType = chartTypeControl.ChartType;
 
+				settings.BackgroundColor = this.IsDarkMode ? Color.FromArgb(55, 55, 55) : settings.BackgroundColor;
+				settings.TextColor = this.IsDarkMode ? Color.White : settings.TextColor;
 				settings.MagnitudeColor = chartOptionsControl.MagnitudeColor;
 				settings.NowLineChecked = chartOptionsControl.NowLineChecked;
 				settings.NowLineColor = chartOptionsControl.NowLineColor;

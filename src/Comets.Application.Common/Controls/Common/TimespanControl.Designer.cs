@@ -59,7 +59,7 @@
 			this.selectDateControlEnd.Name = "selectDateControlEnd";
 			this.selectDateControlEnd.PerihelionDate = null;
 			this.selectDateControlEnd.SelectedDateTime = new System.DateTime(0L);
-			this.selectDateControlEnd.Size = new System.Drawing.Size(172, 23);
+			this.selectDateControlEnd.Size = new System.Drawing.Size(172, 24);
 			this.selectDateControlEnd.TabIndex = 3;
 			// 
 			// selectDateControlStart
@@ -71,7 +71,7 @@
 			this.selectDateControlStart.Name = "selectDateControlStart";
 			this.selectDateControlStart.PerihelionDate = null;
 			this.selectDateControlStart.SelectedDateTime = new System.DateTime(0L);
-			this.selectDateControlStart.Size = new System.Drawing.Size(172, 23);
+			this.selectDateControlStart.Size = new System.Drawing.Size(172, 24);
 			this.selectDateControlStart.TabIndex = 1;
 			// 
 			// label3

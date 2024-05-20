@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace Comets.Application.Help
 {
-	public partial class FormAbout : Form
+	public partial class FormAbout : ThemeForm
 	{
 		#region Constructor
 

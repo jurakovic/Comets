@@ -43,6 +43,22 @@ namespace Comets.Core.Extensions
 			return (int)str.Double();
 		}
 
+		/// <summary>
+		/// Converts string value to enum. Returns default if conversion failed.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="value"></param>
+		/// <param name="defaultValue"></param>
+		/// <returns></returns>
+		public static T ToEnum<T>(this string value, T defaultValue = default) where T : struct
+		{
+			if (string.IsNullOrEmpty(value))
+				return defaultValue;
+
+			T result;
+			return Enum.TryParse<T>(value.Trim(), true, out result) ? result : defaultValue;
+		}
+
 		#endregion
 
 		#region IComparable
