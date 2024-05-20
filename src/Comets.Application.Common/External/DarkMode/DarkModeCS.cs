@@ -519,10 +519,9 @@ namespace BlueMystic
 				grid.DefaultCellStyle.BackColor = OScolors.Surface;
 				grid.DefaultCellStyle.ForeColor = OScolors.TextActive;
 
-
 				grid.ColumnHeadersDefaultCellStyle.BackColor = OScolors.Surface;
 				grid.ColumnHeadersDefaultCellStyle.ForeColor = OScolors.TextActive;
-				grid.ColumnHeadersDefaultCellStyle.SelectionBackColor = OScolors.Accent;
+				grid.ColumnHeadersDefaultCellStyle.SelectionBackColor = OScolors.Surface;
 				grid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
 				grid.ColumnHeadersHeight = 140;
 
