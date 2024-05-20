@@ -31,7 +31,9 @@ function main() {
 
     echo
     echo -e "${Color_Green}Build OK${Color_Off}"
-    read -p "Press any key to continue to git commit, tag, push..." -n1 -s; echo
+
+    read -p "Do you want to continue to git commit, tag, push...? (y/n) " yn
+    if [ ! $yn = "y" ]; then exit; fi
 
     local publish_path="src/Comets.Application/bin/Release/net8.0-windows/win-$ARCH/publish"
     local assembly_name="Comets.exe"
