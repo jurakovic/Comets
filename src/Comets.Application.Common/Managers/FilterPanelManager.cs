@@ -443,7 +443,7 @@ namespace Comets.Application.Common.Managers
 					if (addNew != null)
 						break;
 				}
-				else if (c is Button && c.Name == "btnNewFilter")
+				else if (c is Button && c.Name == "btnAddNew")
 				{
 					addNew = c as Button;
 					if (toRemove != null)
