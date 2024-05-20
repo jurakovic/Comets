@@ -183,7 +183,7 @@
 			this.lblLocalTime.Name = "lblLocalTime";
 			this.lblLocalTime.Size = new System.Drawing.Size(58, 13);
 			this.lblLocalTime.TabIndex = 14;
-			this.lblLocalTime.Text = "Local time:";
+			this.lblLocalTime.Text = "Local Time:";
 			// 
 			// lblS
 			// 

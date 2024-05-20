@@ -48,7 +48,7 @@
 			this.gbxTimestamp.Size = new System.Drawing.Size(235, 85);
 			this.gbxTimestamp.TabIndex = 0;
 			this.gbxTimestamp.TabStop = false;
-			this.gbxTimestamp.Text = "Timespan (Universal time)";
+			this.gbxTimestamp.Text = "Timespan (Universal Time)";
 			// 
 			// selectDateControlEnd
 			// 
