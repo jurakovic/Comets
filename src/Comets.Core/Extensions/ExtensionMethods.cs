@@ -59,6 +59,11 @@ namespace Comets.Core.Extensions
 			return Enum.TryParse<T>(value.Trim(), true, out result) ? result : defaultValue;
 		}
 
+		public static string NullIfEmpty(this string str)
+		{
+			return string.IsNullOrEmpty(str) ? null : str;
+		}
+
 		#endregion
 
 		#region IComparable

@@ -11,6 +11,7 @@ namespace Comets.Core.Managers
 	{
 		#region Const
 
+		// todo: remove?
 		private static char[] TrimCharacters = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '/', ';' };
 
 		#endregion
@@ -398,7 +399,7 @@ namespace Comets.Core.Managers
 			c.i = Convert.ToDouble(line.Substring(71, 8).Trim());
 			c.g = Convert.ToDouble(line.Substring(91, 4).Trim());
 			c.k = Convert.ToDouble(line.Substring(96, 4).Trim());
-			c.full = line.Substring(102, 55).Trim().TrimEnd(TrimCharacters).Trim();
+			c.full = line.Substring(102, 55).Trim()/*.TrimEnd(TrimCharacters)*/.Trim();
 
 			string id, name;
 			CometManager.GetIdNameFromFull(c.full, out id, out name);
@@ -437,7 +438,7 @@ namespace Comets.Core.Managers
 		{
 			Comet c = new Comet();
 
-			string tempFull = line.Substring(0, 44).Trim().TrimEnd(TrimCharacters).Trim();
+			string tempFull = line.Substring(0, 44).Trim()/*.TrimEnd(TrimCharacters)*/.Trim();
 			string tempName = String.Empty;
 			string tempId = String.Empty;
 
@@ -519,7 +520,7 @@ namespace Comets.Core.Managers
 		{
 			Comet c = new Comet();
 
-			string tempFull = line.Substring(0, 42).Trim().TrimEnd(TrimCharacters).Trim();
+			string tempFull = line.Substring(0, 42).Trim()/*.TrimEnd(TrimCharacters)*/.Trim();
 			string tempName = String.Empty;
 			string tempId = String.Empty;
 
@@ -593,7 +594,7 @@ namespace Comets.Core.Managers
 
 			string[] parts = line.Split(',');
 
-			c.full = parts[0].Trim().TrimEnd(TrimCharacters).Trim();
+			c.full = parts[0].Trim()/*.TrimEnd(TrimCharacters)*/.Trim();
 			string id, name;
 			CometManager.GetIdNameFromFull(c.full, out id, out name);
 			c.id = id;
@@ -725,7 +726,7 @@ namespace Comets.Core.Managers
 
 			string[] parts = line.Split(',');
 
-			c.full = parts[0].Trim().TrimEnd(TrimCharacters).Trim();
+			c.full = parts[0].Trim()/*.TrimEnd(TrimCharacters)*/.Trim();
 			string id, name;
 			CometManager.GetIdNameFromFull(c.full, out id, out name);
 			c.id = id;
@@ -788,7 +789,7 @@ namespace Comets.Core.Managers
 
 			string[] parts = line.Split('\t');
 
-			c.full = parts[0].Trim().TrimEnd(TrimCharacters).Trim();
+			c.full = parts[0].Trim()/*.TrimEnd(TrimCharacters)*/.Trim();
 			string id, name;
 			CometManager.GetIdNameFromFull(c.full, out id, out name);
 			c.id = id;
@@ -847,7 +848,7 @@ namespace Comets.Core.Managers
 
 			string[] parts = line.Split('|');
 
-			c.full = parts[0].Trim().TrimEnd(TrimCharacters).Trim();
+			c.full = parts[0].Trim()/*.TrimEnd(TrimCharacters)*/.Trim();
 
 			string id, name;
 			CometManager.GetIdNameFromFull(c.full, out id, out name);
@@ -902,7 +903,7 @@ namespace Comets.Core.Managers
 		{
 			Comet c = new Comet();
 
-			c.name = line.Substring(5, 29).Trim().TrimEnd(TrimCharacters).Trim();
+			c.name = line.Substring(5, 29).Trim()/*.TrimEnd(TrimCharacters)*/.Trim();
 			c.g = Convert.ToDouble(line.Substring(34, 6).Trim());
 			c.e = Convert.ToDouble(line.Substring(48, 10).Trim());
 			c.q = Convert.ToDouble(line.Substring(59, 11).Trim());
@@ -957,7 +958,7 @@ namespace Comets.Core.Managers
 
 			string tempfull = line1;
 			string[] idname = tempfull.Split('(');
-			c.name = idname[0].Trim().TrimEnd(TrimCharacters).Trim();
+			c.name = idname[0].Trim()/*.TrimEnd(TrimCharacters)*/.Trim();
 			c.id = idname[1].TrimEnd(')');
 			c.full = CometManager.GetFullFromIdName(c.id, c.name);
 
@@ -1044,7 +1045,7 @@ namespace Comets.Core.Managers
 			for (int i = 11; i < parts.Length; i++)
 				tempName += parts[i] + " ";
 
-			c.name = tempName.Trim().TrimEnd(TrimCharacters).Trim();
+			c.name = tempName.Trim()/*.TrimEnd(TrimCharacters)*/.Trim();
 
 			c.full = CometManager.GetFullFromIdName(id, c.name);
 			c.id = id;
@@ -1083,7 +1084,7 @@ namespace Comets.Core.Managers
 		{
 			Comet c = new Comet();
 
-			c.full = line1.TrimEnd(TrimCharacters).Trim();
+			c.full = line1/*.TrimEnd(TrimCharacters)*/.Trim();
 
 			string id, name;
 			CometManager.GetIdNameFromFull(c.full, out id, out name);
@@ -1168,7 +1169,7 @@ namespace Comets.Core.Managers
 			if (line.Length == 69)
 				c.name = String.Empty;
 			else
-				c.name = line.Substring(70, line.Length - 70).Trim().TrimEnd(TrimCharacters).Trim();
+				c.name = line.Substring(70, line.Length - 70).Trim()/*.TrimEnd(TrimCharacters)*/.Trim();
 
 			c.full = CometManager.GetFullFromIdName(id, c.name);
 			c.id = id;
@@ -1205,7 +1206,7 @@ namespace Comets.Core.Managers
 		{
 			Comet c = new Comet();
 
-			c.name = line.Substring(0, 30).Trim().TrimEnd(TrimCharacters).Trim();
+			c.name = line.Substring(0, 30).Trim()/*.TrimEnd(TrimCharacters)*/.Trim();
 			c.id = line.Substring(30, 12).Trim();
 
 			c.full = CometManager.GetFullFromIdName(c.id, c.name);
@@ -1274,7 +1275,7 @@ namespace Comets.Core.Managers
 			c.g = Convert.ToDouble(gk[0]);
 			c.k = Convert.ToDouble(gk[1]);
 
-			c.full = parts[12].Split(';')[0].TrimEnd(TrimCharacters).Trim();
+			c.full = parts[12].Split(';')[0]/*.TrimEnd(TrimCharacters)*/.Trim();
 
 			string id, name;
 			CometManager.GetIdNameFromFull(c.full, out id, out name);
@@ -1315,7 +1316,7 @@ namespace Comets.Core.Managers
 		{
 			Comet c = new Comet();
 
-			string temp = line.Substring(0, 27).Trim().TrimEnd(TrimCharacters).Trim();
+			string temp = line.Substring(0, 27).Trim()/*.TrimEnd(TrimCharacters)*/.Trim();
 
 			if ((temp[0].In(CometManager.CometTypes) && temp[1] == '/') || Char.IsDigit(temp[0]))
 			{
@@ -1382,7 +1383,7 @@ namespace Comets.Core.Managers
 		{
 			Comet c = new Comet();
 
-			string tempFull = line.Substring(2, 41).Trim().TrimEnd(TrimCharacters).Trim();
+			string tempFull = line.Substring(2, 41).Trim()/*.TrimEnd(TrimCharacters)*/.Trim();
 			string tempName = String.Empty;
 			string tempId = String.Empty;
 
@@ -1475,7 +1476,7 @@ namespace Comets.Core.Managers
 		{
 			Comet c = new Comet();
 
-			c.full = lines[0].Split('=')[1].Trim().TrimEnd(TrimCharacters).Trim();
+			c.full = lines[0].Split('=')[1].Trim()/*.TrimEnd(TrimCharacters)*/.Trim();
 
 			string id, name;
 			CometManager.GetIdNameFromFull(c.full, out id, out name);

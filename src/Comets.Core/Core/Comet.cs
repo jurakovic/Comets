@@ -14,6 +14,7 @@ namespace Comets.Core
 		private string _full;
 		private string _name;
 		private string _id;
+		// todo: add fragment
 		private decimal _T;
 		private int _Ty;
 		private int _Tm;

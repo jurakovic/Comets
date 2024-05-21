@@ -41,6 +41,8 @@ namespace Comets.Core.Managers
 			{ PropertyEnum.w,                1.00 }
 		};
 
+		private static readonly Regex _regFull = new Regex("(^(?<id1>[0-9]+[PCXDI])-*(?<fragment1>[a-zA-Z]*[0-9]*)\\/(?<name1>.+))|(^(?<id2>[PCXDI]\\/-*[0-9]+ [a-zA-Z]*[0-9]*)-*(?<fragment2>[a-zA-Z]*[0-9]*)( \\((?<name2>.*)\\))*)");
+
 		#endregion
 
 		#region Enum
@@ -94,6 +96,8 @@ namespace Comets.Core.Managers
 		/// <returns></returns>
 		public static double GetSortkey(string id)
 		{
+			// todo: add fragment param, optimize
+
 			double sort = 0.0;
 			double v = 0.0;
 			double offset = 2000.0;
@@ -166,6 +170,8 @@ namespace Comets.Core.Managers
 		/// <returns></returns>
 		public static string GetIdKey(string id)
 		{
+			// todo, remove?
+
 			string key = String.Empty;
 
 			if (Char.IsDigit(id[0]))
@@ -284,37 +290,18 @@ namespace Comets.Core.Managers
 		/// </summary>
 		/// <param name="full">Full comet name</param>
 		/// <returns></returns>
-		public static void GetIdNameFromFull(string full, out string id, out string name)
+		public static void GetIdNameFromFull(string full, out string id/*, out string fragment*/, out string name)
 		{
 			id = String.Empty;
+			string fragment = String.Empty;
 			name = String.Empty;
 
-			if (Char.IsDigit(full[0]))
-			{
-				if (full.Contains('/'))
-				{
-					string[] idname = full.Split('/');
-					id = idname[0];
-					name = idname[1];
-				}
-				else
-				{
-					id = full;
-				}
-			}
-			else
-			{
-				if (full.Contains('('))
-				{
-					string[] idname = full.Split('(');
-					id = idname[0].Trim();
-					name = idname[1].TrimEnd(')');
-				}
-				else
-				{
-					id = full;
-				}
-			}
+			Match match = _regFull.Match(full);
+			id = match.Groups["id1"].Value.NullIfEmpty() ?? match.Groups["id2"].Value.NullIfEmpty() ?? String.Empty;
+			fragment = match.Groups["fragment1"].Value.NullIfEmpty() ?? match.Groups["fragment2"].Value.NullIfEmpty() ?? String.Empty;
+			name = match.Groups["name1"].Value.NullIfEmpty() ?? match.Groups["name2"].Value.NullIfEmpty() ?? String.Empty;
+
+			// temp, todo finish...
 		}
 
 		#endregion
