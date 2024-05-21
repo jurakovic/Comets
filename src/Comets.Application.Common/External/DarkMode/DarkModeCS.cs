@@ -259,7 +259,7 @@ namespace BlueMystic
 				case ThemeEnum.Dark:
 					IsDarkMode = true;
 					break;
-				case ThemeEnum.SystemSettings:
+				case ThemeEnum.System:
 					IsDarkMode = GetWindowsColorMode() <= 0;
 					break;
 			}

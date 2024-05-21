@@ -19,14 +19,14 @@ namespace Comets.Core.Managers
 		{
 			Light = 0,
 			Dark = 1,
-			SystemSettings = 2,
+			System = 2,
 		}
 
 		public static string[] Themes =
 		{
 			"Light",
 			"Dark",
-			"Use system settings"
+			"System"
 		};
 
 		#endregion
