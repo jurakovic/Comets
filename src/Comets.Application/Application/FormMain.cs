@@ -36,16 +36,28 @@ namespace Comets.Application
 			InitializeComponent();
 
 			Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
+			Settings settings = CommonManager.Settings;
 
-			Progress = new Progress<int>(ReportProgress);
-
-			int margin = 250;
-			this.Width = Screen.PrimaryScreen.WorkingArea.Width - margin;
-			this.Height = Screen.PrimaryScreen.WorkingArea.Height - margin;
-			this.WindowState = CommonManager.Settings.Maximized ? FormWindowState.Maximized : FormWindowState.Normal;
+			if (settings.RememberWindowPosition && (settings.Left > 0 || settings.Top > 0 || settings.Width > 0 || settings.Height > 0))
+			{
+				this.Left = settings.Left;
+				this.Top = settings.Top;
+				this.Width = settings.Width;
+				this.Height = settings.Height;
+				this.WindowState = CommonManager.Settings.Maximized ? FormWindowState.Maximized : FormWindowState.Normal;
+				this.StartPosition = FormStartPosition.Manual;
+			}
+			else
+			{
+				int margin = 250;
+				this.Width = Screen.PrimaryScreen.WorkingArea.Width - margin;
+				this.Height = Screen.PrimaryScreen.WorkingArea.Height - margin;
+				this.StartPosition = FormStartPosition.CenterScreen;
+			}
 
 			this.menuItemViewStatusBar.Checked = CommonManager.Settings.ShowStatusBar;
 			this.statusStrip.Visible = CommonManager.Settings.ShowStatusBar;
+			this.Progress = new Progress<int>(ReportProgress);
 		}
 
 		#endregion
@@ -58,17 +70,6 @@ namespace Comets.Application
 
 		private void FormMain_Load(object sender, EventArgs e)
 		{
-			Settings settings = CommonManager.Settings;
-
-			if (settings.RememberWindowPosition && (settings.Left > 0 || settings.Top > 0 || settings.Width > 0 || settings.Height > 0))
-			{
-				this.Left = settings.Left;
-				this.Top = settings.Top;
-				this.Width = settings.Width;
-				this.Height = settings.Height;
-				this.StartPosition = FormStartPosition.Manual;
-			}
-
 			if (File.Exists(SettingsManager.DatabaseFilename))
 			{
 				CometCollection collection = ImportManager.ImportMain(CommonManager.MainCollection, ElementTypesManager.Type.MPC, SettingsManager.DatabaseFilename);
@@ -511,6 +512,5 @@ namespace Comets.Application
 		}
 
 		#endregion
-
 	}
 }

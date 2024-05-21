@@ -145,17 +145,11 @@ namespace Comets.Core.Managers
 			if (settings.RememberWindowPosition)
 			{
 				sb.AppendLine("[Window]");
-				if (settings.Maximized)
-				{
-					sb.AppendLine(String.Format(format, "Maximized", settings.Maximized));
-				}
-				else
-				{
-					sb.AppendLine(String.Format(format, "Left", settings.Left));
-					sb.AppendLine(String.Format(format, "Top", settings.Top));
-					sb.AppendLine(String.Format(format, "Width", settings.Width));
-					sb.AppendLine(String.Format(format, "Height", settings.Height));
-				}
+				sb.AppendLine(String.Format(format, "Maximized", settings.Maximized));
+				sb.AppendLine(String.Format(format, "Left", settings.Left));
+				sb.AppendLine(String.Format(format, "Top", settings.Top));
+				sb.AppendLine(String.Format(format, "Width", settings.Width));
+				sb.AppendLine(String.Format(format, "Height", settings.Height));
 				sb.AppendLine();
 			}
 
