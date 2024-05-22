@@ -1,10 +1,6 @@
 
 # Comets
 
-*Ready to Refactor (Work In Progress...)*
-
----
-
 ## Features
 
 - Calculate ephemeris
@@ -12,12 +8,6 @@
 - *3D* Orbit Viewer
 - Orbital elements converter (all [MPC](https://www.minorplanetcenter.net/iau/Ephemerides/Comets/SoftwareComets.html) formats supported, and some more)
 - Dark theme
-
-## Credits
-
-Inspired by the [Comet for Windows](http://www.aerith.net/project/comet.html) by Seiichi Yoshida.  
-Includes advanced version of [OrbitViewer.NET](https://github.com/jurakovic/OrbitViewer.NET) (C# rewrite of [OrbitViewer](https://www.astroarts.co.jp/products/orbitviewer/index.html) by Osamu Ajiki and Ron Baalke).  
-Dark theme thanks to [Dark-Mode-Forms](https://github.com/BlueMystical/Dark-Mode-Forms) by BlueMystical (my fork [here](https://github.com/jurakovic/Dark-Mode-Forms)).  
 
 ## Download
 
@@ -31,6 +21,12 @@ Dark theme thanks to [Dark-Mode-Forms](https://github.com/BlueMystical/Dark-Mode
 ![Graph_dark](img/graph_dark.png)
 ![Orbit](img/orbit.png)
 ![Orbit_dark](img/orbit_dark.png)
+
+## Credits
+
+Inspired by the [Comet for Windows](http://www.aerith.net/project/comet.html) by Seiichi Yoshida.  
+Includes advanced version of [OrbitViewer.NET](https://github.com/jurakovic/OrbitViewer.NET) (C# rewrite of [OrbitViewer](https://www.astroarts.co.jp/products/orbitviewer/index.html) by Osamu Ajiki and Ron Baalke).  
+Dark theme thanks to [Dark-Mode-Forms](https://github.com/BlueMystical/Dark-Mode-Forms) by BlueMystical (my fork [here](https://github.com/jurakovic/Dark-Mode-Forms)).  
 
 ## Resources
 
@@ -59,13 +55,12 @@ Books and other open source astronomy software and libraries used for reference.
 
 Other cometary links and sites.
 
-[Visual comets | astro.vanbuitenen.nl](http://astro.vanbuitenen.nl/comets)  
 [Comets | Heavens-Above](https://www.heavens-above.com/Comets.aspx)  
 [Bright Comets | TheSkyLive](https://theskylive.com/comets)  
-[Visual Comets in the Future | aerith.net](http://www.aerith.net/comet/future-n.html)
-[Comet Observation database (COBS)](https://cobs.si/)
+[Visual comets | astro.vanbuitenen.nl](http://astro.vanbuitenen.nl/comets)  
+[Visual Comets in the Future | aerith.net](http://www.aerith.net/comet/future-n.html)  
+[Comet Observation database (COBS)](https://cobs.si/)  
 [CometWatch](https://www.cometwatch.co.uk/)  
-
 
 ---
 
