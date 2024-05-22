@@ -32,6 +32,27 @@ Dark theme thanks to [Dark-Mode-Forms by BlueMystical](https://github.com/BlueMy
 ![Orbit](img/orbit.png)
 ![Orbit_dark](img/orbit_dark.png)
 
+## Resources
+
+Books and other open source astronomy software and libraries used for reference.
+
+#### Books
+
+[Astronomical Algorithms](https://www.amazon.com/Astronomical-Algorithms-Jean-Meeus/dp/0943396352) by Jean Meeus (2nd ed., Willmann-Bell, 1998)  
+[Astronomical Formulae for Calculators](https://www.amazon.com/Astronomical-Formulae-Calculators-Jean-Meeus/dp/0943396220/) by Jean Meeus (Willmann-Bell, 1988)  
+[Practical Astronomy with your Calculator or Spreadsheet](https://www.amazon.com/Practical-Astronomy-your-Calculator-Spreadsheet/dp/1108436072/) by Peter Duffett-Smith and Jonathan Zwart (Cambridge, 2011)  
+
+#### Software
+
+[Cartes du Ciel (SkyChart)](https://www.ap-i.net/skychart/en/start)  
+[Celestia](https://celestiaproject.space/)  
+[Stellarium](https://stellarium.org/)  
+[JPL OrbitViewer](https://ssd.jpl.nasa.gov/tools/orbit_viewer.html)  
+[PlanetDroid](https://www.strickling.net/android_en.htm#PlanetDroid) by Wolfgang Strickling  
+[AstroLib](https://mhuss.com/AstroLib/) by Mark Huss  
+[Javascript AstroTools](https://web.archive.org/web/20150923180018/http://www.ngc7000.org/astrotools/ephemtool.html) by Ole Nielsen  
+[ProjectPluto](https://www.projectpluto.com/source.htm) by Bill Gray  
+
 ---
 
 ### Archive
