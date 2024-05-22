@@ -15,9 +15,9 @@
 
 ## Credits
 
-Inspired by [Comet for Windows](http://www.aerith.net/project/comet.html).  
-Includes advanced version of [OrbitViewer.NET](https://github.com/jurakovic/OrbitViewer.NET) (C# rewrite of [OrbitViewer](https://www.astroarts.co.jp/products/orbitviewer/index.html)).  
-Dark theme thanks to [Dark-Mode-Forms by BlueMystical](https://github.com/BlueMystical/Dark-Mode-Forms) (my fork [here](https://github.com/jurakovic/Dark-Mode-Forms)).  
+Inspired by the [Comet for Windows](http://www.aerith.net/project/comet.html) by Seiichi Yoshida.  
+Includes advanced version of [OrbitViewer.NET](https://github.com/jurakovic/OrbitViewer.NET) (C# rewrite of [OrbitViewer](https://www.astroarts.co.jp/products/orbitviewer/index.html) by Osamu Ajiki and Ron Baalke).  
+Dark theme thanks to [Dark-Mode-Forms](https://github.com/BlueMystical/Dark-Mode-Forms) by BlueMystical (my fork [here](https://github.com/jurakovic/Dark-Mode-Forms)).  
 
 ## Download
 
@@ -38,7 +38,7 @@ Books and other open source astronomy software and libraries used for reference.
 
 #### Books
 
-[Astronomical Algorithms](https://www.amazon.com/Astronomical-Algorithms-Jean-Meeus/dp/0943396352) by Jean Meeus (2nd ed., Willmann-Bell, 1998)  
+[Astronomical Algorithms](https://www.amazon.com/Astronomical-Algorithms-Jean-Meeus/dp/0943396352) by Jean Meeus (Willmann-Bell, 1998)  
 [Astronomical Formulae for Calculators](https://www.amazon.com/Astronomical-Formulae-Calculators-Jean-Meeus/dp/0943396220/) by Jean Meeus (Willmann-Bell, 1988)  
 [Practical Astronomy with your Calculator or Spreadsheet](https://www.amazon.com/Practical-Astronomy-your-Calculator-Spreadsheet/dp/1108436072/) by Peter Duffett-Smith and Jonathan Zwart (Cambridge, 2011)  
 
@@ -47,11 +47,25 @@ Books and other open source astronomy software and libraries used for reference.
 [Cartes du Ciel (SkyChart)](https://www.ap-i.net/skychart/en/start)  
 [Celestia](https://celestiaproject.space/)  
 [Stellarium](https://stellarium.org/)  
-[JPL OrbitViewer](https://ssd.jpl.nasa.gov/tools/orbit_viewer.html)  
+[OrbitViewer](https://www.astroarts.co.jp/products/orbitviewer/index.html) by Osamu Ajiki and Ron Baalke  
+[OrbitViewer](https://ssd.jpl.nasa.gov/tools/orbit_viewer.html) by Kevin Gill et al. (NASA/JPL)  
 [PlanetDroid](https://www.strickling.net/android_en.htm#PlanetDroid) by Wolfgang Strickling  
 [AstroLib](https://mhuss.com/AstroLib/) by Mark Huss  
 [Javascript AstroTools](https://web.archive.org/web/20150923180018/http://www.ngc7000.org/astrotools/ephemtool.html) by Ole Nielsen  
 [ProjectPluto](https://www.projectpluto.com/source.htm) by Bill Gray  
+[AA+](http://www.naughter.com/aa.html) by PJ Naughter  
+
+## Links
+
+Other cometary links and sites.
+
+[Visual comets | astro.vanbuitenen.nl](http://astro.vanbuitenen.nl/comets)  
+[Comets | Heavens-Above](https://www.heavens-above.com/Comets.aspx)  
+[Bright Comets | TheSkyLive](https://theskylive.com/comets)  
+[Visual Comets in the Future | aerith.net](http://www.aerith.net/comet/future-n.html)
+[Comet Observation database (COBS)](https://cobs.si/)
+[CometWatch](https://www.cometwatch.co.uk/)  
+
 
 ---
 
