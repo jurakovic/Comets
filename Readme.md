@@ -56,6 +56,8 @@ Dark theme thanks to [Dark-Mode-Forms](https://github.com/BlueMystical/Dark-Mode
 
 ### Links
 
+Some comet related links and sites
+
 [Comets | Heavens-Above](https://www.heavens-above.com/Comets.aspx)  
 [Bright Comets | TheSkyLive](https://theskylive.com/comets)  
 [Visual comets | astro.vanbuitenen.nl](http://astro.vanbuitenen.nl/comets)  
