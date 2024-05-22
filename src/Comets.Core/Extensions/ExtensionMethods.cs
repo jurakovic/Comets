@@ -147,7 +147,8 @@ namespace Comets.Core.Extensions
 		/// <returns></returns>
 		public static double Timezone(this DateTime dt)
 		{
-			return TimeZone.CurrentTimeZone.GetUtcOffset(dt).Hours;
+			TimeZoneInfo tzi = dt.Kind == DateTimeKind.Utc ? TimeZoneInfo.Utc : TimeZoneInfo.Local;
+			return tzi.GetUtcOffset(dt).Hours;
 		}
 
 		#endregion
