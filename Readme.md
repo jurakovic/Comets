@@ -51,21 +51,18 @@ Books and other open source astronomy software and libraries used for reference.
 [ProjectPluto](https://www.projectpluto.com/source.htm) by Bill Gray  
 [AA+](http://www.naughter.com/aa.html) by PJ Naughter  
 
-#### Links
+## Links
+
+Other cometary links and sites.
 
 [Comets | Heavens-Above](https://www.heavens-above.com/Comets.aspx)  
 [Bright Comets | TheSkyLive](https://theskylive.com/comets)  
 [Visual comets | astro.vanbuitenen.nl](http://astro.vanbuitenen.nl/comets)  
 [Visual Comets in the Future | aerith.net](http://www.aerith.net/comet/future-n.html)  
 [Comet Observation database (COBS)](https://cobs.si/)  
-[Small-Body Orbits & Ephemerides | JPL SSD](https://ssd.jpl.nasa.gov/sb/orbits.html)  
+[CometWatch](https://www.cometwatch.co.uk/)  
 
-## Disclaimer
-
-This project is a hobby project. It is provided without any guarantees of functionality, security, or reliability.
-
-The use of this software is at your own risk. The author or copyright holder makes no warranty for anything. Any damage occurred as a result of this software is not the responsibility of the author or copyright holder.
-
+---
 
 ### Archive
 
