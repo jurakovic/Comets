@@ -44,6 +44,7 @@ namespace Comets.Core.Managers
 		};
 
 		private static readonly Regex _regFull = new Regex("(^(?<id1>[0-9]+[PCXDIA])-*(?<fragment1>[a-zA-Z]*[0-9]*) *(\\/)*(?<name1>.+))|(^(?<id2>[PCXDIA]\\/-*[0-9]+ [a-zA-Z]*[0-9]*)-*(?<fragment2>[a-zA-Z]*[0-9]*)( \\((?<name2>.*)\\))*)");
+		private static readonly Regex _regFull02 = new Regex("(^([CPXDIA]\\/(?<name1>.+) +\\((?<id1>[0-9]+[CPXDI])-*(?<fragment1>[a-zA-Z]*[0-9]*))\\)|(((?<name2>.+)) )+\\((?<id2>[CPXDI]\\/-*[0-9]+ [a-zA-Z]*[0-9]*)-*(?<fragment2>[a-zA-Z]*[0-9]*)\\))|((?<id3>[CPXDIA]\\/-*[0-9]+ [a-zA-Z]*[0-9]*)-*(?<fragment3>[a-zA-Z]*[0-9]*))");
 		private static readonly Regex _regAlphaNum = new Regex("(?<letters>[a-zA-Z]*)(?<digits>[0-9]*)");
 
 		#endregion
@@ -300,6 +301,17 @@ namespace Comets.Core.Managers
 			id = match.Groups["id1"].Value.NullIfEmpty() ?? match.Groups["id2"].Value.NullIfEmpty() ?? String.Empty;
 			name = match.Groups["name1"].Value.NullIfEmpty() ?? match.Groups["name2"].Value.NullIfEmpty() ?? String.Empty;
 			fragment = match.Groups["fragment1"].Value.NullIfEmpty() ?? match.Groups["fragment2"].Value.NullIfEmpty() ?? String.Empty;
+		}
+
+		public static void GetIdNameFromFull2(string full, out string id, out string name, out string fragment)
+		{
+			Match match = _regFull02.Match(full);
+			if (!match.Success)
+				throw new ArgumentException("Error parsing comet name");
+
+			id = match.Groups["id1"].Value.NullIfEmpty() ?? match.Groups["id2"].Value.NullIfEmpty() ?? match.Groups["id3"].Value.NullIfEmpty() ?? String.Empty;
+			name = match.Groups["name1"].Value.NullIfEmpty() ?? match.Groups["name2"].Value.NullIfEmpty() ?? String.Empty;
+			fragment = match.Groups["fragment1"].Value.NullIfEmpty() ?? match.Groups["fragment2"].Value.NullIfEmpty() ?? match.Groups["fragment3"].Value.NullIfEmpty() ?? String.Empty;
 		}
 
 		#endregion

@@ -493,8 +493,12 @@ namespace Comets.Core.Managers
 			Comet c = new Comet();
 
 			string tempFull = line.Substring(0, 42).Trim()/*.TrimEnd(TrimCharacters)*/.Trim();
-			string tempName = String.Empty;
-			string tempId = String.Empty;
+			string id, name, fragment;
+			CometManager.GetIdNameFromFull2(tempFull, out id, out name, out fragment);
+			c.id = id;
+			c.name = name;
+			c.fragment = fragment;
+			c.full = CometManager.GetFullFromIdName(id, name, fragment);
 
 			c.Td = Convert.ToInt32(line.Substring(43, 2).Trim());
 			c.Th = Convert.ToInt32(line.Substring(46, 4).Trim().PadRight(4, '0'));
@@ -507,26 +511,6 @@ namespace Comets.Core.Managers
 			c.N = Convert.ToDouble(line.Substring(119, 10).Trim());
 			c.g = Convert.ToDouble(line.Substring(140, 5).Trim());
 			c.k = Convert.ToDouble(line.Substring(145, 5).Trim());
-
-			if (tempFull.Contains('('))
-			{
-				int ind = tempFull.IndexOf('(');
-
-				tempName = tempFull.Substring(0, ind - 1);
-
-				if (tempName.Contains("/"))
-					tempName = tempName.Substring(2, tempName.Length - 2);
-
-				tempId = tempFull.Substring(ind + 1, tempFull.Length - ind - 2);
-			}
-			else
-			{
-				tempId = tempFull;
-			}
-
-			c.full = CometManager.GetFullFromIdName(tempId, tempName);
-			c.id = tempId;
-			c.name = tempName;
 
 			c.T = EphemerisManager.JD0(c.Ty, c.Tm, c.Td, c.Th);
 			c.P = CometManager.GetPeriod(c.q, c.e);
