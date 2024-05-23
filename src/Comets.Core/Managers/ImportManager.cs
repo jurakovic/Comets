@@ -518,7 +518,7 @@ namespace Comets.Core.Managers
 			c.n = CometManager.GetMeanMotion(c.e, c.P);
 			c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
-			c.sortkey = CometManager.GetSortkey(c.id);
+			c.sortkey = CometManager.GetSortkey(c.id, c.fragment);
 			c.idKey = CometManager.GetIdKey(c.id);
 
 			return c;
