@@ -440,8 +440,12 @@ namespace Comets.Core.Managers
 			Comet c = new Comet();
 
 			string tempFull = line.Substring(0, 44).Trim()/*.TrimEnd(TrimCharacters)*/.Trim();
-			string tempName = String.Empty;
-			string tempId = String.Empty;
+			string id, name, fragment;
+			CometManager.GetIdNameFromFull(tempFull, out id, out name, out fragment);
+			c.id = id;
+			c.name = name;
+			c.fragment = fragment;
+			c.full = CometManager.GetFullFromIdName(id, name, fragment);
 
 			c.Ty = Convert.ToInt32(line.Substring(47, 4).Trim());
 			c.Tm = Convert.ToInt32(line.Substring(52, 2).Trim());
@@ -455,39 +459,6 @@ namespace Comets.Core.Managers
 			c.g = Convert.ToDouble(line.Substring(115, 5).Trim());
 			c.k = Convert.ToDouble(line.Substring(121, 5).Trim());
 
-			if (tempFull[0].In(CometManager.CometTypes) && tempFull[1] == '/')
-			{
-				int spaces = tempFull.Count(f => f == ' ');
-
-				if (spaces == 1)
-				{
-					tempId = tempFull;
-				}
-				else //if (spaces >= 2)
-				{
-					int secondspace = GetNthIndex(tempFull, ' ', 2);
-					tempId = tempFull.Substring(0, secondspace);
-					tempName = tempFull.Substring(secondspace + 1, tempFull.Length - secondspace - 1);
-				}
-			}
-			else
-			{
-				int spaceind = tempFull.IndexOf(' ');
-				if (spaceind == -1)
-				{
-					//ako nema razmaka, "282P"
-					tempId = tempFull;
-				}
-				else
-				{
-					tempId = tempFull.Substring(0, spaceind);
-					tempName = tempFull.Substring(spaceind + 1, tempFull.Length - spaceind - 1);
-				}
-			}
-
-			c.full = CometManager.GetFullFromIdName(tempId, tempName);
-			c.id = tempId;
-			c.name = tempName;
 
 			c.T = EphemerisManager.JD0(c.Ty, c.Tm, c.Td, c.Th);
 			c.P = CometManager.GetPeriod(c.q, c.e);
@@ -495,7 +466,7 @@ namespace Comets.Core.Managers
 			c.n = CometManager.GetMeanMotion(c.e, c.P);
 			c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
-			c.sortkey = CometManager.GetSortkey(c.id);
+			c.sortkey = CometManager.GetSortkey(c.id, c.fragment);
 			c.idKey = CometManager.GetIdKey(c.id);
 
 			return c;
