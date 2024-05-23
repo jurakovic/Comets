@@ -56,16 +56,6 @@ namespace Comets.Core.Managers
 
 			try
 			{
-				ParseGuide02(line1);
-				return ImportType.Guide;
-			}
-			catch
-			{
-
-			}
-
-			try
-			{
 				ParseXephem03(line1);
 				return ImportType.xephem;
 			}
@@ -118,6 +108,16 @@ namespace Comets.Core.Managers
 			{
 				ParseDeepSpace08(line0, line1);
 				return ImportType.DeepSpace;
+			}
+			catch
+			{
+
+			}
+
+			try
+			{
+				ParseGuide02(line1);
+				return ImportType.Guide;
 			}
 			catch
 			{
@@ -917,10 +917,12 @@ namespace Comets.Core.Managers
 			Comet c = new Comet();
 
 			string tempfull = line1;
-			string[] idname = tempfull.Split('(');
-			c.name = idname[0].Trim()/*.TrimEnd(TrimCharacters)*/.Trim();
-			c.id = idname[1].TrimEnd(')');
-			c.full = CometManager.GetFullFromIdName(c.id, c.name);
+			string id, name, fragment;
+			CometManager.GetIdNameFromFull2(tempfull, out id, out name, out fragment);
+			c.id = id;
+			c.name = name;
+			c.fragment = fragment;
+			c.full = CometManager.GetFullFromIdName(id, name, fragment);
 
 			string line = line2;
 			string[] parts = line.Split(' ');
@@ -945,7 +947,7 @@ namespace Comets.Core.Managers
 			c.n = CometManager.GetMeanMotion(c.e, c.P);
 			c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
-			c.sortkey = CometManager.GetSortkey(c.id);
+			c.sortkey = CometManager.GetSortkey(c.id, c.fragment);
 			c.idKey = CometManager.GetIdKey(c.id);
 
 			return c;
