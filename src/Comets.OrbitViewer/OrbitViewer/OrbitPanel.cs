@@ -788,21 +788,24 @@ namespace Comets.OrbitViewer
 
 		private void DrawEarthOrbit(Graphics graphics, PlanetOrbit planetOrbit)
 		{
-			graphics.SmoothingMode = Antialiasing ? SmoothingMode.AntiAlias : SmoothingMode.None;
-
-			Pen pen = new Pen(ColorPlanetOrbitUpper);
-			Point point1, point2;
-			Xyz xyz = planetOrbit.GetAt(0).Rotate(MtxToEcl).Rotate(MtxRotate);
-
-			point1 = GetDrawPoint(xyz);
-
-			for (int i = 1; i <= PlanetOrbit.OrbitDivisionCount; i++)
+			if (this.OrbitDisplay.Contains(planetOrbit.Planet))
 			{
-				xyz = planetOrbit.GetAt(i).Rotate(MtxToEcl);
-				xyz = xyz.Rotate(MtxRotate);
-				point2 = GetDrawPoint(xyz);
-				graphics.DrawLine(pen, point1.X, point1.Y, point2.X, point2.Y);
-				point1 = point2;
+				graphics.SmoothingMode = Antialiasing ? SmoothingMode.AntiAlias : SmoothingMode.None;
+
+				Pen pen = new Pen(ColorPlanetOrbitUpper);
+				Point point1, point2;
+				Xyz xyz = planetOrbit.GetAt(0).Rotate(MtxToEcl).Rotate(MtxRotate);
+
+				point1 = GetDrawPoint(xyz);
+
+				for (int i = 1; i <= PlanetOrbit.OrbitDivisionCount; i++)
+				{
+					xyz = planetOrbit.GetAt(i).Rotate(MtxToEcl);
+					xyz = xyz.Rotate(MtxRotate);
+					point2 = GetDrawPoint(xyz);
+					graphics.DrawLine(pen, point1.X, point1.Y, point2.X, point2.Y);
+					point1 = point2;
+				}
 			}
 		}
 

@@ -158,7 +158,7 @@
 			this.cboTheme.FormattingEnabled = true;
 			this.cboTheme.Location = new System.Drawing.Point(148, 17);
 			this.cboTheme.Name = "cboTheme";
-			this.cboTheme.Size = new System.Drawing.Size(130, 21);
+			this.cboTheme.Size = new System.Drawing.Size(100, 21);
 			this.cboTheme.TabIndex = 14;
 			// 
 			// lblTheme

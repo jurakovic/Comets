@@ -20,7 +20,8 @@ namespace Comets.Core.Managers
 			'P', // periodic
 			'C', // not periodic
 			'X', // orbit cannot be computed
-			'D'  // disappeared
+			'D', // disappeared
+			'I', // interstellar
 		};
 
 		public static Dictionary<PropertyEnum, double> EqualValueOffset = new Dictionary<PropertyEnum, double>()
@@ -100,7 +101,8 @@ namespace Comets.Core.Managers
 
 			double sort = 0.0;
 			double v = 0.0;
-			double offset = 2000.0;
+			double cOffset = 2000.0; // not per.
+			double iOffset = 10000.0; // interst.
 			string fragm = String.Empty;
 
 			//http://stackoverflow.com/questions/3720012/regular-expression-to-split-string-and-number
@@ -126,12 +128,16 @@ namespace Comets.Core.Managers
 
 			if (Char.IsDigit(id[0]))
 			{
+				// 1P, 2I...
 				sort = id.Substring(0, id.Length - 1).Double();
+
+				if (id.EndsWith("I"))
+					sort += iOffset;
 			}
 			else
 			{
 				string[] yc = id.Split(' ');
-				sort = yc[0].Split('/')[1].Double() + offset; //da npr C/240 V1 ne bude isto kao i 240P/NEAT i slicno...
+				sort = yc[0].Split('/')[1].Double() + cOffset; //da npr C/240 V1 ne bude isto kao i 240P/NEAT i slicno...
 
 				string code = yc[1];
 

@@ -59,7 +59,7 @@ namespace Comets.Application.Common.Controls.DateAndTime
 
 			ToolTop = new ToolTip();
 			ToolTop.AutomaticDelay = 500;
-			ToolTop.ToolTipTitle = "Local time";
+			ToolTop.ToolTipTitle = "Local Time";
 		}
 
 		#endregion

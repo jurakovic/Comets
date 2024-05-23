@@ -29,14 +29,25 @@ function main() {
 
     if [[ ! $? -eq 0 ]]; then exit 1; fi # exit if build canceled
 
-    echo
-    echo -e "${Color_Green}Build OK${Color_Off}"
-    read -p "Press any key to continue to git commit, tag, push..." -n1 -s; echo
-
     local publish_path="src/Comets.Application/bin/Release/net8.0-windows/win-$ARCH/publish"
     local assembly_name="Comets.exe"
-    local sha256=$(sha256sum.exe "$publish_path/$assembly_name" | cut -d " " -f 1)
+    local release_path="release"
+
+    mkdir -p $release_path
+    cp $publish_path/$assembly_name $release_path
+    curl -s "https://minorplanetcenter.net/iau/Ephemerides/Comets/Soft00Cmt.txt" -o $release_path/Comets.db
+
+    tar -C "$release_path/" -a -c -f $release_path/comets-$VERSION.zip --exclude=*.zip "*"
+
+    local sha256=$(sha256sum.exe "$release_path/$assembly_name" | cut -d " " -f 1)
     local url="https://github.com/jurakovic/Comets/releases/tag/v$VERSION"
+    echo "$sha256  $assembly_name" > $release_path/checksum.txt
+
+    echo
+    echo -e "${Color_Green}Release OK${Color_Off}"
+
+    read -p "Do you want to continue to git commit, tag, push...? (y/n) " yn
+    if [ ! $yn = "y" ]; then exit; fi
 
     git checkout release && git pull || git switch -c release origin/release
 
@@ -56,9 +67,6 @@ function main() {
     git checkout "$BRANCH"
     git tag "v$VERSION"
     git push origin "v$VERSION"
-
-    mkdir -p release
-    tar -C "$publish_path/" -a -c -f release/comets-$VERSION.zip $assembly_name
 
     echo
     echo -e "${Color_Yellow}Version $VERSION released${Color_Off}"

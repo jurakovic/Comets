@@ -19,14 +19,14 @@ namespace Comets.Core.Managers
 		{
 			Light = 0,
 			Dark = 1,
-			SystemSettings = 2,
+			System = 2,
 		}
 
 		public static string[] Themes =
 		{
 			"Light",
 			"Dark",
-			"Use system settings"
+			"System"
 		};
 
 		#endregion
@@ -145,17 +145,11 @@ namespace Comets.Core.Managers
 			if (settings.RememberWindowPosition)
 			{
 				sb.AppendLine("[Window]");
-				if (settings.Maximized)
-				{
-					sb.AppendLine(String.Format(format, "Maximized", settings.Maximized));
-				}
-				else
-				{
-					sb.AppendLine(String.Format(format, "Left", settings.Left));
-					sb.AppendLine(String.Format(format, "Top", settings.Top));
-					sb.AppendLine(String.Format(format, "Width", settings.Width));
-					sb.AppendLine(String.Format(format, "Height", settings.Height));
-				}
+				sb.AppendLine(String.Format(format, "Maximized", settings.Maximized));
+				sb.AppendLine(String.Format(format, "Left", settings.Left));
+				sb.AppendLine(String.Format(format, "Top", settings.Top));
+				sb.AppendLine(String.Format(format, "Width", settings.Width));
+				sb.AppendLine(String.Format(format, "Height", settings.Height));
 				sb.AppendLine();
 			}
 
