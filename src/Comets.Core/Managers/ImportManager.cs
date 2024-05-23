@@ -401,10 +401,11 @@ namespace Comets.Core.Managers
 			c.k = Convert.ToDouble(line.Substring(96, 4).Trim());
 			c.full = line.Substring(102, 55).Trim()/*.TrimEnd(TrimCharacters)*/.Trim();
 
-			string id, name;
-			CometManager.GetIdNameFromFull(c.full, out id, out name);
+			string id, name, fragment;
+			CometManager.GetIdNameFromFull(c.full, out id, out name, out fragment);
 			c.id = id;
 			c.name = name;
+			c.fragment = fragment;
 
 			c.T = EphemerisManager.JD0(c.Ty, c.Tm, c.Td, c.Th);
 			c.P = CometManager.GetPeriod(c.q, c.e);
@@ -412,7 +413,7 @@ namespace Comets.Core.Managers
 			c.n = CometManager.GetMeanMotion(c.e, c.P);
 			c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
-			c.sortkey = CometManager.GetSortkey(c.id);
+			c.sortkey = CometManager.GetSortkey(c.id, c.fragment);
 			c.idKey = CometManager.GetIdKey(c.id);
 
 			return c;

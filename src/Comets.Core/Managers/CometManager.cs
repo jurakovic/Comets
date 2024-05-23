@@ -43,6 +43,7 @@ namespace Comets.Core.Managers
 		};
 
 		private static readonly Regex _regFull = new Regex("(^(?<id1>[0-9]+[PCXDI])-*(?<fragment1>[a-zA-Z]*[0-9]*)\\/(?<name1>.+))|(^(?<id2>[PCXDI]\\/-*[0-9]+ [a-zA-Z]*[0-9]*)-*(?<fragment2>[a-zA-Z]*[0-9]*)( \\((?<name2>.*)\\))*)");
+		private static readonly Regex _regAlphaNum = new Regex("(?<letters>[a-zA-Z]*)(?<digits>[0-9]*)");
 
 		#endregion
 
@@ -95,27 +96,16 @@ namespace Comets.Core.Managers
 		/// </summary>
 		/// <param name="id">ID</param>
 		/// <returns></returns>
-		public static double GetSortkey(string id)
+		public static double GetSortkey(string id, string fragment = "")
 		{
-			// todo: add fragment param, optimize
-
 			double sort = 0.0;
 			double v = 0.0;
 			double cOffset = 2000.0; // not per.
 			double iOffset = 10000.0; // interst.
-			string fragm = String.Empty;
 
-			//http://stackoverflow.com/questions/3720012/regular-expression-to-split-string-and-number
-			Regex numAlpha = new Regex("(?<letters>[a-zA-Z]*)(?<digits>[0-9]*)");
-
-			if (id.Contains('-') && id[2] != '-') // 128P-B, C/-146 P1
+			if (fragment != String.Empty)
 			{
-				string[] fi = id.Split('-');
-				id = fi[0];
-				fragm = fi[1];
-
-				var match = numAlpha.Match(fragm);
-
+				Match match = _regAlphaNum.Match(fragment);
 				string fragmLetters = match.Groups["letters"].Value;
 				string fragmDigits = match.Groups["digits"].Value;
 
@@ -141,8 +131,7 @@ namespace Comets.Core.Managers
 
 				string code = yc[1];
 
-				var match = numAlpha.Match(code);
-
+				Match match = _regAlphaNum.Match(code);
 				string codeLetters = match.Groups["letters"].Value;
 				string codeDigits = match.Groups["digits"].Value;
 
@@ -152,9 +141,7 @@ namespace Comets.Core.Managers
 				// broj dijelim sa 10000000; pretpostavka da se moze pojaviti najvise troznamenkasti broj
 
 				for (int i = 0, divider = 100; i < codeLetters.Length; i++, divider *= 100)
-				{
 					v += (codeLetters[i] - 64) / (double)divider;
-				}
 
 				if (codeDigits != String.Empty)
 					v += codeDigits.Double() / 10000000.0;
@@ -296,18 +283,20 @@ namespace Comets.Core.Managers
 		/// </summary>
 		/// <param name="full">Full comet name</param>
 		/// <returns></returns>
-		public static void GetIdNameFromFull(string full, out string id/*, out string fragment*/, out string name)
+		public static void GetIdNameFromFull(string full, out string id, out string name)
 		{
 			id = String.Empty;
-			string fragment = String.Empty;
 			name = String.Empty;
 
+			GetIdNameFromFull(full, out id, out name, out _);
+		}
+
+		public static void GetIdNameFromFull(string full, out string id, out string name, out string fragment)
+		{
 			Match match = _regFull.Match(full);
 			id = match.Groups["id1"].Value.NullIfEmpty() ?? match.Groups["id2"].Value.NullIfEmpty() ?? String.Empty;
-			fragment = match.Groups["fragment1"].Value.NullIfEmpty() ?? match.Groups["fragment2"].Value.NullIfEmpty() ?? String.Empty;
 			name = match.Groups["name1"].Value.NullIfEmpty() ?? match.Groups["name2"].Value.NullIfEmpty() ?? String.Empty;
-
-			// temp, todo finish...
+			fragment = match.Groups["fragment1"].Value.NullIfEmpty() ?? match.Groups["fragment2"].Value.NullIfEmpty() ?? String.Empty;
 		}
 
 		#endregion
