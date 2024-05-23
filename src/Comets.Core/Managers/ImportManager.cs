@@ -596,10 +596,11 @@ namespace Comets.Core.Managers
 			string[] parts = line.Split(',');
 
 			c.full = parts[0].Trim()/*.TrimEnd(TrimCharacters)*/.Trim();
-			string id, name;
-			CometManager.GetIdNameFromFull(c.full, out id, out name);
+			string id, name, fragment;
+			CometManager.GetIdNameFromFull(c.full, out id, out name, out fragment);
 			c.id = id;
 			c.name = name;
+			c.fragment = fragment;
 
 			if (parts[1] == "e")
 			{
@@ -697,7 +698,7 @@ namespace Comets.Core.Managers
 			c.n = CometManager.GetMeanMotion(c.e, c.P);
 			c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
-			c.sortkey = CometManager.GetSortkey(c.id);
+			c.sortkey = CometManager.GetSortkey(c.id, c.fragment);
 			c.idKey = CometManager.GetIdKey(c.id);
 
 			return c;
@@ -728,10 +729,11 @@ namespace Comets.Core.Managers
 			string[] parts = line.Split(',');
 
 			c.full = parts[0].Trim()/*.TrimEnd(TrimCharacters)*/.Trim();
-			string id, name;
-			CometManager.GetIdNameFromFull(c.full, out id, out name);
+			string id, name, fragment;
+			CometManager.GetIdNameFromFull(c.full, out id, out name, out fragment);
 			c.id = id;
 			c.name = name;
+			c.fragment = fragment;
 
 			string[] date = parts[1].Split('-');
 			c.Ty = Convert.ToInt32(date[0]);
@@ -752,7 +754,7 @@ namespace Comets.Core.Managers
 			c.n = CometManager.GetMeanMotion(c.e, c.P);
 			c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
-			c.sortkey = CometManager.GetSortkey(c.id);
+			c.sortkey = CometManager.GetSortkey(c.id, c.fragment);
 			c.idKey = CometManager.GetIdKey(c.id);
 
 			return c;
@@ -791,10 +793,11 @@ namespace Comets.Core.Managers
 			string[] parts = line.Split('\t');
 
 			c.full = parts[0].Trim()/*.TrimEnd(TrimCharacters)*/.Trim();
-			string id, name;
-			CometManager.GetIdNameFromFull(c.full, out id, out name);
+			string id, name, fragment;
+			CometManager.GetIdNameFromFull(c.full, out id, out name, out fragment);
 			c.id = id;
 			c.name = name;
+			c.fragment = fragment;
 
 			Th = parts[1].Split('.');
 			T = Convert.ToDecimal(Th[0]);
@@ -821,7 +824,7 @@ namespace Comets.Core.Managers
 			c.n = CometManager.GetMeanMotion(c.e, c.P);
 			c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
-			c.sortkey = CometManager.GetSortkey(c.id);
+			c.sortkey = CometManager.GetSortkey(c.id, c.fragment);
 			c.idKey = CometManager.GetIdKey(c.id);
 
 			return c;
@@ -851,10 +854,11 @@ namespace Comets.Core.Managers
 
 			c.full = parts[0].Trim()/*.TrimEnd(TrimCharacters)*/.Trim();
 
-			string id, name;
-			CometManager.GetIdNameFromFull(c.full, out id, out name);
+			string id, name, fragment;
+			CometManager.GetIdNameFromFull(c.full, out id, out name, out fragment);
 			c.id = id;
 			c.name = name;
+			c.fragment = fragment;
 
 			string date = parts[2].Trim().PadRight(13, '0');
 			c.Ty = Convert.ToInt32(date.Substring(0, 4));
@@ -876,7 +880,7 @@ namespace Comets.Core.Managers
 			c.n = CometManager.GetMeanMotion(c.e, c.P);
 			c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
-			c.sortkey = CometManager.GetSortkey(c.id);
+			c.sortkey = CometManager.GetSortkey(c.id, c.fragment);
 			c.idKey = CometManager.GetIdKey(c.id);
 
 			return c;
@@ -1087,10 +1091,11 @@ namespace Comets.Core.Managers
 
 			c.full = line1/*.TrimEnd(TrimCharacters)*/.Trim();
 
-			string id, name;
-			CometManager.GetIdNameFromFull(c.full, out id, out name);
+			string id, name, fragment;
+			CometManager.GetIdNameFromFull(c.full, out id, out name, out fragment);
 			c.id = id;
 			c.name = name;
+			c.fragment = fragment;
 
 			string line = line2;
 			string[] parts = line.Split(' ');
@@ -1115,7 +1120,7 @@ namespace Comets.Core.Managers
 			c.n = CometManager.GetMeanMotion(c.e, c.P);
 			c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
-			c.sortkey = CometManager.GetSortkey(c.id);
+			c.sortkey = CometManager.GetSortkey(c.id, c.fragment);
 			c.idKey = CometManager.GetIdKey(c.id);
 
 			return c;
@@ -1278,10 +1283,11 @@ namespace Comets.Core.Managers
 
 			c.full = parts[12].Split(';')[0]/*.TrimEnd(TrimCharacters)*/.Trim();
 
-			string id, name;
-			CometManager.GetIdNameFromFull(c.full, out id, out name);
+			string id, name, fragment;
+			CometManager.GetIdNameFromFull(c.full, out id, out name, out fragment);
 			c.id = id;
 			c.name = name;
+			c.fragment = fragment;
 
 			c.T = EphemerisManager.JD0(c.Ty, c.Tm, c.Td, c.Th);
 			c.P = CometManager.GetPeriod(c.q, c.e);
@@ -1289,7 +1295,7 @@ namespace Comets.Core.Managers
 			c.n = CometManager.GetMeanMotion(c.e, c.P);
 			c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
-			c.sortkey = CometManager.GetSortkey(c.id);
+			c.sortkey = CometManager.GetSortkey(c.id, c.fragment);
 			c.idKey = CometManager.GetIdKey(c.id);
 
 			return c;
@@ -1406,15 +1412,17 @@ namespace Comets.Core.Managers
 				c.full = CometManager.GetFullFromIdName(tempId, tempName);
 				c.id = tempId;
 				c.name = tempName;
+				//c.fragment todo
 			}
 			else
 			{
 				c.full = tempFull;
 
-				string id, name;
-				CometManager.GetIdNameFromFull(c.full, out id, out name);
+				string id, name, fragment;
+				CometManager.GetIdNameFromFull(c.full, out id, out name, out fragment);
 				c.id = id;
 				c.name = name;
+				c.fragment = fragment;
 			}
 
 			c.Ty = Convert.ToInt32(line.Substring(54, 4).Trim());
@@ -1437,7 +1445,7 @@ namespace Comets.Core.Managers
 			c.n = CometManager.GetMeanMotion(c.e, c.P);
 			c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
-			c.sortkey = CometManager.GetSortkey(c.id);
+			c.sortkey = CometManager.GetSortkey(c.id, c.fragment);
 			c.idKey = CometManager.GetIdKey(c.id);
 
 			return c;
@@ -1479,10 +1487,11 @@ namespace Comets.Core.Managers
 
 			c.full = lines[0].Split('=')[1].Trim()/*.TrimEnd(TrimCharacters)*/.Trim();
 
-			string id, name;
-			CometManager.GetIdNameFromFull(c.full, out id, out name);
+			string id, name, fragment;
+			CometManager.GetIdNameFromFull(c.full, out id, out name, out fragment);
 			c.id = id;
 			c.name = name;
+			c.fragment = fragment;
 
 			string[] date = lines[1].Split('=')[1].Split(' ');
 			c.Ty = Convert.ToInt32(date[0]);
@@ -1507,7 +1516,7 @@ namespace Comets.Core.Managers
 			c.n = CometManager.GetMeanMotion(c.e, c.P);
 			c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
-			c.sortkey = CometManager.GetSortkey(c.id);
+			c.sortkey = CometManager.GetSortkey(c.id, c.fragment);
 			c.idKey = CometManager.GetIdKey(c.id);
 
 			return c;
@@ -1537,10 +1546,11 @@ namespace Comets.Core.Managers
 
 			c.full = line.Substring(0, 43).Trim();
 
-			string id, name;
-			CometManager.GetIdNameFromFull(c.full, out id, out name);
+			string id, name, fragment;
+			CometManager.GetIdNameFromFull(c.full, out id, out name, out fragment);
 			c.id = id;
 			c.name = name;
+			c.fragment = fragment;
 
 			/////////////////////////
 			//pogledat epoch
@@ -1566,7 +1576,7 @@ namespace Comets.Core.Managers
 			c.n = CometManager.GetMeanMotion(c.e, c.P);
 			c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
-			c.sortkey = CometManager.GetSortkey(c.id);
+			c.sortkey = CometManager.GetSortkey(c.id, c.fragment);
 			c.idKey = CometManager.GetIdKey(c.id);
 
 			return c;
