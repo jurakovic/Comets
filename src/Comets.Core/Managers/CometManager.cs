@@ -100,8 +100,8 @@ namespace Comets.Core.Managers
 		{
 			double sort = 0.0;
 			double v = 0.0;
-			double cOffset = 2000.0; // not per.
-			double iOffset = 10000.0; // interst.
+			double cOffset = 10000.0; // not per.
+			double iOffset = 100000.0; // interst.
 
 			if (fragment != String.Empty)
 			{
@@ -130,7 +130,6 @@ namespace Comets.Core.Managers
 				sort = yc[0].Split('/')[1].Double() + cOffset; //da npr C/240 V1 ne bude isto kao i 240P/NEAT i slicno...
 
 				string code = yc[1];
-
 				Match match = _regAlphaNum.Match(code);
 				string codeLetters = match.Groups["letters"].Value;
 				string codeDigits = match.Groups["digits"].Value;
