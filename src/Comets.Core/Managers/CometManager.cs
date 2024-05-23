@@ -22,6 +22,7 @@ namespace Comets.Core.Managers
 			'X', // orbit cannot be computed
 			'D', // disappeared
 			'I', // interstellar
+			'A', // asteroids in cometary orbits
 		};
 
 		public static Dictionary<PropertyEnum, double> EqualValueOffset = new Dictionary<PropertyEnum, double>()
@@ -42,7 +43,7 @@ namespace Comets.Core.Managers
 			{ PropertyEnum.w,                1.00 }
 		};
 
-		private static readonly Regex _regFull = new Regex("(^(?<id1>[0-9]+[PCXDI])-*(?<fragment1>[a-zA-Z]*[0-9]*) *(\\/)*(?<name1>.+))|(^(?<id2>[PCXDI]\\/-*[0-9]+ [a-zA-Z]*[0-9]*)-*(?<fragment2>[a-zA-Z]*[0-9]*)( \\((?<name2>.*)\\))*)");
+		private static readonly Regex _regFull = new Regex("(^(?<id1>[0-9]+[PCXDIA])-*(?<fragment1>[a-zA-Z]*[0-9]*) *(\\/)*(?<name1>.+))|(^(?<id2>[PCXDIA]\\/-*[0-9]+ [a-zA-Z]*[0-9]*)-*(?<fragment2>[a-zA-Z]*[0-9]*)( \\((?<name2>.*)\\))*)");
 		private static readonly Regex _regAlphaNum = new Regex("(?<letters>[a-zA-Z]*)(?<digits>[0-9]*)");
 
 		#endregion
