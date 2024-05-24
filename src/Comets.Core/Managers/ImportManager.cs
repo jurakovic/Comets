@@ -1542,28 +1542,5 @@ namespace Comets.Core.Managers
 		}
 
 		#endregion
-
-		#region Methods
-
-		private static int GetNthIndex(string s, char c, int n)
-		{
-			//http://stackoverflow.com/questions/2571716/find-nth-occurrence-of-a-character-in-a-string
-
-			int count = 0;
-			for (int i = 0; i < s.Length; i++)
-			{
-				if (s[i] == c)
-				{
-					count++;
-					if (count == n)
-					{
-						return i;
-					}
-				}
-			}
-			return -1;
-		}
-
-		#endregion
 	}
 }
