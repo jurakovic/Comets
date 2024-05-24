@@ -982,17 +982,17 @@ namespace Comets.Core.Managers
 
 			string[] parts = line.TrimEnd().Split(' ');
 
-			string id = parts[0];
+			string tempId = parts[0];
 
-			if (id.Contains('/'))
+			if (tempId.Contains('/'))
 			{
 				int p = 2;
 
-				while (!Char.IsLetter(id[p])) p++;
-				string id1 = id.Substring(0, p);
-				string id2 = id.Substring(p, id.Length - p);
+				while (!Char.IsLetter(tempId[p])) p++;
+				string id1 = tempId.Substring(0, p);
+				string id2 = tempId.Substring(p, tempId.Length - p);
 
-				id = id1 + " " + id2;
+				tempId = id1 + " " + id2;
 			}
 
 			c.q = Convert.ToDouble(parts[1]);
@@ -1014,10 +1014,14 @@ namespace Comets.Core.Managers
 			for (int i = 11; i < parts.Length; i++)
 				tempName += parts[i] + " ";
 
-			c.name = tempName.Trim()/*.TrimEnd(TrimCharacters)*/.Trim();
+			string tempFull = tempId + " " + tempName.Trim();
 
-			c.full = CometManager.GetFullFromIdName(id, c.name);
+			string id, name, fragment;
+			CometManager.GetIdNameFromFull(tempFull, out id, out name, out fragment);
 			c.id = id;
+			c.name = name;
+			c.fragment = fragment;
+			c.full = CometManager.GetFullFromIdName(c.id, c.name, c.fragment);
 
 			c.T = EphemerisManager.JD0(c.Ty, c.Tm, c.Td, c.Th);
 			c.P = CometManager.GetPeriod(c.q, c.e);
@@ -1025,7 +1029,7 @@ namespace Comets.Core.Managers
 			c.n = CometManager.GetMeanMotion(c.e, c.P);
 			c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
-			c.sortkey = CometManager.GetSortkey(c.id);
+			c.sortkey = CometManager.GetSortkey(c.id, c.fragment);
 			c.idKey = CometManager.GetIdKey(c.id);
 
 			return c;
@@ -1112,19 +1116,20 @@ namespace Comets.Core.Managers
 		{
 			Comet c = new Comet();
 
-			string id = line.Substring(0, 11).Trim();
+			string tempId = line.Substring(0, 11).Trim();
 
-			if (id.Contains('/'))
+			if (tempId.Contains('/'))
 			{
 				int p = 2;
 
-				while (!Char.IsLetter(id[p])) p++;
-				string id1 = id.Substring(0, p);
-				string id2 = id.Substring(p, id.Length - p);
+				while (!Char.IsLetter(tempId[p])) p++;
+				string id1 = tempId.Substring(0, p);
+				string id2 = tempId.Substring(p, tempId.Length - p);
 
-				id = id1 + " " + id2;
+				tempId = id1 + " " + id2;
 			}
 
+			// some comets have q > 10 AU, but this format shows it as "********" so they are discarded
 			c.q = Convert.ToDouble(line.Substring(11, 9).Trim());
 			c.e = Convert.ToDouble(line.Substring(20, 9).Trim());
 			c.i = Convert.ToDouble(line.Substring(29, 9).Trim());
@@ -1136,13 +1141,20 @@ namespace Comets.Core.Managers
 			c.Td = Convert.ToInt32(line.Substring(61, 2).Trim());
 			c.Th = Convert.ToInt32(line.Substring(65, 4).Trim().PadRight(4, '0'));
 
+			string tempName;
 			if (line.Length == 69)
-				c.name = String.Empty;
+				tempName = String.Empty;
 			else
-				c.name = line.Substring(70, line.Length - 70).Trim()/*.TrimEnd(TrimCharacters)*/.Trim();
+				tempName = line.Substring(70, line.Length - 70).Trim()/*.TrimEnd(TrimCharacters)*/.Trim();
 
-			c.full = CometManager.GetFullFromIdName(id, c.name);
+			string tempFull = tempId + " " + tempName;
+
+			string id, name, fragment;
+			CometManager.GetIdNameFromFull(tempFull, out id, out name, out fragment);
 			c.id = id;
+			c.name = name;
+			c.fragment = fragment;
+			c.full = CometManager.GetFullFromIdName(c.id, c.name, c.fragment);
 
 			c.T = EphemerisManager.JD0(c.Ty, c.Tm, c.Td, c.Th);
 			c.P = CometManager.GetPeriod(c.q, c.e);
@@ -1150,7 +1162,7 @@ namespace Comets.Core.Managers
 			c.n = CometManager.GetMeanMotion(c.e, c.P);
 			c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
-			c.sortkey = CometManager.GetSortkey(c.id);
+			c.sortkey = CometManager.GetSortkey(c.id, c.fragment);
 			c.idKey = CometManager.GetIdKey(c.id);
 
 			return c;
