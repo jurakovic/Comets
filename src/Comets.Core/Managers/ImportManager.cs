@@ -116,16 +116,6 @@ namespace Comets.Core.Managers
 
 			try
 			{
-				ParseGuide02(line1);
-				return ImportType.Guide;
-			}
-			catch
-			{
-
-			}
-
-			try
-			{
 				ParsePcTcs09(line1);
 				return ImportType.PCTCS;
 			}
@@ -208,6 +198,16 @@ namespace Comets.Core.Managers
 			{
 				ParseNasaComet(line1);
 				return ImportType.NASA;
+			}
+			catch
+			{
+
+			}
+
+			try
+			{
+				ParseGuide02(line1);
+				return ImportType.Guide;
 			}
 			catch
 			{
@@ -1373,39 +1373,12 @@ namespace Comets.Core.Managers
 			Comet c = new Comet();
 
 			string tempFull = line.Substring(2, 41).Trim()/*.TrimEnd(TrimCharacters)*/.Trim();
-			string tempName = String.Empty;
-			string tempId = String.Empty;
-
-			if (tempFull[0].In(CometManager.CometTypes) && tempFull[1] == '/')
-			{
-				int spaces = tempFull.Count(f => f == ' ');
-
-				if (spaces == 1)
-				{
-					tempId = tempFull;
-				}
-				else //if (spaces >= 2)
-				{
-					int secondspace = GetNthIndex(tempFull, ' ', 2);
-					tempId = tempFull.Substring(0, secondspace);
-					tempName = tempFull.Substring(secondspace + 1, tempFull.Length - secondspace - 1);
-				}
-
-				c.full = CometManager.GetFullFromIdName(tempId, tempName);
-				c.id = tempId;
-				c.name = tempName;
-				//c.fragment todo
-			}
-			else
-			{
-				c.full = tempFull;
-
-				string id, name, fragment;
-				CometManager.GetIdNameFromFull(c.full, out id, out name, out fragment);
-				c.id = id;
-				c.name = name;
-				c.fragment = fragment;
-			}
+			string id, name, fragment;
+			CometManager.GetIdNameFromFull(tempFull, out id, out name, out fragment);
+			c.id = id;
+			c.name = name;
+			c.fragment = fragment;
+			c.full = CometManager.GetFullFromIdName(c.id, c.name, c.fragment);
 
 			c.Ty = Convert.ToInt32(line.Substring(54, 4).Trim());
 			c.Tm = Convert.ToInt32(line.Substring(59, 2).Trim());
