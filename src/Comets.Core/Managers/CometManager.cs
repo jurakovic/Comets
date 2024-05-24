@@ -130,90 +130,68 @@ namespace Comets.Core.Managers
 		/// <summary>
 		/// Calculates Sortkey
 		/// </summary>
-		/// <param name="id">ID</param>
-		/// <returns></returns>
-		public static double GetSortkey(string id, string fragment)
+		public static string GetSortkey(string id, string fragment)
 		{
-			double sort = 0.0;
-			double v = 0.0;
-			double cOffset = 10000.0; // not per.
-			double iOffset = 100000.0; // interst.
+			string key = String.Empty;
 
-			if (fragment != String.Empty)
+			string per = "0"; // periodic:     1P
+			string neg = "1"; // negative year C/-YYYY
+			string pos = "2"; // positive year C/YYYY
+			string ins = "3"; // interstellar: 1I
+
+			if (Char.IsDigit(id[0])) // 1P
+				key = id.EndsWith("I") ? ins : per;
+			else
+				key = id[2] == '-' ? neg : pos;
+
+			string number;
+			string codeL = "000";
+			string codeD = "000";
+
+			if (Char.IsDigit(id[0])) // 1P
 			{
-				Match match = _regAlphaNum.Match(fragment);
-				string fragmLetters = match.Groups["letters"].Value;
-				string fragmDigits = match.Groups["digits"].Value;
-
-				for (int i = 0, divider = 1000000000; i < fragmLetters.Length; i++, divider *= 100)
-					v += (fragmLetters[i] - 64) / (double)divider;
-
-				if (fragmDigits != String.Empty)
-					v += fragmDigits.Double() / 10000000000000.0;
-			}
-
-			if (Char.IsDigit(id[0]))
-			{
-				// 1P, 2I...
-				sort = id.Substring(0, id.Length - 1).Double();
-
-				if (id.EndsWith("I"))
-					sort += iOffset;
+				number = id.Substring(0, id.Length - 1).PadLeft(4, '0');
 			}
 			else
 			{
 				string[] yc = id.Split(' ');
-				sort = yc[0].Split('/')[1].Double() + cOffset; //da npr C/240 V1 ne bude isto kao i 240P/NEAT i slicno...
+				int year = yc[0].Split('/')[1].Int();
+
+				if (year < 0)
+					year += 10000;
+
+				number = year.ToString().PadLeft(4, '0');
 
 				string code = yc[1];
-				Match match = _regAlphaNum.Match(code);
-				string codeLetters = match.Groups["letters"].Value;
-				string codeDigits = match.Groups["digits"].Value;
-
-				// pretpostavka da mogu doci najvise 2 slova u id-u
-				// 1. slovo dijelim sa 100
-				// 2. slovo dijelim sa 10000
-				// broj dijelim sa 10000000; pretpostavka da se moze pojaviti najvise troznamenkasti broj
-
-				for (int i = 0, divider = 100; i < codeLetters.Length; i++, divider *= 100)
-					v += (codeLetters[i] - 64) / (double)divider;
-
-				if (codeDigits != String.Empty)
-					v += codeDigits.Double() / 10000000.0;
+				Match m1 = _regAlphaNum.Match(code);
+				codeL = m1.Groups["letters"].Value.PadLeft(3, '0');
+				codeD = m1.Groups["digits"].Value.PadLeft(3, '0');
 			}
 
-			sort += v;
+			string fragL = "00";
+			string fragD = "00";
 
-			return sort;
-		}
-
-		#endregion
-
-		#region GetIdKey
-
-		/// <summary>
-		/// Returns IDKey
-		/// </summary>
-		/// <param name="id">ID</param>
-		/// <returns></returns>
-		public static string GetIdKey(string id)
-		{
-			// todo, remove?
-
-			string key = String.Empty;
-
-			if (Char.IsDigit(id[0]))
+			if (fragment != String.Empty)
 			{
-				key = id;
-
-				for (int i = key.Length; i < 5; i++)
-					key = '0' + key;
-			}
-			else
-			{
-				key = id.Remove(0, 2).Replace("-", String.Empty).Replace(" ", String.Empty);
+				Match m2 = _regAlphaNum.Match(fragment);
+				fragL = m2.Groups["letters"].Value.PadLeft(2, '0');
+				fragD = m2.Groups["digits"].Value.PadLeft(2, '0'); ;
 			}
 
+			/*===================================
+			some examples, expanded for clarity
+			1P            >  0 0001 000 000 00 00  ; numbered periodic comets with leading '0'
+			3D-A          >  0 0003 000 000 0A 00
+			5D-B1         >  0 0005 000 000 0B 01
+			240P          >  0 0240 000 000 00 00
+			C/-146 P1     >  1 9854 00P 001 00 00  ; negative years with leading '1'
+			C/-43 K1      >  1 9957 00K 001 00 00
+			C/240 V1      >  2 0240 00V 001 00 00  ; positive years with leading '2'; not the same as 240 above
+			C/2000 A1-B2  >  2 2000 00A 001 0B 02
+			1I            >  3 0001 000 000 00 00  ; interstellar objects moved to the end with leading '3'
+			===================================*/
+
+			key = $"{key}{number}{codeL}{codeD}{fragL}{fragD}";
 			return key;
 		}
 

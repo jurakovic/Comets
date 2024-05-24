@@ -417,7 +417,6 @@ namespace Comets.Core.Managers
 			c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
 			c.sortkey = CometManager.GetSortkey(c.id, c.fragment);
-			c.idKey = CometManager.GetIdKey(c.id);
 
 			return c;
 		}
@@ -469,7 +468,6 @@ namespace Comets.Core.Managers
 			c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
 			c.sortkey = CometManager.GetSortkey(c.id, c.fragment);
-			c.idKey = CometManager.GetIdKey(c.id);
 
 			return c;
 		}
@@ -521,7 +519,6 @@ namespace Comets.Core.Managers
 			c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
 			c.sortkey = CometManager.GetSortkey(c.id, c.fragment);
-			c.idKey = CometManager.GetIdKey(c.id);
 
 			return c;
 		}
@@ -656,7 +653,6 @@ namespace Comets.Core.Managers
 			c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
 			c.sortkey = CometManager.GetSortkey(c.id, c.fragment);
-			c.idKey = CometManager.GetIdKey(c.id);
 
 			return c;
 		}
@@ -712,7 +708,6 @@ namespace Comets.Core.Managers
 			c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
 			c.sortkey = CometManager.GetSortkey(c.id, c.fragment);
-			c.idKey = CometManager.GetIdKey(c.id);
 
 			return c;
 		}
@@ -782,7 +777,6 @@ namespace Comets.Core.Managers
 			c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
 			c.sortkey = CometManager.GetSortkey(c.id, c.fragment);
-			c.idKey = CometManager.GetIdKey(c.id);
 
 			return c;
 		}
@@ -837,7 +831,6 @@ namespace Comets.Core.Managers
 			c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
 			c.sortkey = CometManager.GetSortkey(c.id, c.fragment);
-			c.idKey = CometManager.GetIdKey(c.id);
 
 			return c;
 		}
@@ -896,7 +889,6 @@ namespace Comets.Core.Managers
 			c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
 			c.sortkey = CometManager.GetSortkey(c.id, c.fragment);
-			c.idKey = CometManager.GetIdKey(c.id);
 
 			return c;
 		}
@@ -955,7 +947,6 @@ namespace Comets.Core.Managers
 			c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
 			c.sortkey = CometManager.GetSortkey(c.id, c.fragment);
-			c.idKey = CometManager.GetIdKey(c.id);
 
 			return c;
 		}
@@ -1029,7 +1020,6 @@ namespace Comets.Core.Managers
 			c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
 			c.sortkey = CometManager.GetSortkey(c.id, c.fragment);
-			c.idKey = CometManager.GetIdKey(c.id);
 
 			return c;
 		}
@@ -1087,7 +1077,6 @@ namespace Comets.Core.Managers
 			c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
 			c.sortkey = CometManager.GetSortkey(c.id, c.fragment);
-			c.idKey = CometManager.GetIdKey(c.id);
 
 			return c;
 		}
@@ -1155,7 +1144,6 @@ namespace Comets.Core.Managers
 			c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
 			c.sortkey = CometManager.GetSortkey(c.id, c.fragment);
-			c.idKey = CometManager.GetIdKey(c.id);
 
 			return c;
 		}
@@ -1210,7 +1198,6 @@ namespace Comets.Core.Managers
 			c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
 			c.sortkey = CometManager.GetSortkey(c.id, c.fragment);
-			c.idKey = CometManager.GetIdKey(c.id);
 
 			return c;
 		}
@@ -1268,7 +1255,6 @@ namespace Comets.Core.Managers
 			c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
 			c.sortkey = CometManager.GetSortkey(c.id, c.fragment);
-			c.idKey = CometManager.GetIdKey(c.id);
 
 			return c;
 		}
@@ -1335,9 +1321,8 @@ namespace Comets.Core.Managers
 			c.n = CometManager.GetMeanMotion(c.e, c.P);
 			c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
-			//voyager nema id
-			//c.sortkey = CometManager.GetSortkey(c.id);
-			//c.idKey = CometManager.GetIdKey(c.id);
+			// voyager has no id
+			c.sortkey = string.Empty; // CometManager.GetSortkey(c.id);
 
 			return c;
 		}
@@ -1391,7 +1376,6 @@ namespace Comets.Core.Managers
 			c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
 			c.sortkey = CometManager.GetSortkey(c.id, c.fragment);
-			c.idKey = CometManager.GetIdKey(c.id);
 
 			return c;
 		}
@@ -1461,7 +1445,6 @@ namespace Comets.Core.Managers
 			c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
 			c.sortkey = CometManager.GetSortkey(c.id, c.fragment);
-			c.idKey = CometManager.GetIdKey(c.id);
 
 			return c;
 		}
@@ -1520,7 +1503,6 @@ namespace Comets.Core.Managers
 			c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
 			c.sortkey = CometManager.GetSortkey(c.id, c.fragment);
-			c.idKey = CometManager.GetIdKey(c.id);
 
 			return c;
 		}
