@@ -168,17 +168,30 @@ namespace Comets.Core.Managers
 				codeD = m1.Groups["digits"].Value.PadLeft(3, '0');
 			}
 
-			string fragmLetters = "00";
-			string fragmDigits = "00";
+			string fragL = "00";
+			string fragD = "00";
 
 			if (fragment != String.Empty)
 			{
 				Match m2 = _regAlphaNum.Match(fragment);
-				fragmLetters = m2.Groups["letters"].Value.PadLeft(2, '0');
-				fragmDigits = m2.Groups["digits"].Value.PadLeft(2, '0'); ;
+				fragL = m2.Groups["letters"].Value.PadLeft(2, '0');
+				fragD = m2.Groups["digits"].Value.PadLeft(2, '0'); ;
 			}
 
-			key = $"{key}{number}{codeL}{codeD}{fragmLetters}{fragmDigits}";
+			/*===================================
+			some examples, expanded for clarity
+			1P            >  0 0001 000 000 00 00  ; numbered periodic comets with leading '0'
+			3D-A          >  0 0003 000 000 0A 00
+			5D-B1         >  0 0005 000 000 0B 01
+			240P          >  0 0240 000 000 00 00
+			C/-146 P1     >  1 9854 00P 001 00 00  ; negative years with leading '1'
+			C/-43 K1      >  1 9957 00K 001 00 00
+			C/240 V1      >  2 0240 00V 001 00 00  ; positive years with leading '2'; not the same as 240 above
+			C/2000 A1-B2  >  2 2000 00A 001 0B 02
+			1I            >  3 0001 000 000 00 00  ; interstellar objects moved to the end with leading '3'
+			===================================*/
+
+			key = $"{key}{number}{codeL}{codeD}{fragL}{fragD}";
 			return key;
 		}
 
