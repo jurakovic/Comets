@@ -134,10 +134,10 @@ namespace Comets.Core.Managers
 		{
 			string key = String.Empty;
 
-			string per = "0001"; // periodic:     1P
-			string neg = "0010"; // negative year C/-YYYY
-			string pos = "0100"; // positive year C/YYYY
-			string ins = "1000"; // interstellar: 1I
+			string per = "0"; // periodic:     1P
+			string neg = "1"; // negative year C/-YYYY
+			string pos = "2"; // positive year C/YYYY
+			string ins = "3"; // interstellar: 1I
 
 			if (Char.IsDigit(id[0])) // 1P
 				key = id.EndsWith("I") ? ins : per;
@@ -145,34 +145,36 @@ namespace Comets.Core.Managers
 				key = id[2] == '-' ? neg : pos;
 
 			string number;
-			string codeL = "0000";
-			string codeD = "0000";
+			string codeL = "000";
+			string codeD = "000";
 
 			if (Char.IsDigit(id[0])) // 1P
 			{
-				number = id.Substring(0, id.Length - 1).PadLeft(5, '0');
+				number = id.Substring(0, id.Length - 1).PadLeft(4, '0');
 			}
 			else
 			{
 				string[] yc = id.Split(' ');
 				int year = yc[0].Split('/')[1].Int();
 
-				year += 10000;
-				number = year.ToString().PadLeft(5, '0');
+				if (year < 0)
+					year += 10000;
+
+				number = year.ToString().PadLeft(4, '0');
 
 				string code = yc[1];
 				Match m1 = _regAlphaNum.Match(code);
-				codeL = m1.Groups["letters"].Value.PadLeft(4, '0');
-				codeD = m1.Groups["digits"].Value.PadLeft(4, '0');
+				codeL = m1.Groups["letters"].Value.PadLeft(3, '0');
+				codeD = m1.Groups["digits"].Value.PadLeft(3, '0');
 			}
 
-			string fragmLetters = "0000";
+			string fragmLetters = "00";
 			string fragmDigits = "00";
 
 			if (fragment != String.Empty)
 			{
 				Match m2 = _regAlphaNum.Match(fragment);
-				fragmLetters = m2.Groups["letters"].Value.PadLeft(4, '0');
+				fragmLetters = m2.Groups["letters"].Value.PadLeft(2, '0');
 				fragmDigits = m2.Groups["digits"].Value.PadLeft(2, '0'); ;
 			}
 
