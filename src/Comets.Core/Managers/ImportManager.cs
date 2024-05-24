@@ -405,8 +405,7 @@ namespace Comets.Core.Managers
 			c.k = Convert.ToDouble(line.Substring(96, 4).Trim());
 			c.full = line.Substring(102, 55).Trim();
 
-			string id, name, fragment;
-			CometManager.GetIdNameFromFull(c.full, out id, out name, out fragment);
+			CometManager.GetIdNameFromFull(c.full, out string id, out string name, out string fragment);
 			c.id = id;
 			c.name = name;
 			c.fragment = fragment;
@@ -444,8 +443,8 @@ namespace Comets.Core.Managers
 			Comet c = new Comet();
 
 			string tempFull = line.Substring(0, 44).Trim();
-			string id, name, fragment;
-			CometManager.GetIdNameFromFull(tempFull, out id, out name, out fragment);
+
+			CometManager.GetIdNameFromFull(tempFull, out string id, out string name, out string fragment);
 			c.id = id;
 			c.name = name;
 			c.fragment = fragment;
@@ -462,7 +461,6 @@ namespace Comets.Core.Managers
 			c.i = Convert.ToDouble(line.Substring(106, 9).Trim());
 			c.g = Convert.ToDouble(line.Substring(115, 5).Trim());
 			c.k = Convert.ToDouble(line.Substring(121, 5).Trim());
-
 
 			c.T = EphemerisManager.JD0(c.Ty, c.Tm, c.Td, c.Th);
 			c.P = CometManager.GetPeriod(c.q, c.e);
@@ -497,8 +495,8 @@ namespace Comets.Core.Managers
 			Comet c = new Comet();
 
 			string tempFull = line.Substring(0, 42).Trim();
-			string id, name, fragment;
-			CometManager.GetIdNameFromFull2(tempFull, out id, out name, out fragment);
+
+			CometManager.GetIdNameFromFull2(tempFull, out string id, out string name, out string fragment);
 			c.id = id;
 			c.name = name;
 			c.fragment = fragment;
@@ -555,8 +553,8 @@ namespace Comets.Core.Managers
 			string[] parts = line.Split(',');
 
 			c.full = parts[0].Trim();
-			string id, name, fragment;
-			CometManager.GetIdNameFromFull(c.full, out id, out name, out fragment);
+
+			CometManager.GetIdNameFromFull(c.full, out string id, out string name, out string fragment);
 			c.id = id;
 			c.name = name;
 			c.fragment = fragment;
@@ -688,8 +686,8 @@ namespace Comets.Core.Managers
 			string[] parts = line.Split(',');
 
 			c.full = parts[0].Trim();
-			string id, name, fragment;
-			CometManager.GetIdNameFromFull(c.full, out id, out name, out fragment);
+
+			CometManager.GetIdNameFromFull(c.full, out string id, out string name, out string fragment);
 			c.id = id;
 			c.name = name;
 			c.fragment = fragment;
@@ -752,8 +750,8 @@ namespace Comets.Core.Managers
 			string[] parts = line.Split('\t');
 
 			c.full = parts[0].Trim();
-			string id, name, fragment;
-			CometManager.GetIdNameFromFull(c.full, out id, out name, out fragment);
+
+			CometManager.GetIdNameFromFull(c.full, out string id, out string name, out string fragment);
 			c.id = id;
 			c.name = name;
 			c.fragment = fragment;
@@ -813,8 +811,7 @@ namespace Comets.Core.Managers
 
 			c.full = parts[0].Trim();
 
-			string id, name, fragment;
-			CometManager.GetIdNameFromFull(c.full, out id, out name, out fragment);
+			CometManager.GetIdNameFromFull(c.full, out string id, out string name, out string fragment);
 			c.id = id;
 			c.name = name;
 			c.fragment = fragment;
@@ -878,10 +875,9 @@ namespace Comets.Core.Managers
 			c.k = Convert.ToDouble(line.Substring(129, 6).Trim()) / 2.5;
 
 			string tempId = line.Substring(136, 14).Trim();
-			string tempFull = tempId + " " + tempName;
+			string tempFull = $"{tempId} {tempName}";
 
-			string id, name, fragment;
-			CometManager.GetIdNameFromFull(tempFull, out id, out name, out fragment);
+			CometManager.GetIdNameFromFull(tempFull, out string id, out string name, out string fragment);
 			c.id = id;
 			c.name = name;
 			c.fragment = fragment;
@@ -927,9 +923,9 @@ namespace Comets.Core.Managers
 		{
 			Comet c = new Comet();
 
-			string tempfull = line1;
-			string id, name, fragment;
-			CometManager.GetIdNameFromFull2(tempfull, out id, out name, out fragment);
+			string tempFull = line1;
+
+			CometManager.GetIdNameFromFull2(tempFull, out string id, out string name, out string fragment);
 			c.id = id;
 			c.name = name;
 			c.fragment = fragment;
@@ -1018,10 +1014,9 @@ namespace Comets.Core.Managers
 			for (int i = 11; i < parts.Length; i++)
 				tempName += parts[i] + " ";
 
-			string tempFull = tempId + " " + tempName.Trim();
+			string tempFull = $"{tempId} {tempName.Trim()}";
 
-			string id, name, fragment;
-			CometManager.GetIdNameFromFull(tempFull, out id, out name, out fragment);
+			CometManager.GetIdNameFromFull(tempFull, out string id, out string name, out string fragment);
 			c.id = id;
 			c.name = name;
 			c.fragment = fragment;
@@ -1063,8 +1058,7 @@ namespace Comets.Core.Managers
 
 			c.full = line1.Trim();
 
-			string id, name, fragment;
-			CometManager.GetIdNameFromFull(c.full, out id, out name, out fragment);
+			CometManager.GetIdNameFromFull(c.full, out string id, out string name, out string fragment);
 			c.id = id;
 			c.name = name;
 			c.fragment = fragment;
@@ -1145,16 +1139,10 @@ namespace Comets.Core.Managers
 			c.Td = Convert.ToInt32(line.Substring(61, 2).Trim());
 			c.Th = Convert.ToInt32(line.Substring(65, 4).Trim().PadRight(4, '0'));
 
-			string tempName;
-			if (line.Length == 69)
-				tempName = String.Empty;
-			else
-				tempName = line.Substring(70, line.Length - 70).Trim();
+			string tempName = line.Length == 69 ? String.Empty : line.Substring(70, line.Length - 70).Trim();
+			string tempFull = $"{tempId} {tempName}";
 
-			string tempFull = tempId + " " + tempName;
-
-			string id, name, fragment;
-			CometManager.GetIdNameFromFull(tempFull, out id, out name, out fragment);
+			CometManager.GetIdNameFromFull(tempFull, out string id, out string name, out string fragment);
 			c.id = id;
 			c.name = name;
 			c.fragment = fragment;
@@ -1194,10 +1182,9 @@ namespace Comets.Core.Managers
 
 			string tempName = line.Substring(0, 30).Trim();
 			string tempId = line.Substring(30, 12).Trim();
-			string tempFull = tempId + " " + tempName;
+			string tempFull = $"{tempId} {tempName}";
 
-			string id, name, fragment;
-			CometManager.GetIdNameFromFull(tempFull, out id, out name, out fragment);
+			CometManager.GetIdNameFromFull(tempFull, out string id, out string name, out string fragment);
 			c.id = id;
 			c.name = name;
 			c.fragment = fragment;
@@ -1269,8 +1256,7 @@ namespace Comets.Core.Managers
 
 			c.full = parts[12].Split(';')[0].Trim();
 
-			string id, name, fragment;
-			CometManager.GetIdNameFromFull(c.full, out id, out name, out fragment);
+			CometManager.GetIdNameFromFull(c.full, out string id, out string name, out string fragment);
 			c.id = id;
 			c.name = name;
 			c.fragment = fragment;
@@ -1377,8 +1363,8 @@ namespace Comets.Core.Managers
 			Comet c = new Comet();
 
 			string tempFull = line.Substring(2, 41).Trim();
-			string id, name, fragment;
-			CometManager.GetIdNameFromFull(tempFull, out id, out name, out fragment);
+
+			CometManager.GetIdNameFromFull(tempFull, out string id, out string name, out string fragment);
 			c.id = id;
 			c.name = name;
 			c.fragment = fragment;
@@ -1446,8 +1432,7 @@ namespace Comets.Core.Managers
 
 			c.full = lines[0].Split('=')[1].Trim();
 
-			string id, name, fragment;
-			CometManager.GetIdNameFromFull(c.full, out id, out name, out fragment);
+			CometManager.GetIdNameFromFull(c.full, out string id, out string name, out string fragment);
 			c.id = id;
 			c.name = name;
 			c.fragment = fragment;
@@ -1505,8 +1490,7 @@ namespace Comets.Core.Managers
 
 			c.full = line.Substring(0, 43).Trim();
 
-			string id, name, fragment;
-			CometManager.GetIdNameFromFull(c.full, out id, out name, out fragment);
+			CometManager.GetIdNameFromFull(c.full, out string id, out string name, out string fragment);
 			c.id = id;
 			c.name = name;
 			c.fragment = fragment;
