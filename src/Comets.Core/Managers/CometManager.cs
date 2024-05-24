@@ -22,6 +22,7 @@ namespace Comets.Core.Managers
 			'X', // orbit cannot be computed
 			'D', // disappeared
 			'I', // interstellar
+			'A', // asteroids in cometary orbits
 		};
 
 		public static Dictionary<PropertyEnum, double> EqualValueOffset = new Dictionary<PropertyEnum, double>()
@@ -41,6 +42,44 @@ namespace Comets.Core.Managers
 			{ PropertyEnum.N,                1.00 },
 			{ PropertyEnum.w,                1.00 }
 		};
+
+		/*=============================
+		test examples:
+		3D
+		3D-B/Biela
+		3D-A Biela
+		C/-146 P1
+		C/1014 C1
+		C/1860 D1-A (Liais)
+		C/1860 D1-A Liais
+		D/1993 F2-P2 (Shoemaker-Levy 9)
+		D/1993 F2-P1 Shoemaker-Levy 9
+		=============================*/
+		private static readonly Regex _regFull00 = new Regex(@"^(?<id>[0-9]+[PCXDIA]|[PCXDIA]\/-*[0-9]+ *[a-zA-Z]*[0-9]*)-*(?<fragment>[a-zA-Z]*[0-9]*)[ \/]*\(*(?<name>['`a-zA-Z0-9- ]+)*\)*");
+
+		/*=============================
+		test examples:
+		P/PANSTARRS (470P)
+		P/PANSTARRS 2 (470P-A)
+		471P-A
+		P/Ikeya-Murakami (332P)
+		P/Ikeya-Murakami 2 (332P-A)
+		Hale-Bopp (C/-1995 O1)
+		Hale-Bopp 2 (C/-1995 O1-A)
+		Hale-Bopp (C/1995 O1)
+		Hale-Bopp 2 (C/1995 O1-A)
+		A/-2019 G3
+		A/-2019 G3-A
+		A/2019 G3
+		A/2019 G3-A
+		PANSTARRS (470P)
+		PANSTARRS (470P-A1)
+		 (471P)
+		 (471P-A1)
+		=============================*/
+		private static readonly Regex _regFull02 = new Regex(@"^([PCXDIA]\/)*((?<name>['`a-zA-Z- ]+ *[0-9]*)* )*\(*(?<id>[0-9]+[PCXDIA]|[PCXDIA]\/-*[0-9]+ [a-zA-Z]*[0-9]*)-*(?<fragment>[a-zA-Z]*[0-9]*)\)*");
+
+		private static readonly Regex _regAlphaNum = new Regex("(?<letters>[a-zA-Z]*)(?<digits>[0-9]*)");
 
 		#endregion
 
@@ -93,25 +132,16 @@ namespace Comets.Core.Managers
 		/// </summary>
 		/// <param name="id">ID</param>
 		/// <returns></returns>
-		public static double GetSortkey(string id)
+		public static double GetSortkey(string id, string fragment)
 		{
 			double sort = 0.0;
 			double v = 0.0;
-			double cOffset = 2000.0; // not per.
-			double iOffset = 10000.0; // interst.
-			string fragm = String.Empty;
+			double cOffset = 10000.0; // not per.
+			double iOffset = 100000.0; // interst.
 
-			//http://stackoverflow.com/questions/3720012/regular-expression-to-split-string-and-number
-			Regex numAlpha = new Regex("(?<letters>[a-zA-Z]*)(?<digits>[0-9]*)");
-
-			if (id.Contains('-') && id[2] != '-') // 128P-B, C/-146 P1
+			if (fragment != String.Empty)
 			{
-				string[] fi = id.Split('-');
-				id = fi[0];
-				fragm = fi[1];
-
-				var match = numAlpha.Match(fragm);
-
+				Match match = _regAlphaNum.Match(fragment);
 				string fragmLetters = match.Groups["letters"].Value;
 				string fragmDigits = match.Groups["digits"].Value;
 
@@ -136,9 +166,7 @@ namespace Comets.Core.Managers
 				sort = yc[0].Split('/')[1].Double() + cOffset; //da npr C/240 V1 ne bude isto kao i 240P/NEAT i slicno...
 
 				string code = yc[1];
-
-				var match = numAlpha.Match(code);
-
+				Match match = _regAlphaNum.Match(code);
 				string codeLetters = match.Groups["letters"].Value;
 				string codeDigits = match.Groups["digits"].Value;
 
@@ -148,9 +176,7 @@ namespace Comets.Core.Managers
 				// broj dijelim sa 10000000; pretpostavka da se moze pojaviti najvise troznamenkasti broj
 
 				for (int i = 0, divider = 100; i < codeLetters.Length; i++, divider *= 100)
-				{
 					v += (codeLetters[i] - 64) / (double)divider;
-				}
 
 				if (codeDigits != String.Empty)
 					v += codeDigits.Double() / 10000000.0;
@@ -172,6 +198,8 @@ namespace Comets.Core.Managers
 		/// <returns></returns>
 		public static string GetIdKey(string id)
 		{
+			// todo, remove?
+
 			string key = String.Empty;
 
 			if (Char.IsDigit(id[0]))
@@ -290,37 +318,25 @@ namespace Comets.Core.Managers
 		/// </summary>
 		/// <param name="full">Full comet name</param>
 		/// <returns></returns>
-		public static void GetIdNameFromFull(string full, out string id, out string name)
+		private static void GetIdNameFromFull(Regex reg, string full, out string id, out string name, out string fragment)
 		{
-			id = String.Empty;
-			name = String.Empty;
+			Match match = reg.Match(full);
+			if (!match.Success)
+				throw new ArgumentException("Error parsing comet name");
 
-			if (Char.IsDigit(full[0]))
-			{
-				if (full.Contains('/'))
-				{
-					string[] idname = full.Split('/');
-					id = idname[0];
-					name = idname[1];
-				}
-				else
-				{
-					id = full;
-				}
-			}
-			else
-			{
-				if (full.Contains('('))
-				{
-					string[] idname = full.Split('(');
-					id = idname[0].Trim();
-					name = idname[1].TrimEnd(')');
-				}
-				else
-				{
-					id = full;
-				}
-			}
+			id = match.Groups["id"].Value;
+			name = match.Groups["name"].Value;
+			fragment = match.Groups["fragment"].Value;
+		}
+
+		public static void GetIdNameFromFull(string full, out string id, out string name, out string fragment)
+		{
+			GetIdNameFromFull(_regFull00, full, out id, out name, out fragment);
+		}
+
+		public static void GetIdNameFromFull2(string full, out string id, out string name, out string fragment)
+		{
+			GetIdNameFromFull(_regFull02, full, out id, out name, out fragment);
 		}
 
 		#endregion
@@ -333,9 +349,12 @@ namespace Comets.Core.Managers
 		/// <param name="id">Comet ID</param>
 		/// <param name="name">Comet Name</param>
 		/// <returns></returns>
-		public static string GetFullFromIdName(string id, string name)
+		public static string GetFullFromIdName(string id, string name, string fragment)
 		{
 			string full = id;
+
+			if (fragment != String.Empty)
+				full += "-" + fragment;
 
 			if (id.Contains('/') && name != String.Empty)
 			{

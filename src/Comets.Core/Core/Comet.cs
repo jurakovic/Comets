@@ -14,6 +14,7 @@ namespace Comets.Core
 		private string _full;
 		private string _name;
 		private string _id;
+		private string _fragment;
 		private decimal _T;
 		private int _Ty;
 		private int _Tm;
@@ -68,6 +69,15 @@ namespace Comets.Core
 		{
 			get { return _id; }
 			set { _id = value; }
+		}
+
+		/// <summary>
+		/// Fragment (e.g. A, B, etc.)
+		/// </summary>
+		public string fragment
+		{
+			get { return _fragment; }
+			set { _fragment = value; }
 		}
 
 		/// <summary>
