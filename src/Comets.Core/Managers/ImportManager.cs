@@ -417,7 +417,7 @@ namespace Comets.Core.Managers
 			c.Q = CometManager.GetAphelionDistance(c.e, c.a);
 
 			c.sortkey = CometManager.GetSortkey(c.id, c.fragment);
-			c.idKey = CometManager.GetIdKey(c.id);
+			c.idKey = CometManager.GetIdKey(c.id, c.fragment);
 
 			return c;
 		}
