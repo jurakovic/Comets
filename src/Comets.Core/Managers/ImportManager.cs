@@ -106,16 +106,6 @@ namespace Comets.Core.Managers
 
 			try
 			{
-				ParseDeepSpace08(line0, line1);
-				return ImportType.DeepSpace;
-			}
-			catch
-			{
-
-			}
-
-			try
-			{
 				ParsePcTcs09(line1);
 				return ImportType.PCTCS;
 			}
@@ -198,6 +188,16 @@ namespace Comets.Core.Managers
 			{
 				ParseNasaComet(line1);
 				return ImportType.NASA;
+			}
+			catch
+			{
+
+			}
+
+			try
+			{
+				ParseDeepSpace08(line0, line1);
+				return ImportType.DeepSpace;
 			}
 			catch
 			{
