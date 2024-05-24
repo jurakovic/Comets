@@ -43,8 +43,40 @@ namespace Comets.Core.Managers
 			{ PropertyEnum.w,                1.00 }
 		};
 
+		/******************************
+		3D
+		3D-B/Biela
+		3D-A Biela
+		C/-146 P1
+		C/1014 C1
+		C/1860 D1-A (Liais)
+		C/1860 D1-A Liais
+		D/1993 F2-P2 (Shoemaker-Levy 9)
+		D/1993 F2-P1 Shoemaker-Levy 9
+		*******************************/
 		private static readonly Regex _regFull00 = new Regex(@"^(?<id>[0-9]+[PCXDIA]|[PCXDIA]\/-*[0-9]+ *[a-zA-Z]*[0-9]*)-*(?<fragment>[a-zA-Z]*[0-9]*)[ \/]*\(*(?<name>['`a-zA-Z0-9- ]+)*\)*");
-		private static readonly Regex _regFull02 = new Regex(@"^([PCXDIA]\/)*((?<name>['`a-zA-Z0-9- ]+ *|[a-zA-Z0-9- ]+)* )*\(*(?<id>[0-9]+[PCXDIA]|[PCXDIA]\/-*[0-9]+ [a-zA-Z]*[0-9]*)-*(?<fragment>[a-zA-Z]*[0-9]*)\)*");
+
+		/******************************
+		P/PANSTARRS (470P)
+		P/PANSTARRS 2 (470P-A)
+		471P-A
+		P/Ikeya-Murakami (332P)
+		P/Ikeya-Murakami 2 (332P-A)
+		Hale-Bopp (C/-1995 O1)
+		Hale-Bopp 2 (C/-1995 O1-A)
+		Hale-Bopp (C/1995 O1)
+		Hale-Bopp 2 (C/1995 O1-A)
+		A/-2019 G3
+		A/-2019 G3-A
+		A/2019 G3
+		A/2019 G3-A
+		PANSTARRS (470P)
+		PANSTARRS (470P-A1)
+		 (471P)
+		 (471P-A1)
+		*******************************/
+		private static readonly Regex _regFull02 = new Regex(@"^([PCXDIA]\/)*((?<name>['`a-zA-Z- ]+ *[0-9]*)* )*\(*(?<id>[0-9]+[PCXDIA]|[PCXDIA]\/-*[0-9]+ [a-zA-Z]*[0-9]*)-*(?<fragment>[a-zA-Z]*[0-9]*)\)*");
+
 		private static readonly Regex _regAlphaNum = new Regex("(?<letters>[a-zA-Z]*)(?<digits>[0-9]*)");
 
 		#endregion
