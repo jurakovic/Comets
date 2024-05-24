@@ -284,34 +284,25 @@ namespace Comets.Core.Managers
 		/// </summary>
 		/// <param name="full">Full comet name</param>
 		/// <returns></returns>
-		public static void GetIdNameFromFull(string full, out string id, out string name)
+		private static void GetIdNameFromFull(Regex reg, string full, out string id, out string name, out string fragment)
 		{
-			id = String.Empty;
-			name = String.Empty;
+			Match match = reg.Match(full);
+			if (!match.Success)
+				throw new ArgumentException("Error parsing comet name");
 
-			GetIdNameFromFull(full, out id, out name, out _);
+			id = match.Groups["id"].Value;
+			name = match.Groups["name"].Value;
+			fragment = match.Groups["fragment"].Value;
 		}
 
 		public static void GetIdNameFromFull(string full, out string id, out string name, out string fragment)
 		{
-			Match match = _regFull00.Match(full);
-			if (!match.Success)
-				throw new ArgumentException("Error parsing comet name");
-
-			id = match.Groups["id"].Value;
-			name = match.Groups["name"].Value;
-			fragment = match.Groups["fragment"].Value;
+			GetIdNameFromFull(_regFull00, full, out id, out name, out fragment);
 		}
 
 		public static void GetIdNameFromFull2(string full, out string id, out string name, out string fragment)
 		{
-			Match match = _regFull02.Match(full);
-			if (!match.Success)
-				throw new ArgumentException("Error parsing comet name");
-
-			id = match.Groups["id"].Value;
-			name = match.Groups["name"].Value;
-			fragment = match.Groups["fragment"].Value;
+			GetIdNameFromFull(_regFull02, full, out id, out name, out fragment);
 		}
 
 		#endregion
@@ -324,11 +315,11 @@ namespace Comets.Core.Managers
 		/// <param name="id">Comet ID</param>
 		/// <param name="name">Comet Name</param>
 		/// <returns></returns>
-		public static string GetFullFromIdName(string id, string name, string fragment = "")
+		public static string GetFullFromIdName(string id, string name, string fragment)
 		{
 			string full = id;
 
-			if (fragment != "")
+			if (fragment != String.Empty)
 				full += "-" + fragment;
 
 			if (id.Contains('/') && name != String.Empty)
