@@ -31,8 +31,7 @@ namespace Comets.Core
 		private double _a;
 		private double _Q;
 		private double _n;
-		private double _sortkey;
-		private string _idKey;
+		private string _sortkey;
 
 		private Ephemeris _epPerihelion;
 		private Ephemeris _epCurrent;
@@ -235,19 +234,10 @@ namespace Comets.Core
 		/// <summary>
 		/// Sortkey
 		/// </summary>
-		public double sortkey
+		public string sortkey
 		{
 			get { return _sortkey; }
 			set { _sortkey = value; }
-		}
-
-		/// <summary>
-		/// IdKey
-		/// </summary>
-		public string idKey
-		{
-			get { return _idKey; }
-			set { _idKey = value; }
 		}
 
 		private Ephemeris PerihelionEphemeris

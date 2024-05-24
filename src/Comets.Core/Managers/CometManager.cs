@@ -130,73 +130,7 @@ namespace Comets.Core.Managers
 		/// <summary>
 		/// Calculates Sortkey
 		/// </summary>
-		/// <param name="id">ID</param>
-		/// <returns></returns>
-		public static double GetSortkey(string id, string fragment)
-		{
-			double sort = 0.0;
-			double v = 0.0;
-			double cOffset = 10000.0; // not per.
-			double iOffset = 100000.0; // interst.
-
-			if (fragment != String.Empty)
-			{
-				Match match = _regAlphaNum.Match(fragment);
-				string fragmLetters = match.Groups["letters"].Value;
-				string fragmDigits = match.Groups["digits"].Value;
-
-				for (int i = 0, divider = 1000000000; i < fragmLetters.Length; i++, divider *= 100)
-					v += (fragmLetters[i] - 64) / (double)divider;
-
-				if (fragmDigits != String.Empty)
-					v += fragmDigits.Double() / 10000000000000.0;
-			}
-
-			if (Char.IsDigit(id[0]))
-			{
-				// 1P, 2I...
-				sort = id.Substring(0, id.Length - 1).Double();
-
-				if (id.EndsWith("I"))
-					sort += iOffset;
-			}
-			else
-			{
-				string[] yc = id.Split(' ');
-				sort = yc[0].Split('/')[1].Double() + cOffset; //da npr C/240 V1 ne bude isto kao i 240P/NEAT i slicno...
-
-				string code = yc[1];
-				Match match = _regAlphaNum.Match(code);
-				string codeLetters = match.Groups["letters"].Value;
-				string codeDigits = match.Groups["digits"].Value;
-
-				// pretpostavka da mogu doci najvise 2 slova u id-u
-				// 1. slovo dijelim sa 100
-				// 2. slovo dijelim sa 10000
-				// broj dijelim sa 10000000; pretpostavka da se moze pojaviti najvise troznamenkasti broj
-
-				for (int i = 0, divider = 100; i < codeLetters.Length; i++, divider *= 100)
-					v += (codeLetters[i] - 64) / (double)divider;
-
-				if (codeDigits != String.Empty)
-					v += codeDigits.Double() / 10000000.0;
-			}
-
-			sort += v;
-
-			return sort;
-		}
-
-		#endregion
-
-		#region GetIdKey
-
-		/// <summary>
-		/// Returns IDKey
-		/// </summary>
-		/// <param name="id">ID</param>
-		/// <returns></returns>
-		public static string GetIdKey(string id, string fragment = "")
+		public static string GetSortkey(string id, string fragment)
 		{
 			string key = String.Empty;
 
