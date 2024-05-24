@@ -1,5 +1,4 @@
-﻿using Comets.Core;
-using Comets.Core.Extensions;
+﻿using Comets.Core.Extensions;
 using System;
 using System.IO;
 using System.Linq;
@@ -31,12 +30,34 @@ namespace Comets.Core.Managers
 
 			string[] lines = File.ReadAllLines(filename);
 
-			string line0 = lines.ElementAtOrDefault(lines.Length - 2);
-			string line1 = lines[lines.Length - 1];
+			string line0 = lines[0];
+			string lineX = lines.ElementAtOrDefault(lines.Length - 2);
+			string lineN = lines[lines.Length - 1];
+
+			if (line0.StartsWith("Name,Perihelion"))
+				return ImportType.HomePlanet;
+
+			if (line0.StartsWith("RDPC"))
+				return ImportType.MyStars;
+
+			if (line0.StartsWith("NOTE: If"))
+				return ImportType.StarryNight;
+
+			if (line0.StartsWith("Type C:"))
+				return ImportType.DeepSpace;
+
+			if (line0.StartsWith("Comet      peri(au)"))
+				return ImportType.DanceOfThePlanets;
+
+			if (line0.StartsWith("NOTE TO VOYAGER II USERS"))
+				return ImportType.VoyagerII;
+
+			if (lines[1] == "[File]")
+				return ImportType.CometForWindows;
 
 			try
 			{
-				ParseMpc00(line1);
+				ParseMpc00(lineN);
 				return ImportType.MPC;
 			}
 			catch
@@ -46,7 +67,7 @@ namespace Comets.Core.Managers
 
 			try
 			{
-				ParseSkyMap01(line1);
+				ParseSkyMap01(lineN);
 				return ImportType.SkyMap;
 			}
 			catch
@@ -56,7 +77,7 @@ namespace Comets.Core.Managers
 
 			try
 			{
-				ParseXephem03(line1);
+				ParseXephem03(lineN);
 				return ImportType.xephem;
 			}
 			catch
@@ -66,7 +87,7 @@ namespace Comets.Core.Managers
 
 			try
 			{
-				ParseHomePlanet04(line1);
+				ParseHomePlanet04(lineN);
 				return ImportType.HomePlanet;
 			}
 			catch
@@ -76,7 +97,7 @@ namespace Comets.Core.Managers
 
 			try
 			{
-				ParseMyStars05(line1);
+				ParseMyStars05(lineN);
 				return ImportType.MyStars;
 			}
 			catch
@@ -86,7 +107,7 @@ namespace Comets.Core.Managers
 
 			try
 			{
-				ParseTheSky06(line1);
+				ParseTheSky06(lineN);
 				return ImportType.TheSky;
 			}
 			catch
@@ -96,7 +117,7 @@ namespace Comets.Core.Managers
 
 			try
 			{
-				ParseStarryNight07(line1);
+				ParseStarryNight07(lineN);
 				return ImportType.StarryNight;
 			}
 			catch
@@ -106,7 +127,7 @@ namespace Comets.Core.Managers
 
 			try
 			{
-				ParsePcTcs09(line1);
+				ParsePcTcs09(lineN);
 				return ImportType.PCTCS;
 			}
 			catch
@@ -116,7 +137,7 @@ namespace Comets.Core.Managers
 
 			try
 			{
-				ParseEarthCenUniv10(line0, line1);
+				ParseEarthCenUniv10(lineX, lineN);
 				return ImportType.EarthCenteredUniverse;
 			}
 			catch
@@ -126,7 +147,7 @@ namespace Comets.Core.Managers
 
 			try
 			{
-				ParseDanceOfThePlanets11(line1);
+				ParseDanceOfThePlanets11(lineN);
 				return ImportType.DanceOfThePlanets;
 			}
 			catch
@@ -136,7 +157,7 @@ namespace Comets.Core.Managers
 
 			try
 			{
-				ParseMegaStar12(line1);
+				ParseMegaStar12(lineN);
 				return ImportType.MegaStarV4;
 			}
 			catch
@@ -146,7 +167,7 @@ namespace Comets.Core.Managers
 
 			try
 			{
-				ParseSkyChart13(line1);
+				ParseSkyChart13(lineN);
 				return ImportType.SkyChartIII;
 			}
 			catch
@@ -156,7 +177,7 @@ namespace Comets.Core.Managers
 
 			try
 			{
-				ParseVoyager14(line1);
+				ParseVoyager14(lineN);
 				return ImportType.VoyagerII;
 			}
 			catch
@@ -166,7 +187,7 @@ namespace Comets.Core.Managers
 
 			try
 			{
-				ParseSkyTools15(line1);
+				ParseSkyTools15(lineN);
 				return ImportType.SkyTools;
 			}
 			catch
@@ -176,17 +197,7 @@ namespace Comets.Core.Managers
 
 			try
 			{
-				if (lines[1] == "[File]")
-					return ImportType.CometForWindows;
-			}
-			catch
-			{
-
-			}
-
-			try
-			{
-				ParseNasaComet(line1);
+				ParseNasaComet(lineN);
 				return ImportType.NASA;
 			}
 			catch
@@ -196,7 +207,7 @@ namespace Comets.Core.Managers
 
 			try
 			{
-				ParseDeepSpace08(line0, line1);
+				ParseDeepSpace08(lineX, lineN);
 				return ImportType.DeepSpace;
 			}
 			catch
@@ -206,7 +217,7 @@ namespace Comets.Core.Managers
 
 			try
 			{
-				ParseGuide02(line1);
+				ParseGuide02(lineN);
 				return ImportType.Guide;
 			}
 			catch
