@@ -136,46 +136,47 @@ namespace Comets.OrbitViewer
 		/// <returns></returns>
 		private Xyz CometStatusEllip(double jd)
 		{
+			// src: https://github.com/Stellarium/stellarium/blob/master/src/core/modules/Orbit.cpp, KeplerOrbit::InitEll
+
 			if (this.q == 0.0)
 				throw new ArithmeticException();
 
-			double axis = this.q / (1.0 - this.e);
-			double M = Astro.Gauss * (jd - (double)this.T) / (Math.Sqrt(axis) * axis);
-			double E1 = M + this.e * Math.Sin(M);
-			int count = MaxApproximations;
+			double EPSILON = 1e-10;
 
-			if (this.e < 0.6)
+			double a = this.q / (1.0 - this.e); // semimajor axis
+			double M = Astro.Gauss * (jd - (double)this.T) / (Math.Sqrt(a) * a);
+
+			M = M % (2 * Math.PI);  // Mean Anomaly [0...2pi]
+			if (M < 0.0) M += 2.0 * Math.PI;
+			//	GZ: Comet orbits are quite often near-parabolic, where this may still only converge slowly.
+			//	Better always use Laguerre-Conway. See Heafner, Ch. 5.3
+			//	Ouch! https://bugs.launchpad.net/stellarium/+bug/1465112 ==>It seems we still need an escape counter!
+			//      Debug line in test case fabs(E-Ep) indicates it usually takes 2-3, occasionally up to 6 cycles.
+			//	It seems safe to assume 10 should not be exceeded. N.B.: A GPU fixed-loopcount implementation could go for 8 passes.
+			double E = M + 0.85 * e * Math.Sign(Math.Sin(M));
+			int escape = 0;
+			for (; ; )
 			{
-				double fE2;
-				do
+				double Ep = E;
+				double f2 = e * Math.Sin(E);
+				double f = E - f2 - M;
+				double f1 = 1.0 - e * Math.Cos(E);
+				E += (-5.0 * f) / (f1 + Math.Sign(f1) * Math.Sqrt(Math.Abs(16.0 * f1 * f1 - 20.0 * f * f2)));
+				if (Math.Abs(E - Ep) < EPSILON)
 				{
-					fE2 = E1;
-					E1 = M + this.e * Math.Sin(fE2);
-				} while (Math.Abs(E1 - fE2) > Tolerance && --count > 0);
-			}
-			else
-			{
-				double dv;
-				do
+					break;
+				}
+				if (++escape > 10)
 				{
-					double dv1 = (M + this.e * Math.Sin(E1) - E1);
-					double dv2 = (1.0 - this.e * Math.Cos(E1));
-					if (Math.Abs(dv1) < Tolerance || Math.Abs(dv2) < Tolerance)
-					{
-						break;
-					}
-					dv = dv1 / dv2;
-					E1 += dv;
-				} while (Math.Abs(dv) > Tolerance && --count > 0);
+					break;
+				}
 			}
+			//	Note: q=a*(1-e)
+			double h1 = q * Math.Sqrt((1.0 + e) / (1.0 - e));  // elsewhere: a sqrt(1-e²)     ... q / (1-e) sqrt( (1+e)(1-e)) = q sqrt((1+e)/(1-e))
+			double rCosNu = a * (Math.Cos(E) - e);
+			double rSinNu = h1 * Math.Sin(E);
 
-			if (count == 0)
-				throw new ArithmeticException();
-
-			double X = axis * (Math.Cos(E1) - this.e);
-			double Y = axis * Math.Sqrt(1.0 - this.e * this.e) * Math.Sin(E1);
-
-			return new Xyz(X, Y, 0.0);
+			return new Xyz(rCosNu, rSinNu, 0.0);
 		}
 
 		#endregion
@@ -223,7 +224,7 @@ namespace Comets.OrbitViewer
 		/// </summary>
 		/// <param name="jd"></param>
 		/// <returns></returns>
-		private Xyz CometStatusNearPara(double jd)
+		private Xyz CometStatusHyper(double jd)
 		{
 			if (this.q == 0.0)
 				throw new ArithmeticException();
@@ -284,17 +285,17 @@ namespace Comets.OrbitViewer
 				try
 				{
 					// CometStatus' may be throw ArithmeticException
-					if (this.e < 0.995)
+					if (this.e < 1.0)
 					{
 						xyz = CometStatusEllip(JD);
 					}
-					else if (Math.Abs(this.e - 1.0) < Tolerance)
+					else if (this.e > 1.0)
 					{
-						xyz = CometStatusPara(JD);
+						xyz = CometStatusHyper(JD);
 					}
 					else
 					{
-						xyz = CometStatusNearPara(JD);
+						xyz = CometStatusPara(JD);
 					}
 
 					exception = false;
