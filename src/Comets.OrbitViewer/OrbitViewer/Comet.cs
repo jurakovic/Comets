@@ -190,29 +190,21 @@ namespace Comets.OrbitViewer
 		/// <returns></returns>
 		private Xyz CometStatusPara(double jd)
 		{
+			// src: https://github.com/Stellarium/stellarium/blob/master/src/core/modules/Orbit.cpp, KeplerOrbit::InitPar
+
 			if (this.q == 0.0)
 				throw new ArithmeticException();
 
-			double N = Astro.Gauss * (jd - (double)this.T) / (Math.Sqrt(2.0) * this.q * Math.Sqrt(this.q));
-			double tanV2 = N;
-			double oldTanV2, tan2V2;
-			int count = MaxApproximations;
+			double M = (jd - (double)this.T) * Math.Sqrt(Astro.Gauss / (2.0 * this.q * this.q * this.q));
+			M = M % (2 * Math.PI);
 
-			do
-			{
-				oldTanV2 = tanV2;
-				tan2V2 = tanV2 * tanV2;
-				tanV2 = (tan2V2 * tanV2 * 2.0 / 3.0 + N) / (1.0 + tan2V2);
-			} while (Math.Abs(tanV2 - oldTanV2) > Tolerance && --count > 0);
+			double W = 1.5 * M;
+			double Y = Math.Cbrt(W + Math.Sqrt(W * W + 1.0));
+			double tanNu2 = Y - 1.0 / Y; // Heafner (5.5.8) has an error here, writes (Y-1)/Y.
+			double rCosNu = this.q * (1.0 - tanNu2 * tanNu2);
+			double rSinNu = 2.0 * this.q * tanNu2;
 
-			if (count == 0)
-				throw new ArithmeticException();
-
-			tan2V2 = tanV2 * tanV2;
-			double X = this.q * (1.0 - tan2V2);
-			double Y = 2.0 * this.q * tanV2;
-
-			return new Xyz(X, Y, 0.0);
+			return new Xyz(rCosNu, rSinNu, 0.0);
 		}
 
 		#endregion
