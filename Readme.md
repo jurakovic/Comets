@@ -46,9 +46,9 @@ Dark theme thanks to [Dark-Mode-Forms](https://github.com/BlueMystical/Dark-Mode
 
 ### Software
 
-[Cartes du Ciel (SkyChart)](https://github.com/pchev/skychart)  
-[Celestia](https://github.com/CelestiaProject/Celestia)  
-[Stellarium](https://github.com/Stellarium/stellarium)  
+[Cartes du Ciel (SkyChart)](https://github.com/pchev/skychart) by Patrick Chevalley  
+[Celestia](https://github.com/CelestiaProject/Celestia) by Chris Laurel [et al.](https://github.com/CelestiaProject/Celestia#contributions)  
+[Stellarium](https://github.com/Stellarium/stellarium) by Fabien Chereau [et al.](https://github.com/Stellarium/stellarium/blob/master/CREDITS.md)  
 [OrbitViewer](https://www.astroarts.co.jp/products/orbitviewer/index.html) by Osamu Ajiki and Ron Baalke  
 [OrbitViewer](https://ssd.jpl.nasa.gov/tools/orbit_viewer.html) by Kevin Gill et al. (NASA/JPL)  
 [PlanetDroid](https://www.strickling.net/android_en.htm#PlanetDroid) by Wolfgang Strickling  
@@ -60,7 +60,7 @@ Dark theme thanks to [Dark-Mode-Forms](https://github.com/BlueMystical/Dark-Mode
 
 ## Links
 
-Some comets-related links and sites:
+Some comets-related pages and sites:
 
 [Comets | Heavens-Above](https://www.heavens-above.com/Comets.aspx)  
 [Bright Comets | TheSkyLive](https://theskylive.com/comets)  
