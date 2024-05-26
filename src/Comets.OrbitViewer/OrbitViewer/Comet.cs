@@ -218,44 +218,36 @@ namespace Comets.OrbitViewer
 		/// <returns></returns>
 		private Xyz CometStatusHyper(double jd)
 		{
+			// src: https://github.com/Stellarium/stellarium/blob/master/src/core/modules/Orbit.cpp, KeplerOrbit::InitHyp
+
 			if (this.q == 0.0)
 				throw new ArithmeticException();
 
-			double A = Math.Sqrt((1.0 + 9.0 * this.e) / 10.0);
-			double B = 5.0 * (1 - this.e) / (1.0 + 9.0 * this.e);
-			double A1, B1, X1, A0, B0, X0, N;
-			A1 = B1 = X1 = 1.0;
-			int count1 = MaxApproximations;
+			double EPSILON = 1e-10;
+			double a = q / (e - 1.0);
 
-			do
+			double period = Math.Pow((q / (e - 1.0)), 1.5);
+
+			double meanMotion = 0.9856076686 / period;
+			meanMotion *= (Math.PI / 180.0);
+
+			double M = (jd - (double)this.T) * meanMotion;
+
+			double E = Math.Sign(M) * Math.Log(2.0 * Math.Abs(M) / e + 1.85);
+			for (; ; )
 			{
-				A0 = A1;
-				B0 = B1;
-				N = B0 * A * Astro.Gauss * (jd - (double)this.T) / (Math.Sqrt(2.0) * this.q * Math.Sqrt(this.q));
-				int count2 = MaxApproximations;
-				do
-				{
-					X0 = X1;
-					double temp = X0 * X0;
-					X1 = (temp * X0 * 2.0 / 3.0 + N) / (1.0 + temp);
-				} while (Math.Abs(X1 - X0) > Tolerance && --count2 > 0);
-				if (count2 == 0)
-				{
-					throw new ArithmeticException();
-				}
-				A1 = B * X1 * X1;
-				B1 = (-3.809524e-03 * A1 - 0.017142857) * A1 * A1 + 1.0;
-			} while (Math.Abs(A1 - A0) > Tolerance && --count1 > 0);
+				double Ep = E;
+				double f2 = this.e * Math.Sinh(E);
+				double f = f2 - E - M;
+				double f1 = this.e * Math.Cosh(E) - 1.0;
+				E += (-5.0 * f) / (f1 + Math.Sign(f1) * Math.Sqrt(Math.Abs(16.0 * f1 * f1 - 20.0 * f * f2)));
+				if (Math.Abs(E - Ep) < EPSILON) break;
+			}
 
-			if (count1 == 0)
-				throw new ArithmeticException();
+			double rCosNu = a * (this.e - Math.Cosh(E));
+			double rSinNu = a * Math.Sqrt(this.e * this.e - 1.0) * Math.Sinh(E);
 
-			double C1 = ((0.12495238 * A1 + 0.21714286) * A1 + 0.4) * A1 + 1.0;
-			double D1 = ((0.00571429 * A1 + 0.2) * A1 - 1.0) * A1 + 1.0;
-			double TanV2 = Math.Sqrt(5.0 * (1.0 + this.e) / (1.0 + 9.0 * this.e)) * C1 * X1;
-			double X = this.q * D1 * (1.0 - TanV2 * TanV2);
-			double Y = 2.0 * this.q * D1 * TanV2;
-			return new Xyz(X, Y, 0.0);
+			return new Xyz(rCosNu, rSinNu, 0.0);
 		}
 
 		#endregion
