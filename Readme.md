@@ -32,20 +32,23 @@ Dark theme thanks to [Dark-Mode-Forms](https://github.com/BlueMystical/Dark-Mode
 ![Orbit_dark](img/orbit_dark.png)
 
 
-
 ## References
 
 ### Books
 
-[Astronomical Algorithms](https://www.amazon.com/Astronomical-Algorithms-Jean-Meeus/dp/0943396352) by Jean Meeus (Willmann-Bell, 1998)  
-[Astronomical Formulae for Calculators](https://www.amazon.com/Astronomical-Formulae-Calculators-Jean-Meeus/dp/0943396220/) by Jean Meeus (Willmann-Bell, 1988)  
-[Practical Astronomy with your Calculator or Spreadsheet](https://www.amazon.com/Practical-Astronomy-your-Calculator-Spreadsheet/dp/1108436072/) by Peter Duffett-Smith and Jonathan Zwart (Cambridge, 2011)  
+*[Astronomical Algorithms](https://www.amazon.com/Astronomical-Algorithms-Jean-Meeus/dp/0943396352)* by Jean Meeus (Willmann-Bell, 1998)  
+*[Astronomical Formulae for Calculators](https://www.amazon.com/Astronomical-Formulae-Calculators-Jean-Meeus/dp/0943396220/)* by Jean Meeus (Willmann-Bell, 1988)  
+*[Practical Astronomy with your Calculator or Spreadsheet](https://www.amazon.com/Practical-Astronomy-your-Calculator-Spreadsheet/dp/1108436072/)* by Peter Duffett-Smith and Jonathan Zwart (Cambridge, 2011)  
+
+### Web
+
+*Computing planetary positions* ([#1](https://stjarnhimlen.se/comp/tutorial.html), [#2](https://stjarnhimlen.se/comp/ppcomp.html)) by Paul Schlyter
 
 ### Software
 
-[Cartes du Ciel (SkyChart)](https://www.ap-i.net/skychart/en/start)  
-[Celestia](https://celestiaproject.space/)  
-[Stellarium](https://stellarium.org/)  
+[Cartes du Ciel (SkyChart)](https://github.com/pchev/skychart) by Patrick Chevalley  
+[Celestia](https://github.com/CelestiaProject/Celestia) by Chris Laurel [et al.](https://github.com/CelestiaProject/Celestia#contributions)  
+[Stellarium](https://github.com/Stellarium/stellarium) by Fabien Chereau [et al.](https://github.com/Stellarium/stellarium/blob/master/CREDITS.md)  
 [OrbitViewer](https://www.astroarts.co.jp/products/orbitviewer/index.html) by Osamu Ajiki and Ron Baalke  
 [OrbitViewer](https://ssd.jpl.nasa.gov/tools/orbit_viewer.html) by Kevin Gill et al. (NASA/JPL)  
 [PlanetDroid](https://www.strickling.net/android_en.htm#PlanetDroid) by Wolfgang Strickling  
@@ -54,9 +57,10 @@ Dark theme thanks to [Dark-Mode-Forms](https://github.com/BlueMystical/Dark-Mode
 [ProjectPluto](https://www.projectpluto.com/source.htm) by Bill Gray  
 [AA+](http://www.naughter.com/aa.html) by PJ Naughter  
 
-### Links
 
-Some comet related links and sites
+## Links
+
+Some comets-related pages and sites:
 
 [Comets | Heavens-Above](https://www.heavens-above.com/Comets.aspx)  
 [Bright Comets | TheSkyLive](https://theskylive.com/comets)  
