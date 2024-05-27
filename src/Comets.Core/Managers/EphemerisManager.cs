@@ -624,22 +624,25 @@ namespace Comets.Core.Managers
 
 		private static double[] CometXyzPara(decimal T, double q, double e, double w, double N, double i, decimal jd)
 		{
-			decimal d = jd - 2451543.5m;
+			double w1 = 3.649116245E-2 * (double)(jd - T) / (q * Math.Sqrt(q));
+			double s1 = 0.0;
 
-			double M = (double)(jd - T) * Math.Sqrt(0.01720209895 / (2.0 * q * q * q));
-			M = M % (2 * Math.PI);
+			for (; ; )
+			{
+				double s0 = s1;
+				s1 = (2.0 * s0 * s0 * s0 + w1) / (3.0 * (s0 * s0 + 1.0));
+				if (Math.Abs(s1 - s0) < EPSILON) break;
+			}
 
-
-			//double H = (double)(jd - T) * (0.01720209895 / Math.Sqrt(2)) / q * q * q;
-			double h = 1.5 * M;// H;
-			double g = Math.Sqrt(1.0 + h * h);
-			double s = Math.Cbrt(g + h) - Math.Cbrt(g - h);
+			double s = s1;
 			double v = 2.0 * Math.Atan(s);
-			v *= RAD2DEG;
 			double r = q * (1.0 + s * s);
+
+			decimal d = jd - 2451543.5m;
 
 			// from here common for all orbits
 			N = N + 3.82394E-5 * (double)d;
+			v *= RAD2DEG;
 			//w  ->  why not precess this value?
 			double xh = r * (Cosd(N) * Cosd(v + w) - Sind(N) * Sind(v + w) * Cosd(i));
 			double yh = r * (Sind(N) * Cosd(v + w) + Cosd(N) * Sind(v + w) * Cosd(i));
