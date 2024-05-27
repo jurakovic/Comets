@@ -656,24 +656,25 @@ namespace Comets.Core.Managers
 		{
 			decimal d = jd - 2451543.5m;
 
-			double a = q / (e - 1.0);
-			double period = Math.Pow((q / (e - 1.0)), 1.5);
-			double n = 0.01720209895 / period;
-			double M = (double)(jd - T) * n;
 
-			double E = Math.Sign(M) * Math.Log(2.0 * Math.Abs(M) / e + 1.85);
+
+			double da = q / Math.Abs(1.0 - e);
+			double n0 = 0.01720209895 / (da * Math.Sqrt(da));
+			double m = n0 * (double)(jd - T);
+			double U = 0.5;
 			for (; ; )
 			{
-				double Ep = E;
-				double f2 = e * Math.Sinh(E);
-				double f = f2 - E - M;
-				double f1 = e * Math.Cosh(E) - 1.0;
-				E += (-5.0 * f) / (f1 + Math.Sign(f1) * Math.Sqrt(Math.Abs(16.0 * f1 * f1 - 20.0 * f * f2)));
-				if (Math.Abs(E - Ep) < EPSILON) break;
+				double U0 = U;
+				U = (2 * U0 * (e - U0 * (1 - m - Math.Log(Math.Abs(U0))))) / (e * (U0 * U0 + 1) - 2 * U0);
+				if (Math.Abs(U0 - U) < EPSILON) break;
 			}
 
-			double v = 2 * Math.Atan(Math.Sqrt((e + 1) / (e - 1))) * Math.Tanh(M / 2) * RAD2DEG;
-			double r = a * (1 - e * e) / (1 + e * Math.Cos(v));
+			double num = Math.Sqrt(e * e - 1) * (U * U - 1) / (2 * U);
+			double den = e - (U * U + 1) / (2 * U);
+			double v = Math.Atan2(num, den);
+			double r = da * ((e * (U * U + 1) / (2 * U)) - 1);
+
+			v *= RAD2DEG;
 
 			// from here common for all orbits
 			N = N + 3.82394E-5 * (double)d;
