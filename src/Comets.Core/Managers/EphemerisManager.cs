@@ -450,9 +450,6 @@ namespace Comets.Core.Managers
 			// Alt/Az, hour angle, ra/dec, ecliptic long. and lat, illuminated fraction (=1.0), dist(Sun), dist(Earth), brightness of planet p
 			double[] sun_xyz = SunXyz(jd);
 			double[] cmt_xyz = CometXyz(T, q, e, w, N, i, jd);
-			double[] cmt_xyz2 = CometXyz2(T, q, e, w, N, i, jd);
-
-			var s1 = String.Join(Environment.NewLine, cmt_xyz) + Environment.NewLine + Environment.NewLine + String.Join(Environment.NewLine, cmt_xyz2);
 
 			double dx = cmt_xyz[0] + sun_xyz[0];
 			double dy = cmt_xyz[1] + sun_xyz[1];
@@ -510,171 +507,68 @@ namespace Comets.Core.Managers
 			decimal d = jd - 2451543.5m;
 			decimal Tj = T;  // get julian day of perihelion time
 			double v, r;
-			if (e > 0.99)
-			{
-				// treat as near parabolic (approx. method valid inside orbit of Pluto)
-				double k = 0.01720209895;   // Gaussian gravitational constant
-				double a = 0.75 * (double)(jd - Tj) * k * Math.Sqrt((1 + e) / (q * q * q));
-				double b = Math.Sqrt(1 + a * a);
-				double W = Cbrt(b + a) - Cbrt(b - a);
-				double c = (W * W) / (1 + W * W);
-				double f = (1 - e) / (1 + e);
-				double g = f * c * c;
-				double a1 = (2 / 3) + (2 / 5) * W * W;
-				double a2 = (7 / 5) + (33 / 35) * W * W + (37 / 175) * W * W * W * W;
-				double a3 = W * W * ((432 / 175) + (956 / 1125) * W * W + (84 / 1575) * W * W * W * W);
-				double ww = W * (1 + g * c * (a1 + a2 * g + a3 * g * g));
-				v = 2 * Atand(ww);
-				r = q * (1 + ww * ww) / (1 + ww * ww * f);
-			}
-			else
-			{
-				// treat as elliptic
-				double a = q / (1.0 - e);
-				double P = 365.2568984 * Math.Sqrt(a * a * a);  // period in days
-				double M = 360.0 * (double)(jd - Tj) / P;   // mean anomaly
-															// eccentric anomaly E
-				double E0 = M + RAD2DEG * e * Sind(M) * (1.0 + e * Cosd(M));
-				double E1 = E0 - (E0 - RAD2DEG * e * Sind(E0) - M) / (1.0 - e * Cosd(E0));
-				while (Math.Abs(E0 - E1) > 0.0005)
-				{
-					E0 = E1;
-					E1 = E0 - (E0 - RAD2DEG * e * Sind(E0) - M) / (1.0 - e * Cosd(E0));
-				}
-				double xv = a * (Cosd(E1) - e);
-				double yv = a * Math.Sqrt(1.0 - e * e) * Sind(E1);
-				v = Rev(Atan2d(yv, xv));        // true anomaly
-				r = Math.Sqrt(xv * xv + yv * yv);   // distance
-			}
 
-			// from here common for all orbits
-			N = N + 3.82394E-5 * (double)d;
-			//w  ->  why not precess this value?
-			double xh = r * (Cosd(N) * Cosd(v + w) - Sind(N) * Sind(v + w) * Cosd(i));
-			double yh = r * (Sind(N) * Cosd(v + w) + Cosd(N) * Sind(v + w) * Cosd(i));
-			double zh = r * (Sind(v + w) * Sind(i));
-			double lonecl = Atan2d(yh, xh);
-			double latecl = Atan2d(zh, Math.Sqrt(xh * xh + yh * yh + zh * zh));
-			return new double[] { xh, yh, zh, r, lonecl, latecl };
-		}
-
-		private static double[] CometXyz2(decimal T, double q, double e, double w, double N, double i, decimal jd)
-		{
 			if (e < 1.0)
 			{
-				return CometXyzEllip(T, q, e, w, N, i, jd);
+				double a = q / (1.0 - e); // semimajor axis
+				double M = 0.01720209895 * (double)(jd - T) / (Math.Sqrt(a) * a);
+
+				M = M % (2 * Math.PI);  // Mean Anomaly [0...2pi]
+				if (M < 0.0) M += 2.0 * Math.PI;
+
+				double E = M + 0.85 * e * Math.Sign(Math.Sin(M));
+				int escape = 0;
+				for (; ; )
+				{
+					double Ep = E;
+					double f2 = e * Math.Sin(E);
+					double f = E - f2 - M;
+					double f1 = 1.0 - e * Math.Cos(E);
+					E += (-5.0 * f) / (f1 + Math.Sign(f1) * Math.Sqrt(Math.Abs(16.0 * f1 * f1 - 20.0 * f * f2)));
+					if (Math.Abs(E - Ep) < EPSILON) break;
+					if (++escape > 10) break;
+				}
+
+				double xv = a * (Cosd(E * RAD2DEG) - e);
+				double yv = a * Math.Sqrt(1.0 - e * e) * Sind(E * RAD2DEG);
+				v = Rev(Math.Atan2(yv * DEG2RAD, xv * DEG2RAD));        // true anomaly
+				r = Math.Sqrt(xv * xv + yv * yv);   // distance
 			}
 			else if (e > 1.0)
 			{
-				return CometXyzHyper(T, q, e, w, N, i, jd);
+				double a = q / Math.Abs(1.0 - e);
+				double n = 0.01720209895 / (a * Math.Sqrt(a));
+				double M = n * (double)(jd - T);
+				double U = 0.5;
+				for (; ; )
+				{
+					double U0 = U;
+					U = (2 * U0 * (e - U0 * (1 - M - Math.Log(Math.Abs(U0))))) / (e * (U0 * U0 + 1) - 2 * U0);
+					if (Math.Abs(U0 - U) < EPSILON) break;
+				}
+
+				double num = Math.Sqrt(e * e - 1) * (U * U - 1) / (2 * U);
+				double den = e - (U * U + 1) / (2 * U);
+				v = Math.Atan2(num, den);
+				r = a * ((e * (U * U + 1) / (2 * U)) - 1);
 			}
 			else
 			{
-				return CometXyzPara(T, q, e, w, N, i, jd);
-			}
-		}
+				double w1 = 3.649116245E-2 * (double)(jd - T) / (q * Math.Sqrt(q));
+				double s1 = 0.0;
+				for (; ; )
+				{
+					double s0 = s1;
+					s1 = (2.0 * s0 * s0 * s0 + w1) / (3.0 * (s0 * s0 + 1.0));
+					if (Math.Abs(s1 - s0) < EPSILON) break;
+				}
 
-		private static double[] CometXyzEllip(decimal T, double q, double e, double w, double N, double i, decimal jd)
-		{
-			// heliocentric xyz for comet (cn is index to comets)
-			// based on Paul Schlyter's page http://www.stjarnhimlen.se/comp/ppcomp.html
-			// returns heliocentric x, y, z, distance, longitude and latitude of object
-			decimal d = jd - 2451543.5m;
-
-			double a = q / (1.0 - e); // semimajor axis
-			double M = 0.01720209895 * (double)(jd - T) / (Math.Sqrt(a) * a);
-
-			M = M % (2 * Math.PI);  // Mean Anomaly [0...2pi]
-			if (M < 0.0) M += 2.0 * Math.PI;
-
-			double E = M + 0.85 * e * Math.Sign(Math.Sin(M));
-			int escape = 0;
-			for (; ; )
-			{
-				double Ep = E;
-				double f2 = e * Math.Sin(E);
-				double f = E - f2 - M;
-				double f1 = 1.0 - e * Math.Cos(E);
-				E += (-5.0 * f) / (f1 + Math.Sign(f1) * Math.Sqrt(Math.Abs(16.0 * f1 * f1 - 20.0 * f * f2)));
-				if (Math.Abs(E - Ep) < EPSILON) break;
-				if (++escape > 10) break;
+				double s = s1;
+				v = 2.0 * Math.Atan(s);
+				r = q * (1.0 + s * s);
 			}
 
-			//double xv = a * (Math.Cos(E) - e);
-			//double yv = a * Math.Sqrt(1.0 - e * e) * Math.Sin(E);
-			//double v = Rev(Math.Atan2(yv, xv));        // true anomaly
-			//double r = Math.Sqrt(xv * xv + yv * yv);   // distance
-
-			double xv = a * (Cosd(E * RAD2DEG) - e);
-			double yv = a * Math.Sqrt(1.0 - e * e) * Sind(E * RAD2DEG);
-			double v = Rev(Math.Atan2(yv * DEG2RAD, xv * DEG2RAD));        // true anomaly
-			v *= RAD2DEG;
-			double r = Math.Sqrt(xv * xv + yv * yv);   // distance
-
-			// from here common for all orbits
-			N = N + 3.82394E-5 * (double)d;
-			//w  ->  why not precess this value?
-			double xh = r * (Cosd(N) * Cosd(v + w) - Sind(N) * Sind(v + w) * Cosd(i));
-			double yh = r * (Sind(N) * Cosd(v + w) + Cosd(N) * Sind(v + w) * Cosd(i));
-			double zh = r * (Sind(v + w) * Sind(i));
-			double lonecl = Atan2d(yh, xh);
-			double latecl = Atan2d(zh, Math.Sqrt(xh * xh + yh * yh + zh * zh));
-			return new double[] { xh, yh, zh, r, lonecl, latecl };
-		}
-
-		private static double[] CometXyzPara(decimal T, double q, double e, double w, double N, double i, decimal jd)
-		{
-			double w1 = 3.649116245E-2 * (double)(jd - T) / (q * Math.Sqrt(q));
-			double s1 = 0.0;
-
-			for (; ; )
-			{
-				double s0 = s1;
-				s1 = (2.0 * s0 * s0 * s0 + w1) / (3.0 * (s0 * s0 + 1.0));
-				if (Math.Abs(s1 - s0) < EPSILON) break;
-			}
-
-			double s = s1;
-			double v = 2.0 * Math.Atan(s);
-			double r = q * (1.0 + s * s);
-
-			decimal d = jd - 2451543.5m;
-
-			// from here common for all orbits
-			N = N + 3.82394E-5 * (double)d;
-			v *= RAD2DEG;
-			//w  ->  why not precess this value?
-			double xh = r * (Cosd(N) * Cosd(v + w) - Sind(N) * Sind(v + w) * Cosd(i));
-			double yh = r * (Sind(N) * Cosd(v + w) + Cosd(N) * Sind(v + w) * Cosd(i));
-			double zh = r * (Sind(v + w) * Sind(i));
-			double lonecl = Atan2d(yh, xh);
-			double latecl = Atan2d(zh, Math.Sqrt(xh * xh + yh * yh + zh * zh));
-			return new double[] { xh, yh, zh, r, lonecl, latecl };
-		}
-
-		private static double[] CometXyzHyper(decimal T, double q, double e, double w, double N, double i, decimal jd)
-		{
-			decimal d = jd - 2451543.5m;
-
-
-
-			double da = q / Math.Abs(1.0 - e);
-			double n0 = 0.01720209895 / (da * Math.Sqrt(da));
-			double m = n0 * (double)(jd - T);
-			double U = 0.5;
-			for (; ; )
-			{
-				double U0 = U;
-				U = (2 * U0 * (e - U0 * (1 - m - Math.Log(Math.Abs(U0))))) / (e * (U0 * U0 + 1) - 2 * U0);
-				if (Math.Abs(U0 - U) < EPSILON) break;
-			}
-
-			double num = Math.Sqrt(e * e - 1) * (U * U - 1) / (2 * U);
-			double den = e - (U * U + 1) / (2 * U);
-			double v = Math.Atan2(num, den);
-			double r = da * ((e * (U * U + 1) / (2 * U)) - 1);
-
-			v *= RAD2DEG;
+			v *= RAD2DEG; // convert to deg for functions below
 
 			// from here common for all orbits
 			N = N + 3.82394E-5 * (double)d;
