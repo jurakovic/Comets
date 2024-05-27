@@ -15,6 +15,8 @@ namespace Comets.Core.Managers
 	{
 		#region Const
 
+		const double EPSILON = 1e-10;
+
 		const double DEG2RAD = Math.PI / 180.0;
 		const double RAD2DEG = 180.0 / Math.PI;
 
@@ -448,6 +450,10 @@ namespace Comets.Core.Managers
 			// Alt/Az, hour angle, ra/dec, ecliptic long. and lat, illuminated fraction (=1.0), dist(Sun), dist(Earth), brightness of planet p
 			double[] sun_xyz = SunXyz(jd);
 			double[] cmt_xyz = CometXyz(T, q, e, w, N, i, jd);
+			double[] cmt_xyz2 = CometXyz2(T, q, e, w, N, i, jd);
+
+			var s1 = String.Join(Environment.NewLine, cmt_xyz) + Environment.NewLine + Environment.NewLine + String.Join(Environment.NewLine, cmt_xyz2);
+
 			double dx = cmt_xyz[0] + sun_xyz[0];
 			double dy = cmt_xyz[1] + sun_xyz[1];
 			double dz = cmt_xyz[2] + sun_xyz[2];
@@ -540,6 +546,131 @@ namespace Comets.Core.Managers
 				v = Rev(Atan2d(yv, xv));        // true anomaly
 				r = Math.Sqrt(xv * xv + yv * yv);   // distance
 			}
+
+			// from here common for all orbits
+			N = N + 3.82394E-5 * (double)d;
+			//w  ->  why not precess this value?
+			double xh = r * (Cosd(N) * Cosd(v + w) - Sind(N) * Sind(v + w) * Cosd(i));
+			double yh = r * (Sind(N) * Cosd(v + w) + Cosd(N) * Sind(v + w) * Cosd(i));
+			double zh = r * (Sind(v + w) * Sind(i));
+			double lonecl = Atan2d(yh, xh);
+			double latecl = Atan2d(zh, Math.Sqrt(xh * xh + yh * yh + zh * zh));
+			return new double[] { xh, yh, zh, r, lonecl, latecl };
+		}
+
+		private static double[] CometXyz2(decimal T, double q, double e, double w, double N, double i, decimal jd)
+		{
+			if (e < 1.0)
+			{
+				return CometXyzEllip(T, q, e, w, N, i, jd);
+			}
+			else if (e > 1.0)
+			{
+				return CometXyzHyper(T, q, e, w, N, i, jd);
+			}
+			else
+			{
+				return CometXyzPara(T, q, e, w, N, i, jd);
+			}
+		}
+
+		private static double[] CometXyzEllip(decimal T, double q, double e, double w, double N, double i, decimal jd)
+		{
+			// heliocentric xyz for comet (cn is index to comets)
+			// based on Paul Schlyter's page http://www.stjarnhimlen.se/comp/ppcomp.html
+			// returns heliocentric x, y, z, distance, longitude and latitude of object
+			decimal d = jd - 2451543.5m;
+
+			double a = q / (1.0 - e); // semimajor axis
+			double M = 0.01720209895 * (double)(jd - T) / (Math.Sqrt(a) * a);
+
+			M = M % (2 * Math.PI);  // Mean Anomaly [0...2pi]
+			if (M < 0.0) M += 2.0 * Math.PI;
+
+			double E = M + 0.85 * e * Math.Sign(Math.Sin(M));
+			int escape = 0;
+			for (; ; )
+			{
+				double Ep = E;
+				double f2 = e * Math.Sin(E);
+				double f = E - f2 - M;
+				double f1 = 1.0 - e * Math.Cos(E);
+				E += (-5.0 * f) / (f1 + Math.Sign(f1) * Math.Sqrt(Math.Abs(16.0 * f1 * f1 - 20.0 * f * f2)));
+				if (Math.Abs(E - Ep) < EPSILON) break;
+				if (++escape > 10) break;
+			}
+
+			//double xv = a * (Math.Cos(E) - e);
+			//double yv = a * Math.Sqrt(1.0 - e * e) * Math.Sin(E);
+			//double v = Rev(Math.Atan2(yv, xv));        // true anomaly
+			//double r = Math.Sqrt(xv * xv + yv * yv);   // distance
+
+			double xv = a * (Cosd(E * RAD2DEG) - e);
+			double yv = a * Math.Sqrt(1.0 - e * e) * Sind(E * RAD2DEG);
+			double v = Rev(Math.Atan2(yv * DEG2RAD, xv * DEG2RAD));        // true anomaly
+			v *= RAD2DEG;
+			double r = Math.Sqrt(xv * xv + yv * yv);   // distance
+
+			// from here common for all orbits
+			N = N + 3.82394E-5 * (double)d;
+			//w  ->  why not precess this value?
+			double xh = r * (Cosd(N) * Cosd(v + w) - Sind(N) * Sind(v + w) * Cosd(i));
+			double yh = r * (Sind(N) * Cosd(v + w) + Cosd(N) * Sind(v + w) * Cosd(i));
+			double zh = r * (Sind(v + w) * Sind(i));
+			double lonecl = Atan2d(yh, xh);
+			double latecl = Atan2d(zh, Math.Sqrt(xh * xh + yh * yh + zh * zh));
+			return new double[] { xh, yh, zh, r, lonecl, latecl };
+		}
+
+		private static double[] CometXyzPara(decimal T, double q, double e, double w, double N, double i, decimal jd)
+		{
+			decimal d = jd - 2451543.5m;
+
+			double M = (double)(jd - T) * Math.Sqrt(0.01720209895 / (2.0 * q * q * q));
+			M = M % (2 * Math.PI);
+
+
+			//double H = (double)(jd - T) * (0.01720209895 / Math.Sqrt(2)) / q * q * q;
+			double h = 1.5 * M;// H;
+			double g = Math.Sqrt(1.0 + h * h);
+			double s = Math.Cbrt(g + h) - Math.Cbrt(g - h);
+			double v = 2.0 * Math.Atan(s);
+			v *= RAD2DEG;
+			double r = q * (1.0 + s * s);
+
+			// from here common for all orbits
+			N = N + 3.82394E-5 * (double)d;
+			//w  ->  why not precess this value?
+			double xh = r * (Cosd(N) * Cosd(v + w) - Sind(N) * Sind(v + w) * Cosd(i));
+			double yh = r * (Sind(N) * Cosd(v + w) + Cosd(N) * Sind(v + w) * Cosd(i));
+			double zh = r * (Sind(v + w) * Sind(i));
+			double lonecl = Atan2d(yh, xh);
+			double latecl = Atan2d(zh, Math.Sqrt(xh * xh + yh * yh + zh * zh));
+			return new double[] { xh, yh, zh, r, lonecl, latecl };
+		}
+
+		private static double[] CometXyzHyper(decimal T, double q, double e, double w, double N, double i, decimal jd)
+		{
+			decimal d = jd - 2451543.5m;
+
+			double a = q / (e - 1.0);
+			double period = Math.Pow((q / (e - 1.0)), 1.5);
+			double n = 0.01720209895 / period;
+			double M = (double)(jd - T) * n;
+
+			double E = Math.Sign(M) * Math.Log(2.0 * Math.Abs(M) / e + 1.85);
+			for (; ; )
+			{
+				double Ep = E;
+				double f2 = e * Math.Sinh(E);
+				double f = f2 - E - M;
+				double f1 = e * Math.Cosh(E) - 1.0;
+				E += (-5.0 * f) / (f1 + Math.Sign(f1) * Math.Sqrt(Math.Abs(16.0 * f1 * f1 - 20.0 * f * f2)));
+				if (Math.Abs(E - Ep) < EPSILON) break;
+			}
+
+			double v = 2 * Math.Atan(Math.Sqrt((e + 1) / (e - 1))) * Math.Tanh(M / 2) * RAD2DEG;
+			double r = a * (1 - e * e) / (1 + e * Math.Cos(v));
 
 			// from here common for all orbits
 			N = N + 3.82394E-5 * (double)d;
