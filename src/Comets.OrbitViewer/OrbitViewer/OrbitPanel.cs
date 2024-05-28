@@ -580,7 +580,7 @@ namespace Comets.OrbitViewer
 			Pen pen = new Pen(ColorAxisMinus);
 			Xyz xyz;
 			Point point;
-			double sizeAU = 50.0;
+			double sizeAU = 150.0;
 
 			// -X
 			xyz = new Xyz(-sizeAU, 0.0, 0.0).Rotate(MtxRotate);
