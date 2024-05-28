@@ -500,14 +500,13 @@ namespace Comets.Core.Managers
 
 		private static double[] CometXyz(decimal T, double q, double e, double w, double N, double i, decimal jd)
 		{
-			// heliocentric xyz for comet (cn is index to comets)
-			// based on Paul Schlyter's page http://www.stjarnhimlen.se/comp/ppcomp.html
 			// returns heliocentric x, y, z, distance, longitude and latitude of object
 			decimal d = jd - 2451543.5m;
-			double r, v;
+			double r, v; // distance, true anomaly
 
 			if (e < 1.0)
 			{
+				// src: stellarium Orbit.cpp, KeplerOrbit::InitEll
 				double a = q / (1.0 - e); // semimajor axis
 				double M = 0.01720209895 * (double)(jd - T) / (Math.Sqrt(a) * a);
 
@@ -527,13 +526,21 @@ namespace Comets.Core.Managers
 					if (++escape > 10) break;
 				}
 
-				double xv = a * (Cosd(E * RAD2DEG) - e);
-				double yv = a * Math.Sqrt(1.0 - e * e) * Sind(E * RAD2DEG);
-				r = Math.Sqrt(xv * xv + yv * yv);   // distance
-				v = Rev(Math.Atan2(yv * DEG2RAD, xv * DEG2RAD));        // true anomaly
+				/*
+				// u ov:
+				double h1 = this.q * Math.Sqrt((1.0 + this.e) / (1.0 - this.e));
+				double rCosNu = a * (Math.Cos(E) - this.e);
+				double rSinNu = h1 * Math.Sin(E);
+				*/
+
+				double rCosNu = a * (Math.Cos(E) - e);
+				double rSinNu = a * Math.Sqrt(1.0 - e * e) * Math.Sin(E);
+				r = Math.Sqrt(rCosNu * rCosNu + rSinNu * rSinNu);
+				v = Rev(Math.Atan2(rSinNu, rCosNu));
 			}
 			else if (e > 1.0)
 			{
+				// src: stellarium Orbit.cpp, KeplerOrbit::InitHyp
 				double a = q / (e - 1.0);
 				double period = Math.Pow((q / (e - 1.0)), 1.5);
 				double n = 0.01720209895 / period;
@@ -552,11 +559,11 @@ namespace Comets.Core.Managers
 
 				double rCosNu = a * (e - Math.Cosh(E));
 				double rSinNu = a * Math.Sqrt(e * e - 1.0) * Math.Sinh(E);
-
 				r = Math.Sqrt(rCosNu * rCosNu + rSinNu * rSinNu);
 				v = Math.Acos(rCosNu / r);
 
 				/*
+				// src: cdc cu_planet.pas, TPlanet.OrbRect
 				double a = q / Math.Abs(1.0 - e);
 				double n = 0.01720209895 / (a * Math.Sqrt(a));
 				double M = n * (double)(jd - T);
@@ -576,6 +583,7 @@ namespace Comets.Core.Managers
 			}
 			else
 			{
+				// src: cdc cu_planet.pas, TPlanet.OrbRect
 				double w1 = 3.649116245E-2 * (double)(jd - T) / (q * Math.Sqrt(q));
 				double s1 = 0.0;
 				for (; ; )

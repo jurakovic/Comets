@@ -136,7 +136,6 @@ namespace Comets.OrbitViewer
 		private Xyz CometStatusEllip(double jd)
 		{
 			// src: stellarium Orbit.cpp, KeplerOrbit::InitEll
-
 			double a = this.q / (1.0 - this.e); // semimajor axis
 			double M = Astro.Gauss * (jd - (double)this.T) / (Math.Sqrt(a) * a);
 
@@ -187,6 +186,7 @@ namespace Comets.OrbitViewer
 			double rSinNu = 2.0 * this.q * tanNu2;
 			*/
 
+			// src: cdc cu_planet.pas, TPlanet.OrbRect
 			double w1 = 3.649116245E-2 * (jd - (double)this.T) / (q * Math.Sqrt(q));
 			double s1 = 0.0;
 			for (; ; )
