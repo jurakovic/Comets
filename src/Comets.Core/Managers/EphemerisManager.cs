@@ -501,7 +501,7 @@ namespace Comets.Core.Managers
 		private static double[] CometXyz(decimal T, double q, double e, double w, double N, double i, decimal jd)
 		{
 			// returns heliocentric x, y, z, distance, longitude and latitude of object
-			decimal d = jd - 2451543.5m;
+			double d = (double)(jd - 2451543.5m);
 			double r, v; // distance, true anomaly
 
 			if (e < 1.0)
@@ -526,15 +526,9 @@ namespace Comets.Core.Managers
 					if (++escape > 10) break;
 				}
 
-				/*
-				// u ov:
-				double h1 = this.q * Math.Sqrt((1.0 + this.e) / (1.0 - this.e));
-				double rCosNu = a * (Math.Cos(E) - this.e);
-				double rSinNu = h1 * Math.Sin(E);
-				*/
-
+				double h1 = q * Math.Sqrt((1.0 + e) / (1.0 - e));
 				double rCosNu = a * (Math.Cos(E) - e);
-				double rSinNu = a * Math.Sqrt(1.0 - e * e) * Math.Sin(E);
+				double rSinNu = h1 * Math.Sin(E);
 				r = Math.Sqrt(rCosNu * rCosNu + rSinNu * rSinNu);
 				v = Rev(Math.Atan2(rSinNu, rCosNu));
 			}
@@ -561,25 +555,6 @@ namespace Comets.Core.Managers
 				double rSinNu = a * Math.Sqrt(e * e - 1.0) * Math.Sinh(E);
 				r = Math.Sqrt(rCosNu * rCosNu + rSinNu * rSinNu);
 				v = Math.Acos(rCosNu / r);
-
-				/*
-				// src: cdc cu_planet.pas, TPlanet.OrbRect
-				double a = q / Math.Abs(1.0 - e);
-				double n = 0.01720209895 / (a * Math.Sqrt(a));
-				double M = n * (double)(jd - T);
-				double U = 0.5;
-				for (; ; )
-				{
-					double U0 = U;
-					U = (2 * U0 * (e - U0 * (1 - M - Math.Log(Math.Abs(U0))))) / (e * (U0 * U0 + 1) - 2 * U0);
-					if (Math.Abs(U0 - U) < EPSILON) break;
-				}
-
-				double num = Math.Sqrt(e * e - 1) * (U * U - 1) / (2 * U);
-				double den = e - (U * U + 1) / (2 * U);
-				r = a * ((e * (U * U + 1) / (2 * U)) - 1);
-				v = Math.Atan2(num, den);
-				*/
 			}
 			else
 			{
@@ -598,10 +573,11 @@ namespace Comets.Core.Managers
 				v = 2.0 * Math.Atan(s);
 			}
 
-			v *= RAD2DEG; // convert to deg for functions below
+			// convert to deg for functions below
+			v *= RAD2DEG;
 
 			// from here common for all orbits
-			N = N + 3.82394E-5 * (double)d;
+			N = N + 3.82394E-5 * d;
 			//w  ->  why not precess this value?
 			double xh = r * (Cosd(N) * Cosd(v + w) - Sind(N) * Sind(v + w) * Cosd(i));
 			double yh = r * (Sind(N) * Cosd(v + w) + Cosd(N) * Sind(v + w) * Cosd(i));

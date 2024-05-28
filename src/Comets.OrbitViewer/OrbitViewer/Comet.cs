@@ -173,19 +173,6 @@ namespace Comets.OrbitViewer
 		/// <returns></returns>
 		private Xyz CometStatusPara(double jd)
 		{
-			/*
-			// src: stellarium Orbit.cpp, KeplerOrbit::InitPar
-
-			double M = (jd - (double)this.T) * Math.Sqrt(Astro.Gauss / (2.0 * this.q * this.q * this.q));
-			M = M % (2 * Math.PI);
-
-			double W = 1.5 * M;
-			double Y = Math.Cbrt(W + Math.Sqrt(W * W + 1.0));
-			double tanNu2 = Y - 1.0 / Y;
-			double rCosNu = this.q * (1.0 - tanNu2 * tanNu2);
-			double rSinNu = 2.0 * this.q * tanNu2;
-			*/
-
 			// src: cdc cu_planet.pas, TPlanet.OrbRect
 			double w1 = 3.649116245E-2 * (jd - (double)this.T) / (q * Math.Sqrt(q));
 			double s1 = 0.0;
@@ -236,28 +223,6 @@ namespace Comets.OrbitViewer
 
 			double rCosNu = a * (this.e - Math.Cosh(E));
 			double rSinNu = a * Math.Sqrt(this.e * this.e - 1.0) * Math.Sinh(E);
-
-			/*
-			// src: cdc cu_planet.pas, TPlanet.OrbRect
-			double a = q / Math.Abs(1.0 - e);
-			double n = 0.01720209895 / (a * Math.Sqrt(a));
-			double M = n * (jd - (double)this.T);
-			double U = 0.5;
-			for (; ; )
-			{
-				double U0 = U;
-				U = (2 * U0 * (e - U0 * (1 - M - Math.Log(Math.Abs(U0))))) / (e * (U0 * U0 + 1) - 2 * U0);
-				if (Math.Abs(U0 - U) < EPSILON) break;
-			}
-
-			double num = Math.Sqrt(e * e - 1) * (U * U - 1) / (2 * U);
-			double den = e - (U * U + 1) / (2 * U);
-			double v = Math.Atan2(num, den);
-			double r = a * ((e * (U * U + 1) / (2 * U)) - 1);
-
-			double rCosNu = r * Math.Cos(v);
-			double rSinNu = r * Math.Sin(v);
-			*/
 
 			return new Xyz(rCosNu, rSinNu, 0.0);
 		}
