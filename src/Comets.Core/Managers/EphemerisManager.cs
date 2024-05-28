@@ -530,7 +530,7 @@ namespace Comets.Core.Managers
 				double rCosNu = a * (Math.Cos(E) - e);
 				double rSinNu = h1 * Math.Sin(E);
 				r = Math.Sqrt(rCosNu * rCosNu + rSinNu * rSinNu);
-				v = Rev(Math.Atan2(rSinNu, rCosNu));
+				v = Math.Atan2(rSinNu, rCosNu) % (2 * Math.PI);
 			}
 			else if (e > 1.0)
 			{
