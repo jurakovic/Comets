@@ -450,7 +450,6 @@ namespace Comets.Core.Managers
 			// Alt/Az, hour angle, ra/dec, ecliptic long. and lat, illuminated fraction (=1.0), dist(Sun), dist(Earth), brightness of planet p
 			double[] sun_xyz = SunXyz(jd);
 			double[] cmt_xyz = CometXyz(T, q, e, w, N, i, jd);
-
 			double dx = cmt_xyz[0] + sun_xyz[0];
 			double dy = cmt_xyz[1] + sun_xyz[1];
 			double dz = cmt_xyz[2] + sun_xyz[2];
@@ -505,8 +504,7 @@ namespace Comets.Core.Managers
 			// based on Paul Schlyter's page http://www.stjarnhimlen.se/comp/ppcomp.html
 			// returns heliocentric x, y, z, distance, longitude and latitude of object
 			decimal d = jd - 2451543.5m;
-			decimal Tj = T;  // get julian day of perihelion time
-			double v, r;
+			double r, v;
 
 			if (e < 1.0)
 			{
@@ -531,11 +529,34 @@ namespace Comets.Core.Managers
 
 				double xv = a * (Cosd(E * RAD2DEG) - e);
 				double yv = a * Math.Sqrt(1.0 - e * e) * Sind(E * RAD2DEG);
-				v = Rev(Math.Atan2(yv * DEG2RAD, xv * DEG2RAD));        // true anomaly
 				r = Math.Sqrt(xv * xv + yv * yv);   // distance
+				v = Rev(Math.Atan2(yv * DEG2RAD, xv * DEG2RAD));        // true anomaly
 			}
 			else if (e > 1.0)
 			{
+				double a = q / (e - 1.0);
+				double period = Math.Pow((q / (e - 1.0)), 1.5);
+				double n = 0.01720209895 / period;
+				double M = (double)(jd - T) * n;
+
+				double E = Math.Sign(M) * Math.Log(2.0 * Math.Abs(M) / e + 1.85);
+				for (; ; )
+				{
+					double Ep = E;
+					double f2 = e * Math.Sinh(E);
+					double f = f2 - E - M;
+					double f1 = e * Math.Cosh(E) - 1.0;
+					E += (-5.0 * f) / (f1 + Math.Sign(f1) * Math.Sqrt(Math.Abs(16.0 * f1 * f1 - 20.0 * f * f2)));
+					if (Math.Abs(E - Ep) < EPSILON) break;
+				}
+
+				double rCosNu = a * (e - Math.Cosh(E));
+				double rSinNu = a * Math.Sqrt(e * e - 1.0) * Math.Sinh(E);
+
+				r = Math.Sqrt(rCosNu * rCosNu + rSinNu * rSinNu);
+				v = Math.Acos(rCosNu / r);
+
+				/*
 				double a = q / Math.Abs(1.0 - e);
 				double n = 0.01720209895 / (a * Math.Sqrt(a));
 				double M = n * (double)(jd - T);
@@ -549,8 +570,9 @@ namespace Comets.Core.Managers
 
 				double num = Math.Sqrt(e * e - 1) * (U * U - 1) / (2 * U);
 				double den = e - (U * U + 1) / (2 * U);
-				v = Math.Atan2(num, den);
 				r = a * ((e * (U * U + 1) / (2 * U)) - 1);
+				v = Math.Atan2(num, den);
+				*/
 			}
 			else
 			{
@@ -564,8 +586,8 @@ namespace Comets.Core.Managers
 				}
 
 				double s = s1;
-				v = 2.0 * Math.Atan(s);
 				r = q * (1.0 + s * s);
+				v = 2.0 * Math.Atan(s);
 			}
 
 			v *= RAD2DEG; // convert to deg for functions below

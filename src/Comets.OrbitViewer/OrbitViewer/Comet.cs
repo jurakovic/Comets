@@ -208,7 +208,7 @@ namespace Comets.OrbitViewer
 
 		#endregion
 
-		#region CometStatusNearPara
+		#region CometStatusHyper
 
 		/// <summary>
 		/// Get Position on Orbital Plane for Nearly Parabolic Orbit
@@ -217,9 +217,7 @@ namespace Comets.OrbitViewer
 		/// <returns></returns>
 		private Xyz CometStatusHyper(double jd)
 		{
-			/*
 			// src: stellarium Orbit.cpp, KeplerOrbit::InitHyp
-
 			double a = this.q / (e - 1.0);
 			double period = Math.Pow((this.q / (this.e - 1.0)), 1.5);
 			double n = Astro.Gauss / period;
@@ -238,8 +236,9 @@ namespace Comets.OrbitViewer
 
 			double rCosNu = a * (this.e - Math.Cosh(E));
 			double rSinNu = a * Math.Sqrt(this.e * this.e - 1.0) * Math.Sinh(E);
-			*/
 
+			/*
+			// src: cdc cu_planet.pas, TPlanet.OrbRect
 			double a = q / Math.Abs(1.0 - e);
 			double n = 0.01720209895 / (a * Math.Sqrt(a));
 			double M = n * (jd - (double)this.T);
@@ -258,6 +257,7 @@ namespace Comets.OrbitViewer
 
 			double rCosNu = r * Math.Cos(v);
 			double rSinNu = r * Math.Sin(v);
+			*/
 
 			return new Xyz(rCosNu, rSinNu, 0.0);
 		}
@@ -276,17 +276,11 @@ namespace Comets.OrbitViewer
 			Xyz xyz;
 
 			if (this.e < 1.0)
-			{
 				xyz = CometStatusEllip(jd);
-			}
 			else if (this.e > 1.0)
-			{
 				xyz = CometStatusHyper(jd);
-			}
 			else
-			{
 				xyz = CometStatusPara(jd);
-			}
 
 			xyz = xyz.Rotate(this.VectorConstant);
 			Matrix mtxPrec = Matrix.PrecMatrix(this.ATimeEquinox.JD, Astro.JD2000);
