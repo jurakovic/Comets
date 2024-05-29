@@ -482,8 +482,7 @@ namespace Comets.Core.Managers
 		private static double[] SunXyz(decimal jd)
 		{
 			// return x,y,z ecliptic coordinates, distance, true longitude
-			// days counted from 1999 Dec 31.0 UT
-			double d = (double)(jd - 2451543.5m);
+			double d = (double)(jd - 2451543.5m); // days counted from 1999 Dec 31.0 UT
 			double w = 282.9404 + 4.70935E-5 * d;
 			double e = 0.016709 - 1.151E-9 * d;
 			double M = Rev(356.0470 + 0.9856002585 * d);
@@ -502,7 +501,7 @@ namespace Comets.Core.Managers
 		{
 			// returns heliocentric x, y, z, distance, longitude and latitude of object
 			double d = (double)(jd - 2451543.5m);
-			double r, v; // distance, true anomaly
+			double v, r; // true anomaly, distance
 
 			if (e < 1.0)
 			{
@@ -529,8 +528,8 @@ namespace Comets.Core.Managers
 				double h1 = q * Math.Sqrt((1.0 + e) / (1.0 - e));
 				double rCosNu = a * (Math.Cos(E) - e);
 				double rSinNu = h1 * Math.Sin(E);
-				r = Math.Sqrt(rCosNu * rCosNu + rSinNu * rSinNu);
 				v = Math.Atan2(rSinNu, rCosNu) % (2 * Math.PI);
+				r = Math.Sqrt(rCosNu * rCosNu + rSinNu * rSinNu);
 			}
 			else if (e > 1.0)
 			{
@@ -551,10 +550,6 @@ namespace Comets.Core.Managers
 					if (Math.Abs(E - Ep) < EPSILON) break;
 				}
 
-				//double rCosNu = a * (e - Math.Cosh(E));
-				//double rSinNu = a * Math.Sqrt(e * e - 1.0) * Math.Sinh(E);
-				//double r0 = Math.Sqrt(rCosNu * rCosNu + rSinNu * rSinNu);
-
 				v = 2.0 * Math.Atan(Math.Sqrt((e + 1.0) / (e - 1.0)) * Math.Tanh(E / 2.0));
 				r = a * (e * e - 1.0) / (1.0 + e * Math.Cos(v));
 			}
@@ -571,8 +566,8 @@ namespace Comets.Core.Managers
 				}
 
 				double s = s1;
-				r = q * (1.0 + s * s);
 				v = 2.0 * Math.Atan(s);
+				r = q * (1.0 + s * s);
 			}
 
 			// convert to deg for functions below
