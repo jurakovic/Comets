@@ -539,7 +539,7 @@ namespace Comets.Core.Managers
 				double period = Math.Pow((q / (e - 1.0)), 1.5);
 				double n = 0.01720209895 / period;
 				double M = (double)(jd - T) * n;
-
+				
 				double E = Math.Sign(M) * Math.Log(2.0 * Math.Abs(M) / e + 1.85);
 				for (; ; )
 				{
@@ -550,11 +550,11 @@ namespace Comets.Core.Managers
 					E += (-5.0 * f) / (f1 + Math.Sign(f1) * Math.Sqrt(Math.Abs(16.0 * f1 * f1 - 20.0 * f * f2)));
 					if (Math.Abs(E - Ep) < EPSILON) break;
 				}
-
+				
 				double rCosNu = a * (e - Math.Cosh(E));
 				double rSinNu = a * Math.Sqrt(e * e - 1.0) * Math.Sinh(E);
 				r = Math.Sqrt(rCosNu * rCosNu + rSinNu * rSinNu);
-				v = Math.Acos(rCosNu / r);
+				v = 2.0 * Math.Atan(Math.Sqrt((e + 1) / (e - 1)) * Math.Tanh(E / 2));
 			}
 			else
 			{
