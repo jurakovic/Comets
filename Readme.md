@@ -3,10 +3,10 @@
 
 ## Features
 
-- Calculate ephemeris
-- Plot graph with visual magnitude or distance to Sun or Earth
+- Ephemeris calculation
+- Graph of visual magnitude or distance to Sun or Earth
 - *3D* Orbit Viewer
-- Orbital elements converter (all [MPC](https://www.minorplanetcenter.net/iau/Ephemerides/Comets/SoftwareComets.html) formats supported, and some more)
+- Orbital elements converter (all [MPC](https://www.minorplanetcenter.net/iau/Ephemerides/Comets/SoftwareComets.html) listed formats supported, and some more)
 - Dark theme
 
 ## Credits
@@ -20,7 +20,7 @@ Dark theme thanks to [Dark-Mode-Forms](https://github.com/BlueMystical/Dark-Mode
 
 ## Download
 
-[Latest Release](https://github.com/jurakovic/Comets/releases/latest)
+[![GitHub Release](https://img.shields.io/github/v/release/jurakovic/comets)](https://github.com/jurakovic/Comets/releases/latest)
 
 ## Screenshots
 
@@ -36,7 +36,7 @@ Dark theme thanks to [Dark-Mode-Forms](https://github.com/BlueMystical/Dark-Mode
 
 ### Books
 
-*[Astronomical Algorithms](https://www.amazon.com/Astronomical-Algorithms-Jean-Meeus/dp/0943396352)* by Jean Meeus (Willmann-Bell, 1998)  
+*[Astronomical Algorithms](https://www.amazon.com/Astronomical-Algorithms-Jean-Meeus/dp/0943396352/)* by Jean Meeus (Willmann-Bell, 1998)  
 *[Astronomical Formulae for Calculators](https://www.amazon.com/Astronomical-Formulae-Calculators-Jean-Meeus/dp/0943396220/)* by Jean Meeus (Willmann-Bell, 1988)  
 *[Practical Astronomy with your Calculator or Spreadsheet](https://www.amazon.com/Practical-Astronomy-your-Calculator-Spreadsheet/dp/1108436072/)* by Peter Duffett-Smith and Jonathan Zwart (Cambridge, 2011)  
 
@@ -62,10 +62,10 @@ Dark theme thanks to [Dark-Mode-Forms](https://github.com/BlueMystical/Dark-Mode
 
 Some comets-related pages and sites:
 
-[Comets | Heavens-Above](https://www.heavens-above.com/Comets.aspx)  
-[Bright Comets | TheSkyLive](https://theskylive.com/comets)  
-[Visual comets | astro.vanbuitenen.nl](http://astro.vanbuitenen.nl/comets)  
-[Visual Comets in the Future | aerith.net](http://www.aerith.net/comet/future-n.html)  
+[Heavens-Above | Comets](https://www.heavens-above.com/Comets.aspx)  
+[TheSkyLive | Bright Comets](https://theskylive.com/comets)  
+[astro.vanbuitenen.nl | Visual comets](http://astro.vanbuitenen.nl/comets)  
+[aerith.net | Visual Comets in the Future](http://www.aerith.net/comet/future-n.html)  
 [Comet Observation database (COBS)](https://cobs.si/)  
 [IAU Minor Planet Center](https://www.minorplanetcenter.net/)  
 [CometWatch](https://www.cometwatch.co.uk/)  
