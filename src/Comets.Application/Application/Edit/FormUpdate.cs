@@ -11,7 +11,7 @@ using ImportType = Comets.Core.Managers.ElementTypesManager.Type;
 
 namespace Comets.Application.Edit
 {
-	public partial class FormUpdate : Form
+	public partial class FormUpdate : ThemeForm
 	{
 		#region Events
 
@@ -178,6 +178,7 @@ namespace Comets.Application.Edit
 					catch
 					{
 						DownloadFilename = null;
+						progressDownload.Visible = false;
 						throw;
 					}
 				}
@@ -325,6 +326,11 @@ namespace Comets.Application.Edit
 				using (BackgroundWorker bwDownload = new BackgroundWorker())
 				{
 					bwDownload.DoWork += new DoWorkEventHandler(bwDownload_DoWork);
+					bwDownload.RunWorkerCompleted += (sender, e) =>
+					{
+						if (e.Error != null)
+							MessageBox.Show(e.Error.Message, "Comets", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					};
 					bwDownload.RunWorkerAsync();
 				}
 			}

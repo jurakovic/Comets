@@ -275,7 +275,7 @@
 			// 
 			this.menuItemViewAlwaysOnTop.MergeIndex = 0;
 			this.menuItemViewAlwaysOnTop.Name = "menuItemViewAlwaysOnTop";
-			this.menuItemViewAlwaysOnTop.Size = new System.Drawing.Size(157, 22);
+			this.menuItemViewAlwaysOnTop.Size = new System.Drawing.Size(180, 22);
 			this.menuItemViewAlwaysOnTop.Text = "Always on &Top";
 			this.menuItemViewAlwaysOnTop.Click += this.menuItemViewAlwaysOnTop_Click;
 			// 
@@ -285,7 +285,7 @@
 			this.menuItemViewStatusBar.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.menuItemViewStatusBar.MergeIndex = 1;
 			this.menuItemViewStatusBar.Name = "menuItemViewStatusBar";
-			this.menuItemViewStatusBar.Size = new System.Drawing.Size(157, 22);
+			this.menuItemViewStatusBar.Size = new System.Drawing.Size(180, 22);
 			this.menuItemViewStatusBar.Text = "Show &status bar";
 			this.menuItemViewStatusBar.Click += this.menuItemViewStatusBar_Click;
 			// 
@@ -382,16 +382,16 @@
 			// 
 			// statusComets
 			// 
-			this.statusComets.AutoSize = false;
 			this.statusComets.Name = "statusComets";
-			this.statusComets.Size = new System.Drawing.Size(200, 17);
+			this.statusComets.Size = new System.Drawing.Size(60, 17);
 			this.statusComets.Text = "Comets: 0";
 			this.statusComets.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.statusComets.Click += this.statusComets_Click;
 			// 
 			// statusSpace
 			// 
 			this.statusSpace.Name = "statusSpace";
-			this.statusSpace.Size = new System.Drawing.Size(569, 17);
+			this.statusSpace.Size = new System.Drawing.Size(476, 17);
 			this.statusSpace.Spring = true;
 			// 
 			// statusProgressBar

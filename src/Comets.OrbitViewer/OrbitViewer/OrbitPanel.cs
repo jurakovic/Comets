@@ -74,7 +74,7 @@ namespace Comets.OrbitViewer
 
 		protected Font FontObjectName = new Font("Helvetica", 10, FontStyle.Regular);
 		protected Font FontPlanetName = new Font("Helvetica", 10, FontStyle.Regular);
-		protected Font FontInformation = new Font("Helvetica", 10, FontStyle.Bold);
+		protected Font FontInformation = new Font("Consolas", 10, FontStyle.Bold);
 		protected Font FontAxisLabel = new Font("Helvetica", 8.5F, FontStyle.Regular);
 
 		#endregion
@@ -468,9 +468,9 @@ namespace Comets.OrbitViewer
 					{
 						Ephemeris ep = GetEphemeris(SelectedComet);
 
-						string mstr = String.Format("Magnitude:       {0:#0.00}", ep.Magnitude);
-						string dstr = String.Format("Earth Distance: {0:#0.000000} AU", ep.EarthDist);
-						string rstr = String.Format("Sun Distance:   {0:#0.000000} AU", ep.SunDist);
+						string mstr = String.Format("Magnitude:      {0,5}", ep.Magnitude.ToString("0.00"));
+						string dstr = String.Format("Earth Distance: {0,9} AU", ep.EarthDist.ToString("0.000000"));
+						string rstr = String.Format("Sun Distance:   {0,9} AU", ep.SunDist.ToString("0.000000"));
 
 						point1.Y = Size.Height - labelMargin - (int)(fontSize * 5.0);
 						graphics.DrawString(mstr, FontInformation, sb, point1.X, point1.Y);
@@ -580,7 +580,7 @@ namespace Comets.OrbitViewer
 			Pen pen = new Pen(ColorAxisMinus);
 			Xyz xyz;
 			Point point;
-			double sizeAU = 50.0;
+			double sizeAU = 150.0;
 
 			// -X
 			xyz = new Xyz(-sizeAU, 0.0, 0.0).Rotate(MtxRotate);
@@ -788,21 +788,24 @@ namespace Comets.OrbitViewer
 
 		private void DrawEarthOrbit(Graphics graphics, PlanetOrbit planetOrbit)
 		{
-			graphics.SmoothingMode = Antialiasing ? SmoothingMode.AntiAlias : SmoothingMode.None;
-
-			Pen pen = new Pen(ColorPlanetOrbitUpper);
-			Point point1, point2;
-			Xyz xyz = planetOrbit.GetAt(0).Rotate(MtxToEcl).Rotate(MtxRotate);
-
-			point1 = GetDrawPoint(xyz);
-
-			for (int i = 1; i <= PlanetOrbit.OrbitDivisionCount; i++)
+			if (this.OrbitDisplay.Contains(planetOrbit.Planet))
 			{
-				xyz = planetOrbit.GetAt(i).Rotate(MtxToEcl);
-				xyz = xyz.Rotate(MtxRotate);
-				point2 = GetDrawPoint(xyz);
-				graphics.DrawLine(pen, point1.X, point1.Y, point2.X, point2.Y);
-				point1 = point2;
+				graphics.SmoothingMode = Antialiasing ? SmoothingMode.AntiAlias : SmoothingMode.None;
+
+				Pen pen = new Pen(ColorPlanetOrbitUpper);
+				Point point1, point2;
+				Xyz xyz = planetOrbit.GetAt(0).Rotate(MtxToEcl).Rotate(MtxRotate);
+
+				point1 = GetDrawPoint(xyz);
+
+				for (int i = 1; i <= PlanetOrbit.OrbitDivisionCount; i++)
+				{
+					xyz = planetOrbit.GetAt(i).Rotate(MtxToEcl);
+					xyz = xyz.Rotate(MtxRotate);
+					point2 = GetDrawPoint(xyz);
+					graphics.DrawLine(pen, point1.X, point1.Y, point2.X, point2.Y);
+					point1 = point2;
+				}
 			}
 		}
 

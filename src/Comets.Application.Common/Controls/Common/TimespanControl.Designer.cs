@@ -48,7 +48,7 @@
 			this.gbxTimestamp.Size = new System.Drawing.Size(235, 85);
 			this.gbxTimestamp.TabIndex = 0;
 			this.gbxTimestamp.TabStop = false;
-			this.gbxTimestamp.Text = "Timespan (Universal time)";
+			this.gbxTimestamp.Text = "Timespan (Universal Time)";
 			// 
 			// selectDateControlEnd
 			// 
@@ -59,7 +59,7 @@
 			this.selectDateControlEnd.Name = "selectDateControlEnd";
 			this.selectDateControlEnd.PerihelionDate = null;
 			this.selectDateControlEnd.SelectedDateTime = new System.DateTime(0L);
-			this.selectDateControlEnd.Size = new System.Drawing.Size(172, 23);
+			this.selectDateControlEnd.Size = new System.Drawing.Size(172, 24);
 			this.selectDateControlEnd.TabIndex = 3;
 			// 
 			// selectDateControlStart
@@ -71,7 +71,7 @@
 			this.selectDateControlStart.Name = "selectDateControlStart";
 			this.selectDateControlStart.PerihelionDate = null;
 			this.selectDateControlStart.SelectedDateTime = new System.DateTime(0L);
-			this.selectDateControlStart.Size = new System.Drawing.Size(172, 23);
+			this.selectDateControlStart.Size = new System.Drawing.Size(172, 24);
 			this.selectDateControlStart.TabIndex = 1;
 			// 
 			// label3

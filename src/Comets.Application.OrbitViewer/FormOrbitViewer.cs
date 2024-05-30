@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace Comets.Application.OrbitViewer
 {
-	public partial class FormOrbitViewer : Form, ISave
+	public partial class FormOrbitViewer : ThemeForm, ISave
 	{
 		#region Events
 

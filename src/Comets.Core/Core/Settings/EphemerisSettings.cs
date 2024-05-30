@@ -6,18 +6,18 @@ namespace Comets.Core
 	{
 		#region Properties
 
-		public TimeSpan TimeSpan { get; set; }
-		public bool LocalTime { get; set; }
-		public bool RA { get; set; }
-		public bool Dec { get; set; }
+		public TimeSpan TimeSpan { get; set; } = new TimeSpan(1, 0, 0, 0);
+		public bool LocalTime { get; set; } = true;
+		public bool RA { get; set; } = true;
+		public bool Dec { get; set; } = true;
 		public bool EcLon { get; set; }
 		public bool EcLat { get; set; }
-		public bool HelioDist { get; set; }
-		public bool GeoDist { get; set; }
-		public bool Alt { get; set; }
-		public bool Az { get; set; }
-		public bool Elongation { get; set; }
-		public bool Magnitude { get; set; }
+		public bool HelioDist { get; set; } = true;
+		public bool GeoDist { get; set; } = true;
+		public bool Alt { get; set; } = true;
+		public bool Az { get; set; } = true;
+		public bool Elongation { get; set; } = true;
+		public bool Magnitude { get; set; } = true;
 
 		#endregion
 
@@ -25,7 +25,8 @@ namespace Comets.Core
 
 		public EphemerisSettings()
 		{
-
+			base.MinMagnitudeChecked = true;
+			base.MinMagnitudeValue = 12.0;
 		}
 
 		#endregion

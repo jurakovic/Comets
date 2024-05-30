@@ -32,9 +32,6 @@ namespace Comets.Core
 		public bool MinMagnitudeChecked { get; set; }
 		public double? MinMagnitudeValue { get; set; }
 
-		public bool MaxMagnitudeChecked { get; set; }
-		public double? MaxMagnitudeValue { get; set; }
-
 		#endregion
 
 		#region Methods

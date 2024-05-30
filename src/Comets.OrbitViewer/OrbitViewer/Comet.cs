@@ -8,8 +8,7 @@ namespace Comets.OrbitViewer
 	{
 		#region Const
 
-		private const int MaxApproximations = 80;
-		private const double Tolerance = 1.0E-12;
+		private const double EPSILON = 1e-10;
 
 		#endregion
 
@@ -81,11 +80,6 @@ namespace Comets.OrbitViewer
 		public Matrix VectorConstant { get; private set; }
 
 		/// <summary>
-		/// SortKey
-		/// </summary>
-		public double SortKey { get; private set; }
-
-		/// <summary>
 		/// Comet location on Panel
 		/// </summary>
 		public Point PanelLocation { get; set; }
@@ -120,7 +114,6 @@ namespace Comets.OrbitViewer
 			this.g = comet.g;
 			this.k = comet.k;
 			this.Equinox = 2000.0;
-			this.SortKey = comet.sortkey;
 
 			int eqYear = (int)Math.Floor(this.Equinox);
 			double eqM = (this.Equinox - (double)eqYear) * 12.0;
@@ -142,46 +135,31 @@ namespace Comets.OrbitViewer
 		/// <returns></returns>
 		private Xyz CometStatusEllip(double jd)
 		{
-			if (this.q == 0.0)
-				throw new ArithmeticException();
+			// src: stellarium Orbit.cpp, KeplerOrbit::InitEll
+			double a = this.q / (1.0 - this.e); // semimajor axis
+			double M = Astro.Gauss * (jd - (double)this.T) / (Math.Sqrt(a) * a);
 
-			double axis = this.q / (1.0 - this.e);
-			double M = Astro.Gauss * (jd - (double)this.T) / (Math.Sqrt(axis) * axis);
-			double E1 = M + this.e * Math.Sin(M);
-			int count = MaxApproximations;
+			M = M % (2 * Math.PI);  // Mean Anomaly [0...2pi]
+			if (M < 0.0) M += 2.0 * Math.PI;
 
-			if (this.e < 0.6)
+			double E = M + 0.85 * this.e * Math.Sign(Math.Sin(M));
+			int escape = 0;
+			for (; ; )
 			{
-				double fE2;
-				do
-				{
-					fE2 = E1;
-					E1 = M + this.e * Math.Sin(fE2);
-				} while (Math.Abs(E1 - fE2) > Tolerance && --count > 0);
-			}
-			else
-			{
-				double dv;
-				do
-				{
-					double dv1 = (M + this.e * Math.Sin(E1) - E1);
-					double dv2 = (1.0 - this.e * Math.Cos(E1));
-					if (Math.Abs(dv1) < Tolerance || Math.Abs(dv2) < Tolerance)
-					{
-						break;
-					}
-					dv = dv1 / dv2;
-					E1 += dv;
-				} while (Math.Abs(dv) > Tolerance && --count > 0);
+				double Ep = E;
+				double f2 = this.e * Math.Sin(E);
+				double f = E - f2 - M;
+				double f1 = 1.0 - this.e * Math.Cos(E);
+				E += (-5.0 * f) / (f1 + Math.Sign(f1) * Math.Sqrt(Math.Abs(16.0 * f1 * f1 - 20.0 * f * f2)));
+				if (Math.Abs(E - Ep) < EPSILON) break;
+				if (++escape > 10) break;
 			}
 
-			if (count == 0)
-				throw new ArithmeticException();
+			double h1 = this.q * Math.Sqrt((1.0 + this.e) / (1.0 - this.e));
+			double rCosNu = a * (Math.Cos(E) - this.e);
+			double rSinNu = h1 * Math.Sin(E);
 
-			double X = axis * (Math.Cos(E1) - this.e);
-			double Y = axis * Math.Sqrt(1.0 - this.e * this.e) * Math.Sin(E1);
-
-			return new Xyz(X, Y, 0.0);
+			return new Xyz(rCosNu, rSinNu, 0.0);
 		}
 
 		#endregion
@@ -195,80 +173,58 @@ namespace Comets.OrbitViewer
 		/// <returns></returns>
 		private Xyz CometStatusPara(double jd)
 		{
-			if (this.q == 0.0)
-				throw new ArithmeticException();
-
-			double N = Astro.Gauss * (jd - (double)this.T) / (Math.Sqrt(2.0) * this.q * Math.Sqrt(this.q));
-			double tanV2 = N;
-			double oldTanV2, tan2V2;
-			int count = MaxApproximations;
-
-			do
+			// src: cdc cu_planet.pas, TPlanet.OrbRect
+			double w1 = 3.649116245E-2 * (jd - (double)this.T) / (q * Math.Sqrt(q));
+			double s1 = 0.0;
+			for (; ; )
 			{
-				oldTanV2 = tanV2;
-				tan2V2 = tanV2 * tanV2;
-				tanV2 = (tan2V2 * tanV2 * 2.0 / 3.0 + N) / (1.0 + tan2V2);
-			} while (Math.Abs(tanV2 - oldTanV2) > Tolerance && --count > 0);
+				double s0 = s1;
+				s1 = (2.0 * s0 * s0 * s0 + w1) / (3.0 * (s0 * s0 + 1.0));
+				if (Math.Abs(s1 - s0) < EPSILON) break;
+			}
 
-			if (count == 0)
-				throw new ArithmeticException();
+			double s = s1;
+			double v = 2.0 * Math.Atan(s);
+			double r = q * (1.0 + s * s);
 
-			tan2V2 = tanV2 * tanV2;
-			double X = this.q * (1.0 - tan2V2);
-			double Y = 2.0 * this.q * tanV2;
+			double rCosNu = r * Math.Cos(v);
+			double rSinNu = r * Math.Sin(v);
 
-			return new Xyz(X, Y, 0.0);
+			return new Xyz(rCosNu, rSinNu, 0.0);
 		}
 
 		#endregion
 
-		#region CometStatusNearPara
+		#region CometStatusHyper
 
 		/// <summary>
 		/// Get Position on Orbital Plane for Nearly Parabolic Orbit
 		/// </summary>
 		/// <param name="jd"></param>
 		/// <returns></returns>
-		private Xyz CometStatusNearPara(double jd)
+		private Xyz CometStatusHyper(double jd)
 		{
-			if (this.q == 0.0)
-				throw new ArithmeticException();
+			// src: stellarium Orbit.cpp, KeplerOrbit::InitHyp
+			double a = this.q / (e - 1.0);
+			double period = Math.Pow((this.q / (this.e - 1.0)), 1.5);
+			double n = Astro.Gauss / period;
+			double M = (jd - (double)this.T) * n;
 
-			double A = Math.Sqrt((1.0 + 9.0 * this.e) / 10.0);
-			double B = 5.0 * (1 - this.e) / (1.0 + 9.0 * this.e);
-			double A1, B1, X1, A0, B0, X0, N;
-			A1 = B1 = X1 = 1.0;
-			int count1 = MaxApproximations;
-
-			do
+			double E = Math.Sign(M) * Math.Log(2.0 * Math.Abs(M) / this.e + 1.85);
+			for (; ; )
 			{
-				A0 = A1;
-				B0 = B1;
-				N = B0 * A * Astro.Gauss * (jd - (double)this.T) / (Math.Sqrt(2.0) * this.q * Math.Sqrt(this.q));
-				int count2 = MaxApproximations;
-				do
-				{
-					X0 = X1;
-					double temp = X0 * X0;
-					X1 = (temp * X0 * 2.0 / 3.0 + N) / (1.0 + temp);
-				} while (Math.Abs(X1 - X0) > Tolerance && --count2 > 0);
-				if (count2 == 0)
-				{
-					throw new ArithmeticException();
-				}
-				A1 = B * X1 * X1;
-				B1 = (-3.809524e-03 * A1 - 0.017142857) * A1 * A1 + 1.0;
-			} while (Math.Abs(A1 - A0) > Tolerance && --count1 > 0);
+				double Ep = E;
+				double f2 = this.e * Math.Sinh(E);
+				double f = f2 - E - M;
+				double f1 = this.e * Math.Cosh(E) - 1.0;
+				E += (-5.0 * f) / (f1 + Math.Sign(f1) * Math.Sqrt(Math.Abs(16.0 * f1 * f1 - 20.0 * f * f2)));
+				if (Math.Abs(E - Ep) < EPSILON) break;
+			}
 
-			if (count1 == 0)
-				throw new ArithmeticException();
+			double rCosNu = a * (this.e - Math.Cosh(E));
+			double rSinNu = a * Math.Sqrt(this.e * this.e - 1.0) * Math.Sinh(E);
 
-			double C1 = ((0.12495238 * A1 + 0.21714286) * A1 + 0.4) * A1 + 1.0;
-			double D1 = ((0.00571429 * A1 + 0.2) * A1 - 1.0) * A1 + 1.0;
-			double TanV2 = Math.Sqrt(5.0 * (1.0 + this.e) / (1.0 + 9.0 * this.e)) * C1 * X1;
-			double X = this.q * D1 * (1.0 - TanV2 * TanV2);
-			double Y = 2.0 * this.q * D1 * TanV2;
-			return new Xyz(X, Y, 0.0);
+			return new Xyz(rCosNu, rSinNu, 0.0);
 		}
 
 		#endregion
@@ -278,40 +234,18 @@ namespace Comets.OrbitViewer
 		/// <summary>
 		/// Get Position in Heliocentric Equatorial Coordinates 2000.0
 		/// </summary>
-		/// <param name="JD"></param>
+		/// <param name="jd"></param>
 		/// <returns></returns>
-		public Xyz GetPos(double JD)
+		public Xyz GetPos(double jd)
 		{
-			Xyz xyz = null;
+			Xyz xyz;
 
-			bool exception = true;
-			do
-			{
-				try
-				{
-					// CometStatus' may be throw ArithmeticException
-					if (this.e < 0.995)
-					{
-						xyz = CometStatusEllip(JD);
-					}
-					else if (Math.Abs(this.e - 1.0) < Tolerance)
-					{
-						xyz = CometStatusPara(JD);
-					}
-					else
-					{
-						xyz = CometStatusNearPara(JD);
-					}
-
-					exception = false;
-				}
-				catch
-				{
-					//Hale-Bopp often throws exception, so instead get position for day earlier
-					--JD;
-					exception = true;
-				}
-			} while (exception);
+			if (this.e < 1.0)
+				xyz = CometStatusEllip(jd);
+			else if (this.e > 1.0)
+				xyz = CometStatusHyper(jd);
+			else
+				xyz = CometStatusPara(jd);
 
 			xyz = xyz.Rotate(this.VectorConstant);
 			Matrix mtxPrec = Matrix.PrecMatrix(this.ATimeEquinox.JD, Astro.JD2000);

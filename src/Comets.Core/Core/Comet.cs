@@ -14,6 +14,7 @@ namespace Comets.Core
 		private string _full;
 		private string _name;
 		private string _id;
+		private string _fragment;
 		private decimal _T;
 		private int _Ty;
 		private int _Tm;
@@ -30,8 +31,7 @@ namespace Comets.Core
 		private double _a;
 		private double _Q;
 		private double _n;
-		private double _sortkey;
-		private string _idKey;
+		private string _sortkey;
 
 		private Ephemeris _epPerihelion;
 		private Ephemeris _epCurrent;
@@ -68,6 +68,15 @@ namespace Comets.Core
 		{
 			get { return _id; }
 			set { _id = value; }
+		}
+
+		/// <summary>
+		/// Fragment (e.g. A, B, etc.)
+		/// </summary>
+		public string fragment
+		{
+			get { return _fragment; }
+			set { _fragment = value; }
 		}
 
 		/// <summary>
@@ -225,19 +234,10 @@ namespace Comets.Core
 		/// <summary>
 		/// Sortkey
 		/// </summary>
-		public double sortkey
+		public string sortkey
 		{
 			get { return _sortkey; }
 			set { _sortkey = value; }
-		}
-
-		/// <summary>
-		/// IdKey
-		/// </summary>
-		public string idKey
-		{
-			get { return _idKey; }
-			set { _idKey = value; }
 		}
 
 		private Ephemeris PerihelionEphemeris

@@ -10,7 +10,7 @@ using System.Windows.Forms.DataVisualization.Charting;
 
 namespace Comets.Application.Graph
 {
-	public partial class FormGraph : Form, ISave
+	public partial class FormGraph : ThemeForm, ISave
 	{
 		#region Properties
 

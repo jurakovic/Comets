@@ -43,6 +43,27 @@ namespace Comets.Core.Extensions
 			return (int)str.Double();
 		}
 
+		/// <summary>
+		/// Converts string value to enum. Returns default if conversion failed.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="value"></param>
+		/// <param name="defaultValue"></param>
+		/// <returns></returns>
+		public static T ToEnum<T>(this string value, T defaultValue = default) where T : struct
+		{
+			if (string.IsNullOrEmpty(value))
+				return defaultValue;
+
+			T result;
+			return Enum.TryParse<T>(value.Trim(), true, out result) ? result : defaultValue;
+		}
+
+		public static string NullIfEmpty(this string str)
+		{
+			return string.IsNullOrEmpty(str) ? null : str;
+		}
+
 		#endregion
 
 		#region IComparable
@@ -131,7 +152,8 @@ namespace Comets.Core.Extensions
 		/// <returns></returns>
 		public static double Timezone(this DateTime dt)
 		{
-			return TimeZone.CurrentTimeZone.GetUtcOffset(dt).Hours;
+			TimeZoneInfo tzi = dt.Kind == DateTimeKind.Utc ? TimeZoneInfo.Utc : TimeZoneInfo.Local;
+			return tzi.GetUtcOffset(dt).Hours;
 		}
 
 		#endregion

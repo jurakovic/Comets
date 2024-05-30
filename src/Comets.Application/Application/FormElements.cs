@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace Comets.Application
 {
-	public partial class FormElements : Form, ISave
+	public partial class FormElements : ThemeForm, ISave
 	{
 		#region Events
 

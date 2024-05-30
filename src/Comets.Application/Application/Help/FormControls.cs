@@ -2,7 +2,7 @@
 
 namespace Comets.Application.Help
 {
-	public partial class FormControls : Form
+	public partial class FormControls : ThemeForm
 	{
 		#region Constructor
 
