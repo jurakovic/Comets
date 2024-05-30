@@ -28,17 +28,11 @@ namespace Comets.OrbitViewer
 			Orbit = new Xyz[OrbitDivisionCount + 1];
 
 			if (comet.e < 1.0 - Tolerance)
-			{
 				GetOrbitEllip(comet);
-			}
 			else if (comet.e > 1.0 + Tolerance)
-			{
 				GetOrbitHyper(comet);
-			}
 			else
-			{
 				GetOrbitPara(comet);
-			}
 
 			Matrix vec = comet.VectorConstant;
 			Matrix prec = Matrix.PrecMatrix(comet.EquinoxJD, Astro.JD2000);
@@ -73,23 +67,23 @@ namespace Comets.OrbitViewer
 		/// <param name="comet"></param>
 		private void GetOrbitEllip(OVComet comet)
 		{
-			double axis = comet.q / (1.0 - comet.e);
-			double ae2 = -2.0 * axis * comet.e;
+			double a = comet.q / (1.0 - comet.e);
+			double ae2 = -2.0 * a * comet.e;
 			double t = Math.Sqrt(1.0 - comet.e * comet.e);
 
-			if (axis * (1.0 + comet.e) > MaxOrbitAU)
+			if (a * (1.0 + comet.e) > MaxOrbitAU)
 			{
-				double dE = Math.Acos((1.0 - MaxOrbitAU / axis) / comet.e) / ((OrbitDivisionCount / 2) * (OrbitDivisionCount / 2));
+				double dE = Math.Acos((1.0 - MaxOrbitAU / a) / comet.e) / ((OrbitDivisionCount / 2) * (OrbitDivisionCount / 2));
 				int idx1, idx2;
 				idx1 = idx2 = OrbitDivisionCount / 2;
 
 				for (int i = 0; i <= (OrbitDivisionCount / 2); i++)
 				{
 					double E = dE * i * i;
-					double RCosV = axis * (Math.Cos(E) - comet.e);
-					double RSinV = axis * t * Math.Sin(E);
-					Orbit[idx1++] = new Xyz(RCosV, RSinV, 0.0);
-					Orbit[idx2--] = new Xyz(RCosV, -RSinV, 0.0);
+					double rCosNu = a * (Math.Cos(E) - comet.e);
+					double rSinNu = a * t * Math.Sin(E);
+					Orbit[idx1++] = new Xyz(rCosNu, rSinNu, 0.0);
+					Orbit[idx2--] = new Xyz(rCosNu, -rSinNu, 0.0);
 				}
 			}
 			else
@@ -102,12 +96,12 @@ namespace Comets.OrbitViewer
 				double E = 0.0;
 				for (int i = 0; i <= (OrbitDivisionCount / 4); i++, E += (2.0 * Math.PI / OrbitDivisionCount))
 				{
-					double RCosV = axis * (Math.Cos(E) - comet.e);
-					double RSinV = axis * t * Math.Sin(E);
-					Orbit[idx1++] = new Xyz(RCosV, RSinV, 0.0);
-					Orbit[idx2--] = new Xyz(ae2 - RCosV, RSinV, 0.0);
-					Orbit[idx3++] = new Xyz(ae2 - RCosV, -RSinV, 0.0);
-					Orbit[idx4--] = new Xyz(RCosV, -RSinV, 0.0);
+					double rCosNu = a * (Math.Cos(E) - comet.e);
+					double rSinNu = a * t * Math.Sin(E);
+					Orbit[idx1++] = new Xyz(rCosNu, rSinNu, 0.0);
+					Orbit[idx2--] = new Xyz(ae2 - rCosNu, rSinNu, 0.0);
+					Orbit[idx3++] = new Xyz(ae2 - rCosNu, -rSinNu, 0.0);
+					Orbit[idx4--] = new Xyz(rCosNu, -rSinNu, 0.0);
 				}
 			}
 		}
@@ -125,16 +119,16 @@ namespace Comets.OrbitViewer
 			int idx1, idx2;
 			idx1 = idx2 = OrbitDivisionCount / 2;
 			double t = Math.Sqrt(comet.e * comet.e - 1.0);
-			double axis = comet.q / (comet.e - 1.0);
-			double dF = UdMath.arccosh((MaxOrbitAU + axis) / (axis * comet.e)) / (OrbitDivisionCount / 2);
+			double a = comet.q / (comet.e - 1.0);
+			double dF = UdMath.arccosh((MaxOrbitAU + a) / (a * comet.e)) / (OrbitDivisionCount / 2);
 
 			double F = 0.0;
 			for (int i = 0; i <= (OrbitDivisionCount / 2); i++, F += dF)
 			{
-				double RCosV = axis * (comet.e - UdMath.cosh(F));
-				double RSinV = axis * t * UdMath.sinh(F);
-				Orbit[idx1++] = new Xyz(RCosV, RSinV, 0.0);
-				Orbit[idx2--] = new Xyz(RCosV, -RSinV, 0.0);
+				double rCosNu = a * (comet.e - Math.Cosh(F));
+				double rSinNu = a * t * Math.Sinh(F);
+				Orbit[idx1++] = new Xyz(rCosNu, rSinNu, 0.0);
+				Orbit[idx2--] = new Xyz(rCosNu, -rSinNu, 0.0);
 			}
 		}
 
@@ -155,11 +149,11 @@ namespace Comets.OrbitViewer
 			double V = 0.0;
 			for (int i = 0; i <= (OrbitDivisionCount / 2); i++, V += dV)
 			{
-				double TanV2 = Math.Sin(V / 2.0) / Math.Cos(V / 2.0);
-				double RCosV = comet.q * (1.0 - TanV2 * TanV2);
-				double RSinV = 2.0 * comet.q * TanV2;
-				Orbit[idx1++] = new Xyz(RCosV, RSinV, 0.0);
-				Orbit[idx2--] = new Xyz(RCosV, -RSinV, 0.0);
+				double tanNu2 = Math.Sin(V / 2.0) / Math.Cos(V / 2.0);
+				double rCosNu = comet.q * (1.0 - tanNu2 * tanNu2);
+				double rSinNU = 2.0 * comet.q * tanNu2;
+				Orbit[idx1++] = new Xyz(rCosNu, rSinNU, 0.0);
+				Orbit[idx2--] = new Xyz(rCosNu, -rSinNU, 0.0);
 			}
 		}
 

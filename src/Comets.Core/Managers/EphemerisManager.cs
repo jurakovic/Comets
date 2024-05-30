@@ -15,6 +15,8 @@ namespace Comets.Core.Managers
 	{
 		#region Const
 
+		const double EPSILON = 1e-10;
+
 		const double DEG2RAD = Math.PI / 180.0;
 		const double RAD2DEG = 180.0 / Math.PI;
 
@@ -480,8 +482,7 @@ namespace Comets.Core.Managers
 		private static double[] SunXyz(decimal jd)
 		{
 			// return x,y,z ecliptic coordinates, distance, true longitude
-			// days counted from 1999 Dec 31.0 UT
-			double d = (double)(jd - 2451543.5m);
+			double d = (double)(jd - 2451543.5m); // days counted from 1999 Dec 31.0 UT
 			double w = 282.9404 + 4.70935E-5 * d;
 			double e = 0.016709 - 1.151E-9 * d;
 			double M = Rev(356.0470 + 0.9856002585 * d);
@@ -498,51 +499,82 @@ namespace Comets.Core.Managers
 
 		private static double[] CometXyz(decimal T, double q, double e, double w, double N, double i, decimal jd)
 		{
-			// heliocentric xyz for comet (cn is index to comets)
-			// based on Paul Schlyter's page http://www.stjarnhimlen.se/comp/ppcomp.html
 			// returns heliocentric x, y, z, distance, longitude and latitude of object
-			decimal d = jd - 2451543.5m;
-			decimal Tj = T;  // get julian day of perihelion time
-			double v, r;
-			if (e > 0.99)
+			double d = (double)(jd - 2451543.5m);
+			double v, r; // true anomaly, distance
+
+			if (e < 1.0)
 			{
-				// treat as near parabolic (approx. method valid inside orbit of Pluto)
-				double k = 0.01720209895;   // Gaussian gravitational constant
-				double a = 0.75 * (double)(jd - Tj) * k * Math.Sqrt((1 + e) / (q * q * q));
-				double b = Math.Sqrt(1 + a * a);
-				double W = Cbrt(b + a) - Cbrt(b - a);
-				double c = (W * W) / (1 + W * W);
-				double f = (1 - e) / (1 + e);
-				double g = f * c * c;
-				double a1 = (2 / 3) + (2 / 5) * W * W;
-				double a2 = (7 / 5) + (33 / 35) * W * W + (37 / 175) * W * W * W * W;
-				double a3 = W * W * ((432 / 175) + (956 / 1125) * W * W + (84 / 1575) * W * W * W * W);
-				double ww = W * (1 + g * c * (a1 + a2 * g + a3 * g * g));
-				v = 2 * Atand(ww);
-				r = q * (1 + ww * ww) / (1 + ww * ww * f);
+				// src: stellarium Orbit.cpp, KeplerOrbit::InitEll
+				double a = q / (1.0 - e); // semimajor axis
+				double M = 0.01720209895 * (double)(jd - T) / (Math.Sqrt(a) * a);
+
+				M = M % (2 * Math.PI);  // Mean Anomaly [0...2pi]
+				if (M < 0.0) M += 2.0 * Math.PI;
+
+				double E = M + 0.85 * e * Math.Sign(Math.Sin(M));
+				int escape = 0;
+				for (; ; )
+				{
+					double Ep = E;
+					double f2 = e * Math.Sin(E);
+					double f = E - f2 - M;
+					double f1 = 1.0 - e * Math.Cos(E);
+					E += (-5.0 * f) / (f1 + Math.Sign(f1) * Math.Sqrt(Math.Abs(16.0 * f1 * f1 - 20.0 * f * f2)));
+					if (Math.Abs(E - Ep) < EPSILON) break;
+					if (++escape > 10) break;
+				}
+
+				double h1 = q * Math.Sqrt((1.0 + e) / (1.0 - e));
+				double rCosNu = a * (Math.Cos(E) - e);
+				double rSinNu = h1 * Math.Sin(E);
+				v = Math.Atan2(rSinNu, rCosNu) % (2 * Math.PI);
+				r = Math.Sqrt(rCosNu * rCosNu + rSinNu * rSinNu);
+			}
+			else if (e > 1.0)
+			{
+				// src: stellarium Orbit.cpp, KeplerOrbit::InitHyp
+				double a = q / (e - 1.0);
+				double period = Math.Pow((q / (e - 1.0)), 1.5);
+				double n = 0.01720209895 / period;
+				double M = (double)(jd - T) * n;
+
+				double E = Math.Sign(M) * Math.Log(2.0 * Math.Abs(M) / e + 1.85);
+				for (; ; )
+				{
+					double Ep = E;
+					double f2 = e * Math.Sinh(E);
+					double f = f2 - E - M;
+					double f1 = e * Math.Cosh(E) - 1.0;
+					E += (-5.0 * f) / (f1 + Math.Sign(f1) * Math.Sqrt(Math.Abs(16.0 * f1 * f1 - 20.0 * f * f2)));
+					if (Math.Abs(E - Ep) < EPSILON) break;
+				}
+
+				v = 2.0 * Math.Atan(Math.Sqrt((e + 1.0) / (e - 1.0)) * Math.Tanh(E / 2.0));
+				r = a * (e * e - 1.0) / (1.0 + e * Math.Cos(v));
 			}
 			else
 			{
-				// treat as elliptic
-				double a = q / (1.0 - e);
-				double P = 365.2568984 * Math.Sqrt(a * a * a);  // period in days
-				double M = 360.0 * (double)(jd - Tj) / P;   // mean anomaly
-															// eccentric anomaly E
-				double E0 = M + RAD2DEG * e * Sind(M) * (1.0 + e * Cosd(M));
-				double E1 = E0 - (E0 - RAD2DEG * e * Sind(E0) - M) / (1.0 - e * Cosd(E0));
-				while (Math.Abs(E0 - E1) > 0.0005)
+				// src: cdc cu_planet.pas, TPlanet.OrbRect
+				double w1 = 3.649116245E-2 * (double)(jd - T) / (q * Math.Sqrt(q));
+				double s1 = 0.0;
+				for (; ; )
 				{
-					E0 = E1;
-					E1 = E0 - (E0 - RAD2DEG * e * Sind(E0) - M) / (1.0 - e * Cosd(E0));
+					double s0 = s1;
+					s1 = (2.0 * s0 * s0 * s0 + w1) / (3.0 * (s0 * s0 + 1.0));
+					if (Math.Abs(s1 - s0) < EPSILON) break;
 				}
-				double xv = a * (Cosd(E1) - e);
-				double yv = a * Math.Sqrt(1.0 - e * e) * Sind(E1);
-				v = Rev(Atan2d(yv, xv));        // true anomaly
-				r = Math.Sqrt(xv * xv + yv * yv);   // distance
+
+				double s = s1;
+				v = 2.0 * Math.Atan(s);
+				r = q * (1.0 + s * s);
 			}
 
+			// convert to deg for functions below
+			v *= RAD2DEG;
+
 			// from here common for all orbits
-			N = N + 3.82394E-5 * (double)d;
+			N = N + 3.82394E-5 * d;
 			//w  ->  why not precess this value?
 			double xh = r * (Cosd(N) * Cosd(v + w) - Sind(N) * Sind(v + w) * Cosd(i));
 			double yh = r * (Sind(N) * Cosd(v + w) + Cosd(N) * Sind(v + w) * Cosd(i));
