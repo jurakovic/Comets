@@ -74,4 +74,4 @@ Some comets-related pages and sites:
 
 > ### Archive
 > 
-> In the beginning no actual source control system was used. Instead there were multiple copies of folders in "[*Final*](https://phdcomics.com/comics/archive.php?comicid=1531)"-like manner. In April 2024 all that folder copies were migrated to git to preserve history the right way. More details about that and all archive branches in [Comets-Archive](https://github.com/jurakovic/Comets-Archive) repo.  
+> In the beginning no actual source control system was used. Instead there were multiple copies of folders in "[*Final*](https://phdcomics.com/comics/archive.php?comicid=1531)"-like manner. In April 2024 all that folder copies were migrated to git to preserve history the right way. More details about that in [Comets-Archive](https://github.com/jurakovic/Comets-Archive) repo as well as all archive branches.  
