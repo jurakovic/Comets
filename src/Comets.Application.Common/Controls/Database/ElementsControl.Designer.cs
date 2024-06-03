@@ -1,4 +1,6 @@
-﻿namespace Comets.Application.Common.Controls.Database
+﻿using Comets.Application.Common.Controls.Common;
+
+namespace Comets.Application.Common.Controls.Database
 {
 	partial class ElementsControl
 	{
@@ -28,6 +30,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this.btnJplInfo = new System.Windows.Forms.Button();
 			this.txtName = new System.Windows.Forms.TextBox();
 			this.lblN2 = new System.Windows.Forms.Label();
@@ -75,10 +78,12 @@
 			this.txtAscNode = new System.Windows.Forms.TextBox();
 			this.txtIncl = new System.Windows.Forms.TextBox();
 			this.txtAphDist = new System.Windows.Forms.TextBox();
+			this.ctxMenu = new WebLinkContextMenuStrip(this.components);
 			this.SuspendLayout();
 			// 
 			// btnJplInfo
 			// 
+			this.btnJplInfo.ContextMenuStrip = this.ctxMenu;
 			this.btnJplInfo.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 238);
 			this.btnJplInfo.ForeColor = System.Drawing.Color.Blue;
 			this.btnJplInfo.Location = new System.Drawing.Point(382, 24);
@@ -87,7 +92,7 @@
 			this.btnJplInfo.TabIndex = 2;
 			this.btnJplInfo.Text = "JPL Info";
 			this.btnJplInfo.UseVisualStyleBackColor = true;
-			this.btnJplInfo.Click += this.btnJplInfo_Click;
+			//this.btnJplInfo.Click += this.btnJplInfo_Click;
 			// 
 			// txtName
 			// 
@@ -581,6 +586,10 @@
 			this.txtAphDist.Size = new System.Drawing.Size(116, 22);
 			this.txtAphDist.TabIndex = 23;
 			// 
+			// ctxMenu
+			// 
+			this.ctxMenu.Name = "ctxMenu";
+			// 
 			// ElementsControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -688,5 +697,6 @@
 		private System.Windows.Forms.TextBox txtAscNode;
 		private System.Windows.Forms.TextBox txtIncl;
 		private System.Windows.Forms.TextBox txtAphDist;
+		private WebLinkContextMenuStrip ctxMenu;
 	}
 }
