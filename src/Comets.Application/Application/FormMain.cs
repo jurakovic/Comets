@@ -517,8 +517,8 @@ namespace Comets.Application
 		private void menuItemFileOrbit3d_Click(object sender, EventArgs e)
 		{
 			FormOV3D fo = new FormOV3D();
-			fo.WindowState = FormWindowState.Maximized;
-			//fo.MdiParent = this;
+			//fo.WindowState = FormWindowState.Maximized;
+			fo.MdiParent = this;
 			fo.Show();
 		}
 	}

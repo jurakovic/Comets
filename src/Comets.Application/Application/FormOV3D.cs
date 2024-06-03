@@ -102,8 +102,8 @@ namespace Comets.Application.Application
 				}
 			}
 
-			example = new FirstSceneExample();
-			//example = new OvExample();
+			//example = new FirstSceneExample();
+			example = new OvExample();
 			if (null != example)
 			{
 				this.glControl.MakeCurrent();
@@ -316,7 +316,7 @@ namespace Comets.Application.Application
 	{
 		Scene scene;
 		Camera camera;
-		TrackballControls controls;
+		OrbitControls controls;
 
 		public OvExample() : base()
 		{
@@ -343,56 +343,87 @@ namespace Comets.Application.Application
 
 		private void InitCameraController()
 		{
-			controls = new TrackballControls(this.glControl, camera);
-			controls.StaticMoving = false;
-			controls.RotateSpeed = 3.0f;
-			controls.ZoomSpeed = 2;
-			controls.PanSpeed = 2;
-			controls.NoZoom = false;
-			controls.NoPan = false;
-			controls.NoRotate = false;
-			controls.StaticMoving = true;
-			controls.DynamicDampingFactor = 0.2f;
+			//controls = new TrackballControls(this.glControl, camera);
+			//controls.StaticMoving = false;
+			//controls.RotateSpeed = 3.0f;
+			//controls.ZoomSpeed = 2;
+			//controls.PanSpeed = 2;
+			//controls.NoZoom = false;
+			//controls.NoPan = false;
+			//controls.NoRotate = false;
+			//controls.StaticMoving = true;
+			//controls.DynamicDampingFactor = 0.2f;
+
+			controls = new THREE.OrbitControls(this.glControl, camera);
+			controls.EnableDamping = true;
+			controls.DampingFactor = 0.08f;
+			controls.EnableZoom = true;
+			controls.ZoomSpeed = 1.0f;
+			controls.EnablePan = true;
+			controls.RotateSpeed = 0.07f;
+			controls.AutoRotate = false; // Assuming autoRotate is false initially
+			controls.AutoRotateSpeed = -0.05f;
+			controls.MinZoom = 0.004f;
+			controls.MaxZoom = 20;
 		}
 
 		public override void Load(GLControl glControl)
 		{
 			base.Load(glControl);
 
+
+			float camWidth = 10;
+			float camHeight = camWidth * (9.0f / 16.0f);
+			bool hasWebGL = false;
+			double AU;
+
+
+
 			InitRenderer();
 			InitCamera();
+
+			camera = new OrthographicCamera(-camWidth / 2, camWidth / 2, camHeight / 2, -camHeight / 2, 0, 5000);
+			camera.Position.Set(0, 580, -1000);
+			camera.Zoom = 1;
+			camera.UpdateProjectionMatrix();
+
 			InitCameraController();
 
-			scene.Background = THREE.Color.Hex(0xffffff);
-
-
-			var primaryPoint = new THREE.PointLight(0xAAAAAA, 1.0f);
-			primaryPoint.Position.Set(0, 0, 0);
-			scene.Add(primaryPoint);
-
-			var ambient = new THREE.AmbientLight(0x666666);
-			scene.Add(ambient);
+			scene = new Scene();
+			scene.Background = THREE.Color.Hex(0x00121f);
 
 
 
-			var segments = 60f;
-			var radius = 1000f;
-			var size = 360 / segments;
 
-			var geometry = new THREE.Geometry();
+			//try
+			//{
+			//	renderer = new WebGLRenderer(new WebGLRendererParameters { Alpha = true, Antialias = true });
+			//	renderer.SetSize(800, 600); // Set size to some default value
+			//	hasWebGL = true;
+			//}
+			//catch (Exception)
+			//{
+			//	Console.WriteLine("WebGL not supported");
+			//	return;
+			//}
 
-			for (var i = 0; i <= segments; i++)
-			{
-				var segment = (i * size) * Math.PI / 180;
-				geometry.Vertices.Append(new THREE.Vector3((float)Math.Cos(segment) * radius, 0, (float)Math.Sin(segment) * radius));
-			}
 
-			var material = new THREE.LineBasicMaterial();// new System.Collections.Hashtable{ opacity = config.opacity, transparent: config.transparent, fog: false, linewidth: 1 } );
+			Mesh sun = new Mesh(new SphereGeometry(0.04f, 16, 16), new MeshBasicMaterial { Color = THREE.Color.Hex(0xffff00) });
 
-			var line = new THREE.Line(geometry, material);
-			line.Position.Set(0, 0, 0);
+			var canvas = new System.Drawing.Bitmap(256, 256);
+			var graphics = System.Drawing.Graphics.FromImage(canvas);
+			graphics.DrawString("Sun", new System.Drawing.Font("Verdana", 24), System.Drawing.Brushes.White, new System.Drawing.PointF(128, 92));
 
-			scene.Add(line);
+			var tex = new Texture();
+			tex.Image = canvas;
+			tex.NeedsUpdate = true;
+
+			var spriteMat = new SpriteMaterial { Map = tex };
+			var label = new Sprite(spriteMat);
+			sun.Add(label);
+			scene.Add(sun);
+
+
 		}
 
 		public override void Render()
