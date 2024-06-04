@@ -25,11 +25,11 @@ namespace Comets.Application.Common.Controls.Database
 
 		#region EventHandling
 
-		private void btnJplInfo_Click(object sender, EventArgs e)
-		{
-			if (SelectedComet != null)
-				CometManager.OpenJplInfo(SelectedComet.id);
-		}
+		//private void btnJplInfo_Click(object sender, EventArgs e)
+		//{
+		//	if (SelectedComet != null)
+		//		CometManager.OpenJplInfo(SelectedComet.id);
+		//}
 
 		#endregion
 

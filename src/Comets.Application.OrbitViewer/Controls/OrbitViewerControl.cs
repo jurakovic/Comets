@@ -734,8 +734,8 @@ namespace Comets.Application.OrbitViewer
 					if (ctrl && !shift && SelectedComet != null)
 					{
 						//dodati id i na ovcomet?
-						Comet c = Comets.ElementAt(cometControl.SelectedIndex);
-						CometManager.OpenJplInfo(c.id);
+						//Comet c = Comets.ElementAt(cometControl.SelectedIndex);
+						//CometManager.OpenJplInfo(c.id);
 						handled = true;
 					}
 					break;

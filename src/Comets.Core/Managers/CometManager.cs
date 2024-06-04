@@ -385,10 +385,10 @@ namespace Comets.Core.Managers
 
 		#region OpenJplInfo
 
-		public static void OpenJplInfo(string id)
-		{
-			Process.Start(new ProcessStartInfo("https://ssd.jpl.nasa.gov/tools/sbdb_lookup.html#/?sstr=" + id) { UseShellExecute = true });
-		}
+		//public static void OpenJplInfo(string id)
+		//{
+		//	Process.Start(new ProcessStartInfo("https://ssd.jpl.nasa.gov/tools/sbdb_lookup.html#/?sstr=" + id) { UseShellExecute = true });
+		//}
 
 		#endregion
 	}
