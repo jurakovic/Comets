@@ -38,6 +38,7 @@ namespace Comets.Application.Common.Controls.Database
 		public void DataBind(Comet c)
 		{
 			this.SelectedComet = c;
+			this.ctxMenu.SelectedComet = c;
 
 			string format6 = "0.000000";
 			string format4 = "0.0000";

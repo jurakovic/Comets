@@ -32,6 +32,7 @@ namespace Comets.Application.Common.Controls.Database
 		{
 			this.components = new System.ComponentModel.Container();
 			this.btnJplInfo = new System.Windows.Forms.Button();
+			this.ctxMenu = new WebLinkContextMenuStrip(this.components);
 			this.txtName = new System.Windows.Forms.TextBox();
 			this.lblN2 = new System.Windows.Forms.Label();
 			this.txtMeanMotion = new System.Windows.Forms.TextBox();
@@ -78,7 +79,6 @@ namespace Comets.Application.Common.Controls.Database
 			this.txtAscNode = new System.Windows.Forms.TextBox();
 			this.txtIncl = new System.Windows.Forms.TextBox();
 			this.txtAphDist = new System.Windows.Forms.TextBox();
-			this.ctxMenu = new WebLinkContextMenuStrip(this.components);
 			this.SuspendLayout();
 			// 
 			// btnJplInfo
@@ -92,7 +92,12 @@ namespace Comets.Application.Common.Controls.Database
 			this.btnJplInfo.TabIndex = 2;
 			this.btnJplInfo.Text = "JPL Info";
 			this.btnJplInfo.UseVisualStyleBackColor = true;
-			//this.btnJplInfo.Click += this.btnJplInfo_Click;
+			// 
+			// ctxMenu
+			// 
+			this.ctxMenu.Name = "ctxMenu";
+			this.ctxMenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+			this.ctxMenu.Size = new System.Drawing.Size(113, 26);
 			// 
 			// txtName
 			// 
@@ -585,10 +590,6 @@ namespace Comets.Application.Common.Controls.Database
 			this.txtAphDist.ReadOnly = true;
 			this.txtAphDist.Size = new System.Drawing.Size(116, 22);
 			this.txtAphDist.TabIndex = 23;
-			// 
-			// ctxMenu
-			// 
-			this.ctxMenu.Name = "ctxMenu";
 			// 
 			// ElementsControl
 			// 
