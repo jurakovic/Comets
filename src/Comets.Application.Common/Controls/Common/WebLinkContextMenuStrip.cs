@@ -98,30 +98,14 @@ namespace Comets.Application.Common.Controls.Common
 
 		public static void OpenAerithInfo(string id, int year)
 		{
-			// not quite robust because there are mixes of url kinds
-
-			string url;
+			string code;
 
 			if (Char.IsDigit(id[0])) // 1P
-			{
-				string code = id.PadLeft(5, '0');
-				url = $"http://www.aerith.net/comet/catalog/{code}/{year}.html";
-			}
+				code = id.PadLeft(5, '0');
 			else
-			{
-				string code = id.Substring(2, id.Length - 2).Replace(" ", "");
+				code = id.Substring(2, id.Length - 2).Replace(" ", "");
 
-				if (id[0].In('P', 'D'))
-				{
-					url = $"http://www.aerith.net/comet/catalog/{code}/{year}.html";
-				}
-				else
-				{
-					url = $"http://www.aerith.net/comet/catalog/{code}/{code}.html";
-				}
-			}
-
-			Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+			Process.Start(new ProcessStartInfo($"http://www.aerith.net/comet/catalog/{code}/index.html") { UseShellExecute = true });
 		}
 
 		#endregion
