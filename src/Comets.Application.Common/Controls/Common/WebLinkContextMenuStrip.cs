@@ -1,7 +1,9 @@
 ﻿using Comets.Core;
+using Comets.Core.Extensions;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace Comets.Application.Common.Controls.Common
@@ -12,6 +14,7 @@ namespace Comets.Application.Common.Controls.Common
 
 		private ToolStripMenuItem mnuNasaJpl;
 		private ToolStripMenuItem mnuVanBuitenen;
+		private ToolStripMenuItem mnuAerith;
 
 		#endregion
 
@@ -32,21 +35,12 @@ namespace Comets.Application.Common.Controls.Common
 			this.RenderMode = ToolStripRenderMode.System;
 			this.Size = new System.Drawing.Size(211, 320);
 
-			this.mnuNasaJpl = new ToolStripMenuItem();
-			this.mnuNasaJpl.MergeIndex = 0;
-			this.mnuNasaJpl.Name = nameof(this.mnuNasaJpl);
-			this.mnuNasaJpl.Size = new System.Drawing.Size(210, 22);
-			this.mnuNasaJpl.Text = "NASA JPL";
-			this.mnuNasaJpl.Click += this.mnuNasaJpl_Click;
+			int ix = 0;
+			this.mnuNasaJpl = CreateToolStripMenuItem(nameof(this.mnuNasaJpl), "NASA JPL", ix++, this.mnuNasaJpl_Click);
+			this.mnuVanBuitenen = CreateToolStripMenuItem(nameof(this.mnuVanBuitenen), "astro.vanbuitenen.nl", ix++, this.mnuVanBuitenen_Click);
+			this.mnuAerith = CreateToolStripMenuItem(nameof(this.mnuAerith), "Aerith", ix++, this.mnuAerith_Click);
 
-			this.mnuVanBuitenen = new ToolStripMenuItem();
-			this.mnuVanBuitenen.MergeIndex = 0;
-			this.mnuVanBuitenen.Name = nameof(this.mnuVanBuitenen);
-			this.mnuVanBuitenen.Size = new System.Drawing.Size(210, 22);
-			this.mnuVanBuitenen.Text = "astro.vanbuitenen.nl";
-			this.mnuVanBuitenen.Click += this.mnuVanBuitenen_Click;
-
-			this.Items.AddRange(new ToolStripItem[] { this.mnuNasaJpl, this.mnuVanBuitenen });
+			this.Items.AddRange([this.mnuNasaJpl, this.mnuVanBuitenen, this.mnuAerith]);
 
 			this.ResumeLayout(false);
 		}
@@ -65,9 +59,25 @@ namespace Comets.Application.Common.Controls.Common
 			OpenVanBuitenenInfo(SelectedComet.id);
 		}
 
+		private void mnuAerith_Click(object sender, EventArgs e)
+		{
+			OpenAerithInfo(SelectedComet.id, SelectedComet.Ty);
+		}
+
 		#endregion
 
 		#region Methods
+
+		private ToolStripMenuItem CreateToolStripMenuItem(string name, string text, int mergeIndex, EventHandler eventHandler)
+		{
+			ToolStripMenuItem retval = new ToolStripMenuItem();
+			retval.MergeIndex = mergeIndex;
+			retval.Name = name;
+			retval.Size = new System.Drawing.Size(210, 22);
+			retval.Text = text;
+			retval.Click += eventHandler;
+			return retval;
+		}
 
 		public static void OpenJplInfo(string id)
 		{
@@ -84,6 +94,34 @@ namespace Comets.Application.Common.Controls.Common
 				query = id.Substring(2, id.Length - 2).Replace(" ", "");
 
 			Process.Start(new ProcessStartInfo("http://astro.vanbuitenen.nl/comet/" + query) { UseShellExecute = true });
+		}
+
+		public static void OpenAerithInfo(string id, int year)
+		{
+			// not quite robust because there are mixes of url kinds
+
+			string url;
+
+			if (Char.IsDigit(id[0])) // 1P
+			{
+				string code = id.PadLeft(5, '0');
+				url = $"http://www.aerith.net/comet/catalog/{code}/{year}.html";
+			}
+			else
+			{
+				string code = id.Substring(2, id.Length - 2).Replace(" ", "");
+
+				if (id[0].In('P', 'D'))
+				{
+					url = $"http://www.aerith.net/comet/catalog/{code}/{year}.html";
+				}
+				else
+				{
+					url = $"http://www.aerith.net/comet/catalog/{code}/{code}.html";
+				}
+			}
+
+			Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
 		}
 
 		#endregion
