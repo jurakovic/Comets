@@ -1,9 +1,7 @@
 ﻿using Comets.Core;
-using Comets.Core.Extensions;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace Comets.Application.Common.Controls.Common
@@ -61,7 +59,7 @@ namespace Comets.Application.Common.Controls.Common
 
 		private void mnuAerith_Click(object sender, EventArgs e)
 		{
-			OpenAerithInfo(SelectedComet.id, SelectedComet.Ty);
+			OpenAerithInfo(SelectedComet.id);
 		}
 
 		#endregion
@@ -79,33 +77,38 @@ namespace Comets.Application.Common.Controls.Common
 			return retval;
 		}
 
-		public static void OpenJplInfo(string id)
+		private void OpenUrl(string url)
 		{
-			Process.Start(new ProcessStartInfo("https://ssd.jpl.nasa.gov/tools/sbdb_lookup.html#/?sstr=" + id) { UseShellExecute = true });
+			Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
 		}
 
-		public static void OpenVanBuitenenInfo(string id)
+		private void OpenJplInfo(string id)
+		{
+			OpenUrl($"https://ssd.jpl.nasa.gov/tools/sbdb_lookup.html#/?sstr={id}&view=VOP");
+		}
+
+		private void OpenVanBuitenenInfo(string id)
 		{
 			string query;
 
 			if (Char.IsDigit(id[0])) // 1P
 				query = id.EndsWith("I") ? id : id.Substring(0, id.Length - 1);
 			else
-				query = id.Substring(2, id.Length - 2).Replace(" ", "");
+				query = id.Substring(2).Replace(" ", "");
 
-			Process.Start(new ProcessStartInfo("http://astro.vanbuitenen.nl/comet/" + query) { UseShellExecute = true });
+			OpenUrl($"http://astro.vanbuitenen.nl/comet/{query}");
 		}
 
-		public static void OpenAerithInfo(string id, int year)
+		private void OpenAerithInfo(string id)
 		{
 			string code;
 
 			if (Char.IsDigit(id[0])) // 1P
 				code = id.PadLeft(5, '0');
 			else
-				code = id.Substring(2, id.Length - 2).Replace(" ", "");
+				code = id.Substring(2).Replace(" ", "");
 
-			Process.Start(new ProcessStartInfo($"http://www.aerith.net/comet/catalog/{code}/index.html") { UseShellExecute = true });
+			OpenUrl($"http://www.aerith.net/comet/catalog/{code}/index.html");
 		}
 
 		#endregion
