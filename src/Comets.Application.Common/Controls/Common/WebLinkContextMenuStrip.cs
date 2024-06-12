@@ -13,6 +13,7 @@ namespace Comets.Application.Common.Controls.Common
 		private ToolStripMenuItem mnuNasaJpl;
 		private ToolStripMenuItem mnuVanBuitenen;
 		private ToolStripMenuItem mnuAerith;
+		private ToolStripMenuItem mnuCobs;
 
 		#endregion
 
@@ -37,8 +38,9 @@ namespace Comets.Application.Common.Controls.Common
 			this.mnuNasaJpl = CreateToolStripMenuItem(nameof(this.mnuNasaJpl), "NASA JPL", ix++, this.mnuNasaJpl_Click);
 			this.mnuVanBuitenen = CreateToolStripMenuItem(nameof(this.mnuVanBuitenen), "astro.vanbuitenen.nl", ix++, this.mnuVanBuitenen_Click);
 			this.mnuAerith = CreateToolStripMenuItem(nameof(this.mnuAerith), "Aerith", ix++, this.mnuAerith_Click);
+			this.mnuCobs = CreateToolStripMenuItem(nameof(this.mnuCobs), "Cobs", ix++, this.mnuCobs_Click);
 
-			this.Items.AddRange([this.mnuNasaJpl, this.mnuVanBuitenen, this.mnuAerith]);
+			this.Items.AddRange([this.mnuNasaJpl, this.mnuVanBuitenen, this.mnuAerith, this.mnuCobs]);
 
 			this.ResumeLayout(false);
 		}
@@ -60,6 +62,11 @@ namespace Comets.Application.Common.Controls.Common
 		private void mnuAerith_Click(object sender, EventArgs e)
 		{
 			OpenAerithInfo(SelectedComet.id);
+		}
+
+		private void mnuCobs_Click(object sender, EventArgs e)
+		{
+			OpenCobsInfo(SelectedComet.id);
 		}
 
 		#endregion
@@ -109,6 +116,11 @@ namespace Comets.Application.Common.Controls.Common
 				code = id.Substring(2).Replace(" ", "");
 
 			OpenUrl($"http://www.aerith.net/comet/catalog/{code}/index.html");
+		}
+
+		private void OpenCobsInfo(string id)
+		{
+			OpenUrl($"https://cobs.si/search/?q={id}&search=&models=cobs.comet");
 		}
 
 		#endregion
