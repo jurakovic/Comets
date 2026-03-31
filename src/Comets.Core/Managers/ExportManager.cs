@@ -513,9 +513,10 @@ namespace Comets.Core.Managers
 				sb.AppendLine(String.Format("\t#Magnitude g {0:0.0}, k {1:0.0}", c.g, c.k));
 				sb.AppendLine("\tEllipticalOrbit");
 				sb.AppendLine("\t{");
-				sb.AppendLine(String.Format("\t\tPeriod         {0,20:0.000000}", c.P));
+				if (c.e < 1.0) // skip period for open orbits (auto-computed by Celestia from orbital elements)
+					sb.AppendLine(String.Format("\t\tPeriod         {0,20:0.000000}", c.P));
 				sb.AppendLine(String.Format("\t\tPericenterDistance        {0,9:0.000000}", c.q));
-				sb.AppendLine(String.Format("\t\tEccentricity               {0,8:0.000000}", c.e == 1.0 ? 1.000001 : c.e)); // parabolic comet gets stuck in sun center
+				sb.AppendLine(String.Format("\t\tEccentricity               {0,8:0.000000}", c.e));
 				sb.AppendLine(String.Format("\t\tInclination              {0,8:0.0000}", c.i));
 				sb.AppendLine(String.Format("\t\tAscendingNode            {0,8:0.0000}", c.N));
 				sb.AppendLine(String.Format("\t\tArgOfPericenter          {0,8:0.0000}", c.w));
