@@ -1,8 +1,6 @@
-VERSION:   0.9.1
-BUMP_TYPE: patch
-PREVIEW:   false
-ARCH:      x64
+VERSION:   0.9.2
+BUMP_TYPE: 
+PREVIEW:   
 BRANCH:    master
-COMMIT:    640b5ded0f2803040f15f1efdd301672194d78fd
-SHA256:    9b61735773e1768ef88478960ee52ad8793763c9a9ab12b8eab3bfa14c3b9d01
-URL:       https://github.com/jurakovic/Comets/releases/tag/v0.9.1
+COMMIT:    55f45fa2125c931def0cdb0ccf5f4c93bdf0ec22
+URL:       https://github.com/jurakovic/Comets/releases/tag/v0.9.2
