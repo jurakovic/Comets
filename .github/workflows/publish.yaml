@@ -1,0 +1,91 @@
+name: Publish
+
+permissions:
+  contents: write
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version'
+        required: true
+        type: string
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: windows-latest
+            rid: win-x64
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v6
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Install zip (Windows)
+        if: runner.os == 'Windows'
+        run: choco install zip -y
+        shell: bash
+
+      - name: Publish
+        run: |
+          chmod +x ./publish.sh
+          ./publish.sh publish -v "${{ inputs.version }}" -a "${{ matrix.rid }}" -u true
+          find publish
+          ./publish.sh package -v "${{ inputs.version }}" -a "${{ matrix.rid }}" -u true
+          find release
+        shell: bash
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: comets_${{ inputs.version }}_${{ matrix.rid }}
+          path: |
+              release/comets_${{ inputs.version }}_${{ matrix.rid }}.zip
+              release/checksums.txt
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download All Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Git Tag
+        run: |
+          git config user.name "jurakovic"
+          git config user.email "17744091+jurakovic@users.noreply.github.com"
+          chmod +x ./publish.sh
+          ./publish.sh release -v "${{ inputs.version }}" -u true
+        shell: bash
+
+      - name: Prepare Release
+        run: |
+          find artifacts
+          mkdir release
+          cp artifacts/**/*.zip release
+          cd release && find . -name "*.zip" -exec sha256sum {} \; | sed 's;./;;' > checksums.txt && cd - > /dev/null
+          find release
+        shell: bash
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: "v${{ inputs.version }}"
+          files: release/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
