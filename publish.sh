@@ -35,7 +35,7 @@ function main() {
 
 function publish() {
   rm -rf src/bin/ src/obj/
-  dotnet publish src/Comets.Application -c Release -r $ARCH --self-contained -p:AssemblyVersion="$(echo $VERSION | sed 's/-preview//')" -p:Version="$VERSION" -o ./publish/$ARCH
+  dotnet publish src/Comets.Application -c Release -r $ARCH -p:AssemblyVersion="$(echo $VERSION | sed 's/-preview//')" -p:Version="$VERSION" -o ./publish/$ARCH
 
   if [[ ! $? -eq 0 ]]; then exit 1; fi # exit if build failed or canceled
 
