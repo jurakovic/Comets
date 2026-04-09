@@ -47,10 +47,20 @@ void main()
 in float vZ;
 uniform vec4 uColorUpper;
 uniform vec4 uColorLower;
+uniform int uMode; // 0 = orbit line, 1 = body dot
 out vec4 FragColor;
 void main()
 {
-    FragColor = vZ >= 0.0 ? uColorUpper : uColorLower;
+    if (uMode == 1)
+    {
+        vec2 c = gl_PointCoord - vec2(0.5);
+        if (dot(c, c) > 0.25) discard;
+        FragColor = uColorUpper;
+    }
+    else
+    {
+        FragColor = vZ >= 0.0 ? uColorUpper : uColorLower;
+    }
 }";
 
 		private readonly List<Object> DefaultOrbitDisplay = new List<Object>
@@ -134,6 +144,9 @@ void main()
 		private int _uHalfY;
 		private int _uColorUpper;
 		private int _uColorLower;
+		private int _uMode;
+		private int _bodyVao = 0;
+		private int _bodyVbo = 0;
 		private Dictionary<Object, (int vao, int vbo, int count)> _planetOrbitBuffers;
 		private List<(int vao, int vbo, int count)> _cometOrbitBuffers = new List<(int, int, int)>();
 		private bool _vbosNeedUpdate = false;
@@ -369,9 +382,17 @@ void main()
 			if (!_glLoaded)
 				InitGL();
 
+			// Keep MtxRotate/X0/Y0 current for click-detection (SelectComet uses PanelLocation)
+			Matrix mtxRotH = Matrix.RotateZ(RotateHorz * Math.PI / 180.0);
+			Matrix mtxRotV = Matrix.RotateX(RotateVert * Math.PI / 180.0);
+			MtxRotate = mtxRotV.Mul(mtxRotH);
+			X0 = Width / 2;
+			Y0 = Height / 2;
+
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 			RenderScene();
 			SwapBuffers();
+			UpdateCometPanelLocations();
 		}
 
 		protected override void OnResize(EventArgs e)
@@ -578,10 +599,20 @@ void main()
 			_uHalfY  = GL.GetUniformLocation(_shaderProgram, "uHalfY");
 			_uColorUpper = GL.GetUniformLocation(_shaderProgram, "uColorUpper");
 			_uColorLower = GL.GetUniformLocation(_shaderProgram, "uColorLower");
+			_uMode   = GL.GetUniformLocation(_shaderProgram, "uMode");
 
 			_planetOrbitBuffers = new Dictionary<Object, (int, int, int)>();
 			foreach (Object planet in Planets)
 				_planetOrbitBuffers[planet] = (0, 0, 0);
+
+			// Body dot VAO/VBO (positions uploaded per frame)
+			_bodyVao = GL.GenVertexArray();
+			_bodyVbo = GL.GenBuffer();
+			GL.BindVertexArray(_bodyVao);
+			GL.BindBuffer(BufferTarget.ArrayBuffer, _bodyVbo);
+			GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
+			GL.EnableVertexAttribArray(0);
+			GL.BindVertexArray(0);
 
 			_glLoaded = true;
 			_vbosNeedUpdate = true;
@@ -741,8 +772,82 @@ void main()
 				GL.DrawArrays(PrimitiveType.LineStrip, 0, count);
 			}
 
+			RenderBodies();
+
 			GL.BindVertexArray(0);
 			GL.UseProgram(0);
+		}
+
+		private void RenderBodies()
+		{
+			if (!IsPaintEnabled || MtxToEcl == null) return;
+
+			GL.Uniform1(_uMode, 1);
+			GL.BindVertexArray(_bodyVao);
+			GL.BindBuffer(BufferTarget.ArrayBuffer, _bodyVbo);
+
+			float[] pos = new float[3];
+
+			// Sun at origin (same in all coordinate systems)
+			pos[0] = 0f; pos[1] = 0f; pos[2] = 0f;
+			GL.BufferData(BufferTarget.ArrayBuffer, 3 * sizeof(float), pos, BufferUsageHint.StreamDraw);
+			GL.Uniform4(_uColorUpper, ColorSun.R / 255f, ColorSun.G / 255f, ColorSun.B / 255f, 1f);
+			GL.PointSize(6f);
+			GL.DrawArrays(PrimitiveType.Points, 0, 1);
+
+			// Planet bodies — PlanetsPos is ecliptic, no MtxToEcl needed
+			GL.PointSize(5f);
+			GL.Uniform4(_uColorUpper, ColorPlanet.R / 255f, ColorPlanet.G / 255f, ColorPlanet.B / 255f, 1f);
+			foreach (Object planet in Planets)
+			{
+				if (Zoom * GetPlanetAU(planet) < 30.0) continue;
+				if (PlanetsPos[planet] == null) continue;
+
+				Xyz p = PlanetsPos[planet];
+				pos[0] = (float)p.X; pos[1] = (float)p.Y; pos[2] = (float)p.Z;
+				GL.BufferData(BufferTarget.ArrayBuffer, 3 * sizeof(float), pos, BufferUsageHint.StreamDraw);
+				GL.DrawArrays(PrimitiveType.Points, 0, 1);
+			}
+
+			// Comet bodies — CometsPos is equatorial J2000, apply MtxToEcl
+			for (int i = 0; i < Comets.Count && i < CometsPos.Count; i++)
+			{
+				bool visibleComet = Comets[i].IsVisible;
+				bool visibleSelected = PreserveSelectedLabel && i == SelectedIndex;
+				bool isCometMarked = Comets[i].IsMarked;
+
+				GetCometColorAndDiameter(Comets[i], out int diameter, out Color color);
+
+				if (!visibleComet)
+				{
+					color = FilterOnDateWeakColorComet;
+					if (FilterOnDateShowInWeakColor)
+						visibleComet = true;
+				}
+
+				if (!visibleComet && !visibleSelected && !isCometMarked)
+					continue;
+
+				Xyz p = CometsPos[i].Rotate(MtxToEcl);
+				pos[0] = (float)p.X; pos[1] = (float)p.Y; pos[2] = (float)p.Z;
+				GL.BufferData(BufferTarget.ArrayBuffer, 3 * sizeof(float), pos, BufferUsageHint.StreamDraw);
+				GL.Uniform4(_uColorUpper, color.R / 255f, color.G / 255f, color.B / 255f, 1f);
+				GL.PointSize(diameter * 2f);
+				GL.DrawArrays(PrimitiveType.Points, 0, 1);
+			}
+
+			GL.Uniform1(_uMode, 0);
+		}
+
+		private void UpdateCometPanelLocations()
+		{
+			if (!IsPaintEnabled || MtxToEcl == null || MtxRotate == null) return;
+
+			for (int i = 0; i < Comets.Count && i < CometsPos.Count; i++)
+			{
+				Xyz viewXyz = CometsPos[i].Rotate(MtxToEcl).Rotate(MtxRotate);
+				Comets[i].PanelLocation = GetDrawPoint(viewXyz);
+			}
 		}
 
 		private static double GetPlanetAU(Object planet)
