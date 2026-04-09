@@ -377,7 +377,8 @@ void main()
 
 		protected override void OnPaint(PaintEventArgs e)
 		{
-			MakeCurrent();
+			try { MakeCurrent(); }
+			catch { return; }
 
 			if (!_glLoaded)
 				InitGL();
@@ -782,15 +783,15 @@ void main()
 		{
 			if (!IsPaintEnabled || MtxToEcl == null) return;
 
-			GL.Uniform1(_uMode, 1);
 			GL.BindVertexArray(_bodyVao);
 			GL.BindBuffer(BufferTarget.ArrayBuffer, _bodyVbo);
 
-			float[] pos = new float[3];
+			float[] buf = new float[24]; // enough for 8 × vec3
 
-			// Sun at origin (same in all coordinate systems)
-			pos[0] = 0f; pos[1] = 0f; pos[2] = 0f;
-			GL.BufferData(BufferTarget.ArrayBuffer, 3 * sizeof(float), pos, BufferUsageHint.StreamDraw);
+			// Sun at origin
+			GL.Uniform1(_uMode, 1);
+			buf[0] = 0f; buf[1] = 0f; buf[2] = 0f;
+			GL.BufferData(BufferTarget.ArrayBuffer, 3 * sizeof(float), buf, BufferUsageHint.StreamDraw);
 			GL.Uniform4(_uColorUpper, ColorSun.R / 255f, ColorSun.G / 255f, ColorSun.B / 255f, 1f);
 			GL.PointSize(6f);
 			GL.DrawArrays(PrimitiveType.Points, 0, 1);
@@ -804,8 +805,8 @@ void main()
 				if (PlanetsPos[planet] == null) continue;
 
 				Xyz p = PlanetsPos[planet];
-				pos[0] = (float)p.X; pos[1] = (float)p.Y; pos[2] = (float)p.Z;
-				GL.BufferData(BufferTarget.ArrayBuffer, 3 * sizeof(float), pos, BufferUsageHint.StreamDraw);
+				buf[0] = (float)p.X; buf[1] = (float)p.Y; buf[2] = (float)p.Z;
+				GL.BufferData(BufferTarget.ArrayBuffer, 3 * sizeof(float), buf, BufferUsageHint.StreamDraw);
 				GL.DrawArrays(PrimitiveType.Points, 0, 1);
 			}
 
@@ -814,6 +815,7 @@ void main()
 			{
 				bool visibleComet = Comets[i].IsVisible;
 				bool visibleSelected = PreserveSelectedLabel && i == SelectedIndex;
+				bool visibleMarker = ShowMarker && i == SelectedIndex;
 				bool isCometMarked = Comets[i].IsMarked;
 
 				GetCometColorAndDiameter(Comets[i], out int diameter, out Color color);
@@ -825,18 +827,70 @@ void main()
 						visibleComet = true;
 				}
 
-				if (!visibleComet && !visibleSelected && !isCometMarked)
-					continue;
-
 				Xyz p = CometsPos[i].Rotate(MtxToEcl);
-				pos[0] = (float)p.X; pos[1] = (float)p.Y; pos[2] = (float)p.Z;
-				GL.BufferData(BufferTarget.ArrayBuffer, 3 * sizeof(float), pos, BufferUsageHint.StreamDraw);
-				GL.Uniform4(_uColorUpper, color.R / 255f, color.G / 255f, color.B / 255f, 1f);
-				GL.PointSize(diameter * 2f);
-				GL.DrawArrays(PrimitiveType.Points, 0, 1);
+
+				if (visibleComet || visibleSelected || isCometMarked)
+				{
+					GL.Uniform1(_uMode, 1);
+					buf[0] = (float)p.X; buf[1] = (float)p.Y; buf[2] = (float)p.Z;
+					GL.BufferData(BufferTarget.ArrayBuffer, 3 * sizeof(float), buf, BufferUsageHint.StreamDraw);
+					GL.Uniform4(_uColorUpper, color.R / 255f, color.G / 255f, color.B / 255f, 1f);
+					GL.PointSize(diameter * 2f);
+					GL.DrawArrays(PrimitiveType.Points, 0, 1);
+				}
+
+				if (visibleMarker || isCometMarked)
+				{
+					// Build crosshair in view space, then inverse-rotate back to ecliptic.
+					// This avoids any NDC/pixel conversion and stays consistent with the shader math.
+					Xyz vw = p.Rotate(MtxRotate);
+					double wFactor = 1.0 + vw.Z / 625.0;
+					double scale   = 1500.0 * wFactor / (Zoom * 682.0); // 1 screen pixel → this many AU in view space
+					double off = (diameter + 4) * scale;
+					double len = (diameter + 8) * scale;
+
+					// 8 endpoints: pairs forming 4 arms (up, down, left, right)
+					Xyz[] arms = {
+						InvRotateMtx(MtxRotate, new Xyz(vw.X,       vw.Y + off, vw.Z)),
+						InvRotateMtx(MtxRotate, new Xyz(vw.X,       vw.Y + len, vw.Z)),
+						InvRotateMtx(MtxRotate, new Xyz(vw.X,       vw.Y - off, vw.Z)),
+						InvRotateMtx(MtxRotate, new Xyz(vw.X,       vw.Y - len, vw.Z)),
+						InvRotateMtx(MtxRotate, new Xyz(vw.X - off, vw.Y,       vw.Z)),
+						InvRotateMtx(MtxRotate, new Xyz(vw.X - len, vw.Y,       vw.Z)),
+						InvRotateMtx(MtxRotate, new Xyz(vw.X + off, vw.Y,       vw.Z)),
+						InvRotateMtx(MtxRotate, new Xyz(vw.X + len, vw.Y,       vw.Z)),
+					};
+					for (int k = 0; k < 8; k++)
+					{
+						buf[k * 3]     = (float)arms[k].X;
+						buf[k * 3 + 1] = (float)arms[k].Y;
+						buf[k * 3 + 2] = (float)arms[k].Z;
+					}
+
+					Color cmarker = isCometMarked ? ColorMarkedCometMarker : ColorSelectedCometMarker;
+					GL.Uniform1(_uMode, 0);
+					GL.BufferData(BufferTarget.ArrayBuffer, 24 * sizeof(float), buf, BufferUsageHint.StreamDraw);
+					GL.Uniform4(_uColorUpper, cmarker.R / 255f, cmarker.G / 255f, cmarker.B / 255f, 1f);
+					GL.Uniform4(_uColorLower, cmarker.R / 255f, cmarker.G / 255f, cmarker.B / 255f, 1f);
+					GL.LineWidth(2f);
+					GL.DrawArrays(PrimitiveType.Lines, 0, 8);
+				}
 			}
 
 			GL.Uniform1(_uMode, 0);
+		}
+
+		/// <summary>
+		/// Apply the transpose (= inverse) of a rotation matrix to a vector.
+		/// Since MtxRotate is orthogonal, this undoes the rotation.
+		/// </summary>
+		private static Xyz InvRotateMtx(Matrix mtx, Xyz v)
+		{
+			return new Xyz(
+				mtx.A11 * v.X + mtx.A21 * v.Y + mtx.A31 * v.Z,
+				mtx.A12 * v.X + mtx.A22 * v.Y + mtx.A32 * v.Z,
+				mtx.A13 * v.X + mtx.A23 * v.Y + mtx.A33 * v.Z
+			);
 		}
 
 		private void UpdateCometPanelLocations()
