@@ -703,8 +703,10 @@ void main()
 
 			// Build view rotation: matches original MtxRotate = RotateX(RotateVert) * RotateZ(RotateHorz)
 			// OpenTK row-major convention: GLSL sees (rotH*rotV)^T = rotV^T * rotH^T = MtxRotate
-			Matrix4 rotH = Matrix4.CreateRotationZ((float)(RotateHorz * Math.PI / 180.0));
-			Matrix4 rotV = Matrix4.CreateRotationX((float)(RotateVert * Math.PI / 180.0));
+			// Negate angles: OpenTK row-major → GLSL column-major transpose flips sin sign,
+			// turning CCW into CW (same as Matrix.RotateZ/X convention used on the CPU side).
+			Matrix4 rotH = Matrix4.CreateRotationZ(-(float)(RotateHorz * Math.PI / 180.0));
+			Matrix4 rotV = Matrix4.CreateRotationX(-(float)(RotateVert * Math.PI / 180.0));
 			Matrix4 rot = rotH * rotV;
 
 			// Scale matching original: mul = Zoom*682 / (1500*(1+Z/625))
@@ -773,10 +775,59 @@ void main()
 				GL.DrawArrays(PrimitiveType.LineStrip, 0, count);
 			}
 
+			if (ShowAxes)
+				RenderAxes();
+
 			RenderBodies();
 
 			GL.BindVertexArray(0);
 			GL.UseProgram(0);
+		}
+
+		private void RenderAxes()
+		{
+			const double SizeAU = 150.0;
+
+			// 3 minus-axis lines: origin→-X, origin→-Y, origin→-Z (6 vertices)
+			// 3 plus-axis lines:  origin→+X, origin→+Y, origin→+Z (6 vertices)
+			float[] minus = new float[6 * 3];
+			float[] plus  = new float[6 * 3];
+
+			(double X, double Y, double Z)[] dirs = {
+				(-SizeAU, 0, 0), (0, -SizeAU, 0), (0, 0, -SizeAU),
+				( SizeAU, 0, 0), (0,  SizeAU, 0), (0, 0,  SizeAU),
+			};
+
+			for (int i = 0; i < 3; i++)
+			{
+				var d = dirs[i];
+				int b = i * 6;
+				// origin
+				minus[b]     = 0f; minus[b + 1] = 0f; minus[b + 2] = 0f;
+				// endpoint
+				minus[b + 3] = (float)d.X; minus[b + 4] = (float)d.Y; minus[b + 5] = (float)d.Z;
+			}
+			for (int i = 0; i < 3; i++)
+			{
+				var d = dirs[i + 3];
+				int b = i * 6;
+				plus[b]     = 0f; plus[b + 1] = 0f; plus[b + 2] = 0f;
+				plus[b + 3] = (float)d.X; plus[b + 4] = (float)d.Y; plus[b + 5] = (float)d.Z;
+			}
+
+			GL.Uniform1(_uMode, 0);
+			GL.BindVertexArray(_bodyVao);
+			GL.BindBuffer(BufferTarget.ArrayBuffer, _bodyVbo);
+
+			GL.BufferData(BufferTarget.ArrayBuffer, minus.Length * sizeof(float), minus, BufferUsageHint.StreamDraw);
+			GL.Uniform4(_uColorUpper, ColorAxisMinus.R / 255f, ColorAxisMinus.G / 255f, ColorAxisMinus.B / 255f, 1f);
+			GL.Uniform4(_uColorLower, ColorAxisMinus.R / 255f, ColorAxisMinus.G / 255f, ColorAxisMinus.B / 255f, 1f);
+			GL.DrawArrays(PrimitiveType.Lines, 0, 6);
+
+			GL.BufferData(BufferTarget.ArrayBuffer, plus.Length * sizeof(float), plus, BufferUsageHint.StreamDraw);
+			GL.Uniform4(_uColorUpper, ColorAxisPlus.R / 255f, ColorAxisPlus.G / 255f, ColorAxisPlus.B / 255f, 1f);
+			GL.Uniform4(_uColorLower, ColorAxisPlus.R / 255f, ColorAxisPlus.G / 255f, ColorAxisPlus.B / 255f, 1f);
+			GL.DrawArrays(PrimitiveType.Lines, 0, 6);
 		}
 
 		private void RenderBodies()
