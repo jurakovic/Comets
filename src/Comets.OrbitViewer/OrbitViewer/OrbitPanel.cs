@@ -33,13 +33,15 @@ layout (location = 0) in vec3 aPos;
 uniform mat4 uRot;
 uniform float uHalfX;
 uniform float uHalfY;
+uniform float uOffsetX;
+uniform float uOffsetY;
 out float vZ;
 void main()
 {
     vZ = aPos.z;
     vec4 v = uRot * vec4(aPos, 1.0);
     float w = 1.0 + v.z / 625.0;
-    gl_Position = vec4(v.x / uHalfX, v.y / uHalfY, 0.0, w);
+    gl_Position = vec4(v.x / uHalfX + uOffsetX * w, v.y / uHalfY + uOffsetY * w, 0.0, w);
 }";
 
 		private const string FragmentShaderSource = @"
@@ -142,6 +144,8 @@ void main()
 		private int _uRot;
 		private int _uHalfX;
 		private int _uHalfY;
+		private int _uOffsetX;
+		private int _uOffsetY;
 		private int _uColorUpper;
 		private int _uColorLower;
 		private int _uMode;
@@ -383,12 +387,41 @@ void main()
 			if (!_glLoaded)
 				InitGL();
 
-			// Keep MtxRotate/X0/Y0 current for click-detection (SelectComet uses PanelLocation)
+			// Compute MtxRotate for CPU-side use (click detection, centering, crosshair)
 			Matrix mtxRotH = Matrix.RotateZ(RotateHorz * Math.PI / 180.0);
 			Matrix mtxRotV = Matrix.RotateX(RotateVert * Math.PI / 180.0);
 			MtxRotate = mtxRotV.Mul(mtxRotH);
+
+			// Centering: compute X0/Y0 so the selected object appears at screen center
 			X0 = Width / 2;
 			Y0 = Height / 2;
+
+			if (CenteredObject != Object.Comet)
+				CenteredIndex = -1;
+
+			if (IsPaintEnabled && MtxToEcl != null)
+			{
+				if (CenteredObject == Object.Comet)
+				{
+					if (CenteredIndex == -1)
+						CenteredIndex = SelectedIndex;
+
+					if (CenteredIndex >= 0 && CenteredIndex < CometsPos.Count)
+					{
+						Xyz xyz = CometsPos[CenteredIndex].Rotate(MtxToEcl).Rotate(MtxRotate);
+						Point p = GetDrawPoint(xyz);
+						X0 = Width - p.X;
+						Y0 = Height - p.Y;
+					}
+				}
+				else if (Planets.Contains(CenteredObject) && PlanetsPos[CenteredObject] != null)
+				{
+					Xyz xyz = PlanetsPos[CenteredObject].Rotate(MtxRotate);
+					Point p = GetDrawPoint(xyz);
+					X0 = Width - p.X;
+					Y0 = Height - p.Y;
+				}
+			}
 
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 			RenderScene();
@@ -598,6 +631,8 @@ void main()
 			_uRot    = GL.GetUniformLocation(_shaderProgram, "uRot");
 			_uHalfX  = GL.GetUniformLocation(_shaderProgram, "uHalfX");
 			_uHalfY  = GL.GetUniformLocation(_shaderProgram, "uHalfY");
+			_uOffsetX = GL.GetUniformLocation(_shaderProgram, "uOffsetX");
+			_uOffsetY = GL.GetUniformLocation(_shaderProgram, "uOffsetY");
 			_uColorUpper = GL.GetUniformLocation(_shaderProgram, "uColorUpper");
 			_uColorLower = GL.GetUniformLocation(_shaderProgram, "uColorLower");
 			_uMode   = GL.GetUniformLocation(_shaderProgram, "uMode");
@@ -714,10 +749,17 @@ void main()
 			float halfX = (float)(Width  * 750.0 / (Zoom * 682.0));
 			float halfY = (float)(Height * 750.0 / (Zoom * 682.0));
 
+			// Centering offset: shift scene so X0/Y0 lands at screen centre
+			// After perspective divide, adding dx to x_ndc shifts the whole scene by dx pixels * Width/2
+			float ndcOffsetX = (float)(2.0 * X0 / Width  - 1.0);
+			float ndcOffsetY = (float)(1.0 - 2.0 * Y0 / Height);
+
 			GL.UseProgram(_shaderProgram);
 			GL.UniformMatrix4(_uRot, false, ref rot);
 			GL.Uniform1(_uHalfX, halfX);
 			GL.Uniform1(_uHalfY, halfY);
+			GL.Uniform1(_uOffsetX, ndcOffsetX);
+			GL.Uniform1(_uOffsetY, ndcOffsetY);
 
 			// Planet orbits
 			foreach (Object planet in Planets)
