@@ -293,7 +293,7 @@ void main()
 
 		private bool _glLoaded = false;
 
-		public OrbitPanel()
+		public OrbitPanel() : base(new GLControlSettings { NumberOfSamples = 8 })
 		{
 			PlanetsPos = InitializeDictionary<Xyz>();
 			PlanetsOrbit = InitializeDictionary<PlanetOrbit>();
@@ -611,6 +611,9 @@ void main()
 		{
 			GL.ClearColor(0f, 0f, 0f, 1f);
 			GL.Disable(EnableCap.DepthTest);
+			GL.Enable(EnableCap.Multisample);
+			GL.Enable(EnableCap.Blend);
+			GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
 			GL.Viewport(0, 0, Width, Height);
 
 			int vs = GL.CreateShader(ShaderType.VertexShader);
@@ -649,6 +652,12 @@ void main()
 			GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
 			GL.EnableVertexAttribArray(0);
 			GL.BindVertexArray(0);
+
+			if (Antialiasing)
+			{
+				GL.Enable(EnableCap.LineSmooth);
+				GL.Hint(HintTarget.LineSmoothHint, HintMode.Nicest);
+			}
 
 			_glLoaded = true;
 			_vbosNeedUpdate = true;
@@ -754,12 +763,25 @@ void main()
 			float ndcOffsetX = (float)(2.0 * X0 / Width  - 1.0);
 			float ndcOffsetY = (float)(1.0 - 2.0 * Y0 / Height);
 
+			if (Antialiasing)
+			{
+				GL.Enable(EnableCap.Multisample);
+				GL.Enable(EnableCap.LineSmooth);
+				GL.Hint(HintTarget.LineSmoothHint, HintMode.Nicest);
+			}
+			else
+			{
+				GL.Disable(EnableCap.Multisample);
+				GL.Disable(EnableCap.LineSmooth);
+			}
+
 			GL.UseProgram(_shaderProgram);
 			GL.UniformMatrix4(_uRot, false, ref rot);
 			GL.Uniform1(_uHalfX, halfX);
 			GL.Uniform1(_uHalfY, halfY);
 			GL.Uniform1(_uOffsetX, ndcOffsetX);
 			GL.Uniform1(_uOffsetY, ndcOffsetY);
+			GL.LineWidth(1f);
 
 			// Planet orbits
 			foreach (Object planet in Planets)
