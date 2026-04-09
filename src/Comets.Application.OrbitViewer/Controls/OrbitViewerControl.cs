@@ -835,7 +835,7 @@ namespace Comets.Application.OrbitViewer
 
 				double koef = 0.3;
 
-				double newHv = xRatio * deltaX * koef;
+				double newHv = xRatio * -deltaX * koef;
 				double newVv = yRatio * deltaY * koef;
 
 				if (newHv > 0 && newHv < 1) newHv = 1;

@@ -3,6 +3,7 @@ using Comets.Core.Managers;
 using OpenTK;
 using OpenTK.WinForms;
 using OpenTK.Graphics.OpenGL4;
+using OpenTK.Mathematics;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -25,6 +26,32 @@ namespace Comets.OrbitViewer
 		private const bool DefaultShowDate = true;
 		private const bool DefaultFilterOnDateShowInWeakColor = true;
 		private const Object DefaultCenterObject = Object.Sun;
+
+		private const string VertexShaderSource = @"
+#version 330 core
+layout (location = 0) in vec3 aPos;
+uniform mat4 uRot;
+uniform float uHalfX;
+uniform float uHalfY;
+out float vZ;
+void main()
+{
+    vZ = aPos.z;
+    vec4 v = uRot * vec4(aPos, 1.0);
+    float w = 1.0 + v.z / 625.0;
+    gl_Position = vec4(v.x / uHalfX, v.y / uHalfY, 0.0, w);
+}";
+
+		private const string FragmentShaderSource = @"
+#version 330 core
+in float vZ;
+uniform vec4 uColorUpper;
+uniform vec4 uColorLower;
+out vec4 FragColor;
+void main()
+{
+    FragColor = vZ >= 0.0 ? uColorUpper : uColorLower;
+}";
 
 		private readonly List<Object> DefaultOrbitDisplay = new List<Object>
 		{
@@ -99,6 +126,17 @@ namespace Comets.OrbitViewer
 		private Matrix MtxRotate;
 		private int X0;
 		private int Y0;
+
+		// GL rendering
+		private int _shaderProgram = 0;
+		private int _uRot;
+		private int _uHalfX;
+		private int _uHalfY;
+		private int _uColorUpper;
+		private int _uColorLower;
+		private Dictionary<Object, (int vao, int vbo, int count)> _planetOrbitBuffers;
+		private List<(int vao, int vbo, int count)> _cometOrbitBuffers = new List<(int, int, int)>();
+		private bool _vbosNeedUpdate = false;
 
 		#endregion
 
@@ -329,14 +367,10 @@ namespace Comets.OrbitViewer
 			MakeCurrent();
 
 			if (!_glLoaded)
-			{
-				GL.ClearColor(0f, 0f, 0f, 1f);
-				GL.Enable(EnableCap.DepthTest);
-				GL.Viewport(0, 0, Width, Height);
-				_glLoaded = true;
-			}
+				InitGL();
 
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+			RenderScene();
 			SwapBuffers();
 		}
 
@@ -516,6 +550,219 @@ namespace Comets.OrbitViewer
 
 		#endregion
 
+		#region GL
+
+		private void InitGL()
+		{
+			GL.ClearColor(0f, 0f, 0f, 1f);
+			GL.Disable(EnableCap.DepthTest);
+			GL.Viewport(0, 0, Width, Height);
+
+			int vs = GL.CreateShader(ShaderType.VertexShader);
+			GL.ShaderSource(vs, VertexShaderSource);
+			GL.CompileShader(vs);
+
+			int fs = GL.CreateShader(ShaderType.FragmentShader);
+			GL.ShaderSource(fs, FragmentShaderSource);
+			GL.CompileShader(fs);
+
+			_shaderProgram = GL.CreateProgram();
+			GL.AttachShader(_shaderProgram, vs);
+			GL.AttachShader(_shaderProgram, fs);
+			GL.LinkProgram(_shaderProgram);
+			GL.DeleteShader(vs);
+			GL.DeleteShader(fs);
+
+			_uRot    = GL.GetUniformLocation(_shaderProgram, "uRot");
+			_uHalfX  = GL.GetUniformLocation(_shaderProgram, "uHalfX");
+			_uHalfY  = GL.GetUniformLocation(_shaderProgram, "uHalfY");
+			_uColorUpper = GL.GetUniformLocation(_shaderProgram, "uColorUpper");
+			_uColorLower = GL.GetUniformLocation(_shaderProgram, "uColorLower");
+
+			_planetOrbitBuffers = new Dictionary<Object, (int, int, int)>();
+			foreach (Object planet in Planets)
+				_planetOrbitBuffers[planet] = (0, 0, 0);
+
+			_glLoaded = true;
+			_vbosNeedUpdate = true;
+		}
+
+		private void UploadOrbitsToGpu()
+		{
+			if (MtxToEcl == null || !IsPaintEnabled)
+			{
+				_vbosNeedUpdate = false;
+				return;
+			}
+
+			foreach (Object planet in Planets)
+			{
+				if (PlanetsOrbit[planet] == null)
+					continue;
+
+				PlanetOrbit orbit = PlanetsOrbit[planet];
+				int n = PlanetOrbit.OrbitDivisionCount + 1;
+				float[] verts = new float[n * 3];
+
+				for (int i = 0; i <= PlanetOrbit.OrbitDivisionCount; i++)
+				{
+					Xyz p = orbit.GetAt(i).Rotate(MtxToEcl);
+					verts[i * 3]     = (float)p.X;
+					verts[i * 3 + 1] = (float)p.Y;
+					verts[i * 3 + 2] = (float)p.Z;
+				}
+
+				var (vao, vbo, _) = _planetOrbitBuffers[planet];
+				if (vao == 0) { vao = GL.GenVertexArray(); vbo = GL.GenBuffer(); }
+
+				GL.BindVertexArray(vao);
+				GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
+				GL.BufferData(BufferTarget.ArrayBuffer, verts.Length * sizeof(float), verts, BufferUsageHint.DynamicDraw);
+				GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
+				GL.EnableVertexAttribArray(0);
+				GL.BindVertexArray(0);
+
+				_planetOrbitBuffers[planet] = (vao, vbo, n);
+			}
+
+			foreach (var (vao, vbo, _) in _cometOrbitBuffers)
+			{
+				if (vao != 0) GL.DeleteVertexArray(vao);
+				if (vbo != 0) GL.DeleteBuffer(vbo);
+			}
+			_cometOrbitBuffers.Clear();
+
+			for (int i = 0; i < CometOrbits.Count; i++)
+			{
+				int n = CometOrbit.OrbitDivisionCount + 1;
+				float[] verts = new float[n * 3];
+
+				for (int j = 0; j <= CometOrbit.OrbitDivisionCount; j++)
+				{
+					Xyz p = CometOrbits[i].GetAt(j).Rotate(MtxToEcl);
+					verts[j * 3]     = (float)p.X;
+					verts[j * 3 + 1] = (float)p.Y;
+					verts[j * 3 + 2] = (float)p.Z;
+				}
+
+				int vao = GL.GenVertexArray();
+				int vbo = GL.GenBuffer();
+
+				GL.BindVertexArray(vao);
+				GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
+				GL.BufferData(BufferTarget.ArrayBuffer, verts.Length * sizeof(float), verts, BufferUsageHint.DynamicDraw);
+				GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
+				GL.EnableVertexAttribArray(0);
+				GL.BindVertexArray(0);
+
+				_cometOrbitBuffers.Add((vao, vbo, n));
+			}
+
+			_vbosNeedUpdate = false;
+		}
+
+		private void RenderScene()
+		{
+			if (!IsPaintEnabled || _shaderProgram == 0)
+				return;
+
+			if (_vbosNeedUpdate)
+				UploadOrbitsToGpu();
+
+			// Build view rotation: matches original MtxRotate = RotateX(RotateVert) * RotateZ(RotateHorz)
+			// OpenTK row-major convention: GLSL sees (rotH*rotV)^T = rotV^T * rotH^T = MtxRotate
+			Matrix4 rotH = Matrix4.CreateRotationZ((float)(RotateHorz * Math.PI / 180.0));
+			Matrix4 rotV = Matrix4.CreateRotationX((float)(RotateVert * Math.PI / 180.0));
+			Matrix4 rot = rotH * rotV;
+
+			// Scale matching original: mul = Zoom*682 / (1500*(1+Z/625))
+			// Shader applies weak perspective via gl_Position.w = 1 + Z_view/625
+			float halfX = (float)(Width  * 750.0 / (Zoom * 682.0));
+			float halfY = (float)(Height * 750.0 / (Zoom * 682.0));
+
+			GL.UseProgram(_shaderProgram);
+			GL.UniformMatrix4(_uRot, false, ref rot);
+			GL.Uniform1(_uHalfX, halfX);
+			GL.Uniform1(_uHalfY, halfY);
+
+			// Planet orbits
+			foreach (Object planet in Planets)
+			{
+				if (!OrbitDisplay.Contains(planet) || !_planetOrbitBuffers.ContainsKey(planet))
+					continue;
+
+				if (Zoom * GetPlanetAU(planet) < 30.0)
+					continue;
+
+				var (vao, _, count) = _planetOrbitBuffers[planet];
+				if (vao == 0 || count == 0) continue;
+
+				// Earth orbit has no upper/lower colour split in the original
+				Color upper = ColorPlanetOrbitUpper;
+				Color lower = planet == Object.Earth ? ColorPlanetOrbitUpper : ColorPlanetOrbitLower;
+
+				GL.Uniform4(_uColorUpper, upper.R / 255f, upper.G / 255f, upper.B / 255f, 1f);
+				GL.Uniform4(_uColorLower, lower.R / 255f, lower.G / 255f, lower.B / 255f, 1f);
+
+				GL.BindVertexArray(vao);
+				GL.DrawArrays(PrimitiveType.LineStrip, 0, count);
+			}
+
+			// Comet orbits
+			int markedCount = MarkedComets.Count();
+
+			for (int i = 0; i < Comets.Count && i < _cometOrbitBuffers.Count; i++)
+			{
+				bool visibleSelected = PreserveSelectedOrbit && i == SelectedIndex;
+				bool isCometMarked = Comets[i].IsMarked;
+
+				if (!visibleSelected && !isCometMarked) continue;
+
+				bool visibleComet = Comets[i].IsVisible;
+				bool useWeakColor = !visibleComet && FilterOnDateShowInWeakColor && !visibleSelected && !isCometMarked;
+				bool useSelectedColor = visibleSelected && MultipleMode &&
+					((markedCount > 0 && !isCometMarked) || (markedCount > 1 && isCometMarked));
+
+				var (vao, _, count) = _cometOrbitBuffers[i];
+				if (vao == 0 || count == 0) continue;
+
+				Color upper, lower;
+				if (useWeakColor)
+					upper = lower = FilterOnDateWeakColorOrbit;
+				else if (useSelectedColor)
+					{ upper = ColorSelectedCometOrbitUpper; lower = ColorSelectedCometOrbitLower; }
+				else
+					{ upper = ColorCometOrbitUpper; lower = ColorCometOrbitLower; }
+
+				GL.Uniform4(_uColorUpper, upper.R / 255f, upper.G / 255f, upper.B / 255f, 1f);
+				GL.Uniform4(_uColorLower, lower.R / 255f, lower.G / 255f, lower.B / 255f, 1f);
+
+				GL.BindVertexArray(vao);
+				GL.DrawArrays(PrimitiveType.LineStrip, 0, count);
+			}
+
+			GL.BindVertexArray(0);
+			GL.UseProgram(0);
+		}
+
+		private static double GetPlanetAU(Object planet)
+		{
+			switch (planet)
+			{
+				case Object.Mercury: return 0.387;
+				case Object.Venus:   return 0.723;
+				case Object.Earth:   return 1.0;
+				case Object.Mars:    return 1.524;
+				case Object.Jupiter: return 5.2;
+				case Object.Saturn:  return 9.58;
+				case Object.Uranus:  return 19.2;
+				case Object.Neptune: return 30.1;
+				default:             return 1.0;
+			}
+		}
+
+		#endregion
+
 		#region + Methods
 
 		#region InitializeDictionary
@@ -561,6 +808,7 @@ namespace Comets.OrbitViewer
 		{
 			Planets.ForEach(p => PlanetsOrbit[p] = new PlanetOrbit(p, atime));
 			EpochPlanetOrbit = atime.JD;
+			_vbosNeedUpdate = true;
 		}
 
 		#endregion
@@ -573,6 +821,7 @@ namespace Comets.OrbitViewer
 			Matrix mtxEqt2Ecl = Matrix.RotateX(ATime.GetEp(atime.JD));
 			MtxToEcl = mtxEqt2Ecl.Mul(mtxPrec);
 			EpochToEcl = atime.JD;
+			_vbosNeedUpdate = true;
 		}
 
 		#endregion
@@ -873,6 +1122,8 @@ namespace Comets.OrbitViewer
 				UpdatePlanetOrbit(ATime);
 				UpdateRotationMatrix(ATime);
 			}
+
+			_vbosNeedUpdate = true;
 		}
 
 		#endregion
