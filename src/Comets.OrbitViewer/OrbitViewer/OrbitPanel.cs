@@ -1,5 +1,8 @@
 ﻿using Comets.Core;
 using Comets.Core.Managers;
+using OpenTK;
+using OpenTK.WinForms;
+using OpenTK.Graphics.OpenGL4;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,7 +13,7 @@ using System.Windows.Forms;
 
 namespace Comets.OrbitViewer
 {
-	public class OrbitPanel : Panel
+	public class OrbitPanel : GLControl
 	{
 		#region Const
 
@@ -233,10 +236,10 @@ namespace Comets.OrbitViewer
 
 		#region Consctructor
 
+		private bool _glLoaded = false;
+
 		public OrbitPanel()
 		{
-			this.DoubleBuffered = true;
-
 			PlanetsPos = InitializeDictionary<Xyz>();
 			PlanetsOrbit = InitializeDictionary<PlanetOrbit>();
 
@@ -319,16 +322,31 @@ namespace Comets.OrbitViewer
 
 		#endregion
 
-		#region OnPaint
+		#region OnPaint / OnResize
 
 		protected override void OnPaint(PaintEventArgs e)
 		{
-			if (IsPaintEnabled)
-			{
-				if (Image == null)
-					Image = new Bitmap(Size.Width, Size.Height);
+			MakeCurrent();
 
-				Update(e.Graphics);
+			if (!_glLoaded)
+			{
+				GL.ClearColor(0f, 0f, 0f, 1f);
+				GL.Enable(EnableCap.DepthTest);
+				GL.Viewport(0, 0, Width, Height);
+				_glLoaded = true;
+			}
+
+			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+			SwapBuffers();
+		}
+
+		protected override void OnResize(EventArgs e)
+		{
+			base.OnResize(e);
+			if (_glLoaded)
+			{
+				MakeCurrent();
+				GL.Viewport(0, 0, Width, Height);
 			}
 		}
 
