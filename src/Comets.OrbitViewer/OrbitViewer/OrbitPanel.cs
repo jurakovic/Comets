@@ -1,6 +1,5 @@
 ﻿using Comets.Core;
 using Comets.Core.Managers;
-using OpenTK;
 using OpenTK.WinForms;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
@@ -158,6 +157,7 @@ void main() {
 		private int Y0;
 
 		// GL rendering
+		private bool _glLoaded = false;
 		private int _shaderProgram = 0;
 		private int _uRot;
 		private int _uHalfX;
@@ -311,8 +311,6 @@ void main() {
 
 		#region Consctructor
 
-		private bool _glLoaded = false;
-
 		public OrbitPanel() : base(new GLControlSettings { NumberOfSamples = 8 })
 		{
 			PlanetsPos = InitializeDictionary<Xyz>();
@@ -460,7 +458,7 @@ void main() {
 
 		#endregion
 
-		#region GL
+		#region RenderScene
 
 		private void InitGL()
 		{
@@ -752,6 +750,100 @@ void main() {
 			GL.UseProgram(0);
 		}
 
+		#endregion
+
+		#region + Methods
+
+		#region InitializeDictionary
+
+		private Dictionary<Object, T> InitializeDictionary<T>() where T : class
+		{
+			Dictionary<Object, T> retval = new Dictionary<Object, T>();
+			Planets.ForEach(planet => retval.Add(planet, null));
+			return retval;
+		}
+
+		#endregion
+
+		#region UpdatePositions
+
+		private void UpdatePositions(ATime atime)
+		{
+			if (IsPaintEnabled)
+			{
+				CometsPos.Clear();
+
+				Comets.ForEach(c => CometsPos.Add(c.GetPos(atime.JD)));
+				Planets.ForEach(p => PlanetsPos[p] = Planet.GetPos(p, atime));
+
+				UpdateCometVisibility();
+			}
+		}
+
+		#endregion
+
+		#region UpdateCometVisibility
+
+		public void UpdateCometVisibility()
+		{
+			Comets.ForEach(c => c.IsVisible = GetCometVisibility(c, FilterOnDateSunDist, FilterOnDateEarthDist, FilterOnDateMagnitude));
+		}
+
+		#endregion
+
+		#region UpdateCometPanelLocations
+
+		private void UpdateCometPanelLocations()
+		{
+			if (!IsPaintEnabled || MtxToEcl == null || MtxRotate == null) return;
+
+			for (int i = 0; i < Comets.Count && i < CometsPos.Count; i++)
+			{
+				Xyz viewXyz = CometsPos[i].Rotate(MtxToEcl).Rotate(MtxRotate);
+				Comets[i].PanelLocation = GetDrawPoint(viewXyz);
+			}
+		}
+
+		#endregion
+
+		#region UpdatePlanetOrbit
+
+		private void UpdatePlanetOrbit(ATime atime)
+		{
+			Planets.ForEach(p => PlanetsOrbit[p] = new PlanetOrbit(p, atime));
+			EpochPlanetOrbit = atime.JD;
+			_vbosNeedUpdate = true;
+		}
+
+		#endregion
+
+		#region UpdateRotationMatrix
+
+		private void UpdateRotationMatrix(ATime atime)
+		{
+			Matrix mtxPrec = Matrix.PrecMatrix(Astro.JD2000, atime.JD);
+			Matrix mtxEqt2Ecl = Matrix.RotateX(ATime.GetEp(atime.JD));
+			MtxToEcl = mtxEqt2Ecl.Mul(mtxPrec);
+			EpochToEcl = atime.JD;
+			_vbosNeedUpdate = true;
+		}
+
+		#endregion
+
+		#region GetDrawPoint
+
+		private Point GetDrawPoint(Xyz xyz)
+		{
+			double mul = (Zoom * (double)this.MinimumSize.Width) / (1500.0 * (1.0 + xyz.Z / 625.0));
+			int X = X0 + (int)Math.Round(xyz.X * mul);
+			int Y = Y0 - (int)Math.Round(xyz.Y * mul);
+			return new Point(X, Y);
+		}
+
+		#endregion
+
+		#region RenderAxes
+
 		private void RenderAxes()
 		{
 			const double SizeAU = 150.0;
@@ -797,6 +889,32 @@ void main() {
 			GL.Uniform4(_uColorLower, ColorAxisPlus.R / 255f, ColorAxisPlus.G / 255f, ColorAxisPlus.B / 255f, 1f);
 			GL.DrawArrays(PrimitiveType.Lines, 0, 6);
 		}
+
+		#endregion
+
+		#region GetPlanetAU
+
+		private static double GetPlanetAU(Object planet)
+		{
+			switch (planet)
+			{
+				case Object.Mercury: return 0.387;
+				case Object.Venus: return 0.723;
+				case Object.Earth: return 1.0;
+				case Object.Mars: return 1.524;
+				case Object.Jupiter: return 5.2;
+				case Object.Saturn: return 9.58;
+				case Object.Uranus: return 19.2;
+				case Object.Neptune: return 30.1;
+				default: return 1.0;
+			}
+		}
+
+		#endregion
+
+		
+
+		#region RenderBodies
 
 		private void RenderBodies()
 		{
@@ -912,32 +1030,9 @@ void main() {
 			);
 		}
 
-		private void UpdateCometPanelLocations()
-		{
-			if (!IsPaintEnabled || MtxToEcl == null || MtxRotate == null) return;
+		#endregion
 
-			for (int i = 0; i < Comets.Count && i < CometsPos.Count; i++)
-			{
-				Xyz viewXyz = CometsPos[i].Rotate(MtxToEcl).Rotate(MtxRotate);
-				Comets[i].PanelLocation = GetDrawPoint(viewXyz);
-			}
-		}
-
-		private static double GetPlanetAU(Object planet)
-		{
-			switch (planet)
-			{
-				case Object.Mercury: return 0.387;
-				case Object.Venus: return 0.723;
-				case Object.Earth: return 1.0;
-				case Object.Mars: return 1.524;
-				case Object.Jupiter: return 5.2;
-				case Object.Saturn: return 9.58;
-				case Object.Uranus: return 19.2;
-				case Object.Neptune: return 30.1;
-				default: return 1.0;
-			}
-		}
+		#region RenderLabels
 
 		private void RenderLabels()
 		{
@@ -1069,81 +1164,6 @@ void main() {
 			GL.DrawArrays(PrimitiveType.Triangles, 0, 6);
 			GL.BindVertexArray(0);
 			GL.UseProgram(0);
-		}
-
-		#endregion
-
-		#region + Methods
-
-		#region InitializeDictionary
-
-		private Dictionary<Object, T> InitializeDictionary<T>() where T : class
-		{
-			Dictionary<Object, T> retval = new Dictionary<Object, T>();
-			Planets.ForEach(planet => retval.Add(planet, null));
-			return retval;
-		}
-
-		#endregion
-
-		#region UpdatePositions
-
-		private void UpdatePositions(ATime atime)
-		{
-			if (IsPaintEnabled)
-			{
-				CometsPos.Clear();
-
-				Comets.ForEach(c => CometsPos.Add(c.GetPos(atime.JD)));
-				Planets.ForEach(p => PlanetsPos[p] = Planet.GetPos(p, atime));
-
-				UpdateCometVisibility();
-			}
-		}
-
-		#endregion
-
-		#region UpdateCometVisibility
-
-		public void UpdateCometVisibility()
-		{
-			Comets.ForEach(c => c.IsVisible = GetCometVisibility(c, FilterOnDateSunDist, FilterOnDateEarthDist, FilterOnDateMagnitude));
-		}
-
-		#endregion
-
-		#region UpdatePlanetOrbit
-
-		private void UpdatePlanetOrbit(ATime atime)
-		{
-			Planets.ForEach(p => PlanetsOrbit[p] = new PlanetOrbit(p, atime));
-			EpochPlanetOrbit = atime.JD;
-			_vbosNeedUpdate = true;
-		}
-
-		#endregion
-
-		#region UpdateRotationMatrix
-
-		private void UpdateRotationMatrix(ATime atime)
-		{
-			Matrix mtxPrec = Matrix.PrecMatrix(Astro.JD2000, atime.JD);
-			Matrix mtxEqt2Ecl = Matrix.RotateX(ATime.GetEp(atime.JD));
-			MtxToEcl = mtxEqt2Ecl.Mul(mtxPrec);
-			EpochToEcl = atime.JD;
-			_vbosNeedUpdate = true;
-		}
-
-		#endregion
-
-		#region GetDrawPoint
-
-		private Point GetDrawPoint(Xyz xyz)
-		{
-			double mul = (Zoom * (double)this.MinimumSize.Width) / (1500.0 * (1.0 + xyz.Z / 625.0));
-			int X = X0 + (int)Math.Round(xyz.X * mul);
-			int Y = Y0 - (int)Math.Round(xyz.Y * mul);
-			return new Point(X, Y);
 		}
 
 		#endregion
