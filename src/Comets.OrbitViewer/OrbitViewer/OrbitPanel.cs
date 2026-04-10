@@ -53,9 +53,10 @@ void main()
 {
     if (uMode == 1)
     {
-        vec2 c = gl_PointCoord - vec2(0.5);
-        if (dot(c, c) > 0.25) discard;
-        FragColor = uColorUpper;
+        float d = length(gl_PointCoord - vec2(0.5));
+        float alpha = 1.0 - smoothstep(0.5 - fwidth(d), 0.5, d);
+        if (alpha == 0.0) discard;
+        FragColor = vec4(uColorUpper.rgb, uColorUpper.a * alpha);
     }
     else
     {
@@ -928,11 +929,11 @@ void main() {
 			buf[0] = 0f; buf[1] = 0f; buf[2] = 0f;
 			GL.BufferData(BufferTarget.ArrayBuffer, 3 * sizeof(float), buf, BufferUsageHint.StreamDraw);
 			GL.Uniform4(_uColorUpper, ColorSun.R / 255f, ColorSun.G / 255f, ColorSun.B / 255f, 1f);
-			GL.PointSize(6f);
+			GL.PointSize(7f);
 			GL.DrawArrays(PrimitiveType.Points, 0, 1);
 
 			// Planet bodies — PlanetsPos is ecliptic, no MtxToEcl needed
-			GL.PointSize(5f);
+			GL.PointSize(6f);
 			GL.Uniform4(_uColorUpper, ColorPlanet.R / 255f, ColorPlanet.G / 255f, ColorPlanet.B / 255f, 1f);
 			foreach (Object planet in Planets)
 			{
@@ -970,7 +971,7 @@ void main() {
 					buf[0] = (float)p.X; buf[1] = (float)p.Y; buf[2] = (float)p.Z;
 					GL.BufferData(BufferTarget.ArrayBuffer, 3 * sizeof(float), buf, BufferUsageHint.StreamDraw);
 					GL.Uniform4(_uColorUpper, color.R / 255f, color.G / 255f, color.B / 255f, 1f);
-					GL.PointSize(diameter * 2f);
+					GL.PointSize(diameter * 2f + 1f);
 					GL.DrawArrays(PrimitiveType.Points, 0, 1);
 				}
 
