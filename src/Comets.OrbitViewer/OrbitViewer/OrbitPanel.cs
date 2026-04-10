@@ -65,6 +65,25 @@ void main()
     }
 }";
 
+		private const string TextVertexShaderSource = @"
+#version 330 core
+layout(location = 0) in vec2 aPos;
+layout(location = 1) in vec2 aUV;
+out vec2 vUV;
+void main() {
+    gl_Position = vec4(aPos, 0.0, 1.0);
+    vUV = aUV;
+}";
+
+		private const string TextFragmentShaderSource = @"
+#version 330 core
+in vec2 vUV;
+uniform sampler2D uTex;
+out vec4 FragColor;
+void main() {
+    FragColor = texture(uTex, vUV);
+}";
+
 		private readonly List<Object> DefaultOrbitDisplay = new List<Object>
 		{
 			Object.Mercury,
@@ -154,6 +173,13 @@ void main()
 		private Dictionary<Object, (int vao, int vbo, int count)> _planetOrbitBuffers;
 		private List<(int vao, int vbo, int count)> _cometOrbitBuffers = new List<(int, int, int)>();
 		private bool _vbosNeedUpdate = false;
+
+		// Text overlay
+		private int _textShaderProgram = 0;
+		private int _uTextSampler;
+		private int _textQuadVao = 0;
+		private int _textQuadVbo = 0;
+		private int _textTex = 0;
 
 		#endregion
 
@@ -659,6 +685,54 @@ void main()
 				GL.Hint(HintTarget.LineSmoothHint, HintMode.Nicest);
 			}
 
+			// Text overlay shader
+			int tvs = GL.CreateShader(ShaderType.VertexShader);
+			GL.ShaderSource(tvs, TextVertexShaderSource);
+			GL.CompileShader(tvs);
+
+			int tfs = GL.CreateShader(ShaderType.FragmentShader);
+			GL.ShaderSource(tfs, TextFragmentShaderSource);
+			GL.CompileShader(tfs);
+
+			_textShaderProgram = GL.CreateProgram();
+			GL.AttachShader(_textShaderProgram, tvs);
+			GL.AttachShader(_textShaderProgram, tfs);
+			GL.LinkProgram(_textShaderProgram);
+			GL.DeleteShader(tvs);
+			GL.DeleteShader(tfs);
+
+			_uTextSampler = GL.GetUniformLocation(_textShaderProgram, "uTex");
+
+			// Fullscreen quad: NDC xy + UV, two triangles
+			// UV y is flipped so bitmap top-left maps to screen top-left
+			float[] quadVerts = {
+				-1f, -1f,  0f, 1f,
+				 1f, -1f,  1f, 1f,
+				 1f,  1f,  1f, 0f,
+				-1f, -1f,  0f, 1f,
+				 1f,  1f,  1f, 0f,
+				-1f,  1f,  0f, 0f,
+			};
+
+			_textQuadVao = GL.GenVertexArray();
+			_textQuadVbo = GL.GenBuffer();
+			GL.BindVertexArray(_textQuadVao);
+			GL.BindBuffer(BufferTarget.ArrayBuffer, _textQuadVbo);
+			GL.BufferData(BufferTarget.ArrayBuffer, quadVerts.Length * sizeof(float), quadVerts, BufferUsageHint.StaticDraw);
+			GL.VertexAttribPointer(0, 2, VertexAttribPointerType.Float, false, 4 * sizeof(float), 0);
+			GL.EnableVertexAttribArray(0);
+			GL.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, 4 * sizeof(float), 2 * sizeof(float));
+			GL.EnableVertexAttribArray(1);
+			GL.BindVertexArray(0);
+
+			_textTex = GL.GenTexture();
+			GL.BindTexture(TextureTarget.Texture2D, _textTex);
+			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.ClampToEdge);
+			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.ClampToEdge);
+			GL.BindTexture(TextureTarget.Texture2D, 0);
+
 			_glLoaded = true;
 			_vbosNeedUpdate = true;
 		}
@@ -843,6 +917,7 @@ void main()
 				RenderAxes();
 
 			RenderBodies();
+			RenderLabels();
 
 			GL.BindVertexArray(0);
 			GL.UseProgram(0);
@@ -1033,6 +1108,138 @@ void main()
 				case Object.Neptune: return 30.1;
 				default:             return 1.0;
 			}
+		}
+
+		private void RenderLabels()
+		{
+			if (!IsPaintEnabled || Width <= 0 || Height <= 0) return;
+
+			using var bmp = new Bitmap(Width, Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+			using (var g = Graphics.FromImage(bmp))
+			{
+				g.Clear(Color.Transparent);
+				g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
+
+				int labelMargin = 8;
+				using var infoBrush = new SolidBrush(ColorInformation);
+
+				// — Information overlay —
+				if (SelectedComet != null)
+				{
+					g.DrawString(SelectedComet.Name, FontInformation, infoBrush, labelMargin, labelMargin);
+
+					if (ShowDistance)
+					{
+						Ephemeris ep = GetEphemeris(SelectedComet);
+						double fs = FontInformation.Size;
+						string mstr = String.Format("Magnitude:      {0,5}", ep.Magnitude.ToString("0.00"));
+						string dstr = String.Format("Earth Distance: {0,9} AU", ep.EarthDist.ToString("0.000000"));
+						string rstr = String.Format("Sun Distance:   {0,9} AU", ep.SunDist.ToString("0.000000"));
+						g.DrawString(mstr, FontInformation, infoBrush, labelMargin, Height - labelMargin - (float)(fs * 5.0));
+						g.DrawString(dstr, FontInformation, infoBrush, labelMargin, Height - labelMargin - (float)(fs * 3.5));
+						g.DrawString(rstr, FontInformation, infoBrush, labelMargin, Height - labelMargin - (float)(fs * 2.0));
+					}
+				}
+
+				if (ShowDate && ATime != null)
+				{
+					string strDate = String.Format("{0:00} {1} {2} {3:00}:{4:00}:{5:00} UT",
+						ATime.Day, ATime.MonthString, ATime.Year, ATime.Hour, ATime.Minute, ATime.Second);
+					float strWidth = g.MeasureString(strDate, FontInformation).Width;
+					double fs = FontInformation.Size;
+					g.DrawString(strDate, FontInformation, infoBrush,
+						Width - strWidth - labelMargin,
+						Height - labelMargin - (float)(fs * 2.0));
+				}
+
+				// — Axis labels —
+				if (ShowAxes && MtxRotate != null)
+				{
+					using var grayBrush = new SolidBrush(Color.Gray);
+					const double sizeAU = 150.0;
+					(Xyz xyz, string label)[] axisLabels = {
+						(new Xyz(-sizeAU, 0, 0), "Autumnal equinox"),
+						(new Xyz(0, -sizeAU, 0), "Winter solstice"),
+						(new Xyz(0, 0, -sizeAU), "South ecliptic pole"),
+						(new Xyz( sizeAU, 0, 0), "Vernal equinox"),
+						(new Xyz(0,  sizeAU, 0), "Summer solstice"),
+						(new Xyz(0, 0,  sizeAU), "North ecliptic pole"),
+					};
+					foreach (var (xyz, label) in axisLabels)
+					{
+						Point pt = GetDrawPoint(xyz.Rotate(MtxRotate));
+						g.DrawString(label, FontAxisLabel, grayBrush, pt.X, pt.Y);
+					}
+				}
+
+				// — Planet name labels —
+				if (MtxRotate != null)
+				{
+					using var planetBrush = new SolidBrush(ColorPlanetName);
+					foreach (Object planet in Planets)
+					{
+						if (Zoom * GetPlanetAU(planet) < 30.0) continue;
+						if (PlanetsPos[planet] == null) continue;
+						if (!LabelDisplay.Contains(planet)) continue;
+
+						Point pt = GetDrawPoint(PlanetsPos[planet].Rotate(MtxRotate));
+						g.DrawString(planet.ToString(), FontPlanetName, planetBrush, pt.X + 5, pt.Y);
+					}
+				}
+
+				// — Comet name labels —
+				if (MtxToEcl != null && MtxRotate != null)
+				{
+					bool visibleLabelAll = LabelDisplay.Contains(Object.Comet);
+					for (int i = 0; i < Comets.Count && i < CometsPos.Count; i++)
+					{
+						bool visibleComet = Comets[i].IsVisible;
+						bool visibleSelected = PreserveSelectedLabel && i == SelectedIndex;
+						bool isCometMarked = Comets[i].IsMarked;
+						bool visibleLabel = visibleLabelAll;
+
+						if (!visibleComet)
+						{
+							if (FilterOnDateShowInWeakColor)
+							{
+								visibleComet = true;
+								if (!visibleSelected)
+									visibleLabel = false;
+							}
+						}
+
+						if (!(visibleComet || visibleSelected || isCometMarked)) continue;
+						if (!(visibleLabel || visibleSelected || isCometMarked)) continue;
+
+						Color nameColor = (MultipleMode && Comets.Count > 1 && visibleLabel && visibleSelected)
+							? ColorCometNameSelected
+							: ColorCometName;
+
+						Point pt = GetDrawPoint(CometsPos[i].Rotate(MtxToEcl).Rotate(MtxRotate));
+						using var nameBrush = new SolidBrush(nameColor);
+						g.DrawString(Comets[i].Name, FontObjectName, nameBrush, pt.X + 5, pt.Y);
+					}
+				}
+			}
+
+			var bmpData = bmp.LockBits(
+				new Rectangle(0, 0, Width, Height),
+				System.Drawing.Imaging.ImageLockMode.ReadOnly,
+				System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+			GL.BindTexture(TextureTarget.Texture2D, _textTex);
+			GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba,
+				Width, Height, 0, OpenTK.Graphics.OpenGL4.PixelFormat.Bgra, PixelType.UnsignedByte, bmpData.Scan0);
+			bmp.UnlockBits(bmpData);
+
+			GL.UseProgram(_textShaderProgram);
+			GL.ActiveTexture(TextureUnit.Texture0);
+			GL.BindTexture(TextureTarget.Texture2D, _textTex);
+			GL.Uniform1(_uTextSampler, 0);
+			GL.BindVertexArray(_textQuadVao);
+			GL.DrawArrays(PrimitiveType.Triangles, 0, 6);
+			GL.BindVertexArray(0);
+			GL.UseProgram(0);
 		}
 
 		#endregion
