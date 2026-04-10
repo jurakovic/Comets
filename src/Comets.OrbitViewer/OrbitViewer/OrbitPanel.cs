@@ -8,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -245,11 +244,6 @@ void main() {
 
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public Image Image { get; set; }
-
-
-		[Browsable(false)]
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public List<Object> OrbitDisplay { get; set; }
 
 		[Browsable(false)]
@@ -339,7 +333,6 @@ void main() {
 			ShowDistance = DefaultShowDistance;
 			ShowDate = DefaultShowDate;
 
-			Image = null;
 			IsPaintEnabled = false;
 		}
 
@@ -467,170 +460,6 @@ void main() {
 
 		#endregion
 
-		#region Update
-
-		public void Update(Graphics g)
-		{
-			Point point;
-			Xyz xyz;
-
-			// Calculate Drawing Parameter
-			Matrix mtxRotH = Matrix.RotateZ(RotateHorz * Math.PI / 180.0);
-			Matrix mtxRotV = Matrix.RotateX(RotateVert * Math.PI / 180.0);
-			MtxRotate = mtxRotV.Mul(mtxRotH);
-
-			X0 = Size.Width / 2;
-			Y0 = Size.Height / 2;
-
-			if (Math.Abs(EpochToEcl - ATime.JD) > 365.2422 * 5)
-				UpdateRotationMatrix(ATime);
-
-			if (CenteredObject != Object.Comet)
-				CenteredIndex = -1;
-
-			if (CenteredObject == Object.Comet)
-			{
-				if (CenteredIndex == -1)
-					CenteredIndex = SelectedIndex;
-
-				if (CenteredIndex >= 0)
-				{
-					xyz = CometsPos[CenteredIndex].Rotate(MtxToEcl).Rotate(MtxRotate);
-					point = GetDrawPoint(xyz);
-
-					X0 = Size.Width - point.X;
-					Y0 = Size.Height - point.Y;
-				}
-			}
-			else if (Planets.Contains(CenteredObject))
-			{
-				xyz = PlanetsPos[CenteredObject].Rotate(MtxRotate);
-				point = GetDrawPoint(xyz);
-
-				X0 = Size.Width - point.X;
-				Y0 = Size.Height - point.Y;
-			}
-
-			using (Graphics graphics = Graphics.FromImage(Image))
-			{
-				// Clear bacground
-				SolidBrush sb = new SolidBrush(Color.Black);
-				graphics.FillRectangle(sb, 0, 0, Size.Width, Size.Height);
-
-				if (ShowAxes)
-					DrawAxes(graphics);
-
-				// Draw Sun
-				sb.Color = ColorSun;
-				int diameter = 3;
-				int radius = diameter * 2;
-				graphics.SmoothingMode = SmoothingMode.AntiAlias;
-				graphics.FillPie(sb, X0 - diameter, Y0 - diameter, radius, radius, 0, 360);
-
-				//  Draw Orbit of Planets
-				if (Math.Abs(EpochPlanetOrbit - ATime.JD) > 365.2422 * 5)
-					UpdatePlanetOrbit(ATime);
-
-				double zoom = 30.0;
-
-				if (Zoom * 30.1 >= zoom)
-				{
-					DrawPlanetOrbit(graphics, PlanetsOrbit[Object.Neptune]);
-					DrawPlanetBody(graphics, FontPlanetName, PlanetsPos[Object.Neptune], Object.Neptune);
-				}
-
-				if (Zoom * 19.2 >= zoom)
-				{
-					DrawPlanetOrbit(graphics, PlanetsOrbit[Object.Uranus]);
-					DrawPlanetBody(graphics, FontPlanetName, PlanetsPos[Object.Uranus], Object.Uranus);
-				}
-
-				if (Zoom * 9.58 >= zoom)
-				{
-					DrawPlanetOrbit(graphics, PlanetsOrbit[Object.Saturn]);
-					DrawPlanetBody(graphics, FontPlanetName, PlanetsPos[Object.Saturn], Object.Saturn);
-				}
-
-				if (Zoom * 5.2 >= zoom)
-				{
-					DrawPlanetOrbit(graphics, PlanetsOrbit[Object.Jupiter]);
-					DrawPlanetBody(graphics, FontPlanetName, PlanetsPos[Object.Jupiter], Object.Jupiter);
-				}
-
-				if (Zoom * 1.524 >= zoom)
-				{
-					DrawPlanetOrbit(graphics, PlanetsOrbit[Object.Mars]);
-					DrawPlanetBody(graphics, FontPlanetName, PlanetsPos[Object.Mars], Object.Mars);
-				}
-
-				if (Zoom * 1.0 >= zoom)
-				{
-					DrawEarthOrbit(graphics, PlanetsOrbit[Object.Earth]);
-					DrawPlanetBody(graphics, FontPlanetName, PlanetsPos[Object.Earth], Object.Earth);
-				}
-
-				if (Zoom * 0.723 >= zoom)
-				{
-					DrawPlanetOrbit(graphics, PlanetsOrbit[Object.Venus]);
-					DrawPlanetBody(graphics, FontPlanetName, PlanetsPos[Object.Venus], Object.Venus);
-				}
-
-				if (Zoom * 0.387 >= zoom)
-				{
-					DrawPlanetOrbit(graphics, PlanetsOrbit[Object.Mercury]);
-					DrawPlanetBody(graphics, FontPlanetName, PlanetsPos[Object.Mercury], Object.Mercury);
-				}
-
-				DrawCometOrbit(graphics);
-				DrawCometBody(graphics);
-
-				// Information
-				sb.Color = ColorInformation;
-
-				// Object Name string
-				int labelMargin = 8;
-				double fontSize = (double)FontInformation.Size;
-
-				Point point1 = new Point(labelMargin, labelMargin);
-
-				if (SelectedComet != null)
-				{
-					graphics.DrawString(SelectedComet.Name, FontInformation, sb, point1.X, point1.Y);
-
-					if (ShowDistance)
-					{
-						Ephemeris ep = GetEphemeris(SelectedComet);
-
-						string mstr = String.Format("Magnitude:      {0,5}", ep.Magnitude.ToString("0.00"));
-						string dstr = String.Format("Earth Distance: {0,9} AU", ep.EarthDist.ToString("0.000000"));
-						string rstr = String.Format("Sun Distance:   {0,9} AU", ep.SunDist.ToString("0.000000"));
-
-						point1.Y = Size.Height - labelMargin - (int)(fontSize * 5.0);
-						graphics.DrawString(mstr, FontInformation, sb, point1.X, point1.Y);
-
-						point1.Y = Size.Height - labelMargin - (int)(fontSize * 3.5);
-						graphics.DrawString(dstr, FontInformation, sb, point1.X, point1.Y);
-
-						point1.Y = Size.Height - labelMargin - (int)(fontSize * 2.0);
-						graphics.DrawString(rstr, FontInformation, sb, point1.X, point1.Y);
-					}
-				}
-
-				if (ShowDate)
-				{
-					// Date string
-					string strDate = String.Format("{0:00} {1} {2} {3:00}:{4:00}:{5:00} UT", ATime.Day, ATime.MonthString, ATime.Year, ATime.Hour, ATime.Minute, ATime.Second);
-					point1.X = Size.Width - (int)graphics.MeasureString(strDate, FontInformation).Width - labelMargin;
-					point1.Y = Size.Height - labelMargin - (int)(fontSize * 2.0);
-					graphics.DrawString(strDate, FontInformation, sb, point1.X, point1.Y);
-				}
-			}
-
-			g.DrawImage(Image, 0, 0);
-		}
-
-		#endregion
-
 		#region GL
 
 		private void InitGL()
@@ -657,14 +486,14 @@ void main() {
 			GL.DeleteShader(vs);
 			GL.DeleteShader(fs);
 
-			_uRot    = GL.GetUniformLocation(_shaderProgram, "uRot");
-			_uHalfX  = GL.GetUniformLocation(_shaderProgram, "uHalfX");
-			_uHalfY  = GL.GetUniformLocation(_shaderProgram, "uHalfY");
+			_uRot = GL.GetUniformLocation(_shaderProgram, "uRot");
+			_uHalfX = GL.GetUniformLocation(_shaderProgram, "uHalfX");
+			_uHalfY = GL.GetUniformLocation(_shaderProgram, "uHalfY");
 			_uOffsetX = GL.GetUniformLocation(_shaderProgram, "uOffsetX");
 			_uOffsetY = GL.GetUniformLocation(_shaderProgram, "uOffsetY");
 			_uColorUpper = GL.GetUniformLocation(_shaderProgram, "uColorUpper");
 			_uColorLower = GL.GetUniformLocation(_shaderProgram, "uColorLower");
-			_uMode   = GL.GetUniformLocation(_shaderProgram, "uMode");
+			_uMode = GL.GetUniformLocation(_shaderProgram, "uMode");
 
 			_planetOrbitBuffers = new Dictionary<Object, (int, int, int)>();
 			foreach (Object planet in Planets)
@@ -757,7 +586,7 @@ void main() {
 				for (int i = 0; i <= PlanetOrbit.OrbitDivisionCount; i++)
 				{
 					Xyz p = orbit.GetAt(i).Rotate(MtxToEcl);
-					verts[i * 3]     = (float)p.X;
+					verts[i * 3] = (float)p.X;
 					verts[i * 3 + 1] = (float)p.Y;
 					verts[i * 3 + 2] = (float)p.Z;
 				}
@@ -790,7 +619,7 @@ void main() {
 				for (int j = 0; j <= CometOrbit.OrbitDivisionCount; j++)
 				{
 					Xyz p = CometOrbits[i].GetAt(j).Rotate(MtxToEcl);
-					verts[j * 3]     = (float)p.X;
+					verts[j * 3] = (float)p.X;
 					verts[j * 3 + 1] = (float)p.Y;
 					verts[j * 3 + 2] = (float)p.Z;
 				}
@@ -829,12 +658,12 @@ void main() {
 
 			// Scale matching original: mul = Zoom*682 / (1500*(1+Z/625))
 			// Shader applies weak perspective via gl_Position.w = 1 + Z_view/625
-			float halfX = (float)(Width  * 750.0 / (Zoom * 682.0));
+			float halfX = (float)(Width * 750.0 / (Zoom * 682.0));
 			float halfY = (float)(Height * 750.0 / (Zoom * 682.0));
 
 			// Centering offset: shift scene so X0/Y0 lands at screen centre
 			// After perspective divide, adding dx to x_ndc shifts the whole scene by dx pixels * Width/2
-			float ndcOffsetX = (float)(2.0 * X0 / Width  - 1.0);
+			float ndcOffsetX = (float)(2.0 * X0 / Width - 1.0);
 			float ndcOffsetY = (float)(1.0 - 2.0 * Y0 / Height);
 
 			if (Antialiasing)
@@ -902,9 +731,9 @@ void main() {
 				if (useWeakColor)
 					upper = lower = FilterOnDateWeakColorOrbit;
 				else if (useSelectedColor)
-					{ upper = ColorSelectedCometOrbitUpper; lower = ColorSelectedCometOrbitLower; }
+				{ upper = ColorSelectedCometOrbitUpper; lower = ColorSelectedCometOrbitLower; }
 				else
-					{ upper = ColorCometOrbitUpper; lower = ColorCometOrbitLower; }
+				{ upper = ColorCometOrbitUpper; lower = ColorCometOrbitLower; }
 
 				GL.Uniform4(_uColorUpper, upper.R / 255f, upper.G / 255f, upper.B / 255f, 1f);
 				GL.Uniform4(_uColorLower, lower.R / 255f, lower.G / 255f, lower.B / 255f, 1f);
@@ -930,7 +759,7 @@ void main() {
 			// 3 minus-axis lines: origin→-X, origin→-Y, origin→-Z (6 vertices)
 			// 3 plus-axis lines:  origin→+X, origin→+Y, origin→+Z (6 vertices)
 			float[] minus = new float[6 * 3];
-			float[] plus  = new float[6 * 3];
+			float[] plus = new float[6 * 3];
 
 			(double X, double Y, double Z)[] dirs = {
 				(-SizeAU, 0, 0), (0, -SizeAU, 0), (0, 0, -SizeAU),
@@ -942,7 +771,7 @@ void main() {
 				var d = dirs[i];
 				int b = i * 6;
 				// origin
-				minus[b]     = 0f; minus[b + 1] = 0f; minus[b + 2] = 0f;
+				minus[b] = 0f; minus[b + 1] = 0f; minus[b + 2] = 0f;
 				// endpoint
 				minus[b + 3] = (float)d.X; minus[b + 4] = (float)d.Y; minus[b + 5] = (float)d.Z;
 			}
@@ -950,7 +779,7 @@ void main() {
 			{
 				var d = dirs[i + 3];
 				int b = i * 6;
-				plus[b]     = 0f; plus[b + 1] = 0f; plus[b + 2] = 0f;
+				plus[b] = 0f; plus[b + 1] = 0f; plus[b + 2] = 0f;
 				plus[b + 3] = (float)d.X; plus[b + 4] = (float)d.Y; plus[b + 5] = (float)d.Z;
 			}
 
@@ -1035,7 +864,7 @@ void main() {
 					// This avoids any NDC/pixel conversion and stays consistent with the shader math.
 					Xyz vw = p.Rotate(MtxRotate);
 					double wFactor = 1.0 + vw.Z / 625.0;
-					double scale   = 1500.0 * wFactor / (Zoom * 682.0); // 1 screen pixel → this many AU in view space
+					double scale = 1500.0 * wFactor / (Zoom * 682.0); // 1 screen pixel → this many AU in view space
 					double off = (diameter + 4) * scale;
 					double len = (diameter + 8) * scale;
 
@@ -1052,7 +881,7 @@ void main() {
 					};
 					for (int k = 0; k < 8; k++)
 					{
-						buf[k * 3]     = (float)arms[k].X;
+						buf[k * 3] = (float)arms[k].X;
 						buf[k * 3 + 1] = (float)arms[k].Y;
 						buf[k * 3 + 2] = (float)arms[k].Z;
 					}
@@ -1099,14 +928,14 @@ void main() {
 			switch (planet)
 			{
 				case Object.Mercury: return 0.387;
-				case Object.Venus:   return 0.723;
-				case Object.Earth:   return 1.0;
-				case Object.Mars:    return 1.524;
+				case Object.Venus: return 0.723;
+				case Object.Earth: return 1.0;
+				case Object.Mars: return 1.524;
 				case Object.Jupiter: return 5.2;
-				case Object.Saturn:  return 9.58;
-				case Object.Uranus:  return 19.2;
+				case Object.Saturn: return 9.58;
+				case Object.Uranus: return 19.2;
 				case Object.Neptune: return 30.1;
-				default:             return 1.0;
+				default: return 1.0;
 			}
 		}
 
@@ -1315,268 +1144,6 @@ void main() {
 			int X = X0 + (int)Math.Round(xyz.X * mul);
 			int Y = Y0 - (int)Math.Round(xyz.Y * mul);
 			return new Point(X, Y);
-		}
-
-		#endregion
-
-		#region DrawAxes
-
-		private void DrawAxes(Graphics graphics)
-		{
-			graphics.SmoothingMode = Antialiasing ? SmoothingMode.AntiAlias : SmoothingMode.None;
-
-			Pen pen = new Pen(ColorAxisMinus);
-			Xyz xyz;
-			Point point;
-			double sizeAU = 150.0;
-
-			// -X
-			xyz = new Xyz(-sizeAU, 0.0, 0.0).Rotate(MtxRotate);
-			point = GetDrawPoint(xyz);
-			graphics.DrawLine(pen, X0, Y0, point.X, point.Y);
-			graphics.DrawString("Autumnal equinox", FontAxisLabel, new SolidBrush(Color.Gray), point);
-
-			// -Y
-			xyz = new Xyz(0.0, -sizeAU, 0.0).Rotate(MtxRotate);
-			point = GetDrawPoint(xyz);
-			graphics.DrawLine(pen, X0, Y0, point.X, point.Y);
-			graphics.DrawString("Winter solstice", FontAxisLabel, new SolidBrush(Color.Gray), point);
-
-			// -Z
-			xyz = new Xyz(0.0, 0.0, -sizeAU).Rotate(MtxRotate);
-			point = GetDrawPoint(xyz);
-			graphics.DrawLine(pen, X0, Y0, point.X, point.Y);
-			graphics.DrawString("South ecliptic pole", FontAxisLabel, new SolidBrush(Color.Gray), point);
-
-			pen.Color = ColorAxisPlus;
-
-			// +X
-			xyz = new Xyz(sizeAU, 0.0, 0.0).Rotate(MtxRotate);
-			point = GetDrawPoint(xyz);
-			graphics.DrawLine(pen, X0, Y0, point.X, point.Y);
-			graphics.DrawString("Vernal equinox", FontAxisLabel, new SolidBrush(Color.Gray), point);
-
-			// +Y
-			xyz = new Xyz(0.0, sizeAU, 0.0).Rotate(MtxRotate);
-			point = GetDrawPoint(xyz);
-			graphics.DrawLine(pen, X0, Y0, point.X, point.Y);
-			graphics.DrawString("Summer solstice", FontAxisLabel, new SolidBrush(Color.Gray), point);
-
-			// +Z
-			xyz = new Xyz(0.0, 0.0, sizeAU).Rotate(MtxRotate);
-			point = GetDrawPoint(xyz);
-			graphics.DrawLine(pen, X0, Y0, point.X, point.Y);
-			graphics.DrawString("North ecliptic pole", FontAxisLabel, new SolidBrush(Color.Gray), point);
-		}
-
-		#endregion
-
-		#region DrawCometOrbit
-
-		private void DrawCometOrbit(Graphics graphics)
-		{
-			graphics.SmoothingMode = Antialiasing ? SmoothingMode.AntiAlias : SmoothingMode.None;
-			int markedCount = MarkedComets.Count();
-
-			for (int i = 0; i < Comets.Count; i++)
-			{
-				bool visibleComet = Comets[i].IsVisible; //GetCometVisibility(Comets[i], FilterOnDateSunDist, FilterOnDateEarthDist, FilterOnDateMagnitude);
-				bool visibleSelected = PreserveSelectedOrbit && i == SelectedIndex;
-				bool visibleOrbit = OrbitDisplay.Contains(Object.Comet);
-				bool isCometMarked = Comets[i].IsMarked;
-
-				bool useWeakColor = false;
-				bool useSelectedColor = visibleSelected && MultipleMode &&
-					((markedCount > 0 && !isCometMarked) || (markedCount > 1 && isCometMarked));
-
-				if (!visibleComet)
-				{
-					useWeakColor = FilterOnDateShowInWeakColor && !visibleSelected && !isCometMarked;
-
-					//if (!FilterOnDateShowInWeakColor)
-					//	visibleOrbit = visibleSelected;
-				}
-
-				if (/*visibleOrbit ||*/ visibleSelected || isCometMarked)
-				{
-					Xyz xyz = CometOrbits[i].GetAt(0).Rotate(MtxToEcl).Rotate(MtxRotate);
-					Pen pen = new Pen(Color.White);
-					Point point1, point2;
-					point1 = GetDrawPoint(xyz);
-
-					for (int j = 1; j <= CometOrbit.OrbitDivisionCount; j++)
-					{
-						xyz = CometOrbits[i].GetAt(j).Rotate(MtxToEcl);
-
-						if (useWeakColor)
-							pen.Color = FilterOnDateWeakColorOrbit;
-						else if (useSelectedColor)
-							pen.Color = xyz.Z >= 0.0 ? ColorSelectedCometOrbitUpper : ColorSelectedCometOrbitLower;
-						else
-							pen.Color = xyz.Z >= 0.0 ? ColorCometOrbitUpper : ColorCometOrbitLower;
-
-						xyz = xyz.Rotate(MtxRotate);
-						point2 = GetDrawPoint(xyz);
-						graphics.DrawLine(pen, point1.X, point1.Y, point2.X, point2.Y);
-						point1 = point2;
-					}
-				}
-			}
-		}
-
-		#endregion
-
-		#region DrawCometBody
-
-		private void DrawCometBody(Graphics graphics)
-		{
-			graphics.SmoothingMode = SmoothingMode.AntiAlias;
-
-			for (int i = 0; i < Comets.Count; i++)
-			{
-				Xyz xyz = CometsPos[i].Rotate(MtxToEcl).Rotate(MtxRotate);
-
-				Point point1 = GetDrawPoint(xyz);
-				Comets[i].PanelLocation = point1;
-
-				int diameter = 2;
-				Color color = Color.Black;
-
-				bool visibleComet = Comets[i].IsVisible;
-				bool visibleSelected = PreserveSelectedLabel && i == SelectedIndex;
-				bool visibleLabel = LabelDisplay.Contains(Object.Comet);
-				bool visibleMarker = ShowMarker && i == SelectedIndex;
-				bool isCometMarked = Comets[i].IsMarked;
-
-				GetCometColorAndDiameter(Comets[i], out diameter, out color);
-
-				if (!visibleComet)
-				{
-					color = FilterOnDateWeakColorComet;
-
-					if (FilterOnDateShowInWeakColor)
-					{
-						visibleComet = true;
-
-						if (!visibleSelected)
-							visibleLabel = false;
-					}
-				}
-
-				SolidBrush sb = new SolidBrush(color);
-
-				if (visibleComet || visibleSelected || isCometMarked)
-				{
-					graphics.FillPie(sb, point1.X - diameter, point1.Y - diameter, diameter * 2, diameter * 2, 0, 360);
-
-					if (visibleLabel || visibleSelected || isCometMarked)
-					{
-						if (MultipleMode && Comets.Count > 1 && visibleLabel && visibleSelected)
-							sb.Color = ColorCometNameSelected;
-						else
-							sb.Color = ColorCometName;
-
-						graphics.DrawString(Comets[i].Name, FontObjectName, sb, point1.X + 5, point1.Y);
-					}
-				}
-
-				if (visibleMarker || isCometMarked)
-				{
-					int offset = diameter + 4;
-					int length = diameter + 8;
-
-					Color cmarker = ColorSelectedCometMarker;
-
-					if (isCometMarked)
-						cmarker = ColorMarkedCometMarker;
-
-					Pen p = new Pen(cmarker) { Width = 3 };
-
-					graphics.DrawLine(p, new Point(point1.X, point1.Y - length), new Point(point1.X, point1.Y - offset));
-					graphics.DrawLine(p, new Point(point1.X, point1.Y + length), new Point(point1.X, point1.Y + offset));
-					graphics.DrawLine(p, new Point(point1.X - length, point1.Y), new Point(point1.X - offset, point1.Y));
-					graphics.DrawLine(p, new Point(point1.X + length, point1.Y), new Point(point1.X + offset, point1.Y));
-				}
-			}
-		}
-
-		#endregion
-
-		#region DrawPlanetOrbit
-
-		private void DrawPlanetOrbit(Graphics graphics, PlanetOrbit planetOrbit)
-		{
-			if (this.OrbitDisplay.Contains(planetOrbit.Planet))
-			{
-				graphics.SmoothingMode = Antialiasing ? SmoothingMode.AntiAlias : SmoothingMode.None;
-
-				Pen pen = new Pen(ColorPlanetOrbitUpper);
-				Point point1, point2;
-				Xyz xyz = planetOrbit.GetAt(0).Rotate(MtxToEcl).Rotate(MtxRotate);
-
-				point1 = GetDrawPoint(xyz);
-
-				for (int i = 1; i <= PlanetOrbit.OrbitDivisionCount; i++)
-				{
-					xyz = planetOrbit.GetAt(i).Rotate(MtxToEcl);
-
-					pen.Color = xyz.Z >= 0.0 ? ColorPlanetOrbitUpper : ColorPlanetOrbitLower;
-
-					xyz = xyz.Rotate(MtxRotate);
-					point2 = GetDrawPoint(xyz);
-					graphics.DrawLine(pen, point1.X, point1.Y, point2.X, point2.Y);
-					point1 = point2;
-				}
-			}
-		}
-
-		#endregion
-
-		#region DrawEarthOrbit
-
-		private void DrawEarthOrbit(Graphics graphics, PlanetOrbit planetOrbit)
-		{
-			if (this.OrbitDisplay.Contains(planetOrbit.Planet))
-			{
-				graphics.SmoothingMode = Antialiasing ? SmoothingMode.AntiAlias : SmoothingMode.None;
-
-				Pen pen = new Pen(ColorPlanetOrbitUpper);
-				Point point1, point2;
-				Xyz xyz = planetOrbit.GetAt(0).Rotate(MtxToEcl).Rotate(MtxRotate);
-
-				point1 = GetDrawPoint(xyz);
-
-				for (int i = 1; i <= PlanetOrbit.OrbitDivisionCount; i++)
-				{
-					xyz = planetOrbit.GetAt(i).Rotate(MtxToEcl);
-					xyz = xyz.Rotate(MtxRotate);
-					point2 = GetDrawPoint(xyz);
-					graphics.DrawLine(pen, point1.X, point1.Y, point2.X, point2.Y);
-					point1 = point2;
-				}
-			}
-		}
-
-		#endregion
-
-		#region DrawPlanetBody
-
-		private void DrawPlanetBody(Graphics graphics, Font font, Xyz planetPos, Object obj)
-		{
-			graphics.SmoothingMode = SmoothingMode.AntiAlias; //body always antialiased
-
-			Xyz xyz = planetPos.Rotate(MtxRotate);
-			Point point = GetDrawPoint(xyz);
-			SolidBrush sb = new SolidBrush(ColorPlanet);
-
-			graphics.FillPie(sb, point.X - 2, point.Y - 2, 5, 5, 0, 360);
-
-			if (this.LabelDisplay.Contains(obj))
-			{
-				sb.Color = ColorPlanetName;
-				string name = obj.ToString();
-				graphics.DrawString(name, font, sb, point.X + 5, point.Y);
-			}
 		}
 
 		#endregion
