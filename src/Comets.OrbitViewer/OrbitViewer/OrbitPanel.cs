@@ -25,6 +25,27 @@ namespace Comets.OrbitViewer
 		private const bool DefaultFilterOnDateShowInWeakColor = true;
 		private const Object DefaultCenterObject = Object.Sun;
 
+		private readonly List<Object> DefaultOrbitDisplay = new List<Object>
+		{
+			Object.Mercury,
+			Object.Venus,
+			Object.Earth,
+			Object.Mars,
+			Object.Jupiter
+		};
+
+		private readonly List<Object> Planets = new List<Object>
+		{
+			Object.Mercury,
+			Object.Venus,
+			Object.Earth,
+			Object.Mars,
+			Object.Jupiter,
+			Object.Saturn,
+			Object.Uranus,
+			Object.Neptune
+		};
+
 		private const string VertexShaderSource = @"
 #version 330 core
 layout (location = 0) in vec3 aPos;
@@ -83,27 +104,6 @@ void main() {
     FragColor = texture(uTex, vUV);
 }";
 
-		private readonly List<Object> DefaultOrbitDisplay = new List<Object>
-		{
-			Object.Mercury,
-			Object.Venus,
-			Object.Earth,
-			Object.Mars,
-			Object.Jupiter
-		};
-
-		private readonly List<Object> Planets = new List<Object>
-		{
-			Object.Mercury,
-			Object.Venus,
-			Object.Earth,
-			Object.Mars,
-			Object.Jupiter,
-			Object.Saturn,
-			Object.Uranus,
-			Object.Neptune
-		};
-
 		#endregion
 
 		#region Colors
@@ -149,10 +149,8 @@ void main() {
 
 		private Dictionary<Object, PlanetOrbit> PlanetsOrbit;
 		private Dictionary<Object, Xyz> PlanetsPos;
-		private double EpochPlanetOrbit;
 
 		private Matrix MtxToEcl;
-		private double EpochToEcl;
 		private Matrix MtxRotate;
 		private int X0;
 		private int Y0;
@@ -727,12 +725,21 @@ void main() {
 				if (vao == 0 || count == 0) continue;
 
 				Color upper, lower;
+
 				if (useWeakColor)
+				{
 					upper = lower = FilterOnDateWeakColorOrbit;
+				}
 				else if (useSelectedColor)
-				{ upper = ColorSelectedCometOrbitUpper; lower = ColorSelectedCometOrbitLower; }
+				{
+					upper = ColorSelectedCometOrbitUpper;
+					lower = ColorSelectedCometOrbitLower;
+				}
 				else
-				{ upper = ColorCometOrbitUpper; lower = ColorCometOrbitLower; }
+				{
+					upper = ColorCometOrbitUpper;
+					lower = ColorCometOrbitLower;
+				}
 
 				GL.Uniform4(_uColorUpper, upper.R / 255f, upper.G / 255f, upper.B / 255f, 1f);
 				GL.Uniform4(_uColorLower, lower.R / 255f, lower.G / 255f, lower.B / 255f, 1f);
@@ -812,7 +819,6 @@ void main() {
 		private void UpdatePlanetOrbit(ATime atime)
 		{
 			Planets.ForEach(p => PlanetsOrbit[p] = new PlanetOrbit(p, atime));
-			EpochPlanetOrbit = atime.JD;
 			_vbosNeedUpdate = true;
 		}
 
@@ -825,7 +831,6 @@ void main() {
 			Matrix mtxPrec = Matrix.PrecMatrix(Astro.JD2000, atime.JD);
 			Matrix mtxEqt2Ecl = Matrix.RotateX(ATime.GetEp(atime.JD));
 			MtxToEcl = mtxEqt2Ecl.Mul(mtxPrec);
-			EpochToEcl = atime.JD;
 			_vbosNeedUpdate = true;
 		}
 
