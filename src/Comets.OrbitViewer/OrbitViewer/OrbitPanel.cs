@@ -912,8 +912,6 @@ void main() {
 
 		#endregion
 
-		
-
 		#region RenderBodies
 
 		private void RenderBodies()
@@ -1009,7 +1007,7 @@ void main() {
 					GL.BufferData(BufferTarget.ArrayBuffer, 24 * sizeof(float), buf, BufferUsageHint.StreamDraw);
 					GL.Uniform4(_uColorUpper, cmarker.R / 255f, cmarker.G / 255f, cmarker.B / 255f, 1f);
 					GL.Uniform4(_uColorLower, cmarker.R / 255f, cmarker.G / 255f, cmarker.B / 255f, 1f);
-					GL.LineWidth(2f);
+					GL.LineWidth(3f);
 					GL.DrawArrays(PrimitiveType.Lines, 0, 8);
 				}
 			}
