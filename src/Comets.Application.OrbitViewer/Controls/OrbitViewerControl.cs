@@ -120,8 +120,6 @@ namespace Comets.Application.OrbitViewer
 			miscControl.OnShowAxesChanged += SetShowAxes;
 			miscControl.OnAntialiasingChanged += SetAntialiasing;
 			miscControl.OnSaveImage += Save;
-
-			orbitPanel.Antialiasing = true;
 		}
 
 		#endregion

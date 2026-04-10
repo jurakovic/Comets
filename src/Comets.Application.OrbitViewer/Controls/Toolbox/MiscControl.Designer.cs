@@ -77,7 +77,6 @@
 			this.cbxAntialiasing.TabIndex = 1;
 			this.cbxAntialiasing.Text = "Antialiasing";
 			this.cbxAntialiasing.UseVisualStyleBackColor = true;
-			this.cbxAntialiasing.Checked = true;
 			this.cbxAntialiasing.CheckedChanged += this.cbxAntialiasing_CheckedChanged;
 			// 
 			// MiscControl
