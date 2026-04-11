@@ -397,7 +397,7 @@ void main() {
 			Matrix mtxRotV = Matrix.RotateX(RotateVert * Math.PI / 180.0);
 			MtxRotate = mtxRotV.Mul(mtxRotH);
 
-			// Preserve CenteredIndex for Phase 5 (camera target centering)
+			// Resolve CenteredIndex for camera target centering
 			if (CenteredObject != Object.Comet)
 				CenteredIndex = -1;
 
@@ -631,8 +631,22 @@ void main() {
 				new Vector4( 0,             0,                              -camDist,                     1)
 			);
 
+			// Phase 5 — centering: translate the world so the target object is at the camera's look-at point.
+			Vector3 target = Vector3.Zero;
+			if (CenteredObject == Object.Comet && CenteredIndex >= 0 && CenteredIndex < CometsPos.Count && MtxToEcl != null)
+			{
+				Xyz p = CometsPos[CenteredIndex].Rotate(MtxToEcl);
+				target = new Vector3((float)p.X, (float)p.Y, (float)p.Z);
+			}
+			else if (Planets.Contains(CenteredObject) && PlanetsPos[CenteredObject] != null)
+			{
+				Xyz p = PlanetsPos[CenteredObject];
+				target = new Vector3((float)p.X, (float)p.Y, (float)p.Z);
+			}
+			Matrix4 model = Matrix4.CreateTranslation(-target);
+
 			Matrix4 projection = Matrix4.CreatePerspectiveFieldOfView(fovY, aspect, 0.001f, 2000f);
-			_mvp = view * projection; // model = identity, OpenTK row-major: reversed order, transpose:false
+			_mvp = model * view * projection; // OpenTK row-major: reversed order, transpose:false
 
 			if (Antialiasing)
 			{
