@@ -964,7 +964,7 @@ void main() {
 					buf[0] = (float)p.X; buf[1] = (float)p.Y; buf[2] = (float)p.Z;
 					GL.BufferData(BufferTarget.ArrayBuffer, 3 * sizeof(float), buf, BufferUsageHint.StreamDraw);
 					GL.Uniform4(_uColorUpper, color.R / 255f, color.G / 255f, color.B / 255f, 1f);
-					GL.PointSize(diameter * 2f + 1f);
+					GL.PointSize(diameter * 1.25f + 1f);
 					GL.DrawArrays(PrimitiveType.Points, 0, 1);
 				}
 
