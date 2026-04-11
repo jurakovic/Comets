@@ -49,18 +49,12 @@ namespace Comets.OrbitViewer
 		private const string VertexShaderSource = @"
 #version 330 core
 layout (location = 0) in vec3 aPos;
-uniform mat4 uRot;
-uniform float uHalfX;
-uniform float uHalfY;
-uniform float uOffsetX;
-uniform float uOffsetY;
+uniform mat4 uMVP;
 out float vZ;
 void main()
 {
     vZ = aPos.z;
-    vec4 v = uRot * vec4(aPos, 1.0);
-    float w = 1.0 + v.z / 625.0;
-    gl_Position = vec4(v.x / uHalfX + uOffsetX * w, v.y / uHalfY + uOffsetY * w, 0.0, w);
+    gl_Position = uMVP * vec4(aPos, 1.0);
 }";
 
 		private const string FragmentShaderSource = @"
@@ -152,17 +146,12 @@ void main() {
 
 		private Matrix MtxToEcl;
 		private Matrix MtxRotate;
-		private int X0;
-		private int Y0;
 
 		// GL rendering
 		private bool _glLoaded = false;
 		private int _shaderProgram = 0;
-		private int _uRot;
-		private int _uHalfX;
-		private int _uHalfY;
-		private int _uOffsetX;
-		private int _uOffsetY;
+		private int _uMVP;
+		private Matrix4 _mvp;
 		private int _uColorUpper;
 		private int _uColorLower;
 		private int _uMode;
@@ -310,7 +299,7 @@ void main() {
 
 		#region Consctructor
 
-		public OrbitPanel() : base(new GLControlSettings { NumberOfSamples = 8 })
+		public OrbitPanel() : base(new GLControlSettings { NumberOfSamples = 8, DepthBits = 24 })
 		{
 			PlanetsPos = InitializeDictionary<Xyz>();
 			PlanetsOrbit = InitializeDictionary<PlanetOrbit>();
@@ -403,41 +392,17 @@ void main() {
 			if (!_glLoaded)
 				InitGL();
 
-			// Compute MtxRotate for CPU-side use (click detection, centering, crosshair)
+			// Compute MtxRotate for CPU-side use (crosshair arms — will be replaced in Phase 6)
 			Matrix mtxRotH = Matrix.RotateZ(RotateHorz * Math.PI / 180.0);
 			Matrix mtxRotV = Matrix.RotateX(RotateVert * Math.PI / 180.0);
 			MtxRotate = mtxRotV.Mul(mtxRotH);
 
-			// Centering: compute X0/Y0 so the selected object appears at screen center
-			X0 = Width / 2;
-			Y0 = Height / 2;
-
+			// Preserve CenteredIndex for Phase 5 (camera target centering)
 			if (CenteredObject != Object.Comet)
 				CenteredIndex = -1;
 
-			if (IsPaintEnabled && MtxToEcl != null)
-			{
-				if (CenteredObject == Object.Comet)
-				{
-					if (CenteredIndex == -1)
-						CenteredIndex = SelectedIndex;
-
-					if (CenteredIndex >= 0 && CenteredIndex < CometsPos.Count)
-					{
-						Xyz xyz = CometsPos[CenteredIndex].Rotate(MtxToEcl).Rotate(MtxRotate);
-						Point p = GetDrawPoint(xyz);
-						X0 = Width - p.X;
-						Y0 = Height - p.Y;
-					}
-				}
-				else if (Planets.Contains(CenteredObject) && PlanetsPos[CenteredObject] != null)
-				{
-					Xyz xyz = PlanetsPos[CenteredObject].Rotate(MtxRotate);
-					Point p = GetDrawPoint(xyz);
-					X0 = Width - p.X;
-					Y0 = Height - p.Y;
-				}
-			}
+			if (IsPaintEnabled && MtxToEcl != null && CenteredObject == Object.Comet && CenteredIndex == -1)
+				CenteredIndex = SelectedIndex;
 
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 			RenderScene();
@@ -462,7 +427,8 @@ void main() {
 		private void InitGL()
 		{
 			GL.ClearColor(0f, 0f, 0f, 1f);
-			GL.Disable(EnableCap.DepthTest);
+			GL.Enable(EnableCap.DepthTest);
+			GL.DepthFunc(DepthFunction.Less);
 			GL.Enable(EnableCap.Multisample);
 			GL.Enable(EnableCap.Blend);
 			GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
@@ -483,11 +449,7 @@ void main() {
 			GL.DeleteShader(vs);
 			GL.DeleteShader(fs);
 
-			_uRot = GL.GetUniformLocation(_shaderProgram, "uRot");
-			_uHalfX = GL.GetUniformLocation(_shaderProgram, "uHalfX");
-			_uHalfY = GL.GetUniformLocation(_shaderProgram, "uHalfY");
-			_uOffsetX = GL.GetUniformLocation(_shaderProgram, "uOffsetX");
-			_uOffsetY = GL.GetUniformLocation(_shaderProgram, "uOffsetY");
+			_uMVP = GL.GetUniformLocation(_shaderProgram, "uMVP");
 			_uColorUpper = GL.GetUniformLocation(_shaderProgram, "uColorUpper");
 			_uColorLower = GL.GetUniformLocation(_shaderProgram, "uColorLower");
 			_uMode = GL.GetUniformLocation(_shaderProgram, "uMode");
@@ -645,23 +607,32 @@ void main() {
 			if (_vbosNeedUpdate)
 				UploadOrbitsToGpu();
 
-			// Build view rotation: matches original MtxRotate = RotateX(RotateVert) * RotateZ(RotateHorz)
-			// OpenTK row-major convention: GLSL sees (rotH*rotV)^T = rotV^T * rotH^T = MtxRotate
-			// Negate angles: OpenTK row-major → GLSL column-major transpose flips sin sign,
-			// turning CCW into CW (same as Matrix.RotateZ/X convention used on the CPU side).
-			Matrix4 rotH = Matrix4.CreateRotationZ(-(float)(RotateHorz * Math.PI / 180.0));
-			Matrix4 rotV = Matrix4.CreateRotationX(-(float)(RotateVert * Math.PI / 180.0));
-			Matrix4 rot = rotH * rotV;
+			// Build MVP: perspective projection, view built directly from rotation angles.
+			// Matches the original RotateX(RotateVert)·RotateZ(RotateHorz) scene transform exactly,
+			// with a -camDist Z translation added for the finite camera distance.
+			// No LookAt needed — avoids all gimbal/singularity issues.
+			const float fovY = MathF.PI / 4f; // 45°
+			float aspect     = Width > 0 && Height > 0 ? (float)Width / Height : 1f;
+			float camDist    = 1800f / (float)Zoom;
 
-			// Scale matching original: mul = Zoom*682 / (1500*(1+Z/625))
-			// Shader applies weak perspective via gl_Position.w = 1 + Z_view/625
-			float halfX = (float)(Width * 750.0 / (Zoom * 682.0));
-			float halfY = (float)(Height * 750.0 / (Zoom * 682.0));
+			float h = (float)(RotateHorz * Math.PI / 180.0);
+			float v = (float)(RotateVert * Math.PI / 180.0);
 
-			// Centering offset: shift scene so X0/Y0 lands at screen centre
-			// After perspective divide, adding dx to x_ndc shifts the whole scene by dx pixels * Width/2
-			float ndcOffsetX = (float)(2.0 * X0 / Width - 1.0);
-			float ndcOffsetY = (float)(1.0 - 2.0 * Y0 / Height);
+			// Effective scene rotation: R = RotateX_std(-v) * RotateZ_std(-h)  (matches old GPU convention).
+			// View = [R | translation], camera at R^T*(0,0,D).  R*eye = (0,0,D) so translation = (0,0,-D).
+			// OpenTK stores matrices transposed vs math convention: OpenTK Row i = Math column i of V.
+			//
+			// Verification: Z+ world -> y_eye = +sin(v)  (positive = UP on screen) ✓
+			//               X+ world -> y_eye = -cos(v)*sin(h)                     ✓
+			Matrix4 view = new Matrix4(
+				new Vector4( MathF.Cos(h), -MathF.Cos(v) * MathF.Sin(h),  MathF.Sin(v) * MathF.Sin(h), 0),
+				new Vector4( MathF.Sin(h),  MathF.Cos(v) * MathF.Cos(h), -MathF.Sin(v) * MathF.Cos(h), 0),
+				new Vector4( 0,             MathF.Sin(v),                   MathF.Cos(v),                0),
+				new Vector4( 0,             0,                              -camDist,                     1)
+			);
+
+			Matrix4 projection = Matrix4.CreatePerspectiveFieldOfView(fovY, aspect, 0.001f, 2000f);
+			_mvp = view * projection; // model = identity, OpenTK row-major: reversed order, transpose:false
 
 			if (Antialiasing)
 			{
@@ -676,11 +647,7 @@ void main() {
 			}
 
 			GL.UseProgram(_shaderProgram);
-			GL.UniformMatrix4(_uRot, false, ref rot);
-			GL.Uniform1(_uHalfX, halfX);
-			GL.Uniform1(_uHalfY, halfY);
-			GL.Uniform1(_uOffsetX, ndcOffsetX);
-			GL.Uniform1(_uOffsetY, ndcOffsetY);
+			GL.UniformMatrix4(_uMVP, false, ref _mvp);
 			GL.LineWidth(1f);
 
 			// Planet orbits
@@ -803,12 +770,12 @@ void main() {
 
 		private void UpdateCometPanelLocations()
 		{
-			if (!IsPaintEnabled || MtxToEcl == null || MtxRotate == null) return;
+			if (!IsPaintEnabled || MtxToEcl == null || !_glLoaded) return;
 
 			for (int i = 0; i < Comets.Count && i < CometsPos.Count; i++)
 			{
-				Xyz viewXyz = CometsPos[i].Rotate(MtxToEcl).Rotate(MtxRotate);
-				Comets[i].PanelLocation = GetDrawPoint(viewXyz);
+				Xyz eclXyz = CometsPos[i].Rotate(MtxToEcl);
+				Comets[i].PanelLocation = MvpProject(eclXyz);
 			}
 		}
 
@@ -836,14 +803,20 @@ void main() {
 
 		#endregion
 
-		#region GetDrawPoint
+		#region MvpProject
 
-		private Point GetDrawPoint(Xyz xyz)
+		/// <summary>
+		/// Projects a world-space ecliptic position to screen pixels using the current MVP matrix.
+		/// </summary>
+		private Point MvpProject(Xyz xyz)
 		{
-			double mul = (Zoom * (double)this.MinimumSize.Width) / (1500.0 * (1.0 + xyz.Z / 625.0));
-			int X = X0 + (int)Math.Round(xyz.X * mul);
-			int Y = Y0 - (int)Math.Round(xyz.Y * mul);
-			return new Point(X, Y);
+			var v = new Vector4((float)xyz.X, (float)xyz.Y, (float)xyz.Z, 1.0f) * _mvp;
+			if (MathF.Abs(v.W) < 1e-6f) return new Point(-9999, -9999);
+			float ndcX  = v.X / v.W;
+			float ndcY  = v.Y / v.W;
+			int screenX = (int)((ndcX + 1f) / 2f * Width);
+			int screenY = (int)((1f - ndcY) / 2f * Height);
+			return new Point(screenX, screenY);
 		}
 
 		#endregion
@@ -1095,7 +1068,7 @@ void main() {
 					};
 					foreach (var (xyz, label) in axisLabels)
 					{
-						Point pt = GetDrawPoint(xyz.Rotate(MtxRotate));
+						Point pt = MvpProject(xyz);
 						g.DrawString(label, FontAxisLabel, grayBrush, pt.X, pt.Y);
 					}
 				}
@@ -1110,7 +1083,7 @@ void main() {
 						if (PlanetsPos[planet] == null) continue;
 						if (!LabelDisplay.Contains(planet)) continue;
 
-						Point pt = GetDrawPoint(PlanetsPos[planet].Rotate(MtxRotate));
+						Point pt = MvpProject(PlanetsPos[planet]);
 						g.DrawString(planet.ToString(), FontPlanetName, planetBrush, pt.X + 5, pt.Y);
 					}
 				}
@@ -1143,7 +1116,7 @@ void main() {
 							? ColorCometNameSelected
 							: ColorCometName;
 
-						Point pt = GetDrawPoint(CometsPos[i].Rotate(MtxToEcl).Rotate(MtxRotate));
+						Point pt = MvpProject(CometsPos[i].Rotate(MtxToEcl));
 						using var nameBrush = new SolidBrush(nameColor);
 						g.DrawString(Comets[i].Name, FontObjectName, nameBrush, pt.X + 5, pt.Y);
 					}
