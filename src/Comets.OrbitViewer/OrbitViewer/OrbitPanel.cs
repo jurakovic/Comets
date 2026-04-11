@@ -145,13 +145,15 @@ void main() {
 		private Dictionary<Object, Xyz> PlanetsPos;
 
 		private Matrix MtxToEcl;
-		private Matrix MtxRotate;
 
 		// GL rendering
 		private bool _glLoaded = false;
 		private int _shaderProgram = 0;
 		private int _uMVP;
 		private Matrix4 _mvp;
+		private Matrix4 _view;
+		private Vector3 _cameraTarget;
+		private float _camDist;
 		private int _uColorUpper;
 		private int _uColorLower;
 		private int _uMode;
@@ -391,11 +393,6 @@ void main() {
 
 			if (!_glLoaded)
 				InitGL();
-
-			// Compute MtxRotate for CPU-side use (crosshair arms — will be replaced in Phase 6)
-			Matrix mtxRotH = Matrix.RotateZ(RotateHorz * Math.PI / 180.0);
-			Matrix mtxRotV = Matrix.RotateX(RotateVert * Math.PI / 180.0);
-			MtxRotate = mtxRotV.Mul(mtxRotH);
 
 			// Resolve CenteredIndex for camera target centering
 			if (CenteredObject != Object.Comet)
@@ -647,6 +644,9 @@ void main() {
 
 			Matrix4 projection = Matrix4.CreatePerspectiveFieldOfView(fovY, aspect, 0.001f, 2000f);
 			_mvp = model * view * projection; // OpenTK row-major: reversed order, transpose:false
+			_view          = view;
+			_cameraTarget  = target;
+			_camDist       = camDist;
 
 			if (Antialiasing)
 			{
@@ -969,24 +969,29 @@ void main() {
 
 				if (visibleMarker || isCometMarked)
 				{
-					// Build crosshair in view space, then inverse-rotate back to ecliptic.
-					// This avoids any NDC/pixel conversion and stays consistent with the shader math.
-					Xyz vw = p.Rotate(MtxRotate);
-					double wFactor = 1.0 + vw.Z / 625.0;
-					double scale = 1500.0 * wFactor / (Zoom * 682.0); // 1 screen pixel → this many AU in view space
-					double off = (diameter + 4) * scale;
-					double len = (diameter + 8) * scale;
+					// Build crosshair arms in world (ecliptic) space using camera right/up vectors.
+					// Column 0/1 of the view matrix are the camera right/up directions in world space.
+					Vector3 right = _view.Column0.Xyz;
+					Vector3 upVec = _view.Column1.Xyz;
+					var pVec = new Vector3((float)p.X, (float)p.Y, (float)p.Z);
+
+					// Eye-space depth of the comet: depth = camDist - dot(p - target, cameraForward)
+					float depth = _camDist - Vector3.Dot(pVec - _cameraTarget, _view.Column2.Xyz);
+					if (depth < 0.001f) depth = 0.001f;
+					float pxSize = depth * MathF.Tan(MathF.PI / 4f / 2f) / (Height > 0 ? Height / 2f : 1f);
+					float off = (diameter + 4) * pxSize;
+					float len = (diameter + 8) * pxSize;
 
 					// 8 endpoints: pairs forming 4 arms (up, down, left, right)
 					Xyz[] arms = {
-						InvRotateMtx(MtxRotate, new Xyz(vw.X,       vw.Y + off, vw.Z)),
-						InvRotateMtx(MtxRotate, new Xyz(vw.X,       vw.Y + len, vw.Z)),
-						InvRotateMtx(MtxRotate, new Xyz(vw.X,       vw.Y - off, vw.Z)),
-						InvRotateMtx(MtxRotate, new Xyz(vw.X,       vw.Y - len, vw.Z)),
-						InvRotateMtx(MtxRotate, new Xyz(vw.X - off, vw.Y,       vw.Z)),
-						InvRotateMtx(MtxRotate, new Xyz(vw.X - len, vw.Y,       vw.Z)),
-						InvRotateMtx(MtxRotate, new Xyz(vw.X + off, vw.Y,       vw.Z)),
-						InvRotateMtx(MtxRotate, new Xyz(vw.X + len, vw.Y,       vw.Z)),
+						new Xyz(p.X + upVec.X * off, p.Y + upVec.Y * off, p.Z + upVec.Z * off),
+						new Xyz(p.X + upVec.X * len, p.Y + upVec.Y * len, p.Z + upVec.Z * len),
+						new Xyz(p.X - upVec.X * off, p.Y - upVec.Y * off, p.Z - upVec.Z * off),
+						new Xyz(p.X - upVec.X * len, p.Y - upVec.Y * len, p.Z - upVec.Z * len),
+						new Xyz(p.X - right.X * off, p.Y - right.Y * off, p.Z - right.Z * off),
+						new Xyz(p.X - right.X * len, p.Y - right.Y * len, p.Z - right.Z * len),
+						new Xyz(p.X + right.X * off, p.Y + right.Y * off, p.Z + right.Z * off),
+						new Xyz(p.X + right.X * len, p.Y + right.Y * len, p.Z + right.Z * len),
 					};
 					for (int k = 0; k < 8; k++)
 					{
@@ -1006,19 +1011,6 @@ void main() {
 			}
 
 			GL.Uniform1(_uMode, 0);
-		}
-
-		/// <summary>
-		/// Apply the transpose (= inverse) of a rotation matrix to a vector.
-		/// Since MtxRotate is orthogonal, this undoes the rotation.
-		/// </summary>
-		private static Xyz InvRotateMtx(Matrix mtx, Xyz v)
-		{
-			return new Xyz(
-				mtx.A11 * v.X + mtx.A21 * v.Y + mtx.A31 * v.Z,
-				mtx.A12 * v.X + mtx.A22 * v.Y + mtx.A32 * v.Z,
-				mtx.A13 * v.X + mtx.A23 * v.Y + mtx.A33 * v.Z
-			);
 		}
 
 		#endregion
@@ -1068,7 +1060,7 @@ void main() {
 				}
 
 				// — Axis labels —
-				if (ShowAxes && MtxRotate != null)
+				if (ShowAxes && _glLoaded)
 				{
 					using var grayBrush = new SolidBrush(Color.Gray);
 					const double sizeAU = 150.0;
@@ -1088,7 +1080,7 @@ void main() {
 				}
 
 				// — Planet name labels —
-				if (MtxRotate != null)
+				if (_glLoaded)
 				{
 					using var planetBrush = new SolidBrush(ColorPlanetName);
 					foreach (Object planet in Planets)
@@ -1103,7 +1095,7 @@ void main() {
 				}
 
 				// — Comet name labels —
-				if (MtxToEcl != null && MtxRotate != null)
+				if (MtxToEcl != null && _glLoaded)
 				{
 					bool visibleLabelAll = LabelDisplay.Contains(Object.Comet);
 					for (int i = 0; i < Comets.Count && i < CometsPos.Count; i++)
