@@ -19,9 +19,11 @@ namespace Comets.Application.OrbitViewer
 	{
 		#region Consts
 
-		const int DefaultScrollVert = 20;
-		const int DefaultScrollHorz = 75;
-		const int DefaultScrollZoom = 145;
+		const double DefaultRotateVert = 70.0;   // 90 - DefaultScrollVert(20)
+		const double DefaultRotateHorz = 15.0;   // 90 - DefaultScrollHorz(75)
+		const double DefaultZoom       = 145.0;
+		const double ZoomMin           = 5.0;
+		const double ZoomMax           = 5000.0;
 
 		#endregion
 
@@ -139,13 +141,9 @@ namespace Comets.Application.OrbitViewer
 
 			SelectedDateTime = DateTime.UtcNow.Date;
 
-			ValueChangedInternal = true;
-
-			scrollVert.Value = DefaultScrollVert;
-			scrollHorz.Value = DefaultScrollHorz;
-			scrollZoom.Value = DefaultScrollZoom;
-
-			ValueChangedInternal = false;
+			orbitPanel.RotateVert = DefaultRotateVert;
+			orbitPanel.RotateHorz = DefaultRotateHorz;
+			orbitPanel.Zoom       = DefaultZoom;
 
 			cometControl.BindCollection(comets);
 
@@ -507,36 +505,64 @@ namespace Comets.Application.OrbitViewer
 					handled = false;
 					break;
 				case Keys.Left:
-					if (!ctrl && !shift)
-						handled = MoveScroll(scrollHorz, false);
+					if (!ctrl && !shift && IsKeyboardScroll)
+					{
+						orbitPanel.RotateHorz = WrapDegrees(orbitPanel.RotateHorz + 1.0);
+						RefreshPanel();
+						handled = true;
+					}
 					break;
 				case Keys.Right:
-					if (!ctrl && !shift)
-						handled = MoveScroll(scrollHorz, true);
+					if (!ctrl && !shift && IsKeyboardScroll)
+					{
+						orbitPanel.RotateHorz = WrapDegrees(orbitPanel.RotateHorz - 1.0);
+						RefreshPanel();
+						handled = true;
+					}
 					break;
 
 				case Keys.Up:
-					if (!ctrl && !shift)
-						handled = MoveScroll(scrollVert, false);
+					if (!ctrl && !shift && IsKeyboardScroll)
+					{
+						orbitPanel.RotateVert = WrapDegrees(orbitPanel.RotateVert + 1.0);
+						RefreshPanel();
+						handled = true;
+					}
 					break;
 				case Keys.Down:
-					if (!ctrl && !shift)
-						handled = MoveScroll(scrollVert, true);
+					if (!ctrl && !shift && IsKeyboardScroll)
+					{
+						orbitPanel.RotateVert = WrapDegrees(orbitPanel.RotateVert - 1.0);
+						RefreshPanel();
+						handled = true;
+					}
 					break;
 
 				case Keys.Add:
 				case Keys.Q:
-					if (!ctrl && !shift)
-						handled = MoveScroll(scrollZoom, true, false);
+					if (!ctrl && !shift && IsKeyboardScroll)
+					{
+						orbitPanel.Zoom = Math.Clamp(orbitPanel.Zoom + 10.0, ZoomMin, ZoomMax);
+						RefreshPanel();
+						handled = true;
+					}
 					break;
 				case Keys.Subtract:
-					if (!ctrl && !shift)
-						handled = MoveScroll(scrollZoom, false, false);
+					if (!ctrl && !shift && IsKeyboardScroll)
+					{
+						orbitPanel.Zoom = Math.Clamp(orbitPanel.Zoom - 10.0, ZoomMin, ZoomMax);
+						RefreshPanel();
+						handled = true;
+					}
 					break;
 
 				case Keys.A:
-					if (!ctrl && !shift)
-						handled = MoveScroll(scrollZoom, false, false);
+					if (!ctrl && !shift && IsKeyboardScroll)
+					{
+						orbitPanel.Zoom = Math.Clamp(orbitPanel.Zoom - 10.0, ZoomMin, ZoomMax);
+						RefreshPanel();
+						handled = true;
+					}
 					break;
 
 				case Keys.D1:
@@ -748,34 +774,10 @@ namespace Comets.Application.OrbitViewer
 			e.Handled = handled;
 		}
 
-		private bool MoveScroll(ScrollBar scrollbar, bool isIncrement, bool continuous = true)
+		private static double WrapDegrees(double value)
 		{
-			if (IsKeyboardScroll)
-			{
-				int value = scrollbar.LargeChange * (isIncrement ? 1 : -1);
-				int newValue = scrollbar.Value + value;
-
-				if (continuous)
-				{
-					while (newValue > scrollbar.Maximum)
-						newValue = scrollbar.Minimum;
-
-					while (newValue < scrollbar.Minimum)
-						newValue = scrollbar.Maximum;
-				}
-				else
-				{
-					if (newValue > scrollbar.Maximum)
-						newValue = scrollbar.Maximum;
-
-					if (newValue < scrollbar.Minimum)
-						newValue = scrollbar.Minimum;
-				}
-
-				scrollbar.Value = newValue;
-			}
-
-			return IsKeyboardScroll;
+			value %= 360.0;
+			return value < 0.0 ? value + 360.0 : value;
 		}
 
 		#endregion
@@ -828,41 +830,14 @@ namespace Comets.Application.OrbitViewer
 
 			if (e.Button == MouseButtons.Right)
 			{
-				double xRatio = orbitPanel.MinimumSize.Width / scrollHorz.Maximum;
-				double yRatio = orbitPanel.MinimumSize.Height / scrollVert.Maximum;
-
 				int deltaX = e.X - StartDrag.X;
 				int deltaY = e.Y - StartDrag.Y;
 
-				double koef = 0.3;
-
-				double newHv = xRatio * deltaX * koef;
-				double newVv = yRatio * deltaY * koef;
-
-				if (newHv > 0 && newHv < 1) newHv = 1;
-				else if (newHv < 0 && newHv > -1) newHv = -1;
-				else if (newVv > 0 && newVv < 1) newVv = 1;
-				else if (newVv < 0 && newVv > -1) newVv = -1;
-
-				int newHorizValue = scrollHorz.Value + (int)newHv;
-				int newVertValue = scrollVert.Value + (int)newVv;
-
-				while (newHorizValue > scrollHorz.Maximum)
-					newHorizValue -= scrollHorz.Maximum;
-
-				while (newHorizValue < scrollHorz.Minimum)
-					newHorizValue += scrollHorz.Maximum;
-
-				while (newVertValue > scrollVert.Maximum)
-					newVertValue -= scrollVert.Maximum;
-
-				while (newVertValue < scrollVert.Minimum)
-					newVertValue += scrollVert.Maximum;
-
-				scrollHorz.Value = newHorizValue;
-				scrollVert.Value = newVertValue;
+				orbitPanel.RotateHorz = WrapDegrees(orbitPanel.RotateHorz - deltaX * 0.5);
+				orbitPanel.RotateVert = WrapDegrees(orbitPanel.RotateVert - deltaY * 0.4);
 
 				StartDrag = e.Location;
+				RefreshPanel();
 			}
 		}
 
@@ -870,48 +845,14 @@ namespace Comets.Application.OrbitViewer
 		{
 			if (IsMouseWheelZoom)
 			{
-				double koef = e.Delta < 0 ? 0.23 : 0.30;
-				int value = (int)(scrollZoom.Value * koef);
-				int newZvalue = scrollZoom.Value + (e.Delta < 0 ? -value : value);
-
-				if (newZvalue < scrollZoom.Minimum)
-					scrollZoom.Value = scrollZoom.Minimum;
-				else if (newZvalue > scrollZoom.Maximum)
-					scrollZoom.Value = scrollZoom.Maximum;
-				else
-					scrollZoom.Value = newZvalue;
+				double factor = e.Delta > 0 ? 1.15 : 1.0 / 1.15;
+				orbitPanel.Zoom = Math.Clamp(orbitPanel.Zoom * factor, ZoomMin, ZoomMax);
+				RefreshPanel();
 			}
 		}
 
 		#endregion
 
-		#region Scrollbars
-
-		private void scrollVert_ValueChanged(object sender, EventArgs e)
-		{
-			orbitPanel.RotateVert = (double)(90 - scrollVert.Value);
-
-			if (!ValueChangedInternal)
-				RefreshPanel();
-		}
-
-		private void scrollHorz_ValueChanged(object sender, EventArgs e)
-		{
-			orbitPanel.RotateHorz = (double)(90 - scrollHorz.Value);
-
-			if (!ValueChangedInternal)
-				RefreshPanel();
-		}
-
-		private void scrollZoom_ValueChanged(object sender, EventArgs e)
-		{
-			orbitPanel.Zoom = (double)scrollZoom.Value;
-
-			if (!ValueChangedInternal)
-				RefreshPanel();
-		}
-
-		#endregion
 
 		#endregion
 
