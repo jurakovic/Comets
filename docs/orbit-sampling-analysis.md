@@ -138,10 +138,74 @@ The `3/4` exponent gives step ∝ D^(3/2) for large D — producing constant rel
 
 ---
 
+---
+
+## Projection
+
+### Background
+
+The old GDI renderer used a **weak-perspective** (near-orthographic) formula:
+
+```csharp
+// master branch — GetDrawPoint
+double mul = (Zoom * MinimumSize.Width) / (1500.0 * (1.0 + xyz.Z / 625.0));
+```
+
+The depth term `1 + xyz.Z / 625` places the vanishing point at Z = −625 AU. For typical inner solar system orbits (a few AU), `Z / 625 ≈ 0`, making the projection essentially **orthographic** — you see the true geometric shape of the orbit.
+
+The OpenGL renderer initially used a **45° perspective FOV**, which produces noticeable foreshortening: the near side of an orbit appears wider than the far side, turning a near-circular orbit into a horseshoe shape when viewed from the side. Celestia uses the same effect (it is a space simulator, not a charting tool).
+
+### Projection options compared
+
+| Option | Shape accuracy | Depth cues | Notes |
+|---|---|---|---|
+| Orthographic | Exact — circles look like circles | None | Best for orbit analysis; matches old app feel |
+| Narrow FOV (≈ 15°) | Near-exact for typical zoom levels | Slight | Middle ground; camera pulled ~3× further back |
+| Wide FOV (45°) | Distorted — horseshoe effect visible | Strong | Immersive but misleading for orbit geometry |
+
+### Current implementation (orthographic)
+
+`OrbitPanel.cs` — `RenderScene()`:
+
+```csharp
+const float refFovY = MathF.PI / 4f;          // 45° reference — defines scale, not frustum shape
+float camDist       = 1800f / (float)Zoom;
+float orthoHalfH    = camDist * MathF.Tan(refFovY / 2f);
+
+Matrix4 projection = Matrix4.CreateOrthographic(
+    orthoHalfH * aspect * 2f,
+    orthoHalfH * 2f,
+    0.001f,
+    camDist * 2f + 500f);
+```
+
+`orthoHalfH` is derived from the same `camDist` and 45° reference angle so **zoom behaviour is identical** to what a 45° perspective camera would show at the centre plane — switching between the two modes does not rescale the scene.
+
+The far plane is `camDist * 2 + 500` (dynamic) rather than a hardcoded constant, so the full scene is always visible regardless of zoom level.
+
+### Crosshair/dot sizing
+
+In perspective mode, the world-unit-to-pixel ratio depends on depth:
+
+```csharp
+float pxSize = depth * MathF.Tan(MathF.PI / 4f / 2f) / (Height / 2f);
+```
+
+In orthographic mode, every depth maps to the same pixel size, so `depth` is replaced by the constant `_orthoHalfH`:
+
+```csharp
+float pxSize = _orthoHalfH / (Height / 2f);
+```
+
+`_orthoHalfH` is stored as a field alongside `_camDist` and updated each frame in `RenderScene()`.
+
+---
+
 ## Files
 
 | File | Role |
 |---|---|
 | `src/Comets.OrbitViewer/OrbitViewer/CometOrbit.cs` | Orbit sampling — target for all changes |
+| `src/Comets.OrbitViewer/OrbitViewer/OrbitPanel.cs` | Rendering, projection, crosshair sizing |
 | `docs/orbit.cpp` | Celestia reference implementation |
 | `docs/comet-orbits.md` | Celestia implementation notes |
