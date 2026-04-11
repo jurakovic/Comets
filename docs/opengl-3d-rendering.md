@@ -184,10 +184,10 @@ Planet positions (`PlanetsPos`) are already in ecliptic J2000 and do not need `M
 Used for text label placement (GDI+). Converts an ecliptic world position to screen pixels using the same `_mvp` matrix uploaded to the GPU:
 
 ```csharp
-private Point MvpProject(Xyz xyz)
+private Point? MvpProject(Xyz xyz)
 {
     var v = new Vector4((float)xyz.X, (float)xyz.Y, (float)xyz.Z, 1.0f) * _mvp;
-    if (MathF.Abs(v.W) < 1e-6f) return new Point(-9999, -9999);
+    if (v.W <= 0f) return null;  // behind the camera — skip label
     float ndcX  = v.X / v.W;
     float ndcY  = v.Y / v.W;
     int screenX = (int)((ndcX + 1f) / 2f * Width);
@@ -195,6 +195,8 @@ private Point MvpProject(Xyz xyz)
     return new Point(screenX, screenY);
 }
 ```
+
+Returns `null` when the point is behind the camera (`W ≤ 0`). Label drawing call sites check for `null` and skip `DrawString`. `UpdateCometPanelLocations` unwraps with `?? new Point(-9999, -9999)` to keep the non-nullable `PanelLocation` property compatible with the click hit-test.
 
 Used for: axis labels, planet name labels, comet name labels, comet panel locations.
 
