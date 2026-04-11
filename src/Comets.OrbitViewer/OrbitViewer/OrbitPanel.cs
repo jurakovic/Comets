@@ -662,7 +662,7 @@ void main() {
 
 			GL.UseProgram(_shaderProgram);
 			GL.UniformMatrix4(_uMVP, false, ref _mvp);
-			GL.LineWidth(1f);
+			GL.LineWidth(1.5f);
 
 			// Planet orbits
 			foreach (Object planet in Planets)
