@@ -152,8 +152,6 @@ void main() {
 		private int _uMVP;
 		private Matrix4 _mvp;
 		private Matrix4 _view;
-		private Vector3 _cameraTarget;
-		private float _camDist;
 		private float _orthoHalfH;
 		private int _uColorUpper;
 		private int _uColorLower;
@@ -609,8 +607,8 @@ void main() {
 			// Matches the original RotateX(RotateVert)·RotateZ(RotateHorz) scene transform exactly,
 			// with a -camDist Z translation added so depth-based calculations still work.
 			// No LookAt needed — avoids all gimbal/singularity issues.
-			// orthoHalfH is derived from the 45° reference FOV so zoom behaves identically to
-			// what a 45° perspective camera at camDist would show at the centre plane.
+			// orthoHalfH is derived from a 45° reference FOV so the scene scale matches what a
+			// 45° perspective camera at camDist would show at the centre plane.
 			const float refFovY = MathF.PI / 4f; // 45° reference — defines scale, not frustum shape
 			float aspect = Width > 0 && Height > 0 ? (float)Width / Height : 1f;
 			float camDist = 1800f / (float)Zoom;
@@ -646,11 +644,15 @@ void main() {
 			}
 			Matrix4 model = Matrix4.CreateTranslation(-target);
 
-			Matrix4 projection = Matrix4.CreateOrthographic(orthoHalfH * aspect * 2f, orthoHalfH * 2f, 0.001f, camDist * 2f + 500f);
+			// Orthographic projection with a symmetric depth range: near = -(camDist + 500),
+			// far = +(camDist + 500).  The near plane sits 500+ AU behind the camera, so orbits
+			// that cross the camera plane are never clipped mid-screen — they continue as complete,
+			// undistorted ellipses.  In a parallel projection there is no "viewpoint", so showing
+			// the full orbit (including the portion behind the camera position) is correct.
+			float halfDepth = camDist + 500f;
+			Matrix4 projection = Matrix4.CreateOrthographic(orthoHalfH * aspect * 2f, orthoHalfH * 2f, -halfDepth, halfDepth);
 			_mvp = model * view * projection; // OpenTK row-major: reversed order, transpose:false
 			_view = view;
-			_cameraTarget = target;
-			_camDist = camDist;
 			_orthoHalfH = orthoHalfH;
 
 			if (Antialiasing)
@@ -981,9 +983,6 @@ void main() {
 					Vector3 upVec = _view.Column1.Xyz;
 					var pVec = new Vector3((float)p.X, (float)p.Y, (float)p.Z);
 
-					// Eye-space depth of the comet: depth = camDist - dot(p - target, cameraForward)
-					float depth = _camDist - Vector3.Dot(pVec - _cameraTarget, _view.Column2.Xyz);
-					if (depth < 0.001f) depth = 0.001f;
 					float pxSize = _orthoHalfH / (Height > 0 ? Height / 2f : 1f);
 					float off = (diameter + 4) * pxSize;
 					float len = (diameter + 8) * pxSize;
