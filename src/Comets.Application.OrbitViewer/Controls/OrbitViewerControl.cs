@@ -160,7 +160,6 @@ namespace Comets.Application.OrbitViewer
 
 		private void orbitPanel_Resize(object sender, EventArgs e)
 		{
-			orbitPanel.Image = new Bitmap(orbitPanel.Width, orbitPanel.Height);
 			RefreshPanel();
 		}
 

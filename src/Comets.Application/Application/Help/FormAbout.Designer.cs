@@ -74,7 +74,7 @@
 			this.lblAuthor.Name = "lblAuthor";
 			this.lblAuthor.Size = new System.Drawing.Size(140, 13);
 			this.lblAuthor.TabIndex = 7;
-			this.lblAuthor.Text = "Copyright © 2024 jurakovic";
+			this.lblAuthor.Text = "Copyright © 2026 jurakovic";
 			// 
 			// linkGithub
 			// 
