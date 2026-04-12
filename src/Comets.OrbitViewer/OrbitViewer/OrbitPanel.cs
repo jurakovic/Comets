@@ -677,7 +677,7 @@ void main() {
 				if (!OrbitDisplay.Contains(planet) || !_planetOrbitBuffers.ContainsKey(planet))
 					continue;
 
-				if (Zoom * GetPlanetAU(planet) < 30.0)
+				if (Zoom * GetPlanetAU(planet) < 15.0)
 					continue;
 
 				var (vao, _, count) = _planetOrbitBuffers[planet];
@@ -937,7 +937,7 @@ void main() {
 			GL.Uniform4(_uColorUpper, ColorPlanet.R / 255f, ColorPlanet.G / 255f, ColorPlanet.B / 255f, 1f);
 			foreach (Object planet in Planets)
 			{
-				if (Zoom * GetPlanetAU(planet) < 30.0) continue;
+				if (Zoom * GetPlanetAU(planet) < 15.0) continue;
 				if (PlanetsPos[planet] == null) continue;
 
 				Xyz p = PlanetsPos[planet];
@@ -1091,7 +1091,7 @@ void main() {
 					using var planetBrush = new SolidBrush(ColorPlanetName);
 					foreach (Object planet in Planets)
 					{
-						if (Zoom * GetPlanetAU(planet) < 30.0) continue;
+						if (Zoom * GetPlanetAU(planet) < 15.0) continue;
 						if (PlanetsPos[planet] == null) continue;
 						if (!LabelDisplay.Contains(planet)) continue;
 
