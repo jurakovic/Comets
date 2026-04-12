@@ -152,8 +152,6 @@ void main() {
 		private int _uMVP;
 		private Matrix4 _mvp;
 		private Matrix4 _view;
-		private Vector3 _cameraTarget;
-		private float _camDist;
 		private float _orthoHalfH;
 		private int _uColorUpper;
 		private int _uColorLower;
@@ -605,16 +603,16 @@ void main() {
 			if (_vbosNeedUpdate)
 				UploadOrbitsToGpu();
 
-			// Build MVP: orthographic projection, view built directly from rotation angles.
+			// Build MVP: perspective projection, view built directly from rotation angles.
 			// Matches the original RotateX(RotateVert)·RotateZ(RotateHorz) scene transform exactly,
 			// with a -camDist Z translation added so depth-based calculations still work.
 			// No LookAt needed — avoids all gimbal/singularity issues.
-			// orthoHalfH is derived from the 45° reference FOV so zoom behaves identically to
-			// what a 45° perspective camera at camDist would show at the centre plane.
-			const float refFovY = MathF.PI / 4f; // 45° reference — defines scale, not frustum shape
+			// orthoHalfH = camDist*tan(fovY/2) is the world-unit half-height at the centre plane;
+			// used for crosshair pixel-size (exact at z=0, good approximation elsewhere).
+			const float fovY = MathF.PI / 4f; // 45°
 			float aspect = Width > 0 && Height > 0 ? (float)Width / Height : 1f;
 			float camDist = 1800f / (float)Zoom;
-			float orthoHalfH = camDist * MathF.Tan(refFovY / 2f);
+			float orthoHalfH = camDist * MathF.Tan(fovY / 2f);
 
 			float h = (float)(RotateHorz * Math.PI / 180.0);
 			float v = (float)(RotateVert * Math.PI / 180.0);
@@ -646,11 +644,14 @@ void main() {
 			}
 			Matrix4 model = Matrix4.CreateTranslation(-target);
 
-			Matrix4 projection = Matrix4.CreateOrthographic(orthoHalfH * aspect * 2f, orthoHalfH * 2f, 0.001f, camDist * 2f + 500f);
+			// Perspective projection. When an orbit extends behind the camera, OpenGL clips the line
+			// at the near plane; the clipped endpoint projects to large NDC coords and the line
+			// exits at the screen edge — the same behaviour as Celestia.
+			// znear = 0.001 AU (< camDist_min = 0.36 AU at max zoom); the smaller the value,
+			// the closer to the camera axis a crossing can be and still exit at the screen edge.
+			Matrix4 projection = Matrix4.CreatePerspectiveFieldOfView(fovY, aspect, 0.001f, camDist * 2f + 500f);
 			_mvp = model * view * projection; // OpenTK row-major: reversed order, transpose:false
 			_view = view;
-			_cameraTarget = target;
-			_camDist = camDist;
 			_orthoHalfH = orthoHalfH;
 
 			if (Antialiasing)
@@ -981,9 +982,6 @@ void main() {
 					Vector3 upVec = _view.Column1.Xyz;
 					var pVec = new Vector3((float)p.X, (float)p.Y, (float)p.Z);
 
-					// Eye-space depth of the comet: depth = camDist - dot(p - target, cameraForward)
-					float depth = _camDist - Vector3.Dot(pVec - _cameraTarget, _view.Column2.Xyz);
-					if (depth < 0.001f) depth = 0.001f;
 					float pxSize = _orthoHalfH / (Height > 0 ? Height / 2f : 1f);
 					float off = (diameter + 4) * pxSize;
 					float len = (diameter + 8) * pxSize;
