@@ -2,7 +2,7 @@
 
 ## Overview
 
-Comparison of the current `CometOrbit.cs` sampling implementation against the Celestia 1.6.x `orbit.cpp` reference (see `docs/orbit.cpp` and `docs/comet-orbits.md`).
+Comparison of the current `CometOrbit.cs` sampling implementation against the Celestia 1.6.x `orbit.cpp` reference (see `docs/cel/orbit.cpp` and `docs/cel/comet-orbits.md`).
 
 ---
 
