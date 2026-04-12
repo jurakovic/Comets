@@ -570,10 +570,10 @@ void main() {
 
 			for (int i = 0; i < CometOrbits.Count; i++)
 			{
-				int n = CometOrbit.OrbitDivisionCount + 1;
+				int n = CometOrbits[i].PointCount;
 				float[] verts = new float[n * 3];
 
-				for (int j = 0; j <= CometOrbit.OrbitDivisionCount; j++)
+				for (int j = 0; j < n; j++)
 				{
 					Xyz p = CometOrbits[i].GetAt(j).Rotate(MtxToEcl);
 					verts[j * 3] = (float)p.X;
@@ -611,10 +611,10 @@ void main() {
 			// No LookAt needed — avoids all gimbal/singularity issues.
 			// orthoHalfH is derived from the 45° reference FOV so zoom behaves identically to
 			// what a 45° perspective camera at camDist would show at the centre plane.
-			const float refFovY  = MathF.PI / 4f; // 45° reference — defines scale, not frustum shape
-			float aspect         = Width > 0 && Height > 0 ? (float)Width / Height : 1f;
-			float camDist        = 1800f / (float)Zoom;
-			float orthoHalfH     = camDist * MathF.Tan(refFovY / 2f);
+			const float refFovY = MathF.PI / 4f; // 45° reference — defines scale, not frustum shape
+			float aspect = Width > 0 && Height > 0 ? (float)Width / Height : 1f;
+			float camDist = 1800f / (float)Zoom;
+			float orthoHalfH = camDist * MathF.Tan(refFovY / 2f);
 
 			float h = (float)(RotateHorz * Math.PI / 180.0);
 			float v = (float)(RotateVert * Math.PI / 180.0);
@@ -626,10 +626,10 @@ void main() {
 			// Verification: Z+ world -> y_eye = +sin(v)  (positive = UP on screen) ✓
 			//               X+ world -> y_eye = -cos(v)*sin(h)                     ✓
 			Matrix4 view = new Matrix4(
-				new Vector4( MathF.Cos(h), -MathF.Cos(v) * MathF.Sin(h),  MathF.Sin(v) * MathF.Sin(h), 0),
-				new Vector4( MathF.Sin(h),  MathF.Cos(v) * MathF.Cos(h), -MathF.Sin(v) * MathF.Cos(h), 0),
-				new Vector4( 0,             MathF.Sin(v),                   MathF.Cos(v),                0),
-				new Vector4( 0,             0,                              -camDist,                     1)
+				new Vector4(MathF.Cos(h), -MathF.Cos(v) * MathF.Sin(h), MathF.Sin(v) * MathF.Sin(h), 0),
+				new Vector4(MathF.Sin(h), MathF.Cos(v) * MathF.Cos(h), -MathF.Sin(v) * MathF.Cos(h), 0),
+				new Vector4(0, MathF.Sin(v), MathF.Cos(v), 0),
+				new Vector4(0, 0, -camDist, 1)
 			);
 
 			// Phase 5 — centering: translate the world so the target object is at the camera's look-at point.
@@ -648,10 +648,10 @@ void main() {
 
 			Matrix4 projection = Matrix4.CreateOrthographic(orthoHalfH * aspect * 2f, orthoHalfH * 2f, 0.001f, camDist * 2f + 500f);
 			_mvp = model * view * projection; // OpenTK row-major: reversed order, transpose:false
-			_view          = view;
-			_cameraTarget  = target;
-			_camDist       = camDist;
-			_orthoHalfH    = orthoHalfH;
+			_view = view;
+			_cameraTarget = target;
+			_camDist = camDist;
+			_orthoHalfH = orthoHalfH;
 
 			if (Antialiasing)
 			{
@@ -832,8 +832,8 @@ void main() {
 		{
 			var v = new Vector4((float)xyz.X, (float)xyz.Y, (float)xyz.Z, 1.0f) * _mvp;
 			if (v.W <= 0f) return null;
-			float ndcX  = v.X / v.W;
-			float ndcY  = v.Y / v.W;
+			float ndcX = v.X / v.W;
+			float ndcY = v.Y / v.W;
 			int screenX = (int)((ndcX + 1f) / 2f * Width);
 			int screenY = (int)((1f - ndcY) / 2f * Height);
 			return new Point(screenX, screenY);

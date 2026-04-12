@@ -22,7 +22,7 @@ namespace Comets.Application.OrbitViewer
 		const double DefaultRotateVert = 70.0;   // 90 - DefaultScrollVert(20)
 		const double DefaultRotateHorz = 15.0;   // 90 - DefaultScrollHorz(75)
 		const double DefaultZoom       = 145.0;
-		const double ZoomMin           = 5.0;
+		const double ZoomMin           = 1.5;
 		const double ZoomMax           = 5000.0;
 
 		#endregion
