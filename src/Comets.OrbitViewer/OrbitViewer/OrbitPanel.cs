@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Comets.OrbitViewer
@@ -362,15 +363,14 @@ void main() {
 
 			Comets = comets;
 
-			int ix = 0;
+			var orbits = new CometOrbit[Comets.Count];
+			Parallel.For(0, Comets.Count, i => orbits[i] = new CometOrbit(Comets[i]));
+			CometOrbits.AddRange(orbits);
+
 			foreach (OVComet c in Comets)
 			{
-				CometOrbits.Add(new CometOrbit(c));
-
 				if (c.IsMarked && !marked.Contains(c))
 					c.IsMarked = false;
-
-				ix++;
 			}
 
 			SelectedIndex = index;
@@ -566,11 +566,12 @@ void main() {
 			}
 			_cometOrbitBuffers.Clear();
 
-			for (int i = 0; i < CometOrbits.Count; i++)
+			// Build float arrays in parallel (pure CPU: Rotate per point), then upload sequentially.
+			var cometVerts = new float[CometOrbits.Count][];
+			Parallel.For(0, CometOrbits.Count, i =>
 			{
 				int n = CometOrbits[i].PointCount;
-				float[] verts = new float[n * 3];
-
+				var verts = new float[n * 3];
 				for (int j = 0; j < n; j++)
 				{
 					Xyz p = CometOrbits[i].GetAt(j).Rotate(MtxToEcl);
@@ -578,7 +579,12 @@ void main() {
 					verts[j * 3 + 1] = (float)p.Y;
 					verts[j * 3 + 2] = (float)p.Z;
 				}
+				cometVerts[i] = verts;
+			});
 
+			for (int i = 0; i < CometOrbits.Count; i++)
+			{
+				float[] verts = cometVerts[i];
 				int vao = GL.GenVertexArray();
 				int vbo = GL.GenBuffer();
 
@@ -589,7 +595,7 @@ void main() {
 				GL.EnableVertexAttribArray(0);
 				GL.BindVertexArray(0);
 
-				_cometOrbitBuffers.Add((vao, vbo, n));
+				_cometOrbitBuffers.Add((vao, vbo, verts.Length / 3));
 			}
 
 			_vbosNeedUpdate = false;

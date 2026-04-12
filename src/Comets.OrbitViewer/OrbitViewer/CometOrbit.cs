@@ -81,7 +81,7 @@ namespace Comets.OrbitViewer
 			double a = comet.q / (1.0 - comet.e);
 			double w = 1.0 - comet.e * comet.e;
 			double sqrtW = Math.Sqrt(w);
-			double kMax = Math.Max(20.0, Math.Pow(1.0 / w, 2.0 / 3.0));
+			double kMax = Math.Min(50.0, Math.Max(20.0, Math.Pow(1.0 / w, 2.0 / 3.0)));
 
 			if (a * (1.0 + comet.e) > MaxOrbitAU)
 			{
@@ -160,7 +160,7 @@ namespace Comets.OrbitViewer
 		{
 			double a = comet.q / (comet.e - 1.0);
 			double b = Math.Sqrt(comet.e * comet.e - 1.0);
-			double kMax = Math.Max(20.0, Math.Pow(1.0 / b, 2.0 / 3.0));
+			double kMax = Math.Min(50.0, Math.Max(20.0, Math.Pow(1.0 / b, 2.0 / 3.0)));
 			double coshEmax = (MaxOrbitAU / a + 1.0) / comet.e;
 			double E_max = coshEmax > 1.0 ? UdMath.arccosh(Math.Min(coshEmax, 1.0e6)) : 0.0;
 			double dE = 2.0 * E_max / OrbitDivisionCount;
@@ -194,7 +194,7 @@ namespace Comets.OrbitViewer
 		private void GetOrbitPara(OVComet comet)
 		{
 			double D_max = Math.Sqrt(Math.Max(MaxOrbitAU / comet.q - 1.0, 0.0));
-			double kMax = Math.Max(20.0, Math.Pow(D_max, 4.0 / 3.0));
+			double kMax = Math.Min(50.0, Math.Max(20.0, Math.Pow(D_max, 4.0 / 3.0)));
 			double dD = 2.0 * D_max / OrbitDivisionCount;
 
 			double D = -D_max;
