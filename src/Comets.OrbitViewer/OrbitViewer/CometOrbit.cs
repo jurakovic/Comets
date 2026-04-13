@@ -20,7 +20,7 @@ namespace Comets.OrbitViewer
 		/// <summary>
 		/// Actual number of sampled orbit points (varies with eccentricity under adaptive sampling).
 		/// </summary>
-		public int PointCount => _orbit.Count;
+		public int PointCount => _orbit?.Count ?? 0;
 
 		#endregion
 

@@ -601,44 +601,52 @@ void main() {
 				_planetOrbitBuffers[planet] = (vao, vbo, n);
 			}
 
-			foreach (var (vao, vbo, _) in _cometOrbitBuffers)
-			{
-				if (vao != 0) GL.DeleteVertexArray(vao);
-				if (vbo != 0) GL.DeleteBuffer(vbo);
-			}
-			_cometOrbitBuffers.Clear();
+			// Skip comet VBO rebuild if orbit data was already freed after a prior upload.
+			// This happens when UpdatePlanetOrbit fires (e.g. on comet selection in MultipleMode)
+			// without the CometOrbits being rebuilt — the existing GPU buffers are still valid.
+			bool hasCometOrbitData = CometOrbits.Count > 0 && CometOrbits[0].PointCount > 0;
 
-			// Build float arrays in parallel (pure CPU: Rotate per point), then upload sequentially.
-			var cometVerts = new float[CometOrbits.Count][];
-			Parallel.For(0, CometOrbits.Count, i =>
+			if (hasCometOrbitData)
 			{
-				int n = CometOrbits[i].PointCount;
-				var verts = new float[n * 3];
-				for (int j = 0; j < n; j++)
+				foreach (var (vao, vbo, _) in _cometOrbitBuffers)
 				{
-					Xyz p = CometOrbits[i].GetAt(j).Rotate(MtxToEcl);
-					verts[j * 3] = (float)p.X;
-					verts[j * 3 + 1] = (float)p.Y;
-					verts[j * 3 + 2] = (float)p.Z;
+					if (vao != 0) GL.DeleteVertexArray(vao);
+					if (vbo != 0) GL.DeleteBuffer(vbo);
 				}
-				cometVerts[i] = verts;
-			});
+				_cometOrbitBuffers.Clear();
 
-			for (int i = 0; i < CometOrbits.Count; i++)
-			{
-				float[] verts = cometVerts[i];
-				int vao = GL.GenVertexArray();
-				int vbo = GL.GenBuffer();
+				// Build float arrays in parallel (pure CPU: Rotate per point), then upload sequentially.
+				var cometVerts = new float[CometOrbits.Count][];
+				Parallel.For(0, CometOrbits.Count, i =>
+				{
+					int n = CometOrbits[i].PointCount;
+					var verts = new float[n * 3];
+					for (int j = 0; j < n; j++)
+					{
+						Xyz p = CometOrbits[i].GetAt(j).Rotate(MtxToEcl);
+						verts[j * 3] = (float)p.X;
+						verts[j * 3 + 1] = (float)p.Y;
+						verts[j * 3 + 2] = (float)p.Z;
+					}
+					cometVerts[i] = verts;
+				});
 
-				GL.BindVertexArray(vao);
-				GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
-				GL.BufferData(BufferTarget.ArrayBuffer, verts.Length * sizeof(float), verts, BufferUsageHint.DynamicDraw);
-				GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
-				GL.EnableVertexAttribArray(0);
-				GL.BindVertexArray(0);
+				for (int i = 0; i < CometOrbits.Count; i++)
+				{
+					float[] verts = cometVerts[i];
+					int vao = GL.GenVertexArray();
+					int vbo = GL.GenBuffer();
 
-				_cometOrbitBuffers.Add((vao, vbo, verts.Length / 3));
-				CometOrbits[i].FreeOrbitData();
+					GL.BindVertexArray(vao);
+					GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
+					GL.BufferData(BufferTarget.ArrayBuffer, verts.Length * sizeof(float), verts, BufferUsageHint.DynamicDraw);
+					GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
+					GL.EnableVertexAttribArray(0);
+					GL.BindVertexArray(0);
+
+					_cometOrbitBuffers.Add((vao, vbo, verts.Length / 3));
+					CometOrbits[i].FreeOrbitData();
+				}
 			}
 
 			_vbosNeedUpdate = false;
