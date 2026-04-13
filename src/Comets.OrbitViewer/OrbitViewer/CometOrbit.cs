@@ -62,6 +62,20 @@ namespace Comets.OrbitViewer
 
 		#endregion
 
+		#region FreeOrbitData
+
+		/// <summary>
+		/// Release the CPU-side orbit point list after the data has been uploaded to the GPU.
+		/// The orbit is rebuilt from orbital elements in CometOrbit's constructor when LoadPanel
+		/// is called again, so there is no need to keep it in RAM between GPU uploads.
+		/// </summary>
+		public void FreeOrbitData()
+		{
+			_orbit = null;
+		}
+
+		#endregion
+
 		#region GetOrbitEllip
 
 		/// <summary>

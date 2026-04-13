@@ -144,7 +144,7 @@ void main() {
 		private List<Xyz> CometsPos;
 
 		private Dictionary<Object, PlanetOrbit> PlanetsOrbit;
-		private Dictionary<Object, Xyz> PlanetsPos;
+		private Dictionary<Object, Xyz?> PlanetsPos;
 
 		private Matrix MtxToEcl;
 
@@ -305,7 +305,8 @@ void main() {
 
 		public OrbitPanel() : base(new GLControlSettings { NumberOfSamples = 8, DepthBits = 24 })
 		{
-			PlanetsPos = InitializeDictionary<Xyz>();
+			PlanetsPos = new Dictionary<Object, Xyz?>();
+			Planets.ForEach(planet => PlanetsPos.Add(planet, null));
 			PlanetsOrbit = InitializeDictionary<PlanetOrbit>();
 
 			Comets = new List<OVComet>();
@@ -637,6 +638,7 @@ void main() {
 				GL.BindVertexArray(0);
 
 				_cometOrbitBuffers.Add((vao, vbo, verts.Length / 3));
+				CometOrbits[i].FreeOrbitData();
 			}
 
 			_vbosNeedUpdate = false;
@@ -686,7 +688,7 @@ void main() {
 			}
 			else if (Planets.Contains(CenteredObject) && PlanetsPos[CenteredObject] != null)
 			{
-				Xyz p = PlanetsPos[CenteredObject];
+				Xyz p = PlanetsPos[CenteredObject].Value;
 				target = new Vector3((float)p.X, (float)p.Y, (float)p.Z);
 			}
 			Matrix4 model = Matrix4.CreateTranslation(-target);
@@ -987,7 +989,7 @@ void main() {
 				if (Zoom * GetPlanetAU(planet) < 15.0) continue;
 				if (PlanetsPos[planet] == null) continue;
 
-				Xyz p = PlanetsPos[planet];
+				Xyz p = PlanetsPos[planet].Value;
 				buf[0] = (float)p.X; buf[1] = (float)p.Y; buf[2] = (float)p.Z;
 				GL.BufferData(BufferTarget.ArrayBuffer, 3 * sizeof(float), buf, BufferUsageHint.StreamDraw);
 				GL.DrawArrays(PrimitiveType.Points, 0, 1);
@@ -1150,7 +1152,7 @@ void main() {
 							if (PlanetsPos[planet] == null) continue;
 							if (!LabelDisplay.Contains(planet)) continue;
 
-							Point? pt = MvpProject(PlanetsPos[planet]);
+							Point? pt = MvpProject(PlanetsPos[planet].Value);
 							if (pt is null) continue;
 							g.DrawString(planet.ToString(), FontPlanetName, planetBrush, pt.Value.X + 5, pt.Value.Y);
 						}
