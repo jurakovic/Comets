@@ -12,8 +12,4 @@
     <ProjectReference Include="..\Comets.Core\Comets.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="WinForms.DataVisualization" Version="1.9.2" />
-  </ItemGroup>
-
 </Project>
