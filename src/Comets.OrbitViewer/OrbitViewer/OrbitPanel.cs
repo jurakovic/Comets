@@ -10,6 +10,7 @@ using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace Comets.OrbitViewer
 {
@@ -162,6 +163,7 @@ void main() {
 		private Dictionary<Object, (int vao, int vbo, int count)> _planetOrbitBuffers;
 		private List<(int vao, int vbo, int count)> _cometOrbitBuffers = new List<(int, int, int)>();
 		private bool _vbosNeedUpdate = false;
+		private bool _isLoading = false;
 
 		// Text overlay
 		private int _textShaderProgram = 0;
@@ -362,23 +364,52 @@ void main() {
 			CometOrbits.Clear();
 
 			Comets = comets;
-
-			var orbits = new CometOrbit[Comets.Count];
-			Parallel.For(0, Comets.Count, i => orbits[i] = new CometOrbit(Comets[i]));
-			CometOrbits.AddRange(orbits);
-
-			foreach (OVComet c in Comets)
-			{
-				if (c.IsMarked && !marked.Contains(c))
-					c.IsMarked = false;
-			}
-
 			SelectedIndex = index;
 			CenteredIndex = index;
 
-			ATime = atime;
-			UpdatePlanetOrbit(atime);
-			UpdateRotationMatrix(atime);
+			var scheduler = TaskScheduler.FromCurrentSynchronizationContext();
+
+			var orbitTask = Task.Run(() =>
+			{
+				var orbits = new CometOrbit[comets.Count];
+				Parallel.For(0, comets.Count, i => orbits[i] = new CometOrbit(comets[i]));
+				return orbits;
+			});
+
+			// After 200ms, show loading screen only if the task is still running.
+			Task.Delay(200).ContinueWith(_ =>
+			{
+				if (orbitTask.IsCompleted) return;
+				if (!IsDisposed && IsHandleCreated)
+				{
+					try { MakeCurrent(); if (!_glLoaded) InitGL(); }
+					catch { }
+				}
+				_isLoading = true;
+				Invalidate();
+			}, scheduler);
+
+			orbitTask.ContinueWith(task =>
+			{
+				CometOrbits.AddRange(task.Result);
+
+				foreach (OVComet c in Comets)
+					if (c.IsMarked && !marked.Contains(c))
+						c.IsMarked = false;
+
+				ATime = atime;
+				UpdatePlanetOrbit(atime);
+				UpdateRotationMatrix(atime);
+
+				if (!IsDisposed && IsHandleCreated)
+				{
+					try { MakeCurrent(); if (!_glLoaded) InitGL(); if (_vbosNeedUpdate) UploadOrbitsToGpu(); }
+					catch { }
+				}
+
+				_isLoading = false;
+				Invalidate();
+			}, scheduler);
 		}
 
 		#endregion
@@ -387,6 +418,16 @@ void main() {
 
 		protected override void OnPaint(PaintEventArgs e)
 		{
+			if (_isLoading)
+			{
+				try { MakeCurrent(); }
+				catch { return; }
+				GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+				RenderLabels();
+				SwapBuffers();
+				return;
+			}
+
 			try { MakeCurrent(); }
 			catch { return; }
 
@@ -1030,7 +1071,7 @@ void main() {
 
 		private void RenderLabels()
 		{
-			if (!IsPaintEnabled || Width <= 0 || Height <= 0) return;
+			if ((!IsPaintEnabled && !_isLoading) || Width <= 0 || Height <= 0 || _textShaderProgram == 0) return;
 
 			using var bmp = new Bitmap(Width, Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 			using (var g = Graphics.FromImage(bmp))
@@ -1038,44 +1079,52 @@ void main() {
 				g.Clear(Color.Transparent);
 				g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
 
-				int labelMargin = 8;
-				using var infoBrush = new SolidBrush(ColorInformation);
-
-				// — Information overlay —
-				if (SelectedComet != null)
+				if (_isLoading)
 				{
-					g.DrawString(SelectedComet.Name, FontInformation, infoBrush, labelMargin, labelMargin);
+					var sz = g.MeasureString("Loading...", FontInformation);
+					g.DrawString("Loading...", FontInformation, new SolidBrush(ColorInformation),
+						(Width - sz.Width) / 2f, (Height - sz.Height) / 2f);
+				}
+				else
+				{
+					int labelMargin = 8;
+					using var infoBrush = new SolidBrush(ColorInformation);
 
-					if (ShowDistance)
+					// — Information overlay —
+					if (SelectedComet != null)
 					{
-						Ephemeris ep = GetEphemeris(SelectedComet);
-						double fs = FontInformation.Size;
-						string mstr = String.Format("Magnitude:      {0,5}", ep.Magnitude.ToString("0.00"));
-						string dstr = String.Format("Earth Distance: {0,9} AU", ep.EarthDist.ToString("0.000000"));
-						string rstr = String.Format("Sun Distance:   {0,9} AU", ep.SunDist.ToString("0.000000"));
-						g.DrawString(mstr, FontInformation, infoBrush, labelMargin, Height - labelMargin - (float)(fs * 5.0));
-						g.DrawString(dstr, FontInformation, infoBrush, labelMargin, Height - labelMargin - (float)(fs * 3.5));
-						g.DrawString(rstr, FontInformation, infoBrush, labelMargin, Height - labelMargin - (float)(fs * 2.0));
+						g.DrawString(SelectedComet.Name, FontInformation, infoBrush, labelMargin, labelMargin);
+
+						if (ShowDistance)
+						{
+							Ephemeris ep = GetEphemeris(SelectedComet);
+							double fs = FontInformation.Size;
+							string mstr = String.Format("Magnitude:      {0,5}", ep.Magnitude.ToString("0.00"));
+							string dstr = String.Format("Earth Distance: {0,9} AU", ep.EarthDist.ToString("0.000000"));
+							string rstr = String.Format("Sun Distance:   {0,9} AU", ep.SunDist.ToString("0.000000"));
+							g.DrawString(mstr, FontInformation, infoBrush, labelMargin, Height - labelMargin - (float)(fs * 5.0));
+							g.DrawString(dstr, FontInformation, infoBrush, labelMargin, Height - labelMargin - (float)(fs * 3.5));
+							g.DrawString(rstr, FontInformation, infoBrush, labelMargin, Height - labelMargin - (float)(fs * 2.0));
+						}
 					}
-				}
 
-				if (ShowDate && ATime != null)
-				{
-					string strDate = String.Format("{0:00} {1} {2} {3:00}:{4:00}:{5:00} UT",
-						ATime.Day, ATime.MonthString, ATime.Year, ATime.Hour, ATime.Minute, ATime.Second);
-					float strWidth = g.MeasureString(strDate, FontInformation).Width;
-					double fs = FontInformation.Size;
-					g.DrawString(strDate, FontInformation, infoBrush,
-						Width - strWidth - labelMargin,
-						Height - labelMargin - (float)(fs * 2.0));
-				}
+					if (ShowDate && ATime != null)
+					{
+						string strDate = String.Format("{0:00} {1} {2} {3:00}:{4:00}:{5:00} UT",
+							ATime.Day, ATime.MonthString, ATime.Year, ATime.Hour, ATime.Minute, ATime.Second);
+						float strWidth = g.MeasureString(strDate, FontInformation).Width;
+						double fs = FontInformation.Size;
+						g.DrawString(strDate, FontInformation, infoBrush,
+							Width - strWidth - labelMargin,
+							Height - labelMargin - (float)(fs * 2.0));
+					}
 
-				// — Axis labels —
-				if (ShowAxes && _glLoaded)
-				{
-					using var grayBrush = new SolidBrush(Color.Gray);
-					const double sizeAU = 150.0;
-					(Xyz xyz, string label)[] axisLabels = {
+					// — Axis labels —
+					if (ShowAxes && _glLoaded)
+					{
+						using var grayBrush = new SolidBrush(Color.Gray);
+						const double sizeAU = 150.0;
+						(Xyz xyz, string label)[] axisLabels = {
 						(new Xyz(-sizeAU, 0, 0), "Autumnal equinox"),
 						(new Xyz(0, -sizeAU, 0), "Winter solstice"),
 						(new Xyz(0, 0, -sizeAU), "South ecliptic pole"),
@@ -1083,62 +1132,63 @@ void main() {
 						(new Xyz(0,  sizeAU, 0), "Summer solstice"),
 						(new Xyz(0, 0,  sizeAU), "North ecliptic pole"),
 					};
-					foreach (var (xyz, label) in axisLabels)
-					{
-						Point? pt = MvpProject(xyz);
-						if (pt is null) continue;
-						g.DrawString(label, FontAxisLabel, grayBrush, pt.Value.X, pt.Value.Y);
-					}
-				}
-
-				// — Planet name labels —
-				if (_glLoaded)
-				{
-					using var planetBrush = new SolidBrush(ColorPlanetName);
-					foreach (Object planet in Planets)
-					{
-						if (Zoom * GetPlanetAU(planet) < 15.0) continue;
-						if (PlanetsPos[planet] == null) continue;
-						if (!LabelDisplay.Contains(planet)) continue;
-
-						Point? pt = MvpProject(PlanetsPos[planet]);
-						if (pt is null) continue;
-						g.DrawString(planet.ToString(), FontPlanetName, planetBrush, pt.Value.X + 5, pt.Value.Y);
-					}
-				}
-
-				// — Comet name labels —
-				if (MtxToEcl != null && _glLoaded)
-				{
-					bool visibleLabelAll = LabelDisplay.Contains(Object.Comet);
-					for (int i = 0; i < Comets.Count && i < CometsPos.Count; i++)
-					{
-						bool visibleComet = Comets[i].IsVisible;
-						bool visibleSelected = PreserveSelectedLabel && i == SelectedIndex;
-						bool isCometMarked = Comets[i].IsMarked;
-						bool visibleLabel = visibleLabelAll;
-
-						if (!visibleComet)
+						foreach (var (xyz, label) in axisLabels)
 						{
-							if (FilterOnDateShowInWeakColor)
-							{
-								visibleComet = true;
-								if (!visibleSelected)
-									visibleLabel = false;
-							}
+							Point? pt = MvpProject(xyz);
+							if (pt is null) continue;
+							g.DrawString(label, FontAxisLabel, grayBrush, pt.Value.X, pt.Value.Y);
 						}
+					}
 
-						if (!(visibleComet || visibleSelected || isCometMarked)) continue;
-						if (!(visibleLabel || visibleSelected || isCometMarked)) continue;
+					// — Planet name labels —
+					if (_glLoaded)
+					{
+						using var planetBrush = new SolidBrush(ColorPlanetName);
+						foreach (Object planet in Planets)
+						{
+							if (Zoom * GetPlanetAU(planet) < 15.0) continue;
+							if (PlanetsPos[planet] == null) continue;
+							if (!LabelDisplay.Contains(planet)) continue;
 
-						Color nameColor = (MultipleMode && Comets.Count > 1 && visibleLabel && visibleSelected)
-							? ColorCometNameSelected
-							: ColorCometName;
+							Point? pt = MvpProject(PlanetsPos[planet]);
+							if (pt is null) continue;
+							g.DrawString(planet.ToString(), FontPlanetName, planetBrush, pt.Value.X + 5, pt.Value.Y);
+						}
+					}
 
-						Point? pt = MvpProject(CometsPos[i].Rotate(MtxToEcl));
-						if (pt is null) continue;
-						using var nameBrush = new SolidBrush(nameColor);
-						g.DrawString(Comets[i].Name, FontObjectName, nameBrush, pt.Value.X + 5, pt.Value.Y);
+					// — Comet name labels —
+					if (MtxToEcl != null && _glLoaded)
+					{
+						bool visibleLabelAll = LabelDisplay.Contains(Object.Comet);
+						for (int i = 0; i < Comets.Count && i < CometsPos.Count; i++)
+						{
+							bool visibleComet = Comets[i].IsVisible;
+							bool visibleSelected = PreserveSelectedLabel && i == SelectedIndex;
+							bool isCometMarked = Comets[i].IsMarked;
+							bool visibleLabel = visibleLabelAll;
+
+							if (!visibleComet)
+							{
+								if (FilterOnDateShowInWeakColor)
+								{
+									visibleComet = true;
+									if (!visibleSelected)
+										visibleLabel = false;
+								}
+							}
+
+							if (!(visibleComet || visibleSelected || isCometMarked)) continue;
+							if (!(visibleLabel || visibleSelected || isCometMarked)) continue;
+
+							Color nameColor = (MultipleMode && Comets.Count > 1 && visibleLabel && visibleSelected)
+								? ColorCometNameSelected
+								: ColorCometName;
+
+							Point? pt = MvpProject(CometsPos[i].Rotate(MtxToEcl));
+							if (pt is null) continue;
+							using var nameBrush = new SolidBrush(nameColor);
+							g.DrawString(Comets[i].Name, FontObjectName, nameBrush, pt.Value.X + 5, pt.Value.Y);
+						}
 					}
 				}
 			}
