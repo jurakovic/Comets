@@ -619,14 +619,12 @@ void main() {
 			_cometVbosDirty = true;
 		}
 
-		private void RenderScene()
+		/// <summary>
+		/// Recomputes _mvp, _view, and _orthoHalfH from the current camera parameters.
+		/// Pure CPU math — no GL calls. Safe to call before the first rendered frame.
+		/// </summary>
+		private void UpdateMVP()
 		{
-			if (!IsPaintEnabled || _shaderProgram == 0)
-				return;
-
-			if (_vbosNeedUpdate || _cometVbosDirty)
-				UploadOrbitsToGpu();
-
 			// Build MVP: orthographic projection, view built directly from rotation angles.
 			// Matches the original RotateX(RotateVert)·RotateZ(RotateHorz) scene transform exactly,
 			// with a -camDist Z translation added so depth-based calculations still work.
@@ -654,7 +652,7 @@ void main() {
 				new Vector4(0, 0, -camDist, 1)
 			);
 
-			// Phase 5 — centering: translate the world so the target object is at the camera's look-at point.
+			// Centering: translate the world so the target object is at the camera's look-at point.
 			Vector3 target = Vector3.Zero;
 			if (CenteredObject == Object.Comet && CenteredIndex >= 0 && CenteredIndex < CometsPos.Count && MtxToEcl != null)
 			{
@@ -678,6 +676,17 @@ void main() {
 			_mvp = model * view * projection; // OpenTK row-major: reversed order, transpose:false
 			_view = view;
 			_orthoHalfH = orthoHalfH;
+		}
+
+		private void RenderScene()
+		{
+			if (!IsPaintEnabled || _shaderProgram == 0)
+				return;
+
+			if (_vbosNeedUpdate || _cometVbosDirty)
+				UploadOrbitsToGpu();
+
+			UpdateMVP();
 
 			if (Antialiasing)
 			{
@@ -818,6 +827,8 @@ void main() {
 		private void UpdateCometPanelLocations()
 		{
 			if (!IsPaintEnabled || MtxToEcl == null || !_glLoaded) return;
+
+			UpdateMVP();
 
 			for (int i = 0; i < Comets.Count && i < CometsPos.Count; i++)
 			{

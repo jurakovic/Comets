@@ -64,7 +64,9 @@ void main()
 
 ## MVP Matrix
 
-Built every frame in `RenderScene()`. OpenTK stores `Matrix4` in **row-major** order (transposed relative to the mathematical column-major convention). GPU upload uses `transpose: false`, so GLSL receives the correct column-major form automatically.
+Computed by `UpdateMVP()`, which is called from both `RenderScene()` and `UpdateCometPanelLocations()`. This ensures `_mvp`, `_view`, and `_orthoHalfH` are always current regardless of call order. `UpdateMVP()` is pure CPU math — no GL calls — so it is safe to invoke before the first rendered frame.
+
+OpenTK stores `Matrix4` in **row-major** order (transposed relative to the mathematical column-major convention). GPU upload uses `transpose: false`, so GLSL receives the correct column-major form automatically.
 
 CPU-side multiplication order (reversed from math convention due to row-major storage):
 
@@ -250,7 +252,7 @@ Orbit VBOs store raw ecliptic float3 positions. The model matrix (centering) is 
 Each frame in `OnPaint`:
 
 1. `GL.Clear` — color + depth
-2. `RenderScene` — uploads MVP, draws all orbit lines and body dots via OpenGL
+2. `RenderScene` — calls `UpdateMVP()`, draws all orbit lines and body dots via OpenGL
 3. `RenderLabels` — GDI+ bitmap quad: text overlays projected with `MvpProject`
 4. `SwapBuffers`
-5. `UpdateCometPanelLocations` — projects comet positions to screen coords for the info panel
+5. `UpdateCometPanelLocations` — calls `UpdateMVP()` then projects comet positions to screen coords for the info panel
