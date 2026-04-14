@@ -194,6 +194,7 @@ namespace Comets.Application.OrbitViewer
 		private void SetPreserveSelectedOrbit(bool preserveSelectedOrbit)
 		{
 			orbitPanel.PreserveSelectedOrbit = preserveSelectedOrbit;
+			orbitPanel.InvalidateCometVbos();
 		}
 
 		private void SetPreserveSelectedLabel(bool preserveSelectedLabel)
@@ -212,6 +213,8 @@ namespace Comets.Application.OrbitViewer
 			{
 				if (SelectedComet != null)
 					SelectedComet.IsMarked = !SelectedComet.IsMarked;
+
+				orbitPanel.InvalidateCometVbos();
 
 				if (orbitPanel.IsPaintEnabled && !IsSimulationStarted)
 					RefreshPanel();
@@ -736,6 +739,7 @@ namespace Comets.Application.OrbitViewer
 					if (!ctrl && !shift && orbitPanel.MultipleMode)
 					{
 						cometControl.UnmarkComets();
+						orbitPanel.InvalidateCometVbos();
 
 						if (orbitPanel.IsPaintEnabled && !IsSimulationStarted)
 							RefreshPanel();

@@ -8,9 +8,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Threading;
 
 namespace Comets.OrbitViewer
 {
@@ -140,7 +138,6 @@ void main() {
 		private int SelectedIndex;
 		private int CenteredIndex;
 
-		private List<CometOrbit> CometOrbits;
 		private List<Xyz> CometsPos;
 
 		private Dictionary<Object, PlanetOrbit> PlanetsOrbit;
@@ -161,9 +158,9 @@ void main() {
 		private int _bodyVao = 0;
 		private int _bodyVbo = 0;
 		private Dictionary<Object, (int vao, int vbo, int count)> _planetOrbitBuffers;
-		private List<(int vao, int vbo, int count)> _cometOrbitBuffers = new List<(int, int, int)>();
+		private Dictionary<int, (int vao, int vbo, int count)> _cometOrbitBuffers = new Dictionary<int, (int, int, int)>();
 		private bool _vbosNeedUpdate = false;
-		private bool _isLoading = false;
+		private bool _cometVbosDirty = false;
 
 		// Text overlay
 		private int _textShaderProgram = 0;
@@ -310,7 +307,6 @@ void main() {
 			PlanetsOrbit = InitializeDictionary<PlanetOrbit>();
 
 			Comets = new List<OVComet>();
-			CometOrbits = new List<CometOrbit>();
 			CometsPos = new List<Xyz>();
 
 			OrbitDisplay = DefaultOrbitDisplay;
@@ -336,22 +332,17 @@ void main() {
 			IsPaintEnabled = true;
 
 			if (!MultipleMode)
-			{
 				Comets.Clear();
-				CometOrbits.Clear();
-			}
 
 			if (comet != null && !Comets.Contains(comet))
-			{
 				Comets.Add(comet);
-				CometOrbits.Add(new CometOrbit(comet));
-			}
 
 			SelectedIndex = Comets.IndexOf(comet);
 
 			ATime = atime;
 			UpdatePlanetOrbit(atime);
 			UpdateRotationMatrix(atime);
+			_cometVbosDirty = true;
 		}
 
 		public void LoadPanel(List<OVComet> comets, ATime atime, int index)
@@ -362,55 +353,18 @@ void main() {
 			MultipleMode = true;
 
 			Comets.Clear();
-			CometOrbits.Clear();
-
 			Comets = comets;
 			SelectedIndex = index;
 			CenteredIndex = index;
 
-			var scheduler = TaskScheduler.FromCurrentSynchronizationContext();
+			foreach (OVComet c in Comets)
+				if (c.IsMarked && !marked.Contains(c))
+					c.IsMarked = false;
 
-			var orbitTask = Task.Run(() =>
-			{
-				var orbits = new CometOrbit[comets.Count];
-				Parallel.For(0, comets.Count, i => orbits[i] = new CometOrbit(comets[i]));
-				return orbits;
-			});
-
-			// After 200ms, show loading screen only if the task is still running.
-			Task.Delay(200).ContinueWith(_ =>
-			{
-				if (orbitTask.IsCompleted) return;
-				if (!IsDisposed && IsHandleCreated)
-				{
-					try { MakeCurrent(); if (!_glLoaded) InitGL(); }
-					catch { }
-				}
-				_isLoading = true;
-				Invalidate();
-			}, scheduler);
-
-			orbitTask.ContinueWith(task =>
-			{
-				CometOrbits.AddRange(task.Result);
-
-				foreach (OVComet c in Comets)
-					if (c.IsMarked && !marked.Contains(c))
-						c.IsMarked = false;
-
-				ATime = atime;
-				UpdatePlanetOrbit(atime);
-				UpdateRotationMatrix(atime);
-
-				if (!IsDisposed && IsHandleCreated)
-				{
-					try { MakeCurrent(); if (!_glLoaded) InitGL(); if (_vbosNeedUpdate) UploadOrbitsToGpu(); }
-					catch { }
-				}
-
-				_isLoading = false;
-				Invalidate();
-			}, scheduler);
+			ATime = atime;
+			UpdatePlanetOrbit(atime);
+			UpdateRotationMatrix(atime);
+			_cometVbosDirty = true;
 		}
 
 		#endregion
@@ -419,16 +373,6 @@ void main() {
 
 		protected override void OnPaint(PaintEventArgs e)
 		{
-			if (_isLoading)
-			{
-				try { MakeCurrent(); }
-				catch { return; }
-				GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-				RenderLabels();
-				SwapBuffers();
-				return;
-			}
-
 			try { MakeCurrent(); }
 			catch { return; }
 
@@ -568,74 +512,32 @@ void main() {
 			if (MtxToEcl == null || !IsPaintEnabled)
 			{
 				_vbosNeedUpdate = false;
+				_cometVbosDirty = false;
 				return;
 			}
 
-			foreach (Object planet in Planets)
+			// Re-upload planet VBOs when rotation matrix or planet elements changed.
+			if (_vbosNeedUpdate)
 			{
-				if (PlanetsOrbit[planet] == null)
-					continue;
-
-				PlanetOrbit orbit = PlanetsOrbit[planet];
-				int n = PlanetOrbit.OrbitDivisionCount + 1;
-				float[] verts = new float[n * 3];
-
-				for (int i = 0; i <= PlanetOrbit.OrbitDivisionCount; i++)
+				foreach (Object planet in Planets)
 				{
-					Xyz p = orbit.GetAt(i).Rotate(MtxToEcl);
-					verts[i * 3] = (float)p.X;
-					verts[i * 3 + 1] = (float)p.Y;
-					verts[i * 3 + 2] = (float)p.Z;
-				}
+					if (PlanetsOrbit[planet] == null)
+						continue;
 
-				var (vao, vbo, _) = _planetOrbitBuffers[planet];
-				if (vao == 0) { vao = GL.GenVertexArray(); vbo = GL.GenBuffer(); }
+					PlanetOrbit orbit = PlanetsOrbit[planet];
+					int n = PlanetOrbit.OrbitDivisionCount + 1;
+					float[] verts = new float[n * 3];
 
-				GL.BindVertexArray(vao);
-				GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
-				GL.BufferData(BufferTarget.ArrayBuffer, verts.Length * sizeof(float), verts, BufferUsageHint.DynamicDraw);
-				GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
-				GL.EnableVertexAttribArray(0);
-				GL.BindVertexArray(0);
-
-				_planetOrbitBuffers[planet] = (vao, vbo, n);
-			}
-
-			// Skip comet VBO rebuild if orbit data was already freed after a prior upload.
-			// This happens when UpdatePlanetOrbit fires (e.g. on comet selection in MultipleMode)
-			// without the CometOrbits being rebuilt — the existing GPU buffers are still valid.
-			bool hasCometOrbitData = CometOrbits.Count > 0 && CometOrbits[0].PointCount > 0;
-
-			if (hasCometOrbitData)
-			{
-				foreach (var (vao, vbo, _) in _cometOrbitBuffers)
-				{
-					if (vao != 0) GL.DeleteVertexArray(vao);
-					if (vbo != 0) GL.DeleteBuffer(vbo);
-				}
-				_cometOrbitBuffers.Clear();
-
-				// Build float arrays in parallel (pure CPU: Rotate per point), then upload sequentially.
-				var cometVerts = new float[CometOrbits.Count][];
-				Parallel.For(0, CometOrbits.Count, i =>
-				{
-					int n = CometOrbits[i].PointCount;
-					var verts = new float[n * 3];
-					for (int j = 0; j < n; j++)
+					for (int i = 0; i <= PlanetOrbit.OrbitDivisionCount; i++)
 					{
-						Xyz p = CometOrbits[i].GetAt(j).Rotate(MtxToEcl);
-						verts[j * 3] = (float)p.X;
-						verts[j * 3 + 1] = (float)p.Y;
-						verts[j * 3 + 2] = (float)p.Z;
+						Xyz p = orbit.GetAt(i).Rotate(MtxToEcl);
+						verts[i * 3] = (float)p.X;
+						verts[i * 3 + 1] = (float)p.Y;
+						verts[i * 3 + 2] = (float)p.Z;
 					}
-					cometVerts[i] = verts;
-				});
 
-				for (int i = 0; i < CometOrbits.Count; i++)
-				{
-					float[] verts = cometVerts[i];
-					int vao = GL.GenVertexArray();
-					int vbo = GL.GenBuffer();
+					var (vao, vbo, _) = _planetOrbitBuffers[planet];
+					if (vao == 0) { vao = GL.GenVertexArray(); vbo = GL.GenBuffer(); }
 
 					GL.BindVertexArray(vao);
 					GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
@@ -644,12 +546,77 @@ void main() {
 					GL.EnableVertexAttribArray(0);
 					GL.BindVertexArray(0);
 
-					_cometOrbitBuffers.Add((vao, vbo, verts.Length / 3));
-					CometOrbits[i].FreeOrbitData();
+					_planetOrbitBuffers[planet] = (vao, vbo, n);
 				}
 			}
 
+			// Determine which comet indices need VBOs (selected + marked).
+			var required = new HashSet<int>();
+			if (PreserveSelectedOrbit && SelectedIndex >= 0 && SelectedIndex < Comets.Count)
+				required.Add(SelectedIndex);
+			for (int i = 0; i < Comets.Count; i++)
+				if (Comets[i].IsMarked) required.Add(i);
+
+			// Delete VBOs for comets no longer needed.
+			foreach (int key in _cometOrbitBuffers.Keys.ToList())
+			{
+				if (!required.Contains(key))
+				{
+					var (vao, vbo, _) = _cometOrbitBuffers[key];
+					if (vao != 0) GL.DeleteVertexArray(vao);
+					if (vbo != 0) GL.DeleteBuffer(vbo);
+					_cometOrbitBuffers.Remove(key);
+				}
+			}
+
+			// Build/upload VBOs for required comets.
+			// When _vbosNeedUpdate, rebuild all (MtxToEcl changed so existing data is stale).
+			// When _cometVbosDirty only, skip comets already uploaded.
+			foreach (int i in required)
+			{
+				if (_cometOrbitBuffers.ContainsKey(i) && !_vbosNeedUpdate)
+					continue;
+
+				var orbit = new CometOrbit(Comets[i]);
+				int n = orbit.PointCount;
+				float[] verts = new float[n * 3];
+				for (int j = 0; j < n; j++)
+				{
+					Xyz p = orbit.GetAt(j).Rotate(MtxToEcl);
+					verts[j * 3] = (float)p.X;
+					verts[j * 3 + 1] = (float)p.Y;
+					verts[j * 3 + 2] = (float)p.Z;
+				}
+
+				int vao, vbo;
+				if (_cometOrbitBuffers.TryGetValue(i, out var existing))
+				{
+					vao = existing.vao;
+					vbo = existing.vbo;
+				}
+				else
+				{
+					vao = GL.GenVertexArray();
+					vbo = GL.GenBuffer();
+				}
+
+				GL.BindVertexArray(vao);
+				GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
+				GL.BufferData(BufferTarget.ArrayBuffer, verts.Length * sizeof(float), verts, BufferUsageHint.DynamicDraw);
+				GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
+				GL.EnableVertexAttribArray(0);
+				GL.BindVertexArray(0);
+
+				_cometOrbitBuffers[i] = (vao, vbo, n);
+			}
+
 			_vbosNeedUpdate = false;
+			_cometVbosDirty = false;
+		}
+
+		public void InvalidateCometVbos()
+		{
+			_cometVbosDirty = true;
 		}
 
 		private void RenderScene()
@@ -657,7 +624,7 @@ void main() {
 			if (!IsPaintEnabled || _shaderProgram == 0)
 				return;
 
-			if (_vbosNeedUpdate)
+			if (_vbosNeedUpdate || _cometVbosDirty)
 				UploadOrbitsToGpu();
 
 			// Build MVP: orthographic projection, view built directly from rotation angles.
@@ -754,19 +721,21 @@ void main() {
 			// Comet orbits
 			int markedCount = MarkedComets.Count();
 
-			for (int i = 0; i < Comets.Count && i < _cometOrbitBuffers.Count; i++)
+			for (int i = 0; i < Comets.Count; i++)
 			{
 				bool visibleSelected = PreserveSelectedOrbit && i == SelectedIndex;
 				bool isCometMarked = Comets[i].IsMarked;
 
 				if (!visibleSelected && !isCometMarked) continue;
 
+				if (!_cometOrbitBuffers.TryGetValue(i, out var cometBuf)) continue;
+
 				bool visibleComet = Comets[i].IsVisible;
 				bool useWeakColor = !visibleComet && FilterOnDateShowInWeakColor && !visibleSelected && !isCometMarked;
 				bool useSelectedColor = visibleSelected && MultipleMode &&
 					((markedCount > 0 && !isCometMarked) || (markedCount > 1 && isCometMarked));
 
-				var (vao, _, count) = _cometOrbitBuffers[i];
+				var (vao, _, count) = cometBuf;
 				if (vao == 0 || count == 0) continue;
 
 				Color upper, lower;
@@ -1081,7 +1050,7 @@ void main() {
 
 		private void RenderLabels()
 		{
-			if ((!IsPaintEnabled && !_isLoading) || Width <= 0 || Height <= 0 || _textShaderProgram == 0) return;
+			if (!IsPaintEnabled || Width <= 0 || Height <= 0 || _textShaderProgram == 0) return;
 
 			using var bmp = new Bitmap(Width, Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 			using (var g = Graphics.FromImage(bmp))
@@ -1089,13 +1058,6 @@ void main() {
 				g.Clear(Color.Transparent);
 				g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
 
-				if (_isLoading)
-				{
-					var sz = g.MeasureString("Loading...", FontInformation);
-					g.DrawString("Loading...", FontInformation, new SolidBrush(ColorInformation),
-						(Width - sz.Width) / 2f, (Height - sz.Height) / 2f);
-				}
-				else
 				{
 					int labelMargin = 8;
 					using var infoBrush = new SolidBrush(ColorInformation);
@@ -1232,15 +1194,12 @@ void main() {
 			OVComet comet = SelectedComet;
 
 			Comets.Clear();
-			CometOrbits.Clear();
 			SelectedIndex = -1;
 			CenteredIndex = -1;
 
 			if (!clearAll && comet != null)
 			{
 				Comets.Add(comet);
-				CometOrbits.Add(new CometOrbit(comet));
-
 				SelectedIndex = 0;
 
 				UpdatePositions(ATime);
@@ -1249,6 +1208,7 @@ void main() {
 			}
 
 			_vbosNeedUpdate = true;
+			_cometVbosDirty = true;
 		}
 
 		#endregion

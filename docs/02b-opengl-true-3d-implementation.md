@@ -81,11 +81,15 @@ var clip = new Vector4(worldX, worldY, worldZ, 1.0f) * _mvp;
 
 ### Projection matrix
 
+Orthographic, with a symmetric depth range so orbits that cross the camera plane render as complete ellipses without clipping:
+
 ```csharp
-const float fovY = MathF.PI / 4f;  // 45°
-float aspect = (float)Width / Height;
-Matrix4 projection = Matrix4.CreatePerspectiveFieldOfView(fovY, aspect, 0.001f, 2000f);
-// near = 0.001 AU (inside Mercury's orbit), far = 2000 AU
+const float refFovY = MathF.PI / 4f;   // 45° reference — defines scene scale, not frustum shape
+float camDist    = 1800f / (float)Zoom;
+float orthoHalfH = camDist * MathF.Tan(refFovY / 2f);
+float halfDepth  = camDist + 500f;      // symmetric near/far
+Matrix4 projection = Matrix4.CreateOrthographic(
+    orthoHalfH * aspect * 2f, orthoHalfH * 2f, -halfDepth, halfDepth);
 ```
 
 ### View matrix
@@ -223,11 +227,22 @@ The 8 arm endpoint vertices are uploaded directly in ecliptic space and transfor
 
 ## GPU Buffers
 
-- **Planet orbits**: one static VAO/VBO per planet, uploaded once per date change. `LineStrip` topology.
-- **Comet orbits**: one VAO/VBO per comet (up to `MaximumOrbits = 50`), uploaded once per date change. `LineStrip` topology.
+- **Planet orbits**: one VAO/VBO per planet, rebuilt whenever `_vbosNeedUpdate` is set (rotation matrix or planet elements changed). `LineStrip` topology.
+- **Comet orbits**: lazy — only the selected comet and any marked comets get a VAO/VBO. Stored in `_cometOrbitBuffers` as a `Dictionary<int, (vao, vbo, count)>` keyed by comet index. `LineStrip` topology.
 - **Bodies / crosshair**: a single shared streaming VAO/VBO (`_bodyVao`/`_bodyVbo`) re-filled each frame with `BufferUsageHint.StreamDraw` for Sun, planets, comets, axes, and crosshair lines.
 
 Orbit VBOs store raw ecliptic float3 positions. The model matrix (centering) is applied on the GPU via `uMVP`, so the same buffer works regardless of which object is centered.
+
+### Comet VBO lifecycle
+
+`CometOrbit` objects are built on demand in `UploadOrbitsToGpu` and discarded immediately after upload — they are never stored between frames. Two flags drive updates:
+
+| Flag | Set when | Effect |
+|---|---|---|
+| `_vbosNeedUpdate` | Rotation matrix or planet elements changed | Rebuilds planet VBOs and all existing comet VBOs |
+| `_cometVbosDirty` | Selection or marking changed | Adds VBOs for newly required comets, deletes VBOs for no longer required ones |
+
+`OrbitViewerControl` calls `orbitPanel.InvalidateCometVbos()` whenever `IsMarked` changes on any comet.
 
 ---
 
