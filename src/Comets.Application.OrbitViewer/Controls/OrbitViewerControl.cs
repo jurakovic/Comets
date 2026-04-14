@@ -551,14 +551,6 @@ namespace Comets.Application.OrbitViewer
 					}
 					break;
 				case Keys.Subtract:
-					if (!ctrl && !shift && IsKeyboardScroll)
-					{
-						orbitPanel.Zoom = Math.Clamp(orbitPanel.Zoom - 10.0, ZoomMin, ZoomMax);
-						RefreshPanel();
-						handled = true;
-					}
-					break;
-
 				case Keys.A:
 					if (!ctrl && !shift && IsKeyboardScroll)
 					{
