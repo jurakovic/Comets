@@ -5,14 +5,14 @@
 
 - Ephemeris calculation
 - Graph of visual magnitude or distance to Sun or Earth
-- *3D* Orbit Viewer
+- 3D Orbit Viewer
 - Orbital elements converter (all [MPC](https://www.minorplanetcenter.net/iau/Ephemerides/Comets/SoftwareComets.html) listed formats supported, and some more)
 - Dark theme
 
 ## Credits
 
 Inspired by the [Comet for Windows](http://www.aerith.net/project/comet.html) by Seiichi Yoshida.  
-Includes advanced version of [OrbitViewer.NET](https://github.com/jurakovic/OrbitViewer.NET) (C# rewrite of [OrbitViewer](https://www.astroarts.co.jp/products/orbitviewer/index.html) by Osamu Ajiki and Ron Baalke).  
+Includes improved version of [OrbitViewer.NET](https://github.com/jurakovic/OrbitViewer.NET) (C# rewrite of [OrbitViewer](https://www.astroarts.co.jp/products/orbitviewer/index.html) by Osamu Ajiki and Ron Baalke).  
 Dark theme thanks to [Dark-Mode-Forms](https://github.com/BlueMystical/Dark-Mode-Forms) by BlueMystical (my fork [here](https://github.com/jurakovic/Dark-Mode-Forms)).  
 
 > Books and other open source astronomy software and libraries used for reference listed [below](#References).
@@ -20,7 +20,7 @@ Dark theme thanks to [Dark-Mode-Forms](https://github.com/BlueMystical/Dark-Mode
 
 ## Download
 
-[![GitHub Release](https://img.shields.io/github/v/release/jurakovic/comets)](https://github.com/jurakovic/Comets/releases/latest)
+[![GitHub Release](https://img.shields.io/github/v/release/jurakovic/comets?color=blue)](https://github.com/jurakovic/Comets/releases/latest)
 
 ## Screenshots
 
