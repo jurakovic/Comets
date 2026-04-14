@@ -1,6 +1,6 @@
 ﻿using Comets.Core;
 using Comets.Core.Managers;
-using OpenTK.WinForms;
+using OpenTK.GLControl;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using System;
