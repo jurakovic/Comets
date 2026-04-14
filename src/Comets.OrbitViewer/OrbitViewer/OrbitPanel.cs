@@ -822,7 +822,7 @@ void main() {
 			for (int i = 0; i < Comets.Count && i < CometsPos.Count; i++)
 			{
 				Xyz eclXyz = CometsPos[i].Rotate(MtxToEcl);
-				Comets[i].PanelLocation = MvpProject(eclXyz) ?? new Point(-9999, -9999);
+				Comets[i].PanelLocation = MvpProject(eclXyz);
 			}
 		}
 
@@ -854,12 +854,10 @@ void main() {
 
 		/// <summary>
 		/// Projects a world-space ecliptic position to screen pixels using the current MVP matrix.
-		/// Returns null if the point is behind the camera.
 		/// </summary>
-		private Point? MvpProject(Xyz xyz)
+		private Point MvpProject(Xyz xyz)
 		{
 			var v = new Vector4((float)xyz.X, (float)xyz.Y, (float)xyz.Z, 1.0f) * _mvp;
-			if (v.W <= 0f) return null;
 			float ndcX = v.X / v.W;
 			float ndcY = v.Y / v.W;
 			int screenX = (int)((ndcX + 1f) / 2f * Width);
@@ -1106,9 +1104,8 @@ void main() {
 					};
 						foreach (var (xyz, label) in axisLabels)
 						{
-							Point? pt = MvpProject(xyz);
-							if (pt is null) continue;
-							g.DrawString(label, FontAxisLabel, grayBrush, pt.Value.X, pt.Value.Y);
+							Point pt = MvpProject(xyz);
+							g.DrawString(label, FontAxisLabel, grayBrush, pt.X, pt.Y);
 						}
 					}
 
@@ -1122,9 +1119,8 @@ void main() {
 							if (PlanetsPos[planet] == null) continue;
 							if (!LabelDisplay.Contains(planet)) continue;
 
-							Point? pt = MvpProject(PlanetsPos[planet].Value);
-							if (pt is null) continue;
-							g.DrawString(planet.ToString(), FontPlanetName, planetBrush, pt.Value.X + 5, pt.Value.Y);
+							Point pt = MvpProject(PlanetsPos[planet].Value);
+							g.DrawString(planet.ToString(), FontPlanetName, planetBrush, pt.X + 5, pt.Y);
 						}
 					}
 
@@ -1156,10 +1152,9 @@ void main() {
 								? ColorCometNameSelected
 								: ColorCometName;
 
-							Point? pt = MvpProject(CometsPos[i].Rotate(MtxToEcl));
-							if (pt is null) continue;
+							Point pt = MvpProject(CometsPos[i].Rotate(MtxToEcl));
 							using var nameBrush = new SolidBrush(nameColor);
-							g.DrawString(Comets[i].Name, FontObjectName, nameBrush, pt.Value.X + 5, pt.Value.Y);
+							g.DrawString(Comets[i].Name, FontObjectName, nameBrush, pt.X + 5, pt.Y);
 						}
 					}
 				}
