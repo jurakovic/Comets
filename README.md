@@ -31,20 +31,20 @@ Dark theme thanks to [Dark-Mode-Forms](https://github.com/BlueMystical/Dark-Mode
 ## Screenshots
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="img/ephemeris.png">
-  <source media="(prefers-color-scheme: light)" srcset="img/ephemeris_dark.png">
+  <source media="(prefers-color-scheme: dark)" srcset="img/ephemeris_dark.png">
+  <source media="(prefers-color-scheme: light)" srcset="img/ephemeris.png">
   <img src="img/ephemeris.png">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="img/graph.png">
-  <source media="(prefers-color-scheme: light)" srcset="img/graph_dark.png">
+  <source media="(prefers-color-scheme: dark)" srcset="img/graph_dark.png">
+  <source media="(prefers-color-scheme: light)" srcset="img/graph.png">
   <img src="img/graph.png">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="img/orbit.png">
-  <source media="(prefers-color-scheme: light)" srcset="img/orbit_dark.png">
+  <source media="(prefers-color-scheme: dark)" srcset="img/orbit_dark.png">
+  <source media="(prefers-color-scheme: light)" srcset="img/orbit.png">
   <img src="img/orbit.png">
 </picture>
 
