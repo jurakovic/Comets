@@ -1,18 +1,24 @@
 
 # Comets
 
+![dotnet](https://img.shields.io/badge/-.NET-512BD4?logo=dotnet&logoColor=white)
+![cs](https://img.shields.io/badge/-C%23-512BD4?logoColor=white)
+![opengl](https://img.shields.io/badge/-OpenGL-5A8AA7?logo=opengl&logoColor=white)
+[![version](https://img.shields.io/github/v/release/jurakovic/Comets?display_name=release&style=flat&label=version&color=blue)](https://github.com/jurakovic/Comets/releases/latest)
+[![licence](https://img.shields.io/github/license/jurakovic/Comets?color=blue)](LICENCE)
+
 ## Features
 
 - Ephemeris calculation
 - Graph of visual magnitude or distance to Sun or Earth
-- *3D* Orbit Viewer
+- 3D Orbit Viewer
 - Orbital elements converter (all [MPC](https://www.minorplanetcenter.net/iau/Ephemerides/Comets/SoftwareComets.html) listed formats supported, and some more)
 - Dark theme
 
 ## Credits
 
 Inspired by the [Comet for Windows](http://www.aerith.net/project/comet.html) by Seiichi Yoshida.  
-Includes advanced version of [OrbitViewer.NET](https://github.com/jurakovic/OrbitViewer.NET) (C# rewrite of [OrbitViewer](https://www.astroarts.co.jp/products/orbitviewer/index.html) by Osamu Ajiki and Ron Baalke).  
+Includes improved version of [OrbitViewer.NET](https://github.com/jurakovic/OrbitViewer.NET) (C# rewrite of [OrbitViewer](https://www.astroarts.co.jp/products/orbitviewer/index.html) by Osamu Ajiki and Ron Baalke).  
 Dark theme thanks to [Dark-Mode-Forms](https://github.com/BlueMystical/Dark-Mode-Forms) by BlueMystical (my fork [here](https://github.com/jurakovic/Dark-Mode-Forms)).  
 
 > Books and other open source astronomy software and libraries used for reference listed [below](#References).
@@ -20,16 +26,27 @@ Dark theme thanks to [Dark-Mode-Forms](https://github.com/BlueMystical/Dark-Mode
 
 ## Download
 
-[![GitHub Release](https://img.shields.io/github/v/release/jurakovic/comets)](https://github.com/jurakovic/Comets/releases/latest)
+[**Download the latest version**](https://github.com/jurakovic/Comets/releases/latest)
 
 ## Screenshots
 
-![Ephemeris](img/ephemeris.png)
-![Ephemeris_dark](img/ephemeris_dark.png)
-![Graph](img/graph.png)
-![Graph_dark](img/graph_dark.png)
-![Orbit](img/orbit.png)
-![Orbit_dark](img/orbit_dark.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="img/ephemeris_dark.png">
+  <source media="(prefers-color-scheme: light)" srcset="img/ephemeris.png">
+  <img src="img/ephemeris.png">
+</picture>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="img/graph_dark.png">
+  <source media="(prefers-color-scheme: light)" srcset="img/graph.png">
+  <img src="img/graph.png">
+</picture>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="img/orbit_dark.png">
+  <source media="(prefers-color-scheme: light)" srcset="img/orbit.png">
+  <img src="img/orbit.png">
+</picture>
 
 
 ## References
@@ -47,7 +64,7 @@ Dark theme thanks to [Dark-Mode-Forms](https://github.com/BlueMystical/Dark-Mode
 ### Software
 
 [Cartes du Ciel (SkyChart)](https://github.com/pchev/skychart) by Patrick Chevalley  
-[Celestia](https://github.com/CelestiaProject/Celestia) by Chris Laurel [et al.](https://github.com/CelestiaProject/Celestia#contributions)  
+[Celestia](https://github.com/CelestiaProject/Celestia) by Chris Laurel [et al.](https://github.com/CelestiaProject/Celestia#contributions) (my fork [here](https://github.com/jurakovic/Celestia))  
 [Stellarium](https://github.com/Stellarium/stellarium) by Fabien Chereau [et al.](https://github.com/Stellarium/stellarium/blob/master/CREDITS.md)  
 [OrbitViewer](https://www.astroarts.co.jp/products/orbitviewer/index.html) by Osamu Ajiki and Ron Baalke  
 [OrbitViewer](https://ssd.jpl.nasa.gov/tools/orbit_viewer.html) by Kevin Gill et al. (NASA/JPL)  
@@ -69,6 +86,10 @@ Some comets-related pages and sites:
 [Comet Observation database (COBS)](https://cobs.si/)  
 [IAU Minor Planet Center](https://www.minorplanetcenter.net/)  
 [CometWatch](https://www.cometwatch.co.uk/)  
+
+## License
+
+GPL-3.0
 
 ---
 

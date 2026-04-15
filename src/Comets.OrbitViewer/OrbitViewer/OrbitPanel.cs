@@ -1,6 +1,6 @@
 ﻿using Comets.Core;
 using Comets.Core.Managers;
-using OpenTK.WinForms;
+using OpenTK.GLControl;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using System;
@@ -49,18 +49,12 @@ namespace Comets.OrbitViewer
 		private const string VertexShaderSource = @"
 #version 330 core
 layout (location = 0) in vec3 aPos;
-uniform mat4 uRot;
-uniform float uHalfX;
-uniform float uHalfY;
-uniform float uOffsetX;
-uniform float uOffsetY;
+uniform mat4 uMVP;
 out float vZ;
 void main()
 {
     vZ = aPos.z;
-    vec4 v = uRot * vec4(aPos, 1.0);
-    float w = 1.0 + v.z / 625.0;
-    gl_Position = vec4(v.x / uHalfX + uOffsetX * w, v.y / uHalfY + uOffsetY * w, 0.0, w);
+    gl_Position = uMVP * vec4(aPos, 1.0);
 }";
 
 		private const string FragmentShaderSource = @"
@@ -144,33 +138,29 @@ void main() {
 		private int SelectedIndex;
 		private int CenteredIndex;
 
-		private List<CometOrbit> CometOrbits;
 		private List<Xyz> CometsPos;
 
 		private Dictionary<Object, PlanetOrbit> PlanetsOrbit;
-		private Dictionary<Object, Xyz> PlanetsPos;
+		private Dictionary<Object, Xyz?> PlanetsPos;
 
 		private Matrix MtxToEcl;
-		private Matrix MtxRotate;
-		private int X0;
-		private int Y0;
 
 		// GL rendering
 		private bool _glLoaded = false;
 		private int _shaderProgram = 0;
-		private int _uRot;
-		private int _uHalfX;
-		private int _uHalfY;
-		private int _uOffsetX;
-		private int _uOffsetY;
+		private int _uMVP;
+		private Matrix4 _mvp;
+		private Matrix4 _view;
+		private float _orthoHalfH;
 		private int _uColorUpper;
 		private int _uColorLower;
 		private int _uMode;
 		private int _bodyVao = 0;
 		private int _bodyVbo = 0;
 		private Dictionary<Object, (int vao, int vbo, int count)> _planetOrbitBuffers;
-		private List<(int vao, int vbo, int count)> _cometOrbitBuffers = new List<(int, int, int)>();
+		private Dictionary<int, (int vao, int vbo, int count)> _cometOrbitBuffers = new Dictionary<int, (int, int, int)>();
 		private bool _vbosNeedUpdate = false;
+		private bool _cometVbosDirty = false;
 
 		// Text overlay
 		private int _textShaderProgram = 0;
@@ -310,13 +300,13 @@ void main() {
 
 		#region Consctructor
 
-		public OrbitPanel() : base(new GLControlSettings { NumberOfSamples = 8 })
+		public OrbitPanel() : base(new GLControlSettings { NumberOfSamples = 8, DepthBits = 24 })
 		{
-			PlanetsPos = InitializeDictionary<Xyz>();
+			PlanetsPos = new Dictionary<Object, Xyz?>();
+			Planets.ForEach(planet => PlanetsPos.Add(planet, null));
 			PlanetsOrbit = InitializeDictionary<PlanetOrbit>();
 
 			Comets = new List<OVComet>();
-			CometOrbits = new List<CometOrbit>();
 			CometsPos = new List<Xyz>();
 
 			OrbitDisplay = DefaultOrbitDisplay;
@@ -342,22 +332,17 @@ void main() {
 			IsPaintEnabled = true;
 
 			if (!MultipleMode)
-			{
 				Comets.Clear();
-				CometOrbits.Clear();
-			}
 
 			if (comet != null && !Comets.Contains(comet))
-			{
 				Comets.Add(comet);
-				CometOrbits.Add(new CometOrbit(comet));
-			}
 
 			SelectedIndex = Comets.IndexOf(comet);
 
 			ATime = atime;
 			UpdatePlanetOrbit(atime);
 			UpdateRotationMatrix(atime);
+			_cometVbosDirty = true;
 		}
 
 		public void LoadPanel(List<OVComet> comets, ATime atime, int index)
@@ -368,27 +353,18 @@ void main() {
 			MultipleMode = true;
 
 			Comets.Clear();
-			CometOrbits.Clear();
-
 			Comets = comets;
-
-			int ix = 0;
-			foreach (OVComet c in Comets)
-			{
-				CometOrbits.Add(new CometOrbit(c));
-
-				if (c.IsMarked && !marked.Contains(c))
-					c.IsMarked = false;
-
-				ix++;
-			}
-
 			SelectedIndex = index;
 			CenteredIndex = index;
+
+			foreach (OVComet c in Comets)
+				if (c.IsMarked && !marked.Contains(c))
+					c.IsMarked = false;
 
 			ATime = atime;
 			UpdatePlanetOrbit(atime);
 			UpdateRotationMatrix(atime);
+			_cometVbosDirty = true;
 		}
 
 		#endregion
@@ -403,41 +379,12 @@ void main() {
 			if (!_glLoaded)
 				InitGL();
 
-			// Compute MtxRotate for CPU-side use (click detection, centering, crosshair)
-			Matrix mtxRotH = Matrix.RotateZ(RotateHorz * Math.PI / 180.0);
-			Matrix mtxRotV = Matrix.RotateX(RotateVert * Math.PI / 180.0);
-			MtxRotate = mtxRotV.Mul(mtxRotH);
-
-			// Centering: compute X0/Y0 so the selected object appears at screen center
-			X0 = Width / 2;
-			Y0 = Height / 2;
-
+			// Resolve CenteredIndex for camera target centering
 			if (CenteredObject != Object.Comet)
 				CenteredIndex = -1;
 
-			if (IsPaintEnabled && MtxToEcl != null)
-			{
-				if (CenteredObject == Object.Comet)
-				{
-					if (CenteredIndex == -1)
-						CenteredIndex = SelectedIndex;
-
-					if (CenteredIndex >= 0 && CenteredIndex < CometsPos.Count)
-					{
-						Xyz xyz = CometsPos[CenteredIndex].Rotate(MtxToEcl).Rotate(MtxRotate);
-						Point p = GetDrawPoint(xyz);
-						X0 = Width - p.X;
-						Y0 = Height - p.Y;
-					}
-				}
-				else if (Planets.Contains(CenteredObject) && PlanetsPos[CenteredObject] != null)
-				{
-					Xyz xyz = PlanetsPos[CenteredObject].Rotate(MtxRotate);
-					Point p = GetDrawPoint(xyz);
-					X0 = Width - p.X;
-					Y0 = Height - p.Y;
-				}
-			}
+			if (IsPaintEnabled && MtxToEcl != null && CenteredObject == Object.Comet && CenteredIndex == -1)
+				CenteredIndex = SelectedIndex;
 
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 			RenderScene();
@@ -462,7 +409,8 @@ void main() {
 		private void InitGL()
 		{
 			GL.ClearColor(0f, 0f, 0f, 1f);
-			GL.Disable(EnableCap.DepthTest);
+			GL.Enable(EnableCap.DepthTest);
+			GL.DepthFunc(DepthFunction.Less);
 			GL.Enable(EnableCap.Multisample);
 			GL.Enable(EnableCap.Blend);
 			GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
@@ -483,11 +431,7 @@ void main() {
 			GL.DeleteShader(vs);
 			GL.DeleteShader(fs);
 
-			_uRot = GL.GetUniformLocation(_shaderProgram, "uRot");
-			_uHalfX = GL.GetUniformLocation(_shaderProgram, "uHalfX");
-			_uHalfY = GL.GetUniformLocation(_shaderProgram, "uHalfY");
-			_uOffsetX = GL.GetUniformLocation(_shaderProgram, "uOffsetX");
-			_uOffsetY = GL.GetUniformLocation(_shaderProgram, "uOffsetY");
+			_uMVP = GL.GetUniformLocation(_shaderProgram, "uMVP");
 			_uColorUpper = GL.GetUniformLocation(_shaderProgram, "uColorUpper");
 			_uColorLower = GL.GetUniformLocation(_shaderProgram, "uColorLower");
 			_uMode = GL.GetUniformLocation(_shaderProgram, "uMode");
@@ -568,61 +512,93 @@ void main() {
 			if (MtxToEcl == null || !IsPaintEnabled)
 			{
 				_vbosNeedUpdate = false;
+				_cometVbosDirty = false;
 				return;
 			}
 
-			foreach (Object planet in Planets)
+			// Re-upload planet VBOs when rotation matrix or planet elements changed.
+			if (_vbosNeedUpdate)
 			{
-				if (PlanetsOrbit[planet] == null)
+				foreach (Object planet in Planets)
+				{
+					if (PlanetsOrbit[planet] == null)
+						continue;
+
+					PlanetOrbit orbit = PlanetsOrbit[planet];
+					int n = PlanetOrbit.OrbitDivisionCount + 1;
+					float[] verts = new float[n * 3];
+
+					for (int i = 0; i <= PlanetOrbit.OrbitDivisionCount; i++)
+					{
+						Xyz p = orbit.GetAt(i).Rotate(MtxToEcl);
+						verts[i * 3] = (float)p.X;
+						verts[i * 3 + 1] = (float)p.Y;
+						verts[i * 3 + 2] = (float)p.Z;
+					}
+
+					var (vao, vbo, _) = _planetOrbitBuffers[planet];
+					if (vao == 0) { vao = GL.GenVertexArray(); vbo = GL.GenBuffer(); }
+
+					GL.BindVertexArray(vao);
+					GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
+					GL.BufferData(BufferTarget.ArrayBuffer, verts.Length * sizeof(float), verts, BufferUsageHint.DynamicDraw);
+					GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
+					GL.EnableVertexAttribArray(0);
+					GL.BindVertexArray(0);
+
+					_planetOrbitBuffers[planet] = (vao, vbo, n);
+				}
+			}
+
+			// Determine which comet indices need VBOs (selected + marked).
+			var required = new HashSet<int>();
+			if (PreserveSelectedOrbit && SelectedIndex >= 0 && SelectedIndex < Comets.Count)
+				required.Add(SelectedIndex);
+			for (int i = 0; i < Comets.Count; i++)
+				if (Comets[i].IsMarked) required.Add(i);
+
+			// Delete VBOs for comets no longer needed.
+			foreach (int key in _cometOrbitBuffers.Keys.ToList())
+			{
+				if (!required.Contains(key))
+				{
+					var (vao, vbo, _) = _cometOrbitBuffers[key];
+					if (vao != 0) GL.DeleteVertexArray(vao);
+					if (vbo != 0) GL.DeleteBuffer(vbo);
+					_cometOrbitBuffers.Remove(key);
+				}
+			}
+
+			// Build/upload VBOs for required comets.
+			// When _vbosNeedUpdate, rebuild all (MtxToEcl changed so existing data is stale).
+			// When _cometVbosDirty only, skip comets already uploaded.
+			foreach (int i in required)
+			{
+				if (_cometOrbitBuffers.ContainsKey(i) && !_vbosNeedUpdate)
 					continue;
 
-				PlanetOrbit orbit = PlanetsOrbit[planet];
-				int n = PlanetOrbit.OrbitDivisionCount + 1;
+				var orbit = new CometOrbit(Comets[i]);
+				int n = orbit.PointCount;
 				float[] verts = new float[n * 3];
-
-				for (int i = 0; i <= PlanetOrbit.OrbitDivisionCount; i++)
+				for (int j = 0; j < n; j++)
 				{
-					Xyz p = orbit.GetAt(i).Rotate(MtxToEcl);
-					verts[i * 3] = (float)p.X;
-					verts[i * 3 + 1] = (float)p.Y;
-					verts[i * 3 + 2] = (float)p.Z;
-				}
-
-				var (vao, vbo, _) = _planetOrbitBuffers[planet];
-				if (vao == 0) { vao = GL.GenVertexArray(); vbo = GL.GenBuffer(); }
-
-				GL.BindVertexArray(vao);
-				GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
-				GL.BufferData(BufferTarget.ArrayBuffer, verts.Length * sizeof(float), verts, BufferUsageHint.DynamicDraw);
-				GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
-				GL.EnableVertexAttribArray(0);
-				GL.BindVertexArray(0);
-
-				_planetOrbitBuffers[planet] = (vao, vbo, n);
-			}
-
-			foreach (var (vao, vbo, _) in _cometOrbitBuffers)
-			{
-				if (vao != 0) GL.DeleteVertexArray(vao);
-				if (vbo != 0) GL.DeleteBuffer(vbo);
-			}
-			_cometOrbitBuffers.Clear();
-
-			for (int i = 0; i < CometOrbits.Count; i++)
-			{
-				int n = CometOrbit.OrbitDivisionCount + 1;
-				float[] verts = new float[n * 3];
-
-				for (int j = 0; j <= CometOrbit.OrbitDivisionCount; j++)
-				{
-					Xyz p = CometOrbits[i].GetAt(j).Rotate(MtxToEcl);
+					Xyz p = orbit.GetAt(j).Rotate(MtxToEcl);
 					verts[j * 3] = (float)p.X;
 					verts[j * 3 + 1] = (float)p.Y;
 					verts[j * 3 + 2] = (float)p.Z;
 				}
 
-				int vao = GL.GenVertexArray();
-				int vbo = GL.GenBuffer();
+				int vao, vbo;
+				if (_cometOrbitBuffers.TryGetValue(i, out var existing))
+				{
+					vao = existing.vao;
+					vbo = existing.vbo;
+				}
+				else
+				{
+					vao = GL.GenVertexArray();
+					vbo = GL.GenBuffer();
+				}
 
 				GL.BindVertexArray(vao);
 				GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
@@ -631,10 +607,75 @@ void main() {
 				GL.EnableVertexAttribArray(0);
 				GL.BindVertexArray(0);
 
-				_cometOrbitBuffers.Add((vao, vbo, n));
+				_cometOrbitBuffers[i] = (vao, vbo, n);
 			}
 
 			_vbosNeedUpdate = false;
+			_cometVbosDirty = false;
+		}
+
+		public void InvalidateCometVbos()
+		{
+			_cometVbosDirty = true;
+		}
+
+		/// <summary>
+		/// Recomputes _mvp, _view, and _orthoHalfH from the current camera parameters.
+		/// Pure CPU math — no GL calls. Safe to call before the first rendered frame.
+		/// </summary>
+		private void UpdateMVP()
+		{
+			// Build MVP: orthographic projection, view built directly from rotation angles.
+			// Matches the original RotateX(RotateVert)·RotateZ(RotateHorz) scene transform exactly,
+			// with a -camDist Z translation added so depth-based calculations still work.
+			// No LookAt needed — avoids all gimbal/singularity issues.
+			// orthoHalfH is derived from a 45° reference FOV so the scene scale matches what a
+			// 45° perspective camera at camDist would show at the centre plane.
+			const float refFovY = MathF.PI / 4f; // 45° reference — defines scale, not frustum shape
+			float aspect = Width > 0 && Height > 0 ? (float)Width / Height : 1f;
+			float camDist = 1800f / (float)Zoom;
+			float orthoHalfH = camDist * MathF.Tan(refFovY / 2f);
+
+			float h = (float)(RotateHorz * Math.PI / 180.0);
+			float v = (float)(RotateVert * Math.PI / 180.0);
+
+			// Effective scene rotation: R = RotateX_std(-v) * RotateZ_std(-h)  (matches old GPU convention).
+			// View = [R | translation], camera at R^T*(0,0,D).  R*eye = (0,0,D) so translation = (0,0,-D).
+			// OpenTK stores matrices transposed vs math convention: OpenTK Row i = Math column i of V.
+			//
+			// Verification: Z+ world -> y_eye = +sin(v)  (positive = UP on screen) ✓
+			//               X+ world -> y_eye = -cos(v)*sin(h)                     ✓
+			Matrix4 view = new Matrix4(
+				new Vector4(MathF.Cos(h), -MathF.Cos(v) * MathF.Sin(h), MathF.Sin(v) * MathF.Sin(h), 0),
+				new Vector4(MathF.Sin(h), MathF.Cos(v) * MathF.Cos(h), -MathF.Sin(v) * MathF.Cos(h), 0),
+				new Vector4(0, MathF.Sin(v), MathF.Cos(v), 0),
+				new Vector4(0, 0, -camDist, 1)
+			);
+
+			// Centering: translate the world so the target object is at the camera's look-at point.
+			Vector3 target = Vector3.Zero;
+			if (CenteredObject == Object.Comet && CenteredIndex >= 0 && CenteredIndex < CometsPos.Count && MtxToEcl != null)
+			{
+				Xyz p = CometsPos[CenteredIndex].Rotate(MtxToEcl);
+				target = new Vector3((float)p.X, (float)p.Y, (float)p.Z);
+			}
+			else if (Planets.Contains(CenteredObject) && PlanetsPos[CenteredObject] != null)
+			{
+				Xyz p = PlanetsPos[CenteredObject].Value;
+				target = new Vector3((float)p.X, (float)p.Y, (float)p.Z);
+			}
+			Matrix4 model = Matrix4.CreateTranslation(-target);
+
+			// Orthographic projection with a symmetric depth range: near = -(camDist + 500),
+			// far = +(camDist + 500).  The near plane sits 500+ AU behind the camera, so orbits
+			// that cross the camera plane are never clipped mid-screen — they continue as complete,
+			// undistorted ellipses.  In a parallel projection there is no "viewpoint", so showing
+			// the full orbit (including the portion behind the camera position) is correct.
+			float halfDepth = camDist + 500f;
+			Matrix4 projection = Matrix4.CreateOrthographic(orthoHalfH * aspect * 2f, orthoHalfH * 2f, -halfDepth, halfDepth);
+			_mvp = model * view * projection; // OpenTK row-major: reversed order, transpose:false
+			_view = view;
+			_orthoHalfH = orthoHalfH;
 		}
 
 		private void RenderScene()
@@ -642,26 +683,10 @@ void main() {
 			if (!IsPaintEnabled || _shaderProgram == 0)
 				return;
 
-			if (_vbosNeedUpdate)
+			if (_vbosNeedUpdate || _cometVbosDirty)
 				UploadOrbitsToGpu();
 
-			// Build view rotation: matches original MtxRotate = RotateX(RotateVert) * RotateZ(RotateHorz)
-			// OpenTK row-major convention: GLSL sees (rotH*rotV)^T = rotV^T * rotH^T = MtxRotate
-			// Negate angles: OpenTK row-major → GLSL column-major transpose flips sin sign,
-			// turning CCW into CW (same as Matrix.RotateZ/X convention used on the CPU side).
-			Matrix4 rotH = Matrix4.CreateRotationZ(-(float)(RotateHorz * Math.PI / 180.0));
-			Matrix4 rotV = Matrix4.CreateRotationX(-(float)(RotateVert * Math.PI / 180.0));
-			Matrix4 rot = rotH * rotV;
-
-			// Scale matching original: mul = Zoom*682 / (1500*(1+Z/625))
-			// Shader applies weak perspective via gl_Position.w = 1 + Z_view/625
-			float halfX = (float)(Width * 750.0 / (Zoom * 682.0));
-			float halfY = (float)(Height * 750.0 / (Zoom * 682.0));
-
-			// Centering offset: shift scene so X0/Y0 lands at screen centre
-			// After perspective divide, adding dx to x_ndc shifts the whole scene by dx pixels * Width/2
-			float ndcOffsetX = (float)(2.0 * X0 / Width - 1.0);
-			float ndcOffsetY = (float)(1.0 - 2.0 * Y0 / Height);
+			UpdateMVP();
 
 			if (Antialiasing)
 			{
@@ -676,12 +701,8 @@ void main() {
 			}
 
 			GL.UseProgram(_shaderProgram);
-			GL.UniformMatrix4(_uRot, false, ref rot);
-			GL.Uniform1(_uHalfX, halfX);
-			GL.Uniform1(_uHalfY, halfY);
-			GL.Uniform1(_uOffsetX, ndcOffsetX);
-			GL.Uniform1(_uOffsetY, ndcOffsetY);
-			GL.LineWidth(1f);
+			GL.UniformMatrix4(_uMVP, false, ref _mvp);
+			GL.LineWidth(1.5f);
 
 			// Planet orbits
 			foreach (Object planet in Planets)
@@ -689,7 +710,7 @@ void main() {
 				if (!OrbitDisplay.Contains(planet) || !_planetOrbitBuffers.ContainsKey(planet))
 					continue;
 
-				if (Zoom * GetPlanetAU(planet) < 30.0)
+				if (Zoom * GetPlanetAU(planet) < 15.0)
 					continue;
 
 				var (vao, _, count) = _planetOrbitBuffers[planet];
@@ -709,19 +730,21 @@ void main() {
 			// Comet orbits
 			int markedCount = MarkedComets.Count();
 
-			for (int i = 0; i < Comets.Count && i < _cometOrbitBuffers.Count; i++)
+			for (int i = 0; i < Comets.Count; i++)
 			{
 				bool visibleSelected = PreserveSelectedOrbit && i == SelectedIndex;
 				bool isCometMarked = Comets[i].IsMarked;
 
 				if (!visibleSelected && !isCometMarked) continue;
 
+				if (!_cometOrbitBuffers.TryGetValue(i, out var cometBuf)) continue;
+
 				bool visibleComet = Comets[i].IsVisible;
 				bool useWeakColor = !visibleComet && FilterOnDateShowInWeakColor && !visibleSelected && !isCometMarked;
 				bool useSelectedColor = visibleSelected && MultipleMode &&
 					((markedCount > 0 && !isCometMarked) || (markedCount > 1 && isCometMarked));
 
-				var (vao, _, count) = _cometOrbitBuffers[i];
+				var (vao, _, count) = cometBuf;
 				if (vao == 0 || count == 0) continue;
 
 				Color upper, lower;
@@ -803,12 +826,14 @@ void main() {
 
 		private void UpdateCometPanelLocations()
 		{
-			if (!IsPaintEnabled || MtxToEcl == null || MtxRotate == null) return;
+			if (!IsPaintEnabled || MtxToEcl == null || !_glLoaded) return;
+
+			UpdateMVP();
 
 			for (int i = 0; i < Comets.Count && i < CometsPos.Count; i++)
 			{
-				Xyz viewXyz = CometsPos[i].Rotate(MtxToEcl).Rotate(MtxRotate);
-				Comets[i].PanelLocation = GetDrawPoint(viewXyz);
+				Xyz eclXyz = CometsPos[i].Rotate(MtxToEcl);
+				Comets[i].PanelLocation = MvpProject(eclXyz);
 			}
 		}
 
@@ -836,14 +861,19 @@ void main() {
 
 		#endregion
 
-		#region GetDrawPoint
+		#region MvpProject
 
-		private Point GetDrawPoint(Xyz xyz)
+		/// <summary>
+		/// Projects a world-space ecliptic position to screen pixels using the current MVP matrix.
+		/// </summary>
+		private Point MvpProject(Xyz xyz)
 		{
-			double mul = (Zoom * (double)this.MinimumSize.Width) / (1500.0 * (1.0 + xyz.Z / 625.0));
-			int X = X0 + (int)Math.Round(xyz.X * mul);
-			int Y = Y0 - (int)Math.Round(xyz.Y * mul);
-			return new Point(X, Y);
+			var v = new Vector4((float)xyz.X, (float)xyz.Y, (float)xyz.Z, 1.0f) * _mvp;
+			float ndcX = v.X / v.W;
+			float ndcY = v.Y / v.W;
+			int screenX = (int)((ndcX + 1f) / 2f * Width);
+			int screenY = (int)((1f - ndcY) / 2f * Height);
+			return new Point(screenX, screenY);
 		}
 
 		#endregion
@@ -942,10 +972,10 @@ void main() {
 			GL.Uniform4(_uColorUpper, ColorPlanet.R / 255f, ColorPlanet.G / 255f, ColorPlanet.B / 255f, 1f);
 			foreach (Object planet in Planets)
 			{
-				if (Zoom * GetPlanetAU(planet) < 30.0) continue;
+				if (Zoom * GetPlanetAU(planet) < 15.0) continue;
 				if (PlanetsPos[planet] == null) continue;
 
-				Xyz p = PlanetsPos[planet];
+				Xyz p = PlanetsPos[planet].Value;
 				buf[0] = (float)p.X; buf[1] = (float)p.Y; buf[2] = (float)p.Z;
 				GL.BufferData(BufferTarget.ArrayBuffer, 3 * sizeof(float), buf, BufferUsageHint.StreamDraw);
 				GL.DrawArrays(PrimitiveType.Points, 0, 1);
@@ -976,30 +1006,32 @@ void main() {
 					buf[0] = (float)p.X; buf[1] = (float)p.Y; buf[2] = (float)p.Z;
 					GL.BufferData(BufferTarget.ArrayBuffer, 3 * sizeof(float), buf, BufferUsageHint.StreamDraw);
 					GL.Uniform4(_uColorUpper, color.R / 255f, color.G / 255f, color.B / 255f, 1f);
-					GL.PointSize(diameter * 2f + 1f);
+					GL.PointSize(diameter * 1.25f + 1f);
 					GL.DrawArrays(PrimitiveType.Points, 0, 1);
 				}
 
 				if (visibleMarker || isCometMarked)
 				{
-					// Build crosshair in view space, then inverse-rotate back to ecliptic.
-					// This avoids any NDC/pixel conversion and stays consistent with the shader math.
-					Xyz vw = p.Rotate(MtxRotate);
-					double wFactor = 1.0 + vw.Z / 625.0;
-					double scale = 1500.0 * wFactor / (Zoom * 682.0); // 1 screen pixel → this many AU in view space
-					double off = (diameter + 4) * scale;
-					double len = (diameter + 8) * scale;
+					// Build crosshair arms in world (ecliptic) space using camera right/up vectors.
+					// Column 0/1 of the view matrix are the camera right/up directions in world space.
+					Vector3 right = _view.Column0.Xyz;
+					Vector3 upVec = _view.Column1.Xyz;
+					var pVec = new Vector3((float)p.X, (float)p.Y, (float)p.Z);
+
+					float pxSize = _orthoHalfH / (Height > 0 ? Height / 2f : 1f);
+					float off = (diameter + 4) * pxSize;
+					float len = (diameter + 8) * pxSize;
 
 					// 8 endpoints: pairs forming 4 arms (up, down, left, right)
 					Xyz[] arms = {
-						InvRotateMtx(MtxRotate, new Xyz(vw.X,       vw.Y + off, vw.Z)),
-						InvRotateMtx(MtxRotate, new Xyz(vw.X,       vw.Y + len, vw.Z)),
-						InvRotateMtx(MtxRotate, new Xyz(vw.X,       vw.Y - off, vw.Z)),
-						InvRotateMtx(MtxRotate, new Xyz(vw.X,       vw.Y - len, vw.Z)),
-						InvRotateMtx(MtxRotate, new Xyz(vw.X - off, vw.Y,       vw.Z)),
-						InvRotateMtx(MtxRotate, new Xyz(vw.X - len, vw.Y,       vw.Z)),
-						InvRotateMtx(MtxRotate, new Xyz(vw.X + off, vw.Y,       vw.Z)),
-						InvRotateMtx(MtxRotate, new Xyz(vw.X + len, vw.Y,       vw.Z)),
+						new Xyz(p.X + upVec.X * off, p.Y + upVec.Y * off, p.Z + upVec.Z * off),
+						new Xyz(p.X + upVec.X * len, p.Y + upVec.Y * len, p.Z + upVec.Z * len),
+						new Xyz(p.X - upVec.X * off, p.Y - upVec.Y * off, p.Z - upVec.Z * off),
+						new Xyz(p.X - upVec.X * len, p.Y - upVec.Y * len, p.Z - upVec.Z * len),
+						new Xyz(p.X - right.X * off, p.Y - right.Y * off, p.Z - right.Z * off),
+						new Xyz(p.X - right.X * len, p.Y - right.Y * len, p.Z - right.Z * len),
+						new Xyz(p.X + right.X * off, p.Y + right.Y * off, p.Z + right.Z * off),
+						new Xyz(p.X + right.X * len, p.Y + right.Y * len, p.Z + right.Z * len),
 					};
 					for (int k = 0; k < 8; k++)
 					{
@@ -1021,26 +1053,13 @@ void main() {
 			GL.Uniform1(_uMode, 0);
 		}
 
-		/// <summary>
-		/// Apply the transpose (= inverse) of a rotation matrix to a vector.
-		/// Since MtxRotate is orthogonal, this undoes the rotation.
-		/// </summary>
-		private static Xyz InvRotateMtx(Matrix mtx, Xyz v)
-		{
-			return new Xyz(
-				mtx.A11 * v.X + mtx.A21 * v.Y + mtx.A31 * v.Z,
-				mtx.A12 * v.X + mtx.A22 * v.Y + mtx.A32 * v.Z,
-				mtx.A13 * v.X + mtx.A23 * v.Y + mtx.A33 * v.Z
-			);
-		}
-
 		#endregion
 
 		#region RenderLabels
 
 		private void RenderLabels()
 		{
-			if (!IsPaintEnabled || Width <= 0 || Height <= 0) return;
+			if (!IsPaintEnabled || Width <= 0 || Height <= 0 || _textShaderProgram == 0) return;
 
 			using var bmp = new Bitmap(Width, Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 			using (var g = Graphics.FromImage(bmp))
@@ -1048,44 +1067,45 @@ void main() {
 				g.Clear(Color.Transparent);
 				g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
 
-				int labelMargin = 8;
-				using var infoBrush = new SolidBrush(ColorInformation);
-
-				// — Information overlay —
-				if (SelectedComet != null)
 				{
-					g.DrawString(SelectedComet.Name, FontInformation, infoBrush, labelMargin, labelMargin);
+					int labelMargin = 8;
+					using var infoBrush = new SolidBrush(ColorInformation);
 
-					if (ShowDistance)
+					// — Information overlay —
+					if (SelectedComet != null)
 					{
-						Ephemeris ep = GetEphemeris(SelectedComet);
-						double fs = FontInformation.Size;
-						string mstr = String.Format("Magnitude:      {0,5}", ep.Magnitude.ToString("0.00"));
-						string dstr = String.Format("Earth Distance: {0,9} AU", ep.EarthDist.ToString("0.000000"));
-						string rstr = String.Format("Sun Distance:   {0,9} AU", ep.SunDist.ToString("0.000000"));
-						g.DrawString(mstr, FontInformation, infoBrush, labelMargin, Height - labelMargin - (float)(fs * 5.0));
-						g.DrawString(dstr, FontInformation, infoBrush, labelMargin, Height - labelMargin - (float)(fs * 3.5));
-						g.DrawString(rstr, FontInformation, infoBrush, labelMargin, Height - labelMargin - (float)(fs * 2.0));
+						g.DrawString(SelectedComet.Name, FontInformation, infoBrush, labelMargin, labelMargin);
+
+						if (ShowDistance)
+						{
+							Ephemeris ep = GetEphemeris(SelectedComet);
+							double fs = FontInformation.Size;
+							string mstr = String.Format("Magnitude:      {0,5}", ep.Magnitude.ToString("0.00"));
+							string dstr = String.Format("Earth Distance: {0,9} AU", ep.EarthDist.ToString("0.000000"));
+							string rstr = String.Format("Sun Distance:   {0,9} AU", ep.SunDist.ToString("0.000000"));
+							g.DrawString(mstr, FontInformation, infoBrush, labelMargin, Height - labelMargin - (float)(fs * 5.0));
+							g.DrawString(dstr, FontInformation, infoBrush, labelMargin, Height - labelMargin - (float)(fs * 3.5));
+							g.DrawString(rstr, FontInformation, infoBrush, labelMargin, Height - labelMargin - (float)(fs * 2.0));
+						}
 					}
-				}
 
-				if (ShowDate && ATime != null)
-				{
-					string strDate = String.Format("{0:00} {1} {2} {3:00}:{4:00}:{5:00} UT",
-						ATime.Day, ATime.MonthString, ATime.Year, ATime.Hour, ATime.Minute, ATime.Second);
-					float strWidth = g.MeasureString(strDate, FontInformation).Width;
-					double fs = FontInformation.Size;
-					g.DrawString(strDate, FontInformation, infoBrush,
-						Width - strWidth - labelMargin,
-						Height - labelMargin - (float)(fs * 2.0));
-				}
+					if (ShowDate && ATime != null)
+					{
+						string strDate = String.Format("{0:00} {1} {2} {3:00}:{4:00}:{5:00} UT",
+							ATime.Day, ATime.MonthString, ATime.Year, ATime.Hour, ATime.Minute, ATime.Second);
+						float strWidth = g.MeasureString(strDate, FontInformation).Width;
+						double fs = FontInformation.Size;
+						g.DrawString(strDate, FontInformation, infoBrush,
+							Width - strWidth - labelMargin,
+							Height - labelMargin - (float)(fs * 2.0));
+					}
 
-				// — Axis labels —
-				if (ShowAxes && MtxRotate != null)
-				{
-					using var grayBrush = new SolidBrush(Color.Gray);
-					const double sizeAU = 150.0;
-					(Xyz xyz, string label)[] axisLabels = {
+					// — Axis labels —
+					if (ShowAxes && _glLoaded)
+					{
+						using var grayBrush = new SolidBrush(Color.Gray);
+						const double sizeAU = 150.0;
+						(Xyz xyz, string label)[] axisLabels = {
 						(new Xyz(-sizeAU, 0, 0), "Autumnal equinox"),
 						(new Xyz(0, -sizeAU, 0), "Winter solstice"),
 						(new Xyz(0, 0, -sizeAU), "South ecliptic pole"),
@@ -1093,59 +1113,60 @@ void main() {
 						(new Xyz(0,  sizeAU, 0), "Summer solstice"),
 						(new Xyz(0, 0,  sizeAU), "North ecliptic pole"),
 					};
-					foreach (var (xyz, label) in axisLabels)
-					{
-						Point pt = GetDrawPoint(xyz.Rotate(MtxRotate));
-						g.DrawString(label, FontAxisLabel, grayBrush, pt.X, pt.Y);
-					}
-				}
-
-				// — Planet name labels —
-				if (MtxRotate != null)
-				{
-					using var planetBrush = new SolidBrush(ColorPlanetName);
-					foreach (Object planet in Planets)
-					{
-						if (Zoom * GetPlanetAU(planet) < 30.0) continue;
-						if (PlanetsPos[planet] == null) continue;
-						if (!LabelDisplay.Contains(planet)) continue;
-
-						Point pt = GetDrawPoint(PlanetsPos[planet].Rotate(MtxRotate));
-						g.DrawString(planet.ToString(), FontPlanetName, planetBrush, pt.X + 5, pt.Y);
-					}
-				}
-
-				// — Comet name labels —
-				if (MtxToEcl != null && MtxRotate != null)
-				{
-					bool visibleLabelAll = LabelDisplay.Contains(Object.Comet);
-					for (int i = 0; i < Comets.Count && i < CometsPos.Count; i++)
-					{
-						bool visibleComet = Comets[i].IsVisible;
-						bool visibleSelected = PreserveSelectedLabel && i == SelectedIndex;
-						bool isCometMarked = Comets[i].IsMarked;
-						bool visibleLabel = visibleLabelAll;
-
-						if (!visibleComet)
+						foreach (var (xyz, label) in axisLabels)
 						{
-							if (FilterOnDateShowInWeakColor)
-							{
-								visibleComet = true;
-								if (!visibleSelected)
-									visibleLabel = false;
-							}
+							Point pt = MvpProject(xyz);
+							g.DrawString(label, FontAxisLabel, grayBrush, pt.X, pt.Y);
 						}
+					}
 
-						if (!(visibleComet || visibleSelected || isCometMarked)) continue;
-						if (!(visibleLabel || visibleSelected || isCometMarked)) continue;
+					// — Planet name labels —
+					if (_glLoaded)
+					{
+						using var planetBrush = new SolidBrush(ColorPlanetName);
+						foreach (Object planet in Planets)
+						{
+							if (Zoom * GetPlanetAU(planet) < 15.0) continue;
+							if (PlanetsPos[planet] == null) continue;
+							if (!LabelDisplay.Contains(planet)) continue;
 
-						Color nameColor = (MultipleMode && Comets.Count > 1 && visibleLabel && visibleSelected)
-							? ColorCometNameSelected
-							: ColorCometName;
+							Point pt = MvpProject(PlanetsPos[planet].Value);
+							g.DrawString(planet.ToString(), FontPlanetName, planetBrush, pt.X + 5, pt.Y);
+						}
+					}
 
-						Point pt = GetDrawPoint(CometsPos[i].Rotate(MtxToEcl).Rotate(MtxRotate));
-						using var nameBrush = new SolidBrush(nameColor);
-						g.DrawString(Comets[i].Name, FontObjectName, nameBrush, pt.X + 5, pt.Y);
+					// — Comet name labels —
+					if (MtxToEcl != null && _glLoaded)
+					{
+						bool visibleLabelAll = LabelDisplay.Contains(Object.Comet);
+						for (int i = 0; i < Comets.Count && i < CometsPos.Count; i++)
+						{
+							bool visibleComet = Comets[i].IsVisible;
+							bool visibleSelected = PreserveSelectedLabel && i == SelectedIndex;
+							bool isCometMarked = Comets[i].IsMarked;
+							bool visibleLabel = visibleLabelAll;
+
+							if (!visibleComet)
+							{
+								if (FilterOnDateShowInWeakColor)
+								{
+									visibleComet = true;
+									if (!visibleSelected)
+										visibleLabel = false;
+								}
+							}
+
+							if (!(visibleComet || visibleSelected || isCometMarked)) continue;
+							if (!(visibleLabel || visibleSelected || isCometMarked)) continue;
+
+							Color nameColor = (MultipleMode && Comets.Count > 1 && visibleLabel && visibleSelected)
+								? ColorCometNameSelected
+								: ColorCometName;
+
+							Point pt = MvpProject(CometsPos[i].Rotate(MtxToEcl));
+							using var nameBrush = new SolidBrush(nameColor);
+							g.DrawString(Comets[i].Name, FontObjectName, nameBrush, pt.X + 5, pt.Y);
+						}
 					}
 				}
 			}
@@ -1179,15 +1200,12 @@ void main() {
 			OVComet comet = SelectedComet;
 
 			Comets.Clear();
-			CometOrbits.Clear();
 			SelectedIndex = -1;
 			CenteredIndex = -1;
 
 			if (!clearAll && comet != null)
 			{
 				Comets.Add(comet);
-				CometOrbits.Add(new CometOrbit(comet));
-
 				SelectedIndex = 0;
 
 				UpdatePositions(ATime);
@@ -1196,6 +1214,7 @@ void main() {
 			}
 
 			_vbosNeedUpdate = true;
+			_cometVbosDirty = true;
 		}
 
 		#endregion

@@ -46,9 +46,6 @@
 			this.cpnlMisc = new Controls.CollapsiblePanel();
 			this.miscControl = new Controls.MiscControl();
 			this.orbitPanel = new Comets.OrbitViewer.OrbitPanel();
-			this.scrollVert = new System.Windows.Forms.VScrollBar();
-			this.scrollHorz = new System.Windows.Forms.HScrollBar();
-			this.scrollZoom = new System.Windows.Forms.HScrollBar();
 			this.pnlToolbox.SuspendLayout();
 			this.cpnlComet.WorkingArea.SuspendLayout();
 			this.cpnlMode.WorkingArea.SuspendLayout();
@@ -313,9 +310,6 @@
 			// orbitPanel
 			// 
 			this.orbitPanel.BackColor = System.Drawing.Color.Black;
-			this.orbitPanel.Controls.Add(this.scrollVert);
-			this.orbitPanel.Controls.Add(this.scrollHorz);
-			this.orbitPanel.Controls.Add(this.scrollZoom);
 			this.orbitPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.orbitPanel.Location = new System.Drawing.Point(192, 0);
 			this.orbitPanel.MinimumSize = new System.Drawing.Size(682, 458);
@@ -330,44 +324,7 @@
 			this.orbitPanel.MouseMove += this.orbitPanel_MouseMove;
 			this.orbitPanel.PreviewKeyDown += this.orbitPanel_PreviewKeyDown;
 			this.orbitPanel.Resize += this.orbitPanel_Resize;
-			// 
-			// scrollVert
-			// 
-			this.scrollVert.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-			this.scrollVert.LargeChange = 1;
-			this.scrollVert.Location = new System.Drawing.Point(708, 16);
-			this.scrollVert.Maximum = 359;
-			this.scrollVert.Name = "scrollVert";
-			this.scrollVert.Size = new System.Drawing.Size(17, 272);
-			this.scrollVert.TabIndex = 0;
-			this.scrollVert.Visible = false;
-			this.scrollVert.ValueChanged += this.scrollVert_ValueChanged;
-			// 
-			// scrollHorz
-			// 
-			this.scrollHorz.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-			this.scrollHorz.LargeChange = 1;
-			this.scrollHorz.Location = new System.Drawing.Point(432, 300);
-			this.scrollHorz.Maximum = 359;
-			this.scrollHorz.Name = "scrollHorz";
-			this.scrollHorz.Size = new System.Drawing.Size(293, 17);
-			this.scrollHorz.TabIndex = 1;
-			this.scrollHorz.Visible = false;
-			this.scrollHorz.ValueChanged += this.scrollHorz_ValueChanged;
-			// 
-			// scrollZoom
-			// 
-			this.scrollZoom.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-			this.scrollZoom.Location = new System.Drawing.Point(432, 327);
-			this.scrollZoom.Maximum = 5000;
-			this.scrollZoom.Minimum = 5;
-			this.scrollZoom.Name = "scrollZoom";
-			this.scrollZoom.Size = new System.Drawing.Size(293, 17);
-			this.scrollZoom.TabIndex = 2;
-			this.scrollZoom.Value = 5;
-			this.scrollZoom.Visible = false;
-			this.scrollZoom.ValueChanged += this.scrollZoom_ValueChanged;
-			// 
+			//
 			// OrbitViewerControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -392,9 +349,6 @@
 		}
 
 		#endregion
-		private System.Windows.Forms.HScrollBar scrollZoom;
-		private System.Windows.Forms.VScrollBar scrollVert;
-		private System.Windows.Forms.HScrollBar scrollHorz;
 		private Comets.OrbitViewer.OrbitPanel orbitPanel;
 		private System.Windows.Forms.Panel pnlToolbox;
 		private Controls.CollapsiblePanel cpnlComet;
