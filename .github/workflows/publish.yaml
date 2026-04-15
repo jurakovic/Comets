@@ -7,9 +7,48 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Version'
-        required: true
+        description: 'Version (leave empty or "auto" to compute from last tag)'
+        required: false
+        default: 'auto'
         type: string
+      bump_type:
+        description: 'Bump Type (ignored when version is explicit)'
+        required: false
+        default: 'patch'
+        type: choice
+        options:
+          - major
+          - minor
+          - patch
+      base_ver:
+        description: 'Major version stream (tags outside this major are ignored)'
+        required: false
+        default: '0'
+        type: string
+      preview:
+        description: 'Preview release (auto = follows branch: non-master → true, master → false)'
+        required: false
+        default: 'auto'
+        type: choice
+        options:
+          - auto
+          - 'true'
+          - 'false'
+      publish:
+        description: 'Step 1: dotnet publish'
+        required: false
+        default: true
+        type: boolean
+      package:
+        description: 'Step 2: zip + upload artifacts (requires publish)'
+        required: false
+        default: true
+        type: boolean
+      release:
+        description: 'Step 3: git tag + GitHub Release (requires package)'
+        required: false
+        default: true
+        type: boolean
 
 jobs:
   build:
@@ -19,10 +58,23 @@ jobs:
         include:
           - os: windows-latest
             rid: win-x64
+    outputs:
+      version: ${{ steps.ver.outputs.version }}
 
     steps:
       - name: Checkout Code
         uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Compute Version
+        id: ver
+        shell: bash
+        run: |
+          chmod +x ./publish.sh
+          VERSION=$(./publish.sh version -v "${{ inputs.version }}" -b "${{ inputs.bump_type }}" -M "${{ inputs.base_ver }}" -p "${{ inputs.preview }}")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v5
@@ -35,24 +87,29 @@ jobs:
         shell: bash
 
       - name: Publish
+        if: ${{ inputs.publish }}
         run: |
-          chmod +x ./publish.sh
-          ./publish.sh publish -v "${{ inputs.version }}" -a "${{ matrix.rid }}" -u true
+          ./publish.sh publish -v "${{ env.VERSION }}" -a "${{ matrix.rid }}" -u true
           find publish
-          ./publish.sh package -v "${{ inputs.version }}" -a "${{ matrix.rid }}" -u true
+        shell: bash
+
+      - name: Package
+        if: ${{ inputs.package }}
+        run: |
+          ./publish.sh package -v "${{ env.VERSION }}" -a "${{ matrix.rid }}" -u true
           find release
         shell: bash
 
       - name: Upload Artifacts
+        if: ${{ inputs.package }}
         uses: actions/upload-artifact@v4
         with:
-          name: comets_${{ inputs.version }}_${{ matrix.rid }}
-          path: |
-              release/comets_${{ inputs.version }}_${{ matrix.rid }}.zip
-              release/checksums.txt
+          name: comets_${{ env.VERSION }}_${{ matrix.rid }}
+          path: release/comets_${{ env.VERSION }}_${{ matrix.rid }}.zip
 
   release:
     needs: build
+    if: ${{ inputs.release }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -70,7 +127,7 @@ jobs:
           git config user.name "jurakovic"
           git config user.email "17744091+jurakovic@users.noreply.github.com"
           chmod +x ./publish.sh
-          ./publish.sh release -v "${{ inputs.version }}" -u true
+          ./publish.sh release -v "${{ needs.build.outputs.version }}" -u true
         shell: bash
 
       - name: Prepare Release
@@ -85,7 +142,8 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: "v${{ inputs.version }}"
+          tag_name: "v${{ needs.build.outputs.version }}"
+          prerelease: ${{ contains(needs.build.outputs.version, 'preview') }}
           files: release/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
