@@ -37,7 +37,7 @@ function main() {
 
 function publish() {
   rm -rf src/bin/ src/obj/
-  dotnet publish src/Comets.Application -c Release -r $ARCH --no-self-contained -p:AssemblyVersion="$(echo $VERSION | sed 's/-preview//')" -p:Version="$VERSION" -o ./publish/$ARCH
+  dotnet publish src/Comets.Application -c Release -r $ARCH --no-self-contained -p:AssemblyVersion="$(echo $VERSION | sed 's/-preview//')" -p:Version="$VERSION" -p:DebugType=none -o ./publish/$ARCH
 
   if [[ ! $? -eq 0 ]]; then exit 1; fi # exit if build failed or canceled
 
@@ -67,10 +67,10 @@ function package() {
   local assembly_full="${assembly_name}${assembly_ext}"
 
   mkdir -p $release_path
-  cp "$publish_path/$assembly_full" "$release_path"
+  cp "$publish_path"/* "$release_path/"
   curl -s "https://minorplanetcenter.net/iau/Ephemerides/Comets/Soft00Cmt.txt" -o $release_path/Comets.db
 
-  cd $release_path && zip -r -9 "../$archive_name" "*" && cd - > /dev/null
+  cd $release_path && zip -r -9 "../$archive_name" . && cd - > /dev/null
 
   local sha256=$($shacmd "$archive_path" | cut -d " " -f 1)
   echo "$sha256  $archive_name" >> $release_path/../checksums.txt
