@@ -13,6 +13,8 @@ namespace Comets.Application
 		[STAThread]
 		static void Main()
 		{
+			System.Windows.Forms.Application.SetHighDpiMode(HighDpiMode.DpiUnaware);
+
 			System.Windows.Forms.Application.ThreadException += new ThreadExceptionEventHandler(Application_ThreadException);
 			System.Windows.Forms.Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
 
