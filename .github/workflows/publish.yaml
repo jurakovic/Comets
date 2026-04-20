@@ -6,11 +6,6 @@ permissions:
 on:
   workflow_dispatch:
     inputs:
-      source_branch:
-        description: 'Source branch (branch to build from, "auto" uses workflow ref)'
-        required: false
-        default: 'auto'
-        type: string
       publish:
         description: 'Step 1: Publish'
         required: false
@@ -26,6 +21,11 @@ on:
         required: false
         default: true
         type: boolean
+      source_branch:
+        description: 'Source branch (branch to build from, "auto" uses workflow ref)'
+        required: false
+        default: 'auto'
+        type: string
       version:
         description: 'Version (leave empty or "auto" to compute from last tag)'
         required: false
@@ -83,7 +83,8 @@ jobs:
         shell: bash
         run: |
           chmod +x ./publish.sh
-          VERSION=$(./publish.sh version -v "${{ inputs.version }}" -b "${{ inputs.bump_type }}" -M "${{ inputs.base_ver }}" -p "${{ inputs.preview }}")
+          SOURCE_BRANCH="${{ inputs.source_branch == 'auto' && github.ref_name || inputs.source_branch }}"
+          VERSION=$(GITHUB_REF_NAME="$SOURCE_BRANCH" ./publish.sh version -v "${{ inputs.version }}" -b "${{ inputs.bump_type }}" -M "${{ inputs.base_ver }}" -p "${{ inputs.preview }}")
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
@@ -113,7 +114,7 @@ jobs:
 
       - name: Upload Artifacts
         if: ${{ inputs.package }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: comets_${{ env.VERSION }}_${{ matrix.rid }}
           path: release/comets_${{ env.VERSION }}_${{ matrix.rid }}.zip
@@ -135,7 +136,7 @@ jobs:
         shell: bash
 
       - name: Download All Artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           path: artifacts
 

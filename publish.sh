@@ -167,6 +167,7 @@ function read_args() {
   else
     BRANCH=$(git branch --show-current)
   fi
+
   COMMIT=$(git log -n 1 --format="%H")
   MESSAGE=$(git log -n 1 --format="%B")
 
@@ -209,9 +210,9 @@ function read_args() {
       fi
       VERSION=$(bump_version "$current_version" "$BUMP_TYPE" "$PREVIEW")
     fi
-  else
-    BUMP_TYPE=""
-    PREVIEW=""
+  #else
+  #  BUMP_TYPE=""
+  #  PREVIEW=""
   fi
 
   if [ "$COMMAND" != "version" ]; then
