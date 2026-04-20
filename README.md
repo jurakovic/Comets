@@ -1,8 +1,8 @@
 
 # Comets
 
-![dotnet](https://img.shields.io/badge/-.NET-512BD4?logo=dotnet&logoColor=white)
 ![cs](https://img.shields.io/badge/-C%23-512BD4?logoColor=white)
+![dotnet](https://img.shields.io/badge/-.NET-512BD4?logoColor=white)
 ![opengl](https://img.shields.io/badge/-OpenGL-5A8AA7?logo=opengl&logoColor=white)
 [![version](https://img.shields.io/github/v/release/jurakovic/Comets?display_name=release&style=flat&label=version&color=blue)](https://github.com/jurakovic/Comets/releases/latest)
 [![licence](https://img.shields.io/github/license/jurakovic/Comets?color=blue)](LICENCE)
