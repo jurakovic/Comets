@@ -6,6 +6,11 @@ permissions:
 on:
   workflow_dispatch:
     inputs:
+      source_branch:
+        description: 'Source branch (branch to build from, "auto" uses workflow ref)'
+        required: false
+        default: 'auto'
+        type: string
       publish:
         description: 'Step 1: Publish'
         required: false
@@ -65,6 +70,7 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v6
         with:
+          ref: ${{ inputs.source_branch == 'auto' && github.ref || inputs.source_branch }}
           fetch-depth: 0
 
       - name: Compute Version
@@ -115,6 +121,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
         with:
+          ref: ${{ inputs.source_branch == 'auto' && github.ref || inputs.source_branch }}
           fetch-depth: 0
 
       - name: Download All Artifacts
