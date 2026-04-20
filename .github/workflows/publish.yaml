@@ -6,6 +6,21 @@ permissions:
 on:
   workflow_dispatch:
     inputs:
+      publish:
+        description: 'Step 1: Publish'
+        required: false
+        default: true
+        type: boolean
+      package:
+        description: 'Step 2: Package'
+        required: false
+        default: true
+        type: boolean
+      release:
+        description: 'Step 3: Release'
+        required: false
+        default: true
+        type: boolean
       version:
         description: 'Version (leave empty or "auto" to compute from last tag)'
         required: false
@@ -34,21 +49,6 @@ on:
           - auto
           - 'true'
           - 'false'
-      publish:
-        description: 'Step 1: dotnet publish'
-        required: false
-        default: true
-        type: boolean
-      package:
-        description: 'Step 2: zip + upload artifacts (requires publish)'
-        required: false
-        default: true
-        type: boolean
-      release:
-        description: 'Step 3: git tag + GitHub Release (requires package)'
-        required: false
-        default: true
-        type: boolean
 
 jobs:
   build:
@@ -113,7 +113,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
@@ -140,7 +140,7 @@ jobs:
         shell: bash
 
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: "v${{ needs.build.outputs.version }}"
           prerelease: ${{ contains(needs.build.outputs.version, 'preview') }}
