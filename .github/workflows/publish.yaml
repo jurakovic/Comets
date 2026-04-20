@@ -152,7 +152,7 @@ jobs:
         run: |
           find artifacts
           mkdir release
-          cp artifacts/**/*.zip release
+          find artifacts -name "*.zip" -exec cp {} release/ \;
           cd release && find . -name "*.zip" -exec sha256sum {} \; | sed 's;./;;' > checksums.txt && cd - > /dev/null
           find release
         shell: bash
