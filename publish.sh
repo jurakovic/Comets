@@ -210,9 +210,9 @@ function read_args() {
       fi
       VERSION=$(bump_version "$current_version" "$BUMP_TYPE" "$PREVIEW")
     fi
-  #else
-  #  BUMP_TYPE=""
-  #  PREVIEW=""
+  else
+    BUMP_TYPE="-"
+    PREVIEW="-"
   fi
 
   if [ "$COMMAND" != "version" ]; then
