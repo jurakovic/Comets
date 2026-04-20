@@ -368,7 +368,7 @@ namespace Comets.OrbitViewer
 					return GetPosExp3(planet, atime.T2);
 			}
 
-			return null;
+			return default;
 		}
 
 		#endregion

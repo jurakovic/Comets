@@ -5,13 +5,13 @@ namespace Comets.OrbitViewer
 	/// <summary>
 	/// 3-Dimensional Vector
 	/// </summary>
-	public class Xyz
+	public readonly struct Xyz
 	{
 		#region Properties
 
-		public double X { get; private set; }
-		public double Y { get; private set; }
-		public double Z { get; private set; }
+		public double X { get; }
+		public double Y { get; }
+		public double Z { get; }
 
 		#endregion
 
