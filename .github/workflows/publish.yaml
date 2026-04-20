@@ -73,6 +73,11 @@ jobs:
           ref: ${{ inputs.source_branch == 'auto' && github.ref || inputs.source_branch }}
           fetch-depth: 0
 
+      - name: Fetch publish.sh
+        if: ${{ inputs.source_branch != 'auto' }}
+        run: git restore --source origin/${{ github.ref_name }} -- publish.sh
+        shell: bash
+
       - name: Compute Version
         id: ver
         shell: bash
@@ -123,6 +128,11 @@ jobs:
         with:
           ref: ${{ inputs.source_branch == 'auto' && github.ref || inputs.source_branch }}
           fetch-depth: 0
+
+      - name: Fetch publish.sh
+        if: ${{ inputs.source_branch != 'auto' }}
+        run: git restore --source origin/${{ github.ref_name }} -- publish.sh
+        shell: bash
 
       - name: Download All Artifacts
         uses: actions/download-artifact@v4
