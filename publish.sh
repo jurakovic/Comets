@@ -169,7 +169,7 @@ function read_args() {
   fi
 
   COMMIT=$(git log -n 1 --format="%H")
-  MESSAGE=$(git log -n 1 --format="%B")
+  MESSAGE=$(git log -n 1 --format="%s")
 
   if [ "$PREVIEW" = "auto" ]; then
     if [ "$BRANCH" != "master" ]; then
