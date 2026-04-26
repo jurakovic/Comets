@@ -611,12 +611,16 @@ void main() {
 				}
 
 				// Batch VBO: all visible comets concatenated into one buffer for a single draw call.
+				// Skip selected/marked — they get individual draws with highlight colors, and
+				// drawing the same vertices twice fails depth test (DepthFunc.Less + equal depth).
 				if (OrbitDisplay.Contains(Object.Comet))
 				{
 					var batchVerts = new List<float[]>();
 					for (int i = 0; i < Comets.Count; i++)
 					{
 						if (!Comets[i].IsVisible) continue;
+						if (Comets[i].IsMarked) continue;
+						if (PreserveSelectedOrbit && i == SelectedIndex) continue;
 						var orbit = new CometOrbit(Comets[i]);
 						int n = orbit.PointCount;
 						float[] verts = new float[n * 3];
@@ -810,7 +814,9 @@ void main() {
 				bool visibleComet = Comets[i].IsVisible;
 				bool useWeakColor = !visibleComet && FilterOnDateShowInWeakColor && !visibleSelected && !isCometMarked;
 				bool useSelectedColor = visibleSelected && MultipleMode &&
-					((markedCount > 0 && !isCometMarked) || (markedCount > 1 && isCometMarked));
+					(OrbitDisplay.Contains(Object.Comet) ||
+					 (markedCount > 0 && !isCometMarked) ||
+					 (markedCount > 1 && isCometMarked));
 
 				var (vao, _, count) = cometBuf;
 				if (vao == 0 || count == 0) continue;
