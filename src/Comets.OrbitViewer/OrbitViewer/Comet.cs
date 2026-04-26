@@ -66,6 +66,11 @@ namespace Comets.OrbitViewer
 		public double k => _comet.k;
 
 		/// <summary>
+		/// Current Magnitude
+		/// </summary>
+		public double CurrentMag => _comet.CurrentMag;
+
+		/// <summary>
 		/// Equinox in ATime
 		/// </summary>
 		private ATime ATimeEquinox { get; set; }
