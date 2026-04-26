@@ -1475,18 +1475,19 @@ namespace Comets.Core.Managers
 			c.name = name;
 			c.fragment = fragment;
 
-			/////////////////////////
-			//pogledat epoch
-			//mozda treba njega ucitat pa precesirat vrijednosti W N i na epoch 2000
-
-			//int epoch = Convert.ToInt32(line.Substring(44, 7);
-			/////////////////////////
+			double epoch = Convert.ToDouble(line.Substring(44, 7).Trim());
 
 			c.q = Convert.ToDouble(line.Substring(52, 11).Trim());
 			c.e = Convert.ToDouble(line.Substring(64, 10).Trim());
-			c.i = Convert.ToDouble(line.Substring(75, 9).Trim());
-			c.w = Convert.ToDouble(line.Substring(85, 9).Trim());
-			c.N = Convert.ToDouble(line.Substring(95, 9).Trim());
+			double ci = Convert.ToDouble(line.Substring(75, 9).Trim());
+			double cw = Convert.ToDouble(line.Substring(85, 9).Trim());
+			double cN = Convert.ToDouble(line.Substring(95, 9).Trim());
+
+			EphemerisManager.PrecessElementsToJ2000(epoch, ref ci, ref cN, ref cw);
+
+			c.i = ci;
+			c.w = cw;
+			c.N = cN;
 
 			c.Ty = Convert.ToInt32(line.Substring(105, 4).Trim());
 			c.Tm = Convert.ToInt32(line.Substring(109, 2).Trim());
