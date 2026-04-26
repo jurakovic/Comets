@@ -194,7 +194,9 @@ void main() {
 			set
 			{
 				this._atime = value;
-				UpdatePositions(ATime);
+				UpdatePositions(value);
+				UpdatePlanetOrbit(value);
+				UpdateRotationMatrix(value);
 			}
 		}
 
@@ -340,8 +342,6 @@ void main() {
 			SelectedIndex = Comets.IndexOf(comet);
 
 			ATime = atime;
-			UpdatePlanetOrbit(atime);
-			UpdateRotationMatrix(atime);
 			_cometVbosDirty = true;
 		}
 
@@ -362,8 +362,6 @@ void main() {
 					c.IsMarked = false;
 
 			ATime = atime;
-			UpdatePlanetOrbit(atime);
-			UpdateRotationMatrix(atime);
 			_cometVbosDirty = true;
 		}
 
