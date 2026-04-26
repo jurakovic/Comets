@@ -299,6 +299,9 @@ namespace Comets.Application.OrbitViewer
 				orbitPanel.OrbitDisplay.Add(orbit);
 			else
 				orbitPanel.OrbitDisplay.Remove(orbit);
+
+			if (orbit == Object.Comet)
+				orbitPanel.InvalidateCometVbos();
 		}
 
 		private void ChangeLabelDisplay(bool isChecked, Object orbit)
@@ -457,6 +460,7 @@ namespace Comets.Application.OrbitViewer
 			}
 
 			orbitPanel.UpdateCometVisibility();
+			orbitPanel.InvalidateCometVbos();
 			RefreshPanel();
 		}
 

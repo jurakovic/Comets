@@ -576,7 +576,6 @@
 			// cbxOrbitComet
 			// 
 			this.cbxOrbitComet.AutoSize = true;
-			this.cbxOrbitComet.Enabled = false;
 			this.cbxOrbitComet.Location = new System.Drawing.Point(140, 23);
 			this.cbxOrbitComet.Name = "cbxOrbitComet";
 			this.cbxOrbitComet.Size = new System.Drawing.Size(15, 14);

@@ -548,12 +548,15 @@ void main() {
 				}
 			}
 
-			// Determine which comet indices need VBOs (selected + marked).
+			// Determine which comet indices need VBOs (selected + marked + all visible when orbit display is on).
 			var required = new HashSet<int>();
 			if (PreserveSelectedOrbit && SelectedIndex >= 0 && SelectedIndex < Comets.Count)
 				required.Add(SelectedIndex);
 			for (int i = 0; i < Comets.Count; i++)
 				if (Comets[i].IsMarked) required.Add(i);
+			if (OrbitDisplay.Contains(Object.Comet))
+				for (int i = 0; i < Comets.Count; i++)
+					if (Comets[i].IsVisible) required.Add(i);
 
 			// Delete VBOs for comets no longer needed.
 			foreach (int key in _cometOrbitBuffers.Keys.ToList())
@@ -732,8 +735,9 @@ void main() {
 			{
 				bool visibleSelected = PreserveSelectedOrbit && i == SelectedIndex;
 				bool isCometMarked = Comets[i].IsMarked;
+				bool orbitDisplayAll = OrbitDisplay.Contains(Object.Comet) && Comets[i].IsVisible;
 
-				if (!visibleSelected && !isCometMarked) continue;
+				if (!visibleSelected && !isCometMarked && !orbitDisplayAll) continue;
 
 				if (!_cometOrbitBuffers.TryGetValue(i, out var cometBuf)) continue;
 
