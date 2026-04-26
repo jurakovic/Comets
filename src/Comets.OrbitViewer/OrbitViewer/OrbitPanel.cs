@@ -591,11 +591,63 @@ void main() {
 					verts[j * 3 + 2] = (float)p.Z;
 				}
 
-				int vao, vbo;
-				if (_cometOrbitBuffers.TryGetValue(i, out var existing))
+				// Batch VBO: all visible comets concatenated into one buffer for a single draw call.
+				// Skip selected/marked — they get individual draws with highlight colors, and
+				// drawing the same vertices twice fails depth test (DepthFunc.Less + equal depth).
+				if (OrbitDisplay.Contains(Object.Comet))
 				{
-					vao = existing.vao;
-					vbo = existing.vbo;
+					var batchVerts = new List<float[]>();
+					for (int i = 0; i < Comets.Count; i++)
+					{
+						if (!Comets[i].IsVisible) continue;
+						if (Comets[i].IsMarked) continue;
+						if (PreserveSelectedOrbit && i == SelectedIndex) continue;
+						var orbit = new CometOrbit(Comets[i]);
+						int n = orbit.PointCount;
+						float[] verts = new float[n * 3];
+						for (int j = 0; j < n; j++)
+						{
+							Xyz p = orbit.GetAt(j).Rotate(MtxToEcl);
+							verts[j * 3] = (float)p.X;
+							verts[j * 3 + 1] = (float)p.Y;
+							verts[j * 3 + 2] = (float)p.Z;
+						}
+						batchVerts.Add(verts);
+					}
+
+					_cometBatchStarts = new int[batchVerts.Count];
+					_cometBatchCounts = new int[batchVerts.Count];
+					_cometBatchDrawCount = batchVerts.Count;
+
+					if (batchVerts.Count > 0)
+					{
+						int totalFloats = batchVerts.Sum(v => v.Length);
+						float[] combined = new float[totalFloats];
+						int pos = 0;
+						for (int k = 0; k < batchVerts.Count; k++)
+						{
+							_cometBatchStarts[k] = pos;
+							_cometBatchCounts[k] = batchVerts[k].Length / 3;
+							System.Buffer.BlockCopy(batchVerts[k], 0, combined, pos * 3 * sizeof(float), batchVerts[k].Length * sizeof(float));
+							pos += batchVerts[k].Length / 3;
+						}
+
+						if (_cometBatchVao == 0)
+						{
+							_cometBatchVao = GL.GenVertexArray();
+							_cometBatchVbo = GL.GenBuffer();
+							GL.BindVertexArray(_cometBatchVao);
+							GL.BindBuffer(BufferTarget.ArrayBuffer, _cometBatchVbo);
+							GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
+							GL.EnableVertexAttribArray(0);
+							GL.BindVertexArray(0);
+						}
+
+						GL.BindVertexArray(_cometBatchVao);
+						GL.BindBuffer(BufferTarget.ArrayBuffer, _cometBatchVbo);
+						GL.BufferData(BufferTarget.ArrayBuffer, totalFloats * sizeof(float), combined, BufferUsageHint.DynamicDraw);
+						GL.BindVertexArray(0);
+					}
 				}
 				else
 				{
@@ -746,7 +798,9 @@ void main() {
 				bool visibleComet = Comets[i].IsVisible;
 				bool useWeakColor = !visibleComet && FilterOnDateShowInWeakColor && !visibleSelected && !isCometMarked;
 				bool useSelectedColor = visibleSelected && MultipleMode &&
-					((markedCount > 0 && !isCometMarked) || (markedCount > 1 && isCometMarked));
+					(OrbitDisplay.Contains(Object.Comet) ||
+					 (markedCount > 0 && !isCometMarked) ||
+					 (markedCount > 1 && isCometMarked));
 
 				var (vao, _, count) = cometBuf;
 				if (vao == 0 || count == 0) continue;
