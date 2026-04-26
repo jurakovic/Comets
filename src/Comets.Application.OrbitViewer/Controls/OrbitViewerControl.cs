@@ -37,6 +37,7 @@ namespace Comets.Application.OrbitViewer
 		private System.Windows.Forms.Timer Timer;
 		private ATimeSpan TimeStep;
 		private double TimeStepJD;
+		private DateTime _simulationDateTime;
 
 		private CometCollection Comets;
 		private FilterCollection Filters;
@@ -376,14 +377,32 @@ namespace Comets.Application.OrbitViewer
 		private void timer_Tick(object sender, EventArgs e)
 		{
 			double deltaDays = TimeStepJD * (Timer.Interval / 50.0) * (IsSimulationForward ? 1.0 : -1.0);
+			_simulationDateTime = _simulationDateTime.AddDays(deltaDays);
+
 			ValueChangedInternal = true;
-			SelectedDateTime = SelectedDateTime.AddDays(deltaDays);
+			SelectedDateTime = _simulationDateTime;
 			ValueChangedInternal = false;
+
+			// Mask fractional time in the display: round to nearest step interval
+			DateTime dt = SelectedDateTime;
+			DateTime displayDateTime;
+			if (TimeStepJD < 1.0)
+			{
+				int stepSeconds = (int)Math.Round(TimeStepJD * 86400);
+				int totalSeconds = dt.Hour * 3600 + dt.Minute * 60 + dt.Second;
+				int roundedSeconds = (int)Math.Round((double)totalSeconds / stepSeconds, MidpointRounding.AwayFromZero) * stepSeconds;
+				displayDateTime = new DateTime(dt.Year, dt.Month, dt.Day, 0, 0, 0, DateTimeKind.Utc).AddSeconds(roundedSeconds);
+			}
+			else
+			{
+				displayDateTime = new DateTime(dt.Year, dt.Month, dt.Day, 0, 0, 0, DateTimeKind.Utc);
+			}
+			dateTimeControl.SelectedDateTime = displayDateTime;
 		}
 
 		private void ChangeSimulationDate(bool isForward)
 		{
-			ATime atime = orbitPanel.ATime;
+			ATime atime = new ATime(SelectedDateTime, SelectedDateTime.Timezone());
 			atime.ChangeDate(TimeStep, isForward);
 
 			ValueChangedInternal = true;
@@ -393,6 +412,7 @@ namespace Comets.Application.OrbitViewer
 
 		private void StartSimulation()
 		{
+			_simulationDateTime = SelectedDateTime;
 			Timer.Start();
 		}
 
