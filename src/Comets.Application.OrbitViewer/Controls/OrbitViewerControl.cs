@@ -36,6 +36,7 @@ namespace Comets.Application.OrbitViewer
 
 		private System.Windows.Forms.Timer Timer;
 		private ATimeSpan TimeStep;
+		private double TimeStepJD;
 
 		private CometCollection Comets;
 		private FilterCollection Filters;
@@ -90,7 +91,7 @@ namespace Comets.Application.OrbitViewer
 			InitializeComponent();
 
 			Timer = new System.Windows.Forms.Timer();
-			Timer.Interval = 50;
+			Timer.Interval = 16; // ~62 fps
 			Timer.Tick += new EventHandler(this.timer_Tick);
 
 			cometControl.OnSelectedCometChanged += LoadSelectedComet;
@@ -369,11 +370,15 @@ namespace Comets.Application.OrbitViewer
 		private void SetTimeStep(ATimeSpan timeStep)
 		{
 			TimeStep = timeStep;
+			TimeStepJD = timeStep.Year * 365.25 + timeStep.Month * (365.25 / 12.0) + timeStep.Day + timeStep.Hour / 24.0;
 		}
 
 		private void timer_Tick(object sender, EventArgs e)
 		{
-			ChangeSimulationDate(IsSimulationForward);
+			double deltaDays = TimeStepJD * (Timer.Interval / 50.0) * (IsSimulationForward ? 1.0 : -1.0);
+			ValueChangedInternal = true;
+			SelectedDateTime = SelectedDateTime.AddDays(deltaDays);
+			ValueChangedInternal = false;
 		}
 
 		private void ChangeSimulationDate(bool isForward)
