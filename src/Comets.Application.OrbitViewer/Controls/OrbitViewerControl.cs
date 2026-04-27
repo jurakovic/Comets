@@ -122,6 +122,7 @@ namespace Comets.Application.OrbitViewer
 			infoLabelsControl.OnShowDateLabelChanged += SetShowDateLabel;
 
 			miscControl.OnShowAxesChanged += SetShowAxes;
+			miscControl.OnShowGridChanged += SetShowGrid;
 			miscControl.OnAntialiasingChanged += SetAntialiasing;
 			miscControl.OnSaveImage += Save;
 
@@ -493,6 +494,12 @@ namespace Comets.Application.OrbitViewer
 		private void SetShowAxes(bool showAxes)
 		{
 			orbitPanel.ShowAxes = showAxes;
+			RefreshPanel();
+		}
+
+		private void SetShowGrid(bool showGrid)
+		{
+			orbitPanel.ShowGrid = showGrid;
 			RefreshPanel();
 		}
 

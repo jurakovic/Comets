@@ -118,6 +118,7 @@ void main() {
 		protected Color ColorSun = Color.Orange;
 		protected Color ColorAxisPlus = Color.Yellow;
 		protected Color ColorAxisMinus = Color.DarkOliveGreen;
+		protected Color ColorGrid = Color.FromArgb(30, 40, 100);
 		protected Color ColorInformation = Color.White;
 		protected Color FilterOnDateWeakColorComet = Color.FromArgb(25, 25, 70);
 		protected Color FilterOnDateWeakColorOrbit = Color.FromArgb(25, 25, 50);
@@ -276,6 +277,10 @@ void main() {
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public bool ShowAxes { get; set; }
+
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public bool ShowGrid { get; set; }
 
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -768,6 +773,9 @@ void main() {
 			GL.UniformMatrix4(_uMVP, false, ref _mvp);
 			GL.LineWidth(1.5f);
 
+			if (ShowGrid)
+				RenderGrid();
+
 			// Planet orbits
 			foreach (Object planet in Planets)
 			{
@@ -998,6 +1006,80 @@ void main() {
 			GL.Uniform4(_uColorUpper, ColorAxisPlus.R / 255f, ColorAxisPlus.G / 255f, ColorAxisPlus.B / 255f, 1f);
 			GL.Uniform4(_uColorLower, ColorAxisPlus.R / 255f, ColorAxisPlus.G / 255f, ColorAxisPlus.B / 255f, 1f);
 			GL.DrawArrays(PrimitiveType.Lines, 0, 6);
+		}
+
+		#endregion
+
+		#region RenderGrid
+
+		private static readonly double[] GridNiceSteps = { 0.1, 0.2, 0.5, 1, 2, 5, 10, 20, 50, 100, 200 };
+
+		private void RenderGrid()
+		{
+			const double extent        = 150.0;  // AU — half-width of grid (matches axis length)
+			const double idealSpacingPx = 80.0;  // px — target screen spacing between lines
+			const double minSpacingPx   = 30.0;  // px — minimum spacing before stopping step-down
+			const int    minCells       = 9;      // minimum cells per side
+			const double elevFullMul    = 3.86;  // 1/sin(15°) — full opacity above 15° from ecliptic
+			const double fadeExp        = 1.5;
+			const double zoomFadeLo     = 5.0;   // px/AU — outer zoom: fade suppressed (grid always visible)
+			const double zoomFadeHi     = 100.0; // px/AU — inner zoom: elevation fade fully active
+
+			// elevFactor = |cos(RotateVert)|: 1 when top-down (v=0°), 0 when edge-on (v=90°)
+			double elevFactor  = Math.Abs(Math.Cos(RotateVert * Math.PI / 180.0));
+			double pixelsPerAU = Height / (2.0 * _orthoHalfH);
+
+			// Adaptive step: target idealSpacingPx between lines, corrected for foreshortening
+			double idealStep = idealSpacingPx / (pixelsPerAU * Math.Max(0.15, elevFactor));
+			int stepIdx = Array.FindIndex(GridNiceSteps, s => s >= idealStep);
+			if (stepIdx < 0) stepIdx = GridNiceSteps.Length - 1;
+
+			// Step down to finer grid to keep >= minCells per side, stop when lines get too dense
+			while (stepIdx > 0
+				&& Math.Floor(extent / GridNiceSteps[stepIdx]) < minCells
+				&& GridNiceSteps[stepIdx - 1] * pixelsPerAU >= minSpacingPx)
+			{
+				stepIdx--;
+			}
+
+			double step = GridNiceSteps[stepIdx];
+			double R = Math.Floor(extent / step) * step;
+			if (R == 0) R = step;
+
+			// Elevation fade: full opacity above 15° from ecliptic, fades only in the last 15°
+			double rawAlpha = Math.Pow(Math.Min(1.0, elevFactor * elevFullMul), fadeExp);
+			// Zoom modulation: suppress elevation fade when zoomed out so grid stays visible
+			double zoomNorm = Math.Min(1.0, Math.Max(0.0, (pixelsPerAU - zoomFadeLo) / (zoomFadeHi - zoomFadeLo)));
+			double alpha    = rawAlpha + (1.0 - rawAlpha) * (1.0 - zoomNorm);
+			if (alpha < 0.01) return;
+
+			int lineCount = (int)Math.Round(2.0 * R / step) + 1;
+			float[] verts = new float[lineCount * 4 * 3];
+
+			int idx = 0;
+			for (int k = 0; k < lineCount; k++)
+			{
+				double v = -R + k * step;
+				// Line parallel to X axis (constant Y = v)
+				verts[idx++] = (float)-R; verts[idx++] = (float)v; verts[idx++] = 0f;
+				verts[idx++] = (float)R;  verts[idx++] = (float)v; verts[idx++] = 0f;
+				// Line parallel to Y axis (constant X = v)
+				verts[idx++] = (float)v;  verts[idx++] = (float)-R; verts[idx++] = 0f;
+				verts[idx++] = (float)v;  verts[idx++] = (float)R;  verts[idx++] = 0f;
+			}
+
+			float r = ColorGrid.R / 255f;
+			float g = ColorGrid.G / 255f;
+			float b = ColorGrid.B / 255f;
+			float a = (float)alpha;
+
+			GL.Uniform1(_uMode, 0);
+			GL.Uniform4(_uColorUpper, r, g, b, a);
+			GL.Uniform4(_uColorLower, r, g, b, a);
+			GL.BindVertexArray(_bodyVao);
+			GL.BindBuffer(BufferTarget.ArrayBuffer, _bodyVbo);
+			GL.BufferData(BufferTarget.ArrayBuffer, verts.Length * sizeof(float), verts, BufferUsageHint.StreamDraw);
+			GL.DrawArrays(PrimitiveType.Lines, 0, lineCount * 4);
 		}
 
 		#endregion

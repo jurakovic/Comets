@@ -30,6 +30,7 @@
 		{
 			this.pnlMisc = new System.Windows.Forms.Panel();
 			this.cbxShowAxes = new System.Windows.Forms.CheckBox();
+			this.cbxShowGrid = new System.Windows.Forms.CheckBox();
 			this.btnSaveImage = new System.Windows.Forms.Button();
 			this.cbxAntialiasing = new System.Windows.Forms.CheckBox();
 			this.pnlMisc.SuspendLayout();
@@ -39,12 +40,13 @@
 			// 
 			this.pnlMisc.BackColor = System.Drawing.SystemColors.ControlDark;
 			this.pnlMisc.Controls.Add(this.cbxShowAxes);
+			this.pnlMisc.Controls.Add(this.cbxShowGrid);
 			this.pnlMisc.Controls.Add(this.btnSaveImage);
 			this.pnlMisc.Controls.Add(this.cbxAntialiasing);
 			this.pnlMisc.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pnlMisc.Location = new System.Drawing.Point(0, 0);
 			this.pnlMisc.Name = "pnlMisc";
-			this.pnlMisc.Size = new System.Drawing.Size(173, 77);
+			this.pnlMisc.Size = new System.Drawing.Size(173, 100);
 			this.pnlMisc.TabIndex = 0;
 			// 
 			// cbxShowAxes
@@ -57,28 +59,39 @@
 			this.cbxShowAxes.Text = "Show axes";
 			this.cbxShowAxes.UseVisualStyleBackColor = true;
 			this.cbxShowAxes.CheckedChanged += this.cbxShowAxes_CheckedChanged;
-			// 
-			// btnSaveImage
-			// 
-			this.btnSaveImage.Location = new System.Drawing.Point(4, 50);
-			this.btnSaveImage.Name = "btnSaveImage";
-			this.btnSaveImage.Size = new System.Drawing.Size(165, 23);
-			this.btnSaveImage.TabIndex = 2;
-			this.btnSaveImage.Text = "Save image";
-			this.btnSaveImage.UseVisualStyleBackColor = true;
-			this.btnSaveImage.Click += this.btnSaveImage_Click;
-			// 
+			//
+			// cbxShowGrid
+			//
+			this.cbxShowGrid.AutoSize = true;
+			this.cbxShowGrid.Location = new System.Drawing.Point(6, 28);
+			this.cbxShowGrid.Name = "cbxShowGrid";
+			this.cbxShowGrid.Size = new System.Drawing.Size(72, 17);
+			this.cbxShowGrid.TabIndex = 1;
+			this.cbxShowGrid.Text = "Show grid";
+			this.cbxShowGrid.UseVisualStyleBackColor = true;
+			this.cbxShowGrid.CheckedChanged += this.cbxShowGrid_CheckedChanged;
+			//
 			// cbxAntialiasing
-			// 
+			//
 			this.cbxAntialiasing.AutoSize = true;
-			this.cbxAntialiasing.Location = new System.Drawing.Point(6, 28);
+			this.cbxAntialiasing.Location = new System.Drawing.Point(6, 51);
 			this.cbxAntialiasing.Name = "cbxAntialiasing";
 			this.cbxAntialiasing.Size = new System.Drawing.Size(80, 17);
-			this.cbxAntialiasing.TabIndex = 1;
+			this.cbxAntialiasing.TabIndex = 2;
 			this.cbxAntialiasing.Text = "Antialiasing";
 			this.cbxAntialiasing.UseVisualStyleBackColor = true;
 			this.cbxAntialiasing.Checked = true;
 			this.cbxAntialiasing.CheckedChanged += this.cbxAntialiasing_CheckedChanged;
+			//
+			// btnSaveImage
+			//
+			this.btnSaveImage.Location = new System.Drawing.Point(4, 73);
+			this.btnSaveImage.Name = "btnSaveImage";
+			this.btnSaveImage.Size = new System.Drawing.Size(165, 23);
+			this.btnSaveImage.TabIndex = 3;
+			this.btnSaveImage.Text = "Save image";
+			this.btnSaveImage.UseVisualStyleBackColor = true;
+			this.btnSaveImage.Click += this.btnSaveImage_Click;
 			// 
 			// MiscControl
 			// 
@@ -87,7 +100,7 @@
 			this.Controls.Add(this.pnlMisc);
 			this.Font = new System.Drawing.Font("Tahoma", 8.25F);
 			this.Name = "MiscControl";
-			this.Size = new System.Drawing.Size(173, 77);
+			this.Size = new System.Drawing.Size(173, 100);
 			this.pnlMisc.ResumeLayout(false);
 			this.pnlMisc.PerformLayout();
 			this.ResumeLayout(false);
@@ -97,6 +110,7 @@
 
 		private System.Windows.Forms.Panel pnlMisc;
 		private System.Windows.Forms.CheckBox cbxShowAxes;
+		private System.Windows.Forms.CheckBox cbxShowGrid;
 		private System.Windows.Forms.Button btnSaveImage;
 		private System.Windows.Forms.CheckBox cbxAntialiasing;
 	}
