@@ -8,6 +8,7 @@ namespace Comets.Application.OrbitViewer.Controls
 		#region Events
 
 		public event Action<bool> OnShowAxesChanged;
+		public event Action<bool> OnShowGridChanged;
 		public event Action<bool> OnAntialiasingChanged;
 		public event Action OnSaveImage;
 
@@ -27,6 +28,11 @@ namespace Comets.Application.OrbitViewer.Controls
 		private void cbxShowAxes_CheckedChanged(object sender, EventArgs e)
 		{
 			OnShowAxesChanged(cbxShowAxes.Checked);
+		}
+
+		private void cbxShowGrid_CheckedChanged(object sender, EventArgs e)
+		{
+			OnShowGridChanged(cbxShowGrid.Checked);
 		}
 
 		private void cbxAntialiasing_CheckedChanged(object sender, EventArgs e)
