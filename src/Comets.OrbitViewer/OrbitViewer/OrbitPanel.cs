@@ -276,6 +276,10 @@ void main() {
 
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public double GridExtent { get; set; } = 150.0;
+
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public bool Antialiasing { get; set; }
 
 		[Browsable(false)]
@@ -961,7 +965,7 @@ void main() {
 
 		private void RenderGrid()
 		{
-			const double extent         = 150.0; // AU — half-width of grid (matches axis length)
+			double extent               = Math.Max(0.01, GridExtent);
 			const double idealSpacingPx = 50.0;  // px — target screen spacing between lines
 			const double minSpacingPx   = 15.0;  // px — minimum spacing before stopping step-down
 			const int    minCells       = 9;     // minimum cells per side
