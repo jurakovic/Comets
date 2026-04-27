@@ -858,7 +858,8 @@ namespace Comets.Application.OrbitViewer
 				int deltaX = e.X - StartDrag.X;
 				int deltaY = e.Y - StartDrag.Y;
 
-				orbitPanel.RotateHorz = WrapDegrees(orbitPanel.RotateHorz - deltaX * 0.5);
+				double cosV = Math.Cos(orbitPanel.RotateVert * Math.PI / 180.0);
+				orbitPanel.RotateHorz = WrapDegrees(orbitPanel.RotateHorz - Math.Sign(cosV) * deltaX * 0.5);
 				orbitPanel.RotateVert = WrapDegrees(orbitPanel.RotateVert - deltaY * 0.4);
 
 				StartDrag = e.Location;
