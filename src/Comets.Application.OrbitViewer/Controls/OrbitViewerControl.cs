@@ -537,7 +537,7 @@ namespace Comets.Application.OrbitViewer
 
 		public void OrbitViewerControl_KeyDown(object sender, KeyEventArgs e)
 		{
-			if (filterControl.Focused
+			if ((filterControl.Focused || miscControl.ContainsFocus)
 				&& e.KeyCode.In(Keys.D1, Keys.D2, Keys.D3, Keys.D4, Keys.D5, Keys.D6, Keys.D7, Keys.D8, Keys.D9, Keys.D0, Keys.Back))
 				return;
 

@@ -775,10 +775,14 @@ void main() {
 
 			GL.UseProgram(_shaderProgram);
 			GL.UniformMatrix4(_uMVP, false, ref _mvp);
-			GL.LineWidth(1.5f);
 
 			if (ShowGrid)
+			{
+				GL.LineWidth(1.0f);
 				RenderGrid();
+			}
+
+			GL.LineWidth(1.5f);
 
 			// Planet orbits
 			foreach (Object planet in Planets)
@@ -968,7 +972,8 @@ void main() {
 
 		private void RenderAxes()
 		{
-			const double SizeAU = 150.0;
+			double SizeAU = Math.Max(0.01, GridExtent);
+			double perspD = SizeAU * (800.0 / 150.0);
 
 			// 3 minus-axis lines: origin→-X, origin→-Y, origin→-Z (6 vertices)
 			// 3 plus-axis lines:  origin→+X, origin→+Y, origin→+Z (6 vertices)
@@ -985,7 +990,7 @@ void main() {
 				var d = dirs[i];
 				int b = i * 6;
 				minus[b] = 0f; minus[b + 1] = 0f; minus[b + 2] = 0f;
-				var tip = PseudoPerspective(new Xyz(d.X, d.Y, d.Z));
+				var tip = PseudoPerspective(new Xyz(d.X, d.Y, d.Z), perspD);
 				minus[b + 3] = (float)tip.X; minus[b + 4] = (float)tip.Y; minus[b + 5] = (float)tip.Z;
 			}
 			for (int i = 0; i < 3; i++)
@@ -993,7 +998,7 @@ void main() {
 				var d = dirs[i + 3];
 				int b = i * 6;
 				plus[b] = 0f; plus[b + 1] = 0f; plus[b + 2] = 0f;
-				var tip = PseudoPerspective(new Xyz(d.X, d.Y, d.Z));
+				var tip = PseudoPerspective(new Xyz(d.X, d.Y, d.Z), perspD);
 				plus[b + 3] = (float)tip.X; plus[b + 4] = (float)tip.Y; plus[b + 5] = (float)tip.Z;
 			}
 
@@ -1016,13 +1021,12 @@ void main() {
 
 		#region PseudoPerspective
 
-		// Applies the same f = 800/(800-vd) depth-scaling used by the grid to any ecliptic-plane
-		// (Z=0) world-space point so that axes and labels stay aligned with the grid boundary.
+		// Applies f = D/(D-vd) depth-scaling to any ecliptic-plane (Z=0) world-space point.
+		// D should be scaled proportionally with the scene extent so the effect is consistent at any zoom.
 		// Points with Z≠0 (the ecliptic-pole axis) are returned unchanged.
-		private Xyz PseudoPerspective(Xyz xyz)
+		private Xyz PseudoPerspective(Xyz xyz, double D)
 		{
 			if (xyz.Z != 0.0) return xyz;
-			const double D = 800.0;
 			double sinV = Math.Sin(RotateVert * Math.PI / 180.0);
 			double sinH = Math.Sin(RotateHorz * Math.PI / 180.0);
 			double cosH = Math.Cos(RotateHorz * Math.PI / 180.0);
@@ -1046,8 +1050,8 @@ void main() {
 			const double elevFullMul    = 3.86;  // 1/sin(15°) — full opacity above 15° from ecliptic
 			const double fadeExp        = 1.5;
 			const double zoomFadeLo     = 5.0;   // px/AU — outer zoom: fade suppressed (grid always visible)
-			const double zoomFadeHi     = 100.0; // px/AU — inner zoom: elevation fade fully active
-			const double perspD         = 800.0; // virtual camera distance for pseudo-perspective (AU)
+			const double zoomFadeHi     = 70.0;  // px/AU — inner zoom: elevation fade fully active
+			double perspD               = extent * (800.0 / 150.0); // scale with extent so perspective strength is constant
 
 			// elevFactor = |cos(RotateVert)|: 1 when top-down (v=0°), 0 when edge-on (v=90°)
 			double elevFactor  = Math.Abs(Math.Cos(RotateVert * Math.PI / 180.0));
@@ -1070,10 +1074,17 @@ void main() {
 
 			// Elevation fade: full opacity above 15° from ecliptic, fades only in the last 15°
 			double rawAlpha = Math.Pow(Math.Min(1.0, elevFactor * elevFullMul), fadeExp);
-			// Zoom modulation: suppress elevation fade when zoomed out so grid stays visible
-			double zoomNorm = Math.Min(1.0, Math.Max(0.0, (pixelsPerAU - zoomFadeLo) / (zoomFadeHi - zoomFadeLo)));
+			// Zoom modulation: suppress elevation fade when the whole grid fits in the viewport,
+			// or when zoomed far out. Normalise pixelsPerAU by extent/150 so the threshold is
+			// relative to how large the grid appears on screen rather than absolute zoom level —
+			// a 5 AU grid fills the same screen area as 150 AU at 30× higher pixelsPerAU.
+			bool   gridFitsInView    = _orthoHalfH >= extent;
+			double effectivePxPerAU  = pixelsPerAU * (extent / 150.0);
+			double zoomNorm = gridFitsInView ? 0.0 : Math.Min(1.0, Math.Max(0.0, (effectivePxPerAU - zoomFadeLo) / (zoomFadeHi - zoomFadeLo)));
 			double alpha    = rawAlpha + (1.0 - rawAlpha) * (1.0 - zoomNorm);
 			if (alpha < 0.01) return;
+
+			if (alpha < 0.99) GL.DepthMask(false);
 
 			// Pseudo-perspective: apply a soft perspective factor f = perspD / (perspD - vd) to
 			// each vertex, where vd is its depth in the camera direction. For ecliptic points
@@ -1122,6 +1133,8 @@ void main() {
 			GL.BindBuffer(BufferTarget.ArrayBuffer, _bodyVbo);
 			GL.BufferData(BufferTarget.ArrayBuffer, idx * sizeof(float), verts, BufferUsageHint.StreamDraw);
 			GL.DrawArrays(PrimitiveType.Lines, 0, vertexCount);
+
+			if (alpha < 0.99) GL.DepthMask(true);
 		}
 
 		private static void AddPerspVertex(float[] buf, ref int idx,
@@ -1312,7 +1325,8 @@ void main() {
 					if (ShowAxes && _glLoaded)
 					{
 						using var grayBrush = new SolidBrush(Color.Gray);
-						const double sizeAU = 150.0;
+						double sizeAU = Math.Max(0.01, GridExtent);
+						double perspD = sizeAU * (800.0 / 150.0);
 						(Xyz xyz, string label)[] axisLabels = {
 						(new Xyz(-sizeAU, 0, 0), "Autumnal equinox"),
 						(new Xyz(0, -sizeAU, 0), "Winter solstice"),
@@ -1323,7 +1337,7 @@ void main() {
 					};
 						foreach (var (xyz, label) in axisLabels)
 						{
-							Point pt = MvpProject(PseudoPerspective(xyz));
+							Point pt = MvpProject(PseudoPerspective(xyz, perspD));
 							g.DrawString(label, FontAxisLabel, grayBrush, pt.X, pt.Y);
 						}
 					}

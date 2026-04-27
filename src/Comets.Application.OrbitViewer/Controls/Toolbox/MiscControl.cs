@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Comets.Core;
+using Comets.Core.Managers;
+using System;
 using System.Globalization;
 using System.Windows.Forms;
 
@@ -21,6 +23,8 @@ namespace Comets.Application.OrbitViewer.Controls
 		public MiscControl()
 		{
 			InitializeComponent();
+
+			txtGridExtent.Tag = new ValNum(0.0, 150, 0);
 		}
 
 		#endregion
@@ -43,8 +47,13 @@ namespace Comets.Application.OrbitViewer.Controls
 
 		private void cbxShowGrid_CheckedChanged(object sender, EventArgs e)
 		{
-			txtGridExtent.Enabled = cbxShowGrid.Checked;
 			OnShowGridChanged(cbxShowGrid.Checked);
+		}
+
+		private void txtGridExtent_TextChanged(object sender, EventArgs e)
+		{
+			if (ApplyGridExtent() && !cbxShowGrid.Checked)
+				cbxShowGrid.Checked = true;
 		}
 
 		private void txtGridExtent_KeyDown(object sender, KeyEventArgs e)
@@ -56,15 +65,24 @@ namespace Comets.Application.OrbitViewer.Controls
 			}
 		}
 
+		private void txtGridExtent_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			e.Handled = ValNumManager.HandleKeyPress(sender, e);
+		}
+
 		private void txtGridExtent_Leave(object sender, EventArgs e)
 		{
 			ApplyGridExtent();
 		}
 
-		private void ApplyGridExtent()
+		private bool ApplyGridExtent()
 		{
 			if (double.TryParse(txtGridExtent.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out double v) && v > 0)
+			{
 				OnGridExtentChanged?.Invoke(v);
+				return true;
+			}
+			return false;
 		}
 
 		private void cbxAntialiasing_CheckedChanged(object sender, EventArgs e)
