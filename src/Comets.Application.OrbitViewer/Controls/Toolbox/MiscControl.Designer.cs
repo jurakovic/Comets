@@ -31,6 +31,8 @@
 			this.pnlMisc = new System.Windows.Forms.Panel();
 			this.cbxShowAxes = new System.Windows.Forms.CheckBox();
 			this.cbxShowGrid = new System.Windows.Forms.CheckBox();
+			this.txtGridExtent = new System.Windows.Forms.TextBox();
+			this.lblGridAU = new System.Windows.Forms.Label();
 			this.btnSaveImage = new System.Windows.Forms.Button();
 			this.cbxAntialiasing = new System.Windows.Forms.CheckBox();
 			this.pnlMisc.SuspendLayout();
@@ -41,6 +43,8 @@
 			this.pnlMisc.BackColor = System.Drawing.SystemColors.ControlDark;
 			this.pnlMisc.Controls.Add(this.cbxShowAxes);
 			this.pnlMisc.Controls.Add(this.cbxShowGrid);
+			this.pnlMisc.Controls.Add(this.txtGridExtent);
+			this.pnlMisc.Controls.Add(this.lblGridAU);
 			this.pnlMisc.Controls.Add(this.btnSaveImage);
 			this.pnlMisc.Controls.Add(this.cbxAntialiasing);
 			this.pnlMisc.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -70,6 +74,25 @@
 			this.cbxShowGrid.Text = "Show grid";
 			this.cbxShowGrid.UseVisualStyleBackColor = true;
 			this.cbxShowGrid.CheckedChanged += this.cbxShowGrid_CheckedChanged;
+			//
+			// txtGridExtent
+			//
+			this.txtGridExtent.Location = new System.Drawing.Point(84, 26);
+			this.txtGridExtent.Name = "txtGridExtent";
+			this.txtGridExtent.Size = new System.Drawing.Size(46, 20);
+			this.txtGridExtent.TabIndex = 4;
+			this.txtGridExtent.Text = "150";
+			this.txtGridExtent.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.txtGridExtent.Enabled = false;
+			this.txtGridExtent.KeyDown += this.txtGridExtent_KeyDown;
+			this.txtGridExtent.Leave += this.txtGridExtent_Leave;
+			//
+			// lblGridAU
+			//
+			this.lblGridAU.AutoSize = true;
+			this.lblGridAU.Location = new System.Drawing.Point(133, 29);
+			this.lblGridAU.Name = "lblGridAU";
+			this.lblGridAU.Text = "AU";
 			//
 			// cbxAntialiasing
 			//
@@ -111,6 +134,8 @@
 		private System.Windows.Forms.Panel pnlMisc;
 		private System.Windows.Forms.CheckBox cbxShowAxes;
 		private System.Windows.Forms.CheckBox cbxShowGrid;
+		private System.Windows.Forms.TextBox txtGridExtent;
+		private System.Windows.Forms.Label lblGridAU;
 		private System.Windows.Forms.Button btnSaveImage;
 		private System.Windows.Forms.CheckBox cbxAntialiasing;
 	}

@@ -123,6 +123,7 @@ namespace Comets.Application.OrbitViewer
 
 			miscControl.OnShowAxesChanged += SetShowAxes;
 			miscControl.OnShowGridChanged += SetShowGrid;
+			miscControl.OnGridExtentChanged += SetGridExtent;
 			miscControl.OnAntialiasingChanged += SetAntialiasing;
 			miscControl.OnSaveImage += Save;
 
@@ -500,6 +501,12 @@ namespace Comets.Application.OrbitViewer
 		private void SetShowGrid(bool showGrid)
 		{
 			orbitPanel.ShowGrid = showGrid;
+			RefreshPanel();
+		}
+
+		private void SetGridExtent(double extent)
+		{
+			orbitPanel.GridExtent = extent;
 			RefreshPanel();
 		}
 
