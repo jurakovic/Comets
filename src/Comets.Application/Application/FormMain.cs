@@ -224,6 +224,7 @@ namespace Comets.Application
 		{
 			FormOrbitViewer fo = new FormOrbitViewer(CommonManager.UserCollection, CommonManager.Filters, CommonManager.SortProperty, CommonManager.SortAscending);
 			fo.OnToolboxVisibleChanged += SetToolBoxMenuItemChecked;
+			fo.OnAntialiasingChanged += SetAntialiasingMenuItemChecked;
 			fo.WindowState = FormWindowState.Maximized;
 			fo.MdiParent = this;
 			fo.Show();
@@ -303,6 +304,15 @@ namespace Comets.Application
 			{
 				mnuShowToolbox.InvertChecked();
 				(this.ActiveMdiChild as FormOrbitViewer).ShowToolbox(mnuShowToolbox.Checked);
+			}
+		}
+
+		private void mnuAntialiasing_Click(object sender, EventArgs e)
+		{
+			if (this.ActiveMdiChild is FormOrbitViewer)
+			{
+				mnuAntialiasing.InvertChecked();
+				(this.ActiveMdiChild as FormOrbitViewer).SetAntialiasing(mnuAntialiasing.Checked);
 			}
 		}
 
@@ -466,6 +476,11 @@ namespace Comets.Application
 		private void SetToolBoxMenuItemChecked(bool isChecked)
 		{
 			this.mnuShowToolbox.Checked = isChecked;
+		}
+
+		private void SetAntialiasingMenuItemChecked(bool isChecked)
+		{
+			this.mnuAntialiasing.Checked = isChecked;
 		}
 
 		private void SetProgressMaximumValue(int value)

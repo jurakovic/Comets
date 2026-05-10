@@ -13,7 +13,6 @@ namespace Comets.Application.OrbitViewer.Controls
 		public event Action<bool> OnShowAxesChanged;
 		public event Action<bool> OnShowGridChanged;
 		public event Action<double> OnGridExtentChanged;
-		public event Action<bool> OnAntialiasingChanged;
 		public event Action OnSaveImage;
 
 		#endregion
@@ -83,11 +82,6 @@ namespace Comets.Application.OrbitViewer.Controls
 				return true;
 			}
 			return false;
-		}
-
-		private void cbxAntialiasing_CheckedChanged(object sender, EventArgs e)
-		{
-			OnAntialiasingChanged(cbxAntialiasing.Checked);
 		}
 
 		private void btnSaveImage_Click(object sender, EventArgs e)

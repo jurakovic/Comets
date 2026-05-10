@@ -74,6 +74,8 @@ namespace Comets.Application.OrbitViewer
 
 		public bool ToolboxVisible { get; private set; } = true;
 
+		public bool Antialiasing => orbitPanel.Antialiasing;
+
 		private bool IsSimulationForward { get; set; } = true;
 
 		private bool IsSimulationStarted
@@ -122,7 +124,6 @@ namespace Comets.Application.OrbitViewer
 			miscControl.OnShowAxesChanged += SetShowAxes;
 			miscControl.OnShowGridChanged += SetShowGrid;
 			miscControl.OnGridExtentChanged += SetGridExtent;
-			miscControl.OnAntialiasingChanged += SetAntialiasing;
 			miscControl.OnSaveImage += Save;
 
 			orbitPanel.Antialiasing = true;
@@ -481,7 +482,7 @@ namespace Comets.Application.OrbitViewer
 			RefreshPanel();
 		}
 
-		private void SetAntialiasing(bool antialiasing)
+		public void SetAntialiasing(bool antialiasing)
 		{
 			orbitPanel.Antialiasing = antialiasing;
 			RefreshPanel();
