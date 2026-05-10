@@ -155,11 +155,18 @@ namespace Comets.Application.Common.Controls.DateAndTime
 
 		private void btnShowMenu_Click(object sender, EventArgs e)
 		{
-			this.mnuDefault.Visible = this.sepDefault.Visible = DefaultDateTime != null;
-			this.mnuPerihelionDate.Visible = this.sepPerihelionDate.Visible = PerihelionDate != null;
-
 			Control src = ReferenceControl ?? (sender as Button);
 			ctxMenu.Show(src.Parent, new Point(src.Left + 1, src.Top + src.Height - 1));
+		}
+
+		#endregion
+
+		#region ContextMenu
+
+		private void ctxMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+		{
+			this.mnuDefault.Visible = this.sepDefault.Visible = DefaultDateTime != null;
+			this.mnuPerihelionDate.Visible = this.sepPerihelionDate.Visible = PerihelionDate != null;
 		}
 
 		#endregion

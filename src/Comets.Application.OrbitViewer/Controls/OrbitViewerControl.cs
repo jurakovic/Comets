@@ -267,6 +267,7 @@ namespace Comets.Application.OrbitViewer
 				orbitPanel.LoadPanel(cometControl.Comets.ToList(), atime, cometControl.SelectedIndex);
 				modeControl.SetMode(true);
 
+				SetPerihelionDate();
 				SetFormText();
 				RefreshPanel();
 			}
