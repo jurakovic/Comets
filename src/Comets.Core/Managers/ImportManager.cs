@@ -732,10 +732,6 @@ namespace Comets.Core.Managers
 
 		private static Comet ParseMyStars05(string line)
 		{
-			//
-			// w zapravo nije w
-			//
-
 			Comet c = new Comet();
 
 			decimal T;
@@ -762,11 +758,12 @@ namespace Comets.Core.Managers
 			c.Td = dd.Day;
 			c.Th = h;
 
-			c.w = Convert.ToDouble(parts[2]);
+			double lonPeri = Convert.ToDouble(parts[2]);
 			c.e = Convert.ToDouble(parts[3]);
 			c.q = Convert.ToDouble(parts[4]);
 			c.i = Convert.ToDouble(parts[5]);
 			c.N = Convert.ToDouble(parts[6]);
+			c.w = (lonPeri - c.N + 360.0) % 360.0;
 			c.g = Convert.ToDouble(parts[7]);
 			c.k = Convert.ToDouble(parts[8]);
 
@@ -1125,7 +1122,7 @@ namespace Comets.Core.Managers
 
 			c.Ty = Convert.ToInt32(line.Substring(56, 4).Trim());
 			c.Tm = Convert.ToInt32(line.Substring(61, 2).Trim());
-			c.Td = Convert.ToInt32(line.Substring(61, 2).Trim());
+			c.Td = Convert.ToInt32(line.Substring(63, 2).Trim());
 			c.Th = Convert.ToInt32(line.Substring(65, 4).Trim().PadRight(4, '0'));
 
 			string tempName = line.Length == 69 ? String.Empty : line.Substring(70, line.Length - 70).Trim();
@@ -1478,18 +1475,19 @@ namespace Comets.Core.Managers
 			c.name = name;
 			c.fragment = fragment;
 
-			/////////////////////////
-			//pogledat epoch
-			//mozda treba njega ucitat pa precesirat vrijednosti W N i na epoch 2000
-
-			//int epoch = Convert.ToInt32(line.Substring(44, 7);
-			/////////////////////////
+			double epoch = Convert.ToDouble(line.Substring(44, 7).Trim());
 
 			c.q = Convert.ToDouble(line.Substring(52, 11).Trim());
 			c.e = Convert.ToDouble(line.Substring(64, 10).Trim());
-			c.i = Convert.ToDouble(line.Substring(75, 9).Trim());
-			c.w = Convert.ToDouble(line.Substring(85, 9).Trim());
-			c.N = Convert.ToDouble(line.Substring(95, 9).Trim());
+			double ci = Convert.ToDouble(line.Substring(75, 9).Trim());
+			double cw = Convert.ToDouble(line.Substring(85, 9).Trim());
+			double cN = Convert.ToDouble(line.Substring(95, 9).Trim());
+
+			EphemerisManager.PrecessElementsToJ2000(epoch, ref ci, ref cN, ref cw);
+
+			c.i = ci;
+			c.w = cw;
+			c.N = cN;
 
 			c.Ty = Convert.ToInt32(line.Substring(105, 4).Trim());
 			c.Tm = Convert.ToInt32(line.Substring(109, 2).Trim());
