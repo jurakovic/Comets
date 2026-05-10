@@ -878,6 +878,9 @@ void main() {
 				Planets.ForEach(p => PlanetsPos[p] = Planet.GetPos(p, atime));
 
 				UpdateCometVisibility();
+
+				if (FilterOnDateSunDist.HasValue || FilterOnDateEarthDist.HasValue || FilterOnDateMagnitude.HasValue)
+					_cometVbosDirty = true;
 			}
 		}
 
