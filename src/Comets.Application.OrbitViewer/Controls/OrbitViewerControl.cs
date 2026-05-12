@@ -74,6 +74,8 @@ namespace Comets.Application.OrbitViewer
 
 		public bool ToolboxVisible { get; private set; } = true;
 
+		public bool Antialiasing => orbitPanel.Antialiasing;
+
 		private bool IsSimulationForward { get; set; } = true;
 
 		private bool IsSimulationStarted
@@ -120,7 +122,8 @@ namespace Comets.Application.OrbitViewer
 			infoLabelsControl.OnShowDateLabelChanged += SetShowDateLabel;
 
 			miscControl.OnShowAxesChanged += SetShowAxes;
-			miscControl.OnAntialiasingChanged += SetAntialiasing;
+			miscControl.OnShowGridChanged += SetShowGrid;
+			miscControl.OnGridExtentChanged += SetGridExtent;
 			miscControl.OnSaveImage += Save;
 
 			orbitPanel.Antialiasing = true;
@@ -467,7 +470,19 @@ namespace Comets.Application.OrbitViewer
 			RefreshPanel();
 		}
 
-		private void SetAntialiasing(bool antialiasing)
+		private void SetShowGrid(bool showGrid)
+		{
+			orbitPanel.ShowGrid = showGrid;
+			RefreshPanel();
+		}
+
+		private void SetGridExtent(double extent)
+		{
+			orbitPanel.GridExtent = extent;
+			RefreshPanel();
+		}
+
+		public void SetAntialiasing(bool antialiasing)
 		{
 			orbitPanel.Antialiasing = antialiasing;
 			RefreshPanel();
@@ -494,7 +509,7 @@ namespace Comets.Application.OrbitViewer
 
 		public void OrbitViewerControl_KeyDown(object sender, KeyEventArgs e)
 		{
-			if (filterControl.Focused
+			if ((filterControl.Focused || miscControl.ContainsFocus)
 				&& e.KeyCode.In(Keys.D1, Keys.D2, Keys.D3, Keys.D4, Keys.D5, Keys.D6, Keys.D7, Keys.D8, Keys.D9, Keys.D0, Keys.Back))
 				return;
 
