@@ -163,6 +163,20 @@ void main() {
 		private bool _planetVbosNeedUpdate = false;
 		private bool _cometVbosDirty = false;
 
+		/// <summary>
+		/// JD the comet orbit VBOs were last built at, or NaN if never built.
+		/// Their vertices are baked with the MtxToEcl of that moment.
+		/// </summary>
+		private double _cometVbosBuiltJD = double.NaN;
+
+		/// <summary>
+		/// How far the date may drift from _cometVbosBuiltJD before the comet orbit
+		/// VBOs are rebuilt against the current precession matrix. Precession runs at
+		/// roughly 50 arcsec/year, so ten years is a few tenths of a pixel of drift at
+		/// typical zoom - invisible, while keeping rebuilds rare at normal step sizes.
+		/// </summary>
+		private const double CometVboPrecessionToleranceDays = 10 * 365.25;
+
 		private int _cometBatchVao = 0;
 		private int _cometBatchVbo = 0;
 		private int[] _cometBatchStarts = Array.Empty<int>();
@@ -566,6 +580,10 @@ void main() {
 			// Comet VBOs: only rebuild when comet data changes, never on every date tick.
 			if (_cometVbosDirty)
 			{
+				// Vertices below are baked with the current MtxToEcl; remember when.
+				if (_atime != null)
+					_cometVbosBuiltJD = _atime.JD;
+
 				// Individual VBOs for selected comet and marked comets (small count, special colors).
 				var required = new HashSet<int>();
 				if (PreserveSelectedOrbit && SelectedIndex >= 0 && SelectedIndex < Comets.Count)
@@ -972,6 +990,13 @@ void main() {
 			Matrix mtxEqt2Ecl = Matrix.RotateX(ATime.GetEp(atime.JD));
 			MtxToEcl = mtxEqt2Ecl.Mul(mtxPrec);
 			_planetVbosNeedUpdate = true;
+
+			// Comet orbit vertices were baked with an older MtxToEcl. Planet orbits are
+			// rebuilt every tick so they track precession, but the comet orbits would
+			// slowly drift away from them (and from the comet markers, whose positions
+			// are rotated fresh each frame) during long simulations.
+			if (!double.IsNaN(_cometVbosBuiltJD) && Math.Abs(atime.JD - _cometVbosBuiltJD) > CometVboPrecessionToleranceDays)
+				_cometVbosDirty = true;
 		}
 
 		#endregion
