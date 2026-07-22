@@ -323,10 +323,6 @@ namespace Comets.Core.Managers
 
 		private static void ExportMyStars05(ref StringBuilder sb, CometCollection collection)
 		{
-			//
-			// {2} zapravo nije w, nije ni M
-			//
-
 			decimal jd240 = 2400000.5m;
 			decimal jd = DateTime.UtcNow.Date.JD();
 
@@ -334,7 +330,8 @@ namespace Comets.Core.Managers
 
 			foreach (Comet c in collection)
 			{
-				sb.AppendFormat(format, c.full, c.T - jd240, c.w, c.e, c.q, c.i, c.N, c.g, c.k, jd - jd240);
+				// {2} is longitude of perihelion (w + N), not argument of perihelion
+				sb.AppendFormat(format, c.full, c.T - jd240, (c.w + c.N) % 360.0, c.e, c.q, c.i, c.N, c.g, c.k, jd - jd240);
 				sb.AppendLine();
 			}
 		}

@@ -837,6 +837,85 @@ namespace Comets.Core.Managers
 			return Math.Pow(x, 1 / 3.0);
 		}
 
+		/// <summary>
+		/// Precesses orbital elements i, N (Ω), w (ω) from the given epoch (MJD) to J2000.0
+		/// using the Lieske (1977) ecliptic precession model via a 3-D rotation of the
+		/// orbital pole and perihelion unit vectors.
+		/// </summary>
+		public static void PrecessElementsToJ2000(double epochMjd, ref double i, ref double N, ref double w)
+		{
+			const double toRad = Math.PI / 180.0;
+			const double toDeg = 180.0 / Math.PI;
+
+			double JD1 = epochMjd + 2400000.5;
+			double T = (JD1 - 2451545.0) / 36525.0;   // centuries from J2000 to epoch
+			double t = -T;                              // interval: epoch → J2000
+
+			if (Math.Abs(t) < 1e-8) return;
+
+			double etaA = ((47.0029 - (0.06603 - 0.000598 * T) * T) * t
+						  - (0.03302 - 0.000598 * T) * t * t
+						  + 0.000060 * t * t * t) / 3600.0;
+
+			double PiA = 174.876384
+					   + ((3289.4789 + 0.60622 * T) * t
+						  - (869.8089 + 0.50491 * T) * t * t
+						  + 0.03536 * t * t * t) / 3600.0;
+
+			double pA = ((5029.0966 + (2.2226 - 0.000042 * T) * T) * t
+						+ (1.1152 - 0.000042 * T) * t * t
+						- 0.000052 * t * t * t) / 3600.0;
+
+			double etaR = etaA * toRad;
+			double PiR  = PiA  * toRad;
+			double PhiR = (PiA + pA) * toRad;
+
+			double iR = i * toRad;
+			double NR = N * toRad;
+			double wR = w * toRad;
+
+			// Orbital pole unit vector
+			double nx = Math.Sin(iR) * Math.Sin(NR);
+			double ny = -Math.Sin(iR) * Math.Cos(NR);
+			double nz = Math.Cos(iR);
+
+			// Perihelion unit vector
+			double px = Math.Cos(NR) * Math.Cos(wR) - Math.Sin(NR) * Math.Sin(wR) * Math.Cos(iR);
+			double py = Math.Sin(NR) * Math.Cos(wR) + Math.Cos(NR) * Math.Sin(wR) * Math.Cos(iR);
+			double pz = Math.Sin(iR) * Math.Sin(wR);
+
+			// Rotation matrix R = Rz(-Phi) · Rx(eta) · Rz(Pi)
+			double sEta = Math.Sin(etaR), cEta = Math.Cos(etaR);
+			double sPi  = Math.Sin(PiR),  cPi  = Math.Cos(PiR);
+			double sPhi = Math.Sin(PhiR), cPhi = Math.Cos(PhiR);
+
+			double r00 =  cPhi * cPi + sPhi * cEta * sPi;
+			double r01 = -cPhi * sPi + sPhi * cEta * cPi;
+			double r02 = -sPhi * sEta;
+			double r10 = -sPhi * cPi + cPhi * cEta * sPi;
+			double r11 =  sPhi * sPi + cPhi * cEta * cPi;
+			double r12 = -cPhi * sEta;
+			double r20 =  sEta * sPi;
+			double r21 =  sEta * cPi;
+			double r22 =  cEta;
+
+			double nx2 = r00 * nx + r01 * ny + r02 * nz;
+			double ny2 = r10 * nx + r11 * ny + r12 * nz;
+			double nz2 = r20 * nx + r21 * ny + r22 * nz;
+
+			double px2 = r00 * px + r01 * py + r02 * pz;
+			double py2 = r10 * px + r11 * py + r12 * pz;
+			double pz2 = r20 * px + r21 * py + r22 * pz;
+
+			double i2 = Math.Acos(Math.Max(-1.0, Math.Min(1.0, nz2)));
+			double N2 = Math.Atan2(nx2, -ny2);
+			double w2 = Math.Atan2(pz2 / Math.Sin(i2), px2 * Math.Cos(N2) + py2 * Math.Sin(N2));
+
+			i = i2 * toDeg;
+			N = ((N2 * toDeg) % 360.0 + 360.0) % 360.0;
+			w = ((w2 * toDeg) % 360.0 + 360.0) % 360.0;
+		}
+
 		#endregion
 	}
 }

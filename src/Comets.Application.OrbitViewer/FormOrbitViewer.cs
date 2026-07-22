@@ -10,6 +10,7 @@ namespace Comets.Application.OrbitViewer
 		#region Events
 
 		public event Action<bool> OnToolboxVisibleChanged;
+		public event Action<bool> OnAntialiasingChanged;
 
 		#endregion
 
@@ -29,6 +30,7 @@ namespace Comets.Application.OrbitViewer
 		private void FormOrbitViewer_Activated(object sender, EventArgs e)
 		{
 			OnToolboxVisibleChanged(orbitViewerControl.ToolboxVisible);
+			OnAntialiasingChanged(orbitViewerControl.Antialiasing);
 		}
 
 		private void FormOrbitViewer_Deactivate(object sender, EventArgs e)
@@ -48,6 +50,11 @@ namespace Comets.Application.OrbitViewer
 		public void ShowToolbox(bool visible)
 		{
 			orbitViewerControl.ShowToolbox(visible);
+		}
+
+		public void SetAntialiasing(bool antialiasing)
+		{
+			orbitViewerControl.SetAntialiasing(antialiasing);
 		}
 
 		#endregion

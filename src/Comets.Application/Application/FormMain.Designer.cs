@@ -51,6 +51,7 @@
 			this.menuItemGraphSaveAs = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuItemOrbit = new System.Windows.Forms.ToolStripMenuItem();
 			this.mnuShowToolbox = new System.Windows.Forms.ToolStripMenuItem();
+			this.mnuAntialiasing = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuItemView = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuItemViewAlwaysOnTop = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuItemViewStatusBar = new System.Windows.Forms.ToolStripMenuItem();
@@ -244,7 +245,7 @@
 			// 
 			// menuItemOrbit
 			// 
-			this.menuItemOrbit.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.mnuShowToolbox });
+			this.menuItemOrbit.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.mnuShowToolbox, this.mnuAntialiasing });
 			this.menuItemOrbit.MergeIndex = 3;
 			this.menuItemOrbit.Name = "menuItemOrbit";
 			this.menuItemOrbit.Size = new System.Drawing.Size(46, 20);
@@ -261,7 +262,17 @@
 			this.mnuShowToolbox.Size = new System.Drawing.Size(188, 22);
 			this.mnuShowToolbox.Text = "Show &Toolbox";
 			this.mnuShowToolbox.Click += this.mnuShowToolbox_Click;
-			// 
+			//
+			// mnuAntialiasing
+			//
+			this.mnuAntialiasing.Checked = true;
+			this.mnuAntialiasing.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.mnuAntialiasing.MergeIndex = 1;
+			this.mnuAntialiasing.Name = "mnuAntialiasing";
+			this.mnuAntialiasing.Size = new System.Drawing.Size(188, 22);
+			this.mnuAntialiasing.Text = "&Antialiasing";
+			this.mnuAntialiasing.Click += this.mnuAntialiasing_Click;
+			//
 			// menuItemView
 			// 
 			this.menuItemView.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.menuItemViewAlwaysOnTop, this.menuItemViewStatusBar });
@@ -470,6 +481,7 @@
 		private System.Windows.Forms.ToolStripMenuItem menuItemOrbit;
 		private System.Windows.Forms.ToolStripMenuItem menuItemViewAlwaysOnTop;
 		private System.Windows.Forms.ToolStripMenuItem mnuShowToolbox;
+		private System.Windows.Forms.ToolStripMenuItem mnuAntialiasing;
 		private System.Windows.Forms.ToolStripMenuItem menuItemControls;
 	}
 }
