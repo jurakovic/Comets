@@ -683,6 +683,16 @@ void main() {
 			_cometVbosDirty = false;
 		}
 
+		/// <summary>
+		/// Marks the comet orbit VBOs (both the per-comet buffers and the batch)
+		/// for rebuild on the next frame.
+		/// <para>
+		/// Must be called whenever the comet list changes, or when MtxToEcl changes,
+		/// since the batch bakes rotated vertices for exactly the currently visible
+		/// comets. UpdateCometVisibility only dirties the buffers when a comet's
+		/// visibility flips, so it cannot cover those cases on its own.
+		/// </para>
+		/// </summary>
 		public void InvalidateCometVbos()
 		{
 			_cometVbosDirty = true;
@@ -893,9 +903,7 @@ void main() {
 				Comets.ForEach(c => CometsPos.Add(c.GetPos(atime.JD)));
 				Planets.ForEach(p => PlanetsPos[p] = Planet.GetPos(p, atime));
 
-				UpdateCometVisibility();
-
-				if (FilterOnDateSunDist.HasValue || FilterOnDateEarthDist.HasValue || FilterOnDateMagnitude.HasValue)
+				if (UpdateCometVisibility())
 					_cometVbosDirty = true;
 			}
 		}
@@ -904,9 +912,27 @@ void main() {
 
 		#region UpdateCometVisibility
 
-		public void UpdateCometVisibility()
+		/// <summary>
+		/// Recomputes IsVisible for every comet against the current date filters.
+		/// Returns true if any comet's visibility actually changed, meaning the
+		/// batched orbit VBO no longer matches the set of visible comets.
+		/// </summary>
+		public bool UpdateCometVisibility()
 		{
-			Comets.ForEach(c => c.IsVisible = GetCometVisibility(c, FilterOnDateSunDist, FilterOnDateEarthDist, FilterOnDateMagnitude));
+			bool changed = false;
+
+			foreach (OVComet c in Comets)
+			{
+				bool isVisible = GetCometVisibility(c, FilterOnDateSunDist, FilterOnDateEarthDist, FilterOnDateMagnitude);
+
+				if (c.IsVisible != isVisible)
+				{
+					c.IsVisible = isVisible;
+					changed = true;
+				}
+			}
+
+			return changed;
 		}
 
 		#endregion
