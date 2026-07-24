@@ -37,6 +37,19 @@ namespace Comets.Application.OrbitViewer
 		private System.Windows.Forms.Timer Timer;
 		private ATimeSpan TimeStep;
 		private double TimeStepJD;
+
+		/// <summary>
+		/// Simulation timer interval, giving roughly 60 frames per second.
+		/// </summary>
+		private const int TimerIntervalMs = 16;
+
+		/// <summary>
+		/// Tick interval the time step was originally calibrated against: one whole step
+		/// was applied per 50 ms tick. The step is now scaled by TimerIntervalMs / this,
+		/// so the simulation runs at the same speed as before the timer was made faster.
+		/// </summary>
+		private const double LegacyTimerIntervalMs = 50.0;
+
 		private DateTime _simulationDateTime;
 
 		/// <summary>
@@ -106,7 +119,7 @@ namespace Comets.Application.OrbitViewer
 			InitializeComponent();
 
 			Timer = new System.Windows.Forms.Timer();
-			Timer.Interval = 16; // ~62 fps
+			Timer.Interval = TimerIntervalMs;
 			Timer.Tick += new EventHandler(this.timer_Tick);
 
 			cometControl.OnSelectedCometChanged += LoadSelectedComet;
@@ -395,7 +408,7 @@ namespace Comets.Application.OrbitViewer
 
 		private void timer_Tick(object sender, EventArgs e)
 		{
-			double deltaDays = TimeStepJD * (Timer.Interval / 50.0) * (IsSimulationForward ? 1.0 : -1.0);
+			double deltaDays = TimeStepJD * (Timer.Interval / LegacyTimerIntervalMs) * (IsSimulationForward ? 1.0 : -1.0);
 			_simulationDateTime = _simulationDateTime.AddDays(deltaDays);
 
 			ValueChangedInternal = true;

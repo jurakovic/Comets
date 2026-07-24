@@ -82,6 +82,12 @@ namespace Comets.OrbitViewer
 
 		/// <summary>
 		/// Vector constant
+		/// <para>
+		/// Derived from w, N and i once in the constructor, while those properties read
+		/// through to the wrapped Comet on every access. Nothing mutates a Comet's
+		/// orbital elements after it is loaded, so the two cannot disagree; if that ever
+		/// changes, this has to be recomputed whenever w, N or i does.
+		/// </para>
 		/// </summary>
 		public Matrix VectorConstant { get; private set; }
 
