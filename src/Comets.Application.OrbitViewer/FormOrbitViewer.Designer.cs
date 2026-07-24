@@ -57,7 +57,6 @@
 			this.Activated += this.FormOrbitViewer_Activated;
 			this.Deactivate += this.FormOrbitViewer_Deactivate;
 			this.KeyDown += this.FormOrbitViewer_KeyDown;
-			this.KeyUp += this.FormOrbitViewer_KeyUp;
 			this.ResumeLayout(false);
 		}
 

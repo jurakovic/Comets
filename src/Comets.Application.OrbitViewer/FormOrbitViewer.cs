@@ -36,20 +36,11 @@ namespace Comets.Application.OrbitViewer
 		private void FormOrbitViewer_Deactivate(object sender, EventArgs e)
 		{
 			orbitViewerControl.StopSimulation();
-
-			// The key release goes to whatever took the focus, so a navigation key held
-			// while the window is deactivated has to be dropped here.
-			orbitViewerControl.StopNavigation();
 		}
 
 		private void FormOrbitViewer_KeyDown(object sender, KeyEventArgs e)
 		{
 			orbitViewerControl.OrbitViewerControl_KeyDown(sender, e);
-		}
-
-		private void FormOrbitViewer_KeyUp(object sender, KeyEventArgs e)
-		{
-			orbitViewerControl.OrbitViewerControl_KeyUp(sender, e);
 		}
 
 		#endregion

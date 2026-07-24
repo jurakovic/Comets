@@ -9,6 +9,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Object = Comets.OrbitViewer.Object;
 using SimulationEvent = Comets.Application.OrbitViewer.Controls.SimulationControl.SimulationEvent;
@@ -88,10 +89,10 @@ namespace Comets.Application.OrbitViewer
 		private DateTime _simulationDateTime;
 
 		/// <summary>
-		/// Ways the keyboard can move the camera. Held keys are accumulated as a set of
-		/// these rather than acted on one at a time, so pressing Left and Up together
-		/// rotates on both axes - Windows only auto-repeats the most recent key, which
-		/// made diagonal movement impossible while the keys drove rotation directly.
+		/// Ways the keyboard can move the camera. Read as a set, so keys held together
+		/// combine - pressing Left and Up rotates on both axes, which was impossible while
+		/// the keys drove rotation one event at a time, since Windows auto-repeats only the
+		/// most recently pressed key.
 		/// </summary>
 		[Flags]
 		private enum NavDirection
@@ -104,8 +105,6 @@ namespace Comets.Application.OrbitViewer
 			ZoomIn      = 16,
 			ZoomOut     = 32,
 		}
-
-		private NavDirection _heldDirections;
 
 		/// <summary>
 		/// Drives camera movement while a navigation key is held. Rotating straight from
@@ -682,26 +681,16 @@ namespace Comets.Application.OrbitViewer
 					handled = false;
 					break;
 				case Keys.Left:
-					handled = HoldNavigation(NavDirection.RotateLeft, ctrl, shift);
-					break;
 				case Keys.Right:
-					handled = HoldNavigation(NavDirection.RotateRight, ctrl, shift);
-					break;
-
 				case Keys.Up:
-					handled = HoldNavigation(NavDirection.RotateUp, ctrl, shift);
-					break;
 				case Keys.Down:
-					handled = HoldNavigation(NavDirection.RotateDown, ctrl, shift);
-					break;
-
 				case Keys.Add:
 				case Keys.Q:
-					handled = HoldNavigation(NavDirection.ZoomIn, ctrl, shift);
-					break;
 				case Keys.Subtract:
 				case Keys.A:
-					handled = HoldNavigation(NavDirection.ZoomOut, ctrl, shift);
+					// Which direction the key means is not recorded here: the navigation
+					// timer reads the keyboard itself. The press only has to start it.
+					handled = BeginNavigation(ctrl, shift);
 					break;
 
 				case Keys.D1:
@@ -914,43 +903,6 @@ namespace Comets.Application.OrbitViewer
 			e.Handled = handled;
 		}
 
-		/// <summary>
-		/// Releases the camera direction bound to a navigation key.
-		/// <para>
-		/// Deliberately not gated on modifiers or on <see cref="IsKeyboardNavigation"/>, unlike
-		/// the matching key press: a release has to clear its direction whatever the state
-		/// is by the time it arrives, or the camera keeps moving on a key nobody is holding.
-		/// </para>
-		/// </summary>
-		public void OrbitViewerControl_KeyUp(object sender, KeyEventArgs e)
-		{
-			switch (e.KeyCode)
-			{
-				case Keys.Left:
-					ReleaseNavigation(NavDirection.RotateLeft);
-					break;
-				case Keys.Right:
-					ReleaseNavigation(NavDirection.RotateRight);
-					break;
-
-				case Keys.Up:
-					ReleaseNavigation(NavDirection.RotateUp);
-					break;
-				case Keys.Down:
-					ReleaseNavigation(NavDirection.RotateDown);
-					break;
-
-				case Keys.Add:
-				case Keys.Q:
-					ReleaseNavigation(NavDirection.ZoomIn);
-					break;
-				case Keys.Subtract:
-				case Keys.A:
-					ReleaseNavigation(NavDirection.ZoomOut);
-					break;
-			}
-		}
-
 		private static double WrapDegrees(double value)
 		{
 			value %= 360.0;
@@ -962,40 +914,30 @@ namespace Comets.Application.OrbitViewer
 		#region Camera navigation
 
 		/// <summary>
-		/// Marks a camera direction as held and starts the navigation timer.
+		/// Starts the navigation timer for a key press that should move the camera.
 		/// </summary>
 		/// <returns>
 		/// True when the key was consumed, so the caller can mark it handled and keep the
 		/// arrows from moving focus between the toolbox controls.
 		/// </returns>
-		private bool HoldNavigation(NavDirection direction, bool ctrl, bool shift)
+		private bool BeginNavigation(bool ctrl, bool shift)
 		{
 			if (ctrl || shift || !IsKeyboardNavigation)
 				return false;
 
-			_heldDirections |= direction;
-			ResumeNavigation();
+			StartNavigation();
 
 			return true;
 		}
 
-		private void ReleaseNavigation(NavDirection direction)
-		{
-			_heldDirections &= ~direction;
-
-			if (_heldDirections == NavDirection.None)
-				StopNavigation();
-		}
-
 		/// <summary>
-		/// Runs the navigation timer if any direction is held and the pointer is over the
-		/// panel. Does nothing when it is already running, so the auto-repeat presses that
-		/// arrive while a key is down cannot restart the clock and discard the time since
-		/// the last frame.
+		/// Runs the navigation timer. Does nothing when it is already running, so the
+		/// auto-repeat presses that arrive while a key is down cannot restart the clock
+		/// and discard the time since the last frame.
 		/// </summary>
-		private void ResumeNavigation()
+		private void StartNavigation()
 		{
-			if (NavigationTimer.Enabled || _heldDirections == NavDirection.None || !IsKeyboardNavigation)
+			if (NavigationTimer.Enabled)
 				return;
 
 			_navigationClock.Restart();
@@ -1003,38 +945,63 @@ namespace Comets.Application.OrbitViewer
 		}
 
 		/// <summary>
-		/// Halts camera movement but remembers which directions are held, so all of them
-		/// resume together once the pointer is back over the panel.
-		/// <para>
-		/// Dropping them instead would leave the keys that are still down unrecoverable:
-		/// Windows auto-repeats only the most recently pressed key, so that one press
-		/// keeps arriving and re-registers itself while any other held key stays silent.
-		/// </para>
+		/// Halts camera movement. Nothing is remembered, because the timer derives the held
+		/// keys from the keyboard on every frame rather than from a set kept up to date here.
 		/// </summary>
-		private void PauseNavigation()
+		private void StopNavigation()
 		{
 			NavigationTimer.Stop();
 			_navigationClock.Stop();
 		}
 
 		/// <summary>
-		/// Drops every held direction and halts camera movement.
+		/// Reads which navigation keys are physically down right now.
 		/// <para>
-		/// Needed where the key release will not be seen at all, which is the window losing
-		/// focus - the release then goes to whatever took the focus, and the camera would
-		/// carry on moving on a key nobody is holding. The pointer leaving the panel is not
-		/// such a case: keyboard focus stays put, so the release still arrives and clears
-		/// its own direction, and that path only needs <see cref="PauseNavigation"/>.
+		/// The keyboard is polled rather than tracked through key events because a release
+		/// is only delivered to the window that holds focus. Alt-tabbing away with a key
+		/// down and letting go over there leaves no event to observe, and the camera would
+		/// keep moving on a key nobody is holding. Auto-repeat cannot recover the state
+		/// either: Windows repeats only the most recently pressed key, so a second key held
+		/// alongside it stays silent and would be missed.
 		/// </para>
 		/// </summary>
-		public void StopNavigation()
+		private static NavDirection ReadHeldDirections()
 		{
-			_heldDirections = NavDirection.None;
-			PauseNavigation();
+			NavDirection held = NavDirection.None;
+
+			if (IsKeyDown(Keys.Left)) held |= NavDirection.RotateLeft;
+			if (IsKeyDown(Keys.Right)) held |= NavDirection.RotateRight;
+			if (IsKeyDown(Keys.Up)) held |= NavDirection.RotateUp;
+			if (IsKeyDown(Keys.Down)) held |= NavDirection.RotateDown;
+			if (IsKeyDown(Keys.Add) || IsKeyDown(Keys.Q)) held |= NavDirection.ZoomIn;
+			if (IsKeyDown(Keys.Subtract) || IsKeyDown(Keys.A)) held |= NavDirection.ZoomOut;
+
+			return held;
 		}
+
+		private static bool IsKeyDown(Keys key)
+		{
+			// The high bit is the one that reports the key as currently down. The low bit
+			// means "pressed since the last call", which is not wanted here.
+			return (GetAsyncKeyState((int)key) & 0x8000) != 0;
+		}
+
+		[DllImport("user32.dll")]
+		private static extern short GetAsyncKeyState(int vKey);
 
 		private void navigationTimer_Tick(object sender, EventArgs e)
 		{
+			NavDirection held = ReadHeldDirections();
+
+			// Movement is gated on the keys alone, not on the window having focus, so it
+			// carries on while the application sits in the background and ends when the
+			// last key comes up wherever that happens.
+			if (held == NavDirection.None)
+			{
+				StopNavigation();
+				return;
+			}
+
 			double elapsedMs = Math.Min(_navigationClock.Elapsed.TotalMilliseconds, MaxFrameMs);
 			_navigationClock.Restart();
 
@@ -1044,10 +1011,10 @@ namespace Comets.Application.OrbitViewer
 			double horz = 0.0;
 			double vert = 0.0;
 
-			if (_heldDirections.HasFlag(NavDirection.RotateLeft)) horz += degrees;
-			if (_heldDirections.HasFlag(NavDirection.RotateRight)) horz -= degrees;
-			if (_heldDirections.HasFlag(NavDirection.RotateUp)) vert += degrees;
-			if (_heldDirections.HasFlag(NavDirection.RotateDown)) vert -= degrees;
+			if (held.HasFlag(NavDirection.RotateLeft)) horz += degrees;
+			if (held.HasFlag(NavDirection.RotateRight)) horz -= degrees;
+			if (held.HasFlag(NavDirection.RotateUp)) vert += degrees;
+			if (held.HasFlag(NavDirection.RotateDown)) vert -= degrees;
 
 			if (horz != 0.0)
 				orbitPanel.RotateHorz = WrapDegrees(orbitPanel.RotateHorz + horz);
@@ -1057,8 +1024,8 @@ namespace Comets.Application.OrbitViewer
 
 			int zoomSign = 0;
 
-			if (_heldDirections.HasFlag(NavDirection.ZoomIn)) zoomSign += 1;
-			if (_heldDirections.HasFlag(NavDirection.ZoomOut)) zoomSign -= 1;
+			if (held.HasFlag(NavDirection.ZoomIn)) zoomSign += 1;
+			if (held.HasFlag(NavDirection.ZoomOut)) zoomSign -= 1;
 
 			if (zoomSign != 0)
 			{
@@ -1078,8 +1045,10 @@ namespace Comets.Application.OrbitViewer
 			IsMouseWheelZoom = true;
 			IsKeyboardNavigation = true;
 
-			// Pick up any direction still held from before the pointer left.
-			ResumeNavigation();
+			// Pick up any key still held from before the pointer left. Waiting for the next
+			// press would resume only the key Windows is auto-repeating, losing any other.
+			if (ReadHeldDirections() != NavDirection.None)
+				StartNavigation();
 		}
 
 		private void orbitPanel_MouseDown(object sender, MouseEventArgs e)
@@ -1093,10 +1062,8 @@ namespace Comets.Application.OrbitViewer
 			IsMouseWheelZoom = false;
 			IsKeyboardNavigation = false;
 
-			// Keyboard navigation only applies while the pointer is over the panel. The
-			// held directions are kept rather than dropped, so moving back over the panel
-			// resumes every key that is still down.
-			PauseNavigation();
+			// Keyboard navigation only applies while the pointer is over the panel.
+			StopNavigation();
 		}
 
 		private void orbitPanel_MouseClick(object sender, MouseEventArgs e)
