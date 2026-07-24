@@ -101,6 +101,13 @@ namespace Comets.Application.OrbitViewer
 				bool isOutOfRange = FormDateTime.RangeDateTime(value, out selectedDateTime);
 				dateTimeControl.SelectedDateTime = selectedDateTime;
 
+				// Clamp the accumulator too, so it never holds a date beyond the supported
+				// range. Left unclamped it drifts further out every time the simulation is
+				// started into the limit, and a later run in the opposite direction is spent
+				// getting back inside the range instead of moving the visible date.
+				if (isOutOfRange)
+					_simulationDateTime = selectedDateTime;
+
 				// Any write that is not the simulation's own tick means the date moved
 				// under the simulation, so the accumulator must be reseeded on resume.
 				if (!ValueChangedInternal)
