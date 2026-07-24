@@ -50,11 +50,16 @@ namespace Comets.OrbitViewer
 #version 330 core
 layout (location = 0) in vec3 aPos;
 uniform mat4 uMVP;
+// Equatorial J2000 -> ecliptic-of-date rotation. Identity for geometry that is
+// already in ecliptic coordinates; set to MtxToEcl for comet orbits, whose
+// vertices are uploaded unrotated so they survive a change of date.
+uniform mat4 uEcl;
 out float vZ;
 void main()
 {
-    vZ = aPos.z;
-    gl_Position = uMVP * vec4(aPos, 1.0);
+    vec4 pos = uEcl * vec4(aPos, 1.0);
+    vZ = pos.z; // above/below the ecliptic, so it must come from the rotated position
+    gl_Position = uMVP * pos;
 }";
 
 		private const string FragmentShaderSource = @"
@@ -150,7 +155,10 @@ void main() {
 		private bool _glLoaded = false;
 		private int _shaderProgram = 0;
 		private int _uMVP;
+		private int _uEcl;
 		private Matrix4 _mvp;
+		private Matrix4 _eclMatrix = Matrix4.Identity;
+		private Matrix4 _identityMatrix = Matrix4.Identity;
 		private Matrix4 _view;
 		private float _orthoHalfH;
 		private int _uColorUpper;
@@ -162,20 +170,6 @@ void main() {
 		private Dictionary<int, (int vao, int vbo, int count)> _cometOrbitBuffers = new Dictionary<int, (int, int, int)>();
 		private bool _planetVbosNeedUpdate = false;
 		private bool _cometVbosDirty = false;
-
-		/// <summary>
-		/// JD the comet orbit VBOs were last built at, or NaN if never built.
-		/// Their vertices are baked with the MtxToEcl of that moment.
-		/// </summary>
-		private double _cometVbosBuiltJD = double.NaN;
-
-		/// <summary>
-		/// How far the date may drift from _cometVbosBuiltJD before the comet orbit
-		/// VBOs are rebuilt against the current precession matrix. Precession runs at
-		/// roughly 50 arcsec/year, so ten years is a few tenths of a pixel of drift at
-		/// typical zoom - invisible, while keeping rebuilds rare at normal step sizes.
-		/// </summary>
-		private const double CometVboPrecessionToleranceDays = 10 * 365.25;
 
 		private int _cometBatchVao = 0;
 		private int _cometBatchVbo = 0;
@@ -459,6 +453,7 @@ void main() {
 			GL.DeleteShader(fs);
 
 			_uMVP = GL.GetUniformLocation(_shaderProgram, "uMVP");
+			_uEcl = GL.GetUniformLocation(_shaderProgram, "uEcl");
 			_uColorUpper = GL.GetUniformLocation(_shaderProgram, "uColorUpper");
 			_uColorLower = GL.GetUniformLocation(_shaderProgram, "uColorLower");
 			_uMode = GL.GetUniformLocation(_shaderProgram, "uMode");
@@ -577,13 +572,11 @@ void main() {
 				}
 			}
 
-			// Comet VBOs: only rebuild when comet data changes, never on every date tick.
+			// Comet VBOs: only rebuild when the comet set or its visibility changes.
+			// Vertices are stored unrotated (equatorial J2000) and rotated in the shader,
+			// so a change of date never invalidates them.
 			if (_cometVbosDirty)
 			{
-				// Vertices below are baked with the current MtxToEcl; remember when.
-				if (_atime != null)
-					_cometVbosBuiltJD = _atime.JD;
-
 				// Individual VBOs for selected comet and marked comets (small count, special colors).
 				var required = new HashSet<int>();
 				if (PreserveSelectedOrbit && SelectedIndex >= 0 && SelectedIndex < Comets.Count)
@@ -609,7 +602,7 @@ void main() {
 					float[] verts = new float[n * 3];
 					for (int j = 0; j < n; j++)
 					{
-						Xyz p = orbit.GetAt(j).Rotate(MtxToEcl);
+						Xyz p = orbit.GetAt(j);
 						verts[j * 3] = (float)p.X;
 						verts[j * 3 + 1] = (float)p.Y;
 						verts[j * 3 + 2] = (float)p.Z;
@@ -649,7 +642,7 @@ void main() {
 						float[] verts = new float[n * 3];
 						for (int j = 0; j < n; j++)
 						{
-							Xyz p = orbit.GetAt(j).Rotate(MtxToEcl);
+							Xyz p = orbit.GetAt(j);
 							verts[j * 3] = (float)p.X;
 							verts[j * 3 + 1] = (float)p.Y;
 							verts[j * 3 + 2] = (float)p.Z;
@@ -705,10 +698,11 @@ void main() {
 		/// Marks the comet orbit VBOs (both the per-comet buffers and the batch)
 		/// for rebuild on the next frame.
 		/// <para>
-		/// Must be called whenever the comet list changes, or when MtxToEcl changes,
-		/// since the batch bakes rotated vertices for exactly the currently visible
-		/// comets. UpdateCometVisibility only dirties the buffers when a comet's
-		/// visibility flips, so it cannot cover those cases on its own.
+		/// Must be called whenever the comet list changes, since the batch holds vertices
+		/// for exactly the comets that were visible when it was built.
+		/// UpdateCometVisibility only dirties the buffers when a comet's visibility flips,
+		/// so it cannot cover a changed comet list on its own. A change of date needs no
+		/// rebuild: the vertices are unrotated and the shader applies MtxToEcl per frame.
 		/// </para>
 		/// </summary>
 		public void InvalidateCometVbos()
@@ -800,6 +794,10 @@ void main() {
 			GL.UseProgram(_shaderProgram);
 			GL.UniformMatrix4(_uMVP, false, ref _mvp);
 
+			// Everything except the comet orbits is uploaded already rotated into
+			// ecliptic coordinates, so the shader rotation stays off by default.
+			GL.UniformMatrix4(_uEcl, false, ref _identityMatrix);
+
 			if (ShowGrid)
 			{
 				GL.LineWidth(1.0f);
@@ -832,6 +830,9 @@ void main() {
 			}
 
 			// Comet orbits: one batched draw for all visible, then individual draws for selected/marked colors.
+			// Their vertices are unrotated, so the shader applies the current MtxToEcl.
+			GL.UniformMatrix4(_uEcl, false, ref _eclMatrix);
+
 			if (_cometBatchDrawCount > 0)
 			{
 				GL.Uniform4(_uColorUpper, ColorCometOrbitUpper.R / 255f, ColorCometOrbitUpper.G / 255f, ColorCometOrbitUpper.B / 255f, 1f);
@@ -884,6 +885,8 @@ void main() {
 				GL.BindVertexArray(vao);
 				GL.DrawArrays(PrimitiveType.LineStrip, 0, count);
 			}
+
+			GL.UniformMatrix4(_uEcl, false, ref _identityMatrix);
 
 			if (ShowAxes)
 				RenderAxes();
@@ -991,12 +994,29 @@ void main() {
 			MtxToEcl = mtxEqt2Ecl.Mul(mtxPrec);
 			_planetVbosNeedUpdate = true;
 
-			// Comet orbit vertices were baked with an older MtxToEcl. Planet orbits are
-			// rebuilt every tick so they track precession, but the comet orbits would
-			// slowly drift away from them (and from the comet markers, whose positions
-			// are rotated fresh each frame) during long simulations.
-			if (!double.IsNaN(_cometVbosBuiltJD) && Math.Abs(atime.JD - _cometVbosBuiltJD) > CometVboPrecessionToleranceDays)
-				_cometVbosDirty = true;
+			// The comet orbit VBOs need no rebuild here: their vertices are unrotated
+			// and the shader applies the new rotation through the uEcl uniform.
+			_eclMatrix = ToMatrix4(MtxToEcl);
+		}
+
+		/// <summary>
+		/// Converts an astronomy <see cref="Matrix"/> into the Matrix4 layout the shader expects.
+		/// <para>
+		/// Xyz.Rotate treats the matrix as row-by-column (p' = M p), while GLSL reads the
+		/// uniform column-major when uploaded with transpose:false. The result is transposed
+		/// on the way in so that "uEcl * pos" in the shader equals "pos.Rotate(mtx)" on the CPU.
+		/// </para>
+		/// </summary>
+		private static Matrix4 ToMatrix4(Matrix mtx)
+		{
+			if (mtx == null)
+				return Matrix4.Identity;
+
+			return new Matrix4(
+				(float)mtx.A11, (float)mtx.A21, (float)mtx.A31, 0f,
+				(float)mtx.A12, (float)mtx.A22, (float)mtx.A32, 0f,
+				(float)mtx.A13, (float)mtx.A23, (float)mtx.A33, 0f,
+				0f, 0f, 0f, 1f);
 		}
 
 		#endregion
