@@ -209,11 +209,26 @@ void main() {
 			set
 			{
 				this._atime = value;
+				this.DateLabelOverride = null;
 				UpdatePositions(value);
 				UpdatePlanetOrbit(value);
 				UpdateRotationMatrix(value);
 			}
 		}
+
+		/// <summary>
+		/// Date shown in the panel's date label instead of <see cref="ATime"/>.
+		/// <para>
+		/// During simulation the panel advances by a fraction of the time step on every
+		/// frame, so ATime carries a time-of-day that is not on a step boundary. Setting
+		/// this to the rounded date keeps the label steady while the rendered positions
+		/// stay at full precision. Cleared automatically whenever ATime is assigned, so
+		/// a date set by the user is always shown exactly.
+		/// </para>
+		/// </summary>
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public ATime DateLabelOverride { get; set; }
 
 		private bool _multipleMode;
 
@@ -1382,8 +1397,9 @@ void main() {
 
 					if (ShowDate && ATime != null)
 					{
+						ATime labelTime = DateLabelOverride ?? ATime;
 						string strDate = String.Format("{0:00} {1} {2} {3:00}:{4:00}:{5:00} UT",
-							ATime.Day, ATime.MonthString, ATime.Year, ATime.Hour, ATime.Minute, ATime.Second);
+							labelTime.Day, labelTime.MonthString, labelTime.Year, labelTime.Hour, labelTime.Minute, labelTime.Second);
 						float strWidth = g.MeasureString(strDate, FontInformation).Width;
 						double fs = FontInformation.Size;
 						g.DrawString(strDate, FontInformation, infoBrush,

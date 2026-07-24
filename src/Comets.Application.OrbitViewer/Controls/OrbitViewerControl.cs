@@ -417,6 +417,12 @@ namespace Comets.Application.OrbitViewer
 				displayDateTime = new DateTime(dt.Year, dt.Month, dt.Day, 0, 0, 0, DateTimeKind.Utc);
 			}
 			dateTimeControl.SelectedDateTime = displayDateTime;
+
+			// Show the same rounded date on the panel. This must stay after the
+			// SelectedDateTime assignment above, whose setter feeds the panel the precise
+			// ATime and clears the override. The setter only invalidates the panel, so the
+			// repaint happens once this handler returns - by then the override is set.
+			orbitPanel.DateLabelOverride = new ATime(displayDateTime, displayDateTime.Timezone());
 		}
 
 		private void ChangeSimulationDate(bool isForward)
