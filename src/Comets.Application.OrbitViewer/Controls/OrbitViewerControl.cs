@@ -39,6 +39,13 @@ namespace Comets.Application.OrbitViewer
 		private double TimeStepJD;
 		private DateTime _simulationDateTime;
 
+		/// <summary>
+		/// True while _simulationDateTime holds the authoritative simulation clock.
+		/// Cleared whenever the date is moved from outside the simulation, which is the
+		/// only case where the accumulator has to be reseeded from the date control.
+		/// </summary>
+		private bool _simulationDateTimeValid;
+
 		private CometCollection Comets;
 		private FilterCollection Filters;
 		private string SortProperty;
@@ -62,6 +69,11 @@ namespace Comets.Application.OrbitViewer
 				DateTime selectedDateTime;
 				bool isOutOfRange = FormDateTime.RangeDateTime(value, out selectedDateTime);
 				dateTimeControl.SelectedDateTime = selectedDateTime;
+
+				// Any write that is not the simulation's own tick means the date moved
+				// under the simulation, so the accumulator must be reseeded on resume.
+				if (!ValueChangedInternal)
+					_simulationDateTimeValid = false;
 
 				if (isOutOfRange || (IsSimulationStarted && !ValueChangedInternal))
 					StopSimulation();
@@ -415,11 +427,22 @@ namespace Comets.Application.OrbitViewer
 			ValueChangedInternal = true;
 			SelectedDateTime = new DateTime(atime.Year, atime.Month, atime.Day, atime.Hour, atime.Minute, atime.Second, DateTimeKind.Utc);
 			ValueChangedInternal = false;
+
+			// Stepping the date is an internal write, but it deliberately moves the clock.
+			_simulationDateTimeValid = false;
 		}
 
 		private void StartSimulation()
 		{
-			_simulationDateTime = SelectedDateTime;
+			// Resume from the accumulator rather than from the date control, which holds
+			// the rounded display value. Reseeding from it would discard up to a full
+			// step of simulation time and visibly jump the panel backwards.
+			if (!_simulationDateTimeValid)
+			{
+				_simulationDateTime = SelectedDateTime;
+				_simulationDateTimeValid = true;
+			}
+
 			Timer.Start();
 		}
 
