@@ -25,6 +25,7 @@ namespace Comets.Application.OrbitViewer
 		const double DefaultZoom       = 100.0;
 		const double ZoomMin           = 1.5;
 		const double ZoomMax           = 5000.0;
+		const double ZoomStepFactor    = 1.15;   // one wheel notch or keyboard zoom step
 
 		#endregion
 
@@ -664,7 +665,7 @@ namespace Comets.Application.OrbitViewer
 				case Keys.Q:
 					if (!ctrl && !shift && IsKeyboardScroll)
 					{
-						orbitPanel.Zoom = Math.Clamp(orbitPanel.Zoom + 10.0, ZoomMin, ZoomMax);
+						orbitPanel.Zoom = Math.Clamp(orbitPanel.Zoom * ZoomStepFactor, ZoomMin, ZoomMax);
 						RefreshPanel();
 						handled = true;
 					}
@@ -673,7 +674,7 @@ namespace Comets.Application.OrbitViewer
 				case Keys.A:
 					if (!ctrl && !shift && IsKeyboardScroll)
 					{
-						orbitPanel.Zoom = Math.Clamp(orbitPanel.Zoom - 10.0, ZoomMin, ZoomMax);
+						orbitPanel.Zoom = Math.Clamp(orbitPanel.Zoom / ZoomStepFactor, ZoomMin, ZoomMax);
 						RefreshPanel();
 						handled = true;
 					}
@@ -960,7 +961,7 @@ namespace Comets.Application.OrbitViewer
 		{
 			if (IsMouseWheelZoom)
 			{
-				double factor = e.Delta > 0 ? 1.15 : 1.0 / 1.15;
+				double factor = e.Delta > 0 ? ZoomStepFactor : 1.0 / ZoomStepFactor;
 				orbitPanel.Zoom = Math.Clamp(orbitPanel.Zoom * factor, ZoomMin, ZoomMax);
 				RefreshPanel();
 			}
