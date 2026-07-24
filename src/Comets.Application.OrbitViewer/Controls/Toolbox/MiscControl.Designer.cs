@@ -89,7 +89,6 @@ namespace Comets.Application.OrbitViewer.Controls
 			this.txtGridExtent.TabIndex = 2;
 			this.txtGridExtent.Text = "150";
 			this.txtGridExtent.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.txtGridExtent.TextChanged += this.txtGridExtent_TextChanged;
 			this.txtGridExtent.KeyDown += this.txtGridExtent_KeyDown;
 			this.txtGridExtent.KeyPress += this.txtGridExtent_KeyPress;
 			this.txtGridExtent.Leave += this.txtGridExtent_Leave;

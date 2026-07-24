@@ -17,13 +17,19 @@ namespace Comets.Application.OrbitViewer.Controls
 
 		#endregion
 
+		#region Const
+
+		private const double MaxGridExtent = 150.0;
+
+		#endregion
+
 		#region Constructor
 
 		public MiscControl()
 		{
 			InitializeComponent();
 
-			txtGridExtent.Tag = new ValNum(0.0, 150, 0);
+			txtGridExtent.Tag = new ValNum(0.0, MaxGridExtent, 0);
 		}
 
 		#endregion
@@ -49,12 +55,6 @@ namespace Comets.Application.OrbitViewer.Controls
 			OnShowGridChanged(cbxShowGrid.Checked);
 		}
 
-		private void txtGridExtent_TextChanged(object sender, EventArgs e)
-		{
-			if (ApplyGridExtent() && !cbxShowGrid.Checked)
-				cbxShowGrid.Checked = true;
-		}
-
 		private void txtGridExtent_KeyDown(object sender, KeyEventArgs e)
 		{
 			if (e.KeyCode == Keys.Enter)
@@ -74,11 +74,29 @@ namespace Comets.Application.OrbitViewer.Controls
 			ApplyGridExtent();
 		}
 
+		/// <summary>
+		/// Parses the grid extent textbox and raises <see cref="OnGridExtentChanged"/>.
+		/// <para>
+		/// Called on Enter and on leaving the textbox rather than on every keystroke, so
+		/// typing "100" applies once instead of rendering at 1, then 10, then 100. The
+		/// value is clamped to <see cref="MaxGridExtent"/>: ValNumManager rejects a typed
+		/// character that would exceed the maximum, but a paste bypasses that filter, and
+		/// an unbounded extent costs thousands of grid line uploads per frame.
+		/// </para>
+		/// </summary>
+		/// <returns>True when a usable extent was parsed and applied.</returns>
 		private bool ApplyGridExtent()
 		{
 			if (double.TryParse(txtGridExtent.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out double v) && v > 0)
 			{
+				v = Math.Min(v, MaxGridExtent);
+				txtGridExtent.Text = v.ToString("G", CultureInfo.InvariantCulture);
+
 				OnGridExtentChanged?.Invoke(v);
+
+				if (!cbxShowGrid.Checked)
+					cbxShowGrid.Checked = true;
+
 				return true;
 			}
 			return false;
