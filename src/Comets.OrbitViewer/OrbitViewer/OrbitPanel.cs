@@ -301,6 +301,14 @@ void main() {
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public bool ShowAxes { get; set; }
 
+		/// <summary>
+		/// Whether the axis ends are named on screen. The names sit at the ends of the axis
+		/// lines, so they are drawn only when <see cref="ShowAxes"/> is on as well.
+		/// </summary>
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public bool ShowAxesLabels { get; set; }
+
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public bool ShowGrid { get; set; }
@@ -1587,7 +1595,7 @@ void main() {
 					}
 
 					// — Axis labels —
-					if (ShowAxes && _glLoaded)
+					if (ShowAxes && ShowAxesLabels && _glLoaded)
 					{
 						using var grayBrush = new SolidBrush(Color.Gray);
 						double sizeAU = Math.Max(0.01, GridExtent);

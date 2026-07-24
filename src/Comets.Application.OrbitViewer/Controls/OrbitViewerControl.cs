@@ -228,6 +228,7 @@ namespace Comets.Application.OrbitViewer
 			infoLabelsControl.OnShowDateLabelChanged += SetShowDateLabel;
 
 			miscControl.OnShowAxesChanged += SetShowAxes;
+			miscControl.OnShowAxesLabelsChanged += SetShowAxesLabels;
 			miscControl.OnShowGridChanged += SetShowGrid;
 			miscControl.OnGridExtentChanged += SetGridExtent;
 			miscControl.OnSaveImage += Save;
@@ -628,6 +629,12 @@ namespace Comets.Application.OrbitViewer
 			RefreshPanel();
 		}
 
+		private void SetShowAxesLabels(bool showAxesLabels)
+		{
+			orbitPanel.ShowAxesLabels = showAxesLabels;
+			RefreshPanel();
+		}
+
 		private void SetShowGrid(bool showGrid)
 		{
 			orbitPanel.ShowGrid = showGrid;
@@ -667,8 +674,13 @@ namespace Comets.Application.OrbitViewer
 
 		public void OrbitViewerControl_KeyDown(object sender, KeyEventArgs e)
 		{
+			// The form previews every key press, so whatever is claimed below never reaches
+			// the control that has focus. Let the keys a toolbox textbox needs go past:
+			// Enter would otherwise mark a comet instead of committing the typed value, and
+			// Delete would unmark every comet instead of deleting a digit.
 			if ((filterControl.Focused || miscControl.ContainsFocus)
-				&& e.KeyCode.In(Keys.D1, Keys.D2, Keys.D3, Keys.D4, Keys.D5, Keys.D6, Keys.D7, Keys.D8, Keys.D9, Keys.D0, Keys.Back))
+				&& e.KeyCode.In(Keys.D1, Keys.D2, Keys.D3, Keys.D4, Keys.D5, Keys.D6, Keys.D7, Keys.D8, Keys.D9, Keys.D0,
+					Keys.Back, Keys.Delete, Keys.Enter))
 				return;
 
 			bool handled = false;

@@ -281,10 +281,10 @@
 			// cpnlMisc
 			// 
 			this.cpnlMisc.Font = new System.Drawing.Font("Tahoma", 8.25F);
-			this.cpnlMisc.HeightExpanded = 135;
+			this.cpnlMisc.HeightExpanded = 158;
 			this.cpnlMisc.Location = new System.Drawing.Point(0, 722);
 			this.cpnlMisc.Name = "cpnlMisc";
-			this.cpnlMisc.Size = new System.Drawing.Size(189, 135);
+			this.cpnlMisc.Size = new System.Drawing.Size(189, 158);
 			this.cpnlMisc.TabIndex = 7;
 			this.cpnlMisc.Title = "Misc.";
 			//
@@ -295,7 +295,7 @@
 			this.cpnlMisc.WorkingArea.Controls.Add(this.miscControl);
 			this.cpnlMisc.WorkingArea.Location = new System.Drawing.Point(4, 28);
 			this.cpnlMisc.WorkingArea.Name = "WorkingArea";
-			this.cpnlMisc.WorkingArea.Size = new System.Drawing.Size(173, 100);
+			this.cpnlMisc.WorkingArea.Size = new System.Drawing.Size(173, 123);
 			this.cpnlMisc.WorkingArea.TabIndex = 1;
 			//
 			// miscControl
@@ -304,7 +304,7 @@
 			this.miscControl.Font = new System.Drawing.Font("Tahoma", 8.25F);
 			this.miscControl.Location = new System.Drawing.Point(0, 0);
 			this.miscControl.Name = "miscControl";
-			this.miscControl.Size = new System.Drawing.Size(173, 100);
+			this.miscControl.Size = new System.Drawing.Size(173, 123);
 			this.miscControl.TabIndex = 0;
 			// 
 			// orbitPanel

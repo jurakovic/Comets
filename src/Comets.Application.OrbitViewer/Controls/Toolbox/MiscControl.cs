@@ -11,6 +11,7 @@ namespace Comets.Application.OrbitViewer.Controls
 		#region Events
 
 		public event Action<bool> OnShowAxesChanged;
+		public event Action<bool> OnShowAxesLabelsChanged;
 		public event Action<bool> OnShowGridChanged;
 		public event Action<double> OnGridExtentChanged;
 		public event Action OnSaveImage;
@@ -42,6 +43,8 @@ namespace Comets.Application.OrbitViewer.Controls
 
 			txtGridExtent.Tag = new ValNum(0.0, MaxGridExtent, 0);
 			double.TryParse(txtGridExtent.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out _appliedGridExtent);
+
+			SyncShowAxesLabelsEnabled();
 		}
 
 		#endregion
@@ -51,6 +54,21 @@ namespace Comets.Application.OrbitViewer.Controls
 		private void cbxShowAxes_CheckedChanged(object sender, EventArgs e)
 		{
 			OnShowAxesChanged(cbxShowAxes.Checked);
+			SyncShowAxesLabelsEnabled();
+		}
+
+		private void cbxShowAxesLabels_CheckedChanged(object sender, EventArgs e)
+		{
+			OnShowAxesLabelsChanged?.Invoke(cbxShowAxesLabels.Checked);
+		}
+
+		/// <summary>
+		/// The labels are drawn at the ends of the axis lines, so the option is only
+		/// meaningful while the axes themselves are shown.
+		/// </summary>
+		private void SyncShowAxesLabelsEnabled()
+		{
+			cbxShowAxesLabels.Enabled = cbxShowAxes.Checked;
 		}
 
 		private void cbxShowGrid_CheckedChanged(object sender, EventArgs e)
