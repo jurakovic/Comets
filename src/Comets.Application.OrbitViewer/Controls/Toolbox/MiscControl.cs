@@ -23,6 +23,17 @@ namespace Comets.Application.OrbitViewer.Controls
 
 		#endregion
 
+		#region Fields
+
+		/// <summary>
+		/// Extent last handed to the panel, so that leaving the textbox can tell a real
+		/// edit from having merely passed through it. Seeded from the textbox itself,
+		/// whose designer value matches the panel's own default.
+		/// </summary>
+		private double _appliedGridExtent;
+
+		#endregion
+
 		#region Constructor
 
 		public MiscControl()
@@ -30,6 +41,7 @@ namespace Comets.Application.OrbitViewer.Controls
 			InitializeComponent();
 
 			txtGridExtent.Tag = new ValNum(0.0, MaxGridExtent, 0);
+			double.TryParse(txtGridExtent.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out _appliedGridExtent);
 		}
 
 		#endregion
@@ -66,7 +78,8 @@ namespace Comets.Application.OrbitViewer.Controls
 		}
 
 		/// <summary>
-		/// Parses the grid extent textbox and raises <see cref="OnGridExtentChanged"/>.
+		/// Parses the grid extent textbox and, when the extent has actually changed,
+		/// raises <see cref="OnGridExtentChanged"/> and switches the grid on.
 		/// <para>
 		/// Called on Enter and on leaving the textbox rather than on every keystroke, so
 		/// typing "100" applies once instead of rendering at 1, then 10, then 100. The
@@ -74,23 +87,28 @@ namespace Comets.Application.OrbitViewer.Controls
 		/// character that would exceed the maximum, but a paste bypasses that filter, and
 		/// an unbounded extent costs thousands of grid line uploads per frame.
 		/// </para>
+		/// <para>
+		/// Nothing is raised when the value is unchanged. Leaving the textbox applies it,
+		/// and tabbing through the toolbox leaves every control in turn, so re-applying
+		/// regardless would tick Show grid on the way past without anything being typed.
+		/// </para>
 		/// </summary>
-		/// <returns>True when a usable extent was parsed and applied.</returns>
-		private bool ApplyGridExtent()
+		private void ApplyGridExtent()
 		{
-			if (double.TryParse(txtGridExtent.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out double v) && v > 0)
-			{
-				v = Math.Min(v, MaxGridExtent);
-				txtGridExtent.Text = v.ToString("G", CultureInfo.InvariantCulture);
+			if (!double.TryParse(txtGridExtent.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out double v) || v <= 0)
+				return;
 
-				OnGridExtentChanged?.Invoke(v);
+			v = Math.Min(v, MaxGridExtent);
+			txtGridExtent.Text = v.ToString("G", CultureInfo.InvariantCulture);
 
-				if (!cbxShowGrid.Checked)
-					cbxShowGrid.Checked = true;
+			if (v == _appliedGridExtent)
+				return;
 
-				return true;
-			}
-			return false;
+			_appliedGridExtent = v;
+			OnGridExtentChanged?.Invoke(v);
+
+			if (!cbxShowGrid.Checked)
+				cbxShowGrid.Checked = true;
 		}
 
 		private void btnSaveImage_Click(object sender, EventArgs e)
