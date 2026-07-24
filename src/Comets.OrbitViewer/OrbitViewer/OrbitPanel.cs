@@ -440,6 +440,76 @@ void main() {
 
 		#endregion
 
+		#region Dispose
+
+		/// <summary>
+		/// Releases the GL objects allocated by <see cref="InitGL"/> and
+		/// <see cref="UploadOrbitsToGpu"/> before the control's context goes away.
+		/// <para>
+		/// The orbit viewer is an MDI child, so every open and close of the window built
+		/// a fresh set of programs, VAOs, VBOs and the label texture. Without this they
+		/// accumulated for the lifetime of the context instead of the lifetime of the panel.
+		/// </para>
+		/// </summary>
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && _glLoaded)
+			{
+				// Deleting names requires the owning context to be current. If it cannot be
+				// made current the context is already gone, which frees the objects anyway.
+				try
+				{
+					MakeCurrent();
+
+					if (_shaderProgram != 0) GL.DeleteProgram(_shaderProgram);
+					if (_textShaderProgram != 0) GL.DeleteProgram(_textShaderProgram);
+
+					if (_bodyVao != 0) GL.DeleteVertexArray(_bodyVao);
+					if (_bodyVbo != 0) GL.DeleteBuffer(_bodyVbo);
+
+					if (_cometBatchVao != 0) GL.DeleteVertexArray(_cometBatchVao);
+					if (_cometBatchVbo != 0) GL.DeleteBuffer(_cometBatchVbo);
+
+					if (_textQuadVao != 0) GL.DeleteVertexArray(_textQuadVao);
+					if (_textQuadVbo != 0) GL.DeleteBuffer(_textQuadVbo);
+					if (_textTex != 0) GL.DeleteTexture(_textTex);
+
+					if (_planetOrbitBuffers != null)
+						foreach (var (vao, vbo, _) in _planetOrbitBuffers.Values)
+							DeleteOrbitBuffer(vao, vbo);
+
+					foreach (var (vao, vbo, _) in _cometOrbitBuffers.Values)
+						DeleteOrbitBuffer(vao, vbo);
+				}
+				catch (Exception ex) when (ex is InvalidOperationException || ex is ObjectDisposedException)
+				{
+				}
+
+				_shaderProgram = 0;
+				_textShaderProgram = 0;
+				_bodyVao = 0;
+				_bodyVbo = 0;
+				_cometBatchVao = 0;
+				_cometBatchVbo = 0;
+				_textQuadVao = 0;
+				_textQuadVbo = 0;
+				_textTex = 0;
+				_planetOrbitBuffers?.Clear();
+				_cometOrbitBuffers.Clear();
+				_glLoaded = false;
+			}
+
+			base.Dispose(disposing);
+		}
+
+		private static void DeleteOrbitBuffer(int vao, int vbo)
+		{
+			if (vao != 0) GL.DeleteVertexArray(vao);
+			if (vbo != 0) GL.DeleteBuffer(vbo);
+		}
+
+		#endregion
+
 		#region RenderScene
 
 		private void InitGL()
@@ -647,8 +717,7 @@ void main() {
 					if (!required.Contains(key))
 					{
 						var (vao, vbo, _) = _cometOrbitBuffers[key];
-						if (vao != 0) GL.DeleteVertexArray(vao);
-						if (vbo != 0) GL.DeleteBuffer(vbo);
+						DeleteOrbitBuffer(vao, vbo);
 						_cometOrbitBuffers.Remove(key);
 					}
 				}
