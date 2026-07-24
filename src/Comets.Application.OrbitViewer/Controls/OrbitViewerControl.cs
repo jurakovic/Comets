@@ -4,6 +4,7 @@ using Comets.Core.Extensions;
 using Comets.Core.Managers;
 using Comets.OrbitViewer;
 using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -44,11 +45,28 @@ namespace Comets.Application.OrbitViewer
 		private const int TimerIntervalMs = 16;
 
 		/// <summary>
-		/// Tick interval the time step was originally calibrated against: one whole step
-		/// was applied per 50 ms tick. The step is now scaled by TimerIntervalMs / this,
-		/// so the simulation runs at the same speed as before the timer was made faster.
+		/// Tick interval the time step is calibrated against: one whole step per 50 ms,
+		/// which is 20 steps per second. The step is scaled by the elapsed time since the
+		/// previous frame divided by this, so playback runs at that speed regardless of
+		/// how often the timer actually fires.
 		/// </summary>
 		private const double LegacyTimerIntervalMs = 50.0;
+
+		/// <summary>
+		/// Upper bound on the frame time used to advance the simulation. A stall - a modal
+		/// dialog, a window drag, waking from sleep - would otherwise report an elapsed time
+		/// of seconds and jump the simulation forward by many steps at once. Time beyond
+		/// this is dropped, so a stall costs simulated time instead of causing a leap.
+		/// </summary>
+		private const double MaxFrameMs = 100.0;
+
+		/// <summary>
+		/// Measures real time between frames, so simulation speed does not depend on the
+		/// timer's actual firing rate. A WinForms timer is quantized to the system clock
+		/// granularity and its messages are delivered only when the queue is empty, so the
+		/// interval it fires at is neither the requested one nor stable under load.
+		/// </summary>
+		private readonly Stopwatch _simulationClock = new Stopwatch();
 
 		private DateTime _simulationDateTime;
 
@@ -408,7 +426,10 @@ namespace Comets.Application.OrbitViewer
 
 		private void timer_Tick(object sender, EventArgs e)
 		{
-			double deltaDays = TimeStepJD * (Timer.Interval / LegacyTimerIntervalMs) * (IsSimulationForward ? 1.0 : -1.0);
+			double elapsedMs = Math.Min(_simulationClock.Elapsed.TotalMilliseconds, MaxFrameMs);
+			_simulationClock.Restart();
+
+			double deltaDays = TimeStepJD * (elapsedMs / LegacyTimerIntervalMs) * (IsSimulationForward ? 1.0 : -1.0);
 			_simulationDateTime = _simulationDateTime.AddDays(deltaDays);
 
 			ValueChangedInternal = true;
@@ -462,12 +483,16 @@ namespace Comets.Application.OrbitViewer
 				_simulationDateTimeValid = true;
 			}
 
+			// Restart rather than start: the time spent paused must not be applied to the
+			// first frame after resuming.
+			_simulationClock.Restart();
 			Timer.Start();
 		}
 
 		public void StopSimulation()
 		{
 			Timer.Stop();
+			_simulationClock.Stop();
 		}
 
 		private void FasterSimulation()
