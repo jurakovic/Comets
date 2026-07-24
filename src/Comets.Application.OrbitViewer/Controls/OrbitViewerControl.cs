@@ -20,8 +20,8 @@ namespace Comets.Application.OrbitViewer
 	{
 		#region Consts
 
-		const double DefaultRotateVert = 70.0;   // 90 - DefaultScrollVert(20)
-		const double DefaultRotateHorz = 15.0;   // 90 - DefaultScrollHorz(75)
+		const double DefaultRotateVert = 70.0;   // from top-down, so 20 above the ecliptic plane
+		const double DefaultRotateHorz = 15.0;   // azimuth about the ecliptic pole
 		const double DefaultZoom       = 100.0;
 		const double ZoomMin           = 1.5;
 		const double ZoomMax           = 5000.0;
@@ -47,7 +47,7 @@ namespace Comets.Application.OrbitViewer
 		#region Fields
 
 		private bool IsLeftButtonMoving;
-		private bool IsKeyboardScroll;
+		private bool IsKeyboardNavigation;
 		private bool IsMouseWheelZoom;
 		private Point StartDrag;
 
@@ -917,7 +917,7 @@ namespace Comets.Application.OrbitViewer
 		/// <summary>
 		/// Releases the camera direction bound to a navigation key.
 		/// <para>
-		/// Deliberately not gated on modifiers or on <see cref="IsKeyboardScroll"/>, unlike
+		/// Deliberately not gated on modifiers or on <see cref="IsKeyboardNavigation"/>, unlike
 		/// the matching key press: a release has to clear its direction whatever the state
 		/// is by the time it arrives, or the camera keeps moving on a key nobody is holding.
 		/// </para>
@@ -970,7 +970,7 @@ namespace Comets.Application.OrbitViewer
 		/// </returns>
 		private bool HoldNavigation(NavDirection direction, bool ctrl, bool shift)
 		{
-			if (ctrl || shift || !IsKeyboardScroll)
+			if (ctrl || shift || !IsKeyboardNavigation)
 				return false;
 
 			_heldDirections |= direction;
@@ -1053,7 +1053,7 @@ namespace Comets.Application.OrbitViewer
 		private void orbitPanel_MouseEnter(object sender, EventArgs e)
 		{
 			IsMouseWheelZoom = true;
-			IsKeyboardScroll = true;
+			IsKeyboardNavigation = true;
 		}
 
 		private void orbitPanel_MouseDown(object sender, MouseEventArgs e)
@@ -1065,7 +1065,7 @@ namespace Comets.Application.OrbitViewer
 		private void orbitPanel_MouseLeave(object sender, EventArgs e)
 		{
 			IsMouseWheelZoom = false;
-			IsKeyboardScroll = false;
+			IsKeyboardNavigation = false;
 
 			// Keyboard navigation only applies while the pointer is over the panel, so a
 			// direction held as the pointer leaves would otherwise never be released.
