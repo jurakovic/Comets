@@ -25,7 +25,22 @@ namespace Comets.Application.OrbitViewer
 		const double DefaultZoom       = 100.0;
 		const double ZoomMin           = 1.5;
 		const double ZoomMax           = 5000.0;
-		const double ZoomStepFactor    = 1.15;   // one wheel notch or keyboard zoom step
+		const double ZoomStepFactor    = 1.15;   // one wheel notch
+
+		/// <summary>
+		/// Camera rotation applied per second while an arrow key is held, giving a full
+		/// turn in six seconds. Close to the sensitivity of a right-button drag, so the
+		/// two ways of rotating the scene feel alike.
+		/// </summary>
+		private const double RotateDegreesPerSecond = 60.0;
+
+		/// <summary>
+		/// Zoom multiplier applied per second while a zoom key is held. Zoom is geometric,
+		/// so this is raised to the power of the elapsed seconds rather than multiplied by
+		/// them: at 2.5 per second, crossing the whole ZoomMin..ZoomMax range takes about
+		/// nine seconds regardless of where it starts.
+		/// </summary>
+		private const double ZoomFactorPerSecond = 2.5;
 
 		#endregion
 
@@ -41,7 +56,8 @@ namespace Comets.Application.OrbitViewer
 		private double TimeStepJD;
 
 		/// <summary>
-		/// Simulation timer interval, giving roughly 60 frames per second.
+		/// Interval for the simulation and camera navigation timers, giving roughly 60
+		/// frames per second.
 		/// </summary>
 		private const int TimerIntervalMs = 16;
 
@@ -54,10 +70,10 @@ namespace Comets.Application.OrbitViewer
 		private const double LegacyTimerIntervalMs = 50.0;
 
 		/// <summary>
-		/// Upper bound on the frame time used to advance the simulation. A stall - a modal
-		/// dialog, a window drag, waking from sleep - would otherwise report an elapsed time
-		/// of seconds and jump the simulation forward by many steps at once. Time beyond
-		/// this is dropped, so a stall costs simulated time instead of causing a leap.
+		/// Upper bound on the frame time used to advance the simulation or the camera. A
+		/// stall - a modal dialog, a window drag, waking from sleep - would otherwise report
+		/// an elapsed time of seconds and jump forward by many steps at once. Time beyond
+		/// this is dropped, so a stall costs movement instead of causing a leap.
 		/// </summary>
 		private const double MaxFrameMs = 100.0;
 
@@ -70,6 +86,40 @@ namespace Comets.Application.OrbitViewer
 		private readonly Stopwatch _simulationClock = new Stopwatch();
 
 		private DateTime _simulationDateTime;
+
+		/// <summary>
+		/// Ways the keyboard can move the camera. Held keys are accumulated as a set of
+		/// these rather than acted on one at a time, so pressing Left and Up together
+		/// rotates on both axes - Windows only auto-repeats the most recent key, which
+		/// made diagonal movement impossible while the keys drove rotation directly.
+		/// </summary>
+		[Flags]
+		private enum NavDirection
+		{
+			None        = 0,
+			RotateLeft  = 1,
+			RotateRight = 2,
+			RotateUp    = 4,
+			RotateDown  = 8,
+			ZoomIn      = 16,
+			ZoomOut     = 32,
+		}
+
+		private NavDirection _heldDirections;
+
+		/// <summary>
+		/// Drives camera movement while a navigation key is held. Rotating straight from
+		/// the key events instead would inherit the keyboard's auto-repeat behaviour: a
+		/// half-second pause before the second step, then a rate set by the user's Control
+		/// Panel repeat speed, which varies by more than a factor of ten between machines.
+		/// </summary>
+		private System.Windows.Forms.Timer NavigationTimer;
+
+		/// <summary>
+		/// Measures real time between navigation frames, so the camera moves at the same
+		/// rate whatever the timer's actual firing rate. See <see cref="_simulationClock"/>.
+		/// </summary>
+		private readonly Stopwatch _navigationClock = new Stopwatch();
 
 		/// <summary>
 		/// True while _simulationDateTime holds the authoritative simulation clock.
@@ -147,6 +197,10 @@ namespace Comets.Application.OrbitViewer
 			Timer = new System.Windows.Forms.Timer();
 			Timer.Interval = TimerIntervalMs;
 			Timer.Tick += new EventHandler(this.timer_Tick);
+
+			NavigationTimer = new System.Windows.Forms.Timer();
+			NavigationTimer.Interval = TimerIntervalMs;
+			NavigationTimer.Tick += new EventHandler(this.navigationTimer_Tick);
 
 			cometControl.OnSelectedCometChanged += LoadSelectedComet;
 			cometControl.OnFilter += FilterComets;
@@ -628,56 +682,26 @@ namespace Comets.Application.OrbitViewer
 					handled = false;
 					break;
 				case Keys.Left:
-					if (!ctrl && !shift && IsKeyboardScroll)
-					{
-						orbitPanel.RotateHorz = WrapDegrees(orbitPanel.RotateHorz + 1.0);
-						RefreshPanel();
-						handled = true;
-					}
+					handled = HoldNavigation(NavDirection.RotateLeft, ctrl, shift);
 					break;
 				case Keys.Right:
-					if (!ctrl && !shift && IsKeyboardScroll)
-					{
-						orbitPanel.RotateHorz = WrapDegrees(orbitPanel.RotateHorz - 1.0);
-						RefreshPanel();
-						handled = true;
-					}
+					handled = HoldNavigation(NavDirection.RotateRight, ctrl, shift);
 					break;
 
 				case Keys.Up:
-					if (!ctrl && !shift && IsKeyboardScroll)
-					{
-						orbitPanel.RotateVert = WrapDegrees(orbitPanel.RotateVert + 1.0);
-						RefreshPanel();
-						handled = true;
-					}
+					handled = HoldNavigation(NavDirection.RotateUp, ctrl, shift);
 					break;
 				case Keys.Down:
-					if (!ctrl && !shift && IsKeyboardScroll)
-					{
-						orbitPanel.RotateVert = WrapDegrees(orbitPanel.RotateVert - 1.0);
-						RefreshPanel();
-						handled = true;
-					}
+					handled = HoldNavigation(NavDirection.RotateDown, ctrl, shift);
 					break;
 
 				case Keys.Add:
 				case Keys.Q:
-					if (!ctrl && !shift && IsKeyboardScroll)
-					{
-						orbitPanel.Zoom = Math.Clamp(orbitPanel.Zoom * ZoomStepFactor, ZoomMin, ZoomMax);
-						RefreshPanel();
-						handled = true;
-					}
+					handled = HoldNavigation(NavDirection.ZoomIn, ctrl, shift);
 					break;
 				case Keys.Subtract:
 				case Keys.A:
-					if (!ctrl && !shift && IsKeyboardScroll)
-					{
-						orbitPanel.Zoom = Math.Clamp(orbitPanel.Zoom / ZoomStepFactor, ZoomMin, ZoomMax);
-						RefreshPanel();
-						handled = true;
-					}
+					handled = HoldNavigation(NavDirection.ZoomOut, ctrl, shift);
 					break;
 
 				case Keys.D1:
@@ -890,10 +914,136 @@ namespace Comets.Application.OrbitViewer
 			e.Handled = handled;
 		}
 
+		/// <summary>
+		/// Releases the camera direction bound to a navigation key.
+		/// <para>
+		/// Deliberately not gated on modifiers or on <see cref="IsKeyboardScroll"/>, unlike
+		/// the matching key press: a release has to clear its direction whatever the state
+		/// is by the time it arrives, or the camera keeps moving on a key nobody is holding.
+		/// </para>
+		/// </summary>
+		public void OrbitViewerControl_KeyUp(object sender, KeyEventArgs e)
+		{
+			switch (e.KeyCode)
+			{
+				case Keys.Left:
+					ReleaseNavigation(NavDirection.RotateLeft);
+					break;
+				case Keys.Right:
+					ReleaseNavigation(NavDirection.RotateRight);
+					break;
+
+				case Keys.Up:
+					ReleaseNavigation(NavDirection.RotateUp);
+					break;
+				case Keys.Down:
+					ReleaseNavigation(NavDirection.RotateDown);
+					break;
+
+				case Keys.Add:
+				case Keys.Q:
+					ReleaseNavigation(NavDirection.ZoomIn);
+					break;
+				case Keys.Subtract:
+				case Keys.A:
+					ReleaseNavigation(NavDirection.ZoomOut);
+					break;
+			}
+		}
+
 		private static double WrapDegrees(double value)
 		{
 			value %= 360.0;
 			return value < 0.0 ? value + 360.0 : value;
+		}
+
+		#endregion
+
+		#region Camera navigation
+
+		/// <summary>
+		/// Marks a camera direction as held and starts the navigation timer.
+		/// </summary>
+		/// <returns>
+		/// True when the key was consumed, so the caller can mark it handled and keep the
+		/// arrows from moving focus between the toolbox controls.
+		/// </returns>
+		private bool HoldNavigation(NavDirection direction, bool ctrl, bool shift)
+		{
+			if (ctrl || shift || !IsKeyboardScroll)
+				return false;
+
+			_heldDirections |= direction;
+
+			// Auto-repeat keeps delivering key presses while the key is down. The set
+			// already holds the direction by then, and restarting the clock on each of
+			// those would discard the time since the last frame.
+			if (!NavigationTimer.Enabled)
+			{
+				_navigationClock.Restart();
+				NavigationTimer.Start();
+			}
+
+			return true;
+		}
+
+		private void ReleaseNavigation(NavDirection direction)
+		{
+			_heldDirections &= ~direction;
+
+			if (_heldDirections == NavDirection.None)
+				StopNavigation();
+		}
+
+		/// <summary>
+		/// Drops every held direction and stops the navigation timer.
+		/// <para>
+		/// Needed wherever the control can stop receiving key events while a key is still
+		/// down - the pointer leaving the panel, or the window being deactivated - since
+		/// the key release is then delivered elsewhere and the camera would move forever.
+		/// </para>
+		/// </summary>
+		public void StopNavigation()
+		{
+			_heldDirections = NavDirection.None;
+			NavigationTimer.Stop();
+			_navigationClock.Stop();
+		}
+
+		private void navigationTimer_Tick(object sender, EventArgs e)
+		{
+			double elapsedMs = Math.Min(_navigationClock.Elapsed.TotalMilliseconds, MaxFrameMs);
+			_navigationClock.Restart();
+
+			double seconds = elapsedMs / 1000.0;
+			double degrees = RotateDegreesPerSecond * seconds;
+
+			double horz = 0.0;
+			double vert = 0.0;
+
+			if (_heldDirections.HasFlag(NavDirection.RotateLeft)) horz += degrees;
+			if (_heldDirections.HasFlag(NavDirection.RotateRight)) horz -= degrees;
+			if (_heldDirections.HasFlag(NavDirection.RotateUp)) vert += degrees;
+			if (_heldDirections.HasFlag(NavDirection.RotateDown)) vert -= degrees;
+
+			if (horz != 0.0)
+				orbitPanel.RotateHorz = WrapDegrees(orbitPanel.RotateHorz + horz);
+
+			if (vert != 0.0)
+				orbitPanel.RotateVert = WrapDegrees(orbitPanel.RotateVert + vert);
+
+			int zoomSign = 0;
+
+			if (_heldDirections.HasFlag(NavDirection.ZoomIn)) zoomSign += 1;
+			if (_heldDirections.HasFlag(NavDirection.ZoomOut)) zoomSign -= 1;
+
+			if (zoomSign != 0)
+			{
+				double factor = Math.Pow(ZoomFactorPerSecond, zoomSign * seconds);
+				orbitPanel.Zoom = Math.Clamp(orbitPanel.Zoom * factor, ZoomMin, ZoomMax);
+			}
+
+			RefreshPanel();
 		}
 
 		#endregion
@@ -916,6 +1066,10 @@ namespace Comets.Application.OrbitViewer
 		{
 			IsMouseWheelZoom = false;
 			IsKeyboardScroll = false;
+
+			// Keyboard navigation only applies while the pointer is over the panel, so a
+			// direction held as the pointer leaves would otherwise never be released.
+			StopNavigation();
 		}
 
 		private void orbitPanel_MouseClick(object sender, MouseEventArgs e)
