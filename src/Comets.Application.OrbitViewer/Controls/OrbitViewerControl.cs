@@ -1135,6 +1135,24 @@ namespace Comets.Application.OrbitViewer
 
 		public void Save()
 		{
+			// Capture before the dialog goes up, not after it is dismissed. A modal dialog
+			// runs its own message loop, which keeps delivering the simulation timer's
+			// ticks, so the scene carries on moving for as long as the dialog is open and
+			// a later capture would save a moment the user never asked for.
+			using (Bitmap bmp = this.orbitPanel.CaptureFrame())
+			{
+				if (bmp == null)
+				{
+					MessageBox.Show("The orbit panel could not be captured.\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					return;
+				}
+
+				SaveCapturedImage(bmp);
+			}
+		}
+
+		private void SaveCapturedImage(Bitmap bmp)
+		{
 			using (SaveFileDialog sfd = new SaveFileDialog())
 			{
 				string lastExportDir = CommonManager.Settings.LastUsedExportDirectory;
@@ -1167,9 +1185,8 @@ namespace Comets.Application.OrbitViewer
 							break;
 					}
 
-					Bitmap bmp = new Bitmap(this.orbitPanel.Width, this.orbitPanel.Height);
-					this.orbitPanel.DrawToBitmap(bmp, this.orbitPanel.DisplayRectangle);
 					bmp.Save(sfd.FileName, format);
+
 					CommonManager.Settings.LastUsedExportDirectory = Path.GetDirectoryName(sfd.FileName);
 					MessageBox.Show(String.Format("Orbit saved as {0}\t\t\t", sfd.FileName), "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				}

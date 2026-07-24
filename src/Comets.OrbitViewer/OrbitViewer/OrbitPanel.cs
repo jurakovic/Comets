@@ -415,17 +415,25 @@ void main() {
 			if (!_glLoaded)
 				InitGL();
 
-			// Resolve CenteredIndex for camera target centering
-			if (CenteredObject != Object.Comet)
-				CenteredIndex = -1;
-
-			if (IsPaintEnabled && MtxToEcl != null && CenteredObject == Object.Comet && CenteredIndex == -1)
-				CenteredIndex = SelectedIndex;
+			ResolveCenteredIndex();
 
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 			RenderScene();
 			SwapBuffers();
 			UpdateCometPanelLocations();
+		}
+
+		/// <summary>
+		/// Resolves CenteredIndex for camera target centering. Runs before every render,
+		/// whether the frame is going to the screen or to a captured bitmap.
+		/// </summary>
+		private void ResolveCenteredIndex()
+		{
+			if (CenteredObject != Object.Comet)
+				CenteredIndex = -1;
+
+			if (IsPaintEnabled && MtxToEcl != null && CenteredObject == Object.Comet && CenteredIndex == -1)
+				CenteredIndex = SelectedIndex;
 		}
 
 		protected override void OnResize(EventArgs e)
@@ -436,6 +444,65 @@ void main() {
 				MakeCurrent();
 				GL.Viewport(0, 0, Width, Height);
 			}
+		}
+
+		#endregion
+
+		#region CaptureFrame
+
+		/// <summary>
+		/// Renders a frame and reads it back from the framebuffer as a bitmap.
+		/// <para>
+		/// Control.DrawToBitmap does not work on this panel. It asks the control to paint
+		/// itself through GDI, which produces nothing here because the scene exists only in
+		/// the OpenGL framebuffer, so what came back was an empty image.
+		/// </para>
+		/// </summary>
+		/// <returns>The rendered frame, or null when there is no drawable surface to read.</returns>
+		public Bitmap CaptureFrame()
+		{
+			if (Width <= 0 || Height <= 0)
+				return null;
+
+			try { MakeCurrent(); }
+			catch (Exception ex) when (ex is InvalidOperationException || ex is ObjectDisposedException)
+			{
+				return null;
+			}
+
+			if (!_glLoaded)
+				InitGL();
+
+			ResolveCenteredIndex();
+
+			// Draw into the back buffer and read it straight back without swapping, so
+			// capturing does not disturb what the panel is currently showing. The context
+			// is multisampled, which the read resolves down on the way out.
+			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+			RenderScene();
+			GL.Finish();
+
+			Bitmap bmp = new Bitmap(Width, Height, System.Drawing.Imaging.PixelFormat.Format32bppRgb);
+
+			System.Drawing.Imaging.BitmapData data = bmp.LockBits(
+				new Rectangle(0, 0, Width, Height),
+				System.Drawing.Imaging.ImageLockMode.WriteOnly,
+				bmp.PixelFormat);
+
+			try
+			{
+				GL.ReadBuffer(ReadBufferMode.Back);
+				GL.ReadPixels(0, 0, Width, Height, PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
+			}
+			finally
+			{
+				bmp.UnlockBits(data);
+			}
+
+			// OpenGL's first row is the bottom of the image, GDI+ expects it to be the top.
+			bmp.RotateFlip(RotateFlipType.RotateNoneFlipY);
+
+			return bmp;
 		}
 
 		#endregion
