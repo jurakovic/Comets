@@ -452,18 +452,10 @@ void main() {
 			GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
 			GL.Viewport(0, 0, Width, Height);
 
-			int vs = GL.CreateShader(ShaderType.VertexShader);
-			GL.ShaderSource(vs, VertexShaderSource);
-			GL.CompileShader(vs);
+			int vs = CompileShader(ShaderType.VertexShader, VertexShaderSource, "scene vertex");
+			int fs = CompileShader(ShaderType.FragmentShader, FragmentShaderSource, "scene fragment");
 
-			int fs = GL.CreateShader(ShaderType.FragmentShader);
-			GL.ShaderSource(fs, FragmentShaderSource);
-			GL.CompileShader(fs);
-
-			_shaderProgram = GL.CreateProgram();
-			GL.AttachShader(_shaderProgram, vs);
-			GL.AttachShader(_shaderProgram, fs);
-			GL.LinkProgram(_shaderProgram);
+			_shaderProgram = LinkProgram(vs, fs, "scene");
 			GL.DeleteShader(vs);
 			GL.DeleteShader(fs);
 
@@ -493,18 +485,10 @@ void main() {
 			}
 
 			// Text overlay shader
-			int tvs = GL.CreateShader(ShaderType.VertexShader);
-			GL.ShaderSource(tvs, TextVertexShaderSource);
-			GL.CompileShader(tvs);
+			int tvs = CompileShader(ShaderType.VertexShader, TextVertexShaderSource, "text vertex");
+			int tfs = CompileShader(ShaderType.FragmentShader, TextFragmentShaderSource, "text fragment");
 
-			int tfs = GL.CreateShader(ShaderType.FragmentShader);
-			GL.ShaderSource(tfs, TextFragmentShaderSource);
-			GL.CompileShader(tfs);
-
-			_textShaderProgram = GL.CreateProgram();
-			GL.AttachShader(_textShaderProgram, tvs);
-			GL.AttachShader(_textShaderProgram, tfs);
-			GL.LinkProgram(_textShaderProgram);
+			_textShaderProgram = LinkProgram(tvs, tfs, "text");
 			GL.DeleteShader(tvs);
 			GL.DeleteShader(tfs);
 
@@ -542,6 +526,65 @@ void main() {
 
 			_glLoaded = true;
 			_planetVbosNeedUpdate = true;
+		}
+
+		/// <summary>
+		/// Compiles a single shader stage and throws when the driver rejects it.
+		/// <para>
+		/// Without this check a compile failure is silent: the program still links to a
+		/// non-zero id on some drivers and the panel simply renders black, which is hard
+		/// to tell apart from an empty scene. The driver info log is included in the
+		/// exception message so the failing stage and line can be identified.
+		/// </para>
+		/// </summary>
+		/// <param name="type">Shader stage to compile.</param>
+		/// <param name="source">GLSL source for the stage.</param>
+		/// <param name="name">Human readable stage name used in the error message.</param>
+		/// <returns>The compiled shader id.</returns>
+		private static int CompileShader(ShaderType type, string source, string name)
+		{
+			int shader = GL.CreateShader(type);
+			GL.ShaderSource(shader, source);
+			GL.CompileShader(shader);
+			GL.GetShader(shader, ShaderParameter.CompileStatus, out int status);
+
+			if (status == 0)
+			{
+				string log = GL.GetShaderInfoLog(shader);
+				GL.DeleteShader(shader);
+				throw new InvalidOperationException($"Failed to compile {name} shader: {log}");
+			}
+
+			return shader;
+		}
+
+		/// <summary>
+		/// Links a vertex and fragment shader into a program and throws when linking fails.
+		/// </summary>
+		/// <param name="vertexShader">Compiled vertex shader id.</param>
+		/// <param name="fragmentShader">Compiled fragment shader id.</param>
+		/// <param name="name">Human readable program name used in the error message.</param>
+		/// <returns>The linked program id.</returns>
+		private static int LinkProgram(int vertexShader, int fragmentShader, string name)
+		{
+			int program = GL.CreateProgram();
+			GL.AttachShader(program, vertexShader);
+			GL.AttachShader(program, fragmentShader);
+			GL.LinkProgram(program);
+			GL.GetProgram(program, GetProgramParameterName.LinkStatus, out int status);
+
+			// Detach before the caller deletes the shaders so the program keeps no reference.
+			GL.DetachShader(program, vertexShader);
+			GL.DetachShader(program, fragmentShader);
+
+			if (status == 0)
+			{
+				string log = GL.GetProgramInfoLog(program);
+				GL.DeleteProgram(program);
+				throw new InvalidOperationException($"Failed to link {name} shader program: {log}");
+			}
+
+			return program;
 		}
 
 		private void UploadOrbitsToGpu()
