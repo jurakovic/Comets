@@ -34,15 +34,6 @@ namespace Comets.Application.OrbitViewer.Controls
 
 		#endregion
 
-		#region Public
-
-		public void SetGridExtent(double extent)
-		{
-			txtGridExtent.Text = extent.ToString("G", CultureInfo.InvariantCulture);
-		}
-
-		#endregion
-
 		#region EventHandling
 
 		private void cbxShowAxes_CheckedChanged(object sender, EventArgs e)
