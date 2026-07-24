@@ -974,15 +974,7 @@ namespace Comets.Application.OrbitViewer
 				return false;
 
 			_heldDirections |= direction;
-
-			// Auto-repeat keeps delivering key presses while the key is down. The set
-			// already holds the direction by then, and restarting the clock on each of
-			// those would discard the time since the last frame.
-			if (!NavigationTimer.Enabled)
-			{
-				_navigationClock.Restart();
-				NavigationTimer.Start();
-			}
+			ResumeNavigation();
 
 			return true;
 		}
@@ -996,18 +988,49 @@ namespace Comets.Application.OrbitViewer
 		}
 
 		/// <summary>
-		/// Drops every held direction and stops the navigation timer.
+		/// Runs the navigation timer if any direction is held and the pointer is over the
+		/// panel. Does nothing when it is already running, so the auto-repeat presses that
+		/// arrive while a key is down cannot restart the clock and discard the time since
+		/// the last frame.
+		/// </summary>
+		private void ResumeNavigation()
+		{
+			if (NavigationTimer.Enabled || _heldDirections == NavDirection.None || !IsKeyboardNavigation)
+				return;
+
+			_navigationClock.Restart();
+			NavigationTimer.Start();
+		}
+
+		/// <summary>
+		/// Halts camera movement but remembers which directions are held, so all of them
+		/// resume together once the pointer is back over the panel.
 		/// <para>
-		/// Needed wherever the control can stop receiving key events while a key is still
-		/// down - the pointer leaving the panel, or the window being deactivated - since
-		/// the key release is then delivered elsewhere and the camera would move forever.
+		/// Dropping them instead would leave the keys that are still down unrecoverable:
+		/// Windows auto-repeats only the most recently pressed key, so that one press
+		/// keeps arriving and re-registers itself while any other held key stays silent.
+		/// </para>
+		/// </summary>
+		private void PauseNavigation()
+		{
+			NavigationTimer.Stop();
+			_navigationClock.Stop();
+		}
+
+		/// <summary>
+		/// Drops every held direction and halts camera movement.
+		/// <para>
+		/// Needed where the key release will not be seen at all, which is the window losing
+		/// focus - the release then goes to whatever took the focus, and the camera would
+		/// carry on moving on a key nobody is holding. The pointer leaving the panel is not
+		/// such a case: keyboard focus stays put, so the release still arrives and clears
+		/// its own direction, and that path only needs <see cref="PauseNavigation"/>.
 		/// </para>
 		/// </summary>
 		public void StopNavigation()
 		{
 			_heldDirections = NavDirection.None;
-			NavigationTimer.Stop();
-			_navigationClock.Stop();
+			PauseNavigation();
 		}
 
 		private void navigationTimer_Tick(object sender, EventArgs e)
@@ -1054,6 +1077,9 @@ namespace Comets.Application.OrbitViewer
 		{
 			IsMouseWheelZoom = true;
 			IsKeyboardNavigation = true;
+
+			// Pick up any direction still held from before the pointer left.
+			ResumeNavigation();
 		}
 
 		private void orbitPanel_MouseDown(object sender, MouseEventArgs e)
@@ -1067,9 +1093,10 @@ namespace Comets.Application.OrbitViewer
 			IsMouseWheelZoom = false;
 			IsKeyboardNavigation = false;
 
-			// Keyboard navigation only applies while the pointer is over the panel, so a
-			// direction held as the pointer leaves would otherwise never be released.
-			StopNavigation();
+			// Keyboard navigation only applies while the pointer is over the panel. The
+			// held directions are kept rather than dropped, so moving back over the panel
+			// resumes every key that is still down.
+			PauseNavigation();
 		}
 
 		private void orbitPanel_MouseClick(object sender, MouseEventArgs e)
