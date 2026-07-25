@@ -32,6 +32,7 @@ namespace Comets.Application.OrbitViewer.Controls
 			this.lblExtent = new System.Windows.Forms.Label();
 			this.txtGridExtent = new System.Windows.Forms.TextBox();
 			this.cbxShowAxes = new System.Windows.Forms.CheckBox();
+			this.cbxShowAxesLabels = new System.Windows.Forms.CheckBox();
 			this.cbxShowGrid = new System.Windows.Forms.CheckBox();
 			this.btnSaveImage = new System.Windows.Forms.Button();
 			this.pnlMisc.SuspendLayout();
@@ -41,6 +42,7 @@ namespace Comets.Application.OrbitViewer.Controls
 			//
 			this.pnlMisc.BackColor = System.Drawing.SystemColors.ControlDark;
 			this.pnlMisc.Controls.Add(this.cbxShowAxes);
+			this.pnlMisc.Controls.Add(this.cbxShowAxesLabels);
 			this.pnlMisc.Controls.Add(this.cbxShowGrid);
 			this.pnlMisc.Controls.Add(this.lblExtent);
 			this.pnlMisc.Controls.Add(this.txtGridExtent);
@@ -48,7 +50,7 @@ namespace Comets.Application.OrbitViewer.Controls
 			this.pnlMisc.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pnlMisc.Location = new System.Drawing.Point(0, 0);
 			this.pnlMisc.Name = "pnlMisc";
-			this.pnlMisc.Size = new System.Drawing.Size(173, 100);
+			this.pnlMisc.Size = new System.Drawing.Size(173, 123);
 			this.pnlMisc.TabIndex = 0;
 			//
 			// cbxShowAxes
@@ -62,13 +64,24 @@ namespace Comets.Application.OrbitViewer.Controls
 			this.cbxShowAxes.UseVisualStyleBackColor = true;
 			this.cbxShowAxes.CheckedChanged += this.cbxShowAxes_CheckedChanged;
 			//
+			// cbxShowAxesLabels
+			//
+			this.cbxShowAxesLabels.AutoSize = true;
+			this.cbxShowAxesLabels.Location = new System.Drawing.Point(6, 27);
+			this.cbxShowAxesLabels.Name = "cbxShowAxesLabels";
+			this.cbxShowAxesLabels.Size = new System.Drawing.Size(110, 17);
+			this.cbxShowAxesLabels.TabIndex = 1;
+			this.cbxShowAxesLabels.Text = "Show axes labels";
+			this.cbxShowAxesLabels.UseVisualStyleBackColor = true;
+			this.cbxShowAxesLabels.CheckedChanged += this.cbxShowAxesLabels_CheckedChanged;
+			//
 			// cbxShowGrid
 			//
 			this.cbxShowGrid.AutoSize = true;
-			this.cbxShowGrid.Location = new System.Drawing.Point(6, 27);
+			this.cbxShowGrid.Location = new System.Drawing.Point(6, 50);
 			this.cbxShowGrid.Name = "cbxShowGrid";
 			this.cbxShowGrid.Size = new System.Drawing.Size(72, 17);
-			this.cbxShowGrid.TabIndex = 1;
+			this.cbxShowGrid.TabIndex = 2;
 			this.cbxShowGrid.Text = "Show grid";
 			this.cbxShowGrid.UseVisualStyleBackColor = true;
 			this.cbxShowGrid.CheckedChanged += this.cbxShowGrid_CheckedChanged;
@@ -76,30 +89,29 @@ namespace Comets.Application.OrbitViewer.Controls
 			// lblExtent
 			//
 			this.lblExtent.AutoSize = true;
-			this.lblExtent.Location = new System.Drawing.Point(6, 53);
+			this.lblExtent.Location = new System.Drawing.Point(6, 76);
 			this.lblExtent.Name = "lblExtent";
 			this.lblExtent.Text = "Extent";
 			//
 			// txtGridExtent
 			//
 			this.txtGridExtent.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-			this.txtGridExtent.Location = new System.Drawing.Point(129, 50);
+			this.txtGridExtent.Location = new System.Drawing.Point(129, 73);
 			this.txtGridExtent.Name = "txtGridExtent";
 			this.txtGridExtent.Size = new System.Drawing.Size(40, 20);
-			this.txtGridExtent.TabIndex = 2;
+			this.txtGridExtent.TabIndex = 3;
 			this.txtGridExtent.Text = "150";
 			this.txtGridExtent.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.txtGridExtent.TextChanged += this.txtGridExtent_TextChanged;
 			this.txtGridExtent.KeyDown += this.txtGridExtent_KeyDown;
 			this.txtGridExtent.KeyPress += this.txtGridExtent_KeyPress;
 			this.txtGridExtent.Leave += this.txtGridExtent_Leave;
 			//
 			// btnSaveImage
 			//
-			this.btnSaveImage.Location = new System.Drawing.Point(4, 73);
+			this.btnSaveImage.Location = new System.Drawing.Point(4, 96);
 			this.btnSaveImage.Name = "btnSaveImage";
 			this.btnSaveImage.Size = new System.Drawing.Size(165, 23);
-			this.btnSaveImage.TabIndex = 3;
+			this.btnSaveImage.TabIndex = 4;
 			this.btnSaveImage.Text = "Save image";
 			this.btnSaveImage.UseVisualStyleBackColor = true;
 			this.btnSaveImage.Click += this.btnSaveImage_Click;
@@ -111,7 +123,7 @@ namespace Comets.Application.OrbitViewer.Controls
 			this.Controls.Add(this.pnlMisc);
 			this.Font = new System.Drawing.Font("Tahoma", 8.25F);
 			this.Name = "MiscControl";
-			this.Size = new System.Drawing.Size(173, 100);
+			this.Size = new System.Drawing.Size(173, 123);
 			this.pnlMisc.ResumeLayout(false);
 			this.pnlMisc.PerformLayout();
 			this.ResumeLayout(false);
@@ -121,6 +133,7 @@ namespace Comets.Application.OrbitViewer.Controls
 
 		private System.Windows.Forms.Panel pnlMisc;
 		private System.Windows.Forms.CheckBox cbxShowAxes;
+		private System.Windows.Forms.CheckBox cbxShowAxesLabels;
 		private System.Windows.Forms.CheckBox cbxShowGrid;
 		private System.Windows.Forms.Label lblExtent;
 		private System.Windows.Forms.TextBox txtGridExtent;

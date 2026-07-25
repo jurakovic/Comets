@@ -4,10 +4,12 @@ using Comets.Core.Extensions;
 using Comets.Core.Managers;
 using Comets.OrbitViewer;
 using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Object = Comets.OrbitViewer.Object;
 using SimulationEvent = Comets.Application.OrbitViewer.Controls.SimulationControl.SimulationEvent;
@@ -19,23 +21,102 @@ namespace Comets.Application.OrbitViewer
 	{
 		#region Consts
 
-		const double DefaultRotateVert = 70.0;   // 90 - DefaultScrollVert(20)
-		const double DefaultRotateHorz = 15.0;   // 90 - DefaultScrollHorz(75)
+		const double DefaultRotateVert = 70.0;   // from top-down, so 20 above the ecliptic plane
+		const double DefaultRotateHorz = 15.0;   // azimuth about the ecliptic pole
 		const double DefaultZoom       = 100.0;
 		const double ZoomMin           = 1.5;
 		const double ZoomMax           = 5000.0;
+		const double ZoomStepFactor    = 1.15;   // one wheel notch
+
+		/// <summary>
+		/// Camera rotation applied per second while an arrow key is held.
+		/// </summary>
+		private const double RotateDegreesPerSecond = 60.0;
+
+		/// <summary>
+		/// Zoom multiplier applied per second while a zoom key is held. Zoom is geometric,
+		/// so this is raised to the power of the elapsed seconds rather than multiplied by them.
+		/// </summary>
+		private const double ZoomFactorPerSecond = 2.5;
 
 		#endregion
 
 		#region Fields
 
 		private bool IsLeftButtonMoving;
-		private bool IsKeyboardScroll;
+		private bool IsKeyboardNavigation;
 		private bool IsMouseWheelZoom;
 		private Point StartDrag;
 
 		private System.Windows.Forms.Timer Timer;
 		private ATimeSpan TimeStep;
+		private double TimeStepJD;
+
+		/// <summary>
+		/// Interval for the simulation and camera navigation timers, giving roughly 60
+		/// frames per second.
+		/// </summary>
+		private const int TimerIntervalMs = 16;
+
+		/// <summary>
+		/// Tick interval the time step is calibrated against. The step is scaled by the
+		/// elapsed frame time divided by this, so playback speed does not depend on how
+		/// often the timer actually fires.
+		/// </summary>
+		private const double LegacyTimerIntervalMs = 50.0;
+
+		/// <summary>
+		/// Upper bound on the frame time used to advance the simulation or the camera. A
+		/// stall - a modal dialog, a window drag, waking from sleep - would otherwise report
+		/// an elapsed time of seconds and jump forward by many steps at once. Time beyond
+		/// this is dropped, so a stall costs movement instead of causing a leap.
+		/// </summary>
+		private const double MaxFrameMs = 100.0;
+
+		/// <summary>
+		/// Measures real time between frames, so simulation speed does not depend on the
+		/// timer's actual firing rate, which is neither the requested interval nor stable
+		/// under load. See docs/06a-simulation-and-navigation-implementation.md.
+		/// </summary>
+		private readonly Stopwatch _simulationClock = new Stopwatch();
+
+		private DateTime _simulationDateTime;
+
+		/// <summary>
+		/// Ways the keyboard can move the camera. Read as a set, so keys held together
+		/// combine - pressing Left and Up rotates on both axes.
+		/// </summary>
+		[Flags]
+		private enum NavDirection
+		{
+			None        = 0,
+			RotateLeft  = 1,
+			RotateRight = 2,
+			RotateUp    = 4,
+			RotateDown  = 8,
+			ZoomIn      = 16,
+			ZoomOut     = 32,
+		}
+
+		/// <summary>
+		/// Drives camera movement while a navigation key is held, rather than moving the
+		/// camera from the key events themselves, which would inherit the keyboard's
+		/// auto-repeat behaviour.
+		/// </summary>
+		private System.Windows.Forms.Timer NavigationTimer;
+
+		/// <summary>
+		/// Measures real time between navigation frames, so the camera moves at the same
+		/// rate whatever the timer's actual firing rate. See <see cref="_simulationClock"/>.
+		/// </summary>
+		private readonly Stopwatch _navigationClock = new Stopwatch();
+
+		/// <summary>
+		/// True while _simulationDateTime holds the authoritative simulation clock.
+		/// Cleared whenever the date is moved from outside the simulation, which is the
+		/// only case where the accumulator has to be reseeded from the date control.
+		/// </summary>
+		private bool _simulationDateTimeValid;
 
 		private CometCollection Comets;
 		private FilterCollection Filters;
@@ -60,6 +141,18 @@ namespace Comets.Application.OrbitViewer
 				DateTime selectedDateTime;
 				bool isOutOfRange = FormDateTime.RangeDateTime(value, out selectedDateTime);
 				dateTimeControl.SelectedDateTime = selectedDateTime;
+
+				// Clamp the accumulator too, so it never holds a date beyond the supported
+				// range. Left unclamped it drifts further out every time the simulation is
+				// started into the limit, and a later run in the opposite direction is spent
+				// getting back inside the range instead of moving the visible date.
+				if (isOutOfRange)
+					_simulationDateTime = selectedDateTime;
+
+				// Any write that is not the simulation's own tick means the date moved
+				// under the simulation, so the accumulator must be reseeded on resume.
+				if (!ValueChangedInternal)
+					_simulationDateTimeValid = false;
 
 				if (isOutOfRange || (IsSimulationStarted && !ValueChangedInternal))
 					StopSimulation();
@@ -92,8 +185,12 @@ namespace Comets.Application.OrbitViewer
 			InitializeComponent();
 
 			Timer = new System.Windows.Forms.Timer();
-			Timer.Interval = 50;
+			Timer.Interval = TimerIntervalMs;
 			Timer.Tick += new EventHandler(this.timer_Tick);
+
+			NavigationTimer = new System.Windows.Forms.Timer();
+			NavigationTimer.Interval = TimerIntervalMs;
+			NavigationTimer.Tick += new EventHandler(this.navigationTimer_Tick);
 
 			cometControl.OnSelectedCometChanged += LoadSelectedComet;
 			cometControl.OnFilter += FilterComets;
@@ -122,6 +219,7 @@ namespace Comets.Application.OrbitViewer
 			infoLabelsControl.OnShowDateLabelChanged += SetShowDateLabel;
 
 			miscControl.OnShowAxesChanged += SetShowAxes;
+			miscControl.OnShowAxesLabelsChanged += SetShowAxesLabels;
 			miscControl.OnShowGridChanged += SetShowGrid;
 			miscControl.OnGridExtentChanged += SetGridExtent;
 			miscControl.OnSaveImage += Save;
@@ -268,6 +366,7 @@ namespace Comets.Application.OrbitViewer
 				orbitPanel.LoadPanel(cometControl.Comets.ToList(), atime, cometControl.SelectedIndex);
 				modeControl.SetMode(true);
 
+				SetPerihelionDate();
 				SetFormText();
 				RefreshPanel();
 			}
@@ -300,6 +399,9 @@ namespace Comets.Application.OrbitViewer
 				orbitPanel.OrbitDisplay.Add(orbit);
 			else
 				orbitPanel.OrbitDisplay.Remove(orbit);
+
+			if (orbit == Object.Comet)
+				orbitPanel.InvalidateCometVbos();
 		}
 
 		private void ChangeLabelDisplay(bool isChecked, Object orbit)
@@ -372,31 +474,78 @@ namespace Comets.Application.OrbitViewer
 		private void SetTimeStep(ATimeSpan timeStep)
 		{
 			TimeStep = timeStep;
+			TimeStepJD = timeStep.Year * 365.25 + timeStep.Month * (365.25 / 12.0) + timeStep.Day + timeStep.Hour / 24.0;
 		}
 
 		private void timer_Tick(object sender, EventArgs e)
 		{
-			ChangeSimulationDate(IsSimulationForward);
+			double elapsedMs = Math.Min(_simulationClock.Elapsed.TotalMilliseconds, MaxFrameMs);
+			_simulationClock.Restart();
+
+			double deltaDays = TimeStepJD * (elapsedMs / LegacyTimerIntervalMs) * (IsSimulationForward ? 1.0 : -1.0);
+			_simulationDateTime = _simulationDateTime.AddDays(deltaDays);
+
+			ValueChangedInternal = true;
+			SelectedDateTime = _simulationDateTime;
+			ValueChangedInternal = false;
+
+			// Mask fractional time in the display: round to nearest step interval
+			DateTime dt = SelectedDateTime;
+			DateTime displayDateTime;
+			if (TimeStepJD < 1.0)
+			{
+				int stepSeconds = (int)Math.Round(TimeStepJD * 86400);
+				int totalSeconds = dt.Hour * 3600 + dt.Minute * 60 + dt.Second;
+				int roundedSeconds = (int)Math.Round((double)totalSeconds / stepSeconds, MidpointRounding.AwayFromZero) * stepSeconds;
+				displayDateTime = new DateTime(dt.Year, dt.Month, dt.Day, 0, 0, 0, DateTimeKind.Utc).AddSeconds(roundedSeconds);
+			}
+			else
+			{
+				displayDateTime = new DateTime(dt.Year, dt.Month, dt.Day, 0, 0, 0, DateTimeKind.Utc);
+			}
+			dateTimeControl.SelectedDateTime = displayDateTime;
+
+			// Show the same rounded date on the panel. This must stay after the
+			// SelectedDateTime assignment above, whose setter feeds the panel the precise
+			// ATime and clears the override. The setter only invalidates the panel, so the
+			// repaint happens once this handler returns - by then the override is set.
+			orbitPanel.DateLabelOverride = new ATime(displayDateTime, displayDateTime.Timezone());
 		}
 
 		private void ChangeSimulationDate(bool isForward)
 		{
-			ATime atime = orbitPanel.ATime;
+			ATime atime = new ATime(SelectedDateTime, SelectedDateTime.Timezone());
 			atime.ChangeDate(TimeStep, isForward);
 
 			ValueChangedInternal = true;
 			SelectedDateTime = new DateTime(atime.Year, atime.Month, atime.Day, atime.Hour, atime.Minute, atime.Second, DateTimeKind.Utc);
 			ValueChangedInternal = false;
+
+			// Stepping the date is an internal write, but it deliberately moves the clock.
+			_simulationDateTimeValid = false;
 		}
 
 		private void StartSimulation()
 		{
+			// Resume from the accumulator rather than from the date control, which holds
+			// the rounded display value. Reseeding from it would discard up to a full
+			// step of simulation time and visibly jump the panel backwards.
+			if (!_simulationDateTimeValid)
+			{
+				_simulationDateTime = SelectedDateTime;
+				_simulationDateTimeValid = true;
+			}
+
+			// Restart rather than start: the time spent paused must not be applied to the
+			// first frame after resuming.
+			_simulationClock.Restart();
 			Timer.Start();
 		}
 
 		public void StopSimulation()
 		{
 			Timer.Stop();
+			_simulationClock.Stop();
 		}
 
 		private void FasterSimulation()
@@ -435,6 +584,7 @@ namespace Comets.Application.OrbitViewer
 			}
 
 			orbitPanel.UpdateCometVisibility();
+			orbitPanel.InvalidateCometVbos();
 			RefreshPanel();
 		}
 
@@ -467,6 +617,12 @@ namespace Comets.Application.OrbitViewer
 		private void SetShowAxes(bool showAxes)
 		{
 			orbitPanel.ShowAxes = showAxes;
+			RefreshPanel();
+		}
+
+		private void SetShowAxesLabels(bool showAxesLabels)
+		{
+			orbitPanel.ShowAxesLabels = showAxesLabels;
 			RefreshPanel();
 		}
 
@@ -509,8 +665,13 @@ namespace Comets.Application.OrbitViewer
 
 		public void OrbitViewerControl_KeyDown(object sender, KeyEventArgs e)
 		{
+			// The form previews every key press, so whatever is claimed below never reaches
+			// the control that has focus. Let the keys a toolbox textbox needs go past:
+			// Enter would otherwise mark a comet instead of committing the typed value, and
+			// Delete would unmark every comet instead of deleting a digit.
 			if ((filterControl.Focused || miscControl.ContainsFocus)
-				&& e.KeyCode.In(Keys.D1, Keys.D2, Keys.D3, Keys.D4, Keys.D5, Keys.D6, Keys.D7, Keys.D8, Keys.D9, Keys.D0, Keys.Back))
+				&& e.KeyCode.In(Keys.D1, Keys.D2, Keys.D3, Keys.D4, Keys.D5, Keys.D6, Keys.D7, Keys.D8, Keys.D9, Keys.D0,
+					Keys.Back, Keys.Delete, Keys.Enter))
 				return;
 
 			bool handled = false;
@@ -523,56 +684,16 @@ namespace Comets.Application.OrbitViewer
 					handled = false;
 					break;
 				case Keys.Left:
-					if (!ctrl && !shift && IsKeyboardScroll)
-					{
-						orbitPanel.RotateHorz = WrapDegrees(orbitPanel.RotateHorz + 1.0);
-						RefreshPanel();
-						handled = true;
-					}
-					break;
 				case Keys.Right:
-					if (!ctrl && !shift && IsKeyboardScroll)
-					{
-						orbitPanel.RotateHorz = WrapDegrees(orbitPanel.RotateHorz - 1.0);
-						RefreshPanel();
-						handled = true;
-					}
-					break;
-
 				case Keys.Up:
-					if (!ctrl && !shift && IsKeyboardScroll)
-					{
-						orbitPanel.RotateVert = WrapDegrees(orbitPanel.RotateVert + 1.0);
-						RefreshPanel();
-						handled = true;
-					}
-					break;
 				case Keys.Down:
-					if (!ctrl && !shift && IsKeyboardScroll)
-					{
-						orbitPanel.RotateVert = WrapDegrees(orbitPanel.RotateVert - 1.0);
-						RefreshPanel();
-						handled = true;
-					}
-					break;
-
 				case Keys.Add:
 				case Keys.Q:
-					if (!ctrl && !shift && IsKeyboardScroll)
-					{
-						orbitPanel.Zoom = Math.Clamp(orbitPanel.Zoom + 10.0, ZoomMin, ZoomMax);
-						RefreshPanel();
-						handled = true;
-					}
-					break;
 				case Keys.Subtract:
 				case Keys.A:
-					if (!ctrl && !shift && IsKeyboardScroll)
-					{
-						orbitPanel.Zoom = Math.Clamp(orbitPanel.Zoom - 10.0, ZoomMin, ZoomMax);
-						RefreshPanel();
-						handled = true;
-					}
+					// Which direction the key means is not recorded here: the navigation
+					// timer reads the keyboard itself. The press only has to start it.
+					handled = BeginNavigation(ctrl, shift);
 					break;
 
 				case Keys.D1:
@@ -793,12 +914,138 @@ namespace Comets.Application.OrbitViewer
 
 		#endregion
 
+		#region Camera navigation
+
+		/// <summary>
+		/// Starts the navigation timer for a key press that should move the camera.
+		/// </summary>
+		/// <returns>
+		/// True when the key was consumed, so the caller can mark it handled and keep the
+		/// arrows from moving focus between the toolbox controls.
+		/// </returns>
+		private bool BeginNavigation(bool ctrl, bool shift)
+		{
+			if (ctrl || shift || !IsKeyboardNavigation)
+				return false;
+
+			StartNavigation();
+
+			return true;
+		}
+
+		/// <summary>
+		/// Runs the navigation timer. Does nothing when it is already running, so the
+		/// auto-repeat presses that arrive while a key is down cannot restart the clock
+		/// and discard the time since the last frame.
+		/// </summary>
+		private void StartNavigation()
+		{
+			if (NavigationTimer.Enabled)
+				return;
+
+			_navigationClock.Restart();
+			NavigationTimer.Start();
+		}
+
+		/// <summary>
+		/// Halts camera movement. Nothing is remembered, because the timer derives the held
+		/// keys from the keyboard on every frame rather than from a set kept up to date here.
+		/// </summary>
+		private void StopNavigation()
+		{
+			NavigationTimer.Stop();
+			_navigationClock.Stop();
+		}
+
+		/// <summary>
+		/// Reads which navigation keys are physically down right now. Polled rather than
+		/// tracked through key events, which cannot report this reliably — see
+		/// docs/06a-simulation-and-navigation-implementation.md.
+		/// </summary>
+		private static NavDirection ReadHeldDirections()
+		{
+			NavDirection held = NavDirection.None;
+
+			if (IsKeyDown(Keys.Left)) held |= NavDirection.RotateLeft;
+			if (IsKeyDown(Keys.Right)) held |= NavDirection.RotateRight;
+			if (IsKeyDown(Keys.Up)) held |= NavDirection.RotateUp;
+			if (IsKeyDown(Keys.Down)) held |= NavDirection.RotateDown;
+			if (IsKeyDown(Keys.Add) || IsKeyDown(Keys.Q)) held |= NavDirection.ZoomIn;
+			if (IsKeyDown(Keys.Subtract) || IsKeyDown(Keys.A)) held |= NavDirection.ZoomOut;
+
+			return held;
+		}
+
+		private static bool IsKeyDown(Keys key)
+		{
+			// The high bit is the one that reports the key as currently down. The low bit
+			// means "pressed since the last call", which is not wanted here.
+			return (GetAsyncKeyState((int)key) & 0x8000) != 0;
+		}
+
+		[DllImport("user32.dll")]
+		private static extern short GetAsyncKeyState(int vKey);
+
+		private void navigationTimer_Tick(object sender, EventArgs e)
+		{
+			NavDirection held = ReadHeldDirections();
+
+			// Movement is gated on the keys alone, not on the window having focus, so it
+			// carries on while the application sits in the background and ends when the
+			// last key comes up wherever that happens.
+			if (held == NavDirection.None)
+			{
+				StopNavigation();
+				return;
+			}
+
+			double elapsedMs = Math.Min(_navigationClock.Elapsed.TotalMilliseconds, MaxFrameMs);
+			_navigationClock.Restart();
+
+			double seconds = elapsedMs / 1000.0;
+			double degrees = RotateDegreesPerSecond * seconds;
+
+			double horz = 0.0;
+			double vert = 0.0;
+
+			if (held.HasFlag(NavDirection.RotateLeft)) horz += degrees;
+			if (held.HasFlag(NavDirection.RotateRight)) horz -= degrees;
+			if (held.HasFlag(NavDirection.RotateUp)) vert += degrees;
+			if (held.HasFlag(NavDirection.RotateDown)) vert -= degrees;
+
+			if (horz != 0.0)
+				orbitPanel.RotateHorz = WrapDegrees(orbitPanel.RotateHorz + horz);
+
+			if (vert != 0.0)
+				orbitPanel.RotateVert = WrapDegrees(orbitPanel.RotateVert + vert);
+
+			int zoomSign = 0;
+
+			if (held.HasFlag(NavDirection.ZoomIn)) zoomSign += 1;
+			if (held.HasFlag(NavDirection.ZoomOut)) zoomSign -= 1;
+
+			if (zoomSign != 0)
+			{
+				double factor = Math.Pow(ZoomFactorPerSecond, zoomSign * seconds);
+				orbitPanel.Zoom = Math.Clamp(orbitPanel.Zoom * factor, ZoomMin, ZoomMax);
+			}
+
+			RefreshPanel();
+		}
+
+		#endregion
+
 		#region Mouse Controls
 
 		private void orbitPanel_MouseEnter(object sender, EventArgs e)
 		{
 			IsMouseWheelZoom = true;
-			IsKeyboardScroll = true;
+			IsKeyboardNavigation = true;
+
+			// Pick up any key still held from before the pointer left. Waiting for the next
+			// press would resume only the key Windows is auto-repeating, losing any other.
+			if (ReadHeldDirections() != NavDirection.None)
+				StartNavigation();
 		}
 
 		private void orbitPanel_MouseDown(object sender, MouseEventArgs e)
@@ -810,7 +1057,10 @@ namespace Comets.Application.OrbitViewer
 		private void orbitPanel_MouseLeave(object sender, EventArgs e)
 		{
 			IsMouseWheelZoom = false;
-			IsKeyboardScroll = false;
+			IsKeyboardNavigation = false;
+
+			// Keyboard navigation only applies while the pointer is over the panel.
+			StopNavigation();
 		}
 
 		private void orbitPanel_MouseClick(object sender, MouseEventArgs e)
@@ -856,7 +1106,7 @@ namespace Comets.Application.OrbitViewer
 		{
 			if (IsMouseWheelZoom)
 			{
-				double factor = e.Delta > 0 ? 1.15 : 1.0 / 1.15;
+				double factor = e.Delta > 0 ? ZoomStepFactor : 1.0 / ZoomStepFactor;
 				orbitPanel.Zoom = Math.Clamp(orbitPanel.Zoom * factor, ZoomMin, ZoomMax);
 				RefreshPanel();
 			}
@@ -881,6 +1131,24 @@ namespace Comets.Application.OrbitViewer
 		}
 
 		public void Save()
+		{
+			// Capture before the dialog goes up, not after it is dismissed. A modal dialog
+			// runs its own message loop, which keeps delivering the simulation timer's
+			// ticks, so the scene carries on moving for as long as the dialog is open and
+			// a later capture would save a moment the user never asked for.
+			using (Bitmap bmp = this.orbitPanel.CaptureFrame())
+			{
+				if (bmp == null)
+				{
+					MessageBox.Show("The orbit panel could not be captured.\t\t\t", "Comets", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					return;
+				}
+
+				SaveCapturedImage(bmp);
+			}
+		}
+
+		private void SaveCapturedImage(Bitmap bmp)
 		{
 			using (SaveFileDialog sfd = new SaveFileDialog())
 			{
@@ -914,9 +1182,8 @@ namespace Comets.Application.OrbitViewer
 							break;
 					}
 
-					Bitmap bmp = new Bitmap(this.orbitPanel.Width, this.orbitPanel.Height);
-					this.orbitPanel.DrawToBitmap(bmp, this.orbitPanel.DisplayRectangle);
 					bmp.Save(sfd.FileName, format);
+
 					CommonManager.Settings.LastUsedExportDirectory = Path.GetDirectoryName(sfd.FileName);
 					MessageBox.Show(String.Format("Orbit saved as {0}\t\t\t", sfd.FileName), "Comets", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				}

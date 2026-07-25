@@ -50,11 +50,16 @@ namespace Comets.OrbitViewer
 #version 330 core
 layout (location = 0) in vec3 aPos;
 uniform mat4 uMVP;
+// Equatorial J2000 -> ecliptic-of-date rotation. Identity for geometry that is
+// already in ecliptic coordinates; set to MtxToEcl for comet orbits, whose
+// vertices are uploaded unrotated so they survive a change of date.
+uniform mat4 uEcl;
 out float vZ;
 void main()
 {
-    vZ = aPos.z;
-    gl_Position = uMVP * vec4(aPos, 1.0);
+    vec4 pos = uEcl * vec4(aPos, 1.0);
+    vZ = pos.z; // above/below the ecliptic, so it must come from the rotated position
+    gl_Position = uMVP * pos;
 }";
 
 		private const string FragmentShaderSource = @"
@@ -150,7 +155,10 @@ void main() {
 		private bool _glLoaded = false;
 		private int _shaderProgram = 0;
 		private int _uMVP;
+		private int _uEcl;
 		private Matrix4 _mvp;
+		private Matrix4 _eclMatrix = Matrix4.Identity;
+		private Matrix4 _identityMatrix = Matrix4.Identity;
 		private Matrix4 _view;
 		private float _orthoHalfH;
 		private int _uColorUpper;
@@ -160,8 +168,14 @@ void main() {
 		private int _bodyVbo = 0;
 		private Dictionary<Object, (int vao, int vbo, int count)> _planetOrbitBuffers;
 		private Dictionary<int, (int vao, int vbo, int count)> _cometOrbitBuffers = new Dictionary<int, (int, int, int)>();
-		private bool _vbosNeedUpdate = false;
+		private bool _planetVbosNeedUpdate = false;
 		private bool _cometVbosDirty = false;
+
+		private int _cometBatchVao = 0;
+		private int _cometBatchVbo = 0;
+		private int[] _cometBatchStarts = Array.Empty<int>();
+		private int[] _cometBatchCounts = Array.Empty<int>();
+		private int _cometBatchDrawCount = 0;
 
 		// Text overlay
 		private int _textShaderProgram = 0;
@@ -195,9 +209,26 @@ void main() {
 			set
 			{
 				this._atime = value;
-				UpdatePositions(ATime);
+				this.DateLabelOverride = null;
+				UpdatePositions(value);
+				UpdatePlanetOrbit(value);
+				UpdateRotationMatrix(value);
 			}
 		}
+
+		/// <summary>
+		/// Date shown in the panel's date label instead of <see cref="ATime"/>.
+		/// <para>
+		/// During simulation the panel advances by a fraction of the time step on every
+		/// frame, so ATime carries a time-of-day that is not on a step boundary. Setting
+		/// this to the rounded date keeps the label steady while the rendered positions
+		/// stay at full precision. Cleared automatically whenever ATime is assigned, so
+		/// a date set by the user is always shown exactly.
+		/// </para>
+		/// </summary>
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public ATime DateLabelOverride { get; set; }
 
 		private bool _multipleMode;
 
@@ -269,6 +300,14 @@ void main() {
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public bool ShowAxes { get; set; }
+
+		/// <summary>
+		/// Whether the axis ends are named on screen. The names sit at the ends of the axis
+		/// lines, so they are drawn only when <see cref="ShowAxes"/> is on as well.
+		/// </summary>
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public bool ShowAxesLabels { get; set; }
 
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -349,8 +388,6 @@ void main() {
 			SelectedIndex = Comets.IndexOf(comet);
 
 			ATime = atime;
-			UpdatePlanetOrbit(atime);
-			UpdateRotationMatrix(atime);
 			_cometVbosDirty = true;
 		}
 
@@ -371,8 +408,6 @@ void main() {
 					c.IsMarked = false;
 
 			ATime = atime;
-			UpdatePlanetOrbit(atime);
-			UpdateRotationMatrix(atime);
 			_cometVbosDirty = true;
 		}
 
@@ -388,17 +423,25 @@ void main() {
 			if (!_glLoaded)
 				InitGL();
 
-			// Resolve CenteredIndex for camera target centering
-			if (CenteredObject != Object.Comet)
-				CenteredIndex = -1;
-
-			if (IsPaintEnabled && MtxToEcl != null && CenteredObject == Object.Comet && CenteredIndex == -1)
-				CenteredIndex = SelectedIndex;
+			ResolveCenteredIndex();
 
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 			RenderScene();
 			SwapBuffers();
 			UpdateCometPanelLocations();
+		}
+
+		/// <summary>
+		/// Resolves CenteredIndex for camera target centering. Runs before every render,
+		/// whether the frame is going to the screen or to a captured bitmap.
+		/// </summary>
+		private void ResolveCenteredIndex()
+		{
+			if (CenteredObject != Object.Comet)
+				CenteredIndex = -1;
+
+			if (IsPaintEnabled && MtxToEcl != null && CenteredObject == Object.Comet && CenteredIndex == -1)
+				CenteredIndex = SelectedIndex;
 		}
 
 		protected override void OnResize(EventArgs e)
@@ -409,6 +452,127 @@ void main() {
 				MakeCurrent();
 				GL.Viewport(0, 0, Width, Height);
 			}
+		}
+
+		#endregion
+
+		#region CaptureFrame
+
+		/// <summary>
+		/// Renders a frame and reads it back from the framebuffer as a bitmap.
+		/// Control.DrawToBitmap cannot be used here — see
+		/// docs/02b-opengl-true-3d-implementation.md.
+		/// </summary>
+		/// <returns>The rendered frame, or null when there is no drawable surface to read.</returns>
+		public Bitmap CaptureFrame()
+		{
+			if (Width <= 0 || Height <= 0)
+				return null;
+
+			try { MakeCurrent(); }
+			catch (Exception ex) when (ex is InvalidOperationException || ex is ObjectDisposedException)
+			{
+				return null;
+			}
+
+			if (!_glLoaded)
+				InitGL();
+
+			ResolveCenteredIndex();
+
+			// Draw into the back buffer and read it straight back without swapping, so
+			// capturing does not disturb what the panel is currently showing. The context
+			// is multisampled, which the read resolves down on the way out.
+			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+			RenderScene();
+			GL.Finish();
+
+			Bitmap bmp = new Bitmap(Width, Height, System.Drawing.Imaging.PixelFormat.Format32bppRgb);
+
+			System.Drawing.Imaging.BitmapData data = bmp.LockBits(
+				new Rectangle(0, 0, Width, Height),
+				System.Drawing.Imaging.ImageLockMode.WriteOnly,
+				bmp.PixelFormat);
+
+			try
+			{
+				GL.ReadBuffer(ReadBufferMode.Back);
+				GL.ReadPixels(0, 0, Width, Height, PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
+			}
+			finally
+			{
+				bmp.UnlockBits(data);
+			}
+
+			// OpenGL's first row is the bottom of the image, GDI+ expects it to be the top.
+			bmp.RotateFlip(RotateFlipType.RotateNoneFlipY);
+
+			return bmp;
+		}
+
+		#endregion
+
+		#region Dispose
+
+		/// <summary>
+		/// Releases the GL objects allocated by <see cref="InitGL"/> and
+		/// <see cref="UploadOrbitsToGpu"/> before the control's context goes away.
+		/// </summary>
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && _glLoaded)
+			{
+				// Deleting names requires the owning context to be current. If it cannot be
+				// made current the context is already gone, which frees the objects anyway.
+				try
+				{
+					MakeCurrent();
+
+					if (_shaderProgram != 0) GL.DeleteProgram(_shaderProgram);
+					if (_textShaderProgram != 0) GL.DeleteProgram(_textShaderProgram);
+
+					if (_bodyVao != 0) GL.DeleteVertexArray(_bodyVao);
+					if (_bodyVbo != 0) GL.DeleteBuffer(_bodyVbo);
+
+					if (_cometBatchVao != 0) GL.DeleteVertexArray(_cometBatchVao);
+					if (_cometBatchVbo != 0) GL.DeleteBuffer(_cometBatchVbo);
+
+					if (_textQuadVao != 0) GL.DeleteVertexArray(_textQuadVao);
+					if (_textQuadVbo != 0) GL.DeleteBuffer(_textQuadVbo);
+					if (_textTex != 0) GL.DeleteTexture(_textTex);
+
+					if (_planetOrbitBuffers != null)
+						foreach (var (vao, vbo, _) in _planetOrbitBuffers.Values)
+							DeleteOrbitBuffer(vao, vbo);
+
+					foreach (var (vao, vbo, _) in _cometOrbitBuffers.Values)
+						DeleteOrbitBuffer(vao, vbo);
+				}
+				catch (Exception ex) when (ex is InvalidOperationException || ex is ObjectDisposedException)
+				{
+				}
+
+				_shaderProgram = 0;
+				_textShaderProgram = 0;
+				_bodyVao = 0;
+				_bodyVbo = 0;
+				_cometBatchVao = 0;
+				_cometBatchVbo = 0;
+				_textQuadVao = 0;
+				_textQuadVbo = 0;
+				_textTex = 0;
+				_planetOrbitBuffers?.Clear();
+				_cometOrbitBuffers.Clear();
+				_glLoaded = false;
+			}
+
+			base.Dispose(disposing);
+		}
+
+		private static void DeleteOrbitBuffer(int vao, int vbo)
+		{
+			if (vao != 0) GL.DeleteVertexArray(vao);
+			if (vbo != 0) GL.DeleteBuffer(vbo);
 		}
 
 		#endregion
@@ -425,22 +589,15 @@ void main() {
 			GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
 			GL.Viewport(0, 0, Width, Height);
 
-			int vs = GL.CreateShader(ShaderType.VertexShader);
-			GL.ShaderSource(vs, VertexShaderSource);
-			GL.CompileShader(vs);
+			int vs = CompileShader(ShaderType.VertexShader, VertexShaderSource, "scene vertex");
+			int fs = CompileShader(ShaderType.FragmentShader, FragmentShaderSource, "scene fragment");
 
-			int fs = GL.CreateShader(ShaderType.FragmentShader);
-			GL.ShaderSource(fs, FragmentShaderSource);
-			GL.CompileShader(fs);
-
-			_shaderProgram = GL.CreateProgram();
-			GL.AttachShader(_shaderProgram, vs);
-			GL.AttachShader(_shaderProgram, fs);
-			GL.LinkProgram(_shaderProgram);
+			_shaderProgram = LinkProgram(vs, fs, "scene");
 			GL.DeleteShader(vs);
 			GL.DeleteShader(fs);
 
 			_uMVP = GL.GetUniformLocation(_shaderProgram, "uMVP");
+			_uEcl = GL.GetUniformLocation(_shaderProgram, "uEcl");
 			_uColorUpper = GL.GetUniformLocation(_shaderProgram, "uColorUpper");
 			_uColorLower = GL.GetUniformLocation(_shaderProgram, "uColorLower");
 			_uMode = GL.GetUniformLocation(_shaderProgram, "uMode");
@@ -465,18 +622,10 @@ void main() {
 			}
 
 			// Text overlay shader
-			int tvs = GL.CreateShader(ShaderType.VertexShader);
-			GL.ShaderSource(tvs, TextVertexShaderSource);
-			GL.CompileShader(tvs);
+			int tvs = CompileShader(ShaderType.VertexShader, TextVertexShaderSource, "text vertex");
+			int tfs = CompileShader(ShaderType.FragmentShader, TextFragmentShaderSource, "text fragment");
 
-			int tfs = GL.CreateShader(ShaderType.FragmentShader);
-			GL.ShaderSource(tfs, TextFragmentShaderSource);
-			GL.CompileShader(tfs);
-
-			_textShaderProgram = GL.CreateProgram();
-			GL.AttachShader(_textShaderProgram, tvs);
-			GL.AttachShader(_textShaderProgram, tfs);
-			GL.LinkProgram(_textShaderProgram);
+			_textShaderProgram = LinkProgram(tvs, tfs, "text");
 			GL.DeleteShader(tvs);
 			GL.DeleteShader(tfs);
 
@@ -513,20 +662,74 @@ void main() {
 			GL.BindTexture(TextureTarget.Texture2D, 0);
 
 			_glLoaded = true;
-			_vbosNeedUpdate = true;
+			_planetVbosNeedUpdate = true;
+		}
+
+		/// <summary>
+		/// Compiles a single shader stage and throws when the driver rejects it, with the
+		/// driver info log in the exception message.
+		/// </summary>
+		/// <param name="type">Shader stage to compile.</param>
+		/// <param name="source">GLSL source for the stage.</param>
+		/// <param name="name">Human readable stage name used in the error message.</param>
+		/// <returns>The compiled shader id.</returns>
+		private static int CompileShader(ShaderType type, string source, string name)
+		{
+			int shader = GL.CreateShader(type);
+			GL.ShaderSource(shader, source);
+			GL.CompileShader(shader);
+			GL.GetShader(shader, ShaderParameter.CompileStatus, out int status);
+
+			if (status == 0)
+			{
+				string log = GL.GetShaderInfoLog(shader);
+				GL.DeleteShader(shader);
+				throw new InvalidOperationException($"Failed to compile {name} shader: {log}");
+			}
+
+			return shader;
+		}
+
+		/// <summary>
+		/// Links a vertex and fragment shader into a program and throws when linking fails.
+		/// </summary>
+		/// <param name="vertexShader">Compiled vertex shader id.</param>
+		/// <param name="fragmentShader">Compiled fragment shader id.</param>
+		/// <param name="name">Human readable program name used in the error message.</param>
+		/// <returns>The linked program id.</returns>
+		private static int LinkProgram(int vertexShader, int fragmentShader, string name)
+		{
+			int program = GL.CreateProgram();
+			GL.AttachShader(program, vertexShader);
+			GL.AttachShader(program, fragmentShader);
+			GL.LinkProgram(program);
+			GL.GetProgram(program, GetProgramParameterName.LinkStatus, out int status);
+
+			// Detach before the caller deletes the shaders so the program keeps no reference.
+			GL.DetachShader(program, vertexShader);
+			GL.DetachShader(program, fragmentShader);
+
+			if (status == 0)
+			{
+				string log = GL.GetProgramInfoLog(program);
+				GL.DeleteProgram(program);
+				throw new InvalidOperationException($"Failed to link {name} shader program: {log}");
+			}
+
+			return program;
 		}
 
 		private void UploadOrbitsToGpu()
 		{
 			if (MtxToEcl == null || !IsPaintEnabled)
 			{
-				_vbosNeedUpdate = false;
+				_planetVbosNeedUpdate = false;
 				_cometVbosDirty = false;
 				return;
 			}
 
-			// Re-upload planet VBOs when rotation matrix or planet elements changed.
-			if (_vbosNeedUpdate)
+			// Planet VBOs: rebuild when date or rotation matrix changed (8 planets, fast).
+			if (_planetVbosNeedUpdate)
 			{
 				foreach (Object planet in Planets)
 				{
@@ -559,70 +762,138 @@ void main() {
 				}
 			}
 
-			// Determine which comet indices need VBOs (selected + marked).
-			var required = new HashSet<int>();
-			if (PreserveSelectedOrbit && SelectedIndex >= 0 && SelectedIndex < Comets.Count)
-				required.Add(SelectedIndex);
-			for (int i = 0; i < Comets.Count; i++)
-				if (Comets[i].IsMarked) required.Add(i);
-
-			// Delete VBOs for comets no longer needed.
-			foreach (int key in _cometOrbitBuffers.Keys.ToList())
+			// Comet VBOs: only rebuild when the comet set or its visibility changes.
+			// Vertices are stored unrotated (equatorial J2000) and rotated in the shader,
+			// so a change of date never invalidates them.
+			if (_cometVbosDirty)
 			{
-				if (!required.Contains(key))
-				{
-					var (vao, vbo, _) = _cometOrbitBuffers[key];
-					if (vao != 0) GL.DeleteVertexArray(vao);
-					if (vbo != 0) GL.DeleteBuffer(vbo);
-					_cometOrbitBuffers.Remove(key);
-				}
-			}
+				// Individual VBOs for selected comet and marked comets (small count, special colors).
+				var required = new HashSet<int>();
+				if (PreserveSelectedOrbit && SelectedIndex >= 0 && SelectedIndex < Comets.Count)
+					required.Add(SelectedIndex);
+				for (int i = 0; i < Comets.Count; i++)
+					if (Comets[i].IsMarked) required.Add(i);
 
-			// Build/upload VBOs for required comets.
-			// When _vbosNeedUpdate, rebuild all (MtxToEcl changed so existing data is stale).
-			// When _cometVbosDirty only, skip comets already uploaded.
-			foreach (int i in required)
-			{
-				if (_cometOrbitBuffers.ContainsKey(i) && !_vbosNeedUpdate)
-					continue;
-
-				var orbit = new CometOrbit(Comets[i]);
-				int n = orbit.PointCount;
-				float[] verts = new float[n * 3];
-				for (int j = 0; j < n; j++)
+				foreach (int key in _cometOrbitBuffers.Keys.ToList())
 				{
-					Xyz p = orbit.GetAt(j).Rotate(MtxToEcl);
-					verts[j * 3] = (float)p.X;
-					verts[j * 3 + 1] = (float)p.Y;
-					verts[j * 3 + 2] = (float)p.Z;
+					if (!required.Contains(key))
+					{
+						var (vao, vbo, _) = _cometOrbitBuffers[key];
+						DeleteOrbitBuffer(vao, vbo);
+						_cometOrbitBuffers.Remove(key);
+					}
 				}
 
-				int vao, vbo;
-				if (_cometOrbitBuffers.TryGetValue(i, out var existing))
+				foreach (int i in required)
 				{
-					vao = existing.vao;
-					vbo = existing.vbo;
+					var orbit = new CometOrbit(Comets[i]);
+					int n = orbit.PointCount;
+					float[] verts = new float[n * 3];
+					for (int j = 0; j < n; j++)
+					{
+						Xyz p = orbit.GetAt(j);
+						verts[j * 3] = (float)p.X;
+						verts[j * 3 + 1] = (float)p.Y;
+						verts[j * 3 + 2] = (float)p.Z;
+					}
+
+					int vao, vbo;
+					if (_cometOrbitBuffers.TryGetValue(i, out var existing))
+					{
+						vao = existing.vao;
+						vbo = existing.vbo;
+					}
+					else
+					{
+						vao = GL.GenVertexArray();
+						vbo = GL.GenBuffer();
+					}
+
+					GL.BindVertexArray(vao);
+					GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
+					GL.BufferData(BufferTarget.ArrayBuffer, verts.Length * sizeof(float), verts, BufferUsageHint.DynamicDraw);
+					GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
+					GL.EnableVertexAttribArray(0);
+					GL.BindVertexArray(0);
+
+					_cometOrbitBuffers[i] = (vao, vbo, n);
+				}
+
+				// Batch VBO: all visible comets concatenated into one buffer for a single draw call.
+				if (OrbitDisplay.Contains(Object.Comet))
+				{
+					var batchVerts = new List<float[]>();
+					for (int i = 0; i < Comets.Count; i++)
+					{
+						if (!Comets[i].IsVisible) continue;
+						var orbit = new CometOrbit(Comets[i]);
+						int n = orbit.PointCount;
+						float[] verts = new float[n * 3];
+						for (int j = 0; j < n; j++)
+						{
+							Xyz p = orbit.GetAt(j);
+							verts[j * 3] = (float)p.X;
+							verts[j * 3 + 1] = (float)p.Y;
+							verts[j * 3 + 2] = (float)p.Z;
+						}
+						batchVerts.Add(verts);
+					}
+
+					_cometBatchStarts = new int[batchVerts.Count];
+					_cometBatchCounts = new int[batchVerts.Count];
+					_cometBatchDrawCount = batchVerts.Count;
+
+					if (batchVerts.Count > 0)
+					{
+						int totalFloats = batchVerts.Sum(v => v.Length);
+						float[] combined = new float[totalFloats];
+						int pos = 0;
+						for (int k = 0; k < batchVerts.Count; k++)
+						{
+							_cometBatchStarts[k] = pos;
+							_cometBatchCounts[k] = batchVerts[k].Length / 3;
+							System.Buffer.BlockCopy(batchVerts[k], 0, combined, pos * 3 * sizeof(float), batchVerts[k].Length * sizeof(float));
+							pos += batchVerts[k].Length / 3;
+						}
+
+						if (_cometBatchVao == 0)
+						{
+							_cometBatchVao = GL.GenVertexArray();
+							_cometBatchVbo = GL.GenBuffer();
+							GL.BindVertexArray(_cometBatchVao);
+							GL.BindBuffer(BufferTarget.ArrayBuffer, _cometBatchVbo);
+							GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
+							GL.EnableVertexAttribArray(0);
+							GL.BindVertexArray(0);
+						}
+
+						GL.BindVertexArray(_cometBatchVao);
+						GL.BindBuffer(BufferTarget.ArrayBuffer, _cometBatchVbo);
+						GL.BufferData(BufferTarget.ArrayBuffer, totalFloats * sizeof(float), combined, BufferUsageHint.DynamicDraw);
+						GL.BindVertexArray(0);
+					}
 				}
 				else
 				{
-					vao = GL.GenVertexArray();
-					vbo = GL.GenBuffer();
+					_cometBatchDrawCount = 0;
 				}
-
-				GL.BindVertexArray(vao);
-				GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
-				GL.BufferData(BufferTarget.ArrayBuffer, verts.Length * sizeof(float), verts, BufferUsageHint.DynamicDraw);
-				GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
-				GL.EnableVertexAttribArray(0);
-				GL.BindVertexArray(0);
-
-				_cometOrbitBuffers[i] = (vao, vbo, n);
 			}
 
-			_vbosNeedUpdate = false;
+			_planetVbosNeedUpdate = false;
 			_cometVbosDirty = false;
 		}
 
+		/// <summary>
+		/// Marks the comet orbit VBOs (both the per-comet buffers and the batch)
+		/// for rebuild on the next frame.
+		/// <para>
+		/// Must be called whenever the comet list changes, since the batch holds vertices
+		/// for exactly the comets that were visible when it was built.
+		/// UpdateCometVisibility only dirties the buffers when a comet's visibility flips,
+		/// so it cannot cover a changed comet list on its own. A change of date needs no
+		/// rebuild: the vertices are unrotated and the shader applies MtxToEcl per frame.
+		/// </para>
+		/// </summary>
 		public void InvalidateCometVbos()
 		{
 			_cometVbosDirty = true;
@@ -631,15 +902,13 @@ void main() {
 		/// <summary>
 		/// Recomputes _mvp, _view, and _orthoHalfH from the current camera parameters.
 		/// Pure CPU math — no GL calls. Safe to call before the first rendered frame.
+		/// <para>
+		/// See docs/02b-opengl-true-3d-implementation.md for the derivation of the view
+		/// matrix and the projection's depth range.
+		/// </para>
 		/// </summary>
 		private void UpdateMVP()
 		{
-			// Build MVP: orthographic projection, view built directly from rotation angles.
-			// Matches the original RotateX(RotateVert)·RotateZ(RotateHorz) scene transform exactly,
-			// with a -camDist Z translation added so depth-based calculations still work.
-			// No LookAt needed — avoids all gimbal/singularity issues.
-			// orthoHalfH is derived from a 45° reference FOV so the scene scale matches what a
-			// 45° perspective camera at camDist would show at the centre plane.
 			const float refFovY = MathF.PI / 4f; // 45° reference — defines scale, not frustum shape
 			float aspect = Width > 0 && Height > 0 ? (float)Width / Height : 1f;
 			float camDist = 1800f / (float)Zoom;
@@ -648,12 +917,7 @@ void main() {
 			float h = (float)(RotateHorz * Math.PI / 180.0);
 			float v = (float)(RotateVert * Math.PI / 180.0);
 
-			// Effective scene rotation: R = RotateX_std(-v) * RotateZ_std(-h)  (matches old GPU convention).
-			// View = [R | translation], camera at R^T*(0,0,D).  R*eye = (0,0,D) so translation = (0,0,-D).
-			// OpenTK stores matrices transposed vs math convention: OpenTK Row i = Math column i of V.
-			//
-			// Verification: Z+ world -> y_eye = +sin(v)  (positive = UP on screen) ✓
-			//               X+ world -> y_eye = -cos(v)*sin(h)                     ✓
+			// R = RotateX_std(-v) * RotateZ_std(-h), stored transposed for OpenTK's row-major layout.
 			Matrix4 view = new Matrix4(
 				new Vector4(MathF.Cos(h), -MathF.Cos(v) * MathF.Sin(h), MathF.Sin(v) * MathF.Sin(h), 0),
 				new Vector4(MathF.Sin(h), MathF.Cos(v) * MathF.Cos(h), -MathF.Sin(v) * MathF.Cos(h), 0),
@@ -675,11 +939,7 @@ void main() {
 			}
 			Matrix4 model = Matrix4.CreateTranslation(-target);
 
-			// Orthographic projection with a symmetric depth range: near = -(camDist + 500),
-			// far = +(camDist + 500).  The near plane sits 500+ AU behind the camera, so orbits
-			// that cross the camera plane are never clipped mid-screen — they continue as complete,
-			// undistorted ellipses.  In a parallel projection there is no "viewpoint", so showing
-			// the full orbit (including the portion behind the camera position) is correct.
+			// Symmetric depth range, so orbits crossing the camera plane are never clipped.
 			float halfDepth = camDist + 500f;
 			Matrix4 projection = Matrix4.CreateOrthographic(orthoHalfH * aspect * 2f, orthoHalfH * 2f, -halfDepth, halfDepth);
 			_mvp = model * view * projection; // OpenTK row-major: reversed order, transpose:false
@@ -692,7 +952,7 @@ void main() {
 			if (!IsPaintEnabled || _shaderProgram == 0)
 				return;
 
-			if (_vbosNeedUpdate || _cometVbosDirty)
+			if (_planetVbosNeedUpdate || _cometVbosDirty)
 				UploadOrbitsToGpu();
 
 			UpdateMVP();
@@ -711,6 +971,10 @@ void main() {
 
 			GL.UseProgram(_shaderProgram);
 			GL.UniformMatrix4(_uMVP, false, ref _mvp);
+
+			// Everything except the comet orbits is uploaded already rotated into
+			// ecliptic coordinates, so the shader rotation stays off by default.
+			GL.UniformMatrix4(_uEcl, false, ref _identityMatrix);
 
 			if (ShowGrid)
 			{
@@ -743,7 +1007,18 @@ void main() {
 				GL.DrawArrays(PrimitiveType.LineStrip, 0, count);
 			}
 
-			// Comet orbits
+			// Comet orbits: one batched draw for all visible, then individual draws for selected/marked colors.
+			// Their vertices are unrotated, so the shader applies the current MtxToEcl.
+			GL.UniformMatrix4(_uEcl, false, ref _eclMatrix);
+
+			if (_cometBatchDrawCount > 0)
+			{
+				GL.Uniform4(_uColorUpper, ColorCometOrbitUpper.R / 255f, ColorCometOrbitUpper.G / 255f, ColorCometOrbitUpper.B / 255f, 1f);
+				GL.Uniform4(_uColorLower, ColorCometOrbitLower.R / 255f, ColorCometOrbitLower.G / 255f, ColorCometOrbitLower.B / 255f, 1f);
+				GL.BindVertexArray(_cometBatchVao);
+				GL.MultiDrawArrays(PrimitiveType.LineStrip, _cometBatchStarts, _cometBatchCounts, _cometBatchDrawCount);
+			}
+
 			int markedCount = MarkedComets.Count();
 
 			for (int i = 0; i < Comets.Count; i++)
@@ -758,7 +1033,9 @@ void main() {
 				bool visibleComet = Comets[i].IsVisible;
 				bool useWeakColor = !visibleComet && FilterOnDateShowInWeakColor && !visibleSelected && !isCometMarked;
 				bool useSelectedColor = visibleSelected && MultipleMode &&
-					((markedCount > 0 && !isCometMarked) || (markedCount > 1 && isCometMarked));
+					(OrbitDisplay.Contains(Object.Comet) ||
+					 (markedCount > 0 && !isCometMarked) ||
+					 (markedCount > 1 && isCometMarked));
 
 				var (vao, _, count) = cometBuf;
 				if (vao == 0 || count == 0) continue;
@@ -786,6 +1063,8 @@ void main() {
 				GL.BindVertexArray(vao);
 				GL.DrawArrays(PrimitiveType.LineStrip, 0, count);
 			}
+
+			GL.UniformMatrix4(_uEcl, false, ref _identityMatrix);
 
 			if (ShowAxes)
 				RenderAxes();
@@ -823,7 +1102,8 @@ void main() {
 				Comets.ForEach(c => CometsPos.Add(c.GetPos(atime.JD)));
 				Planets.ForEach(p => PlanetsPos[p] = Planet.GetPos(p, atime));
 
-				UpdateCometVisibility();
+				if (UpdateCometVisibility())
+					_cometVbosDirty = true;
 			}
 		}
 
@@ -831,9 +1111,27 @@ void main() {
 
 		#region UpdateCometVisibility
 
-		public void UpdateCometVisibility()
+		/// <summary>
+		/// Recomputes IsVisible for every comet against the current date filters.
+		/// Returns true if any comet's visibility actually changed, meaning the
+		/// batched orbit VBO no longer matches the set of visible comets.
+		/// </summary>
+		public bool UpdateCometVisibility()
 		{
-			Comets.ForEach(c => c.IsVisible = GetCometVisibility(c, FilterOnDateSunDist, FilterOnDateEarthDist, FilterOnDateMagnitude));
+			bool changed = false;
+
+			foreach (OVComet c in Comets)
+			{
+				bool isVisible = GetCometVisibility(c, FilterOnDateSunDist, FilterOnDateEarthDist, FilterOnDateMagnitude);
+
+				if (c.IsVisible != isVisible)
+				{
+					c.IsVisible = isVisible;
+					changed = true;
+				}
+			}
+
+			return changed;
 		}
 
 		#endregion
@@ -860,7 +1158,7 @@ void main() {
 		private void UpdatePlanetOrbit(ATime atime)
 		{
 			Planets.ForEach(p => PlanetsOrbit[p] = new PlanetOrbit(p, atime));
-			_vbosNeedUpdate = true;
+			_planetVbosNeedUpdate = true;
 		}
 
 		#endregion
@@ -872,7 +1170,31 @@ void main() {
 			Matrix mtxPrec = Matrix.PrecMatrix(Astro.JD2000, atime.JD);
 			Matrix mtxEqt2Ecl = Matrix.RotateX(ATime.GetEp(atime.JD));
 			MtxToEcl = mtxEqt2Ecl.Mul(mtxPrec);
-			_vbosNeedUpdate = true;
+			_planetVbosNeedUpdate = true;
+
+			// The comet orbit VBOs need no rebuild here: their vertices are unrotated
+			// and the shader applies the new rotation through the uEcl uniform.
+			_eclMatrix = ToMatrix4(MtxToEcl);
+		}
+
+		/// <summary>
+		/// Converts an astronomy <see cref="Matrix"/> into the Matrix4 layout the shader expects.
+		/// <para>
+		/// Xyz.Rotate treats the matrix as row-by-column (p' = M p), while GLSL reads the
+		/// uniform column-major when uploaded with transpose:false. The result is transposed
+		/// on the way in so that "uEcl * pos" in the shader equals "pos.Rotate(mtx)" on the CPU.
+		/// </para>
+		/// </summary>
+		private static Matrix4 ToMatrix4(Matrix mtx)
+		{
+			if (mtx == null)
+				return Matrix4.Identity;
+
+			return new Matrix4(
+				(float)mtx.A11, (float)mtx.A21, (float)mtx.A31, 0f,
+				(float)mtx.A12, (float)mtx.A22, (float)mtx.A32, 0f,
+				(float)mtx.A13, (float)mtx.A23, (float)mtx.A33, 0f,
+				0f, 0f, 0f, 1f);
 		}
 
 		#endregion
@@ -1012,11 +1334,8 @@ void main() {
 
 			if (alpha < 0.99) GL.DepthMask(false);
 
-			// Pseudo-perspective: apply a soft perspective factor f = perspD / (perspD - vd) to
-			// each vertex, where vd is its depth in the camera direction. For ecliptic points
-			// (pz=0) this simplifies to scaling (px, py) by f — proved by expanding the
-			// camera-space transform and back-projecting. D=800 AU keeps f within ~±7% for the
-			// solar system, matching the orb reference without distorting orbital paths.
+			// Pseudo-perspective: scale each ecliptic vertex by f = perspD / (perspD - vd), where
+			// vd is its depth along the view direction. See docs/05a-ecliptic-grid-implementation.md.
 			double sinV = Math.Sin(RotateVert * Math.PI / 180.0);
 			double sinH = Math.Sin(RotateHorz * Math.PI / 180.0);
 			double cosH = Math.Cos(RotateHorz * Math.PI / 180.0);
@@ -1238,8 +1557,9 @@ void main() {
 
 					if (ShowDate && ATime != null)
 					{
+						ATime labelTime = DateLabelOverride ?? ATime;
 						string strDate = String.Format("{0:00} {1} {2} {3:00}:{4:00}:{5:00} UT",
-							ATime.Day, ATime.MonthString, ATime.Year, ATime.Hour, ATime.Minute, ATime.Second);
+							labelTime.Day, labelTime.MonthString, labelTime.Year, labelTime.Hour, labelTime.Minute, labelTime.Second);
 						float strWidth = g.MeasureString(strDate, FontInformation).Width;
 						double fs = FontInformation.Size;
 						g.DrawString(strDate, FontInformation, infoBrush,
@@ -1248,7 +1568,7 @@ void main() {
 					}
 
 					// — Axis labels —
-					if (ShowAxes && _glLoaded)
+					if (ShowAxes && ShowAxesLabels && _glLoaded)
 					{
 						using var grayBrush = new SolidBrush(Color.Gray);
 						double sizeAU = Math.Max(0.01, GridExtent);
@@ -1361,8 +1681,9 @@ void main() {
 				UpdateRotationMatrix(ATime);
 			}
 
-			_vbosNeedUpdate = true;
+			_planetVbosNeedUpdate = true;
 			_cometVbosDirty = true;
+			_cometBatchDrawCount = 0;
 		}
 
 		#endregion

@@ -82,8 +82,9 @@ namespace Comets.OrbitViewer
 
 		private void txtName_TextChanged(object sender, EventArgs e)
 		{
-			string text = txtName.Text.ToLower();
-			CometCollection filteredComets = new CometCollection(Comets.Where(x => x.full.ToLower().Contains(text)));
+			static string Normalize(string s) => new string(s.ToLowerInvariant().Where(char.IsLetterOrDigit).ToArray());
+			string text = Normalize(txtName.Text);
+			CometCollection filteredComets = new CometCollection(Comets.Where(x => Normalize(x.full).Contains(text)));
 			BindCollection(filteredComets);
 		}
 

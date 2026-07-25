@@ -34,6 +34,19 @@ The same `PseudoPerspective()` helper is applied to:
 
 ---
 
+## Axes: Lines and Labels Are Separate Options
+
+Two independent properties, two checkboxes in the Misc panel:
+
+| Property | Checkbox | Draws |
+|---|---|---|
+| `ShowAxes` | Show axes | The 6 axis rays, in `RenderAxes()` |
+| `ShowAxesLabels` | Show axes labels | The axis end names, in `RenderLabels()` |
+
+The labels sit at the ends of the axis lines, so they are only meaningful while the lines are drawn: the label draw is gated on `ShowAxes && ShowAxesLabels`, and `MiscControl.SyncShowAxesLabelsEnabled()` greys the labels checkbox out whenever *Show axes* is unchecked. The split exists because the axis rays are a useful orientation cue on their own, while the names are text competing with the comet and planet labels.
+
+---
+
 ## Adaptive Step Selection
 
 The grid spacing adapts to zoom level so lines remain readable at any scale:
@@ -44,9 +57,9 @@ idealStep  = 50px / (pixelsPerAU × elevFactor)
 
 `elevFactor = |cos(RotateVert)|` corrects for foreshortening — at edge-on view the lines appear much closer together, so finer steps would be needed to maintain the target 50 px gap.
 
-Steps are snapped to a set of "nice" values: `{ 0.1, 0.2, 0.5, 1, 2, 5, 10, 25 }`. The largest step ≤ `idealStep` is chosen, then stepped down if fewer than 9 cells would be shown within `GridExtent`.
+Steps are snapped to a set of "nice" values: `{ 0.1, 0.2, 0.5, 1, 2, 5, 10, 25 }`. The largest step ≤ `idealStep` is chosen, then stepped down while fewer than `minCells` (9) cells would be shown within `GridExtent`.
 
-The coarsest step (25 AU) is also the minimum, so the grid is always at least 12×12 cells (6 cells per side) regardless of zoom.
+The step-down stops early if the next finer step would put lines closer together than `minSpacingPx` (15 px) on screen — so a small `GridExtent` at low zoom gets fewer than 9 cells rather than an unreadable mesh. 0.1 AU is the finest step available and 25 AU the coarsest, which at the default 150 AU extent bounds the grid at 6 cells per side.
 
 ---
 
@@ -90,9 +103,23 @@ if (ShowAxes && Math.Abs(u) < step * 0.001)
 
 ## Dynamic Grid Extent
 
-`GridExtent` (default 150 AU) controls the boundary of the drawn grid lines — and also the length of the axis lines — and can be changed at runtime via the **Extent** textbox in the Misc panel. The field is always enabled; typing a valid value automatically checks "Show grid" if it was unchecked (same behaviour as the Filter on Date panel). Only numeric input is accepted, and changes apply immediately on each keystroke.
+`GridExtent` (default 150 AU) controls the boundary of the drawn grid lines — and also the length of the axis lines — and can be changed at runtime via the **Extent** textbox in the Misc panel. The field is always enabled; applying a valid value automatically checks "Show grid" if it was unchecked (same behaviour as the Filter on Date panel). Only numeric input is accepted.
 
 Typical use: set to 5 AU when studying inner-planet orbits so fine grid lines appear around Mercury/Venus/Earth/Mars without showing the full outer solar system scale.
+
+### When the value is applied
+
+`MiscControl.ApplyGridExtent()` runs on **Enter** (`KeyDown`) and on **leaving** the textbox — not on every keystroke. Typing "100" applies once, instead of rendering at 1, then 10, then 100.
+
+Three guards sit in `ApplyGridExtent`:
+
+- **Clamp to `MaxGridExtent` (150).** `ValNumManager` rejects a typed character that would exceed the maximum, but a paste bypasses that filter, and an unbounded extent costs thousands of grid line uploads per frame. The clamped value is written back into the textbox.
+- **No-op when unchanged.** `_appliedGridExtent` records what was last handed to the panel, seeded in the constructor from the textbox's designer value (which matches the panel's own default). Without this check, tabbing through the toolbox — which leaves every control in turn — would tick *Show grid* on the way past without anything having been typed.
+- **Reject non-positive / unparseable** input, leaving the previous extent in force.
+
+There is no `MiscControl.SetGridExtent()`; the extent only ever travels outward, from the textbox to the panel via `OnGridExtentChanged`.
+
+For the keyboard to reach the textbox at all, `OrbitViewerControl_KeyDown` has to let it past: the form previews every key press, so `Keys.Enter`, `Keys.Delete` and `Keys.Back` are excluded from the shortcut handling while `miscControl.ContainsFocus`. Otherwise Enter would mark a comet instead of committing the typed value, and Delete would unmark every comet instead of deleting a digit.
 
 ---
 
@@ -108,11 +135,13 @@ When the grid is at full opacity (`alpha ≥ 0.99`) it writes to the depth buffe
 
 | File | Change |
 |------|--------|
-| `OrbitPanel.cs` | `RenderGrid()`, `AddPerspVertex()`, `PseudoPerspective(xyz, D)`, `ColorGrid`, `ShowGrid`, `GridExtent` properties, `RenderScene()` call, axis tips/labels updated; line width 1.0f for grid; depth-mask guard on fade |
-| `MiscControl.cs` | `OnShowGridChanged`, `OnGridExtentChanged` events, `SetGridExtent()`, `txtGridExtent` with auto-check, numeric `KeyPress` validation |
-| `MiscControl.Designer.cs` | Extent label + textbox as top row; checkboxes shifted down; panel height 77→123; Save image button now visible |
-| `OrbitViewerControl.cs` | `SetShowGrid()`, `SetGridExtent()` handlers; `miscControl.ContainsFocus` added to shortcut guard |
-| `OrbitViewerControl.Designer.cs` | `cpnlMisc` working area height 77→123, `HeightExpanded` 112→158 |
+| `OrbitPanel.cs` | `RenderGrid()`, `AddPerspVertex()`, `PseudoPerspective(xyz, D)`, `ColorGrid`, `ShowGrid`, `GridExtent`, `ShowAxesLabels` properties, `RenderScene()` call, axis tips/labels updated; line width 1.0f for grid; depth-mask guard on fade |
+| `MiscControl.cs` | `OnShowGridChanged`, `OnGridExtentChanged`, `OnShowAxesLabelsChanged` events; `ApplyGridExtent()` on Enter/Leave with clamp, change check and auto-check of *Show grid*; numeric `KeyPress` validation; `SyncShowAxesLabelsEnabled()` |
+| `MiscControl.Designer.cs` | `cbxShowAxesLabels` added; *Show grid*, Extent label + textbox and *Save image* shifted down; panel height 123 |
+| `OrbitViewerControl.cs` | `SetShowGrid()`, `SetGridExtent()`, `SetShowAxesLabels()` handlers; `miscControl.ContainsFocus` added to the shortcut guard, with Enter/Delete/Back let through |
+| `OrbitViewerControl.Designer.cs` | `cpnlMisc` working area height 123, `HeightExpanded` 158 |
+
+The Misc panel has grown twice — once for the grid controls and again for the axes-labels checkbox — so only the current heights are recorded here rather than a chain of deltas.
 
 ---
 
@@ -132,10 +161,10 @@ The mismatch grows with distance from the origin and is most visible for objects
 
 ## What Was Tried and Reverted
 
-**Solid plane** (`a15a2c8` / reverted `20d0a5b`): replaced the grid with a semi-transparent filled quad. The grid was preferred for its cleaner depth cue.
+**Solid plane**: replaced the grid with a semi-transparent filled quad. The grid was preferred for its cleaner depth cue. The commits were rebased away and are no longer reachable.
 
-**Drag direction fix** (`9f4a000` / reverted `5dd1666`): a fix for horizontal drag reversing when viewing from below the ecliptic. Was reverted because the pseudo-perspective grid itself creates strong orientation cues that make the pre-fix behavior feel natural again.
+**Drag direction fix** (`73460ed` / reverted `32bfabd`): a fix for horizontal drag reversing when viewing from below the ecliptic. Was reverted because the pseudo-perspective grid itself creates strong orientation cues that make the pre-fix behavior feel natural again. (An earlier pair, `9f4a000` / `13395c0`, is the same change on a since-rebased branch.)
 
-**Axis length tied to GridExtent**: originally reverted because axes appeared as tiny stubs at small `GridExtent`. Later re-enabled for testing — `SizeAU = GridExtent`, `D = GridExtent × (800/150)` — so axis lines and grid lines always share the same extent and the same perspective strength.
+**Axis length tied to GridExtent**: originally reverted because axes appeared as tiny stubs at small `GridExtent`. Later re-enabled — `SizeAU = GridExtent`, `D = GridExtent × (800/150)` — so axis lines and grid lines always share the same extent and the same perspective strength. This is what ships.
 
-**Viewport-relative R**: tried making grid line endpoints track the viewport half-width so the perspective ratio `D/R` stays constant at every zoom. This caused lines to visibly "shrink" relative to orbits as you zoom in (edges always tracked the viewport) and introduced stripes when `GridExtent` < viewport. Reverted to `R = GridExtent`, `D = 800`.
+**Viewport-relative R**: tried making grid line endpoints track the viewport half-width so the perspective ratio `D/R` stays constant at every zoom. This caused lines to visibly "shrink" relative to orbits as you zoom in (edges always tracked the viewport) and introduced stripes when `GridExtent` < viewport. Reverted to `R = GridExtent`, with `D` scaling from it as `extent × (800/150)`.

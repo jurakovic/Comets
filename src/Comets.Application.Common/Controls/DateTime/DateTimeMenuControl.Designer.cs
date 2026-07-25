@@ -71,6 +71,7 @@
 			this.ctxMenu.Name = "ctxMenu";
 			this.ctxMenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
 			this.ctxMenu.Size = new System.Drawing.Size(211, 320);
+			this.ctxMenu.Opening += this.ctxMenu_Opening;
 			// 
 			// mnuDefault
 			// 

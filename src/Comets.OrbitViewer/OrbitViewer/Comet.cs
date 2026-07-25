@@ -12,57 +12,63 @@ namespace Comets.OrbitViewer
 
 		#endregion
 
+		#region Fields
+
+		private readonly Comet _comet;
+
+		#endregion
+
 		#region Properties
 
 		/// <summary>
 		/// Object name
 		/// </summary>
-		public string Name { get; private set; }
+		public string Name => _comet.full;
 
 		/// <summary>
-		/// Epoch
+		/// Perihelion date
 		/// </summary>
-		public decimal T { get; private set; }
+		public decimal T => _comet.T;
 
 		/// <summary>
 		/// Eccentricity
 		/// </summary>
-		public double e { get; private set; }
+		public double e => _comet.e;
 
 		/// <summary>
 		/// Perihelion distance
 		/// </summary>
-		public double q { get; private set; }
+		public double q => _comet.q;
 
 		/// <summary>
 		/// Argument of pericenter
 		/// </summary>
-		public double w { get; private set; }
+		public double w => _comet.w * Math.PI / 180.0;
 
 		/// <summary>
 		/// Ascending node
 		/// </summary>
-		public double N { get; private set; }
+		public double N => _comet.N * Math.PI / 180.0;
 
 		/// <summary>
 		/// Inclination
 		/// </summary>
-		public double i { get; private set; }
+		public double i => _comet.i * Math.PI / 180.0;
 
 		/// <summary>
 		/// Absolute magnitude
 		/// </summary>
-		public double g { get; private set; }
+		public double g => _comet.g;
 
 		/// <summary>
 		/// Slope parameter
 		/// </summary>
-		public double k { get; private set; }
+		public double k => _comet.k;
 
 		/// <summary>
-		/// Equinox (eg. 2000)
+		/// Current Magnitude
 		/// </summary>
-		private double Equinox { get; set; }
+		public double CurrentMag => _comet.CurrentMag;
 
 		/// <summary>
 		/// Equinox in ATime
@@ -76,6 +82,12 @@ namespace Comets.OrbitViewer
 
 		/// <summary>
 		/// Vector constant
+		/// <para>
+		/// Derived from w, N and i once in the constructor, while those properties read
+		/// through to the wrapped Comet on every access. Nothing mutates a Comet's
+		/// orbital elements after it is loaded, so the two cannot disagree; if that ever
+		/// changes, this has to be recomputed whenever w, N or i does.
+		/// </para>
 		/// </summary>
 		public Matrix VectorConstant { get; private set; }
 
@@ -98,29 +110,10 @@ namespace Comets.OrbitViewer
 
 		#region Constructor
 
-		/// <summary>
-		/// Constructor
-		/// </summary>
-		/// <param name="comet"></param>
 		public OVComet(Comet comet)
 		{
-			this.Name = comet.full;
-			this.T = comet.T;
-			this.e = comet.e;
-			this.q = comet.q;
-			this.w = comet.w * Math.PI / 180.0;
-			this.N = comet.N * Math.PI / 180.0;
-			this.i = comet.i * Math.PI / 180.0;
-			this.g = comet.g;
-			this.k = comet.k;
-			this.Equinox = 2000.0;
-
-			int eqYear = (int)Math.Floor(this.Equinox);
-			double eqM = (this.Equinox - (double)eqYear) * 12.0;
-			int eqMonth = (int)Math.Floor(eqM);
-			double eqDay = (eqM - (double)eqMonth) * 30.0;
-			this.ATimeEquinox = new ATime(eqYear, eqMonth, eqDay, 0.0);
-
+			_comet = comet;
+			this.ATimeEquinox = new ATime(2000, 1, 1.5, 0.0); // J2000.0
 			this.VectorConstant = Matrix.VectorConstant(w, N, i, this.ATimeEquinox);
 		}
 
