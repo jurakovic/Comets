@@ -2,7 +2,11 @@
 
 ## Overview
 
-Comparison of the current `CometOrbit.cs` sampling implementation against the Celestia 1.6.x `orbit.cpp` reference (see `docs/cel/orbit.cpp` and `docs/cel/comet-orbits.md`).
+Comparison of the current `CometOrbit.cs` sampling implementation against the reference implementation in Celestia's `src/celengine/orbit.cpp` (1.6.x).
+
+> The Celestia source this doc was written against is not part of this repository. Every formula relied on below is quoted inline, so the analysis stands on its own.
+
+**None of the recommendations below have been implemented.** `CometOrbit.cs` still samples on uniform/quadratic anomaly steps with `MaxOrbitAU = 150.0`.
 
 ---
 
@@ -165,23 +169,24 @@ The OpenGL renderer initially used a **45° perspective FOV**, which produces no
 
 ### Current implementation (orthographic)
 
-`OrbitPanel.cs` — `RenderScene()`:
+`OrbitPanel.cs` — `UpdateMVP()`:
 
 ```csharp
 const float refFovY = MathF.PI / 4f;          // 45° reference — defines scale, not frustum shape
 float camDist       = 1800f / (float)Zoom;
 float orthoHalfH    = camDist * MathF.Tan(refFovY / 2f);
+float halfDepth     = camDist + 500f;         // symmetric near/far
 
 Matrix4 projection = Matrix4.CreateOrthographic(
     orthoHalfH * aspect * 2f,
     orthoHalfH * 2f,
-    0.001f,
-    camDist * 2f + 500f);
+    -halfDepth,
+     halfDepth);
 ```
 
 `orthoHalfH` is derived from the same `camDist` and 45° reference angle so **zoom behaviour is identical** to what a 45° perspective camera would show at the centre plane — switching between the two modes does not rescale the scene.
 
-The far plane is `camDist * 2 + 500` (dynamic) rather than a hardcoded constant, so the full scene is always visible regardless of zoom level.
+The depth range is symmetric and derived from `camDist` rather than hardcoded, so the near plane sits 500+ AU *behind* the camera. Orbits that cross the camera plane therefore render as complete ellipses instead of being clipped, at any zoom level. See `02b-opengl-true-3d-implementation.md` for the full MVP pipeline.
 
 ### Crosshair/dot sizing
 
@@ -197,7 +202,7 @@ In orthographic mode, every depth maps to the same pixel size, so `depth` is rep
 float pxSize = _orthoHalfH / (Height / 2f);
 ```
 
-`_orthoHalfH` is stored as a field alongside `_camDist` and updated each frame in `RenderScene()`.
+`_orthoHalfH` is stored as a field alongside `_camDist` and updated each frame in `UpdateMVP()`.
 
 ---
 
@@ -207,5 +212,6 @@ float pxSize = _orthoHalfH / (Height / 2f);
 |---|---|
 | `src/Comets.OrbitViewer/OrbitViewer/CometOrbit.cs` | Orbit sampling — target for all changes |
 | `src/Comets.OrbitViewer/OrbitViewer/OrbitPanel.cs` | Rendering, projection, crosshair sizing |
-| `docs/orbit.cpp` | Celestia reference implementation |
-| `docs/comet-orbits.md` | Celestia implementation notes |
+| Celestia's `src/celengine/orbit.cpp` | Reference implementation (external, not in this repository) |
+
+Note that raising `MaxOrbitAU` would also want a look at the ecliptic grid: `GridExtent` defaults to 150 AU and is capped there, on the assumption that 150 AU is the outer edge of drawn geometry. Moving the sampling cap to 500 AU without revisiting that leaves long-period orbits running well past the grid boundary.
