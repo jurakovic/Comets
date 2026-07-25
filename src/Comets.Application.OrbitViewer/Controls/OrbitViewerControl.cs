@@ -29,17 +29,13 @@ namespace Comets.Application.OrbitViewer
 		const double ZoomStepFactor    = 1.15;   // one wheel notch
 
 		/// <summary>
-		/// Camera rotation applied per second while an arrow key is held, giving a full
-		/// turn in six seconds. Close to the sensitivity of a right-button drag, so the
-		/// two ways of rotating the scene feel alike.
+		/// Camera rotation applied per second while an arrow key is held.
 		/// </summary>
 		private const double RotateDegreesPerSecond = 60.0;
 
 		/// <summary>
 		/// Zoom multiplier applied per second while a zoom key is held. Zoom is geometric,
-		/// so this is raised to the power of the elapsed seconds rather than multiplied by
-		/// them: at 2.5 per second, crossing the whole ZoomMin..ZoomMax range takes about
-		/// nine seconds regardless of where it starts.
+		/// so this is raised to the power of the elapsed seconds rather than multiplied by them.
 		/// </summary>
 		private const double ZoomFactorPerSecond = 2.5;
 
@@ -63,10 +59,9 @@ namespace Comets.Application.OrbitViewer
 		private const int TimerIntervalMs = 16;
 
 		/// <summary>
-		/// Tick interval the time step is calibrated against: one whole step per 50 ms,
-		/// which is 20 steps per second. The step is scaled by the elapsed time since the
-		/// previous frame divided by this, so playback runs at that speed regardless of
-		/// how often the timer actually fires.
+		/// Tick interval the time step is calibrated against. The step is scaled by the
+		/// elapsed frame time divided by this, so playback speed does not depend on how
+		/// often the timer actually fires.
 		/// </summary>
 		private const double LegacyTimerIntervalMs = 50.0;
 
@@ -80,9 +75,8 @@ namespace Comets.Application.OrbitViewer
 
 		/// <summary>
 		/// Measures real time between frames, so simulation speed does not depend on the
-		/// timer's actual firing rate. A WinForms timer is quantized to the system clock
-		/// granularity and its messages are delivered only when the queue is empty, so the
-		/// interval it fires at is neither the requested one nor stable under load.
+		/// timer's actual firing rate, which is neither the requested interval nor stable
+		/// under load. See docs/06a-simulation-and-navigation-implementation.md.
 		/// </summary>
 		private readonly Stopwatch _simulationClock = new Stopwatch();
 
@@ -90,9 +84,7 @@ namespace Comets.Application.OrbitViewer
 
 		/// <summary>
 		/// Ways the keyboard can move the camera. Read as a set, so keys held together
-		/// combine - pressing Left and Up rotates on both axes, which was impossible while
-		/// the keys drove rotation one event at a time, since Windows auto-repeats only the
-		/// most recently pressed key.
+		/// combine - pressing Left and Up rotates on both axes.
 		/// </summary>
 		[Flags]
 		private enum NavDirection
@@ -107,10 +99,9 @@ namespace Comets.Application.OrbitViewer
 		}
 
 		/// <summary>
-		/// Drives camera movement while a navigation key is held. Rotating straight from
-		/// the key events instead would inherit the keyboard's auto-repeat behaviour: a
-		/// half-second pause before the second step, then a rate set by the user's Control
-		/// Panel repeat speed, which varies by more than a factor of ten between machines.
+		/// Drives camera movement while a navigation key is held, rather than moving the
+		/// camera from the key events themselves, which would inherit the keyboard's
+		/// auto-repeat behaviour.
 		/// </summary>
 		private System.Windows.Forms.Timer NavigationTimer;
 
@@ -967,15 +958,9 @@ namespace Comets.Application.OrbitViewer
 		}
 
 		/// <summary>
-		/// Reads which navigation keys are physically down right now.
-		/// <para>
-		/// The keyboard is polled rather than tracked through key events because a release
-		/// is only delivered to the window that holds focus. Alt-tabbing away with a key
-		/// down and letting go over there leaves no event to observe, and the camera would
-		/// keep moving on a key nobody is holding. Auto-repeat cannot recover the state
-		/// either: Windows repeats only the most recently pressed key, so a second key held
-		/// alongside it stays silent and would be missed.
-		/// </para>
+		/// Reads which navigation keys are physically down right now. Polled rather than
+		/// tracked through key events, which cannot report this reliably — see
+		/// docs/06a-simulation-and-navigation-implementation.md.
 		/// </summary>
 		private static NavDirection ReadHeldDirections()
 		{

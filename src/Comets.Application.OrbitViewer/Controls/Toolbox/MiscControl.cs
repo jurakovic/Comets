@@ -98,17 +98,10 @@ namespace Comets.Application.OrbitViewer.Controls
 		/// <summary>
 		/// Parses the grid extent textbox and, when the extent has actually changed,
 		/// raises <see cref="OnGridExtentChanged"/> and switches the grid on.
+		/// Called on Enter and on leaving the textbox, never on every keystroke.
 		/// <para>
-		/// Called on Enter and on leaving the textbox rather than on every keystroke, so
-		/// typing "100" applies once instead of rendering at 1, then 10, then 100. The
-		/// value is clamped to <see cref="MaxGridExtent"/>: ValNumManager rejects a typed
-		/// character that would exceed the maximum, but a paste bypasses that filter, and
-		/// an unbounded extent costs thousands of grid line uploads per frame.
-		/// </para>
-		/// <para>
-		/// Nothing is raised when the value is unchanged. Leaving the textbox applies it,
-		/// and tabbing through the toolbox leaves every control in turn, so re-applying
-		/// regardless would tick Show grid on the way past without anything being typed.
+		/// See docs/05a-ecliptic-grid-implementation.md for why the value is clamped and
+		/// why an unchanged value must raise nothing.
 		/// </para>
 		/// </summary>
 		private void ApplyGridExtent()

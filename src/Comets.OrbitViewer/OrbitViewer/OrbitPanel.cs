@@ -460,11 +460,8 @@ void main() {
 
 		/// <summary>
 		/// Renders a frame and reads it back from the framebuffer as a bitmap.
-		/// <para>
-		/// Control.DrawToBitmap does not work on this panel. It asks the control to paint
-		/// itself through GDI, which produces nothing here because the scene exists only in
-		/// the OpenGL framebuffer, so what came back was an empty image.
-		/// </para>
+		/// Control.DrawToBitmap cannot be used here — see
+		/// docs/02b-opengl-true-3d-implementation.md.
 		/// </summary>
 		/// <returns>The rendered frame, or null when there is no drawable surface to read.</returns>
 		public Bitmap CaptureFrame()
@@ -520,11 +517,6 @@ void main() {
 		/// <summary>
 		/// Releases the GL objects allocated by <see cref="InitGL"/> and
 		/// <see cref="UploadOrbitsToGpu"/> before the control's context goes away.
-		/// <para>
-		/// The orbit viewer is an MDI child, so every open and close of the window built
-		/// a fresh set of programs, VAOs, VBOs and the label texture. Without this they
-		/// accumulated for the lifetime of the context instead of the lifetime of the panel.
-		/// </para>
 		/// </summary>
 		protected override void Dispose(bool disposing)
 		{
@@ -674,13 +666,8 @@ void main() {
 		}
 
 		/// <summary>
-		/// Compiles a single shader stage and throws when the driver rejects it.
-		/// <para>
-		/// Without this check a compile failure is silent: the program still links to a
-		/// non-zero id on some drivers and the panel simply renders black, which is hard
-		/// to tell apart from an empty scene. The driver info log is included in the
-		/// exception message so the failing stage and line can be identified.
-		/// </para>
+		/// Compiles a single shader stage and throws when the driver rejects it, with the
+		/// driver info log in the exception message.
 		/// </summary>
 		/// <param name="type">Shader stage to compile.</param>
 		/// <param name="source">GLSL source for the stage.</param>
@@ -915,15 +902,13 @@ void main() {
 		/// <summary>
 		/// Recomputes _mvp, _view, and _orthoHalfH from the current camera parameters.
 		/// Pure CPU math — no GL calls. Safe to call before the first rendered frame.
+		/// <para>
+		/// See docs/02b-opengl-true-3d-implementation.md for the derivation of the view
+		/// matrix and the projection's depth range.
+		/// </para>
 		/// </summary>
 		private void UpdateMVP()
 		{
-			// Build MVP: orthographic projection, view built directly from rotation angles.
-			// Matches the original RotateX(RotateVert)·RotateZ(RotateHorz) scene transform exactly,
-			// with a -camDist Z translation added so depth-based calculations still work.
-			// No LookAt needed — avoids all gimbal/singularity issues.
-			// orthoHalfH is derived from a 45° reference FOV so the scene scale matches what a
-			// 45° perspective camera at camDist would show at the centre plane.
 			const float refFovY = MathF.PI / 4f; // 45° reference — defines scale, not frustum shape
 			float aspect = Width > 0 && Height > 0 ? (float)Width / Height : 1f;
 			float camDist = 1800f / (float)Zoom;
@@ -932,12 +917,7 @@ void main() {
 			float h = (float)(RotateHorz * Math.PI / 180.0);
 			float v = (float)(RotateVert * Math.PI / 180.0);
 
-			// Effective scene rotation: R = RotateX_std(-v) * RotateZ_std(-h)  (matches old GPU convention).
-			// View = [R | translation], camera at R^T*(0,0,D).  R*eye = (0,0,D) so translation = (0,0,-D).
-			// OpenTK stores matrices transposed vs math convention: OpenTK Row i = Math column i of V.
-			//
-			// Verification: Z+ world -> y_eye = +sin(v)  (positive = UP on screen) ✓
-			//               X+ world -> y_eye = -cos(v)*sin(h)                     ✓
+			// R = RotateX_std(-v) * RotateZ_std(-h), stored transposed for OpenTK's row-major layout.
 			Matrix4 view = new Matrix4(
 				new Vector4(MathF.Cos(h), -MathF.Cos(v) * MathF.Sin(h), MathF.Sin(v) * MathF.Sin(h), 0),
 				new Vector4(MathF.Sin(h), MathF.Cos(v) * MathF.Cos(h), -MathF.Sin(v) * MathF.Cos(h), 0),
@@ -959,11 +939,7 @@ void main() {
 			}
 			Matrix4 model = Matrix4.CreateTranslation(-target);
 
-			// Orthographic projection with a symmetric depth range: near = -(camDist + 500),
-			// far = +(camDist + 500).  The near plane sits 500+ AU behind the camera, so orbits
-			// that cross the camera plane are never clipped mid-screen — they continue as complete,
-			// undistorted ellipses.  In a parallel projection there is no "viewpoint", so showing
-			// the full orbit (including the portion behind the camera position) is correct.
+			// Symmetric depth range, so orbits crossing the camera plane are never clipped.
 			float halfDepth = camDist + 500f;
 			Matrix4 projection = Matrix4.CreateOrthographic(orthoHalfH * aspect * 2f, orthoHalfH * 2f, -halfDepth, halfDepth);
 			_mvp = model * view * projection; // OpenTK row-major: reversed order, transpose:false
@@ -1358,11 +1334,8 @@ void main() {
 
 			if (alpha < 0.99) GL.DepthMask(false);
 
-			// Pseudo-perspective: apply a soft perspective factor f = perspD / (perspD - vd) to
-			// each vertex, where vd is its depth in the camera direction. For ecliptic points
-			// (pz=0) this simplifies to scaling (px, py) by f — proved by expanding the
-			// camera-space transform and back-projecting. D=800 AU keeps f within ~±7% for the
-			// solar system, matching the orb reference without distorting orbital paths.
+			// Pseudo-perspective: scale each ecliptic vertex by f = perspD / (perspD - vd), where
+			// vd is its depth along the view direction. See docs/05a-ecliptic-grid-implementation.md.
 			double sinV = Math.Sin(RotateVert * Math.PI / 180.0);
 			double sinH = Math.Sin(RotateHorz * Math.PI / 180.0);
 			double cosH = Math.Cos(RotateHorz * Math.PI / 180.0);
