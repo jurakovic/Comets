@@ -1,0 +1,215 @@
+{
+  "note": "Canonical engine vs the desktop orbit viewer's own engine. Planets 1700..2300, comets 1990..2060, 10-day steps. Not a test vector.",
+  "planets": [
+    {
+      "planet": "Mercury",
+      "maxDistanceAU": 0.00033171563087827557,
+      "maxHeliocentricLongitudeDeg": 0.06162465524197827,
+      "worstUtc": "2299-12-27T00:00:00Z"
+    },
+    {
+      "planet": "Venus",
+      "maxDistanceAU": 0.00026007559587119995,
+      "maxHeliocentricLongitudeDeg": 0.02051046386155254,
+      "worstUtc": "2299-06-10T00:00:00Z"
+    },
+    {
+      "planet": "Earth",
+      "maxDistanceAU": 0.0004724392357221733,
+      "maxHeliocentricLongitudeDeg": 0.012566547519860994,
+      "worstUtc": "2002-01-08T00:00:00Z"
+    },
+    {
+      "planet": "Mars",
+      "maxDistanceAU": 0.000772945580663415,
+      "maxHeliocentricLongitudeDeg": 0.031544300069453315,
+      "worstUtc": "2048-08-24T00:00:00Z"
+    },
+    {
+      "planet": "Jupiter",
+      "maxDistanceAU": 0.008842320720796248,
+      "maxHeliocentricLongitudeDeg": 0.08569369077108986,
+      "worstUtc": "2294-05-07T00:00:00Z"
+    },
+    {
+      "planet": "Saturn",
+      "maxDistanceAU": 0.051160253105670794,
+      "maxHeliocentricLongitudeDeg": 0.29638969606279225,
+      "worstUtc": "2114-11-17T00:00:00Z"
+    },
+    {
+      "planet": "Uranus",
+      "maxDistanceAU": 0.379325820805337,
+      "maxHeliocentricLongitudeDeg": 1.0775893340569596,
+      "worstUtc": "1759-03-13T00:00:00Z"
+    },
+    {
+      "planet": "Neptune",
+      "maxDistanceAU": 0.3652209417788129,
+      "maxHeliocentricLongitudeDeg": 0.6943430989530377,
+      "worstUtc": "1700-01-01T00:00:00Z"
+    }
+  ],
+  "comets": [
+    {
+      "comet": "1P/Halley",
+      "maxDistanceAU": 0.001698467757402678,
+      "maxAngleSeenFromSunDeg": 0.006027326201627902
+    },
+    {
+      "comet": "2P/Encke",
+      "maxDistanceAU": 0.0001662074820948977,
+      "maxAngleSeenFromSunDeg": 0.005767207914064357
+    },
+    {
+      "comet": "3D-A/Biela",
+      "maxDistanceAU": 0.0005534937068500219,
+      "maxAngleSeenFromSunDeg": 0.006160487552273302
+    },
+    {
+      "comet": "12P/Pons-Brooks",
+      "maxDistanceAU": 0.003635177117526021,
+      "maxAngleSeenFromSunDeg": 0.006166587410415245
+    },
+    {
+      "comet": "18D/Perrine-Mrkos",
+      "maxDistanceAU": 0.0005463739420404645,
+      "maxAngleSeenFromSunDeg": 0.005570964315685942
+    },
+    {
+      "comet": "29P/Schwassmann-Wachmann",
+      "maxDistanceAU": 0.000656656514438761,
+      "maxAngleSeenFromSunDeg": 0.006164699686169736
+    },
+    {
+      "comet": "67P/Churyumov-Gerasimenko",
+      "maxDistanceAU": 0.0005515332219763628,
+      "maxAngleSeenFromSunDeg": 0.006004604129930818
+    },
+    {
+      "comet": "73P-BT/Schwassmann-Wachmann",
+      "maxDistanceAU": 0.0005299074480675669,
+      "maxAngleSeenFromSunDeg": 0.00582991200063464
+    },
+    {
+      "comet": "96P-B/Machholz",
+      "maxDistanceAU": 0.0005881792430867314,
+      "maxAngleSeenFromSunDeg": 0.00567379211249715
+    },
+    {
+      "comet": "141P-A/Machholz",
+      "maxDistanceAU": 0.00040901887417084956,
+      "maxAngleSeenFromSunDeg": 0.005938573652808633
+    },
+    {
+      "comet": "C/1860 D1-A (Liais)",
+      "maxDistanceAU": 0.017222450778622334,
+      "maxAngleSeenFromSunDeg": 0.005167268743709728
+    },
+    {
+      "comet": "C/1942 EA (Vaisala)",
+      "maxDistanceAU": 0.0018796172184563289,
+      "maxAngleSeenFromSunDeg": 0.002989037764903816
+    },
+    {
+      "comet": "C/1947 X1-B (Southern comet)",
+      "maxDistanceAU": 0.005948447820080592,
+      "maxAngleSeenFromSunDeg": 0.002777479701666558
+    },
+    {
+      "comet": "D/1993 F2-A (Shoemaker-Levy 9)",
+      "maxDistanceAU": 0.0008365499690210895,
+      "maxAngleSeenFromSunDeg": 0.006091236684850634
+    },
+    {
+      "comet": "C/1995 O1 (Hale-Bopp)",
+      "maxDistanceAU": 0.008909102215844652,
+      "maxAngleSeenFromSunDeg": 0.006120295187034205
+    },
+    {
+      "comet": "P/1998 VS24 (LINEAR)",
+      "maxDistanceAU": 0.00048806045578369655,
+      "maxAngleSeenFromSunDeg": 0.005797733139496595
+    },
+    {
+      "comet": "C/1999 F1 (Catalina)",
+      "maxDistanceAU": 0.006210424751323979,
+      "maxAngleSeenFromSunDeg": 0.004521781587810723
+    },
+    {
+      "comet": "P/2004 V5-A (LINEAR-Hill)",
+      "maxDistanceAU": 0.00104224146025599,
+      "maxAngleSeenFromSunDeg": 0.00566276573950429
+    },
+    {
+      "comet": "C/2013 A1 (SidingSpring)",
+      "maxDistanceAU": 0.005331117964784332,
+      "maxAngleSeenFromSunDeg": 0.004366501832053381
+    },
+    {
+      "comet": "C/2014 UN271 (Bernardinelli-Bernstein)",
+      "maxDistanceAU": 0.004806919800114045,
+      "maxAngleSeenFromSunDeg": 0.006160672321380107
+    },
+    {
+      "comet": "A/2018 W3",
+      "maxDistanceAU": 0.006340695251440783,
+      "maxAngleSeenFromSunDeg": 0.006085545793569002
+    },
+    {
+      "comet": "C/2019 E3 (ATLAS)",
+      "maxDistanceAU": 0.004107399694753913,
+      "maxAngleSeenFromSunDeg": 0.0044420840216669154
+    },
+    {
+      "comet": "C/2022 E3 (ZTF)",
+      "maxDistanceAU": 0.005388342704309105,
+      "maxAngleSeenFromSunDeg": 0.00503726383019221
+    },
+    {
+      "comet": "C/2023 A3 (Tsuchinshan-ATLAS)",
+      "maxDistanceAU": 0.0064509269240168345,
+      "maxAngleSeenFromSunDeg": 0.00613949093034564
+    },
+    {
+      "comet": "C/2023 R1-B",
+      "maxDistanceAU": 0.004786024163093272,
+      "maxAngleSeenFromSunDeg": 0.004927641797759347
+    },
+    {
+      "comet": "C/2024 G3 (ATLAS)",
+      "maxDistanceAU": 0.006407702604996882,
+      "maxAngleSeenFromSunDeg": 0.006115748810289059
+    },
+    {
+      "comet": "C/2025 A6 (Lemmon)",
+      "maxDistanceAU": 0.003070060019459725,
+      "maxAngleSeenFromSunDeg": 0.0031604075421896604
+    },
+    {
+      "comet": "A/2025 S2",
+      "maxDistanceAU": 0.003643030410427392,
+      "maxAngleSeenFromSunDeg": 0.004047607164337726
+    },
+    {
+      "comet": "C/2026 T99 (Parabola Test)",
+      "maxDistanceAU": 0.004500418877711597,
+      "maxAngleSeenFromSunDeg": 0.004508011796866971
+    },
+    {
+      "comet": "1I/`Oumuamua",
+      "maxDistanceAU": 0.011317987685498248,
+      "maxAngleSeenFromSunDeg": 0.002927665358331986
+    },
+    {
+      "comet": "2I/Borisov",
+      "maxDistanceAU": 0.029477829068573252,
+      "maxAngleSeenFromSunDeg": 0.006112845430525732
+    },
+    {
+      "comet": "3I/ATLAS",
+      "maxDistanceAU": 0.044149872067891865,
+      "maxAngleSeenFromSunDeg": 0.0060358719056630645
+    }
+  ]
+}

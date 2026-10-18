@@ -1,0 +1,701 @@
+"1P Halley" "Sol"
+{
+	Class "comet"
+	Mesh "asteroid.cms"
+	Texture "asteroid.jpg"
+	Radius 5
+	Albedo 0.1
+	#Magnitude g 5.5, k 3.2
+	EllipticalOrbit
+	{
+		Period                    75.470540
+		PericenterDistance         0.570945
+		Eccentricity               0.968030
+		Inclination              162.1917
+		AscendingNode             59.2610
+		ArgOfPericenter          112.1616
+		MeanAnomaly                0.0
+		Epoch                2474038.0218     # 2061 Aug 01.5218
+	}
+}
+
+"2P Encke" "Sol"
+{
+	Class "comet"
+	Mesh "asteroid.cms"
+	Texture "asteroid.jpg"
+	Radius 5
+	Albedo 0.1
+	#Magnitude g 14.4, k 4.0
+	EllipticalOrbit
+	{
+		Period                     3.302621
+		PericenterDistance         0.338603
+		Eccentricity               0.847319
+		Inclination               11.3480
+		AscendingNode            334.0197
+		ArgOfPericenter          187.2873
+		MeanAnomaly                0.0
+		Epoch                2461446.7276     # 2027 Feb 10.2276
+	}
+}
+
+"3D-A Biela" "Sol"
+{
+	Class "comet"
+	Mesh "asteroid.cms"
+	Texture "asteroid.jpg"
+	Radius 5
+	Albedo 0.1
+	#Magnitude g 11.0, k 6.0
+	EllipticalOrbit
+	{
+		Period                     6.696005
+		PericenterDistance         0.827609
+		Eccentricity               0.767040
+		Inclination                7.2141
+		AscendingNode            276.6852
+		ArgOfPericenter          192.1566
+		MeanAnomaly                0.0
+		Epoch                2460646.6425     # 2024 Dec 02.1425
+	}
+}
+
+"12P Pons-Brooks" "Sol"
+{
+	Class "comet"
+	Mesh "asteroid.cms"
+	Texture "asteroid.jpg"
+	Radius 5
+	Albedo 0.1
+	#Magnitude g 5.0, k 6.0
+	EllipticalOrbit
+	{
+		Period                    71.826849
+		PericenterDistance         0.781920
+		Eccentricity               0.954748
+		Inclination               74.1469
+		AscendingNode            255.8678
+		ArgOfPericenter          199.0355
+		MeanAnomaly                0.0
+		Epoch                2460421.7066     # 2024 Apr 21.2066
+	}
+}
+
+"18D Perrine-Mrkos" "Sol"
+{
+	Class "comet"
+	Mesh "asteroid.cms"
+	Texture "asteroid.jpg"
+	Radius 5
+	Albedo 0.1
+	#Magnitude g 16.0, k 4.0
+	EllipticalOrbit
+	{
+		Period                     7.636567
+		PericenterDistance         1.592390
+		Eccentricity               0.589370
+		Inclination               17.6640
+		AscendingNode            158.4520
+		ArgOfPericenter          238.1500
+		MeanAnomaly                0.0
+		Epoch                2460551.4120     # 2024 Aug 28.9120
+	}
+}
+
+"29P Schwassmann-Wachmann" "Sol"
+{
+	Class "comet"
+	Mesh "asteroid.cms"
+	Texture "asteroid.jpg"
+	Radius 5
+	Albedo 0.1
+	#Magnitude g 4.0, k 4.0
+	EllipticalOrbit
+	{
+		Period                    14.910184
+		PericenterDistance         5.797924
+		Eccentricity               0.042915
+		Inclination                9.3549
+		AscendingNode            312.3998
+		ArgOfPericenter           51.2459
+		MeanAnomaly                0.0
+		Epoch                2464036.6855     # 2034 Mar 15.1855
+	}
+}
+
+"67P Churyumov-Gerasimenko" "Sol"
+{
+	Class "comet"
+	Mesh "asteroid.cms"
+	Texture "asteroid.jpg"
+	Radius 5
+	Albedo 0.1
+	#Magnitude g 12.3, k 4.0
+	EllipticalOrbit
+	{
+		Period                     6.433169
+		PericenterDistance         1.212454
+		Eccentricity               0.649478
+		Inclination                3.8660
+		AscendingNode             36.2855
+		ArgOfPericenter           22.2401
+		MeanAnomaly                0.0
+		Epoch                2461871.0504     # 2028 Apr 09.5504
+	}
+}
+
+"73P-BT Schwassmann-Wachmann" "Sol"
+{
+	Class "comet"
+	Mesh "asteroid.cms"
+	Texture "asteroid.jpg"
+	Radius 5
+	Albedo 0.1
+	#Magnitude g 11.5, k 6.0
+	EllipticalOrbit
+	{
+		Period                     5.358891
+		PericenterDistance         0.915911
+		Eccentricity               0.700909
+		Inclination                6.1794
+		AscendingNode             52.3435
+		ArgOfPericenter          214.4932
+		MeanAnomaly                0.0
+		Epoch                2461764.6036     # 2027 Dec 25.1036
+	}
+}
+
+"96P-B Machholz" "Sol"
+{
+	Class "comet"
+	Mesh "asteroid.cms"
+	Texture "asteroid.jpg"
+	Radius 5
+	Albedo 0.1
+	#Magnitude g 13.0, k 4.8
+	EllipticalOrbit
+	{
+		Period                     5.274204
+		PericenterDistance         0.115972
+		Eccentricity               0.961725
+		Inclination               57.5176
+		AscendingNode             14.4276
+		ArgOfPericenter           94.1031
+		MeanAnomaly                0.0
+		Epoch                2461902.2697     # 2028 May 10.7697
+	}
+}
+
+"141P-A Machholz" "Sol"
+{
+	Class "comet"
+	Mesh "asteroid.cms"
+	Texture "asteroid.jpg"
+	Radius 5
+	Albedo 0.1
+	#Magnitude g 12.0, k 12.0
+	EllipticalOrbit
+	{
+		Period                     5.345011
+		PericenterDistance         0.807388
+		Eccentricity               0.735891
+		Inclination               13.9527
+		AscendingNode            241.7853
+		ArgOfPericenter          153.6476
+		MeanAnomaly                0.0
+		Epoch                2461153.8894     # 2026 Apr 23.3894
+	}
+}
+
+"C -146 P1" "Sol"
+{
+	Class "comet"
+	Mesh "asteroid.cms"
+	Texture "asteroid.jpg"
+	Radius 5
+	Albedo 0.1
+	#Magnitude g 4.0, k 4.0
+	EllipticalOrbit
+	{
+		PericenterDistance         0.430000
+		Eccentricity               1.000000
+		Inclination               55.0000
+		AscendingNode            210.0000
+		ArgOfPericenter          120.0000
+		MeanAnomaly                0.0
+		Epoch                1667956.0000     # -146 Aug 10.5000
+	}
+}
+
+"X 1106 C1" "Sol"
+{
+	Class "comet"
+	Mesh "asteroid.cms"
+	Texture "asteroid.jpg"
+	Radius 5
+	Albedo 0.1
+	#Magnitude g 3.0, k 4.0
+	EllipticalOrbit
+	{
+		PericenterDistance         0.180000
+		Eccentricity               1.000000
+		Inclination              140.0000
+		AscendingNode             80.0000
+		ArgOfPericenter          300.0000
+		MeanAnomaly                0.0
+		Epoch                2125048.5000     # 1106 Feb 01.0000
+	}
+}
+
+"C 1860 D1-A (Liais)" "Sol"
+{
+	Class "comet"
+	Mesh "asteroid.cms"
+	Texture "asteroid.jpg"
+	Radius 5
+	Albedo 0.1
+	#Magnitude g 7.0, k 4.0
+	EllipticalOrbit
+	{
+		PericenterDistance         1.196800
+		Eccentricity               1.000000
+		Inclination               79.4200
+		AscendingNode            324.8200
+		ArgOfPericenter          145.0300
+		MeanAnomaly                0.0
+		Epoch                2400457.7500     # 1860 Feb 17.2500
+	}
+}
+
+"C 1942 EA (Vaisala)" "Sol"
+{
+	Class "comet"
+	Mesh "asteroid.cms"
+	Texture "asteroid.jpg"
+	Radius 5
+	Albedo 0.1
+	#Magnitude g 13.5, k 4.0
+	EllipticalOrbit
+	{
+		Period                    86.890380
+		PericenterDistance         1.277543
+		Eccentricity               0.934878
+		Inclination               37.8727
+		AscendingNode            172.3201
+		ArgOfPericenter          335.5629
+		MeanAnomaly                0.0
+		Epoch                2462028.4762     # 2028 Sep 13.9762
+	}
+}
+
+"C 1947 X1-B (Southern comet)" "Sol"
+{
+	Class "comet"
+	Mesh "asteroid.cms"
+	Texture "asteroid.jpg"
+	Radius 5
+	Albedo 0.1
+	#Magnitude g 9.0, k 4.0
+	EllipticalOrbit
+	{
+		Period                  3300.795995
+		PericenterDistance         0.124368
+		Eccentricity               0.999439
+		Inclination              140.8318
+		AscendingNode            338.0702
+		ArgOfPericenter          196.9509
+		MeanAnomaly                0.0
+		Epoch                2432481.7454     # 1947 Oct 23.2454
+	}
+}
+
+"D 1993 F2-A (Shoemaker-Levy 9)" "Sol"
+{
+	Class "comet"
+	Mesh "asteroid.cms"
+	Texture "asteroid.jpg"
+	Radius 5
+	Albedo 0.1
+	#Magnitude g 14.0, k 4.0
+	EllipticalOrbit
+	{
+		Period                    17.984712
+		PericenterDistance         5.381000
+		Eccentricity               0.216100
+		Inclination                6.0030
+		AscendingNode            220.5400
+		ArgOfPericenter          354.8900
+		MeanAnomaly                0.0
+		Epoch                2449430.0000     # 1994 Mar 18.5000
+	}
+}
+
+"C 1995 O1 (Hale-Bopp)" "Sol"
+{
+	Class "comet"
+	Mesh "asteroid.cms"
+	Texture "asteroid.jpg"
+	Radius 5
+	Albedo 0.1
+	#Magnitude g -2.0, k 4.0
+	EllipticalOrbit
+	{
+		Period                  2442.976801
+		PericenterDistance         0.925995
+		Eccentricity               0.994895
+		Inclination               89.7335
+		AscendingNode            281.8097
+		ArgOfPericenter          130.7313
+		MeanAnomaly                0.0
+		Epoch                2450536.5284     # 1997 Mar 29.0284
+	}
+}
+
+"P 1998 VS24 (LINEAR)" "Sol"
+{
+	Class "comet"
+	Mesh "asteroid.cms"
+	Texture "asteroid.jpg"
+	Radius 5
+	Albedo 0.1
+	#Magnitude g 13.0, k 2.0
+	EllipticalOrbit
+	{
+		Period                     9.604118
+		PericenterDistance         3.419400
+		Eccentricity               0.243205
+		Inclination                5.0290
+		AscendingNode            158.9801
+		ArgOfPericenter          245.0161
+		MeanAnomaly                0.0
+		Epoch                2461656.9810     # 2027 Sep 08.4810
+	}
+}
+
+"C 1999 F1 (Catalina)" "Sol"
+{
+	Class "comet"
+	Mesh "asteroid.cms"
+	Texture "asteroid.jpg"
+	Radius 5
+	Albedo 0.1
+	#Magnitude g 9.5, k 2.0
+	EllipticalOrbit
+	{
+		Period               2193764.924894
+		PericenterDistance         5.824775
+		Eccentricity               0.999655
+		Inclination               92.0140
+		AscendingNode             20.0237
+		ArgOfPericenter          255.3117
+		MeanAnomaly                0.0
+		Epoch                2452302.8347     # 2002 Jan 28.3347
+	}
+}
+
+"P 2004 V5-A (LINEAR-Hill)" "Sol"
+{
+	Class "comet"
+	Mesh "asteroid.cms"
+	Texture "asteroid.jpg"
+	Radius 5
+	Albedo 0.1
+	#Magnitude g 8.0, k 4.0
+	EllipticalOrbit
+	{
+		Period                    22.945377
+		PericenterDistance         4.433323
+		Eccentricity               0.450966
+		Inclination               19.3222
+		AscendingNode             47.7354
+		ArgOfPericenter           87.0877
+		MeanAnomaly                0.0
+		Epoch                2461622.1320     # 2027 Aug 04.6320
+	}
+}
+
+"C 2013 A1 (SidingSpring)" "Sol"
+{
+	Class "comet"
+	Mesh "asteroid.cms"
+	Texture "asteroid.jpg"
+	Radius 5
+	Albedo 0.1
+	#Magnitude g 8.2, k 2.4
+	EllipticalOrbit
+	{
+		PericenterDistance         1.391249
+		Eccentricity               1.000073
+		Inclination              128.6857
+		AscendingNode            301.1848
+		ArgOfPericenter            2.5353
+		MeanAnomaly                0.0
+		Epoch                2456957.3227     # 2014 Oct 26.8227
+	}
+}
+
+"C 2014 UN271 (Bernardinelli-Bernstein)" "Sol"
+{
+	Class "comet"
+	Mesh "asteroid.cms"
+	Texture "asteroid.jpg"
+	Radius 5
+	Albedo 0.1
+	#Magnitude g 2.5, k 3.2
+	EllipticalOrbit
+	{
+		PericenterDistance        10.959316
+		Eccentricity               1.004054
+		Inclination               95.4457
+		AscendingNode            190.0073
+		ArgOfPericenter          326.0949
+		MeanAnomaly                0.0
+		Epoch                2462883.1692     # 2031 Jan 16.6692
+	}
+}
+
+"A 2018 W3" "Sol"
+{
+	Class "comet"
+	Mesh "asteroid.cms"
+	Texture "asteroid.jpg"
+	Radius 5
+	Albedo 0.1
+	#Magnitude g 10.5, k 2.0
+	EllipticalOrbit
+	{
+		Period                 16938.466674
+		PericenterDistance         4.274560
+		Eccentricity               0.993519
+		Inclination              104.8220
+		AscendingNode            251.6525
+		ArgOfPericenter          313.7724
+		MeanAnomaly                0.0
+		Epoch                2459317.6790     # 2021 Apr 13.1790
+	}
+}
+
+"C 2019 E3 (ATLAS)" "Sol"
+{
+	Class "comet"
+	Mesh "asteroid.cms"
+	Texture "asteroid.jpg"
+	Radius 5
+	Albedo 0.1
+	#Magnitude g 2.5, k 4.0
+	EllipticalOrbit
+	{
+		Period               1134719.170230
+		PericenterDistance        10.313370
+		Eccentricity               0.999052
+		Inclination               84.3355
+		AscendingNode            347.1727
+		ArgOfPericenter          280.7316
+		MeanAnomaly                0.0
+		Epoch                2460264.5927     # 2023 Nov 16.0927
+	}
+}
+
+"C 2022 E3 (ZTF)" "Sol"
+{
+	Class "comet"
+	Mesh "asteroid.cms"
+	Texture "asteroid.jpg"
+	Radius 5
+	Albedo 0.1
+	#Magnitude g 7.5, k 4.0
+	EllipticalOrbit
+	{
+		PericenterDistance         1.118107
+		Eccentricity               1.000070
+		Inclination              109.1810
+		AscendingNode            302.4884
+		ArgOfPericenter          145.8957
+		MeanAnomaly                0.0
+		Epoch                2459956.7224     # 2023 Jan 12.2224
+	}
+}
+
+"C 2023 A3 (Tsuchinshan-ATLAS)" "Sol"
+{
+	Class "comet"
+	Mesh "asteroid.cms"
+	Texture "asteroid.jpg"
+	Radius 5
+	Albedo 0.1
+	#Magnitude g 6.5, k 3.2
+	EllipticalOrbit
+	{
+		PericenterDistance         0.391312
+		Eccentricity               1.000180
+		Inclination              139.0991
+		AscendingNode             21.6759
+		ArgOfPericenter          308.5842
+		MeanAnomaly                0.0
+		Epoch                2460581.3337     # 2024 Sep 27.8337
+	}
+}
+
+"C 2023 R1-B" "Sol"
+{
+	Class "comet"
+	Mesh "asteroid.cms"
+	Texture "asteroid.jpg"
+	Radius 5
+	Albedo 0.1
+	#Magnitude g 12.6, k 4.0
+	EllipticalOrbit
+	{
+		PericenterDistance         3.569935
+		Eccentricity               1.003516
+		Inclination              149.3141
+		AscendingNode             62.5691
+		ArgOfPericenter          144.2003
+		MeanAnomaly                0.0
+		Epoch                2461143.6156     # 2026 Apr 13.1156
+	}
+}
+
+"C 2024 G3 (ATLAS)" "Sol"
+{
+	Class "comet"
+	Mesh "asteroid.cms"
+	Texture "asteroid.jpg"
+	Radius 5
+	Albedo 0.1
+	#Magnitude g 9.0, k 4.0
+	EllipticalOrbit
+	{
+		PericenterDistance         0.093688
+		Eccentricity               1.000010
+		Inclination              116.8365
+		AscendingNode            220.5116
+		ArgOfPericenter          108.2146
+		MeanAnomaly                0.0
+		Epoch                2460688.9330     # 2025 Jan 13.4330
+	}
+}
+
+"C 2025 A6 (Lemmon)" "Sol"
+{
+	Class "comet"
+	Mesh "asteroid.cms"
+	Texture "asteroid.jpg"
+	Radius 5
+	Albedo 0.1
+	#Magnitude g 8.6, k 4.0
+	EllipticalOrbit
+	{
+		Period                  1327.236902
+		PericenterDistance         0.529826
+		Eccentricity               0.995613
+		Inclination              143.6635
+		AscendingNode            108.0988
+		ArgOfPericenter          132.9563
+		MeanAnomaly                0.0
+		Epoch                2460988.0227     # 2025 Nov 08.5227
+	}
+}
+
+"A 2025 S2" "Sol"
+{
+	Class "comet"
+	Mesh "asteroid.cms"
+	Texture "asteroid.jpg"
+	Radius 5
+	Albedo 0.1
+	#Magnitude g 16.0, k 2.0
+	EllipticalOrbit
+	{
+		Period                   501.789419
+		PericenterDistance         1.686321
+		Eccentricity               0.973295
+		Inclination               96.6418
+		AscendingNode             34.4764
+		ArgOfPericenter           31.5903
+		MeanAnomaly                0.0
+		Epoch                2461042.9072     # 2026 Jan 02.4072
+	}
+}
+
+"C 2026 T99 (Parabola Test)" "Sol"
+{
+	Class "comet"
+	Mesh "asteroid.cms"
+	Texture "asteroid.jpg"
+	Radius 5
+	Albedo 0.1
+	#Magnitude g 9.5, k 4.0
+	EllipticalOrbit
+	{
+		PericenterDistance         0.812345
+		Eccentricity               1.000000
+		Inclination               67.8901
+		AscendingNode            123.4567
+		ArgOfPericenter           45.1234
+		MeanAnomaly                0.0
+		Epoch                2461347.7500     # 2026 Nov 03.2500
+	}
+}
+
+"1I `Oumuamua" "Sol"
+{
+	Class "comet"
+	Mesh "asteroid.cms"
+	Texture "asteroid.jpg"
+	Radius 5
+	Albedo 0.1
+	#Magnitude g 23.0, k 2.0
+	EllipticalOrbit
+	{
+		PericenterDistance         0.255240
+		Eccentricity               1.199252
+		Inclination              122.6778
+		AscendingNode             24.5997
+		ArgOfPericenter          241.6845
+		MeanAnomaly                0.0
+		Epoch                2458005.9886     # 2017 Sep 09.4886
+	}
+}
+
+"2I Borisov" "Sol"
+{
+	Class "comet"
+	Mesh "asteroid.cms"
+	Texture "asteroid.jpg"
+	Radius 5
+	Albedo 0.1
+	#Magnitude g 11.0, k 4.0
+	EllipticalOrbit
+	{
+		PericenterDistance         1.997724
+		Eccentricity               3.345952
+		Inclination               44.2624
+		AscendingNode            307.8024
+		ArgOfPericenter          209.2911
+		MeanAnomaly                0.0
+		Epoch                2458826.5572     # 2019 Dec 09.0572
+	}
+}
+
+"3I ATLAS" "Sol"
+{
+	Class "comet"
+	Mesh "asteroid.cms"
+	Texture "asteroid.jpg"
+	Radius 5
+	Albedo 0.1
+	#Magnitude g 8.0, k 4.0
+	EllipticalOrbit
+	{
+		PericenterDistance         1.356507
+		Eccentricity               6.139884
+		Inclination              175.1129
+		AscendingNode            322.1535
+		ArgOfPericenter          128.0055
+		MeanAnomaly                0.0
+		Epoch                2460977.9825     # 2025 Oct 29.4825
+	}
+}
+

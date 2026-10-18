@@ -1,0 +1,100 @@
+{
+  "note": "ExportMain(type, sample collection) at fakeNow. Input: import/sample.txt in database order. import-expected/roundtrip-<file>.json is the result of importing each file back.",
+  "exports": [
+    {
+      "type": "MPC",
+      "typeName": "MPC (Soft00Cmt)",
+      "file": "export/00-MPC.txt"
+    },
+    {
+      "type": "SkyMap",
+      "typeName": "SkyMap (Soft01Cmt)",
+      "file": "export/01-SkyMap.txt"
+    },
+    {
+      "type": "Guide",
+      "typeName": "Guide (Soft02Cmt)",
+      "file": "export/02-Guide.txt"
+    },
+    {
+      "type": "xephem",
+      "typeName": "xephem (Soft03Cmt)",
+      "file": "export/03-xephem.txt"
+    },
+    {
+      "type": "HomePlanet",
+      "typeName": "Home Planet (Soft04Cmt)",
+      "file": "export/04-HomePlanet.txt"
+    },
+    {
+      "type": "MyStars",
+      "typeName": "MyStars! (Soft05Cmt)",
+      "file": "export/05-MyStars.txt"
+    },
+    {
+      "type": "TheSky",
+      "typeName": "TheSky (Soft06Cmt)",
+      "file": "export/06-TheSky.txt"
+    },
+    {
+      "type": "StarryNight",
+      "typeName": "Starry Night (Soft07Cmt)",
+      "file": "export/07-StarryNight.txt"
+    },
+    {
+      "type": "DeepSpace",
+      "typeName": "Deep Space (Soft08Cmt)",
+      "file": "export/08-DeepSpace.txt"
+    },
+    {
+      "type": "PCTCS",
+      "typeName": "PC-TCS (Soft09Cmt)",
+      "file": "export/09-PCTCS.txt"
+    },
+    {
+      "type": "EarthCenteredUniverse",
+      "typeName": "Earth Centered Universe (Soft10Cmt)",
+      "file": "export/10-EarthCenteredUniverse.txt"
+    },
+    {
+      "type": "DanceOfThePlanets",
+      "typeName": "Dance of the Planets (Soft11Cmt)",
+      "file": "export/11-DanceOfThePlanets.txt"
+    },
+    {
+      "type": "MegaStarV4",
+      "typeName": "MegaStar V4.x (Soft12Cmt)",
+      "file": "export/12-MegaStarV4.txt"
+    },
+    {
+      "type": "SkyChartIII",
+      "typeName": "SkyChart III (Soft13Cmt)",
+      "file": "export/13-SkyChartIII.txt"
+    },
+    {
+      "type": "VoyagerII",
+      "typeName": "Voyager II (Soft14Cmt)",
+      "file": "export/14-VoyagerII.txt"
+    },
+    {
+      "type": "SkyTools",
+      "typeName": "SkyTools (Soft15Cmt)",
+      "file": "export/15-SkyTools.txt"
+    },
+    {
+      "type": "Autostar",
+      "typeName": "Autostar (Soft16Cmt)",
+      "file": "export/16-Autostar.txt"
+    },
+    {
+      "type": "SpaceEngine",
+      "typeName": "SpaceEngine",
+      "file": "export/17-SpaceEngine.txt"
+    },
+    {
+      "type": "Celestia",
+      "typeName": "Celestia",
+      "file": "export/18-Celestia.txt"
+    }
+  ]
+}

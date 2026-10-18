@@ -1,0 +1,293 @@
+{
+  "note": "Single-step (|< and >|) date changes: calendar arithmetic, years then months then days then hours. A month step from the 31st clamps to the last day of the month.",
+  "cases": [
+    {
+      "startUtc": "2026-01-31T12:00:00Z",
+      "step": "1 Hour",
+      "forward": true,
+      "resultUtc": "2026-01-31T13:00:00Z"
+    },
+    {
+      "startUtc": "2026-01-31T12:00:00Z",
+      "step": "1 Hour",
+      "forward": false,
+      "resultUtc": "2026-01-31T11:00:00Z"
+    },
+    {
+      "startUtc": "2026-01-31T12:00:00Z",
+      "step": "1 Day",
+      "forward": true,
+      "resultUtc": "2026-02-01T12:00:00Z"
+    },
+    {
+      "startUtc": "2026-01-31T12:00:00Z",
+      "step": "1 Day",
+      "forward": false,
+      "resultUtc": "2026-01-30T12:00:00Z"
+    },
+    {
+      "startUtc": "2026-01-31T12:00:00Z",
+      "step": "10 Days",
+      "forward": true,
+      "resultUtc": "2026-02-10T12:00:00Z"
+    },
+    {
+      "startUtc": "2026-01-31T12:00:00Z",
+      "step": "10 Days",
+      "forward": false,
+      "resultUtc": "2026-01-21T12:00:00Z"
+    },
+    {
+      "startUtc": "2026-01-31T12:00:00Z",
+      "step": "1 Month",
+      "forward": true,
+      "resultUtc": "2026-02-28T12:00:00Z"
+    },
+    {
+      "startUtc": "2026-01-31T12:00:00Z",
+      "step": "1 Month",
+      "forward": false,
+      "resultUtc": "2025-12-31T12:00:00Z"
+    },
+    {
+      "startUtc": "2026-01-31T12:00:00Z",
+      "step": "3 Months",
+      "forward": true,
+      "resultUtc": "2026-04-30T12:00:00Z"
+    },
+    {
+      "startUtc": "2026-01-31T12:00:00Z",
+      "step": "3 Months",
+      "forward": false,
+      "resultUtc": "2025-10-31T12:00:00Z"
+    },
+    {
+      "startUtc": "2026-01-31T12:00:00Z",
+      "step": "1 Year",
+      "forward": true,
+      "resultUtc": "2027-01-31T12:00:00Z"
+    },
+    {
+      "startUtc": "2026-01-31T12:00:00Z",
+      "step": "1 Year",
+      "forward": false,
+      "resultUtc": "2025-01-31T12:00:00Z"
+    },
+    {
+      "startUtc": "2024-02-29T00:00:00Z",
+      "step": "1 Hour",
+      "forward": true,
+      "resultUtc": "2024-02-29T01:00:00Z"
+    },
+    {
+      "startUtc": "2024-02-29T00:00:00Z",
+      "step": "1 Hour",
+      "forward": false,
+      "resultUtc": "2024-02-28T23:00:00Z"
+    },
+    {
+      "startUtc": "2024-02-29T00:00:00Z",
+      "step": "1 Day",
+      "forward": true,
+      "resultUtc": "2024-03-01T00:00:00Z"
+    },
+    {
+      "startUtc": "2024-02-29T00:00:00Z",
+      "step": "1 Day",
+      "forward": false,
+      "resultUtc": "2024-02-28T00:00:00Z"
+    },
+    {
+      "startUtc": "2024-02-29T00:00:00Z",
+      "step": "10 Days",
+      "forward": true,
+      "resultUtc": "2024-03-10T00:00:00Z"
+    },
+    {
+      "startUtc": "2024-02-29T00:00:00Z",
+      "step": "10 Days",
+      "forward": false,
+      "resultUtc": "2024-02-19T00:00:00Z"
+    },
+    {
+      "startUtc": "2024-02-29T00:00:00Z",
+      "step": "1 Month",
+      "forward": true,
+      "resultUtc": "2024-03-29T00:00:00Z"
+    },
+    {
+      "startUtc": "2024-02-29T00:00:00Z",
+      "step": "1 Month",
+      "forward": false,
+      "resultUtc": "2024-01-29T00:00:00Z"
+    },
+    {
+      "startUtc": "2024-02-29T00:00:00Z",
+      "step": "3 Months",
+      "forward": true,
+      "resultUtc": "2024-05-29T00:00:00Z"
+    },
+    {
+      "startUtc": "2024-02-29T00:00:00Z",
+      "step": "3 Months",
+      "forward": false,
+      "resultUtc": "2023-11-29T00:00:00Z"
+    },
+    {
+      "startUtc": "2024-02-29T00:00:00Z",
+      "step": "1 Year",
+      "forward": true,
+      "resultUtc": "2025-02-28T00:00:00Z"
+    },
+    {
+      "startUtc": "2024-02-29T00:00:00Z",
+      "step": "1 Year",
+      "forward": false,
+      "resultUtc": "2023-02-28T00:00:00Z"
+    },
+    {
+      "startUtc": "2026-10-18T23:30:00Z",
+      "step": "1 Hour",
+      "forward": true,
+      "resultUtc": "2026-10-19T00:30:00Z"
+    },
+    {
+      "startUtc": "2026-10-18T23:30:00Z",
+      "step": "1 Hour",
+      "forward": false,
+      "resultUtc": "2026-10-18T22:30:00Z"
+    },
+    {
+      "startUtc": "2026-10-18T23:30:00Z",
+      "step": "1 Day",
+      "forward": true,
+      "resultUtc": "2026-10-19T23:30:00Z"
+    },
+    {
+      "startUtc": "2026-10-18T23:30:00Z",
+      "step": "1 Day",
+      "forward": false,
+      "resultUtc": "2026-10-17T23:30:00Z"
+    },
+    {
+      "startUtc": "2026-10-18T23:30:00Z",
+      "step": "10 Days",
+      "forward": true,
+      "resultUtc": "2026-10-28T23:30:00Z"
+    },
+    {
+      "startUtc": "2026-10-18T23:30:00Z",
+      "step": "10 Days",
+      "forward": false,
+      "resultUtc": "2026-10-08T23:30:00Z"
+    },
+    {
+      "startUtc": "2026-10-18T23:30:00Z",
+      "step": "1 Month",
+      "forward": true,
+      "resultUtc": "2026-11-18T23:30:00Z"
+    },
+    {
+      "startUtc": "2026-10-18T23:30:00Z",
+      "step": "1 Month",
+      "forward": false,
+      "resultUtc": "2026-09-18T23:30:00Z"
+    },
+    {
+      "startUtc": "2026-10-18T23:30:00Z",
+      "step": "3 Months",
+      "forward": true,
+      "resultUtc": "2027-01-18T23:30:00Z"
+    },
+    {
+      "startUtc": "2026-10-18T23:30:00Z",
+      "step": "3 Months",
+      "forward": false,
+      "resultUtc": "2026-07-18T23:30:00Z"
+    },
+    {
+      "startUtc": "2026-10-18T23:30:00Z",
+      "step": "1 Year",
+      "forward": true,
+      "resultUtc": "2027-10-18T23:30:00Z"
+    },
+    {
+      "startUtc": "2026-10-18T23:30:00Z",
+      "step": "1 Year",
+      "forward": false,
+      "resultUtc": "2025-10-18T23:30:00Z"
+    },
+    {
+      "startUtc": "1582-10-03T00:00:00Z",
+      "step": "1 Hour",
+      "forward": true,
+      "resultUtc": "1582-10-03T01:00:00Z"
+    },
+    {
+      "startUtc": "1582-10-03T00:00:00Z",
+      "step": "1 Hour",
+      "forward": false,
+      "resultUtc": "1582-10-02T23:00:00Z"
+    },
+    {
+      "startUtc": "1582-10-03T00:00:00Z",
+      "step": "1 Day",
+      "forward": true,
+      "resultUtc": "1582-10-04T00:00:00Z"
+    },
+    {
+      "startUtc": "1582-10-03T00:00:00Z",
+      "step": "1 Day",
+      "forward": false,
+      "resultUtc": "1582-10-02T00:00:00Z"
+    },
+    {
+      "startUtc": "1582-10-03T00:00:00Z",
+      "step": "10 Days",
+      "forward": true,
+      "resultUtc": "1582-10-15T00:00:00Z"
+    },
+    {
+      "startUtc": "1582-10-03T00:00:00Z",
+      "step": "10 Days",
+      "forward": false,
+      "resultUtc": "1582-09-23T00:00:00Z"
+    },
+    {
+      "startUtc": "1582-10-03T00:00:00Z",
+      "step": "1 Month",
+      "forward": true,
+      "resultUtc": "1582-11-03T00:00:00Z"
+    },
+    {
+      "startUtc": "1582-10-03T00:00:00Z",
+      "step": "1 Month",
+      "forward": false,
+      "resultUtc": "1582-09-03T00:00:00Z"
+    },
+    {
+      "startUtc": "1582-10-03T00:00:00Z",
+      "step": "3 Months",
+      "forward": true,
+      "resultUtc": "1583-01-03T00:00:00Z"
+    },
+    {
+      "startUtc": "1582-10-03T00:00:00Z",
+      "step": "3 Months",
+      "forward": false,
+      "resultUtc": "1582-07-03T00:00:00Z"
+    },
+    {
+      "startUtc": "1582-10-03T00:00:00Z",
+      "step": "1 Year",
+      "forward": true,
+      "resultUtc": "1583-10-03T00:00:00Z"
+    },
+    {
+      "startUtc": "1582-10-03T00:00:00Z",
+      "step": "1 Year",
+      "forward": false,
+      "resultUtc": "1581-10-03T00:00:00Z"
+    }
+  ]
+}

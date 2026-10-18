@@ -1,0 +1,45 @@
+; Comet for Windows elements file - SYNTHETIC test data
+[File]
+Version=1
+Count=3
+Equinox=2000.0
+
+Name=C/1995 O1 (Hale-Bopp)
+Type=Comet
+Reference=MPC
+Perihelion=1997 03 29.0284
+q=0.925995
+e=0.994895
+Peri=130.7313
+Node=281.8097
+Incl=89.7335
+Equinox=2000.0
+Epoch=
+Magnitude=-2.0 10.0
+
+Name=2P/Encke
+Type=Comet
+Reference=MPC
+Perihelion=2027 02 10.2276
+q=0.338603
+e=0.847319
+Peri=187.2873
+Node=334.0197
+Incl=11.3480
+Equinox=2000.0
+Epoch=
+Magnitude=14.4 10.0
+
+Name=C/2023 A3 (Tsuchinshan-ATLAS)
+Type=Comet
+Reference=MPC
+Perihelion=2024 09 27.7372
+q=0.391423
+e=1.000102
+Peri=308.4925
+Node=21.5596
+Incl=139.1112
+Equinox=2000.0
+Epoch=
+Magnitude=4.5 10.0
+

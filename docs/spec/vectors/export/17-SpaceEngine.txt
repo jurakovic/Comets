@@ -1,0 +1,646 @@
+Comet	"1P Halley"
+{
+	ParentBody "Sol"
+	CometType  "P"
+	AbsMagn     5.5
+	SlopeParam  3.2
+
+	Orbit
+	{
+		Epoch            2474038.0218
+		PericenterDist   0.570945
+		Eccentricity     0.968030
+		Inclination      162.1917
+		AscendingNode    59.2610
+		ArgOfPericenter  112.1616
+		MeanAnomaly      0
+	}
+}
+
+Comet	"2P Encke"
+{
+	ParentBody "Sol"
+	CometType  "P"
+	AbsMagn     14.4
+	SlopeParam  4
+
+	Orbit
+	{
+		Epoch            2461446.7276
+		PericenterDist   0.338603
+		Eccentricity     0.847319
+		Inclination      11.3480
+		AscendingNode    334.0197
+		ArgOfPericenter  187.2873
+		MeanAnomaly      0
+	}
+}
+
+Comet	"3D-A Biela"
+{
+	ParentBody "Sol"
+	CometType  "P"
+	AbsMagn     11
+	SlopeParam  6
+
+	Orbit
+	{
+		Epoch            2460646.6425
+		PericenterDist   0.827609
+		Eccentricity     0.767040
+		Inclination      7.2141
+		AscendingNode    276.6852
+		ArgOfPericenter  192.1566
+		MeanAnomaly      0
+	}
+}
+
+Comet	"12P Pons-Brooks"
+{
+	ParentBody "Sol"
+	CometType  "P"
+	AbsMagn     5
+	SlopeParam  6
+
+	Orbit
+	{
+		Epoch            2460421.7066
+		PericenterDist   0.781920
+		Eccentricity     0.954748
+		Inclination      74.1469
+		AscendingNode    255.8678
+		ArgOfPericenter  199.0355
+		MeanAnomaly      0
+	}
+}
+
+Comet	"18D Perrine-Mrkos"
+{
+	ParentBody "Sol"
+	CometType  "P"
+	AbsMagn     16
+	SlopeParam  4
+
+	Orbit
+	{
+		Epoch            2460551.4120
+		PericenterDist   1.592390
+		Eccentricity     0.589370
+		Inclination      17.6640
+		AscendingNode    158.4520
+		ArgOfPericenter  238.1500
+		MeanAnomaly      0
+	}
+}
+
+Comet	"29P Schwassmann-Wachmann"
+{
+	ParentBody "Sol"
+	CometType  "P"
+	AbsMagn     4
+	SlopeParam  4
+
+	Orbit
+	{
+		Epoch            2464036.6855
+		PericenterDist   5.797924
+		Eccentricity     0.042915
+		Inclination      9.3549
+		AscendingNode    312.3998
+		ArgOfPericenter  51.2459
+		MeanAnomaly      0
+	}
+}
+
+Comet	"67P Churyumov-Gerasimenko"
+{
+	ParentBody "Sol"
+	CometType  "P"
+	AbsMagn     12.3
+	SlopeParam  4
+
+	Orbit
+	{
+		Epoch            2461871.0504
+		PericenterDist   1.212454
+		Eccentricity     0.649478
+		Inclination      3.8660
+		AscendingNode    36.2855
+		ArgOfPericenter  22.2401
+		MeanAnomaly      0
+	}
+}
+
+Comet	"73P-BT Schwassmann-Wachmann"
+{
+	ParentBody "Sol"
+	CometType  "P"
+	AbsMagn     11.5
+	SlopeParam  6
+
+	Orbit
+	{
+		Epoch            2461764.6036
+		PericenterDist   0.915911
+		Eccentricity     0.700909
+		Inclination      6.1794
+		AscendingNode    52.3435
+		ArgOfPericenter  214.4932
+		MeanAnomaly      0
+	}
+}
+
+Comet	"96P-B Machholz"
+{
+	ParentBody "Sol"
+	CometType  "P"
+	AbsMagn     13
+	SlopeParam  4.8
+
+	Orbit
+	{
+		Epoch            2461902.2697
+		PericenterDist   0.115972
+		Eccentricity     0.961725
+		Inclination      57.5176
+		AscendingNode    14.4276
+		ArgOfPericenter  94.1031
+		MeanAnomaly      0
+	}
+}
+
+Comet	"141P-A Machholz"
+{
+	ParentBody "Sol"
+	CometType  "P"
+	AbsMagn     12
+	SlopeParam  12
+
+	Orbit
+	{
+		Epoch            2461153.8894
+		PericenterDist   0.807388
+		Eccentricity     0.735891
+		Inclination      13.9527
+		AscendingNode    241.7853
+		ArgOfPericenter  153.6476
+		MeanAnomaly      0
+	}
+}
+
+Comet	"C-146 P1"
+{
+	ParentBody "Sol"
+	CometType  "C"
+	AbsMagn     4
+	SlopeParam  4
+
+	Orbit
+	{
+		Epoch            1667956.0000
+		PericenterDist   0.430000
+		Eccentricity     1.000000
+		Inclination      55.0000
+		AscendingNode    210.0000
+		ArgOfPericenter  120.0000
+		MeanAnomaly      0
+	}
+}
+
+Comet	"X1106 C1"
+{
+	ParentBody "Sol"
+	CometType  "P"
+	AbsMagn     3
+	SlopeParam  4
+
+	Orbit
+	{
+		Epoch            2125048.5000
+		PericenterDist   0.180000
+		Eccentricity     1.000000
+		Inclination      140.0000
+		AscendingNode    80.0000
+		ArgOfPericenter  300.0000
+		MeanAnomaly      0
+	}
+}
+
+Comet	"C1860 D1-A (Liais)"
+{
+	ParentBody "Sol"
+	CometType  "C"
+	AbsMagn     7
+	SlopeParam  4
+
+	Orbit
+	{
+		Epoch            2400457.7500
+		PericenterDist   1.196800
+		Eccentricity     1.000000
+		Inclination      79.4200
+		AscendingNode    324.8200
+		ArgOfPericenter  145.0300
+		MeanAnomaly      0
+	}
+}
+
+Comet	"C1942 EA (Vaisala)"
+{
+	ParentBody "Sol"
+	CometType  "C"
+	AbsMagn     13.5
+	SlopeParam  4
+
+	Orbit
+	{
+		Epoch            2462028.4762
+		PericenterDist   1.277543
+		Eccentricity     0.934878
+		Inclination      37.8727
+		AscendingNode    172.3201
+		ArgOfPericenter  335.5629
+		MeanAnomaly      0
+	}
+}
+
+Comet	"C1947 X1-B (Southern comet)"
+{
+	ParentBody "Sol"
+	CometType  "C"
+	AbsMagn     9
+	SlopeParam  4
+
+	Orbit
+	{
+		Epoch            2432481.7454
+		PericenterDist   0.124368
+		Eccentricity     0.999439
+		Inclination      140.8318
+		AscendingNode    338.0702
+		ArgOfPericenter  196.9509
+		MeanAnomaly      0
+	}
+}
+
+Comet	"D1993 F2-A (Shoemaker-Levy 9)"
+{
+	ParentBody "Sol"
+	CometType  "P"
+	AbsMagn     14
+	SlopeParam  4
+
+	Orbit
+	{
+		Epoch            2449430.0000
+		PericenterDist   5.381000
+		Eccentricity     0.216100
+		Inclination      6.0030
+		AscendingNode    220.5400
+		ArgOfPericenter  354.8900
+		MeanAnomaly      0
+	}
+}
+
+Comet	"C1995 O1 (Hale-Bopp)"
+{
+	ParentBody "Sol"
+	CometType  "C"
+	AbsMagn     -2
+	SlopeParam  4
+
+	Orbit
+	{
+		Epoch            2450536.5284
+		PericenterDist   0.925995
+		Eccentricity     0.994895
+		Inclination      89.7335
+		AscendingNode    281.8097
+		ArgOfPericenter  130.7313
+		MeanAnomaly      0
+	}
+}
+
+Comet	"P1998 VS24 (LINEAR)"
+{
+	ParentBody "Sol"
+	CometType  "P"
+	AbsMagn     13
+	SlopeParam  2
+
+	Orbit
+	{
+		Epoch            2461656.9810
+		PericenterDist   3.419400
+		Eccentricity     0.243205
+		Inclination      5.0290
+		AscendingNode    158.9801
+		ArgOfPericenter  245.0161
+		MeanAnomaly      0
+	}
+}
+
+Comet	"C1999 F1 (Catalina)"
+{
+	ParentBody "Sol"
+	CometType  "C"
+	AbsMagn     9.5
+	SlopeParam  2
+
+	Orbit
+	{
+		Epoch            2452302.8347
+		PericenterDist   5.824775
+		Eccentricity     0.999655
+		Inclination      92.0140
+		AscendingNode    20.0237
+		ArgOfPericenter  255.3117
+		MeanAnomaly      0
+	}
+}
+
+Comet	"P2004 V5-A (LINEAR-Hill)"
+{
+	ParentBody "Sol"
+	CometType  "P"
+	AbsMagn     8
+	SlopeParam  4
+
+	Orbit
+	{
+		Epoch            2461622.1320
+		PericenterDist   4.433323
+		Eccentricity     0.450966
+		Inclination      19.3222
+		AscendingNode    47.7354
+		ArgOfPericenter  87.0877
+		MeanAnomaly      0
+	}
+}
+
+Comet	"C2013 A1 (SidingSpring)"
+{
+	ParentBody "Sol"
+	CometType  "C"
+	AbsMagn     8.2
+	SlopeParam  2.4
+
+	Orbit
+	{
+		Epoch            2456957.3227
+		PericenterDist   1.391249
+		Eccentricity     1.000073
+		Inclination      128.6857
+		AscendingNode    301.1848
+		ArgOfPericenter  2.5353
+		MeanAnomaly      0
+	}
+}
+
+Comet	"C2014 UN271 (Bernardinelli-Bernstein)"
+{
+	ParentBody "Sol"
+	CometType  "C"
+	AbsMagn     2.5
+	SlopeParam  3.2
+
+	Orbit
+	{
+		Epoch            2462883.1692
+		PericenterDist   10.959316
+		Eccentricity     1.004054
+		Inclination      95.4457
+		AscendingNode    190.0073
+		ArgOfPericenter  326.0949
+		MeanAnomaly      0
+	}
+}
+
+Comet	"A2018 W3"
+{
+	ParentBody "Sol"
+	CometType  "P"
+	AbsMagn     10.5
+	SlopeParam  2
+
+	Orbit
+	{
+		Epoch            2459317.6790
+		PericenterDist   4.274560
+		Eccentricity     0.993519
+		Inclination      104.8220
+		AscendingNode    251.6525
+		ArgOfPericenter  313.7724
+		MeanAnomaly      0
+	}
+}
+
+Comet	"C2019 E3 (ATLAS)"
+{
+	ParentBody "Sol"
+	CometType  "C"
+	AbsMagn     2.5
+	SlopeParam  4
+
+	Orbit
+	{
+		Epoch            2460264.5927
+		PericenterDist   10.313370
+		Eccentricity     0.999052
+		Inclination      84.3355
+		AscendingNode    347.1727
+		ArgOfPericenter  280.7316
+		MeanAnomaly      0
+	}
+}
+
+Comet	"C2022 E3 (ZTF)"
+{
+	ParentBody "Sol"
+	CometType  "C"
+	AbsMagn     7.5
+	SlopeParam  4
+
+	Orbit
+	{
+		Epoch            2459956.7224
+		PericenterDist   1.118107
+		Eccentricity     1.000070
+		Inclination      109.1810
+		AscendingNode    302.4884
+		ArgOfPericenter  145.8957
+		MeanAnomaly      0
+	}
+}
+
+Comet	"C2023 A3 (Tsuchinshan-ATLAS)"
+{
+	ParentBody "Sol"
+	CometType  "C"
+	AbsMagn     6.5
+	SlopeParam  3.2
+
+	Orbit
+	{
+		Epoch            2460581.3337
+		PericenterDist   0.391312
+		Eccentricity     1.000180
+		Inclination      139.0991
+		AscendingNode    21.6759
+		ArgOfPericenter  308.5842
+		MeanAnomaly      0
+	}
+}
+
+Comet	"C2023 R1-B"
+{
+	ParentBody "Sol"
+	CometType  "C"
+	AbsMagn     12.6
+	SlopeParam  4
+
+	Orbit
+	{
+		Epoch            2461143.6156
+		PericenterDist   3.569935
+		Eccentricity     1.003516
+		Inclination      149.3141
+		AscendingNode    62.5691
+		ArgOfPericenter  144.2003
+		MeanAnomaly      0
+	}
+}
+
+Comet	"C2024 G3 (ATLAS)"
+{
+	ParentBody "Sol"
+	CometType  "C"
+	AbsMagn     9
+	SlopeParam  4
+
+	Orbit
+	{
+		Epoch            2460688.9330
+		PericenterDist   0.093688
+		Eccentricity     1.000010
+		Inclination      116.8365
+		AscendingNode    220.5116
+		ArgOfPericenter  108.2146
+		MeanAnomaly      0
+	}
+}
+
+Comet	"C2025 A6 (Lemmon)"
+{
+	ParentBody "Sol"
+	CometType  "C"
+	AbsMagn     8.6
+	SlopeParam  4
+
+	Orbit
+	{
+		Epoch            2460988.0227
+		PericenterDist   0.529826
+		Eccentricity     0.995613
+		Inclination      143.6635
+		AscendingNode    108.0988
+		ArgOfPericenter  132.9563
+		MeanAnomaly      0
+	}
+}
+
+Comet	"A2025 S2"
+{
+	ParentBody "Sol"
+	CometType  "P"
+	AbsMagn     16
+	SlopeParam  2
+
+	Orbit
+	{
+		Epoch            2461042.9072
+		PericenterDist   1.686321
+		Eccentricity     0.973295
+		Inclination      96.6418
+		AscendingNode    34.4764
+		ArgOfPericenter  31.5903
+		MeanAnomaly      0
+	}
+}
+
+Comet	"C2026 T99 (Parabola Test)"
+{
+	ParentBody "Sol"
+	CometType  "C"
+	AbsMagn     9.5
+	SlopeParam  4
+
+	Orbit
+	{
+		Epoch            2461347.7500
+		PericenterDist   0.812345
+		Eccentricity     1.000000
+		Inclination      67.8901
+		AscendingNode    123.4567
+		ArgOfPericenter  45.1234
+		MeanAnomaly      0
+	}
+}
+
+Comet	"1I `Oumuamua"
+{
+	ParentBody "Sol"
+	CometType  "P"
+	AbsMagn     23
+	SlopeParam  2
+
+	Orbit
+	{
+		Epoch            2458005.9886
+		PericenterDist   0.255240
+		Eccentricity     1.199252
+		Inclination      122.6778
+		AscendingNode    24.5997
+		ArgOfPericenter  241.6845
+		MeanAnomaly      0
+	}
+}
+
+Comet	"2I Borisov"
+{
+	ParentBody "Sol"
+	CometType  "P"
+	AbsMagn     11
+	SlopeParam  4
+
+	Orbit
+	{
+		Epoch            2458826.5572
+		PericenterDist   1.997724
+		Eccentricity     3.345952
+		Inclination      44.2624
+		AscendingNode    307.8024
+		ArgOfPericenter  209.2911
+		MeanAnomaly      0
+	}
+}
+
+Comet	"3I ATLAS"
+{
+	ParentBody "Sol"
+	CometType  "P"
+	AbsMagn     8
+	SlopeParam  4
+
+	Orbit
+	{
+		Epoch            2460977.9825
+		PericenterDist   1.356507
+		Eccentricity     6.139884
+		Inclination      175.1129
+		AscendingNode    322.1535
+		ArgOfPericenter  128.0055
+		MeanAnomaly      0
+	}
+}
+

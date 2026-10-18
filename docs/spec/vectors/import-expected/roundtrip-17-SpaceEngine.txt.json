@@ -1,0 +1,8 @@
+{
+  "file": "export/17-SpaceEngine.txt",
+  "detectedType": "Unknown",
+  "typeName": null,
+  "estimatedCount": 0,
+  "note": "Comets in database order (stable sort by sortkey) after ImportMain into an empty database.",
+  "comets": []
+}

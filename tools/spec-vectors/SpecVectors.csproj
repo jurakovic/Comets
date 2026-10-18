@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Generates the test vectors under docs/spec/vectors from the ORIGINAL desktop sources.
+    The engine files are compiled in unchanged (linked, not copied); the few WinForms types
+    they reference are replaced by inert stubs in Stubs/, so the harness runs on Linux.
+    See README.md for how to run it.
+  -->
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <RootNamespace>SpecVectors</RootNamespace>
+    <NoWarn>$(NoWarn);CS0618;CS0162;CS0168;CS0219;CS0414;CS1998;CA1416</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\src\Comets.Core\Core\**\*.cs" Link="Linked\Core\%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Include="..\..\src\Comets.Core\Extensions\*.cs" Link="Linked\Extensions\%(Filename)%(Extension)" />
+    <Compile Include="..\..\src\Comets.Core\Managers\*.cs" Exclude="..\..\src\Comets.Core\Managers\ValNumManager.cs" Link="Linked\Managers\%(Filename)%(Extension)" />
+    <Compile Include="..\..\src\Comets.OrbitViewer\OrbitViewer\*.cs" Exclude="..\..\src\Comets.OrbitViewer\OrbitViewer\OrbitPanel.cs" Link="Linked\OrbitViewer\%(Filename)%(Extension)" />
+  </ItemGroup>
+
+</Project>

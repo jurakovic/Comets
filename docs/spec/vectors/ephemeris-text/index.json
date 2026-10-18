@@ -1,0 +1,190 @@
+{
+  "note": "EphemerisManager.CalculateEphemerisAsync + GenerateEphemerisAsync. Files use LF here; the app saves CRLF. 'title' is the result tab title.",
+  "cases": [
+    {
+      "id": "01-single-ut-all-columns",
+      "description": "Single comet, UT, all columns, 1 day step.",
+      "file": "ephemeris-text/01-single-ut-all-columns.txt",
+      "settings": {
+        "comets": "C/2023 A3 (Tsuchinshan-ATLAS)",
+        "multiple": false,
+        "startUtc": "2024-10-01T00:00:00Z",
+        "stopUtc": "2024-10-20T00:00:00Z",
+        "intervalDays": 1.0,
+        "location": {
+          "Name": "Home",
+          "Latitude": 0,
+          "Longitude": 0
+        },
+        "localTime": false,
+        "timeZone": "UTC",
+        "columns": {
+          "RA": true,
+          "Dec": true,
+          "Alt": true,
+          "Az": true,
+          "EcLon": true,
+          "EcLat": true,
+          "Elongation": true,
+          "HelioDist": true,
+          "GeoDist": true,
+          "Magnitude": true
+        },
+        "requirements": {
+          "maxSunDist": null,
+          "maxEarthDist": null,
+          "minMagnitude": null
+        },
+        "title": "Ephemeris - C/2023 A3 (Tsuchinshan-ATLAS)"
+      }
+    },
+    {
+      "id": "02-multiple-default-columns-mag15",
+      "description": "All sample comets, default columns, only rows with magnitude <= 15; comets without rows are left out.",
+      "file": "ephemeris-text/02-multiple-default-columns-mag15.txt",
+      "settings": {
+        "comets": "all sample comets (database order)",
+        "multiple": true,
+        "startUtc": "2026-10-01T00:00:00Z",
+        "stopUtc": "2026-11-01T00:00:00Z",
+        "intervalDays": 5.0,
+        "location": {
+          "Name": "Home",
+          "Latitude": 0,
+          "Longitude": 0
+        },
+        "localTime": false,
+        "timeZone": "UTC",
+        "columns": {
+          "RA": true,
+          "Dec": true,
+          "Alt": true,
+          "Az": true,
+          "EcLon": false,
+          "EcLat": false,
+          "Elongation": true,
+          "HelioDist": true,
+          "GeoDist": true,
+          "Magnitude": true
+        },
+        "requirements": {
+          "maxSunDist": null,
+          "maxEarthDist": null,
+          "minMagnitude": 15
+        },
+        "title": "Ephemeris - 34 comets"
+      }
+    },
+    {
+      "id": "03-single-ut-2h30m-subset-zagreb",
+      "description": "12P from Zagreb, 2 h 30 min step, Alt/Az/ecliptic + distances, r <= 1 and d <= 2.",
+      "file": "ephemeris-text/03-single-ut-2h30m-subset-zagreb.txt",
+      "settings": {
+        "comets": "12P/Pons-Brooks",
+        "multiple": false,
+        "startUtc": "2024-04-21T00:00:00Z",
+        "stopUtc": "2024-04-22T00:00:00Z",
+        "intervalDays": 0.1041666666666666666666666667,
+        "location": {
+          "Name": "Zagreb",
+          "Latitude": 45.815,
+          "Longitude": 15.9819
+        },
+        "localTime": false,
+        "timeZone": "UTC",
+        "columns": {
+          "RA": false,
+          "Dec": false,
+          "Alt": true,
+          "Az": true,
+          "EcLon": true,
+          "EcLat": true,
+          "Elongation": false,
+          "HelioDist": true,
+          "GeoDist": true,
+          "Magnitude": false
+        },
+        "requirements": {
+          "maxSunDist": 1,
+          "maxEarthDist": 2,
+          "minMagnitude": null
+        },
+        "title": "Ephemeris - 12P/Pons-Brooks"
+      }
+    },
+    {
+      "id": "04-single-localtime-zagreb-dst-end",
+      "description": "Local time in Europe/Zagreb across the 2026-10-25 change from CEST to CET, 6 h step.",
+      "file": "ephemeris-text/04-single-localtime-zagreb-dst-end.txt",
+      "settings": {
+        "comets": "C/2025 A6 (Lemmon)",
+        "multiple": false,
+        "startUtc": "2026-10-24T18:00:00Z",
+        "stopUtc": "2026-10-25T12:00:00Z",
+        "intervalDays": 0.25,
+        "location": {
+          "Name": "Zagreb",
+          "Latitude": 45.815,
+          "Longitude": 15.9819
+        },
+        "localTime": true,
+        "timeZone": "Europe/Zagreb",
+        "columns": {
+          "RA": true,
+          "Dec": true,
+          "Alt": true,
+          "Az": true,
+          "EcLon": false,
+          "EcLat": false,
+          "Elongation": true,
+          "HelioDist": true,
+          "GeoDist": true,
+          "Magnitude": true
+        },
+        "requirements": {
+          "maxSunDist": null,
+          "maxEarthDist": null,
+          "minMagnitude": null
+        },
+        "title": "Ephemeris - C/2025 A6 (Lemmon)"
+      }
+    },
+    {
+      "id": "05-single-parabolic",
+      "description": "Synthetic parabolic comet (e = 1), UT, default columns.",
+      "file": "ephemeris-text/05-single-parabolic.txt",
+      "settings": {
+        "comets": "C/2026 T99 (Parabola Test)",
+        "multiple": false,
+        "startUtc": "2026-10-01T00:00:00Z",
+        "stopUtc": "2026-12-01T00:00:00Z",
+        "intervalDays": 10.0,
+        "location": {
+          "Name": "Home",
+          "Latitude": 0,
+          "Longitude": 0
+        },
+        "localTime": false,
+        "timeZone": "UTC",
+        "columns": {
+          "RA": true,
+          "Dec": true,
+          "Alt": true,
+          "Az": true,
+          "EcLon": false,
+          "EcLat": false,
+          "Elongation": true,
+          "HelioDist": true,
+          "GeoDist": true,
+          "Magnitude": true
+        },
+        "requirements": {
+          "maxSunDist": null,
+          "maxEarthDist": null,
+          "minMagnitude": null
+        },
+        "title": "Ephemeris - C/2026 T99 (Parabola Test)"
+      }
+    }
+  ]
+}

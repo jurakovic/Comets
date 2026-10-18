@@ -1,0 +1,13 @@
+{
+  "description": "Test vectors for the Comets web specification, generated from the desktop sources by tools/spec-vectors.",
+  "fakeNowUtc": "2026-10-18T12:00:00Z",
+  "fakeNowJD": 2461332.0,
+  "timeZone": "UTC",
+  "observer": {
+    "name": "Home",
+    "latitude": 0,
+    "longitude": 0
+  },
+  "mpcSnapshot": "Soft*Cmt.txt and ELEMENTS.COMET downloaded 2026-10-18",
+  "lineEndings": "Text files are stored with LF; the application writes CRLF."
+}

@@ -1,0 +1,21 @@
+{
+  "note": "CometManager.GetCometBySelectionType(sample, type) at fakeNow; the first of equal candidates in collection order wins.",
+  "cases": [
+    {
+      "type": "Brightest",
+      "comet": "C/2026 T99 (Parabola Test)"
+    },
+    {
+      "type": "ClosestToPerihelion",
+      "comet": "C/2026 T99 (Parabola Test)"
+    },
+    {
+      "type": "ClosestToEarth",
+      "comet": "2P/Encke"
+    },
+    {
+      "type": "ClosestToSun",
+      "comet": "C/2026 T99 (Parabola Test)"
+    }
+  ]
+}

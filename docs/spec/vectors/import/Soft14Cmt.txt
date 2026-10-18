@@ -1,0 +1,56 @@
+NOTE TO VOYAGER II USERS:
+
+   The following table will link the symbols below with the names used in
+the Voyager II "Define New Orbit..." dialog for comets.
+
+     q        perihelion distance (astronomical units)
+     e        eccentricity (no units)
+     i        inclination of orbit to ecliptic (degrees)
+     Node     longitude of ascending node (degrees)
+     w        argument of perihelion (degrees)
+     L        mean anomaly (this is 0 at perihelion) (degrees)
+     Date     epoch of orbit
+     Equinox  reference equinox (usually 2000.0)
+
+Save this page as plain text from your browser and use the table to input
+the orbital elements for the comets that you would like to plot and
+follow.  If you have any question, consult your software manual or the
+Carina web site: <a href="http://www.carinasoft.com">http://www.carinasoft.com</a>
+
+Thanks to the IAU Minor Planet Center & Central Bureau for Astronomical
+Telegrams for providing this information.
+
+Name                            q          e         i        Node         w       L      T(Date)    Equinox
+Vaisala                     1.277543   0.934878   37.8727   172.3201   335.5629   0.0  2028Sep13.9762 2000.0
+Southern comet              0.124368   0.999439  140.8318   338.0702   196.9509   0.0  1947Oct23.2455 2000.0
+Hale-Bopp                   0.925995   0.994895   89.7335   281.8097   130.7313   0.0  1997Mar29.0284 2000.0
+Lagerkvist                  2.587013   0.313859    2.5998    39.9880   333.5666   0.0  2026Jun16.1160 2000.0
+Spacewatch                  3.451598   0.998782   72.7653   317.9561   285.8655   0.0  1999Nov18.0989 2000.0
+LINEAR                      3.419400   0.243205    5.0290   158.9801   245.0161   0.0  2027Sep8.4811  2000.0
+Catalina                    5.824775   0.999655   92.0140    20.0237   255.3117   0.0  2002Jan28.3347 2000.0
+Skiff                       7.061766   1.000752   86.3862    50.1809   126.9378   0.0  2000Apr11.0328 2000.0
+LONEOS                      1.120807   0.673215    7.5256   136.9720   232.2092   0.0  2025Nov5.1967  2000.0
+Catalina                    3.295470   0.214761    5.0204   285.2337   161.1172   0.0  2025Dec19.1091 2000.0
+LINEAR                      1.629670   0.530217   11.6864   160.2161   176.6906   0.0  2025Dec1.7299  2000.0
+NEAT                        2.434971   0.600245    8.3718   328.7317   224.5626   0.0  2030Oct20.4473 2000.0
+NEAT                        5.354877   0.799332   27.9612   293.9350     5.5762   0.0  2001May31.0259 2000.0
+LINEAR                      4.662140   0.709494   14.0683    81.0384    18.7665   0.0  2001Dec3.0652  2000.0
+LINEAR                      4.657208   0.707146   14.0368    81.0464    19.1223   0.0  2001Dec10.1216 2000.0
+LINEAR                      5.123017   0.968775   48.6392   136.1603   329.4642   0.0  2002Apr26.5833 2000.0
+LINEAR                      2.262526   0.770783   51.0231    58.2957    76.0644   0.0  2033Apr13.4492 2000.0
+LINEAR                      3.281672   0.998345  105.0494   242.7486   159.9276   0.0  2002Apr6.2534  2000.0
+LINEAR                      2.052124   0.789859  145.3593   147.5793   126.2685   0.0  2034Jan2.1163  2000.0
+LINEAR                      2.618392   0.594302    4.9924   330.2155   167.3271   0.0  2034Nov14.7891 2000.0
+NEAT                        7.068272   1.000121   68.1910   110.4274   231.6406   0.0  2004Mar31.2622 2000.0
+NEAT                        6.581902   0.985229   34.4962   310.8440   347.8182   0.0  2001Nov8.9321  2000.0
+LINEAR                      6.752237   0.964132   70.5702    34.9891    99.8509   0.0  2006Feb13.9484 2000.0
+NEAT                        3.268433   0.762566   33.4904   137.2574   103.7675   0.0  2004Jan20.3318 2000.0
+NEAT                        3.053543   0.534641   11.5271   358.9355   193.1699   0.0  2019Nov6.6600  2000.0
+Scotti                      5.004839   0.252368    9.0730   225.6682   355.2876   0.0  2020Jul13.8105 2000.0
+SOHO                        0.594713   0.769889   11.0130   174.5446   219.8328   0.0  2028Aug29.0823 2000.0
+LINEAR                      1.584651   1.000876  113.8382   273.3096   327.9780   0.0  2006Feb9.6873  2000.0
+Larsen                      4.346232   0.629614   28.5701   151.4724   317.1015   0.0  2043Jun12.2043 2000.0
+LINEAR                      4.082081   0.169389    2.1335   326.7736   241.9704   0.0  2026May28.1776 2000.0
+`Oumuamua                   0.255240   1.199252  122.6778    24.5997   241.6845   0.0  2017Sep9.4886  2000.0
+Borisov                     1.997724   3.345952   44.2624   307.8024   209.2911   0.0  2019Dec9.0572  2000.0
+ATLAS                       1.356507   6.139884  175.1129   322.1535   128.0055   0.0  2025Oct29.4825 2000.0

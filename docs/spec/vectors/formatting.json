@@ -1,0 +1,263 @@
+{
+  "note": "hms = HMSString(hours) (RA is passed as degrees/15). angle = AngleString(value, circle, arcmin). Math.Round in these functions is round-half-to-even.",
+  "hms": [
+    {
+      "hours": 0,
+      "text": "00h00m00"
+    },
+    {
+      "hours": 5.123456,
+      "text": "05h07m24"
+    },
+    {
+      "hours": 12.999999,
+      "text": "13h00m00"
+    },
+    {
+      "hours": 23.99999,
+      "text": "00h00m00"
+    },
+    {
+      "hours": 23.999999999,
+      "text": "00h00m00"
+    },
+    {
+      "hours": 0.016666666666666666,
+      "text": "00h01m00"
+    },
+    {
+      "hours": 6.5,
+      "text": "06h30m00"
+    },
+    {
+      "hours": 18.2583333333,
+      "text": "18h15m30"
+    },
+    {
+      "hours": 0.0041666,
+      "text": "00h00m15"
+    },
+    {
+      "hours": -3.25,
+      "text": "03h15m00"
+    }
+  ],
+  "angle": [
+    {
+      "value": 0,
+      "circle": false,
+      "arcmin": true,
+      "text": "+00°00'"
+    },
+    {
+      "value": 0,
+      "circle": true,
+      "arcmin": true,
+      "text": "000°00'"
+    },
+    {
+      "value": 0,
+      "circle": false,
+      "arcmin": false,
+      "text": "+00:00"
+    },
+    {
+      "value": 45.5,
+      "circle": false,
+      "arcmin": true,
+      "text": "+45°30'"
+    },
+    {
+      "value": 45.5,
+      "circle": true,
+      "arcmin": true,
+      "text": "045°30'"
+    },
+    {
+      "value": 45.5,
+      "circle": false,
+      "arcmin": false,
+      "text": "+45:30"
+    },
+    {
+      "value": -0.5,
+      "circle": false,
+      "arcmin": true,
+      "text": "-00°30'"
+    },
+    {
+      "value": -0.5,
+      "circle": true,
+      "arcmin": true,
+      "text": "000°30'"
+    },
+    {
+      "value": -0.5,
+      "circle": false,
+      "arcmin": false,
+      "text": "-00:30"
+    },
+    {
+      "value": -12.991667,
+      "circle": false,
+      "arcmin": true,
+      "text": "-13°00'"
+    },
+    {
+      "value": -12.991667,
+      "circle": true,
+      "arcmin": true,
+      "text": "013°00'"
+    },
+    {
+      "value": -12.991667,
+      "circle": false,
+      "arcmin": false,
+      "text": "-13:00"
+    },
+    {
+      "value": 89.9999,
+      "circle": false,
+      "arcmin": true,
+      "text": "+90°00'"
+    },
+    {
+      "value": 89.9999,
+      "circle": true,
+      "arcmin": true,
+      "text": "090°00'"
+    },
+    {
+      "value": 89.9999,
+      "circle": false,
+      "arcmin": false,
+      "text": "+90:00"
+    },
+    {
+      "value": -89.9999,
+      "circle": false,
+      "arcmin": true,
+      "text": "-90°00'"
+    },
+    {
+      "value": -89.9999,
+      "circle": true,
+      "arcmin": true,
+      "text": "090°00'"
+    },
+    {
+      "value": -89.9999,
+      "circle": false,
+      "arcmin": false,
+      "text": "-90:00"
+    },
+    {
+      "value": 359.99,
+      "circle": false,
+      "arcmin": true,
+      "text": "+359°59'"
+    },
+    {
+      "value": 359.99,
+      "circle": true,
+      "arcmin": true,
+      "text": "359°59'"
+    },
+    {
+      "value": 359.99,
+      "circle": false,
+      "arcmin": false,
+      "text": "+359:59"
+    },
+    {
+      "value": 100.25,
+      "circle": false,
+      "arcmin": true,
+      "text": "+100°15'"
+    },
+    {
+      "value": 100.25,
+      "circle": true,
+      "arcmin": true,
+      "text": "100°15'"
+    },
+    {
+      "value": 100.25,
+      "circle": false,
+      "arcmin": false,
+      "text": "+100:15"
+    },
+    {
+      "value": 9.999,
+      "circle": false,
+      "arcmin": true,
+      "text": "+10°00'"
+    },
+    {
+      "value": 9.999,
+      "circle": true,
+      "arcmin": true,
+      "text": "010°00'"
+    },
+    {
+      "value": 9.999,
+      "circle": false,
+      "arcmin": false,
+      "text": "+10:00"
+    },
+    {
+      "value": 0.0083,
+      "circle": false,
+      "arcmin": true,
+      "text": "+00°00'"
+    },
+    {
+      "value": 0.0083,
+      "circle": true,
+      "arcmin": true,
+      "text": "000°00'"
+    },
+    {
+      "value": 0.0083,
+      "circle": false,
+      "arcmin": false,
+      "text": "+00:00"
+    },
+    {
+      "value": 123.456,
+      "circle": false,
+      "arcmin": true,
+      "text": "+123°27'"
+    },
+    {
+      "value": 123.456,
+      "circle": true,
+      "arcmin": true,
+      "text": "123°27'"
+    },
+    {
+      "value": 123.456,
+      "circle": false,
+      "arcmin": false,
+      "text": "+123:27"
+    },
+    {
+      "value": -0.0083,
+      "circle": false,
+      "arcmin": true,
+      "text": "+00°00'"
+    },
+    {
+      "value": -0.0083,
+      "circle": true,
+      "arcmin": true,
+      "text": "000°00'"
+    },
+    {
+      "value": -0.0083,
+      "circle": false,
+      "arcmin": false,
+      "text": "+00:00"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "note": "GetImportType for edge cases. For every real input, the detected type is in import-expected/<file>.json.",
+  "cases": [
+    {
+      "file": "(none)",
+      "type": "NoFileSelected"
+    },
+    {
+      "file": "import/edge-empty.txt",
+      "type": "EmptyFile"
+    },
+    {
+      "file": "import/edge-unknown.txt",
+      "type": "Unknown"
+    }
+  ]
+}
