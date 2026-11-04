@@ -1,5 +1,6 @@
 // Designations: parsing full names into id, name and fragment, building them back, sort keys,
 // and whether a comet is periodic. docs/spec/02-data-model.md, Designations and full names.
+import { parseDouble, trim } from '../formats/text.js';
 
 /**
  * @typedef {object} Designation
@@ -105,16 +106,14 @@ function lettersAndDigits(code, width) {
 	return letters.padStart(width, '0') + digits.padStart(width, '0');
 }
 
-// a number as .NET's Double.TryParse reads it here (spec 03, dbl): sign, thousands commas,
-// fraction and exponent
-const LENIENT_NUMBER = /^\s*[+-]?(?:[0-9][0-9,]*(?:\.[0-9]*)?|\.[0-9]+)(?:[eE][+-]?[0-9]+)?\s*$/;
-
 /**
- * the year text of an id as the desktop reads it (`(int)Double()`): truncated, 0 when it does not parse
+ * the year text of an id as the desktop reads it (`(int)Double()`): trimmed, read as spec 03's
+ * dbl, truncated, 0 when it does not parse
  * @param {string} text
  */
 function yearOf(text) {
-	return LENIENT_NUMBER.test(text) ? Math.trunc(Number(text.replaceAll(',', ''))) + 0 : 0;
+	const year = parseDouble(trim(text));
+	return year === null ? 0 : Math.trunc(year) + 0;
 }
 
 /**

@@ -43,13 +43,14 @@ The import rules below use these operations. Any operation that fails makes the 
 | `sub(a, n)` | Characters `[a, a+n)` of the line. **Fails if the line is shorter than `a+n`.** JavaScript's `substr` does not fail on its own, so the check must be explicit. |
 | `from(a)` | Characters from `a` to the end. Fails if the line is shorter than `a`. |
 | `split(c)` | Split on the single character `c`, keeping empty fields. Reading a field index that does not exist fails. |
-| `trim` | Remove leading and trailing white space. |
+| `trim` | Remove leading and trailing white space, as .NET `String.Trim` does: `Char.IsWhiteSpace`, which includes U+0085 and excludes U+FEFF, unlike JavaScript's `trim`. |
 | `pad4(s)` | `trim(s)` right-padded with `0` to 4 characters (`"912"` → `"9120"`). |
-| `int(s)` | Integer: optional white space, optional sign, digits, optional white space. Anything else fails (no decimal point). |
+| `int(s)` | Integer: optional white space, optional sign, digits, optional white space, within 32 bits. Anything else fails (no decimal point). The white space numbers allow is space and U+0009–U+000D, here and in `dbl` and `dec`. |
 | `dbl(s)` | Number: optional white space, optional sign, digits with an optional `.` fraction (`.5` and `5.` are valid), optional exponent `e±n`; commas inside the integer digits are ignored (thousands separators). Anything else fails. The desktop also accepts `NaN` and `Infinity`; the web app MAY reject them. |
-| `dec(s)` | Like `dbl` but with no exponent. On the desktop this is an exact decimal; the web app uses float64. |
+| `dec(s)` | Like `dbl` but with no exponent, and the sign may trail instead of lead (`5-` is −5). On the desktop this is an exact decimal; the web app uses float64. |
 | `roundEven(x)` | Round to the nearest integer, ties to even (.NET `Math.Round`). |
 | `round6(x)` | `roundEven(x × 10⁶) / 10⁶` |
+| `date(jd)` | The date parts of `JDToDateTime(jd)` ([04](04-astronomy.md#jd-to-instant-jdtodatetime)). Fails where the desktop's `DateTime` throws: a year before 1 or after 9999, a Julian 29 February the Gregorian calendar lacks, hour 24. So an importer still skips such a record, although the rest of the web app keeps those dates ([10](10-quirks.md#deviations), D5); the round trips of `C/-146 P1` through MyStars! and Starry Night rely on it. |
 
 Every importer finishes a valid record the same way (**finalize**):
 
@@ -67,7 +68,7 @@ sortkey = GetSortkey(id, fragment)   (fails, so the record is skipped, if id is 
 
 ```
 if no file was chosen:        NoFileSelected
-if the file has 0 bytes:      EmptyFile
+if the file has 0 bytes:      EmptyFile   (also when it has no lines, only a BOM: spec 10, D4)
 lines  = split lines
 line0  = lines[0];  lineX = lines[len−2] (none if fewer than 2 lines);  lineN = lines[len−1]
 
@@ -131,7 +132,7 @@ Lines 1, 3, 5, …; the even lines are `# From …` comments. `p = split(',')`. 
     E = JD0(epoch y, m, d, h)
     t = E − M / n
     if M ≥ 180: t += P(q, e) × 365.25
-    dt = JDToDateTime(t)
+    dt = date(t)
     Ty, Tm, Td = dt.year, dt.month, dt.day
     Th = roundEven(((dt.hour + dt.minute/60 + dt.second/3600) / 24) × 10000)
     T  = JD0(Ty, Tm, Td, Th)
@@ -148,7 +149,7 @@ Lines from 1; line 0 is the header. `p = split(',')`. `full` is **kept**: `full 
 
 Lines from 1. `p = split('\t')`. `full` is **kept**: `full = trim(p[0])`, including the trailing `;` the format puts there. Pattern 00 still extracts the name correctly.
 
-- Time: split `p[1]` on `.`. `T0 = dec(part0) + 2400000.5` (an MJD) and `h = int(pad4(part1))`. Ty, Tm and Td are the date of `JDToDateTime(T0)`; `Th = h`.
+- Time: split `p[1]` on `.`. `T0 = dec(part0) + 2400000.5` (an MJD) and `h = int(pad4(part1))`. Ty, Tm and Td are those of `date(T0)`; `Th = h`.
 - `lonPeri = dbl(p[2])`, e `p[3]`, q `p[4]`, i `p[5]`, N `p[6]`, g `p[7]`, k `p[8]`.
 - `w = (lonPeri − N + 360) mod 360`. This is a floating remainder that takes the sign of the dividend, like `%` in JavaScript.
 
@@ -164,7 +165,7 @@ Every line. `p = split('|')`. `full` is **kept**: `full = trim(p[0])`, then patt
 Lines from 15. `full` is **rebuilt**: `trim(sub(136,14)) + " " + trim(sub(5,29))`, that is id then name, goes through pattern 00.
 
 - g `sub(34,6)`, e `sub(48,10)`, q `sub(59,11)`, N `sub(72,10)`, w `sub(82,10)`, i `sub(92,10)`, `T0 = dec(trim(sub(102,14)))` (a JD), `k = dbl(sub(129,6)) / 2.5`.
-- Date: `dt = JDToDateTime(T0)`, Ty, Tm, Td from dt, `Th = roundEven(((h + min/60 + s/3600) / 24) × 10000)`, then `T = JD0(…)`.
+- Date: `dt = date(T0)`, Ty, Tm, Td from dt, `Th = roundEven(((h + min/60 + s/3600) / 24) × 10000)`, then `T = JD0(…)`.
 
 ### Deep Space (Soft08Cmt)
 
