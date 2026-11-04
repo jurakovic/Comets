@@ -89,7 +89,7 @@ export function ephemeris(comet, jd, observer) {
 	}
 	const PositionAngle = rev(atan2d(sind(RA - sunRa), cosd(sunDec) * tand(Dec) - sind(sunDec) * cosd(RA - sunRa)));
 
-	return { JD: jd, RA, Dec, Alt, Az, EcLon, EcLat, Elongation, PositionAngle, SunDist, EarthDist, Magnitude };
+	return Object.freeze({ JD: jd, RA, Dec, Alt, Az, EcLon, EcLat, Elongation, PositionAngle, SunDist, EarthDist, Magnitude });
 }
 
 /**

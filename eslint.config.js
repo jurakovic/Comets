@@ -60,6 +60,26 @@ export default [
 		rules: { 'no-restricted-syntax': ['error', ...deterministic] }
 	},
 	{
+		// where JavaScript differs from the .NET the vectors come from (CLAUDE.md); lib/math.js
+		// builds roundEven on Math.round
+		files: ['app/js/core/**/*.js'],
+		rules: {
+			'no-restricted-globals': ['error',
+				{ name: 'Date', message: 'instants are numbers; use core/time (Date maps years 0–99 to 19xx)' },
+				{ name: 'parseFloat', message: 'accepts text .NET rejects; parse with the strict rules of spec 03' },
+				{ name: 'parseInt', message: 'accepts text .NET rejects; parse with the strict rules of spec 03' }
+			],
+			'no-restricted-properties': ['error',
+				{ property: 'toFixed', message: 'rounds unlike .NET; use core/format' },
+				{ property: 'substr', message: 'does not fail on short lines; use the field access in core/formats' },
+				{ object: 'Math', property: 'round', message: 'rounds halves up; .NET rounds them to even (roundEven in lib/math.js)' },
+				{ object: 'Number', property: 'parseFloat', message: 'accepts text .NET rejects; parse with the strict rules of spec 03' },
+				{ object: 'Number', property: 'parseInt', message: 'accepts text .NET rejects; parse with the strict rules of spec 03' },
+				{ property: 'localeCompare', message: 'sorts by the default locale; use Intl.Collator(\'und\') (spec 02, Sorting)' }
+			]
+		}
+	},
+	{
 		files: ['app/js/services/**/*.js'],
 		languageOptions: { globals: serviceGlobals }
 	},

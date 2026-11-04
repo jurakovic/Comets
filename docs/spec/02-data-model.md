@@ -53,7 +53,9 @@ So `1P` and `P/2004 V5` are periodic. `3D`, `1I`, `C/1995 O1` and `A/2018 W3` ar
 
 ```
 if isPeriodic:
-    periodDays = P × 365.25          (P to 15 significant digits, as the desktop's decimal holds it)
+    periodDays = P × 365.25          (P to 15 significant digits, as the desktop's decimal holds it;
+                                      toPrecision(15) may differ from .NET's conversion in that
+                                      digit, which moves Tn by under 1e-8 day)
     t = T
     while t − periodDays > JD(1700-01-01 00:00): t −= periodDays
     candidates = []
@@ -158,10 +160,12 @@ if id[0] is a digit:
     codeL = "000"; codeD = "000"
 else:
     group  = id[2] = '-' ? "1" : "2"
-    year   = integer between "/" and the first space (e.g. -146, 1995)
+    parts  = id split on " "
+    year   = parts[0] after its first "/", read as a number and truncated (e.g. -146, 1995);
+             0 when it does not read as one (like dbl in 03, so "--146" gives 0 and "1,995" 1995)
     if year < 0: year += 10000
     number = year left-padded with "0" to 4
-    code   = text after the first space (e.g. "O1", "UN271", "EA")
+    code   = parts[1] (e.g. "O1", "UN271", "EA"; empty after two spaces)
     codeL  = leading letters of code, left-padded with "0" to 3
     codeD  = following digits of code, left-padded with "0" to 3
 fragL = leading letters of fragment, left-padded with "0" to 2
@@ -169,7 +173,9 @@ fragD = following digits of fragment, left-padded with "0" to 2
 sortkey = group + number + codeL + codeD + fragL + fragD
 ```
 
-The key is always 15 characters: 1 + 4 + 3 + 3 + 2 + 2.
+The key is 15 characters, 1 + 4 + 3 + 3 + 2 + 2, for every real designation. Padding never truncates, so a longer part (a 5-digit year or number, `UN2711`, a 3-letter fragment) makes the key longer, as on the desktop.
+
+The key **fails**, and the record is skipped ([03](03-element-formats.md#field-access)), where the desktop throws: an empty id; an id that does not start with a digit and is shorter than 3 characters; no `/` in `parts[0]`; no space in the id.
 
 | id | fragment | sortkey (group · number · codeL · codeD · fragL · fragD) |
 |---|---|---|

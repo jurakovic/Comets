@@ -31,10 +31,18 @@ export function instantToJd(instant) {
 }
 
 /**
- * the date parts of a JD (`JDToDateTime`): the Julian calendar before 1582-10-15, whole seconds,
- * astronomical years ≤ 0 where the desktop fails (spec 10, D5)
+ * the desktop's raw date parts of a JD, before they become a date: the Julian calendar before
+ * 1582-10-15 (so 29 February 1500 can occur), astronomical years ≤ 0, and hour 24 in the last
+ * 0.4 ms of a day, where the nudge below carries the hour over; the desktop throws for the last
+ * three of these (spec 10, D5)
+ * @typedef {import('./calendar.js').DateParts} JdParts
+ */
+
+/**
+ * the raw date parts of a JD (`JDToDateTime` up to building its DateTime); jdToInstant makes a
+ * date of them, and instantToParts of that gives proper date parts
  * @param {number} jd
- * @returns {import('./calendar.js').DateParts}
+ * @returns {JdParts} whole seconds
  */
 export function jdToParts(jd) {
 	const jdHalf = jd + 0.5;
@@ -62,8 +70,9 @@ export function jdToParts(jd) {
 
 /**
  * the UTC instant of a JD (`JDToDateTime`). Before 1582-10-15 the Julian date parts are taken as
- * Gregorian ones, as the desktop does (spec 10, Q8); a Julian 29 February that the Gregorian
- * calendar lacks becomes 1 March, where the desktop throws.
+ * Gregorian ones, as the desktop does (spec 10, Q8). Where the desktop throws (spec 10, D5), a
+ * Julian 29 February that the Gregorian calendar lacks becomes 1 March, and hour 24 the next
+ * day's 00:00:00.
  * @param {number} jd
  * @returns {number} UTC milliseconds, whole seconds
  */

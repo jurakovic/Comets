@@ -31,12 +31,15 @@ test('the orbit and date rotations put the plane position where CometXyz puts th
 	}
 });
 
-test('a line is the plane samples rotated, from aphelion round to aphelion for a closed orbit', () => {
+test('a line is every plane sample rotated, from aphelion round to aphelion for a closed orbit', () => {
 	const plane = sampleOrbit(halley.q, halley.e);
 	const line = cometOrbitLine(halley);
+	const rotation = orbitRotation(halley);
 	assert.equal(line.length, plane.length / 2 * 3);
-	const first = apply(orbitRotation(halley), [plane[0], plane[1], 0]);
-	assert.deepEqual([line[0], line[1], line[2]].map(x => Math.round(x * 1e9)), first.map(x => Math.round(x * 1e9)));
+	for (let k = 0; k < plane.length / 2; k++) {
+		const expected = apply(rotation, [plane[2 * k], plane[2 * k + 1], 0]);
+		for (let j = 0; j < 3; j++) assert.ok(Math.abs(line[3 * k + j] - expected[j]) < 1e-12, `point ${k}`);
+	}
 	const a = halley.q / (1 - halley.e);
 	assert.ok(Math.abs(plane[plane.length - 2] + a * (1 + halley.e)) < 1e-12);
 });

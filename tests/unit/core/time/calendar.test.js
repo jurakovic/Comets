@@ -29,6 +29,15 @@ test('date parts of any year round-trip, and years 0–99 stay themselves', () =
 	assert.equal(isoUtc(partsToInstant({ year: 50, month: 1, day: 1, hour: 0, minute: 0, second: 0 })), '0050-01-01T00:00:00Z');
 });
 
+test('months outside 1–12 carry into the year', () => {
+	const first = (/** @type {number} */ month) => isoUtc(partsToInstant({ year: 2026, month, day: 1, hour: 0, minute: 0, second: 0 }));
+	assert.deepEqual([13, 15, 24, 0, -1, -12].map(first), [
+		'2027-01-01T00:00:00Z', '2027-03-01T00:00:00Z', '2027-12-01T00:00:00Z',
+		'2025-12-01T00:00:00Z', '2025-11-01T00:00:00Z', '2024-12-01T00:00:00Z'
+	]);
+	assert.equal(daysFromCivil(2026, 14, 31), daysFromCivil(2027, 3, 3));
+});
+
 test('milliseconds are dropped towards the earlier second, also before 1970', () => {
 	assert.deepEqual(instantToParts(at('1950-01-01T00:00:00Z') - 1),
 		{ year: 1949, month: 12, day: 31, hour: 23, minute: 59, second: 59 });

@@ -23,17 +23,17 @@ export function rev2(x) {
 	return a >= 180 ? a - 360 : a;
 }
 
-/** @param {number} x degrees */
+/** @param {number} x degrees @returns {number} */
 export function sind(x) {
 	return Math.sin(x * DEG2RAD);
 }
 
-/** @param {number} x degrees */
+/** @param {number} x degrees @returns {number} */
 export function cosd(x) {
 	return Math.cos(x * DEG2RAD);
 }
 
-/** @param {number} x degrees */
+/** @param {number} x degrees @returns {number} */
 export function tand(x) {
 	return Math.tan(x * DEG2RAD);
 }
@@ -57,17 +57,18 @@ export function atan2d(y, x) {
  * the desktop's log10, ln(x) times its 0.43429448190325182765… (Math.LOG10E as a float64);
  * Math.log10 may differ in the last bit
  * @param {number} x
+ * @returns {number}
  */
 export function log10(x) {
 	return Math.LOG10E * Math.log(x);
 }
 
-/** the obliquity of the ecliptic at day count d, degrees @param {number} d */
+/** the obliquity of the ecliptic at day count d @param {number} d @returns {number} degrees */
 export function obliquity(d) {
 	return 23.439291111 - 3.563e-7 * d;
 }
 
-/** radians to degrees @param {number} x */
+/** radians to degrees @param {number} x @returns {number} */
 export function degrees(x) {
 	return x * RAD2DEG;
 }

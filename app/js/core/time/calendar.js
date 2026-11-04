@@ -17,15 +17,18 @@ export const DAY_MS = 86_400_000;
  */
 
 /**
- * the days from 1970-01-01 to a calendar date; days past the month's end count on into the next
- * (H. Hinnant, "chrono-compatible low-level date algorithms", days_from_civil)
+ * the days from 1970-01-01 to a calendar date; months outside 1–12 carry into the year, and days
+ * past the month's end count on into the next (H. Hinnant, "chrono-compatible low-level date
+ * algorithms", days_from_civil)
  * @param {number} year
- * @param {number} month 1–12
+ * @param {number} monthAny 1–12, or beyond
  * @param {number} day
  * @returns {number}
  */
-export function daysFromCivil(year, month, day) {
-	const y = month <= 2 ? year - 1 : year;
+export function daysFromCivil(year, monthAny, day) {
+	const carry = Math.floor((monthAny - 1) / 12);
+	const month = monthAny - carry * 12;
+	const y = (month <= 2 ? year - 1 : year) + carry;
 	const era = Math.floor(y / 400);
 	const yearOfEra = y - era * 400;
 	const monthFromMarch = month > 2 ? month - 3 : month + 9;

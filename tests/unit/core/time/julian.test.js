@@ -16,6 +16,12 @@ test('a Julian 29 February the Gregorian calendar lacks becomes 1 March', () => 
 	assert.equal(isoUtc(jdToInstant(2268991.5)), '1500-03-01T00:00:00Z');
 });
 
+test('hour 24 in the last 0.4 ms of a day becomes the next day (spec 10, D5)', () => {
+	assert.deepEqual(jdToParts(2461331.4999999995), { year: 2026, month: 10, day: 17, hour: 24, minute: 0, second: 0 });
+	assert.equal(isoUtc(jdToInstant(2461331.4999999995)), '2026-10-18T00:00:00Z');
+	assert.equal(isoUtc(jdToInstant(2461331.4999999)), '2026-10-17T23:59:59Z');
+});
+
 test('an instant converts to a JD and back to its whole second', () => {
 	for (const text of ['1700-01-01T00:00:00Z', '1986-02-09T15:30:45Z', '2026-10-18T23:59:59Z', '2299-12-31T23:59:59Z']) {
 		assert.equal(isoUtc(jdToInstant(instantToJd(Date.parse(text)))), text);

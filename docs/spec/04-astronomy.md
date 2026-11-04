@@ -72,7 +72,7 @@ min0  = (hour0 − hour)·60;  minute = floor(min0)
 second = trunc((min0 − minute)·60)
 ```
 
-The result is a UTC instant with whole seconds. The tiny nudge also absorbs float64 error, which is why float64 JDs give the same results as the desktop's decimals. Years below 1 cannot be represented on the desktop; the web app returns them as astronomical years (for example `-146`). The date parts are then read as a Gregorian date, as on the desktop ([10](10-quirks.md#quirks-kept) Q8); a Julian 29 February in a year the Gregorian calendar does not leap (1500, for example) becomes 1 March, where the desktop throws. Vectors: [`time.json`](vectors/time.json).
+The result is a UTC instant with whole seconds. The tiny nudge also absorbs float64 error, which is why float64 JDs give the same results as the desktop's decimals. Years below 1 cannot be represented on the desktop; the web app returns them as astronomical years (for example `-146`). The date parts are then read as a Gregorian date, as on the desktop ([10](10-quirks.md#quirks-kept) Q8); a Julian 29 February in a year the Gregorian calendar does not leap (1500, for example) becomes 1 March. In the last 0.4 ms of a day (`hour0 ≥ 24`, for example JD 2461331.4999999995) the nudge makes `hour = 24`; the result is the next day's 00:00:00. The desktop throws in both cases ([10](10-quirks.md#deviations) D5). Vectors: [`time.json`](vectors/time.json).
 
 ### Local time
 

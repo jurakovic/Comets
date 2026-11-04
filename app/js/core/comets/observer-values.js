@@ -12,7 +12,7 @@ import { ephemeris } from '../astro/ephemeris.js';
  */
 export function perihelionValues(comet, Tn, observer) {
 	const record = ephemeris(comet, Tn, observer);
-	return { PerihEarthDist: record.EarthDist, PerihMag: record.Magnitude };
+	return Object.freeze({ PerihEarthDist: record.EarthDist, PerihMag: record.Magnitude });
 }
 
 /**
@@ -24,5 +24,5 @@ export function perihelionValues(comet, Tn, observer) {
  */
 export function currentValues(comet, nowJd, observer) {
 	const record = ephemeris(comet, nowJd, observer);
-	return { CurrentSunDist: record.SunDist, CurrentEarthDist: record.EarthDist, CurrentMag: record.Magnitude };
+	return Object.freeze({ CurrentSunDist: record.SunDist, CurrentEarthDist: record.EarthDist, CurrentMag: record.Magnitude });
 }

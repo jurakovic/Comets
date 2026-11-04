@@ -41,7 +41,6 @@ import { isPeriodic, sortKey } from './designation.js';
  * @property {number} [Tm]
  * @property {number} [Td]
  * @property {number} [Th]
- * @property {number} [T] the perihelion JD, where a format gives it; otherwise JD0(Ty, Tm, Td, Th)
  * @property {number} [q]
  * @property {number} [e]
  * @property {number} [w]
@@ -49,7 +48,14 @@ import { isPeriodic, sortKey } from './designation.js';
  * @property {number} [i]
  * @property {number} [g]
  * @property {number} [k]
- * @property {string} [sortkey] a fixed key, where a format sets one (Voyager II: ""); otherwise computed
+ */
+
+/**
+ * what a format fixes itself instead of the finalize step; kept apart from the fields, so that a
+ * comet spread into new fields does not carry its old T and sort key along
+ * @typedef {object} FixedFields
+ * @property {number} [T] the perihelion JD (otherwise JD0(Ty, Tm, Td, Th))
+ * @property {string} [sortkey] the key (Voyager II: ""; otherwise computed)
  */
 
 // stands in for e = 1, so that parabolic comets still get finite, sortable P, a and Q
@@ -65,30 +71,31 @@ export function derivedElements(q, e) {
 	if (e < 1) {
 		const a = q / (1 - e);
 		const P = Math.pow(a, 1.5);
-		return { P, a, Q: a * (1 + e), n: 0.9856076686 / P };
+		return Object.freeze({ P, a, Q: a * (1 + e), n: 0.9856076686 / P });
 	}
 	if (e > 1) {
 		const a = -(q / (1 - e));
-		return { P: Math.pow(q / (e - 1), 1.5), a, Q: a * (1 + (2 - e)), n: 0 };
+		return Object.freeze({ P: Math.pow(q / (e - 1), 1.5), a, Q: a * (1 + (2 - e)), n: 0 });
 	}
 	const a = q / (1 - NEAR_PARABOLIC);
-	return { P: Math.pow(a, 1.5), a, Q: a * (1 + NEAR_PARABOLIC), n: 0 };
+	return Object.freeze({ P: Math.pow(a, 1.5), a, Q: a * (1 + NEAR_PARABOLIC), n: 0 });
 }
 
 /**
  * a comet from what an importer read (the finalize step of spec 03): T, the derived elements and
  * the sort key
  * @param {CometFields} fields
+ * @param {FixedFields} [fixed]
  * @returns {Comet | null} null when the id gives no sort key, which makes the record invalid
  */
-export function createComet(fields) {
+export function createComet(fields, fixed = {}) {
 	const {
 		full = '', id = '', name = '', fragment = '', Ty = 0, Tm = 0, Td = 0, Th = 0,
 		q = 0, e = 0, w = 0, N = 0, i = 0, g = 0, k = 0
 	} = fields;
-	const sortkey = fields.sortkey ?? sortKey(id, fragment);
+	const sortkey = fixed.sortkey ?? sortKey(id, fragment);
 	if (sortkey === null) return null;
-	const T = fields.T ?? jd0(Ty, Tm, Td, Th);
+	const T = fixed.T ?? jd0(Ty, Tm, Td, Th);
 	return Object.freeze({
 		full, id, name, fragment, Ty, Tm, Td, Th, T, q, e, w, N, i, g, k, ...derivedElements(q, e), sortkey
 	});
@@ -116,7 +123,8 @@ export function sameComet(a, b) {
 export function nearestPerihelion(comet, nowJd) {
 	const { T } = comet;
 	if (!isPeriodic(comet.id)) return T;
-	// the desktop's decimal holds P to 15 significant digits
+	// the desktop's decimal holds P to 15 significant digits; .NET's conversion and toPrecision
+	// differ in that digit at times, which moves Tn by under 1e-8 day (spec 02)
 	const period = Number(comet.P.toPrecision(15)) * 365.25;
 	// the desktop never ends its loop for a period of 0
 	if (!(period > 0 && Number.isFinite(period))) return T;
