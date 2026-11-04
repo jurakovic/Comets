@@ -23,7 +23,9 @@ export function assertComets(actual, expected, { computed = [], label = '' } = {
 	actual.forEach((comet, index) => {
 		const vector = expected[index];
 		const what = `${label} ${vector.full}`;
-		for (const key of [...TEXT, ...INTEGERS]) assert.equal(comet[key], vector[key], `${what} ${key}`);
+		// the desktop never sets a Voyager II comet's fragment, so it is null there; "" here (spec 03)
+		for (const key of TEXT) assert.equal(comet[key], vector[key] ?? '', `${what} ${key}`);
+		for (const key of INTEGERS) assert.equal(comet[key], vector[key], `${what} ${key}`);
 		for (const key of ELEMENTS) {
 			if (computed.includes(key)) assertClose(comet[key], vector[key], 1e-9, `${what} ${key}`);
 			else assert.equal(comet[key], vector[key], `${what} ${key}`);

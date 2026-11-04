@@ -213,7 +213,7 @@ Every line. `p = split('\t')`.
 
 Lines from 23. **Duplicates are allowed**: a record is added even if its `full` already exists.
 
-- `t = trim(sub(0,27))`. If `t[0]` is a type letter and `t[1] = '/'`, or `t[0]` is a digit: `full = id = t`, `name = ""`. Otherwise: `full = name = t`, `id = ""`. `fragment` is empty. A `t` shorter than 2 characters fails.
+- `t = trim(sub(0,27))`. If `t[0]` is a type letter and `t[1] = '/'`, or `t[0]` is a digit: `full = id = t`, `name = ""`. Otherwise: `full = name = t`, `id = ""`. `fragment` is empty (the desktop leaves it null). An empty `t` fails, and so does a `t` that is one type letter alone, since the desktop reads `t[1]`; any other one-character `t` is an id (a digit) or a name.
 - q `sub(27,9)`, e `sub(39,8)`, i `sub(49,8)`, N `sub(60,8)`, w `sub(71,8)`, Ty `sub(87,4)`.
 - `Tm` = 1 + the index of `sub(91,3)` in `Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec`, matched case-sensitively. A missing month fails.
 - `day.fraction` = `trim(sub(94,7))`.
@@ -465,7 +465,7 @@ Telegrams for providing this information.
 Name                            q          e         i        Node         w       L      T(Date)    Equinox
 ```
 
-`date = format("{0,4}{1}{2}.{3:0000}", Ty, MonthAbbr[Tm], Td, Th)`, where MonthAbbr is `Jan` … `Dec`; for example `2019Dec9.0572`.
+`date = format("{0,4}{1}{2}.{3:0000}", Ty, MonthAbbr[Tm], Td, Th)`, where MonthAbbr is `Jan` … `Dec`; for example `2019Dec9.0572`. A month outside 1–12 (an MPC file can carry one) makes the desktop throw; the web app writes the month's number instead, here and in Celestia.
 
 ```
 "{0,-26} {1,9:0.000000}   {2:0.000000}  {3,8:0.0000}   {4,8:0.0000}   {5,8:0.0000}   0.0  {6,-14} 2000.0"
