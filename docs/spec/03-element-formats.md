@@ -551,8 +551,11 @@ formatNumber(x, pattern):          # pattern like "0.0000", "00.000#", "0.##", "
     intZeros  = number of "0" before the "."                           (at least 1 digit is always printed)
     minDec    = number of "0" after the "."
     maxDec    = minDec + number of "#" after the "."
-    1. s = x rounded to 15 significant digits, as an exact decimal string.
-       JavaScript: x.toPrecision(15), expanded out of exponent notation.
+    1. s = x rounded to 15 significant digits, as an exact decimal string. Round the exact
+       binary value of x, ties to even. JavaScript's x.toPrecision(15) rounds ties up, so it
+       differs exactly when the decimal expansion of x stops at the 16th significant digit with
+       a 5 (100000000000000.5 → 100000000000000, 1000000000000.125 → 1000000000000.12); take
+       the exact digits from the float's bits instead.
     2. Round s to maxDec decimals, half AWAY from zero, on the decimal digits of s.
     3. Remove trailing zeros beyond minDec decimals; drop the "." if no decimals remain.
     4. Left-pad the integer part with "0" to intZeros digits.
@@ -567,7 +570,9 @@ formatNumber(x, pattern):          # pattern like "0.0000", "00.000#", "0.##", "
 | 0.045 | `0.05` | `0.04` |
 | 59.2615 at `0.000` | `59.262` | `59.261` |
 
-- **Integers** (Ty, Td, Th, counts): `{n:00}` and `{n:0000}` zero-pad to that many digits, with any sign in front (`-146` with `{0,4}` → `-146`). A format item with no format string prints the plain integer.
+- `NaN` prints `NaN`, and infinities print `Infinity` and `-Infinity`, without the literal suffix.
+- **Integers** (Ty, Td, Th, counts): `{n:00}` and `{n:0000}` zero-pad to that many digits, with any sign in front (`-146` with `{0:0000}` → `-0146`, with `{0,4}` → `-146`). A format item with no format string prints the plain integer. Integers must not be `−0`, which the steps above print as `-00`.
+- A non-integer with no format string prints as .NET prints a double: the shortest digits that read back as the same value, in E notation when the decimal exponent is ≥ 17 or ≤ −5 (`1E+17`, `1.2345E-05`). No export or text output uses this.
 - **Alignment** `{n,w}` pads the formatted text with spaces on the left to `w` characters. `{n,-w}` pads on the right. Text longer than `w` is never truncated.
 - **Exact decimals**: the desktop formats `T` and JDs as exact decimals. Rounding a float64 to 15 significant digits first reproduces them.
 
