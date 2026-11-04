@@ -70,3 +70,25 @@ export function assertAngleClose(actual, expected, tolerance, what = 'angle') {
 	const difference = Math.abs((((actual - expected) % 360) + 540) % 360 - 180);
 	assert.ok(difference <= tolerance, `${what}: ${actual}° differs from ${expected}° by ${difference}° (tolerance ${tolerance}°)`);
 }
+
+/**
+ * the instant of a vector's UTC timestamp, `2026-10-18T12:00:00Z`, optionally followed by
+ * milliseconds the case adds: `2026-10-18T12:00:00Z (+999 ms)`
+ * @param {string} text
+ * @returns {number} UTC milliseconds
+ */
+export function utcInstant(text) {
+	const match = /^(\S+Z)(?: \(\+(\d+) ms\))?$/.exec(text);
+	assert.ok(match, `not a vector timestamp: ${text}`);
+	const instant = Date.parse(match[1]);
+	assert.ok(Number.isFinite(instant), `not a vector timestamp: ${text}`);
+	return instant + Number(match[2] ?? 0);
+}
+
+/**
+ * a UTC instant as the vectors write it, `2026-10-18T12:00:00Z`, for exact comparison
+ * @param {number} instant UTC milliseconds
+ */
+export function isoUtc(instant) {
+	return new Date(instant).toISOString().replace(/\.000Z$/, 'Z');
+}

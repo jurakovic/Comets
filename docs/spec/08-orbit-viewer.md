@@ -222,7 +222,7 @@ The simulation moves the date continuously, about 60 frames per second (desktop:
   - steps under one day round to the nearest multiple of the step within the day, half away from zero;
   - steps of a day or more truncate to 00:00 of the day.
 - **Resume** continues from the internal clock, not from the rounded display. Any date change that does not come from the simulation itself (picker, presets, the single-step buttons, `N`, `B`) re-seeds the clock from that date. A date change made by the user while playing stops playback.
-- **Single steps** (`|<`, `>|`) stop the simulation and move by the step using calendar arithmetic: add years, then months (clamping the day to the month's length), then days, then hours. The result is clamped to the date range. Vector: [`simulation-steps.json`](vectors/simulation-steps.json).
+- **Single steps** (`|<`, `>|`) stop the simulation and move by the step using calendar arithmetic from the date's whole second: add years, then months (clamping the day to the month's length), then days, then hours. A result in the days the Gregorian reform removed (1582-10-05 to 10-14) moves to 10-15 going forward and 10-04 going back, as the desktop's `ATime.ChangeDate` does. The result is then clamped to the date range, which makes that rule unreachable in the app. Vector: [`simulation-steps.json`](vectors/simulation-steps.json), which checks the step before the clamp.
 - **Faster** and **slower** move one entry along the step menu. Slower at the smallest step stops the simulation. Either key, pressed while stopped, starts it.
 - The simulation **stops** when the view is hidden (another view, a hidden browser tab) and while the Filter dialog is open. It resumes after the Filter dialog closes if it was running before.
 
