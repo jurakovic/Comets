@@ -84,7 +84,7 @@ Dates print with .NET custom date formats in the invariant culture. The app uses
 
 ## Comet position
 
-`CometXyz(T, q, e, w, N, i, jd)` returns heliocentric rectangular coordinates referred to the **ecliptic and equinox of date** (AU).
+`CometXyz(T, q, e, w, N, i, jd)` returns heliocentric rectangular coordinates referred to the **ecliptic and equinox of date** (AU), and the distance `r` from the orbital-plane solution.
 
 ### Orbital plane
 
@@ -176,7 +176,7 @@ EcLon = rev(atan2d(gy, gx));  EcLat = atan2d(gz, √(gx² + gy²))
 x1 = gx;  y1 = gy·cosd ε − gz·sind ε;  z1 = gy·sind ε + gz·cosd ε
 RA = rev(atan2d(y1, x1));  Dec = atan2d(z1, √(x1² + y1²))
 EarthDist Δ = √(x1² + y1² + z1²)
-SunDist   r = √(C.x² + C.y² + C.z²)
+SunDist   r = C.r                                                # the solver's distance, as the desktop takes it
 
 θ0 = 280.46061837 + 360.98564736629·(jd − 2451545.0)          # Greenwich sidereal time
 H  = rev(θ0 + longitude − RA)

@@ -40,3 +40,18 @@ test('the nearest perihelion and its date', () => {
 		assert.equal(isoUtc(jdToInstant(Tn)), expected, `${vector.full} TnDate`);
 	}
 });
+
+test('the values at the nearest perihelion and now, for the observer at 0, 0', async () => {
+	const { currentValues, perihelionValues } = await import('../../app/js/core/comets/observer-values.js');
+	const observer = { latitude: 0, longitude: 0 };
+	for (const vector of comets) {
+		const comet = fromVector(vector);
+		const perihelion = perihelionValues(comet, nearestPerihelion(comet, nowJd), observer);
+		const current = currentValues(comet, nowJd, observer);
+		assertClose(perihelion.PerihEarthDist, vector.PerihEarthDist, 1e-8, `${vector.full} PerihEarthDist`);
+		assertClose(perihelion.PerihMag, vector.PerihMag, 1e-8, `${vector.full} PerihMag`);
+		assertClose(current.CurrentSunDist, vector.CurrentSunDist, 1e-8, `${vector.full} CurrentSunDist`);
+		assertClose(current.CurrentEarthDist, vector.CurrentEarthDist, 1e-8, `${vector.full} CurrentEarthDist`);
+		assertClose(current.CurrentMag, vector.CurrentMag, 1e-8, `${vector.full} CurrentMag`);
+	}
+});
