@@ -8,7 +8,7 @@ import { importElements } from '../../app/js/core/formats/import.js';
 
 const sample = importElements([], 'MPC', readVectorText('import/sample.txt')).comets;
 const { exports } = readVector('export/index.json');
-const DONE = new Set(['MPC', 'SkyMap', 'Guide', 'xephem', 'HomePlanet', 'MyStars']);
+const DONE = new Set(['MPC', 'SkyMap', 'Guide', 'xephem', 'HomePlanet', 'MyStars', 'TheSky', 'StarryNight', 'DeepSpace', 'PCTCS', 'EarthCenteredUniverse', 'Autostar']);
 
 for (const { type, file } of exports.filter((/** @type {any} */ entry) => DONE.has(entry.type))) {
 	test(`${file} byte for byte`, () => {

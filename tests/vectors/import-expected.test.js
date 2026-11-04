@@ -17,7 +17,19 @@ const CASES = [
 	['Soft04Cmt.txt.json', []],
 	['roundtrip-04-HomePlanet.txt.json', []],
 	['Soft05Cmt.txt.json', []],
-	['roundtrip-05-MyStars.txt.json', []]
+	['roundtrip-05-MyStars.txt.json', []],
+	['Soft06Cmt.txt.json', []],
+	['roundtrip-06-TheSky.txt.json', []],
+	['Soft07Cmt.txt.json', []],
+	['roundtrip-07-StarryNight.txt.json', []],
+	['Soft08Cmt.txt.json', []],
+	['roundtrip-08-DeepSpace.txt.json', []],
+	['Soft09Cmt.txt.json', []],
+	['roundtrip-09-PCTCS.txt.json', []],
+	['Soft10Cmt.txt.json', []],
+	['roundtrip-10-EarthCenteredUniverse.txt.json', []],
+	['Soft16Cmt.txt.json', []],
+	['roundtrip-16-Autostar.txt.json', []]
 ];
 
 for (const [name, computed] of CASES) {

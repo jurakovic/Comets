@@ -1,10 +1,15 @@
 // The element formats, in the desktop's order, each with what reads and writes it.
 // docs/spec/03-element-formats.md.
+import * as deepSpace from './deep-space.js';
+import * as earthCenteredUniverse from './earth-centered-universe.js';
 import * as guide from './guide.js';
 import * as homePlanet from './home-planet.js';
 import * as mpc from './mpc.js';
 import * as myStars from './my-stars.js';
+import * as pcTcs from './pc-tcs.js';
 import * as skyMap from './skymap.js';
+import * as starryNight from './starry-night.js';
+import * as theSky from './the-sky.js';
 import * as xephem from './xephem.js';
 
 /**
@@ -66,17 +71,18 @@ const ENTRIES = [
 	['xephem', 'xephem (Soft03Cmt)', 'xephem', '.txt', xephem],
 	['HomePlanet', 'Home Planet (Soft04Cmt)', 'Home Planet', '.csv', homePlanet],
 	['MyStars', 'MyStars! (Soft05Cmt)', 'MyStars!', '.txt', myStars],
-	['TheSky', 'TheSky (Soft06Cmt)', 'TheSky', '.txt', {}],
-	['StarryNight', 'Starry Night (Soft07Cmt)', 'Starry Night', '.txt', {}],
-	['DeepSpace', 'Deep Space (Soft08Cmt)', 'Deep Space', '.txt', {}],
-	['PCTCS', 'PC-TCS (Soft09Cmt)', 'PC-TCS', '.txt', {}],
-	['EarthCenteredUniverse', 'Earth Centered Universe (Soft10Cmt)', 'Earth Centered Universe', '.txt', {}],
+	['TheSky', 'TheSky (Soft06Cmt)', 'TheSky', '.txt', theSky],
+	['StarryNight', 'Starry Night (Soft07Cmt)', 'Starry Night', '.txt', starryNight],
+	['DeepSpace', 'Deep Space (Soft08Cmt)', 'Deep Space', '.txt', deepSpace],
+	['PCTCS', 'PC-TCS (Soft09Cmt)', 'PC-TCS', '.txt', pcTcs],
+	['EarthCenteredUniverse', 'Earth Centered Universe (Soft10Cmt)', 'Earth Centered Universe', '.txt', earthCenteredUniverse],
 	['DanceOfThePlanets', 'Dance of the Planets (Soft11Cmt)', 'Dance of the Planets', '.txt', {}],
 	['MegaStarV4', 'MegaStar V4.x (Soft12Cmt)', 'MegaStar V4.x', '.txt', {}],
 	['SkyChartIII', 'SkyChart III (Soft13Cmt)', 'SkyChart III', '.txt', {}],
 	['VoyagerII', 'Voyager II (Soft14Cmt)', 'Voyager II', '.txt', {}],
 	['SkyTools', 'SkyTools (Soft15Cmt)', 'SkyTools', '.txt', {}],
-	['Autostar', 'Autostar (Soft16Cmt)', 'Autostar', '.txt', {}],
+	// files in this format are detected and read as TheSky
+	['Autostar', 'Autostar (Soft16Cmt)', 'Autostar', '.txt', { writer: theSky.writer }],
 	['SpaceEngine', 'SpaceEngine', 'SpaceEngine', '.sc', {}],
 	['Celestia', 'Celestia', 'Celestia', '.ssc', {}],
 	['CometForWindows', 'Comet for Windows', 'Comet for Windows', '.dat', {}],

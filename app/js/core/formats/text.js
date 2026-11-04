@@ -109,6 +109,17 @@ export function trim(text) {
 }
 
 /**
+ * the text without trailing white space, as .NET's TrimEnd
+ * @param {string} text
+ * @returns {string}
+ */
+export function trimEnd(text) {
+	let end = text.length;
+	while (end > 0 && SPACES.has(text.charCodeAt(end - 1))) end -= 1;
+	return text.slice(0, end);
+}
+
+/**
  * the text right-padded with 0 to width characters; longer text stays as it is
  * @param {string} text
  * @param {number} width
