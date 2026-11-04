@@ -78,6 +78,10 @@ The result is a UTC instant with whole seconds. The tiny nudge also absorbs floa
 
 "Local time" means the browser's time zone (`Intl.DateTimeFormat().resolvedOptions().timeZone`), with its daylight-saving rules for the instant being converted. Calculations always use UTC. Only display uses local time.
 
+### Date text
+
+Dates print with .NET custom date formats in the invariant culture. The app uses `dd.MM.yyyy. HH:mm:ss`, `dd MMM yyyy HH:mm:ss`, `dd.MM.yyyy HH:mm`, `dd MMM yyyy HH:mm`, `dd MMM yyyy` and `yyyy-MM-dd_HHmmss` (file names). `dd`, `MM`, `HH`, `mm` and `ss` are two digits, `MMM` is `Jan` … `Dec`, and `yyyy` is at least four digits (`0146`). Astronomical years ≤ 0, which the desktop cannot show (D5), print with a minus before the four digits (`-0146`, `0000`).
+
 ## Comet position
 
 `CometXyz(T, q, e, w, N, i, jd)` returns heliocentric rectangular coordinates referred to the **ecliptic and equinox of date** (AU).
