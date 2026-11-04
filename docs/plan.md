@@ -35,7 +35,7 @@ Exit: every `import-expected/*.json` (round trips included), `export/*`, `import
 
 - [x] **S1 Text and field access**: `core/formats/text.js` (spec 03, Text conventions and Field access): UTF-8 with BOM, line splitting, `sub`, `from`, `split`, `trim`, `pad4`, strict `int` (never `−0`, which formats as `-00`), `dbl` (and the sort key's year in `core/comets/designation.js` read with it rather than its own pattern), `dec`, `round6` (`roundEven` is in `lib/math.js`); the format registry (all 21 descriptors: key, name, software, extension, import, export) and detection over it. Unit tests for every operation, failures included
 - [x] **S2 MPC and merge**: MPC import and export, `ImportMain` (New, Update, NoChanges, first wins, Voyager II duplicates, stable sort-key order). Vectors `import-expected/Soft00Cmt.txt.json`, `full/Soft00Cmt.txt`, `sample.txt`, `export/00-MPC.txt`, `roundtrip-00`, `import-merge.json`, `import-detection.json`
-- [ ] **S3 Formats 1–5**: SkyMap, Guide, xephem (ellipse, parabola, hyperbola; perihelion from the epoch), Home Planet, MyStars!: import, export, round trips
+- [x] **S3 Formats 1–5**: SkyMap, Guide, xephem (ellipse, parabola, hyperbola; perihelion from the epoch), Home Planet, MyStars!: import, export, round trips
 - [ ] **S4 Formats 6–10**: TheSky and Autostar, Starry Night, Deep Space, PC-TCS, Earth Centered Universe: import, export, round trips
 - [ ] **S5 Formats 11–15, 17, 18**: Dance of the Planets (the corrected header, D2), MegaStar V4.x, SkyChart III, Voyager II, SkyTools; SpaceEngine and Celestia (export only)
 - [ ] **S6 Import-only formats**: Comet for Windows, NASA (with the precession, Q7); detection of every input file and edge case; the 100 ms import budget as a test

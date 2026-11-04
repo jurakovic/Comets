@@ -2,7 +2,7 @@
 // docs/spec/03-element-formats.md, Field access.
 import { createComet } from '../comets/comet.js';
 import { fullName, parseDesignationFirst } from '../comets/designation.js';
-import { fail } from './text.js';
+import { fail, int, item, pad4 } from './text.js';
 
 /**
  * @typedef {import('../comets/comet.js').Comet} Comet
@@ -41,4 +41,15 @@ export function rebuiltName(text, pattern = parseDesignationFirst) {
  */
 export function finish(fields, fixed) {
 	return createComet(fields, fixed) ?? fail(`no sort key for ${fields.id}`);
+}
+
+/**
+ * Td and Th of a `day.fraction` text: the split on `.` must give at least two parts, so `17`
+ * fails and `17.0` is valid
+ * @param {string} text
+ * @returns {{ Td: number, Th: number }}
+ */
+export function dayAndFraction(text) {
+	const parts = text.split('.');
+	return { Td: int(item(parts, 0)), Th: int(pad4(item(parts, 1))) };
 }

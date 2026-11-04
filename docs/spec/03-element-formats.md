@@ -36,7 +36,7 @@ The two detection results that are not formats, `NoFileSelected` and `EmptyFile`
 
 ### Field access
 
-The import rules below use these operations. Any operation that fails makes the **record** invalid, and an invalid record is skipped silently.
+The import rules below use these operations. Any operation that fails makes the **record** invalid, and an invalid record is skipped silently. Where a rule reads a fixed-width column (`sub`) as a number, the desktop trims it first, so `int(sub(14,4))` means `int(trim(sub(14,4)))`; fields from `split` are read as they are.
 
 | Operation | Meaning |
 |---|---|
@@ -127,7 +127,7 @@ Lines 1, 3, 5, …; the even lines are `# From …` comments. `p = split(',')`. 
   - the epoch date comes from `p[9]`; g `dbl(from(2) of p[11])` (drop the leading `g `); k `p[12]`;
   - `q = round6(a × (1 − e))`;
   - if `M = 0`: the perihelion date is the epoch date, and `T = JD0(…)`.
-  - otherwise:
+  - otherwise (`n = 0` fails, as the desktop's decimal division does):
     ```
     E = JD0(epoch y, m, d, h)
     t = E − M / n

@@ -1,6 +1,11 @@
 // The element formats, in the desktop's order, each with what reads and writes it.
 // docs/spec/03-element-formats.md.
+import * as guide from './guide.js';
+import * as homePlanet from './home-planet.js';
 import * as mpc from './mpc.js';
+import * as myStars from './my-stars.js';
+import * as skyMap from './skymap.js';
+import * as xephem from './xephem.js';
 
 /**
  * @typedef {import('../comets/comet.js').Comet} Comet
@@ -56,11 +61,11 @@ import * as mpc from './mpc.js';
 /** @type {Array<[string, string, string, string, Codec]>} */
 const ENTRIES = [
 	['MPC', 'MPC (Soft00Cmt)', 'MPC', '.txt', mpc],
-	['SkyMap', 'SkyMap (Soft01Cmt)', 'SkyMap', '.txt', {}],
-	['Guide', 'Guide (Soft02Cmt)', 'Guide', '.txt', {}],
-	['xephem', 'xephem (Soft03Cmt)', 'xephem', '.txt', {}],
-	['HomePlanet', 'Home Planet (Soft04Cmt)', 'Home Planet', '.csv', {}],
-	['MyStars', 'MyStars! (Soft05Cmt)', 'MyStars!', '.txt', {}],
+	['SkyMap', 'SkyMap (Soft01Cmt)', 'SkyMap', '.txt', skyMap],
+	['Guide', 'Guide (Soft02Cmt)', 'Guide', '.txt', guide],
+	['xephem', 'xephem (Soft03Cmt)', 'xephem', '.txt', xephem],
+	['HomePlanet', 'Home Planet (Soft04Cmt)', 'Home Planet', '.csv', homePlanet],
+	['MyStars', 'MyStars! (Soft05Cmt)', 'MyStars!', '.txt', myStars],
 	['TheSky', 'TheSky (Soft06Cmt)', 'TheSky', '.txt', {}],
 	['StarryNight', 'Starry Night (Soft07Cmt)', 'Starry Night', '.txt', {}],
 	['DeepSpace', 'Deep Space (Soft08Cmt)', 'Deep Space', '.txt', {}],

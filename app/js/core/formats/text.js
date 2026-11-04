@@ -56,6 +56,17 @@ export function sub(line, start, length) {
 }
 
 /**
+ * a fixed-width column, trimmed, as the desktop reads one before converting it
+ * @param {string} line
+ * @param {number} start
+ * @param {number} length
+ * @returns {string}
+ */
+export function column(line, start, length) {
+	return trim(sub(line, start, length));
+}
+
+/**
  * the characters from start to the end; fails on a line shorter than start
  * @param {string} line
  * @param {number} start
@@ -209,6 +220,8 @@ export function round6(x) {
  * @returns {import('../time/calendar.js').DateParts}
  */
 export function jdDate(jd) {
+	// a NaN or infinite JD (a mean motion of 0) is where the desktop's decimal division throws
+	if (!Number.isFinite(jd)) fail(`no DateTime for JD ${jd}`);
 	const parts = jdToParts(jd);
 	const { year, month, day, hour } = parts;
 	if (year < 1 || year > 9999 || hour > 23 || day > daysInMonth(year, month)) fail(`no DateTime for JD ${jd}`);

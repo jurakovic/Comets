@@ -1,7 +1,7 @@
 // MPC (Soft00Cmt), also the database's storage format. docs/spec/03-element-formats.md, MPC.
 import { compileFormat } from '../format/composite.js';
 import { finish, keptName } from './record.js';
-import { dbl, int, item, pad4, sub, trim } from './text.js';
+import { column, dbl, int, item, pad4, sub } from './text.js';
 
 /** @type {import('./registry.js').Reader} */
 export const reader = {
@@ -11,18 +11,18 @@ export const reader = {
 	parse(record) {
 		const line = item(record, 0);
 		return finish({
-			...keptName(trim(sub(line, 102, 55))),
-			Ty: int(sub(line, 14, 4)),
-			Tm: int(sub(line, 19, 2)),
-			Td: int(sub(line, 22, 2)),
+			...keptName(column(line, 102, 55)),
+			Ty: int(column(line, 14, 4)),
+			Tm: int(column(line, 19, 2)),
+			Td: int(column(line, 22, 2)),
 			Th: int(pad4(sub(line, 25, 4))),
-			q: dbl(sub(line, 30, 9)),
-			e: dbl(sub(line, 41, 8)),
-			w: dbl(sub(line, 51, 8)),
-			N: dbl(sub(line, 61, 8)),
-			i: dbl(sub(line, 71, 8)),
-			g: dbl(sub(line, 91, 4)),
-			k: dbl(sub(line, 96, 4))
+			q: dbl(column(line, 30, 9)),
+			e: dbl(column(line, 41, 8)),
+			w: dbl(column(line, 51, 8)),
+			N: dbl(column(line, 61, 8)),
+			i: dbl(column(line, 71, 8)),
+			g: dbl(column(line, 91, 4)),
+			k: dbl(column(line, 96, 4))
 		});
 	}
 };
