@@ -12,16 +12,14 @@ const MAX_ITERATIONS = 100;
  */
 
 /**
- * an ellipse (e < 1) by Laguerre–Conway iteration, as in Stellarium
- * @param {number} q perihelion distance, AU
- * @param {number} e eccentricity
- * @param {number} dt days since perihelion
- * @returns {PlanePosition}
+ * the eccentric anomaly of an ellipse by Laguerre–Conway iteration, as in Stellarium; the comets
+ * and the planets share it
+ * @param {number} meanAnomaly radians, any value
+ * @param {number} e eccentricity, below 1
+ * @returns {number} radians
  */
-export function ellipse(q, e, dt) {
-	const a = q / (1 - e);
-	let M = GAUSS_K * dt / (Math.sqrt(a) * a);
-	M %= 2 * Math.PI;
+export function eccentricAnomaly(meanAnomaly, e) {
+	let M = meanAnomaly % (2 * Math.PI);
 	if (M < 0) M += 2 * Math.PI;
 	let E = M + 0.85 * e * Math.sign(Math.sin(M));
 	for (let escape = 0; ;) {
@@ -33,6 +31,19 @@ export function ellipse(q, e, dt) {
 		if (Math.abs(E - previous) < EPS) break;
 		if (++escape > 10) break;
 	}
+	return E;
+}
+
+/**
+ * an ellipse (e < 1)
+ * @param {number} q perihelion distance, AU
+ * @param {number} e eccentricity
+ * @param {number} dt days since perihelion
+ * @returns {PlanePosition}
+ */
+export function ellipse(q, e, dt) {
+	const a = q / (1 - e);
+	const E = eccentricAnomaly(GAUSS_K * dt / (Math.sqrt(a) * a), e);
 	const x = a * (Math.cos(E) - e);
 	const y = q * Math.sqrt((1 + e) / (1 - e)) * Math.sin(E);
 	return { v: Math.atan2(y, x), r: Math.sqrt(x * x + y * y) };
