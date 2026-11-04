@@ -92,6 +92,7 @@ const HYPERBOLA = compileFormat('{0},h,{1:00}/{2:00}.{3:0000}/{4},{5:0.0000},{6:
 /**
  * the full name, with `/` after every comet without a name, meant for `282P/` (spec 10, Q2)
  * @param {import('../comets/comet.js').Comet} c
+ * @returns {string}
  */
 export function nameWithSlash(c) {
 	return c.name === '' ? `${c.full}/` : c.full;

@@ -162,7 +162,8 @@ else:
     group  = id[2] = '-' ? "1" : "2"
     parts  = id split on " "
     year   = parts[0] after its first "/", read as a number and truncated (e.g. -146, 1995);
-             0 when it does not read as one (like dbl in 03, so "--146" gives 0 and "1,995" 1995)
+             0 when it does not read as one (like dbl in 03, so "--146" gives 0 and "1,995" 1995);
+             beyond 32 bits, −2147483648, which is what .NET 8's (int) cast gives on x64
     if year < 0: year += 10000
     number = year left-padded with "0" to 4
     code   = parts[1] (e.g. "O1", "UN271", "EA"; empty after two spaces)

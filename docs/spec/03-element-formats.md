@@ -1,6 +1,6 @@
 # 03 — Orbital element formats
 
-The app reads 21 formats and writes 19. Most are the formats the MPC publishes as `Soft00Cmt.txt` … `Soft16Cmt.txt` (<https://www.minorplanetcenter.net/iau/Ephemerides/Comets/SoftwareComets.html>). Behaviour MUST match the desktop byte for byte. The one exception is the Dance of the Planets header, see [10](10-quirks.md). Vectors: [`import/`](vectors/import/), [`import-expected/`](vectors/import-expected/), [`export/`](vectors/export/).
+The app knows 21 formats: it reads 19 of them (Autostar files as TheSky) and writes 19. Most are the formats the MPC publishes as `Soft00Cmt.txt` … `Soft16Cmt.txt` (<https://www.minorplanetcenter.net/iau/Ephemerides/Comets/SoftwareComets.html>). Behaviour MUST match the desktop byte for byte. The one exception is the Dance of the Planets header, see [10](10-quirks.md). Vectors: [`import/`](vectors/import/), [`import-expected/`](vectors/import-expected/), [`export/`](vectors/export/).
 
 | # | Key | Name shown | Software | Import | Export | Extension |
 |---|---|---|---|---|---|---|
@@ -30,7 +30,7 @@ The two detection results that are not formats, `NoFileSelected` and `EmptyFile`
 
 ## Text conventions
 
-- **Decoding**: input files are decoded as UTF-8, ignoring a leading BOM. Invalid bytes become U+FFFD; JavaScript's `TextDecoder('utf-8')` does this by default.
+- **Decoding**: input files are decoded as UTF-8, ignoring a leading BOM. Invalid bytes become U+FFFD; JavaScript's `TextDecoder('utf-8')` does this by default. Like `File.ReadAllLines`, a file that starts with a UTF-16 (`FF FE`, `FE FF`) or UTF-32 (`FF FE 00 00`, `00 00 FE FF`) byte-order mark is decoded in that encoding instead; `TextDecoder` has the UTF-16 ones, and UTF-32 needs a few lines of its own. Decoding is the file and download adapters' work; the importers take text.
 - **Lines**: split on `\r\n`, `\n` or `\r`. A final line terminator does not produce an empty last line. This matches .NET `File.ReadAllLines`.
 - **Output**: exported text uses **CRLF** line terminators, including after the last line. The vectors are stored with LF, so compare after normalizing line endings. Files are written as UTF-8 without BOM.
 
@@ -45,11 +45,11 @@ The import rules below use these operations. Any operation that fails makes the 
 | `split(c)` | Split on the single character `c`, keeping empty fields. Reading a field index that does not exist fails. |
 | `trim` | Remove leading and trailing white space, as .NET `String.Trim` does: `Char.IsWhiteSpace`, which includes U+0085 and excludes U+FEFF, unlike JavaScript's `trim`. |
 | `pad4(s)` | `trim(s)` right-padded with `0` to 4 characters (`"912"` → `"9120"`). |
-| `int(s)` | Integer: optional white space, optional sign, digits, optional white space, within 32 bits. Anything else fails (no decimal point). The white space numbers allow is space and U+0009–U+000D, here and in `dbl` and `dec`. |
+| `int(s)` | Integer: optional white space, optional sign, digits, optional white space, within 32 bits. Anything else fails (no decimal point). The white space numbers allow is space and U+0009–U+000D, here and in `dbl` and `dec`, and all three also accept NUL characters at the very end, as .NET does. |
 | `dbl(s)` | Number: optional white space, optional sign, digits with an optional `.` fraction (`.5` and `5.` are valid), optional exponent `e±n`; commas inside the integer digits are ignored (thousands separators). Anything else fails. The desktop also accepts `NaN` and `Infinity`; the web app MAY reject them. |
-| `dec(s)` | Like `dbl` but with no exponent, and the sign may trail instead of lead (`5-` is −5). On the desktop this is an exact decimal; the web app uses float64. |
+| `dec(s)` | Like `dbl` but with no exponent, and the sign may trail instead of lead (`5-` is −5). Values of 2⁹⁶ and more fail. On the desktop this is an exact decimal; the web app uses float64. |
 | `roundEven(x)` | Round to the nearest integer, ties to even (.NET `Math.Round`). |
-| `round6(x)` | `roundEven(x × 10⁶) / 10⁶` |
+| `round6(x)` | `roundEven(x × 10⁶) / 10⁶`; an `x` of 10¹⁶ or more stays as it is (.NET `Math.Round(x, 6)`) |
 | `date(jd)` | The date parts of `JDToDateTime(jd)` ([04](04-astronomy.md#jd-to-instant-jdtodatetime)). Fails where the desktop's `DateTime` throws: a year before 1 or after 9999, a Julian 29 February the Gregorian calendar lacks, hour 24. So an importer still skips such a record, although the rest of the web app keeps those dates ([10](10-quirks.md#deviations), D5); the round trips of `C/-146 P1` through MyStars! and Starry Night rely on it. |
 
 Every importer finishes a valid record the same way (**finalize**):

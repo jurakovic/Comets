@@ -18,8 +18,9 @@ export const reader = {
 			N: dbl(column(line, 95, 9)),
 			w: dbl(column(line, 85, 9))
 		});
-		// five decimals of the day, rounded to four as Convert.ToInt32 rounds: ties to even
-		const Th = roundEven(dbl(padZeros(column(line, 114, 5), 5)) / 10);
+		// five decimals of the day, rounded to four as Convert.ToInt32 rounds: ties to even, and
+		// an integer, so never −0
+		const Th = roundEven(dbl(padZeros(column(line, 114, 5), 5)) / 10) + 0;
 		if (!(Math.abs(Th) <= 2_147_483_647)) fail('Th out of range');
 		return finish({
 			...keptName(column(line, 0, 43)),

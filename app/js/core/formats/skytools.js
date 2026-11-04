@@ -33,9 +33,9 @@ const LINE = compileFormat('C {0,-40} {1} {2:00} {3:00} {4,4} {5:00} {6:00}.{7:0
 
 /** @type {import('./registry.js').Writer} */
 export const writer = {
-	// Th div 10 drops the last digit without rounding
+	// Th div 10 drops the last digit without rounding, and is an integer, so never −0
 	lines: (c, today) => [LINE([
 		c.full.replaceAll('(', '').replaceAll(')', ''), today.year, today.month, today.day,
-		c.Ty, c.Tm, c.Td, Math.trunc(c.Th / 10), c.q, c.e, c.w, c.N, c.i, c.g, c.k
+		c.Ty, c.Tm, c.Td, Math.trunc(c.Th / 10) + 0, c.q, c.e, c.w, c.N, c.i, c.g, c.k
 	])]
 };

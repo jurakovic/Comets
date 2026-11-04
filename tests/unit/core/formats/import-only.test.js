@@ -1,7 +1,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readVectorText } from '../../../helpers/vectors.js';
+import { readVectorText, VECTOR_NOW } from '../../../helpers/vectors.js';
 import { detectFormat } from '../../../../app/js/core/formats/detection.js';
+import { exportElements } from '../../../../app/js/core/formats/export.js';
 import { readElements } from '../../../../app/js/core/formats/import.js';
 
 const dat = readVectorText('import/CometForWindows.dat');
@@ -19,6 +20,8 @@ test('Comet for Windows: a record missing its last lines fails', () => {
 	assert.equal(readElements('CometForWindows', lines.join('\n')).length, 3);
 	// the third record's magnitude line, its twelfth, is gone
 	assert.equal(readElements('CometForWindows', lines.slice(0, 6 + 2 * 13 + 11).join('\n')).length, 2);
+	// a last record needs its twelve lines, not the blank thirteenth
+	assert.equal(readElements('CometForWindows', lines.slice(0, 6 + 2 * 13 + 12).join('\n')).length, 3);
 	assert.equal(detectFormat(lines.slice(0, 2).join('\n')), 'CometForWindows');
 	assert.equal(detectFormat('[File]'), 'Unknown');
 });
@@ -33,6 +36,10 @@ test('NASA: the day fraction is rounded to four digits, ties to even', () => {
 	assert.equal(th('47375'), 4738);
 	assert.equal(th('4736 '), 4736);
 	assert.equal(th('5    '), 5000);
+	// Convert.ToInt32 gives 0, not −0, which the MPC format would write as -0000
+	assert.ok(Object.is(th('-0004'), 0));
+	const [comet] = readElements('NASA', `\n\n${HALLEY.replace('.47362', '.-0004')}`);
+	assert.match(exportElements('MPC', [comet], VECTOR_NOW), /^ {14}1986 02 {2}8\.0000 /);
 });
 
 test('NASA: the angles are precessed from the epoch to J2000 (spec 10, Q7)', () => {

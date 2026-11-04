@@ -1,6 +1,6 @@
 // Designations: parsing full names into id, name and fragment, building them back, sort keys,
 // and whether a comet is periodic. docs/spec/02-data-model.md, Designations and full names.
-import { parseDouble, trim } from '../formats/text.js';
+import { parseDouble, trim } from '../format/parse.js';
 
 /**
  * @typedef {object} Designation
@@ -108,12 +108,14 @@ function lettersAndDigits(code, width) {
 
 /**
  * the year text of an id as the desktop reads it (`(int)Double()`): trimmed, read as spec 03's
- * dbl, truncated, 0 when it does not parse
+ * dbl, truncated, 0 when it does not parse; out of 32 bits, int.MinValue, as .NET 8 casts on x64
  * @param {string} text
  */
 function yearOf(text) {
 	const year = parseDouble(trim(text));
-	return year === null ? 0 : Math.trunc(year) + 0;
+	if (year === null) return 0;
+	const truncated = Math.trunc(year) + 0;
+	return truncated >= -2_147_483_648 && truncated <= 2_147_483_647 ? truncated : -2_147_483_648;
 }
 
 /**

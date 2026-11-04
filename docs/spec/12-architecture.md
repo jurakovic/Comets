@@ -67,7 +67,7 @@ The domain is **plain data and functions**:
 - Records (a comet, an ephemeris row, a filter, settings for a calculation, a graph model, a scene) are plain objects, frozen when created. They have no methods and no class identity, so they cross the Worker boundary by structured clone unchanged, compare by value in tests, and serialise as they are.
 - Each record has a **factory** in the module that owns its shape (`createComet(fields)` finalizes the derived elements and the sort key, [03](03-element-formats.md#field-access)), and its JSDoc `@typedef` lives there too.
 - Validation returns a result instead of throwing: `{ ok: true, value }` or `{ ok: false, errors: [{ field, message }] }`, where `field` names the input the error belongs to, so the UI can point at it ([01 § Messages](01-product.md#messages)).
-- Parsing never throws on bad input. An importer's record parser returns `null` for an invalid record ([03 § Field access](03-element-formats.md#field-access)).
+- Parsing never throws on bad input to its caller. An importer's record parser reads its fields with spec 03's operations, which throw `InvalidRecord` when one fails; `attempt` (`core/formats/text.js`) turns that into a `null` record at the record's edge, and anything else that throws is a bug ([03 § Field access](03-element-formats.md#field-access)).
 - `throw` is for programmer errors only (an unknown registry key, a broken invariant).
 - Time is passed as numbers: an instant is UTC milliseconds since the epoch (whole seconds where the spec says so), a JD is a float64, and calendar arithmetic works on `{ year, month, day, hour, minute, second }` parts, which allow years ≤ 0 ([04 § Time](04-astronomy.md#time)). `now`, the time zone and the observer are parameters.
 - Values that depend on the session (`Tn`, `Perih*`, `Current*`, [02](02-data-model.md#observer-dependent-values)) are not fields of the comet. Core functions that need them take a **value accessor** `(comet, key) => number | string`, and the `Observations` service provides it with its cache. So filtering, sorting and quick selection are pure, and the caching rules live in one place.
@@ -77,7 +77,7 @@ Sub-areas:
 | Folder | Holds | Spec |
 |---|---|---|
 | `core/time/` | `JD0`, `JD`, `JDToDateTime`, calendar arithmetic, the date range, local time through `Intl` with an explicit time zone | [04 § Time](04-astronomy.md#time) |
-| `core/format/` | .NET custom number formats, composite format items (`{0,-47:0.000}`), date patterns, `HMS` and `Angle` | [03 § Number formatting](03-element-formats.md#number-formatting) |
+| `core/format/` | .NET custom number formats, composite format items (`{0,-47:0.000}`), date patterns, `HMS` and `Angle`; numbers and white space read as .NET reads them | [03 § Number formatting](03-element-formats.md#number-formatting), [§ Field access](03-element-formats.md#field-access) |
 | `core/comets/` | the comet record and its derived elements, designations and sort keys, the property registry, filters, sorting, quick selection, merge, equality, the database view's detail rows | [02](02-data-model.md) |
 | `core/astro/` | Kepler solvers, comet and Sun positions, the ephemeris, precession, planets, orbit sampling | [04](04-astronomy.md) |
 | `core/formats/` | text conventions and field access, detection, the format registry, one module per format | [03](03-element-formats.md) |

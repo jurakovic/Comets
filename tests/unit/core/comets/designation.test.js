@@ -42,6 +42,9 @@ test('sort key years parse leniently, as the desktop does', () => {
 	assert.equal(sortKey('C/1,995 O1', ''), '2199500O0010000');
 	assert.equal(sortKey('C/1995  O1', ''), '219950000000000');
 	assert.equal(sortKey('C/12345 A1', 'B'), '21234500A0010B00');
+	// a year beyond 32 bits casts to int.MinValue, as .NET 8 does on x64
+	assert.equal(sortKey('C/1e400 A1', ''), '2-214747364800A0010000');
+	assert.equal(sortKey('C/2147483648 A1', ''), '2-214747364800A0010000');
 });
 
 test('isPeriodic needs a leading digit with P, or a P/ designation', () => {

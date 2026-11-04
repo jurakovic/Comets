@@ -1,5 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import { DETECTION_ORDER } from '../../../../app/js/core/formats/detection.js';
 import { EXPORT_FORMATS, FORMATS, formatByKey } from '../../../../app/js/core/formats/registry.js';
 
@@ -55,4 +56,15 @@ test('detection tries every format with a reader: headers where they have one', 
 	const tried = new Set([...DETECTION_ORDER.headers, ...DETECTION_ORDER.records]);
 	assert.deepEqual(FORMATS.filter(f => f.reader).map(f => f.key).filter(key => !tried.has(key)), []);
 	assert.deepEqual([...tried].filter(key => !formatByKey(key).reader), []);
+});
+
+test('detection checks in the order spec 03 lists them', () => {
+	const spec = readFileSync(new URL('../../../../docs/spec/03-element-formats.md', import.meta.url), 'utf8');
+	const detection = spec.slice(spec.indexOf('## Detection'), spec.indexOf('## Import rules'));
+	const headers = [...detection.matchAll(/→ (\w+)/g)].map(match => match[1]);
+	const list = /The first that does not fail gives the type:\n([\s\S]*?)\notherwise/.exec(detection)?.[1] ?? '';
+	const records = list.replace(/\s*\([^)]*\)/g, '').split(',').map(entry => entry.trim());
+	assert.deepEqual(headers.slice(0, -1), DETECTION_ORDER.headers);
+	assert.equal(headers[headers.length - 1], 'Unknown');
+	assert.deepEqual(records, DETECTION_ORDER.records);
 });

@@ -1,11 +1,23 @@
 // Text conventions and field access: lines as File.ReadAllLines gives them, and the operations
 // the record parsers read fields with. docs/spec/03-element-formats.md, Text conventions.
 import { roundEven } from '../../lib/math.js';
+import { parseDecimal, parseDouble, parseInteger, trim } from '../format/parse.js';
 import { daysInMonth } from '../time/calendar.js';
 import { jdToParts } from '../time/julian.js';
 
-/** a field access failed, which makes the record invalid; record parsers throw nothing else */
-export class InvalidRecord extends Error {}
+export { trim, trimEnd } from '../format/parse.js';
+
+/**
+ * a field access failed, which makes the record invalid; record parsers throw nothing else. Not
+ * an Error: an invalid record is expected input, and capturing a stack for each costs more than
+ * reading the record.
+ */
+export class InvalidRecord {
+	/** @param {string} what names the failure, for debugging */
+	constructor(what) {
+		this.what = what;
+	}
+}
 
 /**
  * @param {string} what names the failure, for debugging
@@ -88,37 +100,6 @@ export function item(parts, index) {
 	return parts[index];
 }
 
-// .NET's String.Trim removes Char.IsWhiteSpace, which has U+0085 and lacks U+FEFF, unlike
-// String.prototype.trim
-const SPACES = new Set([
-	0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x20, 0x85, 0xa0, 0x1680, 0x2000, 0x2001, 0x2002, 0x2003, 0x2004,
-	0x2005, 0x2006, 0x2007, 0x2008, 0x2009, 0x200a, 0x2028, 0x2029, 0x202f, 0x205f, 0x3000
-]);
-
-/**
- * the text without leading and trailing white space, as .NET trims
- * @param {string} text
- * @returns {string}
- */
-export function trim(text) {
-	let start = 0;
-	let end = text.length;
-	while (start < end && SPACES.has(text.charCodeAt(start))) start += 1;
-	while (end > start && SPACES.has(text.charCodeAt(end - 1))) end -= 1;
-	return text.slice(start, end);
-}
-
-/**
- * the text without trailing white space, as .NET's TrimEnd
- * @param {string} text
- * @returns {string}
- */
-export function trimEnd(text) {
-	let end = text.length;
-	while (end > 0 && SPACES.has(text.charCodeAt(end - 1))) end -= 1;
-	return text.slice(0, end);
-}
-
 /**
  * the text right-padded with 0 to width characters; longer text stays as it is
  * @param {string} text
@@ -136,55 +117,6 @@ export function padZeros(text, width) {
  */
 export function pad4(text) {
 	return padZeros(trim(text), 4);
-}
-
-// the white space .NET number parsing skips (IsWhite): space and U+0009–U+000D
-const W = '[\\t-\\r ]*';
-const DIGITS = '(?:[0-9][0-9,]*(?:\\.[0-9]*)?|\\.[0-9]+)';
-const INTEGER = new RegExp(`^${W}([+-]?[0-9]+)${W}$`);
-const DOUBLE = new RegExp(`^${W}([+-]?${DIGITS}(?:[eE][+-]?[0-9]+)?)${W}$`);
-const DECIMAL_LEADING = new RegExp(`^${W}([+-]?)(${DIGITS})${W}$`);
-const DECIMAL_TRAILING = new RegExp(`^${W}(${DIGITS})${W}([+-])${W}$`);
-const INT32_MIN = -2_147_483_648;
-const INT32_MAX = 2_147_483_647;
-
-/**
- * an integer as Convert.ToInt32 reads text: white space, an optional sign, digits, white space,
- * within 32 bits; never −0
- * @param {string} text
- * @returns {number | null} null where .NET throws
- */
-export function parseInteger(text) {
-	const match = INTEGER.exec(text);
-	if (!match) return null;
-	const value = Number(match[1]) + 0;
-	return value >= INT32_MIN && value <= INT32_MAX ? value : null;
-}
-
-/**
- * a number as Convert.ToDouble reads text: white space, an optional sign, digits with commas
- * among the integer digits ignored, an optional fraction (`.5` and `5.` are valid), an optional
- * exponent, white space. NaN and Infinity, which .NET also reads, are rejected (spec 03 allows it)
- * @param {string} text
- * @returns {number | null} null where .NET throws
- */
-export function parseDouble(text) {
-	const match = DOUBLE.exec(text);
-	return match ? Number(match[1].replaceAll(',', '')) : null;
-}
-
-/**
- * a number as Convert.ToDecimal reads text: as parseDouble with no exponent, and the sign may
- * trail instead (`5-`); the desktop's exact decimal becomes a float64
- * @param {string} text
- * @returns {number | null} null where .NET throws
- */
-export function parseDecimal(text) {
-	const leading = DECIMAL_LEADING.exec(text);
-	const [sign, digits] = leading ? [leading[1], leading[2]] : (DECIMAL_TRAILING.exec(text) ?? []).slice(1).reverse();
-	if (digits === undefined) return null;
-	const value = Number(digits.replaceAll(',', ''));
-	return sign === '-' ? -value : value;
 }
 
 /**
@@ -220,6 +152,8 @@ export function dec(text) {
  * @returns {number}
  */
 export function round6(x) {
+	// .NET leaves values this large as they are
+	if (Math.abs(x) >= 1e16) return x;
 	return roundEven(x * 1e6) / 1e6;
 }
 
