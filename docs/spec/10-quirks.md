@@ -13,7 +13,7 @@ These changes are deliberate and already reflected in this spec.
 | D3 | The name-first designation regex backtracks exponentially, and the app hangs on importing a file whose second-to-last line is long text with no designation | A linear procedure with identical results ([02](02-data-model.md#pattern-02-name-first)) | A hang. Equivalence is proven by the harness on 41–43 k inputs |
 | D4 | Detection reads `lines[1]` unconditionally, and a one-line file that matches no header crashes | `[File]` is checked only when there are ≥ 2 lines | A crash |
 | D5 | `JDToDateTime` fails for years < 1 (e.g. `C/-146 P1`'s perihelion), which crashes the database view | Years ≤ 0 are returned and shown as astronomical years | A crash |
-| D6 | `Tn` throws when no candidate perihelion falls in 1700–2300 | `Tn = T` | A crash |
+| D6 | `Tn` throws when no candidate perihelion falls in 1700–2300, and never ends its loop when the period is 0 | `Tn = T` | A crash, a hang |
 | D7 | Hyperbolic and parabolic Kepler loops have no iteration limit | At most 100 iterations | Guards against hangs; no real data needs it |
 | D8 | Ephemeris and graph steps accumulate decimal sums, and for steps like 1 h the row exactly at End is sometimes dropped | Exact step count; the row at End is always included ([06](06-ephemeris.md#calculation)) | Emulating .NET decimal rounding is unreasonable in JavaScript, and including End is clearly the intent |
 | D9 | After an import, the selection stays in sort-key order until the Database dialog is opened | The selection is re-sorted by the current sort right away | Consistency |

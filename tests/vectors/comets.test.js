@@ -1,0 +1,42 @@
+// comets.json: the sample collection's record fields and Tn, at the vector clock (spec 02).
+// The Perih* and Current* values are checked with the ephemeris.
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { assertClose, assertRelativeClose, isoUtc, readVector, VECTOR_NOW } from '../helpers/vectors.js';
+import { createComet, nearestPerihelion } from '../../app/js/core/comets/comet.js';
+import { isPeriodic } from '../../app/js/core/comets/designation.js';
+import { instantToJd, jdToInstant } from '../../app/js/core/time/julian.js';
+
+const { comets } = readVector('comets.json');
+const nowJd = instantToJd(VECTOR_NOW);
+
+/** @param {any} vector */
+function fromVector(vector) {
+	const { full, id, name, fragment, Ty, Tm, Td, Th, q, e, w, N, i, g, k } = vector;
+	const comet = createComet({ full, id, name, fragment, Ty, Tm, Td, Th, q, e, w, N, i, g, k });
+	assert.ok(comet, full);
+	return comet;
+}
+
+test('T, the derived elements, the sort key and isPeriodic of every sample comet', () => {
+	assert.equal(comets.length, 34);
+	for (const vector of comets) {
+		const comet = fromVector(vector);
+		assertClose(comet.T, vector.T, 1e-8, `${vector.full} T`);
+		for (const key of /** @type {const} */ (['P', 'a', 'Q', 'n'])) {
+			assertRelativeClose(comet[key], vector[key], 1e-12, `${vector.full} ${key}`);
+		}
+		assert.equal(comet.sortkey, vector.sortkey, vector.full);
+		assert.equal(isPeriodic(comet.id), vector.isPeriodic, vector.full);
+	}
+});
+
+test('the nearest perihelion and its date', () => {
+	for (const vector of comets) {
+		const Tn = nearestPerihelion(fromVector(vector), nowJd);
+		assertClose(Tn, vector.Tn, 1e-8, `${vector.full} Tn`);
+		// the desktop fails for years before 1 (spec 10, D5); the web gives the astronomical year
+		const expected = vector.TnDate ?? (vector.full === 'C/-146 P1' ? '-000146-08-13T12:00:00Z' : null);
+		assert.equal(isoUtc(jdToInstant(Tn)), expected, `${vector.full} TnDate`);
+	}
+});

@@ -53,7 +53,7 @@ So `1P` and `P/2004 V5` are periodic. `3D`, `1I`, `C/1995 O1` and `A/2018 W3` ar
 
 ```
 if isPeriodic:
-    periodDays = P × 365.25
+    periodDays = P × 365.25          (P to 15 significant digits, as the desktop's decimal holds it)
     t = T
     while t − periodDays > JD(1700-01-01 00:00): t −= periodDays
     candidates = []
@@ -63,6 +63,8 @@ if isPeriodic:
 else:
     Tn = T
 ```
+
+The desktop sums the steps in exact decimals. In float64, compute each candidate afresh as `T + m × periodDays` for whole `m`, since summing hundreds of steps adds up their rounding errors. A period that is not positive and finite gives `Tn = T` (the desktop never ends its loop there, see 10-quirks D6).
 
 `Tn` is computed on first use and then kept for the session, against the clock at that moment.
 
