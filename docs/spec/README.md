@@ -19,6 +19,7 @@ The web app is a new product with the same capabilities. It is not a port of the
 | 09 | [Settings and persistence](09-settings-and-persistence.md) | User settings, storage layout, shared UI components (date picker, comet picker) |
 | 10 | [Desktop quirks and deviations](10-quirks.md) | Desktop behaviours kept on purpose, and every deliberate deviation |
 | 11 | [Test vectors](11-test-vectors.md) | What each vector file holds, tolerances, conformance plan |
+| 12 | [Architecture](12-architecture.md) | Layers and the dependency rule, core, services and ports, state, the Worker, UI, patterns, testing |
 
 The vectors are under [`vectors/`](vectors/). The generator is [`tools/spec-vectors`](../../tools/spec-vectors/).
 
@@ -44,6 +45,7 @@ These were agreed before the spec was written. Their consequences are spelled ou
 4. **Desktop-specific features are dropped**: proxy settings, per-program export folders, window position, always-on-top, child-window arrangement, the exit confirmation, BMP/GIF export, and keyboard navigation while the window is unfocused. The full list is in [01 § Dropped](01-product.md#dropped-desktop-features).
 5. **All 21 element formats** are kept: 19 can be imported and exported, and 2 (Comet for Windows, NASA) are import-only, as on the desktop.
 6. **Test vectors** come from the desktop sources, at a frozen clock of `2026-10-18 12:00:00 UTC` ([11](11-test-vectors.md)).
+7. **Layered architecture.** A pure, DOM-free core; services behind small ports; a thin UI; the dependency rule enforced by lint and types ([12](12-architecture.md)).
 
 Beyond these, the web app reproduces desktop behaviour, including its quirks. Fixing a quirk is a separate, explicit change. [10-quirks.md](10-quirks.md) lists the quirks so they can be decided one by one.
 

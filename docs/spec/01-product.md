@@ -59,7 +59,7 @@ On the desktop, the user can keep several ephemeris, graph and orbit-viewer wind
 - **Workers**: ephemeris, graph and bulk sort/filter calculations over many comets SHOULD run in a Web Worker so the UI stays responsive. They MUST report progress and support cancellation, as the desktop does with `IProgress` and `CancellationToken`.
 - **3D**: the orbit viewer MUST use WebGL2. If WebGL2 is unavailable it SHOULD show a clear message. A Canvas 2D fallback MAY be offered.
 - **Browsers**: current Chrome, Edge, Firefox and Safari on desktop. Layouts MUST also work on tablets and phones (touch input for the orbit viewer is specified in [08](08-orbit-viewer.md#pointer-and-touch)).
-- **Code structure**: astronomy, parsing, formatting and filtering code MUST NOT depend on the DOM, so it can run in a Worker and under Node's test runner against the [test vectors](11-test-vectors.md).
+- **Code structure**: astronomy, parsing, formatting and filtering code MUST NOT depend on the DOM, so it can run in a Worker and under Node's test runner against the [test vectors](11-test-vectors.md). The layers, the dependency rule and the patterns are in [12](12-architecture.md).
 
 ## Keyboard shortcuts
 
