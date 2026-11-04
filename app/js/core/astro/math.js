@@ -54,11 +54,12 @@ export function atan2d(y, x) {
 }
 
 /**
- * the desktop's log10 (Math.log10 may differ in the last bit)
+ * the desktop's log10, ln(x) times its 0.43429448190325182765… (Math.LOG10E as a float64);
+ * Math.log10 may differ in the last bit
  * @param {number} x
  */
 export function log10(x) {
-	return 0.43429448190325182765 * Math.log(x);
+	return Math.LOG10E * Math.log(x);
 }
 
 /** the obliquity of the ecliptic at day count d, degrees @param {number} d */
