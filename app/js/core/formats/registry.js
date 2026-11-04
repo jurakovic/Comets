@@ -1,5 +1,6 @@
 // The element formats, in the desktop's order, each with what reads and writes it.
 // docs/spec/03-element-formats.md.
+import * as mpc from './mpc.js';
 
 /**
  * @typedef {import('../comets/comet.js').Comet} Comet
@@ -35,6 +36,7 @@
  */
 
 /**
+ * what a format module exports: the reader, the writer or both
  * @typedef {object} Codec
  * @property {Reader} [reader]
  * @property {Writer} [writer]
@@ -53,7 +55,7 @@
 
 /** @type {Array<[string, string, string, string, Codec]>} */
 const ENTRIES = [
-	['MPC', 'MPC (Soft00Cmt)', 'MPC', '.txt', {}],
+	['MPC', 'MPC (Soft00Cmt)', 'MPC', '.txt', mpc],
 	['SkyMap', 'SkyMap (Soft01Cmt)', 'SkyMap', '.txt', {}],
 	['Guide', 'Guide (Soft02Cmt)', 'Guide', '.txt', {}],
 	['xephem', 'xephem (Soft03Cmt)', 'xephem', '.txt', {}],
@@ -78,7 +80,12 @@ const ENTRIES = [
 
 /** the 21 formats, in the desktop's order */
 export const FORMATS = Object.freeze(ENTRIES.map(([key, name, software, extension, codec]) => Object.freeze({
-	key, name, software, extension, reader: codec.reader ?? null, writer: codec.writer ?? null
+	key,
+	name,
+	software,
+	extension,
+	reader: codec.reader ? Object.freeze(codec.reader) : null,
+	writer: codec.writer ? Object.freeze(codec.writer) : null
 })));
 
 const BY_KEY = new Map(FORMATS.map(format => [format.key, format]));

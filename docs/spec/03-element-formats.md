@@ -265,7 +265,9 @@ if new is not empty:
             append n to old (duplicate full names skipped, except for VoyagerII)
     else:
         mark every comet in new as New;  old = new
-result = old, stably sorted by sortkey
+else:
+    mark every comet in old as NoChanges    # the desktop keeps each comet's result from before
+result = old, stably sorted by sortkey   (strings compare as in 02 § Sorting)
 ```
 
 Comets that are in the database but not in the file **stay**, marked `NoChanges`. The import summary shows the counts `New`, `Update`, `NoChanges` and their total ([05](05-database-and-update.md#update)). Vector: [`import-merge.json`](vectors/import-merge.json).

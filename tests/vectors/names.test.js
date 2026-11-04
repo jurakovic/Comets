@@ -2,10 +2,12 @@
 // the MPC snapshot (spec 02, Designations and full names).
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readVector } from '../helpers/vectors.js';
+import { readVector, readVectorText } from '../helpers/vectors.js';
 import {
 	fullName, isPeriodic, parseDesignationFirst, parseNameFirst, sortKey
 } from '../../app/js/core/comets/designation.js';
+import { detectFormat } from '../../app/js/core/formats/detection.js';
+import { importElements } from '../../app/js/core/formats/import.js';
 
 const vectors = readVector('names.json');
 
@@ -47,4 +49,15 @@ test('every comet of the MPC snapshot: parts, full name, sort key, isPeriodic', 
 		assert.equal(sortKey(comet.id, comet.fragment), comet.sortkey, comet.full);
 		assert.equal(isPeriodic(comet.id), comet.IsPeriodic, comet.full);
 	}
+});
+
+test('the full MPC file imports to every comet of the snapshot, in database order', () => {
+	const text = readVectorText('import/full/Soft00Cmt.txt');
+	assert.equal(detectFormat(text), 'MPC');
+	const { comets, results } = importElements([], 'MPC', text);
+	assert.deepEqual(
+		comets.map(({ full, id, name, fragment, sortkey }) => ({ full, id, name, fragment, sortkey })),
+		vectors.mpcSoft00.map((/** @type {any} */ { full, id, name, fragment, sortkey }) => ({ full, id, name, fragment, sortkey }))
+	);
+	assert.ok(results.every(result => result === 'New'));
 });

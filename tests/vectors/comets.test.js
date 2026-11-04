@@ -2,9 +2,11 @@
 // The Perih* and Current* values are checked with the ephemeris.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { assertClose, assertRelativeClose, isoUtc, readVector, VECTOR_NOW } from '../helpers/vectors.js';
+import { assertComets } from '../helpers/formats.js';
+import { assertClose, assertRelativeClose, isoUtc, readVector, readVectorText, VECTOR_NOW } from '../helpers/vectors.js';
 import { createComet, nearestPerihelion } from '../../app/js/core/comets/comet.js';
 import { isPeriodic } from '../../app/js/core/comets/designation.js';
+import { importElements } from '../../app/js/core/formats/import.js';
 import { instantToJd, jdToInstant } from '../../app/js/core/time/julian.js';
 
 const { comets } = readVector('comets.json');
@@ -29,6 +31,10 @@ test('T, the derived elements, the sort key and isPeriodic of every sample comet
 		assert.equal(comet.sortkey, vector.sortkey, vector.full);
 		assert.equal(isPeriodic(comet.id), vector.isPeriodic, vector.full);
 	}
+});
+
+test('sample.txt imports to the sample collection, in database order', () => {
+	assertComets(importElements([], 'MPC', readVectorText('import/sample.txt')).comets, comets, { label: 'sample' });
 });
 
 test('the nearest perihelion and its date', () => {
