@@ -1,0 +1,65 @@
+name: Web
+
+on:
+  push:
+    branches: [dev, master]
+    # Only changes that can affect the app or its checks; docs-only commits skip it.
+    paths:
+      - "app/**"
+      - "tests/**"
+      - "docs/spec/vectors/**"
+      - "package.json"
+      - "package-lock.json"
+      - "eslint.config.js"
+      - "jsconfig*.json"
+      - "playwright.config.js"
+      - ".github/workflows/web.yml"
+  pull_request:
+    paths:
+      - "app/**"
+      - "tests/**"
+      - "docs/spec/vectors/**"
+      - "package.json"
+      - "package-lock.json"
+      - "eslint.config.js"
+      - "jsconfig*.json"
+      - "playwright.config.js"
+      - ".github/workflows/web.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: web-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Lint, types, tests, browser tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e
+      - run: npm run screenshots
+        if: always()
+      - uses: actions/upload-artifact@v6
+        if: always()
+        with:
+          name: comets-screenshots
+          path: test-results/screenshots
+          if-no-files-found: ignore
+      - uses: actions/upload-artifact@v6
+        if: failure()
+        with:
+          name: playwright-report
+          path: playwright-report
+          if-no-files-found: ignore

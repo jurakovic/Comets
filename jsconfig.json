@@ -1,0 +1,18 @@
+{
+	// the UI, the adapters and the composition root, with DOM types (docs/spec/12-architecture.md)
+	"compilerOptions": {
+		"target": "es2022",
+		"module": "es2022",
+		"moduleResolution": "bundler",
+		"allowJs": true,
+		"checkJs": true,
+		"noEmit": true,
+		"strict": true,
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": true,
+		"skipLibCheck": true,
+		"types": [],
+		"lib": ["es2022", "dom", "dom.iterable"]
+	},
+	"include": ["app/js/main.js", "app/js/ui/**/*.js", "app/js/adapters/**/*.js"]
+}

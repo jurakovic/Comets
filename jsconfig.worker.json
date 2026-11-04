@@ -1,0 +1,18 @@
+{
+	// services and workers with Worker types: no DOM
+	"compilerOptions": {
+		"target": "es2022",
+		"module": "es2022",
+		"moduleResolution": "bundler",
+		"allowJs": true,
+		"checkJs": true,
+		"noEmit": true,
+		"strict": true,
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": true,
+		"skipLibCheck": true,
+		"types": [],
+		"lib": ["es2022", "webworker"]
+	},
+	"include": ["app/js/services/**/*.js", "app/js/workers/**/*.js"]
+}

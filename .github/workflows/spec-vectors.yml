@@ -1,0 +1,44 @@
+name: Spec vectors
+
+# The vectors must stay what the desktop sources produce: regenerate them and
+# fail on any difference (docs/spec/11-test-vectors.md, Regenerating).
+on:
+  push:
+    branches: [dev, master]
+    paths:
+      - "tools/spec-vectors/**"
+      - "docs/spec/vectors/**"
+      - "src/Comets.Core/**"
+      - "src/Comets.OrbitViewer/**"
+      - ".github/workflows/spec-vectors.yml"
+  pull_request:
+    paths:
+      - "tools/spec-vectors/**"
+      - "docs/spec/vectors/**"
+      - "src/Comets.Core/**"
+      - "src/Comets.OrbitViewer/**"
+      - ".github/workflows/spec-vectors.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: spec-vectors-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  regenerate:
+    name: Regenerate and compare
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: "8.0.x"
+      - name: Install libfaketime
+        run: sudo apt-get update && sudo apt-get install -y faketime
+      - run: tools/spec-vectors/run.sh
+      - name: Compare with the committed vectors
+        run: |
+          git status --short docs/spec/vectors
+          git diff --stat --exit-code docs/spec/vectors
+          test -z "$(git status --porcelain docs/spec/vectors)"

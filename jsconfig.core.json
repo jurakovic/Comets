@@ -1,0 +1,18 @@
+{
+	// core and lib with the language alone: no DOM, no Worker, no Node types
+	"compilerOptions": {
+		"target": "es2022",
+		"module": "es2022",
+		"moduleResolution": "bundler",
+		"allowJs": true,
+		"checkJs": true,
+		"noEmit": true,
+		"strict": true,
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": true,
+		"skipLibCheck": true,
+		"types": [],
+		"lib": ["es2022"]
+	},
+	"include": ["app/js/core/**/*.js", "app/js/lib/**/*.js"]
+}

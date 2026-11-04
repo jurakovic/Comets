@@ -1,0 +1,10 @@
+# Shell scripts run on Linux (the session hook, the vector generator, publish.sh in Git Bash)
+*.sh text eol=lf
+# The web app and its tooling are LF everywhere (.editorconfig)
+app/**/*.html text eol=lf
+app/**/*.css text eol=lf
+app/**/*.js text eol=lf
+app/**/*.json text eol=lf
+app/**/*.svg text eol=lf
+tests/**/*.js text eol=lf
+*.md text eol=lf

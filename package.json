@@ -1,0 +1,26 @@
+{
+  "name": "comets-web",
+  "private": true,
+  "description": "Comets web app: development tooling (the app itself has no dependencies)",
+  "type": "module",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "serve": "node tests/serve.js",
+    "lint": "eslint .",
+    "typecheck": "tsc -p jsconfig.json && tsc -p jsconfig.core.json && tsc -p jsconfig.worker.json",
+    "test": "node --test \"tests/unit/**/*.test.js\" \"tests/vectors/**/*.test.js\"",
+    "test:e2e": "playwright test --project=desktop --project=phone",
+    "screenshots": "playwright test --project=screenshots",
+    "check": "npm run lint && npm run typecheck && npm test && npm run test:e2e"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "1.63.0",
+    "eslint": "^10.14.0",
+    "eslint-plugin-import-x": "^4.17.1",
+    "globals": "^17.14.0",
+    "typescript": "~5.9.3"
+  }
+}
