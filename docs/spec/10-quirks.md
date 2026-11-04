@@ -22,7 +22,7 @@ These changes are deliberate and already reflected in this spec.
 | D12 | Help text says K = faster, L = slower; the code does the opposite | The web follows the code (K slower, L faster) and its help text says so | The help text was wrong |
 | D13 | The Elements format list includes Comet for Windows and NASA, which export nothing | Only the 19 exportable formats are listed | Natural UI |
 | D14 | Theme default Light; changing it needs a restart | Default System; applies immediately; the graph follows live | Natural web behaviour |
-| D15 | Label `Greather than (>)` | `Greater than (>)` (SHOULD) | Typo |
+| D15 | Label `Greather than (>)` and message `End date must be greather than start date` | `Greater than (>)` and `End date must be greater than start date` (SHOULD) | Typo |
 | D16 | The JPL lookup URL is built from the raw id | The id is URL-encoded | Correct URLs |
 | D17 | Desktop-only features ([01 § Dropped](01-product.md#dropped-desktop-features)) | Removed | Agreed decision |
 

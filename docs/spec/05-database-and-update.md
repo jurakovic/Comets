@@ -16,7 +16,7 @@ Desktop: Edit › Update (F6). The Update dialog opens over the current view (ro
 
 - Label: `Download the latest orbital elements from Internet`.
 - Shows the configured URL, with an **Open in browser** link.
-- **Download** fetches the URL with `fetch`. It shows a determinate progress bar when the response has `Content-Length`, and an indeterminate one otherwise.
+- **Download** fetches the URL with `fetch`. It shows a determinate progress bar when the response has `Content-Length` and no `Content-Encoding` (a compressed response's length counts compressed bytes, not the bytes the stream delivers), and an indeterminate one otherwise. **Cancel** aborts the download.
 - **Errors**:
   - On a network or HTTP error, show the message. If the URL is not the default, add a hint that the server must allow cross-origin requests.
   - An empty body is an error. The desktop shows the transport error text for this case.

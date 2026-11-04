@@ -9,7 +9,7 @@ The settings form starts from a copy of the app-wide selection. When editing an 
 | Group | Control | Default | Rules |
 |---|---|---|---|
 | Comet | [Comet picker](05-database-and-update.md#comet-picker) | Brightest of the list | Single comet, or `[ALL COMETS (n)]` |
-| Timespan (Universal Time) | Start, End: [date pickers](09-settings-and-persistence.md#date-picker) | Start: the first day of last month; End: the first day of the month five months ahead (00:00 UTC) | End > start (`End date must be greather than start date`); `End − Start < 300 × 365.25` days (`Timespan must be less than 300 years`) |
+| Timespan (Universal Time) | Start, End: [date pickers](09-settings-and-persistence.md#date-picker) | Start: the first day of last month; End: the first day of the month five months ahead (00:00 UTC) | End > start (`End date must be greater than start date`; the desktop spells it "greather", [10](10-quirks.md#deviations) D15); `End − Start < 300 × 365.25` days (`Timespan must be less than 300 years`) |
 | Interval | D, H, M number fields | 1 d 0 h 0 min | D 0–3652, H 0–23, M 0–59, integers. **Default** resets to 1 d 0 h 0 min. A total of 0 means 1 day. |
 | Output data | Local Time / Universal Time | Local Time | |
 | | Right ascension (RA) | on | |

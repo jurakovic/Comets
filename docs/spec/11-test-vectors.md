@@ -25,7 +25,7 @@ To reproduce the vectors, the implementation's clock, time zone and observer MUS
 | `formatting.json` | `HMS` and `Angle` text | [04](04-astronomy.md#angle-and-time-text) |
 | `precession.json` | `PrecessElementsToJ2000` | [04](04-astronomy.md#element-precession-nasa-import) |
 | `comets.json` | The sample collection (34 comets) with every field, including `Tn` and the `Perih*`/`Current*` values | [02](02-data-model.md#comet-record) |
-| `ephemeris.json` | `GetEphemeris` for every sample comet at 7 dates, plus 4 observers at the vector clock | [04 § Ephemeris](04-astronomy.md#ephemeris) |
+| `ephemeris.json` | `GetEphemeris` for every sample comet at 7 dates for the observer at 0, 0, plus 3 more observers (Zagreb, Sydney, Reykjavik) at the vector clock | [04 § Ephemeris](04-astronomy.md#ephemeris) |
 | `import/` | **Inputs**: trimmed real MPC and JPL files (header + first 30 + last 3 records), `full/Soft00Cmt.txt` (complete), `sample.txt` (the sample collection as MPC lines; 29 real + 5 synthetic comets), a synthetic `CometForWindows.dat`, edge files, `merge-new.txt` | [03](03-element-formats.md) |
 | `import-expected/<file>.json` | Detected type, record-count estimate (informational; the desktop `GetNumberOfComets`, not used by the UI), and the parsed comets in database order | [03](03-element-formats.md#import-rules) |
 | `import-expected/roundtrip-<export>.json` | The result of importing each export file back, showing format limits and [quirks](10-quirks.md#quirks-kept) | [03](03-element-formats.md) |
