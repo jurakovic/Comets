@@ -2,7 +2,7 @@
 // under /Comets/, as GitHub Pages serves it, so the app is at /Comets/app/ and
 // the vectors at /Comets/docs/spec/vectors/.
 //
-//   npm run serve            (PORT, default 8085)
+//   npm run serve            (PORT, default 8085; HOST=0.0.0.0 to reach it from a phone)
 import { createServer } from 'node:http';
 import { readFile, stat } from 'node:fs/promises';
 import { extname, join, normalize, resolve, sep } from 'node:path';
@@ -11,6 +11,7 @@ import { fileURLToPath } from 'node:url';
 const root = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const base = '/Comets/';
 const port = Number(process.env.PORT) || 8085;
+const host = process.env.HOST || '127.0.0.1';
 const types = {
 	'.html': 'text/html; charset=utf-8',
 	'.js': 'text/javascript; charset=utf-8',
@@ -56,4 +57,4 @@ createServer(async (request, response) => {
 		'Cache-Control': 'no-store'
 	});
 	response.end(await readFile(file));
-}).listen(port, '127.0.0.1', () => console.log(`serving http://127.0.0.1:${port}/Comets/app/`));
+}).listen(port, host, () => console.log(`serving http://${host}:${port}/Comets/app/`));
