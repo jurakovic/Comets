@@ -1,5 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { DETECTION_ORDER } from '../../../../app/js/core/formats/detection.js';
 import { EXPORT_FORMATS, FORMATS, formatByKey } from '../../../../app/js/core/formats/registry.js';
 
 // spec 03's table: key, name shown, software, extension
@@ -37,6 +38,21 @@ test('formats by key; an unknown key is a bug', () => {
 	assert.throws(() => formatByKey('Unknown'), /unknown element format/);
 });
 
-test('the Elements view lists only formats with a writer', () => {
-	assert.ok(EXPORT_FORMATS.every(format => format.writer));
+test('what each format reads and writes, as spec 03\'s table says', () => {
+	// Autostar files are read as TheSky; SpaceEngine and Celestia are export only
+	const importOnly = ['CometForWindows', 'NASA'];
+	const exportOnly = ['Autostar', 'SpaceEngine', 'Celestia'];
+	for (const { key, reader, writer } of FORMATS) {
+		assert.equal(Boolean(reader), !exportOnly.includes(key), `${key} reader`);
+		assert.equal(Boolean(writer), !importOnly.includes(key), `${key} writer`);
+	}
+	assert.equal(formatByKey('Autostar').writer, formatByKey('TheSky').writer);
+	assert.deepEqual(EXPORT_FORMATS.map(f => f.key), FORMATS.slice(0, 19).map(f => f.key));
+});
+
+test('detection tries every format with a reader: headers where they have one', () => {
+	assert.ok(DETECTION_ORDER.headers.every(key => formatByKey(key).reader?.header), 'headers');
+	const tried = new Set([...DETECTION_ORDER.headers, ...DETECTION_ORDER.records]);
+	assert.deepEqual(FORMATS.filter(f => f.reader).map(f => f.key).filter(key => !tried.has(key)), []);
+	assert.deepEqual([...tried].filter(key => !formatByKey(key).reader), []);
 });

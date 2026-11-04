@@ -1,6 +1,7 @@
 // The element formats, in the desktop's order, each with what reads and writes it.
 // docs/spec/03-element-formats.md.
 import * as celestia from './celestia.js';
+import * as cometForWindows from './comet-for-windows.js';
 import * as danceOfThePlanets from './dance-of-the-planets.js';
 import * as deepSpace from './deep-space.js';
 import * as earthCenteredUniverse from './earth-centered-universe.js';
@@ -9,6 +10,7 @@ import * as homePlanet from './home-planet.js';
 import * as megaStar from './megastar.js';
 import * as mpc from './mpc.js';
 import * as myStars from './my-stars.js';
+import * as nasa from './nasa.js';
 import * as pcTcs from './pc-tcs.js';
 import * as skyChart from './skychart.js';
 import * as skyMap from './skymap.js';
@@ -92,8 +94,8 @@ const ENTRIES = [
 	['Autostar', 'Autostar (Soft16Cmt)', 'Autostar', '.txt', { writer: theSky.writer }],
 	['SpaceEngine', 'SpaceEngine', 'SpaceEngine', '.sc', spaceEngine],
 	['Celestia', 'Celestia', 'Celestia', '.ssc', celestia],
-	['CometForWindows', 'Comet for Windows', 'Comet for Windows', '.dat', {}],
-	['NASA', 'NASA (ELEMENTS.COMET)', 'NASA', '.comet', {}]
+	['CometForWindows', 'Comet for Windows', 'Comet for Windows', '.dat', cometForWindows],
+	['NASA', 'NASA (ELEMENTS.COMET)', 'NASA', '.comet', nasa]
 ];
 
 /** the 21 formats, in the desktop's order */

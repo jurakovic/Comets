@@ -5,12 +5,16 @@ import assert from 'node:assert/strict';
 import { readVector, readVectorText, VECTOR_NOW } from '../helpers/vectors.js';
 import { exportElements } from '../../app/js/core/formats/export.js';
 import { importElements } from '../../app/js/core/formats/import.js';
+import { EXPORT_FORMATS } from '../../app/js/core/formats/registry.js';
 
 const sample = importElements([], 'MPC', readVectorText('import/sample.txt')).comets;
 const { exports } = readVector('export/index.json');
-const DONE = new Set(['MPC', 'SkyMap', 'Guide', 'xephem', 'HomePlanet', 'MyStars', 'TheSky', 'StarryNight', 'DeepSpace', 'PCTCS', 'EarthCenteredUniverse', 'DanceOfThePlanets', 'MegaStarV4', 'SkyChartIII', 'VoyagerII', 'SkyTools', 'Autostar', 'SpaceEngine', 'Celestia']);
 
-for (const { type, file } of exports.filter((/** @type {any} */ entry) => DONE.has(entry.type))) {
+test('every export format has its vector, in the Elements view\'s order', () => {
+	assert.deepEqual(exports.map((/** @type {any} */ entry) => [entry.type, entry.typeName]), EXPORT_FORMATS.map(f => [f.key, f.name]));
+});
+
+for (const { type, file } of exports) {
 	test(`${file} byte for byte`, () => {
 		const expected = readVectorText(file).replace(/\n/g, '\r\n');
 		assert.equal(exportElements(type, sample, VECTOR_NOW), expected);

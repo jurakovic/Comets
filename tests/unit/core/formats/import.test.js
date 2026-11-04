@@ -1,6 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readVectorText } from '../../../helpers/vectors.js';
+import { detectFormat } from '../../../../app/js/core/formats/detection.js';
 import { importElements, readElements } from '../../../../app/js/core/formats/import.js';
 
 const lines = readVectorText('import/sample.txt').split('\n').filter(Boolean);
@@ -20,4 +21,13 @@ test('the first record with a full name wins', () => {
 test('formats with no reader read nothing', () => {
 	assert.deepEqual(readElements('Celestia', halley), []);
 	assert.throws(() => importElements([], 'Unknown', halley), /unknown element format/);
+});
+
+test('the full MPC file is detected and imported in under 100 ms, on the first run', () => {
+	const text = readVectorText('import/full/Soft00Cmt.txt');
+	const started = performance.now();
+	const { comets } = importElements([], detectFormat(text), text);
+	const elapsed = performance.now() - started;
+	assert.equal(comets.length, 963);
+	assert.ok(elapsed < 100, `took ${elapsed} ms`);
 });

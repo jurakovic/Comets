@@ -229,7 +229,7 @@ The format writes three decimals of the day fraction, so Th comes from `"976 "` 
 
 ### Comet for Windows (.dat, import only)
 
-Records start at line 6 and are 13 lines long. The record's lines are `L0 = lines[k]`, `L3 = lines[k+3]`, `L4 … L8 = lines[k+4 … k+8]` and `L11 = lines[k+11]`. A missing line fails. `value(L)` is the text after the first `=`.
+Records start at line 6 and are 13 lines long. The record's lines are `L0 = lines[k]`, `L3 = lines[k+3]`, `L4 … L8 = lines[k+4 … k+8]` and `L11 = lines[k+11]`. A missing line fails. `value(L)` is the text between the first `=` and the next one, or the end of the line (`split('=')[1]`); a line without `=` fails.
 
 - `full` is **kept**: `full = trim(value(L0))`, then pattern 00.
 - `value(L3)` split on a space gives Ty, Tm and `day.fraction`.

@@ -1,49 +1,27 @@
 // import-expected/*.json: each input file's detected type and its import into an empty database,
-// including the round trips of every export file (spec 03, Import rules).
+// including the round trips of every export file (spec 03, Detection and Import rules).
 import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { readdirSync } from 'node:fs';
 import { assertImportExpected } from '../helpers/formats.js';
+import { readVector, vectorPath } from '../helpers/vectors.js';
 
-// the vector files, with the elements their format computes rather than reads
-/** @type {Array<[string, ReadonlyArray<string>]>} */
-const CASES = [
-	['Soft00Cmt.txt.json', []],
-	['roundtrip-00-MPC.txt.json', []],
-	['Soft01Cmt.txt.json', []],
-	['roundtrip-01-SkyMap.txt.json', []],
-	['Soft02Cmt.txt.json', []],
-	['roundtrip-02-Guide.txt.json', []],
-	['Soft03Cmt.txt.json', []],
-	['roundtrip-03-xephem.txt.json', []],
-	['Soft04Cmt.txt.json', []],
-	['roundtrip-04-HomePlanet.txt.json', []],
-	['Soft05Cmt.txt.json', []],
-	['roundtrip-05-MyStars.txt.json', []],
-	['Soft06Cmt.txt.json', []],
-	['roundtrip-06-TheSky.txt.json', []],
-	['Soft07Cmt.txt.json', []],
-	['roundtrip-07-StarryNight.txt.json', []],
-	['Soft08Cmt.txt.json', []],
-	['roundtrip-08-DeepSpace.txt.json', []],
-	['Soft09Cmt.txt.json', []],
-	['roundtrip-09-PCTCS.txt.json', []],
-	['Soft10Cmt.txt.json', []],
-	['roundtrip-10-EarthCenteredUniverse.txt.json', []],
-	['Soft11Cmt.txt.json', []],
-	['roundtrip-11-DanceOfThePlanets.txt.json', []],
-	['Soft12Cmt.txt.json', []],
-	['roundtrip-12-MegaStarV4.txt.json', []],
-	['Soft13Cmt.txt.json', []],
-	['roundtrip-13-SkyChartIII.txt.json', []],
-	['Soft14Cmt.txt.json', []],
-	['roundtrip-14-VoyagerII.txt.json', []],
-	['Soft15Cmt.txt.json', []],
-	['roundtrip-15-SkyTools.txt.json', []],
-	['Soft16Cmt.txt.json', []],
-	['roundtrip-16-Autostar.txt.json', []],
-	['roundtrip-17-SpaceEngine.txt.json', []],
-	['roundtrip-18-Celestia.txt.json', []]
-];
+// the elements a format computes rather than reads, compared within 1e-9 (spec 11, Tolerances)
+/** @type {Record<string, ReadonlyArray<string>>} */
+const COMPUTED = { 'ELEMENTS.COMET.json': ['i', 'N', 'w'] };
 
-for (const [name, computed] of CASES) {
-	test(name, () => assertImportExpected(name, { computed }));
+const files = readdirSync(vectorPath('import-expected')).filter(name => name.endsWith('.json')).sort();
+
+test('every input file and every export round trip has its vector', () => {
+	// the edge files are in import-detection.json, merge-new.txt in import-merge.json
+	const inputs = readdirSync(vectorPath('import'), { withFileTypes: true })
+		.filter(entry => entry.isFile() && !entry.name.startsWith('edge-') && entry.name !== 'merge-new.txt')
+		.map(entry => `${entry.name}.json`);
+	const roundTrips = readVector('export/index.json').exports.map((/** @type {any} */ entry) => `roundtrip-${entry.file.slice('export/'.length)}.json`);
+	assert.equal(inputs.length, 20);
+	assert.deepEqual(files, [...inputs, ...roundTrips].sort());
+});
+
+for (const name of files) {
+	test(name, () => assertImportExpected(name, { computed: COMPUTED[name] ?? [] }));
 }

@@ -45,11 +45,20 @@ export function detectFormat(text) {
 	const lines = splitLines(text);
 	if (lines.length === 0) return EMPTY_FILE;
 	for (const key of DETECTION_ORDER.headers) {
-		if (formatByKey(key).reader?.header?.(lines)) return key;
+		if (readerOf(key).header?.(lines)) return key;
 	}
 	for (const key of DETECTION_ORDER.records) {
-		const { reader } = formatByKey(key);
-		if (reader && readsLastRecord(reader, lines)) return key;
+		if (readsLastRecord(readerOf(key), lines)) return key;
 	}
 	return UNKNOWN;
+}
+
+/**
+ * @param {string} key
+ * @returns {import('./registry.js').Reader}
+ */
+function readerOf(key) {
+	const { reader } = formatByKey(key);
+	if (!reader) throw new Error(`${key} has no reader`);
+	return reader;
 }
