@@ -36,6 +36,8 @@ Browser storage is per origin. Every key is namespaced `comets.`. Every read and
 
 - Writes to the database MUST be atomic: one `put` of the whole text.
 - On a schema change, bump `version` and migrate on load.
+- Settings are read value by value: a value that is missing or outside its rules (the table above) takes its default, and the others are kept. Text that is not settings JSON gives the defaults. A version newer than the app's is read where its values follow the app's rules.
+- What storage refuses (blocked, full, or an IndexedDB that has not opened after 5 s) is kept in memory for the session, and the session reads its own writes back from there.
 
 ## Shared components
 
