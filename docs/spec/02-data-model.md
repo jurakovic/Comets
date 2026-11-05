@@ -235,11 +235,11 @@ A filter is `{property, checked, text, compare}`. A **filter set** is the list o
    - `Ends with`: some term is a suffix.
 
    An empty term (e.g. a trailing comma) is a substring, prefix and suffix of everything.
-4. **Number** properties: the filter value is the text parsed as a number, or `0` if it does not parse. `Tn` filters store the chosen date as its JD. Compare:
+4. **Number** properties: the filter value is the text, trimmed, parsed as `dbl` reads it ([03 § Field access](03-element-formats.md#field-access)), or `0` if it does not parse (`Double.TryParse`). `Tn` filters store the chosen date as its JD. Compare:
    - `Greater than`: `value > filter`;
    - `Less than`: `value < filter`;
    - `Equals`: `|value − filter| ≤ tolerance` from the table above.
-5. Before applying, every checked filter MUST have non-empty text (a date always has one). Otherwise reject with `Please enter value for "<Label>"`.
+5. Before applying, every checked filter MUST have text that is not empty or white space only (a date always has one). Otherwise reject with `Please enter value for "<Label>"`, naming the first such filter.
 
 Vectors: [`filters.json`](vectors/filters.json) (all 963 comets of the snapshot, at the vector clock).
 
