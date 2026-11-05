@@ -58,7 +58,7 @@ step = span ≤ 1 ? 0.1 : span ≤ 2 ? 0.2 : span ≤ 5 ? 0.5 : span ≤ 10 ? 1 
 ```
 
 - The y axis is **reversed** for every chart type: smaller values are at the top, so brighter or closer is higher.
-- Labels use the format `00.00`, for example `02.00` and `-01.50`, with a tick every `step`. There are no grid lines.
+- Labels use the format `00.00`, for example `02.00` and `-01.50`, with a tick at `yMin` and then every `step` up to `yMax`. There are no grid lines.
 - Axis titles: `Magnitude`, `Sun distance (AU)`, `Earth distance (AU)`.
 
 ## Time axis (x)
@@ -76,13 +76,13 @@ step = span ≤ 1 ? 0.1 : span ≤ 2 ? 0.2 : span ≤ 5 ? 0.5 : span ≤ 10 ? 1 
    while t − p > JD(Start): t −= p
    while t < JD(End): line at t; t += p
    ```
-   Lines outside the range are not visible. In single mode they are drawn for the selected comet. In multiple mode they are drawn for every comet whose value series was drawn.
+   `P` is held to 15 significant digits, as for `Tn` ([02](02-data-model.md#nearest-perihelion-tn)), and each `t` is computed afresh as `Tn + m·p`. A period that is not positive and finite gives the line at `Tn` alone, if `Tn < JD(End)` ([10](10-quirks.md#deviations) D6). Lines outside the range are not visible. In single mode they are drawn for the selected comet, whether or not its value series was drawn. In multiple mode they are drawn for every comet whose value series was drawn, right after it.
 3. **Now line**: a vertical line at `JD(now)` in the now colour, drawn only if `JD(Start) < JD(now) < JD(End)`.
 4. **Title**: the comet's `full` in single mode; no title in multiple mode.
 
 ## Interaction
 
-- **Hover** over a sample, a perihelion line or the now line shows a tooltip. Times are UTC as `dd.MM.yyyy. HH:mm:ss`.
+- **Hover** over a sample, a perihelion line or the now line shows a tooltip. Times are UTC as `dd.MM.yyyy. HH:mm:ss`. Within a few pixels of the pointer, the topmost item wins (the series drawn last), and in a value series the nearest sample; only what lies inside the axes can be hovered.
 
   | Hovered | Title | Body |
   |---|---|---|
