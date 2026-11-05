@@ -22,9 +22,32 @@ for (const { id, file, settings } of EPHEMERIS_CASES) {
 		const text = await runner.run('ephemeris', input, { onProgress: p => progress.push(p) });
 		assert.equal(typeof text, 'string');
 		assert.equal(toLf(/** @type {string} */ (text)), readVectorText(file));
-		assert.ok(progress.every(p => p.total === input.comets.length && p.done <= p.total));
+		assertEphemerisProgress(progress, input.comets.length, /** @type {string} */ (text));
 	});
 }
+
+/**
+ * progress in comets: the calculation's over the input, then the text's over the comets with rows
+ * @param {ReadonlyArray<{ done: number, total: number }>} progress
+ * @param {number} comets
+ * @param {string} text
+ */
+function assertEphemerisProgress(progress, comets, text) {
+	const written = (text.match(/^Comet:/gm) ?? []).length;
+	assert.ok(progress.every(p => (p.total === comets || p.total === written) && p.done <= p.total), JSON.stringify(progress));
+}
+
+test('the ephemeris job reports both phases, the text over the comets with rows', async () => {
+	// a slice of 0 ms posts the progress after every step
+	const everyStep = createLocalJobRunner(JOBS, { slice: 0 });
+	const { input } = ephemerisCase(EPHEMERIS_CASES[1].settings);
+	/** @type {Array<{ done: number, total: number }>} */
+	const progress = [];
+	const text = /** @type {string} */ (await everyStep.run('ephemeris', input, { onProgress: p => progress.push(p) }));
+	assertEphemerisProgress(progress, input.comets.length, text);
+	assert.deepEqual([...new Set(progress.map(p => p.total))], [34, 1]);
+	assert.deepEqual(progress.at(-1), { done: 1, total: 1 });
+});
 
 for (const { id, settings, chart } of GRAPH.cases) {
 	test(`graph ${id}`, async () => {
