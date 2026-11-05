@@ -1,6 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { applyFilters, createFilter, filterNumber, validateFilters } from '../../../../app/js/core/comets/filter.js';
+import { applyFilters, createFilter, defaultFilters, filterNumber, MAX_FILTERS, validateFilters } from '../../../../app/js/core/comets/filter.js';
+import { instantToJd } from '../../../../app/js/core/time/julian.js';
 import { createComet } from '../../../../app/js/core/comets/comet.js';
 import { fieldValue } from '../../../../app/js/core/comets/properties.js';
 
@@ -82,4 +83,19 @@ test('validation: the first checked row without text, by its label', () => {
 	assert.deepEqual(validateFilters(rows.slice(0, 1)), { ok: true, value: rows.slice(0, 1) });
 	const ok = validateFilters([createFilter('name', { checked: true, text: 'x' })]);
 	assert.equal(ok.ok, true);
+});
+
+test('the default rows: Full name, Perihelion date at the default start date, Perihelion distance, Current magnitude, all unchecked', () => {
+	// 2026-10-18 12:00 UTC: the default start is 2026-09-01 00:00 UTC
+	const rows = defaultFilters(Date.UTC(2026, 9, 18, 12));
+	assert.deepEqual(rows.map(f => ({ ...f })), [
+		{ property: 'full', checked: false, text: '', compare: 'contains' },
+		{ property: 'Tn', checked: false, text: String(instantToJd(Date.UTC(2026, 8, 1))), compare: 'greaterThan' },
+		{ property: 'q', checked: false, text: '', compare: 'lessThan' },
+		{ property: 'CurrentMag', checked: false, text: '', compare: 'lessThan' }
+	]);
+	assert.equal(rows[1].text, '2461284.5');
+	assert.ok(Object.isFrozen(rows) && rows.every(Object.isFrozen));
+	assert.equal(validateFilters(rows).ok, true);
+	assert.equal(MAX_FILTERS, 10);
 });

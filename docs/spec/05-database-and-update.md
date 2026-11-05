@@ -32,7 +32,7 @@ Desktop: Edit › Update (F6). The Update dialog opens over the current view (ro
 As soon as a source is loaded, the dialog shows:
 
 - **Import format**: the detected format's name ([03 § Detection](03-element-formats.md#detection)), or `(no file selected)`, `(empty file)` or `(unknown)`.
-- **Total comets**: the result of merging the file into the current database, without applying it yet. It shows the counts as `<new>, <updates>, <no changes>; <total>`, with the tooltip `New, updates, no changes; total`. The counts count the merged list by import result ([03 § Merge](03-element-formats.md#merge-import-into-the-database)), so `<total>` includes comets that are only in the database.
+- **Total comets**: the result of merging the file into the current database, without applying it yet. It shows the counts as `<new>, <updates>, <no changes>; <total>`, with the tooltip `New, updates, no changes; total`, and `-` without a tooltip while there is no format. The counts count the merged list by import result ([03 § Merge](03-element-formats.md#merge-import-into-the-database)), so `<total>` includes comets that are only in the database.
 - A **View** action opens the merged list in an [import result browser](#import-result-browser).
 
 ### Import

@@ -1,6 +1,8 @@
 // Filters over a list of comets (`FilterManager.ApplyFilters`) and their validation.
 // docs/spec/02-data-model.md, Filters.
+import { defaultTimespan } from '../ephemeris/timespan.js';
 import { parseDouble, trim } from '../format/parse.js';
+import { instantToJd } from '../time/julian.js';
 import { invalid, valid } from '../validation.js';
 import { numberCompare, textCompare } from './compares.js';
 import { property } from './properties.js';
@@ -25,6 +27,23 @@ import { property } from './properties.js';
  */
 export function createFilter(key, fields = {}) {
 	return Object.freeze({ property: key, checked: false, text: '', compare: property(key).compare, ...fields });
+}
+
+/** a filter set has at most this many rows (spec 05, Filters panel) */
+export const MAX_FILTERS = 10;
+
+/** the properties of the rows a filter set starts with, and goes back to on Reset */
+export const DEFAULT_FILTER_PROPERTIES = Object.freeze(['full', 'Tn', 'q', 'CurrentMag']);
+
+/**
+ * the default rows, all unchecked; the Perihelion date row holds the default start date
+ * (`CommonManager.DefaultDateStart`)
+ * @param {number} now UTC milliseconds
+ * @returns {ReadonlyArray<Filter>}
+ */
+export function defaultFilters(now) {
+	const start = String(instantToJd(defaultTimespan(now).start));
+	return Object.freeze(DEFAULT_FILTER_PROPERTIES.map(key => createFilter(key, property(key).type === 'date' ? { text: start } : {})));
 }
 
 /**
