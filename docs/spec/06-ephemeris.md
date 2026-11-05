@@ -9,7 +9,7 @@ The settings form starts from a copy of the app-wide selection. When editing an 
 | Group | Control | Default | Rules |
 |---|---|---|---|
 | Comet | [Comet picker](05-database-and-update.md#comet-picker) | Brightest of the list | Single comet, or `[ALL COMETS (n)]` |
-| Timespan (Universal Time) | Start, End: [date pickers](09-settings-and-persistence.md#date-picker) | Start: the first day of last month; End: the first day of the month five months ahead (00:00 UTC) | End > start (`End date must be greater than start date`; the desktop spells it "greather", [10](10-quirks.md#deviations) D15); `End − Start < 300 × 365.25` days (`Timespan must be less than 300 years`) |
+| Timespan (Universal Time) | Start, End: [date pickers](09-settings-and-persistence.md#date-picker) | Start: the first day of last month; End: the first day of the month five months ahead (00:00 UTC) | End > start (`End date must be greater than start date`; the desktop spells it "greather", [10](10-quirks.md#deviations) D15); `End − Start < 300 × 365.25` days (`Timespan must be less than 300 years`). Both errors point at Start, as on the desktop |
 | Interval | D, H, M number fields | 1 d 0 h 0 min | D 0–3652, H 0–23, M 0–59, integers. **Default** resets to 1 d 0 h 0 min. A total of 0 means 1 day. |
 | Output data | Local Time / Universal Time | Local Time | |
 | | Right ascension (RA) | on | |
@@ -27,7 +27,7 @@ The settings form starts from a copy of the app-wide selection. When editing an 
 | | Min magnitude | **on, 12** | −20–40, 2 decimals |
 
 - **Default dates**: Start is the 1st of the month containing `now − 1 month`; End is the 1st of the month containing `now + 5 months`; both at 00:00 UTC. They are computed once per session.
-- Typing into a requirement field checks its box when the field is non-empty and unchecks it when emptied. A checked requirement with an empty field fails validation: `Please enter Maximum Sun distance value`, `Please enter Maximum Earth distance value`, `Please enter Minimum magnitude value`.
+- Typing into a requirement field checks its box when the field is non-empty and unchecks it when emptied. A checked requirement with an empty field fails validation: `Please enter Maximum Sun distance value`, `Please enter Maximum Earth distance value`, `Please enter Minimum magnitude value`. The requirements are checked before the timespan, in this order.
 - The interval in days is `D + (H + M/60)/24`.
 - The observer is the location in settings ([09](09-settings-and-persistence.md)), read when **Calculate** is pressed.
 
@@ -35,7 +35,7 @@ The settings form starts from a copy of the app-wide selection. When editing an 
 
 1. Validate as above.
 2. **Long calculation check** (setting `showLongCalculationConfirmation`):
-   - `count = trunc((JD(End) − JD(Start)) / interval)`, multiplied by the number of comets in multiple mode;
+   - `count = steps` as in step 3 (the whole intervals from Start to End, exact), multiplied by the number of comets in the list in multiple mode;
    - if `count > 100000`, ask `Calculation using selected settings could take a while, depending on your PC performances. Are you sure you want to continue?`. No cancels.
 3. The comets are the selected comet (single mode, or multiple mode with a one-comet list), or every comet of the list in order (multiple mode). For each:
    ```
