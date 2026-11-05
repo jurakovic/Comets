@@ -59,6 +59,19 @@ export function createRpcServer({ jobs, post, schedule, now, slice = 50 }) {
 	/** @type {Map<number, Generator<Progress, unknown, void>>} */
 	const running = new Map();
 
+	/**
+	 * posts a reply; one that cannot be sent (a result that does not clone) becomes an error reply,
+	 * so that the run still settles
+	 * @param {Reply} reply
+	 */
+	function send(reply) {
+		try {
+			post(reply);
+		} catch (error) {
+			if (reply.type !== 'error') post({ type: 'error', id: reply.id, error: describe(error) });
+		}
+	}
+
 	/** @param {number} id */
 	function step(id) {
 		const generator = running.get(id);
@@ -71,16 +84,16 @@ export function createRpcServer({ jobs, post, schedule, now, slice = 50 }) {
 				next = generator.next();
 			} catch (error) {
 				running.delete(id);
-				post({ type: 'error', id, error: describe(error) });
+				send({ type: 'error', id, error: describe(error) });
 				return;
 			}
 			if (next.done) {
 				running.delete(id);
-				post({ type: 'result', id, value: next.value });
+				send({ type: 'result', id, value: next.value });
 				return;
 			}
 			if (now() >= until) {
-				post({ type: 'progress', id, progress: next.value });
+				send({ type: 'progress', id, progress: next.value });
 				schedule(() => step(id));
 				return;
 			}
@@ -92,13 +105,13 @@ export function createRpcServer({ jobs, post, schedule, now, slice = 50 }) {
 		run({ id, name, input }) {
 			const job = Object.hasOwn(jobs, name) ? jobs[name] : undefined;
 			if (!job) {
-				post({ type: 'error', id, error: { name: 'Error', message: `unknown job: ${name}` } });
+				send({ type: 'error', id, error: { name: 'Error', message: `unknown job: ${name}` } });
 				return;
 			}
 			try {
 				running.set(id, job(input));
 			} catch (error) {
-				post({ type: 'error', id, error: describe(error) });
+				send({ type: 'error', id, error: describe(error) });
 				return;
 			}
 			schedule(() => step(id));
@@ -117,6 +130,15 @@ export function createRpcServer({ jobs, post, schedule, now, slice = 50 }) {
 }
 
 /**
+ * @typedef {object} RpcClient
+ * @property {(name: string, input: unknown, options?: RunOptions) => Promise<unknown>} run the job's
+ *   result; rejects with the job's error, or with the signal's reason when it is aborted
+ * @property {(reply: Reply) => void} receive
+ * @property {(error: Error) => void} failAll rejects every job still running, as when the thread
+ *   that runs them fails
+ */
+
+/**
  * an error named AbortError, for a signal aborted without a reason
  * @returns {Error}
  */
@@ -128,6 +150,7 @@ function abortError() {
  * the side that asks: run returns the result, give it every reply
  * @param {object} options
  * @param {(request: Request) => void} options.post
+ * @returns {RpcClient}
  */
 export function createRpcClient({ post }) {
 	let lastId = 0;
@@ -167,7 +190,13 @@ export function createRpcClient({ post }) {
 				};
 				signal?.addEventListener('abort', abort, { once: true });
 				pending.set(id, { resolve, reject, onProgress, done: () => signal?.removeEventListener('abort', abort) });
-				post({ type: 'run', id, name, input });
+				try {
+					post({ type: 'run', id, name, input });
+				} catch (error) {
+					// an input that does not clone: nothing was sent, so there is nothing to cancel
+					settle(id);
+					reject(error);
+				}
 			});
 		},
 		/** @param {Reply} reply */

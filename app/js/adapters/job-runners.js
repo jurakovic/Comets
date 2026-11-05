@@ -4,20 +4,35 @@ import { createRpcClient, createRpcServer } from '../lib/rpc.js';
 
 /** @typedef {import('../lib/rpc.js').Job} Job */
 
+/** @typedef {Pick<import('../lib/rpc.js').RpcClient, 'run'>} JobRunner the JobRunner port of services/ports.js */
+
 /**
- * the compute Worker (workers/compute.js); a Worker that fails rejects every job it was running
+ * the compute Worker (workers/compute.js). A Worker that fails, which in practice means one that did
+ * not load, is ended: the jobs it was running and every later one reject with its error, so the
+ * composition root can turn to the local runner
  * @param {URL | string} url of workers/compute.js
+ * @returns {JobRunner}
  */
 export function createWorkerJobRunner(url) {
 	const worker = new Worker(url, { type: 'module' });
 	const client = createRpcClient({ post: request => worker.postMessage(request) });
+	/** @type {Error | null} */
+	let failure = null;
+	const fail = (/** @type {Error} */ error) => {
+		if (failure) return;
+		failure = error;
+		worker.terminate();
+		client.failAll(error);
+	};
 	worker.addEventListener('message', event => client.receive(event.data));
 	worker.addEventListener('error', event => {
 		event.preventDefault();
-		client.failAll(new Error(`the compute worker failed: ${event.message || 'it did not load'}`));
+		fail(new Error(`the compute worker failed: ${event.message || 'it did not load'}`));
 	});
-	worker.addEventListener('messageerror', () => client.failAll(new Error('the compute worker sent a message that could not be read')));
-	return Object.freeze({ run: client.run });
+	worker.addEventListener('messageerror', () => fail(new Error('the compute worker sent a message that could not be read')));
+	return Object.freeze({
+		run: (name, input, options) => failure ? Promise.reject(failure) : client.run(name, input, options)
+	});
 }
 
 /**
@@ -25,6 +40,7 @@ export function createWorkerJobRunner(url) {
  * would clone them, so a result is the same plain data either way
  * @param {Readonly<Record<string, Job>>} jobs
  * @param {{ slice?: number }} [options] milliseconds a slice may run
+ * @returns {JobRunner}
  */
 export function createLocalJobRunner(jobs, { slice = 20 } = {}) {
 	// each side gets the other's messages as a later task, as across threads

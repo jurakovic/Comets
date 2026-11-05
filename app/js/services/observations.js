@@ -21,7 +21,8 @@ export const CURRENT_REFRESH_MS = 5 * 60_000;
 /**
  * @param {object} deps
  * @param {import('./ports.js').Clock} deps.clock
- * @param {() => Observer} deps.observer the location from settings, read whenever a value needs it
+ * @param {() => Observer} deps.observer the location from settings, read for each ephemeris; the
+ *   values are geocentric, so it does not change them
  * @returns {ObservationsService}
  */
 export function createObservationsService({ clock, observer }) {
@@ -33,7 +34,7 @@ export function createObservationsService({ clock, observer }) {
 	/** @type {WeakMap<Comet, { at: number, values: ReturnType<typeof currentValues> }>} */
 	const current = new WeakMap();
 
-	// Tn and Perih* keep the clock and the location of their first use for the session (spec 10, Q11)
+	// Tn and Perih* keep the clock of their first use for the session (spec 10, Q11)
 	/** @param {Comet} comet */
 	function tn(comet) {
 		let value = nearest.get(comet);

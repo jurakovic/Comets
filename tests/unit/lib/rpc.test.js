@@ -121,3 +121,28 @@ test('a reply for a job no longer waited for is dropped', () => {
 	client.receive({ type: 'progress', id: 99, progress: { done: 0, total: 1 } });
 	client.receive({ type: 'error', id: 99, error: { name: 'Error', message: 'x' } });
 });
+
+test('a result that does not clone becomes an error, so the run still settles', async () => {
+	/** @type {Array<() => void>} */
+	const tasks = [];
+	const server = createRpcServer({
+		jobs: { *bad() { yield { done: 0, total: 1 }; return { f() {} }; } },
+		post: reply => { const copy = structuredClone(reply); tasks.push(() => client.receive(copy)); },
+		schedule: task => tasks.push(task),
+		now: () => 0
+	});
+	const client = createRpcClient({ post: request => tasks.push(() => server.receive(request)) });
+	const result = client.run('bad', null);
+	while (tasks.length > 0) /** @type {() => void} */ (tasks.shift())();
+	await assert.rejects(result, { name: 'DataCloneError' });
+});
+
+test('an input that does not clone rejects, and leaves nothing to cancel', async () => {
+	/** @type {any[]} */
+	const posted = [];
+	const client = createRpcClient({ post: request => { posted.push(structuredClone(request)); } });
+	const controller = new AbortController();
+	await assert.rejects(client.run('count', { f() {} }, { signal: controller.signal }), { name: 'DataCloneError' });
+	controller.abort();
+	assert.deepEqual(posted, []);
+});

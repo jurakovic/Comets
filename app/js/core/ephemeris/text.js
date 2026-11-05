@@ -13,21 +13,27 @@ const PERIHELION_DATE = compileDateFormat(DATE_PERIHELION);
 const ROW_DATE = compileDateFormat(DATE_EPHEMERIS);
 const DISTANCE = compileFormat('Perihelion distance: \t{0:0.000000} AU');
 
+/** rows between two yields, so that a runner can report and cancel within a long comet */
+const LINES_PER_YIELD = 2000;
+
 /**
- * the text of a calculation's results
+ * writing the text of a calculation's results; yields `{ done, total }` in comets written, also
+ * between rows of a long comet, as the desktop reports and checks for a cancel per comet
  * @param {ReadonlyArray<import('./calculation.js').EphemerisResult>} results
  * @param {import('./settings.js').EphemerisSettings} settings
  * @param {string} timeZone for Local Time
- * @returns {string}
+ * @returns {Generator<import('../../lib/rpc.js').Progress, string, void>}
  */
-export function ephemerisText(results, settings, timeZone) {
+export function* writeEphemeris(results, settings, timeZone) {
 	const columns = COLUMNS.filter(c => settings.columns[c.key]);
 	const header = (settings.localTime ? TIME_HEADER.local : TIME_HEADER.universal) + columns.map(c => c.header).join('');
 	// rows show JDToDateTime of their JD, in local time when asked
 	const parts = settings.localTime ? localPartsIn(timeZone) : instantToParts;
+	const total = results.length;
 	/** @type {string[]} */
 	const lines = [];
-	for (const { comet, Tn, rows } of results) {
+	for (let index = 0; index < total; index++) {
+		const { comet, Tn, rows } = results[index];
 		lines.push(
 			`Comet:               \t${comet.full}`,
 			`Perihelion date:     \t${PERIHELION_DATE(instantToParts(jdToInstant(Tn)))}`,
@@ -36,10 +42,27 @@ export function ephemerisText(results, settings, timeZone) {
 			'',
 			header
 		);
-		for (const ep of rows) {
+		for (let k = 0; k < rows.length; k++) {
+			if (k > 0 && k % LINES_PER_YIELD === 0) yield { done: index, total };
+			const ep = rows[k];
 			lines.push(ROW_DATE(parts(jdToInstant(ep.JD))) + columns.map(c => c.cell(ep)).join(''));
 		}
 		lines.push('', '', '');
+		yield { done: index + 1, total };
 	}
 	return lines.map(line => line + CRLF).join('');
+}
+
+/**
+ * the text of a calculation's results at once
+ * @param {ReadonlyArray<import('./calculation.js').EphemerisResult>} results
+ * @param {import('./settings.js').EphemerisSettings} settings
+ * @param {string} timeZone for Local Time
+ * @returns {string}
+ */
+export function ephemerisText(results, settings, timeZone) {
+	const writing = writeEphemeris(results, settings, timeZone);
+	let next = writing.next();
+	while (!next.done) next = writing.next();
+	return next.value;
 }

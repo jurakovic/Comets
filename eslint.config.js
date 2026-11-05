@@ -75,7 +75,7 @@ export default [
 				{ object: 'Math', property: 'round', message: 'rounds halves up; .NET rounds them to even (roundEven in lib/math.js)' },
 				{ object: 'Number', property: 'parseFloat', message: 'accepts text .NET rejects; parse with the strict rules of spec 03' },
 				{ object: 'Number', property: 'parseInt', message: 'accepts text .NET rejects; parse with the strict rules of spec 03' },
-				{ property: 'localeCompare', message: 'sorts by the default locale; use Intl.Collator(\'und\') (spec 02, Sorting)' }
+				{ property: 'localeCompare', message: 'sorts by the default locale; use compareText of core/comets/collation.js (spec 02, Sorting)' }
 			]
 		}
 	},

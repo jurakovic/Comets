@@ -46,7 +46,7 @@ Exit: every `import-expected/*.json` (round trips included), `export/*`, `import
 Exit: `filters.json`, `sorting.json`, `selection.json`, `ephemeris-text/*` and `graph.json` pass, the last two also through the Worker protocol (spec 11, conformance levels 1 and 2).
 
 - [x] **S1 Properties and observations**: `core/comets/properties.js` (the 17 properties of spec 02: label, type, unit, tolerance, input range and decimals, default compare, value through the accessor) and the compare operators; `services/observations.js`, the first service (`Tn` and `Perih*` on first use, `Current*` refreshed after 5 minutes; Clock and observer injected; Q11 kept). Unit tests with a fake clock
-- [x] **S2 Filters, sorting, quick selection**: `core/comets/filter.js` (validation message, string terms, number compares with tolerances), `sort.js` (stable in both directions, `Intl.Collator('und')`), `selection.js` (quick select, keeping the selected comet on rebind). Vectors `filters.json` (27 sets over 963 comets), `sorting.json`, `selection.json`
+- [x] **S2 Filters, sorting, quick selection**: `core/comets/filter.js` (validation message, string terms, number compares with tolerances), `sort.js` (stable in both directions, the root collation), `selection.js` (quick select, keeping the selected comet on rebind). Vectors `filters.json` (27 sets over 963 comets), `sorting.json`, `selection.json`
 - [x] **S3 Ephemeris calculation and text**: `core/ephemeris/` (spec 06): settings with defaults from now and validation results naming their fields, the long-calculation count, the calculation as a generator (exact integer steps, D8; requirements; progress per comet), the text output (UTC and local time). Vectors `ephemeris-text/*` (UTC and Europe/Zagreb)
 - [x] **S4 Graph model**: `core/graph/` (spec 07): sampling intervals and samples, the y axis (margins, defaults for several comets, reversed, steps, `00.00` labels), x axis label formats, which series are drawn, perihelion and now lines, the title, hover hit-testing. Vectors `graph.json`
 - [x] **S5 Jobs and the Worker**: `lib/rpc.js` (run, progress, result, error, cancel), `core/jobs.js`, `workers/compute.js`, the Worker and in-thread `JobRunner` adapters, `services/jobs.js` (progress and cancel for the status area). Vector tests of the ephemeris text and the graph through the protocol handler; an e2e check that a job runs in a real Worker and cancels
@@ -106,7 +106,7 @@ Exit: the app opens and works offline after one visit; the e2e suite passes on C
 
 For the user; none blocks the plan.
 
-1. **Desktop quirks** (spec 10, Quirks kept): the web app keeps Q1–Q20 so the vectors stay authoritative. Each one fixed later is its own change to the spec, the harness and the vectors. The spec recommends fixing Q1–Q5, Q7, Q9, Q11 and Q16.
+1. **Desktop quirks** (spec 10, Quirks kept): the web app keeps Q1–Q20 so the vectors stay authoritative. Each one fixed later is its own change to the spec, the harness and the vectors. The spec recommends fixing Q1–Q5, Q7, Q9 and Q16 (no longer Q11: its values are geocentric, so the location never mattered).
 2. **Publishing**: when `dev` is merged into `master`, Pages serves the app at `/Comets/app/`. Whether to link it from the repository README and the Pages home page before M7 is open.
 
 ## Decision log

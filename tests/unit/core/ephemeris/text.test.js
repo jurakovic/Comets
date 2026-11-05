@@ -11,10 +11,10 @@ const observer = Object.freeze({ latitude: 45.815, longitude: 15.9819 });
 const none = { maxSunDist: { checked: false, value: null }, maxEarthDist: { checked: false, value: null }, minMagnitude: { checked: false, value: null } };
 const columns = { RA: false, Dec: false, Alt: false, Az: false, EcLon: false, EcLat: false, Elongation: false, SunDist: false, EarthDist: false, Magnitude: true };
 
-/** @param {any} comet @param {object} changes */
-function text(comet, changes) {
+/** @param {any} comet @param {object} changes @param {number} [Tn] */
+function text(comet, changes, Tn = comet.T) {
 	const settings = { ...defaultEphemerisSettings(start), start, end: start + 2 * 3_600_000, interval: { days: 0, hours: 1, minutes: 0 }, columns, requirements: none, ...changes };
-	const { result } = drain(calculateEphemerides({ comets: [comet], nearest: [comet.T], settings, observer, timeZone: 'Europe/Zagreb' }));
+	const { result } = drain(calculateEphemerides({ comets: [comet], nearest: [Tn], settings, observer, timeZone: 'Europe/Zagreb' }));
 	return ephemerisText(result, settings, 'Europe/Zagreb').split('\r\n');
 }
 
@@ -46,3 +46,33 @@ test('the heading: Tn, q, and the period or "-" from 10000 years', () => {
 	assert.ok(long && long.P >= 10000);
 	assert.equal(text(long, {})[3], 'Period:              \t-');
 });
+
+test('writing yields per comet and within a long one, and gives the same text', async () => {
+	const { writeEphemeris, ephemerisText } = await import('../../../../app/js/core/ephemeris/text.js');
+	const comet = createComet({ full: '2P/Encke', id: '2P', Ty: 2026, Tm: 10, Td: 22, q: 0.33, e: 0.847, g: 11.5, k: 4 });
+	assert.ok(comet);
+	const settings = { ...defaultEphemerisSettings(start), start, end: start + 3 * 86_400_000, interval: { days: 0, hours: 0, minutes: 1 }, columns, requirements: none };
+	const { result } = drain(calculateEphemerides({ comets: [comet, comet], nearest: [comet.T, comet.T], settings, observer, timeZone: 'UTC' }));
+	const { yielded, result: text } = drain(writeEphemeris(result, settings, 'UTC'));
+	// 4321 rows each: two points inside a comet, then its completion
+	assert.deepEqual(yielded, [
+		{ done: 0, total: 2 }, { done: 0, total: 2 }, { done: 1, total: 2 },
+		{ done: 1, total: 2 }, { done: 1, total: 2 }, { done: 2, total: 2 }
+	]);
+	assert.equal(text, ephemerisText(result, settings, 'UTC'));
+});
+
+test('the heading shows the session\'s Tn, not T', () => {
+	const comet = createComet({ full: '2P/Encke', id: '2P', Ty: 2026, Tm: 10, Td: 22, q: 0.33, e: 0.847, g: 11.5, k: 4 });
+	assert.ok(comet);
+	assert.equal(text(comet, {}, comet.T + 1204.25)[1], 'Perihelion date:     \t07 Feb 2030 06:00:00');
+});
+
+test('the period is written below 10000 years and "-" from 10000 on', () => {
+	const settings = { ...defaultEphemerisSettings(start), start, end: start, columns, requirements: none };
+	const ep = /** @type {any} */ ({ JD: 2461338.5, Magnitude: 9 });
+	const period = (/** @type {number} */ P) => ephemerisText([{ comet: /** @type {any} */ ({ full: 'X', q: 1, P }), Tn: 2461338.5, rows: [ep] }], settings, 'UTC').split('\r\n')[3];
+	assert.equal(period(10000), 'Period:              \t-');
+	assert.equal(period(9999.5), 'Period:              \t9999.500000 years');
+});
+

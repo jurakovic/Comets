@@ -37,6 +37,7 @@ for (const { id, settings, chart } of GRAPH.cases) {
 test('a cancelled job rejects with an AbortError', async () => {
 	const { input } = graphCase(GRAPH.cases[1].settings);
 	const controller = new AbortController();
-	const result = runner.run('graph', input, { signal: controller.signal, onProgress: () => controller.abort() });
+	const result = runner.run('graph', input, { signal: controller.signal });
+	controller.abort();
 	await assert.rejects(result, { name: 'AbortError' });
 });

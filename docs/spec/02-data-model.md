@@ -72,7 +72,7 @@ The desktop sums the steps in exact decimals. In float64, compute each candidate
 
 ### Observer-dependent values
 
-Each comet exposes these values, which depend on the time of use and on the observer location from settings ([09](09-settings-and-persistence.md)). Each is taken from an ephemeris ([04](04-astronomy.md#ephemeris)):
+Each comet exposes these values, which depend on the time of use. Each is taken from an ephemeris ([04](04-astronomy.md#ephemeris)) for the observer location in settings ([09](09-settings-and-persistence.md)), but distances and magnitude are geocentric, so the location does not change them:
 
 | Value | Definition | Caching |
 |---|---|---|
@@ -249,7 +249,7 @@ Sort properties, in menu order: Designation (`sortkey`), Discoverer (`name`), Pe
 
 - Sorting MUST be **stable** in both directions: a descending sort keeps equal items in their original order and does not reverse them.
 - Numbers compare numerically.
-- Strings (`name`, `sortkey`) compare with **invariant-culture (ICU root) collation**: in JavaScript, `Intl.Collator('und')`. Sort keys contain only digits and capital letters, so ordinal comparison gives the same order for them.
+- Strings (`name`, `sortkey`) compare with **invariant-culture (ICU root) collation**: in JavaScript, `Intl.Collator('en')`, whose CLDR collation has no tailoring. `Intl.Collator('und')` is not the same: `und` is not an available locale, so it falls back to the host's default locale, and a Czech or Danish browser would sort differently. Sort keys contain only digits and capital letters, so ordinal comparison gives the same order for them.
 - Choosing a different property keeps the current direction. Choosing a direction re-sorts.
 
 Vectors: [`sorting.json`](vectors/sorting.json).

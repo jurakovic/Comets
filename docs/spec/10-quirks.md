@@ -25,6 +25,7 @@ These changes are deliberate and already reflected in this spec.
 | D15 | Label `Greather than (>)` and message `End date must be greather than start date` | `Greater than (>)` and `End date must be greater than start date` (SHOULD) | Typo |
 | D16 | The JPL lookup URL is built from the raw id | The id is URL-encoded | Correct URLs |
 | D17 | Desktop-only features ([01 § Dropped](01-product.md#dropped-desktop-features)) | Removed | Agreed decision |
+| D18 | Multiple mode over a one-comet list calculates the picker's selected comet, which is none while all comets are chosen, and crashes (ephemeris and graph) | The list's one comet, in multiple mode: for a graph, no title and the perihelion lines after the series ([07](07-graph.md#series)) | A crash |
 
 ## Quirks kept
 
@@ -34,13 +35,13 @@ These changes are deliberate and already reflected in this spec.
 | Q2 | xephem and Home Planet exports append `/` to every comet without a name, meant for `282P/` | `ExportXephem03`, `ExportHomePlanet04` | `A/2018 W3/` and `C/2023 R1-B/` round-trip with a trailing slash | Fix: only for numbered periodic ids |
 | Q3 | The MyStars importer keeps the `;` that ends the name column | `ParseMyStars05` | Every comet imported from MyStars has a different `full` (`1P/Halley;`), so a re-import adds duplicates | Fix: strip a trailing `;` |
 | Q4 | Home Planet export writes a and P for hyperbolic orbits (`P < 30000` is true for them) | `ExportHomePlanet04` | Meaningless numbers; MPC leaves them empty | Fix: empty when e ≥ 1 |
-| Q5 | Hyperbolic `Q = a(1 + (2 − e))`, and `P` from `(q/(e−1))^1.5` | `CometManager` | The database shows a negative aphelion and a small "period" for hyperbolic comets (`P < 1000` passes) | Fix: treat P, Q and n as not applicable when e ≥ 1 |
+| Q5 | Hyperbolic `Q = a(1 + (2 − e))`, and `P` from `(q/(e−1))^1.5` | `CometManager` | The database shows a negative aphelion and a small "period" for hyperbolic comets (`P < 1000` passes), and the graph draws a perihelion line every such period for them ([07](07-graph.md#series)) | Fix: treat P, Q and n as not applicable when e ≥ 1 |
 | Q6 | `e = 1` is replaced by `0.999999` for P, a and Q | `CometManager` | Huge P, a and Q for parabolic comets, used only for sorting | Keep |
 | Q7 | The NASA importer precesses i, Ω and ω from the **osculation epoch** to J2000, but JPL's file is already J2000 | `ParseNasaComet` | Angles shift by about 0.014° × (years from 2000), e.g. ~0.45° for 1P (epoch 1968) | Fix: drop the precession |
 | Q8 | `JDToDateTime` uses the Julian calendar before 1582-10-15, while `JD0` is always Gregorian | `EphemerisManager` | Dates before 1582 move on conversion (X/1106 C1: Feb 1 → Jan 25 through Starry Night) | Keep (outside the app's date range) |
 | Q9 | The orbit viewer's **Perihelion Date** preset and `B` use `T`; everything else uses `Tn` | `OrbitViewerControl` | For periodic comets, a different perihelion from the one shown elsewhere | Fix: use `Tn` |
 | Q10 | Orbit viewer: the selected comet's **Label** checkbox, not Orbit or Marker, keeps its dot visible when the date filter hides it | `OrbitPanel.RenderBodies` | Surprising toggle coupling | Keep or decouple |
-| Q11 | `Tn` and the `Perih*` values are cached per session, with the clock and location at first use | `Comet` | Changing the location has no effect on them until reload | Fix: recompute when the location changes |
+| Q11 | `Tn` and the `Perih*` values are cached per session, with the clock at first use | `Comet` | A session that outlives a perihelion keeps the old `Tn` until reload. The location they are computed for changes nothing: the values are geocentric | Keep: recomputing them for a new location, as once recommended here, would change nothing |
 | Q12 | MPC export writes **today's date** in the epoch-of-osculation column | `ExportMpc00` | Claims the elements osculate today | Keep (matches desktop files) or write the original epoch |
 | Q13 | Formats without g/k (Home Planet, Dance, Voyager, NASA) import g = k = 0 | importers | Magnitudes become `5·log Δ`, which means nothing | Keep (no data available) |
 | Q14 | Voyager II imports have no id, an empty sort key, and allow duplicates | `ParseVoyager14` | They sort first and cannot be told apart | Keep (format limitation) |

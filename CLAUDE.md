@@ -99,7 +99,7 @@ The vectors come from .NET, and JavaScript differs in ways that pass casual test
 - `parseFloat` and `Number` accept text .NET rejects and the reverse; parse with the strict rules of spec 03, Field access.
 - `Date.UTC` and `new Date(y, …)` map years 0–99 to 1900–1999; set the year with `setUTCFullYear` for any year.
 - `%` keeps the dividend's sign, as in C#; JD formulas use `Math.floor`, which differs from truncation for negative values.
-- Strings sort with `Intl.Collator('und')`, not `<` or a default-locale `localeCompare`; `Array.prototype.sort` is stable, which spec 02 relies on.
+- Strings sort with `compareText` (`core/comets/collation.js`: `Intl.Collator('en')`, the root order), not `<`, a default-locale `localeCompare` or `Intl.Collator('und')`, which falls back to the host's locale; `Array.prototype.sort` is stable, which spec 02 relies on.
 
 ## Comments
 

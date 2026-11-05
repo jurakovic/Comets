@@ -60,6 +60,67 @@ function lowerBound(xs, value) {
 }
 
 /**
+ * what a hit-test needs to know about the pointer
+ * @typedef {object} Pointer
+ * @property {number} px
+ * @property {number} py
+ * @property {number} radius
+ * @property {PlotArea} area
+ * @property {ReturnType<typeof projection>} at
+ * @property {GraphModel} model
+ */
+
+/**
+ * a vertical line is hit within radius of its x, when it lies on the time axis and the pointer is
+ * over the plot
+ * @param {import('./model.js').GraphSeries} series
+ * @param {Pointer} pointer
+ */
+function lineHit({ x: [t] }, { px, py, radius, area, at, model: { timeAxis } }) {
+	if (t < timeAxis.min || t > timeAxis.max || Math.abs(at.x(t) - px) > radius) return null;
+	return py >= area.top && py <= area.top + area.height ? t : null;
+}
+
+/**
+ * the nearest sample within radius, the first of equally near ones; only samples inside the axes
+ * @param {import('./model.js').GraphSeries} series
+ * @param {Pointer} pointer
+ */
+function nearestSample({ x, y }, { px, py, radius, at, model: { timeAxis, valueAxis } }) {
+	let best = -1;
+	let nearest = Infinity;
+	for (let k = lowerBound(x, at.jd(px - radius)); k < x.length && x[k] <= at.jd(px + radius); k++) {
+		if (x[k] < timeAxis.min || x[k] > timeAxis.max || y[k] < valueAxis.min || y[k] > valueAxis.max) continue;
+		const dx = at.x(x[k]) - px;
+		const dy = at.y(y[k]) - py;
+		const distance = dx * dx + dy * dy;
+		if (distance <= radius * radius && distance < nearest) {
+			best = k;
+			nearest = distance;
+		}
+	}
+	return best;
+}
+
+/** @type {Readonly<Record<import('./model.js').GraphSeries['kind'], (series: import('./model.js').GraphSeries, pointer: Pointer) => Tooltip | null>>} */
+const HIT_TESTS = Object.freeze({
+	value(series, pointer) {
+		const k = nearestSample(series, pointer);
+		if (k < 0) return null;
+		const lines = [`Time: ${timeText(series.x[k])}`, chartTypeOf(pointer.model.chartType).tooltip(series.y[k])];
+		return Object.freeze({ title: series.comet ?? '', lines: Object.freeze(lines) });
+	},
+	perihelion(series, pointer) {
+		const t = lineHit(series, pointer);
+		return t === null ? null : Object.freeze({ title: series.comet ?? '', lines: Object.freeze([`Perihelion time: ${timeText(t)}`]) });
+	},
+	now(series, pointer) {
+		const t = lineHit(series, pointer);
+		return t === null ? null : Object.freeze({ title: 'Today', lines: Object.freeze([`Time: ${timeText(t)}`]) });
+	}
+});
+
+/**
  * what the pointer at (px, py) is over, within radius pixels: the topmost series wins, which is
  * the last drawn, and in a value series the nearest sample; only what lies inside the plot area
  * can be hit
@@ -73,40 +134,11 @@ function lowerBound(xs, value) {
 export function hoverAt(model, area, px, py, radius = 6) {
 	if (px < area.left - radius || px > area.left + area.width + radius) return null;
 	if (py < area.top - radius || py > area.top + area.height + radius) return null;
-	const at = projection(model, area);
-	const { timeAxis, valueAxis } = model;
-	const inside = (/** @type {number} */ jd, /** @type {number} */ value) =>
-		jd >= timeAxis.min && jd <= timeAxis.max && value >= valueAxis.min && value <= valueAxis.max;
-	const from = at.jd(px - radius);
-	const to = at.jd(px + radius);
-
+	/** @type {Pointer} */
+	const pointer = { px, py, radius, area, at: projection(model, area), model };
 	for (let s = model.series.length - 1; s >= 0; s--) {
-		const series = model.series[s];
-		if (series.kind !== 'value') {
-			const t = series.x[0];
-			if (Math.abs(at.x(t) - px) > radius || t < timeAxis.min || t > timeAxis.max) continue;
-			if (py < area.top || py > area.top + area.height) continue;
-			return series.kind === 'now'
-				? Object.freeze({ title: 'Today', lines: Object.freeze([`Time: ${timeText(t)}`]) })
-				: Object.freeze({ title: series.comet ?? '', lines: Object.freeze([`Perihelion time: ${timeText(t)}`]) });
-		}
-		let best = -1;
-		let nearest = Infinity;
-		for (let k = lowerBound(series.x, from); k < series.x.length && series.x[k] <= to; k++) {
-			if (!inside(series.x[k], series.y[k])) continue;
-			const dx = at.x(series.x[k]) - px;
-			const dy = at.y(series.y[k]) - py;
-			const distance = dx * dx + dy * dy;
-			// the first of equally near samples
-			if (distance <= radius * radius && distance < nearest) {
-				best = k;
-				nearest = distance;
-			}
-		}
-		if (best >= 0) {
-			const lines = [`Time: ${timeText(series.x[best])}`, chartTypeOf(model.chartType).tooltip(series.y[best])];
-			return Object.freeze({ title: series.comet ?? '', lines: Object.freeze(lines) });
-		}
+		const tooltip = HIT_TESTS[model.series[s].kind](model.series[s], pointer);
+		if (tooltip) return tooltip;
 	}
 	return null;
 }

@@ -36,6 +36,8 @@ export function samplingInterval(start, end) {
  * @returns {number}
  */
 export function sampleCount(start, end) {
+	// as the desktop's while (jd <= jdMax): none when End is before Start
+	if (end < start) return 0;
 	const interval = samplingInterval(start, end);
 	if ((end - start) / DAY_MS <= 100) return 101;
 	return interval > 0 ? wholeSteps(start, end, interval * DAY_MS) + 1 : 0;

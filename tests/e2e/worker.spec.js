@@ -87,3 +87,16 @@ test('a cancelled job stops in the Worker, which goes on serving', async ({ page
 	expect(result.late).toBe(0);
 	expect(result.error).toBe('AbortError');
 });
+
+test('a Worker that does not load rejects its jobs and every later one', async ({ page }) => {
+	await page.goto('./');
+	const errors = await page.evaluate(async ({ APP }) => {
+		const { createWorkerJobRunner } = await import(`${APP}adapters/job-runners.js`);
+		const runner = createWorkerJobRunner(new URL(`${APP}workers/missing.js`, location.origin));
+		const outcome = (/** @type {Promise<unknown>} */ run) => run.then(() => 'resolved', error => /** @type {Error} */ (error).message);
+		const first = await outcome(runner.run('ephemeris', null, {}));
+		const second = await outcome(runner.run('ephemeris', null, {}));
+		return [first, second];
+	}, { APP });
+	expect(errors).toEqual(['the compute worker failed: it did not load', 'the compute worker failed: it did not load']);
+});

@@ -22,7 +22,7 @@ The Settings view replaces the desktop Edit › Settings dialog. Changes apply a
   - **Export database** downloads the stored MPC text as `Comets_<yyyy-MM-dd_HHmmss>.txt`, the same as exporting the whole database in the MPC format;
   - **Clear all data** removes the database and resets the settings, after confirmation.
 
-The observer location is read whenever a value needs it. The per-comet `Perih*` values cached for the session keep the location they were first computed with, as on the desktop.
+The observer location is read whenever a value needs it. The per-comet `Perih*` and `Current*` values are computed for it too, as on the desktop, but they are geocentric distances and magnitudes, which the location does not change.
 
 ## Storage layout
 

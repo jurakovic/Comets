@@ -37,7 +37,7 @@ The settings form starts from a copy of the app-wide selection. When editing an 
 2. **Long calculation check** (setting `showLongCalculationConfirmation`):
    - `count = steps` as in step 3 (the whole intervals from Start to End, exact), multiplied by the number of comets in the list in multiple mode;
    - if `count > 100000`, ask `Calculation using selected settings could take a while, depending on your PC performances. Are you sure you want to continue?`. No cancels.
-3. The comets are the selected comet (single mode, or multiple mode with a one-comet list), or every comet of the list in order (multiple mode). For each:
+3. The comets are the selected comet in single mode, or every comet of the list in order in multiple mode, whatever the list's size ([10](10-quirks.md#deviations) D18). For each:
    ```
    rows = []
    steps = floor(spanSeconds / intervalSeconds)     # exact integer arithmetic, see below
@@ -52,7 +52,7 @@ The settings form starts from a copy of the app-wide selection. When editing an 
    ```
    Start and End are whole-second instants and the interval is a whole number of minutes, so `spanSeconds = End − Start` and `intervalSeconds` are integers. The row count is therefore exact, and a row falls on End whenever End is a whole number of steps after Start. The desktop instead adds the interval repeatedly in decimal arithmetic. For intervals that decimals cannot hold exactly, such as 1 h = 0.041666…7 day, that sometimes drops a row lying exactly on End ([10 § Deviations](10-quirks.md#deviations)). No vector depends on the difference.
 4. Run the calculation in a Worker. In multiple mode, report progress as comets completed out of the total. **Cancel** stops it and discards everything.
-5. Write the [text output](#text-output). A cancel at this stage also discards everything.
+5. Write the [text output](#text-output), reporting progress again as comets written out of the comets with rows (the desktop restarts its progress bar for this stage). A cancel at this stage also discards everything.
 6. Open the result in a new tab, or replace the edited tab. The tab title is `Ephemeris - <full>` (single) or `Ephemeris - <n> comets` (multiple, where n is the size of the list, not the number of comets with rows).
 
 ## Text output

@@ -42,6 +42,26 @@ test('the value axis: the range with the margin, floored and ceiled, steps and 0
 	assert.deepEqual(negative.valueAxis.ticks.map(t => t.label).slice(0, 3), ['-01.50', '-01.00', '-00.50']);
 });
 
+test('the margin widens the minimum as well as the maximum', () => {
+	const m = model([[9.1, 10, 11.85]]);
+	assert.deepEqual([m.valueAxis.min, m.valueAxis.max], [8, 13]);
+});
+
+test('ticks start at yMin, also when it is not a multiple of the step, and reach yMax', () => {
+	const fixed = (/** @type {number} */ min, /** @type {number} */ max) =>
+		model([[0, 0, 0]], { chartType: 'SunDistance', minimum: { checked: true, value: min }, maximum: { checked: true, value: max } }).valueAxis.ticks.map(t => t.label);
+	assert.deepEqual(fixed(0.3, 6.3), ['00.30', '01.30', '02.30', '03.30', '04.30', '05.30', '06.30']);
+	// (0.7 − 0.1) / 0.1 is 5.999…: the tick on 0.7 is kept
+	assert.deepEqual(fixed(0.1, 0.7), ['00.10', '00.20', '00.30', '00.40', '00.50', '00.60', '00.70']);
+});
+
+test('the fallback also when Minimum equals the maximum; a series touching the maximum is drawn', () => {
+	const equal = model([[9.3, 10.1, 11.7]], { minimum: { checked: true, value: 12 } });
+	assert.deepEqual([equal.valueAxis.min, equal.valueAxis.max], [9, 12]);
+	const touching = model([[12, 13, 13]], { minimum: { checked: true, value: 0 }, maximum: { checked: true, value: 12 }, perihelionLine: { checked: false, color: '#000000' } });
+	assert.deepEqual(touching.series.map(s => s.kind), ['value', 'now']);
+});
+
 test('steps by span: 0.1 to 1, 0.2 to 2, 0.5 to 5, 1 to 10, then 2', () => {
 	const step = (/** @type {number} */ max) => model([[0, 0, 0]], { chartType: 'SunDistance', minimum: { checked: true, value: 0 }, maximum: { checked: true, value: max } }).valueAxis.step;
 	assert.deepEqual([1, 1.01, 2, 2.5, 5, 6, 10, 10.5].map(step), [0.1, 0.2, 0.2, 0.5, 0.5, 1, 1, 2]);
@@ -58,7 +78,10 @@ test('several comets default the maximum to 15 for magnitudes and 2 AU for dista
 	assert.equal(model([[9, 9, 9], [20, 20, 20]]).valueAxis.max, 15);
 	assert.equal(model([[0.5, 0.5, 0.5], [3, 3, 3]], { chartType: 'EarthDistance' }).valueAxis.max, 2);
 	// one comet in multiple mode, or single mode: the samples' maximum
-	assert.equal(model([[9, 10, 11]], {}, { multiple: true }).valueAxis.max, 12);
+	const one = model([[9, 10, 11]], {}, { multiple: true });
+	assert.equal(one.valueAxis.max, 12);
+	// and a one-comet list is still multiple mode: no title (spec 10, D18)
+	assert.equal(one.title, null);
 });
 
 test('a value series is drawn when one of its values is not past the maximum', () => {
@@ -106,6 +129,20 @@ test('perihelion times: back to the first after Start less a period, then on bef
 	assert.deepEqual(perihelionTimes(5000, 1, 0, 3000).slice(0, 2), [251.75, 617]);
 	assert.deepEqual(perihelionTimes(5000, 1e6, 0, 3000), []);
 	assert.deepEqual(perihelionTimes(-5000, 1e6, 0, 3000), [-5000]);
+	// back while t − p > Start, on while t < End: neither takes equality
+	assert.deepEqual(perihelionTimes(1000, 1, 269.5, 1730.5), [634.75, 1000, 1365.25]);
+	// P to 15 digits, each time Tn + m·p afresh: no drift over 3000 lines of a period 0.1 cannot hold
+	const p = Number((0.1).toPrecision(15)) * year;
+	const many = perihelionTimes(2461000.5, 0.1, 2400000.5, 2510000.5);
+	const first = Math.round((many[0] - 2461000.5) / p);
+	assert.ok(many.length > 3000);
+	assert.ok(many.every((t, i) => t === 2461000.5 + (first + i) * p));
+	const third = Number((1 / 3).toPrecision(15)) * year;
+	assert.equal(perihelionTimes(1000, 1 / 3, 900, 1200)[1], 1000 + third);
+	// Start a whole number of periods before Tn, where (Tn − Start) / p rounds up: the first line is
+	// still the desktop's, 238 periods back
+	const [Tn, P, from] = [2522005.9796976843, 2.01513567033654, 2346095.2151395734];
+	assert.equal(perihelionTimes(Tn, P, from, Tn)[0], Tn - 238 * P * year);
 	// a period that is not positive and finite: the line at Tn alone (spec 10, D6)
 	assert.deepEqual(perihelionTimes(100, 0, 0, 3000), [100]);
 	assert.deepEqual(perihelionTimes(100, NaN, 0, 3000), [100]);
@@ -142,3 +179,31 @@ test('hover: distances, and samples outside the axis cannot be hit', () => {
 	assert.deepEqual(hoverAt(m, area, at.x(startJd), at.y(0.25))?.lines, ['Time: 01.01.2026. 00:00:00', 'Distance: 0.2500 AU']);
 	assert.equal(hoverAt(m, area, at.x(startJd + 5), 100), null, 'the sample at 1.2 AU lies below the axis');
 });
+
+test('hover: the nearest of two samples within the radius, not the first', () => {
+	const near = graphModel({
+		comets: [a], nearest: [startJd + 100], settings: { ...defaultGraphSettings(start), start, end: start + 10 * DAY, nowLine: { checked: false, color: '#000000' }, maximum: { checked: false, value: null } },
+		multiple: false, observer: { latitude: 0, longitude: 0 }, nowJd: 0
+	}, { jds: [startJd, startJd + 0.01, startJd + 0.02, startJd + 10], values: [[10, 10, 10, 11]] });
+	const area = { left: 0, top: 0, width: 1000, height: 100 };
+	const at = projection(near, area);
+	// samples 1 px apart: the pointer is nearest the third
+	assert.deepEqual(hoverAt(near, area, at.x(startJd + 0.02) + 0.2, at.y(10))?.lines[0], 'Time: 01.01.2026. 00:28:48');
+	assert.deepEqual(hoverAt(near, area, at.x(startJd) - 0.2, at.y(10))?.lines[0], 'Time: 01.01.2026. 00:00:00');
+});
+
+test('hover: a sample just past the axis, and a line beside the plot or the pointer above it, are not hit', () => {
+	const m = model([[0.25, 1.02, 0.5]], { chartType: 'EarthDistance', maximum: { checked: true, value: 1 }, nowLine: { checked: false, color: '#000000' } }, { nearest: [startJd - 0.01] });
+	const area = { left: 20, top: 10, width: 100, height: 100 };
+	const at = projection(m, area);
+	// 1.02 AU lies 2 px below the axis maximum
+	assert.equal(hoverAt(m, area, at.x(startJd + 5), at.y(1)), null);
+	// the perihelion line lies 0.1 px left of the time axis, within the radius
+	assert.ok(Math.abs(at.x(startJd - 0.01) - area.left) < 1);
+	assert.equal(hoverAt(m, area, area.left, 50), null);
+	const inside = model([[0.25, 0.5, 0.5]], { chartType: 'EarthDistance', maximum: { checked: true, value: 1 }, nowLine: { checked: false, color: '#000000' } }, { nearest: [startJd + 3] });
+	assert.equal(hoverAt(inside, area, at.x(startJd + 3), 50)?.title, 'A');
+	assert.equal(hoverAt(inside, area, at.x(startJd + 3), area.top - 2), null, 'above the plot');
+	assert.equal(hoverAt(inside, area, at.x(startJd + 3), area.top + area.height + 2), null, 'below the plot');
+});
+

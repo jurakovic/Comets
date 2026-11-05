@@ -75,6 +75,10 @@ test('text compares: any term, and an empty term matches everything (spec 10, Q1
 	assert.equal(textCompare('startsWith').test('c/2024 a1', ['c/2025']), false);
 	assert.equal(textCompare('endsWith').test('73p-b', ['-b', 'x']), true);
 	assert.equal(textCompare('endsWith').test('73p-bt', ['-b']), false);
+	// a term in the middle is contained, but neither starts nor ends the value
+	assert.equal(textCompare('contains').test('c/2025 a1', ['2025']), true);
+	assert.equal(textCompare('startsWith').test('c/2025 a1', ['2025']), false);
+	assert.equal(textCompare('endsWith').test('c/2025 a1', ['2025']), false);
 	for (const key of ['contains', 'startsWith', 'endsWith']) assert.equal(textCompare(key).test('anything', ['halley', '']), true, key);
 	assert.equal(textCompare('doesNotContain').test('anything', ['']), false);
 });

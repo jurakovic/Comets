@@ -98,8 +98,8 @@ export function defaultGraphSettings(now) {
 }
 
 /**
- * the value range first, then the timespan, as the desktop checks them; fields `minimum`,
- * `maximum` or `start`
+ * the value range first, then the timespan, in the desktop's order; fields `minimum`, `maximum`
+ * or `start`. The desktop stops at the first error, which is errors[0]
  * @param {GraphSettings} settings
  * @returns {import('../validation.js').Validation<GraphSettings>}
  */
@@ -109,8 +109,7 @@ export function validateGraphSettings(settings) {
 	const errors = [];
 	if (minimum.checked && minimum.value === null) errors.push({ field: 'minimum', message: 'Enter Minimum value' });
 	if (maximum.checked && maximum.value === null) errors.push({ field: 'maximum', message: 'Enter Maximum value' });
-	// an empty field counts as 0 here, as GetValueOrDefault gives
-	if (minimum.checked && maximum.checked && (minimum.value ?? 0) >= (maximum.value ?? 0)) {
+	if (minimum.checked && maximum.checked && minimum.value !== null && maximum.value !== null && minimum.value >= maximum.value) {
 		errors.push({ field: 'maximum', message: 'Minimum value must be lower than Maximum value' });
 	}
 	errors.push(...timespanErrors(settings.start, settings.end));
@@ -124,7 +123,7 @@ export function validateGraphSettings(settings) {
  * @returns {number}
  */
 export function graphCalculationSteps(settings, comets) {
-	return (sampleCount(settings.start, settings.end) - 1) * comets;
+	return Math.max(0, sampleCount(settings.start, settings.end) - 1) * comets;
 }
 
 /**

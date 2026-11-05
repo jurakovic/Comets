@@ -39,11 +39,10 @@ test('validation: the value range, then the timespan', () => {
 	assert.deepEqual(errorsOf({ maximum: { checked: true, value: null } }), [{ field: 'maximum', message: 'Enter Maximum value' }]);
 	assert.deepEqual(errorsOf({ minimum: { checked: true, value: 12 } }), [{ field: 'maximum', message: 'Minimum value must be lower than Maximum value' }]);
 	assert.deepEqual(errorsOf({ minimum: { checked: true, value: 11.99 } }), []);
-	// only with both checked; an empty Maximum counts as 0
+	// only with both checked
 	assert.deepEqual(errorsOf({ minimum: { checked: true, value: 13 }, maximum: { checked: false, value: 12 } }), []);
-	assert.deepEqual(errorsOf({ minimum: { checked: true, value: 1 }, maximum: { checked: true, value: null } }), [
-		{ field: 'maximum', message: 'Enter Maximum value' }, { field: 'maximum', message: 'Minimum value must be lower than Maximum value' }
-	]);
+	// an empty field is its own error, not also a comparison with 0
+	assert.deepEqual(errorsOf({ minimum: { checked: true, value: 1 }, maximum: { checked: true, value: null } }), [{ field: 'maximum', message: 'Enter Maximum value' }]);
 	assert.deepEqual(errorsOf({ end: base.start }), [{ field: 'start', message: 'End date must be greater than start date' }]);
 });
 

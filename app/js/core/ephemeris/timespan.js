@@ -41,9 +41,9 @@ export function timespanErrors(start, end) {
  * @param {number} start UTC milliseconds, whole seconds
  * @param {number} end UTC milliseconds, whole seconds
  * @param {number} step milliseconds, a whole number of seconds and more than 0
- * @returns {number} 0 when End is before Start
+ * @returns {number} −1 when End is before Start, so that k = 0 … steps takes none
  */
 export function wholeSteps(start, end, step) {
 	const span = end - start;
-	return span < 0 ? 0 : (span - (span % step)) / step;
+	return span < 0 ? -1 : (span - (span % step)) / step;
 }

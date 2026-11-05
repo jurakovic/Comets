@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
-	calculationSteps, DEFAULT_INTERVAL, defaultEphemerisSettings, ephemerisTitle, intervalMs, LONG_CALCULATION_QUESTION,
+	calculationSteps, DEFAULT_INTERVAL, defaultEphemerisSettings, ephemerisTitle, INTERVAL_INPUT, intervalMs, LONG_CALCULATION_QUESTION,
 	LONG_CALCULATION_STEPS, REQUIREMENTS, validateEphemerisSettings
 } from '../../../../app/js/core/ephemeris/settings.js';
 import { defaultTimespan, timespanErrors, wholeSteps } from '../../../../app/js/core/ephemeris/timespan.js';
@@ -40,6 +40,12 @@ test('the columns and requirements of spec 06, in order', () => {
 	assert.deepEqual(REQUIREMENTS.map(r => [r.label, r.input.min, r.input.max, r.input.decimals]), [
 		['Max Sun distance', 0, 9.99, 2], ['Max Earth distance', 0, 9.99, 2], ['Min magnitude', -20, 40, 2]
 	]);
+});
+
+test('the interval fields take whole days 0–3652, hours 0–23, minutes 0–59', () => {
+	assert.deepEqual(JSON.parse(JSON.stringify(INTERVAL_INPUT)), {
+		days: { min: 0, max: 3652, decimals: 0 }, hours: { min: 0, max: 23, decimals: 0 }, minutes: { min: 0, max: 59, decimals: 0 }
+	});
 });
 
 test('the interval in milliseconds; 0 means 1 day', () => {
@@ -85,7 +91,7 @@ test('whole steps are exact: a step on End counts', () => {
 	assert.equal(wholeSteps(start, start + DAY, 3_600_000), 24);
 	assert.equal(wholeSteps(start, start + DAY - 1000, 3_600_000), 23);
 	assert.equal(wholeSteps(start, start, 3_600_000), 0);
-	assert.equal(wholeSteps(start, start - DAY, 3_600_000), 0);
+	assert.equal(wholeSteps(start, start - DAY, 3_600_000), -1);
 	assert.equal(wholeSteps(start, start + 300 * 365.25 * DAY - 1000, 60_000), 157_787_999);
 });
 
@@ -94,6 +100,7 @@ test('the long-calculation count: steps times the comets', () => {
 	const settings = { ...defaultEphemerisSettings(start), start, end: start + 100 * DAY, interval: { days: 0, hours: 1, minutes: 0 } };
 	assert.equal(calculationSteps(settings, 1), 2400);
 	assert.equal(calculationSteps(settings, 963), 2_311_200);
+	assert.equal(calculationSteps({ ...settings, end: start - DAY }, 5), 0);
 	assert.equal(LONG_CALCULATION_STEPS, 100_000);
 	assert.equal(LONG_CALCULATION_QUESTION, 'Calculation using selected settings could take a while, depending on your PC performances. Are you sure you want to continue?');
 });

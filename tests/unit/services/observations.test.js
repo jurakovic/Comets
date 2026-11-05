@@ -9,7 +9,6 @@ import { instantToJd } from '../../../app/js/core/time/julian.js';
 
 const { comets: vectors } = readVector('comets.json');
 const EQUATOR = Object.freeze({ latitude: 0, longitude: 0 });
-const ZAGREB = Object.freeze({ latitude: 45.815, longitude: 15.982 });
 const YEAR_MS = 365.25 * 86_400_000;
 
 /** @param {any} vector */
@@ -23,12 +22,12 @@ function fromVector(vector) {
 const halley = fromVector(vectors.find((/** @type {any} */ v) => v.full === '1P/Halley'));
 const encke = fromVector(vectors.find((/** @type {any} */ v) => v.full === '2P/Encke'));
 
-/** a service over a fake clock at the vector clock and an observer the test may move */
+/** a service over a fake clock at the vector clock, counting how often it reads the observer */
 function setup(start = VECTOR_NOW) {
 	const clock = createFakeClock(start);
-	let observer = EQUATOR;
-	const service = createObservationsService({ clock, observer: () => observer });
-	return { clock, service, move: (/** @type {typeof EQUATOR} */ to) => { observer = to; } };
+	const reads = { count: 0 };
+	const service = createObservationsService({ clock, observer: () => { reads.count += 1; return EQUATOR; } });
+	return { clock, service, reads };
 }
 
 test('the session values of every sample comet at the vector clock', () => {
@@ -65,33 +64,35 @@ test('Tn is computed on first use, against the clock at that moment', () => {
 	assert.equal(service.value(halley, 'Tn'), nearestPerihelion(halley, instantToJd(clock.now())));
 });
 
-test('Perih* keep the location of their first use, and use the Tn of the session (spec 10, Q11)', () => {
-	const { clock, move, service } = setup();
+test('Perih* are computed once, at the Tn of the session (spec 10, Q11)', () => {
+	const { clock, reads, service } = setup();
 	const Tn = service.nearestPerihelion(encke);
 	clock.advance(10 * YEAR_MS);
-	move(ZAGREB);
-	const expected = perihelionValues(encke, Tn, ZAGREB);
+	const expected = perihelionValues(encke, Tn, EQUATOR);
 	assert.equal(service.value(encke, 'PerihMag'), expected.PerihMag);
-	move(EQUATOR);
 	assert.equal(service.value(encke, 'PerihEarthDist'), expected.PerihEarthDist);
+	clock.advance(10 * YEAR_MS);
 	assert.equal(service.value(encke, 'PerihMag'), expected.PerihMag);
+	assert.equal(reads.count, 1);
 });
 
-test('Current* are kept for 5 minutes and then recomputed with the clock and location of then', () => {
-	const { clock, move, service } = setup();
+test('Current* are kept for 5 minutes and then recomputed with the clock of then', () => {
+	const { clock, reads, service } = setup();
 	const first = currentValues(halley, instantToJd(VECTOR_NOW), EQUATOR);
 	assert.equal(service.value(halley, 'CurrentMag'), first.CurrentMag);
-	move(ZAGREB);
 	clock.advance(CURRENT_REFRESH_MS);
 	// exactly 5 minutes old is not more than 5 minutes
 	assert.equal(service.value(halley, 'CurrentMag'), first.CurrentMag);
 	assert.equal(service.value(halley, 'CurrentEarthDist'), first.CurrentEarthDist);
+	assert.equal(reads.count, 1);
 	clock.advance(1);
-	const second = currentValues(halley, instantToJd(clock.now()), ZAGREB);
+	const second = currentValues(halley, instantToJd(clock.now()), EQUATOR);
 	assert.notEqual(second.CurrentEarthDist, first.CurrentEarthDist);
 	assert.equal(service.value(halley, 'CurrentEarthDist'), second.CurrentEarthDist);
 	assert.equal(service.value(halley, 'CurrentSunDist'), second.CurrentSunDist);
 	assert.equal(service.value(halley, 'CurrentMag'), second.CurrentMag);
+	// the observer is read again for the new ephemeris, as the desktop reads its settings
+	assert.equal(reads.count, 2);
 });
 
 test('each comet\'s Current* are as old as their own first use', () => {

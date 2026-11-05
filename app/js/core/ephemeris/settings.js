@@ -69,6 +69,13 @@ export const LONG_CALCULATION_STEPS = 100_000;
 export const LONG_CALCULATION_QUESTION =
 	'Calculation using selected settings could take a while, depending on your PC performances. Are you sure you want to continue?';
 
+/** what the interval's number fields accept: whole numbers in these ranges */
+export const INTERVAL_INPUT = Object.freeze({
+	days: Object.freeze({ min: 0, max: 3652, decimals: 0 }),
+	hours: Object.freeze({ min: 0, max: 23, decimals: 0 }),
+	minutes: Object.freeze({ min: 0, max: 59, decimals: 0 })
+});
+
 /** what **Default** resets the interval to */
 export const DEFAULT_INTERVAL = Object.freeze({ days: 1, hours: 0, minutes: 0 });
 
@@ -101,8 +108,8 @@ export function intervalMs({ days, hours, minutes }) {
 }
 
 /**
- * the requirements first, then the timespan, as the desktop checks them; each error names its
- * field: a requirement key, or `start`
+ * the requirements first, then the timespan, in the desktop's order; each error names its field,
+ * a requirement key or `start`. The desktop stops at the first error, which is errors[0]
  * @param {EphemerisSettings} settings
  * @returns {import('../validation.js').Validation<EphemerisSettings>}
  */
@@ -124,7 +131,7 @@ export function validateEphemerisSettings(settings) {
  * @returns {number}
  */
 export function calculationSteps(settings, comets) {
-	return wholeSteps(settings.start, settings.end, intervalMs(settings.interval)) * comets;
+	return Math.max(0, wholeSteps(settings.start, settings.end, intervalMs(settings.interval))) * comets;
 }
 
 /**
