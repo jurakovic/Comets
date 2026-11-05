@@ -204,3 +204,22 @@ test('reset: the defaults again, with nothing stored', async () => {
 	await service.load();
 	assert.equal(service.settings.get(), DEFAULT_SETTINGS);
 });
+
+test('a write that fails does not stop the later ones', async () => {
+	/** @type {string[]} */
+	const written = [];
+	let calls = 0;
+	const store = {
+		get: async () => undefined,
+		async put(/** @type {string} */ _key, /** @type {string} */ value) {
+			calls += 1;
+			if (calls === 1) throw new Error('broken');
+			written.push(JSON.parse(value).theme);
+		},
+		remove: async () => {}
+	};
+	const service = createSettingsService({ store });
+	await assert.rejects(service.update({ theme: 'dark' }), /broken/);
+	assert.equal((await service.update({ theme: 'light' })).ok, true);
+	assert.deepEqual(written, ['light']);
+});

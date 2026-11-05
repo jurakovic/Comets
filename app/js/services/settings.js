@@ -1,5 +1,6 @@
 // The app's settings: their defaults, the rules each value follows, the versioned JSON they are
 // stored as, and the service that owns them. docs/spec/09-settings-and-persistence.md.
+import { createQueue } from '../lib/queue.js';
 import { createStore, readonly } from '../lib/store.js';
 import { invalid, valid } from '../core/validation.js';
 
@@ -218,10 +219,7 @@ export function writeSettings(settings) {
 export function createSettingsService({ store }) {
 	const state = createStore(DEFAULT_SETTINGS);
 	// writes in the order they were made, so the last change is the one stored
-	/** @type {Promise<void>} */
-	let writing = Promise.resolve();
-	/** @param {() => Promise<void>} write */
-	const queue = write => (writing = writing.then(write));
+	const queue = createQueue();
 
 	return Object.freeze({
 		settings: readonly(state),

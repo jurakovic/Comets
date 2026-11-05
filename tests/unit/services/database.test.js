@@ -173,3 +173,25 @@ test('Clear all data empties the database and removes what is stored', async () 
 	assert.deepEqual(database.state.get(), { comets: [], change: 'clear' });
 	assert.deepEqual(store.writes, [`remove ${DATABASE_KEY}`]);
 });
+
+test('a store that fails does not stop the later ones', async () => {
+	/** @type {number[]} */
+	const saved = [];
+	let calls = 0;
+	const repository = {
+		load: async () => importElements([], 'MPC', SAMPLE).comets,
+		async save(/** @type {ReadonlyArray<unknown>} */ comets) {
+			calls += 1;
+			if (calls === 1) throw new Error('broken');
+			saved.push(comets.length);
+		},
+		text: async () => undefined,
+		clear: async () => {}
+	};
+	const database = createDatabaseService({ repository, clock: createFakeClock(VECTOR_NOW), settings: { update: async () => /** @type {any} */ ({ ok: true }) } });
+	await database.load();
+	const [a, b] = database.state.get().comets;
+	await assert.rejects(database.remove(a), /broken/);
+	await database.remove(b);
+	assert.deepEqual(saved, [32]);
+});

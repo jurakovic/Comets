@@ -1,5 +1,6 @@
 // The main collection: loaded at start-up, previewed and replaced by an import, shrunk by a
 // deletion, and stored again after every change. docs/spec/05-database-and-update.md.
+import { createQueue } from '../lib/queue.js';
 import { createStore, readonly } from '../lib/store.js';
 import { previewImport } from '../core/formats/import.js';
 
@@ -52,8 +53,7 @@ export const ZERO_IMPORTED = 'Something wrong happened. Zero comets imported.';
 export function createDatabaseService({ repository, clock, settings }) {
 	const state = createStore(/** @type {Readonly<DatabaseState>} */ (Object.freeze({ comets: Object.freeze([]), change: 'load' })));
 	// writes in the order of the changes, so the last one is the one stored
-	/** @type {Promise<void>} */
-	let writing = Promise.resolve();
+	const queue = createQueue();
 
 	/**
 	 * @param {ReadonlyArray<Comet>} comets
@@ -66,8 +66,7 @@ export function createDatabaseService({ repository, clock, settings }) {
 	/** the database as it is now, stored after what was changed before (spec 10, D10) */
 	const save = () => {
 		const { comets } = state.get();
-		writing = writing.then(() => repository.save(comets));
-		return writing;
+		return queue(() => repository.save(comets));
 	};
 
 	return Object.freeze({
@@ -97,8 +96,7 @@ export function createDatabaseService({ repository, clock, settings }) {
 		},
 		async clear() {
 			set(Object.freeze([]), 'clear');
-			writing = writing.then(() => repository.clear());
-			await writing;
+			await queue(() => repository.clear());
 		}
 	});
 }
