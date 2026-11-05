@@ -188,7 +188,7 @@ A bug fix comes with a test that fails without the fix.
 | To add | Do |
 |---|---|
 | An element format | a module in `core/formats/` with its record parser and writer, its registry entry, vectors |
-| A comet property | an entry in `core/comets/properties.js` (label, type, unit, tolerance, range, default compare, value) |
+| A comet property | an entry in `core/comets/properties.js` (label, type, unit, tolerance, range, default compare); a value that depends on the session also gets its reader in `services/observations.js` |
 | A view | a route-table entry and a folder under `ui/views/` |
 | A key or toolbar action | a command in the registry with its bindings |
 | A long computation | a generator in `core/`, an entry in `core/jobs.js` |
