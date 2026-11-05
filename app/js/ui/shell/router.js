@@ -33,8 +33,9 @@ export function parseRoute(hash, keys, fallback) {
  * @param {readonly Route[]} options.routes
  * @param {string} options.fallback the route an empty or unknown hash opens
  * @param {HTMLElement} options.outlet where the views' elements go
+ * @param {import('./context.js').AppContext} options.context what a view is created with
  */
-export function createRouter({ routes, fallback, outlet }) {
+export function createRouter({ routes, fallback, outlet, context }) {
 	const keys = routes.map(route => route.key);
 	/** @type {Map<string, Promise<View>>} */
 	const views = new Map();
@@ -48,7 +49,7 @@ export function createRouter({ routes, fallback, outlet }) {
 		let view = views.get(route.key);
 		if (!view) {
 			// a failed load is not kept, so the next visit tries again
-			view = route.load().catch(error => {
+			view = route.load(context).catch(error => {
 				views.delete(route.key);
 				throw error;
 			});

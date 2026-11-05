@@ -37,7 +37,7 @@ On the desktop, the user can keep several ephemeris, graph and orbit-viewer wind
 
 ## Shell
 
-- **Navigation bar**: links to the views; an **Update** action showing how long ago the last update was; Settings; Help.
+- **Navigation bar**: links to the views; an **Update** action showing how long ago the last update was, in whole days (`today`, `yesterday`, `3 days ago`, or `never` before the first); Settings; Help.
 - **Status area** (replaces the desktop status bar), always visible:
   - comet count `Comets: <selection>` or `Comets: <selection> (<database>)` when a filter hides some (desktop `FormMain.SetStatusCometsLabel`). Activating it opens the Database view;
   - a progress bar with **Cancel** while a long calculation runs (ephemeris or graph over many comets).
@@ -75,6 +75,9 @@ Each view's shortcuts apply only while that view is active and no text field has
 ## Messages
 
 Desktop message boxes become non-blocking notifications for information, and confirmation dialogs for questions. The texts are fixed where they are given in this spec. Validation errors MUST point at the offending field: the desktop throws `ValidationException(message, control)` and focuses the control.
+
+- A question has **Yes** and **No**; Yes has the focus, and `Esc` answers No. Focus returns where it was.
+- An information notice goes after 5 s; an error notice stays until dismissed. Notices show above an open dialog, and can be used once it closes.
 
 ## Help
 
