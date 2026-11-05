@@ -30,9 +30,8 @@
  */
 
 /**
- * @typedef {object} JobProgress
- * @property {number} done
- * @property {number} total
+ * how far a job is, in comets
+ * @typedef {import('../lib/rpc.js').Progress} JobProgress
  */
 
 /**

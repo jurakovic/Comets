@@ -81,7 +81,7 @@ const SAMPLES_PER_YIELD = 2000;
  * the samples, with no requirements; yields `{ done, total }` in comets
  * @param {GraphInput} input
  * @param {(ep: import('../astro/ephemeris.js').Ephemeris) => number} value the chart type's value
- * @returns {Generator<{ done: number, total: number }, GraphSamples, void>}
+ * @returns {Generator<import('../../lib/rpc.js').Progress, GraphSamples, void>}
  */
 export function* calculateSamples({ comets, settings, observer }, value) {
 	const jds = sampleJds(settings.start, settings.end);

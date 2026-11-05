@@ -165,7 +165,7 @@ export function graphModel(input, { jds, values }) {
 /**
  * the graph as a job: the samples, then the model; yields `{ done, total }` in comets
  * @param {GraphInput} input
- * @returns {Generator<{ done: number, total: number }, GraphModel, void>}
+ * @returns {Generator<import('../../lib/rpc.js').Progress, GraphModel, void>}
  */
 export function* calculateGraph(input) {
 	const samples = yield* calculateSamples(input, chartTypeOf(input.settings.chartType).value);

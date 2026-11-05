@@ -27,10 +27,7 @@ import { wholeSteps } from './timespan.js';
  * @property {ReadonlyArray<Ephemeris>} rows
  */
 
-/**
- * how far a calculation is, in comets
- * @typedef {{ done: number, total: number }} Progress
- */
+/** @typedef {import('../../lib/rpc.js').Progress} Progress how far a calculation is, in comets */
 
 /** rows between two yields, so that a runner can report and cancel within a long comet */
 const ROWS_PER_YIELD = 2000;
