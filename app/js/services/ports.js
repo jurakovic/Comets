@@ -26,7 +26,14 @@
 /**
  * @typedef {object} TextFetcher
  * @property {(url: string, options: { signal?: AbortSignal, onProgress?: (progress: FetchProgress) => void }) => Promise<string>} fetchText
- *   the body as UTF-8 text; rejects on a network or HTTP error, and with an AbortError when signal aborts
+ *   the body decoded by its byte-order mark (docs/spec/03-element-formats.md, Text conventions);
+ *   rejects on a network or HTTP error with an Error whose message names it (`network error`,
+ *   `HTTP 404 Not Found`), and with the signal's reason, an AbortError, when signal aborts
+ */
+
+/**
+ * @typedef {object} TextFileReader
+ * @property {(file: Blob) => Promise<string>} readText the whole file decoded by its byte-order mark
  */
 
 /**

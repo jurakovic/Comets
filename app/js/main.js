@@ -3,6 +3,8 @@
 import { createSystemClock } from './adapters/clock.js';
 import { createWorkerJobRunner } from './adapters/job-runners.js';
 import { createIndexedDbStore, createWebStorageStore } from './adapters/key-value-stores.js';
+import { createFetchTextFetcher } from './adapters/text-fetcher.js';
+import { createBlobTextReader } from './adapters/text-files.js';
 import { createStore } from './lib/store.js';
 import { daysAgo } from './core/format/relative.js';
 import { createDatabaseRepository } from './services/database-repository.js';
@@ -12,6 +14,7 @@ import { createObservationsService } from './services/observations.js';
 import { createSelectionService } from './services/selection.js';
 import { createSettingsService } from './services/settings.js';
 import { createStartupService } from './services/startup.js';
+import { createUpdateService } from './services/update.js';
 import { query } from './ui/dom.js';
 import { createDialogs } from './ui/shell/dialogs.js';
 import { installErrorHandler } from './ui/shell/errors.js';
@@ -44,6 +47,7 @@ const observations = createObservationsService({ clock, observer: () => settings
 const selection = createSelectionService({ database: database.state, value: observations.value, clock });
 const jobs = createJobsService({ runner });
 const startup = createStartupService({ settings, database, clock });
+const update = createUpdateService({ fetcher: createFetchTextFetcher(), reader: createBlobTextReader(), database, settings });
 
 // the shell
 const commands = createCommandRegistry();
@@ -52,7 +56,7 @@ const router = createRouter({
 	routes: ROUTES,
 	fallback: DEFAULT_ROUTE,
 	outlet: query('#view'),
-	context: { clock, settings, database, selection, observations, jobs, commands, dialogs, notify }
+	context: { clock, settings, database, selection, observations, jobs, update, commands, dialogs, notify, leaveOverlay: () => router.leaveOverlay() }
 });
 commands.register({
 	id: 'save',

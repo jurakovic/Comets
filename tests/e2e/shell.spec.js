@@ -16,6 +16,11 @@ test('every navigation link opens its view', async ({ page }) => {
 		await expect(page).toHaveURL(new RegExp(`#/${key}$`));
 		await expect(page.getByRole('heading', { level: 1, name: heading })).toBeVisible();
 		await expect(page.locator('.shell-view > :not([hidden])')).toHaveCount(1);
+		// Update is a dialog over the view: Esc closes it before the next link can be used
+		if (key === 'update') {
+			await page.keyboard.press('Escape');
+			await expect(page).toHaveURL(/#\/elements$/);
+		}
 	}
 });
 

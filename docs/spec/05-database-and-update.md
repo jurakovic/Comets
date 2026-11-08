@@ -12,20 +12,24 @@ The database is stored in the browser as the **MPC-format export** of the main c
 
 Desktop: Edit › Update (F6). The Update dialog opens over the current view (route `#/update`) and offers two sources. The one loaded **most recently** becomes the import candidate.
 
+- The view it was opened over stays under it; after a reload on `#/update`, the Database view is under it. **Close** and `Esc` go back to that view (Back, when a navigation opened the dialog). Closing stops a running download.
+- Each opening starts afresh, as the desktop's new form did: no source, no candidate.
+- `#/update?automatic` opens it in [automatic mode](#automatic-update); `#/update?download` starts the download at once in the normal mode (the empty database's action).
+
 ### 1. Download
 
 - Label: `Download the latest orbital elements from Internet`.
 - Shows the configured URL, with an **Open in browser** link.
-- **Download** fetches the URL with `fetch`. It shows a determinate progress bar when the response has `Content-Length` and no `Content-Encoding` (a compressed response's length counts compressed bytes, not the bytes the stream delivers), and an indeterminate one otherwise. **Cancel** aborts the download.
-- **Errors**:
-  - On a network or HTTP error, show the message. If the URL is not the default, add a hint that the server must allow cross-origin requests.
-  - An empty body is an error. The desktop shows the transport error text for this case.
-- The downloaded text is parsed in memory. The desktop kept timestamped copies in a `Downloads` folder; the web app does not.
+- **Download** fetches the URL with `fetch`, revalidating any cached copy. It shows a determinate progress bar when the response has `Content-Length` and no `Content-Encoding` (a compressed response's length counts compressed bytes, not the bytes the stream delivers), and an indeterminate one otherwise. A cross-origin response hides its `Content-Encoding` unless the server exposes it, so a length the body outgrows is dropped and the bar becomes indeterminate. **Cancel** aborts the download, which is not an error. A download can be made again; the desktop downloaded once per dialog.
+- **Errors** are shown in the dialog, under the download:
+  - On a network or HTTP error: `Download failed: <reason>.`, where the reason is `network error` or `HTTP <status> <status text>` (`HTTP 404 Not Found`). If the URL is not the default, add `The server must allow cross-origin requests (CORS) from this page, or the browser refuses the download.`
+  - An empty body is an error: `Download failed: the response is empty.` The desktop shows the transport error text for this case.
+- The downloaded text is parsed in memory, decoded as a file is ([03 § Text conventions](03-element-formats.md#text-conventions)). The desktop kept timestamped copies in a `Downloads` folder; the web app does not.
 
 ### 2. Local file
 
 - Label: `Import from local file`.
-- A file chooser (`.txt`, `.dat`, `.csv`, `.comet`, any file) and a drop zone.
+- A file chooser (`.txt`, `.dat`, `.csv`, `.comet`, any file) and a drop zone; the chosen file's name is shown. A file that cannot be read shows `The file could not be read.`, and is no source.
 
 ### Import preview
 
@@ -43,12 +47,13 @@ Import applies the preview:
    - it replaces the database, and the selection becomes the whole database;
    - **filters are cleared**; the current sort is applied ([10](10-quirks.md#deviations));
    - if the candidate came from the **download**, `lastUpdateDate` is set to the current UTC time and saved;
-   - the database is saved, the user is told `Import complete`, and the dialog closes (desktop: "Close when finished", checked by default).
-2. If the merged list is empty, show the error `Something wrong happened. Zero comets imported.` and keep the dialog open.
+   - the database is saved, the user is told `Import complete` (an information notice), and the dialog closes when **Close when finished** is checked, as it is by default; otherwise the counts show the candidate against the new database.
+2. If the merged list is empty, show the error `Something wrong happened. Zero comets imported.` (an error notice) and keep the dialog open.
+3. Without a format (no source, an empty file, an unknown format), Import does nothing.
 
 ### Automatic update
 
-The startup prompt is described in [01](01-product.md#startup). If the user accepts it, the Update dialog opens in **automatic mode**: the download starts at once, the local-file source is disabled, and the dialog closes after **Import** whether or not anything was imported.
+The startup prompt is described in [01](01-product.md#startup). If the user accepts it, the Update dialog opens in **automatic mode**: the download starts at once, the local-file source is disabled, **Close when finished** is hidden, and the dialog closes after **Import** whether or not anything was imported.
 
 ## Database view
 

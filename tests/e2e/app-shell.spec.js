@@ -5,6 +5,7 @@ import { expect, seed, test } from './fixtures.js';
 
 const SAMPLE = readFileSync(new URL('../../docs/spec/vectors/import/sample.txt', import.meta.url), 'utf8');
 const NOW = new Date('2026-10-18T12:00:00Z');
+const MPC_URL = 'https://minorplanetcenter.net/iau/Ephemerides/Comets/Soft00Cmt.txt';
 
 test('the status area counts the stored comets, after a reload too, and opens the Database view', async ({ page }) => {
 	await page.goto('./#/help');
@@ -46,9 +47,13 @@ test.describe('the update question at start-up', () => {
 		await expect(dialog).toBeVisible();
 		await expect(page.locator('.shell-nav a[href="#/update"]')).toContainText('10 days ago');
 		await expect(dialog.getByRole('button', { name: 'Yes' })).toBeFocused();
+		await page.route(MPC_URL, route => route.fulfill({ status: 200, headers: { 'access-control-allow-origin': '*' }, body: SAMPLE }));
 		await dialog.getByRole('button', { name: 'Yes' }).click();
 		await expect(dialog).toHaveCount(0);
 		await expect(page).toHaveURL(/#\/update\?automatic$/);
+		const update = page.getByRole('dialog', { name: 'Update' });
+		await expect(update.locator('.update-view__counts')).toHaveText('34, 0, 0; 34');
+		await expect(update.getByLabel('Choose file')).toBeDisabled();
 	});
 
 	test('No leaves the view as it was', async ({ page }) => {

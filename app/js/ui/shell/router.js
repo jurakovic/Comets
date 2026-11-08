@@ -8,7 +8,8 @@ import { createStore, readonly } from '../../lib/store.js';
  * @typedef {object} View
  * @property {HTMLElement} element
  * @property {(params: URLSearchParams) => void} show runs each time the view becomes the current one
- * @property {() => void} hide runs when another view takes its place: clocks and animation stop
+ * @property {() => void} hide runs when another view takes its place, or a dialog route closes:
+ *   clocks and animation stop
  * @property {() => void} [save] what Ctrl/⌘+S runs while the view is shown
  */
 
@@ -40,8 +41,14 @@ export function createRouter({ routes, fallback, outlet, context }) {
 	/** @type {Map<string, Promise<View>>} */
 	const views = new Map();
 	const current = createStore(/** @type {string | null} */ (null));
-	/** @type {View | null} */
+	/** @type {View | null} the view in the outlet */
 	let shown = null;
+	/** @type {View | null} a dialog route's view, over the one in the outlet */
+	let overlay = null;
+	/** the route of the view in the outlet */
+	let underlying = fallback;
+	// whether the dialog route was reached from a view by a navigation, which Back undoes
+	let returnable = false;
 	let navigation = 0;
 
 	/** @param {Route} route */
@@ -58,15 +65,18 @@ export function createRouter({ routes, fallback, outlet, context }) {
 		return view;
 	}
 
-	async function go() {
-		const { key, params, canonical } = parseRoute(location.hash, keys, fallback);
-		if (!canonical) history.replaceState(null, '', `#/${key}`);
+	/** @param {string} key */
+	function routeOf(key) {
 		const route = routes.find(candidate => candidate.key === key);
 		if (!route) throw new Error(`no route ${key}`);
-		const ticket = ++navigation;
-		const view = await viewOf(route);
-		// a later navigation finished first
-		if (ticket !== navigation) return;
+		return route;
+	}
+
+	/**
+	 * @param {View} view
+	 * @param {URLSearchParams} params
+	 */
+	function showInOutlet(view, params) {
 		if (shown !== view) {
 			if (shown) {
 				shown.hide();
@@ -77,6 +87,46 @@ export function createRouter({ routes, fallback, outlet, context }) {
 			shown = view;
 		}
 		view.show(params);
+	}
+
+	function closeOverlay() {
+		if (!overlay) return;
+		const view = overlay;
+		overlay = null;
+		view.hide();
+	}
+
+	/** @param {boolean} byNavigation */
+	async function go(byNavigation) {
+		const { key, params, canonical } = parseRoute(location.hash, keys, fallback);
+		if (!canonical) history.replaceState(null, '', `#/${key}`);
+		const route = routeOf(key);
+		const previous = current.get();
+		const ticket = ++navigation;
+		if (route.overlay) {
+			// opened by a reload or a link: the default view goes under it
+			const base = shown ? null : routeOf(fallback);
+			const [view, baseView] = await Promise.all([viewOf(route), base ? viewOf(base) : null]);
+			// a later navigation finished first
+			if (ticket !== navigation) return;
+			if (baseView && !shown) {
+				showInOutlet(baseView, new URLSearchParams());
+				underlying = fallback;
+			}
+			if (overlay !== view) {
+				returnable = byNavigation && previous !== null && !routeOf(previous).overlay;
+				closeOverlay();
+				if (!view.element.isConnected) document.body.append(view.element);
+				overlay = view;
+			}
+			view.show(params);
+		} else {
+			const view = await viewOf(route);
+			if (ticket !== navigation) return;
+			closeOverlay();
+			showInOutlet(view, params);
+			underlying = key;
+		}
 		document.title = `${route.title} - Comets`;
 		current.set(key);
 	}
@@ -84,12 +134,22 @@ export function createRouter({ routes, fallback, outlet, context }) {
 	return Object.freeze({
 		/** the key of the route shown */
 		current: readonly(current),
-		/** the view shown, for Ctrl/⌘+S */
-		shown: () => shown,
+		/** the view shown, for Ctrl/⌘+S: a dialog route's over the others */
+		shown: () => overlay ?? shown,
 		/** follows the hash from now on, and shows the route it names */
 		start() {
-			addEventListener('hashchange', () => { go(); });
-			return go();
+			addEventListener('hashchange', () => { go(true); });
+			return go(false);
+		},
+		/** leaves a dialog route for the view under it: Back, when a navigation opened it */
+		leaveOverlay() {
+			if (!overlay) return;
+			if (returnable) {
+				history.back();
+				return;
+			}
+			history.replaceState(null, '', `#/${underlying}`);
+			go(false);
 		}
 	});
 }

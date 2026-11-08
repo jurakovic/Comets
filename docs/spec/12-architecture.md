@@ -110,7 +110,8 @@ const database = createDatabaseService({ repository, clock });
 |---|---|---|
 | `Clock` | `now(): number`, `timeZone(): string` | system clock; a fake clock in tests |
 | `KeyValueStore` | async `get`, `put`, `remove` of strings | IndexedDB, `localStorage`, memory; all tolerate failing storage ([09](09-settings-and-persistence.md#storage-layout)) |
-| `TextFetcher` | `fetchText(url, { signal, onProgress })` | `fetch` with a stream reader |
+| `TextFetcher` | `fetchText(url, { signal, onProgress })` | `fetch` with a stream reader, decoded by the byte-order mark |
+| `TextFileReader` | `readText(file)` | a `Blob` read whole, decoded by the byte-order mark |
 | `JobRunner` | `run(name, input, { signal, onProgress })` | a module Worker; an in-thread runner for tests and as a fallback |
 
 Services never talk to the user. When something needs asking (the start-up update prompt, a long-calculation warning, a delete confirmation), the service returns what to ask, and the view asks and calls back. Services never import the UI.

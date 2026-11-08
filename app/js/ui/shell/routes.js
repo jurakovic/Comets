@@ -8,6 +8,7 @@
  * @property {string} key the route is #/<key>
  * @property {string} title the navigation label and the page title
  * @property {'views' | 'app'} group the views, or the app's own pages beside them in the navigation
+ * @property {boolean} [overlay] a dialog over the view shown, which stays under it (Update)
  * @property {(context: import('./context.js').AppContext) => Promise<View>} load creates the view on its first visit
  */
 
@@ -21,7 +22,7 @@ export const ROUTES = Object.freeze(/** @type {Route[]} */ ([
 	{ key: 'graph', title: 'Graph', group: 'views', load: () => placeholder('Graph', 'graph') },
 	{ key: 'orbit', title: 'Orbit viewer', group: 'views', load: () => placeholder('Orbit Viewer', 'orbit') },
 	{ key: 'elements', title: 'Elements', group: 'views', load: () => placeholder('Orbital Elements', 'elements') },
-	{ key: 'update', title: 'Update', group: 'app', load: () => placeholder('Update', 'update') },
+	{ key: 'update', title: 'Update', group: 'app', overlay: true, load: async context => (await import('../views/update/update-view.js')).createUpdateView(context) },
 	{ key: 'settings', title: 'Settings', group: 'app', load: () => placeholder('Settings', 'settings') },
 	{ key: 'help', title: 'Help', group: 'app', load: async context => (await import('../views/help/help-view.js')).createHelpView(context) }
 ]).map(route => Object.freeze(route)));

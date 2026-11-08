@@ -9,9 +9,11 @@
  * @property {import('../../services/selection.js').SelectionService} selection
  * @property {import('../../services/observations.js').ObservationsService} observations
  * @property {import('../../services/jobs.js').JobsService} jobs
+ * @property {import('../../services/update.js').UpdateService} update
  * @property {import('./shortcuts.js').CommandRegistry} commands
  * @property {import('./dialogs.js').Dialogs} dialogs
  * @property {import('./notifications.js').Notify} notify
+ * @property {() => void} leaveOverlay closes a dialog route (Update), back to the view under it
  */
 
 export {};
