@@ -8,29 +8,37 @@ import { createCometDetails } from '../database/comet-details.js';
 import { createCometList } from '../database/comet-list.js';
 
 /**
+ * @typedef {object} ImportResultBrowser
+ * @property {() => void} close as its own Close does
+ * @property {Promise<void>} closed settles once it is closed
+ */
+
+/**
  * opens the browser over the page
  * @param {object} options
  * @param {import('../../../core/comets/merge.js').Merge} options.merge
  * @param {import('../../../core/comets/properties.js').ValueAccessor} options.value
  * @param {import('../../../services/ports.js').Clock} options.clock
  * @param {() => import('../../../core/astro/ephemeris.js').Observer} options.observer
- * @returns {Promise<void>} once it is closed
+ * @returns {ImportResultBrowser}
  */
 export function browseImportResults({ merge, value, clock, observer }) {
-	return new Promise(resolve => {
+	/** @type {() => void} */
+	let close = () => {};
+	const closed = /** @type {Promise<void>} */ (new Promise(resolve => {
 		const previous = document.activeElement;
 		const title = el('h2', { id: 'import-results-title', class: 'import-results__title' });
 		const details = createCometDetails({ value, clock, observer });
 		const list = createCometList({ label: 'Comets', onSelect: comet => details.show(comet), onActivate: () => details.switchTab() });
 		const choice = el('select', { class: 'import-results__choice', id: 'import-results-choice' },
 			...IMPORT_RESULT_CHOICES.map(({ key, label }) => el('option', { value: key }, label)));
-		const close = el('button', { type: 'button', class: 'button' }, 'Close');
+		const closeButton = el('button', { type: 'button', class: 'button' }, 'Close');
 		const dialog = el('dialog', { class: 'import-results', 'aria-labelledby': 'import-results-title' },
 			el('div', { class: 'import-results__header' },
 				title,
 				el('label', { class: 'import-results__label', for: 'import-results-choice' }, 'Import result'), choice),
 			el('div', { class: 'database-view__body import-results__body' }, list.element, details.element),
-			el('div', { class: 'import-results__actions' }, close));
+			el('div', { class: 'import-results__actions' }, closeButton));
 
 		function show() {
 			const key = /** @type {import('../../../core/comets/merge.js').ImportResult | 'All'} */ (choice.value);
@@ -40,8 +48,9 @@ export function browseImportResults({ merge, value, clock, observer }) {
 			details.show(list.selected());
 		}
 
+		close = () => { if (dialog.open) dialog.close(); };
 		choice.addEventListener('change', show);
-		close.addEventListener('click', () => dialog.close());
+		closeButton.addEventListener('click', close);
 		// Esc closes the dialog natively
 		dialog.addEventListener('close', () => {
 			details.stop();
@@ -54,5 +63,6 @@ export function browseImportResults({ merge, value, clock, observer }) {
 		document.body.append(dialog);
 		dialog.showModal();
 		details.start();
-	});
+	}));
+	return Object.freeze({ close: () => close(), closed });
 }

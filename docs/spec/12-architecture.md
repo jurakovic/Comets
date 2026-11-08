@@ -76,7 +76,7 @@ Sub-areas:
 
 | Folder | Holds | Spec |
 |---|---|---|
-| `core/time/` | `JD0`, `JD`, `JDToDateTime`, calendar arithmetic, the date range, local time through `Intl` with an explicit time zone | [04 § Time](04-astronomy.md#time) |
+| `core/time/` | `JD0`, `JD`, `JDToDateTime`, calendar arithmetic, the date range, local time through `Intl` with an explicit time zone, the database view's live clock | [04 § Time](04-astronomy.md#time) |
 | `core/format/` | .NET custom number formats, composite format items (`{0,-47:0.000}`), date patterns, `HMS` and `Angle`; numbers and white space read as .NET reads them | [03 § Number formatting](03-element-formats.md#number-formatting), [§ Field access](03-element-formats.md#field-access) |
 | `core/comets/` | the comet record and its derived elements, designations and sort keys, the property registry, filters, sorting, quick selection, merge, equality, the database view's detail rows | [02](02-data-model.md) |
 | `core/astro/` | Kepler solvers, comet and Sun positions, the ephemeris, precession, planets, orbit sampling | [04](04-astronomy.md) |

@@ -83,6 +83,10 @@ test('the index kept after the list changes', () => {
 	assert.equal(indexAfterChange([a, c], null, 1), 1, 'after Delete: the same index');
 	assert.equal(indexAfterChange([a, c], null, 2), 1, 'clamped to the list');
 	assert.equal(indexAfterChange([], a, 0), -1);
+	// an import replaces the records: the comet is found again by its full name
+	const [a2, b2, c2] = ['1P/Halley', '2P/Encke', '29P/Schwassmann-Wachmann'].map(cometOf);
+	assert.notEqual(c2, c);
+	assert.equal(indexAfterChange([a2, b2, c2], c, 0), 2);
 	assert.equal(indexAfterChange([a], null, -1), 0);
 });
 

@@ -47,6 +47,19 @@ export function downloadError(reason, url) {
 }
 
 /**
+ * whether the dialog closes after Import: always in automatic mode, otherwise once something was
+ * imported with Close when finished checked
+ * @param {object} after
+ * @param {import('./database.js').ImportOutcome} after.outcome
+ * @param {boolean} after.automatic
+ * @param {boolean} after.closeWhenFinished
+ * @returns {boolean}
+ */
+export function closesAfterImport({ outcome, automatic, closeWhenFinished }) {
+	return automatic || (outcome.status === 'imported' && closeWhenFinished);
+}
+
+/**
  * @typedef {object} UpdateService
  * @property {import('../lib/store.js').ReadableStore<Readonly<UpdateState>>} state
  * @property {(options?: { automatic?: boolean, download?: boolean }) => void} open a fresh dialog,
@@ -160,8 +173,9 @@ export function createUpdateService({ fetcher, reader, database, settings }) {
 		async importCandidate() {
 			const { candidate } = state.get();
 			const outcome = await database.apply(candidate === null ? null : texts[candidate], candidate ?? 'file');
-			// the counts against the database as it is now
-			set({ preview: previewOf(candidate) });
+			// the counts against the database as it is now, for the candidate now: a download may
+			// have finished while the import was stored
+			set({ preview: previewOf(state.get().candidate) });
 			return outcome;
 		},
 		close() {

@@ -70,8 +70,9 @@ export function rebindSelection(comets, previous, value, nowJd) {
 
 /**
  * the list index selected after the Database view's list changes: the comet selected before, while
- * it is in the list; otherwise the index given, clamped to the list (Delete keeps the index, a new
- * filter or sort starts at 0); -1 for an empty list
+ * it is in the list, as this record or, after an import replaced the record, by its full name;
+ * otherwise the index given, clamped to the list (Delete keeps the index, a new filter or sort
+ * starts at 0); -1 for an empty list
  * @param {ReadonlyArray<Comet>} comets
  * @param {Comet | null} selected
  * @param {number} index
@@ -80,5 +81,7 @@ export function rebindSelection(comets, previous, value, nowJd) {
 export function indexAfterChange(comets, selected, index) {
 	const kept = selected ? comets.indexOf(selected) : -1;
 	if (kept >= 0) return kept;
+	const named = selected ? comets.findIndex(comet => comet.full === selected.full) : -1;
+	if (named >= 0) return named;
 	return comets.length === 0 ? -1 : Math.min(Math.max(index, 0), comets.length - 1);
 }

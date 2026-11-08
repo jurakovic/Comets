@@ -22,14 +22,14 @@ Desktop: Edit › Update (F6). The Update dialog opens over the current view (ro
 - Shows the configured URL, with an **Open in browser** link.
 - **Download** fetches the URL with `fetch`, revalidating any cached copy. It shows a determinate progress bar when the response has `Content-Length` and no `Content-Encoding` (a compressed response's length counts compressed bytes, not the bytes the stream delivers), and an indeterminate one otherwise. A cross-origin response hides its `Content-Encoding` unless the server exposes it, so a length the body outgrows is dropped and the bar becomes indeterminate. **Cancel** aborts the download, which is not an error. A download can be made again; the desktop downloaded once per dialog.
 - **Errors** are shown in the dialog, under the download:
-  - On a network or HTTP error: `Download failed: <reason>.`, where the reason is `network error` or `HTTP <status> <status text>` (`HTTP 404 Not Found`). If the URL is not the default, add `The server must allow cross-origin requests (CORS) from this page, or the browser refuses the download.`
+  - On a network or HTTP error: `Download failed: <reason>.`, where the reason is `network error`, or `HTTP <status> <status text>` (`HTTP 404 Not Found`), or `HTTP <status>` for a response without a status text, as over HTTP/2. If the URL is not the default, add `The server must allow cross-origin requests (CORS) from this page, or the browser refuses the download.`
   - An empty body is an error: `Download failed: the response is empty.` The desktop shows the transport error text for this case.
 - The downloaded text is parsed in memory, decoded as a file is ([03 § Text conventions](03-element-formats.md#text-conventions)). The desktop kept timestamped copies in a `Downloads` folder; the web app does not.
 
 ### 2. Local file
 
 - Label: `Import from local file`.
-- A file chooser (`.txt`, `.dat`, `.csv`, `.comet`, any file) and a drop zone; the chosen file's name is shown. A file that cannot be read shows `The file could not be read.`, and is no source.
+- A file chooser (`.txt`, `.dat`, `.csv`, `.comet`, any file) and a drop zone; the chosen file's name is shown. A file dropped elsewhere in the dialog, or in automatic mode, is refused rather than opened by the browser. A file that cannot be read shows `The file could not be read.`, and is no source.
 
 ### Import preview
 
@@ -112,7 +112,7 @@ There is also a **live ephemeris** block:
   - ticks are aligned to the system clock's second boundary;
   - each tick adds exactly 1 s to the shown instant and recomputes;
   - picking a date restarts the clock from that date;
-  - ticking stops while the view is hidden (another view shown, or `visibilitychange`) or no comet is selected, and resumes on return. Until a date is picked the clock follows the system clock, so it resumes at the current second; a picked date resumes where it stopped. The desktop went back to the current time whenever its timer restarted;
+  - ticking stops while the view is hidden (another view shown, or `visibilitychange`) or no comet is selected, and resumes on return. Until a date is picked the clock follows the system clock, so it resumes at the current second, as it does when a comet is selected; a picked date resumes where it stopped. The desktop went back to the current time whenever its timer restarted;
   - a tick runs 20 ms after the boundary, as the desktop's sync window (15–35 ms) has it; a tick that comes late still adds 1 s.
 - Values at the shown instant:
 
@@ -160,7 +160,7 @@ There is also a **live ephemeris** block:
 
 ## Import result browser
 
-This is the database list opened from the Update dialog's **View** action, read-only, as a dialog over it (Close and `Esc` go back to the Update dialog). View is disabled while there is no format.
+This is the database list opened from the Update dialog's **View** action, read-only, as a dialog over it (Close and `Esc` go back to the Update dialog, and it closes with the Update dialog). View is disabled while there is no format.
 
 - the title as the Database view's, `Database (<n>/<total> comets)`, where the total is the merged list;
 - an **Import result** selector at the top: `New comets`, `Updates`, `No changes`, `All comets`, starting at `New comets` as on the desktop;

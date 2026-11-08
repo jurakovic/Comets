@@ -6,7 +6,7 @@ import { importElements, previewImport } from '../../../app/js/core/formats/impo
 import { createDatabaseRepository } from '../../../app/js/services/database-repository.js';
 import { createDatabaseService } from '../../../app/js/services/database.js';
 import { createSettingsService, DEFAULT_DOWNLOAD_URL } from '../../../app/js/services/settings.js';
-import { createUpdateService, CROSS_ORIGIN_HINT, downloadError, EMPTY_DOWNLOAD, UNREADABLE_FILE } from '../../../app/js/services/update.js';
+import { closesAfterImport, createUpdateService, CROSS_ORIGIN_HINT, downloadError, EMPTY_DOWNLOAD, UNREADABLE_FILE } from '../../../app/js/services/update.js';
 
 const merge = readVector('import-merge.json');
 const SAMPLE = readVectorText(merge.oldFile);
@@ -226,4 +226,50 @@ test('a file whose merge is empty is the zero-comets error, and changes nothing'
 	assert.equal(update.state.get().preview.counts, '0, 0, 0; 0');
 	assert.deepEqual(await update.importCandidate(), { status: 'empty', message: 'Something wrong happened. Zero comets imported.' });
 	assert.equal(database.state.get().comets.length, 0);
+});
+
+test('a download that answers after Cancel, Close or a new opening changes nothing', async () => {
+	/** @type {any[]} */
+	const calls = [];
+	// a fetcher that ignores its signal, as a slow server's answer may still come
+	const fetcher = { fetchText: (/** @type {string} */ _url, /** @type {any} */ options) => new Promise(resolve => calls.push({ ...options, resolve })) };
+	const update = createUpdateService({ fetcher, reader, database: { preview: importPreview, apply: async () => ({ status: 'none' }) }, settings: fixedSettings });
+	update.open();
+	for (const end of [() => update.cancelDownload(), () => update.close(), () => update.open()]) {
+		update.download();
+		const call = calls.at(-1);
+		end();
+		const before = update.state.get();
+		call.onProgress({ received: 5, total: 10 });
+		call.resolve(NEW);
+		await settle();
+		assert.equal(update.state.get(), before);
+		assert.deepEqual(update.state.get().download, { status: 'idle' });
+		assert.equal(update.state.get().candidate, null);
+	}
+});
+
+test('after Import the counts are the candidate\'s as it is then', async () => {
+	const { update, fetcher } = await setup();
+	update.open({ download: true });
+	await update.loadFile(file('sample.txt', SAMPLE));
+	const importing = update.importCandidate();
+	// the download finishes while the import is stored
+	fetcher.calls[0].resolve(NEW);
+	await importing;
+	await settle();
+	const state = update.state.get();
+	assert.equal(state.candidate, 'download');
+	assert.equal(state.preview.counts, '1, 1, 33; 35');
+});
+
+test('the dialog closes after Import in automatic mode, or after an import with Close when finished', () => {
+	const imported = /** @type {const} */ ({ status: 'imported', message: 'Import complete', count: 1 });
+	const empty = /** @type {const} */ ({ status: 'empty', message: 'Something wrong happened. Zero comets imported.' });
+	const none = /** @type {const} */ ({ status: 'none' });
+	for (const outcome of [imported, empty, none]) assert.equal(closesAfterImport({ outcome, automatic: true, closeWhenFinished: false }), true);
+	assert.equal(closesAfterImport({ outcome: imported, automatic: false, closeWhenFinished: true }), true);
+	assert.equal(closesAfterImport({ outcome: imported, automatic: false, closeWhenFinished: false }), false);
+	assert.equal(closesAfterImport({ outcome: empty, automatic: false, closeWhenFinished: true }), false);
+	assert.equal(closesAfterImport({ outcome: none, automatic: false, closeWhenFinished: true }), false);
 });

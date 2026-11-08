@@ -205,3 +205,73 @@ test('View browses the merged list by import result, read-only, over the dialog'
 	await expect(dialog).toBeVisible();
 	await expect(page).toHaveURL(/#\/update$/);
 });
+
+test('the browser\'s live clock shows now when a result with comets follows an empty one', async ({ page }) => {
+	await page.clock.install({ time: new Date('2026-11-05T06:19:11.500Z') });
+	await answerMpc(page, SAMPLE);
+	await seed(page, { database: SAMPLE });
+	await page.goto('./#/update');
+	await dialogOf(page).getByRole('button', { name: 'Download' }).click();
+	await expect(dialogOf(page).locator('.update-view__counts')).toHaveText('0, 0, 34; 34');
+	await dialogOf(page).getByRole('button', { name: 'View' }).click();
+	const browser = page.getByRole('dialog', { name: /^Database/ });
+	await expect(browser.getByRole('listbox').getByRole('option')).toHaveCount(0);
+	await page.clock.pauseAt(new Date('2026-11-05T06:19:50.500Z'));
+	await browser.getByLabel('Import result').selectOption({ label: 'All comets' });
+	await expect(browser.locator('.live-ephemeris .date-picker__button')).toHaveText('05.11.2026. 06:19:50');
+});
+
+test('Close twice, or Close and Esc, leaves the dialog once', async ({ page }) => {
+	await page.goto('./#/graph');
+	await page.locator('.shell-nav a[href="#/database"]').click();
+	await expect(page.locator('[data-view="database"]')).toBeVisible();
+	await page.locator('.shell-nav a[href="#/update"]').click();
+	await dialogOf(page).getByRole('button', { name: 'Close' }).dblclick();
+	await expect(dialogOf(page)).toBeHidden();
+	await expect(page).toHaveURL(/#\/database$/);
+	await page.locator('.shell-nav a[href="#/update"]').click();
+	await dialogOf(page).getByRole('button', { name: 'Close' }).evaluate(button => {
+		/** @type {HTMLButtonElement} */ (button).click();
+		button.closest('dialog')?.close();
+	});
+	await expect(dialogOf(page)).toBeHidden();
+	await expect(page).toHaveURL(/#\/database$/);
+	await expect(page.locator('[data-view="database"]')).toBeVisible();
+});
+
+test('Back closes the result browser with the dialog', async ({ page }) => {
+	await answerMpc(page, NEW);
+	await seed(page, { database: SAMPLE });
+	await page.locator('.shell-nav a[href="#/update"]').click();
+	await dialogOf(page).getByRole('button', { name: 'Download' }).click();
+	await dialogOf(page).getByRole('button', { name: 'View' }).click();
+	const browser = page.getByRole('dialog', { name: /^Database/ });
+	await expect(browser).toBeVisible();
+	await page.goBack();
+	await expect(page).toHaveURL(/#\/database$/);
+	await expect(browser).toHaveCount(0);
+	await expect(dialogOf(page)).toBeHidden();
+	await expect(page.locator('[data-view="database"]').getByRole('listbox')).toBeVisible();
+});
+
+test('a drag over the dialog never gets the browser\'s default, which would open the file', async ({ page }) => {
+	await page.goto('./#/update');
+	const zone = dialogOf(page).locator('.update-view__drop');
+	// whether the browser's default was prevented, and whether the zone shows it takes the file (a
+	// synthetic DataTransfer ignores dropEffect, which follows the same decision)
+	/** @param {string} selector @returns {Promise<{ prevented: boolean, taking: boolean }>} */
+	const dragOver = selector => dialogOf(page).locator(selector).evaluate(target => {
+		const event = new DragEvent('dragover', { dataTransfer: new DataTransfer(), bubbles: true, cancelable: true });
+		target.dispatchEvent(event);
+		const drop = /** @type {HTMLElement} */ (target.closest('dialog')?.querySelector('.update-view__drop'));
+		return { prevented: event.defaultPrevented, taking: drop.classList.contains('update-view__drop--over') };
+	});
+	expect(await dragOver('.update-view__drop-hint')).toEqual({ prevented: true, taking: true });
+	expect(await dragOver('h1')).toEqual({ prevented: true, taking: false });
+	await expect(zone).not.toHaveClass(/update-view__drop--over/);
+
+	await page.route(MPC_URL, () => {});
+	await page.goto('./#/update?automatic');
+	await expect(dialogOf(page).getByLabel('Choose file')).toBeDisabled();
+	expect(await dragOver('.update-view__drop-hint')).toEqual({ prevented: true, taking: false });
+});

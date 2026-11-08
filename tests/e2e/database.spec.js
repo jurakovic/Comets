@@ -104,6 +104,18 @@ test.describe('with the sample collection', () => {
 		await expect(listOf(page).getByRole('option', { name: BY_SORTKEY[2], exact: true })).toHaveCount(0);
 	});
 
+	test('an import keeps the selected comet, whose record it replaces', async ({ page }) => {
+		await listOf(page).getByRole('option', { name: BY_SORTKEY[5], exact: true }).click();
+		await page.locator('.shell-nav a[href="#/update"]').click();
+		const dialog = page.getByRole('dialog', { name: 'Update' });
+		await dialog.getByLabel('Choose file').setInputFiles({ name: 'sample.txt', mimeType: 'text/plain', buffer: Buffer.from(SAMPLE) });
+		await expect(dialog.locator('.update-view__counts')).toHaveText('0, 0, 34; 34');
+		await dialog.getByRole('button', { name: 'Import' }).click();
+		await expect(dialog).toBeHidden();
+		await expect(selectedOf(page)).toHaveText(BY_SORTKEY[5]);
+		await expect(detailName(page)).toHaveText(BY_SORTKEY[5]);
+	});
+
 	test('the last comet deleted moves the selection up', async ({ page }) => {
 		await listOf(page).focus();
 		await page.keyboard.press('End');

@@ -49,6 +49,8 @@ export function createRouter({ routes, fallback, outlet, context }) {
 	let underlying = fallback;
 	// whether the dialog route was reached from a view by a navigation, which Back undoes
 	let returnable = false;
+	// a leaving under way: Back is asynchronous, and a second Back would go one entry too far
+	let leaving = false;
 	let navigation = 0;
 
 	/** @param {Route} route */
@@ -98,6 +100,7 @@ export function createRouter({ routes, fallback, outlet, context }) {
 
 	/** @param {boolean} byNavigation */
 	async function go(byNavigation) {
+		leaving = false;
 		const { key, params, canonical } = parseRoute(location.hash, keys, fallback);
 		if (!canonical) history.replaceState(null, '', `#/${key}`);
 		const route = routeOf(key);
@@ -143,7 +146,8 @@ export function createRouter({ routes, fallback, outlet, context }) {
 		},
 		/** leaves a dialog route for the view under it: Back, when a navigation opened it */
 		leaveOverlay() {
-			if (!overlay) return;
+			if (!overlay || leaving) return;
+			leaving = true;
 			if (returnable) {
 				history.back();
 				return;

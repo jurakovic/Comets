@@ -2,6 +2,7 @@
 // preview of the source loaded last, and Import. Its state is the update service's.
 // docs/spec/05-database-and-update.md, Update.
 import { COUNTS_TOOLTIP } from '../../../core/formats/import.js';
+import { closesAfterImport } from '../../../services/update.js';
 import { el } from '../../dom.js';
 import { browseImportResults } from './import-result-browser.js';
 
@@ -100,16 +101,23 @@ export function createUpdateView({ update, notify, leaveOverlay, observations, s
 		// the same file chosen again is a change too
 		fileInput.value = '';
 	});
-	dropZone.addEventListener('dragover', event => {
-		if (update.state.get().automatic) return;
+	// a drop anywhere in the dialog is the dialog's: the browser would open the file instead,
+	// leaving the app; only the zone takes it, and not in automatic mode
+	/** @param {DragEvent} event */
+	const takes = event => !update.state.get().automatic && event.target instanceof Node && dropZone.contains(event.target);
+	element.addEventListener('dragover', event => {
 		event.preventDefault();
-		dropZone.classList.add('update-view__drop--over');
+		const taking = takes(event);
+		if (event.dataTransfer) event.dataTransfer.dropEffect = taking ? 'copy' : 'none';
+		dropZone.classList.toggle('update-view__drop--over', taking);
 	});
-	dropZone.addEventListener('dragleave', () => dropZone.classList.remove('update-view__drop--over'));
-	dropZone.addEventListener('drop', event => {
+	element.addEventListener('dragleave', event => {
+		if (!(event.relatedTarget instanceof Node && dropZone.contains(event.relatedTarget))) dropZone.classList.remove('update-view__drop--over');
+	});
+	element.addEventListener('drop', event => {
 		event.preventDefault();
 		dropZone.classList.remove('update-view__drop--over');
-		if (!update.state.get().automatic) load(event.dataTransfer?.files[0]);
+		if (takes(event)) load(event.dataTransfer?.files[0]);
 	});
 
 	importButton.addEventListener('click', async () => {
@@ -118,15 +126,20 @@ export function createUpdateView({ update, notify, leaveOverlay, observations, s
 			const outcome = await update.importCandidate();
 			if (outcome.status === 'imported') notify(outcome.message);
 			else if (outcome.status === 'empty') notify(outcome.message, { kind: 'error' });
-			if (update.state.get().automatic || (outcome.status === 'imported' && closeWhenFinished.checked)) leaveOverlay();
+			if (closesAfterImport({ outcome, automatic: update.state.get().automatic, closeWhenFinished: closeWhenFinished.checked })) leaveOverlay();
 		} finally {
 			importButton.disabled = false;
 		}
 	});
 	closeButton.addEventListener('click', leaveOverlay);
+	/** @type {import('./import-result-browser.js').ImportResultBrowser | null} the one open, closed with the dialog */
+	let browser = null;
 	viewButton.addEventListener('click', () => {
 		const { merge } = update.state.get().preview;
-		if (merge) browseImportResults({ merge, value: observations.value, clock, observer: () => settings.settings.get().location });
+		if (!merge) return;
+		const opened = browseImportResults({ merge, value: observations.value, clock, observer: () => settings.settings.get().location });
+		browser = opened;
+		opened.closed.then(() => { if (browser === opened) browser = null; });
 	});
 
 	let shown = false;
@@ -149,6 +162,7 @@ export function createUpdateView({ update, notify, leaveOverlay, observations, s
 		},
 		hide() {
 			shown = false;
+			browser?.close();
 			update.close();
 			unsubscribe?.();
 			unsubscribe = null;
