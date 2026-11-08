@@ -48,11 +48,12 @@ Desktop: `SelectDateControl`, `DateTimeMenuControl`, `FormDateTime`. Used for St
 - **Button**: the UTC instant as `dd.MM.yyyy. HH:mm:ss`, with a tooltip `Local Time` showing the same instant in local time.
 - **Editor**, opened from the button:
   - title `Universal Time (UTC)`;
-  - integer fields D, M, Y, H, M, S (UTC); the day's maximum follows the month and year;
+  - integer fields D, M, Y, H, M, S (UTC), written without padding (Y 1–9999); the day's maximum follows the month and year, and a day past it becomes the maximum when the month or year changes. While a field is empty or out of its range, the date stays the last one the fields made (the desktop fails to build a `DateTime` there);
   - a read-only **Local Time** field;
-  - a **JD** field with 5 decimals. Editing it sets the date through `JDToDateTime`;
-  - in any field, `↑`/`↓` add or subtract one unit of that field with calendar arithmetic (`AddMonths` and similar);
-  - **OK** clamps the result to [1700-01-01 00:00, 2300-01-01 00:00] UTC.
+  - a **JD** field with 5 decimals (`0.0####`). Editing it sets the date through `JDToDateTime` when it is within the date range, and marks it otherwise; the other fields follow, and the JD keeps the text being typed (the desktop rewrote it after each key);
+  - in any field, `↑`/`↓` add or subtract one unit of that field with calendar arithmetic (`AddMonths` and similar); in the JD, one day;
+  - the **presets menu**, which sets the editor's date;
+  - **OK** (focused when the editor opens, and Enter) clamps the result to [1700-01-01 00:00, 2300-01-01 00:00] UTC; **Cancel** and `Esc` keep the date as it was.
 - **Presets menu**, next to the button:
 
   | Preset | Value |
@@ -65,6 +66,8 @@ Desktop: `SelectDateControl`, `DateTimeMenuControl`, `FormDateTime`. Used for St
   | Subtract 3 months, Subtract 6 months, Subtract 1 year | Calendar arithmetic on the current value |
 
 - Presets are not clamped, which matches the desktop. Consumers that require the range (the orbit viewer) clamp on their side.
+- OK and every preset report the date, also when it is the one shown: picking a date restarts the database view's live clock.
+- The year presets are the years around the current UTC year when the menu opens (the desktop took them when the control was created).
 - Calendar arithmetic clamps the day to the target month's length: Jan 31 + 1 month → Feb 28 or 29.
 
 ### Number fields

@@ -102,3 +102,107 @@
 	border-color: var(--color-error);
 	background: var(--color-error-surface);
 }
+
+.date-picker {
+	display: inline-flex;
+	align-items: stretch;
+}
+
+.date-picker__button {
+	padding: var(--space-1) var(--space-3);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius) 0 0 var(--radius);
+	background: var(--color-bg);
+	color: var(--color-text);
+	cursor: pointer;
+	font-variant-numeric: tabular-nums;
+	white-space: nowrap;
+}
+
+.date-picker .date-picker__presets .menu__button {
+	height: 100%;
+	margin-left: -1px;
+	border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.date-editor .date-picker__presets .menu__button {
+	border-radius: var(--radius);
+}
+
+.date-picker__presets .menu__button::after {
+	content: "▾" / "";
+}
+
+.date-editor {
+	max-width: calc(100vw - 2 * var(--space-4));
+	padding: var(--space-4);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius);
+	background: var(--color-bg);
+	color: var(--color-text);
+	box-shadow: var(--shadow);
+}
+
+.date-editor::backdrop {
+	background: rgb(0 0 0 / 35%);
+}
+
+.date-editor__title {
+	margin: 0 0 var(--space-3);
+	font-size: 16px;
+}
+
+.date-editor__grid {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	align-items: end;
+	gap: var(--space-2) var(--space-3);
+}
+
+.date-editor__label {
+	padding-bottom: var(--space-1);
+	color: var(--color-muted);
+	white-space: nowrap;
+}
+
+.date-editor__parts,
+.date-editor__jd-row {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: end;
+	gap: var(--space-2);
+}
+
+.date-editor__field {
+	display: flex;
+	flex-direction: column;
+	color: var(--color-muted);
+	font-size: 12px;
+	text-align: center;
+}
+
+.date-editor__part {
+	width: 6ch;
+	text-align: right;
+}
+
+.date-editor__field:nth-child(3) .date-editor__part {
+	width: 7ch;
+}
+
+.date-editor__jd {
+	width: 16ch;
+}
+
+.date-editor__local {
+	width: 100%;
+	max-width: 22ch;
+	color: var(--color-muted);
+}
+
+.date-editor__actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: var(--space-2);
+	margin-top: var(--space-4);
+}

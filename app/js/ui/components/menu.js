@@ -64,20 +64,27 @@ export function createMenu({ label, name, entries, className = '' }) {
 		}));
 	}
 
-	// below the button, or above it when there is no room below; within the window
+	// below the button, or above it when it fits only there; on the roomier side, scrolling, when
+	// it fits on neither; within the window
 	function place() {
 		const anchor = button.getBoundingClientRect();
-		const room = innerHeight - 2 * EDGE;
-		list.style.maxHeight = `${room}px`;
+		list.style.maxHeight = '';
 		const { width, height } = list.getBoundingClientRect();
-		const below = anchor.bottom + height <= innerHeight - EDGE;
-		const top = below ? anchor.bottom : Math.max(EDGE, anchor.top - height);
-		list.style.top = `${top}px`;
+		const roomBelow = innerHeight - EDGE - anchor.bottom;
+		const roomAbove = anchor.top - EDGE;
+		const below = height <= roomBelow || roomBelow >= roomAbove;
+		const shown = Math.min(height, Math.max(0, below ? roomBelow : roomAbove));
+		list.style.maxHeight = `${shown}px`;
+		list.style.top = `${below ? anchor.bottom : anchor.top - shown}px`;
 		list.style.left = `${Math.max(EDGE, Math.min(anchor.left, innerWidth - EDGE - width))}px`;
+		list.style.visibility = '';
 	}
 
 	list.addEventListener('beforetoggle', event => {
-		if (/** @type {ToggleEvent} */ (event).newState === 'open') build();
+		if (/** @type {ToggleEvent} */ (event).newState !== 'open') return;
+		build();
+		// unseen until placed: the toggle event comes a task later, after a frame may be drawn
+		list.style.visibility = 'hidden';
 	});
 	list.addEventListener('toggle', event => {
 		const open = /** @type {ToggleEvent} */ (event).newState === 'open';
