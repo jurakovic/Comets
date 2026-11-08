@@ -1,0 +1,172 @@
+/* The Database view: the list beside the details, stacked on narrow screens
+   (docs/spec/05-database-and-update.md, Database view). */
+.database-view {
+	display: grid;
+	grid-template-rows: auto minmax(0, 1fr);
+	gap: var(--space-3);
+	height: 100%;
+	min-height: 420px;
+}
+
+.database-view__header {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--space-2) var(--space-4);
+}
+
+.database-view__header h1 {
+	margin: 0;
+	font-size: 22px;
+}
+
+.database-view__tools {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-2);
+}
+
+.database-view__body {
+	display: grid;
+	grid-template-columns: minmax(220px, 340px) minmax(0, 1fr);
+	gap: var(--space-4);
+	min-height: 0;
+}
+
+.database-view__body[hidden],
+.database-view__empty[hidden] {
+	display: none;
+}
+
+.database-view__empty {
+	align-self: start;
+	padding: var(--space-4);
+	border: 1px dashed var(--color-border);
+	border-radius: var(--radius);
+	text-align: center;
+}
+
+.comet-list {
+	min-height: 0;
+	margin: 0;
+	padding: var(--space-1) 0;
+	overflow: auto;
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius);
+	list-style: none;
+}
+
+.comet-list__option {
+	padding: 2px var(--space-3);
+	cursor: pointer;
+	white-space: nowrap;
+}
+
+.comet-list__option:hover {
+	background: var(--color-surface);
+}
+
+.comet-list__option[aria-selected="true"] {
+	background: var(--color-accent);
+	color: var(--color-accent-text);
+}
+
+.comet-list:focus-visible {
+	outline-offset: -2px;
+}
+
+.comet-details {
+	min-width: 0;
+	min-height: 0;
+	overflow: auto;
+}
+
+.comet-details__tabs {
+	display: flex;
+	gap: var(--space-1);
+	border-bottom: 1px solid var(--color-border);
+}
+
+.comet-details__tab {
+	margin-bottom: -1px;
+	padding: var(--space-2) var(--space-3);
+	border: 1px solid transparent;
+	border-radius: var(--radius) var(--radius) 0 0;
+	background: none;
+	color: var(--color-muted);
+	cursor: pointer;
+}
+
+.comet-details__tab[aria-selected="true"] {
+	border-color: var(--color-border);
+	border-bottom-color: var(--color-bg);
+	background: var(--color-bg);
+	color: var(--color-text);
+}
+
+.comet-details__panel {
+	padding: var(--space-3) 0;
+}
+
+.comet-details--empty .comet-details__panel {
+	visibility: hidden;
+}
+
+.comet-details__rows {
+	display: grid;
+	grid-template-columns: max-content minmax(0, 1fr);
+	gap: var(--space-1) var(--space-4);
+	margin: 0;
+}
+
+.comet-details__label {
+	color: var(--color-muted);
+}
+
+.comet-details__symbol {
+	margin-left: var(--space-2);
+	color: var(--color-text);
+	font-style: italic;
+}
+
+.comet-details__value {
+	margin: 0;
+	overflow-wrap: anywhere;
+}
+
+.comet-details__number {
+	font-variant-numeric: tabular-nums;
+}
+
+.comet-details__unit {
+	margin-left: var(--space-1);
+	color: var(--color-muted);
+}
+
+.comet-details__actions {
+	margin: var(--space-3) 0 0;
+}
+
+a.button {
+	display: inline-block;
+	text-decoration: none;
+}
+
+@media (width < 720px) {
+	.database-view {
+		height: auto;
+	}
+
+	.database-view__body {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.comet-list {
+		height: 40vh;
+	}
+
+	.comet-details__rows {
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+	}
+}

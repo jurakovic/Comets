@@ -62,7 +62,8 @@ Desktop: Edit › Database (F5), a modal dialog with OK and Cancel. On the web i
 ### Layout
 
 - **Title**: `Database (<n> comets)`, or `Database (<n>/<total> comets)` when filters hide some.
-- **Comet list**: the `full` names of the selection in its current order. Selecting an entry shows its details. The arrow keys move the selection.
+- **Comet list**: the `full` names of the selection in its current order. Selecting an entry shows its details. The arrow keys, Home, End, Page Up and Page Down move the selection; a double click switches the details tab, as on the desktop.
+  - After a sort, a filter or an import, the comet selected stays selected while it is in the list; otherwise the first is. The desktop selected the first after every change.
 - **Sort menu** ([02 § Sorting](02-data-model.md#sorting)): the property list plus Ascending and Descending, with the current choice marked.
 - **Filters panel**, toggled by `Filters ▼/▲` (described below).
 - **Reset**: clears the filters back to the default rows, restores the default sort (Designation, ascending), and shows the whole database.
@@ -70,7 +71,9 @@ Desktop: Edit › Database (F5), a modal dialog with OK and Cancel. On the web i
   - Removes the selected comet from the database and the selection, after the confirmation `Do you really want to delete <full>` when that setting is on ([09](09-settings-and-persistence.md)).
   - The list selection moves to the same index, clamped to the list.
   - The database is saved.
-- **Empty database**: an empty state with a **Download comet elements** action, which opens Update and starts the download.
+  - Without a selected comet, Delete is disabled.
+- **Empty database**: an empty state, `The database is empty.`, with a **Download comet elements** action, which opens Update and starts the download (`#/update?download`). A database whose filters hide every comet shows the empty list instead.
+- **Details**: two tabs, **Ephemeris** (first) and **Orbital elements**. A value shown only below a period of 1000 years is left empty beyond it, as on the desktop.
 
 ### Filters panel
 

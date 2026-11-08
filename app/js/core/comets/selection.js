@@ -67,3 +67,18 @@ export function rebindSelection(comets, previous, value, nowJd) {
 	const kept = previous && comets.find(comet => sameComet(comet, previous));
 	return kept ?? quickSelect(comets, 'Brightest', value, nowJd);
 }
+
+/**
+ * the list index selected after the Database view's list changes: the comet selected before, while
+ * it is in the list; otherwise the index given, clamped to the list (Delete keeps the index, a new
+ * filter or sort starts at 0); -1 for an empty list
+ * @param {ReadonlyArray<Comet>} comets
+ * @param {Comet | null} selected
+ * @param {number} index
+ * @returns {number}
+ */
+export function indexAfterChange(comets, selected, index) {
+	const kept = selected ? comets.indexOf(selected) : -1;
+	if (kept >= 0) return kept;
+	return comets.length === 0 ? -1 : Math.min(Math.max(index, 0), comets.length - 1);
+}

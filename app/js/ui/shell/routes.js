@@ -17,7 +17,7 @@ export const DEFAULT_ROUTE = 'database';
 
 /** @type {readonly Route[]} */
 export const ROUTES = Object.freeze(/** @type {Route[]} */ ([
-	{ key: 'database', title: 'Database', group: 'views', load: () => placeholder('Database', 'database') },
+	{ key: 'database', title: 'Database', group: 'views', load: async context => (await import('../views/database/database-view.js')).createDatabaseView(context) },
 	{ key: 'ephemeris', title: 'Ephemeris', group: 'views', load: () => placeholder('Ephemeris', 'ephemeris') },
 	{ key: 'graph', title: 'Graph', group: 'views', load: () => placeholder('Graph', 'graph') },
 	{ key: 'orbit', title: 'Orbit viewer', group: 'views', load: () => placeholder('Orbit Viewer', 'orbit') },
