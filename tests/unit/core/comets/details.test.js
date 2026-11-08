@@ -2,7 +2,8 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readVector } from '../../../helpers/vectors.js';
 import { createComet } from '../../../../app/js/core/comets/comet.js';
-import { elementsRows, jplUrl, perihelionRows } from '../../../../app/js/core/comets/details.js';
+import { elementsRows, jplUrl, LIVE_VALUES, liveRows, perihelionRows } from '../../../../app/js/core/comets/details.js';
+import { cometsWithResult, IMPORT_RESULT_CHOICES } from '../../../../app/js/core/comets/merge.js';
 import { indexAfterChange } from '../../../../app/js/core/comets/selection.js';
 
 const { comets } = readVector('comets.json');
@@ -83,4 +84,56 @@ test('the index kept after the list changes', () => {
 	assert.equal(indexAfterChange([a, c], null, 2), 1, 'clamped to the list');
 	assert.equal(indexAfterChange([], a, 0), -1);
 	assert.equal(indexAfterChange([a], null, -1), 0);
+});
+
+/**
+ * an ephemeris record with the values the live block reads
+ * @param {Partial<import('../../../../app/js/core/astro/ephemeris.js').Ephemeris>} values
+ * @returns {import('../../../../app/js/core/astro/ephemeris.js').Ephemeris}
+ */
+const record = values => ({
+	JD: 0, RA: 76.85, Dec: 45.5, Alt: 12.345, Az: 270.004, EcLon: 0, EcLat: 0, Elongation: 30.125, PositionAngle: 200,
+	SunDist: 1.2345675, EarthDist: 0.5, Magnitude: 7.125, ...values
+});
+
+test('the live block: its values at the instant, as the desktop writes them', () => {
+	const rows = liveRows(record({}), record({}), 45);
+	assert.deepEqual(rows.map(r => [r.label, r.value, r.unit]), [
+		['Current distance from Sun', '1.234568', 'AU'],
+		['Current distance from Earth', '0.500000', 'AU'],
+		['Current magnitude', '7.13', ''],
+		['Right Ascension', '05h07m24', ''],
+		['Declination', '+45°30\'', ''],
+		['Altitude', '12.35°', ''],
+		['Azimuth', '270.00°', ''],
+		['Elongation', '30.13° W', '']
+	]);
+	assert.equal(liveRows(record({ PositionAngle: 179.99 }), record({}), 45)[7].value, '30.13° E');
+	assert.deepEqual(LIVE_VALUES.map(v => v.key), ['SunDist', 'EarthDist', 'Magnitude', 'RA', 'Dec', 'Alt', 'Az', 'Elongation']);
+});
+
+test('the trends: ▲ from an equal value up, and their colours by what is better', () => {
+	const trends = (/** @type {number} */ change, /** @type {number} */ latitude) => {
+		const previous = record({});
+		const next = record(Object.fromEntries(LIVE_VALUES.map(({ key }) => [key, /** @type {number} */ (previous[key]) + change])));
+		return liveRows(next, previous, latitude).map(r => `${r.trend.arrow} ${r.trend.tone}`);
+	};
+	assert.deepEqual(trends(1, 45), ['▲ worse', '▲ worse', '▲ worse', '▲ neutral', '▲ better', '▲ better', '▲ neutral', '▲ better']);
+	assert.deepEqual(trends(-1, 45), ['▼ better', '▼ better', '▼ better', '▼ neutral', '▼ worse', '▼ worse', '▼ neutral', '▼ worse']);
+	assert.deepEqual(trends(0, 45), trends(1, 45), 'an unchanged value counts as up');
+	// in the south a falling declination is better
+	assert.equal(trends(1, -0.000001)[4], '▲ worse');
+	assert.equal(trends(-1, -10)[4], '▼ better');
+	assert.equal(trends(1, 0)[4], '▲ better');
+});
+
+test('the import result browser\'s choices and lists, in merged order', () => {
+	assert.deepEqual(IMPORT_RESULT_CHOICES.map(c => c.label), ['New comets', 'Updates', 'No changes', 'All comets']);
+	const [a, b, c] = ['1P/Halley', '2P/Encke', '29P/Schwassmann-Wachmann'].map(cometOf);
+	const merge = { comets: [a, b, c], results: /** @type {const} */ (['NoChanges', 'New', 'NoChanges']) };
+	assert.deepEqual(cometsWithResult(merge, 'New'), [b]);
+	assert.deepEqual(cometsWithResult(merge, 'NoChanges'), [a, c]);
+	assert.deepEqual(cometsWithResult(merge, 'Update'), []);
+	assert.deepEqual(cometsWithResult(merge, 'All'), [a, b, c]);
+	assert.ok(Object.isFrozen(cometsWithResult(merge, 'All')));
 });

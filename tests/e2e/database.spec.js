@@ -79,7 +79,7 @@ test.describe('with the sample collection', () => {
 		await viewOf(page).getByRole('button', { name: 'Sort by' }).click();
 		await page.getByRole('menu', { name: 'Sort by' }).getByRole('menuitemradio', { name: 'Descending' }).click();
 		await expect(listOf(page).getByRole('option').first()).toHaveText(byQ.at(-1) ?? '');
-		await viewOf(page).getByRole('button', { name: 'Reset' }).click();
+		await viewOf(page).getByRole('button', { name: 'Reset', exact: true }).click();
 		await expect(listOf(page).getByRole('option')).toHaveText(BY_SORTKEY);
 		await viewOf(page).getByRole('button', { name: 'Sort by' }).click();
 		await expect(page.getByRole('menu', { name: 'Sort by' }).getByRole('menuitemradio', { checked: true })).toHaveText(['Designation', 'Ascending']);
@@ -134,4 +134,103 @@ test('Delete without its question when the setting is off', async ({ page }) => 
 	await viewOf(page).getByRole('button', { name: 'Delete' }).click();
 	await expect(listOf(page).getByRole('option')).toHaveCount(33);
 	await expect(page.getByRole('alertdialog')).toHaveCount(0);
+});
+
+test.describe('the live ephemeris', () => {
+	/** @param {import('@playwright/test').Page} page */
+	const dateButton = page => viewOf(page).locator('.live-ephemeris .date-picker__button');
+	/** @param {import('@playwright/test').Page} page */
+	const liveValues = page => viewOf(page).locator('.live-ephemeris dd');
+	/** the instant a date picker's button shows, `dd.MM.yyyy. HH:mm:ss` in UTC */
+	const instantOf = (/** @type {string | null} */ text) => {
+		const [, d, m, y, time] = /^(\d\d)\.(\d\d)\.(\d{4})\. (\d\d:\d\d:\d\d)$/.exec(text ?? '') ?? [];
+		return Date.parse(`${y}-${m}-${d}T${time}Z`);
+	};
+	/** @param {import('@playwright/test').Page} page */
+	const shown = async page => instantOf(await dateButton(page).textContent());
+
+	test.beforeEach(async ({ page }) => {
+		await page.clock.install({ time: new Date('2026-11-05T06:19:11.500Z') });
+		await seed(page, { database: SAMPLE });
+		await expect(liveValues(page)).toHaveCount(8);
+		// from here only the test moves the clock
+		await page.clock.pauseAt(new Date('2026-11-05T06:19:30.500Z'));
+	});
+
+	test('ticks once a second, a second each, with the values at the instant shown', async ({ page }) => {
+		const first = await shown(page);
+		await page.clock.runFor(1000);
+		await expect.poll(() => shown(page)).toBe(first + 1000);
+		await page.clock.runFor(3000);
+		await expect.poll(() => shown(page)).toBe(first + 4000);
+		// the values are the ephemeris at that instant, for the observer in settings
+		const expected = await page.evaluate(async instant => {
+			const base = new URL('js/', location.href).href;
+			const { importElements } = await import(`${base}core/formats/import.js`);
+			const { ephemeris } = await import(`${base}core/astro/ephemeris.js`);
+			const { instantToJd } = await import(`${base}core/time/julian.js`);
+			const { formatNumber } = await import(`${base}core/format/number.js`);
+			const stores = await import(`${base}adapters/key-value-stores.js`);
+			const text = await stores.createIndexedDbStore({ factory: () => indexedDB, database: 'comets', store: 'kv' }).get('database');
+			const [comet] = importElements([], 'MPC', text).comets;
+			return formatNumber(ephemeris(comet, instantToJd(instant), { latitude: 0, longitude: 0 }).SunDist, '0.000000');
+		}, first + 4000);
+		await expect(viewOf(page).locator('.live-ephemeris dd[data-key="SunDist"] .comet-details__number')).toHaveText(expected);
+	});
+
+	test('the trend arrows take the colours of what is better', async ({ page }) => {
+		await page.clock.runFor(1000);
+		const trends = await viewOf(page).locator('.live-ephemeris__trend').evaluateAll(spans => spans.map(span => `${span.textContent} ${span.getAttribute('data-trend')}`));
+		expect(trends).toHaveLength(8);
+		for (const [index, trend] of trends.entries()) {
+			const [arrow, tone] = trend.split(' ');
+			if (index <= 2) expect(tone, trend).toBe(arrow === '▲' ? 'worse' : 'better');
+			else if (index === 3 || index === 6) expect(tone, trend).toBe('neutral');
+			else expect(tone, trend).toBe(arrow === '▲' ? 'better' : 'worse');
+		}
+	});
+
+	test('a picked date restarts the clock from it; Perihelion Date is Tn', async ({ page }) => {
+		await listOf(page).getByRole('option', { name: '1P/Halley', exact: true }).click();
+		await viewOf(page).locator('.live-ephemeris').getByRole('button', { name: 'Date presets' }).click();
+		await page.getByRole('menu', { name: 'Date presets' }).getByRole('menuitem', { name: 'Perihelion Date' }).click();
+		await expect(dateButton(page)).toHaveText('01.08.2061. 12:31:23');
+		await page.clock.runFor(1000);
+		await expect(dateButton(page)).toHaveText('01.08.2061. 12:31:24');
+		// a picked date goes on where it stopped when the view comes back
+		await page.locator('.shell-nav a[href="#/graph"]').click();
+		await expect(page.locator('[data-view="graph"]')).toBeVisible();
+		await page.clock.runFor(5000);
+		await page.locator('.shell-nav a[href="#/database"]').click();
+		await expect(viewOf(page)).toBeVisible();
+		await expect(dateButton(page)).toHaveText('01.08.2061. 12:31:24');
+		// the next second, however late the view's show ran under load
+		await expect.poll(async () => {
+			await page.clock.runFor(250);
+			return dateButton(page).textContent();
+		}).toBe('01.08.2061. 12:31:25');
+	});
+
+	test('stops while the view or the page is hidden; following the clock, it comes back at now', async ({ page }) => {
+		const first = await shown(page);
+		await page.locator('.shell-nav a[href="#/graph"]').click();
+		await expect(page.locator('[data-view="graph"]')).toBeVisible();
+		await page.clock.runFor(5000);
+		await page.locator('.shell-nav a[href="#/database"]').click();
+		const now = await page.evaluate(() => Math.floor(Date.now() / 1000) * 1000);
+		await expect.poll(() => shown(page)).toBe(now);
+		expect(now).toBeGreaterThanOrEqual(first + 5000);
+
+		const setVisibility = (/** @type {'hidden' | 'visible'} */ state) => page.evaluate(value => {
+			Object.defineProperty(document, 'visibilityState', { value, configurable: true });
+			document.dispatchEvent(new Event('visibilitychange'));
+		}, state);
+		await setVisibility('hidden');
+		const paused = await shown(page);
+		await page.clock.runFor(3000);
+		expect(await shown(page)).toBe(paused);
+		await setVisibility('visible');
+		const later = await page.evaluate(() => Math.floor(Date.now() / 1000) * 1000);
+		await expect.poll(() => shown(page)).toBe(later);
+	});
 });

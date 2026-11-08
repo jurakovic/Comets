@@ -112,7 +112,8 @@ There is also a **live ephemeris** block:
   - ticks are aligned to the system clock's second boundary;
   - each tick adds exactly 1 s to the shown instant and recomputes;
   - picking a date restarts the clock from that date;
-  - ticking stops while the view is hidden (`visibilitychange`) or no comet is selected, and resumes on return.
+  - ticking stops while the view is hidden (another view shown, or `visibilitychange`) or no comet is selected, and resumes on return. Until a date is picked the clock follows the system clock, so it resumes at the current second; a picked date resumes where it stopped. The desktop went back to the current time whenever its timer restarted;
+  - a tick runs 20 ms after the boundary, as the desktop's sync window (15–35 ms) has it; a tick that comes late still adds 1 s.
 - Values at the shown instant:
 
   | Field | Format |
@@ -134,6 +135,8 @@ There is also a **live ephemeris** block:
   | Declination, observer latitude ≥ 0 | green | red |
   | Declination, observer latitude < 0 | red | green |
   | RA, azimuth | neutral | neutral |
+
+  Red and green are theme colours with text contrast in both themes; neutral is the text colour (the desktop's black).
 
 ### Details: Orbital elements tab
 
@@ -157,9 +160,10 @@ There is also a **live ephemeris** block:
 
 ## Import result browser
 
-This is the database list opened from the Update dialog's **View** action, read-only:
+This is the database list opened from the Update dialog's **View** action, read-only, as a dialog over it (Close and `Esc` go back to the Update dialog). View is disabled while there is no format.
 
-- an **Import result** selector at the top: `New comets`, `Updates`, `No changes`, `All comets`;
+- the title as the Database view's, `Database (<n>/<total> comets)`, where the total is the merged list;
+- an **Import result** selector at the top: `New comets`, `Updates`, `No changes`, `All comets`, starting at `New comets` as on the desktop;
 - the list shows only comets with the chosen result, in merged order;
 - the details tabs work as in the Database view; Delete and the filters are not available.
 

@@ -1,5 +1,8 @@
 // What the Database view's details show of a comet: the Orbital elements tab, the Ephemeris tab's
-// perihelion values, and the JPL link. docs/spec/05-database-and-update.md, Details.
+// perihelion values and live block with its trends, and the JPL link.
+// docs/spec/05-database-and-update.md, Details.
+import { elongationSide } from '../astro/ephemeris.js';
+import { angle, hms } from '../format/angles.js';
 import { DATE_FULL, formatDate } from '../format/dates.js';
 import { formatNumber } from '../format/number.js';
 import { jdToParts } from '../time/julian.js';
@@ -95,4 +98,66 @@ export function perihelionRows(comet, { Tn, PerihEarthDist, PerihMag }) {
  */
 export function jplUrl(comet) {
 	return `https://ssd.jpl.nasa.gov/tools/sbdb_lookup.html#/?sstr=${encodeURIComponent(comet.id)}`;
+}
+
+/** @typedef {import('../astro/ephemeris.js').Ephemeris} Ephemeris */
+
+/**
+ * how a change reads: better, worse, or neither (RA, azimuth)
+ * @typedef {'better' | 'worse' | 'neutral'} TrendTone
+ */
+
+/**
+ * a live value with its trend since the previous computation: ▲ for a value at least the
+ * previous one, ▼ for a smaller one
+ * @typedef {DetailRow & { trend: Readonly<{ arrow: '▲' | '▼', tone: TrendTone }> }} LiveRow
+ */
+
+/**
+ * @typedef {object} LiveValue
+ * @property {keyof Ephemeris} key the ephemeris value the trend compares
+ * @property {string} label
+ * @property {(record: Ephemeris) => string} format
+ * @property {string} unit
+ * @property {(up: boolean, latitude: number) => TrendTone} tone
+ */
+
+/** @type {LiveValue['tone']} a lower value is better: distances and magnitude */
+const lowerIsBetter = up => (up ? 'worse' : 'better');
+/** @type {LiveValue['tone']} */
+const higherIsBetter = up => (up ? 'better' : 'worse');
+/** @type {LiveValue['tone']} */
+const neutral = () => 'neutral';
+
+/**
+ * the live block's values in order, with the colours of their trends (`EphemerisControl`): a
+ * declination rising is better in the north, falling in the south, where it stands higher
+ * @type {ReadonlyArray<LiveValue>}
+ */
+export const LIVE_VALUES = Object.freeze(/** @type {LiveValue[]} */ ([
+	{ key: 'SunDist', label: 'Current distance from Sun', format: r => six(r.SunDist), unit: 'AU', tone: lowerIsBetter },
+	{ key: 'EarthDist', label: 'Current distance from Earth', format: r => six(r.EarthDist), unit: 'AU', tone: lowerIsBetter },
+	{ key: 'Magnitude', label: 'Current magnitude', format: r => formatNumber(r.Magnitude, '0.00'), unit: '', tone: lowerIsBetter },
+	{ key: 'RA', label: 'Right Ascension', format: r => hms(r.RA / 15), unit: '', tone: neutral },
+	{ key: 'Dec', label: 'Declination', format: r => angle(r.Dec, false, true), unit: '', tone: (up, latitude) => (up === (latitude >= 0) ? 'better' : 'worse') },
+	{ key: 'Alt', label: 'Altitude', format: r => `${formatNumber(r.Alt, '0.00')}°`, unit: '', tone: higherIsBetter },
+	{ key: 'Az', label: 'Azimuth', format: r => `${formatNumber(r.Az, '0.00')}°`, unit: '', tone: neutral },
+	{ key: 'Elongation', label: 'Elongation', format: r => `${formatNumber(r.Elongation, '0.00')}° ${elongationSide(r)}`, unit: '', tone: higherIsBetter }
+]).map(entry => Object.freeze(entry)));
+
+/**
+ * the live block at an instant, each value against the previous computation
+ * @param {Ephemeris} record at the instant shown
+ * @param {Ephemeris} previous at the previous tick, or 1 s before on the first computation
+ * @param {number} latitude the observer's, for the declination's colour
+ * @returns {ReadonlyArray<LiveRow>}
+ */
+export function liveRows(record, previous, latitude) {
+	return Object.freeze(LIVE_VALUES.map(({ key, label, format, unit, tone }) => {
+		const up = record[key] >= previous[key];
+		return Object.freeze({
+			...row(key, label, '', format(record), unit),
+			trend: Object.freeze({ arrow: up ? /** @type {const} */ ('▲') : /** @type {const} */ ('▼'), tone: tone(up, latitude) })
+		});
+	}));
 }

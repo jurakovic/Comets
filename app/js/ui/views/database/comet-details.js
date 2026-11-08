@@ -1,7 +1,9 @@
-// A comet's details: the Ephemeris tab (first) and the Orbital elements tab with JPL Info. What
-// the rows say is core/comets/details.js. docs/spec/05-database-and-update.md, Details.
+// A comet's details: the Ephemeris tab (first) with its live block, and the Orbital elements tab
+// with JPL Info. What the rows say is core/comets/details.js.
+// docs/spec/05-database-and-update.md, Details.
 import { elementsRows, jplUrl, perihelionRows } from '../../../core/comets/details.js';
 import { el } from '../../dom.js';
+import { createLiveEphemeris } from './live-ephemeris.js';
 
 /** @typedef {import('../../../core/comets/comet.js').Comet} Comet */
 /** @typedef {import('../../../core/comets/details.js').DetailRow} DetailRow */
@@ -11,7 +13,8 @@ import { el } from '../../dom.js';
  * @property {HTMLElement} element
  * @property {(comet: Comet | null) => void} show the comet's details; none for null
  * @property {() => void} switchTab the other tab, as a double click on the list does
- * @property {HTMLElement} ephemerisPanel where the live ephemeris goes
+ * @property {() => void} start the owner is shown: the live clock ticks
+ * @property {() => void} stop the owner is hidden: the live clock stops
  */
 
 let ids = 0;
@@ -32,17 +35,19 @@ export function showRows(list, rows) {
  * @param {object} options
  * @param {import('../../../core/comets/properties.js').ValueAccessor} options.value the session
  *   values (`Tn`, `Perih*`) for the Ephemeris tab
+ * @param {import('../../../services/ports.js').Clock} options.clock for the live block
+ * @param {() => import('../../../core/astro/ephemeris.js').Observer} options.observer the location
  * @returns {CometDetails}
  */
-export function createCometDetails({ value }) {
+export function createCometDetails({ value, clock, observer }) {
 	const prefix = `comet-details-${++ids}`;
 	const perihelion = el('dl', { class: 'comet-details__rows' });
 	const elements = el('dl', { class: 'comet-details__rows' });
 	const jpl = el('a', { class: 'button comet-details__jpl', href: '', target: '_blank', rel: 'noopener' }, 'JPL Info');
-	const ephemerisPanel = el('div', { class: 'comet-details__live' });
+	const live = createLiveEphemeris({ clock, observer });
 
 	const tabs = [
-		{ name: 'Ephemeris', panel: el('div', {}, perihelion, ephemerisPanel) },
+		{ name: 'Ephemeris', panel: el('div', {}, perihelion, live.element) },
 		{ name: 'Orbital elements', panel: el('div', {}, elements, el('p', { class: 'comet-details__actions' }, jpl)) }
 	].map(({ name, panel }, index) => {
 		const tab = el('button', {
@@ -83,17 +88,19 @@ export function createCometDetails({ value }) {
 
 	return Object.freeze({
 		element,
-		ephemerisPanel,
 		show(/** @type {Comet | null} */ comet) {
 			element.classList.toggle('comet-details--empty', !comet);
 			if (!comet) {
 				perihelion.replaceChildren();
 				elements.replaceChildren();
 				jpl.hidden = true;
+				live.show(null, null);
 				return;
 			}
+			const Tn = Number(value(comet, 'Tn'));
+			live.show(comet, Tn);
 			showRows(perihelion, perihelionRows(comet, {
-				Tn: Number(value(comet, 'Tn')),
+				Tn,
 				PerihEarthDist: Number(value(comet, 'PerihEarthDist')),
 				PerihMag: Number(value(comet, 'PerihMag'))
 			}));
@@ -101,6 +108,8 @@ export function createCometDetails({ value }) {
 			jpl.hidden = false;
 			jpl.href = jplUrl(comet);
 		},
-		switchTab: () => choose(active + 1)
+		switchTab: () => choose(active + 1),
+		start: live.start,
+		stop: live.stop
 	});
 }

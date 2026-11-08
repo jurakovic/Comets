@@ -12,6 +12,8 @@
 	--color-accent-text: #ffffff;
 	--color-error: #b42318;
 	--color-error-surface: #fdecea;
+	--color-better: #1a7f37;
+	--color-worse: #c62828;
 	--shadow: 0 4px 16px rgb(0 0 0 / 18%);
 	--font-ui: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 	--font-mono: ui-monospace, Consolas, "Liberation Mono", monospace;
@@ -34,6 +36,8 @@
 		--color-accent-text: #0d1320;
 		--color-error: #ff8a80;
 		--color-error-surface: #3a2222;
+		--color-better: #4ade80;
+		--color-worse: #ff7b72;
 		--shadow: 0 4px 16px rgb(0 0 0 / 50%);
 	}
 }
@@ -49,5 +53,7 @@
 	--color-accent-text: #0d1320;
 	--color-error: #ff8a80;
 	--color-error-surface: #3a2222;
+	--color-better: #4ade80;
+	--color-worse: #ff7b72;
 	--shadow: 0 4px 16px rgb(0 0 0 / 50%);
 }

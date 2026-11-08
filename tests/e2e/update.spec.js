@@ -174,3 +174,34 @@ test('the dialog stays over the view it was opened from; Esc and Close go back t
 	await expect(dialogOf(page)).toBeHidden();
 	await expect(page).toHaveURL(/#\/database$/);
 });
+
+test('View browses the merged list by import result, read-only, over the dialog', async ({ page }) => {
+	await answerMpc(page, NEW);
+	await seed(page, { database: SAMPLE });
+	await page.goto('./#/update');
+	const dialog = dialogOf(page);
+	await expect(dialog.getByRole('button', { name: 'View' })).toBeDisabled();
+	await dialog.getByRole('button', { name: 'Download' }).click();
+	await dialog.getByRole('button', { name: 'View' }).click();
+	const browser = page.getByRole('dialog', { name: /^Database/ });
+	await expect(browser).toBeVisible();
+	const choice = browser.getByLabel('Import result');
+	await expect(choice).toHaveValue('New');
+	await expect(browser.getByRole('option', { name: 'New comets' })).toBeAttached();
+	const list = browser.getByRole('listbox', { name: 'Comets' });
+	await expect(browser.getByRole('heading')).toHaveText('Database (1/35 comets)');
+	await expect(list.getByRole('option')).toHaveText(['21P/Giacobini-Zinner']);
+	await expect(browser.getByRole('tabpanel').locator('dd[data-key="full"]')).toHaveText('21P/Giacobini-Zinner');
+	await choice.selectOption({ label: 'Updates' });
+	await expect(list.getByRole('option')).toHaveText(['2P/Encke']);
+	await choice.selectOption({ label: 'No changes' });
+	await expect(list.getByRole('option')).toHaveCount(33);
+	await choice.selectOption({ label: 'All comets' });
+	await expect(browser.getByRole('heading')).toHaveText('Database (35 comets)');
+	await expect(list.getByRole('option')).toHaveText(MERGE.result.map((/** @type {{ full: string }} */ c) => c.full));
+	await expect(browser.getByRole('button', { name: 'Delete' })).toHaveCount(0);
+	await page.keyboard.press('Escape');
+	await expect(browser).toHaveCount(0);
+	await expect(dialog).toBeVisible();
+	await expect(page).toHaveURL(/#\/update$/);
+});

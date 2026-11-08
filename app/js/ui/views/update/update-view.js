@@ -3,6 +3,7 @@
 // docs/spec/05-database-and-update.md, Update.
 import { COUNTS_TOOLTIP } from '../../../core/formats/import.js';
 import { el } from '../../dom.js';
+import { browseImportResults } from './import-result-browser.js';
 
 /** @typedef {import('../../../services/update.js').UpdateState} UpdateState */
 
@@ -13,7 +14,7 @@ const FILE_TYPES = '.txt,.dat,.csv,.comet';
  * @param {import('../../shell/context.js').AppContext} context
  * @returns {import('../../shell/router.js').View}
  */
-export function createUpdateView({ update, notify, leaveOverlay }) {
+export function createUpdateView({ update, notify, leaveOverlay, observations, settings, clock }) {
 	const url = el('code', { class: 'update-view__url' });
 	const openLink = el('a', { href: '', target: '_blank', rel: 'noopener' }, 'Open in browser');
 	const downloadButton = el('button', { type: 'button', class: 'button' }, 'Download');
@@ -33,7 +34,8 @@ export function createUpdateView({ update, notify, leaveOverlay }) {
 		fileInput, dropZone, fileError);
 
 	const format = el('dd', { class: 'update-view__format' });
-	const counts = el('dd', { class: 'update-view__counts' });
+	const counts = el('span', { class: 'update-view__counts' });
+	const viewButton = el('button', { type: 'button', class: 'button update-view__view' }, 'View');
 	const closeWhenFinished = el('input', { type: 'checkbox', checked: true });
 	const closeLabel = el('label', { class: 'update-view__close-when' }, closeWhenFinished, ' Close when finished');
 	const importButton = el('button', { type: 'button', class: 'button button--primary' }, 'Import');
@@ -49,7 +51,7 @@ export function createUpdateView({ update, notify, leaveOverlay }) {
 		fileSection,
 		el('dl', { class: 'update-view__status' },
 			el('dt', {}, 'Import format'), format,
-			el('dt', {}, 'Total comets'), counts),
+			el('dt', {}, 'Total comets'), el('dd', { class: 'update-view__total' }, counts, viewButton)),
 		el('div', { class: 'update-view__actions' }, closeLabel, importButton, closeButton));
 
 	/** @param {Readonly<UpdateState>} state */
@@ -84,6 +86,7 @@ export function createUpdateView({ update, notify, leaveOverlay }) {
 		counts.textContent = state.preview.counts;
 		if (state.preview.merge) counts.title = COUNTS_TOOLTIP;
 		else counts.removeAttribute('title');
+		viewButton.disabled = state.preview.merge === null;
 		closeLabel.hidden = state.automatic;
 	}
 
@@ -121,6 +124,10 @@ export function createUpdateView({ update, notify, leaveOverlay }) {
 		}
 	});
 	closeButton.addEventListener('click', leaveOverlay);
+	viewButton.addEventListener('click', () => {
+		const { merge } = update.state.get().preview;
+		if (merge) browseImportResults({ merge, value: observations.value, clock, observer: () => settings.settings.get().location });
+	});
 
 	let shown = false;
 	/** @type {(() => void) | null} */

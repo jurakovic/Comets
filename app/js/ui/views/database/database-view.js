@@ -28,9 +28,9 @@ export function deleteQuestion(comet) {
  * @param {import('../../shell/context.js').AppContext} context
  * @returns {import('../../shell/router.js').View}
  */
-export function createDatabaseView({ selection, database, settings, observations, dialogs }) {
+export function createDatabaseView({ selection, database, settings, observations, dialogs, clock }) {
 	const title = el('h1', { id: 'view-title-database' });
-	const details = createCometDetails({ value: observations.value });
+	const details = createCometDetails({ value: observations.value, clock, observer: () => settings.settings.get().location });
 	const list = createCometList({ label: 'Comets', onSelect: choose, onActivate: () => details.switchTab() });
 	const sortMenu = createSortMenu({ sort: () => selection.state.get().sort, onSort: sort => selection.sort(sort) });
 	const resetButton = el('button', { type: 'button', class: 'button' }, 'Reset');
@@ -92,8 +92,10 @@ export function createDatabaseView({ selection, database, settings, observations
 		show() {
 			unsubscribe ??= selection.state.subscribe(render);
 			render(selection.state.get());
+			details.start();
 		},
 		hide() {
+			details.stop();
 			unsubscribe?.();
 			unsubscribe = null;
 		}

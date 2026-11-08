@@ -85,3 +85,28 @@ export function countResults({ results }) {
 	for (const result of results) counts[result] += 1;
 	return Object.freeze(counts);
 }
+
+/**
+ * a choice of the import result browser: a result, or all of them
+ * @typedef {object} ImportResultChoice
+ * @property {ImportResult | 'All'} key
+ * @property {string} label
+ */
+
+/** the import result browser's choices, in order (`CometManager.ImportResults`) */
+export const IMPORT_RESULT_CHOICES = Object.freeze(/** @type {ImportResultChoice[]} */ ([
+	{ key: 'New', label: 'New comets' },
+	{ key: 'Update', label: 'Updates' },
+	{ key: 'NoChanges', label: 'No changes' },
+	{ key: 'All', label: 'All comets' }
+]).map(choice => Object.freeze(choice)));
+
+/**
+ * the merged comets with a result, in merged order
+ * @param {Merge} merge
+ * @param {ImportResult | 'All'} key
+ * @returns {ReadonlyArray<Comet>}
+ */
+export function cometsWithResult({ comets, results }, key) {
+	return Object.freeze(key === 'All' ? [...comets] : comets.filter((_comet, index) => results[index] === key));
+}
