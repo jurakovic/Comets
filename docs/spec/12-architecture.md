@@ -23,7 +23,7 @@ app/                        the web app, served as is (GitHub Pages: /Comets/app
     main.js                 composition root: builds adapters, services and the UI, and wires them
     lib/                    generic helpers with no app knowledge (store, emitter, rpc, assert)
     core/                   the domain and the engine: pure functions over plain data
-      time/  format/  comets/  astro/  formats/  ephemeris/  graph/  orbit/
+      time/  format/  comets/  astro/  formats/  ephemeris/  graph/  orbit/  input/
       jobs.js               the long computations a Worker can run, by name
     services/               use cases and app state; ports.js names the ports
     adapters/               ports implemented with browser APIs (storage, fetch, worker, clock)
@@ -84,6 +84,7 @@ Sub-areas:
 | `core/ephemeris/` | ephemeris settings (defaults, validation), the calculation, the text output | [06](06-ephemeris.md) |
 | `core/graph/` | sampling, the axes, the series and lines: a **graph model** the renderer draws and the vectors check; hover hit-testing | [07](07-graph.md) |
 | `core/orbit/` | the camera and projection, the **scene model** (what to draw, where, in which colour and size), date filter, grid, picking, the simulation clock | [08](08-orbit-viewer.md) |
+| `core/input/` | the rules of the shared input components: what a number field accepts and how `↑`/`↓` step it, the date picker's fields, steps and presets | [09 § Shared components](09-settings-and-persistence.md#shared-components) |
 
 ## Services and ports
 

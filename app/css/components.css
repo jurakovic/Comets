@@ -1,0 +1,104 @@
+/* The shared components: menus, number fields, the sort menu
+   (docs/spec/09-settings-and-persistence.md, Shared components). */
+.menu {
+	display: inline-block;
+}
+
+.menu__button,
+.button {
+	padding: var(--space-1) var(--space-3);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius);
+	background: var(--color-bg);
+	color: var(--color-text);
+	cursor: pointer;
+	white-space: nowrap;
+}
+
+.menu__button:hover,
+.button:hover {
+	border-color: var(--color-muted);
+}
+
+.button:disabled {
+	color: var(--color-muted);
+	cursor: default;
+}
+
+.button--primary {
+	border-color: var(--color-accent);
+	background: var(--color-accent);
+	color: var(--color-accent-text);
+}
+
+.menu__button::after {
+	content: " ▾" / "";
+	color: var(--color-muted);
+}
+
+/* a popover in the top layer, placed under its button by menu.js */
+.menu__list {
+	position: fixed;
+	inset: auto;
+	min-width: 180px;
+	margin: 0;
+	padding: var(--space-1) 0;
+	overflow: auto;
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius);
+	background: var(--color-bg);
+	color: var(--color-text);
+	box-shadow: var(--shadow);
+}
+
+.menu__item {
+	display: block;
+	width: 100%;
+	padding: var(--space-1) var(--space-4) var(--space-1) 28px;
+	border: 0;
+	background: none;
+	color: inherit;
+	cursor: pointer;
+	text-align: left;
+	white-space: nowrap;
+}
+
+.menu__item:hover,
+.menu__item:focus-visible {
+	outline: none;
+	background: var(--color-surface);
+}
+
+.menu__item[aria-checked="true"]::before {
+	/* no alternative text: the checked state is aria-checked */
+	content: "✓" / "";
+	position: absolute;
+	margin-left: -18px;
+	color: var(--color-accent);
+}
+
+.menu__separator {
+	margin: var(--space-1) 0;
+	border-top: 1px solid var(--color-border);
+}
+
+.number-field,
+.text-field {
+	width: 10ch;
+	padding: var(--space-1) var(--space-2);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius);
+	background: var(--color-bg);
+	color: var(--color-text);
+	font: inherit;
+	font-variant-numeric: tabular-nums;
+}
+
+.text-field {
+	width: auto;
+}
+
+.number-field[aria-invalid="true"] {
+	border-color: var(--color-error);
+	background: var(--color-error-surface);
+}

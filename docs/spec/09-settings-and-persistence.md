@@ -72,9 +72,10 @@ Desktop: `SelectDateControl`, `DateTimeMenuControl`, `FormDateTime`. Used for St
 Desktop: `ValNum`, `ValNumManager`. Each numeric field has a minimum, a maximum and a number of decimals.
 
 - Accepted input: digits; a leading `-` only if the minimum is below 0; a `.` with up to *decimals* digits after it. A `,` typed by the user becomes `.`.
-- Input that would make the text invalid or out of range is rejected. On the web this is done in `beforeinput`; showing an inline error instead is also acceptable.
-- For integer fields, `↑`/`↓` increment and decrement within the range.
-- Empty means "no value". Text is parsed with the invariant culture (`.` is the decimal separator).
+- Input that would make the text invalid or out of range is rejected. On the web this is done in `beforeinput`, and a change it cannot foresee (an input method, a word deleted) is undone afterwards. A field whose range cannot be typed digit by digit (the date picker's JD) keeps its text to the pattern alone and marks a number out of range instead.
+- For integer fields, `↑`/`↓` increment and decrement within the range (truncated to integers, as `IMin` and `IMax` are), and write the number again.
+- Empty means "no value", and empty text is always accepted: the desktop refused the Backspace that would empty a field whose minimum is above 0. Text that is not a number (`-`, `.`) reads as 0, as `Double()` gives. Text is parsed with the invariant culture (`.` is the decimal separator).
+- On phones the field asks for a numeric keyboard: digits, digits with a decimal point, or the full keyboard where a `-` may be typed.
 
 | Field | Range | Decimals |
 |---|---|---|

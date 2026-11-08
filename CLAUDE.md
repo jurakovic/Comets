@@ -16,7 +16,8 @@ app/                     the web app, served as is (Pages: /Comets/app/)
   js/main.js             composition root: the only module that knows every layer
   js/lib/                generic helpers (store, emitter, rpc)
   js/core/               domain and engine: pure, DOM-free, deterministic
-                         (time, format, comets, astro, formats, ephemeris, graph, orbit; jobs.js)
+                         (time, format, comets, astro, formats, ephemeris, graph, orbit, input;
+                         jobs.js)
   js/services/           use cases and app state; ports.js names the ports
   js/adapters/           the ports implemented with browser APIs
   js/workers/            Worker entry points

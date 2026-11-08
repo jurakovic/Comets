@@ -26,6 +26,7 @@ These changes are deliberate and already reflected in this spec.
 | D16 | The JPL lookup URL is built from the raw id | The id is URL-encoded | Correct URLs |
 | D17 | Desktop-only features ([01 § Dropped](01-product.md#dropped-desktop-features)) | Removed | Agreed decision |
 | D18 | Multiple mode over a one-comet list calculates the picker's selected comet, which is none while all comets are chosen, and crashes (ephemeris and graph) | The list's one comet, in multiple mode: for a graph, no title and the perihelion lines after the series ([07](07-graph.md#series)) | A crash |
+| D19 | The sort menu's Ascending and Descending each flip the direction, so choosing the one already checked reverses the sort | Each sorts in its own direction ([02](02-data-model.md#sorting)) | Natural UI |
 
 ## Quirks kept
 

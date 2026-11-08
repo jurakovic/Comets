@@ -49,6 +49,21 @@ export const SORT_PROPERTIES = Object.freeze([
 export const DEFAULT_SORT = Object.freeze({ property: 'sortkey', ascending: true });
 
 /**
+ * the sort after a choice in the sort menu (`SortMenuControl`): another property keeps the
+ * direction, the property already chosen changes nothing (null), and a direction sorts in it
+ * @param {Readonly<Sort>} current
+ * @param {{ property: string } | { ascending: boolean }} choice
+ * @returns {Readonly<Sort> | null} null when nothing is to be sorted
+ */
+export function chooseSort(current, choice) {
+	if ('property' in choice) {
+		sortProperty(choice.property);
+		return choice.property === current.property ? null : Object.freeze({ property: choice.property, ascending: current.ascending });
+	}
+	return Object.freeze({ property: current.property, ascending: choice.ascending });
+}
+
+/**
  * @param {string} key
  * @returns {SortProperty}
  */

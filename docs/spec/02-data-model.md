@@ -250,7 +250,7 @@ Sort properties, in menu order: Designation (`sortkey`), Discoverer (`name`), Pe
 - Sorting MUST be **stable** in both directions: a descending sort keeps equal items in their original order and does not reverse them.
 - Numbers compare numerically.
 - Strings (`name`, `sortkey`) compare with **invariant-culture (ICU root) collation**: in JavaScript, `Intl.Collator('en')`, whose CLDR collation has no tailoring. `Intl.Collator('und')` is not the same: `und` is not an available locale, so it falls back to the host's default locale, and a Czech or Danish browser would sort differently. Sort keys contain only digits and capital letters, so ordinal comparison gives the same order for them.
-- Choosing a different property keeps the current direction. Choosing a direction re-sorts.
+- Choosing a different property keeps the current direction; choosing the property already chosen changes nothing. Choosing a direction sorts in it, also the direction already chosen ([10](10-quirks.md#deviations), D19).
 
 Vectors: [`sorting.json`](vectors/sorting.json).
 

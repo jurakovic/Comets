@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { compareNumbers, DEFAULT_SORT, SORT_PROPERTIES, sortComets, sortProperty } from '../../../../app/js/core/comets/sort.js';
+import { chooseSort, compareNumbers, DEFAULT_SORT, SORT_PROPERTIES, sortComets, sortProperty } from '../../../../app/js/core/comets/sort.js';
 import { createComet } from '../../../../app/js/core/comets/comet.js';
 import { fieldValue } from '../../../../app/js/core/comets/properties.js';
 
@@ -48,4 +48,15 @@ test('numbers order as .NET\'s Double.CompareTo: NaN first', () => {
 	assert.ok(Number.isNaN(odd[1].P));
 	assert.equal(fullNames(sortComets(odd, { property: 'P', ascending: true }, fieldValue)), 'yzx');
 	assert.equal(fullNames(sortComets(odd, { property: 'P', ascending: false }, fieldValue)), 'xzy');
+});
+
+test('the sort menu\'s choices: another property keeps the direction, the same one does nothing', () => {
+	const current = { property: 'q', ascending: false };
+	assert.deepEqual({ ...chooseSort(current, { property: 'name' }) }, { property: 'name', ascending: false });
+	assert.equal(chooseSort(current, { property: 'q' }), null);
+	assert.deepEqual({ ...chooseSort(current, { ascending: true }) }, { property: 'q', ascending: true });
+	// the direction already chosen sorts again, where the desktop's menu flipped it (spec 10, D19)
+	assert.deepEqual({ ...chooseSort(current, { ascending: false }) }, { property: 'q', ascending: false });
+	assert.ok(Object.isFrozen(chooseSort(current, { ascending: true })));
+	assert.throws(() => chooseSort(current, { property: 'full' }), /unknown sort property/);
 });
