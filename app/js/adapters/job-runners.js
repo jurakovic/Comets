@@ -6,10 +6,13 @@ import { createRpcClient, createRpcServer } from '../lib/rpc.js';
 
 /** @typedef {Pick<import('../lib/rpc.js').RpcClient, 'run'>} JobRunner the JobRunner port of services/ports.js */
 
+/** the name of the error a failed Worker rejects its jobs with */
+export const WORKER_FAILURE = 'WorkerFailure';
+
 /**
  * the compute Worker (workers/compute.js). A Worker that fails, which in practice means one that did
- * not load, is ended: the jobs it was running and every later one reject with its error, so the
- * composition root can turn to the local runner
+ * not load, is ended: the jobs it was running and every later one reject with a WorkerFailure, so
+ * that the local runner can take over (createFallbackJobRunner)
  * @param {URL | string} url of workers/compute.js
  * @returns {JobRunner}
  */
@@ -18,18 +21,18 @@ export function createWorkerJobRunner(url) {
 	const client = createRpcClient({ post: request => worker.postMessage(request) });
 	/** @type {Error | null} */
 	let failure = null;
-	const fail = (/** @type {Error} */ error) => {
+	const fail = (/** @type {string} */ message) => {
 		if (failure) return;
-		failure = error;
+		failure = Object.assign(new Error(message), { name: WORKER_FAILURE });
 		worker.terminate();
-		client.failAll(error);
+		client.failAll(failure);
 	};
 	worker.addEventListener('message', event => client.receive(event.data));
 	worker.addEventListener('error', event => {
 		event.preventDefault();
-		fail(new Error(`the compute worker failed: ${event.message || 'it did not load'}`));
+		fail(`the compute worker failed: ${event.message || 'it did not load'}`);
 	});
-	worker.addEventListener('messageerror', () => fail(new Error('the compute worker sent a message that could not be read')));
+	worker.addEventListener('messageerror', () => fail('the compute worker sent a message that could not be read'));
 	return Object.freeze({
 		run: (name, input, options) => failure ? Promise.reject(failure) : client.run(name, input, options)
 	});
@@ -54,4 +57,39 @@ export function createLocalJobRunner(jobs, { slice = 20 } = {}) {
 		slice
 	});
 	return Object.freeze({ run: client.run });
+}
+
+/**
+ * the Worker's runner until it fails, then the local one: the jobs the failure rejected run again
+ * on this thread, and so does every later one. Each runner is made on its first job
+ * @param {object} runners
+ * @param {() => JobRunner} runners.worker may throw, where module Workers are not supported
+ * @param {() => Promise<JobRunner>} runners.local
+ * @returns {JobRunner}
+ */
+export function createFallbackJobRunner({ worker, local }) {
+	/** @type {JobRunner | null} */
+	let primary = null;
+	/** @type {Promise<JobRunner> | null} */
+	let fallback = null;
+	return Object.freeze({
+		/** @type {JobRunner['run']} */
+		async run(name, input, options) {
+			if (!fallback) {
+				try {
+					primary ??= worker();
+					return await primary.run(name, input, options);
+				} catch (error) {
+					// a job's own error, or its cancel, is the caller's; a Worker that was made and failed
+					// is not
+					if (primary && !(error instanceof Error && error.name === WORKER_FAILURE)) throw error;
+					if (!fallback) {
+						console.warn('the compute worker failed; running jobs on the main thread', error);
+						fallback = local();
+					}
+				}
+			}
+			return (await fallback).run(name, input, options);
+		}
+	});
 }

@@ -128,7 +128,7 @@ Services never talk to the user. When something needs asking (the start-up updat
 Ephemerides, graphs and other work over many comets run off the main thread ([01](01-product.md#platform-and-hosting)):
 
 - A long computation is a **generator** in `core/` that yields progress (`{ done, total }`) and returns its result. It runs as fast as it can when iterated synchronously (Node tests), and gives a runner a point to report progress and check cancellation between steps.
-- `core/jobs.js` maps job names to those generators: `ephemeris` returns the text of [06](06-ephemeris.md#text-output), `graph` the graph model of [07](07-graph.md). The Worker (`workers/compute.js`) serves exactly that registry over the message protocol in `lib/rpc.js`: `run` → `progress`* → `result` | `error`, and `cancel`. The server runs a generator in time slices, posting the latest progress after each, and schedules the next slice as a task, so that a `cancel` is read between slices (a slice already queued still runs). The in-thread runner joins the same server and client on one thread and clones every message as a Worker would. Both implement `JobRunner` (`adapters/job-runners.js`), so the services and tests do not care which one runs.
+- `core/jobs.js` maps job names to those generators: `ephemeris` returns the text of [06](06-ephemeris.md#text-output), `graph` the graph model of [07](07-graph.md). The Worker (`workers/compute.js`) serves exactly that registry over the message protocol in `lib/rpc.js`: `run` → `progress`* → `result` | `error`, and `cancel`. The server runs a generator in time slices, posting the latest progress after each, and schedules the next slice as a task, so that a `cancel` is read between slices (a slice already queued still runs). The in-thread runner joins the same server and client on one thread and clones every message as a Worker would. Both implement `JobRunner` (`adapters/job-runners.js`), so the services and tests do not care which one runs. The app starts the Worker with the first job; a Worker that cannot be made or fails (in practice, one that does not load) rejects its jobs with a `WorkerFailure`, and from then on the in-thread runner runs them, those jobs again included.
 - Inputs and results are plain data. Session-cached values a job needs (`Tn`, the observer, `now`) are put into its input on the main thread, so a result never depends on which thread computed it.
 
 ## UI
@@ -163,6 +163,7 @@ Applied SOLID: one reason to change per module (a format, a property, a view); e
 
 - Expected failures are values: validation results, `null` records, a fetch error the `update` service turns into the spec's message ([05 § Update](05-database-and-update.md#update)).
 - Storage failures fall back to memory and never stop the app ([09](09-settings-and-persistence.md#storage-layout)).
+- A Worker that fails falls back to the in-thread runner ([§ Long computations](#long-computations-and-the-worker)).
 - Cancellation uses `AbortSignal` everywhere and is not an error to show.
 - The shell catches `error` and `unhandledrejection`, logs them and shows a notification, so one failing part does not leave the page blank.
 

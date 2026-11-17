@@ -1,7 +1,7 @@
 // The composition root: the one module that knows every layer. It builds the
 // adapters, services and UI and wires them (docs/spec/12-architecture.md).
 import { createSystemClock } from './adapters/clock.js';
-import { createWorkerJobRunner } from './adapters/job-runners.js';
+import { createFallbackJobRunner, createLocalJobRunner, createWorkerJobRunner } from './adapters/job-runners.js';
 import { createIndexedDbStore, createWebStorageStore } from './adapters/key-value-stores.js';
 import { createFetchTextFetcher } from './adapters/text-fetcher.js';
 import { createBlobTextReader } from './adapters/text-files.js';
@@ -33,12 +33,11 @@ installErrorHandler(notify);
 const clock = createSystemClock();
 const settingsStore = createWebStorageStore(() => localStorage);
 const databaseStore = createIndexedDbStore({ factory: () => indexedDB, database: 'comets', store: 'kv' });
-/** @type {import('./services/ports.js').JobRunner | null} the Worker starts with the first job */
-let worker = null;
-const runner = {
-	/** @type {import('./services/ports.js').JobRunner['run']} */
-	run: (name, input, options) => (worker ??= createWorkerJobRunner(new URL('./workers/compute.js', import.meta.url))).run(name, input, options)
-};
+// the Worker starts with the first job; the jobs' code loads on this thread only if it fails
+const runner = createFallbackJobRunner({
+	worker: () => createWorkerJobRunner(new URL('./workers/compute.js', import.meta.url)),
+	local: async () => createLocalJobRunner((await import('./core/jobs.js')).JOBS)
+});
 
 // services
 const settings = createSettingsService({ store: settingsStore });

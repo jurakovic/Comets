@@ -88,6 +88,38 @@ test('a cancelled job stops in the Worker, which goes on serving', async ({ page
 	expect(result.error).toBe('AbortError');
 });
 
+test('the jobs a Worker that does not load rejects run on the main thread instead, and equal their vector', async ({ page }) => {
+	await page.goto('./');
+	const result = await page.evaluate(async ({ APP, VECTORS }) => {
+		const { createFallbackJobRunner, createLocalJobRunner, createWorkerJobRunner } = await import(`${APP}adapters/job-runners.js`);
+		const { importElements } = await import(`${APP}core/formats/import.js`);
+		const { nearestPerihelion } = await import(`${APP}core/comets/comet.js`);
+		const { instantToJd } = await import(`${APP}core/time/julian.js`);
+		const sample = importElements([], 'MPC', await (await fetch(`${VECTORS}import/sample.txt`)).text()).comets;
+		const comet = sample.find((/** @type {any} */ c) => c.full === 'C/2023 A3 (Tsuchinshan-ATLAS)');
+		const columns = { RA: true, Dec: true, Alt: true, Az: true, EcLon: true, EcLat: true, Elongation: true, SunDist: true, EarthDist: true, Magnitude: true };
+		const none = { checked: false, value: null };
+		const settings = {
+			start: Date.UTC(2024, 9, 1), end: Date.UTC(2024, 9, 20), interval: { days: 1, hours: 0, minutes: 0 }, localTime: false, columns,
+			requirements: { maxSunDist: none, maxEarthDist: none, minMagnitude: none }
+		};
+		const input = { comets: [comet], nearest: [nearestPerihelion(comet, instantToJd(Date.UTC(2026, 9, 18, 12)))], settings, observer: { latitude: 0, longitude: 0 }, timeZone: 'UTC' };
+		/** @type {string[]} */
+		const made = [];
+		const runner = createFallbackJobRunner({
+			worker: () => { made.push('worker'); return createWorkerJobRunner(new URL(`${APP}workers/missing.js`, location.origin)); },
+			local: async () => { made.push('local'); return createLocalJobRunner((await import(`${APP}core/jobs.js`)).JOBS); }
+		});
+		// two at once meet the failure, and a later one comes after it
+		const texts = await Promise.all([runner.run('ephemeris', input, {}), runner.run('ephemeris', input, {})]);
+		texts.push(await runner.run('ephemeris', input, {}));
+		const expected = await (await fetch(`${VECTORS}ephemeris-text/01-single-ut-all-columns.txt`)).text();
+		return { made, same: texts.map(text => /** @type {string} */ (text).replace(/\r\n/g, '\n') === expected) };
+	}, { APP, VECTORS });
+	expect(result.made).toEqual(['worker', 'local']);
+	expect(result.same).toEqual([true, true, true]);
+});
+
 test('a Worker that does not load rejects its jobs and every later one', async ({ page }) => {
 	await page.goto('./');
 	const errors = await page.evaluate(async ({ APP }) => {
