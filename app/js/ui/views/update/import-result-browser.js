@@ -3,6 +3,7 @@
 // result browser.
 import { databaseTitle } from '../../../core/comets/counts.js';
 import { cometsWithResult, IMPORT_RESULT_CHOICES } from '../../../core/comets/merge.js';
+import { openModal } from '../../components/modal.js';
 import { el } from '../../dom.js';
 import { createCometDetails } from '../database/comet-details.js';
 import { createCometList } from '../database/comet-list.js';
@@ -26,7 +27,6 @@ export function browseImportResults({ merge, value, clock, observer }) {
 	/** @type {() => void} */
 	let close = () => {};
 	const closed = /** @type {Promise<void>} */ (new Promise(resolve => {
-		const previous = document.activeElement;
 		const title = el('h2', { id: 'import-results-title', class: 'import-results__title' });
 		const details = createCometDetails({ value, clock, observer });
 		const list = createCometList({ label: 'Comets', onSelect: comet => details.show(comet), onActivate: () => details.switchTab() });
@@ -48,20 +48,17 @@ export function browseImportResults({ merge, value, clock, observer }) {
 			details.show(list.selected());
 		}
 
-		close = () => { if (dialog.open) dialog.close(); };
 		choice.addEventListener('change', show);
-		closeButton.addEventListener('click', close);
-		// Esc closes the dialog natively
-		dialog.addEventListener('close', () => {
-			details.stop();
-			dialog.remove();
-			if (previous instanceof HTMLElement && previous.isConnected) previous.focus();
-			resolve();
-		});
+		closeButton.addEventListener('click', () => close());
 
 		show();
-		document.body.append(dialog);
-		dialog.showModal();
+		// Esc closes the dialog natively
+		close = openModal(dialog, {
+			onClose: () => {
+				details.stop();
+				resolve();
+			}
+		});
 		details.start();
 	}));
 	return Object.freeze({ close: () => close(), closed });

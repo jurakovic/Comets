@@ -1,11 +1,11 @@
 // The date picker (`SelectDateControl`): a button with the UTC instant and its local time in the
 // tooltip, which opens the editor, and the presets menu beside it.
 // docs/spec/09-settings-and-persistence.md, Date picker.
-import { buttonText, datePresets, LOCAL_TIME, localText } from '../../core/input/date.js';
+import { buttonText, LOCAL_TIME, localText } from '../../core/input/date.js';
 import { localPartsIn } from '../../core/time/local.js';
 import { el } from '../dom.js';
 import { editDate } from './date-editor.js';
-import { createMenu } from './menu.js';
+import { createPresetsMenu } from './date-presets.js';
 
 /**
  * @typedef {object} DatePicker
@@ -64,14 +64,7 @@ export function createDatePicker({ value, now, timeZone, onChange, defaultDate =
 		onChange(instant);
 	}
 
-	const menu = createMenu({
-		label: el('span', { class: 'date-picker__presets-icon' }),
-		name: 'Date presets',
-		className: 'date-picker__presets',
-		entries: () => datePresets({ ...context(), value: current }).map(preset => 'separator' in preset
-			? preset
-			: { label: preset.label, run: () => pick(preset.value) })
-	});
+	const menu = createPresetsMenu(() => ({ ...context(), value: current }), pick);
 
 	async function edit() {
 		const result = await editDate({ value: current, local: localIn(timeZone()), presets: context });

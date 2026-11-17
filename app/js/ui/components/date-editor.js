@@ -2,10 +2,11 @@
 // steps in every field, the presets, and OK, which clamps to the date range. The rules are
 // core/input/date.js. docs/spec/09-settings-and-persistence.md, Date picker.
 import {
-	collectFields, DATE_FIELDS, datePresets, EDITOR_TITLE, fieldTexts, JD_RANGE, jdFieldDate, localText, okDate, partsOf, stepDate
+	collectFields, DATE_FIELDS, EDITOR_TITLE, fieldTexts, JD_RANGE, jdFieldDate, localText, okDate, partsOf, stepDate
 } from '../../core/input/date.js';
 import { el } from '../dom.js';
-import { createMenu } from './menu.js';
+import { createPresetsMenu } from './date-presets.js';
+import { openModal } from './modal.js';
 import { createNumberField } from './number-field.js';
 
 /** @typedef {import('../../core/time/calendar.js').DateParts} DateParts */
@@ -27,7 +28,6 @@ let ids = 0;
  */
 export function editDate({ value, local, presets }) {
 	return new Promise(resolve => {
-		const previous = document.activeElement;
 		const titleId = `date-editor-${++ids}`;
 		let selected = value;
 
@@ -46,13 +46,9 @@ export function editDate({ value, local, presets }) {
 		const [dateFields, timeFields] = [DATE_FIELDS.slice(0, 3), DATE_FIELDS.slice(3)].map(group => group.map(fieldOf));
 		stepWith(jd.element, 'jd');
 
-		const menu = createMenu({
-			label: el('span', { class: 'date-editor__presets-icon' }),
-			name: 'Date presets',
-			className: 'date-picker__presets',
-			entries: () => datePresets({ ...presets(), value: selected }).map(preset => 'separator' in preset
-				? preset
-				: { label: preset.label, run: () => { selected = preset.value; show(); } })
+		const menu = createPresetsMenu(() => ({ ...presets(), value: selected }), instant => {
+			selected = instant;
+			show();
 		});
 
 		const ok = el('button', { type: 'submit', class: 'button button--primary', autofocus: true }, 'OK');
@@ -127,28 +123,18 @@ export function editDate({ value, local, presets }) {
 			});
 		}
 
-		let done = false;
-		/** @param {number | null} result */
-		function finish(result) {
-			if (done) return;
-			done = true;
-			if (dialog.open) dialog.close();
-			dialog.remove();
-			if (previous instanceof HTMLElement && previous.isConnected) previous.focus();
-			resolve(result);
-		}
-
+		/** @type {number | null} what OK keeps; Cancel and Esc keep nothing */
+		let result = null;
 		form.addEventListener('submit', event => {
 			event.preventDefault();
-			finish(okDate(selected));
+			result = okDate(selected);
+			close();
 		});
-		cancel.addEventListener('click', () => finish(null));
-		// Esc closes the dialog natively
-		dialog.addEventListener('close', () => finish(null));
+		cancel.addEventListener('click', () => close());
 
 		show();
-		document.body.append(dialog);
-		dialog.showModal();
+		// Esc closes the dialog natively
+		const close = openModal(dialog, { onClose: () => resolve(result) });
 		ok.focus();
 	});
 }

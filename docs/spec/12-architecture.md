@@ -30,7 +30,7 @@ app/                        the web app, served as is (GitHub Pages: /Comets/app
     workers/                Worker entry points
     ui/                     everything that touches the DOM
       shell/                router, navigation, status area, dialogs, notifications, theme, shortcuts
-      components/           number field, date picker, comet picker, filters panel, sort menu, result tabs
+      components/           number field, date picker, comet picker, filters panel, sort menu, menus, modal dialogs, result tabs
       views/                one folder per view: database, update, ephemeris, graph, orbit, elements, settings, help
 tests/
   unit/                     node --test, mirroring app/js (core, lib, services with fakes)

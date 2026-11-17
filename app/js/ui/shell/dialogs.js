@@ -1,5 +1,6 @@
 // Confirmation dialogs: modal, answered by a button, closed by Esc as a No. Open dialogs form a
 // stack, so the Esc command closes the top one. docs/spec/01-product.md, Messages.
+import { openModal } from '../components/modal.js';
 import { el } from '../dom.js';
 
 /**
@@ -28,7 +29,6 @@ export function createDialogs(host) {
 	return Object.freeze({
 		confirm({ message, yes = 'Yes', no = 'No' }) {
 			return new Promise(resolve => {
-				const previous = document.activeElement;
 				const id = `shell-dialog-${++ids}`;
 				const yesButton = el('button', { type: 'button', class: 'shell-dialog__button shell-dialog__button--primary' }, yes);
 				const noButton = el('button', { type: 'button', class: 'shell-dialog__button' }, no);
@@ -41,9 +41,7 @@ export function createDialogs(host) {
 					if (answered) return;
 					answered = true;
 					open.splice(open.indexOf(cancel), 1);
-					dialog.close();
-					dialog.remove();
-					if (previous instanceof HTMLElement && previous.isConnected) previous.focus();
+					close();
 					resolve(value);
 				};
 				const cancel = () => answer(false);
@@ -55,8 +53,7 @@ export function createDialogs(host) {
 					cancel();
 				});
 				open.push(cancel);
-				host.append(dialog);
-				dialog.showModal();
+				const close = openModal(dialog, { host });
 				yesButton.focus();
 			});
 		},

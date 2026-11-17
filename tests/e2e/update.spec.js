@@ -299,6 +299,7 @@ test('View browses the merged list by import result, read-only, over the dialog'
 	await page.keyboard.press('Escape');
 	await expect(browser).toHaveCount(0);
 	await expect(dialog).toBeVisible();
+	await expect(dialog.getByRole('button', { name: 'View' })).toBeFocused();
 	await expect(page).toHaveURL(/#\/update$/);
 });
 
