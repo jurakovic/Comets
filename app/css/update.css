@@ -63,10 +63,6 @@
 	min-width: 120px;
 }
 
-.update-view__progress[hidden] {
-	display: none;
-}
-
 .update-view__error {
 	margin: var(--space-2) 0 0;
 	color: var(--color-error);
@@ -133,10 +129,6 @@
 
 .update-view__close-when {
 	margin-right: auto;
-}
-
-.update-view__close-when[hidden] {
-	display: none;
 }
 
 .update-view__total {

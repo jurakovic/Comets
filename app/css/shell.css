@@ -4,6 +4,11 @@
 	box-sizing: border-box;
 }
 
+/* `hidden` always hides: a class that sets `display` would otherwise show the element */
+[hidden] {
+	display: none !important;
+}
+
 html,
 body {
 	height: 100%;
@@ -118,10 +123,6 @@ body {
 	justify-content: flex-end;
 	gap: var(--space-2);
 	min-width: 0;
-}
-
-.shell-status__job[hidden] {
-	display: none;
 }
 
 .shell-status__progress {

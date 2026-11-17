@@ -34,11 +34,6 @@
 	min-height: 0;
 }
 
-.database-view__body[hidden],
-.database-view__empty[hidden] {
-	display: none;
-}
-
 .database-view__empty {
 	align-self: start;
 	padding: var(--space-4);
