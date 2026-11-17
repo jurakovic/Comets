@@ -114,7 +114,7 @@ There is also a **live ephemeris** block:
   - each tick adds exactly 1 s to the shown instant and recomputes;
   - picking a date restarts the clock from that date;
   - ticking stops while the view is hidden (another view shown, or `visibilitychange`) or no comet is selected, and resumes on return. Until a date is picked the clock follows the system clock, so it resumes at the current second, as it does when a comet is selected; a picked date resumes where it stopped. The desktop went back to the current time whenever its timer restarted;
-  - a tick runs 20 ms after the boundary, as the desktop's sync window (15–35 ms) has it; a tick that comes late still adds 1 s.
+  - a tick runs 20 ms after the boundary, as the desktop's sync window (15–35 ms) has it; a tick that comes late still adds 1 s. Within those 20 ms the boundary's tick counts as run: the clock shows that second, and the next tick waits for the next boundary. A coarse clock (Firefox with `privacy.resistFingerprinting`, Tor Browser: 16.7–100 ms) reads a tick's own moment as up to 20 ms early, and would otherwise tick again milliseconds later, running a second ahead.
 - Values at the shown instant:
 
   | Field | Format |

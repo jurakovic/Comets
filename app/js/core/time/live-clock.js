@@ -12,13 +12,13 @@
 export const TICK_AFTER_BOUNDARY = 20;
 
 /**
- * the second a clock following now shows: the one whose tick has run, so a tick due within the
- * 20 ms after a boundary still moves it on to that boundary's second
+ * the second a clock following now shows: the current one. Within the 20 ms after a boundary that
+ * boundary's tick counts as run, as tickDelay has it
  * @param {number} now UTC milliseconds
  * @returns {number}
  */
 export function followedSecond(now) {
-	return Math.floor((now - TICK_AFTER_BOUNDARY) / 1000) * 1000;
+	return Math.floor(now / 1000) * 1000;
 }
 
 /**
@@ -60,11 +60,14 @@ export function tickLiveClock(clock) {
 }
 
 /**
- * milliseconds from now to the next tick, 20 ms past the next second boundary
+ * milliseconds from now to the next tick, 20 ms past the next second boundary. Within the 20 ms
+ * after a boundary its tick counts as run and the next one waits for the boundary after: a coarse
+ * clock (Firefox's resistFingerprinting, Tor Browser: 16.7–100 ms) reads a tick's own moment as up
+ * to 20 ms early, which would otherwise bring the next tick within milliseconds
  * @param {number} now UTC milliseconds
- * @returns {number} 1–1000
+ * @returns {number} 21–1020
  */
 export function tickDelay(now) {
 	const delay = (((TICK_AFTER_BOUNDARY - now) % 1000) + 1000) % 1000;
-	return delay === 0 ? 1000 : delay;
+	return delay <= TICK_AFTER_BOUNDARY ? delay + 1000 : delay;
 }

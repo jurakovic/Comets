@@ -6,22 +6,43 @@ import {
 
 const at = (/** @type {string} */ iso) => Date.parse(iso);
 
-test('a new clock shows the second whose tick has run, and follows the system clock', () => {
+test('a new clock shows the current second, and follows the system clock', () => {
 	assert.equal(TICK_AFTER_BOUNDARY, 20);
 	assert.deepEqual({ ...createLiveClock(at('2026-11-05T06:19:11.500Z')) }, { shownAt: at('2026-11-05T06:19:11Z'), following: true });
-	// within 20 ms of a boundary its tick is still to come, and will move it on
-	assert.equal(followedSecond(at('2026-11-05T06:19:11.010Z')), at('2026-11-05T06:19:10Z'));
-	assert.equal(followedSecond(at('2026-11-05T06:19:11.020Z')), at('2026-11-05T06:19:11Z'));
+	// within 20 ms of a boundary its tick counts as run
+	assert.equal(followedSecond(at('2026-11-05T06:19:11.000Z')), at('2026-11-05T06:19:11Z'));
+	assert.equal(followedSecond(at('2026-11-05T06:19:11.010Z')), at('2026-11-05T06:19:11Z'));
+	assert.equal(followedSecond(at('2026-11-05T06:19:10.999Z')), at('2026-11-05T06:19:10Z'));
+	assert.equal(followedSecond(at('1969-12-31T23:59:59.500Z')), at('1969-12-31T23:59:59Z'), 'before the epoch too');
 	assert.ok(Object.isFrozen(createLiveClock(0)));
 });
 
-test('the next tick is 20 ms past the next boundary, and never now', () => {
+test('the next tick is 20 ms past the next boundary more than 20 ms away', () => {
 	assert.equal(tickDelay(at('2026-11-05T06:19:11.500Z')), 520);
-	assert.equal(tickDelay(at('2026-11-05T06:19:11.010Z')), 10);
-	assert.equal(tickDelay(at('2026-11-05T06:19:11.020Z')), 1000);
 	assert.equal(tickDelay(at('2026-11-05T06:19:11.021Z')), 999);
-	assert.equal(tickDelay(at('2026-11-05T06:19:11.000Z')), 20);
+	assert.equal(tickDelay(at('2026-11-05T06:19:11.020Z')), 1000);
+	assert.equal(tickDelay(at('2026-11-05T06:19:10.999Z')), 21);
 	assert.equal(tickDelay(at('1969-12-31T23:59:59.500Z')), 520, 'before the epoch too');
+	// just before the tick point: a coarse clock reading a tick's own moment, or a resume
+	assert.equal(tickDelay(at('2026-11-05T06:19:11.000Z')), 1020);
+	assert.equal(tickDelay(at('2026-11-05T06:19:11.010Z')), 1010);
+	assert.equal(tickDelay(at('2026-11-05T06:19:11.017Z')), 1003);
+});
+
+test('a coarse clock, or one stepped back by up to 20 ms, never brings a second tick within the second', () => {
+	for (const reading of [
+		(/** @type {number} */ real) => Math.floor(real / 100) * 100,
+		(/** @type {number} */ real) => Math.floor(real / (50 / 3)) * (50 / 3),
+		(/** @type {number} */ real) => real - 20
+	]) {
+		let real = at('2026-11-05T06:19:11.700Z');
+		let clock = createLiveClock(reading(real));
+		for (let i = 0; i < 10; i += 1) {
+			real += tickDelay(reading(real));
+			clock = tickLiveClock(clock);
+			assert.equal(clock.shownAt, Math.floor(real / 1000) * 1000, `tick ${i} at ${new Date(real).toISOString()}`);
+		}
+	}
 });
 
 test('ticks and the delay stay in step with the system clock while it is followed', () => {
