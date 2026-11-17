@@ -22,7 +22,7 @@ const names = (/** @type {ReadonlyArray<{ full: string }>} */ comets) => comets.
 /** a selection over a database store the test changes */
 function setup(/** @type {ReadonlyArray<any>} */ comets = []) {
 	const clock = createFakeClock(VECTOR_NOW);
-	const database = createStore(/** @type {Readonly<DatabaseState>} */ ({ comets, change: 'load' }));
+	const database = createStore(/** @type {Readonly<DatabaseState>} */ ({ comets, change: 'load', loaded: true }));
 	const selection = createSelectionService({ database, value: observations.value, clock });
 	return { clock, database, selection };
 }
@@ -44,7 +44,7 @@ test('it starts with the default rows and sort over the database', () => {
 
 test('every filters.json case through the service, in the default sort', () => {
 	const { database, selection } = setup();
-	database.set({ comets: full, change: 'load' });
+	database.set({ comets: full, change: 'load', loaded: true });
 	assert.equal(selection.state.get().total, 963);
 	for (const { title, filters, result } of filtersVector.cases) {
 		const rows = filters.map(fromVector);
@@ -89,7 +89,7 @@ test('an import clears the filters and applies the current sort to the new datab
 	selection.sort({ property: 'q', ascending: false });
 	selection.filter([createFilter('name', { checked: true, text: 'Halley' })]);
 	const merged = importElements(sample, 'MPC', readVectorText('import/merge-new.txt')).comets;
-	database.set({ comets: merged, change: 'import' });
+	database.set({ comets: merged, change: 'import', loaded: true });
 	const state = selection.state.get();
 	assert.deepEqual(state.filters, defaultFilters(VECTOR_NOW));
 	assert.deepEqual(state.sort, { property: 'q', ascending: false });
@@ -100,11 +100,11 @@ test('an import clears the filters and applies the current sort to the new datab
 test('the load and Clear all data start the filters afresh too', () => {
 	const { database, selection } = setup(sample);
 	selection.filter([createFilter('name', { checked: true, text: 'Halley' })]);
-	database.set({ comets: [], change: 'clear' });
+	database.set({ comets: [], change: 'clear', loaded: true });
 	assert.deepEqual(selection.state.get().comets, []);
 	assert.deepEqual(selection.state.get().filters, defaultFilters(VECTOR_NOW));
 	selection.filter([createFilter('name', { checked: true, text: 'Halley' })]);
-	database.set({ comets: sample, change: 'load' });
+	database.set({ comets: sample, change: 'load', loaded: true });
 	assert.equal(selection.state.get().comets.length, 34);
 });
 
@@ -115,7 +115,7 @@ test('a deletion takes the comet out of the selection and keeps the filters', ()
 	selection.sort({ property: 'q', ascending: true });
 	const before = selection.state.get().comets;
 	const gone = before[2];
-	database.set({ comets: sample.filter(c => c !== gone), change: 'delete' });
+	database.set({ comets: sample.filter(c => c !== gone), change: 'delete', loaded: true });
 	const state = selection.state.get();
 	assert.deepEqual(state.comets, before.filter(c => c !== gone));
 	assert.deepEqual(state.filters, rows);
@@ -127,7 +127,7 @@ test('a deletion of a comet the filters hide changes only the total', () => {
 	selection.filter([createFilter('q', { checked: true, text: '1' })]);
 	const before = selection.state.get().comets;
 	const hidden = sample.find(c => c.q >= 1);
-	database.set({ comets: sample.filter(c => c !== hidden), change: 'delete' });
+	database.set({ comets: sample.filter(c => c !== hidden), change: 'delete', loaded: true });
 	assert.deepEqual(selection.state.get().comets, before);
 	assert.equal(selection.state.get().total, 33);
 });

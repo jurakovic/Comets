@@ -29,17 +29,100 @@ async function setup({ stored = SAMPLE } = {}) {
 
 const names = (/** @type {ReadonlyArray<{ full: string }>} */ comets) => comets.map(c => c.full);
 
+/** lets awaited promises settle */
+const settle = () => new Promise(resolve => setTimeout(resolve, 0));
+
 test('empty until loaded, then the stored database', async () => {
 	const clock = createFakeClock(VECTOR_NOW);
 	const store = createRecordingStore();
 	const repository = createDatabaseRepository({ store, clock });
 	await repository.save(importElements([], 'MPC', SAMPLE).comets);
 	const database = createDatabaseService({ repository, clock, settings: { update: async () => { throw new Error('not expected'); } } });
-	assert.deepEqual(database.state.get(), { comets: [], change: 'load' });
+	assert.deepEqual(database.state.get(), { comets: [], change: 'load', loaded: false });
 	await database.load();
 	assert.equal(database.state.get().comets.length, 34);
 	assert.equal(database.state.get().change, 'load');
+	assert.equal(database.state.get().loaded, true);
 	assert.deepEqual(store.writes, ['put database'], 'loading writes nothing');
+});
+
+/**
+ * a database whose stored comets (the sample) arrive when the test lands the load
+ * @param {{ fail?: boolean }} [options] the load fails instead
+ */
+function lateLoad({ fail = false } = {}) {
+	/** @type {() => void} */
+	let land = () => {};
+	/** @type {number[]} */
+	const saved = [];
+	const writes = /** @type {string[]} */ ([]);
+	const repository = {
+		load: () => new Promise((resolve, reject) => {
+			land = () => (fail ? reject(new Error('unreadable')) : resolve(importElements([], 'MPC', SAMPLE).comets));
+		}),
+		save: async (/** @type {ReadonlyArray<unknown>} */ comets) => { writes.push('save'); saved.push(comets.length); },
+		text: async () => undefined,
+		clear: async () => { writes.push('clear'); }
+	};
+	const database = createDatabaseService({ repository, clock: createFakeClock(VECTOR_NOW), settings: { update: async () => /** @type {any} */ ({ ok: true }) } });
+	return { database, saved, writes, land: () => land() };
+}
+
+test('an Import before the load lands waits for it, merges into the stored database, and is not replaced', async () => {
+	const { database, saved, land } = lateLoad();
+	const loading = database.load();
+	const importing = database.apply(NEW, 'file');
+	await settle();
+	assert.equal(database.state.get().loaded, false);
+	assert.deepEqual(saved, [], 'nothing stored before the load');
+	land();
+	await loading;
+	assert.deepEqual(await importing, { status: 'imported', message: IMPORT_COMPLETE, count: 35 });
+	assert.deepEqual(names(database.state.get().comets), merge.result.map((/** @type {any} */ r) => r.full));
+	assert.equal(database.state.get().change, 'import');
+	assert.deepEqual(saved, [35], 'what is stored is what is shown');
+});
+
+test('Clear all data before the load lands empties what the load brought', async () => {
+	const { database, writes, land } = lateLoad();
+	const loading = database.load();
+	const clearing = database.clear();
+	land();
+	await Promise.all([loading, clearing]);
+	assert.deepEqual(database.state.get(), { comets: [], change: 'clear', loaded: true });
+	assert.deepEqual(writes, ['clear']);
+});
+
+test('a load that fails leaves the database empty and loaded, and the changes no longer wait', async () => {
+	const { database, saved, land } = lateLoad({ fail: true });
+	const loading = database.load();
+	const importing = database.apply(NEW, 'file');
+	land();
+	await assert.rejects(loading, /unreadable/);
+	assert.equal((await importing).status, 'imported');
+	assert.equal(database.state.get().comets.length, 33, 'the new file alone');
+	assert.deepEqual(saved, [33]);
+});
+
+test('once loaded, a change is made in the call, before the store writes', async () => {
+	const { database } = await setup();
+	const [comet] = database.state.get().comets;
+	const removing = database.remove(comet);
+	assert.equal(database.state.get().change, 'delete');
+	assert.equal(database.state.get().comets.length, 33);
+	await removing;
+	const importing = database.apply(NEW, 'file');
+	assert.equal(database.state.get().change, 'import');
+	await importing;
+});
+
+test('the load runs once', async () => {
+	let loads = 0;
+	const repository = { load: async () => { loads += 1; return []; }, save: async () => {}, text: async () => undefined, clear: async () => {} };
+	const database = createDatabaseService({ repository, clock: createFakeClock(VECTOR_NOW), settings: { update: async () => /** @type {any} */ ({ ok: true }) } });
+	await Promise.all([database.load(), database.load()]);
+	await database.load();
+	assert.equal(loads, 1);
 });
 
 test('the preview merges into the database as it is, and changes nothing', async () => {
@@ -170,7 +253,7 @@ test('changes are stored in the order they were made', async () => {
 test('Clear all data empties the database and removes what is stored', async () => {
 	const { database, store } = await setup();
 	await database.clear();
-	assert.deepEqual(database.state.get(), { comets: [], change: 'clear' });
+	assert.deepEqual(database.state.get(), { comets: [], change: 'clear', loaded: true });
 	assert.deepEqual(store.writes, [`remove ${DATABASE_KEY}`]);
 });
 

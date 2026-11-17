@@ -65,6 +65,50 @@ test('the preview counts a download merged into the database, as import-merge.js
 	expect(mergeCounts()).toBe('1, 1, 33; 35');
 });
 
+test('before the stored database has loaded: no empty state, and an Import waits for the load and is kept', async ({ page }) => {
+	await seed(page, { database: SAMPLE });
+	// IndexedDB's open answers when the test says so
+	await page.addInitScript(() => {
+		const open = IDBFactory.prototype.open;
+		/** @type {Array<() => void>} */
+		const held = [];
+		let landed = false;
+		Object.assign(window, { landDatabase: () => { landed = true; held.splice(0).forEach(run => run()); } });
+		IDBFactory.prototype.open = function (...args) {
+			const request = open.apply(this, args);
+			/** @type {((event: Event) => void) | null} */
+			let onsuccess = null;
+			// the handler the app sets runs later; the request's own one never does
+			Object.defineProperty(request, 'onsuccess', { get: () => onsuccess, set: handler => { onsuccess = handler; } });
+			request.addEventListener('success', event => {
+				const run = () => onsuccess?.call(request, event);
+				if (landed) run();
+				else held.push(run);
+			});
+			return request;
+		};
+	});
+	await page.reload();
+	const view = page.locator('[data-view="database"]');
+	await expect(view.getByRole('heading', { level: 1 })).toHaveText('Database');
+	await expect(view).toHaveAttribute('aria-busy', 'true');
+	await expect(view.getByText('The database is empty.')).toBeHidden();
+	await expect(view.getByRole('button', { name: 'Download comet elements' })).toBeHidden();
+
+	await page.goto('./#/update');
+	const dialog = dialogOf(page);
+	await dialog.getByLabel('Choose file').setInputFiles({ name: 'merge-new.txt', mimeType: 'text/plain', buffer: Buffer.from(NEW) });
+	await dialog.getByRole('button', { name: 'Import' }).click();
+	await expect(dialog.getByRole('button', { name: 'Import' })).toBeDisabled();
+	await page.evaluate(() => /** @type {any} */ (window).landDatabase());
+	await expect(dialog).toBeHidden();
+	await expect(view.getByRole('heading', { level: 1 })).toHaveText('Database (35 comets)');
+	await expect(view).toHaveAttribute('aria-busy', 'false');
+	await page.reload();
+	await page.evaluate(() => /** @type {any} */ (window).landDatabase());
+	await expect(view.getByRole('heading', { level: 1 })).toHaveText('Database (35 comets)');
+});
+
 test('a local file, chosen or dropped and decoded by its byte-order mark, is the candidate', async ({ page }) => {
 	await seed(page, { database: SAMPLE });
 	await page.goto('./#/update');

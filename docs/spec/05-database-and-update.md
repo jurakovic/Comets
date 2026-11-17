@@ -6,6 +6,7 @@ The database is stored in the browser as the **MPC-format export** of the main c
 
 - Storing MPC text keeps the desktop's behaviour exactly, including the precision the stored data has after a restart (6 decimals for q and e, 4 for the angles, a 4-digit day fraction).
 - The stored text MUST be rewritten after every change: after an import and after a deletion. The desktop wrote it on exit; the web app has no exit.
+- Reading it can take a moment (IndexedDB may take seconds to open), and the app is usable meanwhile. Until it has been read, the database is empty for want of it: the [Database view](#layout) shows neither its comets nor the empty state, and an import, a deletion or Clear all data waits for the read, so that it changes the stored database and the read cannot replace it. A read that fails leaves the database empty. The desktop read `Comets.db` before showing its window.
 - The storage layout is in [09](09-settings-and-persistence.md#storage-layout).
 
 ## Update
@@ -36,7 +37,7 @@ Desktop: Edit › Update (F6). The Update dialog opens over the current view (ro
 As soon as a source is loaded, the dialog shows:
 
 - **Import format**: the detected format's name ([03 § Detection](03-element-formats.md#detection)), or `(no file selected)`, `(empty file)` or `(unknown)`.
-- **Total comets**: the result of merging the file into the current database, without applying it yet. It shows the counts as `<new>, <updates>, <no changes>; <total>`, with the tooltip `New, updates, no changes; total`, and `-` without a tooltip while there is no format. The counts count the merged list by import result ([03 § Merge](03-element-formats.md#merge-import-into-the-database)), so `<total>` includes comets that are only in the database.
+- **Total comets**: the result of merging the file into the current database, without applying it yet, recounted while the dialog is open whenever the database changes (the stored one read, an import). It shows the counts as `<new>, <updates>, <no changes>; <total>`, with the tooltip `New, updates, no changes; total`, and `-` without a tooltip while there is no format. The counts count the merged list by import result ([03 § Merge](03-element-formats.md#merge-import-into-the-database)), so `<total>` includes comets that are only in the database.
 - A **View** action opens the merged list in an [import result browser](#import-result-browser).
 
 ### Import
@@ -61,7 +62,7 @@ Desktop: Edit › Database (F5), a modal dialog with OK and Cancel. On the web i
 
 ### Layout
 
-- **Title**: `Database (<n> comets)`, or `Database (<n>/<total> comets)` when filters hide some.
+- **Title**: `Database (<n> comets)`, or `Database (<n>/<total> comets)` when filters hide some; `Database` until the stored database has been read.
 - **Comet list**: the `full` names of the selection in its current order. Selecting an entry shows its details. The arrow keys, Home, End, Page Up and Page Down move the selection; a double click switches the details tab, as on the desktop.
   - After a sort, a filter or an import, the comet selected stays selected while it is in the list; otherwise the first is. The desktop selected the first after every change.
 - **Sort menu** ([02 § Sorting](02-data-model.md#sorting)): the property list plus Ascending and Descending, with the current choice marked.
@@ -72,7 +73,7 @@ Desktop: Edit › Database (F5), a modal dialog with OK and Cancel. On the web i
   - The list selection moves to the same index, clamped to the list.
   - The database is saved.
   - Without a selected comet, Delete is disabled.
-- **Empty database**: an empty state, `The database is empty.`, with a **Download comet elements** action, which opens Update and starts the download (`#/update?download`). A database whose filters hide every comet shows the empty list instead.
+- **Empty database**: once the stored database has been read, an empty state, `The database is empty.`, with a **Download comet elements** action, which opens Update and starts the download (`#/update?download`). A database whose filters hide every comet shows the empty list instead.
 - **Details**: two tabs, **Ephemeris** (first) and **Orbital elements**. A value shown only below a period of 1000 years is left empty beyond it, as on the desktop.
 
 ### Filters panel

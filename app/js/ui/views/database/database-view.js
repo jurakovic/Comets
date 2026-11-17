@@ -15,6 +15,9 @@ import { createCometList } from './comet-list.js';
 const DOWNLOAD_ACTION = 'Download comet elements';
 const DOWNLOAD_ROUTE = '#/update?download';
 
+/** the title until the stored database has been read */
+const LOADING_TITLE = 'Database';
+
 /**
  * the question Delete asks when its setting is on (`SettingsBase.ValidateCometDelete`)
  * @param {Comet} comet
@@ -59,8 +62,11 @@ export function createDatabaseView({ selection, database, settings, observations
 
 	/** @param {Readonly<Selection>} state */
 	function render({ comets, total }) {
-		title.textContent = databaseTitle(comets.length, total);
-		const emptyDatabase = total === 0;
+		// before the load the list is empty for want of the stored comets, which may be there
+		const { loaded } = database.state.get();
+		title.textContent = loaded ? databaseTitle(comets.length, total) : LOADING_TITLE;
+		element.setAttribute('aria-busy', String(!loaded));
+		const emptyDatabase = loaded && total === 0;
 		empty.hidden = !emptyDatabase;
 		body.hidden = emptyDatabase;
 		const index = indexAfterChange(comets, deletedAt === null ? selected : null, deletedAt ?? 0);

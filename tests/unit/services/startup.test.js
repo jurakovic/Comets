@@ -41,7 +41,7 @@ async function start(stored) {
 
 test('the first run: the defaults, an empty database, no question', async () => {
 	const { result, settings, writes } = await start({});
-	assert.deepEqual(result, { prompt: null, empty: true });
+	assert.deepEqual(result, { prompt: null });
 	assert.equal(settings.settings.get(), DEFAULT_SETTINGS);
 	assert.deepEqual(writes, []);
 });
@@ -51,7 +51,7 @@ test('a later run: the stored settings and database, and the question when it is
 		settings: writeSettings(settingsWith({ theme: 'dark', lastUpdateDate: VECTOR_NOW - 10 * DAY })),
 		database: readVectorText('import/sample.txt')
 	});
-	assert.deepEqual(result, { prompt: { days: 10, message: 'Last update was 10 days ago. Update now?' }, empty: false });
+	assert.deepEqual(result, { prompt: { days: 10, message: 'Last update was 10 days ago. Update now?' } });
 	assert.equal(settings.settings.get().theme, 'dark');
 	assert.equal(database.state.get().comets.length, 34);
 });

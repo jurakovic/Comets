@@ -46,7 +46,7 @@ On the desktop, the user can keep several ephemeris, graph and orbit-viewer wind
 ### Startup
 
 1. Load settings and the stored database ([09](09-settings-and-persistence.md#storage-layout)). Parse the database exactly as an MPC-format import ([05](05-database-and-update.md#storage)).
-2. If the database is empty, the Database view shows an empty state whose primary action downloads elements from the configured URL ([05 § Update](05-database-and-update.md#update)).
+2. If the database is empty once read, the Database view shows an empty state whose primary action downloads elements from the configured URL ([05 § Update](05-database-and-update.md#update)).
 3. If **automatic update** is on and a previous update date is stored, compute the whole days since the last update: `floor((nowUtc − lastUpdateDate) / 1 day)`. If that is ≥ the update interval, ask: `Last update was <n> days ago. Update now?` On yes, open Update and start the download (desktop `FormMain_Shown`).
 
 ## Platform and hosting

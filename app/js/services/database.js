@@ -16,6 +16,8 @@ import { previewImport } from '../core/formats/import.js';
  * @typedef {object} DatabaseState
  * @property {ReadonlyArray<Comet>} comets in database order
  * @property {DatabaseChange} change the last change
+ * @property {boolean} loaded whether the stored database has been read: until then the list is
+ *   empty for want of it, not because nothing is stored
  */
 
 /** what Import tells the user */
@@ -34,9 +36,12 @@ export const ZERO_IMPORTED = 'Something wrong happened. Zero comets imported.';
  */
 
 /**
+ * The changes wait for the load, so that they change the stored database and a load that lands
+ * late cannot replace them; once it has landed they change the state at once, in the call.
  * @typedef {object} DatabaseService
  * @property {import('../lib/store.js').ReadableStore<Readonly<DatabaseState>>} state empty until load
- * @property {() => Promise<void>} load reads the stored database
+ * @property {() => Promise<void>} load reads the stored database, once; a load that fails leaves it
+ *   empty and loaded
  * @property {(text: string | null) => ImportPreview} preview a source merged into the database as it is now
  * @property {(text: string | null, source: ImportSource) => Promise<ImportOutcome>} apply Import; resolves once stored
  * @property {(comet: Comet) => Promise<void>} remove deletes the comet (this record); resolves once stored
@@ -51,17 +56,33 @@ export const ZERO_IMPORTED = 'Something wrong happened. Zero comets imported.';
  * @returns {DatabaseService}
  */
 export function createDatabaseService({ repository, clock, settings }) {
-	const state = createStore(/** @type {Readonly<DatabaseState>} */ (Object.freeze({ comets: Object.freeze([]), change: 'load' })));
+	const state = createStore(/** @type {Readonly<DatabaseState>} */ (Object.freeze({ comets: Object.freeze([]), change: 'load', loaded: false })));
 	// writes in the order of the changes, so the last one is the one stored
 	const queue = createQueue();
+	/** @type {() => void} */
+	let landed = () => {};
+	/** settles once the load has landed, or failed */
+	const whenLoaded = new Promise(resolve => { landed = () => resolve(undefined); });
+	/** @type {Promise<void> | null} */
+	let loading = null;
 
 	/**
+	 * every change but the load comes after it, so each state from here on is loaded
 	 * @param {ReadonlyArray<Comet>} comets
 	 * @param {DatabaseChange} change
 	 */
 	function set(comets, change) {
-		state.set(Object.freeze({ comets, change }));
+		state.set(Object.freeze({ comets, change, loaded: true }));
 	}
+
+	/**
+	 * a change once the database has loaded: in this call when it has, which the Database view's
+	 * Delete relies on, since it reads the list the change makes before the call returns
+	 * @template T
+	 * @param {() => Promise<T>} change
+	 * @returns {Promise<T>}
+	 */
+	const afterLoad = change => (state.get().loaded ? change() : whenLoaded.then(change));
 
 	/** the database as it is now, stored after what was changed before (spec 10, D10) */
 	const save = () => {
@@ -71,11 +92,18 @@ export function createDatabaseService({ repository, clock, settings }) {
 
 	return Object.freeze({
 		state: readonly(state),
-		async load() {
-			set(await repository.load(), 'load');
+		load() {
+			loading ??= repository.load().then(
+				comets => set(comets, 'load'),
+				error => {
+					set(Object.freeze([]), 'load');
+					throw error;
+				}
+			).finally(landed);
+			return loading;
 		},
 		preview: (/** @type {string | null} */ text) => previewImport(state.get().comets, text),
-		async apply(/** @type {string | null} */ text, /** @type {ImportSource} */ source) {
+		apply: (/** @type {string | null} */ text, /** @type {ImportSource} */ source) => afterLoad(async () => {
 			// merged now, against the database as it is now, not as it was when the preview was shown
 			const { merge } = previewImport(state.get().comets, text);
 			if (!merge) return Object.freeze({ status: 'none' });
@@ -86,17 +114,17 @@ export function createDatabaseService({ repository, clock, settings }) {
 				source === 'download' ? settings.update({ lastUpdateDate: clock.now() }) : null
 			]);
 			return Object.freeze({ status: 'imported', message: IMPORT_COMPLETE, count: merge.comets.length });
-		},
-		async remove(/** @type {Comet} */ comet) {
+		}),
+		remove: (/** @type {Comet} */ comet) => afterLoad(async () => {
 			const { comets } = state.get();
 			const index = comets.indexOf(comet);
 			if (index < 0) return;
 			set(Object.freeze([...comets.slice(0, index), ...comets.slice(index + 1)]), 'delete');
 			await save();
-		},
-		async clear() {
+		}),
+		clear: () => afterLoad(async () => {
 			set(Object.freeze([]), 'clear');
 			await queue(() => repository.clear());
-		}
+		})
 	});
 }

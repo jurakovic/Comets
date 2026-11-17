@@ -69,14 +69,14 @@ export function closesAfterImport({ outcome, automatic, closeWhenFinished }) {
  * @property {(file: Blob & { name: string }) => Promise<void>} loadFile a chosen or dropped file;
  *   none in automatic mode
  * @property {() => Promise<import('./database.js').ImportOutcome>} importCandidate Import
- * @property {() => void} close stops a running download
+ * @property {() => void} close stops a running download; the counts stop following the database
  */
 
 /**
  * @param {object} deps
  * @param {import('./ports.js').TextFetcher} deps.fetcher
  * @param {import('./ports.js').TextFileReader} deps.reader
- * @param {Pick<import('./database.js').DatabaseService, 'preview' | 'apply'>} deps.database
+ * @param {Pick<import('./database.js').DatabaseService, 'state' | 'preview' | 'apply'>} deps.database
  * @param {Pick<import('./settings.js').SettingsService, 'settings'>} deps.settings
  * @returns {UpdateService}
  */
@@ -97,6 +97,8 @@ export function createUpdateService({ fetcher, reader, database, settings }) {
 	let downloading = null;
 	// a later file read wins over an earlier one still running
 	let fileTicket = 0;
+	// whether the dialog is open, so that its counts follow the database
+	let opened = false;
 
 	/** @param {Partial<UpdateState>} change */
 	const set = change => state.set(Object.freeze({ ...state.get(), ...change }));
@@ -141,9 +143,16 @@ export function createUpdateService({ fetcher, reader, database, settings }) {
 		}
 	}
 
+	// the counts against the database as it is now: the stored one once it has loaded, the one an
+	// Import made, for the candidate as it is then (a download may finish while Import stores)
+	database.state.subscribe(() => {
+		if (opened) set({ preview: previewOf(state.get().candidate) });
+	});
+
 	return Object.freeze({
 		state: readonly(state),
 		open({ automatic = false, download: start = false } = {}) {
+			opened = true;
 			stop();
 			fileTicket += 1;
 			texts.download = texts.file = null;
@@ -170,15 +179,12 @@ export function createUpdateService({ fetcher, reader, database, settings }) {
 				set({ file: Object.freeze({ name: file.name, error: UNREADABLE_FILE }), candidate, preview: previewOf(candidate) });
 			}
 		},
-		async importCandidate() {
+		importCandidate() {
 			const { candidate } = state.get();
-			const outcome = await database.apply(candidate === null ? null : texts[candidate], candidate ?? 'file');
-			// the counts against the database as it is now, for the candidate now: a download may
-			// have finished while the import was stored
-			set({ preview: previewOf(state.get().candidate) });
-			return outcome;
+			return database.apply(candidate === null ? null : texts[candidate], candidate ?? 'file');
 		},
 		close() {
+			opened = false;
 			stop();
 			if (state.get().download.status === 'running') set({ download: Object.freeze({ status: 'idle' }) });
 		}

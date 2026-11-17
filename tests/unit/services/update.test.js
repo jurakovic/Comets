@@ -52,6 +52,8 @@ async function setup({ stored = SAMPLE, url = DEFAULT_DOWNLOAD_URL } = {}) {
 const sampleComets = importElements([], 'MPC', SAMPLE).comets;
 const importPreview = (/** @type {string | null} */ text) => previewImport(sampleComets, text);
 const fixedSettings = { settings: { get: () => /** @type {any} */ ({ downloadUrl: DEFAULT_DOWNLOAD_URL }), subscribe: () => () => {} } };
+/** the state of a stand-in database that never changes */
+const unchanging = { get: () => /** @type {any} */ ({}), subscribe: () => () => {} };
 
 /** lets awaited promises settle */
 const settle = () => new Promise(resolve => setTimeout(resolve, 0));
@@ -128,7 +130,7 @@ test('a file that cannot be read says so, and the download is the candidate agai
 	const update = createUpdateService({
 		fetcher,
 		reader: { readText: async blob => { if (blob === broken) throw new DOMException('gone', 'NotReadableError'); return blob.text(); } },
-		database: { preview: importPreview, apply: async () => ({ status: 'none' }) },
+		database: { state: unchanging, preview: importPreview, apply: async () => ({ status: 'none' }) },
 		settings: fixedSettings
 	});
 	update.open({ download: true });
@@ -148,7 +150,7 @@ test('a later file read wins over an earlier one still running', async () => {
 	const update = createUpdateService({
 		fetcher: createManualFetcher(),
 		reader: { readText: blob => new Promise(resolve => pending.push(() => resolve(blob.text()))) },
-		database: { preview: importPreview, apply: async () => ({ status: 'none' }) },
+		database: { state: unchanging, preview: importPreview, apply: async () => ({ status: 'none' }) },
 		settings: fixedSettings
 	});
 	update.open();
@@ -233,7 +235,7 @@ test('a download that answers after Cancel, Close or a new opening changes nothi
 	const calls = [];
 	// a fetcher that ignores its signal, as a slow server's answer may still come
 	const fetcher = { fetchText: (/** @type {string} */ _url, /** @type {any} */ options) => new Promise(resolve => calls.push({ ...options, resolve })) };
-	const update = createUpdateService({ fetcher, reader, database: { preview: importPreview, apply: async () => ({ status: 'none' }) }, settings: fixedSettings });
+	const update = createUpdateService({ fetcher, reader, database: { state: unchanging, preview: importPreview, apply: async () => ({ status: 'none' }) }, settings: fixedSettings });
 	update.open();
 	for (const end of [() => update.cancelDownload(), () => update.close(), () => update.open()]) {
 		update.download();
@@ -261,6 +263,32 @@ test('after Import the counts are the candidate\'s as it is then', async () => {
 	const state = update.state.get();
 	assert.equal(state.candidate, 'download');
 	assert.equal(state.preview.counts, '1, 1, 33; 35');
+});
+
+test('while the dialog is open its counts follow the database: the stored one once it has loaded', async () => {
+	const clock = createFakeClock(VECTOR_NOW);
+	/** @type {(comets: ReadonlyArray<import('../../../app/js/core/comets/comet.js').Comet>) => void} */
+	let land = () => {};
+	const repository = {
+		load: () => new Promise(resolve => { land = resolve; }),
+		save: async () => {},
+		text: async () => undefined,
+		clear: async () => {}
+	};
+	const settings = createSettingsService({ store: createRecordingStore() });
+	const database = createDatabaseService({ repository, clock, settings });
+	const loading = database.load();
+	const update = createUpdateService({ fetcher: createManualFetcher(), reader, database, settings });
+	update.open();
+	await update.loadFile(file('new.txt', NEW));
+	assert.equal(update.state.get().preview.counts, '33, 0, 0; 33', 'against the database before its load');
+	land(importElements([], 'MPC', SAMPLE).comets);
+	await loading;
+	assert.equal(update.state.get().preview.counts, '1, 1, 33; 35');
+	update.close();
+	const before = update.state.get();
+	await database.remove(database.state.get().comets[0]);
+	assert.equal(update.state.get(), before, 'closed, it no longer follows');
 });
 
 test('the dialog closes after Import in automatic mode, or after an import with Close when finished', () => {
