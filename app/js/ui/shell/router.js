@@ -4,6 +4,9 @@ import { createStore, readonly } from '../../lib/store.js';
 
 /** @typedef {import('./routes.js').Route} Route */
 
+/** the history state's key for the entries a dialog route has made */
+const ENTRIES = 'overlayEntries';
+
 /**
  * @typedef {object} View
  * @property {HTMLElement} element
@@ -49,6 +52,9 @@ export function createRouter({ routes, fallback, outlet, context }) {
 	let underlying = fallback;
 	// whether the dialog route was reached from a view by a navigation, which Back undoes
 	let returnable = false;
+	// the history entries Back undoes: the dialog route's first, and each one a hash change made
+	// under it (#/update, then #/update?automatic)
+	let entries = 0;
 	// a leaving under way: Back is asynchronous, and a second Back would go one entry too far
 	let leaving = false;
 	let navigation = 0;
@@ -91,6 +97,17 @@ export function createRouter({ routes, fallback, outlet, context }) {
 		view.show(params);
 	}
 
+	/**
+	 * the entry shown is the dialog route's first, a new one, or one Back or Forward reached; its
+	 * count is kept in its history state, which the traversals bring back
+	 * @param {boolean} opening
+	 */
+	function countEntry(opening) {
+		const kept = history.state?.[ENTRIES];
+		entries = typeof kept === 'number' ? kept : opening ? 1 : entries + 1;
+		if (kept !== entries) history.replaceState({ ...history.state, [ENTRIES]: entries }, '');
+	}
+
 	function closeOverlay() {
 		if (!overlay) return;
 		const view = overlay;
@@ -116,12 +133,14 @@ export function createRouter({ routes, fallback, outlet, context }) {
 				showInOutlet(baseView, new URLSearchParams());
 				underlying = fallback;
 			}
-			if (overlay !== view) {
+			const opening = overlay !== view;
+			if (opening) {
 				returnable = byNavigation && previous !== null && !routeOf(previous).overlay;
 				closeOverlay();
 				if (!view.element.isConnected) document.body.append(view.element);
 				overlay = view;
 			}
+			if (returnable) countEntry(opening);
 			view.show(params);
 		} else {
 			const view = await viewOf(route);
@@ -144,12 +163,12 @@ export function createRouter({ routes, fallback, outlet, context }) {
 			addEventListener('hashchange', () => { go(true); });
 			return go(false);
 		},
-		/** leaves a dialog route for the view under it: Back, when a navigation opened it */
+		/** leaves a dialog route for the view under it: Back past its entries, when a navigation opened it */
 		leaveOverlay() {
 			if (!overlay || leaving) return;
 			leaving = true;
 			if (returnable) {
-				history.back();
+				history.go(-entries);
 				return;
 			}
 			history.replaceState(null, '', `#/${underlying}`);

@@ -13,7 +13,7 @@ The database is stored in the browser as the **MPC-format export** of the main c
 
 Desktop: Edit › Update (F6). The Update dialog opens over the current view (route `#/update`) and offers two sources. The one loaded **most recently** becomes the import candidate.
 
-- The view it was opened over stays under it; after a reload on `#/update`, the Database view is under it. **Close** and `Esc` go back to that view (Back, when a navigation opened the dialog). Closing stops a running download.
+- The view it was opened over stays under it; after a reload on `#/update`, the Database view is under it. **Close** and `Esc` go back to that view (Back, when a navigation opened the dialog: past every entry made while it is open, such as `#/update?automatic` from the start-up question over `#/update`). Closing stops a running download.
 - Each opening starts afresh, as the desktop's new form did: no source, no candidate.
 - `#/update?automatic` opens it in [automatic mode](#automatic-update); `#/update?download` starts the download at once in the normal mode (the empty database's action).
 

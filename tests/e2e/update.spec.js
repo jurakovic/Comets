@@ -219,6 +219,31 @@ test('the dialog stays over the view it was opened from; Esc and Close go back t
 	await expect(page).toHaveURL(/#\/database$/);
 });
 
+test('a hash change under the open dialog: Close still goes back to the view, and so do Back and Forward', async ({ page }) => {
+	await answerMpc(page, NEW);
+	await page.goto('./#/graph');
+	await page.locator('.shell-nav a[href="#/update"]').click();
+	const dialog = dialogOf(page);
+	await expect(dialog).toBeVisible();
+	// as the start-up question's Yes does when Update was opened before it
+	await page.evaluate(() => { location.hash = '#/update?automatic'; });
+	await expect(dialog.getByLabel('Choose file')).toBeDisabled();
+	await dialog.getByRole('button', { name: 'Close' }).click();
+	await expect(dialog).toBeHidden();
+	await expect(page).toHaveURL(/#\/graph$/);
+
+	// Forward into both entries, Back to the first, Esc: the view again
+	await page.goForward();
+	await expect(dialog.getByLabel('Choose file')).toBeEnabled();
+	await page.goForward();
+	await expect(dialog.getByLabel('Choose file')).toBeDisabled();
+	await page.goBack();
+	await expect(dialog.getByLabel('Choose file')).toBeEnabled();
+	await page.keyboard.press('Escape');
+	await expect(dialog).toBeHidden();
+	await expect(page).toHaveURL(/#\/graph$/);
+});
+
 test('View browses the merged list by import result, read-only, over the dialog', async ({ page }) => {
 	await answerMpc(page, NEW);
 	await seed(page, { database: SAMPLE });
