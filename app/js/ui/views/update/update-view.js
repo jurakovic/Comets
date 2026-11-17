@@ -145,9 +145,10 @@ export function createUpdateView({ update, notify, leaveOverlay, observations, s
 	let shown = false;
 	/** @type {(() => void) | null} */
 	let unsubscribe = null;
-	// Esc closes the dialog natively; the route follows
+	// Esc closes the dialog natively; the route follows. The event comes a task later, so a close by
+	// hide() can arrive after the next show() reopened the dialog (Back, then Forward at once)
 	element.addEventListener('close', () => {
-		if (shown) leaveOverlay();
+		if (shown && !element.open) leaveOverlay();
 	});
 
 	return {

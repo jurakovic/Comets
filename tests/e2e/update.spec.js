@@ -30,6 +30,36 @@ const answerMpc = (page, body) => page.route(MPC_URL, route => route.fulfill({ s
 /** @param {import('@playwright/test').Page} page */
 const dialogOf = page => page.getByRole('dialog', { name: 'Update' });
 
+/**
+ * from the next load on, IndexedDB's open answers only once the test calls landDatabase
+ * @param {import('@playwright/test').Page} page
+ */
+async function holdDatabase(page) {
+	await page.addInitScript(() => {
+		const open = IDBFactory.prototype.open;
+		/** @type {Array<() => void>} */
+		const held = [];
+		let landed = false;
+		Object.assign(window, { landDatabase: () => { landed = true; held.splice(0).forEach(run => run()); } });
+		IDBFactory.prototype.open = function (...args) {
+			const request = open.apply(this, args);
+			/** @type {((event: Event) => void) | null} */
+			let onsuccess = null;
+			// the handler the app sets runs later; the request's own one never does
+			Object.defineProperty(request, 'onsuccess', { get: () => onsuccess, set: handler => { onsuccess = handler; } });
+			request.addEventListener('success', event => {
+				const run = () => onsuccess?.call(request, event);
+				if (landed) run();
+				else held.push(run);
+			});
+			return request;
+		};
+	});
+}
+
+/** @param {import('@playwright/test').Page} page */
+const landDatabase = page => page.evaluate(() => /** @type {any} */ (window).landDatabase());
+
 test('first run: the download is previewed, imported, stored and found again after a reload', async ({ page }) => {
 	await answerMpc(page, FULL);
 	await page.goto('./');
@@ -67,27 +97,7 @@ test('the preview counts a download merged into the database, as import-merge.js
 
 test('before the stored database has loaded: no empty state, and an Import waits for the load and is kept', async ({ page }) => {
 	await seed(page, { database: SAMPLE });
-	// IndexedDB's open answers when the test says so
-	await page.addInitScript(() => {
-		const open = IDBFactory.prototype.open;
-		/** @type {Array<() => void>} */
-		const held = [];
-		let landed = false;
-		Object.assign(window, { landDatabase: () => { landed = true; held.splice(0).forEach(run => run()); } });
-		IDBFactory.prototype.open = function (...args) {
-			const request = open.apply(this, args);
-			/** @type {((event: Event) => void) | null} */
-			let onsuccess = null;
-			// the handler the app sets runs later; the request's own one never does
-			Object.defineProperty(request, 'onsuccess', { get: () => onsuccess, set: handler => { onsuccess = handler; } });
-			request.addEventListener('success', event => {
-				const run = () => onsuccess?.call(request, event);
-				if (landed) run();
-				else held.push(run);
-			});
-			return request;
-		};
-	});
+	await holdDatabase(page);
 	await page.reload();
 	const view = page.locator('[data-view="database"]');
 	await expect(view.getByRole('heading', { level: 1 })).toHaveText('Database');
@@ -100,12 +110,12 @@ test('before the stored database has loaded: no empty state, and an Import waits
 	await dialog.getByLabel('Choose file').setInputFiles({ name: 'merge-new.txt', mimeType: 'text/plain', buffer: Buffer.from(NEW) });
 	await dialog.getByRole('button', { name: 'Import' }).click();
 	await expect(dialog.getByRole('button', { name: 'Import' })).toBeDisabled();
-	await page.evaluate(() => /** @type {any} */ (window).landDatabase());
+	await landDatabase(page);
 	await expect(dialog).toBeHidden();
 	await expect(view.getByRole('heading', { level: 1 })).toHaveText('Database (35 comets)');
 	await expect(view).toHaveAttribute('aria-busy', 'false');
 	await page.reload();
-	await page.evaluate(() => /** @type {any} */ (window).landDatabase());
+	await landDatabase(page);
 	await expect(view.getByRole('heading', { level: 1 })).toHaveText('Database (35 comets)');
 });
 
@@ -219,20 +229,26 @@ test('the dialog stays over the view it was opened from; Esc and Close go back t
 	await expect(page).toHaveURL(/#\/database$/);
 });
 
-test('a hash change under the open dialog: Close still goes back to the view, and so do Back and Forward', async ({ page }) => {
+test('Yes to the start-up question over an open dialog: Close goes back to the view, and so do Back and Forward', async ({ page }) => {
+	await page.clock.setFixedTime(new Date('2026-10-18T12:00:00Z'));
 	await answerMpc(page, NEW);
+	await seed(page, { settings: { lastUpdateDate: '2026-10-08T12:00:00.000Z' }, database: SAMPLE });
+	await holdDatabase(page);
 	await page.goto('./#/graph');
+	await page.reload();
 	await page.locator('.shell-nav a[href="#/update"]').click();
 	const dialog = dialogOf(page);
-	await expect(dialog).toBeVisible();
-	// as the start-up question's Yes does when Update was opened before it
-	await page.evaluate(() => { location.hash = '#/update?automatic'; });
+	await expect(dialog.getByLabel('Choose file')).toBeEnabled();
+	// the question comes once the database has loaded, over the dialog; Yes opens #/update?automatic
+	await landDatabase(page);
+	await page.getByRole('alertdialog').getByRole('button', { name: 'Yes' }).click();
+	await expect(page).toHaveURL(/#\/update\?automatic$/);
 	await expect(dialog.getByLabel('Choose file')).toBeDisabled();
 	await dialog.getByRole('button', { name: 'Close' }).click();
 	await expect(dialog).toBeHidden();
 	await expect(page).toHaveURL(/#\/graph$/);
 
-	// Forward into both entries, Back to the first, Esc: the view again
+	// Forward into both entries at once, Back to the first, Esc: the view again
 	await page.goForward();
 	await expect(dialog.getByLabel('Choose file')).toBeEnabled();
 	await page.goForward();
@@ -242,6 +258,17 @@ test('a hash change under the open dialog: Close still goes back to the view, an
 	await page.keyboard.press('Escape');
 	await expect(dialog).toBeHidden();
 	await expect(page).toHaveURL(/#\/graph$/);
+});
+
+test('a close event that comes after the dialog was opened again does not leave it', async ({ page }) => {
+	await page.goto('./#/graph');
+	await page.locator('.shell-nav a[href="#/update"]').click();
+	const dialog = dialogOf(page);
+	await expect(dialog).toBeVisible();
+	// the event hide() queued when the dialog closed, arriving after the next show()
+	await dialog.evaluate(element => element.dispatchEvent(new Event('close')));
+	await expect(page).toHaveURL(/#\/update$/);
+	await expect(dialog).toBeVisible();
 });
 
 test('View browses the merged list by import result, read-only, over the dialog', async ({ page }) => {
