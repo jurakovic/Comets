@@ -7,8 +7,8 @@ import { el } from '../../dom.js';
 /**
  * @typedef {object} CometList
  * @property {HTMLElement} element
- * @property {(comets: ReadonlyArray<Comet>, index: number) => void} show a new list, with the
- *   index to select (-1 for none); onSelect does not run
+ * @property {(comets: ReadonlyArray<Comet>, index: number) => void} show a list, with the index to
+ *   select (-1 for none); onSelect does not run. The same array keeps its entries and their scroll
  * @property {() => number} index the selected index, -1 for none
  * @property {() => Comet | null} selected
  */
@@ -89,13 +89,16 @@ export function createCometList({ label, onSelect, onActivate }) {
 	return Object.freeze({
 		element,
 		show(/** @type {ReadonlyArray<Comet>} */ list, /** @type {number} */ index) {
-			comets = list;
-			const fragment = document.createDocumentFragment();
-			list.forEach((comet, i) => {
-				fragment.append(el('li', { id: `${prefix}-${i}`, class: 'comet-list__option', role: 'option', 'aria-selected': 'false', 'data-index': i }, comet.full));
-			});
-			element.replaceChildren(fragment);
-			selectedIndex = -1;
+			if (list === comets && index === selectedIndex) return;
+			if (list !== comets) {
+				comets = list;
+				const fragment = document.createDocumentFragment();
+				list.forEach((comet, i) => {
+					fragment.append(el('li', { id: `${prefix}-${i}`, class: 'comet-list__option', role: 'option', 'aria-selected': 'false', 'data-index': i }, comet.full));
+				});
+				element.replaceChildren(fragment);
+				selectedIndex = -1;
+			}
 			mark(index);
 		},
 		index: () => selectedIndex,

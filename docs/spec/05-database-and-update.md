@@ -65,6 +65,7 @@ Desktop: Edit › Database (F5), a modal dialog with OK and Cancel. On the web i
 - **Title**: `Database (<n> comets)`, or `Database (<n>/<total> comets)` when filters hide some; `Database` until the stored database has been read.
 - **Comet list**: the `full` names of the selection in its current order. Selecting an entry shows its details. The arrow keys, Home, End, Page Up and Page Down move the selection; a double click switches the details tab, as on the desktop.
   - After a sort, a filter or an import, the comet selected stays selected while it is in the list; otherwise the first is. The desktop selected the first after every change.
+  - A return to the view finds the list as it was left, scrolled where it was.
 - **Sort menu** ([02 § Sorting](02-data-model.md#sorting)): the property list plus Ascending and Descending, with the current choice marked.
 - **Filters panel**, toggled by `Filters ▼/▲` (described below).
 - **Reset**: clears the filters back to the default rows, restores the default sort (Designation, ascending), and shows the whole database.

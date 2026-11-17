@@ -15,7 +15,8 @@ import { el } from '../../dom.js';
  * @typedef {object} LiveEphemeris
  * @property {HTMLElement} element
  * @property {(comet: Comet | null, Tn: number | null) => void} show the comet, its `Tn` for the
- *   Perihelion Date preset; none for null, which stops the ticks
+ *   Perihelion Date preset; none for null, which stops the ticks. A stopped block computes when it
+ *   starts
  * @property {() => void} start the owner is shown: ticking resumes
  * @property {() => void} stop the owner is hidden or gone: ticking stops, and nothing is left listening
  */
@@ -113,7 +114,7 @@ export function createLiveEphemeris({ clock, observer }) {
 		show(/** @type {Comet | null} */ next, /** @type {number | null} */ Tn) {
 			comet = next;
 			picker.setPerihelionDate(Tn === null ? null : jdToInstant(Tn));
-			resume();
+			if (started) resume();
 		},
 		start() {
 			if (!started) document.addEventListener('visibilitychange', onVisibility);

@@ -190,6 +190,32 @@ test.describe('the live ephemeris', () => {
 		await expect(viewOf(page).locator('.live-ephemeris dd[data-key="SunDist"] .comet-details__number')).toHaveText(expected);
 	});
 
+	test('a return to the view computes the live values once, and keeps the list\'s entries and scroll', async ({ page }) => {
+		await listOf(page).getByRole('option').nth(2).click();
+		const scrolled = await listOf(page).evaluate(list => {
+			/** @type {any} */
+			const probe = window;
+			list.scrollTop = list.scrollHeight;
+			probe.firstEntry = list.firstElementChild;
+			probe.renders = 0;
+			const rows = /** @type {Element} */ (document.querySelector('[data-view="database"] .live-ephemeris__rows'));
+			new MutationObserver(records => { probe.renders += records.length; }).observe(rows, { childList: true });
+			return list.scrollTop;
+		});
+		expect(scrolled).toBeGreaterThan(0);
+		await page.locator('.shell-nav a[href="#/help"]').click();
+		await expect(viewOf(page)).toBeHidden();
+		await page.locator('.shell-nav a[href="#/database"]').click();
+		await expect(viewOf(page)).toBeVisible();
+		const after = await listOf(page).evaluate(list => {
+			/** @type {any} */
+			const probe = window;
+			return { same: list.firstElementChild === probe.firstEntry, scrollTop: list.scrollTop, renders: probe.renders };
+		});
+		expect(after).toEqual({ same: true, scrollTop: scrolled, renders: 1 });
+		await expect(selectedOf(page)).toHaveText(BY_SORTKEY[2]);
+	});
+
 	test('the trend arrows take the colours of what is better', async ({ page }) => {
 		await page.clock.runFor(1000);
 		const trends = await viewOf(page).locator('.live-ephemeris__trend').evaluateAll(spans => spans.map(span => `${span.textContent} ${span.getAttribute('data-trend')}`));
