@@ -197,10 +197,11 @@ test.describe('the date picker', () => {
 			/** @type {any} */
 			const probe = window;
 			probe.changes = [];
+			probe.zoneReads = 0;
 			probe.picker = createDatePicker({
 				value: Date.parse(value),
 				now: () => Date.now(),
-				timeZone: () => Intl.DateTimeFormat().resolvedOptions().timeZone,
+				timeZone: () => { probe.zoneReads += 1; return Intl.DateTimeFormat().resolvedOptions().timeZone; },
 				defaultDate: defaultDate ? Date.parse(defaultDate) : null,
 				perihelionDate: perihelionDate ? Date.parse(perihelionDate) : null,
 				label: 'Probe date',
@@ -218,7 +219,25 @@ test.describe('the date picker', () => {
 		const picker = await mountDatePicker(page, { value: '2026-07-05T06:19:11Z' });
 		const button = picker.getByRole('button', { name: '05.07.2026. 06:19:11' });
 		await expect(button).toBeVisible();
+		await button.hover();
 		await expect(button).toHaveAttribute('title', 'Local Time\n05.07.2026. 08:19:11');
+	});
+
+	test('the tooltip is built as it is seen, not each time the owner sets the date', async ({ page }) => {
+		const picker = await mountDatePicker(page, { value: '2026-07-05T06:19:11Z' });
+		const button = picker.getByRole('button').first();
+		const zoneReads = () => page.evaluate(() => /** @type {any} */ (window).zoneReads);
+		const before = await zoneReads();
+		await page.evaluate(() => {
+			for (let second = 12; second < 72; second += 1) /** @type {any} */ (window).picker.setValue(Date.UTC(2026, 6, 5, 6, 19, second));
+		});
+		await expect(button).toHaveText('05.07.2026. 06:20:11');
+		expect(await zoneReads()).toBe(before);
+		await button.focus();
+		await expect(button).toHaveAttribute('title', 'Local Time\n05.07.2026. 08:20:11');
+		await page.evaluate(() => /** @type {any} */ (window).picker.setValue(Date.UTC(2026, 6, 5, 6, 21, 0)));
+		await button.hover();
+		await expect(button).toHaveAttribute('title', 'Local Time\n05.07.2026. 08:21:00');
 	});
 
 	test('the editor: the fields in UTC, local time, the JD; OK focused', async ({ page }) => {

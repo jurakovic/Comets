@@ -11,7 +11,8 @@ import { createMenu } from './menu.js';
  * @typedef {object} DatePicker
  * @property {HTMLElement} element
  * @property {() => number} value the date shown, UTC milliseconds
- * @property {(instant: number) => void} setValue as the owner sets it: no onChange
+ * @property {(instant: number) => void} setValue as the owner sets it: no onChange, and the tooltip
+ *   waits until it can be seen, since a live clock sets it every second
  * @property {(instant: number | null) => void} setPerihelionDate the Perihelion Date preset; null hides it
  * @property {() => Promise<void>} edit opens the editor, as the button does
  */
@@ -33,7 +34,7 @@ function localIn(timeZone) {
  * @param {object} options
  * @param {number} options.value UTC milliseconds
  * @param {() => number} options.now for Today and the year presets
- * @param {() => string} options.timeZone local time's zone, read each time it is shown
+ * @param {() => string} options.timeZone local time's zone, read each time the tooltip is shown
  * @param {(instant: number) => void} options.onChange after the editor's OK or a preset
  * @param {number | null} [options.defaultDate] the Default preset; none without one
  * @param {number | null} [options.perihelionDate] the Perihelion Date preset; none without one
@@ -50,7 +51,11 @@ export function createDatePicker({ value, now, timeZone, onChange, defaultDate =
 	function show(instant) {
 		current = instant;
 		button.textContent = buttonText(instant);
-		button.title = `${LOCAL_TIME}\n${localText(instant, localIn(timeZone()))}`;
+	}
+
+	// the tooltip, built as it is about to be seen, in the time zone the clock is in then
+	function describe() {
+		button.title = `${LOCAL_TIME}\n${localText(current, localIn(timeZone()))}`;
 	}
 
 	/** @param {number} instant */
@@ -74,8 +79,8 @@ export function createDatePicker({ value, now, timeZone, onChange, defaultDate =
 	}
 
 	button.addEventListener('click', () => { edit(); });
-	// the tooltip follows the time zone the clock is in now
-	button.addEventListener('pointerenter', () => show(current));
+	button.addEventListener('pointerenter', describe);
+	button.addEventListener('focus', describe);
 	show(value);
 
 	const element = el('div', { class: 'date-picker', role: 'group', 'aria-label': label }, button, menu.element);
