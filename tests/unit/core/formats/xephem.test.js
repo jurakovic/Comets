@@ -22,6 +22,8 @@ test('records that fail', () => {
 	for (const line of [
 		VAISALA.replace('0.0113430', '0'),
 		VAISALA.replace(',e,', ',x,'),
+		VAISALA.replace(',e,', ',toString,'),
+		VAISALA.replace(',e,', ',constructor,'),
 		VAISALA.replace('10/17.0/2026', '10/17/2026'),
 		VAISALA.replace('10/17.0/2026', '10/17.0'),
 		VAISALA.replace(',g 13.5,', ',g,'),
