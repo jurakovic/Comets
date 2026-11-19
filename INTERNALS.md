@@ -8,7 +8,7 @@ The desktop app in `src/` is the reference for behaviour: the web app computes, 
 
 - **Correct by construction.** Everything the vectors cover lives in pure, DOM-free modules that run unchanged in the browser, in a Worker and under `node --test`.
 - **Deterministic.** Nothing in the computing code reads the clock, the time zone, the observer or storage on its own. They are passed in, so a test fixes them.
-- **Replaceable parts.** The UI depends on services, services depend on ports (interfaces), and adapters implement the ports. Storage, network, workers and the clock can each be swapped or faked.
+- **Replaceable parts.** The UI depends on services and on the few ports its context hands it, services depend on ports (interfaces), and adapters implement the ports. Storage, network, workers and the clock can each be swapped or faked.
 - **Open for extension.** Element formats, comet properties, compare operators, chart types, simulation steps, routes, commands and jobs are entries in registries. Adding one means adding an entry and its module, not editing a `switch` elsewhere.
 - **No build step.** The files under `app/` are what GitHub Pages serves, at `/Comets/app/`. Tooling (lint, types, tests) is development-only and never shipped. There are no runtime dependencies.
 
@@ -47,7 +47,7 @@ Files and folders are kebab-case, and none starts with `_` or `.`: Jekyll, which
 
 ## Layers and the dependency rule
 
-Dependencies point inwards: `ui` → `services` → `core`. `adapters` implement what `services` need. `main.js` is the only module that knows every layer.
+Dependencies point inwards: `ui` → `services` → `core`. `adapters` implement the ports: what `services` need, and what views use themselves through their context. `main.js` is the only module that knows every layer.
 
 | Layer | May import | May not use |
 |---|---|---|
