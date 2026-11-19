@@ -4,6 +4,7 @@
 /**
  * @typedef {object} AppContext
  * @property {import('../../services/ports.js').Clock} clock
+ * @property {import('../../services/ports.js').Geolocator} geolocator Use my location's position
  * @property {import('../../services/settings.js').SettingsService} settings
  * @property {import('../../services/database.js').DatabaseService} database
  * @property {import('../../services/selection.js').SelectionService} selection

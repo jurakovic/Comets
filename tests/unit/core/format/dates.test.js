@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
-	compileDateFormat, DATE_EPHEMERIS, DATE_FILENAME, DATE_FULL, DATE_GRAPH_LONG, DATE_GRAPH_SHORT, DATE_PERIHELION, formatDate
+	compileDateFormat, DATE_EPHEMERIS, DATE_FILENAME, DATE_FULL, DATE_GRAPH_LONG, DATE_GRAPH_SHORT, DATE_PERIHELION, formatDate, stampedFileName
 } from '../../../../app/js/core/format/dates.js';
 import { instantToParts } from '../../../../app/js/core/time/calendar.js';
 
@@ -32,4 +32,9 @@ test('a compiled format can be reused, and unknown fields are programmer errors'
 	assert.equal(row(parts), '27.09.2024 20:00');
 	assert.throws(() => compileDateFormat('dd/MM/yyyy'));
 	assert.throws(() => compileDateFormat('d.M.yy'));
+});
+
+test('a saved file is named by its prefix and the local time', () => {
+	assert.equal(stampedFileName('Comets', parts, 'txt'), 'Comets_2024-09-27_200031.txt');
+	assert.equal(stampedFileName('MPC', { year: 2026, month: 10, day: 18, hour: 14, minute: 5, second: 1 }, 'txt'), 'MPC_2026-10-18_140501.txt');
 });

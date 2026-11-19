@@ -62,3 +62,15 @@ export function compileDateFormat(pattern) {
 export function formatDate(parts, pattern) {
 	return compileDateFormat(pattern)(parts);
 }
+
+/**
+ * a saved file's name: the prefix, the local time as `yyyy-MM-dd_HHmmss`, and the extension
+ * (`Comets_2026-10-18_140501.txt`)
+ * @param {string} prefix
+ * @param {import('../time/calendar.js').DateParts} local the local time of the save
+ * @param {string} extension without its dot
+ * @returns {string}
+ */
+export function stampedFileName(prefix, local, extension) {
+	return `${prefix}_${formatDate(local, DATE_FILENAME)}.${extension}`;
+}

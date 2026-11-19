@@ -23,7 +23,7 @@ export const ROUTES = Object.freeze(/** @type {Route[]} */ ([
 	{ key: 'orbit', title: 'Orbit viewer', group: 'views', load: () => placeholder('Orbit Viewer', 'orbit') },
 	{ key: 'elements', title: 'Elements', group: 'views', load: () => placeholder('Orbital Elements', 'elements') },
 	{ key: 'update', title: 'Update', group: 'app', overlay: true, load: async context => (await import('../views/update/update-view.js')).createUpdateView(context) },
-	{ key: 'settings', title: 'Settings', group: 'app', load: () => placeholder('Settings', 'settings') },
+	{ key: 'settings', title: 'Settings', group: 'app', load: async context => (await import('../views/settings/settings-view.js')).createSettingsView(context) },
 	{ key: 'help', title: 'Help', group: 'app', load: async context => (await import('../views/help/help-view.js')).createHelpView(context) }
 ]).map(route => Object.freeze(route)));
 

@@ -48,4 +48,11 @@
  * @property {(name: string, input: unknown, options: { signal?: AbortSignal, onProgress?: (progress: JobProgress) => void }) => Promise<unknown>} run
  */
 
+/**
+ * The device's position, once the user allows it.
+ * @typedef {object} Geolocator
+ * @property {() => Promise<{ latitude: number, longitude: number }>} locate degrees, south and west
+ *   negative; rejects when the position is refused, unavailable or takes too long
+ */
+
 export {};

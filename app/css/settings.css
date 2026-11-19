@@ -1,0 +1,99 @@
+/* The Settings view: a label column beside the controls, stacked on narrow screens. */
+.settings-view {
+	max-width: 760px;
+}
+
+.settings-view h2 {
+	margin: var(--space-4) 0 var(--space-3);
+	padding-bottom: var(--space-1);
+	border-bottom: 1px solid var(--color-border);
+	font-size: 18px;
+}
+
+.settings-view__row {
+	display: grid;
+	grid-template-columns: 12rem minmax(0, 1fr);
+	align-items: center;
+	gap: var(--space-1) var(--space-4);
+	margin-bottom: var(--space-2);
+}
+
+.settings-view__label {
+	color: var(--color-muted);
+}
+
+.settings-view__control {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--space-2);
+	min-width: 0;
+}
+
+.settings-view__select {
+	padding: var(--space-1) var(--space-2);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius);
+	background: var(--color-bg);
+	color: var(--color-text);
+	font: inherit;
+}
+
+.settings-view__url {
+	flex: 1 1 20rem;
+	min-width: 0;
+}
+
+.settings-view__name {
+	width: 16rem;
+	max-width: 100%;
+}
+
+.settings-view__days {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--space-2);
+}
+
+.settings-view__interval {
+	width: 5ch;
+}
+
+.settings-view__coordinate {
+	width: 12ch;
+}
+
+.settings-view__check {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--space-2);
+}
+
+.settings-view__checkbox {
+	width: 16px;
+	height: 16px;
+	margin: 0;
+	accent-color: var(--color-accent);
+}
+
+.settings-view__error {
+	flex-basis: 100%;
+	margin: 0;
+	color: var(--color-error);
+}
+
+.settings-view__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-2);
+}
+
+@media (width < 720px) {
+	.settings-view__row {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.settings-view__label:empty {
+		display: none;
+	}
+}

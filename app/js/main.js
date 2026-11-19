@@ -1,6 +1,7 @@
 // The composition root: the one module that knows every layer. It builds the
 // adapters, services and UI and wires them (INTERNALS.md, The shell).
 import { createSystemClock } from './adapters/clock.js';
+import { createGeolocator } from './adapters/geolocation.js';
 import { createFallbackJobRunner, createLocalJobRunner, createWorkerJobRunner } from './adapters/job-runners.js';
 import { createIndexedDbStore, createWebStorageStore } from './adapters/key-value-stores.js';
 import { createFetchTextFetcher } from './adapters/text-fetcher.js';
@@ -55,7 +56,7 @@ const router = createRouter({
 	routes: ROUTES,
 	fallback: DEFAULT_ROUTE,
 	outlet: query('#view'),
-	context: { clock, settings, database, selection, observations, jobs, update, commands, dialogs, notify, leaveOverlay: () => router.leaveOverlay() }
+	context: { clock, geolocator: createGeolocator(), settings, database, selection, observations, jobs, update, commands, dialogs, notify, leaveOverlay: () => router.leaveOverlay() }
 });
 commands.register({
 	id: 'save',

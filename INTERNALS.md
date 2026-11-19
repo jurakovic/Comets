@@ -26,13 +26,13 @@ app/                        the web app, served as is (GitHub Pages: /Comets/app
       jobs.js               the long computations a Worker can run, by name
       validation.js         validation results
     services/               use cases and app state; ports.js names the ports
-    adapters/               ports implemented with browser APIs (storage, fetch, files, worker, clock)
+    adapters/               ports implemented with browser APIs (storage, fetch, files, worker, clock, geolocation)
     workers/                Worker entry points
     ui/                     everything that touches the DOM
-      dom.js                small DOM helpers (el, query)
+      dom.js                small DOM helpers (el, query, saveFile)
       shell/                router, routes, navigation, status area, dialogs, notifications, errors, theme, shortcuts
       components/           number field, date picker and its editor and presets, menu, sort menu, modal, filters panel
-      views/                one folder per built view (database, update, help), and the placeholder view
+      views/                one folder per built view (database, update, settings, help), and the placeholder view
 tests/
   unit/                     node --test, mirroring app/js (lib, core, services with fakes, adapters, ui)
   vectors/                  node --test, one file per vector file
@@ -82,14 +82,14 @@ The domain is **plain data and functions**:
 | Folder | Holds |
 |---|---|
 | `core/time/` | `JD0`, `JD` of an instant, `JDToDateTime`, instants ↔ date parts for any year, calendar arithmetic, the date range (1700–2300), local time through `Intl` with an explicit time zone, the Database view's live clock |
-| `core/format/` | .NET custom number formats (`number.js`: the exact decimal digits of a float64, rounded to 15 significant digits) and composite format items (`{0,-47:0.000}`, compiled once with `compileFormat`), date patterns, `HMS` and `Angle`, how long ago a date was; numbers and white space read as .NET reads them (`parse.js`) |
+| `core/format/` | .NET custom number formats (`number.js`: the exact decimal digits of a float64, rounded to 15 significant digits) and composite format items (`{0,-47:0.000}`, compiled once with `compileFormat`), date patterns and saved files' names, `HMS` and `Angle`, how long ago a date was; numbers and white space read as .NET reads them (`parse.js`) |
 | `core/comets/` | the comet record and its derived elements, designations and sort keys, the property registry and compare operators, filters, sorting (`compareText` in `collation.js`), quick selection, merging an import, the counts the shell shows, the Database view's detail rows and live values |
 | `core/astro/` | constants and degree helpers, the Kepler solvers, comet and Sun positions, the ephemeris record, precession, planets, orbit sampling |
 | `core/formats/` | text conventions and field access, the record parsers' shared end (`record.js`), the format registry, detection, import and export, one module per format |
 | `core/ephemeris/` | ephemeris settings (defaults, validation, the long-calculation count, the title), the timespan and its steps, the output columns, the calculation, the text output |
 | `core/graph/` | graph settings and chart types, sampling, the **graph model** (axes, series, perihelion and now lines, title) a renderer draws and the vectors check, hover hit-testing |
 | `core/orbit/` | the orbit viewer's simulation steps: the step menu and the single steps |
-| `core/input/` | the rules of the shared input components: what a number field accepts and how `↑`/`↓` step it; the date picker's fields, texts, JD field, clamp and presets; the filters panel's rows, each edit of them and the filters they give |
+| `core/input/` | the rules of the shared input components: what a number field accepts and how `↑`/`↓` step it; the date picker's fields, texts, JD field, clamp and presets; the location's latitude and longitude fields; the filters panel's rows, each edit of them and the filters they give |
 
 ### Matching the desktop
 
@@ -108,7 +108,7 @@ const database = createDatabaseService({ repository, clock, settings });
 | Service | Owns | Does |
 |---|---|---|
 | `settings` | the settings | loads, validates, migrates and saves them; owns the rule of each value |
-| `database` | the main collection (`DatabaseState`: the comets, the change that made them, whether the load has landed) | loads it at start-up, previews and applies an import, deletes, clears; saves after every change. Changes wait for the load, so a load that lands late cannot replace them |
+| `database` | the main collection (`DatabaseState`: the comets, the change that made them, whether the load has landed) | loads it at start-up, previews and applies an import, deletes, clears; saves after every change, and gives the stored text for Export database. Changes wait for the load, so a load that lands late cannot replace them |
 | `database-repository` | | the stored form of the database: MPC text, written whole and read back as an MPC import |
 | `selection` | the app-wide filters, sort and selection | follows the database: a deletion takes the comet out and sorts again; anything else starts from the default filter rows with the current sort. A sort re-sorts the selection as it is, so ties keep the previous order |
 | `observations` | the session cache of `Tn`, `Perih*`, `Current*`, per comet record | provides the value accessor; `Current*` are recomputed after 5 minutes |
@@ -125,6 +125,7 @@ const database = createDatabaseService({ repository, clock, settings });
 | `TextFetcher` | `fetchText(url, { signal, onProgress })` | `fetch` with a stream reader, decoded by the byte-order mark (`adapters/text-fetcher.js`) |
 | `TextFileReader` | `readText(file)` | a `Blob` read whole, decoded by the byte-order mark (`adapters/text-files.js`) |
 | `JobRunner` | `run(name, input, { signal, onProgress })` | a module Worker, the same protocol on the main thread, and the fallback between them (`adapters/job-runners.js`) |
+| `Geolocator` | `locate()`: the device's latitude and longitude, once the user allows it | the Geolocation API (`adapters/geolocation.js`) |
 
 Bytes become text in `adapters/text-decoding.js`, as `File.ReadAllLines` reads them: UTF-8, or UTF-16 or UTF-32 by a byte-order mark, which is dropped; invalid bytes become U+FFFD. `TextDecoder` is not in core.
 
@@ -147,7 +148,7 @@ Browser storage is per origin. Everything the app stores:
 | Database | IndexedDB `comets`, object store `kv` | `database` (`DATABASE_KEY`) | the MPC text of the main collection |
 
 - Every store is wrapped by `tolerant` (`adapters/key-value-stores.js`): a write or removal the storage refuses (missing, full, blocked, broken) is kept in memory and wins over the storage until a later write of the same key gets through; a read that fails gives `undefined`. An IndexedDB that throws, errors, is blocked or has not opened after 5 s fails the session's later calls at once. Storage never stops the app.
-- Writes go through a queue (`lib/queue.js`), one after another in the order they were made, so the last change is the one that stays. The database is written in one `put` of the whole text after every change, and removed by Clear all data.
+- Writes go through a queue (`lib/queue.js`), one after another in the order they were made, so the last change is the one that stays. The database is written in one `put` of the whole text after every change, and removed by Clear all data, which removes the settings too.
 - Settings are read value by value (`readSettings`): a value that is missing or outside its rule takes its default, and the others are kept; text that is not settings JSON gives the defaults. Older versions run through `MIGRATIONS` first (`SETTINGS_VERSION` is its length + 1); a newer version's values are read where they follow this version's rules. A value outside its rules in an update is a programmer's error: the inputs keep to the rules.
 
 ## Long computations and the Worker
@@ -169,7 +170,7 @@ Ephemerides and graphs over many comets run off the main thread.
 - **Routes.** `ui/shell/routes.js` is the route table: each route's key (`#/<key>`), title, group (the views, or the app's own pages) and `load(context)`, which creates the view with `import()` on its first visit. The router (`ui/shell/router.js`) shows the route the hash names, with its parameters (`#/update?automatic`); an unknown or empty hash opens `database`. A view is kept after its first visit, which keeps its state for the session, and hidden with the `hidden` attribute when another takes its place.
 - **Views** implement `{ element, show(params), hide(), save?() }`. `hide()` stops their clocks; `save()` is what `Ctrl/⌘+S` runs.
 - **Dialog routes.** A route marked `overlay` (Update) is a `<dialog>` over the view shown, which stays under it. The router counts the history entries the dialog route has made since a navigation opened it, keeps the count in each entry's history state, so that Back and Forward find it again, and `leaveOverlay` goes back past them all; a dialog route reached otherwise replaces the hash when it closes. Esc closes the dialog natively and the route follows.
-- **Context.** Each view gets an `AppContext` (`ui/shell/context.js`): the clock, the services, the command registry, the dialogs, `notify` and `leaveOverlay`.
+- **Context.** Each view gets an `AppContext` (`ui/shell/context.js`): the clock, the geolocator, the services, the command registry, the dialogs, `notify` and `leaveOverlay`.
 - **Commands** (`ui/shell/shortcuts.js`): every action a key runs is a command registered by id with its label, key bindings (exact modifiers; `mod` is Ctrl or ⌘), whether it runs in text fields, and an `enabled` test. One keydown dispatcher and the Help's list of controls are written against the registry. `main.js` registers `save` and `close-dialog`.
 - **Dialogs** (`ui/shell/dialogs.js`): confirmation questions as modal `<dialog>`s on a stack, answered by a button; the Esc command closes the top one as No. `ui/components/modal.js` (`openModal`) is the modal life cycle the question, the date editor and the import result browser share: added to the page, removed when it closes, and the focus given back.
 - **Notifications** (`ui/shell/notifications.js`): a live region that is a manual popover, shown again for each notice so that it paints above a modal dialog. Information goes after 5 s, an error stays until dismissed, at most four at once.
@@ -183,8 +184,9 @@ Ephemerides and graphs over many comets run off the main thread.
 |---|---|
 | `database` | `views/database/`: the selection as a listbox (`comet-list.js`), its sort menu, the filters panel, Reset and Delete, the selected comet's details (`comet-details.js`: the Ephemeris tab with its live block, `live-ephemeris.js`, and the Orbital elements tab with JPL Info), and the empty state once the database has loaded empty. The filters panel takes the details' place while it is open; it applies its rows to the selection after every edit, and filters set elsewhere (Reset, an import) replace its rows |
 | `update` | `views/update/`: the Update dialog over the current view (download, local file by chooser or drop, preview, Import), and the import result browser, a dialog over it that reuses the Database view's details |
+| `settings` | `views/settings/`: every setting, saved as it changes (the update interval together with automatic update, which needs it); the location with its hemispheres and Use my location; Export database (the stored text, downloaded with `saveFile`) and Clear all data |
 | `help` | `views/help/`: the controls from the command registry, and About |
-| `ephemeris`, `graph`, `orbit`, `elements`, `settings` | `placeholder-view.js`: the title and "Not built yet." |
+| `ephemeris`, `graph`, `orbit`, `elements` | `placeholder-view.js`: the title and "Not built yet." |
 
 ### How the UI is written
 

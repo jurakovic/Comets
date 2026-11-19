@@ -46,6 +46,8 @@ export const ZERO_IMPORTED = 'Something wrong happened. Zero comets imported.';
  * @property {(text: string | null, source: ImportSource) => Promise<ImportOutcome>} apply Import; resolves once stored
  * @property {(comet: Comet) => Promise<void>} remove deletes the comet (this record); resolves once stored
  * @property {() => Promise<void>} clear empties the database and removes what is stored (Clear all data)
+ * @property {() => Promise<string>} storedText the stored MPC text once the load and the writes
+ *   before have landed, "" when nothing is stored (Export database)
  */
 
 /**
@@ -125,6 +127,12 @@ export function createDatabaseService({ repository, clock, settings }) {
 		clear: () => afterLoad(async () => {
 			set(Object.freeze([]), 'clear');
 			await queue(() => repository.clear());
+		}),
+		storedText: () => afterLoad(async () => {
+			/** @type {string | undefined} */
+			let text;
+			await queue(async () => { text = await repository.text(); });
+			return text ?? '';
 		})
 	});
 }

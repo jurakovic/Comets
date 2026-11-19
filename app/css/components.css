@@ -31,6 +31,11 @@
 	color: var(--color-accent-text);
 }
 
+.button--danger {
+	border-color: var(--color-error);
+	color: var(--color-error);
+}
+
 .menu__button::after {
 	content: " ▾" / "";
 	color: var(--color-muted);

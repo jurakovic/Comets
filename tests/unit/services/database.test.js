@@ -278,3 +278,26 @@ test('a store that fails does not stop the later ones', async () => {
 	await database.remove(b);
 	assert.deepEqual(saved, [32]);
 });
+
+test('the stored text for Export database comes after the writes made before it; "" when nothing is stored', async () => {
+	const { database, store } = await setup();
+	const removing = database.remove(database.state.get().comets[0]);
+	const text = await database.storedText();
+	await removing;
+	assert.equal(text, await store.get(DATABASE_KEY));
+	assert.equal(importElements([], 'MPC', text).comets.length, 33);
+	await database.clear();
+	assert.equal(await database.storedText(), '');
+});
+
+test('the stored text waits for the load', async () => {
+	const { database, land } = lateLoad();
+	const loading = database.load();
+	let text = /** @type {string | null} */ (null);
+	const reading = database.storedText().then(t => { text = t; });
+	await settle();
+	assert.equal(text, null);
+	land();
+	await Promise.all([loading, reading]);
+	assert.equal(text, '');
+});
