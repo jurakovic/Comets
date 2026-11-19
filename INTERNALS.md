@@ -31,7 +31,7 @@ app/                        the web app, served as is (GitHub Pages: /Comets/app
     ui/                     everything that touches the DOM
       dom.js                small DOM helpers (el, query)
       shell/                router, routes, navigation, status area, dialogs, notifications, errors, theme, shortcuts
-      components/           number field, date picker and its editor and presets, menu, sort menu, modal
+      components/           number field, date picker and its editor and presets, menu, sort menu, modal, filters panel
       views/                one folder per built view (database, update, help), and the placeholder view
 tests/
   unit/                     node --test, mirroring app/js (lib, core, services with fakes, adapters, ui)
@@ -89,7 +89,7 @@ The domain is **plain data and functions**:
 | `core/ephemeris/` | ephemeris settings (defaults, validation, the long-calculation count, the title), the timespan and its steps, the output columns, the calculation, the text output |
 | `core/graph/` | graph settings and chart types, sampling, the **graph model** (axes, series, perihelion and now lines, title) a renderer draws and the vectors check, hover hit-testing |
 | `core/orbit/` | the orbit viewer's simulation steps: the step menu and the single steps |
-| `core/input/` | the rules of the shared input components: what a number field accepts and how `↑`/`↓` step it; the date picker's fields, texts, JD field, clamp and presets |
+| `core/input/` | the rules of the shared input components: what a number field accepts and how `↑`/`↓` step it; the date picker's fields, texts, JD field, clamp and presets; the filters panel's rows, each edit of them and the filters they give |
 
 ### Matching the desktop
 
@@ -181,7 +181,7 @@ Ephemerides and graphs over many comets run off the main thread.
 
 | Route | View |
 |---|---|
-| `database` | `views/database/`: the selection as a listbox (`comet-list.js`), its sort menu, Reset and Delete, the selected comet's details (`comet-details.js`: the Ephemeris tab with its live block, `live-ephemeris.js`, and the Orbital elements tab with JPL Info), and the empty state once the database has loaded empty |
+| `database` | `views/database/`: the selection as a listbox (`comet-list.js`), its sort menu, the filters panel, Reset and Delete, the selected comet's details (`comet-details.js`: the Ephemeris tab with its live block, `live-ephemeris.js`, and the Orbital elements tab with JPL Info), and the empty state once the database has loaded empty. The filters panel takes the details' place while it is open; it applies its rows to the selection after every edit, and filters set elsewhere (Reset, an import) replace its rows |
 | `update` | `views/update/`: the Update dialog over the current view (download, local file by chooser or drop, preview, Import), and the import result browser, a dialog over it that reuses the Database view's details |
 | `help` | `views/help/`: the controls from the command registry, and About |
 | `ephemeris`, `graph`, `orbit`, `elements`, `settings` | `placeholder-view.js`: the title and "Not built yet." |
@@ -190,6 +190,7 @@ Ephemerides and graphs over many comets run off the main thread.
 
 - **Humble views.** A view turns state into DOM and DOM events into service calls; it decides nothing. What to show (texts, numbers, colours, which rows) comes from pure functions in `core/` or a service, which the unit tests and vectors check. The Database view's rows are `core/comets/details.js`; the live clock's rules are `core/time/live-clock.js`; the input components' rules are `core/input/`.
 - **Components** are ES modules that create and own a DOM subtree, expose `element` and a small API, and report changes through callbacks given to them. They do not read services: their owner passes data in. No framework, no virtual DOM, no custom elements.
+- **The filters panel** (`ui/components/filters-panel.js`) edits up to ten filter rows, each with a checkbox, the property and compare as `<select>`s, the property's editor (a text field, a number field or a date picker, each keeping its own value) and unit, and a remove button. Its owner gives it an `apply` that returns the validation, and the panel shows an error by its row; Apply and Enter (the panel is a `<form>`) apply too, and focus the field in error.
 - **Menus** (`ui/components/menu.js`) are popovers whose entries are built as they open, with the arrow keys, Home, End and their own Esc, and the focus back on the button; they stay hidden until placed, and open on the roomier side. The sort menu and the date presets are menus.
 - **Styling.** Theme colours and sizes are custom properties in `css/tokens.css`, redefined for the dark theme. `css/shell.css` holds the base styles, among them a global `[hidden] { display: none !important }`, so a component's own `display` never shows a hidden element. Each area has its own stylesheet; class names are prefixed by their component or view (`database-view__body`).
 - **Accessibility.** Controls are native elements wherever one fits; dialogs, menus, tabs and the comet listbox carry their ARIA roles and manage focus; everything works from the keyboard.

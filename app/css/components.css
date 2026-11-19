@@ -205,3 +205,123 @@
 	gap: var(--space-2);
 	margin-top: var(--space-4);
 }
+
+/* the filters panel: one grid row per filter, wrapping onto three lines on narrow screens */
+.filters-panel {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: var(--space-2);
+	min-width: 0;
+	min-height: 0;
+	overflow: auto;
+}
+
+.filters-panel__rows {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-2);
+	width: 100%;
+}
+
+.filters-panel__row {
+	display: grid;
+	grid-template-columns: auto minmax(0, 15rem) minmax(0, 10rem) minmax(0, 14rem) 3rem auto;
+	justify-content: start;
+	align-items: center;
+	gap: var(--space-1) var(--space-2);
+}
+
+.filters-panel__property,
+.filters-panel__compare {
+	width: 100%;
+	padding: var(--space-1) var(--space-2);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius);
+	background: var(--color-bg);
+	color: var(--color-text);
+	font: inherit;
+}
+
+.filters-panel__checked {
+	width: 16px;
+	height: 16px;
+	margin: 0;
+	accent-color: var(--color-accent);
+}
+
+.filters-panel__value {
+	min-width: 0;
+}
+
+.filters-panel__text,
+.filters-panel__number {
+	box-sizing: border-box;
+	width: 100%;
+}
+
+.filters-panel__text[aria-invalid="true"] {
+	border-color: var(--color-error);
+	background: var(--color-error-surface);
+}
+
+.filters-panel__unit {
+	color: var(--color-muted);
+}
+
+.filters-panel__remove,
+.filters-panel__add {
+	min-width: 2.25rem;
+}
+
+.filters-panel__error {
+	grid-column: 1 / -1;
+	margin: 0;
+	color: var(--color-error);
+}
+
+.filters-panel__actions {
+	display: flex;
+	gap: var(--space-2);
+	margin-top: var(--space-2);
+}
+
+@media (width < 720px) {
+	.filters-panel__row {
+		grid-template-columns: auto minmax(0, 1fr) auto auto;
+		justify-content: stretch;
+		grid-template-areas:
+			"checked property property remove"
+			". compare compare compare"
+			". value unit unit"
+			"error error error error";
+	}
+
+	.filters-panel__checked {
+		grid-area: checked;
+	}
+
+	.filters-panel__property {
+		grid-area: property;
+	}
+
+	.filters-panel__compare {
+		grid-area: compare;
+	}
+
+	.filters-panel__value {
+		grid-area: value;
+	}
+
+	.filters-panel__unit {
+		grid-area: unit;
+	}
+
+	.filters-panel__remove {
+		grid-area: remove;
+	}
+
+	.filters-panel__error {
+		grid-area: error;
+	}
+}
