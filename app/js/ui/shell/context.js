@@ -1,5 +1,5 @@
-// What the composition root hands each view when it is created: the services and the shell's
-// own parts. INTERNALS.md, The shell.
+// What the composition root hands each view when it is created: the ports a view uses itself (the
+// clock, the geolocator), the services and the shell's own parts. INTERNALS.md, The shell.
 
 /**
  * @typedef {object} AppContext

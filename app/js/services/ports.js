@@ -1,5 +1,5 @@
-// The ports: what services need from the outside world, as shapes the adapters
-// implement and tests fake. INTERNALS.md, Services and ports.
+// The ports: what services, and views through their context, need from the outside world, as
+// shapes the adapters implement and tests fake. INTERNALS.md, Services and ports.
 
 /**
  * @typedef {object} Clock

@@ -116,7 +116,7 @@ const database = createDatabaseService({ repository, clock, settings });
 | `jobs` | the running long computations | runs them through the `JobRunner` port; exposes their progress and cancellation to the status area |
 | `startup` | | loads the settings and the database; `updatePrompt(settings, now)` is the start-up question, which the shell asks |
 
-**Ports** are the services' view of the outside world, named in `services/ports.js` as JSDoc typedefs:
+**Ports** are the services' view of the outside world, named in `services/ports.js` as JSDoc typedefs. A view that needs one itself (the clock, the geolocator) gets it through its context, never the adapter:
 
 | Port | Shape | Adapters |
 |---|---|---|
