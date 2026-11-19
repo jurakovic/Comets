@@ -1,4 +1,5 @@
-/* The shared components: menus, number fields, the sort menu. */
+/* The shared components: menus and the sort menu, buttons, number and text fields, the date picker
+   and its editor, the filters panel. */
 .menu {
 	display: inline-block;
 }
