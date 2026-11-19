@@ -1,5 +1,5 @@
 // export/*: ExportMain of the sample collection in every export format, at the vector clock
-// (spec 03, Export rules). The app writes CRLF; the vectors are stored with LF.
+// The app writes CRLF; the vectors are stored with LF.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readVector, readVectorText, VECTOR_NOW } from '../helpers/vectors.js';

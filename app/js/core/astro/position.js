@@ -1,5 +1,4 @@
 // Heliocentric comet positions and the geocentric Sun, ecliptic and equinox of date.
-// docs/spec/04-astronomy.md, Comet position and Sun position.
 import { orbitalPlane } from './kepler.js';
 import { atan2d, cosd, D0, degrees, rev, sind } from './math.js';
 

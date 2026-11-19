@@ -1,5 +1,5 @@
 // The sort menu (`SortMenuControl`): the sort properties, then Ascending and Descending, the
-// current choice marked. docs/spec/02-data-model.md, Sorting.
+// current choice marked.
 import { chooseSort, SORT_PROPERTIES } from '../../core/comets/sort.js';
 import { createMenu } from './menu.js';
 

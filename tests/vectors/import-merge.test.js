@@ -1,4 +1,4 @@
-// import-merge.json: merge-new.txt imported into the sample collection (spec 03, Merge).
+// import-merge.json: merge-new.txt imported into the sample collection.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readVector, readVectorText } from '../helpers/vectors.js';

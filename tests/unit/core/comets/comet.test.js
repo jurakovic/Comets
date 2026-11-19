@@ -25,7 +25,7 @@ test('an id that gives no sort key makes the record invalid', () => {
 	assert.equal(createComet({ full: 'C/1995O1', id: 'C/1995O1' }), null);
 });
 
-test('parabolic comets get finite P, a and Q from e = 0.999999 (spec 10, Q6)', () => {
+test('parabolic comets get finite P, a and Q from e = 0.999999, as on the desktop', () => {
 	const { P, a, Q, n } = derivedElements(0.8, 1);
 	assert.ok(Number.isFinite(P) && a > 799_999 && Q > a && n === 0);
 });
@@ -85,7 +85,7 @@ test('the nearest perihelion is T when the comet is not periodic, has no candida
 	const comet = createComet({ id: 'C/1995 O1', q: 0.9, e: 0.995 }, { T: 2450536.5 });
 	assert.ok(comet);
 	assert.equal(nearestPerihelion(comet, now), 2450536.5);
-	// D6: after 2300 and more than the range away from 1700
+	// no perihelion in the range: after 2300 and more than the range away from 1700
 	assert.equal(nearestPerihelion(periodic(MAXIMUM_JD + 10, 700), now), MAXIMUM_JD + 10);
 	assert.equal(nearestPerihelion(periodic(2460000, 0), now), 2460000);
 	assert.equal(nearestPerihelion(periodic(2460000, NaN), now), 2460000);

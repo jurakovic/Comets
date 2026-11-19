@@ -1,5 +1,4 @@
 // Angles and hours as the ephemeris text and the database view print them (HMS, Angle).
-// docs/spec/04-astronomy.md, Angle and time text.
 import { roundEven } from '../../lib/math.js';
 
 /**
@@ -11,7 +10,7 @@ function pad2(n) {
 }
 
 /**
- * hours as `05h07m24`, seconds rounded half to even; the sign is dropped (spec 10, Q19)
+ * hours as `05h07m24`, seconds rounded half to even; the sign is dropped, as on the desktop
  * @param {number} t hours (RA / 15)
  * @returns {string}
  */

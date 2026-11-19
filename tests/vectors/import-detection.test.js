@@ -1,4 +1,4 @@
-// import-detection.json: the detection results that are not formats (spec 03, Detection).
+// import-detection.json: the detection results that are not formats.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readVector, readVectorText } from '../helpers/vectors.js';

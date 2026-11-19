@@ -1,6 +1,5 @@
 // The running long computations: run through the JobRunner port, with their progress and a way
-// to cancel them for the status area. docs/spec/12-architecture.md, Services and ports;
-// docs/spec/01-product.md, Status area.
+// to cancel them for the status area. INTERNALS.md, Services and ports.
 import { createStore, readonly } from '../lib/store.js';
 
 /**

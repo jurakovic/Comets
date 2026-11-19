@@ -1,5 +1,5 @@
 // Merging an import into the database (`ImportMain`): what is new, updated or unchanged, and the
-// database order. docs/spec/03-element-formats.md, Merge.
+// database order.
 import { compareText } from './collation.js';
 import { sameComet } from './comet.js';
 

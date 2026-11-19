@@ -1,6 +1,6 @@
 // The Ephemeris tab's live block: a date picker whose instant ticks once a second, and the comet's
 // values at it with their trends. The clock's rules are core/time/live-clock.js, the rows'
-// core/comets/details.js. docs/spec/05-database-and-update.md, Details: Ephemeris tab.
+// core/comets/details.js.
 import { ephemeris } from '../../../core/astro/ephemeris.js';
 import { liveRows } from '../../../core/comets/details.js';
 import { instantToJd, jdToInstant } from '../../../core/time/julian.js';

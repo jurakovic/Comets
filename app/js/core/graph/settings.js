@@ -1,5 +1,5 @@
 // Graph settings: the chart types, the defaults of a new form, validation, the long-calculation
-// count and the result title. docs/spec/07-graph.md, Settings.
+// count and the result title.
 import { compileFormat } from '../format/composite.js';
 import { invalid, valid } from '../validation.js';
 import { defaultTimespan, timespanErrors } from '../ephemeris/timespan.js';
@@ -79,7 +79,7 @@ export const RANGE_INPUT = Object.freeze({ min: -20, max: 40, decimals: 2 });
 
 /**
  * a new form's settings: the default dates for now, Magnitude, red values, the perihelion and now
- * lines on, Maximum 12 for every chart type (spec 10, Q20)
+ * lines on, Maximum 12 for every chart type, as on the desktop
  * @param {number} now UTC milliseconds
  * @returns {GraphSettings}
  */

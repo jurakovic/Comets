@@ -1,5 +1,4 @@
-// Light, dark or the OS's choice, applied at once and whenever the setting changes
-// (docs/spec/09-settings-and-persistence.md, Theme).
+// Light, dark or the OS's choice, applied at once and whenever the setting changes.
 
 /** @typedef {import('../../services/settings.js').Theme} Theme */
 

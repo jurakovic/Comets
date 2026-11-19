@@ -4,7 +4,7 @@ import { fieldValue, PROPERTIES, property, SESSION_KEYS } from '../../../../app/
 import { COMPARES_BY_TYPE, numberCompare, textCompare } from '../../../../app/js/core/comets/compares.js';
 import { createComet } from '../../../../app/js/core/comets/comet.js';
 
-test('the 17 properties in the filter menu order, with the labels of spec 02', () => {
+test('the 17 properties in the filter menu order, with their labels', () => {
 	assert.deepEqual(PROPERTIES.map(p => [p.key, p.label]), [
 		['full', 'Full name'], ['name', 'Discoverer'], ['id', 'Designation'], ['Tn', 'Perihelion date'],
 		['q', 'Perihelion distance'], ['PerihEarthDist', 'Perihelion distance from Earth'],
@@ -16,7 +16,7 @@ test('the 17 properties in the filter menu order, with the labels of spec 02', (
 	assert.ok(Object.isFrozen(PROPERTIES) && PROPERTIES.every(p => Object.isFrozen(p)));
 });
 
-test('types, units, tolerances, input ranges and default compares as spec 02 lists them', () => {
+test('types, units, tolerances, input ranges and default compares of each property', () => {
 	const row = (/** @type {string} */ key) => {
 		const p = property(key);
 		return [p.type, p.unit, p.tolerance, p.input && [p.input.min, p.input.max, p.input.decimals], p.compare];
@@ -59,13 +59,13 @@ test('fieldValue reads the comet\'s fields, and only those', () => {
 	assert.throws(() => fieldValue(comet, 'Tn'), /not a comet field/);
 });
 
-test('the compare menus, with "Greater" spelt right (spec 10, D15)', () => {
+test('the compare menus, with "Greater" spelt right', () => {
 	assert.deepEqual(COMPARES_BY_TYPE.string.map(c => c.label), ['Contains', 'Does not contain', 'Starts with', 'Ends with']);
 	assert.deepEqual(COMPARES_BY_TYPE.number.map(c => c.label), ['Greater than (>)', 'Less than (<)', 'Equals (=)']);
 	assert.equal(COMPARES_BY_TYPE.date, COMPARES_BY_TYPE.number);
 });
 
-test('text compares: any term, and an empty term matches everything (spec 10, Q16)', () => {
+test('text compares: any term, and an empty term matches everything', () => {
 	const terms = ['halley', 'encke'];
 	assert.equal(textCompare('contains').test('1p/halley', terms), true);
 	assert.equal(textCompare('contains').test('3d/biela', terms), false);

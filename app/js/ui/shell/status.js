@@ -1,5 +1,5 @@
 // The status area: the comet count, which opens the Database view, and a running calculation's
-// progress with Cancel. docs/spec/01-product.md, Shell.
+// progress with Cancel.
 import { statusCount } from '../../core/comets/counts.js';
 import { el } from '../dom.js';
 

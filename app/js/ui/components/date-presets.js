@@ -1,5 +1,5 @@
 // The date presets menu, beside the date picker's button and in its editor: the presets of
-// core/input/date.js for the date shown. docs/spec/09-settings-and-persistence.md, Date picker.
+// core/input/date.js for the date shown.
 import { datePresets } from '../../core/input/date.js';
 import { el } from '../dom.js';
 import { createMenu } from './menu.js';

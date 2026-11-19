@@ -1,5 +1,5 @@
 // Voyager II (Soft14Cmt): a 23-line header, an id or a name but not both, no g and k, and
-// duplicates allowed. docs/spec/03-element-formats.md, Voyager II.
+// duplicates allowed.
 import { compileFormat } from '../format/composite.js';
 import { MONTHS, monthAbbreviation } from './months.js';
 import { dayAndFraction, finish } from './record.js';

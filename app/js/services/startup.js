@@ -1,5 +1,4 @@
 // The start-up sequence: the settings and the database loaded, and whether to offer an update.
-// docs/spec/01-product.md, Startup.
 import { DAY_MS } from '../core/time/calendar.js';
 
 /** @typedef {import('./settings.js').Settings} Settings */

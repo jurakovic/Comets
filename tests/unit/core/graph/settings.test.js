@@ -10,7 +10,7 @@ const errorsOf = changes => {
 	return result.ok ? [] : result.errors;
 };
 
-test('a new form: Magnitude, the default colours and lines, Maximum 12 (spec 10, Q20)', () => {
+test('a new form: Magnitude, the default colours and lines, Maximum 12', () => {
 	assert.deepEqual(JSON.parse(JSON.stringify(base)), {
 		start: Date.parse('2026-09-01T00:00:00Z'), end: Date.parse('2027-03-01T00:00:00Z'), chartType: 'Magnitude', valueColor: '#FF0000',
 		perihelionLine: { checked: true, color: '#4169E1' }, nowLine: { checked: true, color: '#32CD32' },
@@ -20,7 +20,7 @@ test('a new form: Magnitude, the default colours and lines, Maximum 12 (spec 10,
 	assert.deepEqual({ ...RANGE_INPUT }, { min: -20, max: 40, decimals: 2 });
 });
 
-test('the chart types of spec 07', () => {
+test('the chart types', () => {
 	assert.deepEqual(CHART_TYPES.map(t => [t.key, t.label, t.axisTitle, t.margin, t.multipleMaximum]), [
 		['Magnitude', 'Magnitude', 'Magnitude', 0.2, 15],
 		['SunDistance', 'Sun distance', 'Sun distance (AU)', 0, 2],

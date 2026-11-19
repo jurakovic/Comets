@@ -42,7 +42,7 @@ test('NASA: the day fraction is rounded to four digits, ties to even', () => {
 	assert.match(exportElements('MPC', [comet], VECTOR_NOW), /^ {14}1986 02 {2}8\.0000 /);
 });
 
-test('NASA: the angles are precessed from the epoch to J2000 (spec 10, Q7)', () => {
+test('NASA: the angles are precessed from the epoch to J2000, as on the desktop', () => {
 	assert.equal(HALLEY.slice(44, 51), '  39875');
 	const [comet] = readElements('NASA', `\n\n${HALLEY}`);
 	assert.ok(Math.abs(comet.i - 162.19053) > 1e-3);

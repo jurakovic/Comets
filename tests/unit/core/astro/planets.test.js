@@ -24,7 +24,7 @@ test('an orbit line has 301 points, the last on the first', () => {
 	}
 });
 
-test('every planet sits on its orbit line, within Δβ (spec 04, 3D scene geometry)', () => {
+test('every planet sits on its orbit line, within Δβ', () => {
 	for (const jd of [2341972.5, 2400000.5, 2461332, 2561117]) {
 		for (const planet of PLANETS) {
 			const off = offLine(planetOrbitLine(planet, jd), planetXyz(planet, jd));

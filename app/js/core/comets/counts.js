@@ -1,5 +1,5 @@
 // How many comets the selection and the database hold, as the status area and the Database view
-// say it. docs/spec/01-product.md, Shell; docs/spec/05-database-and-update.md, Layout.
+// say it.
 
 /**
  * the status area's count (`FormMain.SetStatusCometsLabel`): `Comets: <selection>`, with the

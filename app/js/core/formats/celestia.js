@@ -1,4 +1,4 @@
-// Celestia (.ssc), export only. docs/spec/03-element-formats.md, Celestia.
+// Celestia (.ssc), export only.
 import { compileFormat } from '../format/composite.js';
 import { monthAbbreviation } from './months.js';
 

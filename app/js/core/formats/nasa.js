@@ -1,5 +1,5 @@
 // JPL's ELEMENTS.COMET, import only, with its angles precessed from the osculation epoch to J2000
-// (spec 10, Q7). docs/spec/03-element-formats.md, NASA ELEMENTS.COMET.
+// as the desktop does, though JPL's file is in J2000 already.
 import { roundEven } from '../../lib/math.js';
 import { precessToJ2000 } from '../astro/precession.js';
 import { finish, keptName } from './record.js';

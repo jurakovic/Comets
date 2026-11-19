@@ -1,5 +1,4 @@
-/* The shared components: menus, number fields, the sort menu
-   (docs/spec/09-settings-and-persistence.md, Shared components). */
+/* The shared components: menus, number fields, the sort menu. */
 .menu {
 	display: inline-block;
 }

@@ -1,4 +1,4 @@
-// elements.json: the derived elements P, a, n and Q (spec 02, Derived elements).
+// elements.json: the derived elements P, a, n and Q.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { assertRelativeClose, readVector } from '../helpers/vectors.js';

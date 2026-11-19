@@ -1,5 +1,5 @@
 // Graph sampling: the interval by span, the sample times, and the calculation of the plotted values
-// as a generator. docs/spec/07-graph.md, Sampling.
+// as a generator.
 import { ephemeris } from '../astro/ephemeris.js';
 import { wholeSteps } from '../ephemeris/timespan.js';
 import { DAY_MS } from '../time/calendar.js';
@@ -30,7 +30,7 @@ export function samplingInterval(start, end) {
 
 /**
  * how many samples: 101 up to 100 days, otherwise every whole interval from Start to End, End
- * included when it falls on one (spec 10, D8)
+ * included when it falls on one; the desktop's decimal sums sometimes miss it
  * @param {number} start UTC milliseconds, whole seconds
  * @param {number} end UTC milliseconds, whole seconds
  * @returns {number}

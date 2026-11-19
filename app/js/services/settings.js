@@ -1,10 +1,10 @@
 // The app's settings: their defaults, the rules each value follows, the versioned JSON they are
-// stored as, and the service that owns them. docs/spec/09-settings-and-persistence.md.
+// stored as, and the service that owns them.
 import { createQueue } from '../lib/queue.js';
 import { createStore, readonly } from '../lib/store.js';
 import { invalid, valid } from '../core/validation.js';
 
-/** where the settings are stored (spec 09, Storage layout) */
+/** where the settings are stored (INTERNALS.md, Storage) */
 export const SETTINGS_KEY = 'comets.settings';
 
 /** the MPC's elements file, which Restore default puts back */

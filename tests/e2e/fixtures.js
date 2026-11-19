@@ -35,7 +35,7 @@ export const VIEWS = [
 ];
 
 /**
- * stores settings and a database where the app keeps them (spec 09, Storage layout), then
+ * stores settings and a database where the app keeps them (INTERNALS.md, Storage), then
  * reloads, so the app starts with them
  * @param {import('@playwright/test').Page} page
  * @param {{ settings?: object, database?: string }} stored settings without their version

@@ -1,5 +1,5 @@
 // ephemeris-text/: the calculation and the text output for 5 settings cases, UTC and
-// Europe/Zagreb, at the vector clock (spec 06).
+// Europe/Zagreb, at the vector clock.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { EPHEMERIS_CASES, ephemerisCase } from '../helpers/ephemeris.js';

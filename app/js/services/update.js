@@ -1,6 +1,5 @@
 // The Update dialog's state (`FormUpdate`): a download with progress and Cancel, a local file,
 // the source loaded last as the candidate, its preview against the database, and Import.
-// docs/spec/05-database-and-update.md, Update.
 import { createStore, readonly } from '../lib/store.js';
 import { DEFAULT_DOWNLOAD_URL } from './settings.js';
 

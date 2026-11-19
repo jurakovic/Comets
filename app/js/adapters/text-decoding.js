@@ -1,5 +1,5 @@
 // Bytes to text as File.ReadAllLines reads them: UTF-8, or UTF-16 or UTF-32 by a byte-order
-// mark, which is dropped; invalid bytes become U+FFFD. docs/spec/03-element-formats.md, Text conventions.
+// mark, which is dropped; invalid bytes become U+FFFD.
 
 const REPLACEMENT = 0xfffd;
 

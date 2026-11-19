@@ -1,5 +1,4 @@
 // The orbit viewer's simulation steps: the step menu and the single steps (|<, >|).
-// docs/spec/08-orbit-viewer.md, Simulation.
 import { addDays, addHours, addMonths, addYears, instantToParts, partsToInstant } from '../time/calendar.js';
 
 /**

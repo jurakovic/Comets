@@ -1,5 +1,4 @@
 // Starry Night (Soft07Cmt): a 15-line header, the perihelion as a JD, k × 2.5.
-// docs/spec/03-element-formats.md, Starry Night.
 import { compileFormat } from '../format/composite.js';
 import { finish, rebuiltName } from './record.js';
 import { column, dayFraction, dbl, dec, item, jdDate } from './text.js';
@@ -50,7 +49,7 @@ export const reader = {
 	}
 };
 
-// the fragment is not written (spec 10, Q1)
+// the fragment is not written, as on the desktop
 const LINE = compileFormat('     {0,-29} {1,4:0.0}    0.0   {2:0.000000}   {3,9:0.000000}    {4,8:0.0000}  {5,8:0.0000}  {6,8:0.0000}  {7,12:0.0000}    {8,9:0.0}  {9,4:0.0}  {10,-13} MPC 00000');
 
 /** @type {import('./registry.js').Writer} */

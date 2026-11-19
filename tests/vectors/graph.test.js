@@ -1,4 +1,4 @@
-// graph.json: the sampling intervals, and the model of 5 graphs at the vector clock (spec 07).
+// graph.json: the sampling intervals, and the model of 5 graphs at the vector clock.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { drain } from '../helpers/generators.js';

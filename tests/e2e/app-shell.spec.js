@@ -1,9 +1,9 @@
 // The shell around the views: the status area, the theme from settings, the start-up question,
-// dialogs, notifications and Help (docs/spec/01-product.md, Shell, Startup, Messages, Help).
+// dialogs, notifications and Help.
 import { readFileSync } from 'node:fs';
 import { expect, seed, test } from './fixtures.js';
 
-const SAMPLE = readFileSync(new URL('../../docs/spec/vectors/import/sample.txt', import.meta.url), 'utf8');
+const SAMPLE = readFileSync(new URL('../vectors/data/import/sample.txt', import.meta.url), 'utf8');
 const NOW = new Date('2026-10-18T12:00:00Z');
 const MPC_URL = 'https://minorplanetcenter.net/iau/Ephemerides/Comets/Soft00Cmt.txt';
 

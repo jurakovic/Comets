@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <!--
-    Generates the test vectors under docs/spec/vectors from the ORIGINAL desktop sources.
+    Generates the test vectors under tests/vectors/data from the ORIGINAL desktop sources.
     The engine files are compiled in unchanged (linked, not copied); the few WinForms types
     they reference are replaced by inert stubs in Stubs/, so the harness runs on Linux.
     See README.md for how to run it.

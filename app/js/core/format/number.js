@@ -1,5 +1,4 @@
 // .NET custom number formats ("0.000000", "00", "0.0000##", "0.0°") over float64 values.
-// docs/spec/03-element-formats.md, Number formatting.
 
 /**
  * a number as integer digits and a decimal scale: |x| = digits × 10^−scale

@@ -1,6 +1,5 @@
 // The Update dialog over the current view (`FormUpdate`): the download and a local file, the
 // preview of the source loaded last, and Import. Its state is the update service's.
-// docs/spec/05-database-and-update.md, Update.
 import { COUNTS_TOOLTIP } from '../../../core/formats/import.js';
 import { closesAfterImport } from '../../../services/update.js';
 import { el } from '../../dom.js';

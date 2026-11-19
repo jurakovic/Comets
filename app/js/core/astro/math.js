@@ -1,4 +1,4 @@
-// The engine's constants and degree helpers. docs/spec/04-astronomy.md, Constants and helpers.
+// The engine's constants and degree helpers.
 
 /** the JD of 1999 Dec 31.0 (2000 Jan 0.0); the day count is d = JD − D0 */
 export const D0 = 2451543.5;

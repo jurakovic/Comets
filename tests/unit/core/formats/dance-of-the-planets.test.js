@@ -13,6 +13,6 @@ test('a line of exactly 69 characters has no name; a shorter one fails', () => {
 	assert.deepEqual(readElements('DanceOfThePlanets', HEADER + BORISOV).map(c => c.full), ['2I/Borisov']);
 });
 
-test('q of 10 AU or more, written as stars, fails (spec 10, Q15)', () => {
+test('q of 10 AU or more, written as stars, fails, as on the desktop', () => {
 	assert.deepEqual(readElements('DanceOfThePlanets', HEADER + BORISOV.replace(' 1.997724', '********')), []);
 });

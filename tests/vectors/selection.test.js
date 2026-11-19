@@ -1,5 +1,4 @@
-// selection.json: quick selection over the sample collection at the vector clock (spec 02, Quick
-// selection).
+// selection.json: quick selection over the sample collection at the vector clock.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { createFakeClock } from '../helpers/fakes.js';

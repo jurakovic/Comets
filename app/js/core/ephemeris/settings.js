@@ -1,5 +1,5 @@
 // Ephemeris settings: the defaults of a new form, the interval, the requirements, validation, the
-// long-calculation count and the result title. docs/spec/06-ephemeris.md, Settings and Calculation.
+// long-calculation count and the result title.
 import { invalid, valid } from '../validation.js';
 import { COLUMNS } from './columns.js';
 import { defaultTimespan, timespanErrors, wholeSteps } from './timespan.js';

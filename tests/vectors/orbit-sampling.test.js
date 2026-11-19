@@ -1,4 +1,4 @@
-// orbit-sampling.json: the adaptive orbit sampler in the orbital plane (spec 04, Comet orbit sampling).
+// orbit-sampling.json: the adaptive orbit sampler in the orbital plane.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { assertClose, readVector } from '../helpers/vectors.js';

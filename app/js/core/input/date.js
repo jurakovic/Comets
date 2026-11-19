@@ -1,6 +1,5 @@
 // The date picker's rules (`SelectDateControl`, `FormDateTime`, `DateTimeMenuControl`): the
 // button's texts, the editor's fields and their steps, the JD field, OK's clamp, the presets.
-// docs/spec/09-settings-and-persistence.md, Date picker.
 import { DATE_FULL, DATE_PERIHELION, formatDate } from '../format/dates.js';
 import { formatNumber } from '../format/number.js';
 import {

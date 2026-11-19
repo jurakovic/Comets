@@ -1,5 +1,5 @@
 // The TextFetcher port over fetch: the body read as a stream with progress, decoded by its
-// byte-order mark. docs/spec/05-database-and-update.md, Download.
+// byte-order mark.
 import { decodeBytes } from './text-decoding.js';
 
 /**

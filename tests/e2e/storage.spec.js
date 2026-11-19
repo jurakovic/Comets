@@ -1,5 +1,5 @@
-// The storage adapters over the browser's real IndexedDB and localStorage
-// (docs/spec/09-settings-and-persistence.md, Storage layout).
+// The storage adapters over the browser's real IndexedDB and localStorage (INTERNALS.md,
+// Storage).
 import { expect, test } from './fixtures.js';
 
 test('IndexedDB and localStorage keep their values across a reload', async ({ page }) => {

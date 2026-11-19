@@ -1,5 +1,5 @@
 // filters.json: 27 filter sets over the 963 comets of the MPC snapshot, at the vector clock for
-// the observer at 0, 0 (spec 02, Filters).
+// the observer at 0, 0.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { createFakeClock } from '../helpers/fakes.js';

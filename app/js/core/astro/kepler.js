@@ -1,8 +1,7 @@
 // Kepler's equation for ellipses, hyperbolas and parabolas: true anomaly and distance.
-// docs/spec/04-astronomy.md, Orbital plane.
 import { EPS, GAUSS_K } from './math.js';
 
-/** the desktop's hyperbolic and parabolic loops have no limit (spec 10, D7) */
+/** the desktop's hyperbolic and parabolic loops have no limit */
 const MAX_ITERATIONS = 100;
 
 /**

@@ -1,5 +1,5 @@
 // The composition root: the one module that knows every layer. It builds the
-// adapters, services and UI and wires them (docs/spec/12-architecture.md).
+// adapters, services and UI and wires them (INTERNALS.md, The shell).
 import { createSystemClock } from './adapters/clock.js';
 import { createFallbackJobRunner, createLocalJobRunner, createWorkerJobRunner } from './adapters/job-runners.js';
 import { createIndexedDbStore, createWebStorageStore } from './adapters/key-value-stores.js';

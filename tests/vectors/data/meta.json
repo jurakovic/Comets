@@ -1,5 +1,5 @@
 {
-  "description": "Test vectors for the Comets web specification, generated from the desktop sources by tools/spec-vectors.",
+  "description": "Test vectors for the Comets web app, generated from the desktop sources by tools/spec-vectors.",
   "fakeNowUtc": "2026-10-18T12:00:00Z",
   "fakeNowJD": 2461332.0,
   "timeZone": "UTC",

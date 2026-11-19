@@ -32,7 +32,7 @@ test('a new form: 1 day, Local Time, the default columns, Min magnitude 12', () 
 	assert.ok(Object.isFrozen(settings) && Object.isFrozen(settings.columns) && Object.isFrozen(settings.requirements.minMagnitude));
 });
 
-test('the columns and requirements of spec 06, in order', () => {
+test('the columns and requirements, in order', () => {
 	assert.deepEqual(COLUMNS.map(c => c.label), [
 		'Right ascension (RA)', 'Declination (Dec)', 'Altitude (Alt)', 'Azimuth (Az)', 'Ecliptic Longitude',
 		'Ecliptic Latitude', 'Elongation', 'Sun distance', 'Earth distance', 'Magnitude'

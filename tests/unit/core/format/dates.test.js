@@ -22,7 +22,7 @@ test('every month abbreviation, and padded fields', () => {
 	assert.equal(formatDate({ year: 7, month: 2, day: 3, hour: 4, minute: 5, second: 6 }, DATE_FULL), '03.02.0007. 04:05:06');
 });
 
-test('astronomical years ≤ 0 keep four digits after their sign (spec 10, D5)', () => {
+test('astronomical years ≤ 0 keep four digits after their sign', () => {
 	assert.equal(formatDate({ year: -146, month: 8, day: 13, hour: 12, minute: 0, second: 0 }, DATE_PERIHELION), '13 Aug -0146 12:00:00');
 	assert.equal(formatDate({ year: 0, month: 1, day: 1, hour: 0, minute: 0, second: 0 }, DATE_GRAPH_SHORT), '01 Jan 0000');
 });

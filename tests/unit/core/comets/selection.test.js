@@ -17,7 +17,7 @@ const [a, b, c] = [comet('a', 3), comet('b', 1), comet('c', 1)];
 const values = new Map([[a, { CurrentMag: 9, CurrentEarthDist: 0.5, CurrentSunDist: 2, Tn: 100 }], [b, { CurrentMag: 5, CurrentEarthDist: 1, CurrentSunDist: 1, Tn: 90 }], [c, { CurrentMag: 5, CurrentEarthDist: 2, CurrentSunDist: 1, Tn: 111 }]]);
 const value = (/** @type {Comet} */ comet, /** @type {string} */ key) => /** @type {any} */ (values.get(comet))?.[key] ?? fieldValue(comet, key);
 
-test('the menu of spec 02', () => {
+test('the quick-select menu', () => {
 	assert.deepEqual(QUICK_SELECTIONS.map(s => s.label), ['Brightest', 'Closest to perihelion', 'Closest to Earth', 'Closest to Sun']);
 });
 

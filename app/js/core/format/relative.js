@@ -1,5 +1,5 @@
 // How long ago the last update was, in whole days ("3 days ago"), for the navigation's Update
-// action and the Settings view. docs/spec/09-settings-and-persistence.md, Settings.
+// action and the Settings view.
 import { DAY_MS } from '../time/calendar.js';
 
 const DAYS = new Intl.RelativeTimeFormat('en', { numeric: 'auto' });
@@ -13,6 +13,6 @@ const DAYS = new Intl.RelativeTimeFormat('en', { numeric: 'auto' });
  */
 export function daysAgo(then, now) {
 	if (then === null) return 'never';
-	// floor, as start-up counts the days (spec 01, Startup); + 0 turns −0 into 0
+	// floor, as start-up counts the days (services/startup.js); + 0 turns −0 into 0
 	return DAYS.format(-Math.max(0, Math.floor((now - then) / DAY_MS)) + 0, 'day');
 }

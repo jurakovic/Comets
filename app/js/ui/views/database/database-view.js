@@ -1,6 +1,5 @@
 // The Database view (`FormDatabase`): the app-wide selection as a list, its sort, Reset and Delete,
 // the selected comet's details, and an empty state that offers the download.
-// docs/spec/05-database-and-update.md, Database view.
 import { databaseTitle } from '../../../core/comets/counts.js';
 import { indexAfterChange } from '../../../core/comets/selection.js';
 import { createSortMenu } from '../../components/sort-menu.js';

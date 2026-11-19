@@ -1,5 +1,5 @@
 // The last resort for errors nothing else caught: the browser logs them, and the user is told, so
-// that one failing part does not leave the page silently broken. docs/spec/12-architecture.md, Errors.
+// that one failing part does not leave the page silently broken. INTERNALS.md, Errors.
 
 /**
  * @param {unknown} reason

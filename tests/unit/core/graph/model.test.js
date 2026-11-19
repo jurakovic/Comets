@@ -80,7 +80,7 @@ test('several comets default the maximum to 15 for magnitudes and 2 AU for dista
 	// one comet in multiple mode, or single mode: the samples' maximum
 	const one = model([[9, 10, 11]], {}, { multiple: true });
 	assert.equal(one.valueAxis.max, 12);
-	// and a one-comet list is still multiple mode: no title (spec 10, D18)
+	// and a one-comet list is still multiple mode: no title
 	assert.equal(one.title, null);
 });
 
@@ -143,7 +143,7 @@ test('perihelion times: back to the first after Start less a period, then on bef
 	// still the desktop's, 238 periods back
 	const [Tn, P, from] = [2522005.9796976843, 2.01513567033654, 2346095.2151395734];
 	assert.equal(perihelionTimes(Tn, P, from, Tn)[0], Tn - 238 * P * year);
-	// a period that is not positive and finite: the line at Tn alone (spec 10, D6)
+	// a period that is not positive and finite: the line at Tn alone
 	assert.deepEqual(perihelionTimes(100, 0, 0, 3000), [100]);
 	assert.deepEqual(perihelionTimes(100, NaN, 0, 3000), [100]);
 	assert.deepEqual(perihelionTimes(5000, 0, 0, 3000), []);

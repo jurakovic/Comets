@@ -1,5 +1,4 @@
 // Comet for Windows (.dat), import only: records of 13 `key=value` lines from line 6.
-// docs/spec/03-element-formats.md, Comet for Windows.
 import { dayAndFraction, finish, keptName } from './record.js';
 import { dbl, int, item, trim } from './text.js';
 

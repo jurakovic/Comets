@@ -1,9 +1,9 @@
 // The compute Worker in a real browser: a job's result equals its vector, and a cancelled job
-// stops (docs/spec/12-architecture.md, Long computations; spec 11, Conformance plan, level 2).
+// stops (INTERNALS.md, Long computations and the Worker).
 import { expect, test } from './fixtures.js';
 
 const APP = '/Comets/app/js/';
-const VECTORS = '/Comets/docs/spec/vectors/';
+const VECTORS = '/Comets/tests/vectors/data/';
 
 test('an ephemeris runs in the Worker and equals its vector', async ({ page }) => {
 	await page.goto('./');

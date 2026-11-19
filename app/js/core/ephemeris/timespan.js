@@ -1,5 +1,5 @@
 // The timespan of an ephemeris or a graph: the default dates, the validation, and the steps from
-// Start to End. docs/spec/06-ephemeris.md, Settings and Calculation.
+// Start to End.
 import { addMonths, civilFromDays, DAY_MS, daysFromCivil } from '../time/calendar.js';
 
 /** a timespan must be shorter than this many days */
@@ -29,7 +29,7 @@ export function defaultTimespan(now) {
  * @returns {ReadonlyArray<import('../validation.js').ValidationError>} empty when valid
  */
 export function timespanErrors(start, end) {
-	// "greater" where the desktop spells "greather" (spec 10, D15)
+	// "greater" where the desktop spells "greather"
 	if (end <= start) return [{ field: 'start', message: 'End date must be greater than start date' }];
 	if ((end - start) / DAY_MS >= MAXIMUM_SPAN_DAYS) return [{ field: 'start', message: 'Timespan must be less than 300 years' }];
 	return [];
@@ -37,7 +37,7 @@ export function timespanErrors(start, end) {
 
 /**
  * the number of whole steps from Start to End, in exact integer arithmetic, so that a step lying
- * on End is always counted (spec 10, D8)
+ * on End is always counted; the desktop's decimal sums sometimes miss it
  * @param {number} start UTC milliseconds, whole seconds
  * @param {number} end UTC milliseconds, whole seconds
  * @param {number} step milliseconds, a whole number of seconds and more than 0

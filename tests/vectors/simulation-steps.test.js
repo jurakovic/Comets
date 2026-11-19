@@ -1,4 +1,4 @@
-// simulation-steps.json: the orbit viewer's single steps (spec 08, Simulation).
+// simulation-steps.json: the orbit viewer's single steps.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { isoUtc, readVector, utcInstant } from '../helpers/vectors.js';

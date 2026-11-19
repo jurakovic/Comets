@@ -13,7 +13,7 @@ const comet = (full, q, name) => {
 const list = [comet('a', 2, 'b'), comet('b', 1, 'a'), comet('c', 2, 'B'), comet('d', 1, 'á'), comet('e', 3, 'a')];
 const fullNames = (/** @type {ReadonlyArray<{ full: string }>} */ comets) => comets.map(c => c.full).join('');
 
-test('the sort menu of spec 02, and its default', () => {
+test('the sort menu, and its default', () => {
 	assert.deepEqual(SORT_PROPERTIES.map(p => p.label), [
 		'Designation', 'Discoverer', 'Perihelion date', 'Perihelion distance', 'Perihelion distance from Earth',
 		'Perihelion magnitude', 'Current distance from Sun', 'Current distance from Earth', 'Current magnitude',
@@ -55,7 +55,7 @@ test('the sort menu\'s choices: another property keeps the direction, the same o
 	assert.deepEqual({ ...chooseSort(current, { property: 'name' }) }, { property: 'name', ascending: false });
 	assert.equal(chooseSort(current, { property: 'q' }), null);
 	assert.deepEqual({ ...chooseSort(current, { ascending: true }) }, { property: 'q', ascending: true });
-	// the direction already chosen sorts again, where the desktop's menu flipped it (spec 10, D19)
+	// the direction already chosen sorts again, where the desktop's menu flips it
 	assert.deepEqual({ ...chooseSort(current, { ascending: false }) }, { property: 'q', ascending: false });
 	assert.ok(Object.isFrozen(chooseSort(current, { ascending: true })));
 	assert.throws(() => chooseSort(current, { property: 'full' }), /unknown sort property/);

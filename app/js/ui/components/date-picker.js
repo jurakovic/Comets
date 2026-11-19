@@ -1,6 +1,5 @@
 // The date picker (`SelectDateControl`): a button with the UTC instant and its local time in the
 // tooltip, which opens the editor, and the presets menu beside it.
-// docs/spec/09-settings-and-persistence.md, Date picker.
 import { buttonText, LOCAL_TIME, localText } from '../../core/input/date.js';
 import { localPartsIn } from '../../core/time/local.js';
 import { el } from '../dom.js';

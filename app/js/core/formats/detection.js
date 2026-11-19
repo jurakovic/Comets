@@ -1,5 +1,5 @@
 // Which format a file is in (`GetImportType`): headers first, then record parsers on the last
-// record. docs/spec/03-element-formats.md, Detection.
+// record.
 import { formatByKey } from './registry.js';
 import { attempt, splitLines } from './text.js';
 
@@ -36,7 +36,7 @@ function readsLastRecord(reader, lines) {
 /**
  * the format key of a file's text, or NoFileSelected, EmptyFile or Unknown. A file with no lines
  * (nothing but a BOM) is empty; the desktop crashes on it, as on a one-line file that matches no
- * header (spec 10, D4)
+ * header, which goes on to the record parsers here
  * @param {string | null} text null when no file was chosen
  * @returns {string}
  */

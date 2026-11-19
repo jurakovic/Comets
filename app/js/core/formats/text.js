@@ -1,5 +1,5 @@
 // Text conventions and field access: lines as File.ReadAllLines gives them, and the operations
-// the record parsers read fields with. docs/spec/03-element-formats.md, Text conventions.
+// the record parsers read fields with.
 import { roundEven } from '../../lib/math.js';
 import { parseDecimal, parseDouble, parseInteger, trim } from '../format/parse.js';
 import { daysInMonth } from '../time/calendar.js';
@@ -120,7 +120,7 @@ export function pad4(text) {
 }
 
 /**
- * `int` of spec 03: parseInteger, failing the record
+ * the `int` field: parseInteger, failing the record
  * @param {string} text
  * @returns {number}
  */
@@ -129,7 +129,7 @@ export function int(text) {
 }
 
 /**
- * `dbl` of spec 03: parseDouble, failing the record
+ * the `dbl` field: parseDouble, failing the record
  * @param {string} text
  * @returns {number}
  */
@@ -138,7 +138,7 @@ export function dbl(text) {
 }
 
 /**
- * `dec` of spec 03: parseDecimal, failing the record
+ * the `dec` field: parseDecimal, failing the record
  * @param {string} text
  * @returns {number}
  */
@@ -160,7 +160,7 @@ export function round6(x) {
 /**
  * the date parts of a JD as the importers get them from JDToDateTime: they fail where the
  * desktop's DateTime throws, for years before 1 or after 9999, a Julian 29 February the Gregorian
- * calendar lacks, and hour 24 (spec 10, D5 covers the rest of the app)
+ * calendar lacks, and hour 24 (the rest of the app takes them as core/time/julian.js says)
  * @param {number} jd
  * @returns {import('../time/calendar.js').DateParts}
  */

@@ -1,5 +1,5 @@
 // The comet record: its factory with the derived elements and the sort key, equality, and the
-// nearest perihelion. docs/spec/02-data-model.md, Comet record.
+// nearest perihelion.
 import { jd0 } from '../time/julian.js';
 import { MAXIMUM_JD, MINIMUM_JD } from '../time/range.js';
 import { isPeriodic, sortKey } from './designation.js';
@@ -62,7 +62,7 @@ import { isPeriodic, sortKey } from './designation.js';
 const NEAR_PARABOLIC = 0.999999;
 
 /**
- * P, a, Q and n from q and e (`CometManager`), with its hyperbolic quirks (spec 10, Q5, Q6)
+ * P, a, Q and n from q and e (`CometManager`), with its quirks for hyperbolic and parabolic orbits
  * @param {number} q
  * @param {number} e
  * @returns {{ P: number, a: number, Q: number, n: number }}
@@ -82,8 +82,8 @@ export function derivedElements(q, e) {
 }
 
 /**
- * a comet from what an importer read (the finalize step of spec 03): T, the derived elements and
- * the sort key
+ * a comet from what an importer read (the finalize step every importer ends with): T, the
+ * derived elements and the sort key
  * @param {CometFields} fields
  * @param {FixedFields} [fixed]
  * @returns {Comet | null} null when the id gives no sort key, which makes the record invalid
@@ -114,8 +114,8 @@ export function sameComet(a, b) {
 
 /**
  * the perihelion nearest to now (`Tn`): for a periodic comet, the one among T ± whole periods in
- * the date range closest to now, the earliest on a tie; otherwise, or when there is none, T
- * (spec 10, D6)
+ * the date range closest to now, the earliest on a tie; otherwise, or when there is none, T, where
+ * the desktop throws or never ends its loop (a period of 0)
  * @param {Comet} comet
  * @param {number} nowJd the JD of now, its milliseconds dropped
  * @returns {number}
@@ -124,7 +124,7 @@ export function nearestPerihelion(comet, nowJd) {
 	const { T } = comet;
 	if (!isPeriodic(comet.id)) return T;
 	// the desktop's decimal holds P to 15 significant digits; .NET's conversion and toPrecision
-	// differ in that digit at times, which moves Tn by under 1e-8 day (spec 02)
+	// differ in that digit at times, which moves Tn by under 1e-8 day
 	const period = Number(comet.P.toPrecision(15)) * 365.25;
 	// the desktop never ends its loop for a period of 0
 	if (!(period > 0 && Number.isFinite(period))) return T;

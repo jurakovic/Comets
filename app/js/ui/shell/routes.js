@@ -1,4 +1,4 @@
-// The views and their routes (docs/spec/01-product.md, Views). The router and
+// The views and their routes. The router and
 // the navigation read this table; a new view is a new entry.
 
 /** @typedef {import('./router.js').View} View */

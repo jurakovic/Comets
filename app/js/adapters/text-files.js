@@ -1,5 +1,5 @@
 // The TextFileReader port: a chosen or dropped file read whole and decoded by its byte-order
-// mark. docs/spec/05-database-and-update.md, Local file.
+// mark.
 import { decodeBytes } from './text-decoding.js';
 
 /**

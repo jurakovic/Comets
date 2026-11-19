@@ -1,5 +1,5 @@
 // The ephemeris text (`GenerateEphemerisAsync`): per comet a heading, the header line and a line
-// per row, with CRLF line endings. docs/spec/06-ephemeris.md, Text output.
+// per row, with CRLF line endings.
 import { compileFormat } from '../format/composite.js';
 import { compileDateFormat, DATE_EPHEMERIS, DATE_PERIHELION } from '../format/dates.js';
 import { formatNumber } from '../format/number.js';

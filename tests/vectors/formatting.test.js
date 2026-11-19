@@ -1,4 +1,4 @@
-// formatting.json: HMS and Angle text (spec 04, Angle and time text).
+// formatting.json: HMS and Angle text.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readVector } from '../helpers/vectors.js';

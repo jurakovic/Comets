@@ -1,5 +1,5 @@
 // ESLint over the web app, its tests and its tooling. Beyond the usual checks it
-// holds the layers to the dependency rule of docs/spec/12-architecture.md: what
+// holds the layers to the dependency rule (INTERNALS.md, Layers and the dependency rule): what
 // each folder of app/js may import, and which globals it may touch.
 import js from '@eslint/js';
 import globals from 'globals';
@@ -7,7 +7,7 @@ import importX from 'eslint-plugin-import-x';
 
 const JS = './app/js';
 
-// a folder may not import from these (12-architecture.md, Layers and the dependency rule)
+// a folder may not import from these
 const zones = [
 	{ target: `${JS}/lib`, from: [`${JS}/core`, `${JS}/services`, `${JS}/adapters`, `${JS}/workers`, `${JS}/ui`, `${JS}/main.js`] },
 	{ target: `${JS}/core`, from: [`${JS}/services`, `${JS}/adapters`, `${JS}/workers`, `${JS}/ui`, `${JS}/main.js`] },
@@ -15,7 +15,7 @@ const zones = [
 	{ target: `${JS}/adapters`, from: [`${JS}/services`, `${JS}/workers`, `${JS}/ui`, `${JS}/main.js`] },
 	{ target: `${JS}/workers`, from: [`${JS}/services`, `${JS}/adapters`, `${JS}/ui`, `${JS}/main.js`] },
 	{ target: `${JS}/ui`, from: [`${JS}/adapters`, `${JS}/workers`, `${JS}/main.js`] }
-].map(zone => ({ ...zone, message: 'breaks the dependency rule (docs/spec/12-architecture.md)' }));
+].map(zone => ({ ...zone, message: 'breaks the dependency rule (INTERNALS.md, Layers and the dependency rule)' }));
 
 // what services may use besides the language: everything else reaches them through a port
 const serviceGlobals = Object.fromEntries(
@@ -66,16 +66,16 @@ export default [
 		rules: {
 			'no-restricted-globals': ['error',
 				{ name: 'Date', message: 'instants are numbers; use core/time (Date maps years 0–99 to 19xx)' },
-				{ name: 'parseFloat', message: 'accepts text .NET rejects; parse with the strict rules of spec 03' },
-				{ name: 'parseInt', message: 'accepts text .NET rejects; parse with the strict rules of spec 03' }
+				{ name: 'parseFloat', message: 'accepts text .NET rejects; use core/format/parse.js' },
+				{ name: 'parseInt', message: 'accepts text .NET rejects; use core/format/parse.js' }
 			],
 			'no-restricted-properties': ['error',
 				{ property: 'toFixed', message: 'rounds unlike .NET; use core/format' },
 				{ property: 'substr', message: 'does not fail on short lines; use the field access in core/formats' },
 				{ object: 'Math', property: 'round', message: 'rounds halves up; .NET rounds them to even (roundEven in lib/math.js)' },
-				{ object: 'Number', property: 'parseFloat', message: 'accepts text .NET rejects; parse with the strict rules of spec 03' },
-				{ object: 'Number', property: 'parseInt', message: 'accepts text .NET rejects; parse with the strict rules of spec 03' },
-				{ property: 'localeCompare', message: 'sorts by the default locale; use compareText of core/comets/collation.js (spec 02, Sorting)' }
+				{ object: 'Number', property: 'parseFloat', message: 'accepts text .NET rejects; use core/format/parse.js' },
+				{ object: 'Number', property: 'parseInt', message: 'accepts text .NET rejects; use core/format/parse.js' },
+				{ property: 'localeCompare', message: 'sorts by the default locale; use compareText of core/comets/collation.js' }
 			]
 		}
 	},

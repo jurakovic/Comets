@@ -1,5 +1,5 @@
 // names.json: both designation patterns, full names, sort keys, isPeriodic, and every comet of
-// the MPC snapshot (spec 02, Designations and full names).
+// the MPC snapshot.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readVector, readVectorText } from '../helpers/vectors.js';

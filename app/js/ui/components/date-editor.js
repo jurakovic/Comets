@@ -1,6 +1,6 @@
 // The date picker's editor (`FormDateTime`): D M Y H M S in UTC, the local time, the JD, ↑/↓
 // steps in every field, the presets, and OK, which clamps to the date range. The rules are
-// core/input/date.js. docs/spec/09-settings-and-persistence.md, Date picker.
+// core/input/date.js.
 import {
 	collectFields, DATE_FIELDS, EDITOR_TITLE, fieldTexts, JD_RANGE, jdFieldDate, localText, okDate, partsOf, stepDate
 } from '../../core/input/date.js';

@@ -1,4 +1,4 @@
-// time.json: JD0, the JD of an instant, JDToDateTime and the date range (spec 04, Time).
+// time.json: JD0, the JD of an instant, JDToDateTime and the date range.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { assertClose, isoUtc, readVector, utcInstant } from '../helpers/vectors.js';

@@ -1,5 +1,5 @@
 // An observable value with one owner: read it, change it, follow it.
-// See docs/spec/12-architecture.md, State and change.
+// INTERNALS.md, State and change.
 
 /**
  * @template T

@@ -1,11 +1,11 @@
 // The stored database: the MPC text of the main collection, written whole and read back as an MPC
-// import into an empty database. docs/spec/05-database-and-update.md, Storage.
+// import into an empty database.
 import { exportElements } from '../core/formats/export.js';
 import { importElements } from '../core/formats/import.js';
 
 /** @typedef {import('../core/comets/comet.js').Comet} Comet */
 
-/** the database's key in its IndexedDB object store (spec 09, Storage layout) */
+/** the database's key in its IndexedDB object store (INTERNALS.md, Storage) */
 export const DATABASE_KEY = 'database';
 
 const FORMAT = 'MPC';
@@ -22,7 +22,8 @@ const FORMAT = 'MPC';
 /**
  * @param {object} deps
  * @param {import('./ports.js').KeyValueStore} deps.store IndexedDB
- * @param {import('./ports.js').Clock} deps.clock the MPC text holds today's date (spec 10, Q12)
+ * @param {import('./ports.js').Clock} deps.clock the MPC text holds today's date as its epoch of
+ *   osculation
  * @returns {DatabaseRepository}
  */
 export function createDatabaseRepository({ store, clock }) {

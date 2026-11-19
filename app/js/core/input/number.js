@@ -1,5 +1,5 @@
 // What a number field accepts (`ValNumManager`): its text, an edit to it, and ↑/↓ on an integer
-// field. docs/spec/09-settings-and-persistence.md, Number fields.
+// field.
 import { parseDouble, trim } from '../format/parse.js';
 
 /**

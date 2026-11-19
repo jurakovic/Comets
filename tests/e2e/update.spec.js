@@ -1,12 +1,11 @@
 // The Update dialog: the first-run download, the preview counts, a local file, errors, Cancel and
-// automatic mode, with the MPC URL answered from the vectors (docs/spec/05-database-and-update.md,
-// Update; docs/spec/11-test-vectors.md, Conformance plan level 3).
+// automatic mode, with the MPC URL answered from the vectors.
 import { readFileSync } from 'node:fs';
 import { expect, seed, test } from './fixtures.js';
 
 const MPC_URL = 'https://minorplanetcenter.net/iau/Ephemerides/Comets/Soft00Cmt.txt';
-/** @param {string} path a file under docs/spec/vectors */
-const vector = path => readFileSync(new URL(`../../docs/spec/vectors/${path}`, import.meta.url), 'utf8');
+/** @param {string} path a file under tests/vectors/data */
+const vector = path => readFileSync(new URL(`../vectors/data/${path}`, import.meta.url), 'utf8');
 const FULL = vector('import/full/Soft00Cmt.txt');
 const MERGE = JSON.parse(vector('import-merge.json'));
 const SAMPLE = vector(MERGE.oldFile);

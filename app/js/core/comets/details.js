@@ -1,6 +1,5 @@
 // What the Database view's details show of a comet: the Orbital elements tab, the Ephemeris tab's
 // perihelion values and live block with its trends, and the JPL link.
-// docs/spec/05-database-and-update.md, Details.
 import { elongationSide } from '../astro/ephemeris.js';
 import { angle, hms } from '../format/angles.js';
 import { DATE_FULL, formatDate } from '../format/dates.js';
@@ -92,7 +91,8 @@ export function perihelionRows(comet, { Tn, PerihEarthDist, PerihMag }) {
 }
 
 /**
- * JPL's small-body lookup for the comet: its id, without the fragment, URL-encoded (spec 10, D16)
+ * JPL's small-body lookup for the comet: its id, without the fragment, URL-encoded, where the
+ * desktop used it raw
  * @param {Comet} comet
  * @returns {string}
  */

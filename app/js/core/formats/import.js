@@ -1,5 +1,4 @@
 // Reading a file in a known format, and importing it into the database (`ImportMain`).
-// docs/spec/03-element-formats.md, Import rules and Merge.
 import { countResults, mergeComets } from '../comets/merge.js';
 import { detectFormat, EMPTY_FILE, NO_FILE_SELECTED, UNKNOWN } from './detection.js';
 import { formatByKey } from './registry.js';

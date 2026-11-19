@@ -22,7 +22,7 @@ using CometEphemeris = Comets.Core.Ephemeris;
 namespace SpecVectors
 {
 	/// <summary>
-	/// Writes docs/spec/vectors. Run through run.sh, which pins the clock and the time zone;
+	/// Writes tests/vectors/data. Run through run.sh, which pins the clock and the time zone;
 	/// see README.md.
 	/// </summary>
 	public static class Program
@@ -31,7 +31,7 @@ namespace SpecVectors
 		public static readonly DateTime FakeNow = new DateTime(2026, 10, 18, 12, 0, 0, DateTimeKind.Utc);
 
 		static string InputDir;   // full or trimmed source files (Soft00Cmt.txt ... ELEMENTS.COMET)
-		static string OutDir;     // docs/spec/vectors
+		static string OutDir;     // tests/vectors/data
 		static string ImportDir => Path.Combine(OutDir, "import");
 
 		static readonly JsonSerializerOptions Json = new JsonSerializerOptions
@@ -52,7 +52,7 @@ namespace SpecVectors
 
 			if (InputDir == null || OutDir == null)
 			{
-				Console.Error.WriteLine("usage: SpecVectors --input <dir> --out <docs/spec/vectors>");
+				Console.Error.WriteLine("usage: SpecVectors --input <dir> --out <tests/vectors/data>");
 				return 2;
 			}
 
@@ -366,7 +366,7 @@ namespace SpecVectors
 		{
 			Save("meta.json", new
 			{
-				description = "Test vectors for the Comets web specification, generated from the desktop sources by tools/spec-vectors.",
+				description = "Test vectors for the Comets web app, generated from the desktop sources by tools/spec-vectors.",
 				fakeNowUtc = Iso(FakeNow),
 				fakeNowJD = JD(FakeNow),
 				timeZone = "UTC",
@@ -473,7 +473,7 @@ namespace SpecVectors
 				catch (Exception ex) { return new { id, fragment, error = ex.GetType().Name }; }
 			}
 
-			// The spec's parsers must agree with the desktop regexes; this throws if they do not.
+			// The web app's parsers must agree with the desktop regexes; this throws if they do not.
 			var names02 = new List<string>(examples02);
 			foreach (string f in new[] { "Soft02Cmt.txt", "Soft08Cmt.txt" })
 			{

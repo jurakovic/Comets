@@ -1,5 +1,4 @@
-// Sorting a list of comets by one property, stably in both directions. docs/spec/02-data-model.md,
-// Sorting.
+// Sorting a list of comets by one property, stably in both directions.
 import { compareText } from './collation.js';
 
 /** @typedef {import('./comet.js').Comet} Comet */

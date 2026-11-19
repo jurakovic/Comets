@@ -1,5 +1,4 @@
 // MegaStar V4.x (Soft12Cmt): the name, then the id, k × 2.5.
-// docs/spec/03-element-formats.md, MegaStar V4.x.
 import { compileFormat } from '../format/composite.js';
 import { finish, rebuiltName } from './record.js';
 import { column, dbl, int, item, pad4, sub } from './text.js';
@@ -28,7 +27,7 @@ export const reader = {
 	}
 };
 
-// the fragment is not written (spec 10, Q1)
+// the fragment is not written, as on the desktop
 const LINE = compileFormat('{0,-30}{1,-12}{2,4} {3:00}  {4:00}.{5:0000}   {6,9:0.000000}   {7:0.000000}    {8,8:0.0000}    {9,8:0.0000}    {10,8:0.0000}   {11,4:0.0}   {12,4:0.0}    2000 MPC 00000');
 
 /** @type {import('./registry.js').Writer} */

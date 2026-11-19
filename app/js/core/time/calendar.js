@@ -1,5 +1,4 @@
 // Instants and calendar date parts for any year, and the calendar arithmetic of .NET's DateTime.
-// docs/spec/04-astronomy.md, Time; docs/spec/09-settings-and-persistence.md, Date picker.
 
 /** milliseconds in a day */
 export const DAY_MS = 86_400_000;

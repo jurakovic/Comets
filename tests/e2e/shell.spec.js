@@ -1,4 +1,4 @@
-// The shell: routes, navigation, and views kept between visits (docs/spec/01-product.md, Views).
+// The shell: routes, navigation, and views kept between visits.
 import { expect, test, VIEWS } from './fixtures.js';
 
 test('an empty hash opens the Database view', async ({ page }) => {

@@ -1,6 +1,5 @@
 // The planets for the orbit viewer: Schlyter's mean elements, the perturbations of Jupiter,
-// Saturn and Uranus, positions and orbit lines. docs/spec/04-astronomy.md, Planets, and
-// 3D scene geometry.
+// Saturn and Uranus, positions and orbit lines.
 import { eccentricAnomaly } from './kepler.js';
 import { atan2d, cosd, D0, sind } from './math.js';
 import { earthXyz } from './position.js';

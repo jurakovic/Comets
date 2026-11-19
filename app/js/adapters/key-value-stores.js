@@ -1,6 +1,6 @@
 // The KeyValueStore port over IndexedDB, localStorage and memory. Storage that is missing, full,
 // blocked or broken never stops the app: what it refused is kept in memory for the session.
-// docs/spec/09-settings-and-persistence.md, Storage layout.
+// INTERNALS.md, Storage.
 
 /** @typedef {import('../services/ports.js').KeyValueStore} KeyValueStore */
 

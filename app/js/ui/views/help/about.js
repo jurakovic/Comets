@@ -1,5 +1,5 @@
 // What About says: the version, the copyright, the repository, and the credits and references of
-// the repository README. docs/spec/01-product.md, Help.
+// the repository README.
 
 /** the web app's version */
 export const APP_VERSION = 'dev';

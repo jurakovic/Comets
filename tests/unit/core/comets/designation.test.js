@@ -11,7 +11,7 @@ test('text with no designation fails both patterns', () => {
 	}
 });
 
-test('pattern 02 is linear on long lines with no designation (spec 10, D3)', () => {
+test('pattern 02 is linear on long lines with no designation', () => {
 	const started = performance.now();
 	for (const line of ['ab '.repeat(20_000), 'P/'.repeat(20_000), `${'a 1'.repeat(10_000)}(`]) {
 		assert.equal(parseNameFirst(line), null);
@@ -19,7 +19,7 @@ test('pattern 02 is linear on long lines with no designation (spec 10, D3)', () 
 	assert.ok(performance.now() - started < 2000, 'took too long');
 });
 
-test('the last token keeps stray spaces and digits (spec 10, Q18)', () => {
+test('the last token keeps stray spaces and digits, as on the desktop', () => {
 	assert.equal(lastToken('PANSTARRS 2'), 'PANSTARRS 2');
 	assert.equal(lastToken('abc 1 def 2'), ' def 2');
 	assert.equal(lastToken(''), '');

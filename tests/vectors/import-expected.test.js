@@ -1,12 +1,12 @@
 // import-expected/*.json: each input file's detected type and its import into an empty database,
-// including the round trips of every export file (spec 03, Detection and Import rules).
+// including the round trips of every export file.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readdirSync } from 'node:fs';
 import { assertImportExpected } from '../helpers/formats.js';
 import { readVector, vectorPath } from '../helpers/vectors.js';
 
-// the elements a format computes rather than reads, compared within 1e-9 (spec 11, Tolerances)
+// the elements a format computes rather than reads, compared within 1e-9 (INTERNALS.md, Tolerances)
 /** @type {Record<string, ReadonlyArray<string>>} */
 const COMPUTED = { 'ELEMENTS.COMET.json': ['i', 'N', 'w'] };
 

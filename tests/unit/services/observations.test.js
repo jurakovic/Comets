@@ -48,7 +48,7 @@ test('the other properties come from the comet', () => {
 	assert.throws(() => service.value(halley, 'nonsense'), /not a comet field/);
 });
 
-test('Tn keeps the clock of its first use for the session (spec 10, Q11)', () => {
+test('Tn keeps the clock of its first use for the session', () => {
 	const { clock, service } = setup();
 	const first = service.nearestPerihelion(halley);
 	clock.advance(100 * YEAR_MS);
@@ -64,7 +64,7 @@ test('Tn is computed on first use, against the clock at that moment', () => {
 	assert.equal(service.value(halley, 'Tn'), nearestPerihelion(halley, instantToJd(clock.now())));
 });
 
-test('Perih* are computed once, at the Tn of the session (spec 10, Q11)', () => {
+test('Perih* are computed once, at the Tn of the session', () => {
 	const { clock, reads, service } = setup();
 	const Tn = service.nearestPerihelion(encke);
 	clock.advance(10 * YEAR_MS);

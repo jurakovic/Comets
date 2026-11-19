@@ -1,5 +1,5 @@
 // The output columns of an ephemeris, in the order the text writes them, with their header parts
-// and cells. docs/spec/06-ephemeris.md, Settings and Text output.
+// and cells.
 import { angle, hms } from '../format/angles.js';
 import { compileFormat } from '../format/composite.js';
 import { elongationSide } from '../astro/ephemeris.js';

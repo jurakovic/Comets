@@ -1,4 +1,4 @@
-// Fakes of the ports (docs/spec/12-architecture.md, Services and ports) for service tests.
+// Fakes of the ports (INTERNALS.md, Services and ports) for service tests.
 
 /**
  * a Clock that stands still until a test moves it

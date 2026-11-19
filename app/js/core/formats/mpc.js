@@ -1,4 +1,4 @@
-// MPC (Soft00Cmt), also the database's storage format. docs/spec/03-element-formats.md, MPC.
+// MPC (Soft00Cmt), also the database's storage format.
 import { compileFormat } from '../format/composite.js';
 import { finish, keptName } from './record.js';
 import { column, dbl, int, item, pad4, sub } from './text.js';
@@ -27,7 +27,7 @@ export const reader = {
 	}
 };
 
-// the epoch-of-osculation column gets today's date (spec 10, Q12)
+// the epoch-of-osculation column gets today's date, as on the desktop
 const LINE = compileFormat('              {0,4} {1:00} {2,2}.{3:0000} {4,9:0.000000}  {5:0.000000}  {6,8:0.0000}  {7,8:0.0000}  {8,8:0.0000}  {9}{10:00}{11:00}  {12,4:0.0} {13,4:0.0}  {14,-56} MPC 00000');
 
 /** @type {import('./registry.js').Writer} */

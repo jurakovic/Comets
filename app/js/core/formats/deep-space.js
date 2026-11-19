@@ -1,5 +1,4 @@
 // Deep Space (Soft08Cmt): records of two lines, the name first (pattern 02), k × 2.5.
-// docs/spec/03-element-formats.md, Deep Space.
 import { parseNameFirst } from '../comets/designation.js';
 import { compileFormat } from '../format/composite.js';
 import { dayAndFraction, finish, rebuiltName } from './record.js';
@@ -40,6 +39,6 @@ const LINE = compileFormat('C J2000 {0} {1:00} {2:00}.{3:0000} {4:0.000000} {5:0
 /** @type {import('./registry.js').Writer} */
 export const writer = {
 	header: () => [...HEADER],
-	// the fragment is not written (spec 10, Q1)
+	// the fragment is not written, as on the desktop
 	lines: c => [`${c.name} (${c.id})`, LINE([c.Ty, c.Tm, c.Td, c.Th, c.q, c.e, c.w, c.N, c.i, c.g, c.k * 2.5])]
 };

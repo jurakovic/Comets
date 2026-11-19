@@ -1,4 +1,4 @@
-// SpaceEngine (.sc), export only. docs/spec/03-element-formats.md, SpaceEngine.
+// SpaceEngine (.sc), export only.
 import { compileFormat } from '../format/composite.js';
 
 // Char.IsNumber

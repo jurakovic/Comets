@@ -1,5 +1,5 @@
 // The comet properties that filters and sorting use, in the filter menu's order, and the value
-// accessor through which they are read. docs/spec/02-data-model.md, Comet properties.
+// accessor through which they are read.
 
 /**
  * a string compares as text, a number by value, a date by its JD with a date picker as its editor

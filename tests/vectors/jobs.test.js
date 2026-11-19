@@ -1,5 +1,5 @@
 // ephemeris-text/ and graph.json through the job protocol, with every message cloned as a
-// Worker clones it (spec 11, Conformance plan, level 2).
+// Worker clones it.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { EPHEMERIS_CASES, ephemerisCase } from '../helpers/ephemeris.js';

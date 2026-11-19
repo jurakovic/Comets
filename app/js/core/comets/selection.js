@@ -1,5 +1,5 @@
 // Quick selection in the comet pickers (`GetCometBySelectionType`), and which comet stays selected
-// when a picker gets a new list. docs/spec/02-data-model.md, Quick selection.
+// when a picker gets a new list.
 import { sameComet } from './comet.js';
 import { compareNumbers } from './sort.js';
 

@@ -1,4 +1,4 @@
-/* The Update dialog (docs/spec/05-database-and-update.md, Update). */
+/* The Update dialog. */
 .update-view {
 	width: min(640px, calc(100vw - 2 * var(--space-4)));
 	max-height: calc(100dvh - 2 * var(--space-4));

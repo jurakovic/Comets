@@ -1,5 +1,5 @@
 {
-	// the UI, the adapters and the composition root, with DOM types (docs/spec/12-architecture.md)
+	// the UI, the adapters and the composition root, with DOM types (INTERNALS.md, Layers and the dependency rule)
 	"compilerOptions": {
 		"target": "es2022",
 		"module": "es2022",

@@ -1,6 +1,5 @@
 // The Database view's live clock: an instant shown in whole seconds that a tick moves by exactly
 // 1 s, 20 ms past each second boundary; it follows the system clock until a date is picked.
-// docs/spec/05-database-and-update.md, Details: Ephemeris tab.
 
 /**
  * @typedef {object} LiveClock

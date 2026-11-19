@@ -1,5 +1,4 @@
-/* The shell around the views: navigation bar, view area, status area
-   (docs/spec/01-product.md, Shell). */
+/* The shell around the views: navigation bar, view area, status area. */
 * {
 	box-sizing: border-box;
 }

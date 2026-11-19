@@ -1,4 +1,4 @@
-// ephemeris.json: GetEphemeris for every sample comet at 7 dates and 4 observers (spec 04, Ephemeris).
+// ephemeris.json: GetEphemeris for every sample comet at 7 dates and 4 observers.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { assertAngleClose, assertClose, readVector, utcInstant } from '../helpers/vectors.js';
@@ -11,7 +11,7 @@ const sample = new Map(readVector('comets.json').comets.map((/** @type {any} */ 
 const ANGLES = /** @type {const} */ (['RA', 'Dec', 'Alt', 'Az', 'EcLon', 'EcLat', 'Elongation', 'PositionAngle']);
 const DISTANCES = /** @type {const} */ (['SunDist', 'EarthDist']);
 
-test('every case within the tolerances of spec 11', () => {
+test('every case within its tolerances', () => {
 	assert.equal(cases.length, 340);
 	for (const { comet, utc, observer, ephemeris: expected } of cases) {
 		const elements = sample.get(comet);

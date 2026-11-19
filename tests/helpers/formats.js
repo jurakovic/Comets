@@ -1,5 +1,5 @@
 // Comparing imported comets with the import-expected vectors, within the tolerances of
-// docs/spec/11-test-vectors.md.
+// INTERNALS.md, Test vectors.
 import assert from 'node:assert/strict';
 import { assertClose, assertRelativeClose, readVector, readVectorText } from './vectors.js';
 import { detectFormat } from '../../app/js/core/formats/detection.js';
@@ -23,7 +23,7 @@ export function assertComets(actual, expected, { computed = [], label = '' } = {
 	actual.forEach((comet, index) => {
 		const vector = expected[index];
 		const what = `${label} ${vector.full}`;
-		// the desktop never sets a Voyager II comet's fragment, so it is null there; "" here (spec 03)
+		// the desktop never sets a Voyager II comet's fragment, so it is null there; "" here
 		for (const key of TEXT) assert.equal(comet[key], vector[key] ?? '', `${what} ${key}`);
 		for (const key of INTEGERS) assert.equal(comet[key], vector[key], `${what} ${key}`);
 		for (const key of ELEMENTS) {

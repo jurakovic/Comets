@@ -1,5 +1,4 @@
 // .NET composite formatting: "{index[,alignment][:format]}" items over numbers and strings.
-// docs/spec/03-element-formats.md, Export rules and Number formatting.
 import { formatNumber, formatShortest, parseNumberPattern } from './number.js';
 
 /**

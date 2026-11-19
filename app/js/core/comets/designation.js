@@ -1,5 +1,5 @@
 // Designations: parsing full names into id, name and fragment, building them back, sort keys,
-// and whether a comet is periodic. docs/spec/02-data-model.md, Designations and full names.
+// and whether a comet is periodic.
 import { parseDouble, trim } from '../format/parse.js';
 
 /**
@@ -53,7 +53,7 @@ export function lastToken(text) {
 
 /**
  * pattern 02, name first: `Vaisala (C/1942 EA)`, `P/PANSTARRS 2 (470P-A)`; the linear procedure
- * that stands in for the desktop regex, which backtracks exponentially (spec 10, D3)
+ * that stands in for the desktop regex, which backtracks exponentially
  * @param {string} text
  * @returns {Designation | null}
  */
@@ -107,8 +107,9 @@ function lettersAndDigits(code, width) {
 }
 
 /**
- * the year text of an id as the desktop reads it (`(int)Double()`): trimmed, read as spec 03's
- * dbl, truncated, 0 when it does not parse; out of 32 bits, int.MinValue, as .NET 8 casts on x64
+ * the year text of an id as the desktop reads it (`(int)Double()`): trimmed, read as the
+ * importers' `dbl` field reads it (parseDouble), truncated, 0 when it does not parse; out of 32
+ * bits, int.MinValue, as .NET 8 casts on x64
  * @param {string} text
  */
 function yearOf(text) {
@@ -123,7 +124,7 @@ function yearOf(text) {
  * positive years, then interstellar objects; 15 characters for every well-formed id
  * @param {string} id
  * @param {string} fragment
- * @returns {string | null} null where the desktop throws, which skips the record (spec 03)
+ * @returns {string | null} null where the desktop throws, which skips the record
  */
 export function sortKey(id, fragment) {
 	if (id === '') return null;

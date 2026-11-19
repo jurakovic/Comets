@@ -18,7 +18,7 @@ const STORED = {
 	location: { name: 'Zagreb', latitude: 45.815, longitude: -15.9819 }
 };
 
-test('the defaults of spec 09', () => {
+test('the defaults', () => {
 	assert.deepEqual(DEFAULT_SETTINGS, {
 		theme: 'system',
 		downloadUrl: 'https://minorplanetcenter.net/iau/Ephemerides/Comets/Soft00Cmt.txt',

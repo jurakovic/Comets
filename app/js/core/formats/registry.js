@@ -1,5 +1,4 @@
 // The element formats, in the desktop's order, each with what reads and writes it.
-// docs/spec/03-element-formats.md.
 import * as celestia from './celestia.js';
 import * as cometForWindows from './comet-for-windows.js';
 import * as danceOfThePlanets from './dance-of-the-planets.js';
@@ -120,5 +119,5 @@ export function formatByKey(key) {
 	return format;
 }
 
-/** the formats the Elements view lists, in order (spec 10, D13) */
+/** the formats the Elements view lists, in order: those that export (the desktop lists all 21) */
 export const EXPORT_FORMATS = Object.freeze(FORMATS.filter(format => format.writer));

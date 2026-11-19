@@ -1,6 +1,5 @@
-/* Theme tokens: light, dark, and System following the OS
-   (docs/spec/09-settings-and-persistence.md, Theme). html[data-theme] holds
-   an explicit choice; without it the OS decides. */
+/* Theme tokens: light, dark, and System following the OS.
+   html[data-theme] holds an explicit choice; without it the OS decides. */
 :root {
 	color-scheme: light;
 	--color-bg: #ffffff;

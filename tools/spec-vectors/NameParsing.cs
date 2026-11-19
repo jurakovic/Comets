@@ -7,12 +7,12 @@ using System.Text.RegularExpressions;
 namespace SpecVectors
 {
 	/// <summary>
-	/// Reference implementations of the two designation parsers as written in
-	/// docs/spec/02-data-model.md, and a check that they agree with the desktop regexes.
+	/// Reference implementations of the web app's two designation parsers
+	/// (app/js/core/comets/designation.js), and a check that they agree with the desktop regexes.
 	/// <para>
 	/// Pattern 00 is safe to use as a regex in any engine. Pattern 02 is not: its nested
 	/// quantifiers backtrack exponentially on a long line with no designation in it (the
-	/// desktop app hangs on such a file), so the spec defines it as the linear procedure in
+	/// desktop app hangs on such a file), so the web app reads it with the linear procedure in
 	/// <see cref="Parse02"/> instead.
 	/// </para>
 	/// </summary>
@@ -32,8 +32,8 @@ namespace SpecVectors
 		static readonly Regex _desktop00 = new Regex(Desktop00, RegexOptions.None, TimeSpan.FromSeconds(2));
 		static readonly Regex _desktop02 = new Regex(Desktop02, RegexOptions.None, TimeSpan.FromSeconds(2));
 
-		/// <summary>Spec form of pattern 00: the desktop regex with "(name)*" written as "(name)?".</summary>
-		static readonly Regex _spec00 = new Regex(@"^(?<id>[0-9]+[PCXDIA]|[PCXDIA]/-*[0-9]+ *[a-zA-Z]*[0-9]*)-*(?<fragment>[a-zA-Z]*[0-9]*)[ /]*\(*(?<name>['`a-zA-Z0-9\- ]+)?");
+		/// <summary>The web app's form of pattern 00: the desktop regex with "(name)*" written as "(name)?".</summary>
+		static readonly Regex _web00 = new Regex(@"^(?<id>[0-9]+[PCXDIA]|[PCXDIA]/-*[0-9]+ *[a-zA-Z]*[0-9]*)-*(?<fragment>[a-zA-Z]*[0-9]*)[ /]*\(*(?<name>['`a-zA-Z0-9\- ]+)?");
 
 		static readonly Regex _rest02 = new Regex(@"^\(*(?<id>[0-9]+[PCXDIA]|[PCXDIA]/-*[0-9]+ [a-zA-Z]*[0-9]*)-*(?<fragment>[a-zA-Z]*[0-9]*)");
 
@@ -44,7 +44,7 @@ namespace SpecVectors
 		/// <summary>null when the input does not match (the desktop throws "Error parsing comet name").</summary>
 		public static Result Parse00(string s)
 		{
-			Match m = _spec00.Match(s);
+			Match m = _web00.Match(s);
 			if (!m.Success) return null;
 			return new Result { Id = m.Groups["id"].Value, Name = m.Groups["name"].Value, Fragment = m.Groups["fragment"].Value };
 		}
@@ -132,9 +132,9 @@ namespace SpecVectors
 		}
 
 		/// <summary>
-		/// Compares the spec procedures with the desktop patterns on the given inputs plus a
+		/// Compares the web app's procedures with the desktop patterns on the given inputs plus a
 		/// deterministic fuzz set. Throws on any disagreement, except where the desktop pattern
-		/// times out (the spec result there is "no match").
+		/// times out (the web app's result there is "no match").
 		/// </summary>
 		public static (int checkedCount, int desktopTimeouts) Verify(IEnumerable<string> names00, IEnumerable<string> names02)
 		{
@@ -158,7 +158,7 @@ namespace SpecVectors
 				Result b = Parse00(s);
 				if (to) { timeouts++; continue; }
 				if (!((a == null && b == null) || (a != null && a.SameAs(b))))
-					throw new InvalidOperationException($"pattern00 mismatch for '{s}': desktop {a}, spec {b}");
+					throw new InvalidOperationException($"pattern00 mismatch for '{s}': desktop {a}, web {b}");
 				count++;
 			}
 
@@ -168,7 +168,7 @@ namespace SpecVectors
 				Result b = Parse02(s);
 				if (to) { timeouts++; continue; }
 				if (!((a == null && b == null) || (a != null && a.SameAs(b))))
-					throw new InvalidOperationException($"pattern02 mismatch for '{s}': desktop {a}, spec {b}");
+					throw new InvalidOperationException($"pattern02 mismatch for '{s}': desktop {a}, web {b}");
 				count++;
 			}
 

@@ -1,5 +1,4 @@
 // PC-TCS (Soft09Cmt): separated by spaces, the id written without its space, k × 2.5.
-// docs/spec/03-element-formats.md, PC-TCS.
 import { compileFormat } from '../format/composite.js';
 import { dayAndFraction, finish, rebuiltName } from './record.js';
 import { dbl, fail, int, item, trim, trimEnd } from './text.js';
@@ -49,6 +48,6 @@ const LINE = compileFormat('{0} {1:0.000000} {2:0.000000} {3:0.0000} {4:0.0000} 
 
 /** @type {import('./registry.js').Writer} */
 export const writer = {
-	// the fragment is not written (spec 10, Q1)
+	// the fragment is not written, as on the desktop
 	lines: c => [LINE([c.id.replaceAll(' ', ''), c.q, c.e, c.i, c.w, c.N, c.Ty, c.Tm, c.Td, c.Th, c.g, c.k * 2.5, c.name]).padEnd(126)]
 };

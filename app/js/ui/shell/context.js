@@ -1,5 +1,5 @@
 // What the composition root hands each view when it is created: the services and the shell's
-// own parts. docs/spec/12-architecture.md, UI.
+// own parts. INTERNALS.md, The shell.
 
 /**
  * @typedef {object} AppContext

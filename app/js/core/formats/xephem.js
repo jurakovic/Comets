@@ -1,5 +1,4 @@
 // xephem (Soft03Cmt): ellipses with a mean anomaly at an epoch, parabolas, hyperbolas.
-// docs/spec/03-element-formats.md, xephem.
 import { derivedElements } from '../comets/comet.js';
 import { compileFormat } from '../format/composite.js';
 import { jd0 } from '../time/julian.js';
@@ -113,7 +112,7 @@ export const reader = {
 };
 
 /**
- * the full name, with `/` after every comet without a name, meant for `282P/` (spec 10, Q2)
+ * the full name, with `/` after every comet without a name, meant for `282P/`, as on the desktop
  * @param {import('../comets/comet.js').Comet} c
  * @returns {string}
  */

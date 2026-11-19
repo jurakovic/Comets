@@ -1,5 +1,4 @@
 // Local time: date parts of an instant in a named time zone, through Intl.
-// docs/spec/04-astronomy.md, Local time.
 
 /**
  * a function giving the date parts of an instant in the time zone, with its daylight-saving rules

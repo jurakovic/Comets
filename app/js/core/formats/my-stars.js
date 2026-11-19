@@ -1,5 +1,5 @@
 // MyStars! (Soft05Cmt), tab separated, with the perihelion as an MJD and the longitude of
-// perihelion. docs/spec/03-element-formats.md, MyStars!.
+// perihelion.
 import { compileFormat } from '../format/composite.js';
 import { finish, keptName } from './record.js';
 import { dbl, dec, int, item, jdDate, pad4, trim } from './text.js';
@@ -18,7 +18,7 @@ export const reader = {
 		const date = jdDate(dec(item(time, 0)) + MJD);
 		const N = dbl(item(p, 6));
 		return finish({
-			// the `;` that ends the name column stays (spec 10, Q3)
+			// the `;` that ends the name column stays, as on the desktop
 			...keptName(trim(item(p, 0))),
 			Ty: date.year,
 			Tm: date.month,

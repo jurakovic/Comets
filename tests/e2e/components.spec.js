@@ -1,6 +1,5 @@
 // The shared components in a real browser, each mounted alone on the page: the number field and
-// the sort menu (docs/spec/09-settings-and-persistence.md, Number fields; docs/spec/02-data-model.md,
-// Sorting).
+// the sort menu.
 import { expect, test } from './fixtures.js';
 
 /**

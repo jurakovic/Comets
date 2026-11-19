@@ -1,5 +1,4 @@
-/* The Database view: the list beside the details, stacked on narrow screens
-   (docs/spec/05-database-and-update.md, Database view). */
+/* The Database view: the list beside the details, stacked on narrow screens. */
 .database-view {
 	display: grid;
 	grid-template-rows: auto minmax(0, 1fr);
@@ -166,7 +165,7 @@ a.button {
 	}
 }
 
-/* the live block under the perihelion values; trend colours as the desktop's (spec 05) */
+/* the live block under the perihelion values; trend colours as the desktop's */
 .live-ephemeris {
 	margin-top: var(--space-4);
 	padding-top: var(--space-3);

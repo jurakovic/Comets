@@ -1,5 +1,5 @@
 // Orbital elements precessed from the equinox of an epoch to J2000 (Lieske 1977), for the NASA
-// importer. docs/spec/04-astronomy.md, Element precession.
+// importer.
 
 /**
  * @typedef {{ i: number, N: number, w: number }} AngularElements degrees

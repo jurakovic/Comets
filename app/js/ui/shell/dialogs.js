@@ -1,5 +1,5 @@
 // Confirmation dialogs: modal, answered by a button, closed by Esc as a No. Open dialogs form a
-// stack, so the Esc command closes the top one. docs/spec/01-product.md, Messages.
+// stack, so the Esc command closes the top one.
 import { openModal } from '../components/modal.js';
 import { el } from '../dom.js';
 

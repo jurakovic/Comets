@@ -1,5 +1,5 @@
 // The list of comets by their full names: a listbox whose selection the arrow keys, Home, End and
-// the page keys move. docs/spec/05-database-and-update.md, Layout.
+// the page keys move.
 import { el } from '../../dom.js';
 
 /** @typedef {import('../../../core/comets/comet.js').Comet} Comet */

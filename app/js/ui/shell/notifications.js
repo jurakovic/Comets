@@ -1,5 +1,5 @@
 // Notifications: messages that do not block, in place of the desktop's message boxes for
-// information and errors. docs/spec/01-product.md, Messages.
+// information and errors.
 import { el } from '../dom.js';
 
 /** @typedef {'info' | 'error'} NoticeKind */

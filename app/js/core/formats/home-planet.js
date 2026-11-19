@@ -1,4 +1,4 @@
-// Home Planet (Soft04Cmt), comma separated. docs/spec/03-element-formats.md, Home Planet.
+// Home Planet (Soft04Cmt), comma separated.
 import { compileFormat } from '../format/composite.js';
 import { dayAndFraction, finish, keptName } from './record.js';
 import { dbl, int, item, trim } from './text.js';
@@ -36,7 +36,7 @@ const LINE_NO_PERIOD = compileFormat('{0},{1}-{2}-{3}.{4:0000},{5:0.000000},{6:0
 /** @type {import('./registry.js').Writer} */
 export const writer = {
 	header: () => [HEADER],
-	// hyperbolic orbits pass P < 30000 too (spec 10, Q4)
+	// hyperbolic orbits pass P < 30000 too, as on the desktop
 	lines: c => [c.P < 30000
 		? LINE([nameWithSlash(c), c.Ty, c.Tm, c.Td, c.Th, c.q, c.e, c.w, c.N, c.i, c.a, c.P])
 		: LINE_NO_PERIOD([nameWithSlash(c), c.Ty, c.Tm, c.Td, c.Th, c.q, c.e, c.w, c.N, c.i])]

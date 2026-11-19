@@ -1,5 +1,4 @@
 // The compare operators of a filter row, by property type, in the compare menu's order.
-// docs/spec/02-data-model.md, Filters.
 
 /**
  * `test` gets the lower-cased value and the filter's trimmed, lower-cased terms
@@ -40,7 +39,7 @@ export const TEXT_COMPARES = Object.freeze([
 	text('endsWith', 'Ends with', (value, terms) => terms.some(t => value.endsWith(t)))
 ]);
 
-// "Greater" where the desktop spells "Greather" (spec 10, D15)
+// "Greater" where the desktop spells "Greather"
 export const NUMBER_COMPARES = Object.freeze([
 	number('greaterThan', 'Greater than (>)', (value, filter) => value > filter),
 	number('lessThan', 'Less than (<)', (value, filter) => value < filter),

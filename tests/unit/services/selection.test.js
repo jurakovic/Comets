@@ -84,7 +84,7 @@ test('a sort re-sorts the selection as it is: equal comets keep the order of the
 	assert.deepEqual(selection.state.get().sort, { property: 'name', ascending: true });
 });
 
-test('an import clears the filters and applies the current sort to the new database (spec 10, D9)', () => {
+test('an import clears the filters and applies the current sort to the new database', () => {
 	const { database, selection } = setup(sample);
 	selection.sort({ property: 'q', ascending: false });
 	selection.filter([createFilter('name', { checked: true, text: 'Halley' })]);

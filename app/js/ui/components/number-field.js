@@ -1,6 +1,5 @@
 // A number field (`ValNum`): typing that would make the text invalid or out of range is refused
 // in beforeinput, a `,` is typed as `.`, and ↑/↓ step an integer. The rules are core/input/number.js.
-// docs/spec/09-settings-and-persistence.md, Number fields.
 import {
 	acceptsText, deleteFrom, inputModeOf, insertInto, matchesPattern, normalizeTyped, numberOf, stepText
 } from '../../core/input/number.js';

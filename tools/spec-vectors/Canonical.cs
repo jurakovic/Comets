@@ -5,7 +5,7 @@ using System.Reflection;
 namespace SpecVectors
 {
 	/// <summary>
-	/// Reference implementation of the parts of the canonical engine (docs/spec/04-astronomy.md)
+	/// Reference implementation of the parts of the canonical engine (app/js/core/astro/)
 	/// that do not already exist in the desktop sources.
 	/// <para>
 	/// Comet and Sun positions are NOT reimplemented here: the canonical engine is the desktop

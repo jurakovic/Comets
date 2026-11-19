@@ -39,7 +39,7 @@ test('End before Start: no samples', () => {
 	assert.deepEqual(sampleJds(start, start - DAY), []);
 });
 
-test('whole intervals from Start, End included when one falls on it (spec 10, D8)', () => {
+test('whole intervals from Start, End included when one falls on it', () => {
 	assert.equal(sampleCount(start, start + 365 * DAY), 183);
 	assert.equal(sampleCount(start, start + 366 * DAY), 184);
 	assert.equal(sampleCount(start, start + 366 * DAY + 1000), 184);

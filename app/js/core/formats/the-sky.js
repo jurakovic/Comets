@@ -1,5 +1,5 @@
 // TheSky (Soft06Cmt), and Autostar (Soft16Cmt), which is the same format. Separated by `|`, with
-// k × 2.5. docs/spec/03-element-formats.md, TheSky and Autostar.
+// k × 2.5.
 import { compileFormat } from '../format/composite.js';
 import { finish, keptName } from './record.js';
 import { dbl, int, item, pad4, padZeros, sub, trim } from './text.js';

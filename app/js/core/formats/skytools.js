@@ -1,5 +1,4 @@
-// SkyTools (Soft15Cmt): three decimals of the day fraction. docs/spec/03-element-formats.md,
-// SkyTools.
+// SkyTools (Soft15Cmt): three decimals of the day fraction.
 import { compileFormat } from '../format/composite.js';
 import { finish, rebuiltName } from './record.js';
 import { column, dbl, int, item, pad4, sub } from './text.js';

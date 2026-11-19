@@ -1,6 +1,5 @@
 // The values that depend on the time and the observer: at the nearest perihelion and now. The
-// Observations service decides when to compute them. docs/spec/02-data-model.md,
-// Observer-dependent values.
+// Observations service decides when to compute them.
 import { ephemeris } from '../astro/ephemeris.js';
 
 /**

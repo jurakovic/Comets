@@ -1,5 +1,4 @@
 // The range of dates a user can pick, 1700-01-01 00:00 to 2300-01-01 00:00 UTC.
-// docs/spec/04-astronomy.md, Constants and helpers.
 import { partsToInstant } from './calendar.js';
 import { instantToJd } from './julian.js';
 

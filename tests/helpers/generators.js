@@ -1,4 +1,4 @@
-// Running the core's generators (docs/spec/12-architecture.md, Long computations) in tests.
+// Running the core's generators (INTERNALS.md, Long computations and the Worker) in tests.
 
 /**
  * runs a generator to its end, collecting what it yields

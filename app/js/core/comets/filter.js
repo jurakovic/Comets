@@ -1,5 +1,4 @@
 // Filters over a list of comets (`FilterManager.ApplyFilters`) and their validation.
-// docs/spec/02-data-model.md, Filters.
 import { defaultTimespan } from '../ephemeris/timespan.js';
 import { parseDouble, trim } from '../format/parse.js';
 import { instantToJd } from '../time/julian.js';
@@ -29,7 +28,7 @@ export function createFilter(key, fields = {}) {
 	return Object.freeze({ property: key, checked: false, text: '', compare: property(key).compare, ...fields });
 }
 
-/** a filter set has at most this many rows (spec 05, Filters panel) */
+/** a filter set has at most this many rows */
 export const MAX_FILTERS = 10;
 
 /** the properties of the rows a filter set starts with, and goes back to on Reset */
@@ -71,7 +70,8 @@ export function validateFilters(filters) {
 /** @type {Readonly<Record<import('./properties.js').PropertyType, (filter: Filter, value: ValueAccessor) => (comet: Comet) => boolean>>} */
 const PREDICATES = Object.freeze({
 	string(filter, value) {
-		// lower-cased, split on ",", each term trimmed: an empty term matches everything (spec 10, Q16)
+		// lower-cased, split on ",", each term trimmed: an empty term matches everything, as on the
+		// desktop
 		const terms = filter.text.toLowerCase().split(',').map(trim);
 		const { test } = textCompare(filter.compare);
 		return comet => test(String(value(comet, filter.property)).toLowerCase(), terms);

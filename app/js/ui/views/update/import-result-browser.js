@@ -1,6 +1,5 @@
 // The import result browser: the merged list opened from the Update dialog's View, read-only, by
-// import result, with the Database view's details. docs/spec/05-database-and-update.md, Import
-// result browser.
+// import result, with the Database view's details.
 import { databaseTitle } from '../../../core/comets/counts.js';
 import { cometsWithResult, IMPORT_RESULT_CHOICES } from '../../../core/comets/merge.js';
 import { openModal } from '../../components/modal.js';

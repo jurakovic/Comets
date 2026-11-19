@@ -1,5 +1,4 @@
 // Writing a collection in a format (`ExportMain`), with CRLF after every line.
-// docs/spec/03-element-formats.md, Export rules.
 import { instantToParts } from '../time/calendar.js';
 import { jd0 } from '../time/julian.js';
 import { formatByKey } from './registry.js';

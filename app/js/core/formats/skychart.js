@@ -1,5 +1,4 @@
-// SkyChart III (Soft13Cmt): tab separated, q stored negated. docs/spec/03-element-formats.md,
-// SkyChart III.
+// SkyChart III (Soft13Cmt): tab separated, q stored negated.
 import { compileFormat } from '../format/composite.js';
 import { dayAndFraction, finish, keptName } from './record.js';
 import { dbl, int, item, trim } from './text.js';

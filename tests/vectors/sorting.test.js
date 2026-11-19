@@ -1,5 +1,5 @@
 // sorting.json: the sample collection stably sorted by each of the 16 sort properties, both
-// directions, at the vector clock (spec 02, Sorting).
+// directions, at the vector clock.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { createFakeClock } from '../helpers/fakes.js';

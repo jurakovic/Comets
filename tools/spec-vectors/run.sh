@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 #
-# Regenerates docs/spec/vectors from the desktop sources.
+# Regenerates tests/vectors/data from the desktop sources.
 #
 #   tools/spec-vectors/run.sh [input-dir]
 #
 # input-dir holds Soft00Cmt.txt .. Soft16Cmt.txt and ELEMENTS.COMET. It defaults to the
-# copies already committed under docs/spec/vectors/import, so a plain run reproduces the
+# copies already committed under tests/vectors/data/import, so a plain run reproduces the
 # committed vectors. Point it at fresh downloads to rebase the vectors on new MPC data.
 #
 # Needs the .NET 8 SDK and libfaketime (Linux or WSL): several desktop functions read the
@@ -14,7 +14,7 @@
 set -euo pipefail
 
 here="$(cd "$(dirname "$0")" && pwd)"
-out="$here/../../docs/spec/vectors"
+out="$here/../../tests/vectors/data"
 input="${1:-$out/import}"
 
 libfaketime="$(ls /usr/lib/x86_64-linux-gnu/faketime/libfaketime.so.1 /usr/lib/faketime/libfaketime.so.1 2>/dev/null | head -n 1 || true)"

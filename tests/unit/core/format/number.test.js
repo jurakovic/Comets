@@ -9,7 +9,7 @@ function check(cases) {
 	}
 }
 
-test('halves round away from zero on the decimal digits, unlike toFixed (spec 03 table)', () => {
+test('halves round away from zero on the decimal digits, unlike toFixed', () => {
 	check([[2.675, '0.00', '2.68'], [1.005, '0.00', '1.01'], [0.045, '0.00', '0.05'], [59.2615, '0.000', '59.262']]);
 });
 
@@ -45,7 +45,7 @@ test('15 significant digits first, ties to even on the exact value', () => {
 
 test('agrees with .NET 8 (invariant culture) on a sample of random values', () => {
 	// from a one-off run of x.ToString(pattern) over 114 000 random values and every pattern the
-	// spec uses, all of which this module matches
+	// app uses, all of which this module matches
 	const sample = [
 		['50419195.5099956', '0.0', '50419195.5'], ['11.4182', '0.0', '11.4'],
 		['-0.2622628936906929', '0.00', '-0.26'], ['2541935.446645103', '0.00', '2541935.45'],

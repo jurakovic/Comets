@@ -1,5 +1,4 @@
 // Julian Dates: from calendar dates and instants, and back to instants.
-// docs/spec/04-astronomy.md, Time.
 import { instantToParts, partsToInstant } from './calendar.js';
 
 /**
@@ -34,7 +33,7 @@ export function instantToJd(instant) {
  * the desktop's raw date parts of a JD, before they become a date: the Julian calendar before
  * 1582-10-15 (so 29 February 1500 can occur), astronomical years ≤ 0, and hour 24 in the last
  * 0.4 ms of a day, where the nudge below carries the hour over; the desktop throws for the last
- * three of these (spec 10, D5)
+ * three of these
  * @typedef {import('./calendar.js').DateParts} JdParts
  */
 
@@ -70,7 +69,7 @@ export function jdToParts(jd) {
 
 /**
  * the UTC instant of a JD (`JDToDateTime`). Before 1582-10-15 the Julian date parts are taken as
- * Gregorian ones, as the desktop does (spec 10, Q8). Where the desktop throws (spec 10, D5), a
+ * Gregorian ones, as the desktop does. Where the desktop throws, a
  * Julian 29 February that the Gregorian calendar lacks becomes 1 March, and hour 24 the next
  * day's 00:00:00.
  * @param {number} jd

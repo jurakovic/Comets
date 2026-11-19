@@ -1,5 +1,5 @@
 // The ports: what services need from the outside world, as shapes the adapters
-// implement and tests fake. See docs/spec/12-architecture.md, Services and ports.
+// implement and tests fake. INTERNALS.md, Services and ports.
 
 /**
  * @typedef {object} Clock
@@ -10,7 +10,7 @@
 /**
  * Text values by key. Storage that fails, is full or is blocked never throws:
  * reads give undefined and writes are kept in memory for the session
- * (docs/spec/09-settings-and-persistence.md, Storage layout).
+ * (INTERNALS.md, Storage).
  * @typedef {object} KeyValueStore
  * @property {(key: string) => Promise<string | undefined>} get
  * @property {(key: string, value: string) => Promise<void>} put replaces the whole value in one write
@@ -26,7 +26,7 @@
 /**
  * @typedef {object} TextFetcher
  * @property {(url: string, options: { signal?: AbortSignal, onProgress?: (progress: FetchProgress) => void }) => Promise<string>} fetchText
- *   the body decoded by its byte-order mark (docs/spec/03-element-formats.md, Text conventions);
+ *   the body decoded by its byte-order mark (adapters/text-decoding.js);
  *   rejects on a network or HTTP error with an Error whose message names it (`network error`,
  *   `HTTP 404 Not Found`), and with the signal's reason, an AbortError, when signal aborts
  */

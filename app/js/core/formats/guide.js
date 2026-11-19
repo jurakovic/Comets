@@ -1,4 +1,4 @@
-// Guide (Soft02Cmt): the name first, read with pattern 02. docs/spec/03-element-formats.md, Guide.
+// Guide (Soft02Cmt): the name first, read with pattern 02.
 import { parseNameFirst } from '../comets/designation.js';
 import { compileFormat } from '../format/composite.js';
 import { finish, rebuiltName } from './record.js';
@@ -28,7 +28,7 @@ export const reader = {
 	}
 };
 
-// the fragment is not written (spec 10, Q1)
+// the fragment is not written, as on the desktop
 const LINE = compileFormat('{0,-43}{1,2}.{2:0000}  {3,2}  {4,4}  0.0        {5,9:0.000000}    {6:0.000000}  {7,8:0.0000}    {8,8:0.0000}    {9,8:0.0000}    2000.0   {10,4:0.0} {11,4:0.0}    MPC 00000');
 // Char.IsNumber
 const NUMBER = /^\p{N}/u;

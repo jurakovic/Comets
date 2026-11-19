@@ -1,5 +1,5 @@
 // Where the graph model lies on the chart, and what the pointer is over: the tooltip of a sample,
-// a perihelion line or the now line. docs/spec/07-graph.md, Interaction.
+// a perihelion line or the now line.
 import { compileDateFormat, DATE_FULL } from '../format/dates.js';
 import { instantToParts } from '../time/calendar.js';
 import { jdToInstant } from '../time/julian.js';

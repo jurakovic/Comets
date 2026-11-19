@@ -1,22 +1,21 @@
-// Reading the spec's test vectors and comparing within their tolerances
-// (docs/spec/11-test-vectors.md, Tolerances).
+// Reading the test vectors and comparing within their tolerances (INTERNALS.md, Tolerances).
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
-const VECTORS = new URL('../../docs/spec/vectors/', import.meta.url);
+const VECTORS = new URL('../vectors/data/', import.meta.url);
 
 /** the vectors' frozen clock, 2026-10-18 12:00:00 UTC, in UTC milliseconds */
 export const VECTOR_NOW = Date.UTC(2026, 9, 18, 12, 0, 0);
 
-/** @param {string} path relative to docs/spec/vectors */
+/** @param {string} path relative to tests/vectors/data */
 export function vectorPath(path) {
 	return fileURLToPath(new URL(path, VECTORS));
 }
 
 /**
  * a vector file parsed as JSON
- * @param {string} path relative to docs/spec/vectors
+ * @param {string} path relative to tests/vectors/data
  * @returns {any}
  */
 export function readVector(path) {
@@ -25,7 +24,7 @@ export function readVector(path) {
 
 /**
  * a vector text file with LF line endings, as the vectors store them
- * @param {string} path relative to docs/spec/vectors
+ * @param {string} path relative to tests/vectors/data
  */
 export function readVectorText(path) {
 	return readFileSync(vectorPath(path), 'utf8');

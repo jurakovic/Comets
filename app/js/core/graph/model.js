@@ -1,5 +1,5 @@
 // The graph model (`GenerateGraph`): the axes, which series are drawn and their points, the lines
-// and the title, for a renderer to draw and the vectors to check. docs/spec/07-graph.md.
+// and the title, for a renderer to draw and the vectors to check.
 import { formatNumber } from '../format/number.js';
 import { DATE_GRAPH_LONG, DATE_GRAPH_SHORT } from '../format/dates.js';
 import { instantToJd } from '../time/julian.js';
@@ -102,9 +102,9 @@ function valueRange({ settings, multiple }, values) {
  * @returns {number[]}
  */
 export function perihelionTimes(Tn, P, startJd, endJd) {
-	// the desktop's decimal holds P to 15 significant digits (spec 02, Tn)
+	// the desktop's decimal holds P to 15 significant digits
 	const period = Number(P.toPrecision(15)) * 365.25;
-	// the desktop never ends its loops for a period of 0 (spec 10, D6)
+	// the desktop never ends its loops for a period of 0
 	if (!(period > 0 && Number.isFinite(period))) return Tn < endJd ? [Tn] : [];
 	// t = Tn + m·period, each computed afresh: back while t − period > Start, then on while t < End
 	let m = 0;

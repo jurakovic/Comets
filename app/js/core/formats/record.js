@@ -1,5 +1,4 @@
 // The end every record parser shares: the name kept or rebuilt, and the finalize step.
-// docs/spec/03-element-formats.md, Field access.
 import { createComet } from '../comets/comet.js';
 import { fullName, parseDesignationFirst } from '../comets/designation.js';
 import { fail, int, item, pad4 } from './text.js';

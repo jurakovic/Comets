@@ -1,6 +1,5 @@
 // Comet orbit lines for the 3D view: the desktop's curvature-adaptive sampler in the orbital
 // plane, and the rotations that place the samples in the scene.
-// docs/spec/04-astronomy.md, 3D scene geometry and Comet orbit sampling.
 import { cosd, D0, sind } from './math.js';
 
 /** the base number of steps over a whole orbit or arc */

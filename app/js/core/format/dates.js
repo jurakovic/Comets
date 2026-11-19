@@ -1,5 +1,4 @@
 // Dates as .NET custom date formats print them, invariant culture.
-// docs/spec/04-astronomy.md, Date text.
 
 /** `dd.MM.yyyy. HH:mm:ss`: date pickers, the database view, graph tooltips */
 export const DATE_FULL = 'dd.MM.yyyy. HH:mm:ss';

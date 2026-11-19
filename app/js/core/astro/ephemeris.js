@@ -1,5 +1,4 @@
 // One ephemeris record: where a comet is seen from a place on Earth at a JD, and how bright.
-// docs/spec/04-astronomy.md, Ephemeris.
 import { acosd, asind, atan2d, cosd, D0, J2000, log10, obliquity, rev, rev2, sind, tand } from './math.js';
 import { cometXyz, sunXyz } from './position.js';
 

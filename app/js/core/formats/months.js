@@ -1,5 +1,4 @@
 // The month abbreviations Voyager II and Celestia write (`CometManager.Month`).
-// docs/spec/03-element-formats.md, Voyager II.
 
 /** `Jan` … `Dec` */
 export const MONTHS = Object.freeze(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']);

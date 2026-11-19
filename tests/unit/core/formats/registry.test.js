@@ -1,10 +1,9 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
 import { DETECTION_ORDER } from '../../../../app/js/core/formats/detection.js';
 import { EXPORT_FORMATS, FORMATS, formatByKey } from '../../../../app/js/core/formats/registry.js';
 
-// spec 03's table: key, name shown, software, extension
+// the formats: key, name shown, software, extension
 const TABLE = [
 	['MPC', 'MPC (Soft00Cmt)', 'MPC', '.txt'],
 	['SkyMap', 'SkyMap (Soft01Cmt)', 'SkyMap', '.txt'],
@@ -29,7 +28,7 @@ const TABLE = [
 	['NASA', 'NASA (ELEMENTS.COMET)', 'NASA', '.comet']
 ];
 
-test('the 21 formats of spec 03, in order', () => {
+test('the 21 formats, in the desktop\'s order', () => {
 	assert.deepEqual(FORMATS.map(({ key, name, software, extension }) => [key, name, software, extension]), TABLE);
 	assert.ok(Object.isFrozen(FORMATS) && FORMATS.every(Object.isFrozen));
 });
@@ -39,7 +38,7 @@ test('formats by key; an unknown key is a bug', () => {
 	assert.throws(() => formatByKey('Unknown'), /unknown element format/);
 });
 
-test('what each format reads and writes, as spec 03\'s table says', () => {
+test('what each format reads and writes', () => {
 	// Autostar files are read as TheSky; SpaceEngine and Celestia are export only
 	const importOnly = ['CometForWindows', 'NASA'];
 	const exportOnly = ['Autostar', 'SpaceEngine', 'Celestia'];
@@ -58,13 +57,12 @@ test('detection tries every format with a reader: headers where they have one', 
 	assert.deepEqual([...tried].filter(key => !formatByKey(key).reader), []);
 });
 
-test('detection checks in the order spec 03 lists them', () => {
-	const spec = readFileSync(new URL('../../../../docs/spec/03-element-formats.md', import.meta.url), 'utf8');
-	const detection = spec.slice(spec.indexOf('## Detection'), spec.indexOf('## Import rules'));
-	const headers = [...detection.matchAll(/→ (\w+)/g)].map(match => match[1]);
-	const list = /The first that does not fail gives the type:\n([\s\S]*?)\notherwise/.exec(detection)?.[1] ?? '';
-	const records = list.replace(/\s*\([^)]*\)/g, '').split(',').map(entry => entry.trim());
-	assert.deepEqual(headers.slice(0, -1), DETECTION_ORDER.headers);
-	assert.equal(headers[headers.length - 1], 'Unknown');
-	assert.deepEqual(records, DETECTION_ORDER.records);
+test('detection tries the headers, then the record parsers, in the desktop\'s order', () => {
+	assert.deepEqual(DETECTION_ORDER.headers, [
+		'HomePlanet', 'MyStars', 'StarryNight', 'DeepSpace', 'DanceOfThePlanets', 'VoyagerII', 'CometForWindows'
+	]);
+	assert.deepEqual(DETECTION_ORDER.records, [
+		'MPC', 'SkyMap', 'xephem', 'HomePlanet', 'MyStars', 'TheSky', 'StarryNight', 'PCTCS', 'EarthCenteredUniverse',
+		'DanceOfThePlanets', 'MegaStarV4', 'SkyChartIII', 'VoyagerII', 'SkyTools', 'NASA', 'DeepSpace', 'Guide'
+	]);
 });

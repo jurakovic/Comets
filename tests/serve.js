@@ -1,6 +1,6 @@
 // Static server for the browser tests and for trying the app: the repository
 // under /Comets/, as GitHub Pages serves it, so the app is at /Comets/app/ and
-// the vectors at /Comets/docs/spec/vectors/.
+// the vectors at /Comets/tests/vectors/data/.
 //
 //   npm run serve            (PORT, default 8085; HOST=0.0.0.0 to reach it from a phone)
 import { createServer } from 'node:http';

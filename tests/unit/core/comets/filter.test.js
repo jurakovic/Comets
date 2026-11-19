@@ -40,7 +40,7 @@ test('text compares lower-case the value and the terms, and trim the terms', () 
 	assert.deepEqual(fullNames(applyFilters(comets, [row], fieldValue)), ['2P/Encke', 'C/1995 O1 (Hale-Bopp)']);
 });
 
-test('an empty term matches every comet (spec 10, Q16)', () => {
+test('an empty term matches every comet, as on the desktop', () => {
 	const row = createFilter('full', { checked: true, text: 'nothing,', compare: 'contains' });
 	assert.equal(applyFilters(comets, [row], fieldValue).length, 3);
 });

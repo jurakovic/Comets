@@ -1,6 +1,5 @@
 // Reading text as .NET does: String.Trim's white space, and numbers as Convert.ToInt32,
 // Convert.ToDouble and Convert.ToDecimal read them with the invariant culture.
-// docs/spec/03-element-formats.md, Field access.
 
 // .NET's String.Trim removes Char.IsWhiteSpace, which has U+0085 and lacks U+FEFF, unlike
 // String.prototype.trim
@@ -63,7 +62,7 @@ export function parseInteger(text) {
 /**
  * a number as Convert.ToDouble reads text: white space, an optional sign, digits with commas
  * among the integer digits ignored, an optional fraction (`.5` and `5.` are valid), an optional
- * exponent, white space. NaN and Infinity, which .NET also reads, are rejected (spec 03 allows it)
+ * exponent, white space. NaN and Infinity, which .NET also reads, are rejected.
  * @param {string} text
  * @returns {number | null} null where .NET throws
  */

@@ -1,5 +1,5 @@
 // The session cache of the values that depend on the clock and the observer: Tn, Perih*,
-// Current*. docs/spec/02-data-model.md, Observer-dependent values.
+// Current*.
 import { nearestPerihelion } from '../core/comets/comet.js';
 import { currentValues, perihelionValues } from '../core/comets/observer-values.js';
 import { fieldValue } from '../core/comets/properties.js';
@@ -34,7 +34,7 @@ export function createObservationsService({ clock, observer }) {
 	/** @type {WeakMap<Comet, { at: number, values: ReturnType<typeof currentValues> }>} */
 	const current = new WeakMap();
 
-	// Tn and Perih* keep the clock of their first use for the session (spec 10, Q11)
+	// Tn and Perih* keep the clock of their first use for the session, as on the desktop
 	/** @param {Comet} comet */
 	function tn(comet) {
 		let value = nearest.get(comet);

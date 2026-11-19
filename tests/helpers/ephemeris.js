@@ -1,4 +1,4 @@
-// The cases of ephemeris-text/index.json in the web app's shapes (docs/spec/06-ephemeris.md).
+// The cases of ephemeris-text/index.json in the web app's shapes.
 import assert from 'node:assert/strict';
 import { createFakeClock } from './fakes.js';
 import { readVector, readVectorText, utcInstant, VECTOR_NOW } from './vectors.js';

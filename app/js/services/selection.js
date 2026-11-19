@@ -1,5 +1,5 @@
 // The app-wide selection: the database through the user's filters, in the user's sort, followed
-// as the database changes. docs/spec/02-data-model.md, Collections; docs/spec/05-database-and-update.md.
+// as the database changes.
 import { createStore, readonly } from '../lib/store.js';
 import { applyFilters, defaultFilters, validateFilters } from '../core/comets/filter.js';
 import { DEFAULT_SORT, sortComets } from '../core/comets/sort.js';
@@ -49,7 +49,8 @@ export function createSelectionService({ database, value, clock }) {
 
 	/**
 	 * how the selection follows each change of the database: an import (and the load, and Clear
-	 * all data) clears the filters and keeps the sort (spec 10, D9); a deletion takes the comet
+	 * all data) clears the filters and keeps the sort, which sorts the new list at once, where the
+	 * desktop shows it in sort-key order until its Database dialog opens; a deletion takes the comet
 	 * out of the selection, which is sorted again, as on the desktop
 	 * @type {Readonly<Record<import('./database.js').DatabaseChange, (current: Readonly<Selection>) => Readonly<Selection>>>}
 	 */

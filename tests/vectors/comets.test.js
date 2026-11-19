@@ -1,4 +1,4 @@
-// comets.json: the sample collection's record fields and Tn, at the vector clock (spec 02).
+// comets.json: the sample collection's record fields and Tn, at the vector clock.
 // The Perih* and Current* values are checked with the ephemeris.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
@@ -41,7 +41,7 @@ test('the nearest perihelion and its date', () => {
 	for (const vector of comets) {
 		const Tn = nearestPerihelion(fromVector(vector), nowJd);
 		assertClose(Tn, vector.Tn, 1e-8, `${vector.full} Tn`);
-		// the desktop fails for years before 1 (spec 10, D5); the web gives the astronomical year
+		// the desktop fails for years before 1; the web gives the astronomical year
 		const expected = vector.TnDate ?? (vector.full === 'C/-146 P1' ? '-000146-08-13T12:00:00Z' : null);
 		assert.equal(isoUtc(jdToInstant(Tn)), expected, `${vector.full} TnDate`);
 	}

@@ -28,11 +28,11 @@ test('the comets: the list in multiple mode, otherwise the selected one', () => 
 	assert.deepEqual(cometsToCalculate({ multiple: true, comets: [encke, faint], selected: faint }), [encke, faint]);
 	assert.deepEqual(cometsToCalculate({ multiple: false, comets: [encke, faint], selected: faint }), [faint]);
 	assert.deepEqual(cometsToCalculate({ multiple: false, comets: [encke], selected: null }), []);
-	// a one-comet list in multiple mode is that comet, where the desktop crashes (spec 10, D18)
+	// a one-comet list in multiple mode is that comet, where the desktop crashes
 	assert.deepEqual(cometsToCalculate({ multiple: true, comets: [faint], selected: null }), [faint]);
 });
 
-test('rows at every whole step from Start, End included, at the JD of each step (spec 10, D8)', () => {
+test('rows at every whole step from Start, End included, at the JD of each step', () => {
 	const settings = settingsWith({ end: start + 86_400_000, interval: { days: 0, hours: 1, minutes: 0 } });
 	const { result } = drain(calculateEphemerides(input([encke], settings)));
 	assert.equal(result.length, 1);

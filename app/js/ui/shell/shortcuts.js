@@ -1,6 +1,6 @@
 // The app's commands: each one an id, a label, its keys and an enabled test, registered once, so
 // that key handling, the text-field guard and the Help's list are written against the registry.
-// docs/spec/01-product.md, Keyboard shortcuts; docs/spec/12-architecture.md, UI.
+// INTERNALS.md, The shell.
 
 /**
  * a key that runs a command; `mod` is Ctrl, or ⌘ on a Mac

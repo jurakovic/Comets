@@ -1,5 +1,4 @@
 // Earth Centered Universe (Soft10Cmt): records of two lines, the full name first, k × 2.5.
-// docs/spec/03-element-formats.md, Earth Centered Universe.
 import { compileFormat } from '../format/composite.js';
 import { dayAndFraction, finish, keptName } from './record.js';
 import { dbl, int, item, trim } from './text.js';

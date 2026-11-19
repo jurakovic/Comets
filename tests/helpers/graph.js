@@ -1,4 +1,4 @@
-// The cases of graph.json in the web app's shapes (docs/spec/07-graph.md).
+// The cases of graph.json in the web app's shapes.
 import assert from 'node:assert/strict';
 import { SAMPLE } from './ephemeris.js';
 import { createFakeClock } from './fakes.js';

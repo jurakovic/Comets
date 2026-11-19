@@ -1,5 +1,5 @@
 // The JobRunner port: a module Worker running core/jobs.js, and the same protocol on this thread
-// in slices, for tests and where Workers fail. docs/spec/12-architecture.md, Long computations.
+// in slices, for tests and where Workers fail. INTERNALS.md, Long computations and the Worker.
 import { createRpcClient, createRpcServer } from '../lib/rpc.js';
 
 /** @typedef {import('../lib/rpc.js').Job} Job */

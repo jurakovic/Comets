@@ -1,4 +1,4 @@
-// planets.json: planet elements, perturbations and positions at 8 dates (spec 04, Planets).
+// planets.json: planet elements, perturbations and positions at 8 dates.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { assertClose, readVector } from '../helpers/vectors.js';

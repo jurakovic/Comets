@@ -1,10 +1,10 @@
 // The Database view: the empty state, the list and its keys, the sort menu, Reset, Delete and the
-// details tabs (docs/spec/05-database-and-update.md, Database view).
+// details tabs.
 import { readFileSync } from 'node:fs';
 import { expect, seed, test } from './fixtures.js';
 
-/** @param {string} path a file under docs/spec/vectors */
-const vector = path => readFileSync(new URL(`../../docs/spec/vectors/${path}`, import.meta.url), 'utf8');
+/** @param {string} path a file under tests/vectors/data */
+const vector = path => readFileSync(new URL(`../vectors/data/${path}`, import.meta.url), 'utf8');
 const SAMPLE = vector('import/sample.txt');
 /** @type {Array<{ full: string, id: string, q: number, sortkey: string }>} the sample collection */
 const COMETS = JSON.parse(vector('comets.json')).comets;

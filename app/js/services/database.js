@@ -1,5 +1,5 @@
 // The main collection: loaded at start-up, previewed and replaced by an import, shrunk by a
-// deletion, and stored again after every change. docs/spec/05-database-and-update.md.
+// deletion, and stored again after every change.
 import { createQueue } from '../lib/queue.js';
 import { createStore, readonly } from '../lib/store.js';
 import { previewImport } from '../core/formats/import.js';
@@ -84,7 +84,7 @@ export function createDatabaseService({ repository, clock, settings }) {
 	 */
 	const afterLoad = change => (state.get().loaded ? change() : whenLoaded.then(change));
 
-	/** the database as it is now, stored after what was changed before (spec 10, D10) */
+	/** the database as it is now, stored after what was changed before */
 	const save = () => {
 		const { comets } = state.get();
 		return queue(() => repository.save(comets));

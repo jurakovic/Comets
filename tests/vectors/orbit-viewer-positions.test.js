@@ -1,4 +1,4 @@
-// orbit-viewer-positions.json: heliocentric ecliptic-of-date comet positions (spec 04, Comet position).
+// orbit-viewer-positions.json: heliocentric ecliptic-of-date comet positions.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { assertClose, readVector } from '../helpers/vectors.js';

@@ -1,5 +1,5 @@
 // Hash routes to views. A view is created on its first visit and kept, so it
-// keeps its state for the session. See docs/spec/12-architecture.md, UI.
+// keeps its state for the session. INTERNALS.md, The shell.
 import { createStore, readonly } from '../../lib/store.js';
 
 /** @typedef {import('./routes.js').Route} Route */

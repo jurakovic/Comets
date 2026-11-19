@@ -1,5 +1,5 @@
 // The ephemeris calculation (`CalculateEphemerisAsync`) as a generator: rows at exact steps from
-// Start to End that meet the requirements, comet by comet. docs/spec/06-ephemeris.md, Calculation.
+// Start to End that meet the requirements, comet by comet.
 import { ephemeris } from '../astro/ephemeris.js';
 import { instantToJd } from '../time/julian.js';
 import { intervalMs, REQUIREMENTS } from './settings.js';

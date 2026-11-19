@@ -33,7 +33,7 @@ test('before and after perihelion mirror each other', () => {
 	close(parabola(0.8, -55).v, -parabola(0.8, 55).v);
 });
 
-test('the solvers stop when they cannot converge (spec 10, D7)', () => {
+test('the solvers stop when they cannot converge, where the desktop loops on', () => {
 	for (const position of [ellipse(1, 0.5, NaN), hyperbola(1, 1.5, NaN), parabola(1, NaN)]) {
 		assert.ok(Number.isNaN(position.v));
 	}

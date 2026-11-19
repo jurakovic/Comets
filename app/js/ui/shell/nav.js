@@ -1,5 +1,4 @@
-// The navigation bar's links, from the route table, marking the route shown
-// (docs/spec/01-product.md, Shell).
+// The navigation bar's links, from the route table, marking the route shown.
 import { el } from '../dom.js';
 
 /**

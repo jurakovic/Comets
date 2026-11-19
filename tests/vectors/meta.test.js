@@ -1,4 +1,4 @@
-// The frame of reference every vector is computed in (docs/spec/11-test-vectors.md).
+// The frame of reference every vector is computed in (INTERNALS.md, Test vectors).
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { assertAngleClose, readVector, VECTOR_NOW } from '../helpers/vectors.js';

@@ -1,4 +1,4 @@
-// SkyMap (Soft01Cmt). docs/spec/03-element-formats.md, SkyMap.
+// SkyMap (Soft01Cmt).
 import { compileFormat } from '../format/composite.js';
 import { finish, rebuiltName } from './record.js';
 import { column, dbl, int, item, pad4, sub } from './text.js';

@@ -1,6 +1,6 @@
 // The message protocol between a thread that asks for long computations and the thread that runs
 // them: run → progress* → result | error, and cancel. The server runs generators in time slices,
-// so a cancel can arrive between them. docs/spec/12-architecture.md, Long computations.
+// so a cancel can arrive between them. INTERNALS.md, Long computations and the Worker.
 
 /**
  * @typedef {{ done: number, total: number }} Progress

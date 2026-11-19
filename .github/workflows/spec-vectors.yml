@@ -1,20 +1,20 @@
 name: Spec vectors
 
 # The vectors must stay what the desktop sources produce: regenerate them and
-# fail on any difference (docs/spec/11-test-vectors.md, Regenerating).
+# fail on any difference (INTERNALS.md, Test vectors).
 on:
   push:
     branches: [dev, master]
     paths:
       - "tools/spec-vectors/**"
-      - "docs/spec/vectors/**"
+      - "tests/vectors/data/**"
       - "src/Comets.Core/**"
       - "src/Comets.OrbitViewer/**"
       - ".github/workflows/spec-vectors.yml"
   pull_request:
     paths:
       - "tools/spec-vectors/**"
-      - "docs/spec/vectors/**"
+      - "tests/vectors/data/**"
       - "src/Comets.Core/**"
       - "src/Comets.OrbitViewer/**"
       - ".github/workflows/spec-vectors.yml"
@@ -39,6 +39,6 @@ jobs:
       - run: tools/spec-vectors/run.sh
       - name: Compare with the committed vectors
         run: |
-          git status --short docs/spec/vectors
-          git diff --stat --exit-code docs/spec/vectors
-          test -z "$(git status --porcelain docs/spec/vectors)"
+          git status --short tests/vectors/data
+          git diff --stat --exit-code tests/vectors/data
+          test -z "$(git status --porcelain tests/vectors/data)"

@@ -1,5 +1,5 @@
 // The long computations a Worker can run, by name, each a generator over plain input.
-// docs/spec/12-architecture.md, Long computations and the Worker.
+// INTERNALS.md, Long computations and the Worker.
 import { calculateEphemerides } from './ephemeris/calculation.js';
 import { writeEphemeris } from './ephemeris/text.js';
 import { calculateGraph } from './graph/model.js';
@@ -17,7 +17,7 @@ function* ephemerisJob(input) {
 }
 
 /**
- * the jobs by name: `ephemeris` gives the text of spec 06, `graph` the graph model of spec 07
+ * the jobs by name: `ephemeris` gives the ephemeris text, `graph` the graph model
  * @type {Readonly<Record<string, import('../lib/rpc.js').Job>>}
  */
 export const JOBS = Object.freeze({

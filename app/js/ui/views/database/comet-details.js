@@ -1,6 +1,5 @@
 // A comet's details: the Ephemeris tab (first) with its live block, and the Orbital elements tab
 // with JPL Info. What the rows say is core/comets/details.js.
-// docs/spec/05-database-and-update.md, Details.
 import { elementsRows, jplUrl, perihelionRows } from '../../../core/comets/details.js';
 import { el } from '../../dom.js';
 import { createLiveEphemeris } from './live-ephemeris.js';
