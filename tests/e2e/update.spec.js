@@ -1,7 +1,7 @@
 // The Update dialog: the first-run download, the preview counts, a local file, errors, Cancel and
 // automatic mode, with the MPC URL answered from the vectors.
 import { readFileSync } from 'node:fs';
-import { expect, seed, test } from './fixtures.js';
+import { expect, holdDatabase, landDatabase, seed, test } from './fixtures.js';
 
 const MPC_URL = 'https://minorplanetcenter.net/iau/Ephemerides/Comets/Soft00Cmt.txt';
 /** @param {string} path a file under tests/vectors/data */
@@ -28,36 +28,6 @@ const answerMpc = (page, body) => page.route(MPC_URL, route => route.fulfill({ s
 
 /** @param {import('@playwright/test').Page} page */
 const dialogOf = page => page.getByRole('dialog', { name: 'Update' });
-
-/**
- * from the next load on, IndexedDB's open answers only once the test calls landDatabase
- * @param {import('@playwright/test').Page} page
- */
-async function holdDatabase(page) {
-	await page.addInitScript(() => {
-		const open = IDBFactory.prototype.open;
-		/** @type {Array<() => void>} */
-		const held = [];
-		let landed = false;
-		Object.assign(window, { landDatabase: () => { landed = true; held.splice(0).forEach(run => run()); } });
-		IDBFactory.prototype.open = function (...args) {
-			const request = open.apply(this, args);
-			/** @type {((event: Event) => void) | null} */
-			let onsuccess = null;
-			// the handler the app sets runs later; the request's own one never does
-			Object.defineProperty(request, 'onsuccess', { get: () => onsuccess, set: handler => { onsuccess = handler; } });
-			request.addEventListener('success', event => {
-				const run = () => onsuccess?.call(request, event);
-				if (landed) run();
-				else held.push(run);
-			});
-			return request;
-		};
-	});
-}
-
-/** @param {import('@playwright/test').Page} page */
-const landDatabase = page => page.evaluate(() => /** @type {any} */ (window).landDatabase());
 
 test('first run: the download is previewed, imported, stored and found again after a reload', async ({ page }) => {
 	await answerMpc(page, FULL);

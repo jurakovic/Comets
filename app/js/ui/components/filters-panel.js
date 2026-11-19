@@ -79,6 +79,8 @@ export function createFiltersPanel({ filters, now, timeZone, apply, onClose, lab
 	 */
 	function edited(element, edit) {
 		const index = views.findIndex(v => v.element === element);
+		// a row the owner's setFilters replaced while its date editor was open
+		if (index < 0) return;
 		rows = editRow(rows, index, edit);
 		views[index].sync(rows[index]);
 		run(false);
@@ -87,6 +89,7 @@ export function createFiltersPanel({ filters, now, timeZone, apply, onClose, lab
 	/** @param {HTMLElement} element the row's */
 	function removed(element) {
 		const index = views.findIndex(v => v.element === element);
+		if (index < 0) return;
 		rows = removeRow(rows, index);
 		views.splice(index, 1);
 		element.remove();

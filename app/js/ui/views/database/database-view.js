@@ -120,7 +120,8 @@ export function createDatabaseView({ selection, database, settings, observations
 		const emptyDatabase = loaded && total === 0;
 		empty.hidden = !emptyDatabase;
 		body.hidden = emptyDatabase;
-		filtersButton.disabled = emptyDatabase;
+		// the load replaces the filters, so they wait for it, as an empty database has none to set
+		filtersButton.disabled = !loaded || total === 0;
 		const index = indexAfterChange(comets, deletedAt === null ? selected : null, deletedAt ?? 0);
 		deletedAt = null;
 		list.show(comets, index);

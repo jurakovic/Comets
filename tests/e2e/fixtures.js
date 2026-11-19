@@ -49,3 +49,36 @@ export async function seed(page, { settings, database }) {
 	}, { settings, database });
 	await page.reload();
 }
+
+/**
+ * from the next load on, IndexedDB's open answers only once the test calls landDatabase
+ * @param {import('@playwright/test').Page} page
+ */
+export async function holdDatabase(page) {
+	await page.addInitScript(() => {
+		const open = IDBFactory.prototype.open;
+		/** @type {Array<() => void>} */
+		const held = [];
+		let landed = false;
+		Object.assign(window, { landDatabase: () => { landed = true; held.splice(0).forEach(run => run()); } });
+		IDBFactory.prototype.open = function (...args) {
+			const request = open.apply(this, args);
+			/** @type {((event: Event) => void) | null} */
+			let onsuccess = null;
+			// the handler the app sets runs later; the request's own one never does
+			Object.defineProperty(request, 'onsuccess', { get: () => onsuccess, set: handler => { onsuccess = handler; } });
+			request.addEventListener('success', event => {
+				const run = () => onsuccess?.call(request, event);
+				if (landed) run();
+				else held.push(run);
+			});
+			return request;
+		};
+	});
+}
+
+/**
+ * lets the held IndexedDB opens answer
+ * @param {import('@playwright/test').Page} page
+ */
+export const landDatabase = page => page.evaluate(() => /** @type {any} */ (window).landDatabase());

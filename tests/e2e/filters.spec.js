@@ -2,7 +2,7 @@
 // validation by its row, + and remove, Reset, closing it; and filters.json cases through the
 // panel, over the MPC snapshot at the vectors' clock.
 import { readFileSync } from 'node:fs';
-import { expect, seed, test } from './fixtures.js';
+import { expect, holdDatabase, landDatabase, seed, test } from './fixtures.js';
 
 /** @param {string} path a file under tests/vectors/data */
 const vector = path => readFileSync(new URL(`../vectors/data/${path}`, import.meta.url), 'utf8');
@@ -239,6 +239,23 @@ test.describe('with the sample collection', () => {
 		await expect(valueOf(rowOf(page, 1))).toHaveValue('');
 		await expect(rowOf(page, 1).getByRole('checkbox', { name: 'Active' })).not.toBeChecked();
 	});
+});
+
+test('the filters wait for the stored database, whose load replaces them', async ({ page }) => {
+	await seed(page, { database: SAMPLE });
+	await holdDatabase(page);
+	await page.reload();
+	await expect(titleOf(page)).toHaveText('Database');
+	await expect(filtersButton(page)).toBeDisabled();
+	await landDatabase(page);
+	await expect(optionsOf(page)).toHaveCount(34);
+	await expect(filtersButton(page)).toBeEnabled();
+});
+
+test('an empty database has no filters to set', async ({ page }) => {
+	await page.goto('./');
+	await expect(titleOf(page)).toHaveText('Database (0 comets)');
+	await expect(filtersButton(page)).toBeDisabled();
 });
 
 test.describe('filters.json through the panel', () => {
