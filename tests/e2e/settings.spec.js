@@ -199,6 +199,27 @@ test.describe('Export database in local time', () => {
 	});
 });
 
+test('a dialog closed over the view leaves it following the settings only while it is shown', async ({ page }) => {
+	await page.route(MPC_URL, route => route.fulfill({ status: 200, headers: { 'access-control-allow-origin': '*' }, body: SAMPLE }));
+	await openSettings(page);
+	const lastUpdate = viewOf(page).locator('.settings-view__last-update');
+	await expect(lastUpdate).toHaveText('never');
+	const dialog = page.getByRole('dialog', { name: 'Update' });
+	await page.locator('.shell-nav a[href="#/update"]').click();
+	await dialog.getByRole('button', { name: 'Close' }).click();
+	await expect(dialog).toBeHidden();
+	await page.locator('.shell-nav a[href="#/database"]').click();
+	await expect(viewOf(page)).toBeHidden();
+	// a download's import sets the last update while the view is hidden
+	await page.locator('.shell-nav a[href="#/update"]').click();
+	await dialog.getByRole('button', { name: 'Download' }).click();
+	await dialog.getByRole('button', { name: 'Import' }).click();
+	await expect(page.locator('.shell-nav a[href="#/update"]')).toContainText('today');
+	await expect(lastUpdate).toHaveText('never');
+	await page.locator('.shell-nav a[href="#/settings"]').click();
+	await expect(lastUpdate).toHaveText('today');
+});
+
 test('Clear all data asks first, then empties the database and resets the settings', async ({ page }) => {
 	await seed(page, { settings: { theme: 'dark', location: { name: 'Zagreb', latitude: 45.815, longitude: 15.9819 } }, database: SAMPLE });
 	await openSettings(page);
