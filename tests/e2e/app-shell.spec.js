@@ -135,7 +135,41 @@ test.describe('errors nothing else caught', () => {
 		await notice.getByRole('button', { name: 'Dismiss' }).click();
 		await expect(notice).toHaveCount(0);
 	});
+
+	test('a notice shown before a dialog opens shows above it', async ({ page }) => {
+		await page.goto('./');
+		await expect(page.locator('.shell-status__count')).toHaveText('Comets: 0');
+		await page.evaluate(() => { Promise.reject(new Error('rejected')); });
+		const notice = page.locator('.shell-notice--error');
+		await expect(notice).toBeVisible();
+		const background = await notice.evaluate(element => getComputedStyle(element).backgroundColor);
+		await page.locator('.shell-nav a[href="#/update"]').click();
+		await expect(page.getByRole('dialog', { name: 'Update' })).toBeVisible();
+		// under the dialog's backdrop, the notice would show dimmed
+		await expect.poll(() => shownColour(page, notice)).toBe(background);
+	});
 });
+
+/**
+ * the colour a point of the notice's padding shows on screen, as `rgb(r, g, b)`
+ * @param {import('@playwright/test').Page} page
+ * @param {import('@playwright/test').Locator} notice
+ */
+async function shownColour(page, notice) {
+	const box = await notice.boundingBox();
+	if (!box) return null;
+	const png = await page.screenshot({ clip: { x: box.x + 6, y: box.y + box.height / 2, width: 1, height: 1 } });
+	return page.evaluate(async data => {
+		const image = new Image();
+		image.src = `data:image/png;base64,${data}`;
+		await image.decode();
+		const canvas = new OffscreenCanvas(1, 1);
+		const context = /** @type {OffscreenCanvasRenderingContext2D} */ (canvas.getContext('2d'));
+		context.drawImage(image, 0, 0);
+		const [r, g, b] = context.getImageData(0, 0, 1, 1).data;
+		return `rgb(${r}, ${g}, ${b})`;
+	}, png.toString('base64'));
+}
 
 test('the status area shows a running job\'s progress, and Cancel cancels it', async ({ page }) => {
 	await page.goto('./#/help');
