@@ -86,7 +86,10 @@ setInterval(showLastUpdate, 60 * 60_000);
 
 query('#nav').append(createNav(ROUTES, router.current, { update: lastUpdate }).element);
 query('#status').append(createStatus({ selection: selection.state, jobs }).element);
-router.start();
+const shown = router.start();
 
 const { prompt } = await startup.start();
+// the question waits for the route the page opened on: a dialog route's <dialog> opened after it
+// would cover it in the top layer
+await shown.catch(reportError);
 if (prompt && await dialogs.confirm({ message: prompt.message })) location.hash = '#/update?automatic';

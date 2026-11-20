@@ -70,6 +70,20 @@ test.describe('the update question at start-up', () => {
 		await expect(dialog).toHaveCount(0);
 		await expect(page).toHaveURL(/#\/database$/);
 	});
+
+	test('after a reload on the Update dialog, the question is above it and answered first', async ({ page }) => {
+		await page.goto('./#/update');
+		await page.reload();
+		const dialog = page.getByRole('alertdialog', { name: 'Last update was 10 days ago. Update now?' });
+		await expect(dialog.getByRole('button', { name: 'Yes' })).toBeFocused();
+		await dialog.getByRole('button', { name: 'No' }).click();
+		await expect(dialog).toHaveCount(0);
+		const update = page.getByRole('dialog', { name: 'Update' });
+		await expect(update).toBeVisible();
+		await page.keyboard.press('Escape');
+		await expect(update).toBeHidden();
+		await expect(page).toHaveURL(/#\/database$/);
+	});
 });
 
 test('Help lists the app-wide keys and About', async ({ page }) => {

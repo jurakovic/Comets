@@ -165,7 +165,7 @@ Ephemerides and graphs over many comets run off the main thread.
 
 ### The shell
 
-`index.html` holds the landmarks; `main.js` builds the adapters, the services and the shell, starts the router, then runs start-up and asks its question.
+`index.html` holds the landmarks; `main.js` builds the adapters, the services and the shell, starts the router, then runs start-up, and asks its question once the route the page opened on is shown, so that a dialog route's `<dialog>` cannot open over it.
 
 - **Routes.** `ui/shell/routes.js` is the route table: each route's key (`#/<key>`), title, group (the views, or the app's own pages) and `load(context)`, which creates the view with `import()` on its first visit. The router (`ui/shell/router.js`) shows the route the hash names, with its parameters (`#/update?automatic`); an unknown or empty hash opens `database`. A view is kept after its first visit, which keeps its state for the session, and hidden with the `hidden` attribute when another takes its place.
 - **Views** implement `{ element, show(params), hide(), save?() }`. `hide()` stops their clocks; `save()` is what `Ctrl/⌘+S` runs.
