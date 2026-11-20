@@ -150,6 +150,36 @@ test.describe('errors nothing else caught', () => {
 	});
 });
 
+test('past four notices, the oldest information notice goes, and an error only when all are errors', async ({ page }) => {
+	await page.goto('./');
+	const shown = await page.evaluate(async () => {
+		const { createNotifications } = await import(new URL('js/ui/shell/notifications.js', location.href).href);
+		/** @param {(notify: import('../../app/js/ui/shell/notifications.js').Notify) => void} send */
+		const after = send => {
+			const region = document.createElement('div');
+			region.popover = 'manual';
+			document.body.append(region);
+			send(createNotifications(region));
+			const texts = [...region.querySelectorAll('.shell-notice__message')].map(message => message.textContent);
+			region.remove();
+			return texts;
+		};
+		return [
+			after(notify => {
+				notify('error 1', { kind: 'error' });
+				for (const n of [1, 2, 3, 4]) notify(`info ${n}`);
+			}),
+			after(notify => {
+				for (const n of [1, 2, 3, 4, 5]) notify(`error ${n}`, { kind: 'error' });
+			})
+		];
+	});
+	expect(shown).toEqual([
+		['error 1', 'info 2', 'info 3', 'info 4'],
+		['error 2', 'error 3', 'error 4', 'error 5']
+	]);
+});
+
 /**
  * the colour a point of the notice's padding shows on screen, as `rgb(r, g, b)`
  * @param {import('@playwright/test').Page} page
