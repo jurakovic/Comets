@@ -2,7 +2,7 @@
 // steps in every field, the presets, and OK, which clamps to the date range. The rules are
 // core/input/date.js.
 import {
-	collectFields, DATE_FIELDS, EDITOR_TITLE, fieldTexts, JD_RANGE, jdFieldDate, localText, okDate, partsOf, stepDate
+	collectFields, DATE_FIELDS, EDITOR_TITLE, fieldTexts, fittedDay, JD_RANGE, jdFieldDate, localText, okDate, partsOf, stepDate
 } from '../../core/input/date.js';
 import { el } from '../dom.js';
 import { createPresetsMenu } from './date-presets.js';
@@ -66,10 +66,9 @@ export function editDate({ value, local, presets }) {
 		/** the day's range from the month and year as typed, its text within it */
 		function fitDay() {
 			const day = /** @type {import('./number-field.js').NumberField} */ (fields.get('day'));
-			const range = DATE_FIELDS[0].range(partsOf(texts()));
+			const { range, text } = fittedDay(texts());
 			day.setRange(range);
-			const number = day.value();
-			if (number !== null && number > range.max) day.setText(String(range.max));
+			if (text !== day.text()) day.setText(text);
 		}
 
 		/** @returns {Record<keyof DateParts, string>} */

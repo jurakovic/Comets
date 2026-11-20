@@ -111,6 +111,18 @@ export function partsOf(texts) {
 }
 
 /**
+ * the day field once the month or year changed: its range from them as typed, and its text, where a
+ * day past the month's length becomes its last (`FormDateTime.txtMonthYear_TextChanged`)
+ * @param {Readonly<Record<keyof DateParts, string>>} texts
+ * @returns {Readonly<{ range: Readonly<NumberRange>, text: string }>}
+ */
+export function fittedDay(texts) {
+	const range = DATE_FIELDS[0].range(partsOf(texts));
+	const day = numberOf(texts.day);
+	return Object.freeze({ range, text: day !== null && day > range.max ? String(range.max) : texts.day });
+}
+
+/**
  * the instant the fields make, or null while one is empty or out of its range, where the desktop
  * cannot build a DateTime (`FormDateTime.CollectData`)
  * @param {Readonly<Record<keyof DateParts, string>>} texts

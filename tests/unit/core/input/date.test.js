@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
-	buttonText, collectFields, DATE_FIELDS, datePresets, fieldTexts, jdFieldDate, JD_RANGE, localText, okDate, stepDate
+	buttonText, collectFields, DATE_FIELDS, datePresets, fieldTexts, fittedDay, jdFieldDate, JD_RANGE, localText, okDate, stepDate
 } from '../../../../app/js/core/input/date.js';
 import { partsToInstant } from '../../../../app/js/core/time/calendar.js';
 import { localPartsIn } from '../../../../app/js/core/time/local.js';
@@ -39,6 +39,19 @@ test('the day\'s maximum follows the month and year', () => {
 	assert.equal(max(2026, 0), 31);
 	assert.equal(max(0, 2), 31);
 });
+test('a day past the month\'s length becomes its last when the month or year changes', () => {
+	/** @param {string} day @param {string} month @param {string} year */
+	const fitted = (day, month, year) => fittedDay({ day, month, year, hour: '0', minute: '0', second: '0' });
+	assert.deepEqual(fitted('31', '2', '2024'), { range: { min: 1, max: 29, decimals: 0 }, text: '29' });
+	assert.deepEqual(fitted('29', '2', '2026'), { range: { min: 1, max: 28, decimals: 0 }, text: '28' });
+	assert.equal(fitted('28', '2', '2026').text, '28');
+	assert.equal(fitted('31', '4', '2026').text, '30');
+	assert.equal(fitted('15', '4', '2026').text, '15');
+	// an empty day stays empty; a month being typed allows 31
+	assert.equal(fitted('', '2', '2026').text, '');
+	assert.deepEqual(fitted('31', '', '2026'), { range: { min: 1, max: 31, decimals: 0 }, text: '31' });
+});
+
 
 test('the fields make an instant only when each is a number in its range', () => {
 	const texts = { day: '29', month: '2', year: '2024', hour: '23', minute: '59', second: '59' };
