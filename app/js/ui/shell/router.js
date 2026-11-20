@@ -10,7 +10,8 @@ const ENTRIES = 'overlayEntries';
 /**
  * @typedef {object} View
  * @property {HTMLElement} element
- * @property {(params: URLSearchParams) => void} show runs each time the view becomes the current one
+ * @property {(params: URLSearchParams) => void} show runs on every navigation to the view's route,
+ *   also while it is shown, with no `hide()` between: new parameters, or a dialog route over it closed
  * @property {() => void} hide runs when another view takes its place, or a dialog route closes:
  *   clocks and animation stop
  * @property {() => void} [save] what Ctrl/⌘+S runs while the view is shown
