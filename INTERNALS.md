@@ -16,7 +16,7 @@ The desktop app in `src/` is the reference for behaviour: the web app computes, 
 
 ```
 app/                        the web app, served as is (GitHub Pages: /Comets/app/)
-  index.html                the one page: the shell's landmarks (#nav, #view, #status, #notices), the stylesheets, js/main.js
+  index.html                the one page: the shell's landmarks (#nav, #view, #status, #notices), the stylesheets, the stored theme, js/main.js
   css/                      tokens.css (theme custom properties), shell.css (base styles), then one file per area
   js/
     main.js                 composition root: builds adapters, services and the shell, and wires them
@@ -176,7 +176,7 @@ Ephemerides and graphs over many comets run off the main thread.
 - **Notifications** (`ui/shell/notifications.js`): a live region that is a manual popover, shown again for each notice and whenever a modal dialog opens, so that it paints above any dialog. Information goes after 5 s, an error stays until dismissed. At most four show at once: a fifth pushes out the oldest information notice, or the oldest error when all four are errors.
 - **Errors** (`ui/shell/errors.js`): `error` and `unhandledrejection` are logged and shown as a notification, so one failing part does not leave the page silently broken; a cancellation is not shown.
 - **Navigation and status.** `nav.js` builds the navigation from the route table, marking the route shown, with how long ago the last update was under Update. `status.js` shows the comet count, which opens the Database view, and the latest running job's progress with Cancel.
-- **Theme** (`theme.js`): `html[data-theme]` holds an explicit light or dark choice; without it the OS decides through `prefers-color-scheme`. It follows the setting live.
+- **Theme** (`theme.js`): `html[data-theme]` holds an explicit light or dark choice; without it the OS decides through `prefers-color-scheme`. A small script in `index.html` sets it from the stored settings before the first paint, and `theme.js` follows the setting from their load on.
 
 ### Views
 

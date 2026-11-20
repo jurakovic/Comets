@@ -1,4 +1,5 @@
-// Light, dark or the OS's choice, applied at once and whenever the setting changes.
+// Light, dark or the OS's choice, applied whenever the setting changes; index.html applies the
+// stored one before the first paint.
 
 /** @typedef {import('../../services/settings.js').Theme} Theme */
 
@@ -10,11 +11,11 @@ export function applyTheme(theme) {
 }
 
 /**
- * applies the theme of the settings now and after every change
+ * applies the theme of the settings after every change, from their load on; until then the theme
+ * is the one index.html read from storage, where the settings' defaults would show the OS's
  * @param {import('../../lib/store.js').ReadableStore<Readonly<import('../../services/settings.js').Settings>>} settings
  * @returns {() => void} stops following
  */
 export function followTheme(settings) {
-	applyTheme(settings.get().theme);
 	return settings.subscribe(({ theme }) => applyTheme(theme));
 }

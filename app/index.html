@@ -6,6 +6,16 @@
 	<meta name="color-scheme" content="light dark">
 	<title>Comets</title>
 	<link rel="icon" href="data:,">
+	<script>
+		// the stored theme before the first paint, read as services/settings.js stores it;
+		// ui/shell/theme.js follows the setting from then on
+		try {
+			const { theme } = JSON.parse(localStorage.getItem('comets.settings') ?? '{}');
+			if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme;
+		} catch {
+			// no storage, or no settings in it: the OS decides until the settings have loaded
+		}
+	</script>
 	<link rel="stylesheet" href="css/tokens.css">
 	<link rel="stylesheet" href="css/shell.css">
 	<link rel="stylesheet" href="css/components.css">

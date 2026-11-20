@@ -29,6 +29,33 @@ test('the stored theme applies at start-up', async ({ page }) => {
 	await expect(page.locator('html')).not.toHaveAttribute('data-theme');
 });
 
+test('the stored theme applies before the first paint, and stays while the app starts', async ({ page }) => {
+	await page.emulateMedia({ colorScheme: 'dark' });
+	await seed(page, { settings: { theme: 'light' } });
+	// every change of data-theme from the start of the next load
+	await page.addInitScript(() => {
+		const themes = /** @type {Array<string | null>} */ ([]);
+		Object.assign(window, { themes });
+		new MutationObserver(() => {
+			const theme = document.documentElement.getAttribute('data-theme');
+			if (themes.at(-1) !== theme) themes.push(theme);
+		}).observe(document, { subtree: true, attributeFilter: ['data-theme'] });
+	});
+	/** @type {() => void} */
+	let release = () => {};
+	const held = new Promise(resolve => { release = () => resolve(undefined); });
+	await page.route('**/js/main.js', async route => {
+		await held;
+		await route.continue();
+	});
+	await page.reload({ waitUntil: 'commit' });
+	// the app's modules have not run yet
+	await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
+	release();
+	await expect(page.locator('.shell-status__count')).toHaveText('Comets: 0');
+	expect(await page.evaluate(() => /** @type {{ themes: unknown }} */ (/** @type {unknown} */ (window)).themes)).toEqual(['light']);
+});
+
 test('no question on the first run; Update says it never happened', async ({ page }) => {
 	await page.goto('./');
 	await expect(page.locator('.shell-status__count')).toHaveText('Comets: 0');
