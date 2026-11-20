@@ -114,6 +114,13 @@ test.describe('with the sample collection', () => {
 		await expect(filtersButton(page)).toBeFocused();
 		// the double click closed the panel instead of switching the tab
 		await expect(viewOf(page).getByRole('tab', { name: 'Ephemeris' })).toHaveAttribute('aria-selected', 'true');
+
+		// Esc after a click on an empty part of the view
+		await filtersButton(page).click();
+		await panelOf(page).click({ position: { x: 2, y: 2 } });
+		await page.keyboard.press('Escape');
+		await expect(panelOf(page)).toBeHidden();
+		await expect(filtersButton(page)).toBeFocused();
 	});
 
 	test('a value filters as it is typed and checks its row; emptying it unchecks the row', async ({ page }) => {

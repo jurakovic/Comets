@@ -55,7 +55,9 @@ export function createDatabaseView({ selection, database, settings, observations
 	const empty = el('div', { class: 'database-view__empty', hidden: true },
 		el('p', {}, 'The database is empty.'), downloadButton);
 	const body = el('div', { class: 'database-view__body' }, list.element, details.element, filters.element);
-	const element = el('section', { class: 'database-view', 'data-view': 'database', 'aria-labelledby': 'view-title-database' },
+	// focusable, so that a click on an empty part of the view keeps the focus in it, where Esc closes
+	// the filters panel, rather than on the body
+	const element = el('section', { class: 'database-view', 'data-view': 'database', 'aria-labelledby': 'view-title-database', tabindex: '-1' },
 		el('header', { class: 'database-view__header' },
 			title,
 			el('div', { class: 'database-view__tools' }, sortMenu.element, filtersButton, resetButton, deleteButton)),
