@@ -1,7 +1,7 @@
 // The shell around the views: the status area, the theme from settings, the start-up question,
 // dialogs, notifications and Help.
 import { readFileSync } from 'node:fs';
-import { expect, seed, test } from './fixtures.js';
+import { expect, holdDatabase, landDatabase, seed, test } from './fixtures.js';
 
 const SAMPLE = readFileSync(new URL('../vectors/data/import/sample.txt', import.meta.url), 'utf8');
 const NOW = new Date('2026-10-18T12:00:00Z');
@@ -174,6 +174,23 @@ test.describe('errors nothing else caught', () => {
 		await expect(page.getByRole('dialog', { name: 'Update' })).toBeVisible();
 		// under the dialog's backdrop, the notice would show dimmed
 		await expect.poll(() => shownColour(page, notice)).toBe(background);
+	});
+});
+
+test.describe('a view that fails to load at start-up', () => {
+	test.use({ expectedErrors: /Failed to load resource|dynamically imported module/ });
+
+	test('is reported once, and the question is still asked', async ({ page }) => {
+		await page.clock.setFixedTime(NOW);
+		await seed(page, { settings: { lastUpdateDate: '2026-10-08T12:00:00.000Z' } });
+		await page.route('**/js/ui/views/database/database-view.js', route => route.abort());
+		// the view fails while start-up still waits for the stored database
+		await holdDatabase(page);
+		await page.reload();
+		await expect(page.getByRole('alert')).toContainText(/Something went wrong: .*database-view\.js/);
+		await landDatabase(page);
+		await expect(page.getByRole('alertdialog')).toBeVisible();
+		await expect(page.getByRole('alert')).toHaveCount(1);
 	});
 });
 
