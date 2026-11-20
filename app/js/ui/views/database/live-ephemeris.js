@@ -17,7 +17,7 @@ import { el } from '../../dom.js';
  * @property {(comet: Comet | null, Tn: number | null) => void} show the comet, its `Tn` for the
  *   Perihelion Date preset; none for null, which stops the ticks. A stopped block computes when it
  *   starts
- * @property {() => void} start the owner is shown: ticking resumes
+ * @property {() => void} start the owner is shown: ticking resumes; nothing while it is started
  * @property {() => void} stop the owner is hidden or gone: ticking stops, and nothing is left listening
  */
 
@@ -117,7 +117,10 @@ export function createLiveEphemeris({ clock, observer }) {
 			if (started) resume();
 		},
 		start() {
-			if (!started) document.addEventListener('visibilitychange', onVisibility);
+			// the owner's show() runs again when a dialog route over it closes, and its show() of the
+			// comet has resumed the block already
+			if (started) return;
+			document.addEventListener('visibilitychange', onVisibility);
 			started = true;
 			resume();
 		},

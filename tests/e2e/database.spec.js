@@ -216,6 +216,24 @@ test.describe('the live ephemeris', () => {
 		await expect(selectedOf(page)).toHaveText(BY_SORTKEY[2]);
 	});
 
+	test('a dialog route closed over the view computes the live values once', async ({ page }) => {
+		await listOf(page).getByRole('option').nth(2).click();
+		await page.evaluate(() => {
+			/** @type {any} */
+			const probe = window;
+			probe.renders = 0;
+			const rows = /** @type {Element} */ (document.querySelector('[data-view="database"] .live-ephemeris__rows'));
+			new MutationObserver(records => { probe.renders += records.length; }).observe(rows, { childList: true });
+		});
+		await page.locator('.shell-nav a[href="#/update"]').click();
+		const dialog = page.getByRole('dialog', { name: 'Update' });
+		await expect(dialog).toBeVisible();
+		await dialog.getByRole('button', { name: 'Close' }).click();
+		await expect(dialog).toBeHidden();
+		await expect(page).toHaveURL(/#\/database$/);
+		expect(await page.evaluate(() => /** @type {any} */ (window).renders)).toBe(1);
+	});
+
 	test('the trend arrows take the colours of what is better', async ({ page }) => {
 		await page.clock.runFor(1000);
 		const trends = await viewOf(page).locator('.live-ephemeris__trend').evaluateAll(spans => spans.map(span => `${span.textContent} ${span.getAttribute('data-trend')}`));
