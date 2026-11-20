@@ -10,8 +10,8 @@ import { el } from '../dom.js';
  */
 
 /**
- * at most this many notices at once: the oldest information notice goes first, the oldest error
- * only when all are errors
+ * at most this many notices at once: a fifth pushes out the oldest information notice, or the
+ * oldest error when all four are errors
  */
 const MAX_NOTICES = 4;
 
@@ -41,8 +41,9 @@ export function createNotifications(region, { timeout = 5000 } = {}) {
 		};
 		dismiss.addEventListener('click', remove);
 		region.append(notice);
+		// the one to push out is among those before the new one
 		while (region.children.length > MAX_NOTICES) {
-			(region.querySelector(':scope > .shell-notice--info') ?? region.firstElementChild)?.remove();
+			(region.querySelector(':scope > .shell-notice--info:not(:last-child)') ?? region.firstElementChild)?.remove();
 		}
 		raise();
 		if (kind === 'info') setTimeout(remove, timeout);

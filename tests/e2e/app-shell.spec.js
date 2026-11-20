@@ -177,7 +177,7 @@ test.describe('errors nothing else caught', () => {
 	});
 });
 
-test('past four notices, the oldest information notice goes, and an error only when all are errors', async ({ page }) => {
+test('a fifth notice pushes out the oldest information notice, or the oldest error when all four are errors', async ({ page }) => {
 	await page.goto('./');
 	const shown = await page.evaluate(async () => {
 		const { createNotifications } = await import(new URL('js/ui/shell/notifications.js', location.href).href);
@@ -198,12 +198,17 @@ test('past four notices, the oldest information notice goes, and an error only w
 			}),
 			after(notify => {
 				for (const n of [1, 2, 3, 4, 5]) notify(`error ${n}`, { kind: 'error' });
+			}),
+			after(notify => {
+				for (const n of [1, 2, 3, 4]) notify(`error ${n}`, { kind: 'error' });
+				notify('info 1');
 			})
 		];
 	});
 	expect(shown).toEqual([
 		['error 1', 'info 2', 'info 3', 'info 4'],
-		['error 2', 'error 3', 'error 4', 'error 5']
+		['error 2', 'error 3', 'error 4', 'error 5'],
+		['error 2', 'error 3', 'error 4', 'info 1']
 	]);
 });
 
