@@ -111,6 +111,32 @@ test.describe('the update question at start-up', () => {
 		await expect(update).toBeHidden();
 		await expect(page).toHaveURL(/#\/database$/);
 	});
+
+	test('Update opened while start-up runs: the question waits for it, and is above it', async ({ page }) => {
+		await holdDatabase(page);
+		/** @type {() => void} */
+		let release = () => {};
+		const held = new Promise(resolve => { release = () => resolve(undefined); });
+		await page.route('**/js/ui/views/update/update-view.js', async route => {
+			await held;
+			await route.continue();
+		});
+		await page.reload();
+		const view = page.locator('[data-view="database"]');
+		await expect(view).toHaveAttribute('aria-busy', 'true');
+		await page.locator('.shell-nav a[href="#/update"]').click();
+		// start-up ends while the Update dialog is still loading
+		await landDatabase(page);
+		await expect(view).toHaveAttribute('aria-busy', 'false');
+		release();
+		const update = page.getByRole('dialog', { name: 'Update' });
+		await expect(update).toBeVisible();
+		const dialog = page.getByRole('alertdialog', { name: 'Last update was 10 days ago. Update now?' });
+		await expect(dialog.getByRole('button', { name: 'Yes' })).toBeFocused();
+		await dialog.getByRole('button', { name: 'No' }).click();
+		await expect(dialog).toHaveCount(0);
+		await expect(update).toBeVisible();
+	});
 });
 
 test('Help lists the app-wide keys and About', async ({ page }) => {

@@ -115,6 +115,19 @@ export function createRouter({ routes, fallback, outlet, context }) {
 		view.hide();
 	}
 
+	/** @type {Promise<void>} settles when the latest navigation has, either way */
+	let latest = Promise.resolve();
+
+	/**
+	 * @param {boolean} byNavigation
+	 * @returns {Promise<void>} rejects when the route's view fails to load
+	 */
+	function navigate(byNavigation) {
+		const going = go(byNavigation);
+		latest = going.then(() => {}, () => {});
+		return going;
+	}
+
 	/** @param {boolean} byNavigation */
 	async function go(byNavigation) {
 		leaving = false;
@@ -158,10 +171,22 @@ export function createRouter({ routes, fallback, outlet, context }) {
 		current: readonly(current),
 		/** the view shown, for Ctrl/⌘+S: a dialog route's over the others */
 		shown: () => overlay ?? shown,
-		/** follows the hash from now on, and shows the route it names */
+		/**
+		 * follows the hash from now on, and shows the route it names
+		 * @returns {Promise<void>} rejects when its view fails to load, as a later navigation reports
+		 */
 		start() {
-			addEventListener('hashchange', () => { go(true); });
-			return go(false);
+			addEventListener('hashchange', () => { navigate(true).catch(reportError); });
+			return navigate(false);
+		},
+		/** settles once no navigation is under way, counting those that begin while it waits */
+		async idle() {
+			/** @type {Promise<void>} */
+			let awaited;
+			do {
+				awaited = latest;
+				await awaited;
+			} while (awaited !== latest);
 		},
 		/** leaves a dialog route for the view under it: Back past its entries, when a navigation opened it */
 		leaveOverlay() {
