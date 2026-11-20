@@ -1,5 +1,5 @@
-// The Database view: the empty state, the list and its keys, the sort menu, Reset, Delete and the
-// details tabs.
+// The Database view: the empty state, the list and its keys, the sort menu, Reset, Delete, an
+// import that keeps the selected comet, the details tabs and the Ephemeris tab's live block.
 import { readFileSync } from 'node:fs';
 import { expect, seed, test } from './fixtures.js';
 

@@ -1,5 +1,6 @@
-// The Update dialog: the first-run download, the preview counts, a local file, errors, Cancel and
-// automatic mode, with the MPC URL answered from the vectors.
+// The Update dialog: the first-run download, the preview counts, an Import that waits for the
+// stored database, a local file, errors, Cancel, automatic mode, the dialog route over the view and
+// the import result browser, with the MPC URL answered from the vectors.
 import { readFileSync } from 'node:fs';
 import { expect, holdDatabase, landDatabase, seed, test } from './fixtures.js';
 
