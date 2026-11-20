@@ -94,7 +94,7 @@ test.describe('with the sample collection', () => {
 		await expect(titleOf(page)).toHaveText('Database (34 comets)');
 	});
 
-	test('Close, Esc and a double click on the list close the panel', async ({ page }) => {
+	test('Close, Esc and a double click on the list close the panel, and the focus goes to Filters', async ({ page }) => {
 		await panelOf(page).getByRole('button', { name: 'Close' }).click();
 		await expect(panelOf(page)).toBeHidden();
 		await expect(viewOf(page).getByRole('tablist')).toBeVisible();
@@ -111,6 +111,7 @@ test.describe('with the sample collection', () => {
 		await filtersButton(page).click();
 		await optionsOf(page).nth(2).dblclick();
 		await expect(panelOf(page)).toBeHidden();
+		await expect(filtersButton(page)).toBeFocused();
 		// the double click closed the panel instead of switching the tab
 		await expect(viewOf(page).getByRole('tab', { name: 'Ephemeris' })).toHaveAttribute('aria-selected', 'true');
 	});

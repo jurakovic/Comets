@@ -36,7 +36,7 @@ export function createDatabaseView({ selection, database, settings, observations
 	const title = el('h1', { id: 'view-title-database' });
 	const details = createCometDetails({ value: observations.value, clock, observer: () => settings.settings.get().location });
 	// a double click closes the filters, as on the desktop, and otherwise switches the tab
-	const list = createCometList({ label: 'Comets', onSelect: choose, onActivate: () => (filtersOpen ? showFilters(false) : details.switchTab()) });
+	const list = createCometList({ label: 'Comets', onSelect: choose, onActivate: () => (filtersOpen ? showFilters(false, true) : details.switchTab()) });
 	const sortMenu = createSortMenu({ sort: () => selection.state.get().sort, onSort: sort => selection.sort(sort) });
 	const filters = createFiltersPanel({
 		filters: selection.state.get().filters,
@@ -88,7 +88,7 @@ export function createDatabaseView({ selection, database, settings, observations
 	/**
 	 * the filters panel in the details' place, or the details back
 	 * @param {boolean} open
-	 * @param {boolean} [focus] gives the focus to the Filters button, as a close from within the panel needs
+	 * @param {boolean} [focus] gives the focus to the Filters button, as a close from the panel or the list needs
 	 */
 	function showFilters(open, focus = false) {
 		filtersOpen = open;
