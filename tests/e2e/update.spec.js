@@ -88,6 +88,34 @@ test('before the stored database has loaded: no empty state, and an Import waits
 	await expect(view.getByRole('heading', { level: 1 })).toHaveText('Database (35 comets)');
 });
 
+test('an Import that waited for the load leaves a later opening of the dialog open', async ({ page }) => {
+	await seed(page, { database: SAMPLE });
+	await holdDatabase(page);
+	await page.reload();
+	const view = page.locator('[data-view="database"]');
+	await expect(view).toHaveAttribute('aria-busy', 'true');
+	const nav = page.locator('.shell-nav a[href="#/update"]');
+	await nav.click();
+	const dialog = dialogOf(page);
+	const importButton = dialog.getByRole('button', { name: 'Import' });
+	await dialog.getByLabel('Choose file').setInputFiles({ name: 'merge-new.txt', mimeType: 'text/plain', buffer: Buffer.from(NEW) });
+	await importButton.click();
+	await expect(importButton).toBeDisabled();
+	await page.keyboard.press('Escape');
+	await expect(dialog).toBeHidden();
+	await nav.click();
+	await expect(dialog).toBeVisible();
+	await dialog.getByLabel('Choose file').setInputFiles({ name: 'sample.txt', mimeType: 'text/plain', buffer: Buffer.from(SAMPLE) });
+	await expect(importButton).toBeEnabled();
+	await landDatabase(page);
+	// the first Import applies and says so; the dialog opened since stays, with its file
+	await expect(view.getByRole('heading', { level: 1 })).toHaveText('Database (35 comets)');
+	await expect(page.getByRole('status').filter({ hasText: 'Import complete' })).toBeVisible();
+	await expect(dialog).toBeVisible();
+	await expect(dialog.getByText('sample.txt')).toBeVisible();
+	await expect(importButton).toBeEnabled();
+});
+
 test('a local file, chosen or dropped and decoded by its byte-order mark, is the candidate', async ({ page }) => {
 	await seed(page, { database: SAMPLE });
 	await page.goto('./#/update');

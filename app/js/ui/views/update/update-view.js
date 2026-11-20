@@ -119,15 +119,20 @@ export function createUpdateView({ update, notify, leaveOverlay, observations, s
 		if (takes(event)) load(event.dataTransfer?.files[0]);
 	});
 
+	// each show() is an opening of its own: an Import waits for the stored database, and one made in an
+	// earlier opening must not close or enable a later one
+	let opening = 0;
 	importButton.addEventListener('click', async () => {
+		const madeIn = opening;
 		importButton.disabled = true;
 		try {
 			const outcome = await update.importCandidate();
 			if (outcome.status === 'imported') notify(outcome.message);
 			else if (outcome.status === 'empty') notify(outcome.message, { kind: 'error' });
+			if (madeIn !== opening) return;
 			if (closesAfterImport({ outcome, automatic: update.state.get().automatic, closeWhenFinished: closeWhenFinished.checked })) leaveOverlay();
 		} finally {
-			importButton.disabled = false;
+			if (madeIn === opening) importButton.disabled = false;
 		}
 	});
 	closeButton.addEventListener('click', leaveOverlay);
@@ -153,6 +158,8 @@ export function createUpdateView({ update, notify, leaveOverlay, observations, s
 	return {
 		element,
 		show(params) {
+			opening += 1;
+			importButton.disabled = false;
 			unsubscribe ??= update.state.subscribe(render);
 			update.open({ automatic: params.has('automatic'), download: params.has('download') });
 			render(update.state.get());
