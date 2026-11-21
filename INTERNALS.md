@@ -129,7 +129,7 @@ const database = createDatabaseService({ repository, clock, settings });
 
 Bytes become text in `adapters/text-decoding.js`, as `File.ReadAllLines` reads them: UTF-8, or UTF-16 or UTF-32 by a byte-order mark, which is dropped; invalid bytes become U+FFFD. `TextDecoder` is not in core.
 
-Services never talk to the user. When something needs asking (the start-up update question, a long-calculation warning, a delete confirmation), the service or a core function returns what to ask, and the view asks and calls back. Services never import the UI.
+Services never talk to the user: what may need asking comes from a service or from core, and the UI asks it. The start-up service gives the start-up update question (`updatePrompt`), which the shell asks. Core gives the long-calculation question (`core/ephemeris/settings.js`) and the step counts it depends on, an ephemeris's and a graph's, which no view asks. A view asks its own confirmations before it calls the service: the Database view its delete question (`deleteQuestion`) when its setting is on, the Settings view Clear all data's (`CLEAR_QUESTION`). Services never import the UI.
 
 ## State and change
 
