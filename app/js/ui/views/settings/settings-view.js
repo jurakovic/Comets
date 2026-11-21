@@ -2,7 +2,6 @@
 // location with its hemispheres and Use my location; Export database and Clear all data.
 import { stampedFileName } from '../../../core/format/dates.js';
 import { trim } from '../../../core/format/parse.js';
-import { daysAgo } from '../../../core/format/relative.js';
 import { coordinateFields, coordinateValue, LATITUDE, LONGITUDE } from '../../../core/input/location.js';
 import { numberOf } from '../../../core/input/number.js';
 import { localPartsIn } from '../../../core/time/local.js';
@@ -54,7 +53,7 @@ function checkbox(label) {
  * @param {import('../../shell/context.js').AppContext} context
  * @returns {import('../../shell/router.js').View}
  */
-export function createSettingsView({ settings, database, dialogs, notify, clock, geolocator }) {
+export function createSettingsView({ settings, database, dialogs, notify, clock, geolocator, lastUpdate }) {
 	const theme = el('select', { class: 'settings-view__select' },
 		...THEMES.map(key => el('option', { value: key }, THEME_LABELS[key])));
 	const downloadUrl = el('input', { type: 'url', class: 'text-field settings-view__url', autocomplete: 'off', spellcheck: 'false' });
@@ -62,7 +61,7 @@ export function createSettingsView({ settings, database, dialogs, notify, clock,
 	const automatic = checkbox('Automatically update elements after:');
 	const interval = createNumberField({ range: UPDATE_INTERVAL, label: 'Update interval in days', className: 'settings-view__interval', onInput: saveUpdate });
 	const intervalError = el('p', { id: 'settings-interval-error', class: 'settings-view__error', role: 'alert', hidden: true });
-	const lastUpdate = el('output', { class: 'settings-view__last-update' });
+	const lastUpdateOutput = el('output', { class: 'settings-view__last-update' });
 	const longCalculation = checkbox('Show long calculation confirmation');
 	const deleteComet = checkbox('Show delete comet confirmation');
 	const name = el('input', { type: 'text', class: 'text-field settings-view__name', autocomplete: 'off' });
@@ -88,7 +87,7 @@ export function createSettingsView({ settings, database, dialogs, notify, clock,
 			el('div', { class: 'settings-view__control' }, automatic.element, el('span', { class: 'settings-view__days' }, interval.element, 'days'), intervalError)),
 		el('div', { class: 'settings-view__row' },
 			el('span', { class: 'settings-view__label' }, 'Last update'),
-			el('div', { class: 'settings-view__control' }, lastUpdate)),
+			el('div', { class: 'settings-view__control' }, lastUpdateOutput)),
 		el('div', { class: 'settings-view__row' }, el('div', { class: 'settings-view__label' }), el('div', { class: 'settings-view__control' }, longCalculation.element)),
 		el('div', { class: 'settings-view__row' }, el('div', { class: 'settings-view__label' }), el('div', { class: 'settings-view__control' }, deleteComet.element)),
 		el('h2', {}, 'Location'),
@@ -170,16 +169,13 @@ export function createSettingsView({ settings, database, dialogs, notify, clock,
 		name.value = current.location.name;
 		showCoordinate(latitude, current.location.latitude);
 		showCoordinate(longitude, current.location.longitude);
-		showLastUpdate();
 	}
 
-	function showLastUpdate() {
-		lastUpdate.textContent = daysAgo(settings.settings.get().lastUpdateDate, clock.now());
-	}
+	/** Last update: the shell's count, which the navigation shows too and which moves on as days pass */
+	const showLastUpdate = (/** @type {string} */ text) => { lastUpdateOutput.textContent = text; };
 
 	/** the settings changed: by the view itself, which shows them already, or elsewhere */
 	function follow() {
-		showLastUpdate();
 		if (!saving) render();
 		else shown = settings.settings.get();
 	}
@@ -228,9 +224,9 @@ export function createSettingsView({ settings, database, dialogs, notify, clock,
 		element,
 		show() {
 			if (shown !== settings.settings.get()) render();
-			else showLastUpdate();
+			showLastUpdate(lastUpdate.get());
 			showDatabase();
-			unsubscribes = [settings.settings.subscribe(follow), database.state.subscribe(showDatabase)];
+			unsubscribes = [settings.settings.subscribe(follow), lastUpdate.subscribe(showLastUpdate), database.state.subscribe(showDatabase)];
 		},
 		hide() {
 			for (const unsubscribe of unsubscribes) unsubscribe();

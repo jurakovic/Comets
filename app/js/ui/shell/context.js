@@ -14,6 +14,8 @@
  * @property {import('./shortcuts.js').CommandRegistry} commands
  * @property {import('./dialogs.js').Dialogs} dialogs
  * @property {import('./notifications.js').Notify} notify
+ * @property {import('../../lib/store.js').ReadableStore<string>} lastUpdate how long ago the last
+ *   update was, as the navigation shows it
  * @property {() => void} leaveOverlay closes a dialog route (Update), back to the view under it
  */
 

@@ -6,8 +6,6 @@ import { createFallbackJobRunner, createLocalJobRunner, createWorkerJobRunner } 
 import { createIndexedDbStore, createWebStorageStore } from './adapters/key-value-stores.js';
 import { createFetchTextFetcher } from './adapters/text-fetcher.js';
 import { createBlobTextReader } from './adapters/text-files.js';
-import { createStore } from './lib/store.js';
-import { daysAgo } from './core/format/relative.js';
 import { createDatabaseRepository } from './services/database-repository.js';
 import { createDatabaseService } from './services/database.js';
 import { createJobsService } from './services/jobs.js';
@@ -19,6 +17,7 @@ import { createUpdateService } from './services/update.js';
 import { query } from './ui/dom.js';
 import { createDialogs } from './ui/shell/dialogs.js';
 import { installErrorHandler } from './ui/shell/errors.js';
+import { createLastUpdate } from './ui/shell/last-update.js';
 import { createNav } from './ui/shell/nav.js';
 import { createNotifications } from './ui/shell/notifications.js';
 import { createRouter } from './ui/shell/router.js';
@@ -52,11 +51,12 @@ const update = createUpdateService({ fetcher: createFetchTextFetcher(), reader: 
 // the shell
 const commands = createCommandRegistry();
 const dialogs = createDialogs(document.body);
+const lastUpdate = createLastUpdate({ settings, clock });
 const router = createRouter({
 	routes: ROUTES,
 	fallback: DEFAULT_ROUTE,
 	outlet: query('#view'),
-	context: { clock, geolocator: createGeolocator(), settings, database, selection, observations, jobs, update, commands, dialogs, notify, leaveOverlay: () => router.leaveOverlay() }
+	context: { clock, geolocator: createGeolocator(), settings, database, selection, observations, jobs, update, commands, dialogs, notify, lastUpdate, leaveOverlay: () => router.leaveOverlay() }
 });
 commands.register({
 	id: 'save',
@@ -76,13 +76,6 @@ commands.register({
 });
 listenForShortcuts(commands);
 followTheme(settings.settings);
-
-// how long ago the last update was, under Update; days pass while the page stays open
-const lastUpdate = createStore(daysAgo(settings.settings.get().lastUpdateDate, clock.now()));
-const showLastUpdate = () => lastUpdate.set(daysAgo(settings.settings.get().lastUpdateDate, clock.now()));
-settings.settings.subscribe(showLastUpdate);
-document.addEventListener('visibilitychange', showLastUpdate);
-setInterval(showLastUpdate, 60 * 60_000);
 
 query('#nav').append(createNav(ROUTES, router.current, { update: lastUpdate }).element);
 query('#status').append(createStatus({ selection: selection.state, jobs }).element);

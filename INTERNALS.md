@@ -30,7 +30,7 @@ app/                        the web app, served as is (GitHub Pages: /Comets/app
     workers/                Worker entry points
     ui/                     everything that touches the DOM
       dom.js                small DOM helpers (el, query, saveFile)
-      shell/                router, routes, navigation, status area, dialogs, notifications, errors, theme, shortcuts
+      shell/                router, routes, context, navigation, last update, status area, dialogs, notifications, errors, theme, shortcuts
       components/           number field, date picker and its editor and presets, menu, sort menu, modal, filters panel
       views/                one folder per built view (database, update, settings, help), and the placeholder view
 tests/
@@ -133,7 +133,7 @@ Services never talk to the user. When something needs asking (the start-up updat
 
 ## State and change
 
-- **One owner per piece of state.** Each piece belongs to one service (or, for view-local state such as a form's fields, one view) and is changed only through that owner's functions.
+- **One owner per piece of state.** Each piece belongs to one service (or, for view-local state such as a form's fields, one view; for what only the UI shows, such as how long ago the last update was, a part of the shell) and is changed only through that owner's functions.
 - **Observable stores** (`lib/store.js`): `get()`, `set()`, `update()` and `subscribe(listener)`, which returns the unsubscribe function; listeners hear of a change only when the value differs (`Object.is`). An owner hands out `readonly(store)`. Views subscribe when shown and unsubscribe when hidden. There is no global store.
 - Records are immutable; a change produces a new record or a new list, so a store compares by reference. A store notifies synchronously, so whoever needs the state from before a change records it first.
 - Things that happen rather than state that is go through a function: `notify(message, { kind })` for a notification, a callback given to a component.
@@ -170,12 +170,12 @@ Ephemerides and graphs over many comets run off the main thread.
 - **Routes.** `ui/shell/routes.js` is the route table: each route's key (`#/<key>`), title, group (the views, or the app's own pages) and `load(context)`, which creates the view with `import()` on its first visit. The router (`ui/shell/router.js`) shows the route the hash names, with its parameters (`#/update?automatic`); an unknown or empty hash opens `database`. A view is kept after its first visit, which keeps its state for the session, and hidden with the `hidden` attribute when another takes its place.
 - **Views** implement `{ element, show(params), hide(), save?() }`. `show()` runs on every navigation to the view's route, also while it is shown, with no `hide()` between: new parameters, or a dialog route over it closed. `hide()` stops their clocks; `save()` is what `Ctrl/⌘+S` runs.
 - **Dialog routes.** A route marked `overlay` (Update) is a `<dialog>` over the view shown, which stays under it. The router counts the history entries the dialog route has made since a navigation opened it, keeps the count in each entry's history state, so that Back and Forward find it again, and `leaveOverlay` goes back past them all; a dialog route reached otherwise replaces the hash when it closes. Esc closes the dialog natively and the route follows.
-- **Context.** Each view gets an `AppContext` (`ui/shell/context.js`): the clock, the geolocator, the services, the command registry, the dialogs, `notify` and `leaveOverlay`.
+- **Context.** Each view gets an `AppContext` (`ui/shell/context.js`): the clock, the geolocator, the services, the command registry, the dialogs, `notify`, how long ago the last update was (`lastUpdate`) and `leaveOverlay`.
 - **Commands** (`ui/shell/shortcuts.js`): every action a key runs is a command registered by id with its label, key bindings (exact modifiers; `mod` is Ctrl or ⌘), whether it runs in text fields, and an `enabled` test. One keydown dispatcher and the Help's list of controls are written against the registry. `main.js` registers `save` and `close-dialog`.
 - **Dialogs** (`ui/shell/dialogs.js`): confirmation questions as modal `<dialog>`s on a stack, answered by a button; the Esc command closes the top one as No. `ui/components/modal.js` (`openModal`) is the modal life cycle the question, the date editor and the import result browser share: added to the page, removed when it closes, and the focus given back.
 - **Notifications** (`ui/shell/notifications.js`): a live region that is a manual popover, shown again for each notice and whenever a modal dialog opens, so that it paints above any dialog. Information goes after 5 s, an error stays until dismissed. At most four show at once: a fifth pushes out the oldest information notice, or the oldest error when all four are errors.
 - **Errors** (`ui/shell/errors.js`): `error` and `unhandledrejection` are logged and shown as a notification, so one failing part does not leave the page silently broken; a cancellation is not shown.
-- **Navigation and status.** `nav.js` builds the navigation from the route table, marking the route shown, with how long ago the last update was under Update. `status.js` shows the comet count, which opens the Database view, and the latest running job's progress with Cancel.
+- **Navigation and status.** `nav.js` builds the navigation from the route table, marking the route shown, with how long ago the last update was under Update. That is one store (`last-update.js`), counted again when the settings change, every hour and when the page shows again, which the Settings view shows too, as Last update. `status.js` shows the comet count, which opens the Database view, and the latest running job's progress with Cancel.
 - **Theme** (`theme.js`): `html[data-theme]` holds an explicit light or dark choice; without it the OS decides through `prefers-color-scheme`. A small script in `index.html` sets it from the stored settings before the first paint, and `theme.js` follows the setting from their load on.
 
 ### Views

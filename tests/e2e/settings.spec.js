@@ -1,5 +1,6 @@
-// The Settings view: every setting saved as it changes, the update interval's rule, the location
-// with its hemispheres and Use my location, Export database and Clear all data.
+// The Settings view: every setting saved as it changes, the update interval's rule, the last update
+// as the days pass, the location with its hemispheres and Use my location, Export database and
+// Clear all data.
 import { readFileSync } from 'node:fs';
 import { expect, seed, test } from './fixtures.js';
 
@@ -119,6 +120,29 @@ test('the last update, as how long ago it was', async ({ page }) => {
 	await seed(page, { settings: { automaticUpdate: false, lastUpdateDate: '2026-10-15T08:00:00.000Z' } });
 	await openSettings(page);
 	await expect(viewOf(page).locator('.settings-view__last-update')).toHaveText('3 days ago');
+});
+
+test('the last update moves on while the view stays open, as the navigation\'s does', async ({ page }) => {
+	await page.clock.install({ time: NOW });
+	// 23 h 30 min before now
+	await seed(page, { settings: { automaticUpdate: false, lastUpdateDate: '2026-10-17T12:30:00.000Z' } });
+	await openSettings(page);
+	// from here only the test moves the clock
+	await page.clock.pauseAt(new Date('2026-10-18T12:10:00Z'));
+	const lastUpdate = viewOf(page).locator('.settings-view__last-update');
+	const nav = page.locator('.shell-nav a[href="#/update"]');
+	await expect(lastUpdate).toHaveText('today');
+	await expect(nav).toContainText('today');
+	// counted again every hour
+	await page.clock.runFor(60 * 60_000);
+	await expect(lastUpdate).toHaveText('yesterday');
+	await expect(nav).toContainText('yesterday');
+	// and when the page shows again, though no timer ran
+	await page.clock.setSystemTime(new Date('2026-10-19T13:00:00Z'));
+	await expect(lastUpdate).toHaveText('yesterday');
+	await page.evaluate(() => document.dispatchEvent(new Event('visibilitychange')));
+	await expect(lastUpdate).toHaveText('2 days ago');
+	await expect(nav).toContainText('2 days ago');
 });
 
 test('latitude and longitude with their hemispheres; south and west are stored negative', async ({ page }) => {
