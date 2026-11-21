@@ -36,6 +36,11 @@
 	color: var(--color-error);
 }
 
+a.button {
+	display: inline-block;
+	text-decoration: none;
+}
+
 .menu__button::after {
 	content: " ▾" / "";
 	color: var(--color-muted);

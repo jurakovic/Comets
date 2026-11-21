@@ -142,11 +142,6 @@
 	margin: var(--space-3) 0 0;
 }
 
-a.button {
-	display: inline-block;
-	text-decoration: none;
-}
-
 @media (width < 720px) {
 	.database-view {
 		height: auto;
