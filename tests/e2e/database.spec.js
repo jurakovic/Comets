@@ -20,12 +20,13 @@ const selectedOf = page => listOf(page).getByRole('option', { selected: true });
 /** @param {import('@playwright/test').Page} page */
 const detailName = page => viewOf(page).getByRole('tabpanel').locator('dd[data-key="full"]');
 
-test('an empty database offers the download, which opens Update and starts it', async ({ page }) => {
+test('an empty database has nothing to delete, and offers the download, which opens Update and starts it', async ({ page }) => {
 	await page.route(MPC_URL, route => route.fulfill({ status: 200, headers: { 'access-control-allow-origin': '*' }, body: SAMPLE }));
 	await page.goto('./');
 	await expect(viewOf(page).getByRole('heading', { level: 1 })).toHaveText('Database (0 comets)');
 	await expect(viewOf(page).getByText('The database is empty.')).toBeVisible();
 	await expect(listOf(page)).toBeHidden();
+	await expect(viewOf(page).getByRole('button', { name: 'Delete' })).toBeDisabled();
 	await viewOf(page).getByRole('button', { name: 'Download comet elements' }).click();
 	await expect(page).toHaveURL(/#\/update\?download$/);
 	const dialog = page.getByRole('dialog', { name: 'Update' });
@@ -114,6 +115,20 @@ test.describe('with the sample collection', () => {
 		await expect(dialog).toBeHidden();
 		await expect(selectedOf(page)).toHaveText(BY_SORTKEY[5]);
 		await expect(detailName(page)).toHaveText(BY_SORTKEY[5]);
+	});
+
+	test('Delete is disabled while a filter hides every comet, and enabled with a comet selected again', async ({ page }) => {
+		const deleteButton = viewOf(page).getByRole('button', { name: 'Delete' });
+		await expect(deleteButton).toBeEnabled();
+		await viewOf(page).getByRole('button', { name: 'Filters' }).click();
+		const value = viewOf(page).getByRole('form', { name: 'Filters' }).getByRole('group', { name: 'Filter 1', exact: true }).getByRole('textbox', { name: 'Value' });
+		await value.fill('no such comet');
+		await expect(viewOf(page).getByRole('heading', { level: 1 })).toHaveText('Database (0/34 comets)');
+		await expect(listOf(page).getByRole('option')).toHaveCount(0);
+		await expect(deleteButton).toBeDisabled();
+		await value.fill('');
+		await expect(selectedOf(page)).toHaveText(BY_SORTKEY[0]);
+		await expect(deleteButton).toBeEnabled();
 	});
 
 	test('the last comet deleted moves the selection up', async ({ page }) => {
