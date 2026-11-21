@@ -70,6 +70,31 @@ test.describe('with the sample collection', () => {
 		await expect(detailName(page)).toHaveText(BY_SORTKEY[5]);
 	});
 
+	test('Page Up moves the selection up as far as Page Down moves it down, and stops at the first', async ({ page }) => {
+		await listOf(page).focus();
+		await page.keyboard.press('PageDown');
+		await expect(selectedOf(page)).not.toHaveText(BY_SORTKEY[0]);
+		// the entries a page holds, which the list's height sets
+		const pageSize = BY_SORTKEY.indexOf(await selectedOf(page).textContent() ?? '');
+		expect(pageSize).toBeGreaterThan(1);
+		expect(pageSize).toBeLessThan(33);
+		await page.keyboard.press('End');
+		await page.keyboard.press('PageUp');
+		await expect(selectedOf(page)).toHaveText(BY_SORTKEY[33 - pageSize]);
+		await expect(detailName(page)).toHaveText(BY_SORTKEY[33 - pageSize]);
+		await expect(selectedOf(page)).toBeInViewport();
+		await page.keyboard.press('PageDown');
+		await expect(selectedOf(page)).toHaveText(BY_SORTKEY[33]);
+		// less than a page from the first, it goes to the first, and stays there
+		await page.keyboard.press('Home');
+		await page.keyboard.press('ArrowDown');
+		await page.keyboard.press('PageUp');
+		await expect(selectedOf(page)).toHaveText(BY_SORTKEY[0]);
+		await expect(detailName(page)).toHaveText(BY_SORTKEY[0]);
+		await page.keyboard.press('PageUp');
+		await expect(selectedOf(page)).toHaveText(BY_SORTKEY[0]);
+	});
+
 	test('the sort menu sorts the list and keeps the selected comet; Reset restores the default', async ({ page }) => {
 		await listOf(page).getByRole('option', { name: BY_SORTKEY[3], exact: true }).click();
 		await viewOf(page).getByRole('button', { name: 'Sort by' }).click();
