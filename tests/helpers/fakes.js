@@ -1,4 +1,5 @@
-// Fakes of the ports (INTERNALS.md, Services and ports) for service tests.
+// Fakes of the ports (INTERNALS.md, Services and ports), and of Web Storage and IndexedDB for the
+// adapter tests.
 
 /**
  * a Clock that stands still until a test moves it
