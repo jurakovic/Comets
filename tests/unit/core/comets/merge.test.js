@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { createComet } from '../../../../app/js/core/comets/comet.js';
-import { countResults, mergeComets } from '../../../../app/js/core/comets/merge.js';
+import { cometsWithResult, countResults, IMPORT_RESULT_CHOICES, mergeComets } from '../../../../app/js/core/comets/merge.js';
 
 /**
  * @param {string} full
@@ -49,4 +49,15 @@ test('duplicates: each file comet replaces the first old one of its name; Voyage
 	assert.deepEqual(rows(mergeComets(old, [comet('Halley', '', 3, '')])), ['Halley 2 NoChanges']);
 	assert.deepEqual(rows(mergeComets(old, [comet('Halley', '', 3, '')], true)), ['Halley 2 NoChanges', 'Halley 3 Update']);
 	assert.deepEqual(rows(mergeComets(old, [comet('Halley', '', 1, ''), comet('Halley', '', 2, '')], true)), ['Halley 1 NoChanges', 'Halley 2 NoChanges']);
+});
+
+test('the import result browser\'s choices and lists, in merged order', () => {
+	assert.deepEqual(IMPORT_RESULT_CHOICES.map(c => c.label), ['New comets', 'Updates', 'No changes', 'All comets']);
+	const [a, b, c] = [comet('1P/Halley', '1P'), comet('2P/Encke', '2P'), comet('29P/Schwassmann-Wachmann', '29P')];
+	const merge = { comets: [a, b, c], results: /** @type {const} */ (['NoChanges', 'New', 'NoChanges']) };
+	assert.deepEqual(cometsWithResult(merge, 'New'), [b]);
+	assert.deepEqual(cometsWithResult(merge, 'NoChanges'), [a, c]);
+	assert.deepEqual(cometsWithResult(merge, 'Update'), []);
+	assert.deepEqual(cometsWithResult(merge, 'All'), [a, b, c]);
+	assert.ok(Object.isFrozen(cometsWithResult(merge, 'All')));
 });

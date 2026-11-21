@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { QUICK_SELECTIONS, quickSelect, rebindSelection } from '../../../../app/js/core/comets/selection.js';
+import { indexAfterChange, QUICK_SELECTIONS, quickSelect, rebindSelection } from '../../../../app/js/core/comets/selection.js';
 import { createComet } from '../../../../app/js/core/comets/comet.js';
 import { fieldValue } from '../../../../app/js/core/comets/properties.js';
 
@@ -51,4 +51,17 @@ test('otherwise it selects the brightest', () => {
 	assert.equal(rebindSelection([a, b, c], changed, value, 0), b);
 	assert.equal(rebindSelection([a, c], null, value, 0), c);
 	assert.equal(rebindSelection([], a, value, 0), null);
+});
+
+test('the index kept after the list changes', () => {
+	assert.equal(indexAfterChange([a, b, c], b, 0), 1, 'the selected comet, where it is now');
+	assert.equal(indexAfterChange([c, a], b, 0), 0, 'gone: the index given');
+	assert.equal(indexAfterChange([a, c], null, 1), 1, 'after Delete: the same index');
+	assert.equal(indexAfterChange([a, c], null, 2), 1, 'clamped to the list');
+	assert.equal(indexAfterChange([], a, 0), -1);
+	// an import replaces the records: the comet is found again by its full name
+	const [a2, b2, c2] = [comet('a', 3), comet('b', 1), comet('c', 1)];
+	assert.notEqual(c2, c);
+	assert.equal(indexAfterChange([a2, b2, c2], c, 0), 2);
+	assert.equal(indexAfterChange([a], null, -1), 0);
 });

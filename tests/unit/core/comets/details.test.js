@@ -3,8 +3,6 @@ import assert from 'node:assert/strict';
 import { readVector } from '../../../helpers/vectors.js';
 import { createComet } from '../../../../app/js/core/comets/comet.js';
 import { elementsRows, jplUrl, LIVE_VALUES, liveRows, perihelionRows } from '../../../../app/js/core/comets/details.js';
-import { cometsWithResult, IMPORT_RESULT_CHOICES } from '../../../../app/js/core/comets/merge.js';
-import { indexAfterChange } from '../../../../app/js/core/comets/selection.js';
 
 const { comets } = readVector('comets.json');
 /** @param {string} full */
@@ -76,20 +74,6 @@ test('JPL Info looks the id up, without the fragment, URL-encoded', () => {
 	assert.equal(jplUrl(fragment), 'https://ssd.jpl.nasa.gov/tools/sbdb_lookup.html#/?sstr=C%2F2023%20R1');
 });
 
-test('the index kept after the list changes', () => {
-	const [a, b, c] = ['1P/Halley', '2P/Encke', '29P/Schwassmann-Wachmann'].map(cometOf);
-	assert.equal(indexAfterChange([a, b, c], b, 0), 1, 'the selected comet, where it is now');
-	assert.equal(indexAfterChange([c, a], b, 0), 0, 'gone: the index given');
-	assert.equal(indexAfterChange([a, c], null, 1), 1, 'after Delete: the same index');
-	assert.equal(indexAfterChange([a, c], null, 2), 1, 'clamped to the list');
-	assert.equal(indexAfterChange([], a, 0), -1);
-	// an import replaces the records: the comet is found again by its full name
-	const [a2, b2, c2] = ['1P/Halley', '2P/Encke', '29P/Schwassmann-Wachmann'].map(cometOf);
-	assert.notEqual(c2, c);
-	assert.equal(indexAfterChange([a2, b2, c2], c, 0), 2);
-	assert.equal(indexAfterChange([a], null, -1), 0);
-});
-
 /**
  * an ephemeris record with the values the live block reads
  * @param {Partial<import('../../../../app/js/core/astro/ephemeris.js').Ephemeris>} values
@@ -129,15 +113,4 @@ test('the trends: ▲ from an equal value up, and their colours by what is bette
 	assert.equal(trends(1, -0.000001)[4], '▲ worse');
 	assert.equal(trends(-1, -10)[4], '▼ better');
 	assert.equal(trends(1, 0)[4], '▲ better');
-});
-
-test('the import result browser\'s choices and lists, in merged order', () => {
-	assert.deepEqual(IMPORT_RESULT_CHOICES.map(c => c.label), ['New comets', 'Updates', 'No changes', 'All comets']);
-	const [a, b, c] = ['1P/Halley', '2P/Encke', '29P/Schwassmann-Wachmann'].map(cometOf);
-	const merge = { comets: [a, b, c], results: /** @type {const} */ (['NoChanges', 'New', 'NoChanges']) };
-	assert.deepEqual(cometsWithResult(merge, 'New'), [b]);
-	assert.deepEqual(cometsWithResult(merge, 'NoChanges'), [a, c]);
-	assert.deepEqual(cometsWithResult(merge, 'Update'), []);
-	assert.deepEqual(cometsWithResult(merge, 'All'), [a, b, c]);
-	assert.ok(Object.isFrozen(cometsWithResult(merge, 'All')));
 });
