@@ -43,7 +43,8 @@ let ids = 0;
  * @param {ReadonlyArray<Pick<import('./date-picker.js').DatePicker, 'setPerihelionDate'>>} [options.datePickers]
  *   the owner's, whose Perihelion Date preset follows the chosen comet
  * @param {(choice: Readonly<PickerChoice>) => void} [options.onChange] after the user changes the
- *   choice: by the combo box, quick select, or a filter that leaves the comet out
+ *   choice: by the combo box, quick select, or a filter edit that changes it (no comet and no
+ *   multiple mode while the list is empty)
  * @param {string} [options.label] names the picker and its combo box
  * @returns {CometPicker}
  */
