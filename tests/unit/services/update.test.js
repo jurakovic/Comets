@@ -6,7 +6,7 @@ import { importElements, previewImport } from '../../../app/js/core/formats/impo
 import { createDatabaseRepository } from '../../../app/js/services/database-repository.js';
 import { createDatabaseService } from '../../../app/js/services/database.js';
 import { createSettingsService, DEFAULT_DOWNLOAD_URL } from '../../../app/js/services/settings.js';
-import { closesAfterImport, createUpdateService, CROSS_ORIGIN_HINT, downloadError, EMPTY_DOWNLOAD, UNREADABLE_FILE } from '../../../app/js/services/update.js';
+import { closesAfterImport, createUpdateService, CROSS_ORIGIN_HINT, downloadError, EMPTY_DOWNLOAD, INVALID_URL, UNREADABLE_FILE } from '../../../app/js/services/update.js';
 
 const merge = readVector('import-merge.json');
 const SAMPLE = readVectorText(merge.oldFile);
@@ -178,6 +178,19 @@ test('a failed download shows its message, with the cross-origin hint for anothe
 	}
 	assert.equal(downloadError('network error', DEFAULT_DOWNLOAD_URL), 'Download failed: network error.');
 	assert.equal(downloadError('network error', 'https://example.org/x'), `Download failed: network error. ${CROSS_ORIGIN_HINT}`);
+});
+
+test('a URL that is not absolute fails the download at once, without a request or the cross-origin hint', async () => {
+	assert.equal(INVALID_URL, 'Download failed: the URL is not valid.');
+	for (const url of ['', 'minorplanetcenter.net/iau/Ephemerides/Comets/Soft00Cmt.txt', '/Comets/app/', 'https://']) {
+		const { update, fetcher } = await setup({ url });
+		update.open();
+		update.download();
+		assert.deepEqual(update.state.get().download, { status: 'failed', error: INVALID_URL }, JSON.stringify(url));
+		update.open({ automatic: true });
+		assert.deepEqual(update.state.get().download, { status: 'failed', error: INVALID_URL }, `${JSON.stringify(url)}, automatic`);
+		assert.equal(fetcher.calls.length, 0, 'no request');
+	}
 });
 
 test('an empty download is an error', async () => {

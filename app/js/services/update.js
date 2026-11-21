@@ -28,6 +28,9 @@ import { DEFAULT_DOWNLOAD_URL } from './settings.js';
 /** what an empty download shows, where the desktop showed its transport's error text */
 export const EMPTY_DOWNLOAD = 'Download failed: the response is empty.';
 
+/** what a download shows when its URL is not absolute, without a request */
+export const INVALID_URL = 'Download failed: the URL is not valid.';
+
 /** added to a failed download's message when the URL is not the default */
 export const CROSS_ORIGIN_HINT = 'The server must allow cross-origin requests (CORS) from this page, or the browser refuses the download.';
 
@@ -63,7 +66,8 @@ export function closesAfterImport({ outcome, automatic, closeWhenFinished }) {
  * @property {import('../lib/store.js').ReadableStore<Readonly<UpdateState>>} state
  * @property {(options?: { automatic?: boolean, download?: boolean }) => void} open a fresh dialog,
  *   downloading at once in automatic mode or when asked
- * @property {() => void} download starts the download, unless one runs
+ * @property {() => void} download starts the download, unless one runs; one whose URL is not
+ *   absolute fails at once, without a request
  * @property {() => void} cancelDownload
  * @property {(file: Blob & { name: string }) => Promise<void>} loadFile a chosen or dropped file;
  *   none in automatic mode
@@ -118,9 +122,15 @@ export function createUpdateService({ fetcher, reader, database, settings }) {
 
 	async function download() {
 		if (downloading) return;
+		const { url } = state.get();
+		// fetch would resolve a relative URL against the page, an empty one being the app's own
+		// page; the desktop's new Uri(url) throws on one (FormUpdate)
+		if (!URL.canParse(url)) {
+			set({ download: Object.freeze({ status: 'failed', error: INVALID_URL }) });
+			return;
+		}
 		const controller = new AbortController();
 		downloading = controller;
-		const { url } = state.get();
 		set({ download: Object.freeze({ status: 'running', progress: null }) });
 		try {
 			const text = await fetcher.fetchText(url, {

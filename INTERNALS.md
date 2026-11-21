@@ -53,7 +53,7 @@ Dependencies point inwards: `ui` → `services` → `core`. `adapters` implement
 |---|---|---|
 | `lib/` | `lib/` | anything app-specific; browser or Node globals |
 | `core/` | `core/`, `lib/` | browser or Node globals (`window`, `document`, `self`, `localStorage`, `indexedDB`, `fetch`, `navigator`, timers…); `Date.now()`, `new Date()` without arguments, `Math.random()` |
-| `services/` | `services/`, `core/`, `lib/` | the DOM, storage, network: those come in through ports. Allowed globals: `AbortController`, `AbortSignal`, `DOMException`, `setTimeout`, `clearTimeout`, `queueMicrotask`, `structuredClone`, `console` |
+| `services/` | `services/`, `core/`, `lib/` | the DOM, storage, network: those come in through ports. Allowed globals: `AbortController`, `AbortSignal`, `DOMException`, `URL`, `setTimeout`, `clearTimeout`, `queueMicrotask`, `structuredClone`, `console` |
 | `adapters/` | `adapters/`, `core/`, `lib/` | `services/` (they implement its ports by shape, not by import), `ui/` |
 | `workers/` | `workers/`, `core/`, `lib/` | the DOM |
 | `ui/` | `ui/`, `services/`, `core/`, `lib/` | `adapters/`: the UI gets what it needs from `main.js` through the views' context |
@@ -112,7 +112,7 @@ const database = createDatabaseService({ repository, clock, settings });
 | `database-repository` | | the stored form of the database: MPC text, written whole and read back as an MPC import |
 | `selection` | the app-wide filters, sort and selection | follows the database: a deletion takes the comet out and sorts again; anything else starts from the default filter rows with the current sort. A sort re-sorts the selection as it is, so ties keep the previous order |
 | `observations` | the session cache of `Tn`, `Perih*`, `Current*`, per comet record | provides the value accessor; `Current*` are recomputed after 5 minutes |
-| `update` | the Update dialog's state: the download (`idle`, `running` with progress, `done`, `failed`), the file, the candidate source, the preview | downloads with progress and cancellation, reads files, previews against the database as it is, imports; `closesAfterImport` decides whether the dialog closes |
+| `update` | the Update dialog's state: the download (`idle`, `running` with progress, `done`, `failed`), the file, the candidate source, the preview | downloads with progress and cancellation (a URL that is not absolute fails without a request), reads files, previews against the database as it is, imports; `closesAfterImport` decides whether the dialog closes |
 | `jobs` | the running long computations | runs them through the `JobRunner` port; exposes their progress and cancellation to the status area |
 | `startup` | | loads the settings and the database, then gives the start-up question (`updatePrompt(settings, now)`), which the shell asks, and why a load failed: a failed load does not stop the question |
 

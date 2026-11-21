@@ -174,6 +174,24 @@ test.describe('a failed download', () => {
 	});
 });
 
+test('an empty URL, or one without a scheme, fails the download without a request', async ({ page }) => {
+	for (const downloadUrl of ['', 'minorplanetcenter.net/iau/Ephemerides/Comets/Soft00Cmt.txt']) {
+		await seed(page, { settings: { downloadUrl } });
+		await page.goto('./#/update');
+		const dialog = dialogOf(page);
+		await expect(dialog).toBeVisible();
+		/** @type {string[]} */
+		const requests = [];
+		const record = (/** @type {import('@playwright/test').Request} */ request) => { requests.push(request.url()); };
+		page.on('request', record);
+		await dialog.getByRole('button', { name: 'Download' }).click();
+		await expect(dialog.getByRole('alert')).toHaveText('Download failed: the URL is not valid.');
+		page.off('request', record);
+		expect(requests).toEqual([]);
+		await expect(dialog.locator('.update-view__format')).toHaveText('(no file selected)');
+	}
+});
+
 test('Cancel stops a download that shows its progress', async ({ page }) => {
 	await page.route(MPC_URL, () => {});
 	await page.goto('./#/update');

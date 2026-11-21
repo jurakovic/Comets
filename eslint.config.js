@@ -19,7 +19,7 @@ const zones = [
 
 // what services may use besides the language: everything else reaches them through a port
 const serviceGlobals = Object.fromEntries(
-	['AbortController', 'AbortSignal', 'DOMException', 'setTimeout', 'clearTimeout', 'queueMicrotask', 'structuredClone', 'console']
+	['AbortController', 'AbortSignal', 'DOMException', 'URL', 'setTimeout', 'clearTimeout', 'queueMicrotask', 'structuredClone', 'console']
 		.map(name => [name, 'readonly'])
 );
 
