@@ -43,7 +43,7 @@ src/                     the desktop app
 | One test file | `node --test tests/vectors/time.test.js` |
 | Browser tests (desktop and phone Chromium) | `npm run test:e2e` |
 | The gate: all of the above | `npm run check` |
-| Every view in both themes to `test-results/screenshots/*.png` | `npm run screenshots` |
+| Every view in both themes, over the sample collection, with the Database and Update views' states, to `test-results/screenshots/*.png` | `npm run screenshots` |
 | Serve the app at `http://127.0.0.1:8085/Comets/app/` | `npm run serve` |
 | Regenerate the vectors | `tools/spec-vectors/run.sh` |
 

@@ -212,7 +212,7 @@ Ephemerides and graphs over many comets run off the main thread.
 | Unit | `node --test "tests/unit/**/*.test.js"` | `lib/`, `core/`, `services/` with fakes from `tests/helpers/fakes.js`, the adapters with fake storage and fetch, the router's and shortcuts' pure parts |
 | Vectors | `node --test "tests/vectors/**/*.test.js"` | every file of `tests/vectors/data` within its [tolerances](#tolerances); the ephemeris and graph jobs also through the `rpc` protocol |
 | End to end | Playwright: `npm run test:e2e` | the app in Chromium on a desktop and a Pixel 7, offline |
-| Screenshots | Playwright: `npm run screenshots` | every view in both themes at desktop and phone size, written to `test-results/screenshots/` |
+| Screenshots | Playwright: `npm run screenshots` | every view in both themes at desktop and phone size over the sample collection at a fixed instant, with the empty database, the Orbital elements tab, the filters panel, the Update preview and the import result browser, written to `test-results/screenshots/` |
 
 `npm test` runs the unit and vector tests, and `npm run check` lint, the three type checks, the unit and vector tests and the browser tests. `node --test` takes files and globs, not a folder.
 

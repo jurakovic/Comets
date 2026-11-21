@@ -21,7 +21,8 @@ export default defineConfig({
 	projects: [
 		{ name: 'desktop', testIgnore: SCREENSHOTS, use: { ...devices['Desktop Chrome'] } },
 		{ name: 'phone', testIgnore: SCREENSHOTS, use: { ...devices['Pixel 7'] } },
-		// every view in both themes, for looking at: npm run screenshots
+		// every view and the states the Database and Update views show, in both themes, for looking
+		// at: npm run screenshots
 		{ name: 'screenshots', testMatch: SCREENSHOTS, use: { ...devices['Desktop Chrome'] } }
 	],
 	webServer: {
