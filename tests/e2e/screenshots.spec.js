@@ -27,7 +27,9 @@ for (const theme of /** @type {const} */ (['light', 'dark'])) {
 		async function prepare(page) {
 			await page.emulateMedia({ colorScheme: theme });
 			await page.setViewportSize(viewport);
-			await page.clock.install({ time: NOW });
+			// installed a minute before: the fake clock runs in real time until paused, so pausing at
+			// the instant it was installed at may be a step back, which fails
+			await page.clock.install({ time: new Date(NOW.getTime() - 60_000) });
 			await page.clock.pauseAt(NOW);
 		}
 
