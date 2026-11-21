@@ -1,4 +1,4 @@
-/* The Update dialog. */
+/* The Update dialog, and the import result browser over it. */
 .update-view {
 	width: min(640px, calc(100vw - 2 * var(--space-4)));
 	max-height: calc(100dvh - 2 * var(--space-4));

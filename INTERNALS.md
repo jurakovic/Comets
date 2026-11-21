@@ -17,7 +17,7 @@ The desktop app in `src/` is the reference for behaviour: the web app computes, 
 ```
 app/                        the web app, served as is (GitHub Pages: /Comets/app/)
   index.html                the one page: the shell's landmarks (#nav, #view, #status, #notices), the stylesheets, the stored theme, js/main.js
-  css/                      tokens.css (theme custom properties), shell.css (base styles), then one file per area
+  css/                      tokens.css (theme custom properties), shell.css (the base styles and the shell), then one file per area
   js/
     main.js                 composition root: builds adapters, services and the shell, and wires them
     lib/                    generic helpers with no app knowledge: store, queue, rpc, math

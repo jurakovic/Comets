@@ -1,4 +1,5 @@
-/* The shell around the views: navigation bar, view area, status area. */
+/* The base styles, and the shell around the views: the navigation bar, the view and status areas,
+   the confirmation questions and the notices. */
 * {
 	box-sizing: border-box;
 }
