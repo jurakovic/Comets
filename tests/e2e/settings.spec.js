@@ -2,7 +2,7 @@
 // as the days pass, the location with its hemispheres and Use my location, Export database and
 // Clear all data.
 import { readFileSync } from 'node:fs';
-import { expect, seed, test } from './fixtures.js';
+import { expect, holdDatabase, landDatabase, seed, test } from './fixtures.js';
 
 const SAMPLE = readFileSync(new URL('../vectors/data/import/sample.txt', import.meta.url), 'utf8');
 const MPC_URL = 'https://minorplanetcenter.net/iau/Ephemerides/Comets/Soft00Cmt.txt';
@@ -208,6 +208,20 @@ test('Export database downloads the stored MPC text, named by the local time', a
 	await expect(exportButton).toBeEnabled();
 	const [download] = await Promise.all([page.waitForEvent('download'), exportButton.click()]);
 	expect(download.suggestedFilename()).toBe('Comets_2026-10-18_120000.txt');
+	expect(readFileSync(await download.path(), 'utf8')).toBe(SAMPLE);
+});
+
+test('Export database waits for the stored database, which it then downloads whole', async ({ page }) => {
+	await seed(page, { database: SAMPLE });
+	await holdDatabase(page);
+	await page.reload();
+	await openSettings(page);
+	const exportButton = viewOf(page).getByRole('button', { name: 'Export database' });
+	await expect(exportButton).toBeDisabled();
+	await landDatabase(page);
+	await expect(page.locator('.shell-status__count')).toHaveText('Comets: 34');
+	await expect(exportButton).toBeEnabled();
+	const [download] = await Promise.all([page.waitForEvent('download'), exportButton.click()]);
 	expect(readFileSync(await download.path(), 'utf8')).toBe(SAMPLE);
 });
 
