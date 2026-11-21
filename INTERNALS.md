@@ -209,12 +209,12 @@ Ephemerides and graphs over many comets run off the main thread.
 
 | Level | Runs | Checks |
 |---|---|---|
-| Unit | `node --test tests/unit` | `lib/`, `core/`, `services/` with fakes from `tests/helpers/fakes.js`, the adapters with fake storage and fetch, the router's and shortcuts' pure parts |
-| Vectors | `node --test tests/vectors` | every file of `tests/vectors/data` within its [tolerances](#tolerances); the ephemeris and graph jobs also through the `rpc` protocol |
+| Unit | `node --test "tests/unit/**/*.test.js"` | `lib/`, `core/`, `services/` with fakes from `tests/helpers/fakes.js`, the adapters with fake storage and fetch, the router's and shortcuts' pure parts |
+| Vectors | `node --test "tests/vectors/**/*.test.js"` | every file of `tests/vectors/data` within its [tolerances](#tolerances); the ephemeris and graph jobs also through the `rpc` protocol |
 | End to end | Playwright: `npm run test:e2e` | the app in Chromium on a desktop and a Pixel 7, offline |
 | Screenshots | Playwright: `npm run screenshots` | every view in both themes at desktop and phone size, written to `test-results/screenshots/` |
 
-`npm run check` runs lint, the three type checks, the unit and vector tests and the browser tests.
+`npm test` runs the unit and vector tests, and `npm run check` lint, the three type checks, the unit and vector tests and the browser tests. `node --test` takes files and globs, not a folder.
 
 - **Browser tests** run against `tests/serve.js`, which serves the repository under `/Comets/` as Pages does, so a wrong absolute path fails. Pages are at `timezoneId: 'UTC'`, `locale: 'en-GB'`. `tests/e2e/fixtures.js` answers every request that leaves the local server with a 404 unless a test answers it (the MPC download is answered from a vector file), and fails a test on any page or console error it does not expect. `seed(page, …)` stores settings and a database where the app keeps them and reloads. Playwright's clock fixes and drives time; a test that needs a history entry made by a gesture answers the start-up question rather than setting the hash, since Chrome's Back and Forward may skip entries made without one.
 - **Helpers.** `tests/helpers/vectors.js` reads the vectors (`readVector`, `readVectorText`, `toLf`) and compares within tolerances (`assertClose`, `assertRelativeClose`, `assertAngleClose`); `formats.js`, `ephemeris.js` and `graph.js` turn the vector cases into the app's shapes; `generators.js` drains a generator; `fakes.js` has the fake clock and storage.
