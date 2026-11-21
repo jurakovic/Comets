@@ -16,12 +16,6 @@ import { sameComet } from './comet.js';
  */
 
 /**
- * the import results in the order the Update dialog shows them, and the result browser's choices
- * @type {ReadonlyArray<ImportResult>}
- */
-export const IMPORT_RESULTS = Object.freeze(['New', 'Update', 'NoChanges']);
-
-/**
  * the comets read from a file merged into the database: each replaces the first database comet
  * with its full name (Update if they differ), or is New; database comets the file lacks stay as
  * NoChanges; the result is stably sorted by sort key. A file with no comets leaves the database as
