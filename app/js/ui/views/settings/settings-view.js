@@ -17,10 +17,10 @@ import { el, saveFile } from '../../dom.js';
 const THEME_LABELS = Object.freeze({ light: 'Light', dark: 'Dark', system: 'System' });
 
 /** what Clear all data asks first */
-export const CLEAR_QUESTION = 'Do you really want to delete the database and reset all settings?';
+const CLEAR_QUESTION = 'Do you really want to delete the database and reset all settings?';
 
 /** what Use my location says when the browser gives no position */
-export const NO_LOCATION = 'Your location could not be found.';
+const NO_LOCATION = 'Your location could not be found.';
 
 /** Export database's file, before its time stamp */
 const EXPORT_PREFIX = 'Comets';

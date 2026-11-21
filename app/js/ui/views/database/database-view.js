@@ -25,7 +25,7 @@ const LOADING_TITLE = 'Database';
  * @param {Comet} comet
  * @returns {string}
  */
-export function deleteQuestion(comet) {
+function deleteQuestion(comet) {
 	return `Do you really want to delete ${comet.full}`;
 }
 

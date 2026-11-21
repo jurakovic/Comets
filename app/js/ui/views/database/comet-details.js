@@ -23,7 +23,7 @@ let ids = 0;
  * @param {HTMLElement} list
  * @param {ReadonlyArray<DetailRow>} rows
  */
-export function showRows(list, rows) {
+function showRows(list, rows) {
 	list.replaceChildren(...rows.flatMap(({ key, label, symbol, value, unit }) => [
 		el('dt', { class: 'comet-details__label', 'data-key': key }, label, symbol ? el('span', { class: 'comet-details__symbol' }, symbol) : ''),
 		el('dd', { class: 'comet-details__value', 'data-key': key }, el('span', { class: 'comet-details__number' }, value), unit && value ? el('span', { class: 'comet-details__unit' }, unit) : '')
