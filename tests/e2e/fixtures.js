@@ -1,6 +1,6 @@
-// Shared setup for the browser tests: requests that leave the local server are
-// refused unless a test answers them, and any script error fails the test unless
-// the test expects it.
+// Shared setup for the browser tests: requests that leave the local server are refused unless a
+// test answers them, and any script error fails the test unless it expects it; the views in the
+// navigation (VIEWS); stored data (seed); IndexedDB's open held (holdDatabase, landDatabase).
 import { test as base, expect } from '@playwright/test';
 
 export const test = base.extend({

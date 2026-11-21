@@ -1,5 +1,5 @@
-// The shared components in a real browser, each mounted alone on the page: the number field and
-// the sort menu.
+// The shared components in a real browser, each mounted alone on the page: the number field, the
+// sort menu, and the date picker with its editor and presets.
 import { expect, test } from './fixtures.js';
 
 /**
