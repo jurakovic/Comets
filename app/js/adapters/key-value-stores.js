@@ -13,7 +13,7 @@
  */
 
 /**
- * values in memory only, for tests and as the last resort
+ * values in memory only, for as long as the page is open: a store with no storage behind it
  * @param {Iterable<[string, string]>} [entries]
  * @returns {KeyValueStore}
  */
