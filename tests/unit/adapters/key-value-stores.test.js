@@ -135,6 +135,23 @@ test('IndexedDB that never answers gives up after the timeout', async t => {
 	assert.equal(await store.get('k'), 'v');
 });
 
+test('IndexedDB that opens after the timeout: the late connection is closed, and later calls fail at once', async t => {
+	silenceWarnings(t);
+	const fake = createFakeIndexedDb({ open: 'late' });
+	const store = createIndexedDbStore({ factory: () => fake.factory, database: 'comets', store: 'kv', timeout: 20 });
+	assert.equal(await store.get('k'), undefined, 'given up after the timeout');
+	fake.openLate();
+	assert.equal(fake.connections.length, 1);
+	assert.equal(fake.state.closed, 1, 'nobody waits for the late connection');
+	// a call that waited for anything would lose the race to a task
+	const task = new Promise(resolve => { setTimeout(() => resolve('a task'), 0); });
+	assert.equal(await Promise.race([store.put('k', 'v').then(() => 'the put'), task]), 'the put');
+	assert.equal(await store.get('k'), 'v', 'kept in memory');
+	assert.equal(fake.state.opens, 1, 'not opened again');
+	assert.equal(fake.state.transactions, 0, 'nothing on the late connection');
+	assert.equal(fake.stores.get('kv')?.has('k'), false);
+});
+
 test('IndexedDB whose transactions fail: writes are kept in memory, and storage takes over again once it works', async t => {
 	silenceWarnings(t);
 	const fake = createFakeIndexedDb({ failing: true });

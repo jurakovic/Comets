@@ -61,8 +61,9 @@ export function createFakeWebStorage({ failing = false, quota = Infinity } = {})
 /**
  * IndexedDB in memory, with as much of the API as adapters/key-value-stores.js uses: open with an
  * upgrade, one object store, get, put and delete in transactions that complete or fail as a task.
- * @param {{ open?: 'ok' | 'throw' | 'error' | 'blocked' | 'hang', failing?: boolean }} [options]
- *   how open behaves; failing makes every transaction fail
+ * @param {{ open?: 'ok' | 'throw' | 'error' | 'blocked' | 'hang' | 'late', failing?: boolean }} [options]
+ *   how open behaves: `hang` never opens, `late` opens once the test calls `openLate()`; failing
+ *   makes every transaction fail
  */
 export function createFakeIndexedDb({ open = 'ok', failing = false } = {}) {
 	/** @type {Map<string, Map<string, unknown>>} */
@@ -70,6 +71,8 @@ export function createFakeIndexedDb({ open = 'ok', failing = false } = {}) {
 	const state = { failing, opens: 0, upgrades: 0, closed: 0, transactions: 0 };
 	/** @type {any[]} the connections opened */
 	const connections = [];
+	/** @type {Array<() => void>} the opens `late` holds */
+	const held = [];
 	const later = (/** @type {() => void} */ task) => { setTimeout(task, 0); };
 
 	function createDatabase() {
@@ -119,8 +122,18 @@ export function createFakeIndexedDb({ open = 'ok', failing = false } = {}) {
 			if (open === 'throw') throw new DOMException('The operation is insecure.', 'SecurityError');
 			/** @type {any} */
 			const request = { result: undefined, error: null, onupgradeneeded: null, onsuccess: null, onerror: null, onblocked: null };
+			const succeed = () => {
+				request.result = createDatabase();
+				connections.push(request.result);
+				if (stores.size === 0) request.onupgradeneeded?.();
+				request.onsuccess?.();
+			};
 			later(() => {
 				if (open === 'hang') return;
+				if (open === 'late') {
+					held.push(succeed);
+					return;
+				}
 				if (open === 'error') {
 					request.error = new DOMException('The database could not be opened.', 'UnknownError');
 					request.onerror?.();
@@ -130,13 +143,12 @@ export function createFakeIndexedDb({ open = 'ok', failing = false } = {}) {
 					request.onblocked?.();
 					return;
 				}
-				request.result = createDatabase();
-				connections.push(request.result);
-				if (stores.size === 0) request.onupgradeneeded?.();
-				request.onsuccess?.();
+				succeed();
 			});
 			return request;
 		}
 	};
-	return { factory: /** @type {IDBFactory} */ (/** @type {unknown} */ (factory)), stores, state, connections };
+	/** lets the opens `late` holds succeed */
+	const openLate = () => { held.splice(0).forEach(succeed => succeed()); };
+	return { factory: /** @type {IDBFactory} */ (/** @type {unknown} */ (factory)), stores, state, connections, openLate };
 }
