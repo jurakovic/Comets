@@ -57,14 +57,18 @@ const comboOf = picker => picker.getByRole('combobox', { name: 'Comet' });
 const shownOf = combo => combo.evaluate(select => /** @type {HTMLSelectElement} */ (select).selectedOptions[0]?.text ?? null);
 
 /**
- * the presets a date picker offers, as its menu lists them
+ * the presets a date picker offers, as its menu lists them once it shows
  * @param {import('@playwright/test').Page} page
  */
 async function presets(page) {
 	const button = page.getByRole('group', { name: 'Start' }).getByRole('button', { name: 'Date presets' });
+	const menu = page.getByRole('menu', { name: 'Date presets' });
 	await button.click();
-	const items = await page.getByRole('menu', { name: 'Date presets' }).getByRole('menuitem').allTextContents();
+	// the menu stays unseen until placed, a task after it opens; Today is always there
+	await expect(menu.getByRole('menuitem', { name: 'Today' })).toBeVisible();
+	const items = await menu.getByRole('menuitem').allTextContents();
 	await page.keyboard.press('Escape');
+	await expect(menu).toBeHidden();
 	return items;
 }
 
