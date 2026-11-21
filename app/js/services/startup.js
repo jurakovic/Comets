@@ -24,10 +24,12 @@ export function updatePrompt({ automaticUpdate, lastUpdateDate, updateInterval }
 }
 
 /**
- * what start-up found; the shell asks the question, and on yes opens Update in automatic mode.
- * The Database view offers the download once the database has loaded empty
+ * what start-up found; the shell reports the failures, asks the question, and on yes opens Update
+ * in automatic mode. The Database view offers the download once the database has loaded empty
  * @typedef {object} Startup
  * @property {Readonly<UpdatePrompt> | null} prompt
+ * @property {ReadonlyArray<unknown>} failures why a load failed, the settings' or the database's:
+ *   the question is asked all the same, from the settings as they are then
  */
 
 /**
@@ -45,8 +47,10 @@ export function updatePrompt({ automaticUpdate, lastUpdateDate, updateInterval }
 export function createStartupService({ settings, database, clock }) {
 	return Object.freeze({
 		async start() {
-			await Promise.all([settings.load(), database.load()]);
-			return Object.freeze({ prompt: updatePrompt(settings.settings.get(), clock.now()) });
+			// a database that could not be read is when an update is needed most
+			const loads = await Promise.allSettled([settings.load(), database.load()]);
+			const failures = loads.flatMap(load => (load.status === 'rejected' ? [load.reason] : []));
+			return Object.freeze({ prompt: updatePrompt(settings.settings.get(), clock.now()), failures: Object.freeze(failures) });
 		}
 	});
 }

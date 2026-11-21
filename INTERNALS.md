@@ -114,7 +114,7 @@ const database = createDatabaseService({ repository, clock, settings });
 | `observations` | the session cache of `Tn`, `Perih*`, `Current*`, per comet record | provides the value accessor; `Current*` are recomputed after 5 minutes |
 | `update` | the Update dialog's state: the download (`idle`, `running` with progress, `done`, `failed`), the file, the candidate source, the preview | downloads with progress and cancellation, reads files, previews against the database as it is, imports; `closesAfterImport` decides whether the dialog closes |
 | `jobs` | the running long computations | runs them through the `JobRunner` port; exposes their progress and cancellation to the status area |
-| `startup` | | loads the settings and the database; `updatePrompt(settings, now)` is the start-up question, which the shell asks |
+| `startup` | | loads the settings and the database, then gives the start-up question (`updatePrompt(settings, now)`), which the shell asks, and why a load failed: a failed load does not stop the question |
 
 **Ports** are the services' view of the outside world, named in `services/ports.js` as JSDoc typedefs. A view that needs one itself (the clock, the geolocator) gets it through its context, never the adapter:
 
@@ -165,7 +165,7 @@ Ephemerides and graphs over many comets run off the main thread.
 
 ### The shell
 
-`index.html` holds the landmarks; `main.js` builds the adapters, the services and the shell, starts the router, then runs start-up, and asks its question once the router is idle (`idle()`: no navigation under way), so that a dialog route opened before then does not open over it. One that Back or Forward opens while the question is open still does.
+`index.html` holds the landmarks; `main.js` builds the adapters, the services and the shell, starts the router, then runs start-up. It reports a load that failed to the error handler, and asks start-up's question all the same, once the router is idle (`idle()`: no navigation under way), so that a dialog route opened before then does not open over it. One that Back or Forward opens while the question is open still does.
 
 - **Routes.** `ui/shell/routes.js` is the route table: each route's key (`#/<key>`), title, group (the views, or the app's own pages) and `load(context)`, which creates the view with `import()` on its first visit. The router (`ui/shell/router.js`) shows the route the hash names, with its parameters (`#/update?automatic`); an unknown or empty hash opens `database`. A view is kept after its first visit, which keeps its state for the session, and hidden with the `hidden` attribute when another takes its place.
 - **Views** implement `{ element, show(params), hide(), save?() }`. `show()` runs on every navigation to the view's route, also while it is shown, with no `hide()` between: new parameters, or a dialog route over it closed. `hide()` stops their clocks; `save()` is what `Ctrl/⌘+S` runs.

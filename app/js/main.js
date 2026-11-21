@@ -89,7 +89,9 @@ query('#status').append(createStatus({ selection: selection.state, jobs }).eleme
 // a view that fails to load is reported at once, and the start goes on
 router.start().catch(reportError);
 
-const { prompt } = await startup.start();
+const { prompt, failures } = await startup.start();
+// a load that failed is reported, and the question is asked all the same
+for (const failure of failures) reportError(failure);
 // the question waits for the navigations under way, the start's among them: a dialog route's
 // <dialog> opened after it would cover it in the top layer
 await router.idle();

@@ -41,7 +41,7 @@ async function start(stored) {
 
 test('the first run: the defaults, an empty database, no question', async () => {
 	const { result, settings, writes } = await start({});
-	assert.deepEqual(result, { prompt: null });
+	assert.deepEqual(result, { prompt: null, failures: [] });
 	assert.equal(settings.settings.get(), DEFAULT_SETTINGS);
 	assert.deepEqual(writes, []);
 });
@@ -51,7 +51,29 @@ test('a later run: the stored settings and database, and the question when it is
 		settings: writeSettings(settingsWith({ theme: 'dark', lastUpdateDate: VECTOR_NOW - 10 * DAY })),
 		database: readVectorText('import/sample.txt')
 	});
-	assert.deepEqual(result, { prompt: { days: 10, message: 'Last update was 10 days ago. Update now?' } });
+	assert.deepEqual(result, { prompt: { days: 10, message: 'Last update was 10 days ago. Update now?' }, failures: [] });
 	assert.equal(settings.settings.get().theme, 'dark');
 	assert.equal(database.state.get().comets.length, 34);
+});
+
+test('a database that cannot be read: the question is asked all the same, and the failure is given to report', async () => {
+	const clock = createFakeClock(VECTOR_NOW);
+	const settings = createSettingsService({ store: createRecordingStore({ [SETTINGS_KEY]: writeSettings(settingsWith({ lastUpdateDate: VECTOR_NOW - 10 * DAY })) }) });
+	const failure = new Error('the stored text could not be read');
+	const repository = { ...createDatabaseRepository({ store: createRecordingStore(), clock }), load: () => Promise.reject(failure) };
+	const database = createDatabaseService({ repository, clock, settings });
+	const result = await createStartupService({ settings, database, clock }).start();
+	assert.deepEqual(result, { prompt: { days: 10, message: 'Last update was 10 days ago. Update now?' }, failures: [failure] });
+	assert.deepEqual(database.state.get(), { comets: [], change: 'load', loaded: true });
+});
+
+test('settings that cannot be read: the defaults ask nothing, and the failure is given to report', async () => {
+	const clock = createFakeClock(VECTOR_NOW);
+	const failure = new Error('the stored settings could not be read');
+	const settings = createSettingsService({ store: { ...createRecordingStore(), get: () => Promise.reject(failure) } });
+	const database = createDatabaseService({ repository: createDatabaseRepository({ store: createRecordingStore(), clock }), clock, settings });
+	const result = await createStartupService({ settings, database, clock }).start();
+	assert.deepEqual(result, { prompt: null, failures: [failure] });
+	assert.equal(settings.settings.get(), DEFAULT_SETTINGS);
+	assert.equal(database.state.get().loaded, true);
 });
