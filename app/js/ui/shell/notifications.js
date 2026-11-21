@@ -1,5 +1,5 @@
 // Notifications: messages that do not block, in place of the desktop's message boxes for
-// information and errors.
+// information and errors. INTERNALS.md, The shell.
 import { el } from '../dom.js';
 
 /** @typedef {'info' | 'error'} NoticeKind */

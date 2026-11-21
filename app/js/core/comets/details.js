@@ -1,5 +1,6 @@
 // What the Database view's details show of a comet: the Orbital elements tab, the Ephemeris tab's
 // perihelion values and live block with its trends, and the JPL link.
+// INTERNALS.md, How the UI is written.
 import { elongationSide } from '../astro/ephemeris.js';
 import { angle, hms } from '../format/angles.js';
 import { DATE_FULL, formatDate } from '../format/dates.js';

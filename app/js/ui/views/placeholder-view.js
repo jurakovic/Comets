@@ -1,4 +1,4 @@
-// A view still to be built: its title, so the shell can be used end to end.
+// A view still to be built: its title, so the shell can be used end to end. INTERNALS.md, Views.
 import { el } from '../dom.js';
 
 /**

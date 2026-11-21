@@ -1,5 +1,5 @@
 // A comet's details: the Ephemeris tab (first) with its live block, and the Orbital elements tab
-// with JPL Info. What the rows say is core/comets/details.js.
+// with JPL Info. What the rows say is core/comets/details.js. INTERNALS.md, Views.
 import { elementsRows, jplUrl, perihelionRows } from '../../../core/comets/details.js';
 import { el } from '../../dom.js';
 import { createLiveEphemeris } from './live-ephemeris.js';

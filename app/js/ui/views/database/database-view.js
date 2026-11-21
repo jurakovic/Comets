@@ -1,5 +1,6 @@
 // The Database view (`FormDatabase`): the app-wide selection as a list, its sort, filters, Reset
 // and Delete, the selected comet's details, and an empty state that offers the download.
+// INTERNALS.md, Views.
 import { databaseTitle } from '../../../core/comets/counts.js';
 import { indexAfterChange } from '../../../core/comets/selection.js';
 import { createFiltersPanel } from '../../components/filters-panel.js';

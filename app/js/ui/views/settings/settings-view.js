@@ -1,5 +1,6 @@
 // The Settings view (`FormSettings`): every setting saved as it changes, without OK or Cancel; the
 // location with its hemispheres and Use my location; Export database and Clear all data.
+// INTERNALS.md, Views.
 import { stampedFileName } from '../../../core/format/dates.js';
 import { trim } from '../../../core/format/parse.js';
 import { coordinateFields, coordinateValue, LATITUDE, LONGITUDE } from '../../../core/input/location.js';

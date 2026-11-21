@@ -1,5 +1,5 @@
 // Light, dark or the OS's choice, applied whenever the setting changes; index.html applies the
-// stored one before the first paint.
+// stored one before the first paint. INTERNALS.md, The shell.
 
 /** @typedef {import('../../services/settings.js').Theme} Theme */
 

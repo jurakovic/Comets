@@ -1,6 +1,6 @@
 // The filters panel (`FilterControl`): up to ten rows, each with a checkbox, a property, a compare,
 // the property's editor and unit, and a remove button; + adds a row. Every edit applies the rows,
-// and so do Apply and Enter. The rules are core/input/filters.js.
+// as do Apply and Enter. The rules are core/input/filters.js. INTERNALS.md, How the UI is written.
 import { COMPARES_BY_TYPE } from '../../core/comets/compares.js';
 import { PROPERTIES, property } from '../../core/comets/properties.js';
 import { addRow, canAddRow, editRow, panelRows, removeRow, rowFilters } from '../../core/input/filters.js';

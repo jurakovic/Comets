@@ -1,4 +1,4 @@
-// The Help view: the controls, listed from the command registries, and About.
+// The Help view: the controls, listed from the command registries, and About. INTERNALS.md, Views.
 import { bindingLabel } from '../../shell/shortcuts.js';
 import { el } from '../../dom.js';
 import { APP_VERSION, COPYRIGHT, CREDITS, LICENCE, REFERENCES, REPOSITORY } from './about.js';

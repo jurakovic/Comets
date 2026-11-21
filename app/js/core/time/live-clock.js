@@ -1,5 +1,6 @@
 // The Database view's live clock: an instant shown in whole seconds that a tick moves by exactly
 // 1 s, 20 ms past each second boundary; it follows the system clock until a date is picked.
+// INTERNALS.md, How the UI is written.
 
 /**
  * @typedef {object} LiveClock
