@@ -1,6 +1,6 @@
 // The Database view's filters panel: its rows and editors, live apply, Apply and Enter, the
-// validation by its row, + and remove, Reset, closing it; and filters.json cases through the
-// panel, over the MPC snapshot at the vectors' clock.
+// validation by its row, + and remove, Reset, closing it, the selected comet kept across a filter;
+// and filters.json cases through the panel, over the MPC snapshot at the vectors' clock.
 import { readFileSync } from 'node:fs';
 import { expect, holdDatabase, landDatabase, seed, test } from './fixtures.js';
 
@@ -246,6 +246,25 @@ test.describe('with the sample collection', () => {
 		await expect(optionsOf(page)).toHaveCount(34);
 		await expect(valueOf(rowOf(page, 1))).toHaveValue('');
 		await expect(rowOf(page, 1).getByRole('checkbox', { name: 'Active' })).not.toBeChecked();
+	});
+
+	test('a filter keeps the selected comet while it is in the list; otherwise the first is selected', async ({ page }) => {
+		const list = viewOf(page).getByRole('listbox', { name: 'Comets' });
+		const selected = list.getByRole('option', { selected: true });
+		await list.getByRole('option', { name: 'C/2023 A3 (Tsuchinshan-ATLAS)', exact: true }).click();
+		await valueOf(rowOf(page, 1)).pressSequentially('atlas');
+		const atlas = names(c => c.full.toLowerCase().includes('atlas'));
+		await expect(optionsOf(page)).toHaveText(atlas);
+		expect(atlas.indexOf('C/2023 A3 (Tsuchinshan-ATLAS)')).toBeGreaterThan(0);
+		await expect(selected).toHaveText('C/2023 A3 (Tsuchinshan-ATLAS)');
+		await valueOf(rowOf(page, 1)).fill('machholz');
+		await expect(optionsOf(page)).toHaveText(['96P-B/Machholz', '141P-A/Machholz']);
+		await expect(selected).toHaveText('96P-B/Machholz');
+		await valueOf(rowOf(page, 1)).fill('');
+		await expect(optionsOf(page)).toHaveCount(34);
+		await expect(selected).toHaveText('96P-B/Machholz');
+		await panelOf(page).getByRole('button', { name: 'Close' }).click();
+		await expect(viewOf(page).getByRole('tabpanel').locator('dd[data-key="full"]')).toHaveText('96P-B/Machholz');
 	});
 });
 
