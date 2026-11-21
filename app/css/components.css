@@ -1,5 +1,5 @@
 /* The shared components: menus and the sort menu, buttons, number and text fields, the date picker
-   and its editor, the filters panel. */
+   and its editor, the filters panel, the comet picker and its Filter dialog. */
 .menu {
 	display: inline-block;
 }
@@ -20,6 +20,7 @@
 	border-color: var(--color-muted);
 }
 
+.menu__button:disabled,
 .button:disabled {
 	color: var(--color-muted);
 	cursor: default;
@@ -335,4 +336,58 @@ a.button {
 	.filters-panel__error {
 		grid-area: error;
 	}
+}
+
+/* the comet picker: the combo box over its quick select, Filter and sort */
+.comet-picker {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-2);
+	min-width: 0;
+}
+
+.comet-picker__comet {
+	box-sizing: border-box;
+	width: 100%;
+	max-width: 32rem;
+	padding: var(--space-1) var(--space-2);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius);
+	background: var(--color-bg);
+	color: var(--color-text);
+	font: inherit;
+}
+
+.comet-picker__tools {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-2);
+}
+
+/* Filter's dialog: the filters panel under the count it gives */
+.comet-picker__filter {
+	box-sizing: border-box;
+	max-width: calc(100vw - 2 * var(--space-4));
+	max-height: calc(100dvh - 2 * var(--space-4));
+	padding: var(--space-4);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius);
+	background: var(--color-bg);
+	color: var(--color-text);
+	box-shadow: var(--shadow);
+}
+
+.comet-picker__filter[open] {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-3);
+}
+
+.comet-picker__filter::backdrop {
+	background: rgb(0 0 0 / 35%);
+}
+
+.comet-picker__filter-title {
+	margin: 0;
+	font-size: 18px;
 }

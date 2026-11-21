@@ -1,6 +1,6 @@
 // A menu under a button: a popover whose entries are built each time it opens, with the arrow
-// keys, Home and End among them, Esc to close, and focus back on the button. The sort menu and
-// the date presets are menus. INTERNALS.md, How the UI is written.
+// keys, Home and End among them, Esc to close, and focus back on the button. The sort menu, the
+// date presets and the comet picker's quick select are menus. INTERNALS.md, How the UI is written.
 import { el } from '../dom.js';
 
 /**
