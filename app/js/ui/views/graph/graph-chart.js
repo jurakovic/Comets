@@ -1,6 +1,6 @@
 // The graph chart: a graph model drawn on a Canvas 2D in the screen's own pixels, drawn again when
 // its size, the device pixel ratio or the theme changes, with a tooltip for what the pointer is
-// over. INTERNALS.md, How the UI is written.
+// over, and its image for a save. INTERNALS.md, How the UI is written.
 import { traceCurve } from '../../../core/graph/curve.js';
 import { hoverAt, projection } from '../../../core/graph/hover.js';
 import { graphLayout } from '../../../core/graph/layout.js';
@@ -14,6 +14,8 @@ import { watchTheme } from '../../shell/theme.js';
 /**
  * @typedef {object} GraphChart
  * @property {HTMLElement} element fills the box its owner gives it
+ * @property {(type: string) => Promise<Blob | null>} image the chart as it shows, a pixel per device
+ *   pixel, encoded as the media type (`image/png`, `image/jpeg`); null while it is hidden
  * @property {() => void} destroy stops following the size, the screen and the theme
  */
 
@@ -270,6 +272,16 @@ export function createGraphChart(model) {
 
 	return {
 		element,
+		image(/** @type {string} */ type) {
+			// at the size it shows, also before the observer has reported it
+			const { width, height } = canvas.getBoundingClientRect();
+			if (width !== box.width || height !== box.height) {
+				box = { width, height };
+				draw();
+			}
+			if (!layout) return Promise.resolve(null);
+			return new Promise(resolve => canvas.toBlob(resolve, type));
+		},
 		destroy() {
 			resizes.disconnect();
 			stopResolution();

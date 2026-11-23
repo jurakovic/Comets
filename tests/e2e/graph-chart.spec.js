@@ -1,5 +1,6 @@
 // The graph chart in a real browser, mounted alone over the Help view: its canvas in the screen's
-// own pixels, the theme's colours followed live, and the tooltips of what lies under the pointer.
+// own pixels, the theme's colours followed live, the tooltips of what lies under the pointer, and
+// its image.
 import { expect, test } from './fixtures.js';
 import { drain } from '../helpers/generators.js';
 import { GRAPH, graphCase } from '../helpers/graph.js';
@@ -225,6 +226,39 @@ test('a touch shows the tooltip, which stays as the finger lifts', async ({ page
 	await expect(tooltip.locator('div').first()).toHaveText('Today');
 	await page.touchscreen.tap(box.x + 3, box.y + 3);
 	await expect(tooltip).toBeHidden();
+});
+
+test('its image is the chart as drawn, in PNG or JPEG, at its pixels; none while hidden', async ({ page }) => {
+	await mountChart(page, SUN_DISTANCE);
+	const images = await page.evaluate(async () => {
+		const { chart } = /** @type {any} */ (window);
+		const canvas = /** @type {HTMLCanvasElement} */ (document.querySelector('#probe canvas'));
+		const drawn = /** @type {CanvasRenderingContext2D} */ (canvas.getContext('2d')).getImageData(0, 0, canvas.width, canvas.height).data;
+		const read = async (/** @type {string} */ type) => {
+			/** @type {Blob | null} */
+			const blob = await chart.image(type);
+			if (!blob) return null;
+			const bitmap = await createImageBitmap(blob, { colorSpaceConversion: 'none', premultiplyAlpha: 'none' });
+			const copy = new OffscreenCanvas(bitmap.width, bitmap.height);
+			const context = /** @type {OffscreenCanvasRenderingContext2D} */ (copy.getContext('2d'));
+			context.drawImage(bitmap, 0, 0);
+			const pixels = context.getImageData(0, 0, bitmap.width, bitmap.height).data;
+			const same = pixels.length === drawn.length && pixels.every((value, k) => value === drawn[k]);
+			return { type: blob.type, size: [bitmap.width, bitmap.height], same };
+		};
+		const png = await read('image/png');
+		const jpeg = await read('image/jpeg');
+		const box = /** @type {HTMLElement} */ (document.getElementById('probe'));
+		box.hidden = true;
+		const hidden = await read('image/png');
+		box.hidden = false;
+		const shown = await read('image/png');
+		return { png, jpeg, hidden, shown, pixels: [canvas.width, canvas.height] };
+	});
+	expect(images.png).toEqual({ type: 'image/png', size: images.pixels, same: true });
+	expect(images.jpeg).toMatchObject({ type: 'image/jpeg', size: images.pixels });
+	expect(images.hidden).toBeNull();
+	expect(images.shown).toEqual({ type: 'image/png', size: images.pixels, same: true });
 });
 
 test('destroyed, the chart follows neither the theme nor its size', async ({ page }) => {
