@@ -12,7 +12,7 @@ import { ephemerisText } from '../../app/js/core/ephemeris/text.js';
 import { addMonths } from '../../app/js/core/time/calendar.js';
 import { jdToInstant } from '../../app/js/core/time/julian.js';
 import { createObservationsService } from '../../app/js/services/observations.js';
-import { expect, seed, test } from './fixtures.js';
+import { expect, holdDatabase, landDatabase, seed, test } from './fixtures.js';
 
 const SAMPLE = readVectorText('import/sample.txt');
 const MERGE_NEW = readVectorText('import/merge-new.txt');
@@ -359,6 +359,73 @@ test('the comet picker reads the database again after a deletion or an import, k
 	const q = new Map(SAMPLE_COMETS.map(c => [c.full, c.q]));
 	const known = relisted.slice(1).filter(full => q.has(full) && full !== '2P/Encke');
 	expect(known).toEqual(known.toSorted((a, b) => /** @type {number} */ (q.get(a)) - /** @type {number} */ (q.get(b))));
+});
+
+test('a view opened before the stored database has loaded offers its comets once it lands', async ({ page }) => {
+	await page.clock.setFixedTime(NOW);
+	await seed(page, { database: SAMPLE });
+	await holdDatabase(page);
+	await page.goto('./#/ephemeris');
+	await page.reload();
+	const view = viewOf(page);
+	const combo = comboOf(view);
+	await expect(view.getByRole('form', { name: 'Ephemeris settings' })).toBeVisible();
+	await expect(combo.getByRole('option')).toHaveCount(0);
+	await expect(combo).toBeDisabled();
+	await expect(view.getByRole('button', { name: 'Calculate' })).toBeDisabled();
+	await landDatabase(page);
+	await expect(combo.getByRole('option')).toHaveCount(35);
+	expect(await shownOf(combo)).toBe(BRIGHTEST);
+	await expect(view.getByRole('button', { name: 'Calculate' })).toBeEnabled();
+});
+
+test('the kept new form and a result\'s settings are read again over the database when they come back', async ({ page }) => {
+	const view = await open(page);
+	const combo = comboOf(view);
+	const halley = combo.getByRole('option', { name: '1P/Halley', exact: true });
+	await combo.selectOption({ label: '1P/Halley' });
+	await view.getByRole('button', { name: 'Calculate' }).click();
+	await expect(tabsOf(view)).toHaveText(['Settings', 'Ephemeris - 1P/Halley']);
+	// the new form, which chose 1P too, is kept while the result is edited
+	await view.getByRole('button', { name: 'Edit settings' }).click();
+	await expect(view.locator('.ephemeris-form__editing')).toBeVisible();
+
+	await page.locator('.shell-nav a[href="#/database"]').click();
+	const database = page.locator('[data-view="database"]');
+	await database.getByRole('listbox', { name: 'Comets' }).getByRole('option', { name: '1P/Halley', exact: true }).click();
+	await database.getByRole('button', { name: 'Delete' }).click();
+	await page.getByRole('alertdialog').getByRole('button', { name: 'Yes' }).click();
+	await expect(database.getByRole('heading', { level: 1 })).toHaveText('Database (33 comets)');
+	await page.locator('.shell-nav a[href="#/ephemeris"]').click();
+	await expect(combo.getByRole('option')).toHaveCount(34);
+	await expect(halley).toHaveCount(0);
+	expect(await shownOf(combo)).toBe(BRIGHTEST);
+
+	// New ephemeris: the kept form, read again
+	await view.getByRole('button', { name: 'New ephemeris' }).click();
+	await expect(view.locator('.ephemeris-form__editing')).toBeHidden();
+	await expect(combo.getByRole('option')).toHaveCount(34);
+	await expect(halley).toHaveCount(0);
+	expect(await shownOf(combo)).toBe(BRIGHTEST);
+
+	// Edit settings: the result's settings, read again
+	await tabsOf(view).nth(1).click();
+	await view.getByRole('button', { name: 'Edit settings' }).click();
+	await expect(combo.getByRole('option')).toHaveCount(34);
+	await expect(halley).toHaveCount(0);
+	expect(await shownOf(combo)).toBe(BRIGHTEST);
+});
+
+test('after Clear all data the picker offers nothing, and Calculate waits for a comet', async ({ page }) => {
+	const view = await open(page);
+	await page.locator('.shell-nav a[href="#/settings"]').click();
+	await page.locator('[data-view="settings"]').getByRole('button', { name: 'Clear all data' }).click();
+	await page.getByRole('alertdialog').getByRole('button', { name: 'Yes' }).click();
+	await expect(page.locator('.shell-status__count')).toHaveText('Comets: 0');
+	await page.locator('.shell-nav a[href="#/ephemeris"]').click();
+	await expect(comboOf(view).getByRole('option')).toHaveCount(0);
+	await expect(comboOf(view)).toBeDisabled();
+	await expect(view.getByRole('button', { name: 'Calculate' })).toBeDisabled();
 });
 
 test('Start and End from the Perihelion Date preset of C/-146 P1, in year −146', async ({ page }) => {
