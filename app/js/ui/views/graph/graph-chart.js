@@ -39,13 +39,16 @@ function themeOf(element) {
 }
 
 /**
- * lines a whole number of device pixels wide on whole device pixels, so that they stay sharp
- * @param {number} ratio device pixels per CSS pixel
+ * lines a whole number of device pixels wide on whole device pixels, so that they stay sharp; the
+ * canvas' pixels per CSS pixel across and down differ where its sides round differently
+ * @param {number} across device pixels per CSS pixel
+ * @param {number} down
  */
-function pixelGrid(ratio) {
-	const device = Math.max(1, Math.round(ratio));
+function pixelGrid(across, down) {
+	const device = Math.max(1, Math.round(across));
 	const offset = device % 2 === 1 ? 0.5 : 0;
-	return { width: device / ratio, at: (/** @type {number} */ v) => (Math.round(v * ratio - offset) + offset) / ratio };
+	const snap = (/** @type {number} */ ratio) => (/** @type {number} */ v) => (Math.round(v * ratio - offset) + offset) / ratio;
+	return { width: device / across, x: snap(across), y: snap(down) };
 }
 
 /**
@@ -81,19 +84,19 @@ function paintFrame(context, layout, theme, grid) {
 	context.fillText(valueTitle.text, 0, 0);
 	context.restore();
 
-	const left = grid.at(area.left);
-	const top = grid.at(area.top);
+	const left = grid.x(area.left);
+	const top = grid.y(area.top);
 	context.beginPath();
-	context.moveTo(grid.at(area.left + area.width), top);
+	context.moveTo(grid.x(area.left + area.width), top);
 	context.lineTo(left, top);
-	context.lineTo(left, grid.at(area.top + area.height));
+	context.lineTo(left, grid.y(area.top + area.height));
 	for (const tick of layout.timeTicks) {
-		context.moveTo(grid.at(tick.x), top - tickLength);
-		context.lineTo(grid.at(tick.x), top);
+		context.moveTo(grid.x(tick.x), top - tickLength);
+		context.lineTo(grid.x(tick.x), top);
 	}
 	for (const tick of layout.valueTicks) {
-		context.moveTo(left - tickLength, grid.at(tick.y));
-		context.lineTo(left, grid.at(tick.y));
+		context.moveTo(left - tickLength, grid.y(tick.y));
+		context.lineTo(left, grid.y(tick.y));
 	}
 	context.strokeStyle = theme.text;
 	context.lineWidth = grid.width;
@@ -115,7 +118,7 @@ function paintFrame(context, layout, theme, grid) {
  * @param {Painting} painting
  */
 function verticalLine({ x, y }, { context, at, grid }) {
-	const left = grid.at(at.x(x[0]));
+	const left = grid.x(at.x(x[0]));
 	context.moveTo(left, at.y(y[0]));
 	context.lineTo(left, at.y(y[1]));
 	context.lineWidth = grid.width;
@@ -193,8 +196,9 @@ export function createGraphChart(model) {
 		drawnTheme = JSON.stringify(theme);
 		canvas.width = width;
 		canvas.height = height;
-		const ratio = canvas.width / box.width;
-		context.setTransform(ratio, 0, 0, canvas.height / box.height, 0, 0);
+		const across = canvas.width / box.width;
+		const down = canvas.height / box.height;
+		context.setTransform(across, 0, 0, down, 0, 0);
 		context.fillStyle = theme.background;
 		context.fillRect(0, 0, box.width, box.height);
 		context.font = `${LABEL_SIZE}px ${theme.font}`;
@@ -203,7 +207,7 @@ export function createGraphChart(model) {
 			lineHeight: Math.ceil(LABEL_SIZE * LINE_HEIGHT),
 			titleHeight: Math.ceil(TITLE_SIZE * LINE_HEIGHT)
 		});
-		const grid = pixelGrid(ratio);
+		const grid = pixelGrid(across, down);
 		paintFrame(context, layout, theme, grid);
 		paintSeries(context, model, layout, grid);
 	}

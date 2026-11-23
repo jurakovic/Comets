@@ -118,6 +118,47 @@ test('the canvas has a pixel per device pixel, also after a resize', async ({ pa
 	await expect.poll(async () => Math.abs((await size()).pixels[0] - 300 * before.ratio)).toBeLessThanOrEqual(1);
 });
 
+test('the value axis and its ticks are whole device pixels, across and down', async ({ page }) => {
+	// the box's height, four fifths of the phone's, is not a whole number of device pixels
+	const canvas = await mountChart(page, SUN_DISTANCE);
+	const { ratio, axis, ticks } = await canvas.evaluate(element => {
+		const c = /** @type {HTMLCanvasElement} */ (element);
+		const { data } = /** @type {CanvasRenderingContext2D} */ (c.getContext('2d')).getImageData(0, 0, c.width, c.height);
+		const is = (/** @type {number} */ x, /** @type {number} */ y, /** @type {number} */ value) =>
+			[0, 1, 2].every(k => data[(y * c.width + x) * 4 + k] === value);
+		// the value axis: the black run left of the plot, from the right in the middle row
+		const row = Math.floor(c.height / 2);
+		let right = Math.floor(c.width * 0.9);
+		while (right > 0 && !is(right, row, 0)) right--;
+		let left = right;
+		while (left > 0 && is(left - 1, row, 0)) left--;
+		// from its top to its bottom, the plot's, below the time labels
+		let top = row;
+		while (top > 0 && is(left, top - 1, 0)) top--;
+		let bottom = row;
+		while (bottom < c.height - 1 && is(left, bottom + 1, 0)) bottom++;
+		// its ticks, down a column between the axis and the labels: a run of black rows each
+		/** @type {Array<{ rows: number, black: boolean }>} */
+		const ticks = [];
+		const column = left - Math.round(2 * devicePixelRatio);
+		const end = Math.min(c.height, bottom + 4);
+		for (let y = Math.max(0, top - 4); y < end; y++) {
+			if (is(column, y, 255)) continue;
+			const tick = { rows: 0, black: true };
+			for (; y < end && !is(column, y, 255); y++) {
+				tick.rows++;
+				tick.black &&= is(column, y, 0);
+			}
+			ticks.push(tick);
+		}
+		return { ratio: devicePixelRatio, axis: right - left + 1, ticks };
+	});
+	const width = Math.max(1, Math.round(ratio));
+	expect(axis).toBe(width);
+	// 0 to 20 AU every 2
+	expect(ticks).toEqual(Array.from({ length: 11 }, () => ({ rows: width, black: true })));
+});
+
 test('the background and the text follow the theme as it changes', async ({ page }) => {
 	const canvas = await mountChart(page, SUN_DISTANCE);
 	const theme = (/** @type {string | null} */ value) => page.evaluate(value => {
