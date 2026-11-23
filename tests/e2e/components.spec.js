@@ -1,5 +1,5 @@
 // The shared components in a real browser, each mounted alone on the page: the number field, the
-// sort menu, and the date picker with its editor and presets.
+// sort menu, the date picker with its editor and presets, and the result tabs.
 import { expect, test } from './fixtures.js';
 
 /**
@@ -362,5 +362,102 @@ test.describe('the date picker', () => {
 		await expect(editor.getByRole('textbox', { name: 'Month' })).toHaveValue('11');
 		await editor.getByRole('button', { name: 'OK' }).click();
 		expect(await changes(page)).toEqual(['2024-09-27T17:47:00.000Z', '2026-11-01T00:00:00.000Z']);
+	});
+});
+
+test.describe('the result tabs', () => {
+	/**
+	 * mounts result tabs over the Help view, a button in the first tab's panel, and records the
+	 * results closed
+	 * @param {import('@playwright/test').Page} page
+	 */
+	async function mountTabs(page) {
+		await page.goto('./#/help');
+		await page.locator('[data-view="help"]').waitFor();
+		await page.evaluate(async () => {
+			const { createResultTabs } = await import(new URL('js/ui/components/result-tabs.js', location.href).href);
+			/** @type {any} */
+			const probe = window;
+			probe.closedTabs = [];
+			/** @param {string} text */
+			const content = text => Object.assign(document.createElement('button'), { textContent: text });
+			probe.content = content;
+			probe.tabs = createResultTabs({ label: 'Probe', name: 'Settings', content: content('Form'), onClose: (/** @type {number} */ id) => probe.closedTabs.push(id) });
+			document.body.prepend(probe.tabs.element);
+		});
+		return page.getByRole('tablist', { name: 'Probe' });
+	}
+
+	/** @param {import('@playwright/test').Page} page @param {string} script */
+	const run = (page, script) => page.evaluate(script);
+	/** @param {import('@playwright/test').Page} page */
+	const closed = page => page.evaluate(() => /** @type {any} */ (window).closedTabs);
+
+	test('the first tab, then each result added, selected with its panel; replace keeps its place', async ({ page }) => {
+		const list = await mountTabs(page);
+		const tabs = list.getByRole('tab');
+		await expect(tabs).toHaveText(['Settings']);
+		await expect(tabs.first()).toHaveAttribute('aria-selected', 'true');
+		await expect(page.getByRole('tabpanel', { name: 'Settings' })).toHaveText('Form');
+		expect(await run(page, 'tabs.selected()')).toBeNull();
+		expect(await run(page, 'tabs.add("First", content("one"))')).toBe(1);
+		expect(await run(page, 'tabs.add("Second", content("two"))')).toBe(2);
+		await expect(tabs).toHaveText(['Settings', 'First', 'Second']);
+		await expect(tabs.nth(2)).toHaveAttribute('aria-selected', 'true');
+		await expect(page.getByRole('tabpanel')).toHaveText('two');
+		expect(await run(page, 'tabs.selected()')).toBe(2);
+		await run(page, 'tabs.replace(1, "First again", content("one again"))');
+		await expect(tabs).toHaveText(['Settings', 'First again', 'Second']);
+		await expect(tabs.nth(1)).toHaveAttribute('aria-selected', 'true');
+		await expect(tabs.nth(1)).toHaveAttribute('title', 'First again');
+		await expect(page.getByRole('tabpanel', { name: 'First again' })).toHaveText('one again');
+		await run(page, 'tabs.select(null)');
+		await expect(page.getByRole('tabpanel', { name: 'Settings' })).toBeVisible();
+		expect(await run(page, '[tabs.has(1), tabs.has(3)]')).toEqual([true, false]);
+		// one tab in the tab order, the selected one; the arrows, Home and End move
+		await tabs.first().focus();
+		await page.keyboard.press('ArrowLeft');
+		await expect(tabs.nth(2)).toBeFocused();
+		await expect(tabs.nth(2)).toHaveAttribute('tabindex', '0');
+		await expect(tabs.first()).toHaveAttribute('tabindex', '-1');
+		await page.keyboard.press('Home');
+		await expect(tabs.first()).toBeFocused();
+		await page.keyboard.press('End');
+		await expect(page.getByRole('tabpanel', { name: 'Second' })).toBeVisible();
+	});
+
+	test('close and Delete: the tab before is selected, the focus follows, and the owner hears of it', async ({ page }) => {
+		const list = await mountTabs(page);
+		const tabs = list.getByRole('tab');
+		await run(page, 'tabs.add("First", content("one")); tabs.add("Second", content("two")); tabs.add("Third", content("three"))');
+		await run(page, 'tabs.select(2)');
+		// a close from a button in the panel hands the focus to the tab selected instead
+		await page.getByRole('tabpanel').getByRole('button').focus();
+		await run(page, 'tabs.close(2)');
+		await expect(tabs).toHaveText(['Settings', 'First', 'Third']);
+		await expect(tabs.nth(1)).toHaveAttribute('aria-selected', 'true');
+		await expect(tabs.nth(1)).toBeFocused();
+		await page.keyboard.press('Delete');
+		await expect(tabs).toHaveText(['Settings', 'Third']);
+		await expect(tabs.first()).toBeFocused();
+		// the first tab stays, and a result not selected closes without moving the selection
+		await page.keyboard.press('Delete');
+		await expect(tabs).toHaveText(['Settings', 'Third']);
+		await run(page, 'tabs.close(3)');
+		await expect(tabs).toHaveText(['Settings']);
+		await expect(tabs.first()).toHaveAttribute('aria-selected', 'true');
+		expect(await closed(page)).toEqual([2, 1, 3]);
+	});
+
+	test('a panel hidden with the focus in it hands the focus to the new tab; otherwise the focus stays', async ({ page }) => {
+		const list = await mountTabs(page);
+		const tabs = list.getByRole('tab');
+		await page.getByRole('tabpanel', { name: 'Settings' }).getByRole('button').focus();
+		await run(page, 'tabs.add("First", content("one"))');
+		await expect(tabs.nth(1)).toBeFocused();
+		await page.evaluate(() => /** @type {HTMLElement} */ (document.activeElement)?.blur());
+		await run(page, 'tabs.add("Second", content("two"))');
+		await expect(tabs.nth(2)).toHaveAttribute('aria-selected', 'true');
+		await expect(tabs.nth(2)).not.toBeFocused();
 	});
 });
