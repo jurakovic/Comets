@@ -19,8 +19,10 @@ const METRICS = Object.freeze({ width: (/** @type {string} */ text) => text.leng
  * @param {number} month
  * @param {number} day
  * @param {number} [hour]
+ * @param {number} [minute]
+ * @param {number} [second]
  */
-const utc = (year, month, day, hour = 0) => partsToInstant({ year, month, day, hour, minute: 0, second: 0 });
+const utc = (year, month, day, hour = 0, minute = 0, second = 0) => partsToInstant({ year, month, day, hour, minute, second });
 
 /**
  * a model from Start to End with the value axis fixed from min to max
@@ -150,11 +152,27 @@ test('a narrow chart: a coarse step with a single label, or the coarsest step\'s
 	assert.deepEqual(timeLabels(model(utc(2010, 1, 1), utc(2030, 1, 1)), 120), ['01 Jan 2020']);
 });
 
+test('a step with no tick in the span is passed over: the coarsest step with ticks is thinned', () => {
+	// every 2 days (17 and 19 October) is the coarsest step with a tick; every 5 days starts on
+	// the 16th and the 21st
+	assert.deepEqual(timeLabels(model(utc(2026, 10, 17), utc(2026, 10, 19)), 240), ['17 Oct 2026 00:00']);
+	assert.deepEqual(timeLabels(model(utc(2026, 10, 17), utc(2026, 10, 20, 12)), 240), ['17 Oct 2026']);
+});
+
+test('a span with no tick on any step: Start alone', () => {
+	const m = model(utc(2026, 10, 17, 10, 0, 10), utc(2026, 10, 17, 10, 0, 50));
+	const { timeTicks, area } = graphLayout(m, { width: 800, height: 400 }, METRICS);
+	assert.deepEqual(timeTicks.map(tick => [tick.x, tick.label]), [[area.left, '17 Oct 2026 10:00']]);
+});
+
 test('at any width the time labels are on the axis, apart, and each date once', () => {
 	const spans = [
 		[utc(2026, 1, 1), utc(2026, 1, 1, 1)], [utc(2026, 1, 1), utc(2026, 1, 3)], [utc(2026, 1, 1), utc(2026, 1, 4)],
 		[utc(2026, 1, 1), utc(2026, 1, 11)], [utc(2026, 1, 1), utc(2026, 4, 11)], [utc(2026, 1, 1), utc(2027, 1, 1)],
-		[utc(2026, 1, 1), utc(2033, 5, 1)], [utc(2000, 1, 1), utc(2040, 1, 1)], [utc(1800, 1, 1), utc(2098, 12, 31)]
+		[utc(2026, 1, 1), utc(2033, 5, 1)], [utc(2000, 1, 1), utc(2040, 1, 1)], [utc(1800, 1, 1), utc(2098, 12, 31)],
+		// spans that start between the ticks of the coarser steps
+		[utc(2026, 10, 17), utc(2026, 10, 19)], [utc(2026, 10, 17), utc(2026, 10, 20, 12)], [utc(2026, 3, 7, 5, 23), utc(2026, 3, 7, 9, 41)],
+		[utc(2026, 10, 17, 10, 0, 10), utc(2026, 10, 17, 10, 0, 50)], [utc(2026, 5, 13, 7), utc(2028, 2, 3)], [utc(1913, 6, 9), utc(2207, 2, 1)]
 	];
 	for (const [start, end] of spans) {
 		for (const width of [240, 412, 800, 1280, 2560]) {

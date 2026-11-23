@@ -1,5 +1,6 @@
 // The graph's layout on a chart of a given size: the plot area, where the titles go, and the ticks
 // of both axes with the labels that fit, for a renderer to draw and the hit test to share.
+import { roundEven } from '../../lib/math.js';
 import { compileDateFormat } from '../format/dates.js';
 import { addMonths, addYears, DAY_MS, daysInMonth, instantToParts, partsToInstant } from '../time/calendar.js';
 import { instantToJd } from '../time/julian.js';
@@ -157,27 +158,47 @@ const TIME_STEPS = Object.freeze(/** @type {TimeStep[]} */ ([
 /** @typedef {TimeTick & { width: number }} MeasuredTick */
 
 /**
- * the ticks of one step from Start to End, each label kept on the chart
+ * where the labels go: the axis' x of a JD, the label format, the label font, the chart's width
+ * @typedef {object} TickPlace
+ * @property {(jd: number) => number} x
+ * @property {(parts: import('../time/calendar.js').DateParts) => string} format
+ * @property {TextMetrics} metrics
+ * @property {number} chartWidth
+ */
+
+/**
+ * Start, the whole second the axis begins at
+ * @param {GraphModel['timeAxis']} axis
+ */
+const startOf = axis => roundEven(((axis.min - EPOCH_JD) * DAY_MS) / 1000) * 1000;
+
+/**
+ * a tick at an instant, its label kept on the chart
+ * @param {number} instant
+ * @param {TickPlace} place
+ * @returns {MeasuredTick}
+ */
+function tickAt(instant, { x, format, metrics, chartWidth }) {
+	const at = x(instantToJd(instant));
+	const label = format(instantToParts(instant));
+	const width = metrics.width(label);
+	return { x: at, label, labelX: Math.min(Math.max(at, width / 2), chartWidth - width / 2), width };
+}
+
+/**
+ * the ticks of one step from Start to End
  * @param {TimeStep} step
  * @param {GraphModel['timeAxis']} axis
- * @param {(jd: number) => number} x
- * @param {(parts: import('../time/calendar.js').DateParts) => string} format
- * @param {TextMetrics} metrics
- * @param {number} chartWidth
+ * @param {TickPlace} place
  * @returns {MeasuredTick[]}
  */
-function stepTicks({ unit, count }, axis, x, format, metrics, chartWidth) {
+function stepTicks({ unit, count }, axis, place) {
 	const { floor, next } = UNITS[unit];
 	/** @type {MeasuredTick[]} */
 	const ticks = [];
-	let t = floor((axis.min - EPOCH_JD) * DAY_MS, count);
+	let t = floor(startOf(axis), count);
 	while (instantToJd(t) < axis.min) t = next(t, count);
-	for (; instantToJd(t) <= axis.max; t = next(t, count)) {
-		const at = x(instantToJd(t));
-		const label = format(instantToParts(t));
-		const width = metrics.width(label);
-		ticks.push({ x: at, label, labelX: Math.min(Math.max(at, width / 2), chartWidth - width / 2), width });
-	}
+	for (; instantToJd(t) <= axis.max; t = next(t, count)) ticks.push(tickAt(t, place));
 	return ticks;
 }
 
@@ -186,7 +207,7 @@ function stepTicks({ unit, count }, axis, x, format, metrics, chartWidth) {
  * @param {GraphModel['timeAxis']} axis
  * @param {TextMetrics} metrics
  */
-const typicalLabelWidth = (axis, metrics) => metrics.width(compileDateFormat(axis.labelFormat)(instantToParts((axis.min - EPOCH_JD) * DAY_MS)));
+const typicalLabelWidth = (axis, metrics) => metrics.width(compileDateFormat(axis.labelFormat)(instantToParts(startOf(axis))));
 
 /**
  * @param {MeasuredTick} a
@@ -195,9 +216,10 @@ const typicalLabelWidth = (axis, metrics) => metrics.width(compileDateFormat(axi
 const apart = (a, b) => b.labelX - b.width / 2 - (a.labelX + a.width / 2) >= LABEL_GAP;
 
 /**
- * the time axis' ticks: those of the finest step whose labels all fit side by side, no finer than
- * the label format tells apart; when none fits, the coarsest step's, each kept when its label
- * clears the one kept before it
+ * the time axis' ticks: those of the finest step with ticks in the span whose labels all fit side
+ * by side, no finer than the label format tells apart; when none fits, the coarsest step's with
+ * ticks in the span, each kept when its label clears the one kept before it; Start alone when no
+ * step has a tick in the span
  * @param {GraphModel['timeAxis']} axis
  * @param {PlotArea} area
  * @param {(jd: number) => number} x
@@ -206,20 +228,27 @@ const apart = (a, b) => b.labelX - b.width / 2 - (a.labelX + a.width / 2) >= LAB
  * @returns {MeasuredTick[]}
  */
 function timeTicks(axis, area, x, metrics, chartWidth) {
-	const format = compileDateFormat(axis.labelFormat);
+	/** @type {TickPlace} */
+	const place = { x, format: compileDateFormat(axis.labelFormat), metrics, chartWidth };
 	// a label without the time of day would repeat within a day
 	const steps = axis.labelFormat.includes('HH') ? TIME_STEPS : TIME_STEPS.filter(s => UNITS[s.unit].days >= 1);
 	const typical = typicalLabelWidth(axis, metrics) + LABEL_GAP;
 	const span = axis.max - axis.min;
+	/** @type {MeasuredTick[]} the ticks of the coarsest step so far with any in the span */
+	let coarsest = [];
 	for (const step of steps) {
 		// twice the ticks that could stand side by side cannot fit: not worth making
 		if (span / (UNITS[step.unit].days * step.count) > (2 * area.width) / typical + 2) continue;
-		const ticks = stepTicks(step, axis, x, format, metrics, chartWidth);
+		const ticks = stepTicks(step, axis, place);
+		// a step with no tick in the span leaves the axis bare: no fit
+		if (ticks.length === 0) continue;
 		if (ticks.every((tick, i) => i === 0 || apart(ticks[i - 1], tick))) return ticks;
+		coarsest = ticks;
 	}
+	if (coarsest.length === 0) return [tickAt(startOf(axis), place)];
 	/** @type {MeasuredTick[]} */
 	const kept = [];
-	for (const tick of stepTicks(steps[steps.length - 1], axis, x, format, metrics, chartWidth)) {
+	for (const tick of coarsest) {
 		if (kept.length === 0 || apart(kept[kept.length - 1], tick)) kept.push(tick);
 	}
 	return kept;
