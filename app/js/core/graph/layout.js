@@ -221,7 +221,8 @@ const apart = (a, b) => b.labelX - b.width / 2 - (a.labelX + a.width / 2) >= LAB
  * the time axis' ticks: those of the finest step with ticks in the span whose labels all fit side
  * by side, no finer than the label format tells apart; when none fits, the coarsest step's with
  * ticks in the span, each kept when its label clears the one kept before it; Start alone when no
- * step has a tick in the span
+ * step tried has a tick in the span. A step with more than twice the ticks that could stand side
+ * by side is not tried, so on a very narrow plot none may be
  * @param {GraphModel['timeAxis']} axis
  * @param {PlotArea} area
  * @param {(jd: number) => number} x
@@ -236,7 +237,7 @@ function timeTicks(axis, area, x, metrics, chartWidth) {
 	const steps = axis.labelFormat.includes('HH') ? TIME_STEPS : TIME_STEPS.filter(s => UNITS[s.unit].days >= 1);
 	const typical = typicalLabelWidth(axis, metrics) + LABEL_GAP;
 	const span = axis.max - axis.min;
-	/** @type {MeasuredTick[]} the ticks of the coarsest step so far with any in the span */
+	/** @type {MeasuredTick[]} the ticks of the coarsest step tried so far with any in the span */
 	let coarsest = [];
 	for (const step of steps) {
 		// twice the ticks that could stand side by side cannot fit: not worth making
