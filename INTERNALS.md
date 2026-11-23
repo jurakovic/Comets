@@ -32,7 +32,7 @@ app/                        the web app, served as is (GitHub Pages: /Comets/app
       dom.js                small DOM helpers (el, query, saveFile)
       shell/                router, routes, context, navigation, last update, status area, dialogs, notifications, errors, theme, shortcuts
       components/           number field, date picker and its editor and presets, menu, sort menu, modal, filters panel, comet picker, result tabs
-      views/                one folder per built view (database, ephemeris, update, settings, help), graph/ with the graph chart, and the placeholder view
+      views/                one folder per built view (database, ephemeris, graph, update, settings, help), and the placeholder view
 tests/
   unit/                     node --test, mirroring app/js (lib, core, services with fakes, adapters, ui)
   vectors/                  node --test, one file per vector file
@@ -129,7 +129,7 @@ const database = createDatabaseService({ repository, clock, settings });
 
 Bytes become text in `adapters/text-decoding.js`, as `File.ReadAllLines` reads them: UTF-8, or UTF-16 or UTF-32 by a byte-order mark, which is dropped; invalid bytes become U+FFFD. `TextDecoder` is not in core.
 
-Services never talk to the user; the UI asks every question. The start-up service gives the start-up update question (`updatePrompt`), which the shell asks. Core gives the long-calculation question (`core/ephemeris/settings.js`) and the step counts it depends on, an ephemeris's and a graph's. A view asks its own confirmations before it calls the service: the Database view its delete question (`deleteQuestion`) when its setting is on, the Settings view Clear all data's (`CLEAR_QUESTION`), the Ephemeris view the long-calculation question before it runs its job, when `asksLongCalculation` (`core/ephemeris/form.js`) says so. Services never import the UI.
+Services never talk to the user; the UI asks every question. The start-up service gives the start-up update question (`updatePrompt`), which the shell asks. Core gives the long-calculation question (`core/ephemeris/settings.js`) and the step counts it depends on, an ephemeris's and a graph's. A view asks its own confirmations before it calls the service: the Database view its delete question (`deleteQuestion`) when its setting is on, the Settings view Clear all data's (`CLEAR_QUESTION`), the Ephemeris and Graph views the long-calculation question before they run their job, when `asksLongCalculation` (`core/ephemeris/form.js`, `core/graph/form.js`) says so. Services never import the UI.
 
 ## State and change
 
@@ -187,7 +187,8 @@ Ephemerides and graphs over many comets run off the main thread.
 | `settings` | `views/settings/`: every setting, saved as it changes (the update interval together with automatic update, which needs it); the location with its hemispheres and Use my location; Export database (the stored text, downloaded with `saveFile`) and Clear all data |
 | `help` | `views/help/`: the controls from the command registry, and About |
 | `ephemeris` | `views/ephemeris/`: the settings form (`ephemeris-form.js`: the comet picker, Start and End, the interval, the output data and the requirements, each error by its field) in the first of the result tabs, and a tab per result with Edit settings, Save, Copy and Close. The form is made when the view is first opened, from a copy of the app-wide selection as it is then, the brightest chosen, and the default settings; it does not follow the app-wide selection afterwards, and New ephemeris goes back to this form as it was left, not to a fresh copy. Calculate validates, asks the long-calculation question, and runs the `ephemeris` job through the jobs service, whose progress and Cancel the status area shows; the form has its own Cancel. The result opens in a new tab, or replaces the tab whose Edit settings filled the form, which then shows the new form again as it was before; so does closing that tab. The form's list was read over one database, and is read again over the database as it is (`pickerListOver`) whenever the view is shown or the database changes while it is shown, and so is the list of the kept new form or of a result when New ephemeris or Edit settings brings it back. The text keeps its TABs and does not wrap; Save (`Ctrl/⌘+S`) downloads it with CRLF line endings, Copy puts it on the clipboard with LF ones |
-| `graph`, `orbit`, `elements` | `placeholder-view.js`: the title and "Not built yet." |
+| `graph` | `views/graph/`: the settings form (`graph-form.js`: the comet picker, Start and End, the chart type, the chart options with their colours, and the value range, each error by its field) in the first of the result tabs, and a tab per result with its chart (`graph-chart.js`), Edit settings, Save, Save as JPEG and Close. The form is made, kept while a result is edited, filled by Edit settings, and its picker's list read again over the database, as the Ephemeris view's is; New graph goes back to the kept form. Calculate validates, asks the long-calculation question, and runs the `graph` job, with the JD of now, through the jobs service, whose progress and Cancel the status area shows; the form has its own Cancel. The result opens in a new tab, or replaces the tab being edited, whose chart is then destroyed, as a closed tab's is. Save (`Ctrl/⌘+S`) downloads the chart's image as a PNG, Save as JPEG as a JPEG, named in local time |
+| `orbit`, `elements` | `placeholder-view.js`: the title and "Not built yet." |
 
 ### How the UI is written
 
@@ -216,7 +217,7 @@ Ephemerides and graphs over many comets run off the main thread.
 | Unit | `node --test "tests/unit/**/*.test.js"` | `lib/`, `core/`, `services/` with fakes from `tests/helpers/fakes.js`, the adapters with fake storage and fetch, the router's and shortcuts' pure parts |
 | Vectors | `node --test "tests/vectors/**/*.test.js"` | every file of `tests/vectors/data` within its [tolerances](#tolerances); the ephemeris and graph jobs also through the `rpc` protocol |
 | End to end | Playwright: `npm run test:e2e` | the app in Chromium on a desktop and a Pixel 7, offline |
-| Screenshots | Playwright: `npm run screenshots` | every view in both themes at desktop and phone size over the sample collection at a fixed instant, with the empty database, the Orbital elements tab, the filters panel, the Update preview, the import result browser, and the Ephemeris view's errors and a result, written to `test-results/screenshots/` |
+| Screenshots | Playwright: `npm run screenshots` | every view in both themes at desktop and phone size over the sample collection at a fixed instant, with the empty database, the Orbital elements tab, the filters panel, the Update preview, the import result browser, and the Ephemeris and Graph views' errors and a result, written to `test-results/screenshots/` |
 
 `npm test` runs the unit and vector tests, and `npm run check` lint, the three type checks, the unit and vector tests and the browser tests. `node --test` takes files and globs, not a folder.
 

@@ -224,6 +224,7 @@ test('automatic mode from the start-up question: the download at once, no local 
 
 test('the dialog stays over the view it was opened from; Esc and Close go back to it', async ({ page }) => {
 	await page.goto('./#/graph');
+	await expect(page.locator('[data-view="graph"]')).toBeVisible();
 	await page.locator('.shell-nav a[href="#/update"]').click();
 	const dialog = dialogOf(page);
 	await expect(dialog).toBeVisible();
@@ -252,6 +253,7 @@ test('Yes to the start-up question over an open dialog: Close goes back to the v
 	await holdDatabase(page);
 	await page.goto('./#/graph');
 	await page.reload();
+	await expect(page.locator('[data-view="graph"]')).toBeVisible();
 	await page.locator('.shell-nav a[href="#/update"]').click();
 	const dialog = dialogOf(page);
 	await expect(dialog.getByLabel('Choose file')).toBeEnabled();

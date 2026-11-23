@@ -32,14 +32,15 @@ export { canCalculate, cometsOf } from '../ephemeris/form.js';
  * an image a graph saves as
  * @typedef {object} ImageFormat
  * @property {string} key
+ * @property {string} label the action that saves in it
  * @property {string} type the media type a canvas encodes
  * @property {string} extension of the file, without its dot
  */
 
-/** the formats a graph saves as: PNG, which Save and `Ctrl/⌘+S` write, or JPEG */
+/** the formats a graph saves as: PNG first, which `Ctrl/⌘+S` writes too, or JPEG */
 export const IMAGE_FORMATS = Object.freeze(/** @type {ImageFormat[]} */ ([
-	{ key: 'png', type: 'image/png', extension: 'png' },
-	{ key: 'jpeg', type: 'image/jpeg', extension: 'jpg' }
+	{ key: 'png', label: 'Save', type: 'image/png', extension: 'png' },
+	{ key: 'jpeg', label: 'Save as JPEG', type: 'image/jpeg', extension: 'jpg' }
 ]).map(format => Object.freeze(format)));
 
 /** a saved graph's name, before its time stamp (`FormGraph.Save`) */

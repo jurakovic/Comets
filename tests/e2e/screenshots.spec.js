@@ -1,7 +1,7 @@
 // Every view in both themes, at desktop and phone size, over the sample collection with the clock
 // held at the vectors' instant; and the empty database, the Orbital elements tab, the filters panel,
-// the Update preview, the import result browser, and the Ephemeris view's errors and a result.
-// Written to test-results/screenshots/.
+// the Update preview, the import result browser, and the Ephemeris and Graph views' errors and a
+// result. Written to test-results/screenshots/.
 import { readFileSync } from 'node:fs';
 import { expect, seed, test, VIEWS } from './fixtures.js';
 
@@ -99,6 +99,34 @@ for (const theme of /** @type {const} */ (['light', 'dark'])) {
 			await view.getByRole('button', { name: 'Calculate' }).click();
 			await expect(view.getByRole('tab', { name: 'Ephemeris - C/2026 T99 (Parabola Test)' })).toHaveAttribute('aria-selected', 'true');
 			await shot(page, 'ephemeris-result');
+		});
+
+		test(`the Graph view's errors and a result, ${theme}, ${size}`, async ({ page }) => {
+			await prepare(page);
+			await seedSample(page);
+			await page.goto('./#/graph');
+			const view = page.locator('[data-view="graph"]');
+			await expect(view.getByRole('combobox', { name: 'Comet' }).getByRole('option')).toHaveCount(35);
+			// Minimum not below Maximum, and End before Start
+			await view.getByRole('textbox', { name: 'Minimum' }).fill('12');
+			await view.getByRole('group', { name: 'End', exact: true }).getByRole('button', { name: 'Date presets' }).click();
+			await page.getByRole('menu', { name: 'Date presets' }).getByRole('menuitem', { name: 'Subtract 1 year' }).click();
+			await view.getByRole('button', { name: 'Calculate' }).click();
+			await expect(view.getByRole('alert')).toHaveCount(2);
+			await shot(page, 'graph-errors');
+			await view.getByRole('textbox', { name: 'Minimum' }).fill('');
+			await view.getByRole('group', { name: 'End', exact: true }).getByRole('button', { name: 'Date presets' }).click();
+			await page.getByRole('menu', { name: 'Date presets' }).getByRole('menuitem', { name: 'Default' }).click();
+			// 12P's Sun distance from a year before its perihelion, with its line and the now line
+			await view.getByRole('combobox', { name: 'Comet' }).selectOption({ label: '12P/Pons-Brooks' });
+			await view.getByRole('radio', { name: 'Sun distance' }).check();
+			for (const preset of ['Perihelion Date', 'Subtract 1 year']) {
+				await view.getByRole('group', { name: 'Start', exact: true }).getByRole('button', { name: 'Date presets' }).click();
+				await page.getByRole('menu', { name: 'Date presets' }).getByRole('menuitem', { name: preset }).click();
+			}
+			await view.getByRole('button', { name: 'Calculate' }).click();
+			await expect(view.getByRole('img', { name: 'Sun distance (AU), 12P/Pons-Brooks' })).toBeVisible();
+			await shot(page, 'graph-result');
 		});
 
 		test(`the Update preview and the import result browser, ${theme}, ${size}`, async ({ page }) => {

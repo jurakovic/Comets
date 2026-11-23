@@ -95,6 +95,6 @@ test('the input: the comets, their Tn, the settings, the mode, the observer\'s c
 
 test('a saved graph\'s name: Comets_Graph_, the local time and the format\'s extension', () => {
 	const local = { year: 2026, month: 10, day: 18, hour: 14, minute: 5, second: 1 };
-	assert.deepEqual(IMAGE_FORMATS.map(f => [f.key, f.type]), [['png', 'image/png'], ['jpeg', 'image/jpeg']]);
+	assert.deepEqual(IMAGE_FORMATS.map(f => [f.key, f.label, f.type]), [['png', 'Save', 'image/png'], ['jpeg', 'Save as JPEG', 'image/jpeg']]);
 	assert.deepEqual(IMAGE_FORMATS.map(f => graphFileName(local, f)), ['Comets_Graph_2026-10-18_140501.png', 'Comets_Graph_2026-10-18_140501.jpg']);
 });

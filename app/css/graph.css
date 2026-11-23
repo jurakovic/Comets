@@ -1,4 +1,171 @@
-/* The graph chart: its canvas fills the box its owner gives it, and the tooltip floats over it. */
+/* The Graph view: the settings form in the first tab, its groups side by side where they fit, and
+   each result's chart, which fills the rest of its tab; then the graph chart itself, whose canvas
+   fills the box its owner gives it, with the tooltip floating over it. */
+.graph-view {
+	display: grid;
+	grid-template-rows: auto minmax(0, 1fr);
+	gap: var(--space-3);
+	height: 100%;
+	min-height: 420px;
+}
+
+.graph-view h1 {
+	margin: 0;
+	font-size: 22px;
+}
+
+.graph-form {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-3);
+}
+
+.graph-form__groups {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-start;
+	gap: var(--space-3);
+}
+
+.graph-form__group {
+	min-width: 0;
+	margin: 0;
+	padding: var(--space-2) var(--space-3) var(--space-3);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius);
+}
+
+.graph-form__group legend {
+	padding: 0 var(--space-1);
+	color: var(--color-muted);
+}
+
+.graph-form__group--comet {
+	flex: 1 1 100%;
+}
+
+.graph-form__group--type {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-2);
+}
+
+.graph-form__row {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--space-2);
+}
+
+.graph-form__row + .graph-form__row {
+	margin-top: var(--space-2);
+}
+
+.graph-form__label {
+	min-width: 3rem;
+}
+
+.graph-form__check {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--space-2);
+}
+
+.graph-form__box {
+	width: 16px;
+	height: 16px;
+	margin: 0;
+	accent-color: var(--color-accent);
+}
+
+/* a line's checkbox, or the value's label, then its colour; an end of the range, then its field */
+.graph-form__line,
+.graph-form__limit {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: center;
+	gap: var(--space-1) var(--space-4);
+}
+
+.graph-form__line + .graph-form__line,
+.graph-form__limit + .graph-form__limit {
+	margin-top: var(--space-2);
+}
+
+/* the value's label, which has no box, in line with the boxes' labels */
+.graph-form__line > span.graph-form__check {
+	padding-left: calc(16px + var(--space-2));
+}
+
+.graph-form__colour {
+	width: 44px;
+	height: 28px;
+	padding: 2px;
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius);
+	background: var(--color-bg);
+	cursor: pointer;
+}
+
+.graph-form__value {
+	width: 7ch;
+	text-align: right;
+}
+
+.graph-form__error {
+	grid-column: 1 / -1;
+	flex-basis: 100%;
+	margin: 0;
+	color: var(--color-error);
+}
+
+.graph-form__editing {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--space-2);
+	margin: 0;
+}
+
+.graph-form__actions {
+	display: flex;
+	gap: var(--space-2);
+}
+
+.graph-view__result {
+	display: grid;
+	grid-template-rows: auto minmax(0, 1fr);
+	gap: var(--space-2);
+	height: 100%;
+}
+
+.graph-view__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-2);
+}
+
+.graph-view__chart {
+	min-height: 0;
+	overflow: hidden;
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius);
+}
+
+@media (width < 720px) {
+	.graph-view {
+		height: auto;
+	}
+
+	.graph-form__group {
+		flex: 1 1 100%;
+	}
+
+	.graph-view__chart {
+		height: 70vh;
+	}
+}
+
 .graph-chart {
 	position: relative;
 	height: 100%;
