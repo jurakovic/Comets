@@ -6,7 +6,7 @@ import { fieldValue } from '../../../../app/js/core/comets/properties.js';
 import { importElements } from '../../../../app/js/core/formats/import.js';
 import {
 	ALL_COMETS, allCometsLabel, choiceAt, cometTooltip, entryIndex, filterPickerList, NO_CHOICE, perihelionDate,
-	pickerEntries, rebindChoice, sortPickerList
+	pickerEntries, pickerListOver, rebindChoice, sortPickerList
 } from '../../../../app/js/core/input/comet-picker.js';
 import { jdToInstant } from '../../../../app/js/core/time/julian.js';
 import { readVector, readVectorText } from '../../../helpers/vectors.js';
@@ -84,6 +84,23 @@ test('a filter runs over the whole database, in database order through the picke
 	const all = filterPickerList(database, [createFilter('full')], byDesignation, value);
 	assert.ok(all.ok);
 	assert.equal(fullNames(all.value.comets), 'abcd');
+});
+
+test('a changed database: the list again from its own filters, in database order through its sort', () => {
+	const filters = Object.freeze([createFilter('q', { checked: true, text: '2.5', compare: 'lessThan' })]);
+	const descending = Object.freeze({ property: 'q', ascending: false });
+	const list = Object.freeze({ comets: Object.freeze([c, b]), filters, sort: descending });
+	// d is new, b's record was replaced by an equal one, and c was deleted
+	const twin = comet('b', 1);
+	const relisted = pickerListOver(list, [d, a, twin], value);
+	assert.deepEqual(relisted.comets, [d, twin]);
+	assert.equal(relisted.comets[1], twin);
+	assert.equal(relisted.filters, filters);
+	assert.equal(relisted.sort, descending);
+	assert.ok(Object.isFrozen(relisted));
+	assert.deepEqual(pickerListOver(list, [], value).comets, []);
+	// the default rows check nothing: the whole database
+	assert.equal(fullNames(pickerListOver({ ...list, filters: [createFilter('full')] }, [d, c, a], value).comets), 'acd');
 });
 
 test('rows that do not validate give their error, by its row', () => {

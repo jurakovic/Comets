@@ -89,7 +89,7 @@ The domain is **plain data and functions**:
 | `core/ephemeris/` | ephemeris settings (defaults, validation, the long-calculation count, the title), the timespan and its steps, the output columns, the calculation, the text output |
 | `core/graph/` | graph settings and chart types, sampling, the **graph model** (axes, series, perihelion and now lines, title) a renderer draws and the vectors check, hover hit-testing |
 | `core/orbit/` | the orbit viewer's simulation steps: the step menu and the single steps |
-| `core/input/` | the rules of the shared input components: what a number field accepts and how `↑`/`↓` step it; the date picker's fields (the day fitted to the month), texts, JD field, clamp and presets; the location's latitude and longitude fields; the filters panel's rows, each edit of them and the filters they give; the comet picker's entries and the choice each makes, its own list filtered over the database and sorted, the choice kept across a new list, the chosen comet's tooltip and perihelion date |
+| `core/input/` | the rules of the shared input components: what a number field accepts and how `↑`/`↓` step it; the date picker's fields (the day fitted to the month), texts, JD field, clamp and presets; the location's latitude and longitude fields; the filters panel's rows, each edit of them and the filters they give; the comet picker's entries and the choice each makes, its own list filtered over the database and sorted, and read again over a changed database, the choice kept across a new list, the chosen comet's tooltip and perihelion date |
 
 ### Matching the desktop
 

@@ -1,6 +1,7 @@
 // The comet picker's rules (`SelectCometControl`): the combo box's entries, `[ALL COMETS (n)]`
 // first, and the choice each makes; the picker's own list, filtered over the whole database and
-// sorted; the choice kept across a new list; the chosen comet's tooltip and its perihelion date.
+// sorted, and read again when the database changes; the choice kept across a new list; the chosen
+// comet's tooltip and its perihelion date.
 import { applyFilters, validateFilters } from '../comets/filter.js';
 import { rebindSelection } from '../comets/selection.js';
 import { sortComets } from '../comets/sort.js';
@@ -137,6 +138,19 @@ export function filterPickerList(database, filters, sort, value) {
 		filters: Object.freeze([...filters]),
 		sort
 	}));
+}
+
+/**
+ * the picker's list read again over a database that has changed (the load, an import, a deletion,
+ * Clear all data): its own filters, which validated when they were applied, over the new database
+ * in database order through its sort, so that it offers the database's own records
+ * @param {Readonly<PickerList>} list
+ * @param {ReadonlyArray<Comet>} database the main collection as it is now
+ * @param {ValueAccessor} value
+ * @returns {Readonly<PickerList>}
+ */
+export function pickerListOver(list, database, value) {
+	return Object.freeze({ ...list, comets: sortComets(applyFilters(database, list.filters, value), list.sort, value) });
 }
 
 /**
