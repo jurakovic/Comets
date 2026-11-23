@@ -1,6 +1,7 @@
 // Every view in both themes, at desktop and phone size, over the sample collection with the clock
 // held at the vectors' instant; and the empty database, the Orbital elements tab, the filters panel,
-// the Update preview and the import result browser. Written to test-results/screenshots/.
+// the Update preview, the import result browser, and the Ephemeris view's errors and a result.
+// Written to test-results/screenshots/.
 import { readFileSync } from 'node:fs';
 import { expect, seed, test, VIEWS } from './fixtures.js';
 
@@ -77,6 +78,27 @@ for (const theme of /** @type {const} */ (['light', 'dark'])) {
 			await expect(panel.getByRole('alert')).toHaveText('Please enter value for "Current magnitude"');
 			await expect(view.getByRole('heading', { level: 1 })).toHaveText(/^Database \(\d+\/34 comets\)$/);
 			await shot(page, 'database-filters');
+		});
+
+		test(`the Ephemeris view's errors and a result, ${theme}, ${size}`, async ({ page }) => {
+			await prepare(page);
+			await seedSample(page);
+			await page.goto('./#/ephemeris');
+			const view = page.locator('[data-view="ephemeris"]');
+			await expect(view.getByRole('combobox', { name: 'Comet' }).getByRole('option')).toHaveCount(35);
+			// a requirement checked without a value, and End before Start
+			await view.getByRole('checkbox', { name: 'Max Sun distance' }).check();
+			await view.getByRole('group', { name: 'End', exact: true }).getByRole('button', { name: 'Date presets' }).click();
+			await page.getByRole('menu', { name: 'Date presets' }).getByRole('menuitem', { name: 'Subtract 1 year' }).click();
+			await view.getByRole('button', { name: 'Calculate' }).click();
+			await expect(view.getByRole('alert')).toHaveCount(2);
+			await shot(page, 'ephemeris-errors');
+			await view.getByRole('checkbox', { name: 'Max Sun distance' }).uncheck();
+			await view.getByRole('group', { name: 'End', exact: true }).getByRole('button', { name: 'Date presets' }).click();
+			await page.getByRole('menu', { name: 'Date presets' }).getByRole('menuitem', { name: 'Default' }).click();
+			await view.getByRole('button', { name: 'Calculate' }).click();
+			await expect(view.getByRole('tab', { name: 'Ephemeris - C/2026 T99 (Parabola Test)' })).toHaveAttribute('aria-selected', 'true');
+			await shot(page, 'ephemeris-result');
 		});
 
 		test(`the Update preview and the import result browser, ${theme}, ${size}`, async ({ page }) => {
