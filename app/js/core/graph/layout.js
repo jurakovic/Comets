@@ -196,6 +196,8 @@ function stepTicks({ unit, count }, axis, place) {
 	const { floor, next } = UNITS[unit];
 	/** @type {MeasuredTick[]} */
 	const ticks = [];
+	// ticks and labels in the proleptic Gregorian calendar, as Start and End are given, where the
+	// desktop's axis and the tooltips show JDToDateTime's Julian dates before 1582-10-15
 	let t = floor(startOf(axis), count);
 	while (instantToJd(t) < axis.min) t = next(t, count);
 	for (; instantToJd(t) <= axis.max; t = next(t, count)) ticks.push(tickAt(t, place));
