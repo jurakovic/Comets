@@ -1,0 +1,175 @@
+/* The Ephemeris view: the settings form in the first tab, its groups side by side where they fit,
+   and each result's text, which scrolls in its own box. */
+.ephemeris-view {
+	display: grid;
+	grid-template-rows: auto minmax(0, 1fr);
+	gap: var(--space-3);
+	height: 100%;
+	min-height: 420px;
+}
+
+.ephemeris-view h1 {
+	margin: 0;
+	font-size: 22px;
+}
+
+.ephemeris-form {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-3);
+}
+
+.ephemeris-form__groups {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-start;
+	gap: var(--space-3);
+}
+
+.ephemeris-form__group {
+	min-width: 0;
+	margin: 0;
+	padding: var(--space-2) var(--space-3) var(--space-3);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius);
+}
+
+.ephemeris-form__group legend {
+	padding: 0 var(--space-1);
+	color: var(--color-muted);
+}
+
+.ephemeris-form__group--comet {
+	flex: 1 1 100%;
+}
+
+.ephemeris-form__row {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--space-2);
+}
+
+.ephemeris-form__row + .ephemeris-form__row {
+	margin-top: var(--space-2);
+}
+
+.ephemeris-form__label {
+	min-width: 3rem;
+}
+
+.ephemeris-form__part-label {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--space-1);
+}
+
+.ephemeris-form__part {
+	width: 6ch;
+}
+
+.ephemeris-form__times {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-1) var(--space-4);
+	margin-bottom: var(--space-2);
+}
+
+.ephemeris-form__columns {
+	display: grid;
+	grid-template-columns: repeat(2, max-content);
+	gap: var(--space-1) var(--space-4);
+}
+
+.ephemeris-form__check {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--space-2);
+}
+
+.ephemeris-form__box {
+	width: 16px;
+	height: 16px;
+	margin: 0;
+	accent-color: var(--color-accent);
+}
+
+.ephemeris-form__requirement {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: center;
+	gap: var(--space-1) var(--space-4);
+}
+
+.ephemeris-form__requirement + .ephemeris-form__requirement {
+	margin-top: var(--space-2);
+}
+
+.ephemeris-form__value {
+	width: 7ch;
+	text-align: right;
+}
+
+.ephemeris-form__error {
+	flex-basis: 100%;
+	grid-column: 1 / -1;
+	margin: 0;
+	color: var(--color-error);
+}
+
+.ephemeris-form__editing {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--space-2);
+	margin: 0;
+}
+
+.ephemeris-form__actions {
+	display: flex;
+	gap: var(--space-2);
+}
+
+.ephemeris-view__result {
+	display: grid;
+	grid-template-rows: auto minmax(0, 1fr);
+	gap: var(--space-2);
+	height: 100%;
+}
+
+.ephemeris-view__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-2);
+}
+
+.ephemeris-view__text {
+	min-height: 0;
+	margin: 0;
+	padding: var(--space-2) var(--space-3);
+	overflow: auto;
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius);
+	background: var(--color-surface);
+	font: 13px/1.4 var(--font-mono);
+	tab-size: 8;
+	white-space: pre;
+}
+
+.ephemeris-view__text:focus-visible {
+	outline-offset: -2px;
+}
+
+@media (width < 720px) {
+	.ephemeris-view {
+		height: auto;
+	}
+
+	.ephemeris-form__group {
+		flex: 1 1 100%;
+	}
+
+	.ephemeris-view__text {
+		max-height: 70vh;
+	}
+}

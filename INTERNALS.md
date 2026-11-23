@@ -32,7 +32,7 @@ app/                        the web app, served as is (GitHub Pages: /Comets/app
       dom.js                small DOM helpers (el, query, saveFile)
       shell/                router, routes, context, navigation, last update, status area, dialogs, notifications, errors, theme, shortcuts
       components/           number field, date picker and its editor and presets, menu, sort menu, modal, filters panel, comet picker, result tabs
-      views/                one folder per built view (database, update, settings, help), and the placeholder view
+      views/                one folder per built view (database, ephemeris, update, settings, help), and the placeholder view
 tests/
   unit/                     node --test, mirroring app/js (lib, core, services with fakes, adapters, ui)
   vectors/                  node --test, one file per vector file
@@ -129,7 +129,7 @@ const database = createDatabaseService({ repository, clock, settings });
 
 Bytes become text in `adapters/text-decoding.js`, as `File.ReadAllLines` reads them: UTF-8, or UTF-16 or UTF-32 by a byte-order mark, which is dropped; invalid bytes become U+FFFD. `TextDecoder` is not in core.
 
-Services never talk to the user; the UI asks every question. The start-up service gives the start-up update question (`updatePrompt`), which the shell asks. Core gives the long-calculation question (`core/ephemeris/settings.js`) and the step counts it depends on, an ephemeris's and a graph's, which no view asks. A view asks its own confirmations before it calls the service: the Database view its delete question (`deleteQuestion`) when its setting is on, the Settings view Clear all data's (`CLEAR_QUESTION`). Services never import the UI.
+Services never talk to the user; the UI asks every question. The start-up service gives the start-up update question (`updatePrompt`), which the shell asks. Core gives the long-calculation question (`core/ephemeris/settings.js`) and the step counts it depends on, an ephemeris's and a graph's. A view asks its own confirmations before it calls the service: the Database view its delete question (`deleteQuestion`) when its setting is on, the Settings view Clear all data's (`CLEAR_QUESTION`), the Ephemeris view the long-calculation question before it runs its job, when `asksLongCalculation` (`core/ephemeris/form.js`) says so. Services never import the UI.
 
 ## State and change
 
@@ -186,7 +186,8 @@ Ephemerides and graphs over many comets run off the main thread.
 | `update` | `views/update/`: the Update dialog over the current view (download, local file by chooser or drop, preview, Import), and the import result browser, a dialog over it that reuses the Database view's details |
 | `settings` | `views/settings/`: every setting, saved as it changes (the update interval together with automatic update, which needs it); the location with its hemispheres and Use my location; Export database (the stored text, downloaded with `saveFile`) and Clear all data |
 | `help` | `views/help/`: the controls from the command registry, and About |
-| `ephemeris`, `graph`, `orbit`, `elements` | `placeholder-view.js`: the title and "Not built yet." |
+| `ephemeris` | `views/ephemeris/`: the settings form (`ephemeris-form.js`: the comet picker, Start and End, the interval, the output data and the requirements, each error by its field) in the first of the result tabs, and a tab per result with Edit settings, Save, Copy and Close. A new form starts from a copy of the app-wide selection, the brightest chosen, and the default settings. Calculate validates, asks the long-calculation question, and runs the `ephemeris` job through the jobs service, whose progress and Cancel the status area shows; the form has its own Cancel. The result opens in a new tab, or replaces the tab whose Edit settings filled the form, which then shows the new form again as it was before; so does closing that tab. The form's list was read over one database, and is read again over the database as it is (`pickerListOver`) whenever the view is shown or the database changes while it is shown, the list a result was calculated from too when Edit settings shows it. The text keeps its TABs and does not wrap; Save (`Ctrl/⌘+S`) downloads it with CRLF line endings, Copy puts it on the clipboard with LF ones |
+| `graph`, `orbit`, `elements` | `placeholder-view.js`: the title and "Not built yet." |
 
 ### How the UI is written
 
