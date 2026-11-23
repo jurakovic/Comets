@@ -1,9 +1,10 @@
-// The Ephemeris view's settings form: the texts its fields show for settings and the settings they
+// The Ephemeris view's settings form: what its fields show for settings and the settings they
 // give, when Calculate can run and asks first, what it calculates, and a result's file name.
 import { stampedFileName } from '../format/dates.js';
 import { numberOf } from '../input/number.js';
 import { cometsToCalculate } from './calculation.js';
-import { calculationSteps, LONG_CALCULATION_STEPS } from './settings.js';
+import { COLUMNS } from './columns.js';
+import { calculationSteps, LONG_CALCULATION_STEPS, REQUIREMENTS } from './settings.js';
 
 /** @typedef {import('./settings.js').EphemerisSettings} EphemerisSettings */
 /** @typedef {import('./settings.js').Interval} Interval */
@@ -67,6 +68,53 @@ export function requirementOf(checked, text) {
  */
 export function typedRequirement(text) {
 	return requirementOf(text.length > 0, text);
+}
+
+/**
+ * what the form's fields hold: the dates, the interval's texts, the time column, the columns, and
+ * each requirement's checkbox and text
+ * @typedef {object} EphemerisFields
+ * @property {number} start UTC milliseconds
+ * @property {number} end UTC milliseconds
+ * @property {Readonly<Record<keyof Interval, string>>} interval
+ * @property {boolean} localTime
+ * @property {Readonly<Record<string, boolean>>} columns by column key
+ * @property {Readonly<Record<string, Readonly<{ checked: boolean, text: string }>>>} requirements by requirement key
+ */
+
+/**
+ * the fields that show settings
+ * @param {EphemerisSettings} settings
+ * @returns {Readonly<EphemerisFields>}
+ */
+export function fieldsOf({ start, end, interval, localTime, columns, requirements }) {
+	return Object.freeze({
+		start,
+		end,
+		interval: Object.freeze({ days: fieldText(interval.days), hours: fieldText(interval.hours), minutes: fieldText(interval.minutes) }),
+		localTime,
+		columns: Object.freeze({ ...columns }),
+		requirements: Object.freeze(Object.fromEntries(REQUIREMENTS.map(({ key }) => {
+			const { checked, value } = requirements[key];
+			return [key, Object.freeze({ checked, text: fieldText(value) })];
+		})))
+	});
+}
+
+/**
+ * the settings the fields give, to validate
+ * @param {Readonly<EphemerisFields>} fields
+ * @returns {EphemerisSettings}
+ */
+export function settingsOf({ start, end, interval, localTime, columns, requirements }) {
+	return Object.freeze({
+		start,
+		end,
+		interval: intervalOf(interval),
+		localTime,
+		columns: Object.freeze(Object.fromEntries(COLUMNS.map(({ key }) => [key, columns[key]]))),
+		requirements: Object.freeze(Object.fromEntries(REQUIREMENTS.map(({ key }) => [key, requirementOf(requirements[key].checked, requirements[key].text)])))
+	});
 }
 
 /**

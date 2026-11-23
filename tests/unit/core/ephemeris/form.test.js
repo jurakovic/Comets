@@ -2,8 +2,8 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { createComet } from '../../../../app/js/core/comets/comet.js';
 import {
-	asksLongCalculation, calculationInput, canCalculate, cometsOf, ephemerisFileName, fieldText, INTERVAL_FIELDS, intervalOf,
-	requirementOf, typedRequirement
+	asksLongCalculation, calculationInput, canCalculate, cometsOf, ephemerisFileName, fieldsOf, fieldText, INTERVAL_FIELDS, intervalOf,
+	requirementOf, settingsOf, typedRequirement
 } from '../../../../app/js/core/ephemeris/form.js';
 import { defaultEphemerisSettings, INTERVAL_INPUT, LONG_CALCULATION_STEPS } from '../../../../app/js/core/ephemeris/settings.js';
 import { ALL_COMETS, NO_CHOICE } from '../../../../app/js/core/input/comet-picker.js';
@@ -42,6 +42,35 @@ test('a requirement: its box and its field, no value while empty; typing checks 
 	assert.deepEqual({ ...typedRequirement('9.9') }, { checked: true, value: 9.9 });
 	assert.deepEqual({ ...typedRequirement('.') }, { checked: true, value: 0 });
 	assert.deepEqual({ ...typedRequirement('') }, { checked: false, value: null });
+});
+
+test('the fields of settings, and the settings of fields, both ways', () => {
+	const settings = defaultEphemerisSettings(Date.UTC(2026, 9, 18, 12));
+	const fields = fieldsOf(settings);
+	assert.deepEqual(JSON.parse(JSON.stringify(fields)), {
+		start: Date.UTC(2026, 8, 1),
+		end: Date.UTC(2027, 2, 1),
+		interval: { days: '1', hours: '0', minutes: '0' },
+		localTime: true,
+		columns: { RA: true, Dec: true, Alt: true, Az: true, EcLon: false, EcLat: false, Elongation: true, SunDist: true, EarthDist: true, Magnitude: true },
+		requirements: { maxSunDist: { checked: false, text: '' }, maxEarthDist: { checked: false, text: '' }, minMagnitude: { checked: true, text: '12' } }
+	});
+	assert.ok(Object.isFrozen(fields) && Object.isFrozen(fields.interval) && Object.isFrozen(fields.requirements.minMagnitude));
+	assert.deepEqual(settingsOf(fields), settings);
+	// as typed: an empty interval field is 0, a checked requirement without text has no value
+	const typed = settingsOf({
+		...fields,
+		interval: { days: '', hours: '2', minutes: '30' },
+		localTime: false,
+		requirements: { ...fields.requirements, maxSunDist: { checked: true, text: '' }, maxEarthDist: { checked: false, text: '1.5' } }
+	});
+	assert.deepEqual({ ...typed.interval }, { days: 0, hours: 2, minutes: 30 });
+	assert.equal(typed.localTime, false);
+	assert.deepEqual(JSON.parse(JSON.stringify(typed.requirements)), {
+		maxSunDist: { checked: true, value: null }, maxEarthDist: { checked: false, value: 1.5 }, minMagnitude: { checked: true, value: 12 }
+	});
+	assert.ok(Object.isFrozen(typed) && Object.isFrozen(typed.columns) && Object.isFrozen(typed.requirements.maxSunDist));
+	assert.deepEqual(fieldsOf(typed).interval, { days: '0', hours: '2', minutes: '30' });
 });
 
 test('Calculate runs over the chosen comet, or the list in multiple mode; not while nothing is chosen', () => {
