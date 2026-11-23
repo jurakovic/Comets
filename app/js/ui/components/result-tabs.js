@@ -63,8 +63,10 @@ export function createResultTabs({ label, name, content, onClose = () => {} }) {
 
 	/** @param {Tab} entry */
 	function choose(entry) {
-		// a panel hidden with the focus in it, as by a button in it, hands the focus to the new tab
-		const focused = active !== undefined && active !== entry && active.panel.contains(document.activeElement);
+		// the focus in the tabs follows the selection, which the keys act on: from a tab, or from a
+		// panel hidden with the focus in it, as by a button in it, it goes to the new tab
+		const focused = active !== undefined && active !== entry
+			&& (active.panel.contains(document.activeElement) || list.contains(document.activeElement));
 		active = entry;
 		for (const { tab, panel } of tabs) {
 			const selected = tab === entry.tab;

@@ -449,6 +449,28 @@ test.describe('the result tabs', () => {
 		expect(await closed(page)).toEqual([2, 1, 3]);
 	});
 
+	test('a result added or replaced while a tab has the focus takes it, so that Delete closes the tab it is on', async ({ page }) => {
+		const list = await mountTabs(page);
+		const tabs = list.getByRole('tab');
+		await run(page, 'tabs.add("First", content("one")); tabs.add("Second", content("two"))');
+		await tabs.nth(1).click();
+		await expect(tabs.nth(1)).toBeFocused();
+		await run(page, 'tabs.add("Third", content("three"))');
+		await expect(tabs.nth(3)).toHaveAttribute('aria-selected', 'true');
+		await expect(tabs.nth(3)).toBeFocused();
+		await page.keyboard.press('Delete');
+		await expect(tabs).toHaveText(['Settings', 'First', 'Second']);
+		expect(await closed(page)).toEqual([3]);
+		await expect(tabs.nth(2)).toBeFocused();
+		// from the first tab, a result replaced
+		await tabs.first().click();
+		await run(page, 'tabs.replace(1, "First again", content("one again"))');
+		await expect(tabs.nth(1)).toBeFocused();
+		await page.keyboard.press('ArrowRight');
+		await expect(tabs.nth(2)).toBeFocused();
+		await expect(tabs.nth(2)).toHaveAttribute('aria-selected', 'true');
+	});
+
 	test('a panel hidden with the focus in it hands the focus to the new tab; otherwise the focus stays', async ({ page }) => {
 		const list = await mountTabs(page);
 		const tabs = list.getByRole('tab');
