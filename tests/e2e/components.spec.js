@@ -471,7 +471,7 @@ test.describe('the result tabs', () => {
 		await expect(tabs.nth(2)).toHaveAttribute('aria-selected', 'true');
 	});
 
-	test('a panel hidden with the focus in it hands the focus to the new tab; otherwise the focus stays', async ({ page }) => {
+	test('a panel hidden with the focus in it hands the focus to the new tab; a focus outside the tabs stays', async ({ page }) => {
 		const list = await mountTabs(page);
 		const tabs = list.getByRole('tab');
 		await page.getByRole('tabpanel', { name: 'Settings' }).getByRole('button').focus();
