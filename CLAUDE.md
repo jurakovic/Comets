@@ -57,9 +57,12 @@ CI (`.github/workflows/`): **Web** runs the gate and the screenshots on `dev`, `
 
 ## Workflow
 
-- **All work goes to `dev`**, also when the session was started on another branch: commit straight to `dev`, one logical change per commit, and **push after every commit** (`git push origin dev`). Never push to `master` or open a pull request unless asked: merging `dev` into `master`, which publishes the app on Pages, is the user's call.
+- **All work lands on `dev`**, also when the session was started on another branch: each change on a branch of its own, from the latest `dev` and named for what it does (`feat/graph-export`, `fix/…`, `chore/…`, `docs/…`), one logical change per commit, and **push the branch after every commit** (`git push origin <branch>`). Never push to `master` or open a pull request unless asked: merging `dev` into `master`, which publishes the app on Pages, is the user's call.
+- **A fix to a commit that isn't on `dev` yet is a fixup of it**, not a commit of its own: `git commit --fixup=<sha>`, its code and docs together. A message to correct gets an `amend!` commit: `git commit --allow-empty -m "amend! <the commit's subject>" -m "<the whole new message>"`. Don't rewrite the pushed branch before it's done.
+- **When the branch is done**, fold the fixups into their commits, `GIT_SEQUENCE_EDITOR=: git rebase -i --autosquash --committer-date-is-author-date <the commit the branch started from>`, check that the tree didn't change (`git diff <the branch before> HEAD` is empty), force-push the branch (`git push --force-with-lease origin <branch>`) and fast-forward `dev` to it (`git push origin <branch>:dev`). The branch stays. Nothing else moves `dev`: no merge commits, no rebases of it, no force-push. So each commit on `dev` is one whole change, its code, tests and docs together.
+- A fix to a commit already on `dev` is a commit of its own, on a branch of its own like any change.
 - Commits are authored as `jurakovic <17744091+jurakovic@users.noreply.github.com>` (the session hook sets it in the repository's git config) and end with the `Co-Authored-By` trailer the session provides. No session URL (`.claude/settings.json` turns it off).
-- Check CI once per batch of commits; if it is red, fixing it comes before anything else.
+- Check CI once per batch of commits; if it is red, fixing it comes before anything else. Web runs on `dev`, `master` and pull requests, not on other branches, so a branch is checked once it's on `dev`.
 - Never tag, release, or touch the desktop's version and Publish workflow.
 
 ## Docs
